@@ -1,0 +1,107 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Working with Tigerstripe Modules</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Working with Tigerstripe Modules</h1>
+<p>Tigerstripe Modules are <em>binary-like</em> versions of a Tigerstripe Project. Their content can be referenced, thus shared between multiple projects, but cannot be modified. This provides an ideal mechanism to share information models between Service Contract designs. </p>
+<p>Typically, when projects need to share a common Information Model, the model should be stored in its own Tigerstripe project. This &quot;common model&quot; project can then be exported to a Tigerstripe Module that will be referenced as a dependency by all Service Contracts relying on the common information model. Using this mechanism, the common information model can be maintained separately, but still each Service Contract can extend it locally..</p>
+<p>Let review the steps involved in this scenario:</p>
+<ul>
+  <li>Create the Tigerstripe Module that will contain the common information model. This is realized by an <em>&quot;export to module</em>&quot; operation on a Tigerstripe Project.</li>
+  <li> Referencing the newly created module from another project. This is realized by copying the module into the target project and adding its list of dependencies. </li>
+</ul>
+<h2>Creating a Tigerstripe Module</h2>
+<blockquote><p>By creating a Tigerstripe Module, you take the content of an existing project and wrap it into a non-modifiable .jar file that contains all the information required for other projects to consume it.</p>
+<p>Select the Tigerstripe project you want to create a module from in the Tigerstripe Explorer. Right-click on the root of the project and select the <em>Publish-&gt;Tigerstripe module...</em> menu option. The following dialog opens:</p>
+<p align="center"><img src="../../../images/exportToModuleWizard.gif" width="290" height="298"> </p>
+<p align="left">This wizard contains the following parameters:</p>
+<ul>
+  <li><strong>Source Folder</strong>: the source <a href="../../concepts/tigerstripeprojects/sourceartifacts.html">repository</a> containing the Tigerstripe model to export to a module.</li>
+  <li><strong>Module ID</strong>: this is a parameter intended to identify the module to be created. This tag will be embedded into the module (independently of the filename for this module). Any String and convention can be used for this parameter. Please note that the <em>general information</em> of the current project being exported will also be embedded in the created module for further identification purpose (name, version and description).</li>
+  <li><strong>Module Path</strong>: this is the absolute path to the module file to be created. </li>
+</ul>
+<p>Once valid values have been populated for these parameters, press <em>Finish </em> to create the module. The corresponding .jar file will appear at the given path and is ready to be referenced from other projects. </p>
+</blockquote>
+<h2>Consuming a Tigerstripe Module: creating a Dependency</h2>
+<blockquote><p>Once a module file has been created, it is ready to be consuming from other projects, so that its content can be referenced and extended. </p>
+<p>To do so, the module needs to be added as a dependency in the project consuming the module. Before this is possible, the module file needs to be copied into the target consuming project. This can be done by a simple drag-n-drop operation in the Tigerstripe Explorer.</p>
+<p>The dependencies of a project are defined in the Tigerstripe Descriptor of that project, on the Dependency tab:</p>
+<p align="center"><img src="../../../images/dependencyTab.gif" width="400" height="220"></p>
+<p align="left">When pressing the <em>Add</em> button, a list of candidate .jar module files is presented for selection. Simply double-click on the selected .jar module file. It will be added to the list of dependencies. Once all the dependencies have been added, make sure to save the Tigerstripe Descriptor for the changes to be taken into account. </p>
+</blockquote>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

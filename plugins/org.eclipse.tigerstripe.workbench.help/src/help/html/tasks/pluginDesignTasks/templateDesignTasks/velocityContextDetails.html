@@ -1,0 +1,230 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Default Velocity Context Details</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Default Velocity Context Details</h1>
+
+<h2>Collections</h2>
+<blockquote><p>There are a number of <b>Collections</b> in the context that allows access to sets of artifacts. These <b>Collections</b> are described in the following table and would typically be accessed as follows: <i>#foreach ($artifact in $artifacts)</i></p>
+
+<table border=1 cellspacing=0 cellpadding=0 width=619>
+<tr>
+  <td width=199 valign=top>Collection Name</td>
+  <td width=199 valign=top>Type</td>
+  <td width=620 valign=top>Contents</td>
+</tr>
+<tr>
+  <td><b>$artifacts</b></td><td>Collection&lt;IArtifact&gt;</td><td> All artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$entities</b></td><td>Collection&lt;IextManagedEntityArtifact&gt;</td><td> All Managed Entity artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$datatypes</b></td><td>Collection&lt;IextDatatypeArtifact&gt;</td><td> All Datatype artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$events</b></td><td>Collection&lt;IextEventArtifact&gt;</td><td> All Event artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$enums</b></td><td>Collection&lt;IextEnumArtifact&gt;</td><td> All Enumeration artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$exceptions</b></td><td>Collection&lt;IextExceptionArtifact&gt;</td><td> All Exception artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$queries</b></td><td>Collection&lt;IextQueryArtifact&gt;</td><td> All Query artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$updateProcedures</b></td><td>Collection&lt;IextUpdateProcedureArtifact&gt;</td><td> All Update Procedure artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$associations</b></td><td>Collection&lt;IextAssociationArtifact&gt;</td><td> All Association artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$associationClasses</b></td><td>Collection&lt;IextAssociationClassArtifact&gt;</td><td> All Association Class artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$sessions</b></td><td>Collection&lt;IextSessionArtifact&gt;</td><td> All Session Facade artifacts within this project.</td> 
+</tr>
+<tr>
+  <td><b>$allArtifacts</b></td><td>Collection&lt;IArtifact&gt;</td><td> All artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+<tr>
+  <td><b>$allEntities</b></td><td>Collection&lt;IextManagedEntityArtifact&gt;</td><td> All Managed Entity artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+<tr>
+  <td><b>$allDatatypes</b></td><td>Collection&lt;IextDatatypeArtifact&gt;</td><td> All Datatype artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+<tr>
+  <td><b>$allEvents</b></td><td>Collection&lt;IextEventArtifact&gt;</td><td> All Event artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+<tr>
+  <td><b>$allEnums</b></td><td>Collection&lt;IextEnumArtifact&gt;</td><td> All Enumeration artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+<tr>
+  <td><b>$allExceptions</b></td><td>Collection&lt;IextExceptionArtifact&gt;</td><td> All Exception artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+<tr>
+  <td><b>$allQueries</b></td><td>Collection&lt;IextQueryArtifact&gt;</td><td> All Query artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+<tr>
+  <td><b>$allUpdateProcedures</b></td><td>Collection&lt;IextUpdateProcedureArtifact&gt;</td><td> All Update Procedure artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+<tr>
+  <td><b>$allAssociations</b></td><td>Collection&lt;IextAssociationArtifact&gt;</td><td> All Association artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+<tr>
+  <td><b>$allAssociationClasses</b></td><td>Collection&lt;IextAssociationClassArtifact&gt;</td><td> All Association Class artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+<tr>
+  <td><b>$allSessions</b></td><td>Collection&lt;IextSessionArtifact&gt;</td><td> All Session Facade artifacts within this project, plus those in Referenced Projects and Dependent Modules.</td> 
+</tr>
+</table>
+
+<p><b>Note</b> : The contents of the collections above may be reduced by the application of Contract facets. See <b><a href="..\..\facets\index.html">Service Contract Facet</a></b> for more details.</p>
+
+
+<a name="artifacts"></a><p><b>$artifact</b> (IArtifact)</p>
+ 
+<p>In an <b>Artifact Rule</b>, this is set to the current artifact. That is on each iteration of the rule over a different artifact in the <b>Tigerstripe</b> project, this will have a different value. If a specific artifact type was selected in the rule (the <i>AnyArtifact</i> option is not been selected), the actual artifact will be of that type (<i>IextManagedEntityArtifact</i>) and the object can be cast to the precise type for access to the specifics of that artifact type.</p>
+
+
+<p><b>$pluginRef</b> (IextPluginReference)</p>
+
+<p>The plug-in reference gives access to the values of the plug-in <b>Global Properties</b>. For example,  <i>$pluginRef.Properties.getProperty(“propname”)</i></p>
+
+<p><b>$tsProjectHandle</b> (IextTigerstripeProject)</p>
+ 
+
+<p>Contains information about the <b>Tigerstripe</b> project artifacts. Typical information provided are the version, name, and Copyright notice of your project. This information is held in <i>ProjectDetails</i> object, for example <i>$tsProjectHandle.getIextProjectDetails().getProperty("copyrightNotice","")</i></p>
+
+<p><b>$runtime</b> (TigerstripeRuntime)</p>
+ 
+<p>The runtime object contains information about the <b>Tigerstripe</b> installation so you can check the version of <b>Workbench</b>. For example, <i>$runtime.getProperty("tigerstripe.feature.version")</i></p>
+
+<p><b>$sessionManager</b> (IextArtifactManagerSession)</p>
+
+<p>The artifact manager session is used to gain access to artifacts in the project, or in project dependencies. For example, if you have a <b>String</b> that should be an FQN of another artifact, you can access that artifact using <i>$sessionManager.getIArtifactByFullyQualifiedName($fqnString)</i></p>
+
+<p><b>$util</b> (VelocityContextUtil)</p>
+
+<p>A utility class that contains a few simple <b>String</b> handling utilities.</p>
+<table border=1 cellspacing=0 cellpadding=0 width=619>
+<tr>
+<td width=199 valign=top>stripExternalQuotes(String arg0)</td><td width=199 valign=top>removes leading and trailing quotation (”)  characters.</td>
+</tr>
+<tr>
+<td>unCapitalize(String arg0)</td><td>Turns the first character to lower-case.</td>
+</tr>
+<tr>
+<td>capitalize(String arg0)</td><td>Turns the first character to upper-case.</td>
+</tr>
+<tr>
+<td>getLastSegment(String arg0)</td><td>Returns the part of the <b>String</b> after the last “.” character.</td>
+</tr>
+<tr>
+<td>toLowerCase(String arg0)</td><td>Returns entire <b>Strings</b> in lower-case.</td>
+</tr>
+<tr>
+<td>toUpperCase(String arg0)</td><td>Returns entire <b>Strings</b> in upper-case.</td>
+</tr>
+</table>
+
+<p>Example use : <i>$util.capitalize($attribute.Name)</i></p>
+
+<p><b>$exp</b> (IExpander)</p>
+
+<p>A utility that can be used to simplify access to some model, plug-in, or project variables. The <i>currentArtifact</i> or <i>currentModel</i> must be set prior to use for artifact or model attributes, but the pluginRef is pre-set.</p>
+
+<p>Example use : <i>$exp.expandVar($model.TargetNamespace)</i></p>
+
+<p><b>$templateName</b> (String)</p>
+
+<p>The local pathname of the template that is currently being used. For example, <i>templates/wsdm/type.vm</i>.</p>
+
+<p><b>$pluginDir</b> (String)</p>
+
+<p>The path to the root of the plugin when it is deployed. This is useful for gaining access to files that have been included with the deployed plugin. See <b><a href="includedFiles.html">Including Files in the deployed Plugin</a></b> for more details.</p></blockquote>
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

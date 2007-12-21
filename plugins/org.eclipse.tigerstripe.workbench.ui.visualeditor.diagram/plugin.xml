@@ -1,0 +1,1121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+   <extension point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramPreferenceInitializer"/>
+   </extension>
+
+  <extension point="org.eclipse.team.core.fileTypes">
+      <fileTypes
+         type="text"
+         extension="wvd">
+      </fileTypes>
+  </extension>
+
+   <extension point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+         type="wvd"
+         class="org.eclipse.gmf.runtime.emf.core.resources.GMFResourceFactory">
+      </parser>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+     <editor
+        id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorID"
+        name="Tigerstripe Diagram Editor"
+        icon="icons/obj16/VisualeditorDiagramFile.gif"
+        extensions="wvd"
+        default="true"
+        class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditor"
+        matchingStrategy="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeMatchingStrategy"
+        contributorClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramActionBarContributor">
+     </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+  	  <wizard
+  	     name="Class Diagram"
+  	     icon="icons/obj16/VisualeditorDiagramFile.gif"
+  	     category="org.eclipse.tigerstripe.eclipse"
+  	     class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeCreationWizard"
+  	     id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeCreationWizardID">
+  	  	 <description>
+  	  		Creates Class diagram.
+  	  	 </description>  
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.objectContribution1"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditableEntityEditPart">
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TSRemoveFromModelAction"
+               icon="icons/obj16/delete_obj.gif"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action1"
+               menubarPath="group1"
+               label="Remove from Model"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TSRemoveFromDiagramAction"
+               icon="icons/obj16/delete_obj.gif"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action2"
+               menubarPath="group1"
+               label="Remove from Diagram"/>
+         <action
+         	   class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactAnnotationsInEditorAction"
+         	   id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action3a"
+         	   label="Edit Annotations"
+		 />
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactInEditorAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action3"
+               label="Open in Editor"
+               />
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.objectContribution3b"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditableLabelEditPart">
+         	<action
+            	class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactAnnotationsInEditorAction"
+            	id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action3b1"
+            	label="Edit Annotations"
+      		/>
+         	<action
+            	class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactPartInEditorAction"
+            	id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action3b2"
+            	label="Show Value in Editor"
+      		/>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ui.objectContribution4"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ClassDiagramShapeNodeEditPart">
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.ManageLinksAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action4"
+               label="Manage Artifact Links..."
+               />
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ui.objectContribution4a"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ClassDiagramShapeNodeEditPart">
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.AddRelatedArtifactsAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action4a"
+               label="Add Related Artifacts..."
+               />
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ui.objectContribution5"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart">
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.ManageLinksAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action5"
+               label="Manage Links..."
+               />
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ui.objectContribution6"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart">
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.HideArtifactPackagesToggleAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action9"
+               label="Hide Artifact Packages"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.hideShow/group1"
+               style="toggle"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.HidePackagesInCompartmentsAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action6"
+               label="Hide packages in Compartments"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.hideShow/group1"
+               style="toggle"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.HideDefaultValuesToggleAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action7"
+               label="Hide default values"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.hideShow/group1"
+               style="toggle"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.HideStereotypesToggleAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action8"
+               label="Hide Annotations"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.hideShow/group1"
+               style="toggle"/>
+         <menu
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.hideShow"
+               label="Hide/Show"
+               path="additions">
+            <separator name="group1"/>
+         </menu>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AssociationContribution"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEnabledActionPart">
+         <menu
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationHideShowMenu"
+               label="Hide/Show Details..."
+               path="additions">
+            <separator name="content"/>
+         </menu>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.AssociationShowNoneAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationShowNone"
+               label="None"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationHideShowMenu/content"
+               style="radio"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.AssociationShowNameAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationShowName"
+               label="Assoc. Name"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationHideShowMenu/content"
+               style="radio"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.AssociationShowAEndNameAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationShowAEndName"
+               label="aEnd &amp; Assoc. Name"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationHideShowMenu/content"
+               style="radio"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.AssociationShowZEndNameAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationShowZEndName"
+               label="zEnd &amp; Assoc. Name"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationHideShowMenu/content"
+               style="radio"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.AssociationShowAllAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationShowAll"
+               label="All"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.associationHideShowMenu/content"
+               style="radio"/>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.objectContribution1"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ClassDiagramShapeNodeEditPart">
+         <menu
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.artifactHideShow"
+               label="Hide/Show"
+               path="additions">
+            <separator name="group1"/>
+         </menu>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.HideArtifactExtendsToggleAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action1"
+               label="Hide Extends Relationship"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.artifactHideShow/group1"
+               style="toggle"/>
+      </objectContribution>
+  </extension>
+
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.action.contributionItemProviders">
+      <contributionItemProvider
+            class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContributionItemProvider"
+            checkPluginLoaded="false">
+         <Priority name="Low"/>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AttributeEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute2EditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute3EditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MethodEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute4EditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute5EditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Method2EditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.LiteralEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute6EditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Method3EditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute7EditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Method4EditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamedQueryArtifactEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamedQueryArtifactStereotypesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamedQueryArtifactNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ExceptionArtifactEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ExceptionArtifactStereotypesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ExceptionArtifactNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactStereotypesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NotificationArtifactEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NotificationArtifactStereotypesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NotificationArtifactNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactStereotypesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationStereotypesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationBaseTypeEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.UpdateProcedureArtifactEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.UpdateProcedureArtifactStereotypesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.UpdateProcedureArtifactNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionFacadeArtifactEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionFacadeArtifactStereotypesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionFacadeArtifactNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassStereotypesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationStereotypesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationAEndMultiplicityEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationZEndMultiplicityEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationAEndNameEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationZEndNameEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionFacadeArtifactEmittedNotificationsEditPart"/>
+            <popupAction path="/editGroup" id="deleteFromModelAction"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionEmitsEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionFacadeArtifactManagedEntitiesEditPart"/>
+            <popupAction path="/editGroup" id="deleteFromModelAction"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionManagesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamedQueryArtifactReturnedTypeEditPart"/>
+            <popupAction path="/editGroup" id="deleteFromModelAction"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.QueryReturnsEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionFacadeArtifactNamedQueriesEditPart"/>
+            <popupAction path="/editGroup" id="deleteFromModelAction"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionSupportsEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionFacadeArtifactExposedProceduresEditPart"/>
+            <popupAction path="/editGroup" id="deleteFromModelAction"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionExposesEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractArtifactExtendsEditPart"/>
+            <popupAction path="/editGroup" id="deleteFromModelAction"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyNamePackageEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ReferenceEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ReferenceEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ReferenceNameEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ReferenceMultiplicityEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassAEndMultiplicityEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassZEndMultiplicityEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassAEndNameEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassZEndNameEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassAssociatedClassEditPart"/>
+            <popupAction path="/editGroup" id="deleteFromModelAction"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractArtifactImplementsEditPart"/>
+            <popupAction path="/editGroup" id="deleteFromModelAction"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+         </popupContribution>
+      </contributionItemProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.action.globalActionHandlerProviders">
+      <GlobalActionHandlerProvider
+         class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramGlobalActionHandlerProvider"
+         id="TigerstripePresentation">
+         <Priority name="Lowest"/>
+         <ViewId id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="delete"/>
+            </ElementType>
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart">
+               <GlobalActionId actionId="save"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+      <GlobalActionHandlerProvider
+         class="org.eclipse.gmf.runtime.diagram.ui.providers.ide.providers.DiagramIDEGlobalActionHandlerProvider"
+         id="TigerstripePresentationIDE">
+         <Priority name="Lowest"/>
+         <ViewId id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="bookmark"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+      <GlobalActionHandlerProvider
+            class="org.eclipse.gmf.runtime.diagram.ui.render.providers.DiagramUIRenderGlobalActionHandlerProvider"
+            id="TigerstripeRender">
+         <Priority name="Lowest"/>
+         <ViewId id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorID">
+            <ElementType class="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+               <GlobalActionId actionId="cut"/>
+               <GlobalActionId actionId="copy"/>
+               <GlobalActionId actionId="paste"/>
+            </ElementType>
+         </ViewId>
+      </GlobalActionHandlerProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders">
+      <viewProvider class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeViewProvider">
+         <Priority name="Lowest"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Diagram" semanticHints="Tigerstripe"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints=""/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints=""/>
+      </viewProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders">
+      <editpartProvider class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeEditPartProvider">
+         <Priority name="Lowest"/>
+      </editpartProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders">
+      <paletteProvider class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripePaletteProvider">
+         <Priority name="Lowest"/>
+         <editor id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorID"/>
+      </paletteProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.emf.ui.modelingAssistantProviders">
+      <modelingAssistantProvider class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeModelingAssistantProvider">
+         <Priority name="Lowest"/>
+      </modelingAssistantProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.properties.propertiesProviders">
+      <PropertiesProvider
+            verifyPluginLoaded="false"
+            class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripePropertyProvider">
+         <Priority name="Lowest"/>
+      </PropertiesProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.iconProviders">
+      <IconProvider class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeIconProvider">
+         <Priority name="Low"/>
+      </IconProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.common.ui.services.parserProviders">
+      <ParserProvider class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeParserProvider">
+         <Priority name="Lowest"/>
+      </ParserProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypes">
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Map_79"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Map"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.MapEditHelper">
+            <param name="semanticHint" value="79"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2001"
+               name="Attribute"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Attribute"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.AttributeEditHelper">
+            <param name="semanticHint" value="2001"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2002"
+               name="Attribute"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.AttributeEditHelperAdvice">
+            <specializes id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2001"/>
+            <param name="semanticHint" value="2002"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2003"
+               name="Attribute"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.Attribute2EditHelperAdvice">
+            <specializes id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2001"/>
+            <param name="semanticHint" value="2003"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2004"
+               name="Method"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Method"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.MethodEditHelper">
+            <param name="semanticHint" value="2004"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2005"
+               name="Attribute"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.Attribute3EditHelperAdvice">
+            <specializes id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2001"/>
+            <param name="semanticHint" value="2005"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2006"
+               name="Attribute"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.Attribute4EditHelperAdvice">
+            <specializes id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2001"/>
+            <param name="semanticHint" value="2006"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2007"
+               name="Method"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.MethodEditHelperAdvice">
+            <specializes id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2004"/>
+            <param name="semanticHint" value="2007"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Literal_2008"
+               name="Literal"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Literal"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.LiteralEditHelper">
+            <param name="semanticHint" value="2008"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2009"
+               name="Attribute"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.Attribute5EditHelperAdvice">
+            <specializes id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2001"/>
+            <param name="semanticHint" value="2009"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2010"
+               name="Method"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.Method2EditHelperAdvice">
+            <specializes id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2004"/>
+            <param name="semanticHint" value="2010"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2011"
+               name="Attribute"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.Attribute6EditHelperAdvice">
+            <specializes id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2001"/>
+            <param name="semanticHint" value="2011"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2012"
+               name="Method"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.Method3EditHelperAdvice">
+            <specializes id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2004"/>
+            <param name="semanticHint" value="2012"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.NamedQueryArtifact_1001"
+               name="Named Query"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="NamedQueryArtifact"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.NamedQueryArtifactEditHelper">
+            <param name="semanticHint" value="1001"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ExceptionArtifact_1002"
+               name="Exception"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="ExceptionArtifact"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.ExceptionArtifactEditHelper">
+            <param name="semanticHint" value="1002"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ManagedEntityArtifact_1003"
+               name="Managed Entity"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="ManagedEntityArtifact"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.ManagedEntityArtifactEditHelper">
+            <param name="semanticHint" value="1003"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.NotificationArtifact_1004"
+               name="Notification"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="NotificationArtifact"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.NotificationArtifactEditHelper">
+            <param name="semanticHint" value="1004"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.DatatypeArtifact_1005"
+               name="Datatype"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="DatatypeArtifact"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.DatatypeArtifactEditHelper">
+            <param name="semanticHint" value="1005"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Enumeration_1006"
+               name="Enumeration"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Enumeration"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.EnumerationEditHelper">
+            <param name="semanticHint" value="1006"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.UpdateProcedureArtifact_1007"
+               name="Update Procedure"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="UpdateProcedureArtifact"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.UpdateProcedureArtifactEditHelper">
+            <param name="semanticHint" value="1007"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.SessionFacadeArtifact_1008"
+               name="Session Facade"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="SessionFacadeArtifact"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.SessionFacadeArtifactEditHelper">
+            <param name="semanticHint" value="1008"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AssociationClassClass_1009"
+               name="Association Class Class"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="AssociationClassClass"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.AssociationClassClassEditHelper">
+            <param name="semanticHint" value="1009"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Association_3001"
+               name="Association"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Association"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.AssociationEditHelper">
+            <param name="semanticHint" value="3001"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.SessionFacadeArtifactEmittedNotifications_3002"
+               name="Emits"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.SessionFacadeArtifactEmittedNotificationsEditHelperAdvice">
+            <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+            <param name="semanticHint" value="3002"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.SessionFacadeArtifactManagedEntities_3003"
+               name="Manages"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.SessionFacadeArtifactManagedEntitiesEditHelperAdvice">
+            <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+            <param name="semanticHint" value="3003"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.NamedQueryArtifactReturnedType_3004"
+               name="Returns"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.NamedQueryArtifactReturnedTypeEditHelperAdvice">
+            <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+            <param name="semanticHint" value="3004"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.SessionFacadeArtifactNamedQueries_3005"
+               name="Supports"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.SessionFacadeArtifactNamedQueriesEditHelperAdvice">
+            <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+            <param name="semanticHint" value="3005"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.SessionFacadeArtifactExposedProcedures_3006"
+               name="Exposes"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.SessionFacadeArtifactExposedProceduresEditHelperAdvice">
+            <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+            <param name="semanticHint" value="3006"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AbstractArtifactExtends_3007"
+               name="Extends"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.AbstractArtifactExtendsEditHelperAdvice">
+            <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+            <param name="semanticHint" value="3007"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Dependency_3008"
+               name="Dependency"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Dependency"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.DependencyEditHelper">
+            <param name="semanticHint" value="3008"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Reference_3009"
+               name="Reference"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="Reference"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.ReferenceEditHelper">
+            <param name="semanticHint" value="3009"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <metamodelType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AssociationClass_3010"
+               name="Association Class"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               eclass="AssociationClass"
+               edithelper="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.AssociationClassEditHelper">
+            <param name="semanticHint" value="3010"/>
+         </metamodelType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AssociationClassAssociatedClass_3011"
+               name="Association Class Connection"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.AssociationClassAssociatedClassEditHelperAdvice">
+            <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+            <param name="semanticHint" value="3011"/>
+         </specializationType>
+      </metamodel>
+
+      <metamodel nsURI="null">
+         <specializationType
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AbstractArtifactImplements_3012"
+               name="Implements"
+               kind="org.eclipse.gmf.runtime.emf.type.core.IHintedType"
+               edithelperadvice="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.helpers.AbstractArtifactImplementsEditHelperAdvice">
+            <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+            <param name="semanticHint" value="3012"/>
+         </specializationType>
+      </metamodel>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypeBindings">
+      <clientContext id="TigerstripeClientContext">
+         <enablement>
+            <test
+               property="org.eclipse.gmf.runtime.emf.core.editingDomain"
+               value="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.EditingDomain"/>
+         </enablement>
+      </clientContext> 
+      <binding context="TigerstripeClientContext">
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Map_79"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2001"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2002"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2003"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2004"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2005"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2006"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2007"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Literal_2008"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2009"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2010"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Attribute_2011"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Method_2012"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.NamedQueryArtifact_1001"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ExceptionArtifact_1002"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.ManagedEntityArtifact_1003"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.NotificationArtifact_1004"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.DatatypeArtifact_1005"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Enumeration_1006"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.UpdateProcedureArtifact_1007"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.SessionFacadeArtifact_1008"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AssociationClassClass_1009"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Association_3001"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.SessionFacadeArtifactEmittedNotifications_3002"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.SessionFacadeArtifactManagedEntities_3003"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.NamedQueryArtifactReturnedType_3004"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.SessionFacadeArtifactNamedQueries_3005"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.SessionFacadeArtifactExposedProcedures_3006"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AbstractArtifactExtends_3007"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Dependency_3008"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Reference_3009"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AssociationClass_3010"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AssociationClassAssociatedClass_3011"/>
+         <elementType ref="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AbstractArtifactImplements_3012"/>
+         <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
+      </binding>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">
+      <contribution
+            actionClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.OpenNewTigerstripeDiagramWizardAction"
+            name="Open Class Diagram Action"/>
+   </extension>
+
+	<extension
+         id="ShowInExamplePopupMenu"
+         name="Show In Example Popup Menu"
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution 
+      objectClass="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart"
+            id="ShowInExampleObjectContribution">
+         <action
+         	label="Tigerstripe Explorer"
+			class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.ShowInExplorerAction"
+            menubarPath="navigateMenu/showInMenu/additions"
+			id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.showinexplorer">
+         </action>
+      </objectContribution>
+   </extension>
+
+
+</plugin>

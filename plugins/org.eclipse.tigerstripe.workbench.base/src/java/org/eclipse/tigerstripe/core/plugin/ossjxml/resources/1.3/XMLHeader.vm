@@ -1,0 +1,17 @@
+<!--
+ *
+ $tsProject.getProjectDetails().getProperty("copyrightNotice","")
+ *
+ *	Generated with Tigerstripe(tm) $runtime.getProperty("tigerstripe.feature.version")
+ *
+ *	Plugin  : $pluginRef.groupId/$pluginRef.pluginId ($pluginRef.Version)
+ *	
+ *  DO NOT EDIT THIS CODE WAS AUTOMATICALLY GENERATED
+-->
+<!--
+DOCUMENTATION IS PROVIDED "AS IS" AND ALL EXPRESS OR IMPLIED
+CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING ANY IMPLIED
+WARRANTY OF MERCHANTABILITY, FITNESS FOR FOR A PARTICULAR PURPOSE OR
+NON-INFRINGEMENT, ARE DISCLAIMED, EXCEPT TO THE EXTENT THAT SUCH
+DISCLAIMERS ARE HELD TO BE LEGALLY INVALID.
+-->

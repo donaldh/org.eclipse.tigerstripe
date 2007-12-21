@@ -1,0 +1,80 @@
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simple").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simple").Flag == "optional")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+    <wsdl:operation name="${method.Name}$util.capitalize(${entity.getName()})ByValue">
+        <wsdl:input name="${method.Name}$util.capitalize(${entity.getName()})ByValueRequest" message="${prefix}:${method.Name}$util.capitalize(${entity.getName()})ByValueRequest" />
+        <wsdl:output name="${method.Name}$util.capitalize(${entity.getName()})ByValueResponse" message="${prefix}:${method.Name}$util.capitalize(${entity.getName()})ByValueResponse" />
+        <wsdl:fault name="${method.Name}$util.capitalize(${entity.getName()})ByValueException" message="${prefix}:${method.Name}$util.capitalize(${entity.getName()})ByValueException" />
+    </wsdl:operation>
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simpleByKey").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simpleByKey").Flag == "optional")
+    <wsdl:operation name="${method.Name}$util.capitalize(${entity.getName()})ByKey">
+        <wsdl:input name="${method.Name}$util.capitalize(${entity.getName()})ByKeyRequest" message="${prefix}:${method.Name}$util.capitalize(${entity.getName()})ByKeyRequest" />
+        <wsdl:output name="${method.Name}$util.capitalize(${entity.getName()})ByKeyResponse" message="${prefix}:${method.Name}$util.capitalize(${entity.getName()})ByKeyResponse" />
+        <wsdl:fault name="${method.Name}$util.capitalize(${entity.getName()})ByKeyException" message="${prefix}:${method.Name}$util.capitalize(${entity.getName()})ByKeyException" />
+    </wsdl:operation>
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomic").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomic").Flag == "optional")
+    <wsdl:operation name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues">
+        <wsdl:input name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesRequest" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesRequest" />
+        <wsdl:output name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesResponse" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesResponse" />
+        <wsdl:fault name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException" />
+    </wsdl:operation>
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomicByKeys").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomicByKeys").Flag == "optional")
+    <wsdl:operation name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys">
+        <wsdl:input name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest" />
+        <wsdl:output name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse" />
+        <wsdl:fault name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" />
+    </wsdl:operation>
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplate").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplate").Flag == "optional")
+    <wsdl:operation name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate">
+        <wsdl:input name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest" />
+        <wsdl:output name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse" />
+        <wsdl:fault name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException" />
+    </wsdl:operation>
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplates").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplates").Flag == "optional")
+    <wsdl:operation name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates">
+        <wsdl:input name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest" />
+        <wsdl:output name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse" />
+        <wsdl:fault name="${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException" message="${prefix}:${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException" />
+    </wsdl:operation>
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffort").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffort").Flag == "optional")
+    <wsdl:operation name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues">
+        <wsdl:input name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesRequest" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesRequest" />
+        <wsdl:output name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesResponse" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesResponse" />
+        <wsdl:fault name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException" />
+    </wsdl:operation>
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffortByKeys").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffortByKeys").Flag == "optional")
+    <wsdl:operation name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys">
+        <wsdl:input name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest" />
+        <wsdl:output name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse" />
+        <wsdl:fault name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" />
+    </wsdl:operation>
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplateBestEffort").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplateBestEffort").Flag == "optional")
+    <wsdl:operation name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate">
+        <wsdl:input name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest" />
+        <wsdl:output name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse" />
+        <wsdl:fault name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException" />
+    </wsdl:operation>
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplatesBestEffort").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplatesBestEffort").Flag == "optional")
+    <wsdl:operation name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates">
+        <wsdl:input name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest" />
+        <wsdl:output name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse" />
+        <wsdl:fault name="try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException" message="${prefix}:try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException" />
+    </wsdl:operation>
+#end

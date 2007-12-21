@@ -1,0 +1,103 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Tigerstripe Source Model</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+li {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Tigerstripe Source Model</h1>
+<p><b>Tigerstripe</b> follows a Model-Driven-Design approach, where the specifics of a <b>Service Contract</b> are modeled with <b>Tigerstripe</b> artifacts. These artifacts are used as input to the <b>Tigerstripe</b> engine to generate the corresponding <b>Service Contract</b> integration profiles and documentation.</p>
+<h2>The Artifact Repository </h2>
+<blockquote><p>Upon creation, a <b>Tigerstripe</b> project contains an <b>Artifact Repository</b> where all <b>Tigerstripe</b> artifacts are stored. This repository is the <i>src</i> directory, as represented in the following figure:</p>
+<p align="center" class="style2"><img src="../../images/artifactRepository.gif"></p>
+<p>In the <b>Artifact Repository</b>, you can organize artifacts in <i>model packages</i>. Model packages can be stored and referenced with naming scopes. These model packages allow the following:</p>
+<ul>
+  <li>Clarity of the model, by organizing all constituting artifacts in different namespaces</li>
+  <li>Control on the generated XML schemas for the JMS/XML Integration profile, by splitting the generated output based on specific model packages.</li>
+  <li>Cross-referencing between projects by avoiding artifact naming conflicts through scoping.</li>
+</ul>
+<p><b>Note:</b>The <i>model packages</i> are different from the interface package. The interface package is specific to the J2EE Integration Profile and determines the package in which the generated JAVA code is placed. If the J2EE Integration Profile is enabled, an <i>Interface Package</i> is defined for every artifact in a project through the OSS/J Specifics Pane in the corresponding editor.</p></blockquote>
+<h4>Related Topics</h4>
+<p><!--<a href="sourceartifacts.html">Source Model</a>
+<br>--><a href="projectdescriptor.html">Project Descriptor</a>
+<br><a href="projectdependencies.html">Project Dependencies</a>
+<p><a href="projectdescriptor.html"> <img src="../../images/finger.gif" width="20" height="19" align="absmiddle">&nbsp;Project Descriptor</a></p>
+</p>
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.tigerstripe.workbench.ui.visualeditor/src"
+    modelPluginID="org.eclipse.tigerstripe.workbench.ui.visualeditor" modelName="Tigerstripe"
+    importerID="org.eclipse.emf.importer.ecore">
+  <foreignModel>tigerstripe.ecore</foreignModel>
+  <genPackages prefix="Visualeditor" basePackage="org.eclipse.tigerstripe.workbench.ui"
+      disposableProviderFactory="true" ecorePackage="tigerstripe.ecore#/">
+    <genEnums ecoreEnum="tigerstripe.ecore#//AggregationEnum">
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//AggregationEnum/none"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//AggregationEnum/shared"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//AggregationEnum/composite"/>
+    </genEnums>
+    <genEnums ecoreEnum="tigerstripe.ecore#//ChangeableEnum">
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//ChangeableEnum/none"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//ChangeableEnum/frozen"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//ChangeableEnum/addOnly"/>
+    </genEnums>
+    <genEnums ecoreEnum="tigerstripe.ecore#//AssocMultiplicity">
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//AssocMultiplicity/ONE"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//AssocMultiplicity/ZERO"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//AssocMultiplicity/ZERO_ONE"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//AssocMultiplicity/ZERO_STAR"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//AssocMultiplicity/ONE_STAR"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//AssocMultiplicity/STAR"/>
+    </genEnums>
+    <genEnums ecoreEnum="tigerstripe.ecore#//TypeMultiplicity">
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//TypeMultiplicity/NONE"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//TypeMultiplicity/ARRAY"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//TypeMultiplicity/ARRAYOFARRAY"/>
+    </genEnums>
+    <genEnums ecoreEnum="tigerstripe.ecore#//Visibility">
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//Visibility/PUBLIC"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//Visibility/PROTECTED"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//Visibility/PRIVATE"/>
+      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//Visibility/PACKAGE"/>
+    </genEnums>
+    <genClasses ecoreClass="tigerstripe.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//NamedElement/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//NamedElement/stereotypes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//NamedElement/properties"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//QualifiedNamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//QualifiedNamedElement/package"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//QualifiedNamedElement/isReadonly"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//QualifiedNamedElement/isAbstract"/>
+      <genOperations ecoreOperation="tigerstripe.ecore#//QualifiedNamedElement/getFullyQualifiedName"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//AbstractArtifact">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//AbstractArtifact/extends"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//AbstractArtifact/attributes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//AbstractArtifact/literals"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//AbstractArtifact/methods"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//AbstractArtifact/references"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//AbstractArtifact/implements"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//ManagedEntityArtifact"/>
+    <genClasses ecoreClass="tigerstripe.ecore#//DatatypeArtifact"/>
+    <genClasses ecoreClass="tigerstripe.ecore#//NotificationArtifact"/>
+    <genClasses ecoreClass="tigerstripe.ecore#//NamedQueryArtifact">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//NamedQueryArtifact/returnedType"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//Enumeration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Enumeration/baseType"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//UpdateProcedureArtifact"/>
+    <genClasses ecoreClass="tigerstripe.ecore#//ExceptionArtifact"/>
+    <genClasses ecoreClass="tigerstripe.ecore#//SessionFacadeArtifact">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//SessionFacadeArtifact/managedEntities"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//SessionFacadeArtifact/emittedNotifications"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//SessionFacadeArtifact/namedQueries"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//SessionFacadeArtifact/exposedProcedures"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//Association">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//Association/aEnd"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/aEndName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/aEndMultiplicity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/aEndIsNavigable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/aEndIsOrdered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/aEndIsUnique"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/aEndIsChangeable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/aEndAggregation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//Association/zEnd"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/zEndName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/zEndMultiplicity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/zEndIsNavigable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/zEndIsOrdered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/zEndIsUnique"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/zEndIsChangeable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/zEndAggregation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/aEndVisibility"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Association/zEndVisibility"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//AssociationClass">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//AssociationClass/associatedClass"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//TypedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//TypedElement/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//TypedElement/multiplicity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//TypedElement/visibility"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//TypedElement/isOrdered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//TypedElement/isUnique"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//TypedElement/typeMultiplicity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//TypedElement/defaultValue"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//Attribute"/>
+    <genClasses ecoreClass="tigerstripe.ecore#//Method">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//Method/parameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Method/isAbstract"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//Literal">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Literal/value"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//Parameter"/>
+    <genClasses ecoreClass="tigerstripe.ecore#//Map">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//Map/artifacts"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//Map/associations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//Map/dependencies"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Map/basePackage"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//Map/properties"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//Reference">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Reference/multiplicity"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//Reference/zEnd"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Reference/typeMultiplicity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Reference/isOrdered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Reference/isUnique"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//Dependency">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//Dependency/aEnd"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Dependency/aEndMultiplicity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Dependency/aEndIsNavigable"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//Dependency/zEnd"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Dependency/zEndMultiplicity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//Dependency/zEndIsNavigable"/>
+    </genClasses>
+    <genClasses ecoreClass="tigerstripe.ecore#//AssociationClassClass"/>
+    <genClasses ecoreClass="tigerstripe.ecore#//DiagramProperty">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//DiagramProperty/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//DiagramProperty/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

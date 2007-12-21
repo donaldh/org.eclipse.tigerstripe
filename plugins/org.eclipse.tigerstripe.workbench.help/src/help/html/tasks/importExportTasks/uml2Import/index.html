@@ -1,0 +1,104 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>UML2 Import</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Importing UML2 Files</h1>
+
+<p>The <b>XML2 Import</b> tool imports <b>Tigerstripe</b> model definitions from UML2 files. The main import file may call out <i>type</i> definition files and UML2 profiles. </p>
+<p>In addition to the Model import, it is possible to load Model types and profile information. Refer to <a href="importUML2Profile.html">Importing UML2 Profiles</a> for more information. It is important to understand importing UML2 profiles before you import UML2 files as <b>Tigerstripe</b> can only use <i>stereotype</i> definitions and <i>primitive types</i> that exist in the <b>Tigerstripe Profile</b> at the time you run the <b>UML2 Import</b> tool.</p>
+
+<h2>Running the UML2 Import Tool</h2>
+<ol>
+   <li>Open your <b>Tigerstripe Perspective</b> and right-click the <b>Tigerstripe Project</b> into which you want to import <b>Artifacts</b>.</li> 
+   <li>Select <b>Import</b>. The <b>Import</b> wizard opens.</li>
+   <li>Navigate to <b>Tigerstripe/UML2 Import Model</b> and click <b>Next</b>. The <b>Import/Update from XML</b> wizard opens.</li>
+   <li>Select the project into which you want to import <b>Artifacts</b>. Optionally, you can specify a reference project. For more information, refer to <a href="../annotatedImport.html">Annotated Imports</a>.</li>
+   <li>Click <b>Next</b>.</li>
+   <li>Select the UML2 file that you want to import, identify the subdirectory where any <i>ModelType</i> and <i>Profile</i> resides, and click <b>Load UML2 File</b> to load the file into memory.
+</ol>
+<blockquote><p>If there are any log messages for review the <b>View Log</b> button is enabled for you to review any messages before progressing with the import.</p></li>
+<p>From this point, the <b>Import</b> tool uses the same features as other import functions, which are described in the <a href="../annotatedImport.html">Annotated Imports</a> section.</p>
+</blockquote>
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

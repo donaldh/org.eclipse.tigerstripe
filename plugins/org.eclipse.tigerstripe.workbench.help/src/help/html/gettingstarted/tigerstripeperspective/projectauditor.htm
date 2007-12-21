@@ -1,0 +1,110 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Untitled Document</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+
+
+
+
+
+
+
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Project Auditor</h1>
+<p>Tigerstripe projects contain multiple artifacts, files and descriptors that all have cross-references. Before the corresponding Service Contract can be generated, all these references need to be valid and semantically correct. To that extend, a back-ground task in Eclipse audits every Tigerstripe project continuously and flags inconsistencies and errors.</p>
+<p>The Tigerstripe Project Auditor implements a semantic check for Tigerstripe Projects making sure the user is aware of any inconsistencies or missing information. The Auditor is triggered automatically each time a project is opened, a new artifact is created or an existing artifact is modified and saved. Whenever an error is found, it is displayed in the Eclipse &quot;Problem view&quot;.</p>
+<p align="center" class="style2"><img src="images/problem-view.gif" width="801" height="114"></p>
+<p>There are several levels of severity in errors that the Tigerstripe Auditor will signal:</p>
+<ul>
+  <li><strong><img src="../../images/icons/error_obj.gif" width="16" height="16" align="absbottom">Errors</strong>: Errors prevent Tigerstripe Service Contracts to be generated successfully, e.g. missing dependencies, undefined artifact or symbol. When trying to export or generate a Tigerstripe that contains errors, a warning message is issued to confirm if the operation is to be performed as it is mostly likely going to fail.</li>
+  <li><strong><img src="../../images/icons/warning_obj.gif" width="16" height="16" align="absbottom">Warnings</strong>: Warnings signal that a key component is missing in the design of a Tigerstripe Service Contract, however this component does not prevent a successful generation of the corresponding specification (regardless of the target integration profile). Warning typically signal that a significant piece of documentation is missing for specific components in a project and may raise questions and/or issues during the implementation phase of the generated Service Contract. It is recommended that these warnings are addressed before publishing a Service Contract for implementation. </li>
+  <li><strong><img src="../../images/icons/info_obj.gif" width="16" height="16" align="absbottom">Info</strong>: Info notifications signal that some secondary information was not captured within Tigerstripe and would potentially impact the clarity of the generated documentation. </li>
+</ul>
+<p>Each error signaled in the Tigerstripe Auditor View includes the following information:</p>
+<ul>
+  <li><strong>Severity Level</strong>: one of the Error, Warning or Info above.. </li>
+  <li> <strong>Description</strong>: a textual description of the error</li>
+  <li><strong>Resource</strong>: the resource (i.e. artifact, descriptor or file) where the error was found </li>
+  <li><strong>Folder</strong>: the folder (i.e. the project) in which the resource is located</li>
+</ul>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

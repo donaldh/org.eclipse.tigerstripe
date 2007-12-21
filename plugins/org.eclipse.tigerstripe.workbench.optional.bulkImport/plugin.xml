@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <wizard
+            category="org.eclipse.tigerstripe.importWizardCategory"
+            class="org.eclipse.tigerstripe.workbench.optional.bulkImport.ui.wizards.BulkImportWizard"
+            icon="icons/importExport.gif.gif"
+            id="org.eclipse.tigerstripe.tools.bulkImport.wizard1"
+            name="Bulk Import (xml)"/>
+   </extension>
+
+</plugin>

@@ -1,0 +1,44 @@
+## Compare a local Entity with a Library copy
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+## $localEntity & $libEntity should be passed in
+## Do the fields
+#foreach ($libField in $libEntity.Fields)
+#set ($didit = "false")
+#foreach ($field in $localEntity.Fields)
+#if ($field.Name == $libField.Name)
+#if ($libField.Type.FullyQualifiedName != $field.Type.FullyQualifiedName)
+						<difference scope="attribute" name="$libField.Name" type="type" local="$field.Type.FullyQualifiedName" lib="$libField.Type.FullyQualifiedName"/>
+#end
+#if ($libField.Type.Dimensions != $field.Type.Dimensions)
+						<difference scope="attribute" name="$libField.Name" type="dimensions" local="$field.Type.Dimensions" lib="$libField.Type.Dimensions"/>
+#end
+#if ($libField.isOptional() != $field.isOptional())
+						<difference scope="attribute" name="$libField.Name" type="optional" local="$field.isOptional()" lib="$libField.isOptional()"/>
+#end
+#set ($didit = "true")
+#end
+#end
+#if ($didit == "false")
+						<difference scope="attribute" type="presence" name="$libField.Name" local="false" lib="true"/>
+#end
+#end
+#foreach ($field in $localEntity.Fields)
+#set ($didit = "false")
+#foreach ($libField in $libEntity.Fields)
+#if ($field.Name == $libField.Name)
+#set ($didit = "true")	
+#end
+#end
+#if ($didit == "false")
+						<difference scope="attribute" type="presence" name="$libField.Name" local="true" lib="false"/>
+#end
+#end

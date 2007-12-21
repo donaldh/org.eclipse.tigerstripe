@@ -1,0 +1,40 @@
+#if ($ossjUtil.interfaceOf($artifact.FullyQualifiedName).Generate)
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#set ($resourceDir = "org/eclipse/tigerstripe/core/plugin/ossj/resources/1.3")
+#parse("$resourceDir/JVTFileHeader.vm")
+
+/**
+ * Key Result Interface for $artifact.Name.
+ *
+ */
+#if ($artifact.hasExtends())
+#set ($extends = "$ossjUtil.keyResultInterfaceOf($artifact.Extends.FullyQualifiedName).FullyQualifiedName")
+#else
+#set ($extends ="javax.oss.ManagedEntityKeyResult")
+#end
+#if ($extends != "${model.package}.${model.Name}")
+public interface $model.Name
+        extends $extends {
+#else 
+public interface $model.Name {
+#end
+/**
+ * Get the value representation of <CODE>$ossjUtil.keyInterfaceOf($artifact.FullyQualifiedName).getFullyQualifiedName()</CODE>.
+ *
+ * @return The <CODE>$ossjUtil.keyInterfaceOf($artifact.FullyQualifiedName).getFullyQualifiedName()</CODE> value
+ *         associated with this instance.
+ *
+ */
+    public $ossjUtil.keyInterfaceOf($artifact.FullyQualifiedName).FullyQualifiedName get$ossjUtil.keyInterfaceOf($artifact.FullyQualifiedName).getName()();
+
+}
+#end

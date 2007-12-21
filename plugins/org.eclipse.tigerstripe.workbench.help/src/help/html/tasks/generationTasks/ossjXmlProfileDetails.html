@@ -1,0 +1,119 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>XML Profile Generation Details</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>XML Profile Generation Details </h1>
+<p>Before the XML Integration Profile can be generated for a Tigerstripe Project, it must be enabled and configured properly. This section describes how to enable and configure the XML Integration Profile for the following cases:</p>
+<ul>
+  <li>to generate a Single XML Schema for the whole project.</li>
+  <li>to generate multiple XML Schemas for the project, splitting them by the package in which the Artifacts are defined in.</li>
+</ul>
+<h2>Enabling the XML Integration</h2>
+<blockquote><p>The configuration is handled through the <a href="../../concepts/tigerstripeprojects/projectdescriptor.html">Tigerstripe Descriptor</a> of Tigerstripe project. </p>
+<p>Make sure the Tigerstripe Perspective is active, navigate to the appropriate Tigerstripe Descriptor in the target Tigerstripe project, and double click on it to open it. Select the <em>Generation</em> tab. The <em>JMS/XML Integration Profile</em> Section looks like shown below:</p>
+<p align="center"><img src="../../images/xmlProfileSection.gif" width="497" height="146"></p>
+<p>To enable this Integration profile, simply check the <em>Enable</em> check button. </p>
+</blockquote>
+<h2>Single XML Schema Generation</h2>
+<blockquote>
+<p>The single XML Schema generation option specifies that all definitions for the XML Integration Profile shall be generated in a single XML schema. To select this option, make sure the <em>Use Default Schema</em> option is checked. When it is, the following attributes can be further specified:</p>
+<ul>
+  <li><strong>Default schema name</strong>: the name of the XML schema file to create.</li>
+  <li><strong>Default namespace</strong>: the namespace that the generate XML shall be defining.</li>
+  <li><strong>Default Schema Location</strong>: the target location where this XSD will eventually be accessible from. </li>
+</ul>
+</blockquote>
+<h2>Multiple XML Schema Generation</h2>
+<blockquote>
+<p>The multiple XML Schema generation option specifies that multiple XML schema files shall be generated for the XML Integration Profile. The content of each XML Schema is determined by packages in the model.</p>
+<p>To select this option, make sure the <em>Use Default Schema</em> is not checked. When not checked, a table of mappings between packages containing artifacts in the model and XML schema is enabled. Using the <em>Add/Edit/Remove</em> buttons, define mappings between source packages and XML Schema file names.</p>
+<p>For each mapping the following information must be provided:</p>
+<ul>
+  <li><strong>Package</strong>: the source package containing the artifacts for which XML definition shall be generated in the mapped XML schema. XML definitions for all artifacts contained in this package and sub-packages will be placed in the designated schema file, unless a sub-package is explicitly mapped to another schema file.</li>
+  <li><strong>Schema name</strong>: the name for the XML schema file to be generated.</li>
+  <li><strong>Target namespace</strong>: the namespace that is defined by the designated XML schema</li>
+  <li><strong>Schema location</strong>: the location where this schema shall eventually be accessible from. In the event cross references are necessary between XML schemas, this location will be used for any required import statement.</li>
+</ul>
+</blockquote>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

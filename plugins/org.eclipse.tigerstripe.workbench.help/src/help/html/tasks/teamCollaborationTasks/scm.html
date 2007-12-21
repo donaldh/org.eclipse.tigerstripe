@@ -1,0 +1,153 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Tigerstripe Source Control Integration</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Tigerstripe Source Control Integration </h1>
+<p><b>Service Contracts</b> are developed in a team environment, and have a lifecycle of their own based on additional requirements and/or application upgrades, it is essential that your <b>Service Contract</b> model (ie. <b>Tigerstripe</b> projects) are placed under version control.</p>
+<p>This section provides documentation on integrating your <b>Tigerstripe </b> project with CVS (<a href="http://en.wikipedia.org/wiki/Concurrent_Versions_System">Concurrent Versions System</a>).<br><br>
+<b>Note:</b> <b>Tigerstripe Workbench</b> directly leverages the Eclipse integration with various versioning systems. For more information on specific operations or functionalities, either with CVS or any other versioning system, please refer to the appropriate Eclipse documentation.</p>
+<p><b>Tigerstripe</b> uses a set of XML and Java files for internal representation of all <b>Tigerstripe Artifacts</b> and project information. This makes it possible to establish a fine-grain version control mechanism, where each <b>Artifact</b> is controlled independently.</p>
+<p>The following operations should be considered with version control:</p>
+<ul>
+  <li><a href="#sharing">Sharing a <b>Tigerstripe</b> Project through a CVS repository</a>: For example, placing your local project into a CVS repository so other team members can access it. </li>
+  <li><a href="#import">Importing a <b>Tigerstripe</b> Project from a CVS repository</a>: For example, your project has already been placed under version control onto a CVS repository.</li>
+  <li><a href="#working">Making changes on a <b>Tigerstripe</b> Project under CVS</a></li>
+</ul>
+<p>Each of these topics is detailed in one of the following sections.</p>
+<h2><a name="sharing"/>Sharing a <b>Tigerstripe</b> Project</h2>
+<blockquote><p><b>Tigerstripe</b> Projects are fully integrated into Eclipse, which allows you to directly leverage the integration with CVS. </p> 
+<h3>To share a Tigerstripe Project</h3>
+<ol>
+   <li>Open your <b>Tigerstripe Perspective</b>. For more information, refer to <a href="../../gettingstarted/tigerstripeperspective/index.html">Tigerstripe Workbench Perspective</a>.</li>
+   <li>Right-click on the project you want to place under version control in the <a href="../../gettingstarted/tigerstripeperspective/tigerstripeexplorer.html">Tigerstripe Explorer</a>.</li>
+   <li>Select <b>Team</b> and click <b>Share project</b>.The following dialog box displays:
+<p align="center" class="style2"><img src="../../images/share_project.gif"></p></li>
+   <li>Select <b>CVS</b> and click <b>Next</b>. The following dialog box displays:
+   <p align="center" class="style2"><img src="../../images/exportToCVS-1.gif"></p></li>
+   <li>Enter a CVS repository host in the <b>Host</b> text box. If you have already set up a respository, you can select a repository host from the drop-down list.</li>
+   <li>Enter a CVS respository location in the <b>Respository path</b> text box or select an existing repository from the drop-down list.</li>
+   <li>Enter the user authentication information in the <b>Authentication</b> area.</li>
+   <li>Select the connection information in the <b>Connection</b> area.</li>
+   <li>Click <b>Next</b>. The following dialog box displays:
+<p align="center"><img src="../../images/exportToCVS-2.gif"></p></li>
+   <li>Select the identifier of the project as it will appear on the CVS respository. You have the following options</li>
+      <ul>
+	     <li><b>Use project name as module name</b>: the project name (as it appears in the <b>Tigerstripe Explorer</b>) is used as the identifier.</li>
+	     <li><b>Use specified module name</b>: the provided name is used as the name of the CVS identifier.</li>
+	     <li><b>Use an existing module</b>: use an existing CVS identifier obtained directly from the CVS repository. For more details, refer to the corresponding Eclipse documentation.<br><br>
+<b>Note:</b> This option adds an extra step in the process where you are requred to select the target tags/versions.<br><br></li>
+      </ul>
+   <li>  Click <b>Next</b>. The following dialog box displays:
+<p align="center"><img src="../../images/exportToCVS-3.gif"></p></li>
+   <li>  Make sure all of your project files appear in the dialog box window, and click <b>Finish</b>. Your project is now under version control. The label of each artifact and each file in the project now have a version number attached in the <b>Tigerstripe Explorer</b>.</li>
+</ol></blockquote>
+<h2><a name="import"></a>Importing a Tigerstripe Project from CVS</h2>
+<blockquote><p>Once your <b>Tigerstripe</b> project is stored in a CVS repository, you can import it into any Eclipse workspace.</p>
+<h3>To import a project:</h3>
+<blockquote><p><b>Before you Begin:</b> Make sure that your <a href="../../gettingstarted/tigerstripeperspective/index.html">Tigerstripe Perspective</a> is active.</p></blockquote>
+<ol>
+   <li>Right-click anywhere in <a href="../../gettingstarted/tigerstripeperspective/tigerstripeexplorer.html">Tigerstripe Explorer</a> and select  <b>Import</b>. The following dialog box displays:<p align="center"><img src="../../images/importFromCVS-1.gif"></p></li>
+   <li>Click <b>CVS</b>, select <b>Projects from CVS</b>, and click <b>Next.</b>. The following dialog box displays:
+<p align="center" class="style2"><img src="../../images/importFromCVS-2.gif"></p></li>
+   <li>Enter a CVS repository host in the <b>Host</b> text box. If you have already set up a respository, you can select a repository host from the drop-down list.</li>
+   <li>Enter a CVS respository location in the <b>Respository</b> path text box or select an existing repository from the drop-down list.</li>
+   <li>Enter the user authentication information in the <b>Authentication</b> area.</li>
+   <li>Select the connection information in the <b>Connection</b> area.</li>
+   <li>Click <b>Next</b>. The following dialog box displays:
+<p align="center" class="style2"><img src="../../images/select_module.gif"></p></li>
+   <li>Select the name of the module in CVS to import. You can either enter the exact name of the module by selecting <b>Use specified module name</b> or you can browse to an existing module in the repository by selection <b>Use existing module</b>.</li>
+   <li>After entering or selecting the module, click <b>Next</b>.</li>
+   <li>Select <b>Check out as project in the workspace</b>. Optionally, you can specify the name of your local copy of the project in your workspace.</li>
+   <li>Click <b>Finish</b>.</li>
+</ol>
+<p>Your imported project will appear in your <b>Tigerstripe Explorer</b>. <br><br>
+<b>Note:</b> Each <b>Artifact</b> and additional file is decorated with their version number in CVS.</p></blockquote>
+<h2><a name="working"></a>Working with a Tigerstripe Project under CVS</h2>
+<blockquote><p>When a <b>Tigerstripe</b> Project is shared through CVS (or is imported from a CVS repository), all <b>Artifacts</b> and files are versioned separately. They display the version number in CVS as a decoration on their names in the <b>Tigerstripe Explorer</b>.</p>
+<p>Similar to any other Eclipse project under CVS control, normal CVS operations are available such as <b>Update</b>, <b>Commit</b>,and <b>Synchronize</b>. Complete the following procedure to access the CVS operations available.</p>
+<h3>To access files through CVS</h3>
+<ol>
+  <li>Right-click on the target object in the <b>Tigerstripe Explorer</b>, and select <b>Team</b>.</li>
+  <li>Select the action that you want to perform.</li>
+</ol> 
+<p>For more information, refer to CVS or Eclipse documenation. </p></blockquote>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

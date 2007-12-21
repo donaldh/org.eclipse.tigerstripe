@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.1 2007/12/21 15:08:57 edillon Exp $
+-->
+
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "org.eclipse.tigerstripe.workbench.ui.instancediagram" 
+       class = "org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramPackage"
+       genModel = "model/tigerstripe.genmodel" /> 
+  </extension>
+
+</plugin>
+

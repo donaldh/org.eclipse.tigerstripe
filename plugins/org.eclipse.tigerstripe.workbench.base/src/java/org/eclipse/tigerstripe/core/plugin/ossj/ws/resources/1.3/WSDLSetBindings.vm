@@ -1,0 +1,136 @@
+#if( $entity.getSetFlavorDetailsStr("simple").Flag == "true" || $entity.getSetFlavorDetailsStr("simple").Flag == "optional")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+    <wsdl:operation name="set$util.capitalize(${entity.getName()})ByValue">
+        <soap:operation soapAction="set$util.capitalize(${entity.getName()})ByValue" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="set$util.capitalize(${entity.getName()})ByValueException">
+           <soap:fault name="set$util.capitalize(${entity.getName()})ByValueException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getSetFlavorDetailsStr("bulkAtomic").Flag == "true" || $entity.getSetFlavorDetailsStr("bulkAtomic").Flag == "optional")
+    <wsdl:operation name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues">
+        <soap:operation soapAction="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException">
+           <soap:fault name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getSetFlavorDetailsStr("bulkAtomicByKeys").Flag == "true" || $entity.getSetFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional")
+    <wsdl:operation name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys">
+        <soap:operation soapAction="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException">
+           <soap:fault name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getSetFlavorDetailsStr("byTemplate").Flag == "true" || $entity.getSetFlavorDetailsStr("byTemplate").Flag == "optional")
+    <wsdl:operation name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate">
+        <soap:operation soapAction="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException">
+           <soap:fault name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getSetFlavorDetailsStr("byTemplates").Flag == "true" || $entity.getSetFlavorDetailsStr("byTemplates").Flag == "optional")
+    <wsdl:operation name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates">
+        <soap:operation soapAction="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException">
+           <soap:fault name="set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getSetFlavorDetailsStr("bulkBestEffort").Flag == "true" || $entity.getSetFlavorDetailsStr("bulkBestEffort").Flag == "optional")
+    <wsdl:operation name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues">
+        <soap:operation soapAction="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException">
+           <soap:fault name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getSetFlavorDetailsStr("bulkBestEffortByKeys").Flag == "true" || $entity.getSetFlavorDetailsStr("bulkBestEffortByKeys").Flag == "optional")
+    <wsdl:operation name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys">
+        <soap:operation soapAction="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException">
+           <soap:fault name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getSetFlavorDetailsStr("byTemplateBestEffort").Flag == "true" || $entity.getSetFlavorDetailsStr("byTemplateBestEffort").Flag == "optional")
+    <wsdl:operation name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate">
+        <soap:operation soapAction="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException">
+           <soap:fault name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getSetFlavorDetailsStr("byTemplatesBestEffort").Flag == "true" || $entity.getSetFlavorDetailsStr("byTemplatesBestEffort").Flag == "optional")
+    <wsdl:operation name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates">
+        <soap:operation soapAction="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException">
+           <soap:fault name="trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end

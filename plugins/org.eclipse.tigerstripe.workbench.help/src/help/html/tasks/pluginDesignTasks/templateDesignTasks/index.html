@@ -1,0 +1,126 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Creating and Editing Templates</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+code {
+	font-size: small;
+	color: #000000;
+	position: relative;
+	margin-left: 10mm;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Creating and Editing Templates</h1>
+<p>To define the output of your plug-in, <b>Tigerstripe</b> utilizes a package called <b><a href="http://jakarta.apache.org/velocity">Velocity</a></b>. The current document is intended to cover the <b>Tigerstripe Velocity</b> specifics. For more detailed information about <b>Velocity</b>, visit the <b><a href="http://jakarta.apache.org/velocity">Velocity website</a></b>.</p>
+
+<p><b>Tigerstripe</b> requires that all templates be located in the <i>templates</i> directory (or subdirectories thereof); By convention, templates will have a <i>.vm</i> file extension.</p>
+
+<p>The <b>context</b> in which the template runs contains the following: </p>
+
+<ul>
+   <li><a href="velocityContextDetails.html">Default Velocity context contents</a>: A set of information essential for creating output based on your <b>Tigerstripe</b> model contents.</li>
+   <li><a href="usingModelsInTemplates.html">Artifact Models</a>: In artifact based rules only, you can specify the use of a model instead of (or in addition to) the basic artifact information.</li>
+   <li><a href="expander.html">An expander</a>: An expander is included as part of the default context and is used to populate information based on other references.</li>
+</ul>
+
+<p>The following example shows some basic usage of the <b>Tigerstripe</b>context contents: </p>
+
+<i>
+<a name="Line1"></a><p><code>1.  // This file was generated using "$templateName"</code></p>
+<a name="Line2"></a><p><code>2.  Artifact = $artifact.Name </code></p>
+<a name="Line3"></a><p><code>3.      Global Property = $pluginRef.Properties.getProperty("flag") ;</code></p>
+<a name="Line4"></a><p><code>4.  #foreach ($attribute in $artifact.IextFields)</code></p>
+<p><code>5.      Attribute Name =  $attribute.Name</code></p>
+<p><code>6.      Attribute Type =  $attribute.Type.Name $attribute.Name</code></p>
+<p><code>7.  #end</code></p>
+</i>
+
+
+<ul>
+   <li><a href="#Line1">Line 1</a> shows the use of a simple reference to a variable (<i>$templateName</i>) in the context.</li>
+   <li><a href="#Line2">Line 2</a> shows the use of a reference to an attribute (<i>Name</i>) of a variable ($artifact).</li>
+   <li><a href="#Line3">Line 3</a> shows the use of a reference to a global property (<i>"flag"</i>) of the property.</li>
+   <li><a href="#Line4">Line 4-7</a> shows the use of a collection (<i>IextFields</i>) of an artifact.</li>
+</ul>
+ 
+<p>&nbsp;</p>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

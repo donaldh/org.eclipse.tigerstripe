@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="explorerMenuContribution" name="Tigerstripe Explorer Menu Contribution" schema="schema/explorerMenuContribution.exsd"/>
+   <extension-point id="closedDiagramSynchronizer" name="Closed Diagram Synchronizer" schema="schema/closedDiagramSynchronizer.exsd"/>
+   <extension-point id="modelFileContentReader" name="Model Specific Content Reader" schema="schema/modelFileContentReader.exsd"/>
+   <extension-point id="diagramAuditor" name="Diagram Auditor" schema="schema/diagramAuditor.exsd"/>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.DescriptorEditor"
+            default="true"
+            filenames="tigerstripe.xml"
+            icon="src/icons/ts_logo.gif.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptorEditor"
+            name="Tigerstripe Descriptor Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.entity.EntityArtifactEditor"
+            default="false"
+            icon="src/icons/entity.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.entityEditor"
+            name="Tigerstripe OSS/J Entity Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.exception.ExceptionArtifactEditor"
+            default="false"
+            icon="src/icons/exception.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.exceptionEditor"
+            name="Tigerstripe OSS/J Exception Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.query.QueryArtifactEditor"
+            default="false"
+            icon="src/icons/query.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.queryEditor"
+            name="Tigerstripe OSS/J Query Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.event.EventArtifactEditor"
+            default="false"
+            icon="src/icons/notification.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.eventEditor"
+            name="Tigerstripe OSS/J Event Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.datatype.DatatypeArtifactEditor"
+            default="false"
+            icon="src/icons/datatype.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.datatypeEditor"
+            name="Tigerstripe OSS/J Datatype Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.session.SessionArtifactEditor"
+            default="false"
+            icon="src/icons/session.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.sessionEditor"
+            name="Tigerstripe OSS/J Session Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.enumeration.EnumArtifactEditor"
+            default="false"
+            icon="src/icons/enum.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.enumEditor"
+            name="Tigerstripe OSS/J Enum Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.updateProcedure.UpdateProcedureArtifactEditor"
+            default="false"
+            icon="src/icons/updateProc.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.updateProcedureEditor"
+            name="Tigerstripe OSS/J Update Procedure Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor"
+            default="true"
+            filenames="ts-plugin.xml"
+            icon="src/icons/plugin.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptorEditor"
+            name="Tigerstripe Plugin Descriptor Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.ProfileEditor"
+            default="true"
+            extensions="wbp"
+            icon="src/icons/profile.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profileEditor"
+            name="Workbench Profile Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.association.AssociationArtifactEditor"
+            default="false"
+            icon="src/icons/association.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.associationEditor"
+            name="Tigerstripe UML Association Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.dependency.DependencyArtifactEditor"
+            default="false"
+            icon="src/icons/dependency.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.dependencyEditor"
+            name="Tigerstripe UML Dependency Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.associationClass.AssociationClassArtifactEditor"
+            default="false"
+            icon="src/icons/association_class.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.associationClassEditor"
+            name="Tigerstripe UML Association Class Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.SegmentEditor"
+            default="true"
+            extensions="wfc"
+            icon="src/icons/segment.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segmentEditor"
+            name="Tigerstripe Contract Facet Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.useCase.UseCaseEditor"
+            default="true"
+            extensions="ucd"
+            icon="src/icons/useCase.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.useCaseEditor"
+            name="Tigerstripe Contract Use Case Editor"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Toolbar Actions"
+            visible="true"
+            id="org.eclipse.tigerstripe.eclipse.actionSet">
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.eclipse.actions.OpenPluginsControlDialog"
+               icon="src/icons/plugin.gif"
+               id="org.eclipse.tigerstripe.community.action2"
+               label="Plugins..."
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/controls"
+               style="push"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.eclipse.actions.OpenViewActiveProfileDetailsDialog"
+               icon="src/icons/profile.gif"
+               id="org.eclipse.tigerstripe.community.action1"
+               label="Active Profile Details..."
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/controls"
+               style="push"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenGenerateInterfaceWizardAction"
+               disabledIcon="src/icons/run_tigerstripe_gs.gif"
+               icon="src/icons/run_tigerstripe.gif"
+               id="org.eclipse.tigerstripe.eclipse.generateAction"
+               label="Generate"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Generate current Project"/>
+         <action
+               allowLabelUpdate="true"
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewSessionArtifactWizardAction"
+               disabledIcon="src/icons/new_session_gs.gif"
+               icon="src/icons/new_session.gif"
+               id="org.eclipse.tigerstripe.eclipse.newInterfaceAction"
+               label="New Interface"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Create a new Interface Specification with Tigerstripe"/>
+         <menu
+               label="Tigerstripe"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu">
+            <separator name="content"/>
+            <separator name="content2"/>
+            <separator name="additions"/>
+            <separator name="controls"/>
+         </menu>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewSessionArtifactWizardAction"
+               disabledIcon="src/icons/new_session_gs.gif"
+               icon="src/icons/new_session.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewSessionAction"
+               label="Interface"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup2"
+               style="push"
+               tooltip="Create new Tigerstripe Project"/>
+     	<action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewProjectWizardAction"
+               icon="src/icons/new_project.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewProjectAction"
+               label="New Project"
+               style="push"
+               tooltip="Create new Tigerstripe Project"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewExceptionArtifactWizardAction"
+               disabledIcon="src/icons/new_exception_gs.gif"
+               icon="src/icons/new_exception.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openExceptionProjectAction"
+               label="Exception"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
+               style="push"/> 
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewNotificationArtifactWizardAction"
+               disabledIcon="src/icons/new_notification_gs.gif"
+               icon="src/icons/new_notification.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNotificationProjectAction"
+               label="Notification"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
+               style="push"
+               tooltip="Create new Tigerstripe Project"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewUpdateProcedureArtifactWizardAction"
+               disabledIcon="src/icons/new_updateProc_gs.gif"
+               icon="src/icons/new_updateProc.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewUpdateProcedureAction"
+               label="Update Procedure "
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
+               style="push"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewQueryArtifactWizardAction"
+               disabledIcon="src/icons/new_query_gs.gif"
+               icon="src/icons/new_query.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewQueryAction"
+               label="Named Query"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
+               style="push"
+               tooltip="Create new Tigerstripe Project"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewAssociationClassArtifactWizardAction"
+               disabledIcon="src/icons/new_associationClass_gs.gif"
+               icon="src/icons/new_associationClass.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewAssociationClassAction"
+               label="Association Class"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
+               style="push"
+               tooltip="Create new Association Class Artifact"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewAssociationArtifactWizardAction"
+               disabledIcon="src/icons/new_association_gs.gif"
+               icon="src/icons/new_association.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewAssociationAction"
+               label="Association"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
+               style="push"
+               tooltip="Create new Association Artifact"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewDependencyArtifactWizardAction"
+               disabledIcon="src/icons/new_dependency_gs.gif"
+               icon="src/icons/new_dependency.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewDependencyAction"
+               label="Dependency"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
+               style="push"
+               tooltip="Create new Dependency Artifact"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewEnumArtifactWizardAction"
+               disabledIcon="src/icons/new_enum_gs.gif"
+               icon="src/icons/new_enum.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewEnumAction"
+               label="Enumeration"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
+               style="push"
+               tooltip="Create new Enumeration Artifact"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewDatatypeArtifactWizardAction"
+               disabledIcon="src/icons/new_datatype_gs.gif"
+               icon="src/icons/new_datatype.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openDatatypeProjectAction"
+               label="Datatype"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
+               style="push"
+               tooltip="Create new Tigerstripe Project"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewEntityArtifactWizardAction"
+               disabledIcon="src/icons/new_entity_gs.gif"
+               icon="src/icons/new_entity.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewEntityAction"
+               label="Entity"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
+               style="push"
+               tooltip="Create new Tigerstripe Project"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.NewArtifactDropDownAction"
+               disabledIcon="src/icons/new_entity_gs.gif"
+               icon="src/icons/new_entity.gif"
+               id="org.eclipse.tigerstripe.eclipse.newArtifactAction"
+               label="New artifact"
+               style="pulldown"
+               toolbarPath="Normal/additions"
+               tooltip="Create new Tigerstripe Artifacts"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewProjectWizardAction"
+               icon="src/icons/new_project.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"
+               label="Tigerstripe Project"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Create new Tigerstripe Project"/>
+         <menu
+         		label="Import..."
+         		path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content"
+         		id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu">
+         		<separator name="uml2"/>
+         </menu>
+         <menu
+               label="New..."
+               path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu">
+            <separator
+                  name="newGroup">
+            </separator>
+            <separator name="newGroup2"/>
+         </menu>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenGenerateInterfaceWizardAction"
+               disabledIcon="src/icons/run_tigerstripe_gs.gif"
+               icon="src/icons/run_tigerstripe.gif"
+               id="org.eclipse.tigerstripe.eclipse.generateAction"
+               label="Generate"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content2"
+               style="push"
+               tooltip="Generate current Project"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenImportUML2ProfileWizardAction"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openImportUML@ProfileAction"
+               label="UML2 Profile"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
+               style="push"
+               tooltip="Import a UML2 Profile as a Tigerstripe Profile"/>
+         <action
+               class="org.eclipse.tigerstripe.eclipse.actions.OpenImportFromUML2WizardAction"
+               id="org.eclipse.tigerstripe.workbench.ui.base.action2"
+               label="UML2 Model"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
+               style="push"/>
+         <menu
+               id="org.eclipse.tigerstripe.workbench.ui.base.menu1"
+               label="uml2..."
+               path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/uml2">
+            <separator name="content"/>
+         </menu>
+      </actionSet>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="Tigerstripe"
+            id="org.eclipse.tigerstripe.eclipse">
+      </category>
+      <wizard
+            category="org.eclipse.tigerstripe.eclipse"
+            class="org.eclipse.tigerstripe.eclipse.wizards.project.NewProjectWizard"
+            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            icon="src/icons/new_project.gif"
+            id="org.eclipse.tigerstripe.eclipse.wizards.NewProjectWizard"
+            name="Tigerstripe Project"
+            project="true">
+      </wizard>
+      <wizard
+            category="org.eclipse.tigerstripe.eclipse"
+            class="org.eclipse.tigerstripe.eclipse.wizards.pluggablePlugin.NewPluginProjectWizard"
+            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            icon="src/icons/plugin.gif"
+            id="org.eclipse.tigerstripe.community.wizard1"
+            name="Tigerstripe Plugin Project"
+            project="true"/>
+      <wizard
+            category="org.eclipse.tigerstripe.eclipse"
+            class="org.eclipse.tigerstripe.eclipse.wizards.profile.NewWorkbenchProfileWizard"
+            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            icon="src/icons/profile.gif"
+            id="org.eclipse.tigerstripe.eclipse.wizards.NewProfileWizard"
+            name="Workbench Profile"/>
+      <wizard
+            category="org.eclipse.tigerstripe.eclipse"
+            class="org.eclipse.tigerstripe.eclipse.wizards.segment.NewContractSegmentWizard"
+            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            icon="src/icons/segment.gif"
+            id="org.eclipse.tigerstripe.eclipse.wizards.NewSegmentWizard"
+            name="Contract Facet"/>
+      <wizard
+            category="org.eclipse.tigerstripe.eclipse"
+            class="org.eclipse.tigerstripe.eclipse.wizards.useCase.NewUseCaseWizard"
+            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            icon="src/icons/useCase.gif"
+            id="org.eclipse.tigerstripe.eclipse.wizards.NewUseCaseWizard"
+            name="Contract Use Case Document"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <perspectiveShortcut id="org.eclipse.tigerstripe.community.tigerstripePerspective"/>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.TopLevelPreferencePage"
+            id="org.eclipse.tigerstripe.ui.eclipse.preferences.TopLevelPreferences"
+            name="Tigerstripe"/>
+      <page
+            category="org.eclipse.tigerstripe.ui.eclipse.preferences.TopLevelPreferences"
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.GeneralPreferencePage"
+            id="org.eclipse.tigerstripe.ui.eclipse.preferences.GeneralPreferencePage"
+            name="General"/>
+      <page
+            category="org.eclipse.tigerstripe.ui.eclipse.preferences.TopLevelPreferences"
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.modelImport.ImportPreferencePage"
+            id="org.eclipse.tigerstripe.ui.eclipse.preferences.ModelImportPreferencePage"
+            name="Model Import"/>
+      <page
+            category="org.eclipse.tigerstripe.ui.eclipse.preferences.TopLevelPreferences"
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.GenerationPreferencePage"
+            id="org.eclipse.tigerstripe.ui.eclipse.preferences.GenerationPreferencePage"
+            name="Generation"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.tigerstripe.workbench.views.category"
+            name="Tigerstripe"/>
+      <view
+            allowMultiple="false"
+            category="org.eclipse.tigerstripe.workbench.views.category"
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TigerstripeExplorerPart"
+            icon="src/icons/ts_logo.gif.gif"
+            id="org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"
+            name="Tigerstripe Explorer"/>
+   </extension>
+   <extension
+         id="tigerstripeProject"
+         name="Tigerstripe Project"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run class="org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripeProjectNature"/>
+      </runtime>
+      <builder id="org.eclipse.tigerstripe.workbench.ui.base.tigerstripeProjectAuditor"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.perspective.TigerstripePerspectiveFactory"
+            icon="src/icons/ts_logo.gif.gif"
+            id="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            name="Tigerstripe"/>
+   </extension>
+   <extension
+         id="tigerstripeProjectAuditor"
+         name="Tigerstripe Project Auditor"
+         point="org.eclipse.core.resources.builders">
+      <builder hasNature="true">
+         <run class="org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor"/>
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.ide.projectNatureImages">
+      <image
+            icon="src/icons/tigerstripe-nature.gif"
+            id="org.eclipse.tigerstripe.community.image1"
+            natureId="org.eclipse.tigerstripe.workbench.pluggablePluginProjectAuditor"/>
+   </extension>
+   <extension
+         id="auditmarker"
+         name="Tigerstripe Audit Marker"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="true"/>
+   </extension>
+   <extension
+         id="tigerstripePluginProject"
+         name="Tigerstripe Plugin Project"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run class="org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripePluginProjectNature"/>
+      </runtime>
+      <builder id="org.eclipse.tigerstripe.workbench.ui.base.pluggablePluginProjectAuditor"/>
+   </extension>
+   <extension
+         id="pluggablePluginProjectAuditor"
+         name="Tigerstripe Plugin Auditor"
+         point="org.eclipse.core.resources.builders">
+      <builder hasNature="true">
+         <run class="org.eclipse.tigerstripe.workbench.ui.eclipse.builder.pluggable.PluggablePluginProjectAuditor"/>
+      </builder>
+   </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            id="org.eclipse.tigerstripe.importWizardCategory"
+            name="Tigerstripe"/>
+      <wizard
+            category="org.eclipse.tigerstripe.importWizardCategory"
+            class="org.eclipse.tigerstripe.eclipse.wizards.imports.uml2.ImportUML2ProfileWizard"
+            icon="src/icons/importExport.gif.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.base.wizard5"
+            name="Import UML2 Profile"/>
+      <wizard
+            category="org.eclipse.tigerstripe.importWizardCategory"
+            class="org.eclipse.tigerstripe.eclipse.wizards.imports.uml2.ImportFromUML2Wizard"
+            icon="src/icons/importExport.gif.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.base.wizard6"
+            name="Import UML2 Model"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <category
+            id="org.eclipse.tigerstripe.exportWizardCategory"
+            name="Tigerstripe"/>
+      <wizard
+            category="org.eclipse.tigerstripe.exportWizardCategory"
+            class="org.eclipse.tigerstripe.workbench.ui.gmf.export.wizards.AllDiagramsExportWizard"
+            id="org.eclipse.tigerstripe.workbench.ui.base.gmf.export.allDiagrams"
+            name="All Diagrams..."/>
+   </extension>
+      <extension
+         point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">
+      <contribution
+            actionClass="org.eclipse.tigerstripe.eclipse.actions.OpenNewContractSegmentWizardAction"
+            name="Open Contract Facet Action"/>
+   </extension>
+      <extension
+         point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">
+      <contribution
+            actionClass="org.eclipse.tigerstripe.eclipse.actions.OpenNewContractUseCaseWizardAction"
+            name="Open Contract Use Case Action"/>
+   </extension>
+      <extension
+            point="org.eclipse.ui.popupMenus">
+         <objectContribution
+               adaptable="false"
+               id="org.eclipse.tigerstripe.workbench.ui.base.facet.popupMenu"
+               nameFilter="*.wfc"
+               objectClass="org.eclipse.core.resources.IResource">
+            <menu
+                  id="org.eclipse.tigerstripe.workbench.ui.base.facet.popupSubMenu"
+                  label="Facets"
+                  path="org.eclipse.tigerstripe.ui.eclipse.views.explorerview.actions.publish.menu">
+               <groupMarker name="content"/>
+               <separator name="group.build"/>
+            </menu>
+            <action
+                  class="org.eclipse.tigerstripe.workbench.ui.eclipse.actions.MarkFacetAsActiveActionDelegate"
+                  enablesFor="?"
+                  id="org.eclipse.tigerstripe.workbench.ui.base.markFacetAsActive"
+                  label="Mark as Active"
+                  menubarPath="org.eclipse.tigerstripe.workbench.ui.base.facet.popupSubMenu/content"/>
+            <action
+                  class="org.eclipse.tigerstripe.workbench.ui.eclipse.actions.ResetActiveFacetActionDelegate"
+                  enablesFor="?"
+                  id="org.eclipse.tigerstripe.workbench.ui.base.resetActiveFacet"
+                  label="Reset Active Facet"
+                  menubarPath="org.eclipse.tigerstripe.workbench.ui.base.facet.popupSubMenu/content"/>
+         </objectContribution>
+         <objectContribution
+               adaptable="false"
+               id="org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginPopupMenu"
+               nameFilter="ts-plugin.xml"
+               objectClass="org.eclipse.core.resources.IResource">
+            <menu
+                  id="org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginSubMenu"
+                  label="Plugin"
+                  path="org.eclipse.tigerstripe.ui.eclipse.views.explorerview.actions.publish.menu">
+               <groupMarker name="content"/>
+               <separator name="group.build"/>
+            </menu>
+            <action
+                  class="org.eclipse.tigerstripe.workbench.ui.eclipse.actions.UnDeployPluginActionDelegate"
+                  id="org.eclipse.tigerstripe.workbench.ui.base.pluginDescriptor.undeployAction"
+                  label="Undeploy"
+                  menubarPath="org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginSubMenu/content"
+                  tooltip="Undeploy this plugin."/>
+            <action
+                  class="org.eclipse.tigerstripe.workbench.ui.eclipse.actions.PacakgePluginActionDelegate"
+                  id="org.eclipse.tigerstripe.workbench.ui.base.pluginDescriptor.deployAction"
+                  label="Package..."
+                  menubarPath="org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginSubMenu/content"
+                  tooltip="Package and deploy this Tigerstripe plugin"/>
+            <action
+                  class="org.eclipse.tigerstripe.workbench.ui.eclipse.actions.DeployPluginActionDelegate"
+                  id="org.eclipse.tigerstripe.workbench.ui.base.pluginDescriptor.deployAction"
+                  label="Deploy"
+                  menubarPath="org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginSubMenu/content"
+                  tooltip="Package and deploy this Tigerstripe plugin"/>
+         </objectContribution>
+         <objectContribution
+               adaptable="false"
+               id="org.eclipse.tigerstripe.workbench.ui.base.profilePopup"
+               nameFilter="*.wbp"
+               objectClass="org.eclipse.core.resources.IResource">
+            <menu
+                  id="org.eclipse.tigerstripe.workbench.ui.base.profileSubMenu"
+                  label="Profile"
+                  path="org.eclipse.tigerstripe.ui.eclipse.views.explorerview.actions.publish.menu">
+               <groupMarker name="content"/>
+               <separator name="group.build"/>
+            </menu>
+            <action
+                  class="org.eclipse.tigerstripe.workbench.ui.eclipse.actions.DeployProfileActionDelegate"
+                  id="org.eclipse.tigerstripe.workbench.ui.base.profile.deployaction"
+                  label="Set as active profile."
+                  menubarPath="org.eclipse.tigerstripe.workbench.ui.base.profileSubMenu/content"
+                  tooltip="Make this profile active."/>
+         </objectContribution>
+         <objectContribution
+               adaptable="false"
+               id="org.eclipse.tigerstripe.workbench.ui.base.diagramPopup"
+               objectClass="java.lang.Object">
+            <menu
+                  id="org.eclipse.tigerstripe.workbench.ui.base.diagramMenu"
+                  label="Diagrams"
+                  path="org.eclipse.tigerstripe.ui.eclipse.views.explorerview.actions.publish.menu">
+               <groupMarker name="content"/>
+               <separator name="group.build"/>
+            </menu>
+            <action
+                  class="org.eclipse.tigerstripe.workbench.ui.eclipse.actions.AuditDiagramsActionDelegate"
+                  id="org.eclipse.tigerstripe.workbench.ui.base.diagrams.audit"
+                  label="Audit Diagrams"
+                  menubarPath="org.eclipse.tigerstripe.workbench.ui.base.diagramMenu/content"
+                  tooltip="Create an audit report on diagrams"/>
+            <visibility>
+               <or>
+                  <objectClass name="org.eclipse.core.resources.IResource"/>
+                  <objectClass name="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart"/>
+                  <objectClass name="org.eclipse.jdt.core.IJavaElement"/>
+               </or>
+            </visibility>
+         </objectContribution>
+      </extension>
+      <extension
+            id="tigerstripe.logicalExplorerNode.modelProvider"
+            name="Tigerstripe Explorer Node"
+            point="org.eclipse.core.resources.modelProviders">
+         <modelProvider class="org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.LogicalExplorerNodeModelProvider"/>
+      </extension>
+      <extension
+            id="tigerstripe.search"
+            name="tigerstripe.search"
+            point="org.eclipse.search.searchPages">
+         <page
+               canSearchEnclosingProjects="true"
+               class="org.eclipse.tigerstripe.workbench.ui.eclipse.search.TigerstripeSearchPage"
+               id="org.eclipse.tigerstripe.ui.eclipse.search.tigerstripeSearch"
+               label="Tigerstripe Search"
+               showScopeSection="true">
+         </page>
+      </extension>
+      <extension
+            point="org.eclipse.search.searchResultViewPages">
+         <viewPage
+               class="org.eclipse.tigerstripe.workbench.ui.eclipse.search.TigerstripeSearchResultPage"
+               id="org.eclipse.tigerstripe.workbench.ui.base.tigerstripeSearchView"
+               label="Tigerstripe result"
+               searchResultClass="org.eclipse.tigerstripe.workbench.ui.eclipse.search.TigerstripeSearchResult">
+         </viewPage>
+      </extension>
+   
+</plugin>

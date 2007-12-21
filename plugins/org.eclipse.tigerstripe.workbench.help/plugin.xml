@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension point="org.eclipse.help.contexts"> 
+	  <contexts
+         file="src/help/contexts/artifact.attribute.edit.help.id.xml"
+         plugin="org.eclipse.tigerstripe.workbench"/> 
+   </extension>
+   <extension
+         point="org.eclipse.help.toc">
+      <toc
+            file="src/help/toc.xml"
+            primary="true">
+      </toc>
+      <toc
+            file="src/help/tocconcepts.xml">
+      </toc>
+      <toc
+            file="src/help/tocgettingstarted.xml">
+      </toc>
+      <toc
+            file="src/help/toclibraries.xml">
+      </toc>
+      <toc
+            file="src/help/toctroubleshooting.xml">
+      </toc>
+      <toc
+            file="src/help/toctasks.xml">
+      </toc>
+      <toc
+            file="src/help/tocoverview.xml"/>
+      <toc
+            file="src/help/tocinstall.xml" />
+   </extension>
+</plugin>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.tigerstripe.workbench.ui.instancediagram/src"
+    modelPluginID="org.eclipse.tigerstripe.workbench.ui.instancediagram" modelName="Instance"
+    importerID="org.eclipse.emf.importer.ecore">
+  <foreignModel>instance.ecore</foreignModel>
+  <genPackages prefix="Instancediagram" basePackage="org.eclipse.tigerstripe.workbench.ui"
+      disposableProviderFactory="true" ecorePackage="instance.ecore#/">
+    <genEnums ecoreEnum="instance.ecore#//AggregationEnum">
+      <genEnumLiterals ecoreEnumLiteral="instance.ecore#//AggregationEnum/none"/>
+      <genEnumLiterals ecoreEnumLiteral="instance.ecore#//AggregationEnum/shared"/>
+      <genEnumLiterals ecoreEnumLiteral="instance.ecore#//AggregationEnum/composite"/>
+    </genEnums>
+    <genEnums ecoreEnum="instance.ecore#//ChangeableEnum">
+      <genEnumLiterals ecoreEnumLiteral="instance.ecore#//ChangeableEnum/none"/>
+      <genEnumLiterals ecoreEnumLiteral="instance.ecore#//ChangeableEnum/frozen"/>
+      <genEnumLiterals ecoreEnumLiteral="instance.ecore#//ChangeableEnum/addOnly"/>
+    </genEnums>
+    <genEnums ecoreEnum="instance.ecore#//TypeMultiplicity">
+      <genEnumLiterals ecoreEnumLiteral="instance.ecore#//TypeMultiplicity/NONE"/>
+      <genEnumLiterals ecoreEnumLiteral="instance.ecore#//TypeMultiplicity/ARRAY"/>
+      <genEnumLiterals ecoreEnumLiteral="instance.ecore#//TypeMultiplicity/ARRAYOFARRAY"/>
+    </genEnums>
+    <genClasses ecoreClass="instance.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//NamedElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="instance.ecore#//Variable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//Variable/value"/>
+    </genClasses>
+    <genClasses ecoreClass="instance.ecore#//Instance">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//Instance/package"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//Instance/artifactName"/>
+      <genOperations ecoreOperation="instance.ecore#//Instance/getFullyQualifiedName"/>
+    </genClasses>
+    <genClasses ecoreClass="instance.ecore#//ClassInstance">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference instance.ecore#//ClassInstance/variables"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference instance.ecore#//ClassInstance/associations"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//ClassInstance/associationClassInstance"/>
+    </genClasses>
+    <genClasses ecoreClass="instance.ecore#//AssociationInstance">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference instance.ecore#//AssociationInstance/aEnd"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/aEndName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/aEndMultiplicityLowerBound"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/aEndMultiplicityUpperBound"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/aEndIsNavigable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/aEndIsOrdered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/aEndIsChangeable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/aEndAggregation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference instance.ecore#//AssociationInstance/zEnd"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/zEndName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/zEndMultiplicityLowerBound"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/zEndMultiplicityUpperBound"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/zEndIsNavigable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/zEndIsOrdered"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/zEndIsChangeable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/zEndAggregation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//AssociationInstance/referenceName"/>
+    </genClasses>
+    <genClasses ecoreClass="instance.ecore#//TypedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//TypedElement/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//TypedElement/multiplicity"/>
+    </genClasses>
+    <genClasses ecoreClass="instance.ecore#//InstanceMap">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference instance.ecore#//InstanceMap/classInstances"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference instance.ecore#//InstanceMap/associationInstances"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//InstanceMap/basePackage"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference instance.ecore#//InstanceMap/properties"/>
+    </genClasses>
+    <genClasses ecoreClass="instance.ecore#//DiagramProperty">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//DiagramProperty/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute instance.ecore#//DiagramProperty/value"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

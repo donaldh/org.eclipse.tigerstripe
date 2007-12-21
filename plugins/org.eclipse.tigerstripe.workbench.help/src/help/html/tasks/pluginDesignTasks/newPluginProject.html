@@ -1,0 +1,131 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Creating a New Plug-in Project</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Creating a New Plug-in Project</h1>
+<p><b>Tigerstripe</b> Plug-in projects contain the details of a <b>Generation</b> plug-in. More specifically, they contain the following:</p>
+<ul>
+   <li>A plug-in project descriptor (<i>ts-plugin.xml</i>) used to store a your plug-in definition. These definitions are a set of <b>Global Properties</b> whose values are set on a project by project basis, a set of <b>Global Rules</b>, and a set of <b>Artifact Rules</b>. These rules determine what information is passed to your <b>template</b>, and determines the destination of your output file.</li>
+   <li>A set of <b>Templates</b> that defines format of your output. These templates are referenced in <b>Rules</b> that are defined in your plug-in descriptor.</li>
+   <li>A set of <b>src</b> files that contain <b>Models</b>, <b>Filters</b> and other utilities that you can use to control your output format and content.</li>
+</ul>
+<p>The first step in creating a <b>Generation</b> plug-in is to create a <b>Plug-in</b> project.</p>
+<h2>The New Plug-in Project Wizard</h2>
+<blockquote><p>You can create a new <b>Plug-in Project</b> through the <b>New Tigerstripe Plug-in Project</b> wizard. Complete the following procedure to open the Wizard.</p>
+<h3>To open the New Plug-in Project Wizard</h3>
+<ol>
+   <li>In <b>Tigerstripe Workbench</b>, select <b>File</b>, click <b>New</b>, and select <b>Other</b>.</li>
+   <li>Navigate to the <b>Tigerstripe</b> option, select <b>Tigerstripe Plugin Project</b>, and click <b>Next</b>. The <b>New Plugin Project</b> wizard opens.</li>
+</ol>
+<blockquote><p>The following image is a example of the <b>New Tigerstripe Project</b> wizard:</p></blockquote>
+
+<p align="center" class="style2"><img src="images/pluginProjectWizard.gif"></p>
+
+<blockquote><p>You must provide the following information to successfully create a new <b>Plug-in Project</b>:</p></blockquote>
+<ul>
+  <li>A valid <b>Project Name</b>: Your project name may not include special characters and may not be used in another Eclipse Workspace. The <b>New Tigerstripe Plug-in Project</b> wizard will not accept an invalid name entry.</li>
+  </ul>
+<blockquote><p>The corresponding newly created plug-in project will appear in the <a href="../../gettingstarted/tigerstripeperspective/tigerstripeexplorer.html">Tigerstripe Explorer</a>, and the <b>Plug-in Project Descriptor</b> will automatically open in the main editor. </p></blockquote></blockquote>
+<h2>Location of your Tigerstripe Plug-in Project</h2>
+<blockquote><p>By default, your plug-in project is created within the same directory previously identified as the location of the workspace by Eclipse. The name of your project will be used as the target directory within your workspace directory.</p>
+<p>Alternatively, you can create your project outside of the current workspace, at any arbitrary location by selecting the <b>Create project at external location</b> option on the <b>New Tigerstripe Plugin Project</b> wizard. You must provide a valid <i>absolute</i> path to the directory to where your new project is created.</p></blockquote>
+<h2>Working with a Newly Created Project </h2>
+<blockquote><p>Upon successful creation of a <b>Plug-in Project</b>, the <b>Plug-in Project Descriptor</b> is automatically opened in the main editor. The following lists additional information that you can provide in the <b>Project Descriptor</b>:</p>
+<ul>
+  <li><strong>Project Name</strong>: This is the full name of your current project. As opposed to the name used to identify the project within Eclipse, the full name can contain any character.</li>
+  <li><strong>Project Version</strong>: Contains the version number for your project. The name and version will appear in the <b>Generation</b> section of any <b>Tigerstripe Descriptor</b> for any project in your workspace where you <b>Deploy</b> your plug-in.</li>
+  <li><strong>Project Description</strong>: Allows you to add detailed information about your project.</li>
+</ul>
+<p>You can edit more information in the <b>Plug-in Project Descriptor</b>. Refer to the following sections for more details:</p>
+<ul>
+  <li><a href="pluginProperties.html">Defining Global Properties</a></li>
+  <li><a href="ruleDesignTasks/index.html">Creating and Editing Rules</a></li>
+  <li><a href="pluginRuntime.html">Adding a Runtime Dependency</a></li>
+</ul>
+<p>Once you configure your plug-in, you will need to test and deploy that plug-in for use with your <b>Tigerstripe Projects</b>. Rrefer to the following sections for more details: </p>
+<ul>
+  <li><a href="deployAndTestPlugin.html">Deploy and Test a Plug-in</a></li>
+  <li><a href="packagePlugin.html">Packaging a Plug-in for Distribution</a></li>
+</ul> </blockquote>
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

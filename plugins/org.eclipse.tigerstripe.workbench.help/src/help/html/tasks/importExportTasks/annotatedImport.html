@@ -1,0 +1,101 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Annotated Imports</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+
+
+
+
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Annotated Imports</h1>
+
+<p>Several import types use the <b>Annotated Import</b> behavior described in this section.<p>
+
+<p>The <b>Model Annotation</b> page of the <b>Import</b>wizard highlights objects that the <b>Import</b> tool found in the import source, and has determined are suitable candidates for import as <b>Artifacts</b>. The <b>Artifact</b> type may or may not be possible to determine depending on the amount of information found in the import source. When it is possible to determine an <b>Artifact</b> type, the potential artifact is displayed with the icon for that <b>Artifact</b> type.
+When it not possible to determine an <b>Artifact</b> type, the potential artifact is displayed with a question-mark (?) icon.</p>
+
+<p>You can update the <i>determined</i> and <i>undetermined</i> artifacts to an <b>Artifact</b> type by right-clicking on the artifact and selecting the target type from the list of artifacts presented.</p> <p><b>Note:</b>  Some choices could result in the loss of information if the target artifact does not support all of the information found in the source. For example, <b>Enumeration</b> artifacts do not support methods. You can elect to <i>ignore</i> this potential artifact by selecting <b>ignore</b> from the list.</p>
+
+<h2>Referencing a Project</h2>
+<blockquote><p>Using this option, an import will use the <i>Referenced project</i> to minimize user intervention and to identify deltas. The <b>Reference Project</b> should be a project into which a previous import has been performed. If an artifact has previously been created using the import, then the <b>Import</b> wizard will use the same artifact type. Similarly, only deltas between the reference and new import are applied to the target project.</p>
+
+<p>You can limit the <b>Model Annotation</b> page to show the deltas between the referenced project and the information found in the import source. This is accomplished by selecting <b>Show delta only</b> on the dialog box. This will simplify the display when reviewing changes in a complex model.</p></blockquote>
+
+
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

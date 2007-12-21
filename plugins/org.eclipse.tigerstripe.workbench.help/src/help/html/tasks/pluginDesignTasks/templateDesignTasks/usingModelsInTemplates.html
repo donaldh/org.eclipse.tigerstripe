@@ -1,0 +1,125 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Using Models in Templates</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+code {
+	font-size: small;
+	color: #000000;
+	position: relative;
+	margin-left: 10mm;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Using Models in Templates</h1>
+
+<p><b>Note:</b> This section is only applicable for <b>Artifact</b> based rules.</p>
+
+<p>You can specify a <b>Model</b> class for use within an <b>Artifact</b> based rule. The <b>Model</b> class and it's <i>name</i> is specified on the <b>Rules</b> section of the <b>Plug-in Project Descriptor</b>.</p>
+
+<p>A model is a Java class that you implement in the <i>IArtifactModel</i> interface specified in the <b>Tigerstripe</b> external API. The <b>Artifact</b> being processed is passed to the class using the <i>setIArtifact</i> method to which <b>Tigerstripe</b> automatically calls, and passes the current <b>Artifact</b> to your <b>Model</b> class.</p>
+<!-- Please verify above paragraph -->
+<p>A sample <b>Model</b> class is as follows:</p>
+
+<p><code>1. public class EntityModel implements IArtifactModel {</code></p>
+<p><code>2.     private IArtifact artifact;</code></p>    
+<p><code>3.     public void setIArtifact(IArtifact artifact) {</code></p>
+<p><code>4.         this.artifact = artifact;</code></p>
+<p><code>5.     }</code></p>
+<p><code>6.     public String getOutPath(){</code></p>
+<p><code>7.        String packageName = this.artifact().getPackage();</code></p>
+<p><code>8.         String path = packageName.replaceAll("\\.", "/");</code></p>
+<p><code>9.			return path;</code></p>
+<p><code>10.	}</code></p>
+<p><code>11.}</code></p>
+
+<ul>
+   <li>Line 1 shows the necessary interface implementation of <i>IArtifactModel</i>.</li>
+   <li>Line 3-5 shows the mandatory <i>setIArtifact</i> method.</li>
+   <li>Line 6-10 is an example method to return the package name as a <i>path-like</i> String.</li>
+   <li><b>Note</b>: You will need to <i>import</i> the  <i>org.eclipse.tigerstripe.api.external.plugins.IArtifactModel</i> interface and  the <i>org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact</i> interface.</li>
+</ul>
+
+<p>Within your template, you can access the methods of your <b>Model</b> class using the  <i>$modelName.method</i> method with arguments passed (as necessary). Where <i>modelName</i> is the name you provided in your rule specification. Assuming the above model definition with a model name of <i>entity</i>, your template could call the <i>getOutPath</i> method as follows:</p>
+
+<p><code>$entity.getOutPath()</code> - Returns a <b>String</b> similar to <i>com/mycompany/myPackage</i>.</p>
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

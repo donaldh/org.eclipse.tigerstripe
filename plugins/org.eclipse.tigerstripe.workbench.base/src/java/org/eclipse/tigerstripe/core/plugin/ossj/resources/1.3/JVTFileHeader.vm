@@ -1,0 +1,15 @@
+/**
+ *  Generated with Tigerstripe(tm) $runtime.getProperty("tigerstripe.feature.version").
+ *
+ *  Plugin  : $pluginRef.groupId/$pluginRef.pluginId ($pluginRef.Version)
+ *
+ *  DO NOT EDIT THIS CODE WAS AUTOMATICALLY GENERATED
+ *
+ *  Generated from source Tigerstipe Artifact :
+ *        $artifact.FullyQualifiedName
+ */
+
+/*
+$tsProject.getProjectDetails().getProperty("copyrightNotice","")
+*/
+package $model.Package;

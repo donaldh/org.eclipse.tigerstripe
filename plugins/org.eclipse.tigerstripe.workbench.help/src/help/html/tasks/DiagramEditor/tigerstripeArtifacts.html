@@ -1,0 +1,210 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Working with Tigerstripe Artifacts</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Working with Tigerstripe Artifacts</h1>
+
+<p>In this section, we will discuss how to build an object model using the <b>Class Diagram Editor</b>. For this example, you will start by laying out the components of an order management system. The details of the system are not important at this point, however this exercise will give you a good understanding for the capabilities of the <b>Class Diagram Editor</b>.</p>
+<p>The first step is to determine what objects should exist in your system. Let's assume that your order management system will consist of the following:</p>
+<ul>
+   <li><i>Order Manager</i>: Manages a set of <i>Orders</i>.</li>
+   <li><i>Order Details</i>: Each <i>Order</i> has a related set of information about the order.</li>
+   <li><i>Status</i>: Each <i>Order</i> will have a <i>Status</i> such as <i>Open</i>, <i>Closed</i>, and <i>Suspended</i>.</li>
+   <li><i>Queries</i>: Used to determine the state of the system. For example, you can use a query to determine how many orders are outstanding or how many orders were filled in the last quarter.</li>
+</ul>
+<h2>Building your Object Model</h2>
+<blockquote>
+<p>The first step is to create some objects in the <b>Class Diagram Editor</b>. <a href="#figure 1">The following figure</a> illustrates the start of your object model. In this example, three objects have been created:</p>
+<ul>
+   <li>An <b>Entity</b> named <i>Order</i>.</li>
+   <li>A <b>Datatype</b> object named <i>OrderDetails</i>.</li>
+   <li>An <b>Enumeration</b> object named <i>OrderStatus</i>.</li>
+</ul>
+<p>It should be noted that any changes made in the <b>Class Diagram Editor</b> window are immediately reflected in the underlying <b>Tigerstripe</b> object model, and those changes are visible in the <b>Tigerstripe Explorer</b>.  In <a href="#figure 1">the following figure</a>, three objects have been created in the <b>Class Diagram Editor</b>, and those object are also visible in the <b>Tigerstripe Explorer</b>.</p>
+<!--
+<img border="0" alt="Three Artifacts in the Class Diagram Editor" src="images/exampleDiagram2-AddThreeArtifacts.png">
+<img width="650" height="428" border="0" alt="Three Artifacts in the Class Diagram Editor" src="images/exampleDiagram2-AddThreeArtifacts.png">
+-->
+<a name="figure 1"></a><img border="0" alt="Three Artifacts in the Class Diagram Editor" src="images/exampleDiagram2-AddThreeArtifacts.png">
+</blockquote>
+<h2>Editing Artifact Properties</h2>
+<blockquote>
+<p>There are three ways to edit the features of an <strong>Artifact</strong> in <b>Tigerstripe Workbench</b></p>
+<ul>
+	<li>You can edit the features of each of the <b>Artifacts</b> directly in the <b>Class Diagram Editor</b>. This is referred to as<i> direct-editing</i> of a feature (or as a <i>direct-edit</i>).</li>
+    <li>You can edit the <b>Artifact</b> features in the <b>Properties</b> tab.</li>
+    <li>You can also edit the <b>Artifact</b> features in the multi-page editor that is available for the <b>Artifact</b> through the <b>Tigerstripe Explorer</b></li>
+</ul>
+</blockquote>
+<h2>Direct Editing</h2>
+<blockquote><p>When <i>direct-editing</i> an <b>Artifact</b> feature, you edit the feature directly in the <b>Class Diagram Editor</b>. Complete the following procedure to <i>direct-edit</i> an <b>Artifact</b> feature.
+</blockquote>
+<h3>To direct-edit an Artifact</h3>
+<ol>
+   <li>Select your <b>Artifact</b> by clicking it.</li>
+   <li>Click on your <b>Artifact</b> feature again. The editor for that feature will open and you will be ready to perform your <i>direct-edit</i> of that feature.</li>
+</ol>
+<blockquote><p>When editing a feature, there are a number of rules that should be considered:</p>
+</blockquote>
+<ul>
+	<li>Names of <b>Artifacts</b> begin with uppercase letters.  The underscore character (&quot;_&quot;) and lowercase letters are also supported as initial characters for names since they are used in some models.  Uppercase letters are, however, more typically used for names of <b>Artifacts</b> and names beginning with uppercase letters are recommended for new models.<br></li>
+   <li>Names of attributes, methods, and literals (features in the <b>Artifacts</b> in our models) typically begin with a lowercase letter.</li>
+   <li>In the section on <a href="#AddingFeatures">Adding features to <b>Artifacts</b></a>, the format used to display attributes, methods, and literals is summarized.  These same formats are used when entering new values for these features.</li>
+   <li>Pressing ENTER during an edit of a feature will set the value of that feature to the value that you entered in the <i>direct-edit</i> process. If the value that you entered is not valid (eg. the format used is invalid), then the new value will be ignored and the feature value will return to it's previous value.</li>
+</ul>
+<h3>To edit an Artifact using the Properties tab</h3>
+<ol>
+   <li>Select the feature in your diagram. The properties of that feature will display in the <b>Properties</b> tab.</li>
+   <li>Click on the <b>Advanced</b> tab (if it is not displayed already), and you will be able to edit the feature directly in the form in that tab.</li>
+</ol>
+<blockquote><p>Changes made to an <b>Artifact</b> through a <i>direct-edit</i> will immediately update the information displayed in both the <b>Tigerstripe Explorer</b> and the <b>Properties</b> tab. Similarly, changes made to an <b>Artifact</b> through the <b>Properties</b> tab will immediately update the information displayed in both the <b>Tigerstripe Explorer</b> and the <b>Class Diagram Editor</b>.</p>
+</blockquote>
+<h3>To edit an Artifact in the Tigerstripe Explorer</h3>
+<ol>
+   <li>Double-click on an <b>Artifact</b> in the <b>Tigerstripe Explorer</b>. The  multi-page editor for that <b>Artifact</b> opens.</li>
+   <li>Edit to the <b>Artifact</b> in the multi-page editor and save your changes.</li>
+<p><b>Note:</b> This multi-page editor will open as an additional tab on top of any existing tabs that are already open in <b>Tigerstripe Workbench</b>. All updates to an <b>Artifact</b> from this multi-page editor will trigger an update to all diagrams that contain the selected artifact. However, these updates will only occur when you save your changes. If a diagram containing the edited <b>Artifact</b> is closed when the you save your changes, that diagram will remain synchronized with the underlying object model. Diagrams automatically update when you first open them in order to pick up any changes that might have occurred in the underlying object model while it was closed.</p></li>
+</ol>
+<blockquote><p>Once you create a few objects in your diagram, you can start filling in the details of those objects.  The following figure shows an example of some of the <b>Features</b> that you can add to <b>Artifacts</b> in your model. Each <b>Artifact</b> in your Diagram consists of one or more <b>Compartments</b>. These <b>Compartments</b> hold a specific type of <b>Feature</b>. In this example, <i>Arrow 1</i> indicates the location of the <b>Attribute Compartment</b> for a <b>Managed Entity</b> named <i>Order</i>.  <i>Arrow 2</i> indicates the location of the <b>Method Compartment</b> for that same <b>Artifact</b>.</p>
+<!--
+<img  border="0" alt="Artifact Tools" src="images/exampleDiagram3-ArtifactTools.png">
+<img width="650" height="428" border="0" alt="Artifact Tools" src="images/exampleDiagram3-ArtifactTools.png">
+ -->
+<a name="Figure2"></a><img border="0" alt="Artifact Tools" src="images/exampleDiagram3-ArtifactTools.png">
+<a name="AddingFeatures"></a>
+</blockquote>
+<h2>Adding Features to Artifacts</h2>
+<blockquote>
+<p>You can add <b>Features</b> to an <b>Artifact</b> in two ways:</p>
+<ol>
+   <li>The <b>Features Drawer</b> in the <b>Tool Palette</b>. A drawer is a collapsible window inside the <b>Tool Palette</b> that contains a set of related tools.</li>
+
+<p>In <a href="#Figure2">the above figure</a>, there are two drawers, one for the <b>Artifact</b> creation tools and one for the <b>Feature</b> creation tools.  You use the tools in the <b>Features</b> drawer exactly like you used the tools in the <b>Artifact</b> drawer. 
+<h3>To add <b>Features</b> using the Features Drawer</h3>
+<ol>
+   <li>Click on the desired tool and drag that tool over to a compartment in an <b>Artifact</b> that accepts that type of <b>Feature</b>.</li>
+   <li>Click in the compartment, and the new feature is added with an automatically generated name and a default type.</li>
+</ol>
+
+<ul>
+   <li>For <b>Attribute</b> features, the name and type for the feature is displayed as <i>name:type</i>.</li>
+   <li>For <b>Method</b> features, the name and type for the feature is displayed as <i>name(arg0Type, arg1Type, ... ):type</i>. If there are no arguments in the function, then the <b>Method</b> signature is displayed with no argument type (i.e. as <i>name():type</i>).</li>
+   <li>The <i>type</i> displayed for both <b>Attributes</b> and <b>Methods</b> is a fully-qualified name for that type unless the type is a primitive data type <!-- (HYPERLINK?)--> or a type value of <i>String</i>. String objects are considered to be an additional primitive type that is supported by the system.</li>
+   <li>The format used to display a <i>Literal</i> (or <i>Constant</i>) is <i>name=value</i>.  The <i>value</i> given in the string must be either an <i>Integer</i> or a <i>String</i> depending on the type supported by the  <b>Enumeration</b> that contains the <i>Literal</i>. If the <b>Enumeration</b> is of type <i>int</i>, then the value for the <i>Literal</i> must be an <i>Integer</i> value.  If the <i>Enumeration</i> is of type <i>String</i>, then the value entered must be a double-quote delimited <i>String</i> (&quot;value0&quot;, for example).</li>
+</ul>
+   <li>The <b> Artifact</b> toolbar is similar to the <b>Class Diagram Editor</b> toolbar and displays when you rest on the <b>Class Diagram Editor</b>.</li>
+<p>The <b>Artifact</b> toolbar is illustrated in the above <a href="#Figure2">figure</a>. The options available will change depending on the type of <b>Feature</b> supported.  In this example, a <b>Data Type</b> <b>Artifact</b> is selected, therefore both the <b>Attribute</b> creation tool and the <b>Method</b> creation tool display. Clicking on either of these tools will create an <b>Attribute</b> or a <b>Method</b> in the appropriate compartment of the selected object.  Once you create the <b>Feature</b> in the appropriate compartment, you can edit it either through <i>direct-edit</i>, the <b>Properties</b> tab, or by using the multi-page editor available through the <b>Tigerstripe Explorer</b>.</p>
+<p><b>Note:</b>Typically, a <i>direct-edit</i> or editing through the <b>Properties</b> tab is easier, although there are limitations to both features that may require that you use of the multi-page editor.</p></blockquote>
+</ol>
+</blockquote>
+<h2>Relationships</h2>
+<blockquote>
+<p>In the above <a href="#Figure2">figure</a>, <img src="images/four.gif" border="0" width="16" height="16" alt="" align="absmiddle"> highlights a control that you use when creating relationships. For more information about <b>Relationships</b>, refer to (<b><a href="addingRelationships.html" title="Adding Relationships">Adding Relationships</a></b>). For now, a brief discussion is all that is needed for the current topic.</p>
+<p>When creating <b>Relationships</b> in the <b>Class Diagram Editor</b> you will see a new type of control; the <b>Connection Handle</b>. <b>Connection Handles</b> display next to a selected <b>Artifact</b> at the same time as the <b>Artifact</b> toolbar. There are two <b>Connection Handles</b> that appear:</p>
+<ol>
+   <li>One for constructing outgoing connections.</li>
+   <li>The other for constructing incoming connections.</li>
+</ol>
+<p>We will discuss the use of these <b>Connection Handles</b> and the difference between incoming and outgoing connections, in the next section.</p>
+</blockquote>
+<h2>Limitations of the Class Diagram Editor</h2>
+<blockquote>
+<p>Because of the complexity of the underlying artifacts and features, there are a few limitations to the <i>direct-edit</i> or the <b>Properties</b> tab method of editing. These limitations are best described as follows:</p>
+<ul>
+   <li><b>Methods:</b> Only the <i>name</i> and <i>type</i> of a method can be edited directly in the <b>Class Diagram Editor</b> or by using the <b>Properties</b> tab.  If you want to change the number of arguments in a method or the type of one or more of the arguments in a method, you will need to open the artifact that contains the method in that artifact's multi-page editor and edit the method there.  Any changes made in the multi-page  editor will automatically appear in the <b>Class Diagram Editor</b> after you save those changes.</li>
+   <li><b>Enumerations:</b> The <i>type</i> of an <b>Enumeration Artifact</b> can only be changed using that <b>Artifacts</b> multi-page editor.  Changing the <i>type</i> of an <b>Enumeration</b> requires changing the <i>type</i> used for all of the values in that <b>Enumeration</b>, therefore you cannot edit the <b>Enumeration</b> <i>type</i> using the <i>direct-edit</i> or <b>Properties</b> tab.</li>
+</ul>
+</blockquote>
+<h2>Summary</h2>
+<blockquote>
+<p>We described how to create and configure <b>Artifacts</b> using the tools available in the <b>Class Diagram Editor</b>.  In the next section, (<b><a href="addingRelationships.html" title="Adding Relationships">Adding Relationships</a></b>), we'll go into more detail on how to build relationships between <b>Artifacts</b>. Defining these relationships accurately is critical to building object models, so it is important that you understand the types of relationships available and how you can define these relationships using the <b>Class Diagram Editor</b>.
+</p>
+</blockquote>
+<h4>Related Topics</h4>
+<a href="index.html">The Class Diagram Editor</a>
+<br><a href="usingDiagramEditor.html">Using the Class Diagram Editor</a>
+<br><a href="overview.html">A Class Diagram Editor Overview</a>
+<br><a href="additionalTools.html">Additional Class Diagram Editor Tools</a>
+<p><a href="addingRelationships.html"> <img src="../../images/finger.gif" width="20" height="19" align="absmiddle">Adding Relationships</a></p>
+
+<!-- InstanceEndEditable --> 
+<p class="style1"><img width="100%" height="3" src="../../images/46_58.jpg"><br> 
+&copy; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p> 
+</ol></body>
+<!-- InstanceEnd --></html>

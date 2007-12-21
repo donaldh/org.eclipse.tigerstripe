@@ -1,0 +1,4 @@
+<jelly xmlns:ant="jelly:ant">
+	<ant:echo message="Creating ${module.jar.path}"/>
+	<ant:jar destfile="${module.jar.path}" basedir="${tmp.module.path}"/>  
+</jelly>

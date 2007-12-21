@@ -1,0 +1,7 @@
+<contexts>
+	<context id="ARTIFACT_ATTRIBUTE_EDIT_HELP_ID">
+		<description>For more information on Artifact Fields, see:</description>
+		<topic label="Artifact Fields" href="src/help/html/concepts/tigerstripeartifacts/artifactfields.htm" />
+		<topic label="Defining Artifact Associations" href="src/help/html/tasks/interfaceModelingTasks/infoModelingTasks/definingAssociations.html" />
+	</context>
+</contexts>

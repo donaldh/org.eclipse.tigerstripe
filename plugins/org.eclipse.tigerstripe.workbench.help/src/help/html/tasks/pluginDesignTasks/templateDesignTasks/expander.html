@@ -1,0 +1,109 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Using an Expander</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Using an Expander</h1>
+
+<p>An <b>Expander</b> is a utility included in the <a href="velocityContextDetails.html">Default Velocity context</a> that you use to <i>explode</i> references. Uses for an <b>Expander</b> are as follows:</p>
+
+<ul>
+   <li><b>Specifying Output files</b>: In many situations, your plug-in needs model attributes to know where to place your output file based on the current <b>Artifact</b>. The default <b>Expander</b> facilitates this behaviour.</li>
+   <li><b>Abbreviated syntax</b>: Within a template, you have access to plug-in <b>Global Properties</b>, <b>Model Attributes</b>, and <b>Project Properties</b>.</li>
+</ul>
+
+<h2>Expander Variable Syntax</h2>
+<blockquote><ul>
+   <li><b><i>${project.Version}</i> and <i>${project.Name}</i></b>: This variable will replace your <b>Version</b> and <b>Name</b> properties of your current project.</li>
+   <li><b><i>${artifact.Name}, ${artifact.Package} and ${artifact.Path}</i></i></b>: This variable displays a <i>name</i>, <i>package</i>, and a <i>path-like</i> String for your package (eg <i>com/mycompany/myPackage</i>) of the current <b>Artifact</b>. This variable is only useful for <b>Artifact</b> based rules.</li>
+   <li><b><i>${ppProp.propertyName}</i></b>: This variable displays the <i>value</i> of the <b>Global Property</b> named <i>propertyName</i> in your plug-in.</li>
+   <li><b><i>${model.attributeName}</i></b>: This variable displays the <i>value</i> of the attribute named <i>attributeName</i> in your model. <b>Note:</b> The <b>Model</b> should be replaced with the name of the model set in the rule specification.</li>
+</ul></blockquote>
+
+<h2>Expander Usage</h2>
+<blockquote><p>When defining a rule, use the direct syntax. The whole filename string is automatically passed to the default <b>Expander</b>. For example, for an output file the defintion might look like the following:
+<ul>
+   <li><i>${artifact.Path}/${artifact.Name}.java</i></li>
+</ul>
+<p>Within your template, use <i>$exp.expandVar(expanderVariable)</i>, where <i>expanderVariable</i> complies with the syntax above. For example, <i>$exp.expandVar("${ppProp.xmlDirectory}")</i>.</p></blockquote>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

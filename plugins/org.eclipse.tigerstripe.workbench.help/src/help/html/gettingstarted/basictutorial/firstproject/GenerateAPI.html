@@ -1,0 +1,138 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Generating an API</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Generating the API</h1>
+
+<p>A <a href="../../../concepts/ossjspecificartifacts/sessionartifact.html">Session Facade</a> artifact represents an integration point within the defined <b>Service Contract</b>. An integration point (or <b>Service Facade Artifact</b>) models an end-point (for example, a Web Service). The first step of this tutorial is to create a simple end-point and generate a Web Service Definition (.wsdl).</p>
+<h3>To create an end-point and a Web Service Definition:</h3>
+<ol>
+   <li>On the <b>Tigerstripe</b> menu, select <b>New</b> and select <b>New Interface</b>. Alternatively, click the <b>Integration Point</b> icon (<img src="../../../images/icons/new_session.gif" width="16" height="16" align="absbottom">) on the toolbar. The <b>New Session Artifact</b> dialog box displays.</li>
+<p><img src="images/NewSessionWizard-Step1.gif" width="400" height="394"></p>
+<p><b>Note:</b> This is a multi-step dialog box however, for the purpose of this tutorial, you will only use a small portion of the dialog box to create the <b>Session Facade Artifact</b>. Please refer to <a href="../../../tasks/interfaceModelingTasks/infoModelingTasks/newEditSessionArtifacts.html">Creating/Editing Session Facade Artifacts</a> for more details about the <b>New Session Artifact</b> dialog box.</p>
+   <li>Enter the details about your new artifact and click <b>Finish</b>. The details of the newly created <b>Integration Point</b> or <b>Service Facade Artifact</b> display. In the Tigerstripe Explorer, expand the <b>src</b> folder and you will see the newly created artifact in the model as shown below:</p>
+<p align="center"><img src="images/facadeinexplorer.gif"</li>
+<p><b>Note:</b> Spaces and special characters are not allowed in an artifact name.</p>
+   <li>In your project perspective, navigate to the <b>Generation</b> tab. Under the <b>Managed Entities</b> area you should see a number of lists. Click <b>Add</b> and you will be presented with a dialog in which there will be the <b>Entity</b> that you previoulsy created.</li> 
+   <li>Select the <b>Entity</b> and click <b>OK</b>.</li>
+</ol>
+<h2>Adding a Method to your Facade Artifact</h2>
+<p>A method represents an operation available on a Service. An example of a method would be if you wanted to build a Service related to order handling, and you wanted to offer an operation on the Service to process orders.</p>
+<h3>To add a method:</h3>
+<ol>
+   <li>Open your artifact perspective.</li>
+   <li>Expand the <b>Methods</b> option and click <b>Add</b>.</li>
+   <li>Enter a name for your method.</li>
+   <li>Add a method argument by clicking <b>Add</b> next to the <b>Method Argument</b> section.</li>
+   <li>Click <b>Save</b> to save your changes.</li>
+</ol>
+<p>For the purposes of this tutorial, consider the example of a <b>Service Contract</b> that is required to support the transfer of information about a customers trouble report. The report will have some attributes such as customer details, type of problem, and status. The customer trouble report will be modeled as a <a href="../../../concepts/ossjspecificartifacts/managedentityartifact.html">Managed Entity Artifact</a>, which will have attributes to support these different types of information.</p>
+<p>We have not yet defined any any <a href="../../../concepts/ossjspecificartifacts/notificationartifact.html">Notifications</a>, <a href="../../../concepts/ossjspecificartifacts/queryartifact.html">Queries</a>, or <a href="../../../concepts/ossjspecificartifacts/updateProcedureArtifact.html">Update Procedures</a>, so at this point you can ignore those lists (and the warnings that appear saying that the interface has no declared Notifications etc).</p>
+<p align="center"><img src="images/SessionInEditor-OSSJTab.gif" width="750" height="469"></p>
+<p>Once you save your project, you can review all of the artifacts in the <b>Tigerstripe Explorer</b>. You may want to ensure that you have no errors in the <b>Problems</b> view.</p>
+<p><b>Note:</b> In this example, there will be warnings associated with the Interface because this example is not completely realistic.</p>
+<h2>Generating a Service Contract </h2>
+<p>In <b>Tigerstripe Workbench</b>, project generation is handled through <b>Tigerstripe</b> plug-ins. Although advanced users can create their own plug-ins, by default <b>Tigerstripe Workbench</b> ships with three basic plug-ins:</p>
+<ul>
+   <li>A Java profile plug-in. Allows you to generate a Java-specific definition for your <b>Service Contract Model</b>.</li>
+   <li>A JMS/XML profile plug-in. Allows you to generate a series of XML Schemas that define a message-based implementation for your <b>Service Contract Model</b>.</li>
+   <li>A WSDL profile plug-in. Allows you to generate a Web Service definition (.wsdl) for your <b>Service Contract Model</b>.</li>
+</ul>
+<p>Before you can generate your <b>Service Contract</b>, you need to select the target <a href="../../../concepts/generatedcontent/generatedspecifications.html">Integration Profiles </a>. For this example, select the <i>J2EE</i> and <i>XML</i> profiles.</p>
+<h3>To generate a service contract:</h3>
+<ol>
+   <li>Double click the <a href="../../../concepts/tigerstripeprojects/projectdescriptor.html">project descriptor</a> (<i>tigerstripe.xml)</i> from the <a href="../../tigerstripeperspective/tigerstripeexplorer.html"><b>Tigerstripe Explorer</b></a>. This opens your <b>Tigerstripe</b> project perspective.</li>
+   <li>Navigate to the <b>Generation</b> tab and enable both the <i>J2EE Integration Profile</i> and the <i>JMS/XML Integration Profile</i>, by selecting <b>Enable</b> in both sections.</li>
+<p align="center"><img src="images/profileSelection.gif" width="750" height="469"></p>
+   <li>Click <b>Save</b> to save your changes.</li>
+   <li>Click the <b>Generate</b> icon (<img src="../../../images/icons/run_tigerstripe.gif" width="16" height="16" align="absbottom">) on the toolbar. The <b>Generate Tigerstripe Project</b> dialog box displays.</li>
+   <li>Accept the default <b>Source Folder</b> or click <b>Browse</b> to navigate to a new location and click <b>Finish</b>.</li>
+</ol>
+<p align="center"><img src="images/generateWizard.gif" width="350" height="315"></p>
+<p>The <b>Service Contract</b> specification has now been generated. The corresponding files have been generated in a newly created <i>target</i> folder in the <b>Tigerstripe Explorer</b>. You can review the generated code by double-clicking on the corresponding files.</p>
+<p align="center"><img src="images/explorerWithTarget.gif" width="370" height="495"></p>
+<h4>Related Topics</h4>
+<p><a href="../../basictutorial/index.html">Tutorial Overview</a>
+<br><a href="index.html">Creating a New Project</a>
+<br><a href="addingArtifacts.html">Adding ArtifactsI</a>
+<br><a href="nextSteps.html">Common Procedures</a>
+</p>
+<p><img src="../../../images/finger.gif" width="20" height="19" align="absmiddle">The <a href="nextSteps.html">next section</a> describes some of these common procedures.</p>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

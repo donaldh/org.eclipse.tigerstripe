@@ -1,0 +1,133 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>XML Export</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>XML Export Plug-in</h1>
+
+<h2>Downloading the XML Export Plug-in</h2>
+<blockquote><p>In order to download the XML Export plug-in, you must first import the archive files in Eclipse. Complete the following procedure to import the plug-in and download it to your workspace.</p>
+<h3>To import and download the plug-in</h3>
+<ol>
+   <li>Click <b>File</b>, select <b>Import</b>, and click <b>General</b>. The <b>Existing projects into workspace</b> wizard displays.</li>
+   <li>Switch to the <b>Tigerstripe</b> perspective.</li>
+   <li>Double-click <i>ts-plugin.xml</i> to open the plug-in project descriptor.</li>
+   <li>Click the <b>Overview</b> tab, click <b>Package and deploy this plugin</b>.</li>
+   <li>Click <b>OK</b> in the two dialog boxes that display.</li>
+</ol>
+<blockquote><p>You can now utilize the XML Export plug-in</p></blockquote></blockquote>
+
+<h2>Running the XML Export plug-in</h2>
+<blockquote>
+<ol>
+   <li>In the <b>Tigerstripe</b> project which you wish to export, locate and double-click the <i>tigerstripe.xml</i> file to open the editor.</li>
+   <li>Click the <b>Generation</b> tab.</li>
+   <li>Select <b>Full_Export(1.0.2) (disabled)</b>. The plug-in property values display allowing you to set the properties for the plug-in. For more information about plug-in properties, refer to <a href="#plugin_properties"></a></li>
+   <li>Check <b>Enable</b> to enable the plug-in</li>
+   <li>Click <b>Save</b> to save your changes.</li>
+   <li>Select the <b>Tigerstripe</b> project so that it is in focus, and click <b>Generate</b> on the toolbar to run the plug-in.</li>
+   <li>The output will appear in the target directory of the project. The output will be an XML file with the name of the project from which it was generated. <br><br><b>Note:</b> It is possible that additional files are generated.<br><br> There will be one or more schemas copied to the target directory.</li>
+</ol>
+</blockquote>
+<a name="plugin_properties"></a><h2>Plug-in Properties</h2>
+<blockquote>
+<p>An XML plug-in has the following <b>Global properties</b>.</p>
+<ul>
+    <li><b>singleFile</b>: When this property is set to <b>TRUE</b>, the export will be to a single XML file. When it is set to <b>FALSE</b>, the plug-in exports the details of each <b>Artifact</b> of the selected project to an individual XML file. </li>
+    <li><b>xmldir</b>: This is the root directory for the generated files. The default value is <b>xml</b>.</li>
+    <li><b>createXSLT</b>: When this property is set to <b>TRUE</b>, the plug-in copies XSL files to the output directory and includes references to them within the XML export files. There is one XSL file for the <i>per artifact</i> export files and one for the <i>summary</i> export file. You should only use this option when <b>singleFile</b> is set to <b>FALSE</b>.</li>
+    <li><b>IndexXSLT</b>: The name of the XSL file for the <i>summary</i> file. The path is xmldir>\xslt\<IndexXSLT> relative to the <b>Tigerstripe</b> output directory for the project. This reference is copied into the <i>summary</i> file, and an example sample XSLT is copied to the output directory indicated.</li>
+    <li><b>ArtifactXSLT</b>: The name of the XSL file for the <i>artifact</i> files. This path is xmldir>\xslt\<ArtifactXSLT> relative to the <b>Tigerstripe</b> output directory for the project. This reference is copied into each <i>artifact</i> export file, and an example sample XSLT is copied to the output directory indicated.</li>
+    <li><b>includeOSSJSpecifics</b>: This property controls the inclusion of OSS/J specific details into the <i>artifact</i> export files. By default, the property is set to <b>FALSE</b> so that these details are not included in the export.</li>
+</ul>
+</blockquote>
+<h2>Output Format</h2>
+<blockquote>
+<p>The XML Export plug-in can export a <b>Tigerstripe Project</b>:</p>
+<ul>
+    <li><b>As a single XML file</b>: The plug-in exports all artifacts of the selected project to a single XML file with the following location <i>xmldir\project_name.xml</i>. 
+    The export file conforms to the schema <b>tigerstripeOutputSchema.xsd</b>, which has a namespace of <i>http://org.eclipse.tigerstripe/xml/tigerstripeOutput/v1-0</i> and is also found in the <i>xmldir</i> directory.</li>
+    <li><b>As a summary XML file, plus multiple XML files (one per artifact)</b>: The <i>summary</i> file conforms with the schema highlighted above, but artifact references are to files each containing the details of a single artifact. These artifact files conform to the schema <b>tigerstripeArtifactOutputSchema.xsd</b>, which has a namespace: of <i>http://org.eclipse.tigerstripe/xml/tigerstripeArtifactOutput/v1-0</i> and is also found in the <i>xmldir/artifactPath</i> directory, where <i>artifactPath</i> is a path-like representation of the artifact package.</li>
+</ul>
+</blockquote>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

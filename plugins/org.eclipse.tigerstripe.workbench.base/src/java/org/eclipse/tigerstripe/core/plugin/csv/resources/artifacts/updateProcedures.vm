@@ -1,0 +1,27 @@
+#set($artifactType = "UPDATEPROCEDURE")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#foreach($updateProcedure in $updateProcedures)
+#if ($updateProcedure.hasExtends())
+$artifactType,$updateProcedure.FullyQualifiedName,$updateProcedure.Extends.FullyQualifiedName,"$updateProcedure.Comment"
+#else
+$artifactType,$updateProcedure.FullyQualifiedName,,"$updateProcedure.Comment"
+#end
+#if ($detail >=2)
+#set ($spec = $updateProcedure.IStandardSpecifics)
+$artifactType:OSSJ_SPECIFICS,$updateProcedure.FullyQualifiedName,$spec.SingleExtensionType,$spec.SessionFactoryMethods,$spec.InterfaceProperties.get("package")
+#end
+#if ($detail >0)
+#set ($object = $updateProcedure)
+#parse("$resourceDir/artifacts/Fields.vm")
+#parse("$resourceDir/artifacts/Labels.vm")
+#end
+#end

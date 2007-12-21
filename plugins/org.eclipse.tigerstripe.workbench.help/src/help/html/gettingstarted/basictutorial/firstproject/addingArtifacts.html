@@ -1,0 +1,155 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Adding Artifacts</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Adding Artifacts</h1>
+<p>Having successfully created a project, the next step is to add some artifacts.</p>
+<p>In <b>Tigerstripe Workbench</b>, a <b>Service Contract</b> is modeled through a set of <b>Model Artifacts</b> stored in the project. A palette of service artifacts is available to you to model your <b>Service Contract</b>. The <a href="../../../concepts/tigerstripeartifacts/index.html">artifacts</a> in a Tigerstripe model represent the information that is exchanged across the <b>Service Contract</b>. Because artifacts are abstracted away from the implementation details, the model is simplified compared to the details needed for the implementation.</p>
+<p>There are two main categories of <b>Model Artifacts</b>:</p>
+<ul>
+   <li><b>Information Model Artifacts</b>. Allows you to capture details about the information model relevant to your <b>Service Contract</b>.</li>
+   <li><b>Behavior Model Artifacts</b>. Allows you to specify how information is made available through the <b>Service Contract</b>. This information can range from unsolicited notifications to query mechanisms.</li>
+   </ul>
+   
+
+<h2>Creating an Enumeration Artifact</h2>
+
+<p> Before creating the <a href="../../../concepts/ossjspecificartifacts/managedentityartifact.html">Entity artifact</a>, you first must create the artifact <i>types</i> that will be referred to as attribute types. Consider a <i>status</i> attribute: This attribute will normally have a fixed set of values. For example, <b>New</b>, <b>Open</b>, or <b>Closed</b>, therefore it is ideally suited as an <a href="../../../concepts/ossjspecificartifacts/enumerationartifact.html">Enumeration Artifact</a>. </p>
+<h3>To create an Enumeration Artifact</h3>
+<ol>
+   <li>Select your Tigerstripe project in the <b>Tigerstripe Explorer</b></li>
+   <li>Select <b>Tigerstripe</b> and click <b>New</b> to open the <b>New Enumeration Wizard</b>. Alternatively, you can select the <b>Enumeration</b> (<img src="../../../images/icons/new_enum.gif" width="16" height="16" align="absbottom">)option on the toolbar. The <b>New Enumeration Artifact</b> dialog box appears.</li>
+<p align="center"><img src="images/EnumerationWizard.gif" width="456" height="450"> </p>
+   <li>Enter a name for your <b>Enumeration Artifact</b>. For this example, name your artifact <b>Status</b>.
+<br><b>Note:</b> The name should start with an uppercase letter.</li>
+   <li>Click <b>Finish</b> and the <b>Enumeration Artifact</b> will be added to the <b>Tigerstripe Explorer</b> and an editor will open on the right-hand side of the perspective.</li>
+<p>This editor is of the same basic layout as your project and all other artifacts. There are two important  tabbed panes:</p>
+<ul>
+  <li><b>Overview</b>, which opens by default</li>
+  <li><b>Details</b>, which contains OSS/J Specific configuration parameters.</li>
+</ul><br>
+   <li>Click the <b>Details</b> tab, there is a field named <b>Base Type</b>. This field should have a value of <b>int</b>. This indicates that all of the Enumeration values will be exchanged as integers. </li>
+   <li>Click the <b>Overview</b> tab, and click the <b>Constants</b> link. The heading bar will display a new section where you can review and edit the allowed values for this enumeration.</li>
+   <li>Click <b>Add</b> to add a new field. A new field named <i>aLabel0</i> is automatically created. You can edit the various fields. Set the name as <b>New</b> and set the value to <b>1</b>.</li>
+   <li>Repeat the previous step to add other values to represent the <b>Open</b> and <b>Closed</b> artifacts. Make sure to use a different integer value for each enumeration.</li>
+   <li>Click <b>Save</b> to save your changes.</li>
+   <p>At this point you can close the editor, however, you can re-open it at any time by double-clicking on the relevant icon in the <b>Tigerstripe Explorer</b>.</p>
+</ol>
+<p align="center"><img src="images/EnumInEditor.gif" width="700" height="438"></p>
+<h2>Creating a Datatype Artifact</h2>
+<p>In addition to Enumerations you can create <a href="../../../concepts/ossjspecificartifacts/datatypeartifact.html">Datatype Artifacts</a> to represent common types of data. In this example, it is reasonable to assume that customer details will have a reusable set of attributes such as <b>Name</b>, <b>Address</b>, and <b>Phone Number</b>. </p>
+<h3>To create a Datatype Artifact:</h3>
+<ol>
+   <li>Opening the <b>New Datatype Artifact</b> using the <b>Datatype</b> (<img src="../../../images/icons/new_datatype.gif" width="16" height="16" align="absbottom">) option on the toolbar.</li>
+   <li>Name your <b>Datatype Artifact</b> <i>customerDetails</i>.</li>
+   <li>Add an <b>Attribute</b> by clicking the <b>Attributes</b> link. Navigate to the <b>Attributes</b> area of the editor and name this <b>Attribute</b>, <i>name</i>. Create this attribute as a string.</li>
+   <li>Add another <b>Attribute</b> named <i>address</i>. Create this attribute as a string.</li>
+   <li>Add another <b>Attribute</b> named <i>phoneNumber</i>. Create this attribute as a string.</li>
+   <li>Click <b>Save</b> to save your changes.</li>
+</ol>
+<p align="center"><img src="images/DatatypeInEnum.gif" width="700" height="438"></p>
+<h2>The Managed Entity</h2>
+
+<p>The final part of this simple model is the creation of a <a href="../../../concepts/ossjspecificartifacts/managedentityartifact.html">Managed Entity</a>. This Entity is what the Service Contract is all about. </p>
+<p>Create an <a href="../../../concepts/ossjspecificartifacts/managedentityartifact.html">Entity artifact</a> in the same way as you did for the <b>Enumeration Artifact</b> and the <b>Datatype Artifact</b>. To create a <b>Managed Entity</b> select the <b>Managed Entity</b> (<img src="../../../images/icons/new_entity.gif" width="16" height="16" align="absbottom">) option on the toolbar. Name the entity <i>CustomerTrouble</i>.</p>
+<p>The editor for an <b>Entity Artifact</b> is very similar to that of the <b>Datatype Artifact</b>. Open the section related to Attributes, and add an attribute and name the attribute <i>customer</i>. This time, click <b>Browse</b> to select the attribute type. The <b>Attribute Class Selection</b> dialog box opens that shows a list of entries that match the string in the <b>Select a Classname</b> text box.</p>
+<p align="center"><img src="images/browseDialog.gif" width="376" height="337"></p>
+<p> In that <b>Select a Classname</b> text box, replace the default value with the name of the <b>Datatype Artifact</b> that you previously created (&quot;CustomerDetails&quot;). As you type, the list should filter down until you can see what you need. Select the correct entry from the list (make sure that it is the only one within your project), and click <b>OK</b>. You now have an attribute whose type you have previously defined. In the same manner, add a new attribute named <i>status</i>. <b>Browse</b> the artifact types and select the <b>Enumeration Artifact</b> that you previously created.</p>
+<p align="center"><img src="images/ManagedEntityInEditor.gif" width="700" height="438"></p>
+<p>You can continue to add attributes of your user-defined types, or of any standard Java type, until your model is complete.</p>
+<h4>Related Topics</h4>
+<p><a href="../../basictutorial/index.html">Tutorial Overview</a>
+<br><a href="index.html">Creating a New Project</a>
+<br><a href="GenerateAPI.html">Generating the API</a>
+<br><a href="nextSteps.html">Common Procedures</a>
+</p>
+<p><img src="../../../images/finger.gif" width="20" height="19" align="absmiddle">Once the model is complete, the final step is to <a href="GenerateAPI.html">Generate the API</a> specification</p>.
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

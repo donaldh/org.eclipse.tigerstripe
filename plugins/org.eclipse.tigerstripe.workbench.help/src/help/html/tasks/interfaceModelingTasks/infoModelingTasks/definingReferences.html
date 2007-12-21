@@ -1,0 +1,102 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>References within Tigerstripe models</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>References within Tigerstripe models</h1>
+<p>References within Tigerstripe models are defined in a specific fashion to facilitate and simplify implementation. </p>
+<p>References are explicitly realized through Artifact Attributes: to model a reference, an attribute of Type B is to be defined in Type A. The multiplicity of that attribute will condition the reference. </p>
+<p>Not all references, across any type of Artifacts are allowed in Tigerstripe, so they can be implemented:</p>
+<ul>
+  <li><strong>the &quot;A end&quot; of a reference </strong>can be of any of the following artifact types: Entity, Datatype, Notification, Query, Update Procedure.</li>
+  <li><strong>the &quot;Z end&quot; of a reference </strong>can only be of type Entity or Datatype.</li>
+</ul>
+<p> In case the &quot;Z end&quot; of a reference is an Entity Artifact Type, it can be further specified with the following modifiers:</p>
+<ul>
+  <li><strong>Refby Value</strong>: defining containment, ie. in the generated implementation the full copy of the target instance will be copied. For example, in the XML profile an XML element will be contained, and will include all non-optional values of that Entity Type. </li>
+  <li><strong>Refby Key:</strong> simple reference, ie. in the generated implementation only a reference (explicitly using the key of the target entity instance) will be copied. For example, in the XML profile, the XML element corresponding to the key of the target instance is used only. </li>
+  <li><strong>Refby KeyResult</strong>: a simple reference as above, augmented with additional fields to carry success/failure information. This is usually used in conjunction with a method result. </li>
+</ul>
+<p>These modified are accessible on every attribute definition, on the return type of methods and on the type of method arguments.</p>
+<p>For information on inheritance within Tigerstripe models, please refer to <a href="extendingArtifacts.html">this section</a>. </p>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

@@ -1,0 +1,122 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Creating a New Tigerstripe Project</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Creating a New Tigerstripe Project</h1>
+<p><b>Tigerstripe</b> projects contain the details of a <b>Service Contract Model</b>. More specifically, they contain the following:</p>
+<ul>
+   <li>A set of <b>Model Artifacts</b> that define an <b>Information Model</b> and the <b>Behavior Model</b> used in a <b>Service Contract</b>.</li>
+   <li>A project descriptor (<i>tigerstripe.xml</i>), used to store additional properties about the project. Such properties can include the project version, description, but can also include properties that are used when generating code.</li>
+   <li>A set of diagrams providing a graphical representation of the <b>Service Contract</b>.</li>
+</ul>
+<p>The first step in creating a <b>Service Contract</b> is to create a <b>Tigerstripe</b> project to host the model for your <b>Service Contract</b>, and the configuration parameters for your project.</p>
+<h2>The New Tigerstripe Project Wizard</h2>
+<blockquote><p>Creating a new <b>Tigerstripe Project</b> is accomplished through the <b>New Tigerstripe Project</b> dialog box. You access this dialog box through the <b>Project</b> icon (<span class="style2"><span class="style3"><img src="../../images/icons/new_project.gif">) on the toolbar.</p>
+<p><b>Note:</b> You must have the <a href="../../gettingstarted/tigerstripeperspective/index.html"><b>Tigerstripe Perspective</b></a> active for the <b>Project</b> icon to appear.</p>
+<p>The following image is a example of the <b>New Tigerstripe Project</b> dialog box:</p>
+<p align="center" class="style2"><img src="../../images/projectWizard.gif"></p>
+<p>You must provide the following information to successfully create a new <a href="../../concepts/tigerstripeprojects/index.html"><b>Tigerstripe Project</b></a>:</p>
+<ul>
+  <li><strong>A Valid Project Name</strong>: This name cannot include any special characters and cannot be used in another Eclipse workspace. The <b>New Tigerstripe Project</b> dialog box will not accept an invalid name.</li>
+  <li><strong> A default package</strong> for all newly created Artifacts: This package will be the default package that is used when you create new <b>Artifacts</b> in your project.</li>
+</ul>
+<p>For complete instructions to create a new <b>Tigerstripe</b> project, refer to <a href="../../gettingstarted/basictutorial/firstproject/index.html">Creating a New Tigerstripe Project</a>.
+<p>The corresponding newly created project will appear in the <a href="../../gettingstarted/tigerstripeperspective/tigerstripeexplorer.html">Tigerstripe Explorer</a>, and the <a href="../../concepts/tigerstripeprojects/projectdescriptor.html">Project Descriptor</a> will automatically open automatically in the main editor window. </p></blockquote>
+<h2>Location of your Tigerstripe Project</h2>
+<blockquote><p>By default, your project is created within the directory previously identified as the location of the workspace by Eclipse. The name of your project will be used as the target directory within the workspace directory.</p>
+<p>Alternatively, you can create your project outside of the current workspace, at any arbitrary location by selecting the <b>Create Project at external location</b> option on the <b>New Tigerstripe Project</b> dialog box. When you select this option, you must provide a valid <i>absolute</i> path to the directory where your new project is to be create.</p></blockquote>
+<h2>Working with a newly created project </h2>
+<blockquote><p>Upon successful creation of a <b>Tigerstripe Project</b>, the <a href="../../concepts/tigerstripeprojects/projectdescriptor.html"><b>Project Descriptor</b></a> is automatically opens  in the main editor window. The following list additional information that you can provide in the <b>Project Descriptor</b>:</p>
+<ul>
+  <li><strong>Project Name</strong>: This is the full name of your current project. As opposed to the name used to identify the project within Eclipse, the full name can contain any character.</li>
+  <li><strong>Project Version</strong>: This field is intended to contain the version number for your project. This version number will appear when your project is either exported to a <b>Tigerstripe</b> Module or published to a website.</li>
+  <li><strong>Project Description</strong>: This field allows you to further describe your project. This description can include any documentation (including HTML) and will be passed to the website created when you publish your project.</li>
+</ul>
+
+<h4>Related Topics</h4>
+<a href="../generationTasks/index.html">Configuring the generated integration profiles</a>
+<br><a href="../importExportTasks/projectImportExport/workingWithModules.html">Configuring the dependencies</a>
+<br><a href="../customizationTasks/index.html">Customizing the generated code and website</a>
+</blockquote>
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

@@ -1,0 +1,28 @@
+#set($artifactType = "DATATYPE")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#foreach($datatype in $datatypes)
+#if ($datatype.hasExtends())
+$artifactType,$datatype.FullyQualifiedName,$datatype.Extends.FullyQualifiedName,"$datatype.Comment"
+#else
+$artifactType,$datatype.FullyQualifiedName,,"$datatype.Comment"
+#end
+#if($detail >=2)
+#set ($spec = $datatype.IStandardSpecifics)
+$artifactType:OSSJ_SPECIFICS,$datatype.FullyQualifiedName,$spec.SingleExtensionType,$spec.SessionFactoryMethods,$spec.InterfaceProperties.get("package")
+#end
+#set ($object = $datatype)
+#if ($detail > 0)
+#parse("$resourceDir/artifacts/Fields.vm")
+#parse("$resourceDir/artifacts/Labels.vm")
+#parse("$resourceDir/artifacts/Methods.vm")
+#end
+#end

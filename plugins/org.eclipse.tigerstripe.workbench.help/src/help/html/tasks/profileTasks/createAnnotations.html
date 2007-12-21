@@ -1,0 +1,141 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>The Annotation Tab</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>The Annotation Tab</h1>
+<p>Annotations are a way to extend the <b>Tigerstripe model</b> in a controlled manner. When an annotation (sometimes referred to as a <b>Stereotype</b>) is applied to a model element such as a method, you can specify values for each attribute of that annotation. This information can then be used in a plug-in to add information to the output, or to influence the behavior of the model.</p>
+<h2>Adding Annotations: Changing Project Behavior</h2>
+<blockquote><P>As your <STRONG>Tigerstripe</STRONG> projects (or models) start to expand, you may want to specify profile specific annotations. This may be useful if you want to call a specific behavior upon project generation. <!--For detailed information about <STRONG>Tigerstripe Annotations</STRONG>, refer to <A title="Advanced Annotations for Tigerstripe Models" href="http://www.tigerstripedev.net/help/tutorial/advanced-annotations-for-tigerstripe-models" target=_self>Advanced Annotations for Tigerstripe Models</A>.--> Complete the following procedure to add an annotation.</P>
+<P><IMG src="images/AnnotationTab.gif"></P>
+<h3>To add a Profile Annotation:</h3>
+<OL>
+   <LI>Click the <STRONG>Annotations</STRONG> tab in your <STRONG>Project Profile Perspective</STRONG>.</LI>
+  <LI>Click <STRONG>Add</STRONG>.
+  <p><IMG  src="images/AddAnnotation.gif"></p></LI>
+   <LI><a href="#Name">Name</a> your annotation, assign a <a href="#Version">version number</a>, and enter a short <a href="#Description">description</a>.</LI>
+   <LI>Select the <a href="#Scope">scope</a> for your annotation. This determines whether your annotation is available with the listed <STRONG>Artifact</STRONG> types.</LI>
+   <LI>In the appropriate sections, enter <a href="#Attributes">Attributes </a>for your annotation and <STRONG>Required Annotations </STRONG>or <STRONG>Excluded Annotations</STRONG>, if any.</LI>
+   <LI>Save your <STRONG>Project Profile</STRONG>.</LI>
+</OL>
+<P>Before your changes become available with your <STRONG>Tigerstripe</STRONG> project, you must deploy your <STRONG>Tigerstripe Profile</STRONG>. For more information about deploying your <STRONG>Tigerstripe Profile</STRONG>, refer to <A  href="deploying_profiles.html">Deploying your Profile</A>.</P>
+<p>Each annotation has the following properties:</p>
+ <ul>
+   <a name="Name"></a><li> <b>Name</b>: The name of the annotation. This the name presented when using the annotation in your model.</li>
+   <a name="Version"></a><li> <b>Version</b>: The version number of the annotation, for maintenance purposes. </li>
+   <a name="Description"></a><li> <b>Description</b>: A short description of the meaning of the annotation. The description is used for ToolTips when using the annotation.</li>
+   <a name="Scope"></a><li> <b>Scope</b>: The <b>scope</b> of the annotation. The scope outlines any special conditions for use of the annotation in the model. You can specify multiple scopes for the same annotations. Possible values are:
+      <ul>
+         <li><b>Method</b>: The annotation can be used on any method on any artifact in the project.</li>
+         <a name="Attributes"></a><li><b>Attribute</b>: The annotation can be used on any attribute on any artifact in the project.</li>
+         <li><b>Label</b>: The annotation can be used on any label on any artifact in the project.</li>
+         <li>Zero or more <b>Artifact Types</b>: The annotation can be used on any artifact of the types checked in the project.</li>
+         <p><b>Note</b>: The different scopes are not "additive", meaning you can not use an annotation on a method. It is only necessary to have the <b>Method</b> scope set, irrespective of whether the artifact <b>Type</b> is included in the scope for the annotation.</li>
+      </ul>
+   </li>
+   </p>
+   <li> <b>Attributes</b>: For each annotation, optional attributes can be defined so the end-user can further specify the details of that annotation. Click <b>Add</b>, next to the list of attributes, to add a new attribute using the <b>Annotation Attribute Edit</b> dialog box. Each attribute has the following properties:
+      <ul>
+         <li><b>Name</b>: The name of the attribute. This is the name presented when using the annotation in the model.</li>
+         <li><b>Description</b>: A short description of the meaning of the attribute.</li>
+         <li><b>Is Array</b>: A check box that indicate if the attribute is an <b>array</b>. This option is only valid for <b>String</b> attributes. When you check this option, you can enter an array of values for a single attribute.</li>
+         <li><b>Attribute Type</b>: Each attribute is one of three types, and you should define a default type for each attribute. The attribute type is used when you first apply an annotation.</li>
+            <ul>
+               <li><b>String Entry</b>: Attributes of this type can store a <b>String</b> (or an array of Strings) as their value.</li>
+               <li><b>Checkable</b>: Attributes of this type can have a value of True or False. The default should be set using the drop-down list box.</li>
+               <li><b>List-entry</b>: Attributes of this type can have a <b>String</b> value, but the range of values is restricted to the entities defined. One entry must be specified as the default value.</li>
+            </ul>
+         </li>
+      </ul>
+   </li>
+ </ul>
+
+<p>For more information about how to use annotations in a model, refer to <b><a href="../interfaceModelingTasks/infoModelingTasks/usingAnnotations.html">Using Annotations</a></b>.</blockquote>
+<h4>Related Topics</h4>
+<p><a href="generalSettings.html">Profile Perspectives</a>
+<br><a href="general_tab.html">The General Tab</a>
+<!-- <br><a href="createAnnotations.html">The Annotation Tab</a>-->
+<br><a href="createPrimitiveTypes.html">The Primitive-Type Tab</a>
+<br><a href="selectArtifacts.html">The Artifacts Tab</a>
+<br><a href="deploying_profiles.html">Deploying your Profile</a>
+<br><a href="project_profiles.html">Project Profiles</a>
+<br><a href="rolling_back.html">Rolling Back</a>
+<br><a href="factory_defaults.html">Loading Factory Defaults</a>
+</p>
+<p><a href="createPrimitiveTypes.html"> <img src="../../images/finger.gif" width="20" height="19" align="absmiddle">&nbsp;The Primitive-Type Tab</a></p>
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

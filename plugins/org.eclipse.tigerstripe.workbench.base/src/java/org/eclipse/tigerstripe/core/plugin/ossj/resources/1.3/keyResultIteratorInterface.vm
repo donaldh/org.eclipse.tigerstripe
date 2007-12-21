@@ -1,0 +1,44 @@
+#if ($ossjUtil.interfaceOf($artifact.FullyQualifiedName).Generate)
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#set ($resourceDir = "org/eclipse/tigerstripe/core/plugin/ossj/resources/1.3")
+#parse("$resourceDir/JVTFileHeader.vm")
+
+/**
+ * Key Result Iterator Interface for $artifact.Name.
+ *
+ *  A Value Iterator is used as a way for a client application to
+ *  flow-control the return of queries where a potentially large number
+ *  of value-objects may be returned.
+ */
+#if ($artifact.hasExtends())
+#set ($extends = "$ossjUtil.keyResultIteratorInterfaceOf($artifact.Extends.FullyQualifiedName).FullyQualifiedName")
+#else
+#set ($extends = "javax.oss.ManagedEntityKeyResultIterator")
+#end
+#if ($extends != "${model.package}.${model.Name}")
+public interface $model.Name
+        extends $extends {
+#else 
+public interface $model.Name {
+#end
+/**
+ *  Retrieve the next available values.
+ *
+ * @param howMany maximum number of values to return.
+ * @return an array of $ossjUtil.keyResultInterfaceOf($artifact.FullyQualifiedName).Name with a size of at most howMany.
+ * When no more values are available, an empty array is returned.
+ * @throws java.rmi.RemoteException - indicates the implementatiosn has internal errors
+ */
+    public $ossjUtil.keyResultInterfaceOf($artifact.FullyQualifiedName).FullyQualifiedName[] getNext$ossjUtil.keyResultInterfaceOf($artifact.FullyQualifiedName).getName()s(int howMany)
+        throws java.rmi.RemoteException;
+}
+#end

@@ -1,0 +1,6 @@
+<!-- Copy the stylesheets that will be used in the published site -->
+<jelly xmlns:ant="jelly:ant">
+  <ant:copy todir="${toDir}" overwrite="true">
+  	<ant:fileset dir="${srcDir}" includes="${includes}"/>
+  </ant:copy>
+</jelly>

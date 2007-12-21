@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmftool:ToolRegistry xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gmftool="http://www.eclipse.org/gmf/2005/ToolDefinition">
+  <palette
+      title="">
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Artifacts"
+        description="Tigerstripe Artifact Palette"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Managed Entity"
+          description="Create new Managed Entity">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_entity.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_entity-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Datatype"
+          description="Create new Datatype">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_datatype.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_datatype-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Enumeration"
+          description="Create new Enumeration">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_enum.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_enum-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Notification"
+          description="Create new Notification">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_notification.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_notification-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Named Query"
+          description="Create new Named Query">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_query.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_query-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Update Procedure"
+          description="Create new Update Procedure">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_updateProc.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_updateProc-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Exception"
+          description="Create new Exception">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_exception.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_exception-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Session Facade"
+          description="Create new Session Facade">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_session.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/new_session-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Features"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Attribute"
+          description="Create new Attribute">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/field_private_obj-small.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/field_private_obj-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Method"
+          description="Create new Method">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/methpub_obj-small.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/methpub_obj-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Literal"
+          description="Create new Literal">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/literal-small.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/literal-large.gif"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+    </tools>
+    <tools
+        xsi:type="gmftool:ToolGroup"
+        title="Connections"
+        collapsible="true">
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Extends"
+          description="Create Extends Relationship">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/ExtendsIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/ExtendsIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Association"
+          description="Create Association Relationship">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/AssociationIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/AssociationIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Dependency"
+          description="Create a new dependency relationship">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/AssociationIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/AssociationIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Reference"
+          description="Create a new referency relationship">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/AssociationIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/AssociationIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Association Class"
+          description="Create new Association Class">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/AssocClassLinkIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/AssocClassLinkIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Association Class Class"
+          description="Create a new class contained within and AssociationClass">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/AssocClassLinkIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/AssocClassLinkIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Association Class Connection"
+          description="Create a new Association Class Connection"/>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Manages"
+          description="Designate Managed Entities">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/RelationshipIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/RelationshipIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Emits"
+          description="Designate Emitted Notifications">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/RelationshipIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/RelationshipIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Supports"
+          description="Designate Supported Queries">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/RelationshipIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/RelationshipIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Exposes"
+          description="Designate Exposed Procedures">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/RelationshipIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/RelationshipIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Returns"
+          description="Specify Query Return">
+        <smallIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/RelationshipIcon-small.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+        <largeIcon
+            xsi:type="gmftool:BundleImage"
+            path="/icons/RelationshipIcon-large.png"
+            bundle="org.eclipse.tigerstripe.workbench.ui.resources"/>
+      </tools>
+      <tools
+          xsi:type="gmftool:CreationTool"
+          title="Implements"
+          description="Creates an Implements relationship">
+        <smallIcon
+            xsi:type="gmftool:DefaultImage"/>
+        <largeIcon
+            xsi:type="gmftool:DefaultImage"/>
+      </tools>
+    </tools>
+  </palette>
+</gmftool:ToolRegistry>

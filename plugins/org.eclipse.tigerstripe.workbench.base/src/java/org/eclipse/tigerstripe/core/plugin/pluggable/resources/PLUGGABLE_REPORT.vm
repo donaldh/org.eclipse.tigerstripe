@@ -1,0 +1,23 @@
+#set ($localDir = "org/eclipse/tigerstripe/core/plugin/pluggable/resources")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#parse ("$resourceDir/PluginHeader.vm")
+#if (!$report.GeneratedFiles.isEmpty()))
+#parse ("$resourceDir/PluginGenFiles.vm")
+#end
+#if (!$report.ChildReports.isEmpty())
+	        <childReports>
+#foreach ($child in $report.ChildReports)
+#parse("$child.Template")
+#end
+            </childReports>
+#end
+#parse ("$resourceDir/PluginFooter.vm")

@@ -1,0 +1,130 @@
+#if( $entity.getCreateFlavorDetailsStr("simple").Flag == "true" || $entity.getCreateFlavorDetailsStr("simple").Flag == "optional")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#set ($optional = ($entity.getCreateFlavorDetailsStr("simple").Flag == "optional"))
+#set ($user = $entity.getCreateFlavorDetailsStr("simple").Exceptions)
+#set ($default = $entity.getDefaultCreateFlavorDetailsStr("simple").Exceptions)
+    /**
+    *    This is the create$util.capitalize(${entity.getName()})ByValue method.
+    *
+    $ossjUtil.formatComment($entity.getCreateFlavorDetailsStr("simple").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+    *    @return $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName
+    *
+#exComm ( $optional $user $default )    */
+    public $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName create$util.capitalize(${entity.getName()})ByValue(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCreateFlavorDetailsStr("bulkAtomic").Flag == "true" || $entity.getCreateFlavorDetailsStr("bulkAtomic").Flag == "optional")
+#set ($optional = ($entity.getCreateFlavorDetailsStr("bulkAtomic").Flag == "optional"))
+#set ($user = $entity.getCreateFlavorDetailsStr("bulkAtomic").Exceptions)
+#set ($default = $entity.getDefaultCreateFlavorDetailsStr("bulkAtomic").Exceptions)
+    /**
+    *    This is the create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues method.
+    *
+    $ossjUtil.formatComment($entity.getCreateFlavorDetailsStr("bulkAtomic").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+    *    @return $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[]
+    *
+#exComm ( $optional $user $default )    */
+    public $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCreateFlavorDetailsStr("bulkAtomicByKeys").Flag == "true" || $entity.getCreateFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional")
+#set ($optional = ($entity.getCreateFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional"))
+#set ($user = $entity.getCreateFlavorDetailsStr("bulkAtomicByKeys").Exceptions)
+#set ($default = $entity.getDefaultCreateFlavorDetailsStr("bulkAtomicByKeys").Exceptions)
+    /**
+    *    This is the create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys method.
+    *
+    $ossjUtil.formatComment($entity.getCreateFlavorDetailsStr("bulkAtomicByKeys").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+    *    @return $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[]
+    *
+#exComm ( $optional $user $default )    */
+    public $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys(
+        $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+        , $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCreateFlavorDetailsStr("bulkBestEffort").Flag == "true" || $entity.getCreateFlavorDetailsStr("bulkBestEffort").Flag == "optional")
+#set ($optional = ($entity.getCreateFlavorDetailsStr("bulkBestEffort").Flag == "optional"))
+#set ($user = $entity.getCreateFlavorDetailsStr("bulkBestEffort").Exceptions)
+#set ($default = $entity.getDefaultCreateFlavorDetailsStr("bulkBestEffort").Exceptions)
+    /**
+    *    This is the tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues method.
+    *
+    $ossjUtil.formatComment($entity.getCreateFlavorDetailsStr("bulkBestEffort").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+    *    @return ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[]
+    *
+#exComm ( $optional $user $default )    */
+    public ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[] tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCreateFlavorDetailsStr("bulkBestEffortByKeys").Flag == "true" || $entity.getCreateFlavorDetailsStr("bulkBestEffortByKeys").Flag == "optional")
+#set ($optional = ($entity.getCreateFlavorDetailsStr("bulkBestEffortByKeys").Flag == "optional"))
+#set ($user = $entity.getCreateFlavorDetailsStr("bulkBestEffortByKeys").Exceptions)
+#set ($default = $entity.getDefaultCreateFlavorDetailsStr("bulkBestEffortByKeys").Exceptions)
+    /**
+    *    This is the tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys method.
+    *
+    $ossjUtil.formatComment($entity.getCreateFlavorDetailsStr("bulkBestEffortByKeys").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+    *    @return ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[]
+    *
+#exComm ( $optional $user $default )    */
+    public ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[] tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys(
+        $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+        , $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCreateFlavorDetailsStr("byAutoNaming").Flag == "true" || $entity.getCreateFlavorDetailsStr("byAutoNaming").Flag == "optional")
+#set ($optional = ($entity.getCreateFlavorDetailsStr("byAutoNaming").Flag == "optional"))
+#set ($user = $entity.getCreateFlavorDetailsStr("byAutoNaming").Exceptions)
+#set ($default = $entity.getDefaultCreateFlavorDetailsStr("byAutoNaming").Exceptions)
+    /**
+    *    This is the create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByAutoNaming method.
+    *
+    $ossjUtil.formatComment($entity.getCreateFlavorDetailsStr("byAutoNaming").Comment)
+    *
+#optComm ( $optional )
+    *    @param howMany
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+    *    @return $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[]
+    *
+#exComm ( $optional $user $default )    */
+    public $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByAutoNaming(
+        int howMany
+        , $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+
+#exList ( $optional $user $default )
+#end

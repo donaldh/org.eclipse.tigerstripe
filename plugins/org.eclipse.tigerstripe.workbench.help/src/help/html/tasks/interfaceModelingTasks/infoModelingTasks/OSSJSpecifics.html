@@ -1,0 +1,124 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Entity Implementation Specifics</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#ffffff" alink="#ff9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img height="3" src="../../../images/46_58.jpg" width="100%">
+<p></p><!-- InstanceBeginEditable name="Body" -->
+<h1>Entity Implementation Specifics</h1>
+<p>The Entity Implementation Specific details for the artifact can be specified from the <b>Details</b> tab in the <b>Tigerstripe</b> Entity editor. The following information is available in the <b>Details</b> tab:</p>
+<ul>
+  <li><strong>Interface Package</strong>: the interface package where the corresponding Java interface is  generated. This option only applies to the J2EE Integration Profile. </li>
+ 
+  <li><strong>Extensibility</strong>: the extensibility parameter is a hint on how to go about generation for all three integration profiles. The available options are the following:
+    <ul>
+      <li><em>Multi-Extendable</em>: 
+      <li><em>Single-Extendable</em>: 
+      <li><em>Non-Extendable</em>:</li>
+    </ul></li>
+  <li><strong>Primary Key Type</strong>: <b>Tigerstripe</b> generates a Java Interface to represent the entity key. This key relies on a primary key field, for which the type must be specfied. By default, <b>String</b> is used, and mapped accordingly for the XML/WSDL generation. </li>
+ 
+  <li><strong>Method Details</strong>: operations defined on Entity artifacts are mapped to methods on the facade that manages them. For each operation (include CRUD operations such as <i>Create</i>, <i>Get</i>, <i>Set</i> and <i>Remove</i>), you can select the following method profiles for generation by <b>Tigerstripe</b>.
+    <ul>
+      <li><strong>Simple</strong>: the operation in simple form (ie. directly as defined on the managed entity type) </li>
+ 
+      <li><strong>Bulk-Atomic</strong>: a bulk-atomic version of the operation, where the operation is applied to multiple instances of the managed entity type at once. The operation is atomic, that is, it either succeeds  on all instances or fails on all instances. </li>
+ 
+      <li><strong>Bulk-Best-Effort</strong>: a bulk best-effort version of the operation, where it is applied to multiple instances of the managed entity type at once. This is a best effort operation, and it will return a list containing on which entity instance the operation failed. </li>
+ 
+      <li><strong>By-Template</strong>: a bulk-atomic operation that is applied on an entity instance that matches the provided template. Attribute matching is used to determine what instance of the managed entity type this operation shall be applied to. The operation is atomic, that is, it either succeeds on all selected instances or fails on all instances. </li>
+ 
+      <li><strong>By-Templates</strong>: a variation of the <b>By-template</b> operation where multiple templates are provided for attribute matching with instances. The list of instances is determined by matching all of the given templates. </li>
+ 
+      <li><strong>By-Template-Best-Effort</strong>: a best-effort version of the <b>By-template</b> operation.</li> 
+    </ul>
+    </li>
+</ul>
+<h4>Related Topics</h4>
+<a href="newCreateEntityArtifacts.html">Creating Entity Artifacts</a>
+<br><a href="newEditEntityArtifacts.html">Editing Entity Artifacts</a>
+<br><a href="GeneralInformation.html">Entity Artifact General Information</a>
+<br><a href="entityAttributes.html">Entity Attributes</a>
+<br><a href="entityConstants.html">Entity Constants</a>
+<br><a href="entityMethods.html">Entity Methods</a>
+<br><a href="OSSJSpecifics.html">Entity Implementation Specifics</a>
+<!--<p><a href="newEditEntityArtifacts.html"> <img height="19" src="../../../images/finger.gif" width="20" align="absMiddle">&nbsp;Editing Entity Artifacts</a></p>-->
+<!-- InstanceEndEditable -->
+<p class="style1"><img height="3" src="../../../images/46_58.jpg" width="100%"><br>
+© copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

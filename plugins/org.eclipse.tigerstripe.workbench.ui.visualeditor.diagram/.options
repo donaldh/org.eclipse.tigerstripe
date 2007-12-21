@@ -1,0 +1,7 @@
+# Debugging options for the org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram plug-in
+
+# Turn on general debugging for the org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram plug-in
+org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram/debug=false
+
+# Turn on debugging of visualID processing
+org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram/debug/visualID=true

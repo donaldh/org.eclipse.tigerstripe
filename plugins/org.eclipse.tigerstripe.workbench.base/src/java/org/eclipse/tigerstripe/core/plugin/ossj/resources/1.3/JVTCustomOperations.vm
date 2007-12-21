@@ -1,0 +1,353 @@
+#parse ("$resourceDir/JVTCustomReturns.vm")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simple").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simple").Flag == "optional")
+#set ($optional = ($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simple").Flag == "optional"))
+#set ($user = $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simple").Exceptions)
+#set ($default = $entity.getDefaultCustomMethodFlavorDetailsStr("simple").Exceptions)
+    /**
+    *    This is the ${method.Name}$util.capitalize(${entity.getName()})ByValue method.
+    *
+## The "general" comment of the method
+    $ossjUtil.formatComment($method.Comment)
+    *
+    $ossjUtil.formatComment($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simple").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+#foreach($argument in $method.Arguments)
+    *    @param  ${argument.Name} - ${argument.Comment}
+#end
+    *    @return $return
+    *
+#exComm ( $optional $user $default )    */
+    public $return ${method.Name}$util.capitalize(${entity.getName()})ByValue(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+#foreach($argument in $method.Arguments)
+#if ($argument.Type.isEnum())
+        , $argument.Type.BaseType.FullyQualifiedName ${argument.Name}
+#elseif ($argument.Type.isDatatype())
+        , $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName ${argument.Name}
+#else
+        , $argument.Type.FullyQualifiedName ${argument.Name}
+#end
+#end
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simpleByKey").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simpleByKey").Flag == "optional")
+#set ($optional = ($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simpleByKey").Flag == "optional"))
+#set ($user = $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simpleByKey").Exceptions)
+#set ($default = $entity.getDefaultCustomMethodFlavorDetailsStr("simpleByKey").Exceptions)
+    /**
+    *    This is the ${method.Name}$util.capitalize(${entity.getName()})ByKey method.
+    *
+## The "general" comment of the method
+    $ossjUtil.formatComment($method.Comment)
+    *
+    $ossjUtil.formatComment($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"simpleByKey").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)
+#foreach($argument in $method.Arguments)
+    *    @param  ${argument.Name} - ${argument.Comment}
+#end
+    *    @return $return
+    *
+#exComm ( $optional $user $default )    */
+    public $return ${method.Name}$util.capitalize(${entity.getName()})ByKey(
+        $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)
+#foreach($argument in $method.Arguments)
+#if ($argument.Type.isEnum())
+        , $argument.Type.BaseType.FullyQualifiedName ${argument.Name}
+#elseif ($argument.Type.isDatatype())
+        , $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName ${argument.Name}
+#else
+        , $argument.Type.FullyQualifiedName ${argument.Name}
+#end
+#end
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomic").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomic").Flag == "optional")
+#set ($optional = ($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomic").Flag == "optional"))
+#set ($user = $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomic").Exceptions)
+#set ($default = $entity.getDefaultCustomMethodFlavorDetailsStr("bulkAtomic").Exceptions)
+    /**
+    *    This is the ${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues method.
+    *
+## The "general" comment of the method
+    $ossjUtil.formatComment($method.Comment)
+    *
+    $ossjUtil.formatComment($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomic").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+#foreach($argument in $method.Arguments)
+    *    @param  ${argument.Name} - ${argument.Comment}
+#end
+    *    @return $returnPlural
+    *
+#exComm ( $optional $user $default )    */
+    public $returnPlural ${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+#foreach($argument in $method.Arguments)
+#if ($argument.Type.isEnum())
+        , $argument.Type.BaseType.FullyQualifiedName ${argument.Name}
+#elseif ($argument.Type.isDatatype())
+        , $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName ${argument.Name}
+#else
+        , $argument.Type.FullyQualifiedName ${argument.Name}
+#end
+#end
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomicByKeys").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomicByKeys").Flag == "optional")
+#set ($optional = ($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomicByKeys").Flag == "optional"))
+#set ($user = $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomicByKeys").Exceptions)
+#set ($default = $entity.getDefaultCustomMethodFlavorDetailsStr("bulkAtomicByKeys").Exceptions)
+    /**
+    *    This is the ${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys method.
+    *
+## The "general" comment of the method
+    $ossjUtil.formatComment($method.Comment)
+    *
+    $ossjUtil.formatComment($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkAtomicByKeys").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+#foreach($argument in $method.Arguments)
+    *    @param  ${argument.Name} - ${argument.Comment}}
+#end
+    *    @return $returnPlural
+    *
+#exComm ( $optional $user $default )    */
+    public $returnPlural ${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys(
+        $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+#foreach($argument in $method.Arguments)
+#if ($argument.Type.isEnum())
+        , $argument.Type.BaseType.FullyQualifiedName ${argument.Name}
+#elseif ($argument.Type.isDatatype())
+        , $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName ${argument.Name}
+#else
+        , $argument.Type.FullyQualifiedName ${argument.Name}
+#end
+#end
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplate").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplate").Flag == "optional")
+#set ($optional = ($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplate").Flag == "optional"))
+#set ($user = $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplate").Exceptions)
+#set ($default = $entity.getDefaultCustomMethodFlavorDetailsStr("byTemplate").Exceptions)
+    /**
+    *    This is the ${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate method.
+    *
+## The "general" comment of the method
+    $ossjUtil.formatComment($method.Comment)
+    *
+    $ossjUtil.formatComment($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplate").Comment)
+    *
+#optComm ( $optional )
+    *    @param template
+#foreach($argument in $method.Arguments)
+    *    @param  ${argument.Name} - ${argument.Comment}
+#end
+    *    @return $returnIterator
+    *
+#exComm ( $optional $user $default )    */
+    public $returnIterator ${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName template
+#foreach($argument in $method.Arguments)
+#if ($argument.Type.isEnum())
+        , $argument.Type.BaseType.FullyQualifiedName ${argument.Name}
+#elseif ($argument.Type.isDatatype())
+        , $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName ${argument.Name}
+#else
+        , $argument.Type.FullyQualifiedName ${argument.Name}
+#end
+#end
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplates").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplates").Flag == "optional")
+#set ($optional = ($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplates").Flag == "optional"))
+#set ($user = $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplates").Exceptions)
+#set ($default = $entity.getDefaultCustomMethodFlavorDetailsStr("byTemplates").Exceptions)
+    /**
+    *    This is the ${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates method.
+    *
+## The "general" comment of the method
+    $ossjUtil.formatComment($method.Comment)
+    *
+    $ossjUtil.formatComment($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplates").Comment)
+    *
+#optComm ( $optional )
+    *    @param templates
+#foreach($argument in $method.Arguments)
+    *    @param  ${argument.Name} - ${argument.Comment}
+#end
+    *    @return $returnIterator
+    *
+#exComm ( $optional $user $default )    */
+    public $returnIterator ${method.Name}$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] templates
+#foreach($argument in $method.Arguments)
+#if ($argument.Type.isEnum())
+        , $argument.Type.BaseType.FullyQualifiedName ${argument.Name}
+#elseif ($argument.Type.isDatatype())
+        , $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName ${argument.Name}
+#else
+        , $argument.Type.FullyQualifiedName ${argument.Name}
+#end
+#end
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffort").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffort").Flag == "optional")
+#set ($optional = ($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffort").Flag == "optional"))
+#set ($user = $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffort").Exceptions)
+#set ($default = $entity.getDefaultCustomMethodFlavorDetailsStr("bulkBestEffort").Exceptions)
+    /**
+    *    This is the try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues method.
+    *
+## The "general" comment of the method
+    $ossjUtil.formatComment($method.Comment)
+    *
+    $ossjUtil.formatComment($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffort").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+#foreach($argument in $method.Arguments)
+    *    @param  ${argument.Name} - ${argument.Comment}
+#end
+    *    @return ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[]
+    *
+#exComm ( $optional $user $default )    */
+    public ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[] try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+#foreach($argument in $method.Arguments)
+#if ($argument.Type.isEnum())
+        , $argument.Type.BaseType.FullyQualifiedName ${argument.Name}
+#elseif ($argument.Type.isDatatype())
+        , $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName ${argument.Name}
+#else
+        , $argument.Type.FullyQualifiedName ${argument.Name}
+#end
+#end
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffortByKeys").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffortByKeys").Flag == "optional")
+#set ($optional = ($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffortByKeys").Flag == "optional"))
+#set ($user = $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffortByKeys").Exceptions)
+#set ($default = $entity.getDefaultCustomMethodFlavorDetailsStr("bulkBestEffortByKeys").Exceptions)
+    /**
+    *    This is the try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys method.
+    *
+## The "general" comment of the method
+    $ossjUtil.formatComment($method.Comment)
+    *
+    $ossjUtil.formatComment($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"bulkBestEffortByKeys").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+#foreach($argument in $method.Arguments)
+    *    @param  ${argument.Name} - ${argument.Comment}
+#end
+    *    @return ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[]
+    *
+#exComm ( $optional $user $default )    */
+    public ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[] try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys(
+        $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+#foreach($argument in $method.Arguments)
+#if ($argument.Type.isEnum())
+        , $argument.Type.BaseType.FullyQualifiedName ${argument.Name}
+#elseif ($argument.Type.isDatatype())
+        , $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName ${argument.Name}
+#else
+        , $argument.Type.FullyQualifiedName ${argument.Name}
+#end
+#end
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplateBestEffort").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplateBestEffort").Flag == "optional")
+#set ($optional = ($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplateBestEffort").Flag == "optional"))
+#set ($user = $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplateBestEffort").Exceptions)
+#set ($default = $entity.getDefaultCustomMethodFlavorDetailsStr("byTemplateBestEffort").Exceptions)
+    /**
+    *    This is the try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate method.
+    *
+## The "general" comment of the method
+    $ossjUtil.formatComment($method.Comment)
+    *
+    $ossjUtil.formatComment($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplateBestEffort").Comment)
+    *
+#optComm ( $optional )
+    *    @param template
+#foreach($argument in $method.Arguments)
+    *    @param  ${argument.Name} - ${argument.Comment}
+#end
+    *    @return $ossjUtil.keyResultIteratorInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName
+    *
+#exComm ( $optional $user $default )    */
+    public $ossjUtil.keyResultIteratorInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName template
+#foreach($argument in $method.Arguments)
+#if ($argument.Type.isEnum())
+        , $argument.Type.BaseType.FullyQualifiedName ${argument.Name}
+#elseif ($argument.Type.isDatatype())
+        , $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName ${argument.Name}
+#else
+        , $argument.Type.FullyQualifiedName ${argument.Name}
+#end
+#end
+        , boolean failuresOnly
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplatesBestEffort").Flag == "true" || $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplatesBestEffort").Flag == "optional")
+#set ($optional = ($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplatesBestEffort").Flag == "optional"))
+#set ($user = $entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplatesBestEffort").Exceptions)
+#set ($default = $entity.getDefaultCustomMethodFlavorDetailsStr("byTemplatesBestEffort").Exceptions)
+    /**
+    *    This is the try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates method.
+    *
+## The "general" comment of the method
+    $ossjUtil.formatComment($method.Comment)
+    *
+    $ossjUtil.formatComment($entity.getCustomMethodFlavorDetailsStr($method.MethodId,"byTemplatesBestEffort").Comment)
+    *
+#optComm ( $optional )
+    *    @param templates
+#foreach($argument in $method.Arguments)
+    *    @param  ${argument.Name} - ${argument.Comment}
+#end
+    *    @return $ossjUtil.keyResultIteratorInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName
+    *
+#exComm ( $optional $user $default )    */
+    public $ossjUtil.keyResultIteratorInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName try$util.capitalize($method.Name)$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] templates
+#foreach($argument in $method.Arguments)
+#if ($argument.Type.isEnum())
+        , $argument.Type.BaseType.FullyQualifiedName ${argument.Name}
+#elseif ($argument.Type.isDatatype())
+        , $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName ${argument.Name}
+#else
+        , $argument.Type.FullyQualifiedName ${argument.Name}
+#end
+#end
+        , boolean failuresOnly
+
+#exList ( $optional $user $default )
+#end

@@ -1,0 +1,119 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Tigerstripe Artifacts</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+
+
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Tigerstripe Artifacts</h1>
+<p><b>Tigerstripe Workbench</b> implements a Model-Driven Design approach to designing <b>Service Contracts</b>. The specifics of a target <b>Service Contract</b> are captured within a model that is further used as input by the <b>Tigerstripe</b> engine in <b>Tigerstripe Workbench</b> to generate the corresponding <b>Service Contract</b> integration profile and documentation.</p>
+<p>In order to provide a successful means to model business requirements to be implemented in a <b>Service Contract</b>, <b>Tigerstripe</b> has defined a set of artifacts that provide the appropriate granularity to capture, detail, and document these requirements in a model. <b>Tigerstripe</b> artifacts are built on top of UML as specific stereotypes to address <b>Service Contract</b> modeling.</p>
+<p>Within a <b>Tigerstripe</b> model, you can implement UML concepts such as associations, inheritance, specific visibility of the components of each artifact. </p>
+<h2>Tigerstripe Meta Model</h2>
+<blockquote><p>The <b>Tigerstripe</b> meta-model provides a model for <b>Tigerstripe</b> artifacts. All standard specific meta-models (e.g. the <b>Tigerstripe</b> OSS/J meta-model) are derived from this model.</p>
+<h3>Tigerstripe Abstract Artifacts</h3>
+<blockquote><p>All <b>Tigerstripe</b> artifact definitions derive from the <b>Tigerstripe</b> abstract artifact definition. As a result a <b>Tigerstripe</b> artifact:</p>
+<ul>
+  <li>may contain <b>Field Definitions</b>. An artifact <b>Field Definition</b> is used to capture specific properties attached to that artifact. For example, the <b>Tigerstripe</b> OSS/J meta-model defines <b><a href="../ossjspecificartifacts/notificationartifact.html">Notification Artifacts</a></b>. The fields defined on a <b>Notification</b> artifact represent specific properties of the modeled notification. For example, the payload to be carried by the notification itself. Artifact fields may be of either primitive types or any other known artifact type.</li>
+  <li>may contain <b>Constant Definitions</b>. An artifact <b>Constant Definition</b> allows you to capture scoped values for any artifact field or artifact method input/output parameter. For example, in a <b><a href="../ossjspecificartifacts/notificationartifact.html">Notification Artifact</a></b>, constants can be used to define fixed states to be carried by a field of that notification (For example, <b>FAILED</b>, <b>COMPLETE</b>).</li>
+  <li>may contain <b>Method Definitions</b>. An artifact <b>Method Definition</b> allows you to specify operations allowed on the target artifact. For example, in the context of an <b><a href="../ossjspecificartifacts/managedentityartifact.html">OSS/J Managed Entity Artifact</a></b>, a  <i>reset()</i> operation can be defined as a way to reset all fields of the target managed entity to factory defaults. For example, artifact methods may take typed arguments as input and may return a typed result.</li>
+</ul></blockquote>
+<blockquote><p>Each of these elements on an artifact can be further qualified by a textual description that is propagated in the generated code and documentation where appropriate. </p>
+<p>When triggering the generation of the corresponding <b>Service Contract</b>, <b>Tigerstripe</b> applies the generation rules for each artifact type, field, method and constant, and produce the corresponding code.</p></blockquote>
+<h3>Relationships between Tigerstripe Abstract Artifacts</h3>
+<blockquote><p>The support for relationships between artifacts includes UML2-type relationships:</p>
+<ul>
+  <li><b>Inheritance</b> between artifacts of the same type. For example, a <b>Tigerstripe</b> OSS/J Managed Entity Artifact can only inherit a <b>Tigerstripe</b> OSS/J Managed Entity Artifact.</li>
+  <li><b>Associations</b> between artifacts are available through association artifacts. This type of <b>Tigerstripe</b> artifact is similar to a UML2 association and captures details such as multiplicity, and navigability.</li>
+  <li><b>Association Classes</B> between artifacts are available through association class artifacts. This type of artifact is similar to a UML2 association class.</li>
+  <li><b>Dependencies</b> between artifacts are available through dependency artifacts. This type of artifact is similar to a UML2 dependency.<br></li>
+  <li><b>References</B> between artifacts are implemented through attributes of non-primitive types. For example, for a reference between two <b>Tigerstripe</b> OSS/J Managed Entity Artifacts, fields of the target managed entity artifact type is used. The multiplicity can be further specified in the model.</li>
+</ul></blockquote>
+<blockquote><p>Refer to <a href="../../tasks/interfaceModelingTasks/index.html">Service Contract Modeling Tasks</a> for more examples on how to model relationships in a <b>Tigerstripe</b> model.<br><br><b>Note:</b> <b>Associations</b>, <b>Association Classes</b>, and <b>Dependencies</b> are not used in any of the current modeling for OSS/J APIs. These artifacts are ignored by the OSS/J plug-ins.<br> </li></blockquote></blockquote>
+
+<h2>Standard Specific Meta Models</h2>
+<blockquote><p><b>Tigerstripe Workbench</b> targets the OSS through Java&#153; initiative standard and provides the corresponding meta-model to design OSS/J-compliant <b>Service Contracts</b>. <!--Refer to this section for more details on OSS/J Specific Tigerstripe Artifacts.--> </p></blockquote>
+<h4>Related Topics</h4>
+<p><a href="../tigerstripeprojects/index.html">Tigerstripe Projects</a>
+<!--<br><a href="../tigerstripeartifacts/index.html">Core Tigerstripe Artifacts</a>-->
+<br><a href="../ossjspecificartifacts/index.html">Tigerstripe Artifacts for Service Contracts</a>
+<br><a href="../tigerstripeProfiles/index.html">Tigerstripe Profiles</a>
+<br><a href="../generatedcontent/index.html">Generated Elements</a>
+<p><a href="../ossjspecificartifacts/index.html"> <img src="../../images/finger.gif" width="20" height="19" align="absmiddle">&nbsp;Tigerstripe Artifacts for Service Contracts</a></p>
+</p>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

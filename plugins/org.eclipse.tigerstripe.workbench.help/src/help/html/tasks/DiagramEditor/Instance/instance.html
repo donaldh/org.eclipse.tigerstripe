@@ -1,0 +1,124 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>The Instance Diagram Editor</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>The Instance Diagram Editor</h1>
+<p>The <b>Instance Diagram Editor</b> allows you to graphically define an instance of your service contract at a given point of time while the system is running. The <b>Instance Diagram Editor</b> captures the state of different classes in the system and their relationships or associations at a given point of time. Before you can complete this tutorial, you must be familiar with creating a <b>Tigerstripe</b> project including the following:</p>
+<ul>
+   <li>Creating a <b>Tigerstripe</b> project using the <b>New Tigerstripe Project</b> dialog box. </li>
+   <li>Documenting your project and adding project descriptors. </li>
+   <li>Creating a service end-point and a web service definition. </li>
+   <li>Adding methods and arguments. </li>
+   <li>Saving and generating your <b>Tigerstripe</b> project.</li>
+</ul>
+<p>If you need more information about the above items, refer to the information outlined in the <a href="../../../gettingstarted/basictutorial/firstproject/index.html"><b>Creating a New Tigerstripe Project</b></a> tutorial.</p> 
+<p><b>Note:</b> All changes made to the underlying data model are immediately reflected in any open instance diagrams that contain instances of the changed classes or associations.  If an instance diagram is not open when changes are made, the instance diagram will refresh when it is opened to reflect the changes made to the data model since it was last opened. </p>
+<h2>Creating a new Instance Diagram</h2>
+<ol>
+   <li>Create a new <b>Tigerstripe</b> project.</li>
+   <li>Right-click on your project, select <b>New</b> and click <b>new Instance Diagram</b>. The <b>New Instance Diagram</b> dialog box opens.</li>
+	<p></p>
+	<img src="../images/createinstancediagram.gif" border="0" >
+	<p></p>
+	<a name="step 3"></a><li>Accept the default file name (<i>default</i>) and click <b>Finish</b>.</li>
+</ol>
+<blockquote><p><b>Tigerstripe Workbench</b> creates a new instance diagram named <i>default</i> in the top-level project folder. In the <b>Tigerstripe Explorer</b> under that top-level project folder, you will see two new files:</p>
+</blockquote>
+<ul>
+   <li>default.owm</li>
+   <li>default.wod</li>
+</ul>
+<blockquote>
+<p><b>Note:</b> <i>default</i> is the file name that you created in <a href="#step 3">Step 3</a>. The <em>default.wod</em> file contains the diagram itself, the <em>default.owm</em> contains an XMI model that represents the details of the diagram.&nbsp; These two files combined represent the diagram created using the <strong>New Instance Diagram</strong> wizard.<br> </p>
+</blockquote>
+
+<h4>Related Topics</h4>
+<!-- <a href="instance.html">The Instance Diagram Editor</a>
+<br>--><a href="usingDiagramEditor_instance.html">Using the Instance Diagram Editor</a>
+<br><a href="createClassInstance.html">Creating a Class Instance</a>
+<br><a href="InstanceAttributes.html">Setting Class Instance Attributes</a>
+<br><a href="editClassInstance.html">Editing a Class Instance Diagram</a>
+<br><a href="deleteClassInstance.html">Deleting a Class Instance Diagram</a>
+<br><a href="additionalToolsInstance.html">Additional Class Instance Diagram Tools</a>
+<p><a href="usingDiagramEditor_instance.html"> <img height="19" src="../../../images/finger.gif" width="20" align="absMiddle">&nbsp;Using the Instance Diagram Editor</a></p>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

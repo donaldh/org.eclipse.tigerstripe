@@ -1,0 +1,117 @@
+#if ( $method.ReturnType.isEntityType() && $method.ReturnType.Dimensions != "" && $method.isIteratorReturn())
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+## This is an Iterator Reques
+#set ($isIterator = "true")
+#else
+#set ($isIterator = "false")
+#end
+   <element name="${method.Name}Request">
+        <annotation>
+            <documentation>
+                This is the Request for the ${method.Name} Operation
+            </documentation>
+        </annotation>
+        <complexType>
+#if ($isIterator == "true")
+			<complexContent>
+			<extension base="${coNS}:IteratorRequest">
+#end
+            	<sequence>
+## List of args
+#foreach($field in $method.Arguments)
+#set ($fieldRestriction = "false")
+#parse ("$resourceDir/XMLSessionMethodArguments.vm")        	
+#end
+            	</sequence>
+#if ($isIterator == "true")
+            </extension>
+            </complexContent>
+#end
+        </complexType>
+    </element>
+    <element name="${method.Name}Response">
+        <annotation>
+            <documentation>
+                This is the Response for the ${method.Name} Operation
+            </documentation>
+        </annotation>
+        <complexType>
+#if ($isIterator == "true")
+			<complexContent>
+			<extension base="${coNS}:IteratorResponse">
+#end
+    	        <sequence>
+## return Type
+#parse ("$resourceDir/XMLSessionMethodReturns.vm")        	
+        	    </sequence>
+#if ($isIterator == "true")
+            	</extension>
+            </complexContent>
+#end
+        </complexType>
+    </element>
+    <element name="${method.Name}Exception">
+        <annotation>
+            <documentation>
+                This is the Exception for the ${method.Name} Operation
+                The following exceptions are returned if an error occurs.
+            </documentation>
+        </annotation>
+        <complexType>
+            <choice>
+## List of exceptions
+#foreach ($exception in $method.Exceptions)
+#if ($ossjUtil.isTSArtifact($exception.FullyQualifiedName))
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception.FullyQualifiedName).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception.FullyQualifiedName),$exception.FullyQualifiedName,"").Name"/>
+#else
+#set ($eName = $util.getLastSegment($exception.FullyQualifiedName))
+				<!-- Tigerstripe - unrecognised Exception type - defaulting to BaseException -->
+			    <element name="$util.unCapitalize($eName)" type="${coNS}:BaseException"/>
+#end
+#end
+            </choice>
+        </complexType>
+    </element>
+############## Handle enumerated Arguments
+#foreach($field in $method.Arguments)
+#if ($field.Type.isExtensibleEnum())
+#if ($field.Type.BaseType.FullyQualifiedName == "int")
+#set ($thisType = "int")
+#else
+#set ($thisType = "string")
+#end 
+ 	<element name="base$util.capitalize($field.Name)" type="$thisType"/>
+ 	<element name="$field.Name" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName),$field.Type.FullyQualifiedName, "").Name" 
+ 		substitutionGroup="$schemaUtils.getPrefixForArtifact($method.ContainingArtifact.FullyQualifiedName):base$util.capitalize($field.Name)" /> 
+ 	## Need to handle extensions of the Enum
+#set ($enum = $manager.getArtifactByFullyQualifiedName($field.Type.FullyQualifiedName,false))
+#if ($enum.hasExtends())
+	<element name="${enum.Name}${enum.Extends.Name}" 
+		type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($enum.Extends.FullyQualifiedName),$enum.Extends.FullyQualifiedName, "").Name" 
+		substitutionGroup="$schemaUtils.getPrefixForArtifact($method.ContainingArtifact.FullyQualifiedName):base$util.capitalize($field.Name)"/>
+#end
+#end
+#end
+############## Handle enumerated Return values
+#if ($method.ReturnType.isExtensibleEnum())
+ 	<element name="baseReturn" type="string"/>
+ 	<element name="return" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($method.ReturnType.FullyQualifiedName),$method.ReturnType.FullyQualifiedName, "").Name" 
+ 		substitutionGroup="$schemaUtils.getPrefixForArtifact($method.ContainingArtifact.FullyQualifiedName):baseReturn" /> 
+ 	## Need to handle extensions of the Enum
+#set ($enum = $manager.getArtifactByFullyQualifiedName($method.ReturnType.FullyQualifiedName,false))
+#if ($enum.hasExtends())
+	<element name="${enum.Name}${enum.Extends.Name}" 
+		type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($enum.Extends.FullyQualifiedName),$enum.Extends.FullyQualifiedName, "").Name" 
+		substitutionGroup="$schemaUtils.getPrefixForArtifact($datatype.FullyQualifiedName):baseReturn"/>
+#end
+#end
+  

@@ -1,0 +1,113 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Deploy and Test plug-in</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Deploy and Test Plug-in</h1>
+
+<p>During plug-in development, you will need to test that your plug-in is delivering the desired results before sharing your plug-in with other users. Complete the following procedure to deploy your plug-in:</p>
+<h3>To deploy your plug-in</h3>
+<ol>
+   <li>Click the <b>Overview</b> tab in your <b>Plug-in Project Descriptor</b>.</li>
+   <li>Click <b>Package and Deploy this plugin</b> in the <b>Testing</b> area of the descriptor. This will assemble all of the parts of your plug-in and bundle them for deployment in the current workspace.</li>
+   <li>Select a <b>Tigerstripe</b> project and double-click <b>tigerstripe.xml</b> to open the project descriptor</li>
+   <li>Select the <b>Generation</b> tab and a new section for deploying a plug-in displays.</li>
+   <li>Open the plug-in and click <b>Enable</b> to enable the plug-in. Enabling the plug-in also enables all of the other controls for that plug-in.</li>
+<p><b>Note:</b> It is possible to override the default values for the <b>Global</b> properties of the plug-in</p>
+   <li>Click <b>Save</b> to save the <b>Tigerstripe</b> project.</li>
+   <li>Ensure that the project is in scope and click <b>Generate new Tigerstripe Interface</b>.</li>
+   <li>Review the generated code</li>
+</ol>
+
+<blockquote><p>Once deployed, your plug-in can be used by any <b>Tigerstripe</b> project in the workspace. References to your plug-in from a project are made using the identity <i>name(version)</i>, where <i>name</i> and <i>version</i> are the values set in the <b>Overview</b> tab for the <b>Plug-in Project</b>.
+<p>Complete the following procedure to un-deploy your plug-in</p></blockquote>
+<h3>To un-deploy your plug-in</h3>
+<ol>
+   <li>Click <b>Un-deploy this plugin</b> in the <b>Testing</b> area of the plug-in descriptor.
+   <p>-OR-</p></li>
+   <li>Click the <b>Tigerstripe</b> menu and select <b>Plugins</b>.</li>
+   <li>Highlight the plug-in you want to un-deploy, right-click, and select <b>Undeploy</b> from the shortcut menu.</li>
+</ol>
+<blockquote><p>Your plug-in will disappear from the list of plug-ins in the <b>Generation</b> tab of all <b>Tigerstripe</b> projects. It is not necessary to un-deploy a plug-in before re-deploying it, however the plug-in ID uses the <i>version</i> number when deploying. If the plug-in is updated before you re-deploy it, you must disable the old plug-in version before you can re-deploy the updated plug-in.</p></blockquote>
+
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

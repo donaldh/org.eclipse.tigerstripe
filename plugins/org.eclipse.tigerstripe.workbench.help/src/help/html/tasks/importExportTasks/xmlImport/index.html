@@ -1,0 +1,136 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>XML Import</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Importing XML Files</h1>
+
+<p>The XML import tool imports model definitions from XML files that comply with the schema <i>http://org.eclipse.tigerstripe/xml/tigerstripeOutput/v1-0</i>. This schema is included in the output from the <a href="../xmlExport/index.html">XML Export tool</a>. The schema should be in the same directory as the file to be imported.</p>
+
+<h2>Running the Import</h2>
+<blockquote><p>Complete the following procedure to run an XML Import</p>
+<H3>To run an import</h3>
+<ol>
+   <li>Open your <b>Tigerstripe Perspective</b> and right-click on your <b>Tigerstripe Project</b> to which you want to import artifacts. The <b>Import</b> wizard displays.</li>
+   <li>Select <b>Import</b> from the menu.</li>
+   <li>Navigate to <b>Tigerstripe/Bulk Import (xml)</b> and click <b>Next</b>. The <b>Import/update from XML</b> wizard displays.</li>
+   <li>Select the project to where you want to import the XML file, and select the XML file you want to import. In the case of a <i>summary</i> file and multiple artifact XML files, select the XML file to import and click <b>Load XML File</b>.
+<p>A dialog box containing a list of information messages and possible errors about any differences between the project and the XML file display. You can view snippets of these messages and errors in the dialog box. To view more details, locate the file <i>XMLBulkImport.log</i>. which is created in the same directory where the XML file is located.</p></li>
+   <li>After reviewing any messages, you can proceed with the file import by clicking <b>Apply Changes</b>. This updates the <b>Tigerstripe Project</b> with the information in the XML file. The message dialog box displays the information about the import.</li>
+</ol></blockquote>
+<h2>The Import Process</h2>
+<blockquote><p>When there is a difference between the XML file and the <b>Tigerstripe</b> model, the <b>Import</b> tool will update the model with the data in the XML file. The follow are exceptions:</p>
+<ul>
+   <li>New objects in the project are not removed. For example, if there is a new <b>Artifact</b>, or a new field in the model that is not on the XML file, there will be a difference reported, but no attempt is made to update that project. This applies to <b>Artifact</b>, <b>Label</b>, <b>Field</b>, <b>Method</b>, <b>Method Exception</b>, <b>Method Argument</b>, and <b>Stereotype</b> (at any level).</li>
+   <li>Renaming (other than method arguments) is detected as a <i>delete & add</i> because there is no positional significance to any of these items.</li>
+   <li>The majority of the information on the <b>details</b> tab on the <b>Artifacts</b> are handled differently by the import because they are optional elements in the XML file. The <b>Import</b>tool attempt to update when possible. In a few cases, differences may be identified that cannot be fixed by the tool.</li>
+</ul></blockquote>
+<h2>Differences Reporting Format</h2>
+<blockquote><p>Log messages for differences are formatted as shown in the following example:</p>
+
+<p><i>Type = presence 
+Scope = Artifact:Field 
+Local art = com.mycompany.Entity0 
+Remote art = com.mycompany.Entity0 
+Object = aField0 
+LocalVal = absent RemoteVal = present
+</i></p>
+<ul>
+<li><b>Type</b>: Is one of <i>value</i> or <i>presence</i>. A <i>value</i> difference indicates that the information is present in both the XML file and the <b>Tigerstripe Project</b>, but that a difference in <i>value</i> has been detected. A <i>presence</i> difference indicates that an <i>object</i> has been found on one side that is not present in the other.</li>
+<li><b>Scope</b>: Is a <b>String</b> that indicates the location of the difference. For example,<b>Artifact</b> , <b>Artifact:Label</b>, <b>Artifact:Method:Argument:Comment</b>.</li>
+<li><b>Local art & Remote art</B>: Contains the <i>Fully Qualified Names</i> of the <b>Artifacts</b> that have been compared. The <i>Local art</i> is the <b>Artifact</b> found in the XML file, and the <i>Remote art</i> is the <b>Artifact</b> found in the <b>Tigerstripe Project</b>. In the context of a <b>Bulk Import</b>, these two fields should be identical; except in the case of a <i>Type = presence Scope = Artifact</i> difference where one of the fields will be blank.</li>
+<li><b>Object</b>: Contains the detailed location of the difference. For example, this might be the name of the <i>Method</i> or the <i>Extends clause</i>. In the case where a detailed location is needed (for example, on a <i>Method</i> argument), the details are separated by a color (:), such as <i>method0:arg0</i>.</li>
+<li><b>LocalVal & RemoteVal</b>: Indicates the different values found in the compared <b>Artifacts</b>. The <i>LocalVal</i> is the value found in the XML file, and the <i>RemoteVal</i> is the value that found in the <b>Tigerstripe Project</b>. In the case of a difference of a <i>presence</i> type, one of these will have the value <i>absent</i> and the other will have the value <i>present</i>. In  the case of a <i>value</i> difference, the two fields will contain the actual compared values.</li>
+</ul>
+
+<p>In the <b>Information</b> dialog box, the differences will have a short format as shown in the following example:</p>
+<p><i>
+Artifact:Field com.mycompany.Entity0 aField0 {absent,present}</i></p>
+<p>This is equivalent to the long format fields :</p> 
+
+<p><i>Scope Localart Object {LocalVal,RemoteVal}
+</i></p>
+<p><b>Note:</b> If <i>Localart</i> is empty (as in the special case of a new <b>Artifact</b> found in the project), <i>Localart</i> is replaced by <i>Remoteart</i>.</p></blockquote>
+
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

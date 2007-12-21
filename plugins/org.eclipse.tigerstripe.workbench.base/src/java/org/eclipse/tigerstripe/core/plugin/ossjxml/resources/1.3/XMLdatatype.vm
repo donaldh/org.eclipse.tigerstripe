@@ -1,0 +1,69 @@
+#if ($ossjUtil.interfaceOf($datatype.FullyQualifiedName).Generate)
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+	<!-- Tigerstripe : Datatype defintions for $datatype.Name  (basic, ArrayOf -->
+    <complexType name="$ossjUtil.interfaceOf($datatype.FullyQualifiedName).Name">
+        <annotation>
+            <documentation>
+            $ossjXmlUtil.xMLComment($datatype.Comment)
+            </documentation>
+        </annotation>
+#if ($datatype.hasExtends())
+        <complexContent>
+#if ($datatype.Extends.Name.endsWith("MultiValueList"))
+			<extension base="${coNS}:MultiValueList">
+#else
+            <extension base="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($datatype.Extends.FullyQualifiedName), $datatype.Extends.FullyQualifiedName, "").Name">
+#end
+#end
+            <sequence>
+#foreach($field in $datatype.Fields)
+#parse ("$resourceDir/XMLFields.vm") 
+#end
+            </sequence>
+#if ($datatype.hasExtends())
+            </extension>
+        </complexContent>
+#end
+    </complexType>
+    <complexType name="ArrayOf$ossjUtil.interfaceOf($datatype.FullyQualifiedName).Name">
+        <sequence>
+            <element name="item" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($datatype.FullyQualifiedName),$datatype.FullyQualifiedName, "").Name" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+#end
+#foreach($field in $datatype.Fields)
+#if ($field.Type.isExtensibleEnum())
+#if ($field.Type.BaseType.FullyQualifiedName == "int" && $pluginRef.Properties.getProperty("useEnumValues") == "true" )
+#set ($thisType = "int")
+#else
+#set ($thisType = "string")
+#end 
+ 	<element name="base$util.capitalize($field.Name)" type="$thisType"/>
+ 	<element name="$field.Name" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName),$field.Type.FullyQualifiedName, "").Name" 
+ 		substitutionGroup="$schemaUtils.getPrefixForArtifact($datatype.FullyQualifiedName):base$util.capitalize($field.Name)" /> 
+ 	## Need to handle extensions of the Enum
+#set ($enum = $manager.getArtifactByFullyQualifiedName($field.Type.FullyQualifiedName,false))
+#if ($enum.hasExtends())
+	<element name="${field.Name}${enum.Extends.Name}" 
+		type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($enum.Extends.FullyQualifiedName),$enum.Extends.FullyQualifiedName, "").Name" 
+		substitutionGroup="$schemaUtils.getPrefixForArtifact($datatype.FullyQualifiedName):base$util.capitalize($field.Name)"/>
+#end
+#if ($field.Type.Dimensions == "[]" )
+## An array of enum
+    <complexType name="ArrayOf$util.capitalize($field.Name)">
+      <sequence>
+            <element ref="$schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName):base$util.capitalize($field.Name)" maxOccurs="unbounded" minOccurs="0"/>
+        </sequence>
+    </complexType>
+#end
+#end
+#end

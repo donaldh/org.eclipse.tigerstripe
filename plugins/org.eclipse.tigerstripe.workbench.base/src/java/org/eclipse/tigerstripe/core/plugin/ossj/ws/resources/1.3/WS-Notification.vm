@@ -1,0 +1,100 @@
+	<!-- Binding for the Notification Producer -->
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+	<wsdl:binding name="NotificationProducerSoapBinding" type="wsnt:NotificationProducer">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<!-- =========== NotificationProducer Specific ============== -->
+		<wsdl:operation name="Subscribe">
+			<soap:operation soapAction="Subscribe" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ResourceUnknownFault">
+				<soap:fault name="ResourceUnknownFault" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="SubscribeCreationFailedFault">
+				<soap:fault name="SubscribeCreationFailedFault" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="TopicPathDialectUnknownFault">
+				<soap:fault name="TopicPathDialectUnknownFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="GetCurrentMessage">
+			<soap:operation soapAction="GetCurrentMessage" style="document" />
+		
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ResourceUnknownFault">
+				<soap:fault name="ResourceUnknownFault" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidTopicExpressionFault">
+				<soap:fault name="InvalidTopicExpressionFault" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="TopicNotSupportedFault">
+				<soap:fault name="TopicNotSupportedFault" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="NoCurrentMessageOnTopicFault">
+				<soap:fault name="NoCurrentMessageOnTopicFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+	</wsdl:binding>
+
+
+	<!-- Binding for the SubscriptionManager -->
+	<wsdl:binding name="SubscriptionManagerSoapBinding" type="wsnt:PausableSubscriptionManager">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<!-- ========= SubscriptionManager specific operations ====== -->
+		<wsdl:operation name="PauseSubscription">
+			<soap:operation soapAction="PauseSubscription" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ResourceUnknownFault">
+				<soap:fault name="ResourceUnknownFault" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="PauseFailedFault">
+				<soap:fault name="PauseFailedFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="ResumeSubscription">
+			<soap:operation soapAction="ResumeSubscription" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ResourceUnknownFault">
+				<soap:fault name="ResourceUnknownFault" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="ResumeFailedFault">
+				<soap:fault name="ResumeFailedFault" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+

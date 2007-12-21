@@ -1,0 +1,42 @@
+##
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+## @@ valueInterface.keymethods
+## @@ This template creates a get, set and make methods for the key corresponding to a Tigerstripe Entity
+## @@
+## @@ get<Entity>Key, set<Entity>Key and make<Entity>Key
+##
+/**
+ * Gets the key for this value object.
+ *
+ * @return the key for this value object
+ * @throws java.lang.IllegalStateException if no key was populated in this
+ *    value object.
+ */
+    public $model.KeyInterface.FullyQualifiedName get$model.KeyInterface.getName()()
+        throws java.lang.IllegalStateException;
+
+/**
+ * Sets the key for this value object.
+ *
+ * @param key - the key to set on this value object.
+ * @throws java.lang.IllegalArgumentException if the key is not a valid
+ *    key for this value object.
+ */
+    public void set$model.KeyInterface.getName()($model.KeyInterface.FullyQualifiedName key)
+        throws java.lang.IllegalArgumentException;
+
+/**
+ * Factory method for $model.KeyInterface.Name.
+ *
+ * @return a new instance of a blank $model.KeyInterface.Name
+ */
+    public $model.KeyInterface.FullyQualifiedName make$model.KeyInterface.getName()();

@@ -1,0 +1,193 @@
+#if( $entity.getSetFlavorDetailsStr("simple").Flag == "true" || $entity.getSetFlavorDetailsStr("simple").Flag == "optional")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#set ($optional = ($entity.getSetFlavorDetailsStr("simple").Flag == "optional"))
+#set ($user = $entity.getSetFlavorDetailsStr("simple").Exceptions)
+#set ($default = $entity.getDefaultSetFlavorDetailsStr("simple").Exceptions)
+    /**
+    *    This is the set$util.capitalize(${entity.getName()})ByValue method.
+    *
+    $ossjUtil.formatComment($entity.getSetFlavorDetailsStr("simple").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+    *    @param resyncRequired
+#exComm ( $optional $user $default )    */
+    public void set$util.capitalize(${entity.getName()})ByValue(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+        , boolean resyncRequired
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getSetFlavorDetailsStr("bulkAtomic").Flag == "true" || $entity.getSetFlavorDetailsStr("bulkAtomic").Flag == "optional")
+#set ($optional = ($entity.getSetFlavorDetailsStr("bulkAtomic").Flag == "optional"))
+#set ($user = $entity.getSetFlavorDetailsStr("bulkAtomic").Exceptions)
+#set ($default = $entity.getDefaultSetFlavorDetailsStr("bulkAtomic").Exceptions)
+    /**
+    *    This is the set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues method.
+    *
+    $ossjUtil.formatComment($entity.getSetFlavorDetailsStr("bulkAtomic").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+    *    @param resyncRequired
+#exComm ( $optional $user $default )    */
+    public void set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+        , boolean resyncRequired
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getSetFlavorDetailsStr("bulkAtomicByKeys").Flag == "true" || $entity.getSetFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional")
+#set ($optional = ($entity.getSetFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional"))
+#set ($user = $entity.getSetFlavorDetailsStr("bulkAtomicByKeys").Exceptions)
+#set ($default = $entity.getDefaultSetFlavorDetailsStr("bulkAtomicByKeys").Exceptions)
+    /**
+    *    This is the set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys method.
+    *
+    $ossjUtil.formatComment($entity.getSetFlavorDetailsStr("bulkAtomicByKeys").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+#exComm ( $optional $user $default )    */
+    public void set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys(
+        $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+        , $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getSetFlavorDetailsStr("byTemplate").Flag == "true" || $entity.getSetFlavorDetailsStr("byTemplate").Flag == "optional")
+#set ($optional = ($entity.getSetFlavorDetailsStr("byTemplate").Flag == "optional"))
+#set ($user = $entity.getSetFlavorDetailsStr("byTemplate").Exceptions)
+#set ($default = $entity.getDefaultSetFlavorDetailsStr("byTemplate").Exceptions)
+    /**
+    *    This is the set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate method.
+    *
+    $ossjUtil.formatComment($entity.getSetFlavorDetailsStr("byTemplate").Comment)
+    *
+#optComm ( $optional )
+    *    @param template
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+#exComm ( $optional $user $default )    */
+    public void set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName template
+        , $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getSetFlavorDetailsStr("byTemplates").Flag == "true" || $entity.getSetFlavorDetailsStr("byTemplates").Flag == "optional")
+#set ($optional = ($entity.getSetFlavorDetailsStr("byTemplates").Flag == "optional"))
+#set ($user = $entity.getSetFlavorDetailsStr("byTemplates").Exceptions)
+#set ($default = $entity.getDefaultSetFlavorDetailsStr("byTemplates").Exceptions)
+    /**
+    *    This is the set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates method.
+    *
+    $ossjUtil.formatComment($entity.getSetFlavorDetailsStr("byTemplates").Comment)
+    *
+#optComm ( $optional )
+    *    @param templates
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+#exComm ( $optional $user $default )    */
+    public void set$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] templates
+        , $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getSetFlavorDetailsStr("bulkBestEffort").Flag == "true" || $entity.getSetFlavorDetailsStr("bulkBestEffort").Flag == "optional")
+#set ($optional = ($entity.getSetFlavorDetailsStr("bulkBestEffort").Flag == "optional"))
+#set ($user = $entity.getSetFlavorDetailsStr("bulkBestEffort").Exceptions)
+#set ($default = $entity.getDefaultSetFlavorDetailsStr("bulkBestEffort").Exceptions)
+    /**
+    *    This is the trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues method.
+    *
+    $ossjUtil.formatComment($entity.getSetFlavorDetailsStr("bulkBestEffort").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+    *    @param resyncRequired
+    *    @return ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[]
+    *
+#exComm ( $optional $user $default )    */
+    public ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[] trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)s
+        , boolean resyncRequired
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getSetFlavorDetailsStr("bulkBestEffortByKeys").Flag == "true" || $entity.getSetFlavorDetailsStr("bulkBestEffortByKeys").Flag == "optional")
+#set ($optional = ($entity.getSetFlavorDetailsStr("bulkBestEffortByKeys").Flag == "optional"))
+#set ($user = $entity.getSetFlavorDetailsStr("bulkBestEffortByKeys").Exceptions)
+#set ($default = $entity.getDefaultSetFlavorDetailsStr("bulkBestEffortByKeys").Exceptions)
+    /**
+    *    This is the trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys method.
+    *
+    $ossjUtil.formatComment($entity.getSetFlavorDetailsStr("bulkBestEffortByKeys").Comment)
+    *
+#optComm ( $optional )
+    *    @param $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+    *    @return ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[]
+    *
+#exComm ( $optional $user $default )    */
+    public ${ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName}[] trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys(
+        $ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] $util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s
+        , $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getSetFlavorDetailsStr("byTemplateBestEffort").Flag == "true" || $entity.getSetFlavorDetailsStr("byTemplateBestEffort").Flag == "optional")
+#set ($optional = ($entity.getSetFlavorDetailsStr("byTemplateBestEffort").Flag == "optional"))
+#set ($user = $entity.getSetFlavorDetailsStr("byTemplateBestEffort").Exceptions)
+#set ($default = $entity.getDefaultSetFlavorDetailsStr("byTemplateBestEffort").Exceptions)
+    /**
+    *    This is the trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate method.
+    *
+    $ossjUtil.formatComment($entity.getSetFlavorDetailsStr("byTemplateBestEffort").Comment)
+    *
+#optComm ( $optional )
+    *    @param template
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+    *    @param failuresOnly
+    *    @return $ossjUtil.keyResultIteratorInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName
+    *
+#exComm ( $optional $user $default )    */
+    public $ossjUtil.keyResultIteratorInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName template
+        , $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+        , boolean failuresOnly
+
+#exList ( $optional $user $default )
+#end
+#if( $entity.getSetFlavorDetailsStr("byTemplatesBestEffort").Flag == "true" || $entity.getSetFlavorDetailsStr("byTemplatesBestEffort").Flag == "optional")
+#set ($optional = ($entity.getSetFlavorDetailsStr("byTemplatesBestEffort").Flag == "optional"))
+#set ($user = $entity.getSetFlavorDetailsStr("byTemplatesBestEffort").Exceptions)
+#set ($default = $entity.getDefaultSetFlavorDetailsStr("byTemplatesBestEffort").Exceptions)
+    /**
+    *    This is the trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates method.
+    *
+    $ossjUtil.formatComment($entity.getSetFlavorDetailsStr("byTemplatesBestEffort").Comment)
+    *
+#optComm ( $optional )
+    *    @param templates
+    *    @param $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+    *    @param failuresOnly
+    *    @return $ossjUtil.keyResultIteratorInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName
+    *
+#exComm ( $optional $user $default )    */
+    public $ossjUtil.keyResultIteratorInterfaceOf($entity.FullyQualifiedName).FullyQualifiedName trySet$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates(
+        $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName[] templates
+        , $ossjUtil.interfaceOf($entity.FullyQualifiedName).FullyQualifiedName $util.unCapitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)
+        , boolean failuresOnly
+
+#exList ( $optional $user $default )
+#end

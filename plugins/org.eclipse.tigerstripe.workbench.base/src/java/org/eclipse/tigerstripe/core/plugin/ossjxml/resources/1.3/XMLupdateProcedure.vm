@@ -1,0 +1,71 @@
+#if ($ossjUtil.interfaceOf($updateProcedure.FullyQualifiedName).Generate)
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+	<!-- Tigerstripe : Update Procedure defintions for $updateProcedure.Name  -->
+    <complexType name="$ossjUtil.interfaceOf($updateProcedure.FullyQualifiedName).Name">
+        <annotation>
+            <documentation>
+            $ossjXmlUtil.xMLComment($updateProcedure.Comment)
+            </documentation>
+        </annotation>
+#if ($updateProcedure.hasExtends())
+#set ($baseName = $ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($updateProcedure.Extends.FullyQualifiedName),$query.Extends.FullyQualifiedName,"").NameNoNS)
+#set ($basePrefix = $ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($updateProcedure.Extends.FullyQualifiedName),$query.Extends.FullyQualifiedName,"").Prefix)
+#else
+#set ($basePrefix = "${coNS}")
+#set ($baseName   = "UpdateProcedureValue")
+#end
+#if ($basePrefix != "$exp.expandVar($model.TargetNamespace)" && $baseName != "$ossjUtil.interfaceOf($updateProcedure.FullyQualifiedName).Name")
+        <complexContent>
+			<extension base = "$basePrefix:$baseName" >	
+#set ($doExtend = "true")
+#else
+#set ($doExtend = "false")
+#end
+				<sequence>
+#foreach($field in $updateProcedure.Fields)
+#parse ("$resourceDir/XMLFields.vm")                	
+#end
+                </sequence>
+#if ($doExtend != "false")
+            </extension>
+        </complexContent>
+#end
+	</complexType>
+#end
+	<!-- Tigerstripe : Global element defintions for extensible Enum attributes of $updateProcedure.Name -->
+#foreach($field in $updateProcedure.Artifact.Fields)
+#if ($field.Type.isExtensibleEnum())
+#if ($field.Type.BaseType.FullyQualifiedName == "int" && $pluginRef.Properties.getProperty("useEnumValues") == "true" )
+#set ($thisType = "int")
+#else
+#set ($thisType = "string")
+#end 
+ 	<element name="base$util.capitalize($field.Name)" type="$thisType"/>
+ 	<element name="$field.Name" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName),$field.Type.FullyQualifiedName, "").Name" 
+ 		substitutionGroup="$schemaUtils.getPrefixForArtifact($updateProcedure.FullyQualifiedName):base$util.capitalize($field.Name)" /> 
+## Need to handle extensions of the Enum
+#set ($enum = $manager.getArtifactByFullyQualifiedName($field.Type.FullyQualifiedName,false))
+#if ($enum.hasExtends())
+	<element name="${field.Name}${enum.Extends.Name}" 
+		type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($enum.Extends.FullyQualifiedName),$enum.Extends.FullyQualifiedName, "").Name" 
+		substitutionGroup="$schemaUtils.getPrefixForArtifact($updateProcedure.FullyQualifiedName):base$util.capitalize($field.Name)"/>
+#end
+#if ($field.Type.Dimensions == "[]" )
+## An array of enum
+    <complexType name="ArrayOf$util.capitalize($field.Name)">
+      <sequence>
+            <element ref="$schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName):base$util.capitalize($field.Name)" maxOccurs="unbounded" minOccurs="0"/>
+        </sequence>
+    </complexType>
+#end
+#end
+#end

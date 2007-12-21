@@ -1,0 +1,63 @@
+#set ($resourceDir = "org/eclipse/tigerstripe/core/plugin/base/resources")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+<?xml version="1.0" encoding="UTF-8"?>
+<tigerstripeReport
+	timestamp = "$reportUtils.getTimeStamp()"
+	>
+	<tigerstripeDetails
+		version = "$reportUtils.stripPropertyString($runtime.getProperty("tigerstripe.feature.version"))">
+			<generatePlugins>
+#foreach ($plugin in $pluginRefs)
+#if( $reportUtils.isGeneratePlugin($plugin.Category) )
+				<plugin
+					group 	= "$plugin.groupId"
+					id		= "$plugin.pluginId"
+					version = "$plugin.Version" 
+					enabled = "$plugin.Enabled" >
+					<label>
+$reportUtils.xMLComment($plugin.Label)
+					</label>
+				</plugin>
+#end
+#end
+			</generatePlugins>
+	</tigerstripeDetails>
+	<projectDetails
+		name      = "$tsProject.ProjectDetails.Name"
+		version   = "$tsProject.ProjectDetails.Version"
+		outputDirectory = "$tsProject.ProjectDetails.OutputDirectory"
+		>
+		<description>
+$reportUtils.xMLComment($tsProject.ProjectDetails.Description)
+		</description> 
+#parse("$resourceDir/Dependencies.vm")
+#parse("$resourceDir/References.vm")
+			<artifacts>
+			<!-- Locally defined artifacts only -->
+#parse("$resourceDir/Entities.vm")
+#parse("$resourceDir/Datatypes.vm")
+#parse("$resourceDir/Queries.vm")
+#parse("$resourceDir/UpdateProcedures.vm")
+#parse("$resourceDir/Enums.vm")
+#parse("$resourceDir/Exceptions.vm")
+#parse("$resourceDir/Notifications.vm")
+#parse("$resourceDir/Sessions.vm")
+			</artifacts>
+	</projectDetails>
+
+	<pluginReports>
+#foreach ($report in $reports)
+#set ($source = $report)
+#parse("$source.Template")
+#end
+	</pluginReports>
+</tigerstripeReport>

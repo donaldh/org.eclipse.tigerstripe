@@ -1,0 +1,113 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Creating Enumeration Artifacts</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Creating Enumeration Artifacts</h1>
+<p>You can create and edit <a href="../../../concepts/ossjspecificartifacts/enumerationartifact.html">Enumeration Artifacts</a> through the <b>New Enumeration Artifact</b> wizard. This section details the <b>New Enumeration Artifact</b> wizard and explains how to edit your artifacts using the <b>Tigerstripe Workbench</b> entity perspective. </p>
+<h2>New Enumeration Artifact Wizard</h2>
+<blockquote>
+<p>The <b>New Enumeration Artifact</b> wizard allows you to create a new enumeration artifact within a <b>Tigerstripe</b> project. Complete the following procedure to open the <b>New Enumeration Artifact</b> wizard.</p>
+<h3>To open the New Enumeration Artifact wizard and create your first enumeration artifact:</h3>
+<ol>
+	<li>Ensure that the <b>Tigerstripe Perspective</b> is active. For more information, refer to <a href="../../../gettingstarted/tigerstripeperspective/index.html"><b>Tigerstripe Perspective</b></a>.</li>
+	<li>Click <b>Tigerstripe</b>, select <b>New</b>, and click <b>Enumeration</b>. Alternatively, you can select the <b>Enumeration</b> icon on the <b>Tigerstripe</b> toolbar (<img src="../../../images/icons/new_enum.gif" align="absmiddle">). The <b>New Enumeration Artifact</b> wizard appears.</li>
+	<li>Enter a name for the enumeration artifact in the <b>Name</b> text box and click <b>Finish</b>.</li>
+</ol>
+<p align="center" class="style2"><img src="../../../images/enumWizard.gif"></p>
+<p>As with other types of <b>Tigerstripe</b> artifact wizards, the <b>New Enumeration Artifact</b> wizard requires that you enter a set of parameters before you can successfully create your enumeration artifact. The following outlines the information available on the <b>New Enumeration Artifact</b> wizard.</p>
+<ul>
+  <li><strong>Source Project</strong>: the source project in which the enumeration artifact is being created. In most cases, <b>Tigerstripe</b> is able to pre-populate this field based on the context. If not populated, or if the wrong project was selected, click <b>Browse</b> to select the correct <b>Tigerstripe</b> project in which the artifact should be created.</li>			
+  <li><strong>Artifact Package</strong>: each artifact is created within the scope of a package. This field shall contain a valid package name. The <b>New Enumeration Artifact</b> wizard will reject all invalid package names. </li>
+  <li><strong>Artifact Name</strong>: a valid name for the artifact. This name uniquely identifies the newly created artifact within the package. The <b>New Enumeration Artifact</b> wizard will reject all invalid artifact names.</li>
+  <li><strong>Base type</strong>: In order to provide a hint with regards to the implementation of the enumeration in the various integration profiles, you must select a base type. The base type is used as the base for all labels of the enumeration. The default value is <b>int</b>. Valid base type values include <b>int</b> or <b>java.lang.String</b>. <b>Note:</b> These base types will be mapped to the appropriate primitive types for the XML and WSDL integration profile, therefore &quot;java reference&quot; does not appear in the generated XML schemas. </li>
+</ul></blockquote>
+<h4>Related Topics</h4>
+<!--<br><a href="newCreateEnumArtifacts.html">Creating Enumeration Artifacts</a>
+<br>--><a href="newEditEnumArtifacts.html">Editing Enumeration Artifacts</a>
+<br><a href="EnumGeneralInformation.html">Enumeration Artifact General Information</a>
+<br><a href="EnumConstants.html">Enumeration Constants</a>
+<br><a href="EnumOSSJSpecifics.html">Enumeration Implementation Specifics</a>
+<p><a href="newEditEnumArtifacts.html"> <img height="19" src="../../../images/finger.gif" width="20" align="absMiddle">&nbsp;Editing Enumeration Artifacts</a></p>
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

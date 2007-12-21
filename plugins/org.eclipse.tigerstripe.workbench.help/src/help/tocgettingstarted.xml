@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Getting Started" link_to="src/help/toc.xml#gettingstarted"> 
+	<topic label="Basic Tutorial"  href="src/help/html/gettingstarted/basictutorial/index.html"> 
+		<topic label="Creating a New Project" href="src/help/html/gettingstarted/basictutorial/firstproject/index.html"/>
+		<topic label="Documenting your Project" href="src/help/html/gettingstarted/basictutorial/firstproject/addingdescriptors.html" />
+		<topic label="Creating a Service End-point" href="src/help/html/gettingstarted/basictutorial/firstproject/creatingEndPoint.html" />
+		<topic label="Adding a Method" href="src/help/html/gettingstarted/basictutorial/firstproject/addingMethod.html" />
+		<topic label="Creating a Service Definition" href="src/help/html/gettingstarted/basictutorial/firstproject/creatingServiceDefinition.html"/>
+		<topic label="Revieweing your Code" href="src/help/html/gettingstarted/basictutorial/firstproject/reviewingCode.html"/>
+		<topic label="Enhancing your Model" href="src/help/html/gettingstarted/basictutorial/firstproject/enhanceModel.html"/>
+	</topic>
+	<topic label="Tigerstripe Perspective" href="src/help/html/gettingstarted/tigerstripeperspective/index.html">
+		<topic label="Tigerstripe Explorer" href="src/help/html/gettingstarted/tigerstripeperspective/tigerstripeexplorer.html" />
+		<topic label="Project Auditor" href="src/help/html/gettingstarted/tigerstripeperspective/projectauditor.htm" />
+		<topic label="Artifact Editors" href="src/help/html/gettingstarted/tigerstripeperspective/artifacteditors.html" />
+	</topic> 
+</toc>

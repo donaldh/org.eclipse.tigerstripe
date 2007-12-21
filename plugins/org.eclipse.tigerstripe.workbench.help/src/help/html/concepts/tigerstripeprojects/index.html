@@ -1,0 +1,119 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Tigerstripe Projects </title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+
+
+<style type="text/css">
+<!--
+.style2 {
+	color: #FF0000;
+	font-weight: bold;
+}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+li {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Tigerstripe Projects </h1>
+<p>Eclipse is centered around a workspace that contains projects. Each project is a container for resources (For example, files, source code, and directories) that are contextualy linked. <b>Tigerstripe Workbench</b> follows the same principle and introduces a specific type of Eclipse project; that is, <b>Tigerstripe Projects</b>. <b>Tigerstripe Project</b> contain the specifics of a <b>Tigerstripe</b> Service Contract Model. As a result, <b>Tigerstripe Projects</b> contain <b>Service Contract</b> model components (such as artifacts), documentation, and other files or directories that are relevant (and needs to be stored) within the context of a project.</p>
+<p>This section discusses the details about the structure and content of <b>Tigerstripe Projects</b>. For more details about operations on <b>Tigerstripe Projects</b>, refer to <a href="../../tasks/interfaceModelingTasks/newTigerstripeProject.html">Creating a New Tigerstripe Project</a>.</p>
+<h2>Tigerstripe Project Structure</h2>
+<blockquote><p><b>Tigerstripe Projects</b> are organized around the following components:</p>
+<ul>
+  <li><a href="projectdescriptor.html"><b>Project Descriptor</b></a>: Stored as a self-contained XML file (<i>tigerstripe.xml</i>), this file needs to be in the top-level directory of your <b>Tigerstripe Project</b>. It contains details and documentation about your <b>Tigerstripe Project</b> and it is a mandatory piect of your <b>Tigerstripe Project</b>.</li>
+  <li><a href="sourceartifacts.html"><b>Source Model</b></a>: The source model contains all source <a href="../tigerstripeartifacts/index.html">Artifacts</a> for your <b>Tigerstripe Service Contract</b> model. Artifacts are organized in packages and define your information models and service capabilities.</li>
+  <li><a href="projectdependencies.html"><b>Project Dependencies</b></a>: The project dependencies are references to other <b>Tigerstripe Project</b> components. A set of projects can define dependencies to a common project where each of your <b>Tigerstripe Projects</b> can reference the model defined in the common project.</li>
+  <li><b>Target Directory</b>: This is where all your generated files, either code or documentation, are located.</li>
+</ul>
+<p>These components constitute the source model of a <b>Tigerstripe Project</b> and they allow the <b>Tigerstripe</b> Engine to generate your target <b>Service Contracts</b>. Consequently, these components are the only components intendend to be placed under version control. For more details on how to control versioning of your <b>Tigerstripe Project</b>, refer to <a href="../../tasks/teamCollaborationTasks/scm.html">Source Control Integration</a>.</p>
+<p>The following image is an example of the <b>Tigerstripe Explorer</b> with the above components displayed:</p>
+<p align="center"><img src="../../gettingstarted/basictutorial/firstproject/images/explorerWithTarget.gif"></p>
+<p>Tigerstripe projects are proper Eclipse projects. As such they contain hidden files that Eclipse relies on. These files are created automatically by Eclipse and Tigerstripe when a new Tigerstripe project is created through the corresponding wizard. Without these Tigerstripe and/or Eclipse cannot function properly. In other words, creating a directory with a <em>tigerstripe.xml</em> file at its root is not sufficient to make a valid Tigerstripe Project. </p></blockquote>
+<h2>Tigerstripe Project Status</h2>
+<blockquote><p>When you open a <b>Tigerstripe Project</b>, that project is continuously audited in the <a href="../../gettingstarted/tigerstripeperspective/projectauditor.htm">Project Auditor</a>. The <b>Project Auditor</b> monitors your project for inconsistencies and errors and notifies you of any problems during the design. The result is a list of <i>Errors, Warnings</i> and <i>Information Messages</i> related to your project.</p>
+<p>Your project status is determined by the message severity of the message displayed in the list of messages by the <b>Project Auditor</b>.</p>
+<p><b>Note:</b> Your project status will continue to be in &quot;Error&quot;, error messages will continue to displayed by the <b>Project Auditor</b>, and the generation of the corresponding <i>Service Contract</i> may be inconsistent or incorrect until you correct said errors.</p>
+<p>Each of the error messages are attached to specific resources in your project (For example, <b>Artifacts</b> or <b>Descriptor</b>) and are represented in the <a href="../../gettingstarted/tigerstripeperspective/tigerstripeexplorer.html">Tigerstripe Explorer</a>. For each of the errors, an explanation is provided in the <b>Problems View</b> in the <a href="../../gettingstarted/tigerstripeperspective/index.html">Tigerstripe Perspective</a>. For more details possible error messages, please refer to <a href="../../troubleshooting/projectAuditErrors.html">Project Audit Troubleshooting</a>.</p></blockquote>
+<h4>Related Topics</h4>
+<!--<p><a href="tigerstripeprojects/index.html">Tigerstripe Projects</a>
+<br>--><a href="../tigerstripeartifacts/index.html">Core Tigerstripe Artifacts</a>
+<br><a href="../ossjspecificartifacts/index.html">Tigerstripe Artifacts for Service Contracts</a>
+<br><a href="../tigerstripeProfiles/index.html">Tigerstripe Profiles</a>
+<br><a href="../generatedcontent/index.html">Generated Elements</a>
+<p><a href="../tigerstripeartifacts/index.html"> <img src="../../images/finger.gif" width="20" height="19" align="absmiddle">&nbsp;Core Tigerstripe Artifacts</a></p>
+</p>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

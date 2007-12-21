@@ -1,0 +1,181 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Adding Relationships</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Adding Relationships</h1>
+<p>In this section, we will discuss how you can add <b>Relationships</b> between <b>Artifacts</b> to your <b>Tigerstripe</b> object model using the <b>Class Diagram Editor</b>. Before you can define a <b>Relationship</b>, you first need to understand the types of relationships that are supported by the <b>Class Diagram Editor</b>.</p>
+
+<p>The <b>Class Diagram Editor</b> supports the creation of a number of relationship types.  Among the supported relationship types are the five classic <b><a href="http://www.uml.org" title="UML Resource Page">UML2.0</a></b> relationship types:</p>
+<ul>
+	<li><b>Association </b>: A relationship between the instances of two artifacts. There is an association between two artifacts if an instance of one artifact must know about the other in order to perform its work</li>
+	<li><b>Association Class</b>: Used to represent an association that has characteristics of its own outside of the two artifacts to which it connects. An <b>Association Class</b> is often used in models to sepatate a many-to-many relationship into a series of one-to-many relationships.</li>
+	<li><b>Dependency</b>: A relationship between two artifacts in which a change in one artifact (the independent artifact) will affect the other artifact (the dependent artifact).</li>
+	<li><b>Reference</b>: A relationship between two artifacts where changes can be made to one artifact without directly affecting the other.</li>
+	<li><b>Extends Relationship</b>: Used when one artifact <i>extends</i> the behaviour of another. An <b>Extends Relationship</b> is also known as a <b>Generalization Relationship</b>.
+<p><b>Note:</b> In <i>Tigerstripe Workbench</i> an artifact can <i>extend</i> only one other artifact and the two artifacts involved in an <b>Extends Relationship</b> must be of the same type. There is an exception made to this rule of the type being the same for Datatype and Enumeration artifacts. Datatype artifacts are allowed to extend an Enumeration artifact.</li>
+</ul>
+<p>In addition to these standard relationship types, there are also a number of type-specific <b>Dependency Relationships</b> that are built into the <b>Class Diagram Editor</b>:</p>
+<ul>
+   <li><b>Emits</b>: A <b>Session Facade</b> can <i>emit</i> a Notification.</li>
+   <li><b>Returns</b>: A <b>Named Query</b> can <i>return</i> a Managed Entity or a Datatype.</li>
+   <li><b>Supports</b>: A <b>Session Facade</b> can <i>support</i> a Named Query.</li>
+   <li><b>Manages</b>: A <b>Session Facade</b> can <i>manage</i> a Managed Entity.</li>
+   <li><b>Exposes</b>: A <b>Session Facade</b> can <i>expose</i> an Update Procedure.</li>
+</ul>
+<p>With a combination of the relationship types defined, you should be able to easily model most, if not all, of the relationships you find in your real-world systems.</p>
+<p><b>Note:</b> There is <b><u>NO</u></b> support in the <b>Class Diagram Editor</b> for defining custom relationship types that are domain specific.</p>
+<a name="defining a relationship"></a>
+<h2>Defining a Relationship between existing artifacts</h2>
+<blockquote>
+<p>The key to defining a relationship between two <b>Artifacts</b> in the <b>Class Diagram Editor</b> is with the <b>Connection Handles</b>. For more information, refer to <b><a href="tigerstripeArtifacts.html" title="Working with Tigerstripe Artifacts">Working with Tigerstripe Artifacts</a></b>. There are two <b>Connection Handles</b> that appear when you select an <b>Artifact</b> and rest over that <b>Artifact</b> in the <b>Class Diagram Editor</b>. The <b>Connection Handles</b> appear at the edge of the <i>Artifact Box</i> closest to your cursor position. Once the <b>Connection Handles</b> appear, you can define a relationship between that artifact and another artifact in the diagram. Complete the following procedure to define a relationship between artifacts.</p>
+<h3>To define a relationship:</h3>
+<ol>
+   <li>Select the arrow for the <b>Connection Handle</b> that matches the direction of the relationship you want to create.</li>
+   <li>Click and drag the <b>Connection Handle</b> to the <b>Artifact</b> to which you want to create the relationship.</li>
+<p><b>Note:</b> If the cursor appears as an arrow when you are over the top of the second artifact, then you can create a relationship between those two artifacts.</p>
+   <li>Release the <b>Connection Handle</b> and a list of available relationship types display. This list is similar to what is displayed in the below <a href="#figure 1">figure</a>.</li>
+</ol>
+<blockquote><p>If you are unable to create a relationship, your cursor will look like a circle with a slash through it. In this case, releasing the mouse button will not display the list of available relationship types and the <b>Connection Handles</b> will disappear.</p>
+<p>The following <a href="#figure 1">figure</a> illustrates what the <b>Class Diagram Editor</b> looks like after you create a relationship between two <b>Artifacts</b>. As this figure shows, there are a number of relationships that can be built between these two objects.</p>
+<!--
+<img border="0" alt="Creating a Reference" src="images/exampleDiagram4-CreateReference.png">
+<img width="650" height="428" border="0" alt="Creating a Reference" src="images/exampleDiagram4-CreateReference.png">
+-->
+<a name="figure 1"></a><img border="0" alt="Creating a Reference" src="images/exampleDiagram4-CreateReference.png">
+</blockquote></blockquote>
+<h2>Defining Relationship Direction</h2>
+<blockquote>
+<p>Every relationship has a <i>Direction</i> associated with it. If you look at the arrows in the two <b>Connection Handles</b> from the perspective of the <b>Artifact</b>, that is the <i>Order</i> entity in the <a href="#figure 1">figure</a>, you will see that there is one <i>Outbound</i> arrow and one <i>Inbound</i> arrow. For this discussion, we will refer to the artifact for which the relationship is <i>Outbound</i> as the <i>Source</i> of the relationship and the artifact for which the relationship is <i>Inbound</i> as the <i>Target</i> of the relationship.</p>
+<p><b>Note:</b> Whether or not a particular relationship is considered valid between two artifacts may change depending on which artifact is the <i>Source</i> of the relationship and which artifact is the <i>Target</i>.</p>
+</blockquote>
+<h2>Defining a Relationship with a new artifact<br></h2>
+<blockquote>
+<p>There is another way to create a <b>Relationship</b> that can be used to create a new artifact in the model while also creating a relationship with the new artifact. Complete the following procedure to create an <b>Artifact</b> and define a <b>Relationship</b> at the same time.</p>
+<h3>To create an Artifact and a Relationship at the same time:</h3>
+<ol>
+   <li>Select the arrow for the <b>Connection Handle</b> that matches the direction of the relationship you want to create.</li>
+   <li>Click and drag the <b>Connection Handle</b> to an empty portion of the diagram. That is, the cursor should not be over any existing objects in the diagram. You will know that you can create a relationship when the cursor appears as an arrow.</li>
+   <li>Release the <b>Connection Handle</b> and a list entries will display. The entries will be similar to the following:</li>
+      <ul>
+        <li><i>Create XXX To/From...</i>, where <i>XXX</i> is the name of a relationship type that you can create and the <i>To/From</i> indicates the direction of the relationship. Each of the <i>Create XXX To/From...</i> entries will have a submenu.</li>
+</ul>
+   <li>Select an entry from the list. You will be presented with a submenu that lists the types of <b>New</b> objects that you can create a relationship with for the given relationship <b>Type</b> and <b>Direction</b>. An extra entry may also display that will give you the option of creating a relationship of that <b>Type</b> and <b>Direction</b> with an existing entry (<i>Existing Entry</i>).</li>
+<ul>
+   <li>Select one of the entries from the list of <b>New</b> objects that can be created (not the <i>Existing Entry</i> submenu item), to create a new object of that <i>Artifact Type</i> and a connection of the given <i>Type </i>and <i>Direction</i> is created to that new object.<br></li>
+   <li>Select the <i>Existing Entry</i> submenu item and a list of objects that already exist in the diagram for which you can create a relationship with that <i>Type</i> and <i>Direction</i>. Select one of the entries from that list to create a connection of the given <i>Type</i> and a <i>Direction</i>.</li>
+<p><b>Note:</b> If you are unable to create a relationship with the given <i>Direction</i> then your cursor will appear as a circle with a slash through it. In this case, releasing your mouse will not create a relationship.</p>
+</ol>
+<blockquote><p>Now that you know how to build relationships into your model, you have the information you need to complete the diagram for our example system. By adding a few relationships, you can transform the rather static diagram we <a href="#figure 1">showed</a> into the following model of our <b>Order Management System</b>:</p>
+<!--
+<img border="0" alt="Completed Example System" src="images/exampleDiagram7-OrderManagement.png">
+<img width="650" height="428" border="0" alt="Completed Example System" src="images/exampleDiagram7-OrderManagement.png">
+-->
+<a name="figure 2"></a><img border="0" alt="Completed Example System" src="images/exampleDiagram7-OrderManagement.png">
+<p>As you can see in, the details for the <b>Artifacts</b> that existed in our first <a href="#figure 1">image</a> are fully specified (specifically, the various values in the <i>OrderStatus</i> Enumeration artifact) and a few new artifacts have been added to the model. We have modeled the <i>OrderManager</i> as a <b>Session Facade</b> object that <i>manages</i> a list of <i>Orders</i>. We have also defined an <i>OpenOrders</i> <b>Query</b> artifact that is <i>supported</i> by the <i>OrderManager</i> <b>Session Facade</b> artifact. The <i>OpenOrders</i> <b>Query</b> artifact <i>returns</i> a list of open <i>Orders</i> that exist in the system.  While this example is by no means complete, it does give you a good idea of the different types of relationships that you can build using the <b>Class Diagram Editor</b> and how those relationships can be used to model real-world systems.</p>
+</blockquote></blockquote>
+<h2>Limitations of Relationships in the Class Diagram Editor</h2>
+<blockquote>
+<p>There are several limitations placed on <b>Relationships</b> based on the types of artifacts involved and the context of each of those artifacts.  Below is a short list of these limitations:</p>
+<ul>
+   <li><b>Extends Relationships</b> are only permitted between objects of the same type.</li>
+   <li>An artifact can only <i>extend</i> one other artifact.</li>
+   <li>If an artifact is from a referenced project<!--(HYPERLINK?)-->, then that object can only be used as the <i>Target</i> of a relationship, never as a <i>Source</i>. In this case, referenced objects are considered to be read-only therefore, any existing relationships with other artifacts cannot be changed. For more information on the use of referenced artifacts in the <b>Eiagram Editor</b>, refer to <a href="tigerstripeArtifacts.html">Working with Tigerstripe Artifacts</a></li>
+</ul>
+<p>There are also some basic limitations that exist in the <b>Class Diagram Editor</b> when it comes to <b>Relationships</b>. These limitations include (but are not limited to) the following:</p>
+<ul>
+   <li>You should avoid circular references in your model. However there is no attempt made in the <b>Class Diagram Editor</b> to try to resolve and prevent circular references.  It is up to the model designer to avoid circular references.<br></li>
+   <li>There is no support for custom relationship types in the <b>Class Diagram Editor</b> (or in <b>Tigerstripe Workbench</b> for that matter). Hopefully the relationships that are pre-defined will fulfill your needs when it comes to modeling your software systems.</li>
+</ul>
+</blockquote>
+<h2>Summary</h2>
+<blockquote>
+<p>In this section you were provided with a brief overview of how <b>Relationships</b> are added between <b>Artifacts</b> using the <b>Class Diagram Editor</b>. In the next section (<b><a href="additionalTools.html" title="Additional Tools">Additional Class Diagram Editor Tools</a></b>), we will review some of the other tools that are available.</p>
+</blockquote>
+<h4>Related Topics</h4>
+<a href="index.html">The Class Diagram Editor</a>
+<br><a href="usingDiagramEditor.html">Using the Class Diagram Editor</a>
+<br><a href="overview.html">A Class Diagram Editor Overview</a>
+<br><a href="tigerstripeArtifacts.html">Working with Tigerstripe Artifacts</a>
+<p><a href="additionalTools.html"> <img src="../../images/finger.gif" width="20" height="19" align="absmiddle">Additional Class Diagram Editor Tools</a></p>
+
+<!-- InstanceEndEditable --> 
+<p class="style1"><img width="100%" height="3" src="../../images/46_58.jpg"><br> 
+&copy; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p> 
+</ol></body>
+<!-- InstanceEnd --></html>

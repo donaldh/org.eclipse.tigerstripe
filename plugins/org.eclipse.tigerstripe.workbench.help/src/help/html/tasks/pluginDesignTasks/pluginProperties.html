@@ -1,0 +1,116 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Configuring Global Properties</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Configuring Global Properties</h1>
+<p>For all projects where your plug-in is deployed, the <b>Global Properties</b> defined for that plug-in are displayed as an option in the <b>Generation</b> section of your <b>Tigerstripe Descriptor</b> You can enter <i>values</i> for all defined plug-in properties in the <b>Tigerstripe Editor</b>. These values are passed to the <i>context</i> at runtime and are used in project <i>templates</i> to control behavior. The following list shows and example of project plug-ins:</p>
+<ul>
+   <li>Set the name of a directory</li>
+   <li>Indicate the use of optional behaviour in the plug-in</li>
+</ul>
+<p>There are currently two types of <b>Global Properties</b> that you can define:</p>
+<ul>
+   <li><strong>String</strong> properties can take any string value.</li>
+   <li><strong>Boolean</strong> properties can only have the value "true" or "false". 
+   <p><b>Note:</b> In the <b>context</b>, this will be a string with the value "true" or "false", and not a true boolean.</p></li>
+</ul>
+
+<h2>Creating Global Properties</h2>
+<blockquote><p>You add <b>Global properties</b> in the <b>Properties</b> section of the <b>Plugin Project Descriptor</b>. Complete the following procedure to create <b>Global Properties</b>.</p>
+
+<ol>
+   <li>Click <b>Add</b>. The <b>New Project Property</b> dialog box displays</li> 
+   <p><img src="images/plugin_properties.gif" border="1" width="329" height="270" alt="" align="absmiddle"></p>
+   <li>Enter a property name in the <b>Property Name</b> text box. The name should be descriptive enough so that users of the plug-in will understand the purpose of the plug-in.</li>
+   <li>Select the type of property in the <b>Property Type</b> drop-down list box. Your options are <b>String</b> or <b>Boolean</b>.</li>
+</ol>
+<p>Once a property has been added to your plug-in, you can edit the property by highlighting it in the <b>Global Properties</b> list. There are two additional items for each plug-in property.</p>
+<ul>
+   <li><strong>Tool tip text</strong> This option allows you to enter a short discription of you plug-in that will display when the user of the plug-ins uses it.</li>
+   <li><strong>Default Value</strong> The option allows you to enter a default value for the plug-in.</li>
+</ul></blockquote>
+
+<h2>Using Global Properties in Templates</h2>
+<blockquote><p>To use <b>Global Properties</b> in a <i>template</i>, it is necessary to use the <b>PluginRef</b> object. (<i>$pluginRef.Properties.getProperty(“propname”)</i>)</p>
+<p>For more information on defining templates, refer to <a href="ruleDesignTasks/index.html">Creating and Editing Rules</a></p></blockquote>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

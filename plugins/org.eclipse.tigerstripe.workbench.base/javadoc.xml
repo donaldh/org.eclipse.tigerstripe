@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<project default="javadoc">
+	<target name="javadoc">
+		<javadoc access="public" 
+			author="false" 
+			classpath="bin/" 
+			destdir="doc" 
+			nodeprecated="false" 
+			nodeprecatedlist="false" 
+			noindex="false" nonavbar="false" notree="false" 
+			packagenames="org.eclipse.tigerstripe.api.external,org.eclipse.tigerstripe.api.external.model,org.eclipse.tigerstripe.api.external.model.artifacts,	org.eclipse.tigerstripe.api.external.plugins,org.eclipse.tigerstripe.api.external.profile.stereotype,org.eclipse.tigerstripe.api.external.project,org.eclipse.tigerstripe.api.external.queries" 
+			source="1.5" 
+			sourcepath="src/external" splitindex="true" use="true" version="true" />
+	</target>
+</project>

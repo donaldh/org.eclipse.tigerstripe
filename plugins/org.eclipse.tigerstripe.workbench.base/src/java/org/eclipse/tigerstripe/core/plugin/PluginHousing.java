@@ -1,0 +1,112 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+ *******************************************************************************/
+package org.eclipse.tigerstripe.core.plugin;
+
+import org.apache.log4j.Logger;
+import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.core.generation.RunConfig;
+import org.eclipse.tigerstripe.core.locale.Messages;
+
+/**
+ * @author Eric Dillon
+ * 
+ * TODO To change the template for this generated type comment go to Window -
+ * Preferences - Java - Code Style - Code Templates
+ */
+public class PluginHousing {
+
+	/** logger for output */
+	private static Logger log = Logger.getLogger(TigerstripeException.class);
+
+	protected PluginBody body;
+
+	/**
+	 * Triggers the housing for the specified reference
+	 * 
+	 * @param pluginRef
+	 */
+	public void trigger(PluginRef pluginRef, RunConfig config)
+			throws TigerstripeException {
+		body.trigger(pluginRef, config);
+	}
+
+	/**
+	 * Triggers the housing for the specified reference
+	 * 
+	 * @param pluginRef
+	 */
+	public PluginReport getReport() throws TigerstripeException {
+		return body.getReport();
+	}
+
+	public String getLabel() {
+		return this.body.getLabel();
+	}
+
+	public int getCategory() {
+		return body.getCategory();
+	}
+
+	public PluginHousing(PluginBody body) {
+		this.body = body;
+	}
+
+	public PluginHousing(Class pluginClass) throws TigerstripeException {
+
+		if (PluginBody.class.isAssignableFrom(pluginClass)) {
+			try {
+				this.body = (PluginBody) pluginClass.newInstance();
+			} catch (IllegalAccessException e) {
+				throw new TigerstripeException(Messages.formatMessage(
+						Messages.UNKNOWN_ERROR_WHILE_LOADING_PLUGIN,
+						pluginClass.getName()), e);
+			} catch (InstantiationException e) {
+				throw new TigerstripeException(Messages.formatMessage(
+						Messages.UNKNOWN_ERROR_WHILE_LOADING_PLUGIN,
+						pluginClass.getName()), e);
+			}
+		} else
+			throw new TigerstripeException(Messages.formatMessage(
+					Messages.UNKNOWN_ERROR_WHILE_LOADING_PLUGIN, pluginClass
+							.getName()));
+	}
+
+	public String getPluginId() {
+		return this.body.getPluginId();
+	}
+
+	public String getGroupId() {
+		return this.body.getGroupId();
+	}
+
+	public String getVersion() {
+		return this.body.getVersion();
+	}
+
+	public String[] getDefinedProperties() {
+		return this.body.getDefinedProperties();
+	}
+
+	public boolean matchRef(PluginRef ref) {
+		return getPluginId().equals(ref.getPluginId())
+				&& getGroupId().equals(ref.getGroupId())
+				&& getVersion().equals(ref.getVersion());
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof PluginHousing) {
+			PluginHousing housing = (PluginHousing) other;
+			return getPluginId().equals(housing.getPluginId());
+		}
+		return false;
+	}
+}

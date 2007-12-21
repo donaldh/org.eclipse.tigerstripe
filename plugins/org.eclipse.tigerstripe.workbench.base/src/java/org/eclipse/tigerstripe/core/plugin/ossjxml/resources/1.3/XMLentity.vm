@@ -1,0 +1,142 @@
+## ED Change - A little inconsistency here. When artifact is null, all 
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+## component on an entity can be accessed by entity.*
+## In the regular case ( artifact != null ) components are accessed by
+## entity.Artifact.* :-(
+##
+#if ( $artifact )
+	#set ($component = $entity.Artifact)
+#else
+	#set ($component = $entity )
+#end
+
+#if ($ossjUtil.interfaceOf($component.FullyQualifiedName).Generate)
+	<!-- Tigerstripe : Entity defintions for $component.Name  (Value, ArrayOfValue, Key, ArrayOfKey, KeyResult, ArrayOfKeyResult -->
+    <complexType name="$ossjUtil.interfaceOf($component.FullyQualifiedName).Name" >
+        <annotation>
+            <documentation>
+            $ossjXmlUtil.xMLComment($component.Comment)
+            </documentation>
+        </annotation>
+#if ($component.hasExtends())
+#set ($baseName = $ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($component.Extends.FullyQualifiedName),$component.Extends.FullyQualifiedName,"").NameNoNS)
+## basePrefix SHOULD be the same for all variants of the Entity Def
+#set ($basePrefix = $ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($component.Extends.FullyQualifiedName),$component.Extends.FullyQualifiedName,"").Prefix)
+#else
+#set ($basePrefix = "${coNS}")
+#set ($baseName   = "ManagedEntityValue")
+#end
+#if ($basePrefix != "$exp.expandVar($model.TargetNamespace)" || $baseName != "$ossjUtil.interfaceOf($component.FullyQualifiedName).Name")
+        <complexContent>
+			<extension base = "$basePrefix:$baseName" >	
+#set ($doExtend = "true")
+## NB If the extends stuff is valid or not here, then the same applies to all the other defintions.
+#else
+#set ($doExtend = "false")
+#end
+                <sequence>
+#foreach($field in $component.Fields)
+#parse ("$resourceDir/XMLFields.vm")        	
+#end
+###### Only required if this has no intent of being extended
+#if ($component.IStandardSpecifics.ExtensibilityType == "none")
+	                <element name="$util.unCapitalize($ossjUtil.keyInterfaceOf($component.FullyQualifiedName).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($component.FullyQualifiedName),$component.FullyQualifiedName, "").KeyName" nillable="true" minOccurs="0"/>
+#end
+                </sequence>
+#if ($doExtend != "false")
+            </extension>
+        </complexContent>
+#end
+    </complexType>
+####################### The Array Of Value defintion
+    <complexType name="ArrayOf$util.capitalize($ossjUtil.interfaceOf($component.FullyQualifiedName).Name)">
+        <sequence>
+            <element name="item" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($component.FullyQualifiedName),$component.FullyQualifiedName,"").Name" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+####################### The Key defintion
+    <complexType name="$ossjUtil.keyInterfaceOf($component.FullyQualifiedName).Name">
+#if ($component.hasExtends())
+#set ($baseKeyName  =$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($component.Extends.FullyQualifiedName),$component.Extends.FullyQualifiedName, "").KeyNameNoNS)
+#else
+#set ($baseKeyName  = "ManagedEntityKey")
+#end
+#if ($doExtend != "false")
+	    <complexContent>
+			<extension base = "$basePrefix:$baseKeyName" >		
+				<sequence/>
+            </extension>
+        </complexContent>
+#end
+    </complexType>
+####################### The Array Of Key defintion
+    <complexType name="ArrayOf$util.capitalize($ossjUtil.keyInterfaceOf($component.FullyQualifiedName).Name)">
+        <sequence>
+            <element name="item" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($component.FullyQualifiedName),$component.FullyQualifiedName,"").KeyName" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+####################### The KeyResult defintion    
+    <complexType name="$ossjUtil.keyResultInterfaceOf($component.FullyQualifiedName).Name">
+#if ($entity.hasExtends())
+#set ($baseKeyResultName = $ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($component.Extends.FullyQualifiedName),$component.Extends.FullyQualifiedName, "").KeyResultNameNoNS)
+#else
+#set ($baseKeyResultName = "ManagedEntityKeyResult")
+#end
+#if ($doExtend != "false")
+    	<complexContent>
+    		<extension base = "$basePrefix:$baseKeyResultName" >
+#end
+				<sequence>
+					<element name="$util.unCapitalize($ossjUtil.keyInterfaceOf($component.FullyQualifiedName).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"").KeyName" nillable="true" minOccurs="0"/>
+                </sequence>
+#if ($doExtend != "false")
+            </extension>
+        </complexContent>
+#end
+    </complexType>
+####################### The Array Of KeyResult defintion    
+    <complexType name="ArrayOf$util.capitalize($ossjUtil.keyResultInterfaceOf($component.FullyQualifiedName).Name)">
+        <sequence>
+        	<element name="item" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($component.FullyQualifiedName),$component.FullyQualifiedName,"").KeyResultName"	nillable="true" minOccurs="0" maxOccurs="unbounded"/>		
+	        </sequence>
+    </complexType>			
+####################### Add the global defintions for extensible Enum based attributes
+	<!-- Tigerstripe : Global element defintions for extensible Enum attributes of $component.Name -->
+#foreach($field in $component.Fields)
+#if ($field.Type.isExtensibleEnum())
+#if ($field.Type.BaseType.FullyQualifiedName == "int" && $pluginRef.Properties.getProperty("useEnumValues") == "true" )
+#set ($thisType = "int")
+#else
+#set ($thisType = "string")
+#end 
+ 	<element name="base$util.capitalize($field.Name)" type="$thisType"/>
+ 	<element name="$field.Name" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName),$field.Type.FullyQualifiedName, "").Name" 
+ 		substitutionGroup="$schemaUtils.getPrefixForArtifact($component.FullyQualifiedName):base$util.capitalize($field.Name)" /> 
+## Need to handle extensions of the Enum
+#set ($enum = $manager.getArtifactByFullyQualifiedName($field.Type.FullyQualifiedName,true))
+#if ($enum.hasExtends())
+	<element name="${field.Name}${enum.Extends.Name}" 
+		type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($enum.Extends.FullyQualifiedName),$enum.Extends.FullyQualifiedName, "").Name" 
+		substitutionGroup="$schemaUtils.getPrefixForArtifact($component.FullyQualifiedName):base$util.capitalize($field.Name)"/>
+#end
+#if ($field.Type.Dimensions == "[]" )
+## An array of enum
+    <complexType name="ArrayOf$util.capitalize($field.Name)">
+      <sequence>
+            <element ref="$schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName):base$util.capitalize($field.Name)" maxOccurs="unbounded" minOccurs="0"/>
+        </sequence>
+    </complexType>
+#end
+#end
+#end
+	<!-- Tigerstripe : End of Entity defintion for $component.Name -->
+#end

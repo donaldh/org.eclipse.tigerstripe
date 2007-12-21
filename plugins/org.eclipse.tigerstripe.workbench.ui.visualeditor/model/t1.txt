@@ -1,0 +1,38 @@
+    <links
+        visualID="3008"
+        editPartClassName="AbstractArtifactImplementsEditPart"
+        itemSemanticEditPolicyClassName="AbstractArtifactImplementsItemSemanticEditPolicy"
+        notationViewFactoryClassName="AbstractArtifactImplementsViewFactory">
+      <diagramRunTimeClass
+          href="../../../plugin/org.eclipse.gmf.runtime.notation/model/notation.genmodel#//notation/Edge"/>
+      <elementType
+          xsi:type="gmfgen:SpecializationType"
+          editHelperAdviceClassName="AbstractArtifactImplementsEditHelperAdvice"/>
+      <viewmap
+          xsi:type="gmfgen:InnerClassViewmap"
+          className="ImplementsFigure"
+          classBody="&#xD;&#xA;&#xD;&#xA;/**&#xD;&#xA; * @generated&#xD;&#xA; */&#xD;&#xA;public class ImplementsFigure extends org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx {&#xD;&#xA;&#xD;&#xA;&#x9;/**&#xD;&#xA;&#x9; * @generated&#xD;&#xA;&#x9; */&#xD;&#xA;&#x9;public ImplementsFigure() {&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;this.setLineStyle(org.eclipse.draw2d.Graphics.LINE_DASH);&#xD;&#xA;&#x9;&#x9;setTargetDecoration(createTargetDecoration());&#xD;&#xA;&#x9;}&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#x9;/**&#xD;&#xA;&#x9; * @generated&#xD;&#xA;&#x9; */&#xD;&#xA;&#x9;private org.eclipse.draw2d.PolygonDecoration createTargetDecoration() {&#xD;&#xA;org.eclipse.draw2d.PolygonDecoration df = new org.eclipse.draw2d.PolygonDecoration();&#xD;&#xA;// dispatchNext?&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;df.setBackgroundColor(org.eclipse.draw2d.ColorConstants.white&#xD;&#xA;&#xD;&#xA;);&#xD;&#xA;&#x9;&#x9;org.eclipse.draw2d.geometry.PointList pl = new org.eclipse.draw2d.geometry.PointList();&#xD;&#xA;&#x9;&#x9;pl.addPoint(-2, 2);&#xD;&#xA;&#x9;&#x9;pl.addPoint(0, 0);&#xD;&#xA;&#x9;&#x9;pl.addPoint(-2, -2);&#xD;&#xA;&#x9;&#x9;df.setTemplate(pl);&#xD;&#xA;&#x9;&#x9;df.setScale(getMapMode().DPtoLP(7), getMapMode().DPtoLP(3));&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;return df;&#xD;&#xA;&#x9;}&#xD;&#xA;&#xD;&#xA;}&#xD;&#xA;&#x9;&#xD;&#xA;">
+        <requiredPluginIDs>org.eclipse.draw2d</requiredPluginIDs>
+        <requiredPluginIDs>org.eclipse.gmf.runtime.draw2d.ui</requiredPluginIDs>
+      </viewmap>
+      <modelFacet
+          xsi:type="gmfgen:FeatureLinkModelFacet">
+        <metaFeature
+            href="tigerstripe.genmodel#//visualeditor/AbstractArtifact/implements"/>
+      </modelFacet>
+      <creationConstraints>
+        <sourceEnd
+            body="self &lt;> oppositeEnd"/>
+      </creationConstraints>
+    </links>
+
+    
+    
+    
+    
+            <entries
+            xsi:type="gmfgen:ToolEntry"
+            title="Implements"
+            description="Creates an Implements relationship"
+            genLinks="//@diagram/@links.7"/>
+    

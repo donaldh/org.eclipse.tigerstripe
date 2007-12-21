@@ -1,0 +1,6 @@
+<!-- Copy a Directory -->
+<jelly xmlns:ant="jelly:ant">
+  <ant:copy todir="${toDir}" overwrite="true">
+	<ant:fileset dir="${srcDir}"/>
+  </ant:copy>
+</jelly>

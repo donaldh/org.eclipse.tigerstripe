@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.tigerstripe.workbench.ui.base.closedDiagramSynchronizer">
+      <closedDiagramSynchronizer
+            name="ClosedInstanceDiagramSynchronizer"
+            synchronizerClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.ClosedInstanceDiagramSynchronizer"/>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.workbench.ui.base.modelFileContentReader">
+      <modelFileContentReader
+            name="instanceDiagramModelFileContentReader"
+            readerClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers.InstanceDiagramModelFileContentReader"/>
+   </extension>
+
+</plugin>

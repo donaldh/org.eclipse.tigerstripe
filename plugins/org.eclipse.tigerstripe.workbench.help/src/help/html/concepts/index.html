@@ -1,0 +1,131 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Tigerstripe Workbench Concepts</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+
+<style type="text/css">
+<!--
+.style2 {
+	color: #FF0000;
+	font-weight: bold;
+}
+.style3 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Tigerstripe Workbench Concepts</h1>
+<p><b>Tigerstripe Workbench</b> is a modeling environment that focuses on the design, test and deployment of integration interfaces between systems and applications in a typical Enterprise Architecture. </p>
+<p>Historically, enterprise integration has been necessary for the exchange of information between applications and systems in an Enterprise Architecture. The tasks involved with the design and implementation of the  integration points between the applications are usually time consuming and error prone, leading to very tightly coupled systems which are very difficult and costly to maintain. </p>
+<p>Service Oriented Architecture (SOA) provides a new way to develop your Enterprise Architecture blueprint by using the concept of self-contained services. These self-contained services offer very specific capabilities that can be composed into more complex services to support end-to-end business process. The right level of granularity in designing and assembling these services leads to a more agile architecture, ultimately leading to a more cost effective solution and decreasing the time to market.</p>
+<p align="center" class="style2"><img src="../images/messyOSS.gif" width="600" height="424"></p>
+<p>The key to success lies in the design of your enterprise services and how you answer the following questions: 
+<ul>
+   <li>What is the right level of granularity? </li>
+   <li>What are the key services to include in an Enterprise Architecture? </li>
+   <li>What are the best practices to apply? </li>
+   <li>What are the design patterns to use to ensure consistency across services in the enterprise?.</li> 
+</ul>
+<p><b>Tigerstripe Workbench</b> is a unique design environment that helps an Enterprise Architect address these questions by allowing them to capture business requirements and turn them automatically into documented service specifications ready for implementation and deployment.</p>
+<h2>Service Contracts</h2>
+<blockquote><p>When designing a Service Oriented Architecture, the key to success lies in the definition, design, and documentation of the services themselves before proceeding to implementation and deployment. Since a Service Oriented Architecture is centered around <em>Service Consumers</em> and <em>Service Producers</em> it is important to capture in a <b>Service Contract</b> the specifics of a service as it is being provided for consumption. Once you <em>publish</em> the contract for all services available in the Enterprise Architecture, assembling existing services into more complex ones to support business processes is easier and less error-prone. This repository of well specified and documented service contracts allows you to quickly support new business processes or evolve existing ones rapidly. </p>
+<p><b>Tigerstripe Workbench</b> tackles this problem by focusing on <b>Service Contracts</b> that capture, in business terms, the specifics of a service as it will be offered to its consumers. From a high-level perspective, <b>Service Contracts</b> contain the following:</p>
+<ul>
+  <li><strong>Documentation</strong>, from basic identification of a contract to details about governance, use cases, and deployment related information.</li>
+  <li><strong>Information Model,</strong> as it is understood and presented by the service. How is a <em>customer</em> represented? What are the network resource exposed through the service?</li>
+  <li><strong>Capabilities</strong>, as offered by the service. Does the service offer any query mechanism? Is there any unsolicited notifications that service consumers can subscribe to?</li>
+</ul>
+<p>Through a set of Wizards, <b>Tigerstripe Workbench</b> guides you through the definition of a <b>Service Contract</b>.  Once defined, <b>Tigerstripe</b> will automatically generate the following:</p>
+<ul>
+  <li><strong>&quot;Tight-Specification&quot;</strong>, a <em>technology-specific</em> specification of the <b>Service Contract</b>, including J2EE, XML-based messaging, or Web Services (WSDL).</li>
+  <li><strong>Web-based Documentation</strong>, detailing the information and capabilities of a contract in a format that can be published within the enterprise or provided as reference for implementation (to System Integrators or in-house implementation teams). </li>
+</ul></blockquote>
+<h2>Tigerstripe Projects</h2>
+<blockquote><p><b>Tigerstripe Workbench</b> is organized around <em>Projects</em>. A <b>Tigerstripe Project</b> is a container where you can capture, store, and document anything related to <b>Service Contracts</b>, such as information models, service capabilities, and UML diagrams. Typically, <b>Tigerstripe Projects</b> contain the details of one or more <b>Service Contracts</b>, but can also contain only an information model in order for it to be shared across several projects by establishing dependencies between projects.</p>
+<p>A <b>Tigerstripe Project</b> maps directly onto an <b>Eclipse</b> project. As such, it can be versioned, opened, and closed like any regular <b>Eclipse</b> project. For more details about operations on <b>Tigerstripe Projects</b>, refer to <a href="tigerstripeprojects/index.html">Tigerstripe Projects</a>.</p></blockquote>
+<h2>Service Contract Lifecycle</h2>
+<blockquote><p>As for any software component, <b>Service Contracts</b> evolve as your business processes evolve, as new applications or systems are deployed in the enterprise, or as existing applications are upgraded or changed. Since <b>Tigerstripe</b> allows you to capture the details of a <b>Service Contract</b>, it makes it easier to track changes and assess the impact to existing Information Models and Service Capabilities before changing the actual implementation of a service.</p></blockquote>
+<h4>Related Topics</h4>
+<p><a href="tigerstripeprojects/index.html">Tigerstripe Projects</a>
+<br><a href="tigerstripeartifacts/index.html">Core Tigerstripe Artifacts</a>
+<br><a href="ossjspecificartifacts/index.html">Tigerstripe Artifacts for Service Contracts</a>
+<br><a href="tigerstripeProfiles/index.html">Tigerstripe Profiles</a>
+<br><a href="generatedcontent/index.html">Generated Elements</a>
+<p><a href="tigerstripeprojects/index.html"> <img src="../images/finger.gif" width="20" height="19" align="absmiddle">&nbsp;Tigerstripe Projects</a></p>
+
+<p class="style3">&nbsp;</p>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

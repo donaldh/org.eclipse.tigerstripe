@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Base Visual Editor Plugin
+Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.visualeditor; singleton:=true
+Bundle-Version: 2.2.4.qualifier
+Bundle-ClassPath: .
+Bundle-Localization: plugin
+Export-Package: org.eclipse.tigerstripe.workbench.ui.visualeditor,
+ org.eclipse.tigerstripe.workbench.ui.visualeditor.impl,
+ org.eclipse.tigerstripe.workbench.ui.visualeditor.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.tigerstripe.workbench.base
+Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

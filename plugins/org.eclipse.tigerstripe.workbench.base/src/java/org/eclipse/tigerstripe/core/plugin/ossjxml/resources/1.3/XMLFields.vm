@@ -1,0 +1,42 @@
+#if ($fieldRestriction == "true" )
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#set($limits = 'nillable="true" minOccurs="0"')
+#else
+#set ($limits = "")
+#end
+#set ($fName = $field.Name)
+#if ($field.Type.isEnum())
+#if ($field.Type.isExtensibleEnum())
+## NB : This will have a "matched pair" outside the complexType Def..
+## This will be in the local namespace
+#if  ($field.Type.Dimensions == "[]" )
+ 					<element name="$fName" type="$schemaUtils.getPrefixForArtifact($field.ContainingArtifact.FullyQualifiedName):ArrayOf$util.capitalize($field.Name)" minOccurs="0"/>
+				#else
+				 					<element ref="$schemaUtils.getPrefixForArtifact($field.ContainingArtifact.FullyQualifiedName):base$util.capitalize($field.Name)" minOccurs="0"/>
+#end
+#else
+    				<element name="$fName" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName),$field.Type.FullyQualifiedName, "").Name" $limits />
+#end
+#elseif ($field.Type.isDataType())
+					<element name="$fName" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName),$ossjUtil.interfaceOf($field.Type.FullyQualifiedName), $field.Type.Dimensions).Name" $limits />
+#elseif ($field.Type.isEntityType())
+#if ($field.isRefByValue())
+                    <element name="${fName}" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName),$field.Type.FullyQualifiedName, $field.Type.Dimensions).Name" $limits />
+#elseif ($field.isRefByKey())
+                    <element name="${fName}" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName),$field.Type.FullyQualifiedName, $field.Type.Dimensions).KeyName" $limits />
+#elseif ($field.isRefByKeyResult())
+                    <element name="${fName}" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName),$field.Type.FullyQualifiedName, $field.Type.Dimensions).KeyResultName" $limits />
+#end
+#else
+#set ($thisType = $ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($field.Type.FullyQualifiedName), $field.Type.FullyQualifiedName, $field.Type.Dimensions).Name)
+                    <element name="$fName" type="$thisType" $limits />
+#end

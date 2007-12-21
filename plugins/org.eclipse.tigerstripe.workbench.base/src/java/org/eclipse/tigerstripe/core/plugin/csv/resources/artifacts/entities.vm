@@ -1,0 +1,77 @@
+#set($artifactType = "ENTITY")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#foreach($entity in $entities)
+#if ($entity.hasExtends())
+$artifactType,$entity.FullyQualifiedName,$entity.Extends.FullyQualifiedName,"$entity.Comment"
+#else
+$artifactType,$entity.FullyQualifiedName,,"$entity.Comment"
+#end
+#if($detail >= 2)
+#set ($spec = $entity.IStandardSpecifics)
+$artifactType:OSSJ_SPECIFICS,$entity.FullyQualifiedName,$spec.ExtensibilityType,$spec.SessionFactoryMethods,$spec.InterfaceProperties.get("package"),$entity.PrimaryKey.FullyQualifiedName
+#end
+#set ($object = $entity)
+#if ($detail > 0)
+#parse("$resourceDir/artifacts/Fields.vm")
+#parse("$resourceDir/artifacts/Labels.vm")
+#parse("$resourceDir/artifacts/Methods.vm")
+#end
+#if ($detail >=2)
+## CREATE
+#set ($simple = $entity.CreateProperties.get("simple"))
+#set ($bulkAtomic = $entity.CreateProperties.get("bulkAtomic"))
+#set ($bulkAtomicByKeys = $entity.CreateProperties.get("bulkAtomicByKeys"))
+#set ($bulkBestEffort = $entity.CreateProperties.get("bulkBestEffort"))
+#set ($bulkBestEffortByKeys = $entity.CreateProperties.get("bulkBestEffortByKeys"))
+#set ($byAutoNaming = $entity.CreateProperties.get("byAutoNaming"))
+$artifactType:OSSJ_SPECIFICS:CREATE,$entity.FullyQualifiedName,"simple='$simple'","bulkAtomic='$bulkAtomic'","bulkAtomicByKeys='$bulkAtomicByKeys'","bulkBestEffort='$bulkBestEffort'","bulkBestEffortByKeys='$bulkBestEffortByKeys'","byAutoNaming='$byAutoNaming'"
+##GET
+#set ($simpleByKey = $entity.GetProperties.get("simpleByKey"))
+#set ($bulkAtomicByKeys = $entity.GetProperties.get("bulkAtomicByKeys"))
+#set ($byTemplate = $entity.GetProperties.get("byTemplate"))
+#set ($byTemplates = $entity.GetProperties.get("byTemplates"))
+$artifactType:OSSJ_SPECIFICS:GET,$entity.FullyQualifiedName,"simpleByKey='$simpleByKey'","bulkAtomicByKeys='$bulkAtomicByKeys'","byTemplate='$byTemplate'","byTemplates='$byTemplates'"
+##SET
+#set ($simple = $entity.SetProperties.get("simple"))
+#set ($byTemplate = $entity.SetProperties.get("byTemplate"))
+#set ($byTemplates = $entity.SetProperties.get("byTemplates"))
+#set ($byTemplateBestEffort = $entity.SetProperties.get("byTemplateBestEffort"))
+#set ($byTemplatesBestEffort = $entity.SetProperties.get("byTemplatesBestEffort"))
+#set ($bulkAtomic = $entity.SetProperties.get("bulkAtomic"))
+#set ($bulkAtomicByKeys = $entity.SetProperties.get("bulkAtomicByKeys"))
+#set ($bulkBestEffort = $entity.SetProperties.get("bulkBestEffort"))
+#set ($bulkBestEffortByKeys = $entity.SetProperties.get("bulkBestEffortByKeys"))
+$artifactType:OSSJ_SPECIFICS:SET,$entity.FullyQualifiedName,"simple='$simple'","byTemplate='$byTemplate'","byTemplates='$byTemplates'","byTemplateBestEffort='$byTemplateBestEffort'","byTemplatesBestEffort='$byTemplatesBestEffort'","bulkAtomic='$bulkAtomic'","bulkAtomicByKeys='$bulkAtomicByKeys'","bulkBestEffort='$bulkBestEffort'","bulkBestEffortByKeys='$bulkBestEffortByKeys'"
+##REMOVE
+#set ($simpleByKey = $entity.RemoveProperties.get("simpleByKey"))
+#set ($byTemplate = $entity.RemoveProperties.get("byTemplate"))
+#set ($byTemplates = $entity.RemoveProperties.get("byTemplates"))
+#set ($byTemplateBestEffort = $entity.RemoveProperties.get("byTemplateBestEffort"))
+#set ($byTemplatesBestEffort = $entity.RemoveProperties.get("byTemplatesBestEffort"))
+#set ($bulkAtomicByKeys = $entity.RemoveProperties.get("bulkAtomicByKeys"))
+#set ($bulkBestEffortByKeys = $entity.RemoveProperties.get("bulkBestEffortByKeys"))
+$artifactType:OSSJ_SPECIFICS:REMOVE,$entity.FullyQualifiedName,"simpleByKey='$simpleByKey'","byTemplate='$byTemplate'","byTemplates='$byTemplates'","byTemplateBestEffort='$byTemplateBestEffort'","byTemplatesBestEffort='$byTemplatesBestEffort'","bulkAtomicByKeys='$bulkAtomicByKeys'","bulkBestEffortByKeys='$bulkBestEffortByKeys'","byAutoNaming='$byAutoNaming'"
+#foreach ($method in $entity.Methods)
+#set ($simple = $method.getOssjMethodProperties().getProperty("simple"))
+#set ($simpleByKey = $method.getOssjMethodProperties().getProperty("simpleByKey"))
+#set ($byTemplate = $method.getOssjMethodProperties().getProperty("byTemplate"))
+#set ($byTemplates = $method.getOssjMethodProperties().getProperty("byTemplates"))
+#set ($byTemplateBestEffort = $method.getOssjMethodProperties().getProperty("byTemplateBestEffort"))
+#set ($byTemplatesBestEffort = $method.getOssjMethodProperties().getProperty("byTemplatesBestEffort"))
+#set ($bulkAtomic = $method.getOssjMethodProperties().getProperty("bulkAtomic"))
+#set ($bulkAtomicByKeys = $method.getOssjMethodProperties().getProperty("bulkAtomicByKeys"))
+#set ($bulkBestEffort = $method.getOssjMethodProperties().getProperty("bulkBestEffort"))
+#set ($bulkBestEffortByKeys = $method.getOssjMethodProperties().getProperty("bulkBestEffortByKeys"))
+$artifactType:OSSJ_SPECIFICS:METHOD,$entity.FullyQualifiedName,$method.Name,"simple='$simple'","simpleByKey='$simpleByKey'","byTemplate='$byTemplate'","byTemplates='$byTemplates'","byTemplateBestEffort='$byTemplateBestEffort'","byTemplatesBestEffort='$byTemplatesBestEffort'","bulkAtomic='$bulkAtomic'","bulkAtomicByKeys='$bulkAtomicByKeys'","bulkBestEffort='$bulkBestEffort'","bulkBestEffortByKeys='$bulkBestEffortByKeys'"
+#end
+#end
+#end

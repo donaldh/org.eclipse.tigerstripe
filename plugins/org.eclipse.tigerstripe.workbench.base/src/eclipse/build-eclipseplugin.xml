@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Ant file for Eclipse Plugin Build
+	
+	$Id: build-eclipseplugin.xml,v 1.1 2007/12/21 14:55:44 edillon Exp $
+-->
+<project name="org.eclipse.tigerstripe.community" default="build.jars" basedir=".">
+
+<!-- 	<property name="bootclasspath" value=""/>
+	<property name="basews" value="${ws}"/>
+	<property name="baseos" value="${os}"/>
+	<property name="basearch" value="${arch}"/>
+	<property name="basenl" value="${nl}"/>-->
+	<property name="javacFailOnError" value="false"/>
+	<property name="javacDebugInfo" value="on"/>
+	<property name="javacVerbose" value="false"/>
+	<property name="javacSource" value="1.5"/>
+	<property name="javacTarget" value="1.5"/>
+	<property name="compilerArg" value=""/>
+
+	<!--  load the initial properties -->
+	<target name="load-initial-properties" depends="properties">
+		<echo message="Loading the initial properties (${ts.eclipse.dir})"/>
+		<property file="${ts.eclipse.dir}/eclipseplugin.properties"/>
+	</target>
+
+	<target name="init" depends="load-initial-properties">
+		<!--  Allow to set Eclipse path from the environment -->
+		<property environment="env"/>
+		
+<!-- 		<condition property="pluginTemp" value="${buildTempFolder}/plugins">
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="pluginTemp" value="${basedir}"/>
+		<condition property="build.result.folder" value="${pluginTemp}/org.eclipse.tigerstripe.community">
+			<isset property="buildTempFolder"/>
+		</condition>
+		<property name="build.result.folder" value="${basedir}"/>
+		<property name="temp.folder" value="${basedir}/temp.folder"/>
+		<property name="plugin.destination" value="${basedir}"/>
+-->
+	</target>
+
+	<!--  TODO: should probably forbid to run from Eclipse -->
+	<target name="properties" if="eclipse.running">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+	</target>
+
+	<target name="build.update.jar" depends="init" description="Build the plug-in: org.eclipse.tigerstripe.community for an update site.">
+		<delete dir="${ts.eclipse.plugin.build.dir}"/>
+		<mkdir dir="${ts.eclipse.plugin.build.dir}"/>
+		<antcall target="build.jars"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${ts.eclipse.plugin.build.dir}/"/>
+		</antcall>
+		<zip zipfile="${plugin.destination}/org.eclipse.tigerstripe.community_0.0.4.jar" basedir="${ts.eclipse.plugin.build.dir}/org.eclipse.tigerstripe.community_0.0.4" filesonly="false" whenempty="skip" update="false"/>
+		<delete dir="${ts.eclipse.plugin.build.dir}"/>
+	</target>
+
+	<target name="plugin-main.jar" depends="init" description="Create plugin main jar file.">
+		<delete dir="${ts.eclipse.plugin.build.dir}/classes"/>
+		<mkdir dir="${ts.eclipse.plugin.build.dir}/classes"/>
+		<!-- compile the source code -->
+		<javac destdir="${ts.eclipse.plugin.build.dir}/classes" 
+			failonerror="${javacFailOnError}" 
+			verbose="${javacVerbose}" 
+			debug="${javacDebugInfo}" 
+			includeAntRuntime="no" bootclasspath="${bootclasspath}" 
+			source="${javacSource}" target="${javacTarget}"		>
+			<compilerarg line="${compilerArg}"/>
+			<classpath>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ui_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.core.runtime_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.osgi_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.help_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.swt_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.swt.win32.win32.x86_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.jface_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.core.commands_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ui.workbench_3.1.0.jar"/>
+				<pathelement path="../../../../apps/eclipse-SDK-3.1-win32/eclipse-3.1/plugins/org.eclipse.ui.workbench.compatibility_3.1.0/compatibility.jar"/>
+				<pathelement path="../../../../apps/eclipse-SDK-3.1-win32/eclipse-3.1/plugins/org.eclipse.ui.workbench.compatibility_3.1.0/@dot"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.core.expressions_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.core.resources_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.core.resources.compatibility_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.core.resources.win32_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.core.runtime.compatibility_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.update.configurator_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ant.core_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.core.variables_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.jface.text_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.text_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ui.editors_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ui.ide_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ui.win32_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ui.views_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.update.core_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.update.core.win32_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.update.ui_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ui.forms_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ui.workbench.texteditor_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.core.filebuffers_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.jdt.core_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.team.core_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.jdt.launching_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.debug.core_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}/plugins/org.eclipse.jdt.debug_3.1.0/jdi.jar"/>
+				<pathelement path="${eclipse.home}/plugins/org.eclipse.jdt.debug_3.1.0/jdimodel.jar"/>
+				<pathelement path="${eclipse.home}/plugins/org.eclipse.jdt.debug_3.1.0/tools.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.jdt.ui_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ui.console_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.search_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.debug.ui_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.compare_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ltk.core.refactoring_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.ltk.ui.refactoring_3.1.0.jar"/>
+
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.pde.core_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.pde.ui_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.pde.runtime_3.1.0.jar"/>
+				<pathelement path="${eclipse.home}\plugins\org.eclipse.pde_3.1.0.jar"/>
+
+				<pathelement path="${ts.eclipse.plugin.build.dir}/classes"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/xerces-1.4.0.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/ant-1.6.5.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/ant-junit-1.6.5.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-beanutils-1.7.0.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-cli-1.0-beta-2.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-collections-3.1.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-grant-1.0-beta-4.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-jelly-1.0.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-jelly-tags-ant-1.0.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-jelly-tags-define-1.0.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-jelly-tags-util-1.1.1.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-jelly-tags-xml-1.1.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-jexl-1.0.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-logging-1.0.4.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/dom4j-1.6.1.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/jaxen-1.1-beta-8.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/commons-logging-1.0.4.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/log4j-1.2.14.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/qdox-1.6.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/velocity-1.4.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/forehead-1.0-beta-5.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/jmi-ts.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/jmiutils-ts.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/mdrapi-ts.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/mof-ts.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/nbmdr-ts.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/openide-util-ts.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/jmiuml-1.4di-ts.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/jRegistryKey-1.3.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/ojdbc-14.jar"/>
+				<pathelement path="${ts.eclipse.plugin.lib.dir}/tools-1.5.0_04.jar"/>
+			</classpath>
+			<src path="${ts.eclipse.plugin.src}"/>
+			<exclude name="**/ossjjvtstub/lib/*.java"/>
+			</javac>
+		<!-- Copy necessary resources -->
+		<copy todir="${ts.eclipse.plugin.build.dir}/classes" failonerror="true">
+			<fileset dir="${ts.eclipse.plugin.src}" excludes="**/*.java, **/package.htm*"			/>
+		</copy>
+		<copy file="${basedir}/target/ts-build.properties" todir="${ts.eclipse.plugin.build.dir}/classes"/>
+		<jar jarfile="${ts.eclipse.plugin.build.dir}/${ts.eclipse.plugin.jar}" basedir="${ts.eclipse.plugin.build.dir}/classes"/>
+		<delete dir="${ts.eclipse.plugin.build.dir}/classes"/>
+	</target>
+
+	<target name="communitysrc.zip" depends="init">
+		<zip zipfile="${ts.eclipse.plugin.src}/communitysrc.zip" filesonly="false" whenempty="skip" update="false">
+			<fileset dir="src/java/" includes="**/*.java"			/>
+		</zip>
+	</target>
+
+	<target name="build.jars" depends="init" description="Build all the jars for the plug-in: org.eclipse.tigerstripe.community.">
+		<available property="plugin-main.jar" file="${ts.eclipse.plugin.build.dir}/${ts.eclipse.plugin.jar}"/>
+		<antcall target="plugin-main.jar"/>
+	</target>
+
+	<target name="build.sources" depends="init">
+		<available property="communitysrc.zip" file="${build.result.folder}/communitysrc.zip"/>
+		<antcall target="communitysrc.zip"/>
+	</target>
+
+	<target name="gather.bin.parts" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}"/>
+		
+		<!--  Copy the main jar file   -->
+		<copy todir="${destination.temp.folder}" failonerror="true">
+			<fileset dir="${ts.eclipse.plugin.build.dir}" includes="${ts.eclipse.plugin.jar}"/>
+		</copy>
+		
+		<!--  Copy all the goodies     -->
+		<copy todir="${destination.temp.folder}" failonerror="true">
+			<fileset dir="${basedir}" includes="plugin.xml,META-INF/,target/lib/,src/eclipse/icons/, src/publisher/**, src/help/**" />
+		</copy>
+	</target>
+
+	<target name="build.zips" depends="init">
+	</target>
+
+	<target name="gather.sources" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.eclipse.tigerstripe.community_0.0.4"/>
+		<copy file="${build.result.folder}/communitysrc.zip" todir="${destination.temp.folder}/org.eclipse.tigerstripe.community_0.0.4" failonerror="false"/>
+	</target>
+
+	<target name="gather.logs" depends="init" if="destination.temp.folder">
+		<mkdir dir="${destination.temp.folder}/org.eclipse.tigerstripe.community_0.0.4"/>
+		<copy file="${ts.eclipse.plugin.build.dir}/community.jar.bin.log" todir="${destination.temp.folder}/org.eclipse.tigerstripe.community_0.0.4" failonerror="false"/>
+	</target>
+
+	<target name="clean" depends="init" description="Clean the plug-in: org.eclipse.tigerstripe.community of all the zips, jars and logs created.">
+		<delete file="${build.result.folder}/community.jar"/>
+		<delete file="${build.result.folder}/communitysrc.zip"/>
+		<delete file="${plugin.destination}/org.eclipse.tigerstripe.community_0.0.4.jar"/>
+		<delete file="${plugin.destination}/org.eclipse.tigerstripe.community_0.0.4.zip"/>
+		<delete dir="${ts.eclipse.plugin.build.dir}"/>
+	</target>
+
+	<target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
+		<eclipse.convertPath fileSystemPath="C:/JWorkspace/REPO/distrib/org.eclipse.tigerstripe.community" property="resourcePath"/>
+		<eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
+	</target>
+
+	<target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: org.eclipse.tigerstripe.community.">
+		<delete dir="${ts.eclipse.plugin.build.dir}"/>
+		<mkdir dir="${ts.eclipse.plugin.build.dir}"/>
+		<antcall target="build.jars"/>
+		<antcall target="build.sources"/>
+		<antcall target="gather.bin.parts">
+			<param name="destination.temp.folder" value="${ts.eclipse.plugin.build.temp.dir}/"/>
+		</antcall>
+<!-- 		<antcall target="gather.sources">
+			<param name="destination.temp.folder" value="${ts.eclipse.plugin.build.temp.dir}/"/>
+		</antcall>
+-->		<delete>
+			<fileset dir="${ts.eclipse.plugin.build.dir}" includes="**/*.bin.log"			/>
+		</delete>
+		<zip zipfile="${ts.eclipse.plugin.build.dir}/${ts.eclipse.plugin.file.name}.zip" whenempty="skip" update="false">
+			<zipfileset dir="${ts.eclipse.plugin.build.temp.dir}" prefix="plugins/${ts.eclipse.plugin.file.name}"/>
+		</zip>
+		<delete dir="${ts.eclipse.plugin.build.dir}/plugins"/>
+		<delete file="${ts.eclipse.plugin.build.dir}/${ts.eclipse.plugin.jar}"/>
+	</target>
+
+</project>

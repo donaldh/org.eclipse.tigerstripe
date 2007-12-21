@@ -1,0 +1,109 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Diagrams Export</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Batch Export of Diagrams</h1>
+
+<p>The <b>Diagrams Export</b> tool exports all diagrams in the current <b>Tigerstripe</b> project to .gif files and builds an XML index file that can be further processed through an XSL.</p>
+
+<h2>Running the Diagrams Export Tool</h2>
+<ol>
+   <li> From your <b>Tigerstripe Perspective</b>, right-click on your <b>Tigerstripe Project</b> and select <b>Export</b>.</li>
+   <li>Navigate to <b>Tigerstripe/Diagrams Export...</b> and click <b>Next</b>. The <b>Diagrams Export</b> wizard opens</li>
+	<p><img src="images/diagramsExportWizard.gif"></p>
+   <li>Select the project that you want to export and the directory into which the exported diagrams will be placed and click <b>Finish</b>. Note that this is the project-relative directory where Diagrams will be created.</li>
+   <li>Select the type of Diagrams that should be exported ( Class Diagram and/or Instance Diagrams ).</li>
+   <li>Optionaly enter a Regular Expression to match the name of the diagrams to exclude from the export. This feature is useful when specific diagrams are in the project for internal documentation only and shouldn't be exported.</li>
+   <li>Optionaly select a XSL tranformation file to apply to the generated XML index. The name of the resulting file is set to "index.html".</li>
+</ol>
+
+<h2>Export Process</h2>
+<blockquote>
+<p>If the target directory doesn't exist within the project to be exported, it will be automatically created. 
+For all diagrams matching the selection criteria, a .gif file is created. The files are given an number that is then
+referenced in the XML index.</p>
+<p>An XML index file is created using the name of the project.</p>
+<p>Optionaly, an XSL tranformation will be applied to the XML index. The result will be saved in an "index.html" file in the same directory.</p>
+</blockquote>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

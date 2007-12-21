@@ -1,0 +1,26 @@
+#foreach ($refArt in $manager.getAllKnownArtifactsByFullyQualifiedName($artifact.FullyQualifiedName))
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+## Need to check if the artifact is actually the thing we are looking at!
+#if ($artifact != $refArt)
+					<override>
+#foreach ($diff in $comparer.compareArtifacts($artifact,$refArt,true))
+						<difference 
+							type 			= "$diff.Type" 
+## Don't need this next line - we already ahve the anme and the wwo names are the same
+## else we wouldn't be here 
+##			 				localArtifact 	= "$diff.Local" 	remoteArtifact 	= "$diff.Remote"
+			 				scope			= "$diff.Scope" 	object			= "$diff.Object"
+			 				localVal		= "$diff.LocalVal" 	remoteVal		= "$diff.RemoteVal" />
+#end
+					</override>
+#end
+#end

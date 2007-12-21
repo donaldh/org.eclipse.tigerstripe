@@ -1,0 +1,58 @@
+
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+    <element name="query$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))Request">
+        <annotation>
+            <documentation>
+                This is the Request for the query$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()})) Operation
+            </documentation>
+        </annotation>
+        <complexType>
+            <complexContent>
+                <extension base="${coNS}:IteratorRequest">
+                <sequence>
+                <element name="queryValue" type="${coNS}:NamedQueryValue"/>
+                    <element name="attrNames" type="${coNS}:ArrayOfString"/>
+                </sequence>
+                </extension>
+            </complexContent>
+        </complexType>
+    </element>
+    <element name="query$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))Response">
+        <annotation>
+            <documentation>
+                This is the Response for the query$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()})) Operation
+            </documentation>
+        </annotation>
+        <complexType>
+            <complexContent>
+                <extension base="${coNS}:IteratorResponse">
+                <sequence>
+                    <element name="results" type="$schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName):ArrayOf$util.capitalize($ossjUtil.interfaceOf($entity.FullyQualifiedName).Name)"/>
+                </sequence>
+                </extension>
+            </complexContent>
+        </complexType>
+    </element>
+    <element name="query$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))Exception">
+        <annotation>
+            <documentation>
+                This is the Exception for the query$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()})) Operation
+                The following exceptions are returned if an error occurs.
+            </documentation>
+        </annotation>
+        <complexType>
+            <choice>
+                <element name="ossIllegalArgumentException" type="${coNS}:OssIllegalArgumentException"/>
+                <element name="remoteException" type="${coNS}:RemoteException"/>
+            </choice>
+        </complexType>
+    </element>

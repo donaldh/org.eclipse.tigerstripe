@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="org.eclipse.tigerstripe.exportWizardCategory"
+            class="org.eclipse.tigerstripe.workbench.optional.UML2Export.ui.wizards.UML2ExportWizard"
+            icon="icons/importExport.gif.gif"
+            id="org.eclipse.tigerstripe.tools.UML2Export.wizard1"
+            name="UML2 Export"/>
+   </extension>
+</plugin>

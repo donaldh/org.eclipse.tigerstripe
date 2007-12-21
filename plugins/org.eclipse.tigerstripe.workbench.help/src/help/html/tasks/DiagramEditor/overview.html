@@ -1,0 +1,157 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>A Class Diagram Editor Overview</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>A Class Diagram Editor Overview</h1>
+<p>The <b>Class Diagram Editor</b> provides you with the ability to model your system using a diagram similar to the Object Management Group (OMG) UML specification's Class Diagram. The current release of the <b>Class Diagram Editor</b> supports a set of features similar to those supported in the UML2.0 specification. Refer to, the full  
+UML2.0 specification at the OMG <b><a href="http://www.uml.org/" title="The OMG UML Resource Page">UML Resource Page</a></b>).</p>
+<p>Once you create a new diagram using the <b>New Tigerstripe Diagram</b> dialog box, the <b>Class Diagram Editor</b> opens. For more information about the <b>New Tigerstripe Diagram</b> dialog box, refer to <a href="index.html">Creating a <b>Tigerstripe Diagram</b></a>. The <b>Class Diagram Editor</b> looks similar to the following image:<br></p> 
+<!--
+<img border="0" alt="main Diagram Editor window" src="images/exampleDiagram1-DiagramTools.png">
+<img width="650" height="428" border="0" alt="main Diagram Editor window" src="images/exampleDiagram1-DiagramTools.png">
+-->
+<a name="figure 1"></a><img border="0" alt="main Diagram Editor window" src="images/exampleDiagram1-DiagramTools.png">
+<h2>The Tigerstripe Diagram  Editor</h2>
+<blockquote>
+<p>The <b>Class Diagram Editor</b> is fully integrated with <b>Tigerstripe Workbench</b> including the <b>Tigerstripe Explorer</b> (<img src="images/four.gif" border="0" alt="" align="absmiddle"> in the <a href="#figure 1">Class Diagram Editor</a>). The <b>Class Diagram Editor</b> consists of the following sets of controls.</p>
+<ol>
+   <li>The first part of the <b>Class Diagram Editor</b> is the main window (usually referred to as the <i>Class Diagram Editor</i> window or the <i>Class Diagram Editor</i>).  You use the <b>Class Diagram Editor</b> to graphically represent your service contract.</li>
+   <li>The second part of the editor is the standard Eclipse <b>Properties</b> tab (<img src="images/five.gif" border="0" width="16" height="16" alt="" align="absmiddle"> in the <a href="#figure 1">Class Diagram Editor</a>). You use the <b>Properties</b> tab to modify the properties associated with your diagram and with any <b>Artifacts</b>, <b>Features</b>, or <b>Relationships</b> in the <b>Class Diagram Editor</b>.</li>
+   <li>Finally, there is a <b>Tool Palette</b> (<img src="images/one.gif" border="0" width="16" height="16" alt="" align="texttop"> in the <a href="#figure 1">Class Diagram Editor</a>). The <b>Tool Palette</b> typically displays on the right side of the <b>Class Diagram Editor</b>, however you can move (or hide) the <b>Tool Pallete</b> if you prefer.  The <b>Tool Palette</b> includes options for selecting objects in your diagram, zooming in and out in the diagram window, adding notes to your diagram, creating new <b>Artifacts</b>, or creating new Features (<b>Attributes</b>, <b>Methods</b>, and <b>Literals</b>) within an <b>Artifact</b> in your diagram.</li>
+</ol>
+<p>Any action that you take in the <b>Class Diagram Editor</b> (such as the creation of <b>Artifacts</b> or the renaming of <b>Features</b>) is reflected by changes in the underlying <b>Tigerstripe</b> object model. These changes are also reflected in the <b>Tigerstripe Explorer</b>).</p>
+<p>You can create the same <b>Artifact</b> types using the available <b>Class Diagram Editor</b> tools as you can with the tools located on the toolbar of <b>Tigerstripe Workbench</b>. The supported <b>Artifact</b> types are:</p>
+<ul>
+   <li><a href="../interfaceModelingTasks/infoModelingTasks/newEditEntityArtifacts.html">Managed Entities</a></li>
+   <li><a href="../interfaceModelingTasks/infoModelingTasks/newEditDatatypeArtifacts.html">Datatypes</a></li>
+   <li><a href="../interfaceModelingTasks/infoModelingTasks/newEditEnumArtifacts.html">Enumerations</a></li>
+   <li><a href="../interfaceModelingTasks/infoModelingTasks/newEditQueryArtifacts.html">Named Queries</a></li>
+   <li><a href="../interfaceModelingTasks/infoModelingTasks/newEditUpdateProcArtifacts.html">Update Procedures</a></li>
+   <li><a href="../interfaceModelingTasks/infoModelingTasks/newEditNotificationArtifacts.html">Notifications</a></li>
+   <li><a href="../interfaceModelingTasks/infoModelingTasks/newEditSessionArtifacts.html">Session Facades</a></li>
+   <li><a href="../interfaceModelingTasks/infoModelingTasks/newEditExceptionArtifacts.html">Exceptions</a></li>
+</ul>
+<p>There are a number of relationship types that you can construct between <b>Artifacts</b>. The procedure for defining relationships between objects are covered later in this document.  For now, all of the relationship types defined in the UML2.0 standard (<b>Associations</b>, <b>Association Classes</b>, <b>Dependencies</b>, and <b>References</b>) are supported by the <b>Class Diagram Editor</b> as are a number of type-specific relationships (For example, relationships that are only available between specific types of <b>Artifacts</b>).</p>
+</blockquote>
+<h2>The Class Diagram Editor Tools</h2>
+<blockquote>
+<p>There are four types of tools available to create new <b>Artifacts</b>:</p>
+<ol>
+	<li>The <b>Tool Palette</b> (<img src="images/one.gif" border="0" width="16" height="16" alt="" align="absmiddle"> in the <a href="#figure 1">Class Diagram Editor</a>).</li>
+	<li>The <b>Tool Tray</b> (<img src="images/two.gif" border="0" width="16" height="16" alt="" align="absmiddle"> in the <a href="#figure 1">Class Diagram Editor</a>).</li>
+	<li>The <b>Create new Tigerstripe Artifacts</b> button on the <b>Tigerstripe Workbench</b> toolbar (<img src="images/three.gif" border="0" width="16" height="16" alt="" align="absmiddle"> in the <a href="#figure 1">Class Diagram Editor</a>).</li>
+	<li>The <b>Context Menu</b> that appears when you right-click on a <b>Tigerstripe</b> project folder in the <b>Tigerstripe Explorer</b> (<img src="images/four.gif" border="0" width="16" height="16" alt="" align="absmiddle"> in the <a href="#figure 1">Class Diagram Editor</a>).</li>
+</ol>
+<p>Both the <b>Create new Tigerstripe Artifacts</b> button and the <b>Context Menu</b> allow you to create <b>Artifacts</b> directly in your <b>Tigerstripe</b> object model.  You can add these objects to any diagram by dragging them from the <b>Tigerstripe Explorer</b> into the <b>Class Diagram Editor</b>.</p>
+<p>The <b>Tool Palette</b> and the <b>Tool Tray</b> allow you to create <b>Artifacts</b> directly in the  <b>Class Diagram Editor</b>.</p>
+</blockquote>
+<h2>Creating a New Artifact using the Class Diagram Editor</h2>
+<blockquote>
+<p>You can create <b>Artifacts</b> in the <b>Class Diagram Editor</b> using either the <b>Tool Pallete</b> or the <b>Tool Tray</b>. Complete the following procedure to create a new <b>Artifact</b> using the <b>Class Diagram Editor</b>.</p>
+
+<h3>To create a new Artifact using the Tool Palette:</h3>
+<ol>
+   <li>Select the tool option that corresponds to the type of <b>Artifact</b> that you want to create.</li>
+   <li>Click anywhere in the <b>Class Diagram Editor</b>.  A new <b>Artifact</b> of the selected type, with a unique default name, displays. The <b>Artifact</b> is also visible in the <b>Tigerstripe Explorer</b>.</li>
+</ol>
+<blockquote><p>Creating <b>Artifacts</b> using the <b>Tool Tray</b> is even easier. Complete the following procedure to create an <b>Artifact</b> using the <b>Tool Tray</b>.</p>
+</blockquote>
+<h3>To create a new Artifact using the Tool Tray:</h3>
+<ol>
+   <li>Rest your cursor in the <b>Class Diagram Editor</b>. The <b>Tool Tray</b> displays.</li>
+   <p><b>Note:</b> Your cursor <b>MUST</b> be completely still before the <b>Tool Tray</b> will appear.</p>
+   <li>Select the option that corresponds to the type of <b>Artifact</b> that you want to create. The <b> Artifact</b> is created at the position in the diagram just below where the <b>Tool Tray</b> displayed.</li>
+</ol>
+</blockquote>
+<h2>Summary</h2>
+<blockquote>
+<p>In this section, the basic features of the <b>Class Diagram Editor</b> were discussed along with the number of ways that you can create <b>Artifacts</b> using the <b>Class Diagram Editor</b>. In the next section (<b><a href="tigerstripeArtifacts.html" title="Working with Tigerstripe Artifacts">Working with Tigerstripe Artifacts</a></b>), we further discuss working with <b>Artifacts</b> in the <b>Class Diagram Editor</b> and explain how to edit and configure your <b>Artifacts</b>.</p>
+</blockquote>
+<h4>Related Topics</h4>
+<a href="index.html">The Class Diagram Editor</a>
+<br><a href="usingDiagramEditor.html">Using the Class Diagram Editor</a>
+<br><a href="addingRelationships.html">Adding Relationships</a>
+<br><a href="additionalTools.html">Additional Class Diagram Editor Tools</a>
+<p><a href="tigerstripeArtifacts.html"> <img src="../../images/finger.gif" width="20" height="19" align="absmiddle">Working with Tigerstripe Artifacts</a></p>
+
+<!-- InstanceEndEditable -->  
+<p class="style1"><img width="100%" height="3" src="../../images/46_58.jpg"><br> 
+&copy; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p> 
+</ol></body>
+<!-- InstanceEnd --></html>

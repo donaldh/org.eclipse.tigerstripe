@@ -1,0 +1,132 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Importing UML1.4 Information Models</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+
+
+
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Importing UML1.4 Information Models (.XMI Import)</h1>
+<p>Using the XMI format, you can import UML 1.4 information models from your <b>Tigerstripe Workbench</b> into your <b>Tigerstripe Projects</b>. You can accomplish this task by completing the following two steps:</p>
+<ul>
+  <li>Load in all the definitions from the XMI file, including <b>Class</b>, <b>Enumeration</b>, <b>Package</b>, and <b>Associations</b> as found in the XMI file. For more information, refer to <a href="#LoadingandValiidating">Loading and validating an XMI File</a>.</li>
+  <li>Map the loaded XMI elements into <b>Tigerstripe Artifacts</b>. For more information, refer to <a href="#Mapping Content">Map XMI Content into Tigerstripe Artifacts</a>.</li>
+</ul>
+<a name="LoadingandValiidating"></a><h2>Loading and Validating an XMI File</h2>
+<blockquote><p>Complete the following procedure to load and validate an XMI file.</p>
+<h3>To load an XMI file</h3>
+<ol>
+   <li>In <b>Tigerstripe Workbench</b> select <b>Tigerstripe</b>, click <b>Import</b>, and select <b>from UML Model (1.4)</b>. The <b>Import from UML</b> wizard opens.
+<p align="center"><img src="../../../images/xmiImportWizard-1.gif" ></p></li>
+   <li>Enter the Source Folder in the <b>Source Folder</b> text box. This field controls the source project to where you want to import the XMI file.</li>
+   <li>Select <b>Use reference project (checkpoint)</b> and enter the referenced project in the <b>Reference project</b> text box. <br>-OR-<br>Click <b>Browse</b> to navigate to the location of the project.</li>
+   <li>Click <b>Next</b>. The <b>Import from UML</b> wizard opens.
+   <p align="center"><img src="../../../images/xmiImportWizard-2.gif"></p></li>
+   <li>Complete the following options in the wizard:
+      <ul>
+	     <li><b>XMI File</b>: This is the full path of the XMI file that you want to import. </li>
+         <li><b>Use XSLT</b>: Select this option to apply a given XSL transformation, before the XMI file is loaded. This is necessary to accommodate for any differences between the XMI format produced by each individual UML Application. To use this functionality, complete the following procedure:
+            <ol>
+				<li>Click <b>Use XSLT</b> and enter the target XSL file in the <b>XSL File</b> text box <br> -OR-<br></li><li>Select <b>Browse</b> and navigate to the directory where the target XSL file is located.</li>
+			</ol>
+      </ul></li>
+	  <br><b>Note:</b> Before you map the file into a <b>Tigerstripe Artifact</b>, the <b>Tigerstripe</b> application will validate the file for consistency. This is a mandatory step!
+   <li>Click <b>Validate Model</b>. <br>
+   <b>Note:</b> During the validation phase, the specified XSL transformation is applied. </li>
+   <li>If <b>Tigerstripe</b> does not detect any inconsistancies, click <b>Next</b>. 
+   <li>If <b>Tigerstripe</b> detects errors or inconsistencies, locate the error or inconsistency from the list of inconsistencies that diaplsy and click <b>View Log</b>. After correcting the errors or inconsistencies, click <b>Next</b>. The following dialog box opens:
+<p align="center"><img src="../../../images/xmiImportWizard-3.gif" width="350" height="337"> </li>
+</ol></blockquote>
+<a name="Mapping Content"></a><h2>Map XMI Content into Tigerstripe Artifacts</h2>
+<blockquote><p>Once the XMI file is loaded and validated, you are ready to be map the content to a specific <b>Tigerstripe Artifact</b>. The following mapping is possible:</p>
+<ul>
+  <li><b>Managed Entities</b>: To identify managed entities in the imported information model.</li>
+  <li><b>Datatypes</b>: To identify Datatypes in the import information model.</li>
+  <li><b>Enumerations</b>: To identify Enumerations in the import information model. </li>
+</ul>
+<h3>To map XMI content</h3>
+<ol>
+   <li>Click <b>Add</b> next to the class area that you want to map: <b>Managed Entities</b>, <b>Dataypes</b>, or <b>Enumerations</b>. All associations and properties are mapped to <a href="../../interfaceModelingTasks/infoModelingTasks/definingAssociations.html">Tigerstripe associations</a>. <br><b>Note:</b> Enumerations are directly mapped into <b>Tigerstripe</b> enumerations.</li>
+   <li>After mapping all classes, click <b>Finish</b> to complete the import. </li></blockquote>
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>
+

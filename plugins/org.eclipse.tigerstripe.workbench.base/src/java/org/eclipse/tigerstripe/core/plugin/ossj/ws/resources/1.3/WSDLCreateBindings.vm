@@ -1,0 +1,94 @@
+#if( $entity.getCreateFlavorDetailsStr("simple").Flag == "true" || $entity.getCreateFlavorDetailsStr("simple").Flag == "optional")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+    <wsdl:operation name="create$util.capitalize(${entity.getName()})ByValue">
+        <soap:operation soapAction="create$util.capitalize(${entity.getName()})ByValue" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="create$util.capitalize(${entity.getName()})ByValueException">
+           <soap:fault name="create$util.capitalize(${entity.getName()})ByValueException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getCreateFlavorDetailsStr("bulkAtomic").Flag == "true" || $entity.getCreateFlavorDetailsStr("bulkAtomic").Flag == "optional")
+    <wsdl:operation name="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues">
+        <soap:operation soapAction="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException">
+           <soap:fault name="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getCreateFlavorDetailsStr("bulkAtomicByKeys").Flag == "true" || $entity.getCreateFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional")
+    <wsdl:operation name="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys">
+        <soap:operation soapAction="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException">
+           <soap:fault name="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getCreateFlavorDetailsStr("bulkBestEffort").Flag == "true" || $entity.getCreateFlavorDetailsStr("bulkBestEffort").Flag == "optional")
+    <wsdl:operation name="tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues">
+        <soap:operation soapAction="tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValues" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException">
+           <soap:fault name="tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByValuesException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getCreateFlavorDetailsStr("bulkBestEffortByKeys").Flag == "true" || $entity.getCreateFlavorDetailsStr("bulkBestEffortByKeys").Flag == "optional")
+    <wsdl:operation name="tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys">
+        <soap:operation soapAction="tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException">
+           <soap:fault name="tryCreate$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end
+#if( $entity.getCreateFlavorDetailsStr("byAutoNaming").Flag == "true" || $entity.getCreateFlavorDetailsStr("byAutoNaming").Flag == "optional")
+    <wsdl:operation name="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByAutoNaming">
+        <soap:operation soapAction="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByAutoNaming" style="document" />
+       <wsdl:input>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:input>
+       <wsdl:output>
+           <soap:body parts="parameters" use="literal" />
+       </wsdl:output>
+       <wsdl:fault name="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByAutoNamingException">
+           <soap:fault name="create$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByAutoNamingException" use="literal" />
+       </wsdl:fault>
+		</wsdl:operation>
+#end

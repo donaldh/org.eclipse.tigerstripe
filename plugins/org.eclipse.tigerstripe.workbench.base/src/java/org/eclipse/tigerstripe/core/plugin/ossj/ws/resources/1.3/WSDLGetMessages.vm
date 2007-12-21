@@ -1,0 +1,54 @@
+#if( $entity.getGetFlavorDetailsStr("simpleByKey").Flag == "true" || $entity.getGetFlavorDetailsStr("simpleByKey").Flag == "optional")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+    <wsdl:message name="get$util.capitalize(${entity.getName()})ByKeyRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize(${entity.getName()})ByKeyRequest" />
+    </wsdl:message>
+    <wsdl:message name="get$util.capitalize(${entity.getName()})ByKeyResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize(${entity.getName()})ByKeyResponse" />
+    </wsdl:message>
+    <wsdl:message name="get$util.capitalize(${entity.getName()})ByKeyException">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize(${entity.getName()})ByKeyException" />
+    </wsdl:message>
+#end
+#if( $entity.getGetFlavorDetailsStr("bulkAtomicByKeys").Flag == "true" || $entity.getGetFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional")
+    <wsdl:message name="get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest" />
+    </wsdl:message>
+    <wsdl:message name="get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse" />
+    </wsdl:message>
+    <wsdl:message name="get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" />
+    </wsdl:message>
+#end
+#if( $entity.getGetFlavorDetailsStr("byTemplate").Flag == "true" || $entity.getGetFlavorDetailsStr("byTemplate").Flag == "optional")
+    <wsdl:message name="get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest" />
+    </wsdl:message>
+    <wsdl:message name="get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse" />
+    </wsdl:message>
+    <wsdl:message name="get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException" />
+    </wsdl:message>
+#end
+#if( $entity.getGetFlavorDetailsStr("byTemplates").Flag == "true" || $entity.getGetFlavorDetailsStr("byTemplates").Flag == "optional")
+    <wsdl:message name="get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest" />
+    </wsdl:message>
+    <wsdl:message name="get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse" />
+    </wsdl:message>
+    <wsdl:message name="get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException">
+        <wsdl:part name="parameters" element="$xsdNamespace:get$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException" />
+    </wsdl:message>
+#end

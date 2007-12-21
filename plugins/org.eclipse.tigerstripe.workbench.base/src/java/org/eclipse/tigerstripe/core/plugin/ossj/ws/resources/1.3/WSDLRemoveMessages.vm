@@ -1,0 +1,87 @@
+#if( $entity.getRemoveFlavorDetailsStr("simpleByKey").Flag == "true" || $entity.getRemoveFlavorDetailsStr("simpleByKey").Flag == "optional")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+    <wsdl:message name="remove$util.capitalize(${entity.getName()})ByKeyRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize(${entity.getName()})ByKeyRequest" />
+    </wsdl:message>
+    <wsdl:message name="remove$util.capitalize(${entity.getName()})ByKeyResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize(${entity.getName()})ByKeyResponse" />
+    </wsdl:message>
+    <wsdl:message name="remove$util.capitalize(${entity.getName()})ByKeyException">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize(${entity.getName()})ByKeyException" />
+    </wsdl:message>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("bulkAtomicByKeys").Flag == "true" || $entity.getRemoveFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional")
+    <wsdl:message name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest" />
+    </wsdl:message>
+    <wsdl:message name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse" />
+    </wsdl:message>
+    <wsdl:message name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" />
+    </wsdl:message>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("byTemplate").Flag == "true" || $entity.getRemoveFlavorDetailsStr("byTemplate").Flag == "optional")
+    <wsdl:message name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest" />
+    </wsdl:message>
+    <wsdl:message name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse" />
+    </wsdl:message>
+    <wsdl:message name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException" />
+    </wsdl:message>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("byTemplates").Flag == "true" || $entity.getRemoveFlavorDetailsStr("byTemplates").Flag == "optional")
+    <wsdl:message name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest" />
+    </wsdl:message>
+    <wsdl:message name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse" />
+    </wsdl:message>
+    <wsdl:message name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException">
+        <wsdl:part name="parameters" element="$xsdNamespace:remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException" />
+    </wsdl:message>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("bulkBestEffortByKeys").Flag == "true" || $entity.getRemoveFlavorDetailsStr("bulkBestEffortByKeys").Flag == "optional")
+    <wsdl:message name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest" />
+    </wsdl:message>
+    <wsdl:message name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse" />
+    </wsdl:message>
+    <wsdl:message name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException">
+        <wsdl:part name="parameters" element="$xsdNamespace:tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException" />
+    </wsdl:message>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("byTemplateBestEffort").Flag == "true" || $entity.getRemoveFlavorDetailsStr("byTemplateBestEffort").Flag == "optional")
+    <wsdl:message name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest" />
+    </wsdl:message>
+    <wsdl:message name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse" />
+    </wsdl:message>
+    <wsdl:message name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException">
+        <wsdl:part name="parameters" element="$xsdNamespace:tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException" />
+    </wsdl:message>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("byTemplatesBestEffort").Flag == "true" || $entity.getRemoveFlavorDetailsStr("byTemplatesBestEffort").Flag == "optional")
+    <wsdl:message name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest">
+        <wsdl:part name="parameters" element="$xsdNamespace:tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest" />
+    </wsdl:message>
+    <wsdl:message name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse">
+        <wsdl:part name="parameters" element="$xsdNamespace:tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse" />
+    </wsdl:message>
+    <wsdl:message name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException">
+        <wsdl:part name="parameters" element="$xsdNamespace:tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException" />
+    </wsdl:message>
+#end

@@ -1,0 +1,117 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>What's New</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="images/top_left.gif">&nbsp;</td>
+    <td height="107" background="images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+
+<h1>What's new in Tigerstripe Workbench</h1>
+<p><b>Tigerstripe Workbench</b> uses a revolutionary approach based on <b>Service Artifacts</b> to model the information and behavior of a <b>Service Contract</b> deployed in a Service Oriented Architecture. <b>Service Artifacts</b> introduce additional patterns and constraints compared to a typical modeling environment (for example, UML2). These enable architects, service designers and developers to automatically create consistent <b>Service Contract</b> metadata that helps to ensure a successful deployment in a product suite or enterprise architecture.</p>
+<p>This <b>Service Contract</b> metadata is used to feed an ultraflexible generation engine to derive <b>Service Contract</b> implementation, runtime libraries, deployment information, test harnesses and documentation. The generation can be further extended and tailored to specific environments by editing and creating additional <b>Tigerstripe</b> Plug-ins.</p>
+<h2>Tigerstripe Workbench 2.2</h2>
+<blockquote><p>The release of <b>Tigerstripe Workbench</b> versioin 2.2 includes the following:<p>
+<ul>
+	<li><a href="tasks/DiagramEditor/Instance/instance.html">UML Instance Diagrams</a> to graphically define an instance of your service contract at a given point of time.</li>
+	<li>Custom Service Contract use case documentation, including diagram references.</li>
+	<li>Optional Hibernate and Axis plug-ins allowing generation of Service Stubs for testing in a sandbox environment</li>
+	<li>Linux support</li>
+</ul></blockquote>
+<h2>Tigerstripe Workbench 2.1</h2>
+<blockquote><p>The release of <b>Tigerstripe Workbench</b> version 2.1 includes the following:</p>
+<ul> 
+   <li><a href="tasks/facets/index.html"><b>Service Contract Facets</b></a> to define the scope within a service model and allowing you to define multiple facets of a <b>Service Contract</b> from a single service model.</li>
+   <li>Improved UML Class Diagrams that includes (1) <i>package</i> visibility for attributes, methods, and association ends, (2) component visibility with usual UML notation on attributes, methods, and association ends and (3) <i>abstract</i> qualifiers are displayed properly in italic characters according to UML conventions for Artifact and Method names. For detailed information, refer to <a href="tasks/interfaceModelingTasks/infoModelingTasks/entityAttributes.html">Entity Attributes</a>.</li>
+   <li>The ability to show or hide relationships in a Class Diagram.</li>
+   <li>The ability to specify additional files referenced by a custom plug-in. These files are included in the plug-in and can be referenced from within templates, with the <i>$pluginDir</i> context entry.</li>
+   <li>An enhancement has been introduced in Artifact-based rules to optionally loop over all artifacts visible in the context, i.e. including those defined in referenced projects or dependencies. This option is available from the <b>Artifact Based</b> rule definition editor.</li>
+   <li>The velocity context has been extended with new entries corresponding to all artifacts visible in a project.  The following have been added <i>$allArtifacts, $allEntities, $allDatatypes, $allExceptions, $allQueries, $allUpdateProcedures, $allSessions, $allEnumerations, $allEvents, $allAssociations, $allAssociationClasses, $allDependencies</i>.</li>
+</ul></blockquote>
+<h2>Tigerstripe Workbench 2.0</h2>
+<blockquote><p>The release of <b> Tigerstripe Workbench</b> version 2.0 includes a large number of new features for flexibility and ease of use. Some of these new features include:</p>
+<ul>
+   <li>Graphical User Interface for Service Contract Design</li>
+   <li>Fully customizable plugins based on Velocity Templates and Java code</li>
+·  <li>UML2 support with additional UML2 elements such as <b>Associations</b>, <b>Association Classes</b>, or <b>Dependencies</b>, but also UML2 Import/Export.</li>
+·  <li><b>Tigerstripe Workbench</b> Java API, allowing you to write your own java code to interact with  <b>Tigerstripe Workbench</b></li>
+</ul></blockquote>
+
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

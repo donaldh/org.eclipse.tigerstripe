@@ -1,0 +1,116 @@
+#set ($resourceDir = "org/eclipse/tigerstripe/core/plugin/ossj/resources/1.3")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+#if ($method.ReturnType.isDatatype() || $method.ReturnType.isQueryType() || $method.ReturnType.isUpdateProcedureType() ) 
+#set ($return = "$ossjUtil.interfaceOf($method.ReturnType.FullyQualifiedName).FullyQualifiedName$method.ReturnType.Dimensions")
+#elseif ($method.ReturnType.isEntityType())
+#if ($method.isReturnRefByValue())
+#if ($method.ReturnType.Dimensions != "" && $method.isIteratorReturn())
+#set ($return = "$ossjUtil.valueIteratorInterfaceOf($method.ReturnType.FullyQualifiedName).FullyQualifiedName")
+#else
+#set ($return = "$ossjUtil.interfaceOf($method.ReturnType.FullyQualifiedName).FullyQualifiedName$method.ReturnType.Dimensions")
+#end
+#elseif ($method.isReturnRefByKey())
+#if ($method.ReturnType.Dimensions != "" && $method.isIteratorReturn())
+#set ($return = "$ossjUtil.valueIteratorInterfaceOf($method.ReturnType.FullyQualifiedName).FullyQualifiedName")
+#else
+#set ($return = "$ossjUtil.keyInterfaceOf($method.ReturnType.FullyQualifiedName).FullyQualifiedName$method.ReturnType.Dimensions")
+#end
+#elseif ($method.isReturnRefByKeyResult())
+#if ($method.ReturnType.Dimensions != "" && $method.isIteratorReturn())
+#set ($return = "$ossjUtil.keyResultIteratorInterfaceOf($method.ReturnType.FullyQualifiedName).FullyQualifiedName")
+#else
+#set ($return = "$ossjUtil.keyResultInterfaceOf($method.ReturnType.FullyQualifiedName).FullyQualifiedName$method.ReturnType.Dimensions")
+#end
+#end
+#elseif ($method.ReturnType.isEnum())
+#set ($return = "$method.ReturnType.BaseType.FullyQualifiedName$method.ReturnType.Dimensions")
+#else
+#set ($return = "$method.ReturnType.FullyQualifiedName$method.ReturnType.Dimensions")
+#end
+/**
+ * User specified method - $method.Name.
+ *
+ $ossjUtil.formatComment($method.Comment)
+ *
+#if ($method.isReturnRefByKey())
+#if ($method.ReturnType.Dimensions != "" && $method.isIteratorReturn())
+ * Value objects returned by the Iterator should only have the "Key" populated
+#end
+#end
+## Set the @return
+#if (! $method.isVoid())
+ * @return $return
+#end
+## Set the @param
+#foreach ($argument in $method.Arguments)
+ * @param $argument.Name - $argument.Comment
+#end
+ *
+#foreach($exception in $method.Exceptions)
+#if ($ossjUtil.isTSArtifact($exception.FullyQualifiedName))
+ * @throws $ossjUtil.interfaceOf($exception.FullyQualifiedName).FullyQualifiedName
+#else
+ * @throws $exception.FullyQualifiedName
+#end
+#if ($method.isOptional())
+ * @throws javax.oss.OssUnsupportedAttributeException
+#end	
+#end
+ */
+    public $return ${method.Name} (
+#set( $comma = " " )
+#foreach ($argument in $method.Arguments)
+#if ($argument.Type.isDatatype() || $argument.Type.isQueryType() || $argument.Type.isUpdateProcedureType() )
+        $comma $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName$argument.Type.Dimensions $argument.Name
+#elseif ($argument.Type.isEntityType())
+#if ($argument.isRefByValue())
+        $comma $ossjUtil.interfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName$argument.Type.Dimensions $argument.Name
+#elseif ($argument.isRefByKey()) 
+        $comma $ossjUtil.keyInterfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName$argument.Type.Dimensions $argument.Name
+#elseif ($argument.isRefByKeyResult())
+        $comma $ossjUtil.keyResultInterfaceOf($argument.Type.FullyQualifiedName).FullyQualifiedName$argument.Type.Dimensions $argument.Name
+#end
+#elseif ($argument.Type.isEnum())
+        $comma $argument.Type.BaseType.FullyQualifiedName$argument.Type.Dimensions $argument.Name
+#else
+        $comma $argument.Type.FullyQualifiedName$argument.Type.Dimensions $argument.Name
+#end
+#set( $comma = "," )
+#end
+#if ($method.hasExceptions())
+#set    ($s = $$method.Exceptions.size())
+#set    ($p = 0)
+#if ($method.isOptional())
+        ) throws javax.oss.OssUnsupportedAttributeException
+#set( $comma = "," )        
+#else
+#set    ($comma = ") throws " )
+#end
+#foreach($exception in $method.Exceptions)
+#set    ($p = $p + 1)
+#if     ($p == $s)
+#set        ($end = ";")
+#else
+#set        ($end = "")
+#end	
+#if ($ossjUtil.isTSArtifact($exception.FullyQualifiedName))
+        $comma $ossjUtil.interfaceOf($exception.FullyQualifiedName).FullyQualifiedName$end
+#else
+        $comma $exception.FullyQualifiedName$end
+#end
+#set( $comma = "," )
+#end
+#elseif ($method.isOptional())
+        ) throws javax.oss.OssUnsupportedAttributeException;
+#else
+        );
+#end

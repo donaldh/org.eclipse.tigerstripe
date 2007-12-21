@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+<tigerstripe version="1.1">
+	<project name="$details.ProjectName">
+		<outputDirectory>$details.OutputDirectory</outputDirectory>
+		<nature>$details.Nature</nature>
+		<property name="defaultArtifactPackage">$details.DefaultArtifactPackage</property>
+		<property name="ossj.common.schemaLocation">http://ossj.org/xml/Common/v1-3/OSSJ-Common-v1-3.xsd</property>
+		<property name="ossj.common.namespacePrefix">co-v1-3</property>
+		<property name="ossj.common.targetNamespace">http://ossj.org/xml/Common/v1-3</property>
+	</project>
+	<repositories>
+		<repository baseDir=".">
+			<includes>src/**/*.java</includes>
+		</repository>
+	</repositories>
+	<plugins>
+		<plugin enabled="false" groupId="ts" pluginId="ossj-jvt-spec" version="dev">
+			<property name="defaultInterfacePackage">$details.DefaultInterfacePackage</property>
+		</plugin>
+		<plugin enabled="false" groupId="ts" pluginId="ossj-xml-spec" version="dev">
+			<packageMapping defaultLocation="http://ossj.org/xml/${name}/v${ver}/OSSJ-${name}-v${ver}.xsd" defaultName="xml/${name}/v${ver}/OSSJ-${name}-v${ver}.xsd" targetNamespace="http://ossj.org/xml/${name}/v${ver}"  defaultUserPrefix="ossj-${name}-v${ver}" useDefaultMapping="true"/>
+		</plugin>
+		<plugin enabled="false" groupId="ts" pluginId="ossj-wsdl-spec" version="dev">
+			<property name="targetNamespace">$details.DefaultXsdNamespace</property>
+			<property name="includeWSNotifications">true</property>
+			<property name="WSNotificationsLocation">http://www-128.ibm.com/developerworks/library/specification/ws-notification/WS-BaseN.wsdl</property>
+		</plugin>
+		<plugin enabled="true" groupId="ts" pluginId="publisher" version="1.0">
+			<property name="copyrightFooter">no copyright</property>
+			<property name="clearBeforePublish">true</property>
+			<property name="publishDirectory">publish</property>
+			<property name="useDefaultLogoImage">true</property>
+			<property name="generateBeforePublish">true</property>
+		</plugin>
+		<plugin enabled="true" groupId="ts" pluginId="csv-spec" version="">
+			<property name="levelOfDetail">max</property>
+			<property name="includeInherited">true</property>
+			<property name="csvDirectory">csv</property>
+		</plugin>
+	</plugins>
+	<dependencies>
+	#foreach($key in $details.ReqModules.keySet())
+		<dependency path="$key"/>
+	#end
+    </dependencies>
+    <advanced>
+	  <advancedProperty name="modelImport.useTargetProjectAsGuide">true</advancedProperty>
+	  <advancedProperty name="modelImport.db.importViews">true</advancedProperty>
+	  <advancedProperty name="modelImport.db.importTables">true</advancedProperty>
+      <advancedProperty name="generation.messagePayloadSampleDefaultlocation">$details.MessagePayloadSampleDefaultlocation</advancedProperty>
+      <advancedProperty name="generation.messagePayloadSampleAllowNetwork">$details.MessagePayloadSampleAllowNetwork</advancedProperty>
+	  <advancedProperty name="generation.generateReport">$details.GenerateReport</advancedProperty>
+	  <advancedProperty name="generation.logMessages">$details.LogMessages</advancedProperty>
+	  <advancedProperty name="misc.ignoreArtifactElementsWithoutTag">true</advancedProperty>
+    </advanced>
+</tigerstripe>

@@ -1,0 +1,138 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Creating and Editing Rules</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<style type="text/css">
+<!--
+.style2 {color: #FF0000}
+-->
+</style>
+<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Creating and Editing Rules</h1>
+<p><b>Rules</b> determine the actual behaviour of a plug-in. There are two types of <b>Rules</b>:</p>
+<ul>
+   <li><strong>Global Rules</strong>: These rules are executed <b>once</b> per generation of a project.</li>
+   <li><strong>Artifact Rules</strong>: These rules will be executed once per matching <b>Artifact</b>.</li>
+</ul>
+
+<p>You can add or remove <b>Global</b> and <b>Artifact</b> rules through the <b>Rules</b> section of the <b>Plugin Project Descriptor</b>. Complete the following procedure to add or remove rules.</p>
+<h3>To Add or Remove plug-in Rules</h3>
+<ol>
+   <li>Click <b>Add</b> or <b>Remove</b> in the <b>Plugin Project Descriptor</b>. You set the rule properties through the same editor.</li>
+</ol>
+<blockquote><p><b>Note</b>: Changes to rules will only take effect when you re-deploy the plug-in. For more information about deploying your plug-in, refer to <a href="../deployAndTestPlugin.html">Deploy and Test a plugin</a>.</p></blockquote>
+
+<h2>Common Rule properties</h2>
+<blockquote><p>Both <b>Global</b> and <b>Artifact</b> rules share the following common defintions:</p>
+<ul>
+   <li><strong>Enabled</strong>: This is useful during plug-in development. It allows you to <i>enable</i> and <i>disable</i> rules without deleting their definitions. Only rules that are enabled will be deployed.</li>
+   <li><strong>Name</strong>: The name for the rule. The rule name is only used within the plug-in project and is never seen by the plug-in user.</li> 
+   <li><strong>Description</strong>: The description is only visible within the plug-in project.</li>  
+   <li><strong>Template</strong>: The template that is used for each execution of the rule. Templates must reside the <i>templates</i> directory of the plug-in project. Refer to, <a href="../templateDesignTasks/index.html">Creating/Editing Velocity templates</a> for more information on how to specify template contents.
+   <p><b>Note:</b> More than one rule can use the same template.</p></li>
+   <li><strong>Suppress Empty Files</strong>: If set to <i>true</i>, then all empty files (files of size 0) are removed at the end of the rule run.</li>  
+   <li><strong>Overwrite Files</strong>: If set to <i>true</i>, then any existing files with the same name as the output file are overwritten. Setting this definition to <i>false</i> will prevent any files created by this rule from overwriting existing files.</li>
+   <li><strong>Include artifacts from dependencies and referenced projects.</strong>: When set to <i>true</i>, the rule will run  over artifacts in the local project PLUS those that are in referenced projects or dependencies. This can greatly increase the volume of output so should be treated with caution.</li>
+   <li><strong>Output File Name</strong>: The filename of the file created as a result of execution of this rule. The filename specified will be interpreted as a relative path with it's root at the <i>target</i> directory that is specified in the <b>Tigerstripe Project</b>.
+ <p><b>Note</b>: Be careful to specify a unique name for each rule or artifact combination such as: <i>${artifact.Name}.out</i>. For more information on the use of the ${xxx} patterns, refer to <a href="../templateDesignTasks/expander.html">Using an expander</a>.</p></li>
+   <li><strong>Velocity Context Definitions</strong>: The <b><a href="http://jakarta.apache.org/velocity">Velocity</a></b> context defines what is available to templates at execution. This includes details of the model and some other useful <b>Tigerstripe</b> objects. Refer to <a href="../templateDesignTasks/velocityContextDetails.html">Default Velocity context contents</a> for more information. It is possible to add further entries to the context to simplify the template design; For example, by writing some java code to do some complex and frequently used string manipulation task. Velocity context defintions have two attributes:
+  <ul>
+   <li><strong>Name</strong>: The name to be used from within the template (when prepended with a $ - eg <i>$util</i>)</li>  
+   <li><strong>Class</strong>: The java class that countains the methods to be accessible from the template. These will normally be java src located in the <i>src</i> directory of your plug-in project, or could be classes within a <a href="../pluginRuntime.html">runtime dependency</a>.</li>  
+  </ul> 
+</li>    
+  <li><strong>Velocity Macros</strong>: <b><a href="http://jakarta.apache.org/velocity">Velocity</a></b> supports the use of macros (also called <i>velocimacros</i>). These are additional templates that you can use to similify templates by encapsulating commonly used template snippets. You are able to specify that macros are loaded in the Velocity context by specifying the file which contains the macro defintions. This file must be in the <i>templates</i> directory of your plug-in project.
+  </li>
+</ul></blockquote>
+
+<h2>Additional Properties for Artifact Based Rules</h2>
+<blockquote><ul>
+   <li><strong>Artifact Type</strong>: An artifact rule that is executed once for every <b>Artifact</b> in your project of the type defined. From the drop-down list, select a specific <b>Artifact</b> type, or choose the <b>Any Artifact</b> rule to ensure the rule will run for every <b>Artifact</b> in your project, irrespective of type. An <b>Artifact</b> type <b><i>must</i></b> be selected.</li>
+   <li><strong>Model Class</strong>: You can <b>optionally</b> specify a <b>Model</b> class. The <b>Model</b> class can enrich or simplify the information being processed in the template. By using references to the <b>Model</b> instead of the <b>Artifact</b> inside the template, the template has access to all methods of the <b>Model</b>. A <b>Model</b> is a Java class that must implement the <i>IArtifactModel</i> interface specified in the <b>Tigerstripe</b> external API. The <b>Artifact</b> being processed is passed to that class using the <i>setIArtifact</i> method which <b>Tigerstripe</b> automatically calls, passing the current <b>Artifact</b>. Some examples of method usage within a <b>Model</b> are as follows:
+<ul>
+   <li>Reformat data. For example, to translate a package name to a directory path name, such as translating <i>org.eclipse.tigerstripe.models</i> as <i>org/eclipse/tigerstripe/models</i>.</li>
+   <li>Look up data in other related <b>Artifacts</b>. For example, if the type of an attribute is an <b>Enumeration</b>, you can examine the <b>Base Type</b> of that <b>Enumeration</b> (that is, <i>int</i> or <i>String</i>).</li>
+   <li>Perform complex manipulations that would be difficult or complex in Velocity.</li>
+   <li>Refer to <a href="../templateDesignTasks/usingModelsInTemplates.html">Using models in templates</a> for more information on creating and using <b>Models</b>.</li>
+</ul>
+   <li><strong>Model Class Name</strong>: References to the <b>Model</b> class from the template are made using the name provided. The default value is <i>model</i>.</li>
+   <li><strong>Artifact Filter</strong>: You can <b>optionally</b> specify a <b>Filter</b> class. The set of artifacts that are passed to the template during execution can be limited by defining a filter. The set of artifacts are determined by selecting artifacts of the <b>Artifact Type</b> and then by applying the filter. A filter is a Java class that must implement the <i>IArtifactFilter</i> interface specified in the <b>Tigerstripe</b> external API. Refer to, <a href="../ruleDesignTasks/usingFiltersInRules.html">Using Filters in rules</a> for more information on creating and using filters.</li>
+</ul>
+</ul></blockquote>
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

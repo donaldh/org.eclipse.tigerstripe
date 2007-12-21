@@ -1,0 +1,388 @@
+#if( $entity.getRemoveFlavorDetailsStr("simpleByKey").Flag == "true" || $entity.getRemoveFlavorDetailsStr("simpleByKey").Flag == "optional")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+    <element name="remove$util.capitalize(${entity.getName()})ByKeyRequest">
+        <annotation>
+            <documentation>
+                This is the Request for the remove$util.capitalize(${entity.getName()})ByKey Operation
+#if($entity.getRemoveFlavorDetailsStr("simpleByKey").Flag == "optional")
+                This operation is OPTIONAL
+#else
+                This operation is MANDATORY
+#end
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="$util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"" ).KeyName"  />
+            </sequence>
+        </complexType>
+    </element>
+    <element name="remove$util.capitalize(${entity.getName()})ByKeyResponse">
+        <annotation>
+            <documentation>
+                This is the Response for the remove$util.capitalize(${entity.getName()})ByKey Operation
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="remove$util.capitalize(${entity.getName()})ByKeyException">
+        <annotation>
+            <documentation>
+                This is the Exception for the remove$util.capitalize(${entity.getName()})ByKey Operation
+                The following exceptions are returned if an error occurs.
+            </documentation>
+        </annotation>
+        <complexType>
+            <choice>
+#foreach($exception in $entity.getDefaultRemoveFlavorDetailsStr("simpleByKey").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#foreach($exception in $entity.getRemoveFlavorDetailsStr("simpleByKey").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#if($entity.getRemoveFlavorDetailsStr("simpleByKey").Flag == "optional")
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf("javax.oss.OssUnsupportedOperationException").Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact("javax.oss.OssUnsupportedOperationException"),"javax.oss.OssUnsupportedOperationException","").Name"/>
+#end
+            </choice>
+        </complexType>
+    </element>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("bulkAtomicByKeys").Flag == "true" || $entity.getRemoveFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional")
+    <element name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest">
+        <annotation>
+            <documentation>
+                This is the Request for the remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys Operation
+#if($entity.getRemoveFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional")
+                This operation is OPTIONAL
+#else
+                This operation is MANDATORY
+#end
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="$util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"[]" ).KeyName"  />
+            </sequence>
+        </complexType>
+    </element>
+    <element name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse">
+        <annotation>
+            <documentation>
+                This is the Response for the remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys Operation
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException">
+        <annotation>
+            <documentation>
+                This is the Exception for the remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys Operation
+                The following exceptions are returned if an error occurs.
+            </documentation>
+        </annotation>
+        <complexType>
+            <choice>
+#foreach($exception in $entity.getDefaultRemoveFlavorDetailsStr("bulkAtomicByKeys").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#foreach($exception in $entity.getRemoveFlavorDetailsStr("bulkAtomicByKeys").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#if($entity.getRemoveFlavorDetailsStr("bulkAtomicByKeys").Flag == "optional")
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf("javax.oss.OssUnsupportedOperationException").Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact("javax.oss.OssUnsupportedOperationException"),"javax.oss.OssUnsupportedOperationException","").Name"/>
+#end
+            </choice>
+        </complexType>
+    </element>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("byTemplate").Flag == "true" || $entity.getRemoveFlavorDetailsStr("byTemplate").Flag == "optional")
+    <element name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest">
+        <annotation>
+            <documentation>
+                This is the Request for the remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate Operation
+#if($entity.getRemoveFlavorDetailsStr("byTemplate").Flag == "optional")
+                This operation is OPTIONAL
+#else
+                This operation is MANDATORY
+#end
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="template" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"" ).Name"  />
+            </sequence>
+        </complexType>
+    </element>
+    <element name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse">
+        <annotation>
+            <documentation>
+                This is the Response for the remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate Operation
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException">
+        <annotation>
+            <documentation>
+                This is the Exception for the remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate Operation
+                The following exceptions are returned if an error occurs.
+            </documentation>
+        </annotation>
+        <complexType>
+            <choice>
+#foreach($exception in $entity.getDefaultRemoveFlavorDetailsStr("byTemplate").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#foreach($exception in $entity.getRemoveFlavorDetailsStr("byTemplate").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#if($entity.getRemoveFlavorDetailsStr("byTemplate").Flag == "optional")
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf("javax.oss.OssUnsupportedOperationException").Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact("javax.oss.OssUnsupportedOperationException"),"javax.oss.OssUnsupportedOperationException","").Name"/>
+#end
+            </choice>
+        </complexType>
+    </element>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("byTemplates").Flag == "true" || $entity.getRemoveFlavorDetailsStr("byTemplates").Flag == "optional")
+    <element name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest">
+        <annotation>
+            <documentation>
+                This is the Request for the remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates Operation
+#if($entity.getRemoveFlavorDetailsStr("byTemplates").Flag == "optional")
+                This operation is OPTIONAL
+#else
+                This operation is MANDATORY
+#end
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="templates" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"[]" ).Name"  />
+            </sequence>
+        </complexType>
+    </element>
+    <element name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse">
+        <annotation>
+            <documentation>
+                This is the Response for the remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates Operation
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException">
+        <annotation>
+            <documentation>
+                This is the Exception for the remove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates Operation
+                The following exceptions are returned if an error occurs.
+            </documentation>
+        </annotation>
+        <complexType>
+            <choice>
+#foreach($exception in $entity.getDefaultRemoveFlavorDetailsStr("byTemplates").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#foreach($exception in $entity.getRemoveFlavorDetailsStr("byTemplates").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#if($entity.getRemoveFlavorDetailsStr("byTemplates").Flag == "optional")
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf("javax.oss.OssUnsupportedOperationException").Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact("javax.oss.OssUnsupportedOperationException"),"javax.oss.OssUnsupportedOperationException","").Name"/>
+#end
+            </choice>
+        </complexType>
+    </element>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("bulkBestEffortByKeys").Flag == "true" || $entity.getRemoveFlavorDetailsStr("bulkBestEffortByKeys").Flag == "optional")
+    <element name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysRequest">
+        <annotation>
+            <documentation>
+                This is the Request for the tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys Operation
+#if($entity.getRemoveFlavorDetailsStr("bulkBestEffortByKeys").Flag == "optional")
+                This operation is OPTIONAL
+#else
+                This operation is MANDATORY
+#end
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="$util.unCapitalize($ossjUtil.keyInterfaceOf($entity.FullyQualifiedName).Name)s" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"[]" ).KeyName"  />
+            </sequence>
+        </complexType>
+    </element>
+    <element name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysResponse">
+        <annotation>
+            <documentation>
+                This is the Response for the tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys Operation
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="$util.unCapitalize($ossjUtil.keyResultInterfaceOf($entity.FullyQualifiedName).Name)s" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"[]").KeyResultName"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeysException">
+        <annotation>
+            <documentation>
+                This is the Exception for the tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByKeys Operation
+                The following exceptions are returned if an error occurs.
+            </documentation>
+        </annotation>
+        <complexType>
+            <choice>
+#foreach($exception in $entity.getDefaultRemoveFlavorDetailsStr("bulkBestEffortByKeys").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#foreach($exception in $entity.getRemoveFlavorDetailsStr("bulkBestEffortByKeys").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#if($entity.getRemoveFlavorDetailsStr("bulkBestEffortByKeys").Flag == "optional")
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf("javax.oss.OssUnsupportedOperationException").Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact("javax.oss.OssUnsupportedOperationException"),"javax.oss.OssUnsupportedOperationException","").Name"/>
+#end
+            </choice>
+        </complexType>
+    </element>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("byTemplateBestEffort").Flag == "true" || $entity.getRemoveFlavorDetailsStr("byTemplateBestEffort").Flag == "optional")
+    <element name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateRequest">
+        <annotation>
+            <documentation>
+                This is the Request for the tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate Operation
+#if($entity.getRemoveFlavorDetailsStr("byTemplateBestEffort").Flag == "optional")
+                This operation is OPTIONAL
+#else
+                This operation is MANDATORY
+#end
+            </documentation>
+        </annotation>
+        <complexType>
+            <complexContent>
+                <extension base="${coNS}:IteratorRequest">
+                <sequence>
+                    <element name="template" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"" ).Name"  />
+                    <element name="failuresOnly" type="boolean"/>
+                </sequence>
+                </extension>
+            </complexContent>
+        </complexType>
+    </element>
+    <element name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateResponse">
+        <annotation>
+            <documentation>
+                This is the Response for the tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate Operation
+            </documentation>
+        </annotation>
+        <complexType>
+            <complexContent>
+                <extension base="${coNS}:IteratorResponse">
+                <sequence>
+                    <element name="results" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"[]").KeyResultName"/>
+                </sequence>
+                </extension>
+            </complexContent>
+        </complexType>
+    </element>
+    <element name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplateException">
+        <annotation>
+            <documentation>
+                This is the Exception for the tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplate Operation
+                The following exceptions are returned if an error occurs.
+            </documentation>
+        </annotation>
+        <complexType>
+            <choice>
+#foreach($exception in $entity.getDefaultRemoveFlavorDetailsStr("byTemplateBestEffort").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#foreach($exception in $entity.getRemoveFlavorDetailsStr("byTemplateBestEffort").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#if($entity.getRemoveFlavorDetailsStr("byTemplateBestEffort").Flag == "optional")
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf("javax.oss.OssUnsupportedOperationException").Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact("javax.oss.OssUnsupportedOperationException"),"javax.oss.OssUnsupportedOperationException","").Name"/>
+#end
+            </choice>
+        </complexType>
+    </element>
+#end
+#if( $entity.getRemoveFlavorDetailsStr("byTemplatesBestEffort").Flag == "true" || $entity.getRemoveFlavorDetailsStr("byTemplatesBestEffort").Flag == "optional")
+    <element name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesRequest">
+        <annotation>
+            <documentation>
+                This is the Request for the tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates Operation
+#if($entity.getRemoveFlavorDetailsStr("byTemplatesBestEffort").Flag == "optional")
+                This operation is OPTIONAL
+#else
+                This operation is MANDATORY
+#end
+            </documentation>
+        </annotation>
+        <complexType>
+            <complexContent>
+                <extension base="${coNS}:IteratorRequest">
+                <sequence>
+                    <element name="templates" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"[]" ).Name"  />
+                    <element name="failuresOnly" type="boolean"/>
+                </sequence>
+                </extension>
+            </complexContent>
+        </complexType>
+    </element>
+    <element name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesResponse">
+        <annotation>
+            <documentation>
+                This is the Response for the tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates Operation
+            </documentation>
+        </annotation>
+        <complexType>
+            <complexContent>
+                <extension base="${coNS}:IteratorResponse">
+                <sequence>
+                    <element name="results" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($entity.FullyQualifiedName),$entity.FullyQualifiedName,"[]").KeyResultName"/>
+                </sequence>
+                </extension>
+            </complexContent>
+        </complexType>
+    </element>
+    <element name="tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplatesException">
+        <annotation>
+            <documentation>
+                This is the Exception for the tryRemove$util.capitalize($ossjUtil.pluralisedForm(${entity.getName()}))ByTemplates Operation
+                The following exceptions are returned if an error occurs.
+            </documentation>
+        </annotation>
+        <complexType>
+            <choice>
+#foreach($exception in $entity.getDefaultRemoveFlavorDetailsStr("byTemplatesBestEffort").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#foreach($exception in $entity.getRemoveFlavorDetailsStr("byTemplatesBestEffort").Exceptions)
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf($exception).Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact($exception),$exception,"").Name"/>
+#end
+#if($entity.getRemoveFlavorDetailsStr("byTemplatesBestEffort").Flag == "optional")
+                <element name="$util.unCapitalize($ossjUtil.interfaceOf("javax.oss.OssUnsupportedOperationException").Name)" type="$ossjXmlUtil.typeNSOf($schemaUtils.getPrefixForArtifact("javax.oss.OssUnsupportedOperationException"),"javax.oss.OssUnsupportedOperationException","").Name"/>
+#end
+            </choice>
+        </complexType>
+    </element>
+#end

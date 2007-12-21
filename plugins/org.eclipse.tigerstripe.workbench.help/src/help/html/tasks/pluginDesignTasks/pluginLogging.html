@@ -1,0 +1,108 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Plugin Log Settings</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Plugin log</h1>
+
+<p>When creating complex plugins, it is often useful to have the plugin generate a specific log file during generation. 
+This not only helps for debugging purpose but also helps when supporting the plugin.</p> 
+
+<h3>Setting up the logfile</h3>
+<p>A log can be created by Plugin. It is a <i>rolling log</i> meaning that a new log with a new numbered extension will be create
+each time the plugin is run. The name of the logfile is set by the plugin developper, together with a default level of
+logging.</p>
+<p>This settings are available from the <b>Runtime</b> tab of the plugin descriptor, as shown below:</p>
+<p class="style1"><img src="../../images/pluginLogSetting.gif" ><br></p>
+
+<h3>Logging to the logfile</h3>
+<p>Once the logfile has been set up. Messages can be sent to the log from either the Java code of the plugin or from Velocity templates using the following syntax:</p>
+<ol>
+	<li><b>From Java</b>: PluginLog.logError(String msg, Throwable e) can be used throughout the plugin code.</li>
+	<li><b>From Velocity</b>: $pluginLog.logError("my message").</li>
+</ol>
+<p>Multiple log levels are available: Error, Warning, Info, Debug, Trace. Each of these levels can be accessed through a variation on the 'logXXX' method described above.</p>
+<h3>Controlling the log during generation</h3>
+<p>Users of the plugin (i.e. once the plugin has been deployed) can control the level of logging for a specific plugin. The developper of a plugin
+can control the default level (see setting above), but the user can increase/decrease that as a property on the plugin. See plugin properties in the tigerstripe.xml project generation details.</p>
+
+<!-- InstanceEndEditable -->
+<p class="style1"><img src="../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+<!-- InstanceEnd --></html>

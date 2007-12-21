@@ -1,0 +1,134 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Defining Facets</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" --><style type="text/css">
+<!--
+.style2 {color: #FF0000}
+.style3 {color: #333333}
+-->
+</style><!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
+<style type="text/css">
+<!--
+.style1 {font-size: xx-small}
+body,td,th {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	font-size: small;
+}
+body {
+	margin-left: 2mm;
+}
+h2 {
+	color: #000000;
+	position: relative;
+	left: 10px;
+	list-style-position: outside;
+	list-style-image: none;
+	list-style-type: square;
+	font-size: x-large;
+	font-variant: normal;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: xx-large;
+	font-weight: bold;
+	text-transform: capitalize;
+	color: #FF6600;
+}
+ul {
+	list-style-position: inside;
+	list-style-type: square;
+}
+ol {
+	list-style-position: inside;
+	list-style-type: number;
+}
+h3 {
+	font-size: medium;
+	color: #000000;
+	position: relative;
+	left: 20px;
+}
+-->
+</style>
+</head>
+
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../images/46_58.jpg" width="100%" height="3"></p>
+<!-- InstanceBeginEditable name="Body" -->
+<h1>Defining Facets for your Tigerstripe Project</h1>
+<p>The <b>Facets</b> tab in the <b>Tigerstripe Perspective</b> allows you to define facets to use with your <b>Tigerstripe</b> project. You can explicitly assign facets using this tab. As a result, when you generate your project, all the selected plug-ins will run in the context of each facet assigned. For more information about generating your project with an assigned facet, refer to <a href="generation.html"> Project Generation</a>.</p>
+<img src="images/facettab.gif">
+<h3>To define a facet reference</h3>
+<ol> 
+   <li>Navigate to the <b>Facets</b> tab in your <b>Tigerstripe Perspective</b>.</li>
+   <li>Click <b>Add</b> to add a facet to your project. The <b>Select Facets</b> dialog box displays.
+   <p><img src="images/selectfacets.gif"></p></li>
+   <li>Select the facet from the list of facets. In the previous image, there are three facets available for selection:
+<ul>
+<li><i>default.wfc</i></li>
+<li><i>NewFacet.wfc</i></li>
+<li><i>secondfacet.wfc</i></li>
+</ul><br><b><i>Note:</i></b> You can select multiple facets by holding CTRL or SHIFT during your selection.</li>
+   <li>Click <b>OK</b>. The facet selected appears on the <b>Facets</b> tab.</li>
+</ol>
+
+
+<h2>Specifying a Facet Directory Name</h2>
+<blockquote>
+<p>You can generate files in separate directories by specifying a directory name for each facet referenced in your <b>Tigerstripe Perspective</b>.</p>
+<h3>To specify a facet directory name</h3>
+<ol>
+   <li>Navigate to the <b>Facets</b> tab in your <b>Tigerstripe Perspective</b>.</li>
+   <li>Click the facet from the list of facets. The facet information displays.</li>
+   <li>Enter the facet output directory in the <b>Output Directory</b> text box.</li>
+   <li>Click <b>Save</b> to save your project changes and generate your project.</li>
+</ol>
+<blockquote>
+<p>Under the <i>target</i> directory in the <b>Tigerstripe Explorer</b>, you will find the folder(s) that represent the output directories you entered in the <b>Facets</b> tab prior to generation.</p>
+<p>For example, in the following image there are two directories under the <i>tigerstripe.gen</i> directory:
+</blockquote>
+<ol>
+   <li><i>newfacet</i></li>
+   <li><i>secondfacet</i></li>
+</ol>
+<blockquote>
+<p>Within these directories, you will find the files specific to each facet.</p>
+<p><img src="images/facetoutputdir2.gif"></p>
+</blockquote></blockquote>
+<h4>Related Topics</h4>
+<a href="index.html">Defining a Service Contract Facet</a>
+<br><a href="scope.html">Defining the Facet Scope</a>
+<br><a href="active.html">Defining an Active Facet</a>
+<br><a href="generation.html">Project Generation with Active Facets</a>
+<!-- <br><a href="selectingfacet.html">Defining Facets for Tigerstripe Projects</a>-->
+<br><a href="mergefacet.html">Merging Facets for Generation</a>
+<p><a href="mergefacet.html"> <img src="../../images/finger.gif" width="20" height="19" align="absmiddle">&nbsp;Merging Facets for Generation</a></p>
+
+<!-- InstanceEndEditable -->  
+<p class="style1"><img width="100%" height="3" src="../../images/46_58.jpg"><br> 
+&copy; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p> 
+</ol></body>
+<!-- InstanceEnd --></html>
