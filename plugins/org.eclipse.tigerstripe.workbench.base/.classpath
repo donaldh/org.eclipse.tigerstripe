@@ -3,26 +3,9 @@
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="src/plugin"/>
 	<classpathentry kind="src" path="src/external"/>
-	<classpathentry exported="true" kind="lib" path="lib/velocity-1.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-jelly-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-jelly-tags-ant-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/ant-1.6.5.jar"/>
-	<classpathentry kind="lib" path="lib/commons-beanutils-1.7.0.jar"/>
-	<classpathentry kind="lib" path="lib/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-jelly-tags-define-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/commons-jelly-tags-util-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-jelly-tags-xml-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar" sourcepath="C:/cygwin/home/tjmcs/Programs/log4j/logging-log4j-1.2.14.zip"/>
-	<classpathentry kind="lib" path="lib/qdox-1.6.jar"/>
-	<classpathentry kind="lib" path="lib/commons-cli-1.1.jar"/>
-	<classpathentry kind="lib" path="lib/ant-junit-1.6.5.jar"/>
-	<classpathentry kind="lib" path="lib/jaxen-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-jexl-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/commons-grant-1.0-beta-4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="lib" path="lib/commons-lang-2.1.jar"/>
+	<classpathentry kind="lib" path="lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
