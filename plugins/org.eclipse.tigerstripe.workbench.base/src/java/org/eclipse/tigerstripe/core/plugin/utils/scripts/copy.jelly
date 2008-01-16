@@ -1,4 +1,0 @@
-<!-- Copy the stylesheets that will be used in the published site -->
-<jelly xmlns:ant="jelly:ant">
-  <ant:copy file="${srcFile}" tofile="${toFile}" overwrite="true"/>
-</jelly>

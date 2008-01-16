@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.actions;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -23,7 +24,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.plugin.PluginManager;
-import org.eclipse.tigerstripe.core.plugin.utils.CopyJellyTask;
+import org.eclipse.tigerstripe.core.util.FileUtils;
 import org.eclipse.tigerstripe.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
@@ -89,11 +90,11 @@ public class RegisterPluggableHousingAction extends Action {
 
 							monitor.subTask("Copying plugin into repository");
 							// Copy file and reload plugins
-							CopyJellyTask task = new CopyJellyTask(srcFile,
-									targetFile);
 							try {
-								task.run();
-							} catch (TigerstripeException e) {
+								FileUtils.copy(srcFile.getAbsolutePath(),
+										targetFile.getAbsolutePath(), true);
+							} catch (IOException e) {
+								EclipsePlugin.log(e);
 								operationSucceeded = false;
 								return;
 							}

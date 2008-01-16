@@ -2,14 +2,4 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension-point id="diagramRendering" name="Tigerstripe Explorer Diagram Rendering" schema="schema/diagramRendering.exsd"/>
-   <extension
-         point="org.eclipse.help.toc">
-      <toc
-            file="doc/toc.xml">
-      </toc>
-      <toc
-            file="doc/apiToc.xml"
-            primary="true">
-      </toc>
-   </extension>
 </plugin>

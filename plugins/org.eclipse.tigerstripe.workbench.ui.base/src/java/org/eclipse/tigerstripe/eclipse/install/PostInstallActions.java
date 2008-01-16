@@ -32,8 +32,8 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.core.module.packaging.CopyToDirJellyTask;
 import org.eclipse.tigerstripe.core.profile.PhantomTigerstripeProjectMgr;
+import org.eclipse.tigerstripe.core.util.FileUtils;
 import org.eclipse.tigerstripe.core.util.Util;
 import org.eclipse.tigerstripe.core.util.ZipFilePackager;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
@@ -188,9 +188,19 @@ public class PostInstallActions {
 
 			String binDirPath = binDir.getAbsolutePath();
 			if (!(new File(binDirPath + "/" + srcBinFile.getName())).exists()) {
-				CopyToDirJellyTask copy = new CopyToDirJellyTask(binDir,
-						srcBinFile);
-				copy.run();
+				try {
+					if (srcBinFile.isDirectory())
+						FileUtils.copyDir(srcBinFile.getAbsolutePath(), binDir
+								.getAbsolutePath(), true);
+					else {
+						FileUtils.copy(srcBinFile.getAbsolutePath(), binDir
+								.getAbsolutePath(), true);
+					}
+				} catch (IOException e) {
+					throw new TigerstripeException(
+							"Error while copying bin dir for headless run: "
+									+ e.getMessage(), e);
+				}
 			}
 		}
 
@@ -200,9 +210,19 @@ public class PostInstallActions {
 		for (File srcLibFile : srcLibFiles) {
 			String libDirPath = libDir.getAbsolutePath();
 			if (!(new File(libDirPath + "/" + srcLibFile.getName())).exists()) {
-				CopyToDirJellyTask copy = new CopyToDirJellyTask(libDir,
-						srcLibFile);
-				copy.run();
+				try {
+					if (srcLibFile.isFile())
+						FileUtils.copy(srcLibFile.getAbsolutePath(), libDir
+								.getAbsolutePath(), true);
+					else {
+						FileUtils.copyDir(srcLibFile.getAbsolutePath(), libDir
+								.getAbsolutePath(), true);
+					}
+				} catch (IOException e) {
+					throw new TigerstripeException(
+							"Error while copying lib dir for headless run: "
+									+ e.getMessage(), e);
+				}
 			}
 		}
 
@@ -213,9 +233,14 @@ public class PostInstallActions {
 			if (rootFile.getName().startsWith("ts-headless")) {
 				String libDirPath = libDir.getAbsolutePath();
 				if (!(new File(libDirPath + "/" + rootFile.getName())).exists()) {
-					CopyToDirJellyTask copy = new CopyToDirJellyTask(libDir,
-							rootFile);
-					copy.run();
+					try {
+						FileUtils.copy(rootFile.getAbsolutePath(), libDir
+								.getAbsolutePath(), true);
+					} catch (IOException e) {
+						throw new TigerstripeException(
+								"Error while copying core .jar for headless run: "
+										+ e.getMessage(), e);
+					}
 				}
 			}
 		}
@@ -225,9 +250,14 @@ public class PostInstallActions {
 				ITigerstripeConstants.EXTERNALAPI_LIB).toOSString();
 		File externalAPIJar = new File(externalAPIJarPath);
 		if (!(new File(libDir + "/" + externalAPIJar.getName())).exists()) {
-			CopyToDirJellyTask copy = new CopyToDirJellyTask(libDir,
-					externalAPIJar);
-			copy.run();
+			try {
+				FileUtils.copy(externalAPIJar.getAbsolutePath(), libDir
+						.getAbsolutePath(), true);
+			} catch (IOException e) {
+				throw new TigerstripeException(
+						"Error while copying external API .jar for headless run: "
+								+ e.getMessage(), e);
+			}
 		}
 
 	}

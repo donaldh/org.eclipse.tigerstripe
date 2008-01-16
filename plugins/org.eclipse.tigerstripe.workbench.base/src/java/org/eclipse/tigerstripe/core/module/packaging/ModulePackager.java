@@ -36,6 +36,7 @@ import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.module.InvalidModuleException;
 import org.eclipse.tigerstripe.core.module.ModuleDescriptorModel;
 import org.eclipse.tigerstripe.core.module.ModuleHeader;
+import org.eclipse.tigerstripe.core.util.FileUtils;
 
 /**
  * A module packager is responsible for assembling all the components of a
@@ -101,12 +102,16 @@ public class ModulePackager implements IModulePackager {
 		if (TigerstripeRuntime.getRuntype() != TigerstripeRuntime.ECLIPSE_GUI_RUN)
 			compileArtifacts(classesDir);
 
-		copyCompiledArtifacts(tmpJarDir, classesDir);
-		copyDescriptor(tmpJarDir);
-		createModuleDescriptor(tmpJarDir, (ModuleHeader) header, monitor);
-		createJarFile(tmpJarDir, jarURI);
-		removeTmpJarDirectory(tmpJarDir);
-
+		try {
+			copyCompiledArtifacts(classesDir, tmpJarDir);
+			copyDescriptor(tmpJarDir);
+			createModuleDescriptor(tmpJarDir, (ModuleHeader) header, monitor);
+			createJarFile(tmpJarDir, jarURI);
+			removeTmpJarDirectory(tmpJarDir);
+		} catch (IOException e) {
+			throw new TigerstripeException("Error while packaging Module: "
+					+ e.getMessage(), e);
+		}
 		// // read in the newly created module into a ModuleRef
 		// ModuleRefFactory factory = ModuleRefFactory.getInstance();
 		// ModuleRef result = factory.parseModule(jarURI, monitor);
@@ -338,9 +343,10 @@ public class ModulePackager implements IModulePackager {
 	 * copied in the tmpDir ready for packaging.
 	 * 
 	 */
-	protected void copyCompiledArtifacts(File tmpDir, File classesDir) {
-		CopyClassesJellyTask task = new CopyClassesJellyTask(tmpDir, classesDir);
-		task.run();
+	protected void copyCompiledArtifacts(File tmpDir, File classesDir)
+			throws IOException {
+		FileUtils.copyDir(tmpDir.getAbsolutePath(), classesDir
+				.getAbsolutePath(), true);
 	}
 
 	/**
@@ -351,8 +357,14 @@ public class ModulePackager implements IModulePackager {
 	protected void copyDescriptor(File tmpDir) throws TigerstripeException {
 		File descriptor = new File(getTSProject().getURI().getPath()
 				+ File.separator + ITigerstripeConstants.PROJECT_DESCRIPTOR);
-		CopyToDirJellyTask task = new CopyToDirJellyTask(tmpDir, descriptor);
-		task.run();
+		try {
+			FileUtils.copy(descriptor.getAbsolutePath(), tmpDir
+					.getAbsolutePath(), true);
+		} catch (IOException e) {
+			throw new TigerstripeException(
+					"Error while copying Descriptor to tmp Dir: "
+							+ e.getMessage(), e);
+		}
 	}
 
 	/**
@@ -384,8 +396,8 @@ public class ModulePackager implements IModulePackager {
 	 * 
 	 * @param tmpDir
 	 */
-	protected void createJarFile(File tmpDir, URI jarURI) {
-		CreateJarJellyTask task = new CreateJarJellyTask(jarURI, tmpDir);
-		task.run();
+	protected void createJarFile(File tmpDir, URI jarURI) throws IOException {
+		File f = new File(jarURI);
+		FileUtils.createJar(f.getAbsolutePath(), tmpDir.getAbsolutePath());
 	}
 }

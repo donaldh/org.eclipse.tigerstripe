@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.core.project;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.ModuleProjectHandle;
@@ -25,7 +26,7 @@ import org.eclipse.tigerstripe.core.module.InvalidModuleException;
 import org.eclipse.tigerstripe.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.core.module.ModuleRef;
 import org.eclipse.tigerstripe.core.module.ModuleRefFactory;
-import org.eclipse.tigerstripe.core.module.packaging.CopyToDirJellyTask;
+import org.eclipse.tigerstripe.core.util.FileUtils;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 
 /**
@@ -249,9 +250,13 @@ public class Dependency implements IDependency {
 		File copyDir = tsProject.getBaseDir();
 		File srcDep = new File(remoteDep.getPath());
 		// Copy the modules into the project folder
-		CopyToDirJellyTask co = new CopyToDirJellyTask(copyDir, srcDep);
-		co.run();
-
+		try {
+			FileUtils.copy(srcDep.getAbsolutePath(), copyDir.getAbsolutePath(),
+					true);
+		} catch (IOException e) {
+			throw new TigerstripeException("Error while copying dependency: "
+					+ e.getMessage(), e);
+		}
 		IDependency result = new Dependency(tsProject, srcDep.getName());
 		return result;
 	}

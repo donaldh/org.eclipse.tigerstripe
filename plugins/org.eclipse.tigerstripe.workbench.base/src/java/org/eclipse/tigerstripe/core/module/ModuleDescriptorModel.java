@@ -255,7 +255,10 @@ public class ModuleDescriptorModel {
 			throws InvalidModuleException {
 		ProjectDetails result = new ProjectDetails(null);
 
-		Node node = doc.selectSingleNode("//module/details");
+		Element root = doc.getRootElement();
+		Element details = root.element("details");
+
+		Node node = details;
 		String name = ((Element) node).attributeValue("name");
 		result.setName(name);
 		String version = ((Element) node).attributeValue("version");
@@ -269,7 +272,10 @@ public class ModuleDescriptorModel {
 	private ModuleHeader extractModuleHeader(Document doc)
 			throws InvalidModuleException {
 		ModuleHeader header = new ModuleHeader();
-		Element node = (Element) doc.selectSingleNode("//module/header");
+		Element root = doc.getRootElement();
+		Element headerElm = root.element("header");
+
+		Element node = headerElm;
 		String moduleId = node.attributeValue("moduleID");
 		header.setModuleID(moduleId);
 
@@ -290,38 +296,46 @@ public class ModuleDescriptorModel {
 			ITigerstripeProgressMonitor monitor) throws InvalidModuleException {
 		this.artifactMgr = new ModuleArtifactManager(embeddedProject);
 
-		List list = doc.selectNodes("//artifact");
-		monitor.beginTask("Parsing module content", list.size());
-		JavaDocBuilder builder = new JavaDocBuilder();
-		for (Iterator iter = list.iterator(); iter.hasNext();) {
-			Node node = (Node) iter.next();
-			String text = node.getText();
+		Element root = doc.getRootElement();
+		if (root == null)
+			throw new InvalidModuleException("No document root");
+		Element artifacts = root.element("artifacts");
+		if (artifacts != null) {
 
-			// Bug 917
-			String finalText = text
-					.replaceAll("<\\?char x0005\\?>", "" + '\05');
-			StringReader reader = new StringReader(finalText);
+			List list = artifacts.elements("artifact");
+			monitor.beginTask("Parsing module content", list.size());
+			JavaDocBuilder builder = new JavaDocBuilder();
+			for (Iterator iter = list.iterator(); iter.hasNext();) {
+				Node node = (Node) iter.next();
+				String text = node.getText();
 
-			try {
-				JavaSource src = builder.addSource(reader);
-				IAbstractArtifact art = artifactMgr.extractArtifact(src,
-						monitor);
-				if (art != null) {
-					// note that art maybe null if the current profile ignores
-					// an artifact
-					// type that was used when packaging the module
-					monitor.subTask(art.getFullyQualifiedName()
-							+ " (from module)");
-					artifactMgr.addArtifact(art, monitor);
+				// Bug 917
+				String finalText = text.replaceAll("<\\?char x0005\\?>",
+						"" + '\05');
+				StringReader reader = new StringReader(finalText);
+
+				try {
+					JavaSource src = builder.addSource(reader);
+					IAbstractArtifact art = artifactMgr.extractArtifact(src,
+							monitor);
+					if (art != null) {
+						// note that art maybe null if the current profile
+						// ignores
+						// an artifact
+						// type that was used when packaging the module
+						monitor.subTask(art.getFullyQualifiedName()
+								+ " (from module)");
+						artifactMgr.addArtifact(art, monitor);
+					}
+					if (monitor.isCanceled())
+						break;
+				} catch (TigerstripeException e) {
+					new InvalidModuleException(
+							"Error while decoding an artifact", e);
 				}
-				if (monitor.isCanceled())
-					break;
-			} catch (TigerstripeException e) {
-				new InvalidModuleException("Error while decoding an artifact",
-						e);
+				monitor.worked(1);
 			}
-			monitor.worked(1);
+			monitor.done();
 		}
-		monitor.done();
 	}
 }

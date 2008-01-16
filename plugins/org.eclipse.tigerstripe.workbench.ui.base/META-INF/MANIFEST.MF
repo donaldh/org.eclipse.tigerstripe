@@ -17,7 +17,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
  org.eclipse.jdt.ui,
- org.eclipse.tigerstripe.workbench.base,
  org.eclipse.tigerstripe.workbench.ui.resources,
  org.eclipse.update.core,
  org.eclipse.uml2,
@@ -36,7 +35,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.navigator,
  org.eclipse.ui.navigator.resources,
  org.eclipse.gmf.runtime.diagram.ui.resources.editor,
- org.eclipse.search
+ org.eclipse.search,
+ org.eclipse.tigerstripe.workbench.base,
+ org.apache.log4j
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.tigerstripe.eclipse,
  org.eclipse.tigerstripe.eclipse.actions,
@@ -80,7 +81,5 @@ Export-Package: org.eclipse.tigerstripe.eclipse,
  org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.actions,
  org.eclipse.tigerstripe.workbench.ui.gmf,
  org.eclipse.tigerstripe.workbench.ui.gmf.synchronization
-Bundle-ClassPath: lib/dom4j-1.6.1.jar,
- .,
- lib/log4j-1.2.14.jar
+Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

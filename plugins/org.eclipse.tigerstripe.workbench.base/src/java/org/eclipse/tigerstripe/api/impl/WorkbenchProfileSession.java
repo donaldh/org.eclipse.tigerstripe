@@ -25,8 +25,8 @@ import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.api.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.core.plugin.utils.CopyJellyTask;
 import org.eclipse.tigerstripe.core.profile.WorkbenchProfile;
+import org.eclipse.tigerstripe.core.util.FileUtils;
 
 /**
  * Singleton class acting as session facade for all operations on
@@ -82,10 +82,16 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 		if (createRollback) {
 			if (file.exists()) {
 				File rollbackFile = new File(filename + ".bak");
-				CopyJellyTask task = new CopyJellyTask(file, rollbackFile);
-				task.run();
+				try {
+					FileUtils.copy(file.getAbsolutePath(), rollbackFile
+							.getAbsolutePath(), true);
+					rollbackCreated = rollbackFile.exists();
+				} catch (IOException e) {
+					throw new TigerstripeException(
+							"Error while creating rollback file:"
+									+ e.getMessage(), e);
+				}
 
-				rollbackCreated = rollbackFile.exists();
 			}
 		}
 
@@ -103,9 +109,15 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 			if (rollbackCreated) {
 				// copy back the rollback to leave a working profile
 				File rollbackFile = new File(filename + ".bak");
-				CopyJellyTask copy = new CopyJellyTask(rollbackFile, file);
-				copy.run();
-				rollbackCreated = false;
+				try {
+					FileUtils.copy(rollbackFile.getAbsolutePath(), file
+							.getAbsolutePath(), true);
+					rollbackCreated = false;
+				} catch (IOException e) {
+					throw new TigerstripeException(
+							"Error while trying to roll back: "
+									+ e.getMessage(), e);
+				}
 			}
 			throw new TigerstripeException(
 					"Error while trying to save active profile '"
@@ -124,9 +136,13 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 			if (rollbackCreated) {
 				// copy back the rollback to leave a working profile
 				File rollbackFile = new File(filename + ".bak");
-				CopyJellyTask copy = new CopyJellyTask(rollbackFile, file);
-				copy.run();
-				rollbackCreated = false;
+				try {
+					FileUtils.copy(rollbackFile.getAbsolutePath(), file
+							.getAbsolutePath(), true);
+					rollbackCreated = false;
+				} catch (IOException ee) {
+					// ignore
+				}
 			}
 
 			throw new TigerstripeException(
@@ -277,11 +293,15 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 		if (fFile.exists()) {
 
 			File rollbackFile = new File(fFile.getAbsolutePath() + ".bak");
-			CopyJellyTask task = new CopyJellyTask(fFile, rollbackFile);
-			task.run();
-
-			rollbackCreated = rollbackFile.exists();
-
+			try {
+				FileUtils.copy(fFile.getAbsolutePath(), rollbackFile
+						.getAbsolutePath(), true);
+				rollbackCreated = rollbackFile.exists();
+			} catch (IOException e) {
+				throw new TigerstripeException(
+						"Error while creating rollback file:" + e.getMessage(),
+						e);
+			}
 			boolean deleted = fFile.delete();
 		}
 		return rollbackCreated;

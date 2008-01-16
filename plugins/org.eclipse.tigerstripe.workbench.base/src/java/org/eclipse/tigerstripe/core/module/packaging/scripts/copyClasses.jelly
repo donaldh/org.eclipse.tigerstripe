@@ -1,5 +1,0 @@
-<jelly xmlns:ant="jelly:ant">
-  <ant:copy todir="${tmp.module.path}">
-    <ant:fileset dir="${classes.dir.path}"/>
-  </ant:copy>
-</jelly>

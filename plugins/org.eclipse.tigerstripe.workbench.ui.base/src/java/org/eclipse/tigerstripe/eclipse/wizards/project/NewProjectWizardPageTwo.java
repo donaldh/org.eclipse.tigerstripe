@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.eclipse.wizards.project;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,9 +46,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.modules.ExternalModules;
-import org.eclipse.tigerstripe.core.module.packaging.CopyToDirJellyTask;
+import org.eclipse.tigerstripe.core.util.FileUtils;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -513,12 +513,10 @@ public class NewProjectWizardPageTwo extends WizardPage {
 						copyDir = directory;
 					}
 					// Copy the modules into the project folder
-					CopyToDirJellyTask co = new CopyToDirJellyTask(new File(
-							copyDir), new File(moduleMapByFile.get(s)
-							+ File.separator + s));
 					try {
-						co.run();
-					} catch (TigerstripeException e) {
+						FileUtils.copy(moduleMapByFile.get(s) + File.separator
+								+ s, copyDir, true);
+					} catch (IOException e) {
 						throw new InvocationTargetException(e);
 					}
 				}

@@ -16,13 +16,11 @@ import java.io.IOException;
 import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.plugins.pluggable.ICopyRule;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluginRuleExecutor;
-import org.eclipse.tigerstripe.core.module.packaging.CopyDirJellyTask;
-import org.eclipse.tigerstripe.core.module.packaging.CopyFilesetToDirJellyTask;
-import org.eclipse.tigerstripe.core.module.packaging.CopyToDirJellyTask;
 import org.eclipse.tigerstripe.core.plugin.Expander;
 import org.eclipse.tigerstripe.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.core.plugin.pluggable.PluggablePluginRef;
 import org.eclipse.tigerstripe.core.plugin.pluggable.RuleReport;
+import org.eclipse.tigerstripe.core.util.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -159,9 +157,12 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 			String srcDirStr = newFileset.substring(0, index - 1);
 			String includes = newFileset.substring(index);
 			File srcDir = new File(srcDirStr);
-			CopyFilesetToDirJellyTask task = new CopyFilesetToDirJellyTask(
-					outputDirectory, srcDir, includes);
-			task.run();
+			try {
+				FileUtils.copyFileset(srcDir.getAbsolutePath(), outputDirectory
+						.getAbsolutePath(), includes, true);
+			} catch (IOException e) {
+				throw new TigerstripeException("Error while copying fileset: " + e.getMessage(), e);
+			}
 		} else {
 			File srcFile = new File(srcPrefix + File.separator
 					+ getFilesetMatch());
@@ -175,15 +176,28 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 						+ getFilesetMatch() + "' for copy in " + src);
 			} else if (srcFile.isFile()) {
 				this.report.getCopiedFiles().add(srcFile.getAbsolutePath());
-				CopyToDirJellyTask task = new CopyToDirJellyTask(
-						outputDirectory, srcFile);
-				task.run();
+				try {
+					FileUtils.copy(srcFile.getAbsolutePath(), outputDirectory
+							.getAbsolutePath(), true);
+				} catch (IOException e) {
+					throw new TigerstripeException(
+							"Error while trying to copy "
+									+ srcFile.getAbsolutePath() + ":"
+									+ e.getMessage(), e);
+				}
 			} else if (srcFile.isDirectory()) {
 				this.report.getCopiedFiles().add(srcFile.getAbsolutePath());
 				File newTarget = new File(outputDirectory.getAbsolutePath()
 						+ File.separator + srcFile.getName());
-				CopyDirJellyTask task = new CopyDirJellyTask(newTarget, srcFile);
-				task.run();
+				try {
+					FileUtils.copyDir(srcFile.getAbsolutePath(), newTarget
+							.getAbsolutePath(), true);
+				} catch (IOException e) {
+					throw new TigerstripeException(
+							"Error while copying directory "
+									+ srcFile.getAbsolutePath() + ": "
+									+ e.getMessage(), e);
+				}
 			}
 		}
 	}
