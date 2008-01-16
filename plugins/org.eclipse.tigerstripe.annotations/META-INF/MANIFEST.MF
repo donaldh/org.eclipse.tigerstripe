@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tigerstripe Annotations Plug-in
+Bundle-SymbolicName: org.eclipse.tigerstripe.annotations;singleton:=true
+Bundle-Version: 0.1.0
+Bundle-ClassPath: org.eclipse.tigerstripe.annotations/
+Bundle-Activator: org.eclipse.tigerstripe.annotations.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.core.resources;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.emf.query;visibility:=reexport
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.tigerstripe.annotations

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.tigerstripe.annotations/src"
+    modelPluginID="org.eclipse.tigerstripe.annotations" modelName="Annotations" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="5.0" copyrightFields="false">
+  <foreignModel>annotations.ecore</foreignModel>
+  <genPackages prefix="Context" basePackage="org.eclipse.tigerstripe.annotations.internal"
+      disposableProviderFactory="true" ecorePackage="annotations.ecore#/">
+    <genClasses ecoreClass="annotations.ecore#//AnnotationContext">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference annotations.ecore#//AnnotationContext/annotations"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute annotations.ecore#//AnnotationContext/namespaceID"/>
+    </genClasses>
+    <genClasses ecoreClass="annotations.ecore#//Annotation">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute annotations.ecore#//Annotation/annotationSpecificationID"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute annotations.ecore#//Annotation/value"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute annotations.ecore#//Annotation/uri"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
