@@ -18,6 +18,8 @@ package org.eclipse.tigerstripe.annotations;
  */
 public interface IAnnotationSpecification {
 
+	public final static int UNDEF_INDEX = -1;
+
 	/**
 	 * Returns the AnnotationSpecification ID
 	 * 

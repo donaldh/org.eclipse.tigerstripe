@@ -29,7 +29,7 @@ public abstract class BaseAnnotationSpecification implements
 	private IAnnotationForm parentForm;
 	private String userLabel;
 	private String defaultValue;
-	private int index;
+	private int index = UNDEF_INDEX;
 
 	private void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
@@ -66,7 +66,9 @@ public abstract class BaseAnnotationSpecification implements
 		this._ID = element.getAttribute("ID");
 		this.userLabel = element.getAttribute("userLabel");
 		setDefaultValue(element.getAttribute("defaultValue"));
-		this.index = Integer.parseInt(element.getAttribute("index"));
+		String indexField = element.getAttribute("index");
+		if (indexField != null && indexField.length() != 0)
+			this.index = Integer.parseInt(indexField);
 	}
 
 	public boolean equals(Object other) {

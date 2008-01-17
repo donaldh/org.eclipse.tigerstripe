@@ -64,7 +64,7 @@ public class AnnotationSchemeRegistry {
 	}
 
 	/**
-	 * 	Reads all the extension points defining schemes if not already done.
+	 * Reads all the extension points defining schemes if not already done.
 	 * 
 	 * @throws AnnotationCoreException
 	 */
@@ -98,8 +98,7 @@ public class AnnotationSchemeRegistry {
 	 * Returns the Scheme for the given ID
 	 * 
 	 * @param ID
-	 * @return
-	 * @throws UnknownAnnotationSchemeException
+	 * @return the scheme defined with the given ID, null otherwise
 	 * @throws AnnotationCoreException
 	 */
 	public IAnnotationScheme getAnnotationSchemeByID(String ID)
@@ -110,6 +109,6 @@ public class AnnotationSchemeRegistry {
 			return schemesMap.get(ID);
 		}
 
-		throw new AnnotationCoreException(ID);
+		return null;
 	}
 }
