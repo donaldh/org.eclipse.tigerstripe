@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Annotations Test Plug-in
+Bundle-SymbolicName: org.eclipse.tigerstripe.annotations.test;singleton:=true
+Bundle-Version: 0.1.0
+Bundle-Activator: org.eclipse.tigerstripe.annotations.test.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.tigerstripe.annotations,
+ org.junit
+Eclipse-LazyStart: true

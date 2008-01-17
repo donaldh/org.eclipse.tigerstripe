@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.tigerstripe.annotations.scheme">
+      <scheme
+            ID="org.eclipse.tigerstripe.annotations.test.scheme1"
+            selector="org.eclipse.tigerstripe.annotations.test.input.SchemeSelector1"
+            userLabel="scheme1">
+         <annotationForm
+               ID="org.eclipse.tigerstripe.annotations.test.scheme1.annotationForm1"
+               selector="org.eclipse.tigerstripe.annotations.test.input.Form1Selector">
+            <stringAnnotationSpecification
+                  ID="org.eclipse.tigerstripe.annotations.scheme1.form1.stringAnnotationSpecification1"
+                  index="1"
+                  userLabel="Label1">
+            </stringAnnotationSpecification>
+            <stringAnnotationSpecification
+                  ID="org.eclipse.tigerstripe.annotations.scheme1.form1.stringAnnotationSpecification2"
+                  index="10"
+                  userLabel="Field2">
+            </stringAnnotationSpecification>
+         </annotationForm>
+         <annotationForm
+               ID="org.eclipse.tigerstripe.annotations.test.scheme1.annotationForm2"
+               selector="org.eclipse.tigerstripe.annotations.test.input.Form2Selector">
+            <stringAnnotationSpecification
+                  ID="org.eclipse.tigerstripe.annotations.scheme1.form2.stringAnnotationSpecification1"
+                  index="1"
+                  userLabel="FileAnnotation">
+            </stringAnnotationSpecification>
+         </annotationForm>
+         <annotationForm
+               ID="org.eclipse.tigerstripe.annotations.scheme1.emptyForm">
+         </annotationForm>
+      </scheme>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.annotations.scheme">
+      <scheme
+            ID="org.eclipse.tigerstripe.annotations.test.scheme2"
+            userLabel="emptyScheme">
+         <annotationForm
+               ID="org.eclipse.tigerstripe.annotations.test.scheme2.annotationForm1">
+         </annotationForm>
+      </scheme>
+   </extension>
+
+</plugin>
