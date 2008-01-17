@@ -35,6 +35,7 @@ import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.NatureMigrationUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.LogicalExplorerNodeFactory;
@@ -142,7 +143,7 @@ public class NewTigerstripeExplorerContentProvider extends
 			try {
 
 				// Since 1.2 the nature has changed name @see #295
-				handleProjectNatureMigration(projects[i]);
+				NatureMigrationUtils.handleProjectMigration(projects[i]);
 
 				if (TigerstripePluginProjectNature.hasNature(projects[i])) {
 					result.add(jm.getJavaProject(projects[i].getName()));
@@ -190,35 +191,6 @@ public class NewTigerstripeExplorerContentProvider extends
 			}
 		}
 		return result.toArray();
-	}
-
-	private void handleProjectNatureMigration(IProject project)
-			throws CoreException {
-
-		if (project != null && project.isOpen()) {
-			// A little logic here due to the split of the community plugin into
-			// *.base and *.ui.base
-			// The nature has changed and needs to be update on the fly
-			IProjectDescription description = project.getDescription();
-			String[] natures = description.getNatureIds();
-			boolean updateOldNature = false;
-			for (int index = 0; index < natures.length; index++) {
-				if (TigerstripePluginConstants.OLDPROJECT_NATURE_ID
-						.equals(natures[index])) {
-					natures[index] = TigerstripePluginConstants.PROJECT_NATURE_ID;
-					updateOldNature = true;
-				} else if (TigerstripePluginConstants.OLDPLUGINPROJECT_NATURE_ID
-						.equals(natures[index])) {
-					natures[index] = TigerstripePluginConstants.PLUGINPROJECT_NATURE_ID;
-					updateOldNature = true;
-				}
-			}
-
-			if (updateOldNature) {
-				description.setNatureIds(natures);
-				project.setDescription(description, new NullProgressMonitor());
-			}
-		}
 	}
 
 }

@@ -21,13 +21,16 @@ public interface TigerstripePluginConstants {
 	public static final String PROJECT_NATURE_ID = PLUGIN_ID
 			+ ".tigerstripeProject";
 
-	public static final String OLDPROJECT_NATURE_ID = "mm.org.eclipse.tigerstripe.workbench.tigerstripeProject";
+	public static final String OLDPROJECT_NATURE_ID = "com.tigerstripesoftware.workbench.ui.base.tigerstripeProject";
 
 	public static final String PLUGINPROJECT_NATURE_ID = PLUGIN_ID
 			+ ".tigerstripePluginProject";
 
-	public static final String OLDPLUGINPROJECT_NATURE_ID = "mm.org.eclipse.tigerstripe.workbench.tigerstripePluginProject";
+	public static final String OLDPLUGINPROJECT_NATURE_ID = "com.tigerstripesoftware.workbench.ui.base.tigerstripePluginProject";
 
 	public static final String MARKER_ID = PLUGIN_ID + ".auditmarker";
+	
+	public static final String OLDPROJECT_BUILDER_ID = "com.tigerstripesoftware.workbench.ui.base.tigerstripeProjectAuditor";
 
+	public static final String OLDPLUGINPROJECT_BUILDER_ID = "com.tigerstripesoftware.workbench.ui.base.pluggablePluginProjectAuditor";
 }

@@ -54,6 +54,7 @@ import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
 import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.api.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.api.project.IProjectSession;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
@@ -61,6 +62,7 @@ import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.NatureMigrationUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.GeneralPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
@@ -109,7 +111,13 @@ public class WorkspaceListener implements IElementChangedListener,
 	private void checkProjectAdded(Collection<IResource> addedResources) {
 		for (IResource res : addedResources) {
 			if (res instanceof IProject) {
+
 				IProject iProject = (IProject) res;
+				try {
+					NatureMigrationUtils.handleProjectMigration(iProject);
+				} catch (CoreException e) {
+					EclipsePlugin.log(e);
+				}
 				IAbstractTigerstripeProject tsProject = EclipsePlugin
 						.getITigerstripeProjectFor(iProject);
 				if (tsProject instanceof ITigerstripeProject) {
@@ -239,6 +247,8 @@ public class WorkspaceListener implements IElementChangedListener,
 			itemsChanged.add(delta.getResource());
 		} else if (delta.getKind() == IResourceDelta.ADDED
 				&& delta.getAffectedChildren().length == 0) {
+			itemsAdded.add(delta.getResource());
+		} else if ( delta.getKind() == IResourceDelta.ADDED && delta.getResource() instanceof IProject ) {
 			itemsAdded.add(delta.getResource());
 		}
 		IResourceDelta[] children = delta.getAffectedChildren();
