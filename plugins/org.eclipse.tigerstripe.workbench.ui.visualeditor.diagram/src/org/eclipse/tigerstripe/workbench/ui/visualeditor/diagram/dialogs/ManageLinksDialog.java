@@ -298,7 +298,9 @@ public class ManageLinksDialog extends TSMessageDialog {
 			// Find the index of the column
 			int columnIndex = Arrays.asList(columnLabels).indexOf(property);
 
-			TableItem tableItem = (TableItem) item;
+			TableItem[] selectedItems = tableViewer.getTable().getSelection();
+			TableItem tableItem = selectedItems[0];
+			int selectedIndex = tableViewer.getTable().getSelectionIndex();
 			Entry entry = (Entry) tableItem.getData();
 
 			switch (columnIndex) {
@@ -316,6 +318,7 @@ public class ManageLinksDialog extends TSMessageDialog {
 			default:
 			}
 			tableViewer.refresh();
+			tableViewer.getTable().setSelection(selectedIndex);
 		}
 
 	}

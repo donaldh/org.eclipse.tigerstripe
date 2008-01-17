@@ -25,6 +25,7 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
@@ -122,91 +123,99 @@ public class ManageLinksAction extends BaseDiagramPartAction implements
 			ManageLinksDialog diag = new ManageLinksDialog(shell,
 					possibleRelationships, associationsInMap.keySet(),
 					dependenciesInMap.keySet());
-			diag.open();
-			// now get the values that the user selected and determine which
-			// links need
-			// to be created/destroyed based on the selected values in that list
-			HashMap<String, IRelationship> selectedValues = diag.getSelection();
-			List<IRelationship> relationshipsToCreate = new ArrayList<IRelationship>();
-			Set<String> selectedNames = selectedValues.keySet();
-			Set<String> associationNames = associationsInMap.keySet();
-			Set<String> dependencyNames = dependenciesInMap.keySet();
-			for (String name : selectedNames) {
-				IRelationship relationship = selectedValues.get(name);
-				if (!associationNames.contains(name)
-						&& !dependencyNames.contains(name))
-					relationshipsToCreate.add(relationship);
-			}
-			// look to see if there are any associations that are in the map
-			// that are not in the
-			// selection...if so, need to destroy them
-			List<QualifiedNamedElement> associationsToDestroy = new ArrayList<QualifiedNamedElement>();
-			for (String name : associationNames) {
-				if (!selectedNames.contains(name))
-					if (artifact != null) {
-						String artifactFQN = artifact.getFullyQualifiedName();
-						QualifiedNamedElement elem = associationsInMap
-								.get(name);
-						String aEndFQN = ((Association) elem).getAEnd()
-								.getFullyQualifiedName();
-						String zEndFQN = ((Association) elem).getZEnd()
-								.getFullyQualifiedName();
-						if (artifactFQN.equals(aEndFQN)
-								|| artifactFQN.equals(zEndFQN))
+			if (diag.open() == Window.OK) {
+				// now get the values that the user selected and determine which
+				// links need
+				// to be created/destroyed based on the selected values in that
+				// list
+				HashMap<String, IRelationship> selectedValues = diag
+						.getSelection();
+				List<IRelationship> relationshipsToCreate = new ArrayList<IRelationship>();
+				Set<String> selectedNames = selectedValues.keySet();
+				Set<String> associationNames = associationsInMap.keySet();
+				Set<String> dependencyNames = dependenciesInMap.keySet();
+				for (String name : selectedNames) {
+					IRelationship relationship = selectedValues.get(name);
+					if (!associationNames.contains(name)
+							&& !dependencyNames.contains(name))
+						relationshipsToCreate.add(relationship);
+				}
+				// look to see if there are any associations that are in the map
+				// that are not in the
+				// selection...if so, need to destroy them
+				List<QualifiedNamedElement> associationsToDestroy = new ArrayList<QualifiedNamedElement>();
+				for (String name : associationNames) {
+					if (!selectedNames.contains(name))
+						if (artifact != null) {
+							String artifactFQN = artifact
+									.getFullyQualifiedName();
+							QualifiedNamedElement elem = associationsInMap
+									.get(name);
+							String aEndFQN = ((Association) elem).getAEnd()
+									.getFullyQualifiedName();
+							String zEndFQN = ((Association) elem).getZEnd()
+									.getFullyQualifiedName();
+							if (artifactFQN.equals(aEndFQN)
+									|| artifactFQN.equals(zEndFQN))
+								associationsToDestroy.add(associationsInMap
+										.get(name));
+						} else
 							associationsToDestroy.add(associationsInMap
 									.get(name));
-					} else
-						associationsToDestroy.add(associationsInMap.get(name));
-			}
-			// look to see if there are any dependencies that are in the map
-			// that are not in the
-			// selection...if so, need to destroy them
-			List<QualifiedNamedElement> dependenciesToDestroy = new ArrayList<QualifiedNamedElement>();
-			for (String name : dependencyNames) {
-				if (!selectedNames.contains(name))
-					if (artifact != null) {
-						String artifactFQN = artifact.getFullyQualifiedName();
-						QualifiedNamedElement elem = dependenciesInMap
-								.get(name);
-						String aEndFQN = ((Dependency) elem).getAEnd()
-								.getFullyQualifiedName();
-						String zEndFQN = ((Dependency) elem).getZEnd()
-								.getFullyQualifiedName();
-						if (artifactFQN.equals(aEndFQN)
-								|| artifactFQN.equals(zEndFQN))
+				}
+				// look to see if there are any dependencies that are in the map
+				// that are not in the
+				// selection...if so, need to destroy them
+				List<QualifiedNamedElement> dependenciesToDestroy = new ArrayList<QualifiedNamedElement>();
+				for (String name : dependencyNames) {
+					if (!selectedNames.contains(name))
+						if (artifact != null) {
+							String artifactFQN = artifact
+									.getFullyQualifiedName();
+							QualifiedNamedElement elem = dependenciesInMap
+									.get(name);
+							String aEndFQN = ((Dependency) elem).getAEnd()
+									.getFullyQualifiedName();
+							String zEndFQN = ((Dependency) elem).getZEnd()
+									.getFullyQualifiedName();
+							if (artifactFQN.equals(aEndFQN)
+									|| artifactFQN.equals(zEndFQN))
+								dependenciesToDestroy.add(dependenciesInMap
+										.get(name));
+						} else
 							dependenciesToDestroy.add(dependenciesInMap
 									.get(name));
-					} else
-						dependenciesToDestroy.add(dependenciesInMap.get(name));
-			}
+				}
 
-			// set up command to update the map by adding the new relationships
-			// and
-			// destroying the unwanted associations and dependencies
-			Command cmd = new UpdateRelationshipsCommand(map, nodesInMap,
-					relationshipsToCreate, associationsToDestroy,
-					dependenciesToDestroy);
-			TigerstripeDiagramEditor editor = null;
-			if (mySelectedElements.length != 0 && mySelectedElements[0] != null) {
-				DiagramGraphicalViewer viewer = (DiagramGraphicalViewer) mySelectedElements[0]
-						.getParent().getViewer();
-				DiagramEditDomain domain = (DiagramEditDomain) viewer
-						.getEditDomain();
-				editor = (TigerstripeDiagramEditor) domain.getEditorPart();
-			} else {
-				editor = (TigerstripeDiagramEditor) getMyTargetWorkbenchPart();
-			}
+				// set up command to update the map by adding the new
+				// relationships
+				// and
+				// destroying the unwanted associations and dependencies
+				Command cmd = new UpdateRelationshipsCommand(map, nodesInMap,
+						relationshipsToCreate, associationsToDestroy,
+						dependenciesToDestroy);
+				TigerstripeDiagramEditor editor = null;
+				if (mySelectedElements.length != 0
+						&& mySelectedElements[0] != null) {
+					DiagramGraphicalViewer viewer = (DiagramGraphicalViewer) mySelectedElements[0]
+							.getParent().getViewer();
+					DiagramEditDomain domain = (DiagramEditDomain) viewer
+							.getEditDomain();
+					editor = (TigerstripeDiagramEditor) domain.getEditorPart();
+				} else {
+					editor = (TigerstripeDiagramEditor) getMyTargetWorkbenchPart();
+				}
 
-			try {
-				BaseETAdapter.setIgnoreNotify(true);
-				TransactionalEditingDomain editingDomain = editor
-						.getEditingDomain();
-				editingDomain.getCommandStack().execute(cmd);
-				editingDomain.getCommandStack().flush();
-			} finally {
-				BaseETAdapter.setIgnoreNotify(false);
+				try {
+					BaseETAdapter.setIgnoreNotify(true);
+					TransactionalEditingDomain editingDomain = editor
+							.getEditingDomain();
+					editingDomain.getCommandStack().execute(cmd);
+					editingDomain.getCommandStack().flush();
+				} finally {
+					BaseETAdapter.setIgnoreNotify(false);
+				}
 			}
-
 		} else {
 			// if here, there were no relationships that could be built, so
 			// display a warning to the user
