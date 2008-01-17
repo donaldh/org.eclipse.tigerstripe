@@ -41,9 +41,6 @@
       <scheme
             ID="org.eclipse.tigerstripe.annotations.test.scheme2"
             userLabel="emptyScheme">
-         <annotationForm
-               ID="org.eclipse.tigerstripe.annotations.test.scheme2.annotationForm1">
-         </annotationForm>
       </scheme>
    </extension>
 

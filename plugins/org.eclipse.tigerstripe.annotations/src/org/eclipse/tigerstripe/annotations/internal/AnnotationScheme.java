@@ -49,17 +49,35 @@ public class AnnotationScheme implements IAnnotationScheme {
 	}
 
 	public IAnnotationForm selectForm(String URI) {
+
+		if (URI == null)
+			return null;
+
+		// The priority is given to forms with defined selectors.
+		IAnnotationForm foundDefined = null;
+		IAnnotationForm foundDefault = null;
 		for (IAnnotationForm form : forms) {
-			if (form.getSelector().select(URI))
-				return form;
+			if (form.getSelector().select(URI)) {
+				if (form == ISelector.DEFAULT) {
+					foundDefault = form;
+				} else {
+					foundDefined = form;
+				}
+			}
 		}
-		return null;
+
+		if (foundDefined != null)
+			return foundDefined;
+		else if (foundDefault != null)
+			return foundDefault;
+		else
+			return null;
 	}
 
 	public ISelector getSelector() {
 		return selector;
 	}
-	
+
 	private void parse(IExtension extension) throws AnnotationCoreException {
 		IConfigurationElement[] children = extension.getConfigurationElements();
 

@@ -18,9 +18,10 @@ public class AllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite(
 				"Test for org.eclipse.tigerstripe.annotations.test");
-		//$JUnit-BEGIN$
+		// $JUnit-BEGIN$
 		suite.addTestSuite(TestRegistry.class);
-		//$JUnit-END$
+		suite.addTestSuite(TestAnnotationScheme.class);
+		// $JUnit-END$
 		return suite;
 	}
 
