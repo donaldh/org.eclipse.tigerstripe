@@ -44,6 +44,7 @@ import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -491,7 +492,10 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 
 	private class EntryListCellModifier implements ICellModifier {
 
+		private TableViewer viewer;
+
 		public EntryListCellModifier(TableViewer viewer) {
+			this.viewer = viewer;
 		}
 
 		public boolean canModify(Object element, String property) {
@@ -533,8 +537,9 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			// Find the index of the column
 			int columnIndex = Arrays.asList(columnLabels).indexOf(property);
 
-			TableItem tableItem = (TableItem) item;
-			Entry entry = (Entry) tableItem.getData();
+			IStructuredSelection ssel = (IStructuredSelection) viewer
+					.getSelection();
+			Entry entry = (Entry) ssel.getFirstElement();
 
 			switch (columnIndex) {
 			case SET_COLUMN_IDX: // CHECKED Column
@@ -764,8 +769,9 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			dialog.setInitialElementSelections(selectedEntries);
 			dialog.setTitle("Select references");
 			dialog.create();
-			boolean returnStatus = (dialog.open() == Window.OK);
+			boolean returnStatus = (dialog.open() == Dialog.OK);
 			Object[] results = dialog.getResult();
+			String resultString = "";
 			if (returnStatus) {
 				if (selectedEntries.size() > 0)
 					selectedEntries = new ArrayList<String>();
