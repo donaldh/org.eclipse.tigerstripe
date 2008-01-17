@@ -340,7 +340,7 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.eclipse.tigerstripe.core.util.messages,
  org.eclipse.tigerstripe.tools.compare;uses:="org.eclipse.tigerstripe.api.external.model.artifacts,org.eclipse.tigerstripe.api.artifacts.model,org.eclipse.tigerstripe.api.artifacts.model.ossj"
 Bundle-ClassPath: lib/dom4j-1.6.1.jar,
- lib/qdox-1.6.jar,
+ lib/qdox-1.6.3.jar,
  .,
  lib/velocity-1.5.jar,
  lib/commons-lang-2.1.jar,
