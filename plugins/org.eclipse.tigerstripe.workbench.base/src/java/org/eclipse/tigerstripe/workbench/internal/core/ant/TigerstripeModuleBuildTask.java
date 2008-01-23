@@ -15,7 +15,7 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
@@ -86,7 +86,7 @@ public class TigerstripeModuleBuildTask extends Task {
 		} else {
 
 			try {
-				final ITigerstripeProject tsProject = (ITigerstripeProject) API
+				final ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
 						.getDefaultProjectSession().makeTigerstripeProject(
 								baseDir.toURI(), null);
 				log.info("  Building Module : "

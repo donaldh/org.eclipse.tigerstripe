@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArt
 
 public class ManagedEntityArtifactPersister extends AbstractArtifactPersister {
 
-	private final static String TEMPLATE = "org/eclipse/tigerstripe/core/model/ossj/resources/managedEntity.vm";
+	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/managedEntity.vm";
 
 	public ManagedEntityArtifactPersister(AbstractArtifact artifact,
 			Writer writer) {

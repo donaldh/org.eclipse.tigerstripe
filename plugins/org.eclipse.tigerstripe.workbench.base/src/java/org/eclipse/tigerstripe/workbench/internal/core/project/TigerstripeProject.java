@@ -37,8 +37,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.ReaderInputStream;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -411,8 +412,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 			try {
 				URI projectURI = ref.getURI();
-				IProjectLocator loc = (IProjectLocator) API
-						.getFacility(API.PROJECT_LOCATOR_FACILITY);
+				IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
+						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 				String label = loc.getLocalLabel(projectURI);
 				refElm.setAttribute("path", label);
 				referencesElm.appendChild(refElm);
@@ -608,7 +609,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	private ITigerstripeProject getTSProject() {
 		if (getBaseDir() != null) {
 			try {
-				return (ITigerstripeProject) API.getDefaultProjectSession()
+				return (ITigerstripeProject) TigerstripeCore.getDefaultProjectSession()
 						.makeTigerstripeProject(getBaseDir().toURI());
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
@@ -640,14 +641,14 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			String label = path.getNodeValue();
 			try {
 
-				IProjectLocator loc = (IProjectLocator) API
-						.getFacility(API.PROJECT_LOCATOR_FACILITY);
+				IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
+						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 
-				ITigerstripeProject self = (ITigerstripeProject) API
+				ITigerstripeProject self = (ITigerstripeProject) TigerstripeCore
 						.getDefaultProjectSession().makeTigerstripeProject(
 								getBaseDir().toURI(), null);
 				URI uri = loc.locate(self, label);
-				ITigerstripeProject prj = (ITigerstripeProject) API
+				ITigerstripeProject prj = (ITigerstripeProject) TigerstripeCore
 						.getDefaultProjectSession().makeTigerstripeProject(uri,
 								null);
 
@@ -866,8 +867,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			return null; // this is a project desc embedded in a module
 
 		try {
-			IProjectLocator loc = (IProjectLocator) API
-					.getFacility(API.PROJECT_LOCATOR_FACILITY);
+			IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
+					.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 			return loc.getLocalLabel(getBaseDir().toURI());
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",

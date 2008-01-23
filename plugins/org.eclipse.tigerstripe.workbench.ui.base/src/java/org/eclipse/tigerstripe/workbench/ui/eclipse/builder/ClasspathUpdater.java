@@ -26,8 +26,9 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.ClasspathEntry;
 import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
@@ -90,12 +91,12 @@ public class ClasspathUpdater {
 						// prjRef = API.getDefaultProjectSession()
 						// .makeTigerstripeProject(cpeURI, null);
 
-						IProjectLocator loc = (IProjectLocator) API
-								.getFacility(API.PROJECT_LOCATOR_FACILITY);
+						IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
+								.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 
 						URI uri = loc.locate(tsProject, entries[i].getPath()
 								.toString());
-						prjRef = (ITigerstripeProject) API
+						prjRef = (ITigerstripeProject) TigerstripeCore
 								.getDefaultProjectSession()
 								.makeTigerstripeProject(uri, null);
 					} catch (TigerstripeLicenseException e) {

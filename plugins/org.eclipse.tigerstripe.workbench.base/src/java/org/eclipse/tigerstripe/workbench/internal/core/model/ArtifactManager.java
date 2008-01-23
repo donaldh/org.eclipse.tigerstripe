@@ -29,7 +29,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
@@ -179,7 +179,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 					.getReservedPrimitiveTypes();
 			reservedPrimitiveTypeArtifacts = new IPrimitiveTypeArtifact[defs.length];
 			try {
-				IArtifactManagerSession phantomSession = API
+				IArtifactManagerSession phantomSession = TigerstripeCore
 						.getDefaultProjectSession().getPhantomProject()
 						.getArtifactManagerSession();
 				ArtifactManager mgr = ((ArtifactManagerSessionImpl) phantomSession)
@@ -219,7 +219,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		// Register for changes in the profile... except for the Phantom project
 		// artifact mgr!
 		if (!(tsProject instanceof PhantomTigerstripeProject)) {
-			API.getIWorkbenchProfileSession().addActiveProfileListener(this);
+			TigerstripeCore.getIWorkbenchProfileSession().addActiveProfileListener(this);
 		}
 	}
 
@@ -256,7 +256,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			// type of the tsProject that is passed
 			if (!(getTSProject() instanceof PhantomTigerstripeProject)) {
 				try {
-					IPhantomTigerstripeProject phantomProject = API
+					IPhantomTigerstripeProject phantomProject = TigerstripeCore
 							.getDefaultProjectSession().getPhantomProject();
 					phantomArtifactMgrSession = phantomProject
 							.getArtifactManagerSession();
@@ -314,7 +314,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 		// @since 1.2
 		// All core artifacts are conditioned by the active profile
-		IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 				.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);

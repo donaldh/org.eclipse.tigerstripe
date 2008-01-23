@@ -27,7 +27,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchProfileRole;
@@ -87,7 +87,7 @@ public class ProfileEditor extends TigerstripeFormEditor {
 			if (getEditorInput() instanceof FileEditorInput) {
 				IFile file = ((FileEditorInput) getEditorInput()).getFile();
 				try {
-					profile = API.getIWorkbenchProfileSession()
+					profile = TigerstripeCore.getIWorkbenchProfileSession()
 							.getWorkbenchProfileFor(
 									file.getLocation().toOSString());
 				} catch (TigerstripeException e) {

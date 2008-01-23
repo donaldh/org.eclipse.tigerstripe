@@ -33,7 +33,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
@@ -85,7 +85,7 @@ public abstract class NewTSElementWizard extends Wizard implements INewWizard {
 			display.asyncExec(new Runnable() {
 				public void run() {
 					try {
-						IProjectSession session = API
+						IProjectSession session = TigerstripeCore
 								.getDefaultProjectSession();
 						ITigerstripeProject project = (ITigerstripeProject) session
 								.makeTigerstripeProject(resource.getProject()

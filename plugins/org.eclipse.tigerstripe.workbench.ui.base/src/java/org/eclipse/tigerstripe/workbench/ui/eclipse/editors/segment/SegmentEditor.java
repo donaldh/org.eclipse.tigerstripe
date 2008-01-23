@@ -25,8 +25,9 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormEditor;
@@ -82,8 +83,8 @@ public class SegmentEditor extends TigerstripeFormEditor {
 			if (getEditorInput() instanceof FileEditorInput) {
 				IFile file = ((FileEditorInput) getEditorInput()).getFile();
 				try {
-					segment = API.getIContractSession().makeIContractSegment(
-							file.getLocationURI());
+					segment = InternalTigerstripeCore.getIContractSession()
+							.makeIContractSegment(file.getLocationURI());
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 				}

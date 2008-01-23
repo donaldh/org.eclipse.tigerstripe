@@ -29,8 +29,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.eclipse.tigerstripe.workbench.API;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -387,8 +387,8 @@ public abstract class AbstractTigerstripeProject {
 
 	public String getProjectLabel() {
 		try {
-			IProjectLocator loc = (IProjectLocator) API
-					.getFacility(API.PROJECT_LOCATOR_FACILITY);
+			IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
+					.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 			return loc.getLocalLabel(getBaseDir().toURI());
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",

@@ -23,7 +23,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.tools.ant.util.ReaderInputStream;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
@@ -638,7 +638,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 	public IPluggablePluginProject getHandle() {
 		try {
-			return (IPluggablePluginProject) API.getDefaultProjectSession()
+			return (IPluggablePluginProject) TigerstripeCore.getDefaultProjectSession()
 					.makeTigerstripeProject(getBaseDir().toURI(), null);
 		} catch (Exception e) {
 			return null; // should never happen

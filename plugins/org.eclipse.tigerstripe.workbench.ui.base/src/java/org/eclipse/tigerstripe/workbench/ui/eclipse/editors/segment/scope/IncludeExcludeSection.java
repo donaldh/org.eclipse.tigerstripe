@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
@@ -594,7 +594,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
 	private void addAnnotationPatternSelected(int type) {
 
-		IWorkbenchProfile activeProfile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile activeProfile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		TableItem[] items = annotationExcludesTable.getItems();
 		IStereotypeInstance[] existingStereotypes = new IStereotypeInstance[items.length];

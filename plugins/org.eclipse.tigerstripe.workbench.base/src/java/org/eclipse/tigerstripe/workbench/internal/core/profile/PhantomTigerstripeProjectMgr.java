@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.zip.ZipException;
 
 import org.apache.tools.ant.DirectoryScanner;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
@@ -56,7 +56,7 @@ public class PhantomTigerstripeProjectMgr implements
 	private PhantomTigerstripeProjectMgr() {
 		// register self as a listener for Active profile changes so we can
 		// update the phantom project accordingly
-		API.getIWorkbenchProfileSession().addActiveProfileListener(this);
+		TigerstripeCore.getIWorkbenchProfileSession().addActiveProfileListener(this);
 	}
 
 	public static PhantomTigerstripeProjectMgr getInstance() {
@@ -131,7 +131,7 @@ public class PhantomTigerstripeProjectMgr implements
 		int numberCreated = 0;
 		ArtifactManagerSessionImpl artifactMgrSession = null;
 		try {
-			artifactMgrSession = (ArtifactManagerSessionImpl) API
+			artifactMgrSession = (ArtifactManagerSessionImpl) TigerstripeCore
 					.getDefaultProjectSession().getPhantomProject()
 					.getArtifactManagerSession();
 
@@ -140,7 +140,7 @@ public class PhantomTigerstripeProjectMgr implements
 
 			(artifactMgrSession).setLockForGeneration(true);
 
-			IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+			IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 					.getActiveProfile();
 			IPrimitiveTypeDef[] defs = profile.getPrimitiveTypeDefs(false);
 			for (IPrimitiveTypeDef def : defs) {

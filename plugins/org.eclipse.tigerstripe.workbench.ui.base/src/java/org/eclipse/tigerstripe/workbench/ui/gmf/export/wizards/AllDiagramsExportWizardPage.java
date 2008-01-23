@@ -68,8 +68,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
@@ -162,7 +162,7 @@ public class AllDiagramsExportWizardPage extends WizardPage {
 					Map<IResource, String> resMap = new HashMap<IResource, String>();
 					monitor.beginTask("Setting up rendering...",
 							IProgressMonitor.UNKNOWN);
-					IDiagramRenderer renderer = API
+					IDiagramRenderer renderer = InternalTigerstripeCore
 							.getIDiagramRenderingSession()
 							.getRendererByName(
 									"org.eclipse.tigerstripe.workbench.ui.rendererplugin.actions.Renderer");

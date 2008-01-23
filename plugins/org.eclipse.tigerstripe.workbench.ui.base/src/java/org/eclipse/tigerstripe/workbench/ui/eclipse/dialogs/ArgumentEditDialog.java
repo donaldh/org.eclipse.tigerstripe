@@ -50,7 +50,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.AttributeRef;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -209,7 +209,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 	}
 
 	private boolean isRefByEnabled() {
-		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		return prop

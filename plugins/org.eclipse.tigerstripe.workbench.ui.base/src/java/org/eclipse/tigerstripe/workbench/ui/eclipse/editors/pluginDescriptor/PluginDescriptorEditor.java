@@ -28,7 +28,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.SimplePluggablePluginProjectHandle;
@@ -169,7 +169,7 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 		// TigerstripeProject
 		// updated
 		try {
-			final IProjectSession session = API.getDefaultProjectSession();
+			final IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor) {

@@ -48,7 +48,7 @@ import org.eclipse.tigerstripe.eclipse.actions.OpenNewPackageWizardAction;
 import org.eclipse.tigerstripe.eclipse.actions.OpenNewQueryArtifactWizardAction;
 import org.eclipse.tigerstripe.eclipse.actions.OpenNewSessionArtifactWizardAction;
 import org.eclipse.tigerstripe.eclipse.actions.OpenNewUpdateProcedureArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
@@ -144,7 +144,7 @@ public class NewWizardsActionGroup extends ActionGroup {
 							// @since 1.2
 							// All core artifacts are conditioned by the active
 							// profile
-							IWorkbenchProfile profile = API
+							IWorkbenchProfile profile = TigerstripeCore
 									.getIWorkbenchProfileSession()
 									.getActiveProfile();
 							CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile

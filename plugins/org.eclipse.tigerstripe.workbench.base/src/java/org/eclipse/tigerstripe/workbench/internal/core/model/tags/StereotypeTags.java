@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
@@ -151,7 +151,7 @@ public final class StereotypeTags {
 		if (stereotypeName != null && stereotypeName.length() != 0) {
 			// now build the IStereotypeInstance from the extracted
 			// Properties.
-			IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+			IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 					.getActiveProfile();
 			IStereotype stereotype = profile
 					.getStereotypeByName(stereotypeName);
@@ -244,7 +244,7 @@ public final class StereotypeTags {
 			throw new TigerstripeException("Stereotype " + name + " not found.");
 
 		// now build the IStereotypeInstance from the extracted Properties.
-		IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		IStereotype stereotype = profile.getStereotypeByName(name);
 		if (stereotype != null) {

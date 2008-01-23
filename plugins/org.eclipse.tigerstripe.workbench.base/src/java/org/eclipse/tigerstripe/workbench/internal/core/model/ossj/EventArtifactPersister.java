@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArt
 
 public class EventArtifactPersister extends AbstractArtifactPersister {
 
-	private final static String TEMPLATE = "org/eclipse/tigerstripe/core/model/ossj/resources/notification.vm";
+	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/notification.vm";
 
 	public EventArtifactPersister(AbstractArtifact artifact, Writer writer) {
 		super(artifact, TEMPLATE, writer);

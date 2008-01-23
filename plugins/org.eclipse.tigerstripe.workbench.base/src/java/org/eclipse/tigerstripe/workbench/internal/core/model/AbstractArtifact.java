@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
@@ -1353,7 +1353,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return null;
 
 		try {
-			handle = (TigerstripeProjectHandle) API.getDefaultProjectSession()
+			handle = (TigerstripeProjectHandle) TigerstripeCore.getDefaultProjectSession()
 					.makeTigerstripeProject(
 							getTSProject().getBaseDir().toURI(), null);
 		} catch (TigerstripeException e) {
@@ -1699,7 +1699,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 						+ getFullyQualifiedName()
 						+ ": artifact is read-only (module)");
 			try {
-				IAbstractTigerstripeProject aProject = API
+				IAbstractTigerstripeProject aProject = TigerstripeCore
 						.getDefaultProjectSession().makeTigerstripeProject(
 								mgr.getTSProject().getBaseDir().toURI());
 				if (aProject instanceof ITigerstripeProject) {

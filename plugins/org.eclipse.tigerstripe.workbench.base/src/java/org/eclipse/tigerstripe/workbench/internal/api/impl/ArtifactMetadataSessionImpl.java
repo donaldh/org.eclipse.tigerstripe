@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -132,7 +132,7 @@ public class ArtifactMetadataSessionImpl implements IArtifactMetadataSession {
 	 */
 	private void registerTmpDefault() {
 
-		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) API
+		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 		try {

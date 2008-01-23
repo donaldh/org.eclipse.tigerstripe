@@ -21,7 +21,7 @@ import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeConnectionTool;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
@@ -67,7 +67,7 @@ public class TigerstripePaletteFactory {
 		 * palette (only those artifacts that should be in the model for a given
 		 * profile)
 		 */
-		IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 				.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);

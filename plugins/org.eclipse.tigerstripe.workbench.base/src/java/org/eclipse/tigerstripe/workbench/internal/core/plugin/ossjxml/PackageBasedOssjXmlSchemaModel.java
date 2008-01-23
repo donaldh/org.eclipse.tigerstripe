@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMap
  */
 public class PackageBasedOssjXmlSchemaModel {
 
-	public final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/core/plugin/ossjxml/resources";
+	public final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/workbench/internal/core/plugin/ossjxml/resources";
 
 	private final static String TEMPLATE = "XMLSchema.vm";
 	private final static String COMMON_TEMPLATE = "XMLSchemaNoOperations.vm";

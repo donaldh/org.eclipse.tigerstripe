@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -260,7 +260,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		FormToolkit toolkit = form.getToolkit();
 		MethodDetailsPageListener adapter = new MethodDetailsPageListener();
 
-		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
@@ -1193,7 +1193,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	 * Gets the default attribute type from the active profile.
 	 */
 	private String getDefaultTypeName() throws TigerstripeException {
-		IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}

@@ -17,8 +17,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.ui.IEditorInput;
@@ -33,8 +33,8 @@ public class UseCaseBodyDocumentProvider extends FileDocumentProvider {
 		if (element instanceof FileEditorInput) {
 			IFile file = ((FileEditorInput) element).getFile();
 			try {
-				result = API.getIContractSession().makeIUseCase(
-						file.getLocationURI());
+				result = InternalTigerstripeCore.getIContractSession()
+						.makeIUseCase(file.getLocationURI());
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}

@@ -29,7 +29,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
  */
 public class OssjWsdlModel {
 
-	public final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/core/plugin/ossj/ws/resources";
+	public final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/workbench/internal/core/plugin/ossj/ws/resources";
 	private final static String TEMPLATE = "wsdl.vm";
 	private final static String XSD_TAG = "tigerstripe.xsd";
 

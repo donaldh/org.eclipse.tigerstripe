@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArt
 
 public class PrimitiveArtifactPersister extends AbstractArtifactPersister {
 
-	private final static String TEMPLATE = "org/eclipse/tigerstripe/core/model/ossj/resources/primitive.vm";
+	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/primitive.vm";
 
 	public PrimitiveArtifactPersister(AbstractArtifact artifact, Writer writer) {
 		super(artifact, TEMPLATE, writer);

@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipFile;
 
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
@@ -62,7 +62,7 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 
 	private PluginManager() {
 		this.housings = new ArrayList<PluginHousing>();
-		API.getIWorkbenchProfileSession().addActiveProfileListener(this);
+		TigerstripeCore.getIWorkbenchProfileSession().addActiveProfileListener(this);
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 
 		try {
 
-			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 					.getIWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 

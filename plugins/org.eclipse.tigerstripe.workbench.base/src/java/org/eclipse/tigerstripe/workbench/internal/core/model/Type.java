@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
@@ -365,7 +365,7 @@ public class Type implements IType {
 	 * as the list of legal primitive types (excluding the reserved types).
 	 */
 	private boolean isPrimitiveProfileType() {
-		IPrimitiveTypeDef[] primitiveTypeDefs = API
+		IPrimitiveTypeDef[] primitiveTypeDefs = TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile()
 				.getPrimitiveTypeDefs(true);
 		for (int i = 0; i < primitiveTypeDefs.length; i++) {

@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjArtifactSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
@@ -156,7 +156,7 @@ public abstract class AbstractArtifactAuditor {
 
 	protected void checkInterfacePackage() {
 
-		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 

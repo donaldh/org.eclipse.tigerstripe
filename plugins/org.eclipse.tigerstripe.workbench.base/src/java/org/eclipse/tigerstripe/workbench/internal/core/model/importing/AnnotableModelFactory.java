@@ -121,7 +121,7 @@ public class AnnotableModelFactory {
 				config, targetProject);
 	}
 
-	private final static String DEFAULT_XSLTS_PREFIX = "/org/eclipse/tigerstripe/core/model/importing/resources/";
+	private final static String DEFAULT_XSLTS_PREFIX = "/org/eclipse/tigerstripe/workbench/internal/core/model/importing/resources/";
 
 	private final static String[] defaultXslts = { AnnotableModelFactory.class
 			.getResource(DEFAULT_XSLTS_PREFIX + "multiplicityRange-to-MDR.xsl")

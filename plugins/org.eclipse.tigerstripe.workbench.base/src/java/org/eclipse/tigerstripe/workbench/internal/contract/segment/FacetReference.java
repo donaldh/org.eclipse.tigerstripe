@@ -13,8 +13,9 @@ package org.eclipse.tigerstripe.workbench.internal.contract.segment;
 import java.io.File;
 import java.net.URI;
 
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
@@ -103,8 +104,8 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 		else {
 			File baseDir = null;
 			if (project == null && projectLabel != null) {
-				IProjectLocator locator = (IProjectLocator) API
-						.getFacility(API.PROJECT_LOCATOR_FACILITY);
+				IProjectLocator locator = (IProjectLocator) InternalTigerstripeCore
+						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 				URI uri = locator.locate(contextProject, projectLabel);
 				baseDir = new File(uri);
 			} else {
@@ -127,7 +128,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 			File target = new File(getURI());
 			if (target.exists() && target.canRead()) {
 				if (target.lastModified() != resolvedTStamp) {
-					resolvedSegment = API.getIContractSession()
+					resolvedSegment = InternalTigerstripeCore.getIContractSession()
 							.makeIContractSegment(getURI());
 					resolvedTStamp = target.lastModified();
 				}
@@ -183,13 +184,13 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 		try {
 			IAbstractTigerstripeProject aProject = null;
 			if (project == null && projectLabel != null) {
-				IProjectLocator locator = (IProjectLocator) API
-						.getFacility(API.PROJECT_LOCATOR_FACILITY);
+				IProjectLocator locator = (IProjectLocator) InternalTigerstripeCore
+						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 				URI uri = locator.locate(contextProject, projectLabel);
-				aProject = API.getDefaultProjectSession()
+				aProject = TigerstripeCore.getDefaultProjectSession()
 						.makeTigerstripeProject(uri);
 			} else {
-				aProject = API.getDefaultProjectSession()
+				aProject = TigerstripeCore.getDefaultProjectSession()
 						.makeTigerstripeProject(project.getBaseDir().toURI());
 			}
 			if (aProject instanceof ITigerstripeProject)

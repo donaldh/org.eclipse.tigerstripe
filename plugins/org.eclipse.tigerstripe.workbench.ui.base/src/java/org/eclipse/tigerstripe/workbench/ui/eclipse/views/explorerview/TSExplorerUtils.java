@@ -27,7 +27,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
@@ -107,7 +107,7 @@ public class TSExplorerUtils {
 			IResource res = jElem.getResource();
 			if (res != null) {
 				try {
-					IProjectSession session = API.getDefaultProjectSession();
+					IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 					IAbstractTigerstripeProject aProject = session
 							.makeTigerstripeProject(res.getProject()
 									.getLocation().toFile().toURI(), null);
@@ -228,7 +228,7 @@ public class TSExplorerUtils {
 
 		if (project != null) {
 			try {
-				IProjectSession session = API.getDefaultProjectSession();
+				IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 				IAbstractTigerstripeProject tsProject = session
 						.makeTigerstripeProject(project.getLocation().toFile()
 								.toURI(), null);

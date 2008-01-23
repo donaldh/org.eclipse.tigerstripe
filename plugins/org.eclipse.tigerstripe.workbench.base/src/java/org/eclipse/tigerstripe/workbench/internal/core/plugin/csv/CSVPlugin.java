@@ -17,7 +17,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.MethodInvocationException;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
@@ -73,7 +73,7 @@ public class CSVPlugin extends BasePlugin {
 
 	private final static String VERSION = PluginRefFactory.VERSION_1_3;
 
-	private final static String REPORTTEMPLATE = "org/eclipse/tigerstripe/core/plugin/csv/resources/CSV_REPORT.vm";
+	private final static String REPORTTEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/plugin/csv/resources/CSV_REPORT.vm";
 
 	public final static String DETAIL_MAX = "max";
 
@@ -121,7 +121,7 @@ public class CSVPlugin extends BasePlugin {
 	public void trigger(PluginRef pluginRef, RunConfig config)
 			throws TigerstripeException {
 		try {
-			ITigerstripeProject handle = (ITigerstripeProject) API
+			ITigerstripeProject handle = (ITigerstripeProject) TigerstripeCore
 					.getDefaultProjectSession().makeTigerstripeProject(
 							pluginRef.getProject().getBaseDir().toURI(), null);
 			ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle

@@ -43,7 +43,7 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
@@ -134,14 +134,14 @@ public class WorkspaceListener implements IElementChangedListener,
 			if (res instanceof IProject) {
 				IProject jProject = (IProject) res;
 				try {
-					IProjectSession session = API.getDefaultProjectSession();
+					IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 					IPath path = jProject.getFullPath();
 					IPath root = ResourcesPlugin.getWorkspace().getRoot()
 							.getLocation();
 					URI targetURI = root.append(path).toFile().toURI();
 					IAbstractTigerstripeProject tsProject = session
 							.makeTigerstripeProject(targetURI, null);
-					API.getDefaultProjectSession().removeFromCache(tsProject);
+					TigerstripeCore.getDefaultProjectSession().removeFromCache(tsProject);
 
 					// Bug 936: remove from watch list of
 					// DiagramSynchronizationManager

@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArt
 public class AssociationClassArtifactPersister extends
 		AbstractArtifactPersister {
 
-	private final static String TEMPLATE = "org/eclipse/tigerstripe/core/model/ossj/resources/associationClass.vm";
+	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/associationClass.vm";
 
 	public AssociationClassArtifactPersister(AbstractArtifact artifact,
 			Writer writer) {

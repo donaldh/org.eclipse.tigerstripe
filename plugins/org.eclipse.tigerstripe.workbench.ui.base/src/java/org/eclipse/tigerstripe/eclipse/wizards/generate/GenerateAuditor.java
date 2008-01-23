@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
@@ -55,7 +55,7 @@ public class GenerateAuditor {
 		// If no Session Artifact popup and block WSDL Generation.
 		if (OssjWsdlPlugin.PLUGIN_ID.equals(ref.getPluginId())) {
 			try {
-				ITigerstripeProject handle = (ITigerstripeProject) API
+				ITigerstripeProject handle = (ITigerstripeProject) TigerstripeCore
 						.getDefaultProjectSession().makeTigerstripeProject(
 								ref.getProject().getBaseDir().toURI(), null);
 				ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle

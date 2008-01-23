@@ -13,8 +13,9 @@ package org.eclipse.tigerstripe.workbench.internal.contract.useCase;
 import java.io.File;
 import java.net.URI;
 
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
@@ -68,8 +69,8 @@ public class UseCaseReference implements IUseCaseReference {
 		else {
 			File baseDir = null;
 			if (project == null && projectLabel != null) {
-				IProjectLocator locator = (IProjectLocator) API
-						.getFacility(API.PROJECT_LOCATOR_FACILITY);
+				IProjectLocator locator = (IProjectLocator) InternalTigerstripeCore
+						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 				URI uri = locator.locate(contextProject, projectLabel);
 				baseDir = new File(uri);
 			} else {
@@ -91,8 +92,8 @@ public class UseCaseReference implements IUseCaseReference {
 		if (getURI() != null) {
 			File target = new File(getURI());
 			if (target.exists() && target.canRead()) {
-				IUseCase result = API.getIContractSession().makeIUseCase(
-						getURI());
+				IUseCase result = InternalTigerstripeCore.getIContractSession()
+						.makeIUseCase(getURI());
 				return result;
 			} else
 				return null;
@@ -135,13 +136,13 @@ public class UseCaseReference implements IUseCaseReference {
 		try {
 			IAbstractTigerstripeProject aProject = null;
 			if (project == null && projectLabel != null) {
-				IProjectLocator locator = (IProjectLocator) API
-						.getFacility(API.PROJECT_LOCATOR_FACILITY);
+				IProjectLocator locator = (IProjectLocator) InternalTigerstripeCore
+						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 				URI uri = locator.locate(contextProject, projectLabel);
-				aProject = API.getDefaultProjectSession()
+				aProject = TigerstripeCore.getDefaultProjectSession()
 						.makeTigerstripeProject(uri);
 			} else {
-				aProject = API.getDefaultProjectSession()
+				aProject = TigerstripeCore.getDefaultProjectSession()
 						.makeTigerstripeProject(project.getBaseDir().toURI());
 			}
 			if (aProject instanceof ITigerstripeProject)

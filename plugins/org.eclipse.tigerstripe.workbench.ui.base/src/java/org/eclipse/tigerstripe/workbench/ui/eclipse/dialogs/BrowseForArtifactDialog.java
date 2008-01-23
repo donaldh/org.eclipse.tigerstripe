@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -170,7 +170,7 @@ public class BrowseForArtifactDialog {
 			throws TigerstripeException {
 		try {
 			if (isIncludePrimitiveTypes())
-				return API.getDefaultProjectSession().getPhantomProject()
+				return TigerstripeCore.getDefaultProjectSession().getPhantomProject()
 						.getReservedPrimitiveTypes();
 			else
 				return new IPrimitiveTypeArtifact[0];

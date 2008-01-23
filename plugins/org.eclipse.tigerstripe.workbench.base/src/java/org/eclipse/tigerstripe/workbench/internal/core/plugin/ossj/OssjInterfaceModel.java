@@ -32,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
  */
 public class OssjInterfaceModel {
 
-	public final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/core/plugin/ossj/resources";
+	public final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/workbench/internal/core/plugin/ossj/resources";
 	public final static String INTERFACE_TAG = "tigerstripe.interface";
 
 	private String targetPackage;

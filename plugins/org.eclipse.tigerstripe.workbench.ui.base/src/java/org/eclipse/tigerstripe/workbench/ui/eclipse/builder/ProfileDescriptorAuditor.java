@@ -17,7 +17,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
@@ -48,7 +48,7 @@ public class ProfileDescriptorAuditor {
 
 			for (IResource res : resources) {
 				try {
-					IWorkbenchProfile workbenchProfile = API
+					IWorkbenchProfile workbenchProfile = TigerstripeCore
 							.getIWorkbenchProfileSession()
 							.getWorkbenchProfileFor(
 									res.getLocation().toOSString());

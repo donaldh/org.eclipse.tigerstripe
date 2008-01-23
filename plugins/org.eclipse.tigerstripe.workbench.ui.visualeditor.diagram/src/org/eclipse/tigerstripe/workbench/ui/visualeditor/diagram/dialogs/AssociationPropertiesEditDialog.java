@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
@@ -266,7 +266,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 					try {
 						IAbstractArtifact iArtifact = association
 								.getCorrespondingIArtifact();
-						IStereotype[] availStereotypes = API
+						IStereotype[] availStereotypes = TigerstripeCore
 								.getIWorkbenchProfileSession()
 								.getActiveProfile()
 								.getAvailableStereotypeForComponent(iArtifact);

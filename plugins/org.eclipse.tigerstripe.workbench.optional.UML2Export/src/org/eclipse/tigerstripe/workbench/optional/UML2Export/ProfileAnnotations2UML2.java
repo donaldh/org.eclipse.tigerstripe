@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
@@ -68,7 +68,7 @@ public class ProfileAnnotations2UML2 {
 
 	/** constructor */
 	public ProfileAnnotations2UML2() {
-		this.profileSession = API.getIWorkbenchProfileSession();
+		this.profileSession = TigerstripeCore.getIWorkbenchProfileSession();
 		Utilities.setupPaths();
 		try {
 			this.umlMetamodel = Utilities.openModelURI(URI

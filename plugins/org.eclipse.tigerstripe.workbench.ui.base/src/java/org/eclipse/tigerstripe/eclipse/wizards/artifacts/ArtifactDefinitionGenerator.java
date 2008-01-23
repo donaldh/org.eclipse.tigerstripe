@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
  */
 public abstract class ArtifactDefinitionGenerator {
 
-	public static String VM_TEMPLATE_BASE = "org/eclipse/tigerstripe/core/model/wizards/resources/";
+	public static String VM_TEMPLATE_BASE = "org/eclipse/tigerstripe/workbench/internal/core/model/wizards/resources/";
 
 	/**
 	 * The velocity template that will be used to perform the generation

@@ -51,7 +51,7 @@ import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.eclipse.wizards.model.ArtifactAttributeModel;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
@@ -639,7 +639,7 @@ public class AttributesSelectionDialog extends TSMessageDialog {
 	 * Gets the default attribute type from the active profile.
 	 */
 	private String getDefaultTypeName() {
-		IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}

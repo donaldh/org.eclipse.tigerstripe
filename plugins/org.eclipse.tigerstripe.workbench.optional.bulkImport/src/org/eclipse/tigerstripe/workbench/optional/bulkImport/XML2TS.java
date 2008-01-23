@@ -32,7 +32,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IEventDescriptorEntry;
@@ -125,7 +125,7 @@ public class XML2TS {
 
 	// default constructor
 	public XML2TS() {
-		this.profileSession = API.getIWorkbenchProfileSession();
+		this.profileSession = TigerstripeCore.getIWorkbenchProfileSession();
 	}
 
 	public ImportBundle loadXMLtoTigerstripe(File importFile,
@@ -147,7 +147,7 @@ public class XML2TS {
 						.getRoot().findMember(new Path(tSProjectName));
 
 				URI projectURI = tsContainer.getLocationURI();
-				IProjectSession session = API.getDefaultProjectSession();
+				IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 				ITigerstripeProject tsProject = (ITigerstripeProject) session
 						.makeTigerstripeProject(projectURI,
 								ITigerstripeProject.class.getName());

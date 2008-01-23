@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjMethod;
@@ -56,7 +56,7 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 		ISessionArtifact artifact = (ISessionArtifact) getArtifact();
 
 		try {
-			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 					.getIWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
@@ -126,7 +126,7 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 		ISessionArtifact artifact = (ISessionArtifact) getArtifact();
 
 		try {
-			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 					.getIWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 			IArtifactManagerSession session = artifact.getIProject()
@@ -161,7 +161,7 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 		ISessionArtifact artifact = (ISessionArtifact) getArtifact();
 
 		try {
-			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 					.getIWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 			IArtifactManagerSession session = artifact.getIProject()

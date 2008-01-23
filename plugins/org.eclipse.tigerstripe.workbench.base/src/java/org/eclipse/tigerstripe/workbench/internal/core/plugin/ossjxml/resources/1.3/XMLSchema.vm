@@ -13,7 +13,7 @@
 ##
 ## Re-usable variables	
 #set ($ns = $schemaUtils.DefaultPrefix)
-#set ($resourceDir = "org/eclipse/tigerstripe/core/plugin/ossjxml/resources/1.3")
+#set ($resourceDir = "org/eclipse/tigerstripe/workbench/internal/core/plugin/ossjxml/resources/1.3")
 ##
 ## set Common schema defaults
 #set ($commonSchemaLocation = $tsProject.ProjectDetails.getProperties().getProperty("ossj.common.schemaLocation",""))

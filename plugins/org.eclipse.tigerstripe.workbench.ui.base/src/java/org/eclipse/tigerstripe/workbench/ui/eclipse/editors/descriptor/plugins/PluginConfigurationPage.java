@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
@@ -63,7 +63,7 @@ public class PluginConfigurationPage extends TigerstripeFormPage {
 		managedForm.addPart(new GenerationPrefSection(this, body, toolkit));
 
 		// sections
-		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 

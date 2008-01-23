@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.ETAdapter;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
@@ -154,7 +154,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 							TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 									.getArtifactManager().getTSProject();
 
-							ITigerstripeProject tsProject = (ITigerstripeProject) API
+							ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
 									.getDefaultProjectSession()
 									.makeTigerstripeProject(
 											project.getBaseDir().toURI(), null);
@@ -317,7 +317,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 								TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 										.getArtifactManager().getTSProject();
 
-								ITigerstripeProject tsProject = (ITigerstripeProject) API
+								ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
 										.getDefaultProjectSession()
 										.makeTigerstripeProject(
 												project.getBaseDir().toURI(),

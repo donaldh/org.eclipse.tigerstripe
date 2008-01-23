@@ -14,8 +14,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.tigerstripe.workbench.API;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -169,7 +169,7 @@ public class DiagramRenderer {
 
 			String output = project.getProjectDetails().getOutputDirectory();
 
-			IDiagramRenderer renderer = API
+			IDiagramRenderer renderer = InternalTigerstripeCore
 					.getIDiagramRenderingSession()
 					.getRendererByName(
 							"org.eclipse.tigerstripe.workbench.rendererplugin.actions.Renderer");

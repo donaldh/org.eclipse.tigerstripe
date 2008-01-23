@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedPPluginRule;
@@ -163,7 +163,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 			ArtifactBasedPPluginRule rule = (ArtifactBasedPPluginRule) getITemplateRunRule();
 			int index = artifactTypeCombo.getSelectionIndex();
 
-			IArtifactMetadataSession session = API
+			IArtifactMetadataSession session = InternalTigerstripeCore
 					.getDefaultArtifactMetadataSession();
 			String[] baseSupportedArtifacts = session
 					.getSupportedArtifactTypes();
@@ -200,7 +200,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		triggerOnDependenciesAndReferencesButton.setSelection(rule
 				.isIncludeDependencies());
 
-		IArtifactMetadataSession session = API
+		IArtifactMetadataSession session = InternalTigerstripeCore
 				.getDefaultArtifactMetadataSession();
 		String[] baseSupportedArtifacts = session.getSupportedArtifactTypes();
 		String[] supportedArtifacts = new String[baseSupportedArtifacts.length + 1];
@@ -305,7 +305,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 		IPluggablePluginProject project = getPPProject();
 
-		IArtifactMetadataSession session = API
+		IArtifactMetadataSession session = InternalTigerstripeCore
 				.getDefaultArtifactMetadataSession();
 		String[] baseSupportedArtifacts = session
 				.getSupportedArtifactTypeLabels();

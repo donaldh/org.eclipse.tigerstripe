@@ -51,7 +51,7 @@ public class PluggablePlugin extends BasePlugin {
 
 	private final static String REPORTTEMPLATE = "PLUGGABLE_REPORT.vm";
 
-	public final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/core/plugin/pluggable/resources";
+	public final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/workbench/internal/core/plugin/pluggable/resources";
 
 	private PluggablePluginReport report;
 

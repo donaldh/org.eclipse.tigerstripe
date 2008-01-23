@@ -17,7 +17,7 @@ import java.util.Collection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
@@ -103,7 +103,7 @@ public class BrowseForStereotypeDialog {
 	 */
 	private Object[] getAvailableStereotypesList() throws TigerstripeException {
 
-		IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		Collection<IStereotype> stereotypes = new ArrayList<IStereotype>();
 

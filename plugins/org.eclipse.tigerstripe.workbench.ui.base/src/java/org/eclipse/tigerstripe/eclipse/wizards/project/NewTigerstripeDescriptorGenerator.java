@@ -27,7 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
  */
 public class NewTigerstripeDescriptorGenerator {
 
-	private final static String TEMPLATE = "org/eclipse/tigerstripe/core/project/wizard/resources/tigerstripe.vm";
+	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/project/wizard/resources/tigerstripe.vm";
 
 	/**
 	 * The velocity template that will be used to perform the generation

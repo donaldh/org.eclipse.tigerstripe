@@ -15,7 +15,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
@@ -79,7 +79,7 @@ public class TSRuntimeContext {
 
 				// Validate and Load the project descriptor
 				try {
-					IProjectSession session = API.getDefaultProjectSession();
+					IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 
 					if (session.makeTigerstripeProject(projectRoot
 							.getLocation().toFile().toURI(), null) instanceof ITigerstripeProject) {

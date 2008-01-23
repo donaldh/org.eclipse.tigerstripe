@@ -47,8 +47,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.eclipse.install.PostInstallActions;
 import org.eclipse.tigerstripe.eclipse.utils.ProjectLocatorFacilityForEclipse;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -401,7 +402,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 	 */
 	protected void initialiseAPI() {
 		try {
-			API.registerFacility(API.PROJECT_LOCATOR_FACILITY,
+			InternalTigerstripeCore.registerFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY,
 					new ProjectLocatorFacilityForEclipse());
 		} catch (TigerstripeException e) {
 			log(e);
@@ -449,7 +450,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 			return null;
 
 		try {
-			IProjectSession session = API.getDefaultProjectSession();
+			IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 			IAbstractTigerstripeProject tsProject = session
 					.makeTigerstripeProject(project.getLocation().toFile()
 							.toURI(), null);

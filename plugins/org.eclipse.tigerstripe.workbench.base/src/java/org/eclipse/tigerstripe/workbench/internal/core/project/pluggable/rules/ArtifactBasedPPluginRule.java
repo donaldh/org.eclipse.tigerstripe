@@ -18,9 +18,9 @@ import java.util.Collection;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.eclipse.tigerstripe.workbench.API;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -202,7 +202,7 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 			String artifactType = getArtifactType();
 
 			// There must be a better way? Just to get a label
-			IArtifactMetadataSession metaSession = API
+			IArtifactMetadataSession metaSession = InternalTigerstripeCore
 					.getDefaultArtifactMetadataSession();
 			String[] baseSupportedArtifacts = metaSession
 					.getSupportedArtifactTypes();

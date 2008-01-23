@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjArtifactSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEntitySpecifics;
@@ -115,7 +115,7 @@ public class OssjEntitySpecificsSection extends ArtifactSectionPart {
 		Composite body = getBody();
 		body.setLayout(layout);
 
-		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 

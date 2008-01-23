@@ -112,7 +112,7 @@ public abstract class BasePlugin implements PluginBody {
 		// Comment out for Dev purposes!
 		properties.put("class.resource.loader.cache", "true");
 
-		// properties.put("velocimacro.library","org/eclipse/tigerstripe/core/plugin/ossj/resources/lib/Velocimacros.vm");
+		// properties.put("velocimacro.library","org/eclipse/tigerstripe/workbench/internal/core/plugin/ossj/resources/lib/Velocimacros.vm");
 		// The above line would allow for macros - but due the the "once only"
 		// nature of init, this is not much use
 		// the way we have it configured at present.

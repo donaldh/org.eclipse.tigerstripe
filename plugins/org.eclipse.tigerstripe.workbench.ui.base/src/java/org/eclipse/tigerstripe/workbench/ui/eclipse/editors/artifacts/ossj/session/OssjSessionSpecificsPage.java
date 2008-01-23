@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.session;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
@@ -81,7 +81,7 @@ public class OssjSessionSpecificsPage extends TigerstripeFormPage {
 		layout.horizontalSpacing = 10;
 		body.setLayout(layout);
 
-		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 

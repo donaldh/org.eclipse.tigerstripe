@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.project;
 import java.io.File;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -108,7 +108,7 @@ public class ProjectDetails implements IProjectDetails {
 		}
 
 		try {
-			IAbstractTigerstripeProject aProject = API
+			IAbstractTigerstripeProject aProject = TigerstripeCore
 					.getDefaultProjectSession().makeTigerstripeProject(
 							parentProject.getBaseDir().toURI());
 			if (aProject instanceof ITigerstripeProject) {

@@ -9,7 +9,7 @@
    Contributors:
       E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
 *#
-#set ($resourceDir = "org/eclipse/tigerstripe/core/plugin/ossj/resources/1.3")
+#set ($resourceDir = "org/eclipse/tigerstripe/workbench/internal/core/plugin/ossj/resources/1.3")
 #parse("$resourceDir/JVTFileHeader.vm")
 
 /**

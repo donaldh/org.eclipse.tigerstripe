@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.osgi.service.datalocation.Location;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -58,7 +58,7 @@ public class BasePlugin extends Plugin {
 
 	private void extensionPointRegistered() {
 
-		IDiagramRenderingSession session = API.getIDiagramRenderingSession();
+		IDiagramRenderingSession session = InternalTigerstripeCore.getIDiagramRenderingSession();
 		IExtension[] extensions = BasePlugin.getDefault().getDescriptor()
 				.getExtensionPoint("diagramRendering").getExtensions();
 

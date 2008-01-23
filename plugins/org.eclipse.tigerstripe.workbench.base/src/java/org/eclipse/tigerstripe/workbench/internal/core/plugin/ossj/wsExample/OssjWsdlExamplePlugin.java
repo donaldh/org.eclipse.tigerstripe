@@ -54,7 +54,7 @@ public class OssjWsdlExamplePlugin extends BasePlugin {
 
 	private final static String VERSION = PluginRefFactory.VERSION_1_3;
 
-	private final static String REPORTTEMPLATE = "org/eclipse/tigerstripe/core/plugin/ossj/wsExample/resources/OSSJ_WSDL_EXAMPLE_REPORT.vm";
+	private final static String REPORTTEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/plugin/ossj/wsExample/resources/OSSJ_WSDL_EXAMPLE_REPORT.vm";
 
 	private final static String[] supportedNatures = { PluginBody.OSSJ_NATURE };
 

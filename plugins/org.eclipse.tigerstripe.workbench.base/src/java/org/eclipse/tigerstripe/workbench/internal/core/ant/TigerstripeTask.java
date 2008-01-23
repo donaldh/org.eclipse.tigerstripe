@@ -15,7 +15,7 @@ import java.io.File;
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -74,7 +74,7 @@ public class TigerstripeTask extends Task {
 		} else {
 
 			try {
-				ITigerstripeProject project = (ITigerstripeProject) API
+				ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
 						.getDefaultProjectSession().makeTigerstripeProject(
 								baseDir.toURI(), null);
 				log.info("  Generating project: "

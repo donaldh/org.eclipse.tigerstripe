@@ -19,7 +19,7 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
@@ -54,7 +54,7 @@ public class DeployProfileActionDelegate extends BaseProfileActionDelegate
 								true);
 						monitor.worked(2);
 
-						IWorkbenchProfileSession session = API
+						IWorkbenchProfileSession session = TigerstripeCore
 								.getIWorkbenchProfileSession();
 						monitor.subTask("Creating Profile");
 

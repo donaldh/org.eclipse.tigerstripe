@@ -1,0 +1,78 @@
+##
+##  Notes on API refactoring
+##
+## All completed items have "X" in front of them
+##
+###################################
+
+###################################
+Global Changes
+X - Rename API to TigerstripeCore for coherency with JavaCore.
+X - Create InternalTigerstripeCore to host all methods removed from TigerstripeCore until 
+	further decision.
+X - Remove project locator facility stuff from TigerstripeCore: this should be removed 
+	completely, but in the meantime should be on InternalTigerstripeCore
+X - Move ArtifactMetadataSession from TigerstripeCore into InternalTigerstripeCore for now. 
+	Eventually this should be moved to org.eclipse.tigerstripe.model when available.
+- "TigerstripeProject.java" should be renamed as "TigerstripeProjectDescriptor.java"
+X - rename methods on TigerstripeCore for consistency: getProjectSession and getProfileSession
+- IPluginAwareArtifactModel.java should be removed and combined with IArtifactModel.java.
+- IPluggablePluginProperty should be renamed as ITigerstripePluginProperty.
+- IBooleanPPluginProperty to be renamed as IBooleanPluginProperty (no need for "PP"). Same for IStringPPluginProperty, ITablePPluginProperty
+- Remove all "Warnings" from the API (i.e. no warning allowed outside of internal package). 
+	Overtime we'll get rid of the warnings inside internal package.
+
+###################################
+In IAbstractTigerstripeProject
+- getIProjectDetails() and getProjectDetails are redundant. Keep getProjectDetails() and make
+	that a convention (no "I" in accessor as seems to be convention in other eclipse plugins
+	e.g.: IResource.getProject() returns IProject
+
+###################################
+In ITigerstripeProject
+X - remove getPublisher(), also removed corresponding actions/wizard from ui.
+X - remove getCVSCreator(), also removed corresponding actions/wizard from ui.
+- Since Facet/UseCases are "internal" no reference to them should be made in here! Not sure
+	how to best handle this case. I suspect same case exists for other interfaces.
+- Remove all "getI***()" methods to keep only "get****()"
+- Remove all "makeI***()" methods to keep only "make***()"
+- getProjectDetails() is redundant with IProjectDescriptor.getProjectDetails(). Should be removed
+	from ITigerstripeProject
+- References to ITigerstripeProgressMonitor should be removed from the API. In fact, a proper
+	IProgressMonitor (from Eclipse) should be used instead.
+- IAbstractTigerstripeProject should implement IAdaptable
+- TigerstripeError (in internal.utils) should be replaced with IStatus from Eclipse.
+
+
+###################################
+In IProjectDetails
+- remove references to OSSJ
+- it seems it could be reworked. For example the "getProjectLabel()" on 
+	IProjectDescriptor could make sense here instead?
+
+###################################
+In IPluginReference
+- the name IPluginReference doesn't seem appropriate anymore? Seems more like a "IPluginConfig"?
+- remove any method marked as deprecated
+	
+###################################
+In IAssociationEnd
+- we should make provision in the API already for multiplicities that are 3..7 as opposed to
+	using an enumeration. Not sure how to handle this. It seems the API should support it 
+	already even if the implementation reverts back to the closest value of the current
+	enumeration internally. It may be as simple as adding a "CUSTOM" literal where we'd 
+	keep the actual upper and lower bounds?
+- getContainingAssociation() and should return an IAssociation
+	
+###################################
+in IModelComponent
+- Visibility should be an Enum, not a bunch statics
+- "isInActiveFacet" should be extracted from here. Maybe in a "IFacetCapable" interface that
+	would live in the internal package for now and would further be implemented by IModelComponent
+	when we expose facets.
+
+###################################
+In IAbstractArtifact
+- remove the "I" from the getters/setters and makeI*** methods for consistency.
+- 
+

@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -96,7 +96,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 		ArrayList<Class> result = new ArrayList<Class>();
 
-		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) API
+		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 

@@ -48,7 +48,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
@@ -162,7 +162,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 				display.asyncExec(new Runnable() {
 					public void run() {
 						try {
-							IProjectSession session = API
+							IProjectSession session = TigerstripeCore
 									.getDefaultProjectSession();
 							String desc = projectDetails.projectDirectory
 									+ File.separator

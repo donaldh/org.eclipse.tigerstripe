@@ -25,7 +25,7 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
@@ -244,7 +244,7 @@ public abstract class BaseElement implements IBaseElement {
 						return null;
 				}
 				try {
-					IProjectSession session = API.getDefaultProjectSession();
+					IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 					IAbstractTigerstripeProject tsProject = session
 							.makeTigerstripeProject(containingFolder.toURI(),
 									null);

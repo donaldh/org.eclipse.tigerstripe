@@ -24,7 +24,7 @@ import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
  */
 public class NewTigerstripePluginDescriptorGenerator {
 
-	private final static String TEMPLATE = "org/eclipse/tigerstripe/core/project/pluggable/wizard/resources/ts-plugin.vm";
+	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/project/pluggable/wizard/resources/ts-plugin.vm";
 
 	/**
 	 * The velocity template that will be used to perform the generation

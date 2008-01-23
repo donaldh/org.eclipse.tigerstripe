@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.utils
 
 import java.util.List;
 
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -264,7 +264,7 @@ public class ClassDiagramUtils {
 	 * @return
 	 */
 	public static boolean shouldDisplayReference() {
-		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayReference = prop

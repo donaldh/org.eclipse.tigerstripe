@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
@@ -238,7 +238,7 @@ public class TypedElementImpl extends NamedElementImpl implements TypedElement {
 	 * @return
 	 */
 	private static boolean shouldDisplayReference() {
-		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) API
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayReference = prop
@@ -333,7 +333,7 @@ public class TypedElementImpl extends NamedElementImpl implements TypedElement {
 			acceptChanges = true;
 		// else if it's a primitive type but not "void", accept the change
 		else if (!newType.equals("void")) {
-			IPrimitiveTypeDef[] primitiveTypes = API
+			IPrimitiveTypeDef[] primitiveTypes = TigerstripeCore
 					.getIWorkbenchProfileSession().getActiveProfile()
 					.getPrimitiveTypeDefs(true);
 			for (int i = 0; i < primitiveTypes.length; i++) {

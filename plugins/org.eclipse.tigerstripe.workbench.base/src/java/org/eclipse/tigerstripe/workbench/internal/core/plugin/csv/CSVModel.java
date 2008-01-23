@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
  */
 public class CSVModel {
 
-	private final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/core/plugin/csv/resources";
+	private final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/workbench/internal/core/plugin/csv/resources";
 	private final static String TEMPLATE = "csv.vm";
 	private String destinationDir;
 	private String template;

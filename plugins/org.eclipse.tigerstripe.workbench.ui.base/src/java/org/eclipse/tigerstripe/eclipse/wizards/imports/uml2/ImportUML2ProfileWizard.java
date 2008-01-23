@@ -31,7 +31,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.primitiveType.PrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeAttributeFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
@@ -170,7 +170,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 		// mapExistence = this.firstPage.getMapExistence();
 		try {
 			File pro = new File(this.firstPage.getProfileFilename());
-			IWorkbenchProfile handle = API.getIWorkbenchProfileSession()
+			IWorkbenchProfile handle = TigerstripeCore.getIWorkbenchProfileSession()
 					.getWorkbenchProfileFor(pro.getAbsolutePath());
 			Utilities.setupPaths();
 			loadProfile(handle, new File(this.firstPage.getFilename()), monitor);

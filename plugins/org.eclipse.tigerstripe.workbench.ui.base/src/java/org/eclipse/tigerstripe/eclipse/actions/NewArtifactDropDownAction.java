@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
@@ -64,7 +64,7 @@ public class NewArtifactDropDownAction extends Action implements IMenuCreator,
 
 		// register for changes in the profile, so the menu can be rebuilt
 		// dynamically
-		API.getIWorkbenchProfileSession().addActiveProfileListener(this);
+		TigerstripeCore.getIWorkbenchProfileSession().addActiveProfileListener(this);
 	}
 
 	public void dispose() {
@@ -94,7 +94,7 @@ public class NewArtifactDropDownAction extends Action implements IMenuCreator,
 
 			// @since 1.2
 			// All core artifacts are conditioned by the active profile
-			IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+			IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 					.getActiveProfile();
 			CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);

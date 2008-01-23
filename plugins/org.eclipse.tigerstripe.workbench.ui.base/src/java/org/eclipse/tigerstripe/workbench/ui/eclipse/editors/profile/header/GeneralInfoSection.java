@@ -39,7 +39,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchProfileRole;
@@ -180,7 +180,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 		rtext.setLayoutData(td);
 		StringBuffer buf = new StringBuffer();
 
-		final IWorkbenchProfileSession session = API
+		final IWorkbenchProfileSession session = TigerstripeCore
 				.getIWorkbenchProfileSession();
 
 		buf.append("<form>");
@@ -284,7 +284,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 										false, false, true);
 								monitor.worked(2);
 
-								IWorkbenchProfileSession session = API
+								IWorkbenchProfileSession session = TigerstripeCore
 										.getIWorkbenchProfileSession();
 								monitor.subTask("Creating Profile");
 
@@ -389,7 +389,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 			MessageDialog.openError(getBody().getShell(),
 					"Rollback Profile Error", errMessage);
 		} else {
-			final IWorkbenchProfileSession session = API
+			final IWorkbenchProfileSession session = TigerstripeCore
 					.getIWorkbenchProfileSession();
 			if (!session.canRollback()) {
 				MessageDialog
@@ -492,7 +492,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 
 							monitor
 									.subTask("Resetting profile to factory defaults");
-							IWorkbenchProfileSession session = API
+							IWorkbenchProfileSession session = TigerstripeCore
 									.getIWorkbenchProfileSession();
 							rollbackCreated = session.setDefaultActiveProfile();
 							monitor.worked(2);
@@ -573,7 +573,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					.getEditorInput();
 
 			try {
-				IWorkbenchProfile handle = API.getIWorkbenchProfileSession()
+				IWorkbenchProfile handle = TigerstripeCore.getIWorkbenchProfileSession()
 						.getWorkbenchProfileFor(
 								input.getFile().getLocation().toOSString());
 

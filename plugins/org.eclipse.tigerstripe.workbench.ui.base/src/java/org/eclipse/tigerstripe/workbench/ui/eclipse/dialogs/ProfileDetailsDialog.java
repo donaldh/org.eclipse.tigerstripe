@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.ProfileValidator;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
@@ -90,7 +90,7 @@ public class ProfileDetailsDialog extends Dialog {
 		area.setLayoutData(new GridData(GridData.FILL_BOTH));
 		applyDialogFont(area);
 
-		IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 
 		Label nameLabel = new Label(area, SWT.NONE);
@@ -169,7 +169,7 @@ public class ProfileDetailsDialog extends Dialog {
 	}
 
 	private void refresh() {
-		IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		descText.setText(profile.getDescription());
 		nameText.setText(profile.getName());
@@ -204,7 +204,7 @@ public class ProfileDetailsDialog extends Dialog {
 
 							monitor
 									.subTask("Resetting profile to factory defaults");
-							IWorkbenchProfileSession session = API
+							IWorkbenchProfileSession session = TigerstripeCore
 									.getIWorkbenchProfileSession();
 							rollbackCreated = session.setDefaultActiveProfile();
 							monitor.worked(2);
@@ -282,7 +282,7 @@ public class ProfileDetailsDialog extends Dialog {
 					return;
 				} else {
 					try {
-						final IWorkbenchProfile handle = API
+						final IWorkbenchProfile handle = TigerstripeCore
 								.getIWorkbenchProfileSession()
 								.getWorkbenchProfileFor(
 										srcFile.getAbsolutePath());
@@ -332,7 +332,7 @@ public class ProfileDetailsDialog extends Dialog {
 												true, false, false, true);
 										monitor.worked(2);
 
-										IWorkbenchProfileSession session = API
+										IWorkbenchProfileSession session = TigerstripeCore
 												.getIWorkbenchProfileSession();
 										monitor.subTask("Creating Profile");
 

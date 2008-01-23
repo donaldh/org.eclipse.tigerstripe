@@ -39,9 +39,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.actions.OpenCSVWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.actions.OpenModuleExportWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.actions.OpenPublishWizardAction;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.IViewPart;
@@ -101,8 +99,6 @@ public class TSPublishActionGroup extends ActionGroup {
 	private String fGroupName = IContextMenuConstants.GROUP_GENERATE;
 
 	private OpenModuleExportWizardAction fModuleExportAction;
-	private OpenPublishWizardAction fPublishAction;
-	private OpenCSVWizardAction fCSVAction;
 
 	private UndoRedoActionGroup fUndoRedoActionGroup;
 
@@ -176,8 +172,6 @@ public class TSPublishActionGroup extends ActionGroup {
 		ISelection selection = provider.getSelection();
 
 		fModuleExportAction = new OpenModuleExportWizardAction();
-		fPublishAction = new OpenPublishWizardAction();
-		fCSVAction = new OpenCSVWizardAction();
 		// fModuleExportAction.setActionDefinitionId("org.eclipse.tigerstripe.workbench.ui.eclipe.packageProject");
 
 		// fKeyBindingService= keyBindingService;
@@ -254,8 +248,6 @@ public class TSPublishActionGroup extends ActionGroup {
 		int added = 0;
 		publishSubmenu.add(new Separator(GROUP_PACKAGE));
 		added += addAction(publishSubmenu, fModuleExportAction);
-		added += addAction(publishSubmenu, fPublishAction);
-		added += addAction(publishSubmenu, fCSVAction);
 		return added;
 	}
 

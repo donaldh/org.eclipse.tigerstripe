@@ -16,7 +16,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchProfileRole;
@@ -51,7 +51,7 @@ public class BaseProfileActionDelegate {
 		if (obj instanceof IFile) {
 			IFile profileFile = (IFile) obj;
 			try {
-				profile = API.getIWorkbenchProfileSession()
+				profile = TigerstripeCore.getIWorkbenchProfileSession()
 						.getWorkbenchProfileFor(
 								profileFile.getLocation().toOSString());
 			} catch (TigerstripeException e) {

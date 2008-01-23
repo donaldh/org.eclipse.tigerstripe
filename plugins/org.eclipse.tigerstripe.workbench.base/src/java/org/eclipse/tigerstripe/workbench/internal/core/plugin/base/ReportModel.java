@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
  */
 public class ReportModel {
 
-	private final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/core/plugin/base/resources";
+	private final static String TEMPLATE_PREFIX = "org/eclipse/tigerstripe/workbench/internal/core/plugin/base/resources";
 	private final static String TEMPLATE = "Report.vm";
 	// private final static String XSD_TAG = "tigerstripe.xsd";
 

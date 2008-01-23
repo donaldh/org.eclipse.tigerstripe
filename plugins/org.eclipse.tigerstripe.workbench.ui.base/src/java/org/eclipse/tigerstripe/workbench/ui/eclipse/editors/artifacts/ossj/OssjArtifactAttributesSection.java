@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -280,7 +280,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 	 * Gets the default attribute type from the active profile.
 	 */
 	private String getDefaultTypeName() throws TigerstripeException {
-		IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}

@@ -21,8 +21,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpoint;
 import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
-import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectCSVCreator;
-import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectPublisher;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 
 /**
@@ -47,10 +45,6 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 			throws TigerstripeException;
 
 	public IModulePackager getPackager();
-
-	public IProjectPublisher getPublisher();
-
-	public IProjectCSVCreator getCSVCreator();
 
 	public IDependency[] getDependencies() throws TigerstripeException;
 

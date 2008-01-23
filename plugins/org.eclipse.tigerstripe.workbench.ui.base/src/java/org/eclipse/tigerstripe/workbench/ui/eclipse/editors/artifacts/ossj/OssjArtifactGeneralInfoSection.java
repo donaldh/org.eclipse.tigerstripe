@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
@@ -157,7 +157,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 		createDescription(getBody(), getToolkit());
 		createExtendName(getBody(), getToolkit());
 
-		GlobalSettingsProperty prop = (GlobalSettingsProperty) API
+		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
 		boolean implementsEnabled = prop

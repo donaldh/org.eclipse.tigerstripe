@@ -17,8 +17,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
@@ -57,7 +57,7 @@ public class NewContractSegmentWizardPage extends WizardNewFileCreationPage {
 		String xmlString = "";
 
 		try {
-			IContractSegment emptySegment = API.getIContractSession()
+			IContractSegment emptySegment = InternalTigerstripeCore.getIContractSession()
 					.makeIContractSegment(null);
 
 			String name = this.getFileName();

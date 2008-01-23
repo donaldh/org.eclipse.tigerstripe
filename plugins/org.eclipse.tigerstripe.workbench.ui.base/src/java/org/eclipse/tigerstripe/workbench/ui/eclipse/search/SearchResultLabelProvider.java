@@ -18,7 +18,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProject;
@@ -143,7 +143,7 @@ public class SearchResultLabelProvider extends LabelProvider {
 			ArtifactManager mgr = (ArtifactManager) element;
 			if (mgr.getTSProject() instanceof PhantomTigerstripeProject)
 				return "Active Profile ("
-						+ API.getIWorkbenchProfileSession().getActiveProfile()
+						+ TigerstripeCore.getIWorkbenchProfileSession().getActiveProfile()
 								.getName() + ")";
 		}
 

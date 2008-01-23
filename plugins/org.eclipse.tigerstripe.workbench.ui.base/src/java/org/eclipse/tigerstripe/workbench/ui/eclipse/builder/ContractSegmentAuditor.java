@@ -15,9 +15,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
@@ -55,8 +55,9 @@ public class ContractSegmentAuditor {
 
 			for (IResource res : resources) {
 				try {
-					IContractSegment facet = API.getIContractSession()
-							.makeIContractSegment(res.getLocationURI());
+					IContractSegment facet = InternalTigerstripeCore
+							.getIContractSession().makeIContractSegment(
+									res.getLocationURI());
 
 					// Start checks here
 					if (facet == null) {

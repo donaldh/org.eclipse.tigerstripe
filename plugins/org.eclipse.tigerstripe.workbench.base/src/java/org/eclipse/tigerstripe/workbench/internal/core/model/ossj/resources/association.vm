@@ -1,4 +1,4 @@
-#parse("org/eclipse/tigerstripe/core/model/persist/resources/header.vm")
+#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm")
 #*
   Copyright (c) 2007 Cisco Systems, Inc.
   All rights reserved. This program and the accompanying materials
@@ -17,7 +17,7 @@
  *		isAbstract = "$artifact.isAbstract()"
  *
  *## Take care of the stereotypes
-#parse("org/eclipse/tigerstripe/core/model/ossj/resources/artifactLevelStereotype.vm")
+#parse("org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/artifactLevelStereotype.vm")
  * 
 #foreach( $tag in $artifact.NonTigerstripeTags )
  * $tag
@@ -28,7 +28,7 @@ public abstract class $artifact.Name
   extends $artifact.Extends.FullyQualifiedName
 #end {
 
-#parse("org/eclipse/tigerstripe/core/model/persist/resources/refComments.vm")
+#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm")
 
 	/**
      * $!artifact.AEnd.Comment

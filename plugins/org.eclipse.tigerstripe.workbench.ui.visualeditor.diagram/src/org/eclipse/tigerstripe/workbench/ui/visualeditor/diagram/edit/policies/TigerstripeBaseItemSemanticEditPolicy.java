@@ -55,7 +55,7 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.ReorientRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
@@ -374,7 +374,7 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	 * Gets the default attribute type from the active profile.
 	 */
 	private static String getDefaultTypeName() throws TigerstripeException {
-		IWorkbenchProfile profile = API.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}

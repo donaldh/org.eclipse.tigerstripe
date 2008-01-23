@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.examples;
 
 import java.io.File;
 
-import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
@@ -40,7 +40,7 @@ public class CreateArtifact {
 
 	public void body() {
 		try {
-			IProjectSession session = API.getDefaultProjectSession();
+			IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 
 			File projectDir = new File(
 					"C:/JWorkspace/runtime-EclipseApplication/MyTSProject");
