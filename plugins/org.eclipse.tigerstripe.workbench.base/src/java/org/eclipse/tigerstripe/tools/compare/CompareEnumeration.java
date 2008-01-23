@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.tools.compare;
 
 import java.util.ArrayList;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEnumSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEnumSpecifics;
 
 public class CompareEnumeration {
 

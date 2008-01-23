@@ -10,21 +10,20 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.impl.updater.request;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IArtifactSetFeatureRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 
 public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
@@ -36,7 +35,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IArtifact art = mgrSession
+		IAbstractArtifact art = mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
 		if (EXTENDS_FEATURE.equals(featureId))
@@ -73,7 +72,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
-		IArtifact art = mgrSession
+		IAbstractArtifact art = mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 		if (EXTENDS_FEATURE.equals(featureId)) {
 			IAbstractArtifact artifact = (IAbstractArtifact) art;
@@ -162,16 +161,16 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 				} else if (featureId.endsWith("Visibility")) {
 					if ("PUBLIC".equals(featureValue))
 						targetEnd
-								.setVisibility(IextModelComponent.VISIBILITY_PUBLIC);
+								.setVisibility(IModelComponent.VISIBILITY_PUBLIC);
 					else if ("PROTECTED".equals(featureValue))
 						targetEnd
-								.setVisibility(IextModelComponent.VISIBILITY_PROTECTED);
+								.setVisibility(IModelComponent.VISIBILITY_PROTECTED);
 					else if ("PRIVATE".equals(featureValue))
 						targetEnd
-								.setVisibility(IextModelComponent.VISIBILITY_PRIVATE);
+								.setVisibility(IModelComponent.VISIBILITY_PRIVATE);
 					else if ("PACKAGE".equals(featureValue))
 						targetEnd
-								.setVisibility(IextModelComponent.VISIBILITY_PACKAGE);
+								.setVisibility(IModelComponent.VISIBILITY_PACKAGE);
 				} else {
 					// It's the end itself that is changing!!
 					IType type = targetEnd.makeIType();

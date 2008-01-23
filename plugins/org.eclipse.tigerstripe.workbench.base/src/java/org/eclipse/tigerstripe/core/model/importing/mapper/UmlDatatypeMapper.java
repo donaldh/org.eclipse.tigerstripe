@@ -19,7 +19,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;

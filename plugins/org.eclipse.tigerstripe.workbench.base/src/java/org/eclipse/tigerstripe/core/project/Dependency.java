@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.core.project;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.ModuleProjectHandle;
 import org.eclipse.tigerstripe.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.api.modules.ITigerstripeModuleProject;

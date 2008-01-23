@@ -21,7 +21,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.publish.IProjectCSVCreator;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.TSRuntimeBasedWizardPage;

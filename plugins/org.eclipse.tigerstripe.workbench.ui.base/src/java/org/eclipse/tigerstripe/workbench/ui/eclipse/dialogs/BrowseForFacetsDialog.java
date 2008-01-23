@@ -16,8 +16,8 @@ import java.util.List;
 
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;

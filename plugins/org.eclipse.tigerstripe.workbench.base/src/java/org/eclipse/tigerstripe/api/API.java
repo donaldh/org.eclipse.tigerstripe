@@ -12,16 +12,14 @@ package org.eclipse.tigerstripe.api;
 
 import java.util.HashMap;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.api.contract.IContractSession;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.impl.ArtifactMetadataSessionImpl;
 import org.eclipse.tigerstripe.api.impl.ContractSession;
 import org.eclipse.tigerstripe.api.impl.DefaultProjectLocator;
 import org.eclipse.tigerstripe.api.impl.DiagramRenderingSession;
 import org.eclipse.tigerstripe.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.api.impl.WorkbenchProfileSession;
+import org.eclipse.tigerstripe.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.api.project.IProjectSession;
 import org.eclipse.tigerstripe.api.rendering.IDiagramRenderingSession;

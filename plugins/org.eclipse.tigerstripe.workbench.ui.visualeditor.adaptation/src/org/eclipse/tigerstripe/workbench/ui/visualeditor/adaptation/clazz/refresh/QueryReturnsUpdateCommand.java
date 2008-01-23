@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.NamedQueryArtifact;

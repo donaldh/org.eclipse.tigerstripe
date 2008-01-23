@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.commands;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
@@ -51,9 +51,9 @@ public class PostCreationAssociationArtifactUpdater extends
 
 			updateStereotype(association);
 
-			IextAssociationEnd aEnd = iAssoc.getAEnd();
+			IAssociationEnd aEnd = iAssoc.getAEnd();
 			AbstractArtifact target = helper.findAbstractArtifactFor(aEnd
-					.getType().getFullyQualifiedName());
+					.getIType().getFullyQualifiedName());
 			// association.setAEnd(target); // Already done upon creation thru
 			// drop
 			association.setAEndIsNavigable(aEnd.isNavigable());
@@ -95,8 +95,8 @@ public class PostCreationAssociationArtifactUpdater extends
 				association.setAEndIsChangeable(ChangeableEnum.NONE_LITERAL);
 			}
 
-			IextAssociationEnd zEnd = iAssoc.getZEnd();
-			target = helper.findAbstractArtifactFor(aEnd.getType()
+			IAssociationEnd zEnd = iAssoc.getZEnd();
+			target = helper.findAbstractArtifactFor(aEnd.getIType()
 					.getFullyQualifiedName());
 			// association.setZEnd(target);// Already done upon creation thru
 			// drop

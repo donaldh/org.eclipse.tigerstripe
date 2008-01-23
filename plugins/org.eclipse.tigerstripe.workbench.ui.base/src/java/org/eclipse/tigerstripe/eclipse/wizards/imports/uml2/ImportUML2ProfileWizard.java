@@ -32,15 +32,13 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotype;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.api.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.api.profile.stereotype.IEntryListStereotypeAttribute;
@@ -404,7 +402,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 							+ st.getName());
 					// Before going further see if these's already one of
 					// these...
-					IextStereotype[] existingStereos = handle.getStereotypes();
+					IStereotype[] existingStereos = handle.getStereotypes();
 					for (int e = 0; e < existingStereos.length; e++) {
 						String exName = existingStereos[e].getName();
 						existingStereoNames.put(exName, existingStereos[e]);
@@ -503,7 +501,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 
 					// StereoTypeAttributes
 					StereotypeAttributeFactory fact = new StereotypeAttributeFactory();
-					int kind = IextStereotypeAttribute.STRING_ENTRY_KIND;
+					int kind = IStereotypeAttribute.STRING_ENTRY_KIND;
 
 					IStereotypeAttribute attribute = null;
 
@@ -520,7 +518,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 
 								// TigerstripeRuntime.logInfoMessage("A
 								// primitive Type");
-								kind = IextStereotypeAttribute.STRING_ENTRY_KIND;
+								kind = IStereotypeAttribute.STRING_ENTRY_KIND;
 								attribute = StereotypeAttributeFactory
 										.makeAttribute(kind);
 
@@ -571,7 +569,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 								Enumeration enumProp = (Enumeration) propType;
 								// These cannot be Arrays...
 								// TigerstripeRuntime.logInfoMessage("An enum");
-								kind = IextStereotypeAttribute.ENTRY_LIST_KIND;
+								kind = IStereotypeAttribute.ENTRY_LIST_KIND;
 								attribute = StereotypeAttributeFactory
 										.makeAttribute(kind);
 								attribute.setName(prop.getName());

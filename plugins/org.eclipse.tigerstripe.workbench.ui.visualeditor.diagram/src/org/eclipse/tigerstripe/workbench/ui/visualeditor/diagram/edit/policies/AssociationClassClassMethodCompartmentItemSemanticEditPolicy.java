@@ -16,7 +16,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.emf.type.core.commands.CreateElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;

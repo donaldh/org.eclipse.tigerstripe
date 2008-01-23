@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;

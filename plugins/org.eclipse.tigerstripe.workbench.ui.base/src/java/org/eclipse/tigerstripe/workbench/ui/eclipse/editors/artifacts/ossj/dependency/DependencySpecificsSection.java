@@ -26,11 +26,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextType;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
@@ -208,11 +207,11 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 		IDependencyArtifact artifact = (IDependencyArtifact) getIArtifact();
 
 		// Update aEnd
-		IextType aEndType = artifact.getAEndType();
+		IType aEndType = artifact.getAEndType();
 		aEndTypeText.setText(aEndType.getFullyQualifiedName());
 
 		// Update zEnd
-		IextType zEndType = artifact.getZEndType();
+		IType zEndType = artifact.getZEndType();
 		zEndTypeText.setText(zEndType.getFullyQualifiedName());
 
 		setSilentUpdate(false);

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfileSession;

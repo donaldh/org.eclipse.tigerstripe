@@ -20,7 +20,7 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.plugin.PluginRef;
 import org.w3c.dom.Comment;

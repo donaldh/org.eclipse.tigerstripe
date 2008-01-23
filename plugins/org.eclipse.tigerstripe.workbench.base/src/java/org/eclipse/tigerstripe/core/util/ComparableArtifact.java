@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 
 /**
  * Because AbstractArtifact don't have an equals(..) method this allows to

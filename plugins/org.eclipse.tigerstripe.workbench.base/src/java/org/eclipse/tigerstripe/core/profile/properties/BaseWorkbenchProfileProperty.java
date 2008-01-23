@@ -15,7 +15,7 @@ import java.io.StringReader;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 /**
  * Some convenience methods for Workbench Properties

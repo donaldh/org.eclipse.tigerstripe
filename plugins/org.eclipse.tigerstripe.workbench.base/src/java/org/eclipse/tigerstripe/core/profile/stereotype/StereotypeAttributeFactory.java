@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.core.profile.stereotype;
 
 import org.dom4j.Element;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
 
 public class StereotypeAttributeFactory {
@@ -20,15 +19,15 @@ public class StereotypeAttributeFactory {
 		IStereotypeAttribute result = null;
 
 		switch (kind) {
-		case IextStereotypeAttribute.CHECKABLE_KIND:
+		case IStereotypeAttribute.CHECKABLE_KIND:
 			result = new CheckableStereotypeAttribute();
 			break;
 
-		case IextStereotypeAttribute.ENTRY_LIST_KIND:
+		case IStereotypeAttribute.ENTRY_LIST_KIND:
 			result = new EntryListStereotypeAttribute();
 			break;
 
-		case IextStereotypeAttribute.STRING_ENTRY_KIND:
+		case IStereotypeAttribute.STRING_ENTRY_KIND:
 			result = new StringEntryStereotypeAttribute();
 			break;
 		}

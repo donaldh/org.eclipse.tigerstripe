@@ -15,14 +15,14 @@ import java.util.ListIterator;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.NameProviderImpl;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.api.project.INameProvider;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
@@ -178,16 +178,16 @@ public class UML2MappingUtils {
 				int tsVis = 0;
 				switch (umlVis) {
 				case VisibilityKind.PUBLIC:
-					tsVis = IextModelComponent.VISIBILITY_PUBLIC;
+					tsVis = IModelComponent.VISIBILITY_PUBLIC;
 					break;
 				case VisibilityKind.PRIVATE:
-					tsVis = IextModelComponent.VISIBILITY_PRIVATE;
+					tsVis = IModelComponent.VISIBILITY_PRIVATE;
 					break;
 				case VisibilityKind.PROTECTED:
-					tsVis = IextModelComponent.VISIBILITY_PROTECTED;
+					tsVis = IModelComponent.VISIBILITY_PROTECTED;
 					break;
 				case VisibilityKind.PACKAGE:
-					tsVis = IextModelComponent.VISIBILITY_PACKAGE;
+					tsVis = IModelComponent.VISIBILITY_PACKAGE;
 					break;
 				}
 				attribute.setVisibility(tsVis);
@@ -278,7 +278,7 @@ public class UML2MappingUtils {
 			MultiplicityElement property) {
 
 		String upper = "";
-		int multi = IextType.MULTIPLICITY_SINGLE;
+		int multi = IType.MULTIPLICITY_SINGLE;
 		String lower = "";
 		boolean optional = true;
 
@@ -288,9 +288,9 @@ public class UML2MappingUtils {
 		if (upperVal != null) {
 			upper = "" + property.getUpper();
 			if (upper.equals("-1")) {
-				multi = IextType.MULTIPLICITY_MULTI;
+				multi = IType.MULTIPLICITY_MULTI;
 			} else {
-				multi = IextType.MULTIPLICITY_SINGLE;
+				multi = IType.MULTIPLICITY_SINGLE;
 			}
 		}
 
@@ -328,16 +328,16 @@ public class UML2MappingUtils {
 				int tsVis = 0;
 				switch (umlVis) {
 				case VisibilityKind.PUBLIC:
-					tsVis = IextModelComponent.VISIBILITY_PUBLIC;
+					tsVis = IModelComponent.VISIBILITY_PUBLIC;
 					break;
 				case VisibilityKind.PRIVATE:
-					tsVis = IextModelComponent.VISIBILITY_PRIVATE;
+					tsVis = IModelComponent.VISIBILITY_PRIVATE;
 					break;
 				case VisibilityKind.PROTECTED:
-					tsVis = IextModelComponent.VISIBILITY_PROTECTED;
+					tsVis = IModelComponent.VISIBILITY_PROTECTED;
 					break;
 				case VisibilityKind.PACKAGE:
-					tsVis = IextModelComponent.VISIBILITY_PACKAGE;
+					tsVis = IModelComponent.VISIBILITY_PACKAGE;
 					break;
 				}
 				op.setVisibility(tsVis);
@@ -546,16 +546,16 @@ public class UML2MappingUtils {
 				int tsVis = 0;
 				switch (umlVis) {
 				case VisibilityKind.PUBLIC:
-					tsVis = IextModelComponent.VISIBILITY_PUBLIC;
+					tsVis = IModelComponent.VISIBILITY_PUBLIC;
 					break;
 				case VisibilityKind.PRIVATE:
-					tsVis = IextModelComponent.VISIBILITY_PRIVATE;
+					tsVis = IModelComponent.VISIBILITY_PRIVATE;
 					break;
 				case VisibilityKind.PROTECTED:
-					tsVis = IextModelComponent.VISIBILITY_PROTECTED;
+					tsVis = IModelComponent.VISIBILITY_PROTECTED;
 					break;
 				case VisibilityKind.PACKAGE:
-					tsVis = IextModelComponent.VISIBILITY_PACKAGE;
+					tsVis = IModelComponent.VISIBILITY_PACKAGE;
 					break;
 				}
 				end.setVisibility(tsVis);

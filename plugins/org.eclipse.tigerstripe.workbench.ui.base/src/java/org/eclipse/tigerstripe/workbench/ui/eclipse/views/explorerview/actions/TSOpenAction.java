@@ -27,17 +27,14 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextLabel;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.core.model.DatatypeArtifact;
@@ -291,19 +288,19 @@ public class TSOpenAction extends OpenAction {
 				// the containing artifact
 				IAbstractArtifact artifact = null;
 				if (objects[i] instanceof IField)
-					artifact = (IAbstractArtifact) ((IextField) objects[i])
+					artifact = (IAbstractArtifact) ((IField) objects[i])
 							.getContainingArtifact();
 				else if (objects[i] instanceof IMethod)
-					artifact = (IAbstractArtifact) ((IextMethod) objects[i])
+					artifact = (IAbstractArtifact) ((IMethod) objects[i])
 							.getContainingArtifact();
 				else if (objects[i] instanceof ILabel)
-					artifact = (IAbstractArtifact) ((IextLabel) objects[i])
+					artifact = (IAbstractArtifact) ((ILabel) objects[i])
 							.getContainingArtifact();
 				else if (objects[i] instanceof DependencyEnd)
 					artifact = (IAbstractArtifact) ((DependencyEnd) objects[i])
 							.getContainingRelationship();
 				else if (objects[i] instanceof IRelationshipEnd)
-					artifact = (IAbstractArtifact) ((IextAssociationEnd) objects[i])
+					artifact = (IAbstractArtifact) ((IAssociationEnd) objects[i])
 							.getContainingArtifact();
 				// then open the editor for that artifact
 				IEditorPart iEditorPart = openEditor(artifact, page);

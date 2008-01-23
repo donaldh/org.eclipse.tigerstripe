@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.plugin.PluginManager;

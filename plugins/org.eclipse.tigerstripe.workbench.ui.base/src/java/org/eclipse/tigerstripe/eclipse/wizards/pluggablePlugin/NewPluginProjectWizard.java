@@ -48,7 +48,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.api.API;
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.project.IProjectSession;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.util.license.LicensedAccess;

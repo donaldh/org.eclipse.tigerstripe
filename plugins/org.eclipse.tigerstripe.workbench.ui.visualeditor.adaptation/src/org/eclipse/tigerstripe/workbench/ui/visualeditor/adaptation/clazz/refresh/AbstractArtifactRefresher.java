@@ -13,9 +13,9 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refre
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Dependency;

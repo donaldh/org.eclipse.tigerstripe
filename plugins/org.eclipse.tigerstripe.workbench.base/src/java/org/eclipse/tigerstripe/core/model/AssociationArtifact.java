@@ -14,14 +14,13 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextLabel;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.core.model.ossj.AssociationArtifactPersister;
@@ -132,29 +131,29 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	public String getIArtifactType() {
-		return IextAssociationArtifact.class.getName();
+		return IAssociationArtifact.class.getName();
 	}
 
 	@Override
-	public IextField[] getIextFields() {
-		return new IextField[0];
+	public IField[] getIFields() {
+		return new IField[0];
 	}
 
 	@Override
-	public IextLabel[] getIextLabels() {
-		return new IextLabel[0];
+	public ILabel[] getILabels() {
+		return new ILabel[0];
 	}
 
 	@Override
-	public IextMethod[] getIextMethods() {
-		return new IextMethod[0];
+	public IMethod[] getIMethods() {
+		return new IMethod[0];
 	}
 
-	public IextAssociationEnd getAEnd() {
+	public IAssociationEnd getAEnd() {
 		return this.aEnd;
 	}
 
-	public IextAssociationEnd getZEnd() {
+	public IAssociationEnd getZEnd() {
 		return this.zEnd;
 	}
 
@@ -224,8 +223,8 @@ public class AssociationArtifact extends AbstractArtifact implements
 		return objects;
 	}
 
-	public IextAssociationEnd[] getAssociationEnds() {
-		IextAssociationEnd[] result = new IextAssociationEnd[] { getAEnd(),
+	public IAssociationEnd[] getAssociationEnds() {
+		IAssociationEnd[] result = new IAssociationEnd[] { getAEnd(),
 				getZEnd() };
 		return result;
 	}

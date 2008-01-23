@@ -14,9 +14,9 @@ import java.io.File;
 import java.util.Properties;
 
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.external.project.IextAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.api.project.IProjectDetails;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
@@ -108,7 +108,7 @@ public class ProjectDetails implements IProjectDetails {
 		}
 
 		try {
-			IextAbstractTigerstripeProject aProject = API
+			IAbstractTigerstripeProject aProject = API
 					.getDefaultProjectSession().makeTigerstripeProject(
 							parentProject.getBaseDir().toURI());
 			if (aProject instanceof ITigerstripeProject) {

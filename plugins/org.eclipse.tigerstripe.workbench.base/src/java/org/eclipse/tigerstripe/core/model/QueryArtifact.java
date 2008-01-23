@@ -12,12 +12,10 @@ package org.eclipse.tigerstripe.core.model;
 
 import java.io.Writer;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextQueryArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.model.ossj.QueryArtifactPersister;
 import org.eclipse.tigerstripe.core.model.ossj.specifics.OssjQuerySpecifics;
@@ -49,7 +47,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 	}
 
 	public String getIArtifactType() {
-		return IextQueryArtifact.class.getName();
+		return IQueryArtifact.class.getName();
 	}
 
 	@Override
@@ -75,7 +73,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 		return result;
 	}
 
-	public IextType getReturnedType() {
+	public IType getReturnedType() {
 		return getReturnedEntityType();
 	}
 
@@ -83,7 +81,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 		return new Type(getArtifactManager());
 	}
 
-	public void setReturnedType(IextType type) {
+	public void setReturnedType(IType type) {
 		setReturnedEntityType((Type) type);
 	}
 

@@ -21,20 +21,20 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.IDiagramAuditor;
@@ -242,10 +242,10 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		String iAEnd = null;
 		String iZEnd = null;
 		if (iAssoc.getAEnd() != null) {
-			iAEnd = iAssoc.getAEnd().getIextType().getFullyQualifiedName();
+			iAEnd = iAssoc.getAEnd().getIType().getFullyQualifiedName();
 		}
 		if (iAssoc.getZEnd() != null) {
-			iZEnd = iAssoc.getZEnd().getIextType().getFullyQualifiedName();
+			iZEnd = iAssoc.getZEnd().getIType().getFullyQualifiedName();
 		}
 
 		String eAEnd = null;
@@ -365,7 +365,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 			// same number of stereotypes let's see if they all
 			// match
 			List<String> eStereotypes = eAssociation.getStereotypes();
-			IextStereotypeInstance[] iStereotypes = iAssoc
+			IStereotypeInstance[] iStereotypes = iAssoc
 					.getStereotypeInstances();
 			for (int index = 0; index < iStereotypes.length; index++) {
 				String eStereotypeName = eStereotypes.get(index);
@@ -584,7 +584,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 					// same number of stereotypes let's see if they all
 					// match
 					List<String> eStereotypes = attribute.getStereotypes();
-					IextStereotypeInstance[] iStereotypes = iField
+					IStereotypeInstance[] iStereotypes = iField
 							.getStereotypeInstances();
 					for (int index = 0; index < iStereotypes.length; index++) {
 						String eStereotypeName = eStereotypes.get(index);
@@ -783,7 +783,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 							// match
 							List<String> eStereotypes = theParam
 									.getStereotypes();
-							IextStereotypeInstance[] iStereotypes = theArg
+							IStereotypeInstance[] iStereotypes = theArg
 									.getStereotypeInstances();
 							for (int aindex = 0; aindex < iStereotypes.length; aindex++) {
 								String eStereotypeName = eStereotypes
@@ -811,7 +811,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				} else {
 					// same number of stereotypes let's see if they all match
 					List<String> eStereotypes = eMethod.getStereotypes();
-					IextStereotypeInstance[] iStereotypes = iMethod
+					IStereotypeInstance[] iStereotypes = iMethod
 							.getStereotypeInstances();
 					for (int index = 0; index < iStereotypes.length; index++) {
 						String eStereotypeName = eStereotypes.get(index);

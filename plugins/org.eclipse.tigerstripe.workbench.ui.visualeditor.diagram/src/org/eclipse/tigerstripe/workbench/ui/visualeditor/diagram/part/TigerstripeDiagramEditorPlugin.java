@@ -26,7 +26,7 @@ import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.eclipse.install.PostInstallActions;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.provider.VisualeditorItemProviderAdapterFactory;

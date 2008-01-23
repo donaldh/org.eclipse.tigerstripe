@@ -18,10 +18,9 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextSessionArtifact;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.model.ossj.SessionArtifactPersister;
 import org.eclipse.tigerstripe.core.model.ossj.specifics.OssjSessionFacadeSpecifics;
@@ -69,7 +68,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 	}
 
 	public String getIArtifactType() {
-		return IextSessionArtifact.class.getName();
+		return ISessionArtifact.class.getName();
 	}
 
 	/**
@@ -505,30 +504,30 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		method.setInstanceMethod(false);
 	}
 
-	public IextEmittedEvent[] getIextEmittedEvents() {
-		IextEmittedEvent[] result = new IextEmittedEvent[emittedEvents.size()];
-		return (IextEmittedEvent[]) emittedEvents.toArray(result);
+	public IEmittedEvent[] getIextEmittedEvents() {
+		IEmittedEvent[] result = new IEmittedEvent[emittedEvents.size()];
+		return (IEmittedEvent[]) emittedEvents.toArray(result);
 
 	}
 
-	public IextExposedUpdateProcedure[] getIextExposedUpdateProcedures() {
-		IextExposedUpdateProcedure[] result = new IextExposedUpdateProcedure[exposedUpdateProcedures
+	public IExposedUpdateProcedure[] getIextExposedUpdateProcedures() {
+		IExposedUpdateProcedure[] result = new IExposedUpdateProcedure[exposedUpdateProcedures
 				.size()];
-		return (IextExposedUpdateProcedure[]) exposedUpdateProcedures
+		return (IExposedUpdateProcedure[]) exposedUpdateProcedures
 				.toArray(result);
 
 	}
 
-	public IextManagedEntityDetails[] getIextManagedEntityDetails() {
-		IextManagedEntityDetails[] result = new IextManagedEntityDetails[managedEntities
+	public IManagedEntityDetails[] getIextManagedEntityDetails() {
+		IManagedEntityDetails[] result = new IManagedEntityDetails[managedEntities
 				.size()];
 		return managedEntities.toArray(result);
 
 	}
 
-	public IextNamedQuery[] getIextNamedQueries() {
-		IextNamedQuery[] result = new IextNamedQuery[namedQueries.size()];
-		return (IextNamedQuery[]) namedQueries.toArray(result);
+	public INamedQuery[] getIextNamedQueries() {
+		INamedQuery[] result = new INamedQuery[namedQueries.size()];
+		return (INamedQuery[]) namedQueries.toArray(result);
 	}
 
 }

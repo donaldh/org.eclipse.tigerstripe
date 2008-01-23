@@ -47,9 +47,8 @@ import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.api.IPluginReference;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.api.external.IextPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.IProjectDetails;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.generation.RunConfig;
@@ -264,7 +263,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		ArrayList<String> labels = new ArrayList<String>();
 		for (Iterator it = housings.iterator(); it.hasNext();) {
 			PluginHousing housing = (PluginHousing) it.next();
-			if (housing.getCategory() == IextPluginReference.GENERATE_CATEGORY) {
+			if (housing.getCategory() == IPluginReference.GENERATE_CATEGORY) {
 				labels.add(housing.getLabel());
 				// TigerstripeRuntime.logInfoMessage("adding label " +
 				// housing.getLabel());
@@ -762,7 +761,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 					for (int i = 0; i < refs.length; i++) {
 						// oneAtleastIsEnabled = oneAtleastIsEnabled
 						if (refs[i].isEnabled()
-								&& refs[i].getCategory() == IextPluginReference.GENERATE_CATEGORY) {
+								&& refs[i].getCategory() == IPluginReference.GENERATE_CATEGORY) {
 							for (int j = 0; j < buttonNames.length; j++) {
 								if (buttonNames[j].equals(((PluginRef) refs[i])
 										.getLabel())) {

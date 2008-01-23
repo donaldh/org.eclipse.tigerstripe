@@ -27,30 +27,23 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IStandardSpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IException;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextLabel;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextStandardSpecifics;
-import org.eclipse.tigerstripe.api.external.project.IextAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.api.external.project.IextProjectDescriptor;
-import org.eclipse.tigerstripe.api.external.project.IextTigerstripeProject;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.impl.TigerstripeProjectHandle;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.IMethod.IException;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IStandardSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.api.project.IAdvancedProperties;
+import org.eclipse.tigerstripe.api.project.IProjectDescriptor;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
@@ -150,17 +143,17 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	// Facet scoping for Fields/Methods/Labels. Build lazily filtered list when
 	// ever needed
-	private IextField[] facetFilteredFields = null;
+	private IField[] facetFilteredFields = null;
 
-	private IextField[] facetFilteredInheritedFields = null;
+	private IField[] facetFilteredInheritedFields = null;
 
-	private IextMethod[] facetFilteredMethods = null;
+	private IMethod[] facetFilteredMethods = null;
 
-	private IextMethod[] facetFilteredInheritedMethods = null;
+	private IMethod[] facetFilteredInheritedMethods = null;
 
-	private IextLabel[] facetFilteredLabels = null;
+	private ILabel[] facetFilteredLabels = null;
 
-	private IextLabel[] facetFilteredInheritedLabels = null;
+	private ILabel[] facetFilteredInheritedLabels = null;
 
 	protected JavaClass getJavaClass() {
 		return this.javaClass;
@@ -212,9 +205,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	/**
 	 * coming from IArtifact (External API)
 	 */
-	public IArtifact[] getAncestors() {
-		ArrayList<IArtifact> ancestors = new ArrayList<IArtifact>();
-		IArtifact[] ancArray = new IArtifact[0];
+	public IAbstractArtifact[] getAncestors() {
+		ArrayList<IAbstractArtifact> ancestors = new ArrayList<IAbstractArtifact>();
+		IAbstractArtifact[] ancArray = new IAbstractArtifact[0];
 		if (getExtendedIArtifact() != null) {
 			ancestors.add(getExtendedIArtifact());
 			ancestors.addAll(Arrays.asList(getExtendedIArtifact()
@@ -222,7 +215,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return ancestors.toArray(ancArray);
 
 		} else
-			return new IArtifact[0];
+			return new IAbstractArtifact[0];
 	}
 
 	/**
@@ -613,22 +606,22 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 
 		public boolean isRefByValue() {
-			return refBy == IextField.REFBY_VALUE;
+			return refBy == IField.REFBY_VALUE;
 		}
 
 		public boolean isRefByKey() {
-			return refBy == IextField.REFBY_KEY;
+			return refBy == IField.REFBY_KEY;
 		}
 
 		public boolean isRefByKeyResult() {
-			return refBy == IextField.REFBY_KEYRESULT;
+			return refBy == IField.REFBY_KEYRESULT;
 		}
 
 		public Type getType() {
 			return type;
 		}
 
-		public IextType getIextType() {
+		public IType getIType() {
 			return getType();
 		}
 
@@ -1085,7 +1078,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return result.toArray(new IAbstractArtifact[result.size()]);
 	}
 
-	public IArtifact[] getExtendingIArtifacts() {
+	public IAbstractArtifact[] getExtendingIArtifacts() {
 		return getExtendingArtifacts();
 	}
 
@@ -1345,7 +1338,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		persister.applyTemplate();
 	}
 
-	public IextProjectDescriptor getIextProjectDescriptor() {
+	public IProjectDescriptor getIextProjectDescriptor() {
 		return getTSProject();
 	}
 
@@ -1390,10 +1383,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	public IStandardSpecifics getIStandardSpecifics() {
 		return specifics;
-	}
-
-	public IextStandardSpecifics getIextStandardSpecifics() {
-		return getIStandardSpecifics();
 	}
 
 	protected void setIStandardSpecifics(IStandardSpecifics specifics) {
@@ -1468,119 +1457,111 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	// =================================================================
 	// Methods to satisfy the IArtifact interface
 
-	public IextField[] getIextFields() {
-		return getIextFields(false);
-	}
 
-	public IextField[] getIextFields(boolean filterFacetExcludedFields) {
+	public IField[] getIFields(boolean filterFacetExcludedFields) {
 		Collection fields = getFields();
 		if (filterFacetExcludedFields) {
 			if (facetFilteredFields == null) {
 				Collection filtered = filterFacetExcludedComponents(fields);
-				facetFilteredFields = (IextField[]) filtered
-						.toArray(new IextField[filtered.size()]);
+				facetFilteredFields = (IField[]) filtered
+						.toArray(new IField[filtered.size()]);
 			}
 			return facetFilteredFields;
 		} else
-			return (IextField[]) fields.toArray(new IextField[fields.size()]);
+			return (IField[]) fields.toArray(new IField[fields.size()]);
 	}
 
-	public IextField[] getInheritedIextFields() {
-		return getInheritedIextFields(false);
+	public IField[] getInheritedIFields() {
+		return getInheritedIFields(false);
 	}
 
-	public IextField[] getInheritedIextFields(boolean filterFacetExcludedFields) {
+	public IField[] getInheritedIFields(boolean filterFacetExcludedFields) {
 		Collection fields = getInheritedFields();
 		if (filterFacetExcludedFields) {
 			if (facetFilteredInheritedFields == null) {
 				Collection filtered = filterFacetExcludedComponents(fields);
-				facetFilteredInheritedFields = (IextField[]) filtered
-						.toArray(new IextField[filtered.size()]);
+				facetFilteredInheritedFields = (IField[]) filtered
+						.toArray(new IField[filtered.size()]);
 			}
 			return facetFilteredInheritedFields;
 		} else
-			return (IextField[]) fields.toArray(new IextField[fields.size()]);
+			return (IField[]) fields.toArray(new IField[fields.size()]);
 	}
 
-	public IextLabel[] getIextLabels() {
-		return getIextLabels(false);
-	}
 
-	public IextLabel[] getIextLabels(boolean filterFacetExcludedLabels) {
+	public ILabel[] getILabels(boolean filterFacetExcludedLabels) {
 		Collection labels = getLabels();
 		if (filterFacetExcludedLabels) {
 			if (facetFilteredLabels == null) {
 				Collection filtered = filterFacetExcludedComponents(labels);
-				facetFilteredLabels = (IextLabel[]) filtered
-						.toArray(new IextLabel[filtered.size()]);
+				facetFilteredLabels = (ILabel[]) filtered
+						.toArray(new ILabel[filtered.size()]);
 			}
 			return facetFilteredLabels;
 		} else
-			return (IextLabel[]) labels.toArray(new IextLabel[labels.size()]);
+			return (ILabel[]) labels.toArray(new ILabel[labels.size()]);
 	}
 
-	public IextLabel[] getInheritedIextLabels() {
-		return getInheritedIextLabels(false);
+	public ILabel[] getInheritedILabels() {
+		return getInheritedILabels(false);
 	}
 
-	public IextLabel[] getInheritedIextLabels(boolean filterFacetExcludedLabels) {
+	public ILabel[] getInheritedILabels(boolean filterFacetExcludedLabels) {
 		Collection labels = getInheritedLabels();
 		if (filterFacetExcludedLabels) {
 			if (facetFilteredInheritedLabels == null) {
 				Collection filtered = filterFacetExcludedComponents(labels);
-				facetFilteredInheritedLabels = (IextLabel[]) filtered
-						.toArray(new IextLabel[filtered.size()]);
+				facetFilteredInheritedLabels = (ILabel[]) filtered
+						.toArray(new ILabel[filtered.size()]);
 			}
 			return facetFilteredInheritedLabels;
 		} else
-			return (IextLabel[]) labels.toArray(new IextLabel[labels.size()]);
+			return (ILabel[]) labels.toArray(new ILabel[labels.size()]);
 	}
 
-	public IextMethod[] getIextMethods() {
-		return getIextMethods(false);
-	}
 
-	public IextMethod[] getIextMethods(boolean filterFacetExcludedMethods) {
+	public IMethod[] getIMethods(boolean filterFacetExcludedMethods) {
 		Collection methods = getMethods();
 		if (filterFacetExcludedMethods) {
 			if (facetFilteredMethods == null) {
 				Collection filtered = filterFacetExcludedComponents(methods);
-				facetFilteredMethods = (IextMethod[]) filtered
-						.toArray(new IextMethod[filtered.size()]);
+				facetFilteredMethods = (IMethod[]) filtered
+						.toArray(new IMethod[filtered.size()]);
 			}
 			return facetFilteredMethods;
 		} else
-			return (IextMethod[]) methods
-					.toArray(new IextMethod[methods.size()]);
+			return (IMethod[]) methods
+					.toArray(new IMethod[methods.size()]);
 	}
 
-	public IextMethod[] getInheritedIextMethods() {
-		return getInheritedIextMethods(false);
+	public IMethod[] getInheritedIMethods() {
+		return getInheritedIMethods(false);
 	}
 
-	public IextMethod[] getInheritedIextMethods(
+	public IMethod[] getInheritedIMethods(
 			boolean filterFacetExcludedMethods) {
 		Collection methods = getInheritedMethods();
 		if (filterFacetExcludedMethods) {
 			if (facetFilteredInheritedMethods == null) {
 				Collection filtered = filterFacetExcludedComponents(methods);
-				facetFilteredInheritedMethods = (IextMethod[]) filtered
-						.toArray(new IextMethod[filtered.size()]);
+				facetFilteredInheritedMethods = (IMethod[]) filtered
+						.toArray(new IMethod[filtered.size()]);
 			}
 			return facetFilteredInheritedMethods;
 		} else
-			return (IextMethod[]) methods
-					.toArray(new IextMethod[methods.size()]);
+			return (IMethod[]) methods
+					.toArray(new IMethod[methods.size()]);
 	}
 
 	public IAbstractArtifact getExtendedIArtifact() {
 		return getExtends();
 	}
 
-	public IextTigerstripeProject getIextTigerstripeProject() {
+
+	public ITigerstripeProject getITigerstripeProject() {
 		return getIProject();
 	}
-
+	
 	public Object[] getChildren() {
 		IField[] fields = getIFields();
 		IMethod[] methods = getIMethods();
@@ -1631,12 +1612,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return false;
 	}
 
-	public IArtifact[] getImplementingIArtifacts() {
-		return new IArtifact[0];
+	public IAbstractArtifact[] getImplementingIArtifacts() {
+		return new IAbstractArtifact[0];
 	}
 
-	public IArtifact[] getReferencedIArtifacts() {
-		Set<IArtifact> result = new HashSet<IArtifact>();
+	public IAbstractArtifact[] getReferencedIArtifacts() {
+		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 		for (IField field : getIFields()) {
 			if (!field.getIType().isPrimitive()
 					&& !(field.getIType().getIArtifact() instanceof IPrimitiveTypeArtifact)
@@ -1664,11 +1645,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				}
 			}
 		}
-		return result.toArray(new IArtifact[result.size()]);
+		return result.toArray(new IAbstractArtifact[result.size()]);
 	}
 
-	public IArtifact[] getReferencingIArtifacts() {
-		return new IArtifact[0];
+	public IAbstractArtifact[] getReferencingIArtifacts() {
+		return new IAbstractArtifact[0];
 	}
 
 	// public boolean equals( Object obj ) {
@@ -1718,7 +1699,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 						+ getFullyQualifiedName()
 						+ ": artifact is read-only (module)");
 			try {
-				IextAbstractTigerstripeProject aProject = API
+				IAbstractTigerstripeProject aProject = API
 						.getDefaultProjectSession().makeTigerstripeProject(
 								mgr.getTSProject().getBaseDir().toURI());
 				if (aProject instanceof ITigerstripeProject) {

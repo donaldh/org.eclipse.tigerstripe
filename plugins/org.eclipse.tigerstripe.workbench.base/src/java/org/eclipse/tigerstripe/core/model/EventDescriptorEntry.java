@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.model;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventDescriptorEntry;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IEventDescriptorEntry;
 
 /**
  * An entry in the descriptor, represented by its label and primitive type

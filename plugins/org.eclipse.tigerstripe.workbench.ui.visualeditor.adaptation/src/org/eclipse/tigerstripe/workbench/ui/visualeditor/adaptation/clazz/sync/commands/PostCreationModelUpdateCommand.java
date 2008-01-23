@@ -25,20 +25,20 @@ import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewAndElemen
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest.ViewAndElementDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest.ViewDescriptor;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEventArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
@@ -288,9 +288,9 @@ public class PostCreationModelUpdateCommand extends
 				nodesInMap = (HashMap<String, QualifiedNamedElement>) returnObjects[3];
 			}
 			for (IRelationship relationship : possibleRelationships) {
-				String aEndName = relationship.getRelationshipAEnd().getType()
+				String aEndName = relationship.getRelationshipAEnd().getIType()
 						.getFullyQualifiedName();
-				String zEndName = relationship.getRelationshipZEnd().getType()
+				String zEndName = relationship.getRelationshipZEnd().getIType()
 						.getFullyQualifiedName();
 				if (aEndName.equals(iArtifact.getFullyQualifiedName())) {
 					// this eObject corresponds to the aEnd of this

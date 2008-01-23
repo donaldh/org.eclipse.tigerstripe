@@ -48,13 +48,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
@@ -189,9 +189,9 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		if (isRefByEnabled()) {
 			String[] refByNames = new String[] {
-					IextField.refByLabels[IextField.REFBY_VALUE],
-					IextField.refByLabels[IextField.REFBY_KEY],
-					IextField.refByLabels[IextField.REFBY_KEYRESULT] };
+					IField.refByLabels[IField.REFBY_VALUE],
+					IField.refByLabels[IField.REFBY_KEY],
+					IField.refByLabels[IField.REFBY_KEYRESULT] };
 
 			fRefByButtons = new SelectionButtonDialogFieldGroup(SWT.RADIO,
 					refByNames, 3);
@@ -552,7 +552,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		// populate the attribute
 		initialArgument.setName(attributeNameDialogField.getText());
-		org.eclipse.tigerstripe.api.artifacts.model.IType type = initialArgument
+		org.eclipse.tigerstripe.api.model.IType type = initialArgument
 				.getIType();
 		type.setFullyQualifiedName(attributeClass);
 		type.setTypeMultiplicity(EMultiplicity.at(multiplicityCombo
@@ -568,15 +568,15 @@ public class ArgumentEditDialog extends TSMessageDialog {
 			initialArgument.setDefaultValue(null);
 
 		if (isRefByEnabled() && fRefByButtons.isEnabled()) {
-			if (fRefByButtons.isSelected(IextField.REFBY_KEY)) {
-				initialArgument.setRefBy(IextField.REFBY_KEY);
-			} else if (fRefByButtons.isSelected(IextField.REFBY_KEYRESULT)) {
-				initialArgument.setRefBy(IextField.REFBY_KEYRESULT);
+			if (fRefByButtons.isSelected(IField.REFBY_KEY)) {
+				initialArgument.setRefBy(IField.REFBY_KEY);
+			} else if (fRefByButtons.isSelected(IField.REFBY_KEYRESULT)) {
+				initialArgument.setRefBy(IField.REFBY_KEYRESULT);
 			} else {
-				initialArgument.setRefBy(IextField.REFBY_VALUE);
+				initialArgument.setRefBy(IField.REFBY_VALUE);
 			}
 		} else {
-			initialArgument.setRefBy(IextField.NON_APPLICABLE);
+			initialArgument.setRefBy(IField.NON_APPLICABLE);
 		}
 
 		initialArgument.setOrdered(modifierButtons.isSelected(0));

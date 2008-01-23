@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api;
 
-import org.eclipse.tigerstripe.api.external.IextPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.plugins.PluginLog;
+import java.util.Properties;
+
+import org.eclipse.tigerstripe.api.plugins.PluginLog;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.generation.RunConfig;
 
@@ -25,7 +25,11 @@ import org.eclipse.tigerstripe.core.generation.RunConfig;
  * @author Eric Dillon
  * 
  */
-public interface IPluginReference extends IextPluginReference {
+public interface IPluginReference {
+
+	public static final int GENERATE_CATEGORY = 0;
+	public static final int PUBLISH_CATEGORY = 1;
+	public static final int UNKNOWN_CATEGORY = -1;
 
 	/**
 	 * Trigger the generation association with this Plugin reference
@@ -99,4 +103,44 @@ public interface IPluginReference extends IextPluginReference {
 	public String getValidationFailMessage();
 
 	public Throwable getValidationFailThrowable();
+
+	public String getActiveVersion();
+
+	public int getCategory();
+
+	/**
+	 * An array of all properties defined for this Plugin Ref.
+	 * 
+	 * @return
+	 */
+	public String[] getDefinedProperties();
+
+	public String getGroupId();
+
+	public String getPluginId();
+
+	// Bug 927 changed the return type to be the external version
+	
+	public ITigerstripeProject getProjectHandle();
+
+	/**
+	 * 
+	 * @return
+	 * @deprecated use {@link #getProperty(String)}. Note that table properties
+	 *             cannot be read through this method.
+	 */
+	@Deprecated
+	public Properties getProperties();
+
+	/**
+	 * Returns the value of the property as defined in the plugin reference.
+	 * 
+	 * @param propertyName
+	 * @return
+	 */
+	public Object getProperty(String propertyName);
+
+	public String getVersion();
+
+	public boolean isEnabled();
 }

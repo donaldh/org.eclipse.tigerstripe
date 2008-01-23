@@ -39,7 +39,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.model.ManagedEntityArtifact;

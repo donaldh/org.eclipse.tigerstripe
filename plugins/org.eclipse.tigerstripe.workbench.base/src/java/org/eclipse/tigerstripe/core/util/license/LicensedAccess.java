@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.util.license;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 
 /**
  * This class is the singleton shell to validate any Licensed functionality

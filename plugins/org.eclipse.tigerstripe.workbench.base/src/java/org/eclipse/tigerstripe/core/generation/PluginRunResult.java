@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.tigerstripe.api.IPluginReference;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;

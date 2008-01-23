@@ -42,8 +42,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.stereotype.IEntryListStereotypeAttribute;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
@@ -210,11 +209,11 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 
 	protected void handleWidgetSelected(SelectionEvent e) {
 		if (e.getSource() == stringEntryTypeButton) {
-			setKind(IextStereotypeAttribute.STRING_ENTRY_KIND);
+			setKind(IStereotypeAttribute.STRING_ENTRY_KIND);
 		} else if (e.getSource() == checkableTypeButton) {
-			setKind(IextStereotypeAttribute.CHECKABLE_KIND);
+			setKind(IStereotypeAttribute.CHECKABLE_KIND);
 		} else if (e.getSource() == entryListTypeButton) {
-			setKind(IextStereotypeAttribute.ENTRY_LIST_KIND);
+			setKind(IStereotypeAttribute.ENTRY_LIST_KIND);
 		} else if (e.getSource() == addEntryButton) {
 			addEntrySelected();
 		} else if (e.getSource() == setDefaultEntryButton) {
@@ -233,7 +232,7 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 		if (isArray.getSelection()) {
 			// Attribute of type boolean and selection list are not allowed for
 			// arrays
-			setKind(IextStereotypeAttribute.STRING_ENTRY_KIND);
+			setKind(IStereotypeAttribute.STRING_ENTRY_KIND);
 
 			checkableTypeButton.setEnabled(false);
 			entryListTypeButton.setEnabled(false);
@@ -359,14 +358,14 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 		currentKind = kind;
 
 		switch (kind) {
-		case IextStereotypeAttribute.STRING_ENTRY_KIND:
+		case IStereotypeAttribute.STRING_ENTRY_KIND:
 			stringEntryDefaultLabel.setEnabled(true);
 			stringEntryDefaultText.setEnabled(true);
 			stringEntryTypeButton.setSelection(true);
 			checkableTypeButton.setSelection(false);
 			entryListTypeButton.setSelection(false);
 			break;
-		case IextStereotypeAttribute.CHECKABLE_KIND:
+		case IStereotypeAttribute.CHECKABLE_KIND:
 			checkableTypeDefaultCombo.setEnabled(true);
 			checkableTypeDefaultLabel.setEnabled(true);
 			stringEntryTypeButton.setSelection(false);
@@ -374,7 +373,7 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 			entryListTypeButton.setSelection(false);
 			break;
 
-		case IextStereotypeAttribute.ENTRY_LIST_KIND:
+		case IStereotypeAttribute.ENTRY_LIST_KIND:
 			entryListViewer.getTable().setForeground(ColorUtils.BLACK);
 			entryListChoicesLabel.setEnabled(true);
 			addEntryButton.setEnabled(true);
@@ -405,14 +404,14 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 		isArray.setSelection(attribute.isArray());
 		isArraySelected(); // update form properly Bug 467
 
-		if (currentKind == IextStereotypeAttribute.STRING_ENTRY_KIND) {
+		if (currentKind == IStereotypeAttribute.STRING_ENTRY_KIND) {
 			if (attribute.getDefaultValue() != null) {
 				stringEntryDefaultText.setText(attribute.getDefaultValue());
 			}
-		} else if (currentKind == IextStereotypeAttribute.CHECKABLE_KIND) {
+		} else if (currentKind == IStereotypeAttribute.CHECKABLE_KIND) {
 			int index = "true".equals(attribute.getDefaultValue()) ? 0 : 1;
 			checkableTypeDefaultCombo.select(index);
-		} else if (currentKind == IextStereotypeAttribute.ENTRY_LIST_KIND) {
+		} else if (currentKind == IStereotypeAttribute.ENTRY_LIST_KIND) {
 			IEntryListStereotypeAttribute attr = (IEntryListStereotypeAttribute) attribute;
 			String[] values = attr.getSelectableValues();
 			entries.clear();
@@ -683,12 +682,12 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 
 		attribute.setName(nameText.getText().trim());
 		attribute.setDescription(descriptionText.getText().trim());
-		if (currentKind == IextStereotypeAttribute.STRING_ENTRY_KIND) {
+		if (currentKind == IStereotypeAttribute.STRING_ENTRY_KIND) {
 			attribute.setDefaultValue(stringEntryDefaultText.getText().trim());
-		} else if (currentKind == IextStereotypeAttribute.CHECKABLE_KIND) {
+		} else if (currentKind == IStereotypeAttribute.CHECKABLE_KIND) {
 			int index = checkableTypeDefaultCombo.getSelectionIndex();
 			attribute.setDefaultValue(index == 0 ? "true" : "false");
-		} else if (currentKind == IextStereotypeAttribute.ENTRY_LIST_KIND) {
+		} else if (currentKind == IStereotypeAttribute.ENTRY_LIST_KIND) {
 			IEntryListStereotypeAttribute attr = (IEntryListStereotypeAttribute) attribute;
 			String[] values = new String[entries.size()];
 			int i = 0;

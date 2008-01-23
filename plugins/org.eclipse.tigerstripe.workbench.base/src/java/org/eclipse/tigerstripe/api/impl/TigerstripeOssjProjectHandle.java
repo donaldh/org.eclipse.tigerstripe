@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.api.impl;
 
 import java.net.URI;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.api.publish.IProjectCSVCreator;
 import org.eclipse.tigerstripe.api.publish.IProjectPublisher;

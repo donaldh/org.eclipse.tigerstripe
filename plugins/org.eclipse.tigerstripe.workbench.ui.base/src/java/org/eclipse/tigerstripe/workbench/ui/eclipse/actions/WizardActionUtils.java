@@ -21,8 +21,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.api.IPluginReference;
-import org.eclipse.tigerstripe.api.external.IextPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.api.project.IAdvancedProperties;
@@ -76,7 +75,7 @@ public class WizardActionUtils {
 			for (Iterator iter = Arrays.asList(plugins).iterator(); iter
 					.hasNext();) {
 				PluginRef ref = (PluginRef) iter.next();
-				if (ref.getCategory() == IextPluginReference.GENERATE_CATEGORY
+				if (ref.getCategory() == IPluginReference.GENERATE_CATEGORY
 						&& ref.isEnabled()) {
 					try {
 						monitor.worked(1);

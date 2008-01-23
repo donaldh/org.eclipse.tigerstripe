@@ -52,9 +52,9 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.ui.gmf.InitialDiagramPrefs;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -256,12 +256,12 @@ public class DependencyNamePackageEditPart extends
 					.getPropertyValue(DiagramPropertiesHelper.HIDESTEREOTYPES))) {
 
 				if (iArtifact != null) {
-					IextStereotypeInstance[] stereotypes = iArtifact
+					IStereotypeInstance[] stereotypes = iArtifact
 							.getStereotypeInstances();
 					if (stereotypes.length != 0)
 						stereotypeBuffer.append("<<");
 					int count = 0;
-					for (IextStereotypeInstance stereotype : stereotypes) {
+					for (IStereotypeInstance stereotype : stereotypes) {
 						stereotypeBuffer.append(stereotype.getName());
 						if (++count < stereotypes.length)
 							stereotypeBuffer.append(", ");

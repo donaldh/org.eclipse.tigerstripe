@@ -13,16 +13,15 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.utils
 import java.util.List;
 
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.core.model.ArtifactManager;
@@ -71,13 +70,13 @@ public class ClassDiagramUtils {
 	 */
 	public static Visibility toVisibility(int tsVisibility) {
 		switch (tsVisibility) {
-		case IextModelComponent.VISIBILITY_PACKAGE:
+		case IModelComponent.VISIBILITY_PACKAGE:
 			return Visibility.PACKAGE_LITERAL;
-		case IextModelComponent.VISIBILITY_PRIVATE:
+		case IModelComponent.VISIBILITY_PRIVATE:
 			return Visibility.PRIVATE_LITERAL;
-		case IextModelComponent.VISIBILITY_PROTECTED:
+		case IModelComponent.VISIBILITY_PROTECTED:
 			return Visibility.PROTECTED_LITERAL;
-		case IextModelComponent.VISIBILITY_PUBLIC:
+		case IModelComponent.VISIBILITY_PUBLIC:
 			return Visibility.PUBLIC_LITERAL;
 		}
 
@@ -87,23 +86,23 @@ public class ClassDiagramUtils {
 	public static int fromVisibility(Visibility visibility) {
 		switch (visibility.getValue()) {
 		case Visibility.PACKAGE:
-			return IextModelComponent.VISIBILITY_PACKAGE;
+			return IModelComponent.VISIBILITY_PACKAGE;
 		case Visibility.PRIVATE:
-			return IextModelComponent.VISIBILITY_PRIVATE;
+			return IModelComponent.VISIBILITY_PRIVATE;
 		case Visibility.PROTECTED:
-			return IextModelComponent.VISIBILITY_PROTECTED;
+			return IModelComponent.VISIBILITY_PROTECTED;
 		case Visibility.PUBLIC:
-			return IextModelComponent.VISIBILITY_PUBLIC;
+			return IModelComponent.VISIBILITY_PUBLIC;
 		}
-		return IextModelComponent.VISIBILITY_PUBLIC;
+		return IModelComponent.VISIBILITY_PUBLIC;
 
 	}
 
 	public static TypeMultiplicity toMultiplicity(int mult) {
 		switch (mult) {
-		case IextType.MULTIPLICITY_SINGLE:
+		case IType.MULTIPLICITY_SINGLE:
 			return (TypeMultiplicity.NONE_LITERAL);
-		case IextType.MULTIPLICITY_MULTI:
+		case IType.MULTIPLICITY_MULTI:
 			return (TypeMultiplicity.ARRAY_LITERAL);
 		}
 		return TypeMultiplicity.NONE_LITERAL;
@@ -111,9 +110,9 @@ public class ClassDiagramUtils {
 
 	public static int fromMultiplicity(TypeMultiplicity mult) {
 		if (mult == TypeMultiplicity.NONE_LITERAL)
-			return IextType.MULTIPLICITY_SINGLE;
+			return IType.MULTIPLICITY_SINGLE;
 		else
-			return IextType.MULTIPLICITY_MULTI;
+			return IType.MULTIPLICITY_MULTI;
 	}
 
 	public static IField findIFieldByName(IAbstractArtifact iArtifact,
@@ -279,7 +278,7 @@ public class ClassDiagramUtils {
 		if (!shouldDisplayReference())
 			return true;
 
-		IArtifact art = mgr.getArtifactByFullyQualifiedName(attrType, true,
+		IAbstractArtifact art = mgr.getArtifactByFullyQualifiedName(attrType, true,
 				new TigerstripeNullProgressMonitor());
 		if (art instanceof IPrimitiveTypeArtifact)
 			return true;

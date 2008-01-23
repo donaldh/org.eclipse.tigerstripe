@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.external.model.IextType;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Dependency;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -35,8 +35,8 @@ public class DependencyEndUpdateCommand extends
 			return;
 		Dependency eDependency = (Dependency) element;
 		IDependencyArtifact iDepArtifact = (IDependencyArtifact) artifact;
-		IextType aEndType = iDepArtifact.getAEndType();
-		IextType zEndType = iDepArtifact.getZEndType();
+		IType aEndType = iDepArtifact.getAEndType();
+		IType zEndType = iDepArtifact.getZEndType();
 
 		if (aEndType != null) {
 			String aEndTypeFQN = aEndType.getFullyQualifiedName();

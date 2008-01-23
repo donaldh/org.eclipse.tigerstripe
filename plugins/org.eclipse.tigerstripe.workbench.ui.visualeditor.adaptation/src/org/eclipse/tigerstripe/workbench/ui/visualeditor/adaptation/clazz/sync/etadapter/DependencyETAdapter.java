@@ -12,12 +12,12 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeRequestFactory;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IArtifactCreateRequest;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IArtifactLinkCreateRequest;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IArtifactSetFeatureRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequestFactory;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IArtifactCreateRequest;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IArtifactLinkCreateRequest;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.ETAdapter;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Dependency;

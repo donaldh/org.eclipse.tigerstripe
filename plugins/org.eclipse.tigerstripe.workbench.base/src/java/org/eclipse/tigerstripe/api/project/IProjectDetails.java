@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.project;
 
-import org.eclipse.tigerstripe.api.external.project.IextProjectDetails;
+import java.util.Properties;
 
 /**
  * Project details
@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.api.external.project.IextProjectDetails;
  * @author Eric Dillon
  * @since 0.3
  */
-public interface IProjectDetails extends IextProjectDetails {
+public interface IProjectDetails  {
 
 	// These are the properties stored within the project details
 	/*
@@ -95,5 +95,20 @@ public interface IProjectDetails extends IextProjectDetails {
 	public String getProjectOutputDirectory();
 
 	public void setProvider(String provider);
+
+	public String getDescription();
+
+	// ==============================================================
+	public String getName();
+
+	public String getOutputDirectory();
+
+	public Properties getProperties();
+
+	public String getProperty(String name, String defaultValue);
+
+	public String getProvider();
+
+	public String getVersion();
 
 }

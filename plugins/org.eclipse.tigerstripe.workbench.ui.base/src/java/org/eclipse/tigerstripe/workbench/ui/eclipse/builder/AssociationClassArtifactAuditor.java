@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
 
 public class AssociationClassArtifactAuditor extends AssociationArtifactAuditor
 		implements IArtifactAuditor {

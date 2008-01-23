@@ -33,49 +33,47 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IException;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventDescriptorEntry;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjArtifactSpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEntitySpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEmittedEvent;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEntityMethodFlavorDetails;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IExposedUpdateProcedure;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IManagedEntityDetails;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.INamedQuery;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.IextMethod.OssjEntityMethodFlavor;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
-import org.eclipse.tigerstripe.api.external.queries.IArtifactQuery;
-import org.eclipse.tigerstripe.api.external.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.IMethod.IException;
+import org.eclipse.tigerstripe.api.model.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEventArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEmittedEvent;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IExposedUpdateProcedure;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IManagedEntityDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.INamedQuery;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IEventDescriptorEntry;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjArtifactSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEntitySpecifics;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.project.IProjectSession;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.api.queries.IArtifactQuery;
+import org.eclipse.tigerstripe.api.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.model.EventDescriptorEntry;
 import org.eclipse.tigerstripe.core.model.ossj.specifics.OssjArtifactSpecifics;
@@ -296,9 +294,9 @@ public class XML2TS {
 			IArtifactQuery myQuery = mgrSession
 					.makeQuery(IQueryAllArtifacts.class.getName());
 			myQuery.setIncludeDependencies(false);
-			Collection<IArtifact> projectArtifacts = mgrSession
+			Collection<IAbstractArtifact> projectArtifacts = mgrSession
 					.queryArtifact(myQuery);
-			for (IArtifact pArtifact : projectArtifacts) {
+			for (IAbstractArtifact pArtifact : projectArtifacts) {
 				if (!extractedArtifacts.containsKey(pArtifact
 						.getFullyQualifiedName())) {
 					Difference artifactDiff = new Difference("presence", "",
@@ -702,7 +700,7 @@ public class XML2TS {
 				type.setTypeMultiplicity(EMultiplicity.parse(element
 						.getAttribute("returnedTypeMultiplicity")));
 			}
-			queryArt.setReturnedType((IextType) type);
+			queryArt.setReturnedType((IType) type);
 			Properties props = specs.getInterfaceProperties();
 			props.setProperty("package", element
 					.getAttribute("interfacePackage"));

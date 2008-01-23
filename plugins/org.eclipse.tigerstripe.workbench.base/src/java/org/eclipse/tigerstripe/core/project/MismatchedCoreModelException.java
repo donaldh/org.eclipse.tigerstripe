@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.project;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 /**
  * This exception signals that the core model attached to the current project

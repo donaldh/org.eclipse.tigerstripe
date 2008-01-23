@@ -18,7 +18,7 @@ import java.net.URI;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.modules.IModuleRef;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.model.ArtifactManager;

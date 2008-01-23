@@ -24,7 +24,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
-import org.eclipse.tigerstripe.api.external.plugins.PluginLog;
+import org.eclipse.tigerstripe.api.plugins.PluginLog;
 import org.eclipse.tigerstripe.api.project.IDependency;
 import org.eclipse.tigerstripe.core.project.Dependency;
 

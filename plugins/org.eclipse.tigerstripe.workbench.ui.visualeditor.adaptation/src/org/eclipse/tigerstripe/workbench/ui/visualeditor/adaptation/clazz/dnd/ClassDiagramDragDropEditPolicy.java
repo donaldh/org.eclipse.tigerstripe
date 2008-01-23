@@ -40,7 +40,7 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
+import org.eclipse.tigerstripe.api.model.IRelationship;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -119,9 +119,9 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 								CreateElementRequest.class))
 						.getParameter("IAbstractArtifact");
 
-				String aEndType = iArtifact.getRelationshipAEnd().getType()
+				String aEndType = iArtifact.getRelationshipAEnd().getIType()
 						.getFullyQualifiedName();
-				String zEndType = iArtifact.getRelationshipZEnd().getType()
+				String zEndType = iArtifact.getRelationshipZEnd().getIType()
 						.getFullyQualifiedName();
 
 				MapHelper helper = new MapHelper((Map) ((Diagram) getHost()

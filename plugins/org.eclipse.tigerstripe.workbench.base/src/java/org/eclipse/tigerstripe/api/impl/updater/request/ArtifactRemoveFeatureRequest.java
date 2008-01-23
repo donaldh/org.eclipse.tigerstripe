@@ -14,13 +14,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IArtifactRemoveFeatureRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IArtifactRemoveFeatureRequest;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 
 public class ArtifactRemoveFeatureRequest extends BaseArtifactElementRequest
@@ -32,7 +31,7 @@ public class ArtifactRemoveFeatureRequest extends BaseArtifactElementRequest
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IArtifact art = mgrSession
+		IAbstractArtifact art = mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
 		if (IMPLEMENTS_FEATURE.equals(featureId))
@@ -44,7 +43,7 @@ public class ArtifactRemoveFeatureRequest extends BaseArtifactElementRequest
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
-		IArtifact art = mgrSession
+		IAbstractArtifact art = mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 		if (art instanceof IManagedEntityArtifact
 				|| art instanceof IAssociationClassArtifact) {

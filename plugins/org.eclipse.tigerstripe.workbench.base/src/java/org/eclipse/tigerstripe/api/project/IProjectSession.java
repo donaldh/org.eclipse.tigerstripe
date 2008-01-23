@@ -12,9 +12,8 @@ package org.eclipse.tigerstripe.api.project;
 
 import java.net.URI;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.external.project.IextProjectSession;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 
 /**
@@ -23,7 +22,7 @@ import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
  * @author Eric Dillon
  * @since 0.3
  */
-public interface IProjectSession extends IextProjectSession {
+public interface IProjectSession  {
 
 	/**
 	 * Returns a list of supported project types
@@ -43,7 +42,7 @@ public interface IProjectSession extends IextProjectSession {
 	 *             if the current license doesn't allow this operation
 	 * @throws UnsupportedOperationException
 	 *             if the projectType is not supported
-	 * @throws org.eclipse.tigerstripe.api.external.TigerstripeException
+	 * @throws org.eclipse.tigerstripe.api.TigerstripeException
 	 *             if any other error occured.
 	 * @return
 	 */
@@ -68,4 +67,18 @@ public interface IProjectSession extends IextProjectSession {
 			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
 
 	public void removeFromCache(IAbstractTigerstripeProject project);
+
+	/**
+	 * Creates a handle on a new Tigerstripe Project for the specified Project
+	 * Type.
+	 * 
+	 * @param projectURI
+	 * @throws TigerstripeLicenseException
+	 *             if the current license doesn't allow this operation
+	 * @throws org.eclipse.tigerstripe.api.TigerstripeException
+	 *             if any other error occured.
+	 * @return
+	 */
+	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI)
+			throws TigerstripeLicenseException, TigerstripeException;
 }

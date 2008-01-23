@@ -12,12 +12,11 @@ package org.eclipse.tigerstripe.core.model.ossj.specifics;
 
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEntitySpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjFlavorDefaults;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEntityMethodFlavorDetails;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextMethod.OssjEntityMethodFlavor;
-import org.eclipse.tigerstripe.api.external.model.artifacts.ossjSpecifics.IextOssjEntitySpecifics;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEntitySpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.model.ManagedEntityArtifact;
@@ -92,7 +91,7 @@ public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 	}
 
 	public boolean isSingleExtension() {
-		return IextOssjEntitySpecifics.EXT_SINGLE
+		return IOssjEntitySpecifics.EXT_SINGLE
 				.equals(getExtensibilityType());
 	}
 
@@ -101,8 +100,8 @@ public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 	}
 
 	public Properties getCRUDProperties(int crudID) {
-		if (crudID <= IextOssjEntitySpecifics.DELETE
-				&& crudID >= IextOssjEntitySpecifics.CREATE) {
+		if (crudID <= IOssjEntitySpecifics.DELETE
+				&& crudID >= IOssjEntitySpecifics.CREATE) {
 			if (crudProperties[crudID] == null) {
 				crudProperties[crudID] = getDefaultCrudProperties(crudID);
 			}
@@ -112,8 +111,8 @@ public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 	}
 
 	public void setCRUDProperties(int crudID, Properties crudProperties) {
-		if (crudID <= IextOssjEntitySpecifics.DELETE
-				&& crudID >= IextOssjEntitySpecifics.CREATE) {
+		if (crudID <= IOssjEntitySpecifics.DELETE
+				&& crudID >= IOssjEntitySpecifics.CREATE) {
 			this.crudProperties[crudID] = crudProperties;
 		}
 		validateCRUDProperties(crudID);
@@ -164,7 +163,7 @@ public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 
 	public OssjEntitySpecifics(AbstractArtifact artifact) {
 		super(artifact);
-		crudProperties = new Properties[IextOssjEntitySpecifics.DELETE + 1];
+		crudProperties = new Properties[IOssjEntitySpecifics.DELETE + 1];
 	}
 
 	@Override
@@ -195,14 +194,14 @@ public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 		// Extract CRUD operations Options
 		try {
 
-			setCRUDProperties(IextOssjEntitySpecifics.CREATE,
+			setCRUDProperties(IOssjEntitySpecifics.CREATE,
 					PropertiesConstants.getPropertiesById(getArtifact()
 							.getTags(), CREATE_PROP_ID));
-			setCRUDProperties(IextOssjEntitySpecifics.GET, PropertiesConstants
+			setCRUDProperties(IOssjEntitySpecifics.GET, PropertiesConstants
 					.getPropertiesById(getArtifact().getTags(), GET_PROP_ID));
-			setCRUDProperties(IextOssjEntitySpecifics.SET, PropertiesConstants
+			setCRUDProperties(IOssjEntitySpecifics.SET, PropertiesConstants
 					.getPropertiesById(getArtifact().getTags(), SET_PROP_ID));
-			setCRUDProperties(IextOssjEntitySpecifics.DELETE,
+			setCRUDProperties(IOssjEntitySpecifics.DELETE,
 					PropertiesConstants.getPropertiesById(getArtifact()
 							.getTags(), REMOVE_PROP_ID));
 		} catch (TigerstripeException e) {
@@ -217,7 +216,7 @@ public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 		if (tag != null) {
 			Properties props = tag.getProperties();
 			String ext = props.getProperty("extensibilityType",
-					IextOssjEntitySpecifics.EXT_MULTI);
+					IOssjEntitySpecifics.EXT_MULTI);
 
 			setExtensibilityType(ext);
 		}
@@ -274,26 +273,26 @@ public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 	public void applyDefaults() {
 		super.applyDefaults();
 		setPrimaryKey("String");
-		setExtensibilityType(IextOssjEntitySpecifics.EXT_MULTI);
-		setCRUDProperties(IextOssjEntitySpecifics.CREATE,
-				getDefaultCrudProperties(IextOssjEntitySpecifics.CREATE));
-		setCRUDProperties(IextOssjEntitySpecifics.GET,
-				getDefaultCrudProperties(IextOssjEntitySpecifics.GET));
-		setCRUDProperties(IextOssjEntitySpecifics.SET,
-				getDefaultCrudProperties(IextOssjEntitySpecifics.SET));
-		setCRUDProperties(IextOssjEntitySpecifics.DELETE,
-				getDefaultCrudProperties(IextOssjEntitySpecifics.DELETE));
+		setExtensibilityType(IOssjEntitySpecifics.EXT_MULTI);
+		setCRUDProperties(IOssjEntitySpecifics.CREATE,
+				getDefaultCrudProperties(IOssjEntitySpecifics.CREATE));
+		setCRUDProperties(IOssjEntitySpecifics.GET,
+				getDefaultCrudProperties(IOssjEntitySpecifics.GET));
+		setCRUDProperties(IOssjEntitySpecifics.SET,
+				getDefaultCrudProperties(IOssjEntitySpecifics.SET));
+		setCRUDProperties(IOssjEntitySpecifics.DELETE,
+				getDefaultCrudProperties(IOssjEntitySpecifics.DELETE));
 	}
 
 	public OssjEntityMethodFlavor[] getSupportedFlavors(int crudID) {
 		switch (crudID) {
-		case IextOssjEntitySpecifics.CREATE:
+		case IOssjEntitySpecifics.CREATE:
 			return IOssjFlavorDefaults.createMethodFlavors;
-		case IextOssjEntitySpecifics.DELETE:
+		case IOssjEntitySpecifics.DELETE:
 			return IOssjFlavorDefaults.removeMethodFlavors;
-		case IextOssjEntitySpecifics.GET:
+		case IOssjEntitySpecifics.GET:
 			return IOssjFlavorDefaults.getMethodFlavors;
-		case IextOssjEntitySpecifics.SET:
+		case IOssjEntitySpecifics.SET:
 			return IOssjFlavorDefaults.setMethodFlavors;
 		default:
 			return null;

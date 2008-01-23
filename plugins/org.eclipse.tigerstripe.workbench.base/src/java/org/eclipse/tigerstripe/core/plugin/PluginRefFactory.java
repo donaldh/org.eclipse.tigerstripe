@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.core.plugin;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.api.external.plugins.PluginLog;
+import org.eclipse.tigerstripe.api.plugins.PluginLog;
 import org.eclipse.tigerstripe.core.cli.App;
 import org.eclipse.tigerstripe.core.plugin.pluggable.PluggablePluginRef;
 import org.eclipse.tigerstripe.core.project.TigerstripeProject;

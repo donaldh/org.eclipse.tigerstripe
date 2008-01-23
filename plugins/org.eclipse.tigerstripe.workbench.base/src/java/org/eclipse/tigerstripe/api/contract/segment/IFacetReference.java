@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.api.contract.segment;
 
 import java.net.URI;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 

@@ -12,13 +12,12 @@ package org.eclipse.tigerstripe.core.model;
 
 import java.io.Writer;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextLabel;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.model.ossj.PrimitiveArtifactPersister;
 import org.eclipse.tigerstripe.core.model.persist.AbstractArtifactPersister;
@@ -91,22 +90,22 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 	}
 
 	public String getIArtifactType() {
-		return IextPrimitiveTypeArtifact.class.getName();
+		return IPrimitiveTypeArtifact.class.getName();
 	}
 
 	@Override
-	public IextField[] getIextFields() {
-		return new IextField[0];
+	public IField[] getIFields() {
+		return new IField[0];
 	}
 
 	@Override
-	public IextLabel[] getIextLabels() {
-		return new IextLabel[0];
+	public ILabel[] getILabels() {
+		return new ILabel[0];
 	}
 
 	@Override
-	public IextMethod[] getIextMethods() {
-		return new IextMethod[0];
+	public IMethod[] getIMethods() {
+		return new IMethod[0];
 	}
 
 	@Override

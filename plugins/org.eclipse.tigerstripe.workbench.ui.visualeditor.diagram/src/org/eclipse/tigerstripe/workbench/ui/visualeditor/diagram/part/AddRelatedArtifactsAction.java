@@ -35,16 +35,15 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
@@ -151,7 +150,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 					if (relationship instanceof IAssociationArtifact) {
 						IAssociationEnd zEnd = (IAssociationEnd) ((IAssociationArtifact) relationship)
 								.getZEnd();
-						IArtifact associatedArt = zEnd.getIextType()
+						IAbstractArtifact associatedArt = zEnd.getIType()
 								.getIArtifact();
 						// if an artifact of the same type isn't already in the
 						// diagram, add it to the list
@@ -171,7 +170,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 					} else if (relationship instanceof IDependencyArtifact) {
 						IRelationshipEnd zEnd = ((IDependencyArtifact) relationship)
 								.getRelationshipZEnd();
-						IArtifact dependentArt = zEnd.getType().getIArtifact();
+						IAbstractArtifact dependentArt = zEnd.getIType().getIArtifact();
 						// if an artifact of the same type isn't already in the
 						// diagram, add it to the list
 						// of dependent artifacts that could be added
@@ -196,7 +195,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 					if (relationship instanceof IAssociationArtifact) {
 						IAssociationEnd aEnd = (IAssociationEnd) ((IAssociationArtifact) relationship)
 								.getAEnd();
-						IArtifact associatingArt = aEnd.getIextType()
+						IAbstractArtifact associatingArt = aEnd.getIType()
 								.getIArtifact();
 						// if an artifact of the same type isn't already in the
 						// diagram, add it to the list
@@ -216,7 +215,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 					} else if (relationship instanceof IDependencyArtifact) {
 						IRelationshipEnd aEnd = ((IDependencyArtifact) relationship)
 								.getRelationshipAEnd();
-						IArtifact dependingArt = aEnd.getType().getIArtifact();
+						IAbstractArtifact dependingArt = aEnd.getIType().getIArtifact();
 						// if an artifact of the same type isn't already in the
 						// diagram, add it to the list
 						// of depending artifacts that could be added
@@ -251,9 +250,9 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			// Handling implementing Artifacts
 			Set<IAbstractArtifact> implementingArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
-				IArtifact[] implementingArtArray = ((IArtifact) artifact)
+				IAbstractArtifact[] implementingArtArray = ((IAbstractArtifact) artifact)
 						.getImplementingIArtifacts();
-				for (IArtifact implementingArt : implementingArtArray) {
+				for (IAbstractArtifact implementingArt : implementingArtArray) {
 					// if an artifact of the same type isn't already in the
 					// diagram,
 					// add it to the list
@@ -271,9 +270,9 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			// Handling referenced artifacts
 			Set<IAbstractArtifact> referencedArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
-				IArtifact[] referencedArtArray = ((IArtifact) artifact)
+				IAbstractArtifact[] referencedArtArray = ((IAbstractArtifact) artifact)
 						.getReferencedIArtifacts();
-				for (IArtifact referencedArt : referencedArtArray) {
+				for (IAbstractArtifact referencedArt : referencedArtArray) {
 					// if an artifact of the same type isn't already in the
 					// diagram,
 					// add it to the list
@@ -290,9 +289,9 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			// Handling referencing artifacts
 			Set<IAbstractArtifact> referencingArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
-				IArtifact[] referencingArtArray = ((IArtifact) artifact)
+				IAbstractArtifact[] referencingArtArray = ((IAbstractArtifact) artifact)
 						.getReferencingIArtifacts();
-				for (IArtifact referencingArt : referencingArtArray) {
+				for (IAbstractArtifact referencingArt : referencingArtArray) {
 					// if an artifact of the same type isn't already in the
 					// diagram,
 					// add it to the list
@@ -543,9 +542,9 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 				AssociationClassArtifact assocClassArt = (AssociationClassArtifact) artifact;
 				IAbstractArtifact[] endArray = new IAbstractArtifact[] {
 						(IAbstractArtifact) assocClassArt.getAEnd()
-								.getIextType().getIArtifact(),
+								.getIType().getIArtifact(),
 						(IAbstractArtifact) assocClassArt.getZEnd()
-								.getIextType().getIArtifact() };
+								.getIType().getIArtifact() };
 				associationClassEndsMap.put(assocClassArt, endArray);
 			} else {
 				artifactsToAdd.add(artifact);

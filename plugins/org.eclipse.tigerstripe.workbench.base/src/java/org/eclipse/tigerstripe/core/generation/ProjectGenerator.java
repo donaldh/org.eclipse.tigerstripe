@@ -24,14 +24,13 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.api.IPluginReference;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.api.external.IextPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.api.plugins.PluginLogger;
+import org.eclipse.tigerstripe.api.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.api.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.api.project.IDependency;
@@ -389,7 +388,7 @@ public class ProjectGenerator {
 		// (may have been recently un-deployed - during this
 		// session)
 
-		if (ref.getCategory() == IextPluginReference.GENERATE_CATEGORY
+		if (ref.getCategory() == IPluginReference.GENERATE_CATEGORY
 				&& ref.isEnabled()) {
 
 			PluginLogger.setUpForRun(ref, config);

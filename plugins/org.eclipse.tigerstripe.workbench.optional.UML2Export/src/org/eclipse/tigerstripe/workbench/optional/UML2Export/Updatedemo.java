@@ -17,16 +17,16 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.queries.IArtifactQuery;
-import org.eclipse.tigerstripe.api.external.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.project.IProjectSession;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.api.queries.IArtifactQuery;
+import org.eclipse.tigerstripe.api.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 
@@ -61,32 +61,32 @@ public class Updatedemo {
 		IArtifactQuery myQuery = mgrSession.makeQuery(IQueryAllArtifacts.class
 				.getName());
 		myQuery.setIncludeDependencies(false);
-		Collection<IArtifact> projectArtifacts = mgrSession
+		Collection<IAbstractArtifact> projectArtifacts = mgrSession
 				.queryArtifact(myQuery);
-		for (IArtifact artifact : projectArtifacts) {
+		for (IAbstractArtifact artifact : projectArtifacts) {
 			TigerstripeRuntime.logInfoMessage("Processing "
 					+ artifact.getFullyQualifiedName());
 		}
 
 		// Re-pass to add Attributes etc
-		for (IArtifact artifact : projectArtifacts) {
+		for (IAbstractArtifact artifact : projectArtifacts) {
 
 			TigerstripeRuntime.logInfoMessage("Artifact Attributes for "
 					+ artifact.getFullyQualifiedName());
 
-			IextField[] fields = artifact.getIextFields();
+			IField[] fields = artifact.getIFields();
 			for (int i = 0; i < fields.length; i++) {
-				IextField field = fields[i];
-				IextType type = field.getIextType();
+				IField field = fields[i];
+				IType type = field.getIType();
 				TigerstripeRuntime.logInfoMessage(field.getName() + " "
 						+ type.getName());
 			}
-			IextMethod[] methods = artifact.getIextMethods();
+			IMethod[] methods = artifact.getIMethods();
 			for (int i = 0; i < methods.length; i++) {
-				for (int j = 0; j < methods[i].getIextArguments().length; j++) {
-					IextType type = methods[i].getIextArguments()[j].getIType();
+				for (int j = 0; j < methods[i].getIArguments().length; j++) {
+					IType type = methods[i].getIArguments()[j].getIType();
 					TigerstripeRuntime.logInfoMessage(methods[i]
-							.getIextArguments()[j].getName()
+							.getIArguments()[j].getName()
 							+ " " + type.getName());
 				}
 

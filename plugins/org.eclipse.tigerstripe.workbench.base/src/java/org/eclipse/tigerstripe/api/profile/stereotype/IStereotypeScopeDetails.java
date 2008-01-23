@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.profile.stereotype;
 
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeScopeDetails;
 
 /**
  * The details of applicability scope for an Stereotype definition.
@@ -34,7 +33,7 @@ import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeSco
  * @author Eric Dillon
  * @since 1.2
  */
-public interface IStereotypeScopeDetails extends IextStereotypeScopeDetails {
+public interface IStereotypeScopeDetails {
 
 	public void setAttributeLevel(boolean isAttributeLevel);
 
@@ -45,4 +44,44 @@ public interface IStereotypeScopeDetails extends IextStereotypeScopeDetails {
 	public void setArgumentLevel(boolean isArgumentLevel);
 
 	public void setArtifactLevelTypes(String[] types);
+
+	/**
+	 * Returns an array of artifact types for which this stereotype can be
+	 * applied at the artifact level. The elements of the array are class names
+	 * of artifacttypes.
+	 * 
+	 * An empty array is returned if this sterteotype is not applicable for any
+	 * artifacts.
+	 * 
+	 * @return
+	 */
+	public String[] getArtifactLevelTypes();
+
+	/**
+	 * Return true if the stereotype can be applied at argument level.
+	 * 
+	 * @return true if applicable at argument level
+	 */
+	public boolean isArgumentLevel();
+
+	/**
+	 * Return true if the stereotype can be applied at attribute (field) level.
+	 * 
+	 * @return true if applicable at attribute level
+	 */
+	public boolean isAttributeLevel();
+
+	/**
+	 * Return true if the stereotype can be applied at label level.
+	 * 
+	 * @return true if applicable at lebel level
+	 */
+	public boolean isLabelLevel();
+
+	/**
+	 * Return true if the stereotype can be applied at method level.
+	 * 
+	 * @return true if applicable at method level
+	 */
+	public boolean isMethodLevel();
 }

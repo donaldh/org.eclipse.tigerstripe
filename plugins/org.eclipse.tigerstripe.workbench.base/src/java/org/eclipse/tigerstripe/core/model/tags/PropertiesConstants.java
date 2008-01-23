@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.model.Tag;
 
 /**

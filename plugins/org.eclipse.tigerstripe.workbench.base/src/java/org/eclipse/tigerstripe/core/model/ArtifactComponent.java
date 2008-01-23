@@ -16,10 +16,9 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.api.artifacts.model.IModelComponent;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.contract.predicate.FacetPredicate;
@@ -268,14 +267,14 @@ public abstract class ArtifactComponent implements IModelComponent,
 	}
 
 	protected void setVisibility(String[] modifiers) {
-		setVisibility(IextModelComponent.VISIBILITY_PACKAGE);
+		setVisibility(IModelComponent.VISIBILITY_PACKAGE);
 		for (String modifier : modifiers) {
 			if ("public".equals(modifier)) {
-				setVisibility(IextModelComponent.VISIBILITY_PUBLIC);
+				setVisibility(IModelComponent.VISIBILITY_PUBLIC);
 			} else if ("protected".equals(modifier)) {
-				setVisibility(IextModelComponent.VISIBILITY_PROTECTED);
+				setVisibility(IModelComponent.VISIBILITY_PROTECTED);
 			} else if ("private".equals(modifier)) {
-				setVisibility(IextModelComponent.VISIBILITY_PRIVATE);
+				setVisibility(IModelComponent.VISIBILITY_PRIVATE);
 			}
 		}
 	}
@@ -302,12 +301,12 @@ public abstract class ArtifactComponent implements IModelComponent,
 	 * @param components
 	 * @return
 	 */
-	public static Collection<IextModelComponent> filterFacetExcludedComponents(
-			Collection<IextModelComponent> components) {
-		ArrayList<IextModelComponent> result = new ArrayList<IextModelComponent>();
-		for (Iterator<IextModelComponent> iter = components.iterator(); iter
+	public static Collection<IModelComponent> filterFacetExcludedComponents(
+			Collection<IModelComponent> components) {
+		ArrayList<IModelComponent> result = new ArrayList<IModelComponent>();
+		for (Iterator<IModelComponent> iter = components.iterator(); iter
 				.hasNext();) {
-			IextModelComponent component = iter.next();
+			IModelComponent component = iter.next();
 			try {
 				if (!component.isInActiveFacet())
 					continue;

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.model.importing.mapper;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 /**
  * This exception is thrown when an exception occurs during a mapping operation

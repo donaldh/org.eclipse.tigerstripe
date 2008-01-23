@@ -15,14 +15,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextLabel;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.core.model.ossj.AssociationClassArtifactPersister;
@@ -105,33 +102,33 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 
 	@Override
 	public String getIArtifactType() {
-		return IextAssociationClassArtifact.class.getName();
+		return IAssociationClassArtifact.class.getName();
 	}
 
 	@Override
-	public IextLabel[] getIextLabels() {
-		return new IextLabel[0];
+	public ILabel[] getILabels() {
+		return new ILabel[0];
 	}
 
 	@Override
-	public IextMethod[] getIextMethods() {
+	public IMethod[] getIMethods() {
 		Collection methods = getMethods();
-		IextMethod[] result = new IextMethod[methods.size()];
-		return (IextMethod[]) methods.toArray(result);
+		IMethod[] result = new IMethod[methods.size()];
+		return (IMethod[]) methods.toArray(result);
 	}
 
 	@Override
-	public IextField[] getIextFields() {
+	public IField[] getIFields() {
 		Collection fields = getFields();
-		IextField[] result = new IextField[fields.size()];
-		return (IextField[]) fields.toArray(result);
+		IField[] result = new IField[fields.size()];
+		return (IField[]) fields.toArray(result);
 	}
 
 	@Override
-	public IextField[] getInheritedIextFields() {
+	public IField[] getInheritedIFields() {
 		Collection fields = getInheritedFields();
-		IextField[] result = new IextField[fields.size()];
-		return (IextField[]) fields.toArray(result);
+		IField[] result = new IField[fields.size()];
+		return (IField[]) fields.toArray(result);
 	}
 
 	/*

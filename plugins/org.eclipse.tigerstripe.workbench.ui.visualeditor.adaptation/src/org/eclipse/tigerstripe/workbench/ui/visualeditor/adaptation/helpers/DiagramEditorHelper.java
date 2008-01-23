@@ -15,7 +15,7 @@ import java.io.File;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.api.project.IProjectDetails;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;

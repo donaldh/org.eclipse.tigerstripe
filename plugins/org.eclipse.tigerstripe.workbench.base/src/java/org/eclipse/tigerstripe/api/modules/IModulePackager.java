@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.api.modules;
 import java.io.File;
 import java.net.URI;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.module.InvalidModuleException;
 

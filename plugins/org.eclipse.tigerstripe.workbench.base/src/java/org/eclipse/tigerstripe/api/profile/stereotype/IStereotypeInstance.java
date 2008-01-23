@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.profile.stereotype;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+
 
 /**
  * A Stereotype instance is an instance of a IStereotype defined in a profile as
@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeIns
  * @author Eric Dillon
  * @since 1.2
  */
-public interface IStereotypeInstance extends IextStereotypeInstance {
+public interface IStereotypeInstance {
 
 	/**
 	 * Returns the name of this instance.
@@ -37,12 +37,6 @@ public interface IStereotypeInstance extends IextStereotypeInstance {
 	 */
 	public String getName();
 
-	/**
-	 * Returns the characterizing stereotype for this instance
-	 * 
-	 * @return
-	 */
-	public IStereotype getCharacterizingIStereotype();
 
 	/**
 	 * Sets the value for the given attribute.
@@ -68,6 +62,62 @@ public interface IStereotypeInstance extends IextStereotypeInstance {
 			String[] values) throws TigerstripeException;
 
 	public Object clone() throws CloneNotSupportedException;
+
+	/**
+	 * Returns the value of the given attribute.
+	 * 
+	 * @param attribute
+	 * @throws TigerstripeException
+	 *             if the given attribute is not a valid attribute for the
+	 *             characterizing stereotype
+	 * 
+	 * @return
+	 */
+	public String getAttributeValue(IStereotypeAttribute attribute)
+			throws TigerstripeException;
+
+	/**
+	 * Returns the value for an attribute identified by its name.
+	 * 
+	 * @param attributeName
+	 * @return
+	 * @throws TigerstripeException
+	 */
+	public String getAttributeValue(String attributeName)
+			throws TigerstripeException;
+
+	/**
+	 * Returns the values for the given attribute in the case the attribute is
+	 * an array attribute.
+	 * 
+	 * @param attribute
+	 * @return
+	 * @throws TigerstripeException
+	 *             if attribute not array attribute
+	 */
+	public String[] getAttributeValues(IStereotypeAttribute attribute)
+			throws TigerstripeException;
+
+	/**
+	 * Returns the value array for an attribute identified by its name.
+	 * 
+	 * @param attributeName
+	 * @return
+	 * @throws TigerstripeException
+	 *             if attribute not array attribute
+	 */
+	public String[] getAttributeValues(String attributeName)
+			throws TigerstripeException;
+
+	/**
+	 * Returns the characterizing stereotype for this instance. The
+	 * caharacterizingStereotype determines the defined attributes and their
+	 * default values etc.
+	 * 
+	 * @return the characterizing stereotype
+	 */
+	public IStereotype getCharacterizingIStereotype();
+
 
 	public final static IStereotypeInstance[] EMPTY_ARRAY = new IStereotypeInstance[0];
 }

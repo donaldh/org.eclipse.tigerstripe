@@ -10,15 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.impl.updater.request;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IMethodCreateRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 
 public class MethodCreateRequest extends BaseArtifactElementRequest implements
@@ -50,13 +48,13 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IArtifact art = mgrSession
+		IAbstractArtifact art = mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 		if (art == null)
 			return false;
 
-		IextMethod[] methods = art.getIextMethods();
-		for (IextMethod method : methods) {
+		IMethod[] methods = art.getIMethods();
+		for (IMethod method : methods) {
 			if (method.getName().equals(getMethodName()))
 				return false;
 		}

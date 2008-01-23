@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.model;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IStandardSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IStandardSpecifics;
 
 public class StandardSpecifics implements IStandardSpecifics {
 

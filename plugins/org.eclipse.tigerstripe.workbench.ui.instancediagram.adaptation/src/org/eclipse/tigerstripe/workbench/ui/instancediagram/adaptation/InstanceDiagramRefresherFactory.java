@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;

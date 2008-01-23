@@ -41,7 +41,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.core.util.Util;

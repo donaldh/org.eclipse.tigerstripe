@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.model;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjFlavorDefaults;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEntityMethodFlavorDetails;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IManagedEntityDetails;
-import org.eclipse.tigerstripe.api.external.model.IextMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.api.model.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IManagedEntityDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjFlavorDefaults;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.core.model.ossj.specifics.EntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.core.model.ossj.specifics.EntityOveride;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;

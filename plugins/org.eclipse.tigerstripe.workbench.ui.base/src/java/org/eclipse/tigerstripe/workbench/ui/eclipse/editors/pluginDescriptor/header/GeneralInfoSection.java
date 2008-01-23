@@ -23,7 +23,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;

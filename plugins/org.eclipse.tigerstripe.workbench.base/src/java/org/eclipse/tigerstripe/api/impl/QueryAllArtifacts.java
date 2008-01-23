@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.api.impl;
 
 import java.util.Collection;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.external.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.core.model.ArtifactManager;
 
 public class QueryAllArtifacts extends ArtifactQueryBase implements

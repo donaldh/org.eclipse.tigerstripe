@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.impl.updater;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequest;
 
 /**
  * Base class model change requests

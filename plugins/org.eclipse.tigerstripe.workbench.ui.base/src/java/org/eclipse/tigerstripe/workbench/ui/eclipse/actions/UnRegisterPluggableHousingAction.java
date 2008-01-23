@@ -19,7 +19,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.core.plugin.pluggable.PluggablePlugin;

@@ -26,24 +26,23 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextEntryListStereotypeAttribute;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeScopeDetails;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEventArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfileSession;
+import org.eclipse.tigerstripe.api.profile.stereotype.IEntryListStereotypeAttribute;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeScopeDetails;
 import org.eclipse.tigerstripe.core.util.messages.Message;
 import org.eclipse.tigerstripe.core.util.messages.MessageList;
 import org.eclipse.uml2.common.util.UML2Util;
@@ -167,12 +166,12 @@ public class ProfileAnnotations2UML2 {
 		for (int i = 0; i < stereos.length; i++) {
 			IStereotype stereo = stereos[i];
 			for (IStereotypeAttribute attr : stereo.getAttributes()) {
-				if (attr.getKind() == IextStereotypeAttribute.ENTRY_LIST_KIND) {
+				if (attr.getKind() == IStereotypeAttribute.ENTRY_LIST_KIND) {
 					// Need an enum for these.
 					Enumeration entries = profile.createOwnedEnumeration(stereo
 							.getName()
 							+ "_" + attr.getName() + "Types");
-					for (String entry : ((IextEntryListStereotypeAttribute) attr)
+					for (String entry : ((IEntryListStereotypeAttribute) attr)
 							.getSelectableValues()) {
 						entries.createOwnedLiteral(entry);
 					}
@@ -192,13 +191,13 @@ public class ProfileAnnotations2UML2 {
 			for (IStereotypeAttribute attr : stereo.getAttributes()) {
 				Type attrType = null;
 				switch (attr.getKind()) {
-				case IextStereotypeAttribute.STRING_ENTRY_KIND:
+				case IStereotypeAttribute.STRING_ENTRY_KIND:
 					attrType = primitiveTypeMap.get("string");
 					break;
-				case IextStereotypeAttribute.CHECKABLE_KIND:
+				case IStereotypeAttribute.CHECKABLE_KIND:
 					attrType = primitiveTypeMap.get("boolean");
 					break;
-				case IextStereotypeAttribute.ENTRY_LIST_KIND:
+				case IStereotypeAttribute.ENTRY_LIST_KIND:
 					attrType = enumMap.get(stereo.getName() + "_"
 							+ attr.getName() + "Types");
 					break;
@@ -221,7 +220,7 @@ public class ProfileAnnotations2UML2 {
 				}
 			}
 			// Need to set scope...
-			IextStereotypeScopeDetails scopeDetails = stereo
+			IStereotypeScopeDetails scopeDetails = stereo
 					.getStereotypeScopeDetails();
 
 			if (scopeDetails.isMethodLevel()) {

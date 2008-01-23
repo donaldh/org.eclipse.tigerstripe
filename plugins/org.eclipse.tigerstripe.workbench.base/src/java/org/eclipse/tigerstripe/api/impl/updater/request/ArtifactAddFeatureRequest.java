@@ -14,18 +14,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEmittedEvent;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IExposedUpdateProcedure;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IManagedEntityDetails;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.INamedQuery;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IArtifactAddFeatureRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEmittedEvent;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IExposedUpdateProcedure;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IManagedEntityDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.INamedQuery;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 
 public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
@@ -37,7 +36,7 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IArtifact art = mgrSession
+		IAbstractArtifact art = mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
 		if (EXPOSED_PROCEDURES.equals(featureId)
@@ -54,7 +53,7 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
-		IArtifact art = mgrSession
+		IAbstractArtifact art = mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 		if (art instanceof ISessionArtifact) {
 			ISessionArtifact session = (ISessionArtifact) art;

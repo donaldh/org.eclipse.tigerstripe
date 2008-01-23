@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.contract;
 
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.api.contract.segment.ISegmentScope.ScopePattern;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.core.util.RegExpFQNSetPred;
 
 /**

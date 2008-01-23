@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactMetadataSession;
+import org.eclipse.tigerstripe.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.core.project.pluggable.rules.ArtifactBasedPPluginRule;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;

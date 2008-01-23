@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.publish;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 public interface IProjectPublisher {
 

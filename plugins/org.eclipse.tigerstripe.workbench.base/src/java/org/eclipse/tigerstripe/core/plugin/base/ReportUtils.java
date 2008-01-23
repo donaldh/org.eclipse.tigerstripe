@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.core.plugin.base;
 
 import java.util.Date;
 
-import org.eclipse.tigerstripe.api.external.IextPluginReference;
+import org.eclipse.tigerstripe.api.IPluginReference;
 
 public class ReportUtils {
 
@@ -21,7 +21,7 @@ public class ReportUtils {
 	}
 
 	public boolean isGeneratePlugin(int value) {
-		if (value == IextPluginReference.GENERATE_CATEGORY)
+		if (value == IPluginReference.GENERATE_CATEGORY)
 			return true;
 		else
 			return false;

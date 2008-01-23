@@ -12,10 +12,10 @@ package org.eclipse.tigerstripe.api.impl;
 
 import java.net.URI;
 
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.IContractSession;
 import org.eclipse.tigerstripe.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCase;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.contract.segment.ContractSegment;
 import org.eclipse.tigerstripe.contract.useCase.UseCase;
 

@@ -11,12 +11,12 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.search;
 
 import org.eclipse.search.ui.text.Match;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 
 /**
  * An Artifact match for the Tigerstripe Search. The element is the artifact

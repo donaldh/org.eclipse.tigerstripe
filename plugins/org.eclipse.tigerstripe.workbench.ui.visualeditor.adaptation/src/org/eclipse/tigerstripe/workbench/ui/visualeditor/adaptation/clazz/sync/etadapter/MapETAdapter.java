@@ -14,10 +14,10 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeRequestFactory;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IArtifactCreateRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequestFactory;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IArtifactCreateRequest;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.ETAdapter;

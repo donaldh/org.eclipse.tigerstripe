@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
-import org.eclipse.tigerstripe.api.external.queries.IQueryRelationshipsByArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.queries.IQueryRelationshipsByArtifact;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.model.ArtifactManager;
 
@@ -48,7 +48,7 @@ public class QueryRelationshipsByArtifact extends ArtifactQueryBase implements
 						.getOriginatingRelationshipForFQN(origFQN,
 								includeProjectDependencies);
 				for (IRelationship rel : tmpResult) {
-					if (termFQN.equals(rel.getRelationshipZEnd().getType()
+					if (termFQN.equals(rel.getRelationshipZEnd().getIType()
 							.getFullyQualifiedName())) {
 						result.add(rel);
 					}

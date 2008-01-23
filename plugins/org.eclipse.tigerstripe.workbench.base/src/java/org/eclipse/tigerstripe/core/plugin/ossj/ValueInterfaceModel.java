@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.core.plugin.ossj;
 
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.core.model.Tag;

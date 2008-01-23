@@ -31,7 +31,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;

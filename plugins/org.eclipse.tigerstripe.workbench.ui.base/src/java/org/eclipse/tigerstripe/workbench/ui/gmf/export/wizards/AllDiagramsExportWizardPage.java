@@ -68,7 +68,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.core.util.Util;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;

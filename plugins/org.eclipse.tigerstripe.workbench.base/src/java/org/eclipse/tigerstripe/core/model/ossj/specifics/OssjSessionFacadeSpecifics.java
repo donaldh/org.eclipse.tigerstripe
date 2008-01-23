@@ -14,8 +14,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjSessionSpecifics;
-import org.eclipse.tigerstripe.api.external.model.IextMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.api.model.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjSessionSpecifics;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.model.AbstractArtifactTag;
 import org.eclipse.tigerstripe.core.model.ManagedEntityDetails;

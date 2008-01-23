@@ -31,39 +31,39 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEmittedEvent;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IExposedUpdateProcedure;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IManagedEntityDetails;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.INamedQuery;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextLabel;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.IextMethod.IextArgument;
-import org.eclipse.tigerstripe.api.external.model.IextMethod.IextException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
-import org.eclipse.tigerstripe.api.external.queries.IArtifactQuery;
-import org.eclipse.tigerstripe.api.external.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.IMethod.IException;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEventArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEmittedEvent;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IExposedUpdateProcedure;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IManagedEntityDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.INamedQuery;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.project.IProjectSession;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.api.queries.IArtifactQuery;
+import org.eclipse.tigerstripe.api.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.core.util.messages.Message;
@@ -178,7 +178,7 @@ public class TS2UML2 {
 		IArtifactQuery myQuery = mgrSession.makeQuery(IQueryAllArtifacts.class
 				.getName());
 		myQuery.setIncludeDependencies(false);
-		Collection<IArtifact> projectArtifacts = mgrSession
+		Collection<IAbstractArtifact> projectArtifacts = mgrSession
 				.queryArtifact(myQuery);
 
 		monitor.beginTask("Creating UML Classes :", projectArtifacts.size());
@@ -186,7 +186,7 @@ public class TS2UML2 {
 				+ " Project Artifacts ";
 		addMessage(msgText, 2);
 		out.println(msgText);
-		for (IArtifact artifact : projectArtifacts) {
+		for (IAbstractArtifact artifact : projectArtifacts) {
 			this.out.println("Processing " + artifact.getFullyQualifiedName());
 			monitor.setTaskName("Creating UML Classes : " + artifact.getName());
 			String packageName = artifact.getPackage();
@@ -228,7 +228,7 @@ public class TS2UML2 {
 		monitor.beginTask("Adding Relationships :", projectArtifacts.size());
 
 		// Need another pass for assocs & dependencies
-		for (IArtifact artifact : projectArtifacts) {
+		for (IAbstractArtifact artifact : projectArtifacts) {
 			if (artifact instanceof IAssociationClassArtifact) {
 				this.out.println("Relationships to AssociationClass "
 						+ artifact.getFullyQualifiedName());
@@ -321,7 +321,7 @@ public class TS2UML2 {
 		// Re-pass to add Attributes etc Can't do this until we have created all
 		// classes
 		// in case of references
-		for (IArtifact artifact : projectArtifacts) {
+		for (IAbstractArtifact artifact : projectArtifacts) {
 
 			out.println("Artifact Attributes etc "
 					+ artifact.getFullyQualifiedName());
@@ -357,7 +357,7 @@ public class TS2UML2 {
 							.getQualifiedName()
 							+ "::tigerstripe_query");
 					clazz.applyStereotype(qS);
-					IextType rType = ((IQueryArtifact) artifact)
+					IType rType = ((IQueryArtifact) artifact)
 							.getReturnedType();
 					Type type = getUMLType(rType);
 					if (type != null) {
@@ -397,7 +397,7 @@ public class TS2UML2 {
 		monitor.beginTask("Doing Realizations :", projectArtifacts.size());
 
 		// Need another pass for generalizations
-		for (IArtifact artifact : projectArtifacts) {
+		for (IAbstractArtifact artifact : projectArtifacts) {
 			if (artifact instanceof IManagedEntityArtifact) {
 				IManagedEntityArtifact entity = (IManagedEntityArtifact) artifact;
 				// Do the implements
@@ -428,7 +428,7 @@ public class TS2UML2 {
 
 		// Need another pass for generalizations
 		this.out.println("Adding Generalizations : " + projectArtifacts.size());
-		for (IArtifact artifact : projectArtifacts) {
+		for (IAbstractArtifact artifact : projectArtifacts) {
 			if (artifact.hasExtends()) {
 				this.out.println("Artifact Generalization "
 						+ artifact.getFullyQualifiedName());
@@ -542,10 +542,10 @@ public class TS2UML2 {
 	/**
 	 * Add operations
 	 */
-	private void addOperations(IArtifact artifact, Interface clazz) {
-		IextMethod[] methods = artifact.getIextMethods();
+	private void addOperations(IAbstractArtifact artifact, Interface clazz) {
+		IMethod[] methods = artifact.getIMethods();
 		for (int i = 0; i < methods.length; i++) {
-			IextMethod method = methods[i];
+			IMethod method = methods[i];
 
 			Operation operation = clazz.createOwnedOperation(method.getName(),
 					null, null);
@@ -561,34 +561,34 @@ public class TS2UML2 {
 			// TODO method.isOptional()
 			// TODO method.isVoid()
 			switch (method.getVisibility()) {
-			case IextModelComponent.VISIBILITY_PACKAGE:
+			case IModelComponent.VISIBILITY_PACKAGE:
 				operation.setVisibility(VisibilityKind.PACKAGE_LITERAL);
 				break;
-			case IextModelComponent.VISIBILITY_PRIVATE:
+			case IModelComponent.VISIBILITY_PRIVATE:
 				operation.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 				break;
-			case IextModelComponent.VISIBILITY_PROTECTED:
+			case IModelComponent.VISIBILITY_PROTECTED:
 				operation.setVisibility(VisibilityKind.PROTECTED_LITERAL);
 				break;
-			case IextModelComponent.VISIBILITY_PUBLIC:
+			case IModelComponent.VISIBILITY_PUBLIC:
 				operation.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 				break;
 			}
 
 			Comment comment = operation.createOwnedComment();
 			comment.setBody(method.getComment());
-			Type type = getUMLType(method.getReturnIextType());
+			Type type = getUMLType(method.getReturnIType());
 			if (type != null) {
 				Parameter result = operation.createReturnResult("return", type);
 				result.setLower(1); // Returns are mandatory
-				result.setUpper(getUpperBound(method.getReturnIextType()
+				result.setUpper(getUpperBound(method.getReturnIType()
 						.getTypeMultiplicity()));
 				result.setDefault(method.getDefaultReturnValue());
 				addReturnTypeStereotype(method, result);
 				result.setName(method.getMethodReturnName());
-				for (IextArgument arg : method.getIextArguments()) {
+				for (IArgument arg : method.getIArguments()) {
 
-					Type argType = getUMLType(arg.getIextType());
+					Type argType = getUMLType(arg.getIType());
 					if (argType != null) {
 						Parameter param = operation.createOwnedParameter(arg
 								.getName(), argType);
@@ -596,9 +596,9 @@ public class TS2UML2 {
 						parameterComment.setBody(arg.getComment());
 						// TODO arg.getRefBy()
 						// Multiplicity
-						param.setLower(getLowerBound(arg.getIextType()
+						param.setLower(getLowerBound(arg.getIType()
 								.getTypeMultiplicity()));
-						param.setUpper(getUpperBound(arg.getIextType()
+						param.setUpper(getUpperBound(arg.getIType()
 								.getTypeMultiplicity()));
 						param.setIsOrdered(arg.isOrdered());
 						param.setIsUnique(arg.isUnique());
@@ -614,7 +614,7 @@ public class TS2UML2 {
 						return;
 					}
 				}
-				for (IextException exception : method.getIextExceptions()) {
+				for (IException exception : method.getIExceptions()) {
 
 					// TODO
 
@@ -624,7 +624,7 @@ public class TS2UML2 {
 				// No type for this.
 				String msgText = "No type info for :" + artifact.getName()
 						+ ":" + method.getName() + ": Return type "
-						+ method.getReturnIextType().getFullyQualifiedName();
+						+ method.getReturnIType().getFullyQualifiedName();
 				this.out.println("ERROR : " + msgText);
 				addMessage(msgText, 1);
 				return;
@@ -637,10 +637,10 @@ public class TS2UML2 {
 	/**
 	 * Add operations
 	 */
-	private void addOperations(IArtifact artifact, Class clazz) {
-		IextMethod[] methods = artifact.getIextMethods();
+	private void addOperations(IAbstractArtifact artifact, Class clazz) {
+		IMethod[] methods = artifact.getIMethods();
 		for (int i = 0; i < methods.length; i++) {
-			IextMethod method = methods[i];
+			IMethod method = methods[i];
 
 			Operation operation = clazz.createOwnedOperation(method.getName(),
 					null, null);
@@ -656,35 +656,35 @@ public class TS2UML2 {
 			// TODO method.isOptional()
 			// TODO method.isVoid()
 			switch (method.getVisibility()) {
-			case IextModelComponent.VISIBILITY_PACKAGE:
+			case IModelComponent.VISIBILITY_PACKAGE:
 				operation.setVisibility(VisibilityKind.PACKAGE_LITERAL);
 				break;
-			case IextModelComponent.VISIBILITY_PRIVATE:
+			case IModelComponent.VISIBILITY_PRIVATE:
 				operation.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 				break;
-			case IextModelComponent.VISIBILITY_PROTECTED:
+			case IModelComponent.VISIBILITY_PROTECTED:
 				operation.setVisibility(VisibilityKind.PROTECTED_LITERAL);
 				break;
-			case IextModelComponent.VISIBILITY_PUBLIC:
+			case IModelComponent.VISIBILITY_PUBLIC:
 				operation.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 				break;
 			}
 
 			Comment comment = operation.createOwnedComment();
 			comment.setBody(method.getComment());
-			Type type = getUMLType(method.getReturnIextType());
+			Type type = getUMLType(method.getReturnIType());
 			if (type != null) {
 				Parameter result = operation.createReturnResult("return", type);
 				result.setLower(1); // Returns are mandatory
-				result.setUpper(getUpperBound(method.getReturnIextType()
+				result.setUpper(getUpperBound(method.getReturnIType()
 						.getTypeMultiplicity()));
 				result.setDefault(method.getDefaultReturnValue());
 				addReturnTypeStereotype(method, result);
 				result.setName(method.getMethodReturnName());
 
-				for (IextArgument arg : method.getIextArguments()) {
+				for (IArgument arg : method.getIArguments()) {
 
-					Type argType = getUMLType(arg.getIextType());
+					Type argType = getUMLType(arg.getIType());
 					if (argType != null) {
 						Parameter param = operation.createOwnedParameter(arg
 								.getName(), argType);
@@ -692,9 +692,9 @@ public class TS2UML2 {
 						parameterComment.setBody(arg.getComment());
 						// TODO arg.getRefBy()
 						// Multiplicity
-						param.setLower(getLowerBound(arg.getIextType()
+						param.setLower(getLowerBound(arg.getIType()
 								.getTypeMultiplicity()));
-						param.setUpper(getUpperBound(arg.getIextType()
+						param.setUpper(getUpperBound(arg.getIType()
 								.getTypeMultiplicity()));
 						param.setIsOrdered(arg.isOrdered());
 						param.setIsUnique(arg.isUnique());
@@ -710,7 +710,7 @@ public class TS2UML2 {
 						return;
 					}
 				}
-				for (IextException exception : method.getIextExceptions()) {
+				for (IException exception : method.getIExceptions()) {
 
 					// TODO
 
@@ -720,7 +720,7 @@ public class TS2UML2 {
 				// No type for this.
 				String msgText = "No type info for :" + artifact.getName()
 						+ ":" + method.getName() + ": Return type "
-						+ method.getReturnIextType().getFullyQualifiedName();
+						+ method.getReturnIType().getFullyQualifiedName();
 				this.out.println("ERROR : " + msgText);
 				addMessage(msgText, 1);
 				return;
@@ -732,17 +732,17 @@ public class TS2UML2 {
 	/**
 	 * Add attributes
 	 */
-	private void addAttributes(IArtifact artifact,
+	private void addAttributes(IAbstractArtifact artifact,
 			StructuredClassifier classifier) {
-		IextField[] fields = artifact.getIextFields();
+		IField[] fields = artifact.getIFields();
 		for (int i = 0; i < fields.length; i++) {
-			IextField field = fields[i];
+			IField field = fields[i];
 			Property attribute;
-			Type type = getUMLType(field.getIextType());
+			Type type = getUMLType(field.getIType());
 			if (type != null) {
-				int lowerBound = getLowerBound(field.getIextType()
+				int lowerBound = getLowerBound(field.getIType()
 						.getTypeMultiplicity());
-				int upperBound = getUpperBound(field.getIextType()
+				int upperBound = getUpperBound(field.getIType()
 						.getTypeMultiplicity());
 				this.out.println("Bounds " + lowerBound + " " + upperBound);
 				attribute = classifier.createOwnedAttribute(field.getName(),
@@ -753,16 +753,16 @@ public class TS2UML2 {
 					attribute.setDefault(field.getDefaultValue());
 				}
 				switch (field.getVisibility()) {
-				case IextModelComponent.VISIBILITY_PACKAGE:
+				case IModelComponent.VISIBILITY_PACKAGE:
 					attribute.setVisibility(VisibilityKind.PACKAGE_LITERAL);
 					break;
-				case IextModelComponent.VISIBILITY_PRIVATE:
+				case IModelComponent.VISIBILITY_PRIVATE:
 					attribute.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 					break;
-				case IextModelComponent.VISIBILITY_PROTECTED:
+				case IModelComponent.VISIBILITY_PROTECTED:
 					attribute.setVisibility(VisibilityKind.PROTECTED_LITERAL);
 					break;
-				case IextModelComponent.VISIBILITY_PUBLIC:
+				case IModelComponent.VISIBILITY_PUBLIC:
 					attribute.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 					break;
 				}
@@ -772,7 +772,7 @@ public class TS2UML2 {
 				// No type for this.
 				String msgText = "No type info for :" + artifact.getName()
 						+ ":" + field.getName() + ":"
-						+ field.getIextType().getFullyQualifiedName();
+						+ field.getIType().getFullyQualifiedName();
 				this.out.println("ERROR : " + msgText);
 				addMessage(msgText, 1);
 				continue;
@@ -783,9 +783,9 @@ public class TS2UML2 {
 		}
 	}
 
-	private void addComponentStereotype(IextModelComponent component,
+	private void addComponentStereotype(IModelComponent component,
 			Element attribute) {
-		for (IextStereotypeInstance inst : component.getStereotypeInstances()) {
+		for (IStereotypeInstance inst : component.getStereotypeInstances()) {
 			Stereotype stereotype = attribute.getApplicableStereotype(tsProfile
 					.getQualifiedName()
 					+ "::" + inst.getName());
@@ -793,8 +793,8 @@ public class TS2UML2 {
 				attribute.applyStereotype(stereotype);
 				out.println("     Applied Stereotype " + inst.getName()
 						+ " to component : " + component.getName());
-				for (IextStereotypeAttribute stAttr : inst
-						.getCharacterizingIextStereotype().getIextAttributes()) {
+				for (IStereotypeAttribute stAttr : inst
+						.getCharacterizingIStereotype().getIAttributes()) {
 					try {
 						if (stAttr.isArray()) {
 							out.println(attribute.getValue(stereotype,
@@ -826,8 +826,8 @@ public class TS2UML2 {
 		}
 	}
 
-	private void addReturnTypeStereotype(IextMethod method, Element result) {
-		for (IextStereotypeInstance inst : method
+	private void addReturnTypeStereotype(IMethod method, Element result) {
+		for (IStereotypeInstance inst : method
 				.getReturnStereotypeInstances()) {
 			Stereotype stereotype = result.getApplicableStereotype(tsProfile
 					.getQualifiedName()
@@ -836,8 +836,8 @@ public class TS2UML2 {
 				result.applyStereotype(stereotype);
 				out.println("     Applied Stereotype " + inst.getName()
 						+ " to return of method : " + method.getName());
-				for (IextStereotypeAttribute stAttr : inst
-						.getCharacterizingIextStereotype().getIextAttributes()) {
+				for (IStereotypeAttribute stAttr : inst
+						.getCharacterizingIStereotype().getIAttributes()) {
 					try {
 						if (stAttr.isArray()) {
 							// out.println(result.getValue(stereotype,
@@ -869,7 +869,7 @@ public class TS2UML2 {
 		}
 	}
 
-	private Type getUMLType(IextType iType) {
+	private Type getUMLType(IType iType) {
 		// The type here might be a another classifier, or a primitive type
 		// OR Any built-in Type?
 
@@ -958,7 +958,7 @@ public class TS2UML2 {
 	/**
 	 * Find a class if it exists, or make one if it doesn't.
 	 */
-	private Interface makeOrFindInterface(IArtifact artifact,
+	private Interface makeOrFindInterface(IAbstractArtifact artifact,
 			Map<String, Type> mapOfTypes) {
 		try {
 			String packageName = artifact.getPackage();
@@ -994,14 +994,14 @@ public class TS2UML2 {
 		}
 	}
 
-	private Interface makeOrFindInterface(IArtifact artifact) {
+	private Interface makeOrFindInterface(IAbstractArtifact artifact) {
 		return makeOrFindInterface(artifact, this.typeMap);
 	}
 
 	/**
 	 * Find a class if it exists, or make one if it doesn't.
 	 */
-	private Class makeOrFindClass(IArtifact artifact) {
+	private Class makeOrFindClass(IAbstractArtifact artifact) {
 		try {
 			String packageName = artifact.getPackage();
 			String className = artifact.getFullyQualifiedName();
@@ -1039,7 +1039,7 @@ public class TS2UML2 {
 	/**
 	 * Find a class if it exists, or make one if it doesn't.
 	 */
-	private Enumeration makeOrFindEnum(IArtifact artifact) {
+	private Enumeration makeOrFindEnum(IAbstractArtifact artifact) {
 		try {
 			String packageName = artifact.getPackage();
 			String className = artifact.getFullyQualifiedName();
@@ -1062,12 +1062,12 @@ public class TS2UML2 {
 			typeMap.put(enumz.getQualifiedName(), enumz);
 
 			// We can add EnumLiterals
-			IextLabel[] labels = artifact.getIextLabels();
+			ILabel[] labels = artifact.getILabels();
 			for (int i = 0; i < labels.length; i++) {
 				EnumerationLiteral lit = enumz.createOwnedLiteral(labels[i]
 						.getName());
 				this.out.println("Made a new literal " + labels[i].getName());
-				if (labels[i].getIextType().getName().equals("int")) {
+				if (labels[i].getIType().getName().equals("int")) {
 					LiteralInteger literalInt = UMLFactory.eINSTANCE
 							.createLiteralInteger();
 					literalInt.setValue(Integer.parseInt(labels[i].getValue()));
@@ -1093,7 +1093,7 @@ public class TS2UML2 {
 	/**
 	 * Find an association if it exists, or make one if it doesn't.
 	 */
-	private Dependency makeDependency(IArtifact artifact) {
+	private Dependency makeDependency(IAbstractArtifact artifact) {
 		IDependencyArtifact dependencyArtifact = (IDependencyArtifact) artifact;
 		Type aEndType = getUMLType(dependencyArtifact.getAEndType());
 		Type zEndType = getUMLType(dependencyArtifact.getZEndType());
@@ -1118,7 +1118,7 @@ public class TS2UML2 {
 
 	}
 
-	private AssociationClass makeOrFindAssociationClass(IArtifact artifact) {
+	private AssociationClass makeOrFindAssociationClass(IAbstractArtifact artifact) {
 		try {
 			String packageName = artifact.getPackage();
 			String className = artifact.getFullyQualifiedName();
@@ -1135,16 +1135,16 @@ public class TS2UML2 {
 			}
 			// TODO make one...
 
-			IextAssociationEnd end1 = ((IAssociationArtifact) artifact)
+			IAssociationEnd end1 = ((IAssociationArtifact) artifact)
 					.getAEnd();
-			Type e1Type = getUMLType(end1.getType());
+			Type e1Type = getUMLType(end1.getIType());
 			Type type1 = null;
 			if (e1Type != null)
 				type1 = typeMap.get(e1Type.getQualifiedName());
 
-			IextAssociationEnd end2 = ((IAssociationArtifact) artifact)
+			IAssociationEnd end2 = ((IAssociationArtifact) artifact)
 					.getZEnd();
-			Type e2Type = getUMLType(end2.getType());
+			Type e2Type = getUMLType(end2.getIType());
 			Type type2 = null;
 			if (e2Type != null)
 				type2 = typeMap.get(e2Type.getQualifiedName());
@@ -1193,16 +1193,16 @@ public class TS2UML2 {
 				aEnd.setUpper(end1UpperBound);
 
 				switch (end1.getVisibility()) {
-				case IextModelComponent.VISIBILITY_PACKAGE:
+				case IModelComponent.VISIBILITY_PACKAGE:
 					aEnd.setVisibility(VisibilityKind.PACKAGE_LITERAL);
 					break;
-				case IextModelComponent.VISIBILITY_PRIVATE:
+				case IModelComponent.VISIBILITY_PRIVATE:
 					aEnd.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 					break;
-				case IextModelComponent.VISIBILITY_PROTECTED:
+				case IModelComponent.VISIBILITY_PROTECTED:
 					aEnd.setVisibility(VisibilityKind.PROTECTED_LITERAL);
 					break;
-				case IextModelComponent.VISIBILITY_PUBLIC:
+				case IModelComponent.VISIBILITY_PUBLIC:
 					aEnd.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 					break;
 				}
@@ -1219,16 +1219,16 @@ public class TS2UML2 {
 				aEnd.setUpper(end2UpperBound);
 
 				switch (end2.getVisibility()) {
-				case IextModelComponent.VISIBILITY_PACKAGE:
+				case IModelComponent.VISIBILITY_PACKAGE:
 					zEnd.setVisibility(VisibilityKind.PACKAGE_LITERAL);
 					break;
-				case IextModelComponent.VISIBILITY_PRIVATE:
+				case IModelComponent.VISIBILITY_PRIVATE:
 					zEnd.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 					break;
-				case IextModelComponent.VISIBILITY_PROTECTED:
+				case IModelComponent.VISIBILITY_PROTECTED:
 					zEnd.setVisibility(VisibilityKind.PROTECTED_LITERAL);
 					break;
-				case IextModelComponent.VISIBILITY_PUBLIC:
+				case IModelComponent.VISIBILITY_PUBLIC:
 					zEnd.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 					break;
 				}
@@ -1242,8 +1242,8 @@ public class TS2UML2 {
 			} else {
 				String msgText = artifact.getName()
 						+ " One or the other end was not a valid type : "
-						+ end1.getType().getFullyQualifiedName() + " "
-						+ end2.getType().getFullyQualifiedName();
+						+ end1.getIType().getFullyQualifiedName() + " "
+						+ end2.getIType().getFullyQualifiedName();
 				out.println("ERROR :" + msgText);
 				addMessage(msgText, 0);
 				return null;
@@ -1261,7 +1261,7 @@ public class TS2UML2 {
 	/**
 	 * Find an association if it exists, or make one if it doesn't.
 	 */
-	private Association makeOrFindAssociation(IArtifact artifact) {
+	private Association makeOrFindAssociation(IAbstractArtifact artifact) {
 		// TigerstripeRuntime.logInfoMessage(" artiacf=" +
 		// artifact.getFullyQualifiedName());
 		try {
@@ -1279,16 +1279,16 @@ public class TS2UML2 {
 				}
 			}
 			// TODO make one...
-			IextAssociationEnd end1 = ((IAssociationArtifact) artifact)
+			IAssociationEnd end1 = ((IAssociationArtifact) artifact)
 					.getAEnd();
-			Type e1Type = getUMLType(end1.getType());
+			Type e1Type = getUMLType(end1.getIType());
 			Type type1 = null;
 			if (e1Type != null)
 				type1 = typeMap.get(e1Type.getQualifiedName());
 
-			IextAssociationEnd end2 = ((IAssociationArtifact) artifact)
+			IAssociationEnd end2 = ((IAssociationArtifact) artifact)
 					.getZEnd();
-			Type e2Type = getUMLType(end2.getType());
+			Type e2Type = getUMLType(end2.getIType());
 			Type type2 = null;
 			if (e2Type != null)
 				type2 = typeMap.get(e2Type.getQualifiedName());
@@ -1353,8 +1353,8 @@ public class TS2UML2 {
 			} else {
 				String msgText = artifact.getName()
 						+ " One or the other end was not a valid type : "
-						+ end1.getType().getFullyQualifiedName() + " "
-						+ end2.getType().getFullyQualifiedName();
+						+ end1.getIType().getFullyQualifiedName() + " "
+						+ end2.getIType().getFullyQualifiedName();
 				out.println("ERROR :" + msgText);
 				addMessage(msgText, 0);
 				return null;

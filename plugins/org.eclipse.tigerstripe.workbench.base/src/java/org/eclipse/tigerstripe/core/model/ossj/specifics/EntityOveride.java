@@ -18,13 +18,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEntitySpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjFlavorDefaults;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjMethod;
-import org.eclipse.tigerstripe.api.external.model.IextMethod.OssjEntityMethodFlavor;
-import org.eclipse.tigerstripe.api.external.model.artifacts.ossjSpecifics.IextOssjEntitySpecifics;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEntitySpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjFlavorDefaults;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.core.model.ManagedEntityDetails;
 
 /**
@@ -262,7 +261,7 @@ public class EntityOveride {
 				.setSupportedFlavors(IOssjFlavorDefaults.createMethodFlavors);
 		createMethod.setOssjMethodProperties(new Properties());
 		createMethod.setOssjMethodProperties(specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.CREATE));
+				.getCRUDProperties(IOssjEntitySpecifics.CREATE));
 		createMethod.setReturnIType(createMethod.makeIType());
 		result[0] = createMethod;
 
@@ -270,7 +269,7 @@ public class EntityOveride {
 		setMethod.setName("set");
 		setMethod.setSupportedFlavors(IOssjFlavorDefaults.setMethodFlavors);
 		setMethod.setOssjMethodProperties(specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.SET));
+				.getCRUDProperties(IOssjEntitySpecifics.SET));
 		setMethod.setReturnIType(setMethod.makeIType());
 		result[1] = setMethod;
 
@@ -278,7 +277,7 @@ public class EntityOveride {
 		getMethod.setName("get");
 		getMethod.setSupportedFlavors(IOssjFlavorDefaults.getMethodFlavors);
 		getMethod.setOssjMethodProperties(specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.GET));
+				.getCRUDProperties(IOssjEntitySpecifics.GET));
 		getMethod.setReturnIType(getMethod.makeIType());
 		result[2] = getMethod;
 
@@ -287,7 +286,7 @@ public class EntityOveride {
 		removeMethod
 				.setSupportedFlavors(IOssjFlavorDefaults.removeMethodFlavors);
 		removeMethod.setOssjMethodProperties(specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.DELETE));
+				.getCRUDProperties(IOssjEntitySpecifics.DELETE));
 		removeMethod.setReturnIType(removeMethod.makeIType());
 		result[3] = removeMethod;
 		return result;

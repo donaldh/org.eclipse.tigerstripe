@@ -16,37 +16,35 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IModelComponent;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IException;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventDescriptorEntry;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjArtifactSpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEntitySpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEnumSpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjQuerySpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEmittedEvent;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEntityMethodFlavorDetails;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IExposedUpdateProcedure;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IManagedEntityDetails;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.INamedQuery;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextMethod.OssjEntityMethodFlavor;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.IMethod.IException;
+import org.eclipse.tigerstripe.api.model.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEventArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEmittedEvent;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IExposedUpdateProcedure;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IManagedEntityDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.INamedQuery;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IEventDescriptorEntry;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjArtifactSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEntitySpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEnumSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjQuerySpecifics;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
@@ -263,9 +261,9 @@ public class DiffFixer {
 
 					if (diff.getType().equals("value")) {
 						attName = st[1];
-						IextStereotypeInstance[] insts = artifact
+						IStereotypeInstance[] insts = artifact
 								.getStereotypeInstances();
-						IextStereotypeInstance inst;
+						IStereotypeInstance inst;
 						for (int i = 0; i < insts.length; i++) {
 							if (insts[i].getName().equals(stName)) {
 								inst = insts[i];
@@ -292,9 +290,9 @@ public class DiffFixer {
 							String value = st[2];
 							// Have to be careful here - can't do a wholesale
 							// mash....
-							IextStereotypeInstance[] insts = artifact
+							IStereotypeInstance[] insts = artifact
 									.getStereotypeInstances();
-							IextStereotypeInstance inst;
+							IStereotypeInstance inst;
 							for (int i = 0; i < insts.length; i++) {
 								if (insts[i].getName().equals(stName)) {
 									inst = insts[i];
@@ -354,9 +352,9 @@ public class DiffFixer {
 
 					} else {
 						if (diff.getLocalVal().equals("present")) {
-							IextStereotypeInstance[] insts = extractedArtifact
+							IStereotypeInstance[] insts = extractedArtifact
 									.getStereotypeInstances();
-							IextStereotypeInstance inst;
+							IStereotypeInstance inst;
 							for (int i = 0; i < insts.length; i++) {
 								if (insts[i].getName().equals(stName)) {
 									inst = insts[i];
@@ -463,14 +461,14 @@ public class DiffFixer {
 						field = getIField(artifact, fieldName);
 						IField diffField = getIField(extractedArtifact,
 								fieldName);
-						Collection<IextStereotypeInstance> extraStereos = getExtraStereos(
+						Collection<IStereotypeInstance> extraStereos = getExtraStereos(
 								field, diffField);
 						if (field != null) {
 							IField[] fields = new IField[1];
 							fields[0] = field;
 							artifact.removeIFields(fields);
 						}
-						for (IextStereotypeInstance inst : extraStereos) {
+						for (IStereotypeInstance inst : extraStereos) {
 							diffField
 									.addStereotypeInstance((IStereotypeInstance) inst);
 							/*
@@ -504,9 +502,9 @@ public class DiffFixer {
 							String value = st[3];
 							// Have to be careful here - can't do a wholesale
 							// mash....
-							IextStereotypeInstance[] insts = field
+							IStereotypeInstance[] insts = field
 									.getStereotypeInstances();
-							IextStereotypeInstance inst;
+							IStereotypeInstance inst;
 							for (int i = 0; i < insts.length; i++) {
 								// out.println(insts[i].getName());
 								if (insts[i].getName().equals(stName)) {
@@ -610,7 +608,7 @@ public class DiffFixer {
 						label = getILabel(artifact, labelName);
 						ILabel diffLabel = getILabel(extractedArtifact,
 								labelName);
-						Collection<IextStereotypeInstance> extraStereos = getExtraStereos(
+						Collection<IStereotypeInstance> extraStereos = getExtraStereos(
 								label, diffLabel);
 						if (label != null) {
 							ILabel[] labels = new ILabel[1];
@@ -619,7 +617,7 @@ public class DiffFixer {
 						}
 
 						artifact.addILabel(diffLabel);
-						for (IextStereotypeInstance inst : extraStereos) {
+						for (IStereotypeInstance inst : extraStereos) {
 							diffLabel
 									.addStereotypeInstance((IStereotypeInstance) inst);
 							/*
@@ -651,9 +649,9 @@ public class DiffFixer {
 							String value = st[3];
 							// Have to be careful here - can't do a wholesale
 							// mash....
-							IextStereotypeInstance[] insts = label
+							IStereotypeInstance[] insts = label
 									.getStereotypeInstances();
-							IextStereotypeInstance inst;
+							IStereotypeInstance inst;
 							for (int i = 0; i < insts.length; i++) {
 								if (insts[i].getName().equals(stName)) {
 									inst = insts[i];
@@ -754,7 +752,7 @@ public class DiffFixer {
 						method = getIMethod(artifact, methodName);
 						IMethod diffMethod = getIMethod(extractedArtifact,
 								methodName);
-						Collection<IextStereotypeInstance> extraStereos = getExtraStereos(
+						Collection<IStereotypeInstance> extraStereos = getExtraStereos(
 								method, diffMethod);
 						Collection<IException> extraExceptions = getExtraExceptions(
 								method, diffMethod);
@@ -765,7 +763,7 @@ public class DiffFixer {
 							methods[0] = method;
 							artifact.removeIMethods(methods);
 						}
-						for (IextStereotypeInstance inst : extraStereos) {
+						for (IStereotypeInstance inst : extraStereos) {
 							diffMethod
 									.addStereotypeInstance((IStereotypeInstance) inst);
 							/*
@@ -816,9 +814,9 @@ public class DiffFixer {
 							String value = st[3];
 							// Have to be careful here - can't do a wholesale
 							// mash....
-							IextStereotypeInstance[] insts = method
+							IStereotypeInstance[] insts = method
 									.getStereotypeInstances();
-							IextStereotypeInstance inst;
+							IStereotypeInstance inst;
 							// out.println("Len" +insts.length);
 							for (int i = 0; i < insts.length; i++) {
 								// out.println(insts[i].getName());
@@ -878,8 +876,8 @@ public class DiffFixer {
 				 */
 				if (diff.getScope().startsWith("Association:AssociationEnd:")) {
 					// Need to know if A or Z
-					IextAssociationEnd end = null;
-					IextAssociationEnd extractedEnd = null;
+					IAssociationEnd end = null;
+					IAssociationEnd extractedEnd = null;
 					if (diff.getScope().startsWith(
 							"Association:AssociationEnd:A")) {
 						end = ((IAssociationArtifact) artifact).getAEnd();
@@ -1351,20 +1349,20 @@ public class DiffFixer {
 		return secondPassDiffs;
 	}
 
-	public Collection<IextStereotypeInstance> getExtraStereos(
+	public Collection<IStereotypeInstance> getExtraStereos(
 			IModelComponent component, IModelComponent extractedComponent) {
 		/*
 		 * extra ones are ones that are in the MODEL and not the import
 		 * 
 		 */
 		if (component.getStereotypeInstances().length > 0) {
-			Collection<IextStereotypeInstance> remainingModelStereos = new ArrayList(
+			Collection<IStereotypeInstance> remainingModelStereos = new ArrayList(
 					Arrays.asList(component.getStereotypeInstances()));
-			Collection<IextStereotypeInstance> modelStereos = Arrays
+			Collection<IStereotypeInstance> modelStereos = Arrays
 					.asList(component.getStereotypeInstances());
-			for (IextStereotypeInstance stereo : modelStereos) {
+			for (IStereotypeInstance stereo : modelStereos) {
 				// go on the name..
-				for (IextStereotypeInstance exStereo : Arrays
+				for (IStereotypeInstance exStereo : Arrays
 						.asList(extractedComponent.getStereotypeInstances())) {
 					if (exStereo.getName().equals(stereo.getName())) {
 						remainingModelStereos.remove(stereo);

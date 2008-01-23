@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.api.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.core.util.messages.Message;

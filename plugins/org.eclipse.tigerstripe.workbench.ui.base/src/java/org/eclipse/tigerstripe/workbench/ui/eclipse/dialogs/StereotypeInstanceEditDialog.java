@@ -42,8 +42,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.stereotype.IEntryListStereotypeAttribute;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
@@ -125,17 +124,17 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		for (IStereotypeAttribute attr : stereotype.getAttributes()) {
 			int attrKind = attr.getKind();
 			switch (attrKind) {
-			case IextStereotypeAttribute.STRING_ENTRY_KIND:
+			case IStereotypeAttribute.STRING_ENTRY_KIND:
 				if (attr.isArray()) {
 					renderStringArrayEntryAttribute(border, attr);
 				} else {
 					renderStringEntryAttribute(border, attr);
 				}
 				break;
-			case IextStereotypeAttribute.CHECKABLE_KIND:
+			case IStereotypeAttribute.CHECKABLE_KIND:
 				renderCheckableAttribute(border, attr);
 				break;
-			case IextStereotypeAttribute.ENTRY_LIST_KIND:
+			case IStereotypeAttribute.ENTRY_LIST_KIND:
 				renderEntryListAttribute(border, attr);
 				break;
 			}

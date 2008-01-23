@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.core.versioning;
 import java.net.URI;
 
 import org.dom4j.Element;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.versioning.IVersionAwareElement;
 
 public abstract class VersionAwareElement extends BaseElement implements

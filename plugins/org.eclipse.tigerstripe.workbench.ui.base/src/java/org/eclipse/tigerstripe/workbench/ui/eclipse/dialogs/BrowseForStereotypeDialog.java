@@ -18,8 +18,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeCapable;
@@ -59,7 +58,7 @@ public class BrowseForStereotypeDialog {
 	 * @param model
 	 */
 	public BrowseForStereotypeDialog(IStereotypeCapable component,
-			IextStereotypeInstance[] existingInstances) {
+			IStereotypeInstance[] existingInstances) {
 		this.existingInstances = (IStereotypeInstance[]) existingInstances;
 		this.component = component;
 	}

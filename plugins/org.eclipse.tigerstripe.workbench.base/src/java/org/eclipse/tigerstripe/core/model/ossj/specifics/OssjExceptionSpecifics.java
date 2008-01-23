@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.model.ossj.specifics;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjExceptionSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjExceptionSpecifics;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 
 public class OssjExceptionSpecifics extends OssjArtifactSpecifics implements

@@ -21,7 +21,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.core.profile.properties.CoreArtifactSettingsProperty;

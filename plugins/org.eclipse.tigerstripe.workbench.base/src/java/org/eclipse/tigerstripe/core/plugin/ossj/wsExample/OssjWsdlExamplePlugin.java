@@ -15,8 +15,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.tigerstripe.api.IPluginReference;
-import org.eclipse.tigerstripe.api.external.IextPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.api.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
@@ -191,7 +190,7 @@ public class OssjWsdlExamplePlugin extends BasePlugin {
 	}
 
 	public int getCategory() {
-		return IextPluginReference.GENERATE_CATEGORY;
+		return IPluginReference.GENERATE_CATEGORY;
 	}
 
 }

@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventDescriptorEntry;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEventSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.IEventArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IEventDescriptorEntry;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEventSpecifics;
 
 public class CompareEvent {
 

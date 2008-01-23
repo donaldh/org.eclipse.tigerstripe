@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.rendering;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 public interface IDiagramRenderingSession {
 

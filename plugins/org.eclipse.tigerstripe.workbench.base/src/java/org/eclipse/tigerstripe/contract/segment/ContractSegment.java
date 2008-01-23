@@ -18,13 +18,13 @@ import java.util.List;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
 import org.eclipse.tigerstripe.api.contract.segment.ISegmentScope.ScopePattern;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;

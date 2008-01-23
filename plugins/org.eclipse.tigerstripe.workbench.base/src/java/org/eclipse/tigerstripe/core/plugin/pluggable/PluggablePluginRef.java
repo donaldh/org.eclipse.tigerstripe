@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.plugin.pluggable;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.plugin.PluginRef;
 import org.eclipse.tigerstripe.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.core.project.TigerstripeProject;

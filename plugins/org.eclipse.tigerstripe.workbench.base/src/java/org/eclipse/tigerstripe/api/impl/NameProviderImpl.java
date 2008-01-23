@@ -14,13 +14,13 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.queries.IArtifactQuery;
-import org.eclipse.tigerstripe.api.external.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.project.INameProvider;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.api.queries.IArtifactQuery;
+import org.eclipse.tigerstripe.api.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 
 public class NameProviderImpl implements INameProvider {

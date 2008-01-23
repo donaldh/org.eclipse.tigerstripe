@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;

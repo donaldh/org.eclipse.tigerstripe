@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.api.impl;
 import java.io.File;
 
 import org.eclipse.tigerstripe.api.IPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.publish.IProjectCSVCreator;
 import org.eclipse.tigerstripe.core.plugin.csv.CSVPlugin;

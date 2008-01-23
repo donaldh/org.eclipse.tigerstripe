@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.core.plugin.ossjxml;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.plugin.PluginRef;
 import org.eclipse.tigerstripe.core.plugin.PackageToSchemaMapper.PckXSDMapping;
 

@@ -10,14 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.impl.updater.request;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.ILabelCreateRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextLabel;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.ILabelCreateRequest;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 
 public class LabelCreateRequest extends BaseArtifactElementRequest implements
@@ -53,13 +51,13 @@ public class LabelCreateRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IArtifact art = mgrSession
+		IAbstractArtifact art = mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 		if (art == null)
 			return false;
 
-		IextLabel[] labels = art.getIextLabels();
-		for (IextLabel label : labels) {
+		ILabel[] labels = art.getILabels();
+		for (ILabel label : labels) {
 			if (label.getName().equals(getLabelName()))
 				return false;
 		}

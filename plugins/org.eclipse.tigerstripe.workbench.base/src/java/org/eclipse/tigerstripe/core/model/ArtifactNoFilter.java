@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.model;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 
 /**
  * A filter that filters... NOTHING.

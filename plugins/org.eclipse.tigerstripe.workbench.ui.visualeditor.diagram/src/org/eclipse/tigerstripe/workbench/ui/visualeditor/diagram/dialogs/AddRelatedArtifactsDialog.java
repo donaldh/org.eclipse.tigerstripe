@@ -29,8 +29,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 

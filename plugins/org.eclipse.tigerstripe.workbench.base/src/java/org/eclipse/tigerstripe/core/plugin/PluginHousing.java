@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.core.plugin;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.generation.RunConfig;
 import org.eclipse.tigerstripe.core.locale.Messages;
 

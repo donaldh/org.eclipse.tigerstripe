@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.model.importing.db.mapper;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.model.importing.IModelImportConfiguration;
 import org.eclipse.tigerstripe.core.model.importing.db.annotables.DBAnnotableDatatype;

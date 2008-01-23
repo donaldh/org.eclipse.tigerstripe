@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.model.importing.uml2.mapper;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.model.importing.AnnotableElement;
 import org.eclipse.tigerstripe.core.model.importing.ModelImporterListener;
 import org.eclipse.tigerstripe.core.model.importing.uml2.annotables.UML2AnnotableElement;

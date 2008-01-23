@@ -26,11 +26,11 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.api.utils.TigerstripeErrorLevel;

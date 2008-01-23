@@ -12,10 +12,9 @@ package org.eclipse.tigerstripe.core.model;
 
 import java.io.Writer;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextDatatypeArtifact;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.model.ossj.DatatypeArtifactPersister;
 import org.eclipse.tigerstripe.core.model.ossj.specifics.OssjDatatypeSpecifics;
@@ -49,7 +48,7 @@ public class DatatypeArtifact extends AbstractArtifact implements
 	}
 
 	public String getIArtifactType() {
-		return IextDatatypeArtifact.class.getName();
+		return IDatatypeArtifact.class.getName();
 	}
 
 	/**

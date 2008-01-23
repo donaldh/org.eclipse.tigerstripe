@@ -30,7 +30,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;

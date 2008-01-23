@@ -16,37 +16,36 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IException;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEmittedEvent;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IExposedUpdateProcedure;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IManagedEntityDetails;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.INamedQuery;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeCapable;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
-import org.eclipse.tigerstripe.api.external.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.IMethod.IException;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEmittedEvent;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IExposedUpdateProcedure;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IManagedEntityDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.INamedQuery;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeCapable;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.api.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.api.utils.TigerstripeErrorLevel;
@@ -123,16 +122,16 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 	 * @param artifact
 	 * @return
 	 */
-	public boolean isExcludedByAnnotation(IextStereotypeCapable capable)
+	public boolean isExcludedByAnnotation(IStereotypeCapable capable)
 			throws TigerstripeException {
 
 		// Bug 1014
 		if (capable == null)
 			return false;
 		IContractSegment facet = facetRef.resolve();
-		IextStereotypeInstance[] stereos = capable.getStereotypeInstances();
+		IStereotypeInstance[] stereos = capable.getStereotypeInstances();
 
-		for (IextStereotypeInstance stereo : stereos) {
+		for (IStereotypeInstance stereo : stereos) {
 			String name = stereo.getName();
 			for (ScopeAnnotationPattern pattern : facet.getCombinedScope()
 					.getAnnotationPatterns(ISegmentScope.EXCLUDES)) {
@@ -270,9 +269,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			// look at the ends
 			IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 			addRelatedArtifacts(scope, (IAbstractArtifact) assoc.getAEnd()
-					.getIextType().getIArtifact(), false, monitor);
+					.getIType().getIArtifact(), false, monitor);
 			addRelatedArtifacts(scope, (IAbstractArtifact) assoc.getZEnd()
-					.getIextType().getIArtifact(), false, monitor);
+					.getIType().getIArtifact(), false, monitor);
 
 			if (!(artifact instanceof IAssociationClassArtifact))
 				return;
@@ -474,9 +473,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 	private Collection<IAbstractArtifact> getAncestors(
 			IAbstractArtifact artifact, boolean excludeAbstract) {
-		IArtifact[] ancestors = artifact.getAncestors();
+		IAbstractArtifact[] ancestors = artifact.getAncestors();
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
-		for (IArtifact arti : ancestors) {
+		for (IAbstractArtifact arti : ancestors) {
 			if (!arti.isAbstract())
 				result.add((IAbstractArtifact) arti);
 			else if (!excludeAbstract) {
@@ -520,7 +519,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				if (arti != null && !primaryPredicate.isExcluded(arti)
 						&& !isExcludedByAnnotation(arti)) {
 					result.add(arti);
-					for (IArtifact a : arti.getAncestors()) {
+					for (IAbstractArtifact a : arti.getAncestors()) {
 						result.add((IAbstractArtifact) a);
 					}
 				}
@@ -534,7 +533,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				if (arti != null && !primaryPredicate.isExcluded(arti)
 						&& !isExcludedByAnnotation(arti)) {
 					result.add(arti);
-					for (IArtifact a : arti.getAncestors()) {
+					for (IAbstractArtifact a : arti.getAncestors()) {
 						result.add((IAbstractArtifact) a);
 					}
 				}
@@ -549,7 +548,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				if (arti != null && !primaryPredicate.isExcluded(arti)
 						&& !isExcludedByAnnotation(arti)) {
 					result.add(arti);
-					for (IArtifact a : arti.getAncestors()) {
+					for (IAbstractArtifact a : arti.getAncestors()) {
 						result.add((IAbstractArtifact) a);
 					}
 				}
@@ -564,7 +563,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				if (arti != null && !primaryPredicate.isExcluded(arti)
 						&& !isExcludedByAnnotation(arti)) {
 					result.add(arti);
-					for (IArtifact a : arti.getAncestors()) {
+					for (IAbstractArtifact a : arti.getAncestors()) {
 						result.add((IAbstractArtifact) a);
 					}
 				}

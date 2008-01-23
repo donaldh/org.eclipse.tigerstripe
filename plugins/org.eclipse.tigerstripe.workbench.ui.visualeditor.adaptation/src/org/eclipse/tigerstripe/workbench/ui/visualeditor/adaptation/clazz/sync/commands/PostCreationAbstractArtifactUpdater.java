@@ -13,20 +13,17 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 import java.util.List;
 
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.external.IextArtifactManagerSession;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.core.util.Misc;
@@ -115,8 +112,8 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 					// java scalar, String or EnumerationType
 					// or if the References are disabled
 					String attrType = field.getIType().getFullyQualifiedName();
-					IextArtifactManagerSession session = getDiagramProject()
-							.getIextArtifactManagerSession();
+					IArtifactManagerSession session = getDiagramProject()
+							.getIArtifactManagerSession();
 					if (shouldPopulateAttribute(attrType, session)) {
 						Attribute attr = VisualeditorFactory.eINSTANCE
 								.createAttribute();
@@ -131,7 +128,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 						attr.setTypeMultiplicity(ClassDiagramUtils
 								.mapTypeMultiplicity(field.getIType()
 										.getTypeMultiplicity()));
-						for (IextStereotypeInstance instance : field
+						for (IStereotypeInstance instance : field
 								.getStereotypeInstances()) {
 							attr.getStereotypes().add(instance.getName());
 						}
@@ -199,7 +196,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 									.getTypeMultiplicity()));
 
 					// review stereotypes
-					for (IextStereotypeInstance stereo : arg
+					for (IStereotypeInstance stereo : arg
 							.getStereotypeInstances()) {
 						param.getStereotypes().add(stereo.getName());
 					}
@@ -207,7 +204,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 					meth.getParameters().add(param);
 				}
 
-				for (IextStereotypeInstance instance : method
+				for (IStereotypeInstance instance : method
 						.getStereotypeInstances()) {
 					meth.getStereotypes().add(instance.getName());
 				}
@@ -226,12 +223,12 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 	}
 
 	public static boolean shouldPopulateAttribute(String attrType,
-			IextArtifactManagerSession session) {
+			IArtifactManagerSession session) {
 
 		if (!shouldDisplayReference())
 			return true;
 
-		IArtifact art = session.getIArtifactByFullyQualifiedName(attrType);
+		IAbstractArtifact art = session.getIArtifactByFullyQualifiedName(attrType);
 		if (art instanceof IPrimitiveTypeArtifact)
 			return true;
 		else if (art instanceof IEnumArtifact)
@@ -288,8 +285,8 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 					continue; // no incoming ref on a Enum
 				}
 
-				for (IextField field : mirror.getIextFields()) {
-					if (field.getIextType().getFullyQualifiedName().equals(
+				for (IField field : mirror.getIFields()) {
+					if (field.getIType().getFullyQualifiedName().equals(
 							eArtifact.getFullyQualifiedName())
 							&& shouldDisplayReference() // Bug 929
 					) {
@@ -309,7 +306,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 							ref.setName(field.getName());
 							ref.setZEnd(eArtifact);
 							ref.setTypeMultiplicity(ClassDiagramUtils
-									.mapTypeMultiplicity(field.getIextType()
+									.mapTypeMultiplicity(field.getIType()
 											.getTypeMultiplicity()));
 							eArt.getReferences().add(ref);
 						}

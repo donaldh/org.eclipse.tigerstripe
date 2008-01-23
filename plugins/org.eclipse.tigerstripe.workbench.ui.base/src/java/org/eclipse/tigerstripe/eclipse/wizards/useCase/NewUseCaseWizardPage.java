@@ -17,8 +17,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.api.API;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCase;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 

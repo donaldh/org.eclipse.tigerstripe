@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.profile;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 /**
  * Property as it may be defined in a Workbench profile.

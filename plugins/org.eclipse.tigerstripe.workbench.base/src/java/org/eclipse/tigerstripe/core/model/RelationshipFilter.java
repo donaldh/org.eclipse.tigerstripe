@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
+import org.eclipse.tigerstripe.api.model.IRelationship;
 
 /**
  * Allows to filter returned relationships when querying the Artifact Manager

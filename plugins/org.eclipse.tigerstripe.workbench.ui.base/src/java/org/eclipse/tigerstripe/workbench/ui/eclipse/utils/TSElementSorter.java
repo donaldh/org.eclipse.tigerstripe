@@ -12,14 +12,13 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.utils;
 
 import org.eclipse.jdt.ui.JavaElementSorter;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IModelComponent;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.core.model.DependencyArtifact;
 import org.eclipse.tigerstripe.core.model.DependencyArtifact.DependencyEnd;
 
@@ -38,17 +37,17 @@ public class TSElementSorter extends JavaElementSorter {
 				// if it's a dependency end, check to see if it's the aEnd or
 				// not
 				IRelationshipEnd irel = (IRelationshipEnd) element;
-				String relName = irel.getNameForType(irel.getType()
+				String relName = irel.getNameForType(irel.getIType()
 						.getFullyQualifiedName());
 				// if it's the aEnd, return the appropriate static int
 				if (relName.equals("aEnd"))
 					return ASSOCIATION_END_AEND;
-			} else if (element instanceof IextAssociationEnd) {
+			} else if (element instanceof IAssociationEnd) {
 				// else, if it's an association end, check to see whether it's
 				// the aEnd or zEnd
 				// int he containing association
-				IextAssociationEnd assocEnd = (IextAssociationEnd) element;
-				IextAssociationArtifact assoc = (IextAssociationArtifact) assocEnd
+				IAssociationEnd assocEnd = (IAssociationEnd) element;
+				IAssociationArtifact assoc = (IAssociationArtifact) assocEnd
 						.getContainingAssociation();
 				// if it's the aEnd, return the appropriate static int
 				if (assoc.getAEnd().equals(assocEnd))
@@ -101,7 +100,7 @@ public class TSElementSorter extends JavaElementSorter {
 			// if here, it's an association end, so need to determine whether
 			// it's the aEnd or the zEnd
 			IAssociationEnd end = (IAssociationEnd) element;
-			IextAssociationArtifact containingAssoc = (IextAssociationArtifact) end
+			IAssociationArtifact containingAssoc = (IAssociationArtifact) end
 					.getContainingAssociation();
 			if (containingAssoc.getAEnd().equals(end))
 				return "aEnd";

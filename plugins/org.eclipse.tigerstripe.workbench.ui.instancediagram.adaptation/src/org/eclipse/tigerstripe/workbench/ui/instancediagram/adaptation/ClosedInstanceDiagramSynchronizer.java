@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditDomain;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.ClosedDiagramSynchronizerBase;
 import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.IClosedDiagramSynchronizer;

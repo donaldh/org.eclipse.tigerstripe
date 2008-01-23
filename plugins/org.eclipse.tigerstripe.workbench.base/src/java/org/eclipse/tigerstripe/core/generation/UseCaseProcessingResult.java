@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.generation;
 
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;

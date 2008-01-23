@@ -34,7 +34,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;

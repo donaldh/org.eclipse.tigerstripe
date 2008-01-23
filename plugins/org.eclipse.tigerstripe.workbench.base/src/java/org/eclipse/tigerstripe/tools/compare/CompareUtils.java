@@ -19,28 +19,26 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IModelComponent;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjArtifactSpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEventArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjArtifactSpecifics;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
@@ -105,17 +103,17 @@ public class CompareUtils {
 	public static ArrayList<Difference> compareAssociationEnds(
 			IAssociationArtifact aArtifact, IAssociationArtifact bArtifact) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		IextAssociationEnd aAEnd = aArtifact.getAEnd();
-		IextAssociationEnd bAEnd = bArtifact.getAEnd();
+		IAssociationEnd aAEnd = aArtifact.getAEnd();
+		IAssociationEnd bAEnd = bArtifact.getAEnd();
 		differences.addAll(compareAssociationEnd(aAEnd, bAEnd, "A"));
-		IextAssociationEnd aZEnd = aArtifact.getZEnd();
-		IextAssociationEnd bZEnd = bArtifact.getZEnd();
+		IAssociationEnd aZEnd = aArtifact.getZEnd();
+		IAssociationEnd bZEnd = bArtifact.getZEnd();
 		differences.addAll(compareAssociationEnd(aZEnd, bZEnd, "Z"));
 		return differences;
 	}
 
 	public static ArrayList<Difference> compareAssociationEnd(
-			IextAssociationEnd aEnd, IextAssociationEnd bEnd, String aORz) {
+			IAssociationEnd aEnd, IAssociationEnd bEnd, String aORz) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		String aName = aEnd.getName();
 		String bName = bEnd.getName();
@@ -128,14 +126,14 @@ public class CompareUtils {
 							"Association:AssociationEnd:" + aORz, "Name",
 							aName, bName));
 		}
-		if (!aEnd.getType().getFullyQualifiedName().equals(
-				bEnd.getType().getFullyQualifiedName())) {
+		if (!aEnd.getIType().getFullyQualifiedName().equals(
+				bEnd.getIType().getFullyQualifiedName())) {
 			// compare Type
 			differences.add(new Difference("value", aEnd
 					.getContainingArtifact().getFullyQualifiedName(), bEnd
 					.getContainingArtifact().getFullyQualifiedName(),
 					"Association:AssociationEnd:" + aORz + ":Type", aName, aEnd
-							.getType().getFullyQualifiedName(), bEnd.getType()
+							.getIType().getFullyQualifiedName(), bEnd.getIType()
 							.getFullyQualifiedName()));
 		}
 		if (aEnd.getMultiplicity() != bEnd.getMultiplicity()) {
@@ -378,28 +376,28 @@ public class CompareUtils {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		// Check that the same stereotypes are applied.
 		// Then check the values for the attributes
-		List<IextStereotypeInstance> aInstances = Arrays.asList(aComponent
+		List<IStereotypeInstance> aInstances = Arrays.asList(aComponent
 				.getStereotypeInstances());
-		List<IextStereotypeInstance> bInstances = Arrays.asList(bComponent
+		List<IStereotypeInstance> bInstances = Arrays.asList(bComponent
 				.getStereotypeInstances());
 
-		ListIterator<IextStereotypeInstance> aIt;
+		ListIterator<IStereotypeInstance> aIt;
 
 		aIt = aInstances.listIterator();
 		while (aIt.hasNext()) {
-			IextStereotypeInstance aInst = aIt.next();
+			IStereotypeInstance aInst = aIt.next();
 			boolean foundit = false;
-			ListIterator<IextStereotypeInstance> bIt = bInstances
+			ListIterator<IStereotypeInstance> bIt = bInstances
 					.listIterator();
 			while (bIt.hasNext()) {
-				IextStereotypeInstance bInst = bIt.next();
-				if (aInst.getCharacterizingIextStereotype().equals(
-						bInst.getCharacterizingIextStereotype())) {
+				IStereotypeInstance bInst = bIt.next();
+				if (aInst.getCharacterizingIStereotype().equals(
+						bInst.getCharacterizingIStereotype())) {
 					// compare the values
 					foundit = true;
-					for (IextStereotypeAttribute attr : aInst
-							.getCharacterizingIextStereotype()
-							.getIextAttributes()) {
+					for (IStereotypeAttribute attr : aInst
+							.getCharacterizingIStereotype()
+							.getIAttributes()) {
 						try {
 							if (attr.isArray()) {
 								// compare the array values...
@@ -445,15 +443,15 @@ public class CompareUtils {
 			}
 		}
 
-		ListIterator<IextStereotypeInstance> bIt = bInstances.listIterator();
+		ListIterator<IStereotypeInstance> bIt = bInstances.listIterator();
 		while (bIt.hasNext()) {
-			IextStereotypeInstance bInst = bIt.next();
+			IStereotypeInstance bInst = bIt.next();
 			boolean foundit = false;
 			aIt = aInstances.listIterator();
 			while (aIt.hasNext()) {
-				IextStereotypeInstance aInst = aIt.next();
-				if (aInst.getCharacterizingIextStereotype().equals(
-						bInst.getCharacterizingIextStereotype())) {
+				IStereotypeInstance aInst = aIt.next();
+				if (aInst.getCharacterizingIStereotype().equals(
+						bInst.getCharacterizingIStereotype())) {
 					foundit = true;
 				}
 			}
@@ -477,7 +475,7 @@ public class CompareUtils {
 		if (aArgument instanceof IAbstractArtifact) {
 			object = "";
 		} else {
-			object = aArgument.getContainingIextMethod().getName() + ":"
+			object = aArgument.getContainingIMethod().getName() + ":"
 					+ aArgument.getName() + ":";
 		}
 
@@ -498,7 +496,7 @@ public class CompareUtils {
 			ListIterator<IStereotypeInstance> bIt = bInstances.listIterator();
 			while (bIt.hasNext()) {
 				IStereotypeInstance bInst = bIt.next();
-				if (aInst.getCharacterizingIextStereotype().equals(
+				if (aInst.getCharacterizingIStereotype().equals(
 						bInst.getCharacterizingIStereotype())) {
 					// compare the values
 					foundit = true;
@@ -1445,12 +1443,12 @@ public class CompareUtils {
 		String aComment = a.getComment();
 		String bComment = b.getComment();
 		if (!aComment.equals(bComment)) {
-			differences.add(new Difference("value", a.getContainingIextMethod()
+			differences.add(new Difference("value", a.getContainingIMethod()
 					.getContainingArtifact().getFullyQualifiedName(), b
-					.getContainingIextMethod().getContainingArtifact()
+					.getContainingIMethod().getContainingArtifact()
 					.getFullyQualifiedName(),
 					"Artifact:Method:Argument:Comment", a
-							.getContainingIextMethod().getName()
+							.getContainingIMethod().getName()
 							+ ":" + a.getName(), aComment, bComment));
 		}
 		return differences;

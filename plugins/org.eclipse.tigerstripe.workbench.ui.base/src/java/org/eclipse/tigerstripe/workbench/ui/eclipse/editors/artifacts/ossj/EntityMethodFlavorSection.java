@@ -35,13 +35,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEntitySpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjMethod;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextMethod.OssjEntityMethodFlavor;
-import org.eclipse.tigerstripe.api.external.model.artifacts.ossjSpecifics.IextOssjEntitySpecifics;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEntitySpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.core.model.ExceptionArtifact;
@@ -656,16 +655,16 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 
 		// CRUD methods need to be handled separately
 		if ("create".equals(methodName)) {
-			specifics.setCRUDProperties(IextOssjEntitySpecifics.CREATE,
+			specifics.setCRUDProperties(IOssjEntitySpecifics.CREATE,
 					currentMethod.getOssjMethodProperties());
 		} else if ("get".equals(methodName)) {
-			specifics.setCRUDProperties(IextOssjEntitySpecifics.GET,
+			specifics.setCRUDProperties(IOssjEntitySpecifics.GET,
 					currentMethod.getOssjMethodProperties());
 		} else if ("set".equals(methodName)) {
-			specifics.setCRUDProperties(IextOssjEntitySpecifics.SET,
+			specifics.setCRUDProperties(IOssjEntitySpecifics.SET,
 					currentMethod.getOssjMethodProperties());
 		} else if ("remove".equals(methodName)) {
-			specifics.setCRUDProperties(IextOssjEntitySpecifics.DELETE,
+			specifics.setCRUDProperties(IOssjEntitySpecifics.DELETE,
 					currentMethod.getOssjMethodProperties());
 		}
 	}

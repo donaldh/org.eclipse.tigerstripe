@@ -34,12 +34,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.core.model.Field;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
@@ -262,7 +261,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 
 		defaultType.setTypeMultiplicity(EMultiplicity.ONE);
 		newField.setIType(defaultType);
-		newField.setRefBy(IextField.REFBY_VALUE);
+		newField.setRefBy(IField.REFBY_VALUE);
 
 		getIArtifact().addIField(newField);
 		viewer.add(newField);

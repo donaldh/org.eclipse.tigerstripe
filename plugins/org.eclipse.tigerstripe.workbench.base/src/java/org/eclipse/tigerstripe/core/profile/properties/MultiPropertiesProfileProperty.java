@@ -16,7 +16,7 @@ import java.util.Iterator;
 import org.dom4j.Document;
 import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 public abstract class MultiPropertiesProfileProperty extends
 		BaseWorkbenchProfileProperty {

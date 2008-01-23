@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.tools.compare;
 
 import java.util.ArrayList;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjQuerySpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjQuerySpecifics;
 
 public class CompareQuery {
 

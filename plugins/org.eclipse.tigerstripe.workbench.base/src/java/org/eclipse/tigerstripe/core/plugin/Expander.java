@@ -16,13 +16,13 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.tigerstripe.api.external.IextPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.plugins.IArtifactModel;
-import org.eclipse.tigerstripe.api.external.plugins.IExpander;
-import org.eclipse.tigerstripe.api.external.project.IextTigerstripeProject;
+import org.eclipse.tigerstripe.api.IPluginReference;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.TigerstripeProjectHandle;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.plugins.IArtifactModel;
+import org.eclipse.tigerstripe.api.plugins.IExpander;
+import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.project.TigerstripeProject;
 
 /**
@@ -36,8 +36,8 @@ public class Expander implements IExpander {
 
 	private String modelName = "model";
 
-	private IextPluginReference pluginRef;
-	private IArtifact currentArtifact;
+	private IPluginReference pluginRef;
+	private IAbstractArtifact currentArtifact;
 	private IArtifactModel currentModel;
 
 	public Expander(PluginRef pluginRef) {
@@ -48,7 +48,7 @@ public class Expander implements IExpander {
 		this.pluginRef = null;
 	}
 
-	public void setPluginRef(IextPluginReference pluginRef) {
+	public void setPluginRef(IPluginReference pluginRef) {
 		this.pluginRef = pluginRef;
 	}
 
@@ -61,7 +61,7 @@ public class Expander implements IExpander {
 	 * @param currentArtifact
 	 * @since 1.2
 	 */
-	public void setCurrentArtifact(IArtifact currentArtifact) {
+	public void setCurrentArtifact(IAbstractArtifact currentArtifact) {
 		this.currentArtifact = currentArtifact;
 	}
 
@@ -91,7 +91,7 @@ public class Expander implements IExpander {
 	/*
 	 * This is a bit "hairy"
 	 */
-	public String expandVar(String inString, IextTigerstripeProject project) {
+	public String expandVar(String inString, ITigerstripeProject project) {
 		try {
 			if (project instanceof TigerstripeProjectHandle) {
 				TigerstripeProjectHandle tsProj = (TigerstripeProjectHandle) project;

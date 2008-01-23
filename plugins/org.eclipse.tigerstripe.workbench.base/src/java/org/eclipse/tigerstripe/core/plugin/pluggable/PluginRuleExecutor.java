@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.core.plugin.pluggable;
 
 import java.util.ArrayList;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IRunRule;
 import org.eclipse.tigerstripe.api.plugins.pluggable.ITemplateRunRule;

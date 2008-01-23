@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.plugins.pluggable;
 
-import org.eclipse.tigerstripe.api.external.plugins.IextPluggablePluginProperty;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -20,7 +20,7 @@ import org.w3c.dom.Node;
  * @author Eric Dillon
  * 
  */
-public interface IPluggablePluginProperty extends IextPluggablePluginProperty {
+public interface IPluggablePluginProperty  {
 
 	public void setProject(IPluggablePluginProject project);
 
@@ -56,5 +56,30 @@ public interface IPluggablePluginProperty extends IextPluggablePluginProperty {
 	 * @return
 	 */
 	public Object deSerialize(String sValue);
+
+	/**
+	 * Value of that property
+	 * 
+	 * @return
+	 */
+	public Object getDefaultValue();
+
+	/**
+	 * Name of that property
+	 * 
+	 * @return
+	 */
+	public String getName();
+
+	public IPluggablePluginProject getProject();
+
+	/**
+	 * The tiptool text that will appear in the GUI
+	 * 
+	 * @return
+	 */
+	public String getTipToolText();
+
+	public String getType();
 
 }

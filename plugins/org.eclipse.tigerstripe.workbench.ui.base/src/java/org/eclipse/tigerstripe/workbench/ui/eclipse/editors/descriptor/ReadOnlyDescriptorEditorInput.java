@@ -16,7 +16,7 @@ import java.io.Reader;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.core.JarEntryFile;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;

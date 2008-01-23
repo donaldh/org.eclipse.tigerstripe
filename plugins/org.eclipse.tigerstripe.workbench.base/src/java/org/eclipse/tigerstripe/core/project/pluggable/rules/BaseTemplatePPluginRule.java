@@ -22,8 +22,8 @@ import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.api.plugins.pluggable.ITemplateRunRule;

@@ -13,9 +13,8 @@ package org.eclipse.tigerstripe.core.model;
 import java.io.Writer;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextEventArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEventArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.model.ossj.EventArtifactPersister;
 import org.eclipse.tigerstripe.core.model.ossj.specifics.OssjEventSpecifics;
@@ -48,7 +47,7 @@ public class EventArtifact extends AbstractArtifact implements IEventArtifact {
 	}
 
 	public String getIArtifactType() {
-		return IextEventArtifact.class.getName();
+		return IEventArtifact.class.getName();
 	}
 
 	/**

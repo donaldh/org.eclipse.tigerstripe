@@ -13,8 +13,8 @@ package org.eclipse.tigerstripe.workbench.ui.gmf.synchronization;
 import java.io.File;
 import java.util.HashMap;
 
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;

@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.plugins.pluggable;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.plugins.PluginLog;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.plugins.PluginLog;
 import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.core.project.pluggable.PluggablePluginProject;
 

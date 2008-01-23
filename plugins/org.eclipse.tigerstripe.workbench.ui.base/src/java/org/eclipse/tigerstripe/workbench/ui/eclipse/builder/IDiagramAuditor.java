@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.DiagramHandle;
 
 /**

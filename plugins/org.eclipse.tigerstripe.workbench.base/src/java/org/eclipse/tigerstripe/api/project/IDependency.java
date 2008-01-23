@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.project;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;

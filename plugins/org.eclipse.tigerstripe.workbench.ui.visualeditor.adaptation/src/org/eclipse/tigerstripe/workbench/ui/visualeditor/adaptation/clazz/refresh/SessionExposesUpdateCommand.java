@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextSessionArtifact.IextExposedUpdateProcedure;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IExposedUpdateProcedure;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.SessionFacadeArtifact;
@@ -32,10 +32,10 @@ public class SessionExposesUpdateCommand extends AbstractArtifactUpdateCommand {
 		ISessionArtifact iSession = (ISessionArtifact) iArtifact;
 
 		session.getExposedProcedures().clear();
-		IextExposedUpdateProcedure[] details = iSession
-				.getIextExposedUpdateProcedures();
+		IExposedUpdateProcedure[] details = iSession
+				.getIExposedUpdateProcedures();
 		MapHelper helper = new MapHelper((Map) eArtifact.eContainer());
-		for (IextExposedUpdateProcedure detail : details) {
+		for (IExposedUpdateProcedure detail : details) {
 			String fqn = detail.getFullyQualifiedName();
 			AbstractArtifact target = helper.findAbstractArtifactFor(fqn);
 			if (target != null) {

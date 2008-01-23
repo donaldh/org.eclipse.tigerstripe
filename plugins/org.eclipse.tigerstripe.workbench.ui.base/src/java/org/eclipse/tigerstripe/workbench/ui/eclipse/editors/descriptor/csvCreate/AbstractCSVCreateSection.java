@@ -14,7 +14,7 @@ import java.util.Properties;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.api.IPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.plugin.csv.CSVPlugin;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;

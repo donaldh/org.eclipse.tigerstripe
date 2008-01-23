@@ -24,12 +24,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.api.project.IDependency;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.api.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;

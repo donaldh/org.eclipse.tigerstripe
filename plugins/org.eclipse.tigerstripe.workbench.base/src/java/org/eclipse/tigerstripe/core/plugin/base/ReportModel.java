@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.core.plugin.base;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.project.TigerstripeProject;
 

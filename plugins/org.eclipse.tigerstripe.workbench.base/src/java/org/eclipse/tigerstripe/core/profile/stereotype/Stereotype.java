@@ -16,9 +16,7 @@ import java.util.List;
 
 import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeScopeDetails;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
@@ -57,7 +55,7 @@ public class Stereotype implements IStereotype {
 
 	private List<String> excludesList = new ArrayList<String>();
 
-	public IextStereotypeScopeDetails getStereotypeScopeDetails() {
+	public IStereotypeScopeDetails getStereotypeScopeDetails() {
 		return details;
 	}
 
@@ -109,7 +107,7 @@ public class Stereotype implements IStereotype {
 		this.isVisible = isVisible;
 	}
 
-	public IextStereotypeAttribute[] getIextAttributes() {
+	public IStereotypeAttribute[] getIAttributes() {
 		return getAttributes();
 	}
 
@@ -118,7 +116,7 @@ public class Stereotype implements IStereotype {
 				.size()]);
 	}
 
-	public IextStereotypeAttribute getIextAttributeByName(String nameToGet) {
+	public IStereotypeAttribute getIAttributeByName(String nameToGet) {
 		return getAttributeByName(nameToGet);
 	}
 
@@ -130,7 +128,7 @@ public class Stereotype implements IStereotype {
 		return null;
 	}
 
-	public boolean isValidAttribute(IextStereotypeAttribute attribute) {
+	public boolean isValidAttribute(IStereotypeAttribute attribute) {
 		return this.attributes.contains(attribute);
 	}
 

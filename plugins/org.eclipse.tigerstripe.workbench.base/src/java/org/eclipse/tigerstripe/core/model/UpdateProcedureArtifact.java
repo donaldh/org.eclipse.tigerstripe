@@ -12,9 +12,8 @@ package org.eclipse.tigerstripe.core.model;
 
 import java.io.Writer;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.model.ossj.UpdateProcedureArtifactPersister;
 import org.eclipse.tigerstripe.core.model.ossj.specifics.OssjUpdateProcedureSpecifics;
@@ -48,7 +47,7 @@ public class UpdateProcedureArtifact extends AbstractArtifact implements
 	}
 
 	public String getIArtifactType() {
-		return IextUpdateProcedureArtifact.class.getName();
+		return IUpdateProcedureArtifact.class.getName();
 	}
 
 	@Override

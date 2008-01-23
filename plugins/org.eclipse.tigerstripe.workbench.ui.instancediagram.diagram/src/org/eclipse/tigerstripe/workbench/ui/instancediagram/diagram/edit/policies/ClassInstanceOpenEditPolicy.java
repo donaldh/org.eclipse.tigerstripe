@@ -23,7 +23,7 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.OpenEditPolicy;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
+import org.eclipse.tigerstripe.api.model.IType;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.dialogs.ClassInstanceEditDialog;

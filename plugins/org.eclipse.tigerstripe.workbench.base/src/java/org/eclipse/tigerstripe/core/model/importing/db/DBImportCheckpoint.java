@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.IImportCheckpointDetails;
 import org.eclipse.tigerstripe.core.model.importing.AbstractImportCheckpoint;
 import org.eclipse.tigerstripe.core.model.importing.AnnotableElement;

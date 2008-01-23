@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins.renderer;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProperty;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginPropertyListener;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;

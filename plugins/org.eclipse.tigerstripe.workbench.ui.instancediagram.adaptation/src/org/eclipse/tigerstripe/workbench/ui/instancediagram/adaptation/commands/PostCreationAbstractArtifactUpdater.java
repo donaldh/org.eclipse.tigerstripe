@@ -12,13 +12,11 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.commands
 
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.external.IextArtifactManagerSession;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.util.Misc;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
@@ -67,8 +65,8 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 				// Attr should only be populated if type is, either
 				// primitive type, java scalar, String or EnumerationType
 				String attrType = field.getIType().getFullyQualifiedName();
-				IextArtifactManagerSession session = getDiagramProject()
-						.getIextArtifactManagerSession();
+				IArtifactManagerSession session = getDiagramProject()
+						.getIArtifactManagerSession();
 				if (shouldPopulateVariable(attrType, session)) {
 					Variable attr = InstancediagramFactory.eINSTANCE
 							.createVariable();
@@ -84,7 +82,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 	}
 
 	public static boolean shouldPopulateVariable(String attrType,
-			IextArtifactManagerSession session) {
+			IArtifactManagerSession session) {
 
 		// IArtifact art = session.getIArtifactByFullyQualifiedName(attrType);
 		// if (art instanceof IPrimitiveTypeArtifact) {
@@ -109,7 +107,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 		List<ClassInstance> eArtifacts = getMap().getClassInstances();
 		for (ClassInstance eArt : eArtifacts) {
 			ClassInstanceHelper aHelper = new ClassInstanceHelper(eArt);
-			IArtifact mirror = session.getIArtifactByFullyQualifiedName(eArt
+			IAbstractArtifact mirror = session.getIArtifactByFullyQualifiedName(eArt
 					.getFullyQualifiedName(), true);
 			// Take care of variables in other artifacts that should now
 			// point to this new object

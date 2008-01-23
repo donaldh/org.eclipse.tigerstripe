@@ -11,8 +11,7 @@
 package org.eclipse.tigerstripe.api.profile.stereotype;
 
 import org.dom4j.Element;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotype;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 
 /**
@@ -54,7 +53,7 @@ import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
  * @author Eric Dillon
  * @since 1.2
  */
-public interface IStereotype extends IextStereotype {
+public interface IStereotype {
 
 	public void setName(String name);
 
@@ -151,4 +150,110 @@ public interface IStereotype extends IextStereotype {
 	 * @return
 	 */
 	public IWorkbenchProfile getProfile();
+
+	/**
+	 * Returns a short description of the meaning of the stereotype. This is
+	 * used as ToolTip displayed to the end-user.
+	 * 
+	 * @return a short description of the meaning of the stereotype
+	 */
+	public String getDescription();
+
+	/**
+	 * Get a array of the names of stereotypes that make up the excluded list.
+	 * 
+	 * The excludes list defines which other stereotypes can not be used in
+	 * conjunction with a stereotype.
+	 * 
+	 * @return array of the names of stereotypes in the excluded list
+	 */
+	public String[] getExcludesList();
+
+	/**
+	 * Returns a specific attribute identified by the name that is passed. If no
+	 * matching attribute is found, then null is returned.
+	 * 
+	 * @param nameToGet
+	 * @return attribute whose name matches the nameToGet parameter, or null.
+	 */
+	public IStereotypeAttribute getIAttributeByName(String nameToGet);
+
+	/**
+	 * Return an array of the defined attributes for this stereotype. If no
+	 * attributes are defined then an empty array is returned.
+	 * 
+	 * For each stereotype, optional attributes can be defined so that the
+	 * end-user can further specify the details of that stereotype. For example,
+	 * string-entry attributes, checkable attributes, list-entry attributes,
+	 * etc... Attributes can be marked as mandatory or optional, and should have
+	 * a default value
+	 * 
+	 * @return array of the defined attributes for this stereotype.
+	 */
+	public IStereotypeAttribute[] getIAttributes();
+
+	/**
+	 * Returns the name (as seen by the end-user) of the stereotype.
+	 * 
+	 * @return the name (as seen by the end-user) of the stereotype
+	 */
+	public String getName();
+
+	/**
+	 * Returns the name of the parent of this stereotype (if any). If there is
+	 * no defined parent, then return an empty string.
+	 * 
+	 * @return name of the parent stereotype
+	 */
+	public String getParentStereotype();
+
+	/**
+	 * Get a array of the names of stereotypes that make up the required list.
+	 * 
+	 * The requires list defines which other stereotypes are required for a
+	 * stereotype to be valid. This allows to define dependencies between
+	 * multiple stereotypes that will be enforced when the end-user is trying to
+	 * use them.
+	 * 
+	 * @return array of the names of stereotypes in the required list
+	 */
+	public String[] getRequiresList();
+
+	/**
+	 * Get the applicability scopes for this stereotype. The applicability scope
+	 * of a stereotype conditions where the end-user can use it, i.e. on an
+	 * artifact, on an attribute of an artifact, etc...
+	 * 
+	 * @return an IStereotypeScopeDetails object that contains the
+	 *         sepcification of the scope.
+	 */
+	public IStereotypeScopeDetails getStereotypeScopeDetails();
+
+	/**
+	 * Returns the version of the stereotype, for maintenance purposes.
+	 * 
+	 * @return the version of the stereotype
+	 */
+	public String getVersion();
+
+	/**
+	 * Returns true if the given attribute is a defined attribute for this
+	 * stereotype
+	 * 
+	 * @param attribute
+	 * @return treu if the passed attribute defintion exactly matches one of the
+	 *         defined attributes.
+	 */
+	public boolean isValidAttribute(IStereotypeAttribute attribute);
+
+	/**
+	 * Returns the visibility of this stereotype. A stereotype must be visible
+	 * to be presented to the end-user. Since stereotypes can be defined as
+	 * extensions of each others, this allows for "top-level stereotypes" that
+	 * gather commonalities between stereotypes without having them visible to
+	 * the end-user.
+	 * 
+	 * @return true if this stereotype is to be presented to the user
+	 */
+	public boolean isVisible();
 }

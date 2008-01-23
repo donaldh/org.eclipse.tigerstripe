@@ -14,11 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.api.utils.TigerstripeErrorLevel;
@@ -37,7 +35,7 @@ public class Field extends ArtifactComponent implements IField {
 	private final static String FIELD_TAG = "tigerstripe.field";
 
 	public static int refByFromLabel(String label) {
-		int result = IextField.NON_APPLICABLE;
+		int result = IField.NON_APPLICABLE;
 		for (int i = 0; i < refByLabels.length; i++) {
 			if (refByLabels[i].equalsIgnoreCase(label)) {
 				result = i;
@@ -192,10 +190,6 @@ public class Field extends ArtifactComponent implements IField {
 		return this.type;
 	}
 
-	public IextType getIextType() {
-		return this.type;
-	}
-
 	public IType makeIType() {
 		return new Type(getArtifactManager());
 	}
@@ -225,9 +219,9 @@ public class Field extends ArtifactComponent implements IField {
 	}
 
 	public String getRefByString() {
-		if (getRefBy() == IextField.NON_APPLICABLE)
+		if (getRefBy() == IField.NON_APPLICABLE)
 			return "";
-		return IextField.refByLabels[getRefBy()];
+		return IField.refByLabels[getRefBy()];
 	}
 
 	public Properties getAnnotationProperties(String annotation) {

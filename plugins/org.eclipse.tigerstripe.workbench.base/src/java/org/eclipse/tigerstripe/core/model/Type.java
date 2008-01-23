@@ -14,10 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.api.utils.TigerstripeErrorLevel;
@@ -305,14 +304,14 @@ public class Type implements IType {
 
 	public int getMultiplicity() {
 		if ("".equals(this.dimensions))
-			return IextType.MULTIPLICITY_SINGLE;
+			return IType.MULTIPLICITY_SINGLE;
 		else
-			return IextType.MULTIPLICITY_MULTI;
+			return IType.MULTIPLICITY_MULTI;
 	}
 
 	public void setMultiplicity(int multiplicity) {
 		switch (multiplicity) {
-		case IextType.MULTIPLICITY_SINGLE:
+		case IType.MULTIPLICITY_SINGLE:
 			this.dimensions = "";
 			break;
 		default:
@@ -324,7 +323,7 @@ public class Type implements IType {
 	public String defaultValue() {
 		String result = "";
 		switch (getMultiplicity()) {
-		case IextType.MULTIPLICITY_SINGLE:
+		case IType.MULTIPLICITY_SINGLE:
 			String type = getFullyQualifiedName();
 			if ("java.lang.String".equals(type)) {
 				result = "\"Value\"";
@@ -356,7 +355,7 @@ public class Type implements IType {
 		return artifact;
 	}
 
-	public IArtifact getIArtifact() {
+	public IAbstractArtifact getIArtifact() {
 		return getArtifact();
 	}
 

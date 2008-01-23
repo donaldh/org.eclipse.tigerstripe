@@ -19,51 +19,38 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.IActiveFacetChangeListener;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactChangeListener;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjArtifactSpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IQueryArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextDatatypeArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextDependencyArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextEnumArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextEventArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextExceptionArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextQueryArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextSessionArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.api.external.queries.IArtifactQuery;
-import org.eclipse.tigerstripe.api.external.queries.IQueryAllArtifacts;
-import org.eclipse.tigerstripe.api.external.queries.IQueryArtifactsByType;
-import org.eclipse.tigerstripe.api.external.queries.IQueryCapabilitiesArtifacts;
-import org.eclipse.tigerstripe.api.external.queries.IQueryModelArtifacts;
-import org.eclipse.tigerstripe.api.external.queries.IQueryRelationshipsByArtifact;
-import org.eclipse.tigerstripe.api.external.queries.IQuerySessionArtifacts;
 import org.eclipse.tigerstripe.api.impl.updater.ModelUpdaterImpl;
+import org.eclipse.tigerstripe.api.model.IActiveFacetChangeListener;
+import org.eclipse.tigerstripe.api.model.IArtifactChangeListener;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEventArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjArtifactSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.api.queries.IArtifactQuery;
+import org.eclipse.tigerstripe.api.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.api.queries.IQueryArtifactsByType;
+import org.eclipse.tigerstripe.api.queries.IQueryCapabilitiesArtifacts;
+import org.eclipse.tigerstripe.api.queries.IQueryModelArtifacts;
+import org.eclipse.tigerstripe.api.queries.IQueryRelationshipsByArtifact;
+import org.eclipse.tigerstripe.api.queries.IQuerySessionArtifacts;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
@@ -365,7 +352,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			resAEnd.setOrdered(origAssoc.getAEnd().isOrdered());
 			resAEnd.setVisibility(origAssoc.getAEnd().getVisibility());
 			IType aType = resAEnd.makeIType();
-			aType.setFullyQualifiedName(origAssoc.getAEnd().getType()
+			aType.setFullyQualifiedName(origAssoc.getAEnd().getIType()
 					.getFullyQualifiedName());
 			resAEnd.setType(aType);
 			resultAssoc.setAEnd(resAEnd);
@@ -380,7 +367,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			resZEnd.setOrdered(origAssoc.getZEnd().isOrdered());
 			resZEnd.setVisibility(origAssoc.getZEnd().getVisibility());
 			IType zType = resZEnd.makeIType();
-			zType.setFullyQualifiedName(origAssoc.getZEnd().getType()
+			zType.setFullyQualifiedName(origAssoc.getZEnd().getIType()
 					.getFullyQualifiedName());
 			resZEnd.setType(zType);
 			resultAssoc.setZEnd(resZEnd);
@@ -414,32 +401,32 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	// external API stuff
 	// //////////////////////////////////////////
 
-	public IArtifact[] getAllKnownIArtifactsByFullyQualifiedName(String fqn) {
+	public IAbstractArtifact[] getAllKnownIArtifactsByFullyQualifiedName(String fqn) {
 		return getAllKnownArtifactsByFullyQualifiedName(fqn);
 	}
 
-	public IArtifact getIArtifactByFullyQualifiedName(String fqn,
+	public IAbstractArtifact getIArtifactByFullyQualifiedName(String fqn,
 			boolean includeDependencies) {
 		return getArtifactByFullyQualifiedName(fqn, includeDependencies);
 	}
 
-	public IArtifact getIArtifactByFullyQualifiedName(String fqn) {
+	public IAbstractArtifact getIArtifactByFullyQualifiedName(String fqn) {
 		return getArtifactByFullyQualifiedName(fqn);
 	}
 
 	public String[] getSupportedIArtifacts() {
-		return new String[] { IextManagedEntityArtifact.class.getName(),
-				IextDatatypeArtifact.class.getName(),
-				IextEventArtifact.class.getName(),
-				IextQueryArtifact.class.getName(),
-				IextExceptionArtifact.class.getName(),
-				IextSessionArtifact.class.getName(),
-				IextEnumArtifact.class.getName(),
-				IextUpdateProcedureArtifact.class.getName(),
-				IextAssociationArtifact.class.getName(),
-				IextAssociationClassArtifact.class.getName(),
-				IextPrimitiveTypeArtifact.class.getName(),
-				IextDependencyArtifact.class.getName() };
+		return new String[] { IManagedEntityArtifact.class.getName(),
+				IDatatypeArtifact.class.getName(),
+				IEventArtifact.class.getName(),
+				IQueryArtifact.class.getName(),
+				IExceptionArtifact.class.getName(),
+				ISessionArtifact.class.getName(),
+				IEnumArtifact.class.getName(),
+				IUpdateProcedureArtifact.class.getName(),
+				IAssociationArtifact.class.getName(),
+				IAssociationClassArtifact.class.getName(),
+				IPrimitiveTypeArtifact.class.getName(),
+				IDependencyArtifact.class.getName() };
 	}
 
 	public void addArtifactChangeListener(IArtifactChangeListener listener) {

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.profile.stereotype;
 
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeCapable;
 
 /**
  * Interface to be implemented by all components of the model that can be
@@ -19,12 +18,15 @@ import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeCap
  * @author Eric Dillon
  * 
  */
-public interface IStereotypeCapable extends IextStereotypeCapable {
+public interface IStereotypeCapable {
 
 	/**
-	 * Returns all the stereotype instances for this
+	 * Returns an array of stereotype instances. These are the stereotypes (also
+	 * referred to as annotations) that are applied to this model component. If
+	 * there are no stereotypes applied to this component, the method returns
+	 * an empty array.
 	 * 
-	 * @return
+	 * @return array of IStereotypeInstance.
 	 */
 	public IStereotypeInstance[] getStereotypeInstances();
 
@@ -33,5 +35,8 @@ public interface IStereotypeCapable extends IextStereotypeCapable {
 	public void removeStereotypeInstance(IStereotypeInstance instance);
 
 	public void removeStereotypeInstances(IStereotypeInstance[] instances);
+
+
+
 
 }

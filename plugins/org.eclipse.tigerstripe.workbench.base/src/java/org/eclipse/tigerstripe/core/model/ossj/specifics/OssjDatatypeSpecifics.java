@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.model.ossj.specifics;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjDatatypeSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjDatatypeSpecifics;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 
 public class OssjDatatypeSpecifics extends OssjArtifactSpecifics implements

@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.commands;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
@@ -38,11 +38,11 @@ public class PostCreationAssociationArtifactUpdater extends
 		// BaseETAdapter.setIgnoreNotify(true);
 
 		IAssociationArtifact iAssoc = (IAssociationArtifact) getIArtifact();
-		IextAssociationEnd aEnd = iAssoc.getAEnd();
+		IAssociationEnd aEnd = iAssoc.getAEnd();
 		association.setAEndIsNavigable(aEnd.isNavigable());
 		association.setAEndIsOrdered(aEnd.isOrdered());
 		association.setAEndName(aEnd.getName());
-		IextAssociationEnd zEnd = iAssoc.getZEnd();
+		IAssociationEnd zEnd = iAssoc.getZEnd();
 		association.setZEndIsNavigable(zEnd.isNavigable());
 		association.setZEndIsOrdered(zEnd.isOrdered());
 		association.setZEndName(zEnd.getName());

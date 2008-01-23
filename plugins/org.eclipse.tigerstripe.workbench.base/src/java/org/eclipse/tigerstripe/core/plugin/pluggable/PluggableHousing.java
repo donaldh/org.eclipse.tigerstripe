@@ -12,9 +12,9 @@ package org.eclipse.tigerstripe.core.plugin.pluggable;
 
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.plugins.PluginLog;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.TigerstripeProjectHandle;
+import org.eclipse.tigerstripe.api.plugins.PluginLog;
 import org.eclipse.tigerstripe.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProperty;
 import org.eclipse.tigerstripe.core.plugin.PluginBody;

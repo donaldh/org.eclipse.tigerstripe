@@ -13,10 +13,10 @@ package org.eclipse.tigerstripe.core.model.importing;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextType;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 
 public class BaseAnnotableElement extends BaseAnnotable implements
@@ -39,7 +39,7 @@ public class BaseAnnotableElement extends BaseAnnotable implements
 	private int delta = DELTA_UNKNOWN;
 
 	public int getMultiplicity() {
-		return IextType.MULTIPLICITY_SINGLE;
+		return IType.MULTIPLICITY_SINGLE;
 	}
 
 	public void setAbstract(boolean isAbstract) {

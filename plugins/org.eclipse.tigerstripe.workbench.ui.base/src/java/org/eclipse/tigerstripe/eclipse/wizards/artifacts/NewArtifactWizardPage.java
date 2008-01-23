@@ -23,7 +23,6 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
@@ -59,9 +58,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.api.IPluginReference;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextType;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.project.IProjectDetails;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
@@ -225,7 +224,7 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 			return attributeRef.getName()
 					+ " : "
 					+ attributeRef.getAttributeClass()
-					+ (attributeRef.getDimensions() == IextType.MULTIPLICITY_MULTI ? "[]"
+					+ (attributeRef.getDimensions() == IType.MULTIPLICITY_MULTI? "[]"
 							: "");
 		}
 	}

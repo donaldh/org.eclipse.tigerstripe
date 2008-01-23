@@ -13,12 +13,12 @@ package org.eclipse.tigerstripe.api.impl.updater;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeListener;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeRequest;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeRequestFactory;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeListener;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequest;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequestFactory;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
 
 public class ModelUpdaterImpl implements IModelUpdater {
 

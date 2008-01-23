@@ -13,11 +13,10 @@ package org.eclipse.tigerstripe.api.project;
 import java.net.URI;
 
 import org.eclipse.tigerstripe.api.IPluginReference;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.project.IextTigerstripeProject;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
 import org.eclipse.tigerstripe.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.api.publish.IProjectCSVCreator;
 import org.eclipse.tigerstripe.api.publish.IProjectPublisher;
@@ -29,8 +28,7 @@ import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
  * @author Eric Dillon
  * @since 0.3
  */
-public interface ITigerstripeProject extends IAbstractTigerstripeProject,
-		IextTigerstripeProject {
+public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 
 	/**
 	 * Returns the artifact manager session for this Tigerstripe project.
@@ -226,4 +224,35 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject,
 	public void resetActiveFacet() throws TigerstripeException;
 
 	public IFacetReference getActiveFacet() throws TigerstripeException;
+
+	// ==========================================
+	// Facility for Advanced Properties access/configuration
+	public String getAdvancedProperty(String property)
+			throws TigerstripeException;
+
+	public String getAdvancedProperty(String property, String defaultValue)
+	throws TigerstripeException;
+
+	/**
+	 * Returns the artifact manager session for this Tigerstripe project.
+	 * 
+	 * @return
+	 */
+	public IArtifactManagerSession getIArtifactManagerSession()
+			throws TigerstripeException;
+
+	/**
+	 * Returns the Plugin references defined in this project
+	 * 
+	 * @return
+	 */
+	public IPluginReference[] getIPluginReferences()
+			throws TigerstripeException;
+
+	// ==========================================
+	// Project references are direct references to other projects that are
+	// required
+	// for the local project to build properly.
+	public ITigerstripeProject[] getIReferencedProjects()
+			throws TigerstripeException;
 }

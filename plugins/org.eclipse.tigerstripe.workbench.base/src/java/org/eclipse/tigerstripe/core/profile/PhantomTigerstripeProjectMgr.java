@@ -24,10 +24,10 @@ import java.util.zip.ZipException;
 
 import org.apache.tools.ant.DirectoryScanner;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.impl.ArtifactManagerSessionImpl;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.api.profile.primitiveType.IPrimitiveTypeDef;

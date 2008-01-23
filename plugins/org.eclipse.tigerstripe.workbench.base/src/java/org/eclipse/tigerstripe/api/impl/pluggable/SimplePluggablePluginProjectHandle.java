@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.api.impl.pluggable;
 
 import java.net.URI;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.plugins.pluggable.ISimplePluggablePluginProject;
 import org.eclipse.tigerstripe.api.project.ITigerstripeVisitor;
 

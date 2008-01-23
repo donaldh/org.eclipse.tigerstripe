@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refre
 
 import java.util.ArrayList;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 
 /**
@@ -42,7 +42,7 @@ public class StereotypeUpdateCommand extends
 			element.setIsReadonly(artifact.isReadonly());
 
 		ArrayList<String> strs = new ArrayList<String>();
-		for (IextStereotypeInstance instance : artifact
+		for (IStereotypeInstance instance : artifact
 				.getStereotypeInstances()) {
 			String name = instance.getName();
 			if (!element.getStereotypes().contains(name)) {
@@ -54,7 +54,7 @@ public class StereotypeUpdateCommand extends
 		for (Object st : element.getStereotypes()) {
 			String stName = (String) st;
 			boolean found = false;
-			for (IextStereotypeInstance instance : artifact
+			for (IStereotypeInstance instance : artifact
 					.getStereotypeInstances()) {
 				if (instance.getName().equals(stName)) {
 					found = true;

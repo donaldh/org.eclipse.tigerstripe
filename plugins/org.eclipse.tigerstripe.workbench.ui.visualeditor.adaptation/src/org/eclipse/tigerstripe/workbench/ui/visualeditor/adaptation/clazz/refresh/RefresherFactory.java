@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClassClass;

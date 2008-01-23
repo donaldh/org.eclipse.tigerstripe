@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.profile.stereotype;
 
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
+
+
 
 /**
  * A checkable attribute is rendered as a simple checkbox for the end-user
@@ -20,6 +22,6 @@ import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAtt
  */
 public class CheckableStereotypeAttribute extends BaseStereotypeAttribute {
 	public CheckableStereotypeAttribute() {
-		super(IextStereotypeAttribute.CHECKABLE_KIND);
+		super(IStereotypeAttribute.CHECKABLE_KIND);
 	}
 }

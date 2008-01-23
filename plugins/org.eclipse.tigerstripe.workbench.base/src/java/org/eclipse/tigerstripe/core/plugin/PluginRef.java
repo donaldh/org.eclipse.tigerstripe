@@ -14,8 +14,8 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.eclipse.tigerstripe.api.IPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.plugins.PluginLog;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.plugins.PluginLog;
 import org.eclipse.tigerstripe.api.plugins.PluginLogger;
 import org.eclipse.tigerstripe.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProperty;

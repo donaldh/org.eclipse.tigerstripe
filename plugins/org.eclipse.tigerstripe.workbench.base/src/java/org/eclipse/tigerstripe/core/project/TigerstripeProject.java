@@ -38,16 +38,15 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.ReaderInputStream;
 import org.eclipse.tigerstripe.api.API;
+import org.eclipse.tigerstripe.api.IPluginReference;
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.api.external.IextPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.external.project.IextProjectDescriptor;
-import org.eclipse.tigerstripe.api.external.project.IextProjectDetails;
-import org.eclipse.tigerstripe.api.external.project.IextTigerstripeProject;
 import org.eclipse.tigerstripe.api.project.IDependency;
 import org.eclipse.tigerstripe.api.project.IProjectChangeListener;
+import org.eclipse.tigerstripe.api.project.IProjectDescriptor;
+import org.eclipse.tigerstripe.api.project.IProjectDetails;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.api.utils.IProjectLocator;
@@ -75,7 +74,7 @@ import org.xml.sax.SAXParseException;
  * This conditions a run of Tigerstripe.
  */
 public class TigerstripeProject extends AbstractTigerstripeProject implements
-		IextProjectDescriptor {
+		IProjectDescriptor {
 
 	/** logger for output */
 	private static Logger log = Logger.getLogger(App.class);
@@ -1012,18 +1011,18 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		return facetReferences;
 	}
 
-	public IextPluginReference[] getIextPluginReferences()
+	public IPluginReference[] getIPluginReferences()
 			throws TigerstripeException {
-		return (IextPluginReference[]) pluginReferences
-				.toArray(new IextPluginReference[pluginReferences.size()]);
+		return (IPluginReference[]) pluginReferences
+				.toArray(new IPluginReference[pluginReferences.size()]);
 	}
 
-	public IextTigerstripeProject[] getIextReferencedProjects()
+	public ITigerstripeProject[] getIReferencedProjects()
 			throws TigerstripeException {
 		return getReferencedProjects();
 	}
 
-	public IextProjectDetails getIextProjectDetails()
+	public IProjectDetails getIProjectDetails()
 			throws TigerstripeException {
 		return getProjectDetails();
 	}

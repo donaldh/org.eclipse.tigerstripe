@@ -13,8 +13,8 @@ package org.eclipse.tigerstripe.core.profile.primitiveType;
 import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.api.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.core.util.TigerstripeValidationUtils;
 

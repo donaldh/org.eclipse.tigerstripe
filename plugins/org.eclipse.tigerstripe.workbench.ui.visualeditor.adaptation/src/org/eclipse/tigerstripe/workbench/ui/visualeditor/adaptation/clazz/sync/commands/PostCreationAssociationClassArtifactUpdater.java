@@ -12,18 +12,14 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.external.IextArtifactManagerSession;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.util.Misc;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
@@ -76,8 +72,8 @@ public class PostCreationAssociationClassArtifactUpdater extends
 					// java scalar, String or EnumerationType
 					// or if the References are disabled
 					String attrType = field.getIType().getFullyQualifiedName();
-					IextArtifactManagerSession session = getDiagramProject()
-							.getIextArtifactManagerSession();
+					IArtifactManagerSession session = getDiagramProject()
+							.getIArtifactManagerSession();
 					if (PostCreationAbstractArtifactUpdater
 							.shouldPopulateAttribute(attrType, session)) {
 						Attribute attr = VisualeditorFactory.eINSTANCE
@@ -93,7 +89,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 						attr.setTypeMultiplicity(ClassDiagramUtils
 								.mapTypeMultiplicity(field.getIType()
 										.getTypeMultiplicity()));
-						for (IextStereotypeInstance instance : field
+						for (IStereotypeInstance instance : field
 								.getStereotypeInstances()) {
 							attr.getStereotypes().add(instance.getName());
 						}
@@ -148,14 +144,14 @@ public class PostCreationAssociationClassArtifactUpdater extends
 							.getFullyQualifiedName()));
 					IType type = arg.getIType();
 					TypeMultiplicity mult = TypeMultiplicity.NONE_LITERAL;
-					if (type.getMultiplicity() == IextType.MULTIPLICITY_MULTI) {
+					if (type.getMultiplicity() == IType.MULTIPLICITY_MULTI) {
 						mult = TypeMultiplicity.ARRAY_LITERAL;
 					}
 					param.setMultiplicity(mult);
 					meth.getParameters().add(param);
 				}
 
-				for (IextStereotypeInstance instance : method
+				for (IStereotypeInstance instance : method
 						.getStereotypeInstances()) {
 					meth.getStereotypes().add(instance.getName());
 				}
@@ -184,7 +180,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 		List<AbstractArtifact> eArtifacts = getMap().getArtifacts();
 		for (AbstractArtifact eArt : eArtifacts) {
 			AbstractArtifactHelper aHelper = new AbstractArtifactHelper(eArt);
-			IArtifact mirror = session.getIArtifactByFullyQualifiedName(eArt
+			IAbstractArtifact mirror = session.getIArtifactByFullyQualifiedName(eArt
 					.getFullyQualifiedName(), true);
 			// Take care of attributes in other artifacts that should now
 			// point to this new object
@@ -198,8 +194,8 @@ public class PostCreationAssociationClassArtifactUpdater extends
 					eArt.setExtends(eArtifact);
 				}
 
-				for (IextField field : mirror.getIextFields()) {
-					if (field.getIextType().getFullyQualifiedName().equals(
+				for (IField field : mirror.getIFields()) {
+					if (field.getIType().getFullyQualifiedName().equals(
 							eArtifact.getFullyQualifiedName())) {
 						// before we add this reference we need to make sure
 						// it's not already
@@ -216,7 +212,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 									.createReference();
 							ref.setName(field.getName());
 							ref.setZEnd(eArtifact);
-							if (field.getIextType().getMultiplicity() == IextType.MULTIPLICITY_MULTI) {
+							if (field.getIType().getMultiplicity() == IType.MULTIPLICITY_MULTI) {
 								ref
 										.setMultiplicity(TypeMultiplicity.ARRAY_LITERAL);
 							} else {

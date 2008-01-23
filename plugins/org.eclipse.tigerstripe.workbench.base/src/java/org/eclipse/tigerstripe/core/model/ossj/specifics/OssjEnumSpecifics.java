@@ -12,9 +12,8 @@ package org.eclipse.tigerstripe.core.model.ossj.specifics;
 
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEnumSpecifics;
-import org.eclipse.tigerstripe.api.external.model.IextType;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEnumSpecifics;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.core.model.Tag;
@@ -59,7 +58,7 @@ public class OssjEnumSpecifics extends OssjArtifactSpecifics implements
 			String fullQual = props.getProperty("base-type", "String");
 			Type type = (Type) getArtifact().makeIField().makeIType();
 			type.setFullyQualifiedName(fullQual);
-			type.setMultiplicity(IextType.MULTIPLICITY_SINGLE);
+			type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
 			setBaseType(type);
 			String exten = props.getProperty("extensible", "true");
 			if (exten.equals("false")) {
@@ -71,7 +70,7 @@ public class OssjEnumSpecifics extends OssjArtifactSpecifics implements
 		} else {
 			Type type = (Type) getArtifact().makeIField().makeIType();
 			type.setFullyQualifiedName("String");
-			type.setMultiplicity(IextType.MULTIPLICITY_SINGLE);
+			type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
 			setBaseType(type);
 			setExtensible(true);
 		}
@@ -90,7 +89,7 @@ public class OssjEnumSpecifics extends OssjArtifactSpecifics implements
 		super.applyDefaults();
 		Type type = (Type) getArtifact().makeIField().makeIType();
 		type.setFullyQualifiedName("int");
-		type.setMultiplicity(IextType.MULTIPLICITY_SINGLE);
+		type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
 		setBaseType(type);
 		setExtensible(true);
 	}

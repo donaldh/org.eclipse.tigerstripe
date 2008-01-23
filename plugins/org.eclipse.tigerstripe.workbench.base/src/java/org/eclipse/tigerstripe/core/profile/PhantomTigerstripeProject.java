@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.project.ArtifactRepository;
 import org.eclipse.tigerstripe.core.project.ProjectDetails;

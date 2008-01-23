@@ -19,9 +19,8 @@ import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.eclipse.tigerstripe.api.API;
 import org.eclipse.tigerstripe.api.IPluginReference;
-import org.eclipse.tigerstripe.api.external.IextPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
@@ -279,7 +278,7 @@ public class CSVPlugin extends BasePlugin {
 	}
 
 	public int getCategory() {
-		return IextPluginReference.PUBLISH_CATEGORY;
+		return IPluginReference.PUBLISH_CATEGORY;
 	}
 
 }

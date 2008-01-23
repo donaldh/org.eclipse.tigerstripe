@@ -15,10 +15,9 @@ import java.io.FilenameFilter;
 import java.net.URI;
 
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.plugins.PluginLog.LogLevel;
-import org.eclipse.tigerstripe.api.external.project.IextProjectDetails;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.AbstractTigerstripeProjectHandle;
+import org.eclipse.tigerstripe.api.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProperty;
@@ -224,7 +223,7 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		}
 	}
 
-	public IextProjectDetails getIextProjectDetails()
+	public IProjectDetails getIProjectDetails()
 			throws TigerstripeException {
 
 		return getProjectDetails();

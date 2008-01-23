@@ -13,11 +13,11 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refre
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
@@ -364,7 +364,7 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 						meth.getParameters().add(param);
 					}
 
-					for (IextStereotypeInstance instance : iMethod
+					for (IStereotypeInstance instance : iMethod
 							.getStereotypeInstances()) {
 						meth.getStereotypes().add(instance.getName());
 					}

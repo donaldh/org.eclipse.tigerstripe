@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.core.project.pluggable.rules;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.plugins.pluggable.ICopyRule;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.core.plugin.Expander;

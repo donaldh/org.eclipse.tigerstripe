@@ -16,8 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.dom4j.Element;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
 import org.eclipse.tigerstripe.api.profile.stereotype.IEntryListStereotypeAttribute;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
 
 /**
  * A checkable attribute is rendered as a simple checkbox for the end-user
@@ -31,7 +31,7 @@ public class EntryListStereotypeAttribute extends BaseStereotypeAttribute
 	private List<String> entries = new ArrayList<String>();
 
 	public EntryListStereotypeAttribute() {
-		super(IextStereotypeAttribute.ENTRY_LIST_KIND);
+		super(IStereotypeAttribute.ENTRY_LIST_KIND);
 	}
 
 	public String[] getSelectableValues() {

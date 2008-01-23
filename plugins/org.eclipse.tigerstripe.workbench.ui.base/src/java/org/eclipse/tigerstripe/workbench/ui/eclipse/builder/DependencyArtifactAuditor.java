@@ -12,9 +12,9 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.external.model.IextType;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
 
 public class DependencyArtifactAuditor extends AbstractArtifactAuditor
 		implements IArtifactAuditor {
@@ -30,14 +30,14 @@ public class DependencyArtifactAuditor extends AbstractArtifactAuditor
 
 		IDependencyArtifact artifact = (IDependencyArtifact) getArtifact();
 
-		IextType aEndType = artifact.getAEndType();
+		IType aEndType = artifact.getAEndType();
 		if (aEndType == null || aEndType.getFullyQualifiedName().length() == 0) {
 			TigerstripeProjectAuditor.reportError(
 					"Undefined Dependency end (aEnd) in '" + artifact.getName()
 							+ "'.", getIResource(), 222);
 		}
 
-		IextType zEndType = artifact.getZEndType();
+		IType zEndType = artifact.getZEndType();
 		if (zEndType == null || zEndType.getFullyQualifiedName().length() == 0) {
 			TigerstripeProjectAuditor.reportError(
 					"Undefined Dependency end (zEnd) in '" + artifact.getName()

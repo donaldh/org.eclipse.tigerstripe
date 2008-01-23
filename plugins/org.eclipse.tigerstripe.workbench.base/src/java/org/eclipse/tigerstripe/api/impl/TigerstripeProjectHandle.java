@@ -19,14 +19,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.api.IPluginReference;
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.api.external.IextArtifactManagerSession;
-import org.eclipse.tigerstripe.api.external.IextPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.project.IextProjectDetails;
-import org.eclipse.tigerstripe.api.external.project.IextTigerstripeProject;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
 import org.eclipse.tigerstripe.api.project.IDependency;
 import org.eclipse.tigerstripe.api.project.IImportCheckpoint;
 import org.eclipse.tigerstripe.api.project.INameProvider;
@@ -229,7 +225,7 @@ public abstract class TigerstripeProjectHandle extends
 		for (int i = 0; i < refs.length; i++) {
 			log.info(" ..." + refs[i].getGroupId() + "/"
 					+ refs[i].getPluginId() + "(" + refs[i].getVersion() + ")");
-			if (refs[i].getCategory() == IextPluginReference.PUBLISH_CATEGORY)
+			if (refs[i].getCategory() == IPluginReference.PUBLISH_CATEGORY)
 				refs[i].trigger();
 		}
 	}
@@ -416,25 +412,12 @@ public abstract class TigerstripeProjectHandle extends
 		return result;
 	}
 
-	public IextArtifactManagerSession getIextArtifactManagerSession()
+	public IArtifactManagerSession getIArtifactManagerSession()
 			throws TigerstripeException {
 		return getArtifactManagerSession();
 	}
 
-	public IextPluginReference[] getIextPluginReferences()
-			throws TigerstripeException {
-		return getPluginReferences();
-	}
-
-	public IextTigerstripeProject[] getIextReferencedProjects()
-			throws TigerstripeException {
-		return getReferencedProjects();
-	}
-
-	public IextProjectDetails getIextProjectDetails()
-			throws TigerstripeException {
-		return getProjectDetails();
-	}
+	
 
 	public void doSave() throws TigerstripeException {
 		try {
@@ -524,6 +507,21 @@ public abstract class TigerstripeProjectHandle extends
 	public void setActiveFacet(IFacetReference facet,
 			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
 		getArtifactManagerSession().setActiveFacet(facet, monitor);
+	}
+
+	public IPluginReference[] getIPluginReferences()
+	throws TigerstripeException {
+		return getPluginReferences();
+	}
+
+	public ITigerstripeProject[] getIReferencedProjects()
+	throws TigerstripeException {
+		return getReferencedProjects();
+	}
+
+	public IProjectDetails getIProjectDetails()
+	throws TigerstripeException {
+		return getProjectDetails();
 	}
 
 }

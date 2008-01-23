@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.core.model.importing.db.schema.ImportedKey;
 import org.eclipse.tigerstripe.core.model.importing.db.utils.DatabaseUtil;
 

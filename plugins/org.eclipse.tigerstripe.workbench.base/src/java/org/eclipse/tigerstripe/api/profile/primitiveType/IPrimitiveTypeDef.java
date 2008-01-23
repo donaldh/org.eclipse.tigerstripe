@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.api.profile.primitiveType;
 
 import org.dom4j.Element;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 /**
  * A primitive type definition as it appears in a profile definition

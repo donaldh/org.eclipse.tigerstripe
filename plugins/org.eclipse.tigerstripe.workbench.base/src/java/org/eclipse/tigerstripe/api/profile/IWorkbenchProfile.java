@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.api.profile;
 
 import java.io.Reader;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IModelComponent;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
 import org.eclipse.tigerstripe.api.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeCapable;

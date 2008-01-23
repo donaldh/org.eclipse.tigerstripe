@@ -17,8 +17,8 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.utils.AbstractArtifactAdapter;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -100,9 +100,9 @@ public class ClassDiagramDragDropEnablePolicy {
 					IRelationship rel = (IRelationship) artifact;
 					if (rel.getRelationshipAEnd() != null
 							&& rel.getRelationshipZEnd() != null) {
-						String aEndFQN = rel.getRelationshipAEnd().getType()
+						String aEndFQN = rel.getRelationshipAEnd().getIType()
 								.getFullyQualifiedName();
-						String zEndFQN = rel.getRelationshipZEnd().getType()
+						String zEndFQN = rel.getRelationshipZEnd().getIType()
 								.getFullyQualifiedName();
 
 						result = (element == null)

@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.AbstractTigerstripeProjectHandle;
 import org.eclipse.tigerstripe.api.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;

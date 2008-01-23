@@ -21,7 +21,7 @@ import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TransferData;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.eclipse.utils.AbstractArtifactAdapter;
 
 public class InstanceDiagramDropTarget extends DiagramDropTargetListener {

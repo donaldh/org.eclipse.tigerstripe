@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.api.versioning;
 import java.io.Reader;
 import java.net.URI;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 /**
  * Base element for Tigerstripe. Has a name, and a description. It can be saved

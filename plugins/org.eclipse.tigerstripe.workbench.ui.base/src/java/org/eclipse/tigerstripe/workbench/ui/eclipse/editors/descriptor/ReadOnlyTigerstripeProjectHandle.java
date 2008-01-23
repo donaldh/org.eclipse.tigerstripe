@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.api.publish.IProjectCSVCreator;

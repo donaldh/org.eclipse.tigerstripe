@@ -12,9 +12,7 @@ package org.eclipse.tigerstripe.core.profile.stereotype;
 
 import java.util.HashMap;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotype;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
@@ -68,7 +66,7 @@ public class UnresolvedStereotypeInstance implements IStereotypeInstance {
 						+ getName() + ").");
 	}
 
-	public String getAttributeValue(IextStereotypeAttribute attribute)
+	public String getAttributeValue(IStereotypeAttribute attribute)
 			throws TigerstripeException {
 		String name = attribute.getName();
 		if (fakeAttributeMap.containsKey(name))
@@ -90,7 +88,7 @@ public class UnresolvedStereotypeInstance implements IStereotypeInstance {
 							+ "'.");
 	}
 
-	public String[] getAttributeValues(IextStereotypeAttribute attribute)
+	public String[] getAttributeValues(IStereotypeAttribute attribute)
 			throws TigerstripeException {
 		return getAttributeValues(attribute.getName());
 	}
@@ -102,9 +100,6 @@ public class UnresolvedStereotypeInstance implements IStereotypeInstance {
 		return split;
 	}
 
-	public IextStereotype getCharacterizingIextStereotype() {
-		return null;
-	}
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {

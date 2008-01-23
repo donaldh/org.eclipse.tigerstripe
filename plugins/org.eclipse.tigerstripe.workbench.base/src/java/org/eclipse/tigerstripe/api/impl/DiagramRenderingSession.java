@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.api.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;

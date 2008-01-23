@@ -12,9 +12,9 @@ package org.eclipse.tigerstripe.api.contract;
 
 import java.net.URI;
 
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCase;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 
 /**
  * Facade for Contract related objects

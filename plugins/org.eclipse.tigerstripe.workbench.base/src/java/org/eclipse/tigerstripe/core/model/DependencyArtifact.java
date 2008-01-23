@@ -14,15 +14,13 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.api.utils.TigerstripeErrorLevel;
@@ -34,7 +32,7 @@ import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 
 public class DependencyArtifact extends AbstractArtifact implements
-		IDependencyArtifact {
+		IDependencyArtifact , IRelationship{
 
 	private IRelationshipEnd aRelationshipEnd;
 
@@ -119,15 +117,15 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	public String getIArtifactType() {
-		return IextDependencyArtifact.class.getName();
+		return IDependencyArtifact.class.getName();
 	}
 
-	public IextType getAEndType() {
-		return getRelationshipAEnd().getType();
+	public IType getAEndType() {
+		return getRelationshipAEnd().getIType();
 	}
 
-	public IextType getZEndType() {
-		return getRelationshipZEnd().getType();
+	public IType getZEndType() {
+		return getRelationshipZEnd().getIType();
 	}
 
 	@Override
@@ -139,8 +137,8 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public IextMethod[] getIextMethods() {
-		return new IextMethod[0];
+	public IMethod[] getIMethods() {
+		return new IMethod[0];
 	}
 
 	@Override
@@ -201,7 +199,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 				return getContainingRelationship().getRelationshipAEnd();
 		}
 
-		public IextType getType() {
+		public IType getIType() {
 			return type;
 		}
 
@@ -214,13 +212,13 @@ public class DependencyArtifact extends AbstractArtifact implements
 			List<TigerstripeError> errors = new ArrayList();
 
 			// check the validity of the type for this association end
-			List<TigerstripeError> errorList = ((IType) getType()).validate();
+			List<TigerstripeError> errorList = ((IType) getIType()).validate();
 			if (!errorList.isEmpty())
 				errors.addAll(errorList);
 
 			// making sure association ends are not scalars
-			if (getType() != null
-					&& (getType().isPrimitive() || getType()
+			if (getIType() != null
+					&& (getIType().isPrimitive() || getIType()
 							.getFullyQualifiedName().equals("String"))) {
 				errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR,
 						"Dependency End cannot be a primitive type."));
@@ -230,10 +228,10 @@ public class DependencyArtifact extends AbstractArtifact implements
 		}
 
 		public String getNameForType(String typeName) {
-			if (typeName.equals(aRelationshipEnd.getType()
+			if (typeName.equals(aRelationshipEnd.getIType()
 					.getFullyQualifiedName()))
 				return "aEnd";
-			else if (typeName.equals(zRelationshipEnd.getType()
+			else if (typeName.equals(zRelationshipEnd.getIType()
 					.getFullyQualifiedName()))
 				return "zEnd";
 			return "";

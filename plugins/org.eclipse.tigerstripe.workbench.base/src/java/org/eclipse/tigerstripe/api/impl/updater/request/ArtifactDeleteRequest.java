@@ -10,12 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.impl.updater.request;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IArtifactDeleteRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.updater.BaseModelChangeRequest;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IArtifactDeleteRequest;
 
 public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 		IArtifactDeleteRequest {
@@ -49,7 +48,7 @@ public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IArtifact art = mgrSession.getIArtifactByFullyQualifiedName(
+		IAbstractArtifact art = mgrSession.getIArtifactByFullyQualifiedName(
 				getFullyQualifiedName(), false);
 		return art != null;
 	}

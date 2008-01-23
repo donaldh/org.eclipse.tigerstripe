@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.contract.predicate;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.core.model.ArtifactFilter;
 import org.eclipse.tigerstripe.core.util.Predicate;
 

@@ -14,9 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.model.IextType;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IType;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.api.utils.TigerstripeErrorLevel;
@@ -108,9 +107,6 @@ public class Label extends ArtifactComponent implements ILabel {
 
 	// ===============================================================
 	// To satisfy the ILabel interface
-	public IType getIType() {
-		return getType();
-	}
 
 	public String getLabelString() {
 		return getName() + "=" + getValue();
@@ -124,7 +120,7 @@ public class Label extends ArtifactComponent implements ILabel {
 		return new Type(getArtifactManager());
 	}
 
-	public IextType getIextType() {
+	public IType getIType() {
 		return getType();
 	}
 

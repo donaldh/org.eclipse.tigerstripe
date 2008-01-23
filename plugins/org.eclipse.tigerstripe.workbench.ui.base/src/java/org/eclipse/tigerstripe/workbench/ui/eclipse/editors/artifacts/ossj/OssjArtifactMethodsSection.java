@@ -32,10 +32,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.model.IextType;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.core.model.Method;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
@@ -241,7 +240,7 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		newMethod.setVoid(true);
 		IType type = newMethod.makeIType();
 		type.setFullyQualifiedName("void");
-		type.setMultiplicity(IextType.MULTIPLICITY_SINGLE);
+		type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
 		newMethod.setReturnIType(type);
 		newMethod.setVoid(true);
 

@@ -14,8 +14,8 @@ import java.net.URI;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCase;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.core.versioning.VersionAwareElement;
 
 public class UseCase extends VersionAwareElement implements IUseCase {

@@ -13,10 +13,10 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refre
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
@@ -102,14 +102,14 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 						.getStereotypeInstances().length) {
 					// not even the same number of args, let's redo the list
 					eLiteral.getStereotypes().clear();
-					for (IextStereotypeInstance stereo : iLabel
+					for (IStereotypeInstance stereo : iLabel
 							.getStereotypeInstances()) {
 						eLiteral.getStereotypes().add(stereo.getName());
 					}
 				} else {
 					// same number of stereotypes let's see if they all match
 					List<String> eStereotypes = eLiteral.getStereotypes();
-					IextStereotypeInstance[] iStereotypes = iLabel
+					IStereotypeInstance[] iStereotypes = iLabel
 							.getStereotypeInstances();
 					for (int index = 0; index < iStereotypes.length; index++) {
 						String eStereotypeName = eStereotypes.get(index);

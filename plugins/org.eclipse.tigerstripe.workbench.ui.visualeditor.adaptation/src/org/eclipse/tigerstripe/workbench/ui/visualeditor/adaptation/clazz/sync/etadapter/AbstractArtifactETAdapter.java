@@ -13,12 +13,12 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeRequestFactory;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IAttributeRemoveRequest;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.ILabelRemoveRequest;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IMethodRemoveRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequestFactory;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IAttributeRemoveRequest;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.ILabelRemoveRequest;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IMethodRemoveRequest;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.ETAdapter;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;

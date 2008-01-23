@@ -35,14 +35,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventDescriptorEntry;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEventSpecifics;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IEventDescriptorEntry;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEventSpecifics;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.model.EventArtifact;
 import org.eclipse.tigerstripe.core.model.EventDescriptorEntry;
@@ -178,7 +177,7 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 								.getFullyQualifiedName());
 				if (artifact != null
 						&& artifact instanceof IManagedEntityArtifact
-						&& getField().getRefBy() != IextField.REFBY_VALUE)
+						&& getField().getRefBy() != IField.REFBY_VALUE)
 					return; // When a ManagedEntity not refBy value don't get
 				// children
 				if (artifact != null) {
@@ -216,10 +215,10 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 			TreeNode node = (TreeNode) element;
 
 			IField field = node.getField();
-			if (field.getRefBy() == IextField.REFBY_KEY)
+			if (field.getRefBy() == IField.REFBY_KEY)
 				return node.getName() + " ("
 						+ field.getIType().getFullyQualifiedName() + " by Key)";
-			else if (field.getRefBy() == IextField.REFBY_KEYRESULT)
+			else if (field.getRefBy() == IField.REFBY_KEYRESULT)
 				return node.getName() + " ("
 						+ field.getIType().getFullyQualifiedName()
 						+ " by KeyResult)";

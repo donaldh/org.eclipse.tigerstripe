@@ -14,11 +14,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEntityMethodFlavorDetails;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextSessionArtifact.IextEntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjMethod;
 
 public class CompareSession {
 
@@ -80,22 +79,22 @@ public class CompareSession {
 		// String entName = aDetail.getFullyQualifiedName();
 		for (IOssjMethod.OssjEntityMethodFlavor flavor : IOssjMethod.OssjEntityMethodFlavor
 				.values()) {
-			IextEntityMethodFlavorDetails aCreate = aDetail
+			IEntityMethodFlavorDetails aCreate = aDetail
 					.getCreateFlavorDetails(flavor);
-			IextEntityMethodFlavorDetails aSet = aDetail
+			IEntityMethodFlavorDetails aSet = aDetail
 					.getSetFlavorDetails(flavor);
-			IextEntityMethodFlavorDetails aGet = aDetail
+			IEntityMethodFlavorDetails aGet = aDetail
 					.getGetFlavorDetails(flavor);
-			IextEntityMethodFlavorDetails aRemove = aDetail
+			IEntityMethodFlavorDetails aRemove = aDetail
 					.getRemoveFlavorDetails(flavor);
 
-			IextEntityMethodFlavorDetails bCreate = bDetail
+			IEntityMethodFlavorDetails bCreate = bDetail
 					.getCreateFlavorDetails(flavor);
-			IextEntityMethodFlavorDetails bSet = bDetail
+			IEntityMethodFlavorDetails bSet = bDetail
 					.getSetFlavorDetails(flavor);
-			IextEntityMethodFlavorDetails bGet = bDetail
+			IEntityMethodFlavorDetails bGet = bDetail
 					.getGetFlavorDetails(flavor);
-			IextEntityMethodFlavorDetails bRemove = bDetail
+			IEntityMethodFlavorDetails bRemove = bDetail
 					.getRemoveFlavorDetails(flavor);
 
 			ArrayList crudA = new ArrayList();
@@ -117,11 +116,11 @@ public class CompareSession {
 			IMethod[] aCustomMeths = artA.getIMethods();
 			for (int j = 0; j < aCustomMeths.length; j++) {
 				if (aCustomMeths[j].isInstanceMethod()) {
-					IextEntityMethodFlavorDetails aCust = aDetail
+					IEntityMethodFlavorDetails aCust = aDetail
 							.getCustomMethodFlavorDetails(aCustomMeths[j]
 									.getMethodId(), flavor);
 					// See if it's in B
-					IextEntityMethodFlavorDetails bCust = bDetail
+					IEntityMethodFlavorDetails bCust = bDetail
 							.getCustomMethodFlavorDetails(aCustomMeths[j]
 									.getMethodId(), flavor);
 					if (bCust == null) {

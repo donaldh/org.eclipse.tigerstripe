@@ -14,11 +14,10 @@ import java.io.Writer;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.ossjSpecifics.IextOssjEntitySpecifics;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEntitySpecifics;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.core.model.ossj.ManagedEntityArtifactPersister;
@@ -51,7 +50,7 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 	}
 
 	public String getIArtifactType() {
-		return IextManagedEntityArtifact.class.getName();
+		return IManagedEntityArtifact.class.getName();
 	}
 
 	/**
@@ -129,18 +128,18 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 		// Extract CRUD operations Options
 		try {
 			OssjEntitySpecifics specifics = (OssjEntitySpecifics) getIStandardSpecifics();
-			specifics.setCRUDProperties(IextOssjEntitySpecifics.CREATE,
+			specifics.setCRUDProperties(IOssjEntitySpecifics.CREATE,
 					PropertiesConstants.getPropertiesById(getTags(),
-							IextOssjEntitySpecifics.CREATE_PROP_ID));
-			specifics.setCRUDProperties(IextOssjEntitySpecifics.GET,
+							IOssjEntitySpecifics.CREATE_PROP_ID));
+			specifics.setCRUDProperties(IOssjEntitySpecifics.GET,
 					PropertiesConstants.getPropertiesById(getTags(),
-							IextOssjEntitySpecifics.GET_PROP_ID));
-			specifics.setCRUDProperties(IextOssjEntitySpecifics.SET,
+							IOssjEntitySpecifics.GET_PROP_ID));
+			specifics.setCRUDProperties(IOssjEntitySpecifics.SET,
 					PropertiesConstants.getPropertiesById(getTags(),
-							IextOssjEntitySpecifics.SET_PROP_ID));
-			specifics.setCRUDProperties(IextOssjEntitySpecifics.DELETE,
+							IOssjEntitySpecifics.SET_PROP_ID));
+			specifics.setCRUDProperties(IOssjEntitySpecifics.DELETE,
 					PropertiesConstants.getPropertiesById(getTags(),
-							IextOssjEntitySpecifics.REMOVE_PROP_ID));
+							IOssjEntitySpecifics.REMOVE_PROP_ID));
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
@@ -196,22 +195,22 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 	//
 	public Properties getCreateProperties() {
 		OssjEntitySpecifics specifics = (OssjEntitySpecifics) getIStandardSpecifics();
-		return specifics.getCRUDProperties(IextOssjEntitySpecifics.CREATE);
+		return specifics.getCRUDProperties(IOssjEntitySpecifics.CREATE);
 	}
 
 	public Properties getGetProperties() {
 		OssjEntitySpecifics specifics = (OssjEntitySpecifics) getIStandardSpecifics();
-		return specifics.getCRUDProperties(IextOssjEntitySpecifics.GET);
+		return specifics.getCRUDProperties(IOssjEntitySpecifics.GET);
 	}
 
 	public Properties getSetProperties() {
 		OssjEntitySpecifics specifics = (OssjEntitySpecifics) getIStandardSpecifics();
-		return specifics.getCRUDProperties(IextOssjEntitySpecifics.SET);
+		return specifics.getCRUDProperties(IOssjEntitySpecifics.SET);
 	}
 
 	public Properties getRemoveProperties() {
 		OssjEntitySpecifics specifics = (OssjEntitySpecifics) getIStandardSpecifics();
-		return specifics.getCRUDProperties(IextOssjEntitySpecifics.DELETE);
+		return specifics.getCRUDProperties(IOssjEntitySpecifics.DELETE);
 	}
 
 	@Override

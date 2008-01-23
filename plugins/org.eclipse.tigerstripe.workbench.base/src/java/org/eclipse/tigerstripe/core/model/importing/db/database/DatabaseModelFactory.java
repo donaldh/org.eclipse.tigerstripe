@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.core.model.importing.db.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 /**
  * A factory of all known database models

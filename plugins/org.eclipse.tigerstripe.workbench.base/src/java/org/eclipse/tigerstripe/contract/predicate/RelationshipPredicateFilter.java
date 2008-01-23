@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.contract.predicate;
 
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
+import org.eclipse.tigerstripe.api.model.IRelationship;
 import org.eclipse.tigerstripe.core.model.RelationshipFilter;
 import org.eclipse.tigerstripe.core.util.Predicate;
 

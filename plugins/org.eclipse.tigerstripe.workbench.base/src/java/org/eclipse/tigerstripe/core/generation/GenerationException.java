@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.core.generation;
 
 import org.eclipse.tigerstripe.api.IPluginReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 public class GenerationException extends TigerstripeException {
 

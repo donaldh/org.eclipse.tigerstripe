@@ -42,10 +42,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
@@ -227,16 +227,16 @@ public class ManageLinksDialog extends TSMessageDialog {
 				IAssociationArtifact association = (IAssociationArtifact) relationship;
 				relationshipName = association.getFullyQualifiedName();
 				aEnd = association.getRelationshipAEnd();
-				aEndName = aEnd.getType().getFullyQualifiedName();
+				aEndName = aEnd.getIType().getFullyQualifiedName();
 				zEnd = association.getRelationshipZEnd();
-				zEndName = zEnd.getType().getFullyQualifiedName();
+				zEndName = zEnd.getIType().getFullyQualifiedName();
 			} else {
 				IDependencyArtifact dependency = (IDependencyArtifact) relationship;
 				relationshipName = dependency.getFullyQualifiedName();
 				aEnd = dependency.getRelationshipAEnd();
-				aEndName = aEnd.getType().getFullyQualifiedName();
+				aEndName = aEnd.getIType().getFullyQualifiedName();
 				zEnd = dependency.getRelationshipZEnd();
-				zEndName = zEnd.getType().getFullyQualifiedName();
+				zEndName = zEnd.getIType().getFullyQualifiedName();
 			}
 		}
 

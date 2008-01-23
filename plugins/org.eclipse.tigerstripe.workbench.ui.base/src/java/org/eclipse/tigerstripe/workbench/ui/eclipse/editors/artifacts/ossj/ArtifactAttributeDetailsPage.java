@@ -30,15 +30,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeCapable;
@@ -328,14 +327,14 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 			refComposite.setLayout(gLayout);
 			refComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			refByValueButton = toolkit.createButton(refComposite,
-					IextField.refByLabels[IextField.REFBY_VALUE], SWT.RADIO);
+					IField.refByLabels[IField.REFBY_VALUE], SWT.RADIO);
 			refByValueButton.addSelectionListener(adapter);
 			refByKeyButton = toolkit.createButton(refComposite,
-					IextField.refByLabels[IextField.REFBY_KEY], SWT.RADIO);
+					IField.refByLabels[IField.REFBY_KEY], SWT.RADIO);
 			refByKeyButton.addSelectionListener(adapter);
 			refByKeyResultButton = toolkit
 					.createButton(refComposite,
-							IextField.refByLabels[IextField.REFBY_KEYRESULT],
+							IField.refByLabels[IField.REFBY_KEYRESULT],
 							SWT.RADIO);
 			refByKeyResultButton.addSelectionListener(adapter);
 			label = toolkit.createLabel(sectionClient, "");
@@ -479,11 +478,11 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		if (refByValueButton != null)
 			refByValueButton.setSelection(false);
 		switch (field.getRefBy()) {
-		case IextField.REFBY_KEY:
+		case IField.REFBY_KEY:
 			if (refByKeyButton != null)
 				refByKeyButton.setSelection(true);
 			break;
-		case IextField.REFBY_KEYRESULT:
+		case IField.REFBY_KEYRESULT:
 			if (refByKeyResultButton != null)
 				refByKeyResultButton.setSelection(true);
 			break;
@@ -527,24 +526,24 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 
 	private void setVisibility(int visibility) {
 		publicButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PUBLIC);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PUBLIC);
 		protectedButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PROTECTED);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PROTECTED);
 		privateButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PRIVATE);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PRIVATE);
 		packageButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PACKAGE);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PACKAGE);
 	}
 
 	private int getVisibility() {
 		if (publicButton.getSelection())
-			return IextModelComponent.VISIBILITY_PUBLIC;
+			return IModelComponent.VISIBILITY_PUBLIC;
 		else if (protectedButton.getSelection())
-			return IextModelComponent.VISIBILITY_PROTECTED;
+			return IModelComponent.VISIBILITY_PROTECTED;
 		else if (privateButton.getSelection())
-			return IextModelComponent.VISIBILITY_PRIVATE;
+			return IModelComponent.VISIBILITY_PRIVATE;
 		else
-			return IextModelComponent.VISIBILITY_PACKAGE;
+			return IModelComponent.VISIBILITY_PACKAGE;
 	}
 
 	/**
@@ -597,13 +596,13 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 				|| e.getSource() == refByKeyResultButton
 				|| e.getSource() == refByValueButton) {
 			if (refByKeyButton.getSelection()) {
-				field.setRefBy(IextField.REFBY_KEY);
+				field.setRefBy(IField.REFBY_KEY);
 				pageModified();
 			} else if (refByKeyResultButton.getSelection()) {
-				field.setRefBy(IextField.REFBY_KEYRESULT);
+				field.setRefBy(IField.REFBY_KEYRESULT);
 				pageModified();
 			} else {
-				field.setRefBy(IextField.REFBY_VALUE);
+				field.setRefBy(IField.REFBY_VALUE);
 				pageModified();
 			}
 		}

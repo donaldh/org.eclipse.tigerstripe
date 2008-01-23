@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.useCases;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IContractSegment;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.SegmentEditor;
 import org.eclipse.ui.forms.IManagedForm;

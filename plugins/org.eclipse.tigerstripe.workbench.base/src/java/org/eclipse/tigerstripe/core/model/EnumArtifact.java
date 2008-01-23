@@ -13,11 +13,10 @@ package org.eclipse.tigerstripe.core.model;
 import java.io.Writer;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.external.model.IextLabel;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextEnumArtifact;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.model.ossj.EnumArtifactPersister;
 import org.eclipse.tigerstripe.core.model.ossj.specifics.OssjEnumSpecifics;
@@ -50,7 +49,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	}
 
 	public String getIArtifactType() {
-		return IextEnumArtifact.class.getName();
+		return IEnumArtifact.class.getName();
 	}
 
 	/**
@@ -111,7 +110,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	public String getMinLabel() {
 
 		if (getBaseType().getFullyQualifiedName().equals("int")) {
-			IextLabel[] labels = getIextLabels();
+			ILabel[] labels = getILabels();
 
 			int val = 0;
 			int min = 0;
@@ -125,7 +124,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 			}
 			return labels[index].getName();
 		} else
-			return getIextLabels()[0].getName();
+			return getILabels()[0].getName();
 	}
 
 	/**
@@ -136,7 +135,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	 */
 	public String getMaxLabel() {
 		if (getBaseType().getFullyQualifiedName().equals("int")) {
-			IextLabel[] labels = getIextLabels();
+			ILabel[] labels = getILabels();
 			int val = 0;
 			int max = 0;
 			int index = 0;
@@ -149,7 +148,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 			}
 			return labels[index].getName();
 		} else
-			return getIextLabels()[0].getName();
+			return getILabels()[0].getName();
 	}
 
 	public boolean getExtensible() {

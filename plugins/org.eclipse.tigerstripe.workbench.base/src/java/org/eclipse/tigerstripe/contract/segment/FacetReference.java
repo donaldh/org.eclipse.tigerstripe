@@ -14,15 +14,15 @@ import java.io.File;
 import java.net.URI;
 
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactChangeListener;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
-import org.eclipse.tigerstripe.api.external.project.IextAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.api.model.IArtifactChangeListener;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
@@ -181,7 +181,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 			return tsProject;
 
 		try {
-			IextAbstractTigerstripeProject aProject = null;
+			IAbstractTigerstripeProject aProject = null;
 			if (project == null && projectLabel != null) {
 				IProjectLocator locator = (IProjectLocator) API
 						.getFacility(API.PROJECT_LOCATOR_FACILITY);
@@ -304,8 +304,8 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 				|| ((IRelationship) artifact).getRelationshipZEnd() == null)
 			return;
 
-		if (((IRelationship) artifact).getRelationshipAEnd().getType() == null
-				|| ((IRelationship) artifact).getRelationshipZEnd().getType() == null)
+		if (((IRelationship) artifact).getRelationshipAEnd().getIType() == null
+				|| ((IRelationship) artifact).getRelationshipZEnd().getIType() == null)
 			return;
 
 		FacetPredicate pred = getPrimaryPredicate();
@@ -321,13 +321,13 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 				IAbstractArtifact aEnd = getContainingProject()
 						.getArtifactManagerSession()
 						.getArtifactByFullyQualifiedName(
-								rel.getRelationshipAEnd().getType()
+								rel.getRelationshipAEnd().getIType()
 										.getFullyQualifiedName());
 				if (pred.evaluate(aEnd)) {
 					// remove zEnd
 					FacetPredicate resolvedPred = (FacetPredicate) getFacetPredicate();
 					resolvedPred.addTempExclude(rel.getRelationshipZEnd()
-							.getType().getFullyQualifiedName());
+							.getIType().getFullyQualifiedName());
 					activeMgr.setActiveFacet(this,
 							new TigerstripeNullProgressMonitor());
 				}

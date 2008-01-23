@@ -46,8 +46,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
@@ -161,7 +160,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 
 		public Object[] getElements(Object inputElement) {
 			if (stereotype != null)
-				return stereotype.getIextAttributes();
+				return stereotype.getIAttributes();
 			return new Object[0];
 		}
 
@@ -750,7 +749,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 
 	protected void addAttrButtonSelected(SelectionEvent event) {
 		IStereotypeAttribute newAttr = StereotypeAttributeFactory
-				.makeAttribute(IextStereotypeAttribute.STRING_ENTRY_KIND);
+				.makeAttribute(IStereotypeAttribute.STRING_ENTRY_KIND);
 		StereotypeAttributeEditDialog dialog = new StereotypeAttributeEditDialog(
 				null, newAttr, Arrays.asList(stereotype.getAttributes()),
 				stereotype);

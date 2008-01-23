@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.core.model.ossj.specifics;
 
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjQuerySpecifics;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjQuerySpecifics;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.core.model.Tag;

@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.profile.stereotype;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextEntryListStereotypeAttribute;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+
 
 /**
  * A specific type of Stereotype attribute that has a list of valid values to be
@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.api.external.profile.stereotype.IextEntryListSter
  * @since 1.2
  */
 public interface IEntryListStereotypeAttribute extends
-		IextEntryListStereotypeAttribute, IStereotypeAttribute {
+	 IStereotypeAttribute {
 
 	public void setSelectableValues(String[] values)
 			throws TigerstripeException;
@@ -31,4 +31,11 @@ public interface IEntryListStereotypeAttribute extends
 	public void addSelectableValue(String value) throws TigerstripeException;
 
 	public void removeSelectableValue(String value) throws TigerstripeException;
+
+	/**
+	 * The list of selectable values for this attribute
+	 * 
+	 * @return
+	 */
+	public String[] getSelectableValues();
 }

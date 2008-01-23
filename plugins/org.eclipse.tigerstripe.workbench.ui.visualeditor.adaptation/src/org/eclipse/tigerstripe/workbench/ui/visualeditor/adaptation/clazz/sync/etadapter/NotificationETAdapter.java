@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter;
 
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.NotificationArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.ClassDiagramSynchronizer;
 

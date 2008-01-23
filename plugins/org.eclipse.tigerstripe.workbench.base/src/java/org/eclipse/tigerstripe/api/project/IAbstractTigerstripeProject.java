@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.project;
 
+import java.io.File;
 import java.net.URI;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.project.IextAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 
 /**
  * Top level handle for any Tigerstripe project
@@ -21,8 +21,7 @@ import org.eclipse.tigerstripe.api.external.project.IextAbstractTigerstripeProje
  * @author Eric Dillon
  * @since 1.2
  */
-public interface IAbstractTigerstripeProject extends
-		IextAbstractTigerstripeProject {
+public interface IAbstractTigerstripeProject {
 
 	/**
 	 * The project label is a contextual name use to identify the project.
@@ -35,12 +34,6 @@ public interface IAbstractTigerstripeProject extends
 	 */
 	public String getProjectLabel();
 
-	/**
-	 * @return true if the project exists (i.e. a valid project descriptor was
-	 *         found in the handle)
-	 * 
-	 */
-	public boolean exists();
 
 	public URI getURI();
 
@@ -67,4 +60,25 @@ public interface IAbstractTigerstripeProject extends
 	 * @return
 	 */
 	public String getDescriptorFilename();
+
+	/**
+	 * @return true if the project exists (i.e. a valid project descriptor was
+	 *         found in the handle)
+	 * 
+	 */
+	public boolean exists();
+
+	/**
+	 * Base directory for the project
+	 * 
+	 * @return
+	 */
+	public File getBaseDir();
+
+	public IProjectDetails getIProjectDetails()
+	throws TigerstripeException;
+
+
+
+
 }

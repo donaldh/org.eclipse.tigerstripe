@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.core.util.Misc;
@@ -218,7 +218,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 							// not even the same number of args, let's redo the
 							// list
 							eAttribute.getStereotypes().clear();
-							for (IextStereotypeInstance stereo : field
+							for (IStereotypeInstance stereo : field
 									.getStereotypeInstances()) {
 								eAttribute.getStereotypes().add(
 										stereo.getName());
@@ -228,7 +228,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 							// match
 							List<String> eStereotypes = eAttribute
 									.getStereotypes();
-							IextStereotypeInstance[] iStereotypes = field
+							IStereotypeInstance[] iStereotypes = field
 									.getStereotypeInstances();
 							for (int index = 0; index < iStereotypes.length; index++) {
 								String eStereotypeName = eStereotypes

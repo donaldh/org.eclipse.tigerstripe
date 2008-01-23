@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.project;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
 
 /**
  * 

@@ -14,13 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.api.utils.TigerstripeErrorLevel;
 import org.eclipse.tigerstripe.core.util.TigerstripeValidationUtils;
@@ -163,7 +162,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		return this.type;
 	}
 
-	public IextType getIextType() {
+	public IType getIType() {
 		return this.type;
 	}
 
@@ -179,7 +178,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		return this.containingAssociation;
 	}
 
-	public IArtifact getContainingArtifact() {
+	public IAbstractArtifact getContainingArtifact() {
 		return this.containingAssociation;
 	}
 

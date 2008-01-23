@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextSessionArtifact.IextEmittedEvent;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEmittedEvent;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.SessionFacadeArtifact;
@@ -32,9 +32,9 @@ public class SessionEmitsUpdateCommand extends AbstractArtifactUpdateCommand {
 		ISessionArtifact iSession = (ISessionArtifact) iArtifact;
 
 		session.getEmittedNotifications().clear();
-		IextEmittedEvent[] details = iSession.getIextEmittedEvents();
+		IEmittedEvent[] details = iSession.getIEmittedEvents();
 		MapHelper helper = new MapHelper((Map) eArtifact.eContainer());
-		for (IextEmittedEvent detail : details) {
+		for (IEmittedEvent detail : details) {
 			String fqn = detail.getFullyQualifiedName();
 			AbstractArtifact target = helper.findAbstractArtifactFor(fqn);
 			if (target != null) {

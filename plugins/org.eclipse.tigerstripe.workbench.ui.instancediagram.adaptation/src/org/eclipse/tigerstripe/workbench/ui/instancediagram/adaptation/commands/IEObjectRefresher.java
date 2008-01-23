@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.commands;
 
 import org.eclipse.emf.common.command.Command;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.InstanceDiagramRefreshException;
 

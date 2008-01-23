@@ -13,9 +13,8 @@ package org.eclipse.tigerstripe.core.model;
 import java.io.Writer;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextExceptionArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.core.model.ossj.ExceptionArtifactPersister;
 import org.eclipse.tigerstripe.core.model.ossj.specifics.OssjExceptionSpecifics;
@@ -43,7 +42,7 @@ public class ExceptionArtifact extends AbstractArtifact implements
 	}
 
 	public String getIArtifactType() {
-		return IextExceptionArtifact.class.getName();
+		return IExceptionArtifact.class.getName();
 	}
 
 	/**

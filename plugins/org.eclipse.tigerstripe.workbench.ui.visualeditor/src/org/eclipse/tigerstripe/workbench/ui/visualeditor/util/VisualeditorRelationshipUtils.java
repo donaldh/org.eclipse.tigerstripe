@@ -17,25 +17,25 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEnumArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.IextMethod.IextArgument;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.core.profile.properties.OssjLegacySettingsProperty;
@@ -225,9 +225,9 @@ public class VisualeditorRelationshipUtils {
 		dependency.setPackage(dependencyArtifact.getPackage());
 		dependency.setIsAbstract(dependencyArtifact.isAbstract());
 		dependency.setIsReadonly(dependencyArtifact.isReadonly());
-		IextStereotypeInstance[] stereotypes = dependencyArtifact
+		IStereotypeInstance[] stereotypes = dependencyArtifact
 				.getStereotypeInstances();
-		for (IextStereotypeInstance stereotype : stereotypes) {
+		for (IStereotypeInstance stereotype : stereotypes) {
 			dependency.getStereotypes().add(stereotype.getName());
 		}
 		// fill in aEnd parameters
@@ -252,9 +252,9 @@ public class VisualeditorRelationshipUtils {
 		assoc.setPackage(assocArtifact.getPackage());
 		assoc.setIsAbstract(assocArtifact.isAbstract());
 		assoc.setIsReadonly(assocArtifact.isReadonly());
-		IextStereotypeInstance[] stereotypes = assocArtifact
+		IStereotypeInstance[] stereotypes = assocArtifact
 				.getStereotypeInstances();
-		for (IextStereotypeInstance stereotype : stereotypes) {
+		for (IStereotypeInstance stereotype : stereotypes) {
 			assoc.getStereotypes().add(stereotype.getName());
 		}
 		// fill in aEnd parameters
@@ -304,9 +304,9 @@ public class VisualeditorRelationshipUtils {
 		assocClassClass.setPackage(assocClass.getPackage());
 		assocClassClass.setIsAbstract(assocClassArtifact.isAbstract());
 		assocClassClass.setIsReadonly(assocClassArtifact.isReadonly());
-		IextStereotypeInstance[] stereotypes = assocClassArtifact
+		IStereotypeInstance[] stereotypes = assocClassArtifact
 				.getStereotypeInstances();
-		for (IextStereotypeInstance stereotype : stereotypes) {
+		for (IStereotypeInstance stereotype : stereotypes) {
 			assocClassClass.getStereotypes().add(stereotype.getName());
 		}
 		// if this class extends another class, add the extends relationship
@@ -347,12 +347,12 @@ public class VisualeditorRelationshipUtils {
 		}
 		// then create attributes (if needed) and add them to the association
 		// class class EObject
-		IextField[] fields = assocClassArtifact.getIextFields();
-		for (IextField field : fields) {
-			String typeName = field.getIextType().getFullyQualifiedName();
+		IField[] fields = assocClassArtifact.getIFields();
+		for (IField field : fields) {
+			String typeName = field.getIType().getFullyQualifiedName();
 			if ("java.lang.String".equals(typeName))
 				typeName = "String";
-			if (!shouldDisplayReference() || field.getIextType().isPrimitive()
+			if (!shouldDisplayReference() || field.getIType().isPrimitive()
 					|| typeName.equals("String")) {
 				// either our profile indicates that we shouldn't display
 				// non-primitive types as references or it's a primitive
@@ -361,7 +361,7 @@ public class VisualeditorRelationshipUtils {
 						.createAttribute();
 				// set the attribute fields to values that match the
 				// corresponding artifact
-				eAttribute.setMultiplicity(getMultiplicity(field.getIextType()
+				eAttribute.setMultiplicity(getMultiplicity(field.getIType()
 						.getMultiplicity()));
 				eAttribute.setName(field.getName());
 				eAttribute.setType(typeName);
@@ -385,7 +385,7 @@ public class VisualeditorRelationshipUtils {
 					// set the attribute fields to values that match the
 					// corresponding artifact
 					eAttribute.setMultiplicity(getMultiplicity(field
-							.getIextType().getMultiplicity()));
+							.getIType().getMultiplicity()));
 					eAttribute.setName(field.getName());
 					eAttribute.setType(typeName);
 					eAttribute.setVisibility(mapVisibility(field
@@ -398,7 +398,7 @@ public class VisualeditorRelationshipUtils {
 					Reference ref = VisualeditorFactory.eINSTANCE
 							.createReference();
 					ref.setZEnd((AbstractArtifact) otherNode);
-					ref.setMultiplicity(getMultiplicity(field.getIextType()
+					ref.setMultiplicity(getMultiplicity(field.getIType()
 							.getMultiplicity()));
 					ref.setName(field.getName());
 					assocClassClass.getReferences().add(ref);
@@ -407,16 +407,16 @@ public class VisualeditorRelationshipUtils {
 		}
 		// and create methods (if needed) and add them to the association
 		// class class EObject
-		IextMethod[] methods = assocClassArtifact.getIextMethods();
-		for (IextMethod method : methods) {
+		IMethod[] methods = assocClassArtifact.getIMethods();
+		for (IMethod method : methods) {
 			Method eMethod = VisualeditorFactory.eINSTANCE.createMethod();
 			// set the method fields to values that match the corresponding
 			// artifact
 			eMethod.setIsAbstract(method.isAbstract());
-			eMethod.setMultiplicity(getMultiplicity(method.getReturnIextType()
+			eMethod.setMultiplicity(getMultiplicity(method.getReturnIType()
 					.getMultiplicity()));
 			eMethod.setName(method.getName());
-			String typeName = method.getReturnIextType()
+			String typeName = method.getReturnIType()
 					.getFullyQualifiedName();
 			if ("java.lang.String".equals(typeName))
 				typeName = "String";
@@ -425,8 +425,8 @@ public class VisualeditorRelationshipUtils {
 			// loop through the arguments to the method (if any) and
 			// add the corresponding set of parameters to this method
 			// EObject
-			IextArgument[] arguments = method.getIextArguments();
-			for (IextArgument argument : arguments) {
+			IArgument[] arguments = method.getIArguments();
+			for (IArgument argument : arguments) {
 				Parameter param = VisualeditorFactory.eINSTANCE
 						.createParameter();
 				// set the parameter fields to values that match the
@@ -493,22 +493,22 @@ public class VisualeditorRelationshipUtils {
 	}
 
 	public static Visibility mapVisibility(int visibility) {
-		if (visibility == IextModelComponent.VISIBILITY_PUBLIC)
+		if (visibility == IModelComponent.VISIBILITY_PUBLIC)
 			return Visibility.PUBLIC_LITERAL;
-		else if (visibility == IextModelComponent.VISIBILITY_PACKAGE)
+		else if (visibility == IModelComponent.VISIBILITY_PACKAGE)
 			return Visibility.PACKAGE_LITERAL;
-		else if (visibility == IextModelComponent.VISIBILITY_PROTECTED)
+		else if (visibility == IModelComponent.VISIBILITY_PROTECTED)
 			return Visibility.PROTECTED_LITERAL;
-		else if (visibility == IextModelComponent.VISIBILITY_PRIVATE)
+		else if (visibility == IModelComponent.VISIBILITY_PRIVATE)
 			return Visibility.PRIVATE_LITERAL;
 		throw new IllegalArgumentException("Illegal value " + visibility
 				+ " found");
 	}
 
 	public static TypeMultiplicity getMultiplicity(int multiplicy) {
-		if (multiplicy == IextType.MULTIPLICITY_SINGLE)
+		if (multiplicy == IType.MULTIPLICITY_SINGLE)
 			return TypeMultiplicity.NONE_LITERAL;
-		else if (multiplicy == IextType.MULTIPLICITY_MULTI)
+		else if (multiplicy == IType.MULTIPLICITY_MULTI)
 			return TypeMultiplicity.ARRAY_LITERAL;
 		throw new IllegalArgumentException("Illegal value " + multiplicy
 				+ " found");

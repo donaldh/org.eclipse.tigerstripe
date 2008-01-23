@@ -12,9 +12,7 @@ package org.eclipse.tigerstripe.core.profile.stereotype;
 
 import java.util.HashMap;
 
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotype;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeAttribute;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
@@ -35,15 +33,12 @@ public class StereotypeInstance implements IStereotypeInstance {
 		return characterizingStereotype.getName();
 	}
 
-	public IextStereotype getCharacterizingIextStereotype() {
-		return getCharacterizingIStereotype();
-	}
 
 	public IStereotype getCharacterizingIStereotype() {
 		return this.characterizingStereotype;
 	}
 
-	public String getAttributeValue(IextStereotypeAttribute attribute)
+	public String getAttributeValue(IStereotypeAttribute attribute)
 			throws TigerstripeException {
 
 		if (!characterizingStereotype.isValidAttribute(attribute))
@@ -66,7 +61,7 @@ public class StereotypeInstance implements IStereotypeInstance {
 		}
 	}
 
-	public String[] getAttributeValues(IextStereotypeAttribute attribute)
+	public String[] getAttributeValues(IStereotypeAttribute attribute)
 			throws TigerstripeException {
 
 		if (!characterizingStereotype.isValidAttribute(attribute))
@@ -87,8 +82,8 @@ public class StereotypeInstance implements IStereotypeInstance {
 	public String getAttributeValue(String attributeName)
 			throws TigerstripeException {
 		if (attributeName != null) {
-			for (IextStereotypeAttribute attribute : characterizingStereotype
-					.getIextAttributes()) {
+			for (IStereotypeAttribute attribute : characterizingStereotype
+					.getIAttributes()) {
 				if (attributeName.equals(attribute.getName()))
 					return getAttributeValue(attribute);
 			}
@@ -100,8 +95,8 @@ public class StereotypeInstance implements IStereotypeInstance {
 	public String[] getAttributeValues(String attributeName)
 			throws TigerstripeException {
 		if (attributeName != null) {
-			for (IextStereotypeAttribute attribute : characterizingStereotype
-					.getIextAttributes()) {
+			for (IStereotypeAttribute attribute : characterizingStereotype
+					.getIAttributes()) {
 				if (attributeName.equals(attribute.getName()))
 					return getAttributeValues(attribute);
 			}

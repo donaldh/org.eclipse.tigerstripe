@@ -10,10 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.core.model.persist;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IModelComponent;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
-import org.eclipse.tigerstripe.api.external.model.IextType;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IType;
 
 public class PersistUtils {
 
@@ -22,13 +21,13 @@ public class PersistUtils {
 			return "public";
 
 		switch (component.getVisibility()) {
-		case IextModelComponent.VISIBILITY_PRIVATE:
+		case IModelComponent.VISIBILITY_PRIVATE:
 			return "private";
-		case IextModelComponent.VISIBILITY_PROTECTED:
+		case IModelComponent.VISIBILITY_PROTECTED:
 			return "protected";
-		case IextModelComponent.VISIBILITY_PUBLIC:
+		case IModelComponent.VISIBILITY_PUBLIC:
 			return "public";
-		case IextModelComponent.VISIBILITY_PACKAGE:
+		case IModelComponent.VISIBILITY_PACKAGE:
 			return "";
 		default:
 			return "public";
@@ -42,7 +41,7 @@ public class PersistUtils {
 			if (method.getReturnIType() == null)
 				return "void";
 			String multiplicity = "";
-			if (method.getReturnIType().getMultiplicity() == IextType.MULTIPLICITY_MULTI) {
+			if (method.getReturnIType().getMultiplicity() == IType.MULTIPLICITY_MULTI) {
 				multiplicity = "[]";
 			}
 

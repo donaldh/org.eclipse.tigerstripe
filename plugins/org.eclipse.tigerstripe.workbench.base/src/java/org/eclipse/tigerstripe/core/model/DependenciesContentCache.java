@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.contract.predicate.PredicateFilter;
 import org.eclipse.tigerstripe.core.project.Dependency;

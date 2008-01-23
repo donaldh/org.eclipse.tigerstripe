@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.api.impl;
 
 import java.net.URI;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
 import org.eclipse.tigerstripe.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.api.project.IDependency;

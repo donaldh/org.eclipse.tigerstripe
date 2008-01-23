@@ -20,15 +20,15 @@ import org.eclipse.jdt.internal.ui.packageview.PackageExplorerProblemsDecorator;
 import org.eclipse.jdt.internal.ui.viewsupport.JavaUILabelProvider;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
@@ -116,9 +116,9 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 			// String endName =
 			// end.getNameForType(end.getType().getFullyQualifiedName());
 			String endName = end.getName();
-			return (endName.equals("")) ? decorateText(end.getType().getName(),
+			return (endName.equals("")) ? decorateText(end.getIType().getName(),
 					element) : decorateText(endName + "::"
-					+ end.getType().getName(), element);
+					+ end.getIType().getName(), element);
 		} else if (element instanceof AbstractLogicalExplorerNode) {
 			AbstractLogicalExplorerNode node = (AbstractLogicalExplorerNode) element;
 			return decorateText(node.getText(), element);

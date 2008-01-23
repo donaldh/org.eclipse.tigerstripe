@@ -25,11 +25,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjArtifactSpecifics;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEntitySpecifics;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.artifacts.ossjSpecifics.IextOssjEntitySpecifics;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjArtifactSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEntitySpecifics;
 import org.eclipse.tigerstripe.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.core.model.DatatypeArtifact;
@@ -204,8 +203,8 @@ public class OssjEntitySpecificsSection extends ArtifactSectionPart {
 		extensibilityCombo.setEnabled(!isReadonly());
 		toolkit.adapt(this.extensibilityCombo, true, true);
 
-		for (int i = 0; i < IextOssjEntitySpecifics.EXT_OPTIONS.length; i++) {
-			extensibilityCombo.add(IextOssjEntitySpecifics.EXT_OPTIONS[i]);
+		for (int i = 0; i < IOssjEntitySpecifics.EXT_OPTIONS.length; i++) {
+			extensibilityCombo.add(IOssjEntitySpecifics.EXT_OPTIONS[i]);
 		}
 		extensibilityCombo.addSelectionListener(new GeneralInfoPageListener());
 		toolkit.createLabel(parent, "");
@@ -228,7 +227,7 @@ public class OssjEntitySpecificsSection extends ArtifactSectionPart {
 		IOssjEntitySpecifics specifics = (IOssjEntitySpecifics) getIArtifact()
 				.getIStandardSpecifics();
 		if (e.getSource() == extensibilityCombo) {
-			String sel = IextOssjEntitySpecifics.EXT_OPTIONS[extensibilityCombo
+			String sel = IOssjEntitySpecifics.EXT_OPTIONS[extensibilityCombo
 					.getSelectionIndex()];
 			specifics.setExtensibilityType(sel);
 			markPageModified();
@@ -305,8 +304,8 @@ public class OssjEntitySpecificsSection extends ArtifactSectionPart {
 
 		if (extensibilityCombo != null) {
 			String ext = specifics.getExtensibilityType();
-			for (int i = 0; i < IextOssjEntitySpecifics.EXT_OPTIONS.length; i++) {
-				if (IextOssjEntitySpecifics.EXT_OPTIONS[i].equals(ext)) {
+			for (int i = 0; i < IOssjEntitySpecifics.EXT_OPTIONS.length; i++) {
+				if (IOssjEntitySpecifics.EXT_OPTIONS[i].equals(ext)) {
 					extensibilityCombo.select(i);
 				}
 			}

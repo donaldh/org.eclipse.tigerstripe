@@ -14,7 +14,7 @@ import java.io.File;
 import java.net.URI;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.core.cli.App;
 

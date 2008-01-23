@@ -17,19 +17,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjFlavorDefaults;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.ISessionArtifact.IEntityMethodFlavorDetails;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextField;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjFlavorDefaults;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.utils.TigerstripeError;
@@ -155,19 +152,19 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	public int getReturnRefBy() {
 		String refByStr = getOssjMethodProperties().getProperty("returnRefBy",
 				"value");
-		for (int i = 0; i < IextField.refByLabels.length; i++) {
-			if (IextField.refByLabels[i].equalsIgnoreCase(refByStr.trim()))
+		for (int i = 0; i < IField.refByLabels.length; i++) {
+			if (IField.refByLabels[i].equalsIgnoreCase(refByStr.trim()))
 				return i;
 		}
-		return IextField.NON_APPLICABLE;
+		return IField.NON_APPLICABLE;
 	}
 
 	public boolean isReturnRefByKey() {
-		return getReturnRefBy() == IextField.REFBY_KEY;
+		return getReturnRefBy() == IField.REFBY_KEY;
 	}
 
 	public boolean isReturnRefByValue() {
-		return getReturnRefBy() == IextField.REFBY_VALUE;
+		return getReturnRefBy() == IField.REFBY_VALUE;
 	}
 
 	public boolean hasDefaultReturnValue() {
@@ -175,18 +172,18 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	}
 
 	public boolean isReturnRefByKeyResult() {
-		return getReturnRefBy() == IextField.REFBY_KEYRESULT;
+		return getReturnRefBy() == IField.REFBY_KEYRESULT;
 	}
 
 	public String getReturnRefByString() {
-		if (getReturnRefBy() == IextField.NON_APPLICABLE)
+		if (getReturnRefBy() == IField.NON_APPLICABLE)
 			return "";
-		return IextField.refByLabels[getReturnRefBy()];
+		return IField.refByLabels[getReturnRefBy()];
 	}
 
 	public void setReturnRefBy(int refBy) {
 		getOssjMethodProperties().setProperty("returnRefBy",
-				IextField.refByLabels[refBy]);
+				IField.refByLabels[refBy]);
 	}
 
 	public void setInstanceMethod(boolean instance) {
@@ -553,14 +550,14 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 
 		public void setRefBy(int refBy) {
-			if (refBy != IextField.NON_APPLICABLE) {
-				this.refBy = IextField.refByLabels[refBy];
+			if (refBy != IField.NON_APPLICABLE) {
+				this.refBy = IField.refByLabels[refBy];
 			}
 		}
 
 		public int getRefBy() {
-			for (int i = 0; i < IextField.refByLabels.length; i++) {
-				if (IextField.refByLabels[i].equalsIgnoreCase(this.refBy))
+			for (int i = 0; i < IField.refByLabels.length; i++) {
+				if (IField.refByLabels[i].equalsIgnoreCase(this.refBy))
 					return i;
 			}
 			return IField.NON_APPLICABLE;
@@ -619,20 +616,16 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			return getType();
 		}
 
-		public IextType getIextType() {
-			return getType();
-		}
-
 		public void setIType(IType type) {
 			setType((Type) type);
 		}
 
-		public IextMethod getContainingIextMethod() {
-			return (IextMethod) this.parentMethod;
+		public IMethod getContainingIMethod() {
+			return (IMethod) this.parentMethod;
 		}
 
-		public IArtifact getContainingArtifact() {
-			return (IArtifact) this.parentMethod.getContainingArtifact();
+		public IAbstractArtifact getContainingArtifact() {
+			return (IAbstractArtifact) this.parentMethod.getContainingArtifact();
 		}
 
 		// =========================================================================
@@ -787,9 +780,6 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return this.returnType;
 	}
 
-	public IType getReturnIextType() {
-		return this.returnType;
-	}
 
 	public IType makeIType() {
 		return new Type(getArtifactManager());
@@ -861,10 +851,6 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return (IArgument[]) getArguments().toArray(result);
 	}
 
-	public IextArgument[] getIextArguments() {
-		IextArgument[] result = new IextArgument[getArguments().size()];
-		return (IextArgument[]) getArguments().toArray(result);
-	}
 
 	public IArgument makeIArgument() {
 		return new Argument(this);
@@ -909,11 +895,6 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	public IException[] getIExceptions() {
 		IException[] result = new IException[this.exceptions.size()];
 		return (IException[]) this.exceptions.toArray(result);
-	}
-
-	public IextException[] getIextExceptions() {
-		IextException[] result = new IextException[this.exceptions.size()];
-		return (IextException[]) this.exceptions.toArray(result);
 	}
 
 	public void setIExceptions(IException[] exceptions) {

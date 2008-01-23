@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.plugins.PluginLog.LogLevel;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProperty;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.api.plugins.pluggable.ITemplateRunRule;

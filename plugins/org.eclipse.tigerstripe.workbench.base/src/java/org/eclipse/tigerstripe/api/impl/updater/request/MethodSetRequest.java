@@ -10,16 +10,14 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.impl.updater.request;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.IMethodSetRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextMethod;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 
 public class MethodSetRequest extends BaseArtifactElementRequest implements
@@ -33,7 +31,7 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IArtifact art = mgrSession
+		IAbstractArtifact art = mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
 		if (art != null) {
@@ -55,8 +53,8 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 
 		boolean needSave = false;
 		if (art != null) {
-			IextMethod[] methods = art.getIextMethods();
-			for (IextMethod method : methods) {
+			IMethod[] methods = art.getIMethods();
+			for (IMethod method : methods) {
 				if (((IMethod) method).getLabelString().equals(
 						methodLabelBeforeChange)) {
 					IMethod iMethod = (IMethod) method;
@@ -80,16 +78,16 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 					} else if (VISIBILITY_FEATURE.equals(featureId)) {
 						if ("PUBLIC".equals(newValue)) {
 							iMethod
-									.setVisibility(IextModelComponent.VISIBILITY_PUBLIC);
+									.setVisibility(IModelComponent.VISIBILITY_PUBLIC);
 						} else if ("PROTECTED".equals(newValue)) {
 							iMethod
-									.setVisibility(IextModelComponent.VISIBILITY_PROTECTED);
+									.setVisibility(IModelComponent.VISIBILITY_PROTECTED);
 						} else if ("PRIVATE".equals(newValue)) {
 							iMethod
-									.setVisibility(IextModelComponent.VISIBILITY_PRIVATE);
+									.setVisibility(IModelComponent.VISIBILITY_PRIVATE);
 						} else if ("PACKAGE".equals(newValue)) {
 							iMethod
-									.setVisibility(IextModelComponent.VISIBILITY_PACKAGE);
+									.setVisibility(IModelComponent.VISIBILITY_PACKAGE);
 						}
 						needSave = true;
 					} else if (ISABSTRACT_FEATURE.equals(featureId)) {

@@ -15,12 +15,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextType;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.IRelationship;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.contract.predicate.RelationshipPredicateFilter;
 
@@ -99,13 +99,13 @@ public class ArtifactRelationshipCache {
 			String zEndFQN = null;
 
 			IRelationshipEnd aEnd = rel.getRelationshipAEnd();
-			if (aEnd != null && aEnd.getType() != null) {
-				aEndFQN = aEnd.getType().getFullyQualifiedName();
+			if (aEnd != null && aEnd.getIType() != null) {
+				aEndFQN = aEnd.getIType().getFullyQualifiedName();
 			}
 
 			IRelationshipEnd zEnd = rel.getRelationshipZEnd();
-			if (zEnd != null && zEnd.getType() != null) {
-				zEndFQN = zEnd.getType().getFullyQualifiedName();
+			if (zEnd != null && zEnd.getIType() != null) {
+				zEndFQN = zEnd.getIType().getFullyQualifiedName();
 			}
 
 			if (aEndFQN != null) {
@@ -201,9 +201,9 @@ public class ArtifactRelationshipCache {
 			if (oldRelationship != relationship) {
 				// let's remove all entries about this old one
 				String oldAEnd = oldRelationship.getRelationshipAEnd()
-						.getType().getFullyQualifiedName();
+						.getIType().getFullyQualifiedName();
 				String oldZEnd = oldRelationship.getRelationshipZEnd()
-						.getType().getFullyQualifiedName();
+						.getIType().getFullyQualifiedName();
 
 				removeRelationshipForFQN(oldAEnd, oldRelationship, ORIGINATING);
 				removeRelationshipForFQN(oldZEnd, oldRelationship, TERMINATING);
@@ -216,8 +216,8 @@ public class ArtifactRelationshipCache {
 			}
 		}
 
-		IextType aEndType = relationship.getRelationshipAEnd().getType();
-		IextType zEndType = relationship.getRelationshipZEnd().getType();
+		IType aEndType = relationship.getRelationshipAEnd().getIType();
+		IType zEndType = relationship.getRelationshipZEnd().getIType();
 		String aEndFQN = null;
 		String zEndFQN = null;
 		if (aEndType != null) {
@@ -238,14 +238,14 @@ public class ArtifactRelationshipCache {
 		if (relationship != null) {
 			// let's remove all entries about this old one
 			if (relationship.getRelationshipAEnd() != null
-					&& relationship.getRelationshipAEnd().getType() != null) {
-				String oldAEnd = relationship.getRelationshipAEnd().getType()
+					&& relationship.getRelationshipAEnd().getIType() != null) {
+				String oldAEnd = relationship.getRelationshipAEnd().getIType()
 						.getFullyQualifiedName();
 				removeRelationshipForFQN(oldAEnd, relationship, ORIGINATING);
 			}
 			if (relationship.getRelationshipZEnd() != null
-					&& relationship.getRelationshipZEnd().getType() != null) {
-				String oldZEnd = relationship.getRelationshipZEnd().getType()
+					&& relationship.getRelationshipZEnd().getIType() != null) {
+				String oldZEnd = relationship.getRelationshipZEnd().getIType()
 						.getFullyQualifiedName();
 				removeRelationshipForFQN(oldZEnd, relationship, TERMINATING);
 			}

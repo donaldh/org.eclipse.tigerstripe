@@ -27,10 +27,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
-import org.eclipse.tigerstripe.api.external.model.IextType;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IType;
 import org.eclipse.tigerstripe.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.core.util.Misc;
@@ -370,20 +369,20 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 
 	private void setVisibility(int visibility) {
 		publicButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PUBLIC);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PUBLIC);
 		protectedButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PROTECTED);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PROTECTED);
 		privateButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PRIVATE);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PRIVATE);
 	}
 
 	private int getVisibility() {
 		if (publicButton.getSelection())
-			return IextModelComponent.VISIBILITY_PUBLIC;
+			return IModelComponent.VISIBILITY_PUBLIC;
 		else if (protectedButton.getSelection())
-			return IextModelComponent.VISIBILITY_PROTECTED;
+			return IModelComponent.VISIBILITY_PROTECTED;
 		else
-			return IextModelComponent.VISIBILITY_PRIVATE;
+			return IModelComponent.VISIBILITY_PRIVATE;
 	}
 
 	/**
@@ -413,7 +412,7 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 			IType type = getLabel().makeIType();
 			type.setFullyQualifiedName(baseTypeCombo.getItem(baseTypeCombo
 					.getSelectionIndex()));
-			type.setMultiplicity(IextType.MULTIPLICITY_SINGLE);
+			type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
 			getLabel().setIType(type);
 		}
 		pageModified();

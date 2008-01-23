@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.gmf.synchronization;
 
 import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 
 /**
  * 

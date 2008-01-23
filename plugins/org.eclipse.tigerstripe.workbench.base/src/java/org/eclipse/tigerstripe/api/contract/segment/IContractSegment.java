@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.contract.segment;
 
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
 import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.api.versioning.IVersionAwareElement;
 

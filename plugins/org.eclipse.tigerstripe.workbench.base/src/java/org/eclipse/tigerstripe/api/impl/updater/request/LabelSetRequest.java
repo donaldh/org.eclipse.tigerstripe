@@ -10,13 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.api.impl.updater.request;
 
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.ILabel;
-import org.eclipse.tigerstripe.api.artifacts.updater.request.ILabelSetRequest;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextLabel;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.request.ILabelSetRequest;
 import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 
 public class LabelSetRequest extends BaseArtifactElementRequest implements
@@ -30,12 +28,12 @@ public class LabelSetRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IArtifact art = mgrSession
+		IAbstractArtifact art = mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
 		if (art != null) {
-			IextLabel[] labels = art.getIextLabels();
-			for (IextLabel label : labels) {
+			ILabel[] labels = art.getILabels();
+			for (ILabel label : labels) {
 				if (label.getName().equals(labelName))
 					return true;
 			}
@@ -52,8 +50,8 @@ public class LabelSetRequest extends BaseArtifactElementRequest implements
 
 		boolean needSave = false;
 		if (art != null) {
-			IextLabel[] labels = art.getIextLabels();
-			for (IextLabel label : labels) {
+			ILabel[] labels = art.getILabels();
+			for (ILabel label : labels) {
 				if (label.getName().equals(labelName)) {
 					ILabel iLabel = (ILabel) label;
 					if (NAME_FEATURE.equals(featureId)) {

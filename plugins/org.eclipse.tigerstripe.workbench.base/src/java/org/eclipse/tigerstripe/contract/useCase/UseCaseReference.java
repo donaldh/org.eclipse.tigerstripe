@@ -14,11 +14,11 @@ import java.io.File;
 import java.net.URI;
 
 import org.eclipse.tigerstripe.api.API;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.external.project.IextAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
@@ -133,7 +133,7 @@ public class UseCaseReference implements IUseCaseReference {
 			return tsProject;
 
 		try {
-			IextAbstractTigerstripeProject aProject = null;
+			IAbstractTigerstripeProject aProject = null;
 			if (project == null && projectLabel != null) {
 				IProjectLocator locator = (IProjectLocator) API
 						.getFacility(API.PROJECT_LOCATOR_FACILITY);

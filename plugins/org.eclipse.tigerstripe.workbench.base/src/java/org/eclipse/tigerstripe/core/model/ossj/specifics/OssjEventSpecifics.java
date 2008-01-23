@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IEventDescriptorEntry;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEventSpecifics;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IEventDescriptorEntry;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEventSpecifics;
 import org.eclipse.tigerstripe.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.core.model.AbstractArtifactTag;
 import org.eclipse.tigerstripe.core.model.EventDescriptorEntry;

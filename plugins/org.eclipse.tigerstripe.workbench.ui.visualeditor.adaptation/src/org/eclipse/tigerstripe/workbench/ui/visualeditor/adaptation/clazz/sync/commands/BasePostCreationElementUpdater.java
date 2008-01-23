@@ -12,9 +12,9 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 
 import java.util.ArrayList;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.profile.stereotype.IextStereotypeInstance;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.NamedElement;
@@ -50,7 +50,7 @@ public abstract class BasePostCreationElementUpdater {
 
 	protected void updateStereotype(NamedElement element) {
 		ArrayList<String> strs = new ArrayList<String>();
-		for (IextStereotypeInstance instance : getIArtifact()
+		for (IStereotypeInstance instance : getIArtifact()
 				.getStereotypeInstances()) {
 			strs.add(instance.getName());
 		}

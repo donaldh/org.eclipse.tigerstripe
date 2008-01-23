@@ -12,9 +12,7 @@ package org.eclipse.tigerstripe.api.impl.updater;
 
 import java.util.Arrays;
 
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeRequest;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeRequestFactory;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.api.impl.updater.request.ArtifactAddFeatureRequest;
 import org.eclipse.tigerstripe.api.impl.updater.request.ArtifactCreateRequest;
 import org.eclipse.tigerstripe.api.impl.updater.request.ArtifactDeleteRequest;
@@ -31,6 +29,8 @@ import org.eclipse.tigerstripe.api.impl.updater.request.LabelSetRequest;
 import org.eclipse.tigerstripe.api.impl.updater.request.MethodCreateRequest;
 import org.eclipse.tigerstripe.api.impl.updater.request.MethodRemoveRequest;
 import org.eclipse.tigerstripe.api.impl.updater.request.MethodSetRequest;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequest;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequestFactory;
 
 public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 

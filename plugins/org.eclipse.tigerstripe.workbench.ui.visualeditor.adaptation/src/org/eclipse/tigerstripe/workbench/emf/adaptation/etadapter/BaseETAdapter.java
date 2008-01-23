@@ -12,9 +12,9 @@ package org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelChangeRequest;
-import org.eclipse.tigerstripe.api.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequest;
+import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.ClassDiagramSynchronizer;
 
 /**

@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import org.eclipse.tigerstripe.api.artifacts.model.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IPrimitiveTypeArtifact;
 
 /**
  * @author Eric Dillon

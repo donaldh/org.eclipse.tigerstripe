@@ -18,9 +18,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.external.project.IextAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.api.impl.pluggable.AbstractPluggablePluginProjectHandle;
 import org.eclipse.tigerstripe.api.impl.pluggable.SimplePluggablePluginProjectHandle;
 import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProject;
@@ -49,7 +48,7 @@ public class ProjectSessionImpl implements IProjectSession {
 				ISimplePluggablePluginProject.class.getName() };
 	}
 
-	public IextAbstractTigerstripeProject makeTigerstripeProject(URI projectURI)
+	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI)
 			throws TigerstripeLicenseException, TigerstripeException {
 		return makeTigerstripeProject(projectURI, null);
 	}
@@ -65,7 +64,7 @@ public class ProjectSessionImpl implements IProjectSession {
 	 *             if the current license doesn't allow this operation
 	 * @throws UnsupportedOperationException
 	 *             if the projectType is not supported
-	 * @throws org.eclipse.tigerstripe.api.external.TigerstripeException
+	 * @throws org.eclipse.tigerstripe.api.TigerstripeException
 	 *             if any other error occured.
 	 */
 	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI,

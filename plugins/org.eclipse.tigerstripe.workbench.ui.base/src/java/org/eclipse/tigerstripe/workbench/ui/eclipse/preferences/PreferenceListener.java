@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.preferences;
 
 import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
 import org.eclipse.core.runtime.Preferences.PropertyChangeEvent;
-import org.eclipse.tigerstripe.api.external.plugins.PluginLog;
+import org.eclipse.tigerstripe.api.plugins.PluginLog;
 import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 
 /**

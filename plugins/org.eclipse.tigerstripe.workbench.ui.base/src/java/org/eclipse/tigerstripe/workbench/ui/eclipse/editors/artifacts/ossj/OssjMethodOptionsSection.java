@@ -27,10 +27,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IMethod;
-import org.eclipse.tigerstripe.api.artifacts.model.ossj.IOssjEntitySpecifics;
-import org.eclipse.tigerstripe.api.external.model.artifacts.ossjSpecifics.IextOssjEntitySpecifics;
+import org.eclipse.tigerstripe.api.model.IMethod;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEntitySpecifics;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -273,13 +272,13 @@ public class OssjMethodOptionsSection extends ArtifactSectionPart {
 				.getIStandardSpecifics();
 
 		createItem = new PropertiesTableItem(table, SWT.NULL, specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.CREATE), "Create");
+				.getCRUDProperties(IOssjEntitySpecifics.CREATE), "Create");
 		getItem = new PropertiesTableItem(table, SWT.NULL, specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.GET), "Get");
+				.getCRUDProperties(IOssjEntitySpecifics.GET), "Get");
 		setItem = new PropertiesTableItem(table, SWT.NULL, specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.SET), "Set");
+				.getCRUDProperties(IOssjEntitySpecifics.SET), "Set");
 		deleteItem = new PropertiesTableItem(table, SWT.NULL, specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.DELETE), "Remove");
+				.getCRUDProperties(IOssjEntitySpecifics.DELETE), "Remove");
 	}
 
 	/**
@@ -357,19 +356,19 @@ public class OssjMethodOptionsSection extends ArtifactSectionPart {
 				.getIStandardSpecifics();
 
 		createItem.setMethodProperties(specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.CREATE));
+				.getCRUDProperties(IOssjEntitySpecifics.CREATE));
 		createItem.refresh();
 
 		getItem.setMethodProperties(specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.GET));
+				.getCRUDProperties(IOssjEntitySpecifics.GET));
 		getItem.refresh();
 
 		setItem.setMethodProperties(specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.SET));
+				.getCRUDProperties(IOssjEntitySpecifics.SET));
 		setItem.refresh();
 
 		deleteItem.setMethodProperties(specifics
-				.getCRUDProperties(IextOssjEntitySpecifics.DELETE));
+				.getCRUDProperties(IOssjEntitySpecifics.DELETE));
 		deleteItem.refresh();
 	}
 

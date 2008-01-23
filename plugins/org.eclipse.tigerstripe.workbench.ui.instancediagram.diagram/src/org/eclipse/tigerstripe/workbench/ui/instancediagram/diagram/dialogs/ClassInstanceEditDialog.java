@@ -49,7 +49,6 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
@@ -69,16 +68,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.artifacts.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IField;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextLabel;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IArtifact;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
+import org.eclipse.tigerstripe.api.model.IField;
+import org.eclipse.tigerstripe.api.model.ILabel;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.core.util.TigerstripeValidationUtils;
@@ -364,7 +361,7 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 		for (IField field : fields) {
 			Entry entry = new Entry();
 			entry.name = field.getName();
-			IArtifact containingArt = field.getContainingArtifact();
+			IAbstractArtifact containingArt = field.getContainingArtifact();
 			String containingArtFQN = containingArt.getFullyQualifiedName();
 			if (!containingArtFQN.equals(artifactFQN)) {
 				if (!mapBasePackage.equals(containingArt.getPackage()))
@@ -595,9 +592,9 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			}
 			ArrayList<String> stringVals = new ArrayList<String>();
 			do {
-				IextLabel[] labels = iArtifact.getIextLabels();
+				ILabel[] labels = iArtifact.getILabels();
 				List<String> lclStringVals = new ArrayList<String>();
-				for (IextLabel label : labels)
+				for (ILabel label : labels)
 					lclStringVals.add(label.getName());
 				stringVals.addAll(0, lclStringVals);
 			} while ((iArtifact = iArtifact.getExtendedIArtifact()) != null);

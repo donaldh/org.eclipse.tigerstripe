@@ -27,16 +27,15 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.artifacts.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.artifacts.model.IType;
-import org.eclipse.tigerstripe.api.external.TigerstripeException;
-import org.eclipse.tigerstripe.api.external.model.IextModelComponent;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.external.model.artifacts.IextAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd;
+import org.eclipse.tigerstripe.api.model.IModelComponent;
+import org.eclipse.tigerstripe.api.model.IType;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.core.model.Type;
@@ -510,10 +509,10 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		IAssociationArtifact artifact = (IAssociationArtifact) getIArtifact();
 
 		// Update aEnd
-		IextAssociationEnd aEnd = artifact.getAEnd();
+		IAssociationEnd aEnd = artifact.getAEnd();
 		aEndNameText.setText(aEnd.getName());
 		aEndCommentText.setText(aEnd.getComment());
-		aEndTypeText.setText(aEnd.getType().getFullyQualifiedName());
+		aEndTypeText.setText(aEnd.getIType().getFullyQualifiedName());
 		aEndAggregationCombo.select(indexIn(aggrStrs, aEnd.getAggregation()
 				.getLabel()));
 		aEndChangeableCombo.select(indexIn(chanStrs, aEnd.getChangeable()
@@ -526,10 +525,10 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		setAEndVisibility(aEnd.getVisibility());
 
 		// Update zEnd
-		IextAssociationEnd zEnd = artifact.getZEnd();
+		IAssociationEnd zEnd = artifact.getZEnd();
 		zEndNameText.setText(zEnd.getName());
 		zEndCommentText.setText(zEnd.getComment());
-		zEndTypeText.setText(zEnd.getType().getFullyQualifiedName());
+		zEndTypeText.setText(zEnd.getIType().getFullyQualifiedName());
 		zEndAggregationCombo.select(indexIn(aggrStrs, zEnd.getAggregation()
 				.getLabel()));
 		zEndChangeableCombo.select(indexIn(chanStrs, zEnd.getChangeable()
@@ -721,46 +720,46 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 	private int getAEndVisibility() {
 		if (aEndPublicButton.getSelection())
-			return IextModelComponent.VISIBILITY_PUBLIC;
+			return IModelComponent.VISIBILITY_PUBLIC;
 		else if (aEndProtectedButton.getSelection())
-			return IextModelComponent.VISIBILITY_PROTECTED;
+			return IModelComponent.VISIBILITY_PROTECTED;
 		else if (aEndPrivateButton.getSelection())
-			return IextModelComponent.VISIBILITY_PRIVATE;
+			return IModelComponent.VISIBILITY_PRIVATE;
 		else
-			return IextModelComponent.VISIBILITY_PACKAGE;
+			return IModelComponent.VISIBILITY_PACKAGE;
 	}
 
 	private int getZEndVisibility() {
 		if (zEndPublicButton.getSelection())
-			return IextModelComponent.VISIBILITY_PUBLIC;
+			return IModelComponent.VISIBILITY_PUBLIC;
 		else if (zEndProtectedButton.getSelection())
-			return IextModelComponent.VISIBILITY_PROTECTED;
+			return IModelComponent.VISIBILITY_PROTECTED;
 		else if (zEndPrivateButton.getSelection())
-			return IextModelComponent.VISIBILITY_PRIVATE;
+			return IModelComponent.VISIBILITY_PRIVATE;
 		else
-			return IextModelComponent.VISIBILITY_PACKAGE;
+			return IModelComponent.VISIBILITY_PACKAGE;
 	}
 
 	private void setAEndVisibility(int visibility) {
 		aEndPublicButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PUBLIC);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PUBLIC);
 		aEndProtectedButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PROTECTED);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PROTECTED);
 		aEndPrivateButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PRIVATE);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PRIVATE);
 		aEndPackageButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PACKAGE);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PACKAGE);
 	}
 
 	private void setZEndVisibility(int visibility) {
 		zEndPublicButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PUBLIC);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PUBLIC);
 		zEndProtectedButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PROTECTED);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PROTECTED);
 		zEndPrivateButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PRIVATE);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PRIVATE);
 		zEndPackageButton
-				.setSelection(visibility == IextModelComponent.VISIBILITY_PACKAGE);
+				.setSelection(visibility == IModelComponent.VISIBILITY_PACKAGE);
 	}
 
 }
