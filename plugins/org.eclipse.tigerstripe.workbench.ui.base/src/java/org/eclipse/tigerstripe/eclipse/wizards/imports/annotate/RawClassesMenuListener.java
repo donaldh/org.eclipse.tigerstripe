@@ -15,13 +15,13 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElement;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.AssociationNode;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.AttributeNode;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.ClassNode;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.ConstantNode;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.DependencyNode;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.OperationNode;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElement;
 
 public class RawClassesMenuListener implements IMenuListener {
 

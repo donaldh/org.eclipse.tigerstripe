@@ -17,12 +17,12 @@ import java.util.Collection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeCapable;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 /**

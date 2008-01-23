@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor;
 
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Qualified Named Element</b></em>'.

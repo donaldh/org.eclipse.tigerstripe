@@ -42,13 +42,13 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.profile.stereotype.IEntryListStereotypeAttribute;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IEntryListStereotypeAttribute;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
 /**

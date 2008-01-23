@@ -12,12 +12,12 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IExposedUpdateProcedure;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IExposedUpdateProcedure;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.SessionFacadeArtifact;

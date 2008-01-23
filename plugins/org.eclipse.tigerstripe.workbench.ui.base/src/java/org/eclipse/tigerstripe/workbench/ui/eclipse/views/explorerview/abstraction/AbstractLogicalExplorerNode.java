@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.ui.IContributorResourceAdapter;
 
 /**

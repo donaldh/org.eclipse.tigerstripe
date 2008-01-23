@@ -20,11 +20,11 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.NewArtifactWizardPage;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.entity.EntityDefinitionGenerator;
+import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 /**
  * @author Eric Dillon

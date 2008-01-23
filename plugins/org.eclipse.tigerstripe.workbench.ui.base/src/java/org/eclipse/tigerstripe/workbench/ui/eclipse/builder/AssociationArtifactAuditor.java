@@ -12,12 +12,12 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.IType;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		implements IArtifactAuditor {

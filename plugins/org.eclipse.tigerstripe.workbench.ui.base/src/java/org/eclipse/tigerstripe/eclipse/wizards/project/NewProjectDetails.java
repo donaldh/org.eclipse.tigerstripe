@@ -15,7 +15,7 @@ package org.eclipse.tigerstripe.eclipse.wizards.project;
 
 import java.util.Map;
 
-import org.eclipse.tigerstripe.core.plugin.PluginBody;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
 
 public class NewProjectDetails {
 

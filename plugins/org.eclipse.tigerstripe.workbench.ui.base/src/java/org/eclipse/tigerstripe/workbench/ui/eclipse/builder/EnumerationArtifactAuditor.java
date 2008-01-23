@@ -14,13 +14,13 @@ import java.util.HashMap;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.api.model.ILabel;
-import org.eclipse.tigerstripe.api.model.IType;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjEnumSpecifics;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.core.util.Misc;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEnumSpecifics;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
+import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 
 public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 		implements IArtifactAuditor {

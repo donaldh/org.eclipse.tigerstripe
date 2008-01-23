@@ -43,7 +43,8 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.dom4j.util,
  org.dom4j.xpath,
  org.dom4j.xpp,
- org.eclipse.tigerstripe.api;
+ org.eclipse.tigerstripe.workbench,
+ org.eclipse.tigerstripe.workbench.internal.api;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.api.external.plugins,
    org.eclipse.tigerstripe.api.rendering,
@@ -53,16 +54,16 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.external,
    org.eclipse.tigerstripe.api.contract,
    org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.api.contract;uses:="org.eclipse.tigerstripe.api.versioning,org.eclipse.tigerstripe.api.contract.segment,org.eclipse.tigerstripe.api.contract.useCase",
- org.eclipse.tigerstripe.api.contract.segment;
+ org.eclipse.tigerstripe.workbench.internal.api.contract;uses:="org.eclipse.tigerstripe.api.versioning,org.eclipse.tigerstripe.api.contract.segment,org.eclipse.tigerstripe.api.contract.useCase",
+ org.eclipse.tigerstripe.workbench.internal.api.contract.segment;
   uses:="org.eclipse.tigerstripe.api.versioning,
    org.eclipse.tigerstripe.api.utils,
    org.eclipse.tigerstripe.core.util,
    org.eclipse.tigerstripe.api.contract.useCase,
    org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.api.contract.useCase;uses:="org.eclipse.tigerstripe.api.versioning,org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.api.examples,
- org.eclipse.tigerstripe.api.impl;
+ org.eclipse.tigerstripe.workbench.internal.api.contract.useCase;uses:="org.eclipse.tigerstripe.api.versioning,org.eclipse.tigerstripe.api.project",
+ org.eclipse.tigerstripe.workbench.internal.api.examples,
+ org.eclipse.tigerstripe.workbench.internal.api.impl;
   uses:="org.eclipse.tigerstripe.api.artifacts.updater,
    org.eclipse.tigerstripe.api.utils,
    org.eclipse.tigerstripe.api.contract.useCase,
@@ -84,51 +85,41 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.contract.segment,
    org.eclipse.tigerstripe.core.model,
    org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.api.impl.pluggable;
+ org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable;
   uses:="org.eclipse.tigerstripe.api.external.plugins,
    org.eclipse.tigerstripe.api.impl,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.api.external.project,
    org.eclipse.tigerstripe.core.project.pluggable,
    org.eclipse.tigerstripe.api.plugins.pluggable",
- org.eclipse.tigerstripe.api.model;
+ org.eclipse.tigerstripe.workbench.internal.api.model;
   uses:="org.eclipse.tigerstripe.api.artifacts.updater,
    org.eclipse.tigerstripe.api.utils,
    org.eclipse.tigerstripe.core.model,
    org.eclipse.tigerstripe.api.contract.segment,
    org.eclipse.tigerstripe.api.external,
    org.eclipse.tigerstripe.api.artifacts.model",
- org.eclipse.tigerstripe.api.model.artifacts;
-  uses:="org.eclipse.tigerstripe.api.external.model,
-   org.eclipse.tigerstripe.api.external.model.artifacts,
-   org.eclipse.tigerstripe.api.artifacts.updater,
-   org.eclipse.tigerstripe.api.utils,
-   org.eclipse.tigerstripe.api.project,
-   org.eclipse.tigerstripe.api.artifacts.model.ossj,
-   org.eclipse.tigerstripe.api.profile.stereotype",
- org.eclipse.tigerstripe.api.model.artifacts.ossj;
+ org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
   uses:="org.eclipse.tigerstripe.api.external.model,
    org.eclipse.tigerstripe.api.external.model.artifacts,
    org.eclipse.tigerstripe.api.external.model.artifacts.ossjSpecifics,
    org.eclipse.tigerstripe.api.artifacts.model,
    org.eclipse.tigerstripe.core.model.ossj.specifics",
- org.eclipse.tigerstripe.api.model.artifacts.updater;uses:="org.eclipse.tigerstripe.api.artifacts",
- org.eclipse.tigerstripe.api.model.artifacts.updater.request;uses:="org.eclipse.tigerstripe.api.artifacts.updater",
- org.eclipse.tigerstripe.api.modules;uses:="org.eclipse.tigerstripe.api.utils,org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.api.plugins,
- org.eclipse.tigerstripe.api.plugins.builtin,
- org.eclipse.tigerstripe.api.plugins.pluggable;
+ org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater;uses:="org.eclipse.tigerstripe.api.artifacts",
+ org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request;uses:="org.eclipse.tigerstripe.api.artifacts.updater",
+ org.eclipse.tigerstripe.workbench.internal.api.modules;uses:="org.eclipse.tigerstripe.api.utils,org.eclipse.tigerstripe.api.project",
+ org.eclipse.tigerstripe.workbench.internal.api.plugins,
+ org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin,
+ org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.api.external.plugins,
    org.eclipse.tigerstripe.core.plugin.pluggable,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.core.project.pluggable,
    org.w3c.dom",
- org.eclipse.tigerstripe.api.profile;uses:="org.eclipse.tigerstripe.api.artifacts.model,org.eclipse.tigerstripe.api.profile.primitiveType,org.eclipse.tigerstripe.api.profile.stereotype",
- org.eclipse.tigerstripe.api.profile.primitiveType;uses:="org.dom4j",
- org.eclipse.tigerstripe.api.profile.properties;uses:="org.eclipse.tigerstripe.api.profile",
- org.eclipse.tigerstripe.api.profile.stereotype;uses:="org.eclipse.tigerstripe.api.external.profile.stereotype,org.eclipse.tigerstripe.api.profile,org.dom4j",
- org.eclipse.tigerstripe.api.project;
+ org.eclipse.tigerstripe.workbench.internal.api.profile;uses:="org.eclipse.tigerstripe.api.artifacts.model,org.eclipse.tigerstripe.api.profile.primitiveType,org.eclipse.tigerstripe.api.profile.stereotype",
+ org.eclipse.tigerstripe.workbench.internal.api.profile.properties;uses:="org.eclipse.tigerstripe.api.profile",
+ org.eclipse.tigerstripe.workbench.internal.api.project;
   uses:="org.eclipse.tigerstripe.api.artifacts,
    org.eclipse.tigerstripe.api.contract.segment,
    org.eclipse.tigerstripe.api.utils,
@@ -136,19 +127,18 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.external.project,
    org.eclipse.tigerstripe.api.publish,
    org.eclipse.tigerstripe.api.modules",
- org.eclipse.tigerstripe.api.publish,
- org.eclipse.tigerstripe.api.queries,
- org.eclipse.tigerstripe.api.rendering,
- org.eclipse.tigerstripe.api.role,
- org.eclipse.tigerstripe.api.utils;uses:="org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.api.versioning,
- org.eclipse.tigerstripe.contract;
+ org.eclipse.tigerstripe.workbench.internal.api.publish,
+ org.eclipse.tigerstripe.workbench.internal.api.rendering,
+ org.eclipse.tigerstripe.workbench.internal.api.role,
+ org.eclipse.tigerstripe.workbench.internal.api.utils;uses:="org.eclipse.tigerstripe.api.project",
+ org.eclipse.tigerstripe.workbench.internal.api.versioning,
+ org.eclipse.tigerstripe.workbench.internal.contract;
   uses:="org.dom4j,
    org.eclipse.tigerstripe.api.contract.segment,
    org.eclipse.tigerstripe.api.contract,
    org.eclipse.tigerstripe.core.util,
    org.eclipse.tigerstripe.core.versioning",
- org.eclipse.tigerstripe.contract.segment;
+ org.eclipse.tigerstripe.workbench.internal.contract.segment;
   uses:="org.dom4j,
    org.eclipse.tigerstripe.api.utils,
    org.eclipse.tigerstripe.api.contract.useCase,
@@ -159,22 +149,22 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.core.model,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.core.versioning",
- org.eclipse.tigerstripe.contract.useCase;
+ org.eclipse.tigerstripe.workbench.internal.contract.useCase;
   uses:="org.eclipse.tigerstripe.core.project,
    org.dom4j,
    org.eclipse.tigerstripe.api.contract.useCase,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.core.versioning",
- org.eclipse.tigerstripe.core;uses:="org.eclipse.tigerstripe.api.external.plugins,org.apache.log4j,org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.core.cli;uses:="org.apache.commons.cli",
- org.eclipse.tigerstripe.core.generation;
+ org.eclipse.tigerstripe.workbench.internal.core;uses:="org.eclipse.tigerstripe.api.external.plugins,org.apache.log4j,org.eclipse.tigerstripe.api.project",
+ org.eclipse.tigerstripe.workbench.internal.core.cli;uses:="org.apache.commons.cli",
+ org.eclipse.tigerstripe.workbench.internal.core.generation;
   uses:="org.eclipse.tigerstripe.api.utils,
    org.eclipse.tigerstripe.api.contract.segment,
    org.eclipse.tigerstripe.api.external,
    org.eclipse.tigerstripe.api.contract.useCase,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.api",
- org.eclipse.tigerstripe.core.model;
+ org.eclipse.tigerstripe.workbench.internal.core.model;
   uses:="org.eclipse.tigerstripe.api.external.model,
    org.eclipse.tigerstripe.core.model.persist,
    org.eclipse.tigerstripe.core.util.encode,
@@ -192,7 +182,7 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.contract.segment,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.api.artifacts.model.ossj",
- org.eclipse.tigerstripe.core.model.importing;
+ org.eclipse.tigerstripe.workbench.internal.core.model.importing;
   uses:="org.eclipse.tigerstripe.api.external.model.artifacts,
    org.eclipse.tigerstripe.core.util.messages,
    org.eclipse.tigerstripe.api.artifacts,
@@ -200,35 +190,35 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.external,
    org.eclipse.tigerstripe.api.artifacts.model,
    org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.core.model.importing.db;
+ org.eclipse.tigerstripe.workbench.internal.core.model.importing.db;
   uses:="org.eclipse.tigerstripe.core.model.importing.db.annotables,
    org.eclipse.tigerstripe.core.model.importing.db.database,
    org.eclipse.tigerstripe.core.util.messages,
    org.eclipse.tigerstripe.core.model.importing,
    org.dom4j,
    org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.core.model.importing.db.database;uses:="org.eclipse.tigerstripe.core.model.importing,org.eclipse.tigerstripe.core.util.messages,org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.core.model.importing.db.mapper;
+ org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.database;uses:="org.eclipse.tigerstripe.core.model.importing,org.eclipse.tigerstripe.core.util.messages,org.eclipse.tigerstripe.api.project",
+ org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.mapper;
   uses:="org.eclipse.tigerstripe.core.model.importing.db.annotables,
    org.eclipse.tigerstripe.core.model.importing,
    org.eclipse.tigerstripe.core.util.messages,
    org.eclipse.tigerstripe.core.model.importing.db.schema,
    org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.core.model.importing.mapper;uses:="org.eclipse.tigerstripe.core.util.messages,org.eclipse.tigerstripe.api.external,org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.core.model.importing.uml2;
+ org.eclipse.tigerstripe.workbench.internal.core.model.importing.mapper;uses:="org.eclipse.tigerstripe.core.util.messages,org.eclipse.tigerstripe.api.external,org.eclipse.tigerstripe.api.project",
+ org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2;
   uses:="org.eclipse.tigerstripe.core.util.messages,
    org.eclipse.tigerstripe.core.model.importing,
    org.dom4j,
    org.eclipse.uml2.uml,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.core.model.importing.uml2.annotables",
- org.eclipse.tigerstripe.core.model.importing.xmi;uses:="org.eclipse.tigerstripe.core.model.importing,org.dom4j,org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.core.model.ossj.specifics;
+ org.eclipse.tigerstripe.workbench.internal.core.model.importing.xmi;uses:="org.eclipse.tigerstripe.core.model.importing,org.dom4j,org.eclipse.tigerstripe.api.project",
+ org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics;
   uses:="org.eclipse.tigerstripe.api.external.model,
    org.eclipse.tigerstripe.core.model,
    org.eclipse.tigerstripe.api.artifacts.model,
    org.eclipse.tigerstripe.api.artifacts.model.ossj",
- org.eclipse.tigerstripe.core.module;
+ org.eclipse.tigerstripe.workbench.internal.core.module;
   uses:="org.eclipse.tigerstripe.api.profile,
    org.eclipse.tigerstripe.core.project,
    org.eclipse.tigerstripe.core.model,
@@ -236,12 +226,12 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.external,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.api.modules",
- org.eclipse.tigerstripe.core.module.packaging;
+ org.eclipse.tigerstripe.workbench.internal.core.module.packaging;
   uses:="org.eclipse.tigerstripe.api.utils,
    org.eclipse.tigerstripe.core.module,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.api.modules",
- org.eclipse.tigerstripe.core.plugin;
+ org.eclipse.tigerstripe.workbench.internal.core.plugin;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.api.external.plugins,
    org.eclipse.tigerstripe.api.external,
@@ -253,27 +243,27 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.api,
    org.eclipse.tigerstripe.api.plugins.pluggable",
- org.eclipse.tigerstripe.core.plugin.base;
+ org.eclipse.tigerstripe.workbench.internal.core.plugin.base;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.api.external.plugins,
    org.eclipse.tigerstripe.core.plugin,
    org.eclipse.tigerstripe.core.project,
    org.apache.velocity,
    org.eclipse.tigerstripe.core.model",
- org.eclipse.tigerstripe.core.plugin.csv;
+ org.eclipse.tigerstripe.workbench.internal.core.plugin.csv;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.core.plugin,
    org.eclipse.tigerstripe.core.model,
    org.eclipse.tigerstripe.core.plugin.base,
    org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.core.plugin.ossj.ws;
+ org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.ws;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.core.plugin,
    org.eclipse.tigerstripe.core.model,
    org.eclipse.tigerstripe.core.plugin.base,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.api.artifacts.model.ossj",
- org.eclipse.tigerstripe.core.plugin.pluggable;
+ org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.api.external.plugins,
    org.eclipse.tigerstripe.core.plugin,
@@ -283,7 +273,7 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.core.plugin.base,
    org.eclipse.tigerstripe.core.project.pluggable,
    org.eclipse.tigerstripe.api.plugins.pluggable",
- org.eclipse.tigerstripe.core.profile;
+ org.eclipse.tigerstripe.workbench.internal.core.profile;
   uses:="org.eclipse.tigerstripe.core.util.messages,
    org.eclipse.tigerstripe.api.profile,
    org.eclipse.tigerstripe.core.project,
@@ -292,14 +282,14 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.artifacts.model,
    org.eclipse.tigerstripe.api.profile.primitiveType,
    org.eclipse.tigerstripe.api.profile.stereotype",
- org.eclipse.tigerstripe.core.profile.primitiveType;uses:="org.dom4j,org.eclipse.tigerstripe.api.profile.primitiveType",
- org.eclipse.tigerstripe.core.profile.properties;uses:="org.eclipse.tigerstripe.api.profile,org.dom4j,org.eclipse.tigerstripe.api.profile.properties",
- org.eclipse.tigerstripe.core.profile.stereotype;
+ org.eclipse.tigerstripe.workbench.internal.core.profile.primitiveType;uses:="org.dom4j,org.eclipse.tigerstripe.api.profile.primitiveType",
+ org.eclipse.tigerstripe.workbench.internal.core.profile.properties;uses:="org.eclipse.tigerstripe.api.profile,org.dom4j,org.eclipse.tigerstripe.api.profile.properties",
+ org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype;
   uses:="org.eclipse.tigerstripe.api.external.profile.stereotype,
    org.eclipse.tigerstripe.api.profile,
    org.dom4j,
    org.eclipse.tigerstripe.api.profile.stereotype",
- org.eclipse.tigerstripe.core.project;
+ org.eclipse.tigerstripe.workbench.internal.core.project;
   uses:="org.eclipse.tigerstripe.core.plugin,
    org.eclipse.tigerstripe.api.utils,
    org.eclipse.tigerstripe.api.external,
@@ -310,24 +300,32 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.contract.segment,
    org.eclipse.tigerstripe.core.module,
    org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.core.project.pluggable;
+ org.eclipse.tigerstripe.workbench.internal.core.project.pluggable;
   uses:="org.eclipse.tigerstripe.api.external.plugins,
    org.eclipse.tigerstripe.core.project,
    org.w3c.dom,
    org.eclipse.tigerstripe.api.plugins.pluggable",
- org.eclipse.tigerstripe.core.project.pluggable.properties;uses:="org.eclipse.tigerstripe.api.external.plugins,org.w3c.dom,org.eclipse.tigerstripe.api.plugins.pluggable",
- org.eclipse.tigerstripe.core.project.pluggable.rules;
+ org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties;uses:="org.eclipse.tigerstripe.api.external.plugins,org.w3c.dom,org.eclipse.tigerstripe.api.plugins.pluggable",
+ org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.apache.velocity,
    org.eclipse.tigerstripe.core.plugin.pluggable,
    org.apache.velocity.app,
    org.w3c.dom,
    org.eclipse.tigerstripe.api.plugins.pluggable",
- org.eclipse.tigerstripe.core.project.pluggable.runtime;uses:="org.eclipse.tigerstripe.api.plugins.pluggable",
- org.eclipse.tigerstripe.core.util;uses:="org.eclipse.tigerstripe.api.utils,org.eclipse.tigerstripe.api.artifacts.model",
- org.eclipse.tigerstripe.core.util.license,
- org.eclipse.tigerstripe.core.util.messages,
- org.eclipse.tigerstripe.tools.compare;uses:="org.eclipse.tigerstripe.api.external.model.artifacts,org.eclipse.tigerstripe.api.artifacts.model,org.eclipse.tigerstripe.api.artifacts.model.ossj"
+ org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime;uses:="org.eclipse.tigerstripe.api.plugins.pluggable",
+ org.eclipse.tigerstripe.workbench.internal.core.util;uses:="org.eclipse.tigerstripe.api.utils,org.eclipse.tigerstripe.api.artifacts.model",
+ org.eclipse.tigerstripe.workbench.internal.core.util.license,
+ org.eclipse.tigerstripe.workbench.internal.core.util.messages,
+ org.eclipse.tigerstripe.workbench.internal.tools.compare,
+ org.eclipse.tigerstripe.workbench.model,
+ org.eclipse.tigerstripe.workbench.model.artifacts,
+ org.eclipse.tigerstripe.workbench.plugins,
+ org.eclipse.tigerstripe.workbench.profile,
+ org.eclipse.tigerstripe.workbench.profile.primitiveType,
+ org.eclipse.tigerstripe.workbench.profile.stereotype,
+ org.eclipse.tigerstripe.workbench.project,
+ org.eclipse.tigerstripe.workbench.queries
 Bundle-ClassPath: lib/dom4j-1.6.1.jar,
  lib/qdox-1.6.3.jar,
  .,

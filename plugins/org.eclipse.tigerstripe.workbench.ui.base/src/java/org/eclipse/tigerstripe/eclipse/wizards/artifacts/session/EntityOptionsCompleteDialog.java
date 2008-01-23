@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.core.model.Method;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 
 /**
  * @author Eric Dillon

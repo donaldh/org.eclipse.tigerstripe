@@ -12,17 +12,17 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.dnd;
 
 import org.eclipse.gmf.runtime.emf.type.core.ElementTypeRegistry;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IEventArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IQueryArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IUpdateProcedureArtifact;
 
 /**
  * @generated

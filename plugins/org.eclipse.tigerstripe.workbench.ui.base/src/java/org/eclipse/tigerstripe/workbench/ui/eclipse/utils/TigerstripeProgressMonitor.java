@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.utils;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 
 public class TigerstripeProgressMonitor implements ITigerstripeProgressMonitor {
 

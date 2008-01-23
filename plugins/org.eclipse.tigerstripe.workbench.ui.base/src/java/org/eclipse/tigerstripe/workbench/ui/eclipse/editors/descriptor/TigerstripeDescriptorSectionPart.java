@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;

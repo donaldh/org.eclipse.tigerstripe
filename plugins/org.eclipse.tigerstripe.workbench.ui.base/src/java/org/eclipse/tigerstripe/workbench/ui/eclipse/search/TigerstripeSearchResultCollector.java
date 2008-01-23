@@ -12,14 +12,14 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.search;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.model.IField;
-import org.eclipse.tigerstripe.api.model.ILabel;
-import org.eclipse.tigerstripe.api.model.IMethod;
-import org.eclipse.tigerstripe.api.model.IModelComponent;
-import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.model.IMethod.IException;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.search.TigerstripeSearchPage.SearchPatternData;
 
 public class TigerstripeSearchResultCollector {

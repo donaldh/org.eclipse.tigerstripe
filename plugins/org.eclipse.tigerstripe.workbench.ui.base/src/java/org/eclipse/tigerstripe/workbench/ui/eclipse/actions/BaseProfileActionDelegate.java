@@ -15,12 +15,12 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.core.util.license.LicensedAccess;
-import org.eclipse.tigerstripe.core.util.license.TSWorkbenchProfileRole;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
+import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchProfileRole;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class BaseProfileActionDelegate {

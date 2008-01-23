@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Instance Map</b></em>'.

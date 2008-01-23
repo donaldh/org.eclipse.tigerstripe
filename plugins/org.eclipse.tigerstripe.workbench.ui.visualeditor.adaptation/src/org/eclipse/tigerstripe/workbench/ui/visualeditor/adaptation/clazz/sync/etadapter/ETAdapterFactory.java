@@ -11,9 +11,9 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.ETAdapter;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClassClass;

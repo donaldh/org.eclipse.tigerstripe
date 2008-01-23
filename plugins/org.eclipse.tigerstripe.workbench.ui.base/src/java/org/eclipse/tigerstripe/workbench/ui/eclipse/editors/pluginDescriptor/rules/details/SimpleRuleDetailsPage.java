@@ -19,7 +19,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.tigerstripe.core.project.pluggable.rules.SimplePPluginRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.GlobalRulesSection;
 import org.eclipse.ui.forms.widgets.TableWrapData;

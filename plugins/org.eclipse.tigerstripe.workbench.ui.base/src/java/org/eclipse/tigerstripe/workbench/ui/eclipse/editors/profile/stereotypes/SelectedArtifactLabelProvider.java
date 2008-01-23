@@ -13,8 +13,8 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.stereotypes
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.core.util.Misc;
 import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.stereotypes.StereotypeDetailsPage.SelectedArtifactType;
 
 public class SelectedArtifactLabelProvider extends LabelProvider implements

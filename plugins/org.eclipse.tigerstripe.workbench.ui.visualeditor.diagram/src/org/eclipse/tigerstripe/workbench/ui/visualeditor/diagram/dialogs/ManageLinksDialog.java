@@ -42,11 +42,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.api.model.IRelationship;
-import org.eclipse.tigerstripe.api.model.IRelationship.IRelationshipEnd;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.workbench.model.IRelationship;
+import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
 public class ManageLinksDialog extends TSMessageDialog {

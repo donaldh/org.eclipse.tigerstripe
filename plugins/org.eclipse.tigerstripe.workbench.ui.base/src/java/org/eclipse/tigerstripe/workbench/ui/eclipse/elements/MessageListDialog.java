@@ -29,10 +29,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.api.utils.TigerstripeErrorLevel;
-import org.eclipse.tigerstripe.core.util.messages.Message;
-import org.eclipse.tigerstripe.core.util.messages.MessageList;
+import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
+import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
+import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
+import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 
 public class MessageListDialog extends TSMessageDialog {
 

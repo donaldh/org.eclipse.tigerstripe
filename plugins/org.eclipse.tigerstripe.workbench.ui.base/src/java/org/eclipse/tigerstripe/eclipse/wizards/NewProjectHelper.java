@@ -33,11 +33,11 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.eclipse.wizards.project.NewProjectDetails;
 import org.eclipse.tigerstripe.eclipse.wizards.project.NewTigerstripeDescriptorGenerator;
+import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
 /**
  * Helper class for basic Project Creation operations.

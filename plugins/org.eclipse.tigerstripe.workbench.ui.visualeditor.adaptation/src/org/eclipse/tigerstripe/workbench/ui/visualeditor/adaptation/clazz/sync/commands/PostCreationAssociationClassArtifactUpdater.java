@@ -12,18 +12,18 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.model.IField;
-import org.eclipse.tigerstripe.api.model.IMethod;
-import org.eclipse.tigerstripe.api.model.IType;
-import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.core.util.Misc;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
+import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;

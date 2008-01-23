@@ -17,11 +17,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.api.utils.IProjectLocator;
-import org.eclipse.tigerstripe.core.profile.PhantomTigerstripeProjectMgr;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
  * This is an Eclipse-specific project locator. It can map the project label as

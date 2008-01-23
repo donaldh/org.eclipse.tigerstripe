@@ -15,8 +15,8 @@ import java.util.HashMap;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
-import org.eclipse.tigerstripe.api.TigerstripeException;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 
 /**
  * This factory allows to get model file content readers based on a model file

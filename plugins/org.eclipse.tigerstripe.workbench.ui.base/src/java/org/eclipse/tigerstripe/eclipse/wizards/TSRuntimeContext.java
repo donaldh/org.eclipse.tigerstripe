@@ -14,15 +14,15 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.project.IProjectSession;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
+import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
  * This class provides informations about the runtime context (TS Descriptor,

@@ -51,17 +51,17 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.IPluginReference;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.project.IProjectDetails;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.INewArtifactWizardPage;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.LabelsSelectionDialog;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.TSRuntimeBasedWizardPage;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 // import

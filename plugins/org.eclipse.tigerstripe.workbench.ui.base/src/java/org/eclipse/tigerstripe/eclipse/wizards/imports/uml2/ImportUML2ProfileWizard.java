@@ -31,24 +31,24 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IDatatypeArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IExceptionArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
-import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.api.profile.primitiveType.IPrimitiveTypeDef;
-import org.eclipse.tigerstripe.api.profile.stereotype.IEntryListStereotypeAttribute;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeScopeDetails;
-import org.eclipse.tigerstripe.core.profile.primitiveType.PrimitiveTypeDef;
-import org.eclipse.tigerstripe.core.profile.stereotype.StereotypeAttributeFactory;
-import org.eclipse.tigerstripe.core.util.messages.Message;
-import org.eclipse.tigerstripe.core.util.messages.MessageList;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.primitiveType.PrimitiveTypeDef;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeAttributeFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
+import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IEntryListStereotypeAttribute;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeScopeDetails;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.MessageListDialog;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -363,7 +363,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 								handle
 										.removeStereotype((IStereotype) existingStereoNames
 												.get(st.getName()));
-								newStereo = new org.eclipse.tigerstripe.core.profile.stereotype.Stereotype(
+								newStereo = new org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype(
 										handle);
 							} catch (Exception e) {
 								String msgText = "Failed to remove existing stereotype "
@@ -395,7 +395,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 						}
 					} else {
 						this.out.println("Creating stereotype " + st.getName());
-						newStereo = new org.eclipse.tigerstripe.core.profile.stereotype.Stereotype(
+						newStereo = new org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype(
 								handle);
 
 					}

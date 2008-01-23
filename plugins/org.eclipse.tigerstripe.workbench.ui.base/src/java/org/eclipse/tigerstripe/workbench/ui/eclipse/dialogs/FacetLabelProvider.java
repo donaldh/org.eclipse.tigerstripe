@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 
 public class FacetLabelProvider implements ILabelProvider, IColorProvider {
 

@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts;
 
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ReadOnlyEditorInput;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.AbstractArtifactLabelProvider;
 

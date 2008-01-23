@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.advanced
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.core.model.importing.mapper.UmlDatatypeMapping;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.mapper.UmlDatatypeMapping;
 
 public class UmlDatatypeMappingLabelProvider implements ITableLabelProvider {
 

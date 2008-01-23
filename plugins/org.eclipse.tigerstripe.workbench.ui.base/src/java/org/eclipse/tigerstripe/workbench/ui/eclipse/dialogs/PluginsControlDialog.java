@@ -32,8 +32,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.core.plugin.PluginManager;
-import org.eclipse.tigerstripe.core.plugin.pluggable.PluggableHousing;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.actions.RegisterPluggableHousingAction;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.actions.UnRegisterPluggableHousingAction;
 

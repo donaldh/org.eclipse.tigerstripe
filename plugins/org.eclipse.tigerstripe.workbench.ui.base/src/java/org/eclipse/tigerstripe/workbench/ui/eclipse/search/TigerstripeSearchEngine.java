@@ -16,17 +16,17 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.search.ui.ISearchPageContainer;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.impl.QueryAllArtifacts;
-import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.model.IField;
-import org.eclipse.tigerstripe.api.model.ILabel;
-import org.eclipse.tigerstripe.api.model.IMethod;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.search.TigerstripeSearchPage.SearchPatternData;
 
 public class TigerstripeSearchEngine {

@@ -12,15 +12,15 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.utils;
 
 import org.eclipse.jdt.ui.JavaElementSorter;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.model.IField;
-import org.eclipse.tigerstripe.api.model.ILabel;
-import org.eclipse.tigerstripe.api.model.IMethod;
-import org.eclipse.tigerstripe.api.model.IModelComponent;
-import org.eclipse.tigerstripe.api.model.IRelationship.IRelationshipEnd;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.core.model.DependencyArtifact;
-import org.eclipse.tigerstripe.core.model.DependencyArtifact.DependencyEnd;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 
 public class TSElementSorter extends JavaElementSorter {
 

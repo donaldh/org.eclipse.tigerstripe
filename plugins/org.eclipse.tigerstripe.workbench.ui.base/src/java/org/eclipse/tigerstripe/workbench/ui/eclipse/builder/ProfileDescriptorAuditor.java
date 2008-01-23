@@ -16,13 +16,13 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.api.profile.primitiveType.IPrimitiveTypeDef;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotype;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeAttribute;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 
 public class ProfileDescriptorAuditor {

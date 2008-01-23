@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.helpers.MapHelper;

@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.useCase.header;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.api.contract.useCase.IUseCase;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.useCase.body.UseCaseBodyPage;

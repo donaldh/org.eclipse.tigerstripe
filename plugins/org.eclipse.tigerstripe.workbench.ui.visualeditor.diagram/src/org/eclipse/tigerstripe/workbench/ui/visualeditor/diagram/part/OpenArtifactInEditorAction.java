@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.actions.TSOpenAction;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPage;

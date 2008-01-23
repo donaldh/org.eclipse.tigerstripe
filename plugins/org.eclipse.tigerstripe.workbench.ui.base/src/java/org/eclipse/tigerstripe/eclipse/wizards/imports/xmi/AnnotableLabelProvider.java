@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.eclipse.wizards.imports.xmi;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElement;
 import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElement;
 
 public class AnnotableLabelProvider extends LabelProvider {
 

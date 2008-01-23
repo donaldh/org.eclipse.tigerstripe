@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.eclipse.wizards.imports.xmi;
 
-import org.eclipse.tigerstripe.core.model.importing.ModelImportException;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.ModelImportException;
 
 public class XmiImportErrorMessages {
 

@@ -29,11 +29,11 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.ArtifactSelectionDialog;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 
 /**
  * @author Eric Dillon

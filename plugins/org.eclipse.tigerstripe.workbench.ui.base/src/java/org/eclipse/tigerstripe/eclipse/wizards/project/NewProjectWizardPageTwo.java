@@ -46,8 +46,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.modules.ExternalModules;
-import org.eclipse.tigerstripe.core.util.FileUtils;
+import org.eclipse.tigerstripe.workbench.internal.api.modules.ExternalModules;
+import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well

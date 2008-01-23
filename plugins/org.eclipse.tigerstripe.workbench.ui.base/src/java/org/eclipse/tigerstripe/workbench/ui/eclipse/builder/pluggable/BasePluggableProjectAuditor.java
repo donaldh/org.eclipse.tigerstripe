@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.builder.pluggable;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 
 public abstract class BasePluggableProjectAuditor {
 

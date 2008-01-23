@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor;
 
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.impl.TigerstripeProjectHandle;
-import org.eclipse.tigerstripe.api.modules.IModulePackager;
-import org.eclipse.tigerstripe.api.publish.IProjectCSVCreator;
-import org.eclipse.tigerstripe.api.publish.IProjectPublisher;
-import org.eclipse.tigerstripe.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
+import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectCSVCreator;
+import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectPublisher;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
 public class ReadOnlyTigerstripeProjectHandle extends TigerstripeProjectHandle {
 

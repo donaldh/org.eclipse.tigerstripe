@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.optional.bulkImport.ui.wizards;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.core.util.messages.MessageList;
+import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 

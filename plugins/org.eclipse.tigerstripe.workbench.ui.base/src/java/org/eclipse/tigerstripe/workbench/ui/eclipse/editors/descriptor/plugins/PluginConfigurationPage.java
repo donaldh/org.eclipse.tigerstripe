@@ -13,12 +13,12 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.profile.properties.IOssjLegacySettigsProperty;
-import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.core.plugin.PluginManager;
-import org.eclipse.tigerstripe.core.plugin.pluggable.PluggableHousing;
-import org.eclipse.tigerstripe.core.profile.properties.OssjLegacySettingsProperty;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;

@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.header;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.primitive.PrimitiveTypesPage;

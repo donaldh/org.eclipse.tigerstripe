@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.header;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.dependencies.DescriptorDependenciesPage;

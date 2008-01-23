@@ -25,17 +25,17 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.ClasspathEntry;
 import org.eclipse.jdt.internal.core.JavaProject;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.impl.TigerstripeProjectHandle;
-import org.eclipse.tigerstripe.api.project.IDependency;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.api.utils.IProjectLocator;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.core.project.Dependency;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 
 /**

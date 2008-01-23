@@ -29,22 +29,22 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableDatatype;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElement;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElementAttribute;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElementConstant;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElementOperation;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElementOperationParameter;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableModel;
-import org.eclipse.tigerstripe.core.model.importing.mapper.UmlDatatypeMapper;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.enums.LabelRef;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.IImportFromWizardPage;
 import org.eclipse.tigerstripe.eclipse.wizards.model.ArtifactAttributeModel;
 import org.eclipse.tigerstripe.eclipse.wizards.model.ArtifactMethodModel;
 import org.eclipse.tigerstripe.eclipse.wizards.model.ArtifactMethodModel.ParameterRef;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableDatatype;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElement;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElementAttribute;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElementConstant;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElementOperation;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElementOperationParameter;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableModel;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.mapper.UmlDatatypeMapper;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
  * @author Eric Dillon

@@ -16,19 +16,19 @@ import java.util.Collection;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.model.IField;
-import org.eclipse.tigerstripe.api.model.IMethod;
-import org.eclipse.tigerstripe.api.model.IType;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.project.IProjectSession;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.api.queries.IArtifactQuery;
-import org.eclipse.tigerstripe.api.queries.IQueryAllArtifacts;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
+import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
 public class Updatedemo {
 

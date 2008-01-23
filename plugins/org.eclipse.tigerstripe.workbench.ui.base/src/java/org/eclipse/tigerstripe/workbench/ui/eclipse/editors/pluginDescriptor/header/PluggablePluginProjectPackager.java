@@ -26,14 +26,14 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.batch.Main;
-import org.eclipse.tigerstripe.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IPluginClasspathEntry;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.core.project.pluggable.PluggablePluginProject;
-import org.eclipse.tigerstripe.core.util.ZipFilePackager;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginClasspathEntry;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
 
 /**
  * Whenever a Plugin Project needs to be deployed/packaged up, the operation is

@@ -1,0 +1,46 @@
+/*******************************************************************************
+ * Copyright (c) 2007 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+ *******************************************************************************/
+package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime;
+
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginClasspathEntry;
+
+/**
+ * Captures the details of a Plugin classpath entry (ie a .jar file for example)
+ * 
+ * @author Eric Dillon
+ * 
+ */
+public class PluginClasspathEntry implements IPluginClasspathEntry {
+
+	private String relativePath;
+
+	public void setRelativePath(String relativePath) {
+		this.relativePath = relativePath;
+	}
+
+	/**
+	 * Gets the project relative path for this entry
+	 * 
+	 * @return
+	 */
+	public String getRelativePath() {
+		return this.relativePath;
+	}
+
+	public void setProject(IPluggablePluginProject project) {
+	}
+
+	public boolean isPresent() {
+		return true; // TODO
+	}
+
+}

@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.advanced
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.tigerstripe.core.model.importing.mapper.UmlDatatypeMapper;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.mapper.UmlDatatypeMapper;
 
 public class UmlDatatypeMappingContentProvider extends ArrayContentProvider {
 

@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.core.model.EventDescriptorEntry;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
 /**

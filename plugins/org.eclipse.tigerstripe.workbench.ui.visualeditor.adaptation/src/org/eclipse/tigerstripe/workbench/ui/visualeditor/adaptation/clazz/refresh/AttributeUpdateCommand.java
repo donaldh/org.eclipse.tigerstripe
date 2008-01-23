@@ -13,18 +13,18 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refre
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.model.IField;
-import org.eclipse.tigerstripe.api.model.IType;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.core.util.Misc;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.ETAdapter;
+import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
+import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
@@ -110,7 +110,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 				if (ClassDiagramUtils
 						.shouldPopulateAttribute(
 								typeStr,
-								((org.eclipse.tigerstripe.core.model.AbstractArtifact) iArtifact)
+								((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 										.getArtifactManager())) {
 
 					// let's check that this attribute doesn't exist
@@ -151,7 +151,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 						eAttribute.setIsOrdered(field.isOrdered());
 						eAttribute.setIsUnique(field.isUnique());
 						try {
-							TigerstripeProject project = ((org.eclipse.tigerstripe.core.model.AbstractArtifact) iArtifact)
+							TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 									.getArtifactManager().getTSProject();
 
 							ITigerstripeProject tsProject = (ITigerstripeProject) API
@@ -314,7 +314,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 											.getTypeMultiplicity()));
 
 							try {
-								TigerstripeProject project = ((org.eclipse.tigerstripe.core.model.AbstractArtifact) iArtifact)
+								TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 										.getArtifactManager().getTSProject();
 
 								ITigerstripeProject tsProject = (ITigerstripeProject) API

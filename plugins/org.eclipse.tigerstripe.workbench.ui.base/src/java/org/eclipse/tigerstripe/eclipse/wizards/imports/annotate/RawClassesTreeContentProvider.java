@@ -16,15 +16,15 @@ import java.util.List;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.tigerstripe.core.model.importing.Annotable;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableAssociation;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableAssociationEnd;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableDatatype;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableDependency;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElement;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElementAttribute;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElementConstant;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElementOperation;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.Annotable;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableAssociation;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableAssociationEnd;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableDatatype;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableDependency;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElement;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElementAttribute;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElementConstant;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElementOperation;
 
 public class RawClassesTreeContentProvider extends ArrayContentProvider
 		implements ITreeContentProvider {

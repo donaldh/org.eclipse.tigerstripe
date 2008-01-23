@@ -16,8 +16,8 @@ import java.io.StringBufferInputStream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 public class NewWorkbenchProfileWizardPage extends WizardNewFileCreationPage {

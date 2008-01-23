@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.optional.bulkImport;
 
 import java.util.Map;
 
-import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 public class ImportBundle {
 

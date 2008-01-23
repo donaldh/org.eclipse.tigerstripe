@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.gmf.runtime.emf.core.resources.GMFResourceFactory;
-import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.DiagramHandle;
 import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.IModelFileContentReader;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;

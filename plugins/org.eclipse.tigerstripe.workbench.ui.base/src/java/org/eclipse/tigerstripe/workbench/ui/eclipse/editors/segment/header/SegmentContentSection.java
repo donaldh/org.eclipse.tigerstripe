@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.header;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.api.contract.segment.IContractSegment;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.scope.ScopePage;

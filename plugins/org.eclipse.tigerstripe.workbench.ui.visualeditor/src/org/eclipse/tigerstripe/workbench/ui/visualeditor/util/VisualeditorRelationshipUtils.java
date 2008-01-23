@@ -16,30 +16,30 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.model.IField;
-import org.eclipse.tigerstripe.api.model.IMethod;
-import org.eclipse.tigerstripe.api.model.IModelComponent;
-import org.eclipse.tigerstripe.api.model.IRelationship;
-import org.eclipse.tigerstripe.api.model.IType;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
-import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IDependencyArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
-import org.eclipse.tigerstripe.api.profile.properties.IOssjLegacySettigsProperty;
-import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.api.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.core.profile.properties.OssjLegacySettingsProperty;
-import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.IRelationship;
+import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
@@ -292,7 +292,7 @@ public class VisualeditorRelationshipUtils {
 	public static void initializeAssociationClass(AssociationClass assocClass,
 			IAssociationClassArtifact assocClassArtifact,
 			HashMap<String, QualifiedNamedElement> nodesInMap) {
-		ArtifactManager artifactMgr = ((org.eclipse.tigerstripe.core.model.AbstractArtifact) assocClassArtifact)
+		ArtifactManager artifactMgr = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) assocClassArtifact)
 				.getArtifactManager();
 		// first initialize the "association part" of this association class
 		initializeAssociation(assocClass, assocClassArtifact, nodesInMap);

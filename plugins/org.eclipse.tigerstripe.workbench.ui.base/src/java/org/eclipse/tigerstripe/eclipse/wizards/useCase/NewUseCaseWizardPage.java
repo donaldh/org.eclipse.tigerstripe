@@ -16,10 +16,10 @@ import java.io.StringBufferInputStream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
 public class NewUseCaseWizardPage extends WizardNewFileCreationPage {

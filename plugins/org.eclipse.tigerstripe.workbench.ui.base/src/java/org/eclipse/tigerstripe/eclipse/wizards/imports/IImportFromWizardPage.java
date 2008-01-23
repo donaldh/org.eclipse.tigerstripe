@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.eclipse.wizards.imports;
 
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.core.model.importing.ModelImportResult;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.ModelImportResult;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 public interface IImportFromWizardPage {
 

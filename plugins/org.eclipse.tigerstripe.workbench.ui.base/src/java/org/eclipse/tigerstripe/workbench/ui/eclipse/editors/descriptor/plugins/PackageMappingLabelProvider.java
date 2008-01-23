@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.core.plugin.PackageToSchemaMapper.PckXSDMapping;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper.PckXSDMapping;
 
 public class PackageMappingLabelProvider implements ITableLabelProvider {
 

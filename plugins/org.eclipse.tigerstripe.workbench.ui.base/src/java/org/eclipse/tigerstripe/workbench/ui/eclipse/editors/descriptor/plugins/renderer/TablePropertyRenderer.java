@@ -35,14 +35,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProperty;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginPropertyListener;
-import org.eclipse.tigerstripe.api.plugins.pluggable.ITablePPluginProperty;
-import org.eclipse.tigerstripe.api.plugins.pluggable.ITablePPluginProperty.ColumnDef;
-import org.eclipse.tigerstripe.api.plugins.pluggable.ITablePPluginProperty.TablePropertyRow;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
+import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePPluginProperty.ColumnDef;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePPluginProperty.TablePropertyRow;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class TablePropertyRenderer extends BasePropertyRenderer {

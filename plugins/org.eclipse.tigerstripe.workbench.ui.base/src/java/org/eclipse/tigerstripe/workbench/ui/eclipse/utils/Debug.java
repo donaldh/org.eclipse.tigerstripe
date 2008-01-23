@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.utils;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 
 public class Debug {
 

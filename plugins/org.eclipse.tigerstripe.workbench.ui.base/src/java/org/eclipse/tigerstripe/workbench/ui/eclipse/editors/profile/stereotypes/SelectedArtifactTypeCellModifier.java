@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.stereotypes
 
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.core.profile.stereotype.StereotypeScopeDetails;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeScopeDetails;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.stereotypes.StereotypeDetailsPage.SelectedArtifactType;
 
 public class SelectedArtifactTypeCellModifier implements ICellModifier {

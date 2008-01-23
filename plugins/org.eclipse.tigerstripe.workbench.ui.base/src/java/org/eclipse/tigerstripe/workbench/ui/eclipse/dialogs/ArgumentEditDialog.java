@@ -47,26 +47,26 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.IField;
-import org.eclipse.tigerstripe.api.model.ILabel;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
-import org.eclipse.tigerstripe.api.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IEnumArtifact;
-import org.eclipse.tigerstripe.api.profile.properties.IOssjLegacySettigsProperty;
-import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.core.model.ManagedEntityArtifact;
-import org.eclipse.tigerstripe.core.model.Type;
-import org.eclipse.tigerstripe.core.profile.properties.OssjLegacySettingsProperty;
-import org.eclipse.tigerstripe.core.util.Misc;
-import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.AttributeRef;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
+import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.StereotypeSectionManager;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -552,7 +552,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		// populate the attribute
 		initialArgument.setName(attributeNameDialogField.getText());
-		org.eclipse.tigerstripe.api.model.IType type = initialArgument
+		org.eclipse.tigerstripe.workbench.model.IType type = initialArgument
 				.getIType();
 		type.setFullyQualifiedName(attributeClass);
 		type.setTypeMultiplicity(EMultiplicity.at(multiplicityCombo

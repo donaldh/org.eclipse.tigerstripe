@@ -21,11 +21,11 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.tigerstripe.api.plugins.IArtifactFilter;
-import org.eclipse.tigerstripe.api.plugins.IArtifactModel;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IArtifactBasedTemplateRunRule;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.api.plugins.pluggable.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IArtifactBasedTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
 
 public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 

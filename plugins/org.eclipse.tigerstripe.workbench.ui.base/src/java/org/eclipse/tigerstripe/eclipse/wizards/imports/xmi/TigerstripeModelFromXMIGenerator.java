@@ -16,8 +16,8 @@ import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.eclipse.wizards.project.NewProjectDetails;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 
 /**
  * @author Eric Dillon

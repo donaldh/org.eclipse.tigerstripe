@@ -17,11 +17,11 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.tigerstripe.api.plugins.pluggable.ICopyRule;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IRunRule;
-import org.eclipse.tigerstripe.api.plugins.pluggable.ITemplateRunRule;
-import org.eclipse.tigerstripe.core.plugin.pluggable.VelocityContextDefinition;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ICopyRule;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IRunRule;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 
 public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
 

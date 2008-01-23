@@ -16,12 +16,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProperty;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginPropertyListener;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IStringPPluginProperty;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
+import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IStringPPluginProperty;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class StringPropertyRenderer extends BasePropertyRenderer {

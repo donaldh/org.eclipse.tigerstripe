@@ -12,11 +12,11 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequestFactory;
-import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.ClassDiagramSynchronizer;

@@ -30,9 +30,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.tigerstripe.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.core.model.QueryArtifact;
-import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 

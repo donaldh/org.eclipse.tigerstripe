@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.tigerstripe.core.plugin.PackageToSchemaMapper;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper;
 
 public class PackageMappingContentProvider extends ArrayContentProvider {
 

@@ -13,8 +13,6 @@ package org.eclipse.tigerstripe.eclipse.wizards.imports.annotate;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.core.model.importing.Annotable;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableElement;
 import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.AssociationEndNode;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.AssociationNode;
@@ -25,6 +23,8 @@ import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeCo
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.DependencyNode;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.Node;
 import org.eclipse.tigerstripe.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.OperationNode;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.Annotable;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElement;
 import org.eclipse.tigerstripe.workbench.ui.resources.Images;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.internal.WorkbenchImages;

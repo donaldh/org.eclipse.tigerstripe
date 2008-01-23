@@ -12,10 +12,10 @@ package org.eclipse.tigerstripe.eclipse.wizards.imports.xmi;
 
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
-import org.eclipse.tigerstripe.core.model.importing.AnnotableAssociationEnd;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
 
 public class AnnotatedAssociation extends AnnotatedElement {
 

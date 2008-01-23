@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
-import org.eclipse.tigerstripe.api.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd.EMultiplicity;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;

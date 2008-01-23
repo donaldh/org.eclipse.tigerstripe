@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.commands;
 
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.model.IAssociationEnd;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.InstanceDiagramUtils;

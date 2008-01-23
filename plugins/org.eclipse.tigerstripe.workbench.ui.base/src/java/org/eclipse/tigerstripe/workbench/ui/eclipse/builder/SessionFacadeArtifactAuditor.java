@@ -12,23 +12,23 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.model.IMethod.OssjEntityMethodFlavor;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact;
-import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IEmittedEvent;
-import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.IManagedEntityDetails;
-import org.eclipse.tigerstripe.api.model.artifacts.ISessionArtifact.INamedQuery;
-import org.eclipse.tigerstripe.api.model.artifacts.ossj.IOssjMethod;
-import org.eclipse.tigerstripe.api.profile.properties.IOssjLegacySettigsProperty;
-import org.eclipse.tigerstripe.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.core.model.ManagedEntityDetails;
-import org.eclipse.tigerstripe.core.model.ossj.specifics.EntityMethodFlavorDetails;
-import org.eclipse.tigerstripe.core.model.ossj.specifics.EntityOveride;
-import org.eclipse.tigerstripe.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjMethod;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityDetails;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityOveride;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
+import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IEmittedEvent;
+import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IManagedEntityDetails;
+import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.INamedQuery;
 
 public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 		implements IArtifactAuditor {

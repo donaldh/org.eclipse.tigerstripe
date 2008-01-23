@@ -14,11 +14,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelChangeRequestFactory;
-import org.eclipse.tigerstripe.api.model.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Enumeration;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.ClassDiagramSynchronizer;

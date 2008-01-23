@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.gmf.synchronization;
 
 import java.util.Set;
 
-import org.eclipse.tigerstripe.api.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 
 /**
  * A IModelFileContentReader allows to read Diagram specific model files and

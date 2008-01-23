@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;

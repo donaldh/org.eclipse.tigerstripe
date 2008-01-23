@@ -26,21 +26,21 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.TigerstripeException;
-import org.eclipse.tigerstripe.api.TigerstripeLicenseException;
-import org.eclipse.tigerstripe.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.api.model.IArtifactManagerSession;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.api.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.api.project.IDependency;
-import org.eclipse.tigerstripe.api.project.IProjectSession;
-import org.eclipse.tigerstripe.api.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.core.project.Dependency;
-import org.eclipse.tigerstripe.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
+import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
+import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 public class TSExplorerUtils {
 

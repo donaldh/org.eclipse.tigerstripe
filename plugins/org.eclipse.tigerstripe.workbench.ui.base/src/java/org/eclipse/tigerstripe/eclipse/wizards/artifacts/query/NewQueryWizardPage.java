@@ -39,15 +39,15 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.core.model.ManagedEntityArtifact;
-import org.eclipse.tigerstripe.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.ArtifactSelectionDialog;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.NewArtifactWizardPage;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 /**
  * @author Eric Dillon

@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.even
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.core.model.EventDescriptorEntry;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntry;
 
 public class EventEntryLabelProvider extends LabelProvider implements
 		ITableLabelProvider {

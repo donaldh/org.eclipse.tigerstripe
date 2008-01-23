@@ -56,7 +56,7 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.ui.gmf.IconCachingCompartmentEditPart;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;

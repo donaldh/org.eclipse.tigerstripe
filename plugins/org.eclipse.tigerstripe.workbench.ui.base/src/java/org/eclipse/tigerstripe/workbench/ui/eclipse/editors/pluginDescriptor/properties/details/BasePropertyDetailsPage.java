@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.plugins.pluggable.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.properties.GlobalPropertiesSection;
 import org.eclipse.ui.forms.IDetailsPage;

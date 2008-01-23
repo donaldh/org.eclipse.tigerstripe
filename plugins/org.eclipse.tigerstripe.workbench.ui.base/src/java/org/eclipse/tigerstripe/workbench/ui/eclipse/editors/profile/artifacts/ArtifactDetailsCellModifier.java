@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.artifacts;
 
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.core.profile.properties.ArtifactSettingDetails;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.ArtifactSettingDetails;
 
 public class ArtifactDetailsCellModifier implements ICellModifier {
 

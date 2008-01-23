@@ -16,10 +16,10 @@ import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.osgi.service.datalocation.Location;
-import org.eclipse.tigerstripe.api.API;
-import org.eclipse.tigerstripe.api.rendering.IDiagramRenderer;
-import org.eclipse.tigerstripe.api.rendering.IDiagramRenderingSession;
-import org.eclipse.tigerstripe.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.API;
+import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
+import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.osgi.framework.BundleContext;
 
 public class BasePlugin extends Plugin {

@@ -32,8 +32,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 
 public class ContractSegmentSelectionWizardPage extends WizardPage {
 

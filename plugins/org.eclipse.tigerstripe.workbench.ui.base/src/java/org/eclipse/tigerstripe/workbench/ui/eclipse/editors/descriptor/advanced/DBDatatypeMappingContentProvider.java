@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.advanced
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.tigerstripe.core.model.importing.db.mapper.DBTypeMapper;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.mapper.DBTypeMapper;
 
 public class DBDatatypeMappingContentProvider extends ArrayContentProvider {
 
