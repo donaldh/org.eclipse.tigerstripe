@@ -945,15 +945,6 @@ public class TS2UML2 {
 		return this.model.getName() + "::" + name.replace(".", "::");
 	}
 
-	/*
-	 * private int getLowerBound(IextType type){ int multi =
-	 * type.getMultiplicity(); if (multi == IextType.MULTIPLICITY_SINGLE){
-	 * return 1; } else { return 0; } }
-	 * 
-	 * private int getUpperBound(IextType type){ int multi =
-	 * type.getMultiplicity(); if (multi == IextType.MULTIPLICITY_SINGLE){
-	 * return 1; } else { return -1; } }
-	 */
 
 	/**
 	 * Find a class if it exists, or make one if it doesn't.

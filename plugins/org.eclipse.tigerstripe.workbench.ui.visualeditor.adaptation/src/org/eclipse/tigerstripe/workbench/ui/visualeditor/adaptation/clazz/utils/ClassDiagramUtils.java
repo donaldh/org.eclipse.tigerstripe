@@ -58,10 +58,10 @@ public class ClassDiagramUtils {
 
 	/**
 	 * Returns the corresponding EMF visibility Valid values are: -
-	 * {@link IextModelComponent#VISIBILITY_PRIVATE} -
-	 * {@link IextModelComponent#VISIBILITY_PROTECTED} -
-	 * {@link IextModelComponent#VISIBILITY_PUBLIC} -
-	 * {@link IextModelComponent#VISIBILITY_PACKAGE}
+	 * {@link IModelComponent#VISIBILITY_PRIVATE} -
+	 * {@link IModelComponent#VISIBILITY_PROTECTED} -
+	 * {@link IModelComponent#VISIBILITY_PUBLIC} -
+	 * {@link IModelComponent#VISIBILITY_PACKAGE}
 	 * 
 	 * otherwise returns {@link Visibility#PUBLIC_LITERAL}
 	 * 

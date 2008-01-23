@@ -20,7 +20,7 @@ public interface IOssjEventSpecifics extends IOssjArtifactSpecifics {
 	public void setSingleExtensionType(boolean single);
 
 	/**
-	 * Returns an array of IextEventDescriptorEntry that are those specified
+	 * Returns an array of IEventDescriptorEntry that are those specified
 	 * directly by the user.
 	 * 
 	 * @return
@@ -28,7 +28,7 @@ public interface IOssjEventSpecifics extends IOssjArtifactSpecifics {
 	public IEventDescriptorEntry[] getCustomEventDescriptorEntries();
 
 	/**
-	 * Returns an array of IextEventDescriptorEntry that are those specified in
+	 * Returns an array of IEventDescriptorEntry that are those specified in
 	 * the tree view of the editor - ie based on the attributes of the event.
 	 * 
 	 * @return

@@ -49,7 +49,7 @@ public interface IManagedEntityArtifact extends IAbstractArtifact {
 	/**
 	 * Returns the PrimaryKey object for this Managed Entity.
 	 * 
-	 * @return IextPrimaryKey - The primaryKey for this Managed Entity
+	 * @return IPrimaryKey - The primaryKey for this Managed Entity
 	 */
 	public IPrimaryKey getPrimaryKey();
 

@@ -220,7 +220,7 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 	/**
 	 * Returns the type of the end.
 	 * 
-	 * @return IextType - the type of the end
+	 * @return IType - the type of the end
 	 */
 	public IType getIType();
 
@@ -234,8 +234,8 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 	/**
 	 * Returns the type of the end.
 	 * 
-	 * @return IextType - the type of the end
-	 * @deprecated use getIextType for consistency
+	 * @return IType - the type of the end
+	 * @deprecated use getIType for consistency
 	 */
 	@Deprecated
 	public IType getType();

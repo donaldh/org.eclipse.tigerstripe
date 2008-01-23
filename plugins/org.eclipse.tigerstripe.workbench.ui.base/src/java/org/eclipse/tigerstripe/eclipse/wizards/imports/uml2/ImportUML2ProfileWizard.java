@@ -212,57 +212,6 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 	 */
 	private void forceCreateStereotypes(IWorkbenchProfile handle) {
 
-		// RC - This is removed because the model now supports an abstract flag
-		// on the
-		// artifacts/methods.
-
-		// I've left it here beacuse the logic is good and we might want to use
-		// it as a "model"
-		// should we want to put others back
-
-		/*
-		 * HashMap existingStereoNames = new HashMap(); IextStereotype[]
-		 * existingStereos = handle.getStereotypes(); IStereotype newStereo;
-		 * 
-		 * for (int e=0;e<existingStereos.length;e++){ String exName =
-		 * existingStereos[e].getName();
-		 * existingStereoNames.put(exName,existingStereos[e]); } if(
-		 * existingStereoNames.keySet().contains("Abstract")){ try {
-		 * handle.removeStereotype((IStereotype)
-		 * existingStereoNames.get("Abstract")); }catch (Exception e){ String
-		 * msgText = "Failed to remove existing stereotype " + "Abstract";
-		 * addMessage(msgText, 0); this.out.println("Error : "+msgText);
-		 * e.printStackTrace(this.out); return; } } newStereo = new
-		 * org.eclipse.tigerstripe.core.profile.stereotype.Stereotype(handle);
-		 * newStereo.setName("Abstract"); newStereo.setDescription("Force
-		 * created by Import tool");
-		 * 
-		 * IStereotypeScopeDetails thisScope = (IStereotypeScopeDetails)
-		 * newStereo.getStereotypeScopeDetails(); // All artifacts ArrayList<String>
-		 * typeList = new ArrayList<String>();
-		 * typeList.add(IManagedEntityArtifact.class.getName());
-		 * typeList.add(IDatatypeArtifact.class.getName());
-		 * typeList.add(IExceptionArtifact.class.getName());
-		 * typeList.add(IEnumArtifact.class.getName());
-		 * typeList.add(IAssociationArtifact.class.getName());
-		 * typeList.add(IAssociationClassArtifact.class.getName());
-		 * typeList.add(ISessionArtifact.class.getName()); String[] strArr = new
-		 * String[0]; String[] types = typeList.toArray(strArr);
-		 * thisScope.setArtifactLevelTypes(types);
-		 * 
-		 * thisScope.setMethodLevel(true); StereotypeAttributeFactory fact = new
-		 * StereotypeAttributeFactory(); IStereotypeAttribute attribute = null;
-		 * int kind = IStereotypeAttribute.CHECKABLE_KIND;
-		 * 
-		 * attribute = fact.makeAttribute(kind);
-		 * attribute.setName("isAbstract"); attribute.setDescription("Force
-		 * created by Import tool"); attribute.setDefaultValue("1"); try{
-		 * newStereo.addAttribute(attribute); handle.addStereotype(newStereo); }
-		 * catch (Exception e){ String msgText = "Failed to add sterotype :
-		 * "+attribute.getName() ; addMessage(msgText, 0);
-		 * this.out.println("Error : "+msgText); e.printStackTrace(this.out); }
-		 */
-
 	}
 
 	private void loadProfile(IWorkbenchProfile handle, File source,

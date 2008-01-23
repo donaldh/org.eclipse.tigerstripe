@@ -62,7 +62,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            OssjEntityMethodFlavor object
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getCreateFlavorDetails(
@@ -75,7 +75,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            String name of the Flavor
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getCreateFlavorDetailsStr(
@@ -91,7 +91,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 *            OssjEntityMethodFlavor object
 		 * 
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getCustomMethodFlavorDetails(
@@ -108,7 +108,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            String - name of the Flavor
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getCustomMethodFlavorDetailsStr(
@@ -121,7 +121,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            OssjEntityMethodFlavor object
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getDefaultCreateFlavorDetails(
@@ -136,7 +136,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavorStr -
 		 *            String - name of the Flavor
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getDefaultCreateFlavorDetailsStr(
@@ -150,7 +150,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            OssjEntityMethodFlavor object
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getDefaultCustomMethodFlavorDetails(
@@ -164,7 +164,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavorStr -
 		 *            OssjEntityMethodFlavor object
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getDefaultCustomMethodFlavorDetailsStr(
@@ -177,7 +177,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            OssjEntityMethodFlavor object
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getDefaultGetFlavorDetails(
@@ -192,7 +192,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavorStr -
 		 *            String - name of the Flavor
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getDefaultGetFlavorDetailsStr(
@@ -205,7 +205,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            OssjEntityMethodFlavor object
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getDefaultRemoveFlavorDetails(
@@ -220,7 +220,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavorStr -
 		 *            String - name of the Flavor
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getDefaultRemoveFlavorDetailsStr(
@@ -233,7 +233,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            OssjEntityMethodFlavor object
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getDefaultSetFlavorDetails(
@@ -248,7 +248,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavorStr -
 		 *            flavorStr - name of the Flavor
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getDefaultSetFlavorDetailsStr(
@@ -268,7 +268,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            OssjEntityMethodFlavor object
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getGetFlavorDetails(
@@ -281,7 +281,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            String name of the Flavor
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getGetFlavorDetailsStr(
@@ -300,7 +300,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            OssjEntityMethodFlavor object
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getRemoveFlavorDetails(
@@ -313,7 +313,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            String name of the Flavor
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getRemoveFlavorDetailsStr(
@@ -325,7 +325,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            OssjEntityMethodFlavor object
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getSetFlavorDetails(
@@ -338,7 +338,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		 * @param flavor -
 		 *            String name of the Flavor
 		 * 
-		 * @return IextEntityMethodFlavorDetails - An object containing details
+		 * @return IEntityMethodFlavorDetails - An object containing details
 		 *         of this flavor
 		 */
 		public IEntityMethodFlavorDetails getSetFlavorDetailsStr(

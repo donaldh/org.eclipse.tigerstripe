@@ -35,7 +35,7 @@ import org.eclipse.tigerstripe.api.utils.TigerstripeError;
  */
 public interface IAbstractArtifact extends IModelComponent{
 
-	public interface IextFieldTypeRef {
+	public interface IFieldTypeRef {
 	
 		public int getRefBy();
 	
@@ -228,7 +228,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * 
 	 * @return
 	 */
-	public IextFieldTypeRef[] getFieldIextTypes();
+	public IFieldTypeRef[] getFieldITypes();
 
 	/**
 	 * Returns the fully qualified name (ie. package + name) of this artifact.
@@ -240,7 +240,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	/**
 	 * Returns the type of this artifact. This will be the FQN of the class of
 	 * the specific type of artifact: eg
-	 * "org.eclipse.tigerstripe.api.external.model.artifacts.IextEventArtifact"
+	 * "org.eclipse.tigerstripe.api.external.model.artifacts.IEventArtifact"
 	 * 
 	 * @return String - the fully qualified type of this artifact
 	 */
@@ -250,18 +250,18 @@ public interface IAbstractArtifact extends IModelComponent{
 	/**
 	 * Returns the fields defined for this artifact. This will be limited to the
 	 * fields defined locally in this artifact. If no field was defined return
-	 * new IextField[0].
+	 * new IField[0].
 	 * 
 	 * Note : Some artifact types do not support Fields and will always return
 	 * an empty array.
 	 * 
-	 * @see getInheritedIextFields()
+	 * @see getInheritedIFields()
 	 * @param filterFacetExcludedFields -
 	 *            if set to true, all fields that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all fields
 	 *            are returned.
 	 * 
-	 * @return IextField[] - an array of all the fields for this artifact
+	 * @return IField[] - an array of all the fields for this artifact
 	 */
 	public IField[] getIFields(boolean filterFacetExcludedFields);
 
@@ -269,18 +269,18 @@ public interface IAbstractArtifact extends IModelComponent{
 	/**
 	 * Returns the labels defined for this artifact. This will be limited to the
 	 * labels defined locally in this artifact. If no label was defined return
-	 * new IextField[0].
+	 * new IField[0].
 	 * 
 	 * Note : Some artifact types do not support Labels and will always return
 	 * an empty array.
 	 * 
-	 * @see getInheritedIextLabels()
+	 * @see getInheritedILabels()
 	 * 
 	 * @param filterFacetExcludedLabels -
 	 *            if set to true, all labels that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all labels
 	 *            are returned.
-	 * @return IextLabel[] - an array of all the labels for this artifact
+	 * @return ILabel[] - an array of all the labels for this artifact
 	 */
 	public ILabel[] getILabels(boolean filterFacetExcludedLabels);
 
@@ -288,18 +288,18 @@ public interface IAbstractArtifact extends IModelComponent{
 	/**
 	 * Returns the methods defined for this artifact. This will be limited to
 	 * the methods defined locally in this artifact. If no method was defined
-	 * return new IextField[0].
+	 * return new IField[0].
 	 * 
 	 * Note : Some artifact types do not support Methods and will always return
 	 * an empty array.
 	 * 
-	 * @see getInheritedIextMethods()
+	 * @see getInheritedIMethods()
 	 * 
 	 * @param filterFacetExcludedMethods -
 	 *            if set to true, all methods that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all methods
 	 *            are returned.
-	 * @return IextMethod[] - an array of all the methods for this artifact
+	 * @return IMethod[] - an array of all the methods for this artifact
 	 */
 	public IMethod[] getIMethods(boolean filterFacetExcludedMethods);
 
@@ -313,7 +313,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * 
 	 * @return
 	 */
-	public IProjectDescriptor getIextProjectDescriptor();
+	public IProjectDescriptor getIProjectDescriptor();
 
 	/**
 	 * Returns the standard specific details for this artifact.
@@ -322,7 +322,6 @@ public interface IAbstractArtifact extends IModelComponent{
 	 */
 	public IStandardSpecifics getIStandardSpecifics();
 
-	// public IextArtifactManagerSession getIextArtifactManagerSession();
 	
 	/**
 	 * Returns an array containing all the artifacts that are implemented by
@@ -343,14 +342,14 @@ public interface IAbstractArtifact extends IModelComponent{
 	/**
 	 * Returns the inherited fields for this artifact. Only inherited fields
 	 * will be included, but all inherited fields (ie from all ancestors) will
-	 * be included. If no field was inherited return new IextField[0].
+	 * be included. If no field was inherited return new IField[0].
 	 * 
-	 * This is equivalent to getInheritedIextFields(false)
+	 * This is equivalent to getInheritedIFields(false)
 	 * 
 	 * Note : Some artifact types do not support Fields and will always return
 	 * an empty array.
 	 * 
-	 * @return IextField[] - an array of all the inherited fields for this
+	 * @return IField[] - an array of all the inherited fields for this
 	 *         artifact
 	 */
 	public IField[] getInheritedIFields();
@@ -358,7 +357,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	/**
 	 * Returns the inherited fields for this artifact. Only inherited fields
 	 * will be included, but all inherited fields (ie from all ancestors) will
-	 * be included. If no field was inherited return new IextField[0].
+	 * be included. If no field was inherited return new IField[0].
 	 * 
 	 * Note : Some artifact types do not support Fields and will always return
 	 * an empty array.
@@ -367,7 +366,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 *            if set to true, all fields that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all fields
 	 *            are returned.
-	 * @return IextField[] - an array of all the inherited fields for this
+	 * @return IField[] - an array of all the inherited fields for this
 	 *         artifact
 	 */
 	public IField[] getInheritedIFields(boolean filterFacetExcludedFields);
@@ -375,14 +374,14 @@ public interface IAbstractArtifact extends IModelComponent{
 	/**
 	 * Returns the inherited labels for this artifact. Only inherited labels
 	 * will be included, but all inherited labels (ie from all ancestors) will
-	 * be included. If no label was inherited return new IextField[0].
+	 * be included. If no label was inherited return new IField[0].
 	 * 
-	 * this is equivalent to getInheritedIextLabels(false)
+	 * this is equivalent to getInheritedILabels(false)
 	 * 
 	 * Note : Some artifact types do not support Labels and will always return
 	 * an empty array.
 	 * 
-	 * @return IextLabel[] - an array of all the inherited labels for this
+	 * @return ILabel[] - an array of all the inherited labels for this
 	 *         artifact
 	 */
 	public ILabel[] getInheritedILabels();
@@ -390,7 +389,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	/**
 	 * Returns the inherited labels for this artifact. Only inherited labels
 	 * will be included, but all inherited labels (ie from all ancestors) will
-	 * be included. If no label was inherited return new IextField[0].
+	 * be included. If no label was inherited return new Iield[0].
 	 * 
 	 * Note : Some artifact types do not support Labels and will always return
 	 * an empty array.
@@ -399,7 +398,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 *            if set to true, all labels that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all labels
 	 *            are returned.
-	 * @return IextLabel[] - an array of all the inherited labels for this
+	 * @return ILabel[] - an array of all the inherited labels for this
 	 *         artifact
 	 */
 	public ILabel[] getInheritedILabels(boolean filterFacetExcludedLabels);
@@ -407,14 +406,14 @@ public interface IAbstractArtifact extends IModelComponent{
 	/**
 	 * Returns the inherited methods for this artifact. Only inherited methods
 	 * will be included, but all inherited methods (ie from all ancestors) will
-	 * be included. If no method was inherited return new IextField[0].
+	 * be included. If no method was inherited return new IField[0].
 	 * 
-	 * This is equivalent to getInheritedIextMethods(false)
+	 * This is equivalent to getInheritedIMethods(false)
 	 * 
 	 * Note : Some artifact types do not support Methods and will always return
 	 * an empty array.
 	 * 
-	 * @return IextMethod[] - an array of all the inherited methods for this
+	 * @return IMethod[] - an array of all the inherited methods for this
 	 *         artifact
 	 */
 	public IMethod[] getInheritedIMethods();
@@ -422,7 +421,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	/**
 	 * Returns the inherited methods for this artifact. Only inherited methods
 	 * will be included, but all inherited methods (ie from all ancestors) will
-	 * be included. If no method was inherited return new IextField[0].
+	 * be included. If no method was inherited return new IField[0].
 	 * 
 	 * Note : Some artifact types do not support Methods and will always return
 	 * an empty array.
@@ -431,7 +430,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 *            if set to true, all methods that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all methods
 	 *            are returned.
-	 * @return IextMethod[] - an array of all the inherited methods for this
+	 * @return IMethod[] - an array of all the inherited methods for this
 	 *         artifact
 	 */
 	public IMethod[] getInheritedIMethods(
@@ -441,7 +440,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * Returns the project that contains this artifact.
 	 * 
 	 * NOTE: if this is contained in a module, the return is null.
-	 * {@link #getIextProjectDescriptor()}
+	 * {@link #getIProjectDescriptor()}
 	 * 
 	 * @return the containing Project.
 	 */

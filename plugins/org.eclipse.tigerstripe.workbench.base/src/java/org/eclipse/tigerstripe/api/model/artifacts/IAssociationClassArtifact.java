@@ -44,7 +44,7 @@ public interface IAssociationClassArtifact extends IAssociationArtifact {
 	/**
 	 * Returns the fields defined for this association Class.
 	 * 
-	 * @return IextField[] - an array of all the fields for this artifact
+	 * @return IField[] - an array of all the fields for this artifact
 	 */
 	public IField[] getIFields();
 

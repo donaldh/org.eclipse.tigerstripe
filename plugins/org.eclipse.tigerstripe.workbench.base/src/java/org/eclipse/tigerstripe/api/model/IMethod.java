@@ -64,7 +64,7 @@ public interface IMethod extends  IModelComponent {
 		public IAbstractArtifact getContainingArtifact();
 
 		/**
-		 * Returns the IextMethod that is the "container" for the argument.
+		 * Returns the IMethod that is the "container" for the argument.
 		 * 
 		 * @return the containing method.
 		 */
@@ -96,7 +96,7 @@ public interface IMethod extends  IModelComponent {
 		/**
 		 * Returns an integer value indicating the reference type of the
 		 * argument. Possible values are defined in the static fields of
-		 * IextField.
+		 * IField.
 		 * 
 		 * @return int - the integer value corresponding to the refBy
 		 */
@@ -105,7 +105,7 @@ public interface IMethod extends  IModelComponent {
 		/**
 		 * Returns an String value indicating the reference type of the
 		 * argument. Possible values are defined in the refByLabels field of
-		 * IextField.
+		 * IField.
 		 * 
 		 * @return String - the refBy type
 		 */
@@ -415,7 +415,7 @@ public interface IMethod extends  IModelComponent {
 
 	/**
 	 * Returns an integer value indicating the reference type of the return.
-	 * Possible values are defined in the static fields of IextField.
+	 * Possible values are defined in the static fields of IField.
 	 * 
 	 * @return int - the integer value corresponding to the refBy
 	 */
@@ -423,7 +423,7 @@ public interface IMethod extends  IModelComponent {
 
 	/**
 	 * Returns an String value indicating the reference type of the return.
-	 * Possible values are defined in the refByLabels field of IextField.
+	 * Possible values are defined in the refByLabels field of IField.
 	 * 
 	 * @return String - the refBy type
 	 */

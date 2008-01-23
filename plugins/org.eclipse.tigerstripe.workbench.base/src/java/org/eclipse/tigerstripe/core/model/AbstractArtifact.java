@@ -592,7 +592,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	/**
 	 * Capture the type and the associated refBy mode
 	 */
-	public class FieldTypeRef implements IextFieldTypeRef {
+	public class FieldTypeRef implements IFieldTypeRef {
 		private Type type;
 
 		private int refBy;
@@ -776,9 +776,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return this.fieldTypes;
 	}
 
-	public IextFieldTypeRef[] getFieldIextTypes() {
+	public IFieldTypeRef[] getFieldITypes() {
 		Collection result = getFieldTypes();
-		return (IextFieldTypeRef[]) result.toArray(new IextFieldTypeRef[result
+		return (IFieldTypeRef[]) result.toArray(new IFieldTypeRef[result
 				.size()]);
 	}
 
@@ -1338,7 +1338,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		persister.applyTemplate();
 	}
 
-	public IProjectDescriptor getIextProjectDescriptor() {
+	public IProjectDescriptor getIProjectDescriptor() {
 		return getTSProject();
 	}
 

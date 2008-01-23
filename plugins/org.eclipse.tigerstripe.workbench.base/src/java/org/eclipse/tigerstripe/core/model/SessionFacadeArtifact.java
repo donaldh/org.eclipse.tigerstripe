@@ -504,30 +504,5 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		method.setInstanceMethod(false);
 	}
 
-	public IEmittedEvent[] getIextEmittedEvents() {
-		IEmittedEvent[] result = new IEmittedEvent[emittedEvents.size()];
-		return (IEmittedEvent[]) emittedEvents.toArray(result);
-
-	}
-
-	public IExposedUpdateProcedure[] getIextExposedUpdateProcedures() {
-		IExposedUpdateProcedure[] result = new IExposedUpdateProcedure[exposedUpdateProcedures
-				.size()];
-		return (IExposedUpdateProcedure[]) exposedUpdateProcedures
-				.toArray(result);
-
-	}
-
-	public IManagedEntityDetails[] getIextManagedEntityDetails() {
-		IManagedEntityDetails[] result = new IManagedEntityDetails[managedEntities
-				.size()];
-		return managedEntities.toArray(result);
-
-	}
-
-	public INamedQuery[] getIextNamedQueries() {
-		INamedQuery[] result = new INamedQuery[namedQueries.size()];
-		return (INamedQuery[]) namedQueries.toArray(result);
-	}
 
 }
