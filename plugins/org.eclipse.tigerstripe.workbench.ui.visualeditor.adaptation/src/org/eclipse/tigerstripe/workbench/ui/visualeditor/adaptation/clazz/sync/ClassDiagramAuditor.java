@@ -509,7 +509,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				"Attributes", null);
 
 		List<IField> fields = new ArrayList<IField>();
-		fields.addAll(Arrays.asList(iArtifact.getIFields()));
+		fields.addAll(iArtifact.getFields());
 		List<Attribute> attributes = eArtifact.getAttributes();
 
 		for (Attribute attribute : attributes) {
@@ -623,7 +623,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				"Methods", null);
 
 		List<IMethod> methods = new ArrayList<IMethod>();
-		methods.addAll(Arrays.asList(iArtifact.getIMethods()));
+		methods.addAll(iArtifact.getMethods());
 		List<Method> eMethods = eArtifact.getMethods();
 
 		for (Method eMethod : eMethods) {
@@ -835,7 +835,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				"Literals", null);
 
 		List<ILabel> labels = new ArrayList<ILabel>();
-		labels.addAll(Arrays.asList(iArtifact.getILabels()));
+		labels.addAll(iArtifact.getLabels());
 		List<Literal> eLiterals = eArtifact.getLiterals();
 
 		for (Literal eLiteral : eLiterals) {

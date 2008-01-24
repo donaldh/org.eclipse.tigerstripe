@@ -101,9 +101,8 @@ public class InstanceDiagramUtils {
 		Stack<List> fieldStack = new Stack<List>();
 		List<String> fieldNames = new ArrayList<String>();
 		do {
-			IField[] fields = lclArtifact.getIFields();
 			List<IField> lclFieldSet = new ArrayList<IField>();
-			for (IField field : fields) {
+			for (IField field : lclArtifact.getFields()) {
 				if (fieldNames.contains(field.getLabelString()))
 					continue;
 				// int visibility = field.getVisibility();
@@ -382,8 +381,9 @@ public class InstanceDiagramUtils {
 	public static boolean isPrimitive(IArtifactManagerSession artMgrSession,
 			IType type) {
 		try {
-			IAbstractArtifact iArt = artMgrSession.getArtifactByFullyQualifiedName(type
-					.getFullyQualifiedName());
+			IAbstractArtifact iArt = artMgrSession
+					.getArtifactByFullyQualifiedName(type
+							.getFullyQualifiedName());
 			if (iArt instanceof IPrimitiveTypeArtifact)
 				return true;
 		} catch (TigerstripeException e) {

@@ -34,8 +34,7 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
 		if (art != null) {
-			IField[] fields = art.getIFields();
-			for (IField field : fields) {
+			for (IField field : art.getFields()) {
 				if (field.getName().equals(attributeName))
 					return true;
 			}
@@ -52,8 +51,7 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 
 		boolean needSave = false;
 		if (art != null) {
-			IField[] fields = art.getIFields();
-			for (IField field : fields) {
+			for (IField field : art.getFields()) {
 				if (field.getName().equals(attributeName)) {
 					IField iField = (IField) field;
 					if (NAME_FEATURE.equals(featureId)) {

@@ -35,8 +35,7 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
 		if (art != null) {
-			IMethod[] methods = ((IAbstractArtifact) art).getIMethods();
-			for (IMethod method : methods) {
+			for (IMethod method : art.getMethods()) {
 				if (method.getLabelString().equals(methodLabelBeforeChange))
 					return true;
 			}
@@ -53,8 +52,7 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 
 		boolean needSave = false;
 		if (art != null) {
-			IMethod[] methods = art.getIMethods();
-			for (IMethod method : methods) {
+			for (IMethod method : art.getMethods()) {
 				if (((IMethod) method).getLabelString().equals(
 						methodLabelBeforeChange)) {
 					IMethod iMethod = (IMethod) method;

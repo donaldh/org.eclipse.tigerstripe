@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
@@ -20,7 +21,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.AssociationClassArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
@@ -102,22 +102,13 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 
 
 	@Override
-	public ILabel[] getILabels() {
-		return new ILabel[0];
+	public Collection<IMethod> getMethods() {
+		return Collections.unmodifiableCollection(methods);
 	}
 
 	@Override
-	public IMethod[] getIMethods() {
-		Collection methods = getMethods();
-		IMethod[] result = new IMethod[methods.size()];
-		return (IMethod[]) methods.toArray(result);
-	}
-
-	@Override
-	public IField[] getIFields() {
-		Collection fields = getFields();
-		IField[] result = new IField[fields.size()];
-		return (IField[]) fields.toArray(result);
+	public Collection<IField> getFields() {
+		return Collections.unmodifiableCollection(fields);
 	}
 
 	@Override
@@ -149,11 +140,11 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	public Object[] getChildren() {
 		ArrayList<Object> result = new ArrayList<Object>();
 
-		for (IMethod method : getIMethods()) {
+		for (IMethod method : getMethods()) {
 			result.add(method);
 		}
 
-		for (IField field : getIFields()) {
+		for (IField field : getFields()) {
 			result.add(field);
 		}
 		result.add(getAEnd());

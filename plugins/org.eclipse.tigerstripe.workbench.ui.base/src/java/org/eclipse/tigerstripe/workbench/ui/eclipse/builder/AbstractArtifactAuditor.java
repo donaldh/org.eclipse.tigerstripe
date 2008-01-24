@@ -137,7 +137,7 @@ public abstract class AbstractArtifactAuditor {
 
 	private void checkMethods(IProgressMonitor monitor) {
 		// Checking that abstract methods only belong to abstract artifacts
-		for (IMethod method : getArtifact().getIMethods()) {
+		for (IMethod method : getArtifact().getMethods()) {
 			if (method.isAbstract() && !getArtifact().isAbstract()) {
 				TigerstripeProjectAuditor.reportError("Method "
 						+ method.getName() + " is marked Abstract although "

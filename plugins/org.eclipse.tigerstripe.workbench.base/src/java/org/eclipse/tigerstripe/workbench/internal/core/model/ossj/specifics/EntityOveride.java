@@ -111,11 +111,11 @@ public class EntityOveride {
 		localCol.addAll(crudCol);
 
 		// Make sure we only add the non instance methods
-		Collection<IOssjMethod> customMethods = managedEntity.getArtifact()
+		Collection<IMethod> customMethods = managedEntity.getArtifact()
 				.getMethods();
-		for (IOssjMethod customMethod : customMethods) {
+		for (IMethod customMethod : customMethods) {
 			if (customMethod.isInstanceMethod()) {
-				localCol.add(customMethod);
+				localCol.add((IOssjMethod) customMethod);
 			}
 		}
 
@@ -255,7 +255,7 @@ public class EntityOveride {
 		IOssjEntitySpecifics specifics = (IOssjEntitySpecifics) artifact
 				.getIStandardSpecifics();
 
-		IOssjMethod createMethod = (IOssjMethod) artifact.makeIMethod();
+		IOssjMethod createMethod = (IOssjMethod) artifact.makeMethod();
 		createMethod.setName("create");
 		createMethod
 				.setSupportedFlavors(IOssjFlavorDefaults.createMethodFlavors);
@@ -265,7 +265,7 @@ public class EntityOveride {
 		createMethod.setReturnIType(createMethod.makeIType());
 		result[0] = createMethod;
 
-		IOssjMethod setMethod = (IOssjMethod) artifact.makeIMethod();
+		IOssjMethod setMethod = (IOssjMethod) artifact.makeMethod();
 		setMethod.setName("set");
 		setMethod.setSupportedFlavors(IOssjFlavorDefaults.setMethodFlavors);
 		setMethod.setOssjMethodProperties(specifics
@@ -273,7 +273,7 @@ public class EntityOveride {
 		setMethod.setReturnIType(setMethod.makeIType());
 		result[1] = setMethod;
 
-		IOssjMethod getMethod = (IOssjMethod) artifact.makeIMethod();
+		IOssjMethod getMethod = (IOssjMethod) artifact.makeMethod();
 		getMethod.setName("get");
 		getMethod.setSupportedFlavors(IOssjFlavorDefaults.getMethodFlavors);
 		getMethod.setOssjMethodProperties(specifics
@@ -281,7 +281,7 @@ public class EntityOveride {
 		getMethod.setReturnIType(getMethod.makeIType());
 		result[2] = getMethod;
 
-		IOssjMethod removeMethod = (IOssjMethod) artifact.makeIMethod();
+		IOssjMethod removeMethod = (IOssjMethod) artifact.makeMethod();
 		removeMethod.setName("remove");
 		removeMethod
 				.setSupportedFlavors(IOssjFlavorDefaults.removeMethodFlavors);

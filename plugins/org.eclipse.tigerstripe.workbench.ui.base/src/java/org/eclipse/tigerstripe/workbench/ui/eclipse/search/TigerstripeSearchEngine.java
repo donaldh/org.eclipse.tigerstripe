@@ -79,15 +79,15 @@ public class TigerstripeSearchEngine {
 			collector.acceptModelComponent((IAssociationEnd) assoc.getZEnd());
 		}
 
-		for (IField field : artifact.getIFields()) {
+		for (IField field : artifact.getFields()) {
 			collector.acceptModelComponent(field);
 		}
 
-		for (IMethod method : artifact.getIMethods()) {
+		for (IMethod method : artifact.getMethods()) {
 			collector.acceptModelComponent(method);
 		}
 
-		for (ILabel label : artifact.getILabels()) {
+		for (ILabel label : artifact.getLabels()) {
 			collector.acceptModelComponent(label);
 		}
 

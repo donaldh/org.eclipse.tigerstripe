@@ -60,7 +60,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 		ClassInstanceHelper aHelper = new ClassInstanceHelper(eArtifact);
 
 		// Create variables
-		for (IField field : getIArtifact().getIFields()) {
+		for (IField field : getIArtifact().getFields()) {
 			try {
 				// Attr should only be populated if type is, either
 				// primitive type, java scalar, String or EnumerationType

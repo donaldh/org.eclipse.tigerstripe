@@ -53,8 +53,7 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 		if (art == null)
 			return false;
 
-		IField[] fields = art.getIFields();
-		for (IField field : fields) {
+		for (IField field : art.getFields()) {
 			if (field.getName().equals(getAttributeName()))
 				return false;
 		}
@@ -67,7 +66,7 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
-		IField field = art.makeIField();
+		IField field = art.makeField();
 		field.setName(getAttributeName());
 		IType type = field.makeIType();
 		type.setFullyQualifiedName(getAttributeType());
@@ -80,7 +79,7 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 			type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
 		field.setIType(type);
 
-		art.addIField(field);
+		art.addField(field);
 		art.doSave(new TigerstripeNullProgressMonitor());
 	}
 }

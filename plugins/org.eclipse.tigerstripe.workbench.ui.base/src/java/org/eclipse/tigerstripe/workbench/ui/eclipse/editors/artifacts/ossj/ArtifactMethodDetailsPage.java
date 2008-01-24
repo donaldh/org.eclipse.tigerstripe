@@ -1193,8 +1193,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	 * Gets the default attribute type from the active profile.
 	 */
 	private String getDefaultTypeName() throws TigerstripeException {
-		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
-				.getActiveProfile();
+		IWorkbenchProfile profile = TigerstripeCore
+				.getIWorkbenchProfileSession().getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}
 
@@ -1439,9 +1439,9 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			IAbstractArtifact art = type.getArtifact();
 			if (art instanceof IEnumArtifact) {
 				IEnumArtifact enumArt = (IEnumArtifact) art;
-				String[] items = new String[enumArt.getILabels().length];
+				String[] items = new String[enumArt.getLabels().size()];
 				int i = 0;
-				for (ILabel label : enumArt.getILabels()) {
+				for (ILabel label : enumArt.getLabels()) {
 					items[i] = label.getName();
 					i++;
 				}

@@ -100,7 +100,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		// because there might be session artifacts out there defined with
 		// prior versions, we need to set the instance flag properly for
 		// compatibility
-		for (IMethod method : getIMethods()) {
+		for (IMethod method : getMethods()) {
 			method.setInstanceMethod(false);
 		}
 
@@ -492,8 +492,8 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public void addIMethod(IMethod method) {
-		super.addIMethod(method);
+	public void addMethod(IMethod method) {
+		super.addMethod(method);
 
 		// #216 Make sure the method is not an instance method for a Session
 		// artifact

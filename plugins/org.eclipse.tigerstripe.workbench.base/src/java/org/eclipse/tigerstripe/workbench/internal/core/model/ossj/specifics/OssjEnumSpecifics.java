@@ -56,7 +56,7 @@ public class OssjEnumSpecifics extends OssjArtifactSpecifics implements
 		if (tag != null) {
 			Properties props = tag.getProperties();
 			String fullQual = props.getProperty("base-type", "String");
-			Type type = (Type) getArtifact().makeIField().makeIType();
+			Type type = (Type) getArtifact().makeField().makeIType();
 			type.setFullyQualifiedName(fullQual);
 			type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
 			setBaseType(type);
@@ -68,7 +68,7 @@ public class OssjEnumSpecifics extends OssjArtifactSpecifics implements
 			}
 
 		} else {
-			Type type = (Type) getArtifact().makeIField().makeIType();
+			Type type = (Type) getArtifact().makeField().makeIType();
 			type.setFullyQualifiedName("String");
 			type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
 			setBaseType(type);
@@ -87,7 +87,7 @@ public class OssjEnumSpecifics extends OssjArtifactSpecifics implements
 	@Override
 	public void applyDefaults() {
 		super.applyDefaults();
-		Type type = (Type) getArtifact().makeIField().makeIType();
+		Type type = (Type) getArtifact().makeField().makeIType();
 		type.setFullyQualifiedName("int");
 		type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
 		setBaseType(type);

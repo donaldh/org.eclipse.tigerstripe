@@ -32,8 +32,7 @@ public class LabelSetRequest extends BaseArtifactElementRequest implements
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
 		if (art != null) {
-			ILabel[] labels = art.getILabels();
-			for (ILabel label : labels) {
+			for (ILabel label : art.getLabels()) {
 				if (label.getName().equals(labelName))
 					return true;
 			}
@@ -50,8 +49,7 @@ public class LabelSetRequest extends BaseArtifactElementRequest implements
 
 		boolean needSave = false;
 		if (art != null) {
-			ILabel[] labels = art.getILabels();
-			for (ILabel label : labels) {
+			for (ILabel label : art.getLabels()) {
 				if (label.getName().equals(labelName)) {
 					ILabel iLabel = (ILabel) label;
 					if (NAME_FEATURE.equals(featureId)) {

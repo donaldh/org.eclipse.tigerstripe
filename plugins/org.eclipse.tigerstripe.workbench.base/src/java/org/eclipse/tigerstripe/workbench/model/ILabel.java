@@ -10,12 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
-public interface ILabel extends  IModelComponent {
+public interface ILabel extends IModelComponent {
+
+	public final static List<ILabel> EMPTY_LIST = new ArrayList<ILabel>();
 
 	public void setIType(IType type);
 
@@ -37,8 +41,6 @@ public interface ILabel extends  IModelComponent {
 	 * @return the containing artifact.
 	 */
 	public IAbstractArtifact getContainingArtifact();
-
-
 
 	/**
 	 * Returns the value of the label. The return will be a String irrespetive

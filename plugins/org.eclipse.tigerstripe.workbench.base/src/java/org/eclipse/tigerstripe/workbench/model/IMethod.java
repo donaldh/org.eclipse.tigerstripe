@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -20,9 +21,11 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IEntit
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 
-public interface IMethod extends  IModelComponent {
+public interface IMethod extends IModelComponent {
 
-	public interface IArgument extends  IStereotypeCapable {
+	public final static List<IMethod> EMPTY_LIST = new ArrayList<IMethod>();
+
+	public interface IArgument extends IStereotypeCapable {
 
 		public void setDefaultValue(String defaultValue);
 
@@ -34,7 +37,6 @@ public interface IMethod extends  IModelComponent {
 
 		public void setUnique(boolean isUnique);
 
-
 		public void setIType(IType type);
 
 		/**
@@ -44,7 +46,6 @@ public interface IMethod extends  IModelComponent {
 		 * @param refBy
 		 */
 		public void setRefBy(int refBy);
-
 
 		public IArgument clone();
 
@@ -85,7 +86,6 @@ public interface IMethod extends  IModelComponent {
 		 */
 		public IType getIType();
 
-
 		/**
 		 * Returns the name associated with this argument.
 		 * 
@@ -95,8 +95,7 @@ public interface IMethod extends  IModelComponent {
 
 		/**
 		 * Returns an integer value indicating the reference type of the
-		 * argument. Possible values are defined in the static fields of
-		 * IField.
+		 * argument. Possible values are defined in the static fields of IField.
 		 * 
 		 * @return int - the integer value corresponding to the refBy
 		 */
@@ -116,7 +115,7 @@ public interface IMethod extends  IModelComponent {
 		public boolean isUnique();
 	}
 
-	public interface IException  {
+	public interface IException {
 
 		public void setFullyQualifiedName(String fqn);
 
@@ -145,23 +144,23 @@ public interface IMethod extends  IModelComponent {
 	 * It is designed specifically for OSS/J usage.
 	 */
 	public enum OssjEntityMethodFlavor {
-	
+
 		SIMPLE("simple"), SIMPLEBYKEY("simpleByKey"), BULKATOMIC("bulkAtomic"), BULKATOMICBYKEYS(
 				"bulkAtomicByKeys"), BULKBESTEFFORT("bulkBestEffort"), BULKBESTEFFORTBYKEYS(
 				"bulkBestEffortByKeys"), BYTEMPLATE("byTemplate"), BYTEMPLATES(
 				"byTemplates"), BYTEMPLATEBESTEFFORT("byTemplateBestEffort"), BYTEMPLATESBESTEFFORT(
 				"byTemplatesBestEffort"), BYAUTONAMING("byAutoNaming");
-	
+
 		private final String pojoLabel;
-	
+
 		private OssjEntityMethodFlavor(String pojoLabel) {
 			this.pojoLabel = pojoLabel;
 		}
-	
+
 		public String getPojoLabel() {
 			return this.pojoLabel;
 		}
-	
+
 		public static OssjEntityMethodFlavor valueFromPojoLabel(String label) {
 			for (OssjEntityMethodFlavor flavor : values()) {
 				if (flavor.pojoLabel.equals(label))
@@ -177,15 +176,15 @@ public interface IMethod extends  IModelComponent {
 	 * specifically for OSS/J usage.
 	 */
 	public enum OssjMethodProperty {
-	
+
 		INSTANCEMETHOD("instanceMethod");
-	
+
 		private String pojoLabel;
-	
+
 		OssjMethodProperty(String pojoLabel) {
 			this.pojoLabel = pojoLabel;
 		}
-	
+
 		public String getPojoLabel() {
 			return this.pojoLabel;
 		}
@@ -318,7 +317,6 @@ public interface IMethod extends  IModelComponent {
 	 */
 	public boolean isAbstract();
 
-	
 	/**
 	 * sets whether this method is abstract or not
 	 * 
@@ -326,8 +324,7 @@ public interface IMethod extends  IModelComponent {
 	 *            boolean, true to set this method as abstract
 	 */
 	public void setAbstract(boolean isAbstract);
-	
-	
+
 	public void setDefaultReturnValue(String defaultReturnValue);
 
 	/**
@@ -353,7 +350,7 @@ public interface IMethod extends  IModelComponent {
 	public IMethod clone();
 
 	// public Properties getOssjMethodProperties();
-	
+
 	/**
 	 * Returns the IArtifact that is the "container" for the Method.
 	 * 
@@ -381,8 +378,7 @@ public interface IMethod extends  IModelComponent {
 	 * Returns an array of all of the exceptions for this Method. Returns an
 	 * empty array if no exceptions are defined.
 	 * 
-	 * @return IException[] - An array of all defined exceptions for this
-	 *         Method
+	 * @return IException[] - An array of all defined exceptions for this Method
 	 */
 	public IException[] getIExceptions();
 
@@ -428,7 +424,6 @@ public interface IMethod extends  IModelComponent {
 	 * @return String - the refBy type
 	 */
 	public String getReturnRefByString();
-
 
 	/**
 	 * Returns true if this Method is an instance method.

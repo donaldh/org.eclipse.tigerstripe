@@ -689,7 +689,7 @@ public class CompareUtils {
 		Map bTypeMap = new HashMap();
 		Map bVisibilityMap = new HashMap();
 		Map bCommentMap = new HashMap();
-		for (ILabel label : aArtifact.getILabels()) {
+		for (ILabel label : aArtifact.getLabels()) {
 			aLabelMap.put(label.getName(), label);
 			aLabelValueMap.put(label.getName(), label.getValue());
 			aVisibilityMap.put(label.getName(), label.getVisibility());
@@ -698,7 +698,7 @@ public class CompareUtils {
 			aCommentMap.put(label.getName(), label.getComment());
 
 		}
-		for (ILabel label : bArtifact.getILabels()) {
+		for (ILabel label : bArtifact.getLabels()) {
 			bLabelMap.put(label.getName(), label);
 			bLabelValueMap.put(label.getName(), label.getValue());
 			bVisibilityMap.put(label.getName(), label.getVisibility());
@@ -774,10 +774,10 @@ public class CompareUtils {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		Map aFieldMap = new HashMap();
 		Map bFieldMap = new HashMap();
-		for (IField field : aArtifact.getIFields()) {
+		for (IField field : aArtifact.getFields()) {
 			aFieldMap.put(field.getName(), field);
 		}
-		for (IField field : bArtifact.getIFields()) {
+		for (IField field : bArtifact.getFields()) {
 			bFieldMap.put(field.getName(), field);
 		}
 		for (Object fieldName : aFieldMap.keySet()) {
@@ -945,10 +945,10 @@ public class CompareUtils {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		Map<String, IMethod> aMethodMap = new HashMap();
 		Map<String, IMethod> bMethodMap = new HashMap();
-		for (IMethod method : aArtifact.getIMethods()) {
+		for (IMethod method : aArtifact.getMethods()) {
 			aMethodMap.put(method.getName(), method);
 		}
-		for (IMethod method : bArtifact.getIMethods()) {
+		for (IMethod method : bArtifact.getMethods()) {
 			bMethodMap.put(method.getName(), method);
 		}
 

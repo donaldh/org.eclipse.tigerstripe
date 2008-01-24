@@ -326,7 +326,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 			specs.setPrimaryKey("String");
 		} else if (specifics instanceof IOssjEnumSpecifics) {
 			IOssjEnumSpecifics specs = (IOssjEnumSpecifics) specifics;
-			IType type = newArtifact.makeIField().makeIType();
+			IType type = newArtifact.makeField().makeIType();
 			type.setFullyQualifiedName("String");
 			specs.setBaseIType(type);
 		}
@@ -340,7 +340,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 		for (AnnotableElementAttribute attr : anno
 				.getAnnotableElementAttributes()) {
 			if (!attr.shouldIgnore()) {
-				IField field = newArtifact.makeIField();
+				IField field = newArtifact.makeField();
 				field.setName(attr.getName());
 				field.setComment(attr.getDescription());
 				IType type = field.makeIType();
@@ -348,14 +348,14 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 						.getFullyQualifiedName());
 				type.setMultiplicity(attr.getDimensions());
 				field.setIType(type);
-				newArtifact.addIField(field);
+				newArtifact.addField(field);
 			}
 		}
 
 		// go thru all the constants
 		for (AnnotableElementConstant cst : anno.getAnnotableElementConstants()) {
 			if (!cst.shouldIgnore()) {
-				ILabel label = newArtifact.makeILabel();
+				ILabel label = newArtifact.makeLabel();
 				label.setName(cst.getName());
 				label.setComment(cst.getDescription());
 				IType type = label.makeIType();
@@ -363,14 +363,14 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 				label.setIType(type);
 				label.setValue(cst.getValue());
 				label.setVisibility(cst.getVisibility());
-				newArtifact.addILabel(label);
+				newArtifact.addLabel(label);
 			}
 		}
 
 		for (AnnotableElementOperation op : anno
 				.getAnnotableElementOperations()) {
 			if (!op.shouldIgnore()) {
-				IMethod method = newArtifact.makeIMethod();
+				IMethod method = newArtifact.makeMethod();
 				method.setName(op.getName());
 				method.setComment(op.getDescription());
 				IType returnType = method.makeIType();
@@ -388,7 +388,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 				}
 
 				// FIXME: we're not importing the exceptions !
-				newArtifact.addIMethod(method);
+				newArtifact.addMethod(method);
 			}
 		}
 		session.addArtifact(newArtifact);
@@ -408,7 +408,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 					.getAnnotableElementAttributes()) {
 				if (attr.getDelta() == Annotable.DELTA_ADDED
 						&& !attr.shouldIgnore()) {
-					IField field = artifact.makeIField();
+					IField field = artifact.makeField();
 					field.setName(attr.getName());
 					field.setComment(attr.getDescription());
 					IType type = field.makeIType();
@@ -419,10 +419,10 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 
 					List<IField> tmp = new ArrayList<IField>();
 					tmp.add(field);
-					for (IField existing : artifact.getIFields()) {
+					for (IField existing : artifact.getFields()) {
 						tmp.add(existing);
 					}
-					artifact.setIFields(tmp.toArray(new IField[tmp.size()]));
+					artifact.setFields(tmp);
 				}
 			}
 
@@ -430,7 +430,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 					.getAnnotableElementConstants()) {
 				if (cst.getDelta() == Annotable.DELTA_ADDED
 						&& !cst.shouldIgnore()) {
-					ILabel label = artifact.makeILabel();
+					ILabel label = artifact.makeLabel();
 					label.setName(cst.getName());
 					label.setComment(cst.getDescription());
 					IType type = label.makeIType();
@@ -440,10 +440,10 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 
 					List<ILabel> tmp = new ArrayList<ILabel>();
 					tmp.add(label);
-					for (ILabel existing : artifact.getILabels()) {
+					for (ILabel existing : artifact.getLabels()) {
 						tmp.add(existing);
 					}
-					artifact.setILabels(tmp.toArray(new ILabel[tmp.size()]));
+					artifact.setLabels(tmp);
 				}
 			}
 
@@ -451,7 +451,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 					.getAnnotableElementOperations()) {
 				if (op.getDelta() == Annotable.DELTA_ADDED
 						&& !op.shouldIgnore()) {
-					IMethod method = artifact.makeIMethod();
+					IMethod method = artifact.makeMethod();
 					method.setName(op.getName());
 					method.setComment(op.getDescription());
 					IType returnType = method.makeIType();
@@ -472,10 +472,10 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 
 					List<IMethod> tmp = new ArrayList<IMethod>();
 					tmp.add(method);
-					for (IMethod existing : artifact.getIMethods()) {
+					for (IMethod existing : artifact.getMethods()) {
 						tmp.add(existing);
 					}
-					artifact.setIMethods(tmp.toArray(new IMethod[tmp.size()]));
+					artifact.setMethods(tmp);
 
 				}
 			}

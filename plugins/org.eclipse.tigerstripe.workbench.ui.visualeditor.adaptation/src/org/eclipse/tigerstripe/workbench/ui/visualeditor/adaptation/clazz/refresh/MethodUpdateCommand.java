@@ -84,7 +84,7 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 		List<Method> toDelete = new ArrayList<Method>();
 		for (Method eMethod : eMethods) {
 			IMethod targetIMethod = null;
-			for (IMethod iMethod : iArtifact.getIMethods()) {
+			for (IMethod iMethod : iArtifact.getMethods()) {
 				if (iMethod.getLabelString().equals(eMethod.getLabelString())) {
 					targetIMethod = iMethod;
 					break;
@@ -310,8 +310,7 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 		// then make sure all methods in the TS domain are present
 		// in the EMF domain
 		eMethods = eArtifact.getMethods();
-		IMethod[] iMethods = iArtifact.getIMethods();
-		for (IMethod iMethod : iMethods) {
+		for (IMethod iMethod : iArtifact.getMethods()) {
 			boolean found = false;
 			for (Method eMethod : eMethods) {
 				if (eMethod.getLabelString().equals(iMethod.getLabelString())) {

@@ -1118,7 +1118,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			throw new IllegalStateException(
 					"Cannot clone method that doesn't below to artifact.");
 
-		IMethod result = getContainingArtifact().makeIMethod();
+		IMethod result = getContainingArtifact().makeMethod();
 		result.setAbstract(isAbstract());
 		result.setComment(getComment());
 		result.setDefaultReturnValue(getDefaultReturnValue());

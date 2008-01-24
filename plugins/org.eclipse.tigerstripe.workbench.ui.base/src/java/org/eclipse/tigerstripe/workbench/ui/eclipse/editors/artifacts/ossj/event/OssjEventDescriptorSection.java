@@ -181,11 +181,10 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 					return; // When a ManagedEntity not refBy value don't get
 				// children
 				if (artifact != null) {
-					IField[] subFields = artifact.getIFields();
-					for (int i = 0; i < subFields.length; i++) {
+					for (IField field : artifact.getFields()) {
 						TreeNode node = new TreeNode();
 						node.setParent(this);
-						node.setField(subFields[i]);
+						node.setField(field);
 						children.add(node);
 					}
 				}
@@ -246,12 +245,11 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 		public Object[] getElements(Object inputElement) {
 			nodeList = new ArrayList();
 			EventArtifact event = (EventArtifact) inputElement;
-			IField[] fields = event.getIFields();
 
-			for (int i = 0; i < fields.length; i++) {
+			for (IField field : event.getFields()) {
 				TreeNode node = new TreeNode();
 				node.setParent(null);
-				node.setField(fields[i]);
+				node.setField(field);
 				nodeList.add(node);
 			}
 

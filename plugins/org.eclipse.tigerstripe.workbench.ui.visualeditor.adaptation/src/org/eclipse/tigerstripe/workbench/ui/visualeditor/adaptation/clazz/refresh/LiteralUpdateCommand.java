@@ -37,7 +37,7 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 		List<Literal> toDelete = new ArrayList<Literal>();
 		for (Literal eLiteral : eLiterals) {
 			ILabel targetLabel = null;
-			for (ILabel iLabel : iArtifact.getILabels()) {
+			for (ILabel iLabel : iArtifact.getLabels()) {
 				if (iLabel.getName().equals(eLiteral.getName())) {
 					targetLabel = iLabel;
 					break;
@@ -69,9 +69,8 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 		// then make sure all attributes in the TS domain are present
 		// in the EMF domain
 		eLiterals = eArtifact.getLiterals();
-		ILabel[] iLabels = iArtifact.getILabels();
 		Literal eLiteral = null;
-		for (ILabel iLabel : iLabels) {
+		for (ILabel iLabel : iArtifact.getLabels()) {
 			boolean found = false;
 			for (Literal thisLiteral : eLiterals) {
 				if (thisLiteral.getName().equals(iLabel.getName())) {

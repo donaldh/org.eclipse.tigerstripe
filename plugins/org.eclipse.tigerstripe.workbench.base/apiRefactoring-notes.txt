@@ -22,9 +22,9 @@ R - IPluggablePluginProperty should be renamed as ITigerstripePluginProperty.
 R - IBooleanPPluginProperty to be renamed as IBooleanPluginProperty (no need for "PP"). Same for IStringPPluginProperty, ITablePPluginProperty
 - Remove all "Warnings" from the API (i.e. no warning allowed outside of internal package).
 	R - QueryArtifact now returns a Collection<IAbstractArtifact>
--	  - getSupportedArtifactClasses returms Class[] - not sure what this should be Class<IAbstractArtifact> ?
-
-	Overtime we'll get rid of the warnings inside internal package.
+- getSupportedArtifactClasses returms Class[] - not sure what this should be Class<IAbstractArtifact> ?
+- Overtime we'll get rid of the warnings inside internal package.
+- ILabel should really be ILiteral?
 					    
 
 ###################################
@@ -78,8 +78,16 @@ in IModelComponent
 
 ###################################
 In IAbstractArtifact
-- remove the "I" from the getters/setters and makeI*** methods for consistency.
-- This is bizarre - all of the getIxxx return an Array of stuff, but the (internal) getxxx methods return a Collection. I prefer the latter (made generic), but I'm scared of the impacts...
-Think we need to discuss this one.
+X - remove the "I" from the getters/setters and makeI*** methods for consistency.
+X - This is bizarre - all of the getIxxx return an Array of stuff, but the (internal) getxxx methods return a Collection. I prefer the latter (made generic), but I'm scared of the impacts...
+	This is all returning Collection<xxx> now 
+- doSave() and doSilentSave() need to be reworked. What should really be the "persistence" method knowing that multiple
+	persistence options could be envisioned?
+- asText() should be removed as it is only relevant to POJO persistence.
+- write(...) should be removed as it is only relevant to POJO persistence.
 
+
+###################################
+In IAssociationClassArtifact
+X - Removed all superfluous add/set/remove/get Fields that are inherited from IAbstractArtifact anyway.
 

@@ -189,7 +189,7 @@ public class OssjEnumSpecificsSection extends ArtifactSectionPart {
 			if (e.getSource() == baseTypeCombo) {
 				IOssjEnumSpecifics specifics = (IOssjEnumSpecifics) getIArtifact()
 						.getIStandardSpecifics();
-				IType type = getIArtifact().makeIField().makeIType();
+				IType type = getIArtifact().makeField().makeIType();
 				type
 						.setFullyQualifiedName(IEnumArtifact.baseTypeOptions[baseTypeCombo
 								.getSelectionIndex()]);

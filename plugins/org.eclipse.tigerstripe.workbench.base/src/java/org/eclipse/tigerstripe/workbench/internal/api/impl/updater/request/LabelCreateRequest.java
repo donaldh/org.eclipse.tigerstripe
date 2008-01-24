@@ -56,8 +56,7 @@ public class LabelCreateRequest extends BaseArtifactElementRequest implements
 		if (art == null)
 			return false;
 
-		ILabel[] labels = art.getILabels();
-		for (ILabel label : labels) {
+		for (ILabel label : art.getLabels()) {
 			if (label.getName().equals(getLabelName()))
 				return false;
 		}
@@ -70,13 +69,13 @@ public class LabelCreateRequest extends BaseArtifactElementRequest implements
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
-		ILabel label = art.makeILabel();
+		ILabel label = art.makeLabel();
 		label.setName(getLabelName());
 		label.setValue(getLabelValue());
 		IType type = label.makeIType();
 		type.setFullyQualifiedName(getLabelType());
 		label.setIType(type);
-		art.addILabel(label);
+		art.addLabel(label);
 		art.doSave(new TigerstripeNullProgressMonitor());
 	}
 }

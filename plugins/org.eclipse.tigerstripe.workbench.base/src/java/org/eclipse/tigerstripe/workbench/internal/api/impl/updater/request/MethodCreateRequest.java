@@ -53,8 +53,7 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 		if (art == null)
 			return false;
 
-		IMethod[] methods = art.getIMethods();
-		for (IMethod method : methods) {
+		for (IMethod method : art.getMethods()) {
 			if (method.getName().equals(getMethodName()))
 				return false;
 		}
@@ -67,7 +66,7 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
-		IMethod method = art.makeIMethod();
+		IMethod method = art.makeMethod();
 		method.setName(getMethodName());
 		IType type = method.makeIType();
 		type.setFullyQualifiedName(getMethodType());
@@ -77,7 +76,7 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 			type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
 		method.setReturnIType(type);
 
-		art.addIMethod(method);
+		art.addMethod(method);
 		art.doSave(new TigerstripeNullProgressMonitor());
 	}
 }

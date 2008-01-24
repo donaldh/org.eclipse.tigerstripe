@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -109,17 +110,17 @@ public class ArtifactComponentTransferDropAdapter extends
 					if (component instanceof IField) {
 						IField field = (IField) component;
 						IField clonedField = field.clone();
-						targetArtifact.addIField(field.clone());
+						targetArtifact.addField(field.clone());
 					} else if (component instanceof IMethod) {
 						IMethod method = (IMethod) component;
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) method
 								.getContainingArtifact();
-						targetArtifact.addIMethod(method.clone());
+						targetArtifact.addMethod(method.clone());
 					} else if (component instanceof ILabel) {
 						ILabel lit = (ILabel) component;
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) lit
 								.getContainingArtifact();
-						targetArtifact.addILabel(lit.clone());
+						targetArtifact.addLabel(lit.clone());
 					}
 				}
 
@@ -177,22 +178,23 @@ public class ArtifactComponentTransferDropAdapter extends
 						IField field = (IField) component;
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) field
 								.getContainingArtifact();
-						srcArtifact.removeIFields(new IField[] { field });
-						targetArtifact.addIField(field);
+						srcArtifact.removeFields(Collections.singleton(field));
+						targetArtifact.addField(field);
 						srcArtifacts.add(srcArtifact);
 					} else if (component instanceof IMethod) {
 						IMethod method = (IMethod) component;
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) method
 								.getContainingArtifact();
-						srcArtifact.removeIMethods(new IMethod[] { method });
-						targetArtifact.addIMethod(method);
+						srcArtifact
+								.removeMethods(Collections.singleton(method));
+						targetArtifact.addMethod(method);
 						srcArtifacts.add(srcArtifact);
 					} else if (component instanceof ILabel) {
 						ILabel lit = (ILabel) component;
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) lit
 								.getContainingArtifact();
-						srcArtifact.removeILabels(new ILabel[] { lit });
-						targetArtifact.addILabel(lit);
+						srcArtifact.removeLabels(Collections.singleton(lit));
+						targetArtifact.addLabel(lit);
 						srcArtifacts.add(srcArtifact);
 					}
 				}
@@ -363,20 +365,20 @@ public class ArtifactComponentTransferDropAdapter extends
 		for (IModelComponent component : components) {
 			if (component instanceof IField) {
 				String name = component.getName();
-				for (IField field : artifact.getIFields()) {
+				for (IField field : artifact.getFields()) {
 					if (name.equals(field.getName()))
 						return false;
 				}
 			} else if (component instanceof IMethod) {
 				IMethod meth = (IMethod) component;
 				String methLabel = meth.getLabelString();
-				for (IMethod method : artifact.getIMethods()) {
+				for (IMethod method : artifact.getMethods()) {
 					if (methLabel.equals(method.getLabelString()))
 						return false;
 				}
 			} else if (component instanceof ILabel) {
 				String name = component.getName();
-				for (ILabel label : artifact.getILabels()) {
+				for (ILabel label : artifact.getLabels()) {
 					if (name.equals(label.getName()))
 						return false;
 				}

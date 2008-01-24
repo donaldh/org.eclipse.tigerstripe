@@ -359,7 +359,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 
-		for (IField field : artifact.getIFields()) {
+		for (IField field : artifact.getFields()) {
 			if (!isExcludedByAnnotation(field)) {
 				IType type = field.getIType();
 				IAbstractArtifact arti = (IAbstractArtifact) type
@@ -374,7 +374,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			}
 		}
 
-		for (IMethod method : artifact.getIMethods()) {
+		for (IMethod method : artifact.getMethods()) {
 			if (!isExcludedByAnnotation(method)) {
 				// first the return type
 				IType returnType = method.getReturnIType();

@@ -385,9 +385,9 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			resultDep.setZEndType(zType);
 		}
 
-		result.setIFields(orig.getIFields());
-		result.setILabels(orig.getILabels());
-		result.setIMethods(orig.getIMethods());
+		result.setFields(orig.getFields());
+		result.setLabels(orig.getLabels());
+		result.setMethods(orig.getMethods());
 		return result;
 	}
 

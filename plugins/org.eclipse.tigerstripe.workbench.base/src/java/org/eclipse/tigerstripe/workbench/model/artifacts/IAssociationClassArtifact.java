@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model.artifacts;
 
-import org.eclipse.tigerstripe.workbench.model.IField;
 
 /**
  * Internal Interface for IAssociationArtifact
@@ -21,31 +20,5 @@ import org.eclipse.tigerstripe.workbench.model.IField;
 public interface IAssociationClassArtifact extends IAssociationArtifact {
 
 	public final static String DEFAULT_LABEL = "AssociationClass";
-
-	/**
-	 * Make a new blank artifact field
-	 * 
-	 * @return
-	 */
-	public IField makeIField();
-
-	/**
-	 * Sets the fields for this Abstract Artifact
-	 * 
-	 * @param fields
-	 * @throws IllegalArgumentException
-	 */
-	public void setIFields(IField[] fields);
-
-	public void addIField(IField field);
-
-	public void removeIFields(IField[] fields);
-
-	/**
-	 * Returns the fields defined for this association Class.
-	 * 
-	 * @return IField[] - an array of all the fields for this artifact
-	 */
-	public IField[] getIFields();
 
 }

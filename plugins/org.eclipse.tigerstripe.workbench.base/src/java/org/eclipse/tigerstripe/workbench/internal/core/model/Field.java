@@ -295,7 +295,7 @@ public class Field extends ArtifactComponent implements IField {
 			throw new IllegalStateException(
 					"Cannot clone field that doesn't belong to any artifact.");
 
-		IField result = getContainingArtifact().makeIField();
+		IField result = getContainingArtifact().makeField();
 		result.setName(getName());
 		result.setComment(getComment());
 		result.setDefaultValue(getDefaultValue());

@@ -117,7 +117,7 @@ public class ClassDiagramUtils {
 
 	public static IField findIFieldByName(IAbstractArtifact iArtifact,
 			String name) {
-		for (IField field : iArtifact.getIFields()) {
+		for (IField field : iArtifact.getFields()) {
 			if (field.getName().equals(name))
 				return field;
 		}

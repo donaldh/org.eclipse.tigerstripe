@@ -16,8 +16,8 @@ import java.util.Collection;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -48,7 +48,8 @@ public class Updatedemo {
 					.findMember(new Path(tSProjectName));
 
 			URI projectURI = tsContainer.getLocationURI();
-			IProjectSession session = TigerstripeCore.getDefaultProjectSession();
+			IProjectSession session = TigerstripeCore
+					.getDefaultProjectSession();
 			tsProject = (ITigerstripeProject) session.makeTigerstripeProject(
 					projectURI, ITigerstripeProject.class.getName());
 			this.mgrSession = tsProject.getArtifactManagerSession();
@@ -74,18 +75,15 @@ public class Updatedemo {
 			TigerstripeRuntime.logInfoMessage("Artifact Attributes for "
 					+ artifact.getFullyQualifiedName());
 
-			IField[] fields = artifact.getIFields();
-			for (int i = 0; i < fields.length; i++) {
-				IField field = fields[i];
+			for (IField field : artifact.getFields()) {
 				IType type = field.getIType();
 				TigerstripeRuntime.logInfoMessage(field.getName() + " "
 						+ type.getName());
 			}
-			IMethod[] methods = artifact.getIMethods();
-			for (int i = 0; i < methods.length; i++) {
-				for (int j = 0; j < methods[i].getIArguments().length; j++) {
-					IType type = methods[i].getIArguments()[j].getIType();
-					TigerstripeRuntime.logInfoMessage(methods[i]
+			for (IMethod method : artifact.getMethods()) {
+				for (int j = 0; j < method.getIArguments().length; j++) {
+					IType type = method.getIArguments()[j].getIType();
+					TigerstripeRuntime.logInfoMessage(method
 							.getIArguments()[j].getName()
 							+ " " + type.getName());
 				}

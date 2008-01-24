@@ -153,7 +153,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 					needSave = true;
 				}
 
-				for (IField field : artifact.getIFields()) {
+				for (IField field : artifact.getFields()) {
 					if (field.getIType() != null
 							&& field.getIType().getFullyQualifiedName().equals(
 									oldFQN)) {
@@ -164,7 +164,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 					}
 				}
 
-				for (IMethod method : artifact.getIMethods()) {
+				for (IMethod method : artifact.getMethods()) {
 					if (method.getReturnIType() != null
 							&& method.getReturnIType().getFullyQualifiedName()
 									.equals(oldFQN)) {

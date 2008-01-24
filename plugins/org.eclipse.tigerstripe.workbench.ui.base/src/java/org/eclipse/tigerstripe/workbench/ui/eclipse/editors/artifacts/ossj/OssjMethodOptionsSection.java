@@ -295,10 +295,8 @@ public class OssjMethodOptionsSection extends ArtifactSectionPart {
 
 		// Associate a PropertiesItem per method signature
 		IAbstractArtifact artifact = getIArtifact();
-		IMethod[] methods = artifact.getIMethods();
 
-		for (int i = 0; i < methods.length; i++) {
-			IMethod method = methods[i];
+		for (IMethod method : artifact.getMethods()) {
 			String methodId = method.getMethodId();
 
 			// locate the item in the map of create a new one if needed
@@ -325,21 +323,21 @@ public class OssjMethodOptionsSection extends ArtifactSectionPart {
 	 */
 	protected void checkForRemovedMethods() {
 
-		IMethod[] artifactMethods = getIArtifact().getIMethods();
-
-		String[] artifactMethodIds = new String[artifactMethods.length];
-		for (int i = 0; i < artifactMethodIds.length; i++) {
-			artifactMethodIds[i] = artifactMethods[i].getMethodId();
+		String[] artifactMethodIds = new String[getIArtifact().getMethods()
+				.size()];
+		int i = 0;
+		for (IMethod method : getIArtifact().getMethods()) {
+			artifactMethodIds[i++] = method.getMethodId();
 		}
 
-		Collection methodIds = this.methodsMap.keySet();
+		Collection<String> methodIds = this.methodsMap.keySet();
 		String[] methodIdsArray = new String[methodIds.size()]; // need the
 		// array to
 		// avoid
 		// concurrency
 		// issues
 		methodIdsArray = (String[]) methodIds.toArray(methodIdsArray);
-		for (int i = 0; i < methodIdsArray.length; i++) {
+		for (i = 0; i < methodIdsArray.length; i++) {
 			if (!Arrays.asList(artifactMethodIds).contains(methodIdsArray[i])) {
 				// need to be removed!
 				PropertiesTableItem item = (PropertiesTableItem) methodsMap

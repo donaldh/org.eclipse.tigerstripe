@@ -592,9 +592,8 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			}
 			ArrayList<String> stringVals = new ArrayList<String>();
 			do {
-				ILabel[] labels = iArtifact.getILabels();
 				List<String> lclStringVals = new ArrayList<String>();
-				for (ILabel label : labels)
+				for (ILabel label : iArtifact.getLabels())
 					lclStringVals.add(label.getName());
 				stringVals.addAll(0, lclStringVals);
 			} while ((iArtifact = iArtifact.getExtendedArtifact()) != null);

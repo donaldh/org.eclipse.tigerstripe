@@ -94,7 +94,6 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 		public Object[] getElements(Object inputElement) {
 			IAbstractArtifact artifact = (IAbstractArtifact) inputElement;
 
-			IMethod[] customMethods = artifact.getIMethods();
 			IMethod[] crudMethods = EntityOveride
 					.buildVirtualCrudMethods(artifact);
 
@@ -102,7 +101,7 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 			list.addAll(Arrays.asList(crudMethods));
 
 			// Make sure we only add the non instance methods
-			for (IMethod customMethod : customMethods) {
+			for (IMethod customMethod : artifact.getMethods()) {
 				if (customMethod.isInstanceMethod()) {
 					list.add(customMethod);
 				}

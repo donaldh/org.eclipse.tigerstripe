@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
+import java.util.Collections;
+
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
@@ -48,8 +50,7 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 		if (art == null)
 			return false;
 
-		IMethod[] methods = art.getIMethods();
-		for (IMethod method : methods) {
+		for (IMethod method : art.getMethods()) {
 			if (method.getName().equals(getMethodName()))
 				return true;
 		}
@@ -62,10 +63,9 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
-		IMethod[] methods = art.getIMethods();
-		for (IMethod method : methods) {
+		for (IMethod method : art.getMethods()) {
 			if (method.getName().equals(getMethodName())) {
-				art.removeIMethods(new IMethod[] { (IMethod) method });
+				art.removeMethods(Collections.singleton(method));
 			}
 		}
 		art.doSave(new TigerstripeNullProgressMonitor());

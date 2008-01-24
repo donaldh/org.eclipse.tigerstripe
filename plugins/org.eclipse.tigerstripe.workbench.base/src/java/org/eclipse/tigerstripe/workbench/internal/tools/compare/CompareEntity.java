@@ -174,7 +174,7 @@ public class CompareEntity {
 
 		// Do any custom methods
 
-		for (IMethod imethod : aArt.getIMethods()) {
+		for (IMethod imethod : aArt.getMethods()) {
 			try {
 				String methodName = imethod.getName();
 				for (OssjEntityMethodFlavor flavor : ((Method) imethod)
@@ -184,7 +184,7 @@ public class CompareEntity {
 							.getEntityMethodFlavorDetails(flavor);
 
 					IMethod bMethod = null;
-					for (IMethod tempMeth : bArt.getIMethods()) {
+					for (IMethod tempMeth : bArt.getMethods()) {
 						if (tempMeth.getName().equals(imethod.getName())) {
 							bMethod = tempMeth;
 						}

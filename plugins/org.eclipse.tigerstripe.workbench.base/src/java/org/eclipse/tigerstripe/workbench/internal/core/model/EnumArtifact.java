@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
+import java.util.Collection;
 
 import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
@@ -47,7 +48,6 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	public String getArtifactType() {
 		return IEnumArtifact.class.getName();
 	}
-
 
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
@@ -106,22 +106,23 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	 */
 	public String getMinLabel() {
 
-		if (getBaseType().getFullyQualifiedName().equals("int")) {
-			ILabel[] labels = getILabels();
+		if (getLabels().isEmpty())
+			return null;
 
+		if (getBaseType().getFullyQualifiedName().equals("int")) {
+			ILabel result = null;
 			int val = 0;
 			int min = 0;
-			int index = 0;
-			for (int i = 0; i < labels.length; i++) {
-				val = Integer.valueOf(labels[i].getValue());
+			for (ILabel label : getLabels()) {
+				val = Integer.valueOf(label.getValue());
 				if (val <= min) {
 					min = val;
-					index = i;
+					result = label;
 				}
 			}
-			return labels[index].getName();
+			return result.getName();
 		} else
-			return getILabels()[0].getName();
+			return getLabels().iterator().next().getName();
 	}
 
 	/**
@@ -131,21 +132,23 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	 * @return Name of the label with lowest integer value.
 	 */
 	public String getMaxLabel() {
+		if (getLabels().isEmpty())
+			return null;
+
 		if (getBaseType().getFullyQualifiedName().equals("int")) {
-			ILabel[] labels = getILabels();
+			ILabel result = null;
 			int val = 0;
 			int max = 0;
-			int index = 0;
-			for (int i = 0; i < labels.length; i++) {
-				val = Integer.valueOf(labels[i].getValue());
+			for (ILabel label : getLabels()) {
+				val = Integer.valueOf(label.getValue());
 				if (val >= max) {
 					max = val;
-					index = i;
+					result = label;
 				}
 			}
-			return labels[index].getName();
+			return result.getName();
 		} else
-			return getILabels()[0].getName();
+			return getLabels().iterator().next().getName();
 	}
 
 	public boolean getExtensible() {

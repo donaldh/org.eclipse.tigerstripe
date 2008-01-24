@@ -192,7 +192,7 @@ public abstract class BaseDiagramPartAction {
 								.eContainer();
 						IAbstractArtifact artifact = getArtifact(project, qne);
 						String attrName = attr.getName();
-						for (IField field : artifact.getIFields()) {
+						for (IField field : artifact.getFields()) {
 							if (field.getName().equals(attrName)) {
 								components.add(field);
 							}
@@ -208,7 +208,7 @@ public abstract class BaseDiagramPartAction {
 							.eContainer();
 					IAbstractArtifact artifact = getArtifact(project, qne);
 					String methName = mthod.getName();
-					for (IMethod method : artifact.getIMethods()) {
+					for (IMethod method : artifact.getMethods()) {
 						if (method.getName().equals(methName)) {
 							components.add(method);
 						}
@@ -223,7 +223,7 @@ public abstract class BaseDiagramPartAction {
 							.eContainer();
 					IAbstractArtifact artifact = getArtifact(project, qne);
 					String labelName = lit.getName();
-					for (ILabel label : artifact.getILabels()) {
+					for (ILabel label : artifact.getLabels()) {
 						if (label.getName().equals(labelName)) {
 							components.add(label);
 						}

@@ -45,7 +45,7 @@ public class PostCreationEnumArtifactUpdater extends
 			enume.setBaseType(iEnum.getBaseTypeStr());
 
 			// Create Literals
-			for (ILabel label : getIArtifact().getILabels()) {
+			for (ILabel label : getIArtifact().getLabels()) {
 				String labelType = label.getIType().getFullyQualifiedName();
 				String labelName = label.getName();
 				String labelValue = label.getValue();

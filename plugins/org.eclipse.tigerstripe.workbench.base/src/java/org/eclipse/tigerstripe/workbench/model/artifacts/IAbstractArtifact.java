@@ -33,18 +33,18 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  * 
  * @author Eric Dillon
  */
-public interface IAbstractArtifact extends IModelComponent{
+public interface IAbstractArtifact extends IModelComponent {
 
 	public interface IFieldTypeRef {
-	
+
 		public int getRefBy();
-	
+
 		public boolean isRefByValue();
-	
+
 		public boolean isRefByKey();
-	
+
 		public boolean isRefByKeyResult();
-	
+
 		public IType getIType();
 	}
 
@@ -56,14 +56,14 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * Returns the fields defined for this artifact
 	 * 
 	 */
-	public IField[] getIFields();
+	public Collection<IField> getFields();
 
 	/**
 	 * Make a new blank artifact field
 	 * 
 	 * @return
 	 */
-	public IField makeIField();
+	public IField makeField();
 
 	/**
 	 * Sets the fields for this Abstract Artifact
@@ -71,24 +71,24 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * @param fields
 	 * @throws IllegalArgumentException
 	 */
-	public void setIFields(IField[] fields);
+	public void setFields(Collection<IField> fields);
 
-	public void addIField(IField field);
+	public void addField(IField field);
 
-	public void removeIFields(IField[] fields);
+	public void removeFields(Collection<IField> fields);
 
 	/**
 	 * Returns the labels defined for this artifact
 	 * 
 	 */
-	public ILabel[] getILabels();
+	public Collection<ILabel> getLabels();
 
 	/**
 	 * Make a new blank artifact label
 	 * 
 	 * @return
 	 */
-	public ILabel makeILabel();
+	public ILabel makeLabel();
 
 	/**
 	 * Sets the labels for this Abstract Artifact
@@ -96,21 +96,21 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * @param labels
 	 * @throws IllegalArgumentException
 	 */
-	public void setILabels(ILabel[] labels);
+	public void setLabels(Collection<ILabel> labels);
 
-	public void addILabel(ILabel label);
+	public void addLabel(ILabel label);
 
-	public void removeILabels(ILabel[] labels);
+	public void removeLabels(Collection<ILabel> labels);
 
-	public IMethod[] getIMethods();
+	public Collection<IMethod> getMethods();
 
-	public IMethod makeIMethod();
+	public IMethod makeMethod();
 
-	public void setIMethods(IMethod[] methods);
+	public void setMethods(Collection<IMethod> methods);
 
-	public void addIMethod(IMethod method);
+	public void addMethod(IMethod method);
 
-	public void removeIMethods(IMethod[] methods);
+	public void removeMethods(Collection<IMethod> methods);
 
 	public void setExtendedIArtifact(IAbstractArtifact artifact);
 
@@ -127,7 +127,6 @@ public interface IAbstractArtifact extends IModelComponent{
 	public String asText() throws TigerstripeException;
 
 	public ITigerstripeProject getIProject();
-
 
 	/**
 	 * Sets the value of the isAbstract flag for this.
@@ -193,7 +192,6 @@ public interface IAbstractArtifact extends IModelComponent{
 
 	public void setImplementedArtifacts(IAbstractArtifact[] artifacts);
 
-
 	public String getArtifactPath() throws TigerstripeException;
 
 	/**
@@ -236,7 +234,6 @@ public interface IAbstractArtifact extends IModelComponent{
 	 */
 	public String getArtifactType();
 
-
 	/**
 	 * Returns the fields defined for this artifact. This will be limited to the
 	 * fields defined locally in this artifact. If no field was defined return
@@ -255,7 +252,6 @@ public interface IAbstractArtifact extends IModelComponent{
 	 */
 	public IField[] getIFields(boolean filterFacetExcludedFields);
 
-
 	/**
 	 * Returns the labels defined for this artifact. This will be limited to the
 	 * labels defined locally in this artifact. If no label was defined return
@@ -273,7 +269,6 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * @return ILabel[] - an array of all the labels for this artifact
 	 */
 	public ILabel[] getILabels(boolean filterFacetExcludedLabels);
-
 
 	/**
 	 * Returns the methods defined for this artifact. This will be limited to
@@ -312,7 +307,6 @@ public interface IAbstractArtifact extends IModelComponent{
 	 */
 	public IStandardSpecifics getIStandardSpecifics();
 
-	
 	/**
 	 * Returns an array containing all the artifacts that are implemented by
 	 * this artifact;
@@ -339,8 +333,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * Note : Some artifact types do not support Fields and will always return
 	 * an empty array.
 	 * 
-	 * @return IField[] - an array of all the inherited fields for this
-	 *         artifact
+	 * @return IField[] - an array of all the inherited fields for this artifact
 	 */
 	public IField[] getInheritedIFields();
 
@@ -356,8 +349,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 *            if set to true, all fields that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all fields
 	 *            are returned.
-	 * @return IField[] - an array of all the inherited fields for this
-	 *         artifact
+	 * @return IField[] - an array of all the inherited fields for this artifact
 	 */
 	public IField[] getInheritedIFields(boolean filterFacetExcludedFields);
 
@@ -371,8 +363,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * Note : Some artifact types do not support Labels and will always return
 	 * an empty array.
 	 * 
-	 * @return ILabel[] - an array of all the inherited labels for this
-	 *         artifact
+	 * @return ILabel[] - an array of all the inherited labels for this artifact
 	 */
 	public ILabel[] getInheritedILabels();
 
@@ -388,8 +379,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 *            if set to true, all labels that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all labels
 	 *            are returned.
-	 * @return ILabel[] - an array of all the inherited labels for this
-	 *         artifact
+	 * @return ILabel[] - an array of all the inherited labels for this artifact
 	 */
 	public ILabel[] getInheritedILabels(boolean filterFacetExcludedLabels);
 
@@ -423,8 +413,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * @return IMethod[] - an array of all the inherited methods for this
 	 *         artifact
 	 */
-	public IMethod[] getInheritedIMethods(
-			boolean filterFacetExcludedMethods);
+	public IMethod[] getInheritedIMethods(boolean filterFacetExcludedMethods);
 
 	/**
 	 * Returns the project that contains this artifact.

@@ -77,10 +77,8 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 
 			// See bug #80
 			// Check that baseType is used on all labels
-			ILabel[] labels = artifact.getILabels();
-
-			for (int i = 0; i < labels.length; i++) {
-				IType labelType = labels[i].getIType();
+			for (ILabel label : artifact.getLabels()) {
+				IType labelType = label.getIType();
 
 				String baseTypeStr = Misc.removeJavaLangString(baseType
 						.getFullyQualifiedName());
@@ -95,7 +93,7 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 					TigerstripeProjectAuditor
 							.reportError(
 									"The type of label '"
-											+ labels[i].getName()
+											+ label.getName()
 											+ "' in '"
 											+ artifact.getFullyQualifiedName()
 											+ "' is incompatible with the defined base type for this Enumeration Artifact ( expected='"
@@ -106,10 +104,10 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 			}
 
 			// Check for identical values
-			HashMap valueDefinitionMap = new HashMap();
-			for (int i = 0; i < labels.length; i++) {
-				String value = labels[i].getValue();
-				String name = labels[i].getName();
+			HashMap<String, String> valueDefinitionMap = new HashMap<String, String>();
+			for (ILabel label : artifact.getLabels()) {
+				String value = label.getValue();
+				String name = label.getName();
 				if (valueDefinitionMap.containsKey(value)) {
 					String otherDefName = (String) valueDefinitionMap
 							.get(value);

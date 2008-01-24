@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj;
 
+import java.util.Arrays;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -112,7 +114,7 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof IAbstractArtifact) {
 				IAbstractArtifact artifact = (IAbstractArtifact) inputElement;
-				return artifact.getIMethods();
+				return artifact.getMethods().toArray();
 			}
 			return new Object[0];
 		}
@@ -233,7 +235,7 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 	 */
 	protected void addButtonSelected(SelectionEvent event) {
 		IAbstractArtifact artifact = getIArtifact();
-		IMethod newMethod = artifact.makeIMethod();
+		IMethod newMethod = artifact.makeMethod();
 
 		String newMethodName = findNewMethodName();
 		newMethod.setName(newMethodName);
@@ -244,7 +246,7 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		newMethod.setReturnIType(type);
 		newMethod.setVoid(true);
 
-		getIArtifact().addIMethod(newMethod);
+		getIArtifact().addMethod(newMethod);
 		viewer.add(newMethod);
 		viewer.setSelection(new StructuredSelection(newMethod), true);
 		markPageModified();
@@ -295,7 +297,7 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		if (msgDialog.open() == 0) {
 			// remove now
 			viewer.remove(selectedMethods);
-			getIArtifact().removeIMethods(selectedMethods);
+			getIArtifact().removeMethods(Arrays.asList(selectedMethods));
 			markPageModified();
 		}
 		updateMaster();

@@ -568,7 +568,7 @@ public class XML2TS {
 					} else {
 						// Its on a method - need to find the method
 						boolean setone = false;
-						for (IMethod method : artifact.getIMethods()) {
+						for (IMethod method : artifact.getMethods()) {
 							if (method.getName().equals(detailsMethodName)) {
 								try {
 									method.setEntityMethodFlavorDetails(
@@ -606,7 +606,7 @@ public class XML2TS {
 			OssjEnumSpecifics specs = (OssjEnumSpecifics) enumArt
 					.getIStandardSpecifics();
 			String baseType = element.getAttribute("baseType");
-			IType type = artifact.makeIField().makeIType();
+			IType type = artifact.makeField().makeIType();
 			type.setFullyQualifiedName(baseType);
 			specs.setBaseIType(type);
 			Properties props = specs.getInterfaceProperties();
@@ -842,7 +842,7 @@ public class XML2TS {
 		for (int fn = 0; fn < fieldNodes.getLength(); fn++) {
 			Element field = (Element) fieldNodes.item(fn);
 
-			IField newField = artifact.makeIField();
+			IField newField = artifact.makeField();
 			IType type = newField.makeIType();
 
 			newField.setName(field.getAttribute("name"));
@@ -884,7 +884,7 @@ public class XML2TS {
 			for (IStereotypeInstance st : getStereotypes(field, out, messages)) {
 				newField.addStereotypeInstance(st);
 			}
-			artifact.addIField(newField);
+			artifact.addField(newField);
 
 		}
 	}
@@ -896,7 +896,7 @@ public class XML2TS {
 		for (int ln = 0; ln < labelNodes.getLength(); ln++) {
 			Element label = (Element) labelNodes.item(ln);
 
-			ILabel newLabel = artifact.makeILabel();
+			ILabel newLabel = artifact.makeLabel();
 			IType type = newLabel.makeIType();
 
 			newLabel.setName(label.getAttribute("name"));
@@ -910,7 +910,7 @@ public class XML2TS {
 			for (IStereotypeInstance st : getStereotypes(label, out, messages)) {
 				newLabel.addStereotypeInstance(st);
 			}
-			artifact.addILabel(newLabel);
+			artifact.addLabel(newLabel);
 		}
 	}
 
@@ -921,7 +921,7 @@ public class XML2TS {
 		for (int ln = 0; ln < methodNodes.getLength(); ln++) {
 			Element method = (Element) methodNodes.item(ln);
 
-			IMethod newMethod = artifact.makeIMethod();
+			IMethod newMethod = artifact.makeMethod();
 
 			newMethod.setName(method.getAttribute("name"));
 			newMethod.setVisibility(Integer.valueOf(method
@@ -1052,7 +1052,7 @@ public class XML2TS {
 
 			newMethod.setComment(getComment(method));
 
-			artifact.addIMethod(newMethod);
+			artifact.addMethod(newMethod);
 		}
 	}
 

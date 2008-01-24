@@ -113,15 +113,14 @@ public class CompareSession {
 			crudNames.add("set");
 			crudNames.add("remove");
 
-			IMethod[] aCustomMeths = artA.getIMethods();
-			for (int j = 0; j < aCustomMeths.length; j++) {
-				if (aCustomMeths[j].isInstanceMethod()) {
+			for (IMethod aCustomMeth : artA.getMethods()) {
+				if (aCustomMeth.isInstanceMethod()) {
 					IEntityMethodFlavorDetails aCust = aDetail
-							.getCustomMethodFlavorDetails(aCustomMeths[j]
+							.getCustomMethodFlavorDetails(aCustomMeth
 									.getMethodId(), flavor);
 					// See if it's in B
 					IEntityMethodFlavorDetails bCust = bDetail
-							.getCustomMethodFlavorDetails(aCustomMeths[j]
+							.getCustomMethodFlavorDetails(aCustomMeth
 									.getMethodId(), flavor);
 					if (bCust == null) {
 						// String component =
@@ -136,13 +135,13 @@ public class CompareSession {
 												.getFullyQualifiedName(),
 										"override" + ":"
 												+ flavor.getPojoLabel(),
-										aCustomMeths[j].getName(), "present",
+										aCustomMeth.getName(), "present",
 										"absent"));
 
 					} else {
 						crudA.add(aCust);
 						crudB.add(bCust);
-						crudNames.add(aCustomMeths[j].getName());
+						crudNames.add(aCustomMeth.getName());
 					}
 				}
 			}

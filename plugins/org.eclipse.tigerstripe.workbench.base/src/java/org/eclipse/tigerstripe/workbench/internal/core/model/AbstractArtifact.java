@@ -26,8 +26,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
@@ -98,16 +98,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	private static Logger log = Logger.getLogger(AbstractArtifact.class);
 
 	/** The collection of methods for this artifact */
-	private Collection<IMethod> methods;
+	protected Collection<IMethod> methods;
 
 	/** The collection of fields for this artifact */
-	private Collection<IField> fields;
+	protected Collection<IField> fields;
 
 	/** The collection of (unique, non-primitve) datatypes of the fields */
 	private Collection fieldTypes;
 
 	/** The collection of labels (enum) for this artifact */
-	private Collection labels;
+	private Collection<ILabel> labels;
 
 	/** The collection of inherited fields for this artifact */
 	private Collection inheritedFields = null;
@@ -210,8 +210,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		IAbstractArtifact[] ancArray = new IAbstractArtifact[0];
 		if (getExtendedArtifact() != null) {
 			ancestors.add(getExtendedArtifact());
-			ancestors.addAll(Arrays.asList(getExtendedArtifact()
-					.getAncestors()));
+			ancestors.addAll(Arrays
+					.asList(getExtendedArtifact().getAncestors()));
 			return ancestors.toArray(ancArray);
 
 		} else
@@ -752,8 +752,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return
 	 */
-	public Collection getMethods() {
-		return this.methods;
+	public Collection<IMethod> getMethods() {
+		return Collections.unmodifiableCollection(this.methods);
 	}
 
 	/**
@@ -761,8 +761,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return Collection of Field - a collection of Fields for this artifact
 	 */
-	public Collection getFields() {
-		return this.fields;
+	public Collection<IField> getFields() {
+		return Collections.unmodifiableCollection(this.fields);
 	}
 
 	/**
@@ -770,18 +770,17 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return Collection of Type - a collection of Type for this artifact
 	 */
-/*	public Collection getFieldTypes() {
-		if (this.fieldTypes == null)
-			createUniqueFieldTypeList();
-		return this.fieldTypes;
-	}*/
+	/*
+	 * public Collection getFieldTypes() { if (this.fieldTypes == null)
+	 * createUniqueFieldTypeList(); return this.fieldTypes; }
+	 */
 
 	public IFieldTypeRef[] getFieldTypes() {
 		if (this.fieldTypes == null)
 			createUniqueFieldTypeList();
 		Collection result = this.fieldTypes;
-		return (IFieldTypeRef[]) result.toArray(new IFieldTypeRef[result
-				.size()]);
+		return (IFieldTypeRef[]) result
+				.toArray(new IFieldTypeRef[result.size()]);
 	}
 
 	/**
@@ -789,8 +788,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return Collection of Labels - a collection of Labels for this artifact
 	 */
-	public Collection getLabels() {
-		return this.labels;
+	public Collection<ILabel> getLabels() {
+		return Collections.unmodifiableCollection(this.labels);
 	}
 
 	/**
@@ -895,13 +894,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	// =================================================================
 	// Methods to satisfy the IAbstractArtifact interface
 
-	public IField[] getIFields() {
-		Collection fields = getFields();
-		IField[] result = new IField[fields.size()];
-		return (IField[]) fields.toArray(result);
-	}
-
-	public void addIField(IField field) {
+	public void addField(IField field) {
 		fields.add(field);
 		((Field) field).setContainingArtifact(this);
 
@@ -911,8 +904,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	}
 
-	public void removeIFields(IField[] fields) {
-		this.fields.removeAll(Arrays.asList(fields));
+	public void removeFields(Collection<IField> fields) {
+		this.fields.removeAll(fields);
 		for (IField field : fields) {
 			((Field) field).setContainingArtifact(null);
 		}
@@ -922,12 +915,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		facetFilteredFields = null;
 	}
 
-	public IField makeIField() {
+	public IField makeField() {
 		return new Field(getArtifactManager());
 	}
 
-	public void setIFields(IField[] fields) {
-		this.fields = Arrays.asList(fields);
+	public void setFields(Collection<IField> fields) {
+		this.fields.clear();
+		this.fields.addAll(fields);
 		for (IField field : fields) {
 			((Field) field).setContainingArtifact(this);
 		}
@@ -936,13 +930,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		facetFilteredFields = null;
 	}
 
-	public ILabel[] getILabels() {
-		Collection labels = getLabels();
-		ILabel[] result = new ILabel[labels.size()];
-		return (ILabel[]) labels.toArray(result);
-	}
-
-	public void addILabel(ILabel label) {
+	public void addLabel(ILabel label) {
 		labels.add(label);
 		((Label) label).setContainingArtifact(this);
 
@@ -951,8 +939,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		facetFilteredLabels = null;
 	}
 
-	public void removeILabels(ILabel[] labels) {
-		this.labels.removeAll(Arrays.asList(labels));
+	public void removeLabels(Collection<ILabel> labels) {
+		this.labels.removeAll(labels);
 		for (ILabel label : labels) {
 			((Label) label).setContainingArtifact(null);
 		}
@@ -961,13 +949,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		facetFilteredLabels = null;
 	}
 
-	public ILabel makeILabel() {
+	public ILabel makeLabel() {
 		Label result = new Label(getArtifactManager());
 		return result;
 	}
 
-	public void setILabels(ILabel[] labels) {
-		this.labels = Arrays.asList(labels);
+	public void setLabels(Collection<ILabel> labels) {
+		this.labels.clear();
+		this.labels.addAll(labels);
 		for (ILabel label : labels) {
 			((Label) label).setContainingArtifact(this);
 		}
@@ -976,18 +965,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		facetFilteredLabels = null;
 	}
 
-	public IMethod[] getIMethods() {
-		IMethod[] result = new IMethod[getMethods().size()];
-		return (IMethod[]) getMethods().toArray(result);
-	}
-
-	public IMethod makeIMethod() {
+	public IMethod makeMethod() {
 		Method result = new Method(getArtifactManager());
 		result.setContainingArtifact(this);
 		return result;
 	}
 
-	public void addIMethod(IMethod method) {
+	public void addMethod(IMethod method) {
 		getMethods().add(method);
 		((Method) method).setContainingArtifact(this);
 
@@ -996,8 +980,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		facetFilteredMethods = null;
 	}
 
-	public void removeIMethods(IMethod[] methods) {
-		getMethods().removeAll(Arrays.asList(methods));
+	public void removeMethods(Collection<IMethod> methods) {
+		getMethods().removeAll(methods);
 		for (IMethod method : methods) {
 			((Method) method).setContainingArtifact(null);
 		}
@@ -1006,8 +990,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		facetFilteredMethods = null;
 	}
 
-	public void setIMethods(IMethod[] methods) {
-		this.methods = Arrays.asList(methods);
+	public void setMethods(Collection<IMethod> methods) {
+		this.methods.clear();
+		this.methods.addAll(methods);
 		for (IMethod method : methods) {
 			((Method) method).setContainingArtifact(this);
 		}
@@ -1165,23 +1150,20 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 					"Illegal Inheritance for '" + this.getName()
 							+ "'; an object cannot extend itself"));
 		// check validity of the fields defined for this artifact
-		IField[] fields = getIFields();
-		for (int i = 0; i < fields.length; i++) {
-			List<TigerstripeError> errorList = fields[i].validate();
+		for (IField field : getFields()) {
+			List<TigerstripeError> errorList = field.validate();
 			if (!errorList.isEmpty())
 				errors.addAll(errorList);
 		}
 		// check validity of the labels (constants) defined for this artifact
-		ILabel[] labels = getILabels();
-		for (int i = 0; i < labels.length; i++) {
-			List<TigerstripeError> errorList = labels[i].validate();
+		for (ILabel label : getLabels()) {
+			List<TigerstripeError> errorList = label.validate();
 			if (!errorList.isEmpty())
 				errors.addAll(errorList);
 		}
 		// check validity of the methods defined for this artifact
-		IMethod[] methods = getIMethods();
-		for (int i = 0; i < methods.length; i++) {
-			List<TigerstripeError> errorList = methods[i].validate();
+		for (IMethod method : getMethods()) {
+			List<TigerstripeError> errorList = method.validate();
 			if (!errorList.isEmpty())
 				errors.addAll(errorList);
 		}
@@ -1355,8 +1337,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return null;
 
 		try {
-			handle = (TigerstripeProjectHandle) TigerstripeCore.getDefaultProjectSession()
-					.makeTigerstripeProject(
+			handle = (TigerstripeProjectHandle) TigerstripeCore
+					.getDefaultProjectSession().makeTigerstripeProject(
 							getTSProject().getBaseDir().toURI(), null);
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
@@ -1459,7 +1441,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	// =================================================================
 	// Methods to satisfy the IArtifact interface
 
-
 	public IField[] getIFields(boolean filterFacetExcludedFields) {
 		Collection fields = getFields();
 		if (filterFacetExcludedFields) {
@@ -1489,7 +1470,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		} else
 			return (IField[]) fields.toArray(new IField[fields.size()]);
 	}
-
 
 	public ILabel[] getILabels(boolean filterFacetExcludedLabels) {
 		Collection labels = getLabels();
@@ -1521,7 +1501,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return (ILabel[]) labels.toArray(new ILabel[labels.size()]);
 	}
 
-
 	public IMethod[] getIMethods(boolean filterFacetExcludedMethods) {
 		Collection methods = getMethods();
 		if (filterFacetExcludedMethods) {
@@ -1532,16 +1511,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			}
 			return facetFilteredMethods;
 		} else
-			return (IMethod[]) methods
-					.toArray(new IMethod[methods.size()]);
+			return (IMethod[]) methods.toArray(new IMethod[methods.size()]);
 	}
 
 	public IMethod[] getInheritedIMethods() {
 		return getInheritedIMethods(false);
 	}
 
-	public IMethod[] getInheritedIMethods(
-			boolean filterFacetExcludedMethods) {
+	public IMethod[] getInheritedIMethods(boolean filterFacetExcludedMethods) {
 		Collection methods = getInheritedMethods();
 		if (filterFacetExcludedMethods) {
 			if (facetFilteredInheritedMethods == null) {
@@ -1551,26 +1528,24 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			}
 			return facetFilteredInheritedMethods;
 		} else
-			return (IMethod[]) methods
-					.toArray(new IMethod[methods.size()]);
+			return (IMethod[]) methods.toArray(new IMethod[methods.size()]);
 	}
 
 	public IAbstractArtifact getExtendedArtifact() {
 		return getExtends();
 	}
 
-
 	public ITigerstripeProject getITigerstripeProject() {
 		return getIProject();
 	}
-	
-	public Object[] getChildren() {
-		IField[] fields = getIFields();
-		IMethod[] methods = getIMethods();
-		ILabel[] labels = getILabels();
 
-		Object[] objects = new Object[fields.length + methods.length
-				+ labels.length];
+	public Object[] getChildren() {
+		Collection<IField> fields = getFields();
+		Collection<IMethod> methods = getMethods();
+		Collection<ILabel> labels = getLabels();
+
+		Object[] objects = new Object[fields.size() + methods.size()
+				+ labels.size()];
 		int index = 0;
 		for (IField field : fields) {
 			objects[index++] = field;
@@ -1620,7 +1595,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	public IAbstractArtifact[] getReferencedIArtifacts() {
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
-		for (IField field : getIFields()) {
+		for (IField field : getFields()) {
 			if (!field.getIType().isPrimitive()
 					&& !(field.getIType().getIArtifact() instanceof IPrimitiveTypeArtifact)
 					&& field.getIType().getIArtifact() != null) {
@@ -1628,7 +1603,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			}
 		}
 
-		for (IMethod method : getIMethods()) {
+		for (IMethod method : getMethods()) {
 			if (!method.isVoid()) {
 				IType returnType = method.getReturnIType();
 				if (!returnType.isPrimitive()

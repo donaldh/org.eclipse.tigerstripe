@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
@@ -421,7 +422,7 @@ public class DiffFixer {
 				if (diff.getScope().equals("Artifact:Field")) {
 					if (diff.getLocalVal().equals("present")) {
 						field = getIField(extractedArtifact, diff.getObject());
-						artifact.addIField(field);
+						artifact.addField(field);
 						String msgText = "INFO : Added Field "
 								+ diff.getObject() + "on " + diff.getLocal();
 						out.println(msgText);
@@ -464,9 +465,7 @@ public class DiffFixer {
 						Collection<IStereotypeInstance> extraStereos = getExtraStereos(
 								field, diffField);
 						if (field != null) {
-							IField[] fields = new IField[1];
-							fields[0] = field;
-							artifact.removeIFields(fields);
+							artifact.removeFields(Collections.singleton(field));
 						}
 						for (IStereotypeInstance inst : extraStereos) {
 							diffField
@@ -477,7 +476,7 @@ public class DiffFixer {
 							 * will not be changed"; out.println(msgText);
 							 */
 						}
-						artifact.addIField(diffField);
+						artifact.addField(diffField);
 						artifact.doSave(new TigerstripeNullProgressMonitor());
 						String msgText = "INFO : Replaced Field "
 								+ diff.getObject() + " on " + diff.getLocal();
@@ -566,7 +565,7 @@ public class DiffFixer {
 				if (diff.getScope().equals("Artifact:Label")) {
 					if (diff.getLocalVal().equals("present")) {
 						label = getILabel(extractedArtifact, diff.getObject());
-						artifact.addILabel(label);
+						artifact.addLabel(label);
 						artifact.doSave(new TigerstripeNullProgressMonitor());
 						String msgText = "INFO : Added Label "
 								+ diff.getObject() + " on " + diff.getLocal();
@@ -611,12 +610,10 @@ public class DiffFixer {
 						Collection<IStereotypeInstance> extraStereos = getExtraStereos(
 								label, diffLabel);
 						if (label != null) {
-							ILabel[] labels = new ILabel[1];
-							labels[0] = label;
-							artifact.removeILabels(labels);
+							artifact.removeLabels(Collections.singleton(label));
 						}
 
-						artifact.addILabel(diffLabel);
+						artifact.addLabel(diffLabel);
 						for (IStereotypeInstance inst : extraStereos) {
 							diffLabel
 									.addStereotypeInstance((IStereotypeInstance) inst);
@@ -712,7 +709,7 @@ public class DiffFixer {
 				if (diff.getScope().equals("Artifact:Method")) {
 					if (diff.getLocalVal().equals("present")) {
 						method = getIMethod(extractedArtifact, diff.getObject());
-						artifact.addIMethod(method);
+						artifact.addMethod(method);
 						artifact.doSave(new TigerstripeNullProgressMonitor());
 						String msgText = "INFO : Added Method "
 								+ diff.getObject() + " on " + diff.getLocal();
@@ -759,9 +756,8 @@ public class DiffFixer {
 						Collection<IArgument> extraArguments = getExtraArguments(
 								method, diffMethod);
 						if (method != null) {
-							IMethod[] methods = new IMethod[1];
-							methods[0] = method;
-							artifact.removeIMethods(methods);
+							artifact.removeMethods(Collections
+									.singleton(method));
 						}
 						for (IStereotypeInstance inst : extraStereos) {
 							diffMethod
@@ -788,7 +784,7 @@ public class DiffFixer {
 							 * will not be changed"; out.println(msgText);
 							 */
 						}
-						artifact.addIMethod(diffMethod);
+						artifact.addMethod(diffMethod);
 						artifact.doSave(new TigerstripeNullProgressMonitor());
 						String msgText = "INFO : Replaced Method " + methodName
 								+ " on " + diff.getLocal();
@@ -1004,7 +1000,7 @@ public class DiffFixer {
 								IOssjEntitySpecifics.DELETE, flavEnum);
 					} else {
 						boolean setone = false;
-						for (IMethod ossjMethod : artifact.getIMethods()) {
+						for (IMethod ossjMethod : artifact.getMethods()) {
 							if (ossjMethod.getName().equals(detailsMethodName)) {
 								flavorMethod = ossjMethod;
 								details = ossjMethod
@@ -1426,28 +1422,25 @@ public class DiffFixer {
 	}
 
 	public IField getIField(IAbstractArtifact artifact, String fieldName) {
-		IField[] fields = artifact.getIFields();
-		for (int i = 0; i < fields.length; i++) {
-			if (fields[i].getName().equals(fieldName))
-				return fields[i];
+		for (IField field : artifact.getFields()) {
+			if (field.getName().equals(fieldName))
+				return field;
 		}
 		return null;
 	}
 
 	public ILabel getILabel(IAbstractArtifact artifact, String labelName) {
-		ILabel[] labels = artifact.getILabels();
-		for (int i = 0; i < labels.length; i++) {
-			if (labels[i].getName().equals(labelName))
-				return labels[i];
+		for (ILabel label : artifact.getLabels()) {
+			if (label.getName().equals(labelName))
+				return label;
 		}
 		return null;
 	}
 
 	public IMethod getIMethod(IAbstractArtifact artifact, String methodName) {
-		IMethod[] methods = artifact.getIMethods();
-		for (int i = 0; i < methods.length; i++) {
-			if (methods[i].getName().equals(methodName))
-				return methods[i];
+		for (IMethod method : artifact.getMethods()) {
+			if (method.getName().equals(methodName))
+				return method;
 		}
 		return null;
 	}

@@ -93,7 +93,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 
 		// Then recreate either an attribute or a reference in the eArtifact
 		// for what we have in the iArtifact
-		for (IField field : iArtifact.getIFields()) {
+		for (IField field : iArtifact.getFields()) {
 			// The choice on Attribute or Reference is made on the type
 			// of the IField
 

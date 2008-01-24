@@ -101,8 +101,8 @@ public class DatatypeArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public IMethod makeIMethod() {
-		IMethod result = super.makeIMethod();
+	public IMethod makeMethod() {
+		IMethod result = super.makeMethod();
 		result.setInstanceMethod(false); // datatype can't have instance
 		// methods
 		return result;

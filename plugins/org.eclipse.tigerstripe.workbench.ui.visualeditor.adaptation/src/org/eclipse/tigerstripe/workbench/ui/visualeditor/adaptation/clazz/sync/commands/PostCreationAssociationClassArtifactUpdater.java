@@ -65,7 +65,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 					eArtifact);
 
 			// Create attributes
-			for (IField field : getIArtifact().getIFields()) {
+			for (IField field : getIArtifact().getFields()) {
 				try {
 					// Attr should only be populated if type is, either
 					// primitive type,
@@ -121,7 +121,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 			}
 
 			// Create Methods
-			for (IMethod method : getIArtifact().getIMethods()) {
+			for (IMethod method : getIArtifact().getMethods()) {
 				String methodType = method.getReturnIType()
 						.getFullyQualifiedName();
 				String methodName = method.getName();
@@ -194,7 +194,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 					eArt.setExtends(eArtifact);
 				}
 
-				for (IField field : mirror.getIFields()) {
+				for (IField field : mirror.getFields()) {
 					if (field.getIType().getFullyQualifiedName().equals(
 							eArtifact.getFullyQualifiedName())) {
 						// before we add this reference we need to make sure

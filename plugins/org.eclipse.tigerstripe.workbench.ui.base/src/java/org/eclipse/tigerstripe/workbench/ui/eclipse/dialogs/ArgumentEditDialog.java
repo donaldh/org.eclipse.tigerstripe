@@ -759,9 +759,9 @@ public class ArgumentEditDialog extends TSMessageDialog {
 							new TigerstripeNullProgressMonitor());
 			if (art instanceof IEnumArtifact) {
 				IEnumArtifact enumArt = (IEnumArtifact) art;
-				String[] items = new String[enumArt.getILabels().length];
+				String[] items = new String[enumArt.getLabels().size()];
 				int i = 0;
-				for (ILabel label : enumArt.getILabels()) {
+				for (ILabel label : enumArt.getLabels()) {
 					items[i] = label.getName();
 					i++;
 				}

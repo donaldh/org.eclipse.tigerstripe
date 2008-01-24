@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -347,8 +347,7 @@ public class VisualeditorRelationshipUtils {
 		}
 		// then create attributes (if needed) and add them to the association
 		// class class EObject
-		IField[] fields = assocClassArtifact.getIFields();
-		for (IField field : fields) {
+		for (IField field : assocClassArtifact.getFields()) {
 			String typeName = field.getIType().getFullyQualifiedName();
 			if ("java.lang.String".equals(typeName))
 				typeName = "String";
@@ -407,8 +406,7 @@ public class VisualeditorRelationshipUtils {
 		}
 		// and create methods (if needed) and add them to the association
 		// class class EObject
-		IMethod[] methods = assocClassArtifact.getIMethods();
-		for (IMethod method : methods) {
+		for (IMethod method : assocClassArtifact.getMethods()) {
 			Method eMethod = VisualeditorFactory.eINSTANCE.createMethod();
 			// set the method fields to values that match the corresponding
 			// artifact

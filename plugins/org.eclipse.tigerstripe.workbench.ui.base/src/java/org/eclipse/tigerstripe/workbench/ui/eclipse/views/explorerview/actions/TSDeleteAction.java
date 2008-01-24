@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.actions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -234,7 +235,7 @@ public class TSDeleteAction extends DeleteAction {
 						IField field = (IField) obj;
 						IAbstractArtifact art = (IAbstractArtifact) field
 								.getContainingArtifact();
-						art.removeIFields(new IField[] { field });
+						art.removeFields(Collections.singleton(field));
 						try {
 							art
 									.doSilentSave(new TigerstripeNullProgressMonitor());
@@ -246,7 +247,7 @@ public class TSDeleteAction extends DeleteAction {
 						IMethod method = (IMethod) obj;
 						IAbstractArtifact art = (IAbstractArtifact) method
 								.getContainingArtifact();
-						art.removeIMethods(new IMethod[] { method });
+						art.removeMethods(Collections.singleton(method));
 						try {
 							art
 									.doSilentSave(new TigerstripeNullProgressMonitor());
@@ -258,7 +259,7 @@ public class TSDeleteAction extends DeleteAction {
 						ILabel label = (ILabel) obj;
 						IAbstractArtifact art = (IAbstractArtifact) label
 								.getContainingArtifact();
-						art.removeILabels(new ILabel[] { label });
+						art.removeLabels(Collections.singleton(label));
 						try {
 							art
 									.doSilentSave(new TigerstripeNullProgressMonitor());

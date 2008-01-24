@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
@@ -130,18 +131,18 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public IField[] getIFields() {
-		return new IField[0];
+	public Collection<IField> getFields() {
+		return IField.EMPTY_LIST;
 	}
 
 	@Override
-	public ILabel[] getILabels() {
-		return new ILabel[0];
+	public Collection<ILabel> getLabels() {
+		return ILabel.EMPTY_LIST;
 	}
 
 	@Override
-	public IMethod[] getIMethods() {
-		return new IMethod[0];
+	public Collection<IMethod> getMethods() {
+		return IMethod.EMPTY_LIST;
 	}
 
 	public IAssociationEnd getAEnd() {
@@ -219,8 +220,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	public IAssociationEnd[] getAssociationEnds() {
-		IAssociationEnd[] result = new IAssociationEnd[] { getAEnd(),
-				getZEnd() };
+		IAssociationEnd[] result = new IAssociationEnd[] { getAEnd(), getZEnd() };
 		return result;
 	}
 

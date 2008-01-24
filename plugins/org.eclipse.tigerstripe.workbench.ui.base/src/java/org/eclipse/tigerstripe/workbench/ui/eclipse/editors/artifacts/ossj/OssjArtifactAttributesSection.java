@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj;
 
+import java.util.Arrays;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -44,7 +46,6 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.help.IHelpContextIds;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -54,7 +55,6 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-import org.eclipse.ui.help.WorkbenchHelp;
 
 public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		implements IFormPart {
@@ -74,8 +74,6 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 
 		createContent();
 
-		WorkbenchHelp.setHelp(parent,
-				IHelpContextIds.ARTIFACT_ATTRIBUTE_EDIT_HELP_ID);
 		updateMaster();
 	}
 
@@ -124,7 +122,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof IAbstractArtifact) {
 				IAbstractArtifact artifact = (IAbstractArtifact) inputElement;
-				return artifact.getIFields();
+				return artifact.getFields().toArray();
 			}
 			return new Object[0];
 		}
@@ -245,7 +243,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 	 */
 	protected void addButtonSelected(SelectionEvent event) {
 		IAbstractArtifact artifact = getIArtifact();
-		IField newField = artifact.makeIField();
+		IField newField = artifact.makeField();
 
 		String newFieldName = findNewFieldName();
 		newField.setName(newFieldName);
@@ -263,7 +261,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		newField.setIType(defaultType);
 		newField.setRefBy(IField.REFBY_VALUE);
 
-		getIArtifact().addIField(newField);
+		getIArtifact().addField(newField);
 		viewer.add(newField);
 		viewer.setSelection(new StructuredSelection(newField), true);
 		markPageModified();
@@ -280,8 +278,8 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 	 * Gets the default attribute type from the active profile.
 	 */
 	private String getDefaultTypeName() throws TigerstripeException {
-		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
-				.getActiveProfile();
+		IWorkbenchProfile profile = TigerstripeCore
+				.getIWorkbenchProfileSession().getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}
 
@@ -327,7 +325,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 
 		if (msgDialog.open() == 0) {
 			viewer.remove(selectedFields);
-			getIArtifact().removeIFields(selectedFields);
+			getIArtifact().removeFields(Arrays.asList(selectedFields));
 			markPageModified();
 		}
 		updateMaster();

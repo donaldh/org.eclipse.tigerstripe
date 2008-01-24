@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
+import java.util.Collections;
+
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
@@ -48,8 +50,7 @@ public class LabelRemoveRequest extends BaseModelChangeRequest implements
 		if (art == null)
 			return false;
 
-		ILabel[] labels = art.getILabels();
-		for (ILabel label : labels) {
+		for (ILabel label : art.getLabels()) {
 			if (label.getName().equals(getLabelName()))
 				return true;
 		}
@@ -62,10 +63,9 @@ public class LabelRemoveRequest extends BaseModelChangeRequest implements
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getIArtifactByFullyQualifiedName(getArtifactFQN());
 
-		ILabel[] labels = art.getILabels();
-		for (ILabel label : labels) {
+		for (ILabel label : art.getLabels()) {
 			if (label.getName().equals(getLabelName())) {
-				art.removeILabels(new ILabel[] { (ILabel) label });
+				art.removeLabels(Collections.singleton(label));
 			}
 		}
 		art.doSave(new TigerstripeNullProgressMonitor());

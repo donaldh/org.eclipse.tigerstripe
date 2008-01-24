@@ -30,8 +30,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -152,7 +152,8 @@ public class TS2UML2 {
 					.findMember(new Path(tSProjectName));
 
 			java.net.URI projectURI = tsContainer.getLocationURI();
-			IProjectSession session = TigerstripeCore.getDefaultProjectSession();
+			IProjectSession session = TigerstripeCore
+					.getDefaultProjectSession();
 			tsProject = (ITigerstripeProject) session.makeTigerstripeProject(
 					projectURI, ITigerstripeProject.class.getName());
 			this.mgrSession = tsProject.getArtifactManagerSession();
@@ -357,8 +358,7 @@ public class TS2UML2 {
 							.getQualifiedName()
 							+ "::tigerstripe_query");
 					clazz.applyStereotype(qS);
-					IType rType = ((IQueryArtifact) artifact)
-							.getReturnedType();
+					IType rType = ((IQueryArtifact) artifact).getReturnedType();
 					Type type = getUMLType(rType);
 					if (type != null) {
 						String retTypeString = type.getQualifiedName();
@@ -543,10 +543,7 @@ public class TS2UML2 {
 	 * Add operations
 	 */
 	private void addOperations(IAbstractArtifact artifact, Interface clazz) {
-		IMethod[] methods = artifact.getIMethods();
-		for (int i = 0; i < methods.length; i++) {
-			IMethod method = methods[i];
-
+		for (IMethod method : artifact.getMethods()) {
 			Operation operation = clazz.createOwnedOperation(method.getName(),
 					null, null);
 			operation.setIsAbstract(method.isAbstract());
@@ -638,10 +635,7 @@ public class TS2UML2 {
 	 * Add operations
 	 */
 	private void addOperations(IAbstractArtifact artifact, Class clazz) {
-		IMethod[] methods = artifact.getIMethods();
-		for (int i = 0; i < methods.length; i++) {
-			IMethod method = methods[i];
-
+		for (IMethod method : artifact.getMethods()) {
 			Operation operation = clazz.createOwnedOperation(method.getName(),
 					null, null);
 			operation.setIsAbstract(method.isAbstract());
@@ -734,9 +728,7 @@ public class TS2UML2 {
 	 */
 	private void addAttributes(IAbstractArtifact artifact,
 			StructuredClassifier classifier) {
-		IField[] fields = artifact.getIFields();
-		for (int i = 0; i < fields.length; i++) {
-			IField field = fields[i];
+		for (IField field : artifact.getFields()) {
 			Property attribute;
 			Type type = getUMLType(field.getIType());
 			if (type != null) {
@@ -827,8 +819,7 @@ public class TS2UML2 {
 	}
 
 	private void addReturnTypeStereotype(IMethod method, Element result) {
-		for (IStereotypeInstance inst : method
-				.getReturnStereotypeInstances()) {
+		for (IStereotypeInstance inst : method.getReturnStereotypeInstances()) {
 			Stereotype stereotype = result.getApplicableStereotype(tsProfile
 					.getQualifiedName()
 					+ "::" + inst.getName());
@@ -945,7 +936,6 @@ public class TS2UML2 {
 		return this.model.getName() + "::" + name.replace(".", "::");
 	}
 
-
 	/**
 	 * Find a class if it exists, or make one if it doesn't.
 	 */
@@ -1053,20 +1043,19 @@ public class TS2UML2 {
 			typeMap.put(enumz.getQualifiedName(), enumz);
 
 			// We can add EnumLiterals
-			ILabel[] labels = artifact.getILabels();
-			for (int i = 0; i < labels.length; i++) {
-				EnumerationLiteral lit = enumz.createOwnedLiteral(labels[i]
+			for (ILabel label : artifact.getLabels()) {
+				EnumerationLiteral lit = enumz.createOwnedLiteral(label
 						.getName());
-				this.out.println("Made a new literal " + labels[i].getName());
-				if (labels[i].getIType().getName().equals("int")) {
+				this.out.println("Made a new literal " + label.getName());
+				if (label.getIType().getName().equals("int")) {
 					LiteralInteger literalInt = UMLFactory.eINSTANCE
 							.createLiteralInteger();
-					literalInt.setValue(Integer.parseInt(labels[i].getValue()));
+					literalInt.setValue(Integer.parseInt(label.getValue()));
 					lit.setSpecification(literalInt);
 				} else {
 					LiteralString literalString = UMLFactory.eINSTANCE
 							.createLiteralString();
-					literalString.setValue(labels[i].getValue());
+					literalString.setValue(label.getValue());
 					lit.setSpecification(literalString);
 				}
 			}
@@ -1109,7 +1098,8 @@ public class TS2UML2 {
 
 	}
 
-	private AssociationClass makeOrFindAssociationClass(IAbstractArtifact artifact) {
+	private AssociationClass makeOrFindAssociationClass(
+			IAbstractArtifact artifact) {
 		try {
 			String packageName = artifact.getPackage();
 			String className = artifact.getFullyQualifiedName();
@@ -1126,15 +1116,13 @@ public class TS2UML2 {
 			}
 			// TODO make one...
 
-			IAssociationEnd end1 = ((IAssociationArtifact) artifact)
-					.getAEnd();
+			IAssociationEnd end1 = ((IAssociationArtifact) artifact).getAEnd();
 			Type e1Type = getUMLType(end1.getIType());
 			Type type1 = null;
 			if (e1Type != null)
 				type1 = typeMap.get(e1Type.getQualifiedName());
 
-			IAssociationEnd end2 = ((IAssociationArtifact) artifact)
-					.getZEnd();
+			IAssociationEnd end2 = ((IAssociationArtifact) artifact).getZEnd();
 			Type e2Type = getUMLType(end2.getIType());
 			Type type2 = null;
 			if (e2Type != null)
@@ -1270,15 +1258,13 @@ public class TS2UML2 {
 				}
 			}
 			// TODO make one...
-			IAssociationEnd end1 = ((IAssociationArtifact) artifact)
-					.getAEnd();
+			IAssociationEnd end1 = ((IAssociationArtifact) artifact).getAEnd();
 			Type e1Type = getUMLType(end1.getIType());
 			Type type1 = null;
 			if (e1Type != null)
 				type1 = typeMap.get(e1Type.getQualifiedName());
 
-			IAssociationEnd end2 = ((IAssociationArtifact) artifact)
-					.getZEnd();
+			IAssociationEnd end2 = ((IAssociationArtifact) artifact).getZEnd();
 			Type e2Type = getUMLType(end2.getIType());
 			Type type2 = null;
 			if (e2Type != null)

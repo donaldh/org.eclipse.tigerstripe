@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj;
 
+import java.util.Arrays;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -117,7 +119,7 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof IAbstractArtifact) {
 				IAbstractArtifact artifact = (IAbstractArtifact) inputElement;
-				return artifact.getILabels();
+				return artifact.getLabels().toArray();
 			}
 			return new Object[0];
 		}
@@ -290,7 +292,7 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 	 */
 	protected void addButtonSelected(SelectionEvent event) {
 		IAbstractArtifact artifact = getIArtifact();
-		ILabel newLabel = artifact.makeILabel();
+		ILabel newLabel = artifact.makeLabel();
 
 		String newLabelName = findNewFieldName();
 		newLabel.setName(newLabelName);
@@ -307,7 +309,7 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 
 		newLabel.setValue(getInitialLiteralValue(defaultType));
 
-		getIArtifact().addILabel(newLabel);
+		getIArtifact().addLabel(newLabel);
 		viewer.add(newLabel);
 		viewer.setSelection(new StructuredSelection(newLabel), true);
 		markPageModified();
@@ -363,7 +365,7 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 
 		if (msgDialog.open() == 0) {
 			viewer.remove(selectedLabels);
-			getIArtifact().removeILabels(selectedLabels);
+			getIArtifact().removeLabels(Arrays.asList(selectedLabels));
 			markPageModified();
 		}
 		updateMaster();

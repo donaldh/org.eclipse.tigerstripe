@@ -105,7 +105,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 			updateStereotype(eArtifact);
 
 			// Create attributes
-			for (IField field : getIArtifact().getIFields()) {
+			for (IField field : getIArtifact().getFields()) {
 				try {
 					// Attr should only be populated if type is, either
 					// primitive type,
@@ -160,7 +160,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 			}
 
 			// Create Methods
-			for (IMethod method : getIArtifact().getIMethods()) {
+			for (IMethod method : getIArtifact().getMethods()) {
 				String methodType = method.getReturnIType()
 						.getFullyQualifiedName();
 				String methodName = method.getName();
@@ -285,7 +285,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 					continue; // no incoming ref on a Enum
 				}
 
-				for (IField field : mirror.getIFields()) {
+				for (IField field : mirror.getFields()) {
 					if (field.getIType().getFullyQualifiedName().equals(
 							eArtifact.getFullyQualifiedName())
 							&& shouldDisplayReference() // Bug 929
