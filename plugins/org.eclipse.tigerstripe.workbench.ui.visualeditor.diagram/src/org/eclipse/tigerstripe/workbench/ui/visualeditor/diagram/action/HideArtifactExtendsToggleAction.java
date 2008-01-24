@@ -27,7 +27,7 @@ public class HideArtifactExtendsToggleAction extends ArtifactToggleAction {
 		for (IAbstractArtifact iArtifact : iArtifacts) {
 			if (iArtifact != null) {
 				IAbstractArtifact extendedIArt = iArtifact
-						.getExtendedIArtifact();
+						.getExtendedArtifact();
 				if (extendedIArt == null) {
 					// no extends defined, always disabled
 					action.setEnabled(false);

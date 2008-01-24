@@ -74,7 +74,7 @@ public class AssociationInstanceUpdateCommand extends
 					matchingTypeFound = true;
 					break;
 				}
-			} while ((localArt = localArt.getExtendedIArtifact()) != null);
+			} while ((localArt = localArt.getExtendedArtifact()) != null);
 			if (!matchingTypeFound) {
 				eAssociation.setAEnd(null);
 				// if eArt == null the dependency will be removed downstream
@@ -101,7 +101,7 @@ public class AssociationInstanceUpdateCommand extends
 					matchingTypeFound = true;
 					break;
 				}
-			} while ((localArt = localArt.getExtendedIArtifact()) != null);
+			} while ((localArt = localArt.getExtendedArtifact()) != null);
 			if (!matchingTypeFound) {
 				eAssociation.setAEnd(null);
 				// if eArt == null the dependency will be removed downstream

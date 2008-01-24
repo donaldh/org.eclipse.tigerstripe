@@ -440,28 +440,28 @@ public class TS2UML2 {
 					// this.out.println ("General case!");
 					Class clazz = makeOrFindClass(artifact);
 					Class extendClazz = makeOrFindClass(artifact
-							.getExtendedIArtifact());
+							.getExtendedArtifact());
 					Generalization gen = clazz
 							.createGeneralization(extendClazz);
 				} else if (artifact instanceof IEnumArtifact) {
 					// this.out.println ("Enum case!");
 					Enumeration enumer = makeOrFindEnum(artifact);
 					Enumeration extendEnumer = makeOrFindEnum(artifact
-							.getExtendedIArtifact());
+							.getExtendedArtifact());
 					Generalization gen = enumer
 							.createGeneralization(extendEnumer);
 				} else if (artifact instanceof IAssociationClassArtifact) {
 					// this.out.println ("Assoc Class case!");
 					// Note that AssocClass can extend MEntity or AssocClass
 					AssociationClass association = makeOrFindAssociationClass(artifact);
-					if (artifact.getExtendedIArtifact() instanceof IManagedEntityArtifact) {
+					if (artifact.getExtendedArtifact() instanceof IManagedEntityArtifact) {
 						Class extendsClass = makeOrFindClass(artifact
-								.getExtendedIArtifact());
+								.getExtendedArtifact());
 						Generalization gen = association
 								.createGeneralization(extendsClass);
 					} else {
 						AssociationClass extendsAssociation = makeOrFindAssociationClass(artifact
-								.getExtendedIArtifact());
+								.getExtendedArtifact());
 						Generalization gen = association
 								.createGeneralization(extendsAssociation);
 					}
@@ -469,7 +469,7 @@ public class TS2UML2 {
 					// this.out.println ("Assoc case!");
 					Association association = makeOrFindAssociation(artifact);
 					Association extendsAssociation = makeOrFindAssociation(artifact
-							.getExtendedIArtifact());
+							.getExtendedArtifact());
 					Generalization gen = association
 							.createGeneralization(extendsAssociation);
 				} else if (artifact instanceof IDependencyArtifact) {
@@ -478,7 +478,7 @@ public class TS2UML2 {
 					this.out.println("Session case!");
 					Interface intf = makeOrFindInterface(artifact);
 					Interface extendIntf = makeOrFindInterface(artifact
-							.getExtendedIArtifact());
+							.getExtendedArtifact());
 					Generalization gen = intf.createGeneralization(extendIntf);
 				}
 

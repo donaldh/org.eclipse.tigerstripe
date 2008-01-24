@@ -49,7 +49,7 @@ public class ArtifactPropertyChangeHandler {
 			MapHelper mapHelper = new MapHelper(map);
 			IAbstractArtifact iArtifact = mapHelper.getIArtifactFor(artifact);
 			IAbstractArtifact extendedIArtifact = iArtifact
-					.getExtendedIArtifact();
+					.getExtendedArtifact();
 			if (extendedIArtifact != null) {
 				AbstractArtifact extendedEArtifact = mapHelper
 						.findAbstractArtifactFor(extendedIArtifact);

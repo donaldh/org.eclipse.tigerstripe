@@ -288,7 +288,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 		Label label = toolkit.createLabel(parent, "Extends: ", SWT.NULL);
 		label.setEnabled(!this.isReadonly());
-		IAbstractArtifact extend = getIArtifact().getExtendedIArtifact();
+		IAbstractArtifact extend = getIArtifact().getExtendedArtifact();
 		if (extend == null) {
 			extendNameText = toolkit.createText(parent, "");
 		} else {
@@ -533,8 +533,8 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 		setSilentUpdate(true);
 		descriptionText.setText(getIArtifact().getComment());
 		isAbstractButton.setSelection(getIArtifact().isAbstract());
-		if (getIArtifact().getExtendedIArtifact() != null)
-			extendNameText.setText(getIArtifact().getExtendedIArtifact()
+		if (getIArtifact().getExtendedArtifact() != null)
+			extendNameText.setText(getIArtifact().getExtendedArtifact()
 					.getFullyQualifiedName());
 		else
 			extendNameText.setText("");

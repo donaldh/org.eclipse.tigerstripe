@@ -125,7 +125,7 @@ public class InstanceDiagramUtils {
 				fieldNames.add(field.getLabelString());
 			}
 			fieldStack.push(lclFieldSet);
-		} while ((lclArtifact = lclArtifact.getExtendedIArtifact()) != null);
+		} while ((lclArtifact = lclArtifact.getExtendedArtifact()) != null);
 		// pull apart the variable list (from the root class for this artifact
 		// down the
 		// inheritance tree to this artifact) and add artifacts from each class
@@ -164,7 +164,7 @@ public class InstanceDiagramUtils {
 				TigerstripeRuntime.logInfoMessage(
 						"TigerstripeException detected", e);
 			}
-		} while ((artifact = artifact.getExtendedIArtifact()) != null);
+		} while ((artifact = artifact.getExtendedArtifact()) != null);
 
 		// put together a list of all of the relationships that can be built
 		// with the target's
@@ -183,7 +183,7 @@ public class InstanceDiagramUtils {
 				TigerstripeRuntime.logInfoMessage(
 						"TigerstripeException detected", e);
 			}
-		} while ((artifact = artifact.getExtendedIArtifact()) != null);
+		} while ((artifact = artifact.getExtendedArtifact()) != null);
 
 		// the intersection of these two sets is the set of relationships that
 		// can be built between

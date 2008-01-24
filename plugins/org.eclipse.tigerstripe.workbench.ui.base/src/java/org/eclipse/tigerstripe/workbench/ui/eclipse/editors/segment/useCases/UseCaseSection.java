@@ -300,7 +300,7 @@ public class UseCaseSection extends TigerstripeSegmentSectionPart implements
 						ITigerstripeProject handle = getContainingProject();
 
 						IUseCaseReference dep = handle
-								.makeIUseCaseReference(relative);
+								.makeUseCaseReference(relative);
 						((UseCasesPage) getPage()).getFacet().addUseCase(dep);
 						viewer.add(dep);
 						markPageModified();

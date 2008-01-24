@@ -463,8 +463,8 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		if (eArtifact.getExtends() != null)
 			eExtends = eArtifact.getExtends().getFullyQualifiedName();
 		String iExtends = null;
-		if (iArtifact.getExtendedIArtifact() != null) {
-			iExtends = iArtifact.getExtendedIArtifact().getFullyQualifiedName();
+		if (iArtifact.getExtendedArtifact() != null) {
+			iExtends = iArtifact.getExtendedArtifact().getFullyQualifiedName();
 			boolean extendsIsOnDiagram = helper
 					.findAbstractArtifactFor(iExtends) != null;
 			if (!extendsIsOnDiagram) {

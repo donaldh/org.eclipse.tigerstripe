@@ -372,7 +372,7 @@ public class DescriptorDependenciesSection extends
 
 						ITigerstripeProject handle = getTSProject();
 
-						IDependency dep = handle.makeIDependency(res
+						IDependency dep = handle.makeDependency(res
 								.getProjectRelativePath().toOSString());
 						handle.addDependency(dep, false,
 								new TigerstripeNullProgressMonitor());

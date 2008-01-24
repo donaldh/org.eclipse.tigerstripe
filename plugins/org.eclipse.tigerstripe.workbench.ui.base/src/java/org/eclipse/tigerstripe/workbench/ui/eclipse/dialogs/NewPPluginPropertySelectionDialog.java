@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
 /**
@@ -46,7 +46,7 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 
 	private IPluggablePluginProject ppProject;
 
-	private IPluggablePluginProperty result;
+	private IPluginProperty result;
 
 	private class PropertySelectionAdapter implements IStringButtonAdapter,
 			IDialogFieldListener, IListAdapter {
@@ -120,9 +120,9 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 
 		// Check for duplicates
 		try {
-			IPluggablePluginProperty[] existingProperties = ppProject
+			IPluginProperty[] existingProperties = ppProject
 					.getGlobalProperties();
-			for (IPluggablePluginProperty prop : existingProperties) {
+			for (IPluginProperty prop : existingProperties) {
 				if (prop.getName().equals(parameterName)) {
 					okEnabled = false;
 					setMessage("Duplicate property");
@@ -226,7 +226,7 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 		}
 	}
 
-	public IPluggablePluginProperty getNewPPluginProperty() {
+	public IPluginProperty getNewPPluginProperty() {
 		return result;
 	}
 }

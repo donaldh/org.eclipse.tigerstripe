@@ -393,7 +393,7 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 						ITigerstripeProject handle = getTSProject();
 
 						IFacetReference dep = handle
-								.makeIFacetReference(relative);
+								.makeFacetReference(relative);
 						handle.addFacetReference(dep);
 						viewer.add(dep);
 						markPageModified();

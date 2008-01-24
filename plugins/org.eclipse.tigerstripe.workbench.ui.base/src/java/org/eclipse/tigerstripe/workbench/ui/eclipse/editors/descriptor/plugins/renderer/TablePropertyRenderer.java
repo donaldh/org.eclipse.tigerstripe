@@ -38,10 +38,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.ITablePPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.ITablePPluginProperty.ColumnDef;
-import org.eclipse.tigerstripe.workbench.plugins.ITablePPluginProperty.TablePropertyRow;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty.ColumnDef;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty.TablePropertyRow;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -75,7 +75,7 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 	}
 
 	public TablePropertyRenderer(Composite parent, FormToolkit toolkit,
-			ITigerstripeProject project, IPluggablePluginProperty property,
+			ITigerstripeProject project, IPluginProperty property,
 			IPluggablePluginPropertyListener persister) {
 		super(parent, toolkit, project, property, persister);
 	}
@@ -148,7 +148,7 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 				rows.remove(ent);
 			}
 			tableViewer.remove(selectedFields);
-			ITablePPluginProperty sProp = (ITablePPluginProperty) getProperty();
+			ITablePluginProperty sProp = (ITablePluginProperty) getProperty();
 			try {
 				getPersister().storeProperty(sProp, rows);
 			} catch (TigerstripeException ee) {
@@ -159,7 +159,7 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 	}
 
 	private void addEntrySelected() {
-		ITablePPluginProperty sProp = (ITablePPluginProperty) getProperty();
+		ITablePluginProperty sProp = (ITablePluginProperty) getProperty();
 
 		TablePropertyRow row = sProp.makeRow();
 		rows.add(row);
@@ -175,7 +175,7 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 		int index = tableViewer.getTable().getSelectionIndex();
 		TablePropertyRow current = rows.remove(index);
 		rows.add(index - 1, current);
-		ITablePPluginProperty sProp = (ITablePPluginProperty) getProperty();
+		ITablePluginProperty sProp = (ITablePluginProperty) getProperty();
 		try {
 			getPersister().storeProperty(sProp, rows);
 		} catch (TigerstripeException ee) {
@@ -188,7 +188,7 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 		int index = tableViewer.getTable().getSelectionIndex();
 		TablePropertyRow current = rows.remove(index);
 		rows.add(index + 1, current);
-		ITablePPluginProperty sProp = (ITablePPluginProperty) getProperty();
+		ITablePluginProperty sProp = (ITablePluginProperty) getProperty();
 		try {
 			getPersister().storeProperty(sProp, rows);
 		} catch (TigerstripeException ee) {
@@ -199,7 +199,7 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 
 	@Override
 	public void render() throws TigerstripeException {
-		ITablePPluginProperty sProp = (ITablePPluginProperty) getProperty();
+		ITablePluginProperty sProp = (ITablePluginProperty) getProperty();
 
 		Composite parent = getParent();
 		FormToolkit toolkit = getToolkit();

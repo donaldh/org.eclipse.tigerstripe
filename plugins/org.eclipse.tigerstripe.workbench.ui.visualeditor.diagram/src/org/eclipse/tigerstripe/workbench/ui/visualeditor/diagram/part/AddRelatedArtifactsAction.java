@@ -116,7 +116,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			Set<IAbstractArtifact> extendedArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
 				IAbstractArtifact extendedArtifact = artifact
-						.getExtendedIArtifact();
+						.getExtendedArtifact();
 				if (extendedArtifact != null
 						&& !namesOfArtifactsInMap.contains(extendedArtifact
 								.getFullyQualifiedName())) {

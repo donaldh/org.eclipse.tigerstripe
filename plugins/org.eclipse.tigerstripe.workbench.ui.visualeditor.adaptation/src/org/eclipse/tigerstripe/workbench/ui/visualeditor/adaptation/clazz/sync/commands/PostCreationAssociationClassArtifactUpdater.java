@@ -73,7 +73,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 					// or if the References are disabled
 					String attrType = field.getIType().getFullyQualifiedName();
 					IArtifactManagerSession session = getDiagramProject()
-							.getIArtifactManagerSession();
+							.getArtifactManagerSession();
 					if (PostCreationAbstractArtifactUpdater
 							.shouldPopulateAttribute(attrType, session)) {
 						Attribute attr = VisualeditorFactory.eINSTANCE
@@ -187,8 +187,8 @@ public class PostCreationAssociationClassArtifactUpdater extends
 			if (mirror != null) {
 
 				// take care of artifact extending this new object
-				if (mirror.getExtendedIArtifact() != null
-						&& mirror.getExtendedIArtifact()
+				if (mirror.getExtendedArtifact() != null
+						&& mirror.getExtendedArtifact()
 								.getFullyQualifiedName().equals(
 										getIArtifact().getFullyQualifiedName())) {
 					eArt.setExtends(eArtifact);
@@ -235,9 +235,9 @@ public class PostCreationAssociationClassArtifactUpdater extends
 		// take care of extends
 		// if the corresponding EObject is already in the eModel
 		// set it, otherwise ignore
-		if (getIArtifact().getExtendedIArtifact() != null) {
+		if (getIArtifact().getExtendedArtifact() != null) {
 			IAbstractArtifact iExtendedArtifact = getIArtifact()
-					.getExtendedIArtifact();
+					.getExtendedArtifact();
 			Map map = (Map) eArtifact.eContainer();
 			MapHelper helper = new MapHelper(map);
 			AbstractArtifact eExtendedArtifact = helper

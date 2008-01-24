@@ -105,7 +105,7 @@ public class InstanceDiagramSynchronizerUtils {
 		do {
 			if (localArtifact.getFullyQualifiedName().equals(iArtifactType))
 				return true;
-		} while ((localArtifact = localArtifact.getExtendedIArtifact()) != null);
+		} while ((localArtifact = localArtifact.getExtendedArtifact()) != null);
 
 		return false;
 	}

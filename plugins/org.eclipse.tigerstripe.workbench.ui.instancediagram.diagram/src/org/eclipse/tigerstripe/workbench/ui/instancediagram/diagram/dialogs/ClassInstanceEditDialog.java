@@ -597,7 +597,7 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 				for (ILabel label : labels)
 					lclStringVals.add(label.getName());
 				stringVals.addAll(0, lclStringVals);
-			} while ((iArtifact = iArtifact.getExtendedIArtifact()) != null);
+			} while ((iArtifact = iArtifact.getExtendedArtifact()) != null);
 			stringVals.add(0, "");
 			String[] items = new String[stringVals.size()];
 			stringVals.toArray(items);
@@ -736,7 +736,7 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 						fqn = iArtifact.getFullyQualifiedName();
 						if (typeStr.equals(fqn))
 							possibleEntries.add(instance.getArtifactName());
-					} while ((iArtifact = iArtifact.getExtendedIArtifact()) != null);
+					} while ((iArtifact = iArtifact.getExtendedArtifact()) != null);
 				}
 			}
 		}

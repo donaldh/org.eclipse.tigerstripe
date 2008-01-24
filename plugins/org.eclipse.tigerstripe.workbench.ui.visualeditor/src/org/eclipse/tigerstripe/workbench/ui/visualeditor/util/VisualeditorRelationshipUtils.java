@@ -312,7 +312,7 @@ public class VisualeditorRelationshipUtils {
 		// if this class extends another class, add the extends relationship
 		// to that class (if it's in the diagram)
 		IAbstractArtifact extendedIArtifact = assocClassArtifact
-				.getExtendedIArtifact();
+				.getExtendedArtifact();
 		if (extendedIArtifact != null) {
 			String fqn = extendedIArtifact.getFullyQualifiedName();
 			if (nodesInMap.keySet().contains(fqn)) {
@@ -333,7 +333,7 @@ public class VisualeditorRelationshipUtils {
 					// cleaned up by a simple close-reopen from the user.
 					// This leaves them with a usable diagram in the meantime.
 					IAbstractArtifact extendedArt = otherArt
-							.getExtendedIArtifact();
+							.getExtendedArtifact();
 					String fqn = assocClassArtifact.getFullyQualifiedName();
 					if (extendedArt != null
 							&& extendedArt.getFullyQualifiedName().equals(fqn)) {

@@ -129,9 +129,9 @@ public class DiffFixer {
 						// update a list of diffs that added artifacts,
 						// so that we can re-check their extends in a second
 						// pass
-						if (extractedArtifact.getExtendedIArtifact() != null) {
+						if (extractedArtifact.getExtendedArtifact() != null) {
 							String extName = extractedArtifact
-									.getExtendedIArtifact()
+									.getExtendedArtifact()
 									.getFullyQualifiedName();
 							if (!extName.equals("")) {
 								secondPassDiffs.add(new Difference("value",

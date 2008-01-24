@@ -19,8 +19,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IStringPPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -37,7 +37,7 @@ public class StringPropertyRenderer extends BasePropertyRenderer {
 	}
 
 	public StringPropertyRenderer(Composite parent, FormToolkit toolkit,
-			ITigerstripeProject project, IPluggablePluginProperty property,
+			ITigerstripeProject project, IPluginProperty property,
 			IPluggablePluginPropertyListener persister) {
 		super(parent, toolkit, project, property, persister);
 	}
@@ -51,7 +51,7 @@ public class StringPropertyRenderer extends BasePropertyRenderer {
 	@Override
 	public void applyDefault() {
 		try {
-			IStringPPluginProperty sProp = (IStringPPluginProperty) getProperty();
+			IStringPluginProperty sProp = (IStringPluginProperty) getProperty();
 			getPersister().storeProperty(sProp, sProp.getDefaultString());
 			text.setText(sProp.getDefaultString());
 		} catch (TigerstripeException e) {
@@ -61,7 +61,7 @@ public class StringPropertyRenderer extends BasePropertyRenderer {
 
 	@Override
 	public void render() throws TigerstripeException {
-		IStringPPluginProperty sProp = (IStringPPluginProperty) getProperty();
+		IStringPluginProperty sProp = (IStringPluginProperty) getProperty();
 
 		label = getToolkit().createLabel(getParent(), sProp.getName());
 
@@ -79,7 +79,7 @@ public class StringPropertyRenderer extends BasePropertyRenderer {
 		if (!isSilentUpdate()) {
 			if (e.getSource() == text) {
 				try {
-					IStringPPluginProperty sProp = (IStringPPluginProperty) getProperty();
+					IStringPluginProperty sProp = (IStringPluginProperty) getProperty();
 					getPersister().storeProperty(sProp, text.getText().trim());
 				} catch (TigerstripeException ee) {
 					EclipsePlugin.log(ee);
@@ -91,7 +91,7 @@ public class StringPropertyRenderer extends BasePropertyRenderer {
 	@Override
 	public void update(String serializedValue) {
 		setSilentUpdate(true);
-		IStringPPluginProperty sProp = (IStringPPluginProperty) getProperty();
+		IStringPluginProperty sProp = (IStringPluginProperty) getProperty();
 		String s = (String) sProp.deSerialize(serializedValue);
 
 		if (s == null)

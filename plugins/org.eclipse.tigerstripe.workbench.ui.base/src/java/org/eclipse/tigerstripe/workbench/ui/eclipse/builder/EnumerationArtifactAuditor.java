@@ -48,9 +48,9 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 		} else {
 
 			// Bug #156
-			if (artifact.getExtendedIArtifact() instanceof IEnumArtifact) {
+			if (artifact.getExtendedArtifact() instanceof IEnumArtifact) {
 				IEnumArtifact extended = (IEnumArtifact) artifact
-						.getExtendedIArtifact();
+						.getExtendedArtifact();
 				String baseFQN = baseType.getFullyQualifiedName();
 				// Bug #885
 				String baseTypeStr = Misc.removeJavaLangString(baseFQN);

@@ -13,10 +13,10 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins.
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
-import org.eclipse.tigerstripe.workbench.plugins.IBooleanPPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IStringPPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.ITablePPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -41,15 +41,15 @@ public class PropertyRendererFactory {
 		this.persister = persister;
 	}
 
-	public BasePropertyRenderer getRenderer(IPluggablePluginProperty property)
+	public BasePropertyRenderer getRenderer(IPluginProperty property)
 			throws TigerstripeException {
-		if (property instanceof IStringPPluginProperty)
+		if (property instanceof IStringPluginProperty)
 			return new StringPropertyRenderer(parent, toolkit, project,
 					property, persister);
-		else if (property instanceof IBooleanPPluginProperty)
+		else if (property instanceof IBooleanPluginProperty)
 			return new BooleanPropertyRenderer(parent, toolkit, project,
 					property, persister);
-		else if (property instanceof ITablePPluginProperty)
+		else if (property instanceof ITablePluginProperty)
 			return new TablePropertyRenderer(parent, toolkit, project,
 					property, persister);
 

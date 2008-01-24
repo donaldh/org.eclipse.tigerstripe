@@ -66,7 +66,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 				// primitive type, java scalar, String or EnumerationType
 				String attrType = field.getIType().getFullyQualifiedName();
 				IArtifactManagerSession session = getDiagramProject()
-						.getIArtifactManagerSession();
+						.getArtifactManagerSession();
 				if (shouldPopulateVariable(attrType, session)) {
 					Variable attr = InstancediagramFactory.eINSTANCE
 							.createVariable();

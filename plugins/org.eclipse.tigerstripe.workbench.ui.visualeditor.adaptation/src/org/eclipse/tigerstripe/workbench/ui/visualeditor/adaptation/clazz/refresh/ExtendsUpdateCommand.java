@@ -45,8 +45,8 @@ public class ExtendsUpdateCommand extends AbstractArtifactUpdateCommand {
 
 		String iExtends = null;
 		AbstractArtifact target = null;
-		if (iArtifact.getExtendedIArtifact() != null) {
-			iExtends = iArtifact.getExtendedIArtifact().getFullyQualifiedName();
+		if (iArtifact.getExtendedArtifact() != null) {
+			iExtends = iArtifact.getExtendedArtifact().getFullyQualifiedName();
 		}
 
 		if (iExtends != null) {

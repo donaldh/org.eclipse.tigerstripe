@@ -199,7 +199,7 @@ public abstract class AbstractArtifactAuditor {
 	 * 
 	 */
 	protected void checkSuperArtifact() {
-		IAbstractArtifact superArtifact = getArtifact().getExtendedIArtifact();
+		IAbstractArtifact superArtifact = getArtifact().getExtendedArtifact();
 
 		if (superArtifact != null) {
 			if (superArtifact.getClass() != getArtifact().getClass()) {

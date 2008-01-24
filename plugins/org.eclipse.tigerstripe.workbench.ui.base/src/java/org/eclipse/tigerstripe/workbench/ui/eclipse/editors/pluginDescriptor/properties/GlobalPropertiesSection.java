@@ -40,7 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggab
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.BooleanPPluginProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.StringPPluginProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.TablePPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.NewPPluginPropertySelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -133,7 +133,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 				try {
 					return pPlugin.getGlobalProperties();
 				} catch (TigerstripeException e) {
-					return new IPluggablePluginProperty[0];
+					return new IPluginProperty[0];
 				}
 			}
 			return new Object[0];
@@ -151,7 +151,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	class MasterLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
-			IPluggablePluginProperty field = (IPluggablePluginProperty) obj;
+			IPluginProperty field = (IPluginProperty) obj;
 			return field.getName();
 		}
 
@@ -292,7 +292,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 				getBody().getShell(), findNewPropertyName(), pProject);
 
 		if (dialog.open() == Window.OK) {
-			IPluggablePluginProperty newProp = dialog.getNewPPluginProperty();
+			IPluginProperty newProp = dialog.getNewPPluginProperty();
 			if (newProp != null) {
 				try {
 					pProject.addGlobalProperty(newProp);
@@ -323,7 +323,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 		// make sure we're not creating a duplicate
 		TableItem[] items = viewer.getTable().getItems();
 		for (int i = 0; i < items.length; i++) {
-			String name = ((IPluggablePluginProperty) items[i].getData())
+			String name = ((IPluginProperty) items[i].getData())
 					.getName();
 			if (result.equals(name))
 				return findNewPropertyName();
@@ -337,10 +337,10 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	 */
 	protected void removeButtonSelected(SelectionEvent event) {
 		TableItem[] selectedItems = viewer.getTable().getSelection();
-		IPluggablePluginProperty[] selectedFields = new IPluggablePluginProperty[selectedItems.length];
+		IPluginProperty[] selectedFields = new IPluginProperty[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (IPluggablePluginProperty) selectedItems[i]
+			selectedFields[i] = (IPluginProperty) selectedItems[i]
 					.getData();
 		}
 
@@ -460,19 +460,19 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	private void upArgButtonPressed() {
 		IPluggablePluginProject pProject = getIPluggablePluginProject();
 		TableItem[] selectedItems = this.viewer.getTable().getSelection();
-		IPluggablePluginProperty[] selectedArgs = new IPluggablePluginProperty[selectedItems.length];
+		IPluginProperty[] selectedArgs = new IPluginProperty[selectedItems.length];
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedArgs[i] = (IPluggablePluginProperty) selectedItems[i]
+			selectedArgs[i] = (IPluginProperty) selectedItems[i]
 					.getData();
 		}
 		TableItem[] allItems = this.viewer.getTable().getItems();
-		IPluggablePluginProperty[] allArgs = new IPluggablePluginProperty[allItems.length];
-		IPluggablePluginProperty[] newArgs = new IPluggablePluginProperty[allItems.length];
+		IPluginProperty[] allArgs = new IPluginProperty[allItems.length];
+		IPluginProperty[] newArgs = new IPluginProperty[allItems.length];
 		for (int i = 0; i < allArgs.length; i++) {
-			newArgs[i] = (IPluggablePluginProperty) allItems[i].getData();
+			newArgs[i] = (IPluginProperty) allItems[i].getData();
 			if (allItems[i].getData().equals(selectedArgs[0]) && i != 0) {
 				newArgs[i] = newArgs[i - 1];
-				newArgs[i - 1] = (IPluggablePluginProperty) allItems[i]
+				newArgs[i - 1] = (IPluginProperty) allItems[i]
 						.getData();
 			}
 		}
@@ -488,20 +488,20 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	private void downArgButtonPressed() {
 		IPluggablePluginProject pProject = getIPluggablePluginProject();
 		TableItem[] selectedItems = this.viewer.getTable().getSelection();
-		IPluggablePluginProperty[] selectedArgs = new IPluggablePluginProperty[selectedItems.length];
+		IPluginProperty[] selectedArgs = new IPluginProperty[selectedItems.length];
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedArgs[i] = (IPluggablePluginProperty) selectedItems[i]
+			selectedArgs[i] = (IPluginProperty) selectedItems[i]
 					.getData();
 		}
 		TableItem[] allItems = this.viewer.getTable().getItems();
-		IPluggablePluginProperty[] allArgs = new IPluggablePluginProperty[allItems.length];
-		IPluggablePluginProperty[] newArgs = new IPluggablePluginProperty[allItems.length];
+		IPluginProperty[] allArgs = new IPluginProperty[allItems.length];
+		IPluginProperty[] newArgs = new IPluginProperty[allItems.length];
 		for (int i = allArgs.length - 1; i > -1; i--) {
-			newArgs[i] = (IPluggablePluginProperty) allItems[i].getData();
+			newArgs[i] = (IPluginProperty) allItems[i].getData();
 			if (allItems[i].getData().equals(selectedArgs[0])
 					&& i != allArgs.length - 1) {
 				newArgs[i] = newArgs[i + 1];
-				newArgs[i + 1] = (IPluggablePluginProperty) allItems[i]
+				newArgs[i + 1] = (IPluginProperty) allItems[i]
 						.getData();
 			}
 		}

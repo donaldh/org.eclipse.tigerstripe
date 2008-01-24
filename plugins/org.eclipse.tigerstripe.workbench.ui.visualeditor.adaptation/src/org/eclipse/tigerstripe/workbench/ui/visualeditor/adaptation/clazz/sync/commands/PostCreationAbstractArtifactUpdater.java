@@ -113,7 +113,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 					// or if the References are disabled
 					String attrType = field.getIType().getFullyQualifiedName();
 					IArtifactManagerSession session = getDiagramProject()
-							.getIArtifactManagerSession();
+							.getArtifactManagerSession();
 					if (shouldPopulateAttribute(attrType, session)) {
 						Attribute attr = VisualeditorFactory.eINSTANCE
 								.createAttribute();
@@ -259,8 +259,8 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 			if (mirror != null) {
 
 				// take care of artifact extending this new object
-				if (mirror.getExtendedIArtifact() != null
-						&& mirror.getExtendedIArtifact()
+				if (mirror.getExtendedArtifact() != null
+						&& mirror.getExtendedArtifact()
 								.getFullyQualifiedName().equals(
 										getIArtifact().getFullyQualifiedName())) {
 					// when DnD reset the state of the Hide/Show Extends
@@ -325,9 +325,9 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 		// take care of extends
 		// if the corresponding EObject is already in the eModel
 		// set it, otherwise ignore
-		if (getIArtifact().getExtendedIArtifact() != null) {
+		if (getIArtifact().getExtendedArtifact() != null) {
 			IAbstractArtifact iExtendedArtifact = getIArtifact()
-					.getExtendedIArtifact();
+					.getExtendedArtifact();
 			AbstractArtifact eExtendedArtifact = helper
 					.findAbstractArtifactFor(iExtendedArtifact);
 			if (eExtendedArtifact != null) {

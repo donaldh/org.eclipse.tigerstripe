@@ -19,8 +19,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
-import org.eclipse.tigerstripe.workbench.plugins.IBooleanPPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
@@ -38,7 +38,7 @@ public class BooleanPropertyRenderer extends BasePropertyRenderer {
 	}
 
 	public BooleanPropertyRenderer(Composite parent, FormToolkit toolkit,
-			ITigerstripeProject project, IPluggablePluginProperty property,
+			ITigerstripeProject project, IPluginProperty property,
 			IPluggablePluginPropertyListener persister) {
 		super(parent, toolkit, project, property, persister);
 	}
@@ -51,7 +51,7 @@ public class BooleanPropertyRenderer extends BasePropertyRenderer {
 	@Override
 	public void applyDefault() {
 		try {
-			IBooleanPPluginProperty sProp = (IBooleanPPluginProperty) getProperty();
+			IBooleanPluginProperty sProp = (IBooleanPluginProperty) getProperty();
 			propButton.setSelection(sProp.getDefaultBoolean());
 			getPersister().storeProperty(sProp,
 					Boolean.valueOf(propButton.getSelection()));
@@ -64,7 +64,7 @@ public class BooleanPropertyRenderer extends BasePropertyRenderer {
 		if (!isSilentUpdate()) {
 			if (e.getSource() == propButton) {
 				try {
-					IBooleanPPluginProperty sProp = (IBooleanPPluginProperty) getProperty();
+					IBooleanPluginProperty sProp = (IBooleanPluginProperty) getProperty();
 					getPersister().storeProperty(sProp,
 							Boolean.valueOf(propButton.getSelection()));
 				} catch (TigerstripeException ee) {
@@ -76,7 +76,7 @@ public class BooleanPropertyRenderer extends BasePropertyRenderer {
 
 	@Override
 	public void render() throws TigerstripeException {
-		IBooleanPPluginProperty sProp = (IBooleanPPluginProperty) getProperty();
+		IBooleanPluginProperty sProp = (IBooleanPluginProperty) getProperty();
 
 		propButton = getToolkit().createButton(getParent(), sProp.getName(),
 				SWT.CHECK);

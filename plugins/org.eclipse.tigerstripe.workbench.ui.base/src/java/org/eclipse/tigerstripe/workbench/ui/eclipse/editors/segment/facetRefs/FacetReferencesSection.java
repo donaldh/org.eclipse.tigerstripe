@@ -374,7 +374,7 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 						ITigerstripeProject handle = getContainingProject();
 
 						IFacetReference dep = handle
-								.makeIFacetReference(relative);
+								.makeFacetReference(relative);
 						IContractSegment facet = getFacet();
 						facet.addFacetReference(dep);
 						viewer.add(dep);

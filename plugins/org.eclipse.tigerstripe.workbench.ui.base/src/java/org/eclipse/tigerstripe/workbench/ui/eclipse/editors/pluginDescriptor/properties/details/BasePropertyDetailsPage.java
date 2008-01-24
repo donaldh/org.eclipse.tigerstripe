@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.properties.GlobalPropertiesSection;
 import org.eclipse.ui.forms.IDetailsPage;
@@ -68,7 +68,7 @@ public abstract class BasePropertyDetailsPage implements IDetailsPage {
 
 	private GlobalPropertiesSection master;
 
-	private IPluggablePluginProperty property;
+	private IPluginProperty property;
 
 	private boolean silentUpdate = false;
 
@@ -90,11 +90,11 @@ public abstract class BasePropertyDetailsPage implements IDetailsPage {
 	// }
 
 	// ============================================================
-	private void setIPluggablePluginProperty(IPluggablePluginProperty property) {
+	private void setIPluggablePluginProperty(IPluginProperty property) {
 		this.property = property;
 	}
 
-	protected IPluggablePluginProperty getIPluggablePluginProperty() {
+	protected IPluginProperty getIPluggablePluginProperty() {
 		return property;
 	}
 
@@ -187,7 +187,7 @@ public abstract class BasePropertyDetailsPage implements IDetailsPage {
 			master = (GlobalPropertiesSection) part;
 			Table fieldsTable = master.getViewer().getTable();
 
-			IPluggablePluginProperty selected = (IPluggablePluginProperty) fieldsTable
+			IPluginProperty selected = (IPluginProperty) fieldsTable
 					.getSelection()[0].getData();
 			setIPluggablePluginProperty(selected);
 			updateForm();
@@ -196,7 +196,7 @@ public abstract class BasePropertyDetailsPage implements IDetailsPage {
 
 	protected void updateForm() {
 		setSilentUpdate(true);
-		IPluggablePluginProperty prop = getIPluggablePluginProperty();
+		IPluginProperty prop = getIPluggablePluginProperty();
 		nameText.setText(prop.getName());
 		tipToolText.setText(prop.getTipToolText());
 		setSilentUpdate(false);

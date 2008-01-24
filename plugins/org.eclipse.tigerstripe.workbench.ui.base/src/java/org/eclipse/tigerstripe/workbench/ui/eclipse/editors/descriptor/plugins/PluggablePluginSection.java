@@ -33,7 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggab
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginRef;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IPluginReference;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -236,7 +236,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		PropertyRendererFactory factory = new PropertyRendererFactory(parent,
 				toolkit, getITigerstripeProject(), this);
 
-		for (IPluggablePluginProperty property : pProject.getGlobalProperties()) {
+		for (IPluginProperty property : pProject.getGlobalProperties()) {
 			try {
 				BasePropertyRenderer renderer = factory.getRenderer(property);
 				renderer.render();
@@ -283,7 +283,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 				if (properties.getProperty(definedProps[i]) == null
 						|| properties.getProperty(definedProps[i]).length() == 0) {
 
-					for (IPluggablePluginProperty property : pProject
+					for (IPluginProperty property : pProject
 							.getGlobalProperties()) {
 						if (property.getName().equals(definedProps[i])) {
 							usableProps.setProperty(definedProps[i], property
@@ -423,7 +423,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 			renderer.setEnabled(isEnabled);
 
 			if (ref != null) {
-				IPluggablePluginProperty property = renderer.getProperty();
+				IPluginProperty property = renderer.getProperty();
 				String serializedValue = ref.getProperties().getProperty(
 						property.getName());
 				renderer.update(serializedValue);
@@ -444,7 +444,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	 * @param value
 	 * @throws TigerstripeException
 	 */
-	public void storeProperty(IPluggablePluginProperty property, Object value)
+	public void storeProperty(IPluginProperty property, Object value)
 			throws TigerstripeException {
 		PluggablePluginRef ref = (PluggablePluginRef) getPluginReference();
 		if (ref != null) {
