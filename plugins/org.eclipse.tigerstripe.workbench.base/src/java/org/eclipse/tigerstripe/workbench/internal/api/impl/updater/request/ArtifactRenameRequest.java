@@ -127,10 +127,10 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 				// is not. So, if the extended artifact matches here, we need to
 				// force a save on the POJO
 				// and match on the new name as well
-				if (artifact.getExtendedIArtifact() != null
-						&& (artifact.getExtendedIArtifact()
+				if (artifact.getExtendedArtifact() != null
+						&& (artifact.getExtendedArtifact()
 								.getFullyQualifiedName().equals(newName) || artifact
-								.getExtendedIArtifact().getFullyQualifiedName()
+								.getExtendedArtifact().getFullyQualifiedName()
 								.equals(oldFQN))) {
 					artifact.setExtendedIArtifact(referencedArtifact);
 					needSave = true;

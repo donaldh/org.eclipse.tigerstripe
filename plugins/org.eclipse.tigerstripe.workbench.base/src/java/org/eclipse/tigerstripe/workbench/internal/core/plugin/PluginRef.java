@@ -20,8 +20,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.ITablePPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IPluginReference;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -77,7 +77,7 @@ public abstract class PluginRef implements IPluginReference {
 	public Object getProperty(String property) {
 		String rawProperty = this.properties.getProperty(property);
 		try {
-			IPluggablePluginProperty prop = getPropertyDef(property);
+			IPluginProperty prop = getPropertyDef(property);
 			if (prop != null)
 				return prop.deSerialize(rawProperty);
 		} catch (UnknownPluginException e) {
@@ -285,7 +285,7 @@ public abstract class PluginRef implements IPluginReference {
 		// To be overriden by child classes
 	}
 
-	protected IPluggablePluginProperty getPropertyDef(String property)
+	protected IPluginProperty getPropertyDef(String property)
 			throws UnknownPluginException {
 		if (!isResolved()) {
 			resolve();
@@ -293,9 +293,9 @@ public abstract class PluginRef implements IPluginReference {
 
 		if (housing instanceof PluggableHousing) {
 			PluggableHousing pHousing = (PluggableHousing) housing;
-			IPluggablePluginProperty[] propDefs = pHousing.getBody()
+			IPluginProperty[] propDefs = pHousing.getBody()
 					.getPProject().getGlobalProperties();
-			for (IPluggablePluginProperty propDef : propDefs) {
+			for (IPluginProperty propDef : propDefs) {
 				if (propDef.getName().equals(property))
 					return propDef;
 			}
@@ -305,7 +305,7 @@ public abstract class PluginRef implements IPluginReference {
 
 	protected boolean isTableProperty(String property)
 			throws UnknownPluginException {
-		return getPropertyDef(property) instanceof ITablePPluginProperty;
+		return getPropertyDef(property) instanceof ITablePluginProperty;
 	}
 
 	// Logging Stuff

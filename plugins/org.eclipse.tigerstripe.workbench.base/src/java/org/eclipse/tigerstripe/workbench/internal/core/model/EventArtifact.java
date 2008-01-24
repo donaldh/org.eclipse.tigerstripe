@@ -46,9 +46,6 @@ public class EventArtifact extends AbstractArtifact implements IEventArtifact {
 		return IEventArtifact.class.getName();
 	}
 
-	public String getIArtifactType() {
-		return IEventArtifact.class.getName();
-	}
 
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact

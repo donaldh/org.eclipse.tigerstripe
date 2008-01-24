@@ -282,8 +282,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		}
 
 		// Take care of the parent first
-		if (!ignoreParent && artifact.getExtendedIArtifact() != null) {
-			IAbstractArtifact parent = artifact.getExtendedIArtifact();
+		if (!ignoreParent && artifact.getExtendedArtifact() != null) {
+			IAbstractArtifact parent = artifact.getExtendedArtifact();
 			if (primaryPredicate.isExcluded(parent)
 					|| isExcludedByAnnotation(parent)) {
 				TigerstripeError error = new TigerstripeError(

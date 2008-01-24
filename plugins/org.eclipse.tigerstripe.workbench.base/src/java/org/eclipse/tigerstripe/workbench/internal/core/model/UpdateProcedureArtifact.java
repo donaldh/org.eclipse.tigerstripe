@@ -42,11 +42,8 @@ public class UpdateProcedureArtifact extends AbstractArtifact implements
 	public final static UpdateProcedureArtifact MODEL = new UpdateProcedureArtifact(
 			null);
 
-	public String getArtifactType() {
-		return IUpdateProcedureArtifact.class.getName();
-	}
 
-	public String getIArtifactType() {
+	public String getArtifactType() {
 		return IUpdateProcedureArtifact.class.getName();
 	}
 

@@ -89,10 +89,6 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 		return IPrimitiveTypeArtifact.class.getName();
 	}
 
-	public String getIArtifactType() {
-		return IPrimitiveTypeArtifact.class.getName();
-	}
-
 	@Override
 	public IField[] getIFields() {
 		return new IField[0];

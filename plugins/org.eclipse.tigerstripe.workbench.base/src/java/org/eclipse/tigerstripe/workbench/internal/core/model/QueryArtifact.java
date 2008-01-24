@@ -46,10 +46,6 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 		return IQueryArtifact.class.getName();
 	}
 
-	public String getIArtifactType() {
-		return IQueryArtifact.class.getName();
-	}
-
 	@Override
 	public String getMarkingTag() {
 		return QueryArtifact.MARKING_TAG;

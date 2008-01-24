@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 
 /**
  * This interface is to be implemented by classes that need to persist changes
@@ -30,6 +30,6 @@ public interface IPluggablePluginPropertyListener {
 	 * @throws TigerstripeException
 	 *             if the operation failed
 	 */
-	public void storeProperty(IPluggablePluginProperty property, Object value)
+	public void storeProperty(IPluginProperty property, Object value)
 			throws TigerstripeException;
 }

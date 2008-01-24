@@ -128,8 +128,6 @@ public interface IAbstractArtifact extends IModelComponent{
 
 	public ITigerstripeProject getIProject();
 
-	public String getArtifactType();
-
 
 	/**
 	 * Sets the value of the isAbstract flag for this.
@@ -167,7 +165,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * 
 	 * @return IArtifact - the extended artifact
 	 */
-	public IAbstractArtifact getExtendedIArtifact();
+	public IAbstractArtifact getExtendedArtifact();
 
 	/**
 	 * Returns an array of all the artifacts that extends this directly.
@@ -216,19 +214,11 @@ public interface IAbstractArtifact extends IModelComponent{
 	public IAbstractArtifact[] getAncestors();
 
 	/**
-	 * Returns the list of artifacts that are extending "this" artifact.
-	 * 
-	 * @return
-	 * @since 2.2-beta
-	 */
-	public IAbstractArtifact[] getExtendingIArtifacts();
-
-	/**
 	 * Returns an array of all the field types for this artifact.
 	 * 
 	 * @return
 	 */
-	public IFieldTypeRef[] getFieldITypes();
+	public IFieldTypeRef[] getFieldTypes();
 
 	/**
 	 * Returns the fully qualified name (ie. package + name) of this artifact.
@@ -244,7 +234,7 @@ public interface IAbstractArtifact extends IModelComponent{
 	 * 
 	 * @return String - the fully qualified type of this artifact
 	 */
-	public String getIArtifactType();
+	public String getArtifactType();
 
 
 	/**

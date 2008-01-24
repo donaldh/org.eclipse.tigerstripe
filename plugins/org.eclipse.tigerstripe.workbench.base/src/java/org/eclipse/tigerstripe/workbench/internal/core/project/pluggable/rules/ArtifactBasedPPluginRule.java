@@ -44,7 +44,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleRepo
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
-import org.eclipse.tigerstripe.workbench.plugins.IPluginAwareArtifactModel;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
@@ -334,10 +333,8 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 						if (modelObj instanceof IArtifactModel) {
 							model = (IArtifactModel) modelObj;
 							model.setIArtifact(artifact);
-							if (model instanceof IPluginAwareArtifactModel) {
-								((IPluginAwareArtifactModel) model)
-										.setPluginRef(pluginRef);
-							}
+							model.setPluginRef(pluginRef);
+							
 							localContext.put(getModelClassName(), model);
 							expander
 									.setCurrentModel(model, getModelClassName());

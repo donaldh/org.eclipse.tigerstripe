@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
@@ -26,22 +26,22 @@ public interface IPluggablePluginProject extends IAbstractTigerstripeProject {
 
 	public PluggablePluginProject getPPProject() throws TigerstripeException;
 
-	public IPluggablePluginProperty[] getGlobalProperties()
+	public IPluginProperty[] getGlobalProperties()
 			throws TigerstripeException;
 
-	public void setGlobalProperties(IPluggablePluginProperty[] properties)
+	public void setGlobalProperties(IPluginProperty[] properties)
 			throws TigerstripeException;
 
-	public void addGlobalProperty(IPluggablePluginProperty property)
+	public void addGlobalProperty(IPluginProperty property)
 			throws TigerstripeException;
 
-	public void removeGlobalProperty(IPluggablePluginProperty property)
+	public void removeGlobalProperty(IPluginProperty property)
 			throws TigerstripeException;
 
-	public void removeGlobalProperties(IPluggablePluginProperty[] properties)
+	public void removeGlobalProperties(IPluginProperty[] properties)
 			throws TigerstripeException;
 
-	public void addGlobalProperties(IPluggablePluginProperty[] properties)
+	public void addGlobalProperties(IPluginProperty[] properties)
 			throws TigerstripeException;
 
 	public String[] getSupportedPluginProperties();
@@ -51,7 +51,7 @@ public interface IPluggablePluginProject extends IAbstractTigerstripeProject {
 	/**
 	 * Factory method for Plugin properties
 	 */
-	public IPluggablePluginProperty makeProperty(String propertyType)
+	public IPluginProperty makeProperty(String propertyType)
 			throws TigerstripeException;
 
 	// ==================================================

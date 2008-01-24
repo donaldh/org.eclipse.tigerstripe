@@ -41,10 +41,6 @@ public class ExceptionArtifact extends AbstractArtifact implements
 		return IExceptionArtifact.class.getName();
 	}
 
-	public String getIArtifactType() {
-		return IExceptionArtifact.class.getName();
-	}
-
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
 	 * manager when extracting the artifacts.

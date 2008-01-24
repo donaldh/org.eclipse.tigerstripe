@@ -48,9 +48,6 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 		return IEnumArtifact.class.getName();
 	}
 
-	public String getIArtifactType() {
-		return IEnumArtifact.class.getName();
-	}
 
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact

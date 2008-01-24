@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties;
 
-import org.eclipse.tigerstripe.workbench.plugins.IStringPPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -21,7 +21,7 @@ import org.w3c.dom.Node;
  * 
  */
 public class StringPPluginProperty extends BasePPluginProperty implements
-		IStringPPluginProperty {
+		IStringPluginProperty {
 
 	private final static String DEFAULT_STRING = "";
 
@@ -30,7 +30,7 @@ public class StringPPluginProperty extends BasePPluginProperty implements
 	}
 
 	public String getType() {
-		return IStringPPluginProperty.class.getCanonicalName();
+		return IStringPluginProperty.class.getCanonicalName();
 	}
 
 	public final static String LABEL = "String Property";

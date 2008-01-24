@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplat
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime.PluginClasspathEntry;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 
@@ -43,12 +43,12 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		super(projectURI);
 	}
 
-	public IPluggablePluginProperty[] getGlobalProperties()
+	public IPluginProperty[] getGlobalProperties()
 			throws TigerstripeException {
 		return getPPProject().getGlobalProperties();
 	}
 
-	public void setGlobalProperties(IPluggablePluginProperty[] properties)
+	public void setGlobalProperties(IPluginProperty[] properties)
 			throws TigerstripeException {
 		getPPProject().setGlobalProperties(properties);
 	}
@@ -114,27 +114,27 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		}
 	}
 
-	public IPluggablePluginProperty makeProperty(String propertyType)
+	public IPluginProperty makeProperty(String propertyType)
 			throws TigerstripeException {
 		return getPPProject().makeProperty(propertyType);
 	}
 
-	public void addGlobalProperties(IPluggablePluginProperty[] properties)
+	public void addGlobalProperties(IPluginProperty[] properties)
 			throws TigerstripeException {
 		getPPProject().addGlobalProperties(properties);
 	}
 
-	public void addGlobalProperty(IPluggablePluginProperty property)
+	public void addGlobalProperty(IPluginProperty property)
 			throws TigerstripeException {
 		getPPProject().addGlobalProperty(property);
 	}
 
-	public void removeGlobalProperties(IPluggablePluginProperty[] properties)
+	public void removeGlobalProperties(IPluginProperty[] properties)
 			throws TigerstripeException {
 		getPPProject().removeGlobalProperties(properties);
 	}
 
-	public void removeGlobalProperty(IPluggablePluginProperty property)
+	public void removeGlobalProperty(IPluginProperty property)
 			throws TigerstripeException {
 		getPPProject().removeGlobalProperty(property);
 	}

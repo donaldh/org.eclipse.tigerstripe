@@ -19,14 +19,14 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentFactory;
 import org.dom4j.io.SAXReader;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.plugins.ITablePPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class TablePPluginProperty extends BasePPluginProperty implements
-		ITablePPluginProperty {
+		ITablePluginProperty {
 
 	public final static String LABEL = "Table Property";
 
@@ -103,7 +103,7 @@ public class TablePPluginProperty extends BasePPluginProperty implements
 	}
 
 	public String getType() {
-		return ITablePPluginProperty.class.getCanonicalName();
+		return ITablePluginProperty.class.getCanonicalName();
 	}
 
 	public String serialize(Object value) {

@@ -230,7 +230,7 @@ public abstract class TigerstripeProjectHandle extends
 		}
 	}
 
-	public IDependency makeIDependency(String relativePath)
+	public IDependency makeDependency(String relativePath)
 			throws TigerstripeException {
 		return new Dependency(getTSProject(), relativePath);
 	}
@@ -438,13 +438,13 @@ public abstract class TigerstripeProjectHandle extends
 		throw new TigerstripeException("Invalid project, cannot save.");
 	}
 
-	public IFacetReference makeIFacetReference(URI facetURI)
+	public IFacetReference makeFacetReference(URI facetURI)
 			throws TigerstripeException {
 		FacetReference ref = new FacetReference(facetURI, this);
 		return ref;
 	}
 
-	public IFacetReference makeIFacetReference(String projectRelativePath)
+	public IFacetReference makeFacetReference(String projectRelativePath)
 			throws TigerstripeException {
 		FacetReference ref = new FacetReference(projectRelativePath,
 				getTSProject());
@@ -457,7 +457,7 @@ public abstract class TigerstripeProjectHandle extends
 		return ref;
 	}
 
-	public IUseCaseReference makeIUseCaseReference(String projectRelativePath)
+	public IUseCaseReference makeUseCaseReference(String projectRelativePath)
 			throws TigerstripeException {
 		UseCaseReference ref = new UseCaseReference(projectRelativePath,
 				getTSProject());

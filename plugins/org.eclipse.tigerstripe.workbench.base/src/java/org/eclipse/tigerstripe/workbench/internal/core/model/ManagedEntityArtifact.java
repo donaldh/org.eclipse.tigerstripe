@@ -45,11 +45,8 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 
 	public final static String LABEL = "Managed Entity Artifact";
 
-	public String getArtifactType() {
-		return IManagedEntityArtifact.class.getName();
-	}
 
-	public String getIArtifactType() {
+	public String getArtifactType() {
 		return IManagedEntityArtifact.class.getName();
 	}
 

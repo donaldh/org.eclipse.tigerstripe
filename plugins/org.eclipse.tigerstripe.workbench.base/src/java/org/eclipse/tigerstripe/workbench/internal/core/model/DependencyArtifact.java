@@ -116,9 +116,6 @@ public class DependencyArtifact extends AbstractArtifact implements
 		return IDependencyArtifact.class.getName();
 	}
 
-	public String getIArtifactType() {
-		return IDependencyArtifact.class.getName();
-	}
 
 	public IType getAEndType() {
 		return getRelationshipAEnd().getIType();

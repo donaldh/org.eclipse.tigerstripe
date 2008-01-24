@@ -22,7 +22,6 @@ import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
-import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 
@@ -127,10 +126,6 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	public String getArtifactType() {
-		return IAssociationArtifact.class.getName();
-	}
-
-	public String getIArtifactType() {
 		return IAssociationArtifact.class.getName();
 	}
 

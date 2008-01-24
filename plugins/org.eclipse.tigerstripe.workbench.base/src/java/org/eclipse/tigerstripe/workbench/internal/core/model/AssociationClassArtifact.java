@@ -100,10 +100,6 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 		return IAssociationClassArtifact.class.getName();
 	}
 
-	@Override
-	public String getIArtifactType() {
-		return IAssociationClassArtifact.class.getName();
-	}
 
 	@Override
 	public ILabel[] getILabels() {

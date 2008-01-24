@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.plugins;
 import java.util.List;
 
 
-public interface ITablePPluginProperty extends IPluggablePluginProperty {
+public interface ITablePluginProperty extends IPluginProperty {
 
 	public class ColumnDef {
 		public String columnName;
@@ -32,11 +32,11 @@ public interface ITablePPluginProperty extends IPluggablePluginProperty {
 
 	public class TablePropertyRow {
 	
-		private ITablePPluginProperty parentProperty;
+		private ITablePluginProperty parentProperty;
 	
 		private String[] values;
 	
-		public TablePropertyRow(ITablePPluginProperty parentProperty) {
+		public TablePropertyRow(ITablePluginProperty parentProperty) {
 			this.parentProperty = parentProperty;
 			values = new String[parentProperty.getColumnDefs().size()];
 			applyDefault();

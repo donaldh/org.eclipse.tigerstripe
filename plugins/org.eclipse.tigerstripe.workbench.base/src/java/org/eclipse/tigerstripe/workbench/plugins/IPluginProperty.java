@@ -21,7 +21,7 @@ import org.w3c.dom.Node;
  * @author Eric Dillon
  * 
  */
-public interface IPluggablePluginProperty  {
+public interface IPluginProperty  {
 
 	public void setProject(IPluggablePluginProject project);
 

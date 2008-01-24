@@ -47,9 +47,6 @@ public class DatatypeArtifact extends AbstractArtifact implements
 		return IDatatypeArtifact.class.getName();
 	}
 
-	public String getIArtifactType() {
-		return IDatatypeArtifact.class.getName();
-	}
 
 	/**
 	 * Returns the marking tag for this Artifact.

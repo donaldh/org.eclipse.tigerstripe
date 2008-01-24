@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 
 public class PluggableHousing extends PluginHousing {
@@ -46,10 +46,10 @@ public class PluggableHousing extends PluginHousing {
 		result.setPluginId(getPluginId());
 
 		// Create the global properties with their default values
-		IPluggablePluginProperty[] props = getBody().getPProject()
+		IPluginProperty[] props = getBody().getPProject()
 				.getGlobalProperties();
 		Properties properties = result.getProperties();
-		for (IPluggablePluginProperty prop : props) {
+		for (IPluginProperty prop : props) {
 			properties.setProperty(prop.getName(), prop.serialize(prop
 					.getDefaultValue()));
 		}

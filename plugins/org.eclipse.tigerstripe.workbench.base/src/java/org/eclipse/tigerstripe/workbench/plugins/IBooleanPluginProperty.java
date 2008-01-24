@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
-public interface IBooleanPPluginProperty extends IPluggablePluginProperty {
+public interface IBooleanPluginProperty extends IPluginProperty {
 
 	public Boolean getDefaultBoolean();
 

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties;
 
-import org.eclipse.tigerstripe.workbench.plugins.IBooleanPPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -21,7 +21,7 @@ import org.w3c.dom.Node;
  * 
  */
 public class BooleanPPluginProperty extends BasePPluginProperty implements
-		IBooleanPPluginProperty {
+		IBooleanPluginProperty {
 
 	private final static Boolean DEFAULT_BOOLEAN = false;
 
@@ -30,7 +30,7 @@ public class BooleanPPluginProperty extends BasePPluginProperty implements
 	}
 
 	public String getType() {
-		return IBooleanPPluginProperty.class.getCanonicalName();
+		return IBooleanPluginProperty.class.getCanonicalName();
 	}
 
 	public final static String LABEL = "Boolean Property";

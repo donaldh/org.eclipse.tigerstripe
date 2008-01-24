@@ -323,7 +323,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 		result.setComment(orig.getComment());
 		result.setFullyQualifiedName(orig.getFullyQualifiedName());
-		result.setExtendedIArtifact(orig.getExtendedIArtifact());
+		result.setExtendedIArtifact(orig.getExtendedArtifact());
 		result.setVisibility(orig.getVisibility());
 
 		if (orig.getIStandardSpecifics() instanceof IOssjArtifactSpecifics) {

@@ -208,9 +208,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public IAbstractArtifact[] getAncestors() {
 		ArrayList<IAbstractArtifact> ancestors = new ArrayList<IAbstractArtifact>();
 		IAbstractArtifact[] ancArray = new IAbstractArtifact[0];
-		if (getExtendedIArtifact() != null) {
-			ancestors.add(getExtendedIArtifact());
-			ancestors.addAll(Arrays.asList(getExtendedIArtifact()
+		if (getExtendedArtifact() != null) {
+			ancestors.add(getExtendedArtifact());
+			ancestors.addAll(Arrays.asList(getExtendedArtifact()
 					.getAncestors()));
 			return ancestors.toArray(ancArray);
 
@@ -430,7 +430,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			setExtendedIArtifact(getArtifactManager()
 					.getArtifactByFullyQualifiedName(parentClass, true, monitor));
 
-			if (getExtendedIArtifact() == null) {
+			if (getExtendedArtifact() == null) {
 				// #386 Build a temporary dummy artifact, it will be further
 				// resolved once everything has been parsed in the
 				// resolveReferences()
@@ -519,8 +519,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * This resolves to the correct artifact.
 	 */
 	public void resolveExtendedArtifact(ITigerstripeProgressMonitor monitor) {
-		if (getExtendedIArtifact() != null) {
-			String fqn = getExtendedIArtifact().getFullyQualifiedName();
+		if (getExtendedArtifact() != null) {
+			String fqn = getExtendedArtifact().getFullyQualifiedName();
 			IAbstractArtifact realArtifact = getArtifactManager()
 					.getArtifactByFullyQualifiedName(fqn, true, monitor);
 			if (realArtifact != null) {
@@ -770,14 +770,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return Collection of Type - a collection of Type for this artifact
 	 */
-	public Collection getFieldTypes() {
+/*	public Collection getFieldTypes() {
 		if (this.fieldTypes == null)
 			createUniqueFieldTypeList();
 		return this.fieldTypes;
-	}
+	}*/
 
-	public IFieldTypeRef[] getFieldITypes() {
-		Collection result = getFieldTypes();
+	public IFieldTypeRef[] getFieldTypes() {
+		if (this.fieldTypes == null)
+			createUniqueFieldTypeList();
+		Collection result = this.fieldTypes;
 		return (IFieldTypeRef[]) result.toArray(new IFieldTypeRef[result
 				.size()]);
 	}
@@ -1155,7 +1157,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 		// check the package name to ensure it is a valid package name
 		// check to see which object this object extends (if any)
-		IAbstractArtifact iaa = getExtendedIArtifact();
+		IAbstractArtifact iaa = getExtendedArtifact();
 		if (iaa != null
 				&& iaa.getFullyQualifiedName().equals(
 						this.getFullyQualifiedName()))
@@ -1553,7 +1555,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 					.toArray(new IMethod[methods.size()]);
 	}
 
-	public IAbstractArtifact getExtendedIArtifact() {
+	public IAbstractArtifact getExtendedArtifact() {
 		return getExtends();
 	}
 

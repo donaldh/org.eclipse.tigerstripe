@@ -287,6 +287,6 @@ public interface IArtifactManagerSession  {
 	 * @param query -
 	 *            ArtifactQuery the query to execute
 	 */
-	public Collection queryArtifact(IArtifactQuery query)
+	public Collection<IAbstractArtifact> queryArtifact(IArtifactQuery query)
 			throws IllegalArgumentException, TigerstripeException;
 }

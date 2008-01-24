@@ -67,10 +67,6 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		return ISessionArtifact.class.getName();
 	}
 
-	public String getIArtifactType() {
-		return ISessionArtifact.class.getName();
-	}
-
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
 	 * manager when extracting the artifacts.

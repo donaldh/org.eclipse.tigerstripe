@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 
 /**
@@ -97,7 +97,7 @@ public class PluggablePlugin extends BasePlugin {
 		for (int i = 0; i < definedProps.length; i++) {
 			if (properties.getProperty(definedProps[i]) == null
 					|| properties.getProperty(definedProps[i]).length() == 0) {
-				for (IPluggablePluginProperty property : ppProject
+				for (IPluginProperty property : ppProject
 						.getGlobalProperties()) {
 					if (property.getName().equals(definedProps[i])) {
 						usableProps.setProperty(definedProps[i], property
@@ -164,8 +164,8 @@ public class PluggablePlugin extends BasePlugin {
 	public String[] getDefinedProperties() {
 		if (definedProperties == null) {
 			ArrayList<String> result = new ArrayList<String>();
-			IPluggablePluginProperty[] props = ppProject.getGlobalProperties();
-			for (IPluggablePluginProperty prop : props) {
+			IPluginProperty[] props = ppProject.getGlobalProperties();
+			for (IPluginProperty prop : props) {
 				result.add(prop.getName());
 			}
 			definedProperties = result.toArray(new String[result.size()]);

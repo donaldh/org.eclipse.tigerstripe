@@ -11,11 +11,11 @@
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties;
 
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-public abstract class BasePPluginProperty implements IPluggablePluginProperty {
+public abstract class BasePPluginProperty implements IPluginProperty {
 
 	private String name = "";
 	private String tipToolText = "";

@@ -2,6 +2,7 @@
 ##  Notes on API refactoring
 ##
 ## All completed items have "X" in front of them
+## Rc change on Thursday 24 - 01 have an "R" in front of them
 ##
 ###################################
 
@@ -16,11 +17,15 @@ X - Move ArtifactMetadataSession from TigerstripeCore into InternalTigerstripeCo
 	Eventually this should be moved to org.eclipse.tigerstripe.model when available.
 - "TigerstripeProject.java" should be renamed as "TigerstripeProjectDescriptor.java"
 X - rename methods on TigerstripeCore for consistency: getProjectSession and getProfileSession
-- IPluginAwareArtifactModel.java should be removed and combined with IArtifactModel.java.
-- IPluggablePluginProperty should be renamed as ITigerstripePluginProperty.
-- IBooleanPPluginProperty to be renamed as IBooleanPluginProperty (no need for "PP"). Same for IStringPPluginProperty, ITablePPluginProperty
-- Remove all "Warnings" from the API (i.e. no warning allowed outside of internal package). 
+R - IPluginAwareArtifactModel.java should be removed and combined with IArtifactModel.java. (Also changed the calls to this model)
+R - IPluggablePluginProperty should be renamed as ITigerstripePluginProperty.
+R - IBooleanPPluginProperty to be renamed as IBooleanPluginProperty (no need for "PP"). Same for IStringPPluginProperty, ITablePPluginProperty
+- Remove all "Warnings" from the API (i.e. no warning allowed outside of internal package).
+	R - QueryArtifact now returns a Collection<IAbstractArtifact>
+-	  - getSupportedArtifactClasses returms Class[] - not sure what this should be Class<IAbstractArtifact> ?
+
 	Overtime we'll get rid of the warnings inside internal package.
+					    
 
 ###################################
 In IAbstractTigerstripeProject
@@ -34,8 +39,8 @@ X - remove getPublisher(), also removed corresponding actions/wizard from ui.
 X - remove getCVSCreator(), also removed corresponding actions/wizard from ui.
 - Since Facet/UseCases are "internal" no reference to them should be made in here! Not sure
 	how to best handle this case. I suspect same case exists for other interfaces.
-- Remove all "getI***()" methods to keep only "get****()"
-- Remove all "makeI***()" methods to keep only "make***()"
+R - Remove all "getI***()" methods to keep only "get****()"
+R - Remove all "makeI***()" methods to keep only "make***()"
 - getProjectDetails() is redundant with IProjectDescriptor.getProjectDetails(). Should be removed
 	from ITigerstripeProject
 - References to ITigerstripeProgressMonitor should be removed from the API. In fact, a proper
@@ -74,5 +79,7 @@ in IModelComponent
 ###################################
 In IAbstractArtifact
 - remove the "I" from the getters/setters and makeI*** methods for consistency.
-- 
+- This is bizarre - all of the getIxxx return an Array of stuff, but the (internal) getxxx methods return a Collection. I prefer the latter (made generic), but I'm scared of the impacts...
+Think we need to discuss this one.
+
 

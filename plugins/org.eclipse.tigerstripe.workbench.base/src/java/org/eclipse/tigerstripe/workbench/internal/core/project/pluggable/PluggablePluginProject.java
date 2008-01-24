@@ -45,10 +45,10 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.A
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime.PluginClasspathEntry;
-import org.eclipse.tigerstripe.workbench.plugins.IBooleanPPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IStringPPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.ITablePPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -59,9 +59,9 @@ import org.xml.sax.SAXParseException;
 public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 	private final static String[] SUPPORTED_PROPERTIES = {
-			IStringPPluginProperty.class.getCanonicalName(),
-			IBooleanPPluginProperty.class.getCanonicalName(),
-			ITablePPluginProperty.class.getCanonicalName() };
+			IStringPluginProperty.class.getCanonicalName(),
+			IBooleanPluginProperty.class.getCanonicalName(),
+			ITablePluginProperty.class.getCanonicalName() };
 
 	private final static String[] SUPPORTED_PROPERTIES_LABELS = {
 			StringPPluginProperty.LABEL, BooleanPPluginProperty.LABEL,
@@ -107,7 +107,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 	public static final String ADDITIONAL_FILES = "additionalFiles";
 
-	private List<IPluggablePluginProperty> globalProperties;
+	private List<IPluginProperty> globalProperties;
 
 	private List<IPluginClasspathEntry> classpathEntries;
 
@@ -131,7 +131,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 	public PluggablePluginProject(File baseDir) {
 		super(baseDir, ITigerstripeConstants.PLUGIN_DESCRIPTOR);
-		globalProperties = new ArrayList<IPluggablePluginProperty>();
+		globalProperties = new ArrayList<IPluginProperty>();
 		globalRules = new ArrayList<IRunRule>();
 		artifactRules = new ArrayList<ITemplateRunRule>();
 		classpathEntries = new ArrayList<IPluginClasspathEntry>();
@@ -153,12 +153,12 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 				.toArray(new IPluginClasspathEntry[classpathEntries.size()]);
 	}
 
-	public IPluggablePluginProperty[] getGlobalProperties() {
+	public IPluginProperty[] getGlobalProperties() {
 		return this.globalProperties
-				.toArray(new IPluggablePluginProperty[globalProperties.size()]);
+				.toArray(new IPluginProperty[globalProperties.size()]);
 	}
 
-	public void setGlobalProperties(IPluggablePluginProperty[] properties) {
+	public void setGlobalProperties(IPluginProperty[] properties) {
 		this.globalProperties.clear();
 		this.globalProperties.addAll(Arrays.asList(properties));
 	}
@@ -171,14 +171,14 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		return SUPPORTED_PROPERTIES_LABELS;
 	}
 
-	public IPluggablePluginProperty makeProperty(String propertyType)
+	public IPluginProperty makeProperty(String propertyType)
 			throws TigerstripeException {
 		for (int index = 0; index < SUPPORTED_PROPERTIES.length; index++) {
 			String type = SUPPORTED_PROPERTIES[index];
 			if (type.equals(propertyType)) {
 				Class targetImpl = PROPERTIES_IMPL[index];
 				try {
-					IPluggablePluginProperty result = (IPluggablePluginProperty) targetImpl
+					IPluginProperty result = (IPluginProperty) targetImpl
 							.newInstance();
 					return result;
 				} catch (IllegalAccessException e) {
@@ -284,7 +284,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 	protected Element buildGlobalPropertiesElement(Document document) {
 		Element globalProperties = document.createElement(GLOBAL_PROPERTIES);
 
-		for (IPluggablePluginProperty prop : getGlobalProperties()) {
+		for (IPluginProperty prop : getGlobalProperties()) {
 			Element propElm = document.createElement("property");
 			propElm.setAttribute("name", prop.getName());
 			propElm.setAttribute("type", prop.getType());
@@ -515,7 +515,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 	protected void loadGlobalProperties(Document document) {
 
-		globalProperties = new ArrayList<IPluggablePluginProperty>();
+		globalProperties = new ArrayList<IPluginProperty>();
 
 		NodeList globalProps = document.getElementsByTagName(GLOBAL_PROPERTIES);
 		if (globalProps.getLength() != 1)
@@ -530,7 +530,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 			String tipToolText = property.getAttribute("tipToolText");
 
 			try {
-				IPluggablePluginProperty prop = makeProperty(type);
+				IPluginProperty prop = makeProperty(type);
 				prop.setName(name);
 				prop.setProject(getHandle());
 				prop.setTipToolText(tipToolText);
@@ -666,19 +666,19 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		return superValid & isValid;
 	}
 
-	public void addGlobalProperties(IPluggablePluginProperty[] properties) {
+	public void addGlobalProperties(IPluginProperty[] properties) {
 		globalProperties.addAll(Arrays.asList(properties));
 	}
 
-	public void addGlobalProperty(IPluggablePluginProperty property) {
+	public void addGlobalProperty(IPluginProperty property) {
 		globalProperties.add(property);
 	}
 
-	public void removeGlobalProperties(IPluggablePluginProperty[] properties) {
+	public void removeGlobalProperties(IPluginProperty[] properties) {
 		globalProperties.removeAll(Arrays.asList(properties));
 	}
 
-	public void removeGlobalProperty(IPluggablePluginProperty property) {
+	public void removeGlobalProperty(IPluginProperty property) {
 		globalProperties.remove(property);
 	}
 

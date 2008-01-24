@@ -55,8 +55,8 @@ public class CompareUtils {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		String aExt;
 		String bExt;
-		IAbstractArtifact aExtends = aArtifact.getExtendedIArtifact();
-		IAbstractArtifact bExtends = bArtifact.getExtendedIArtifact();
+		IAbstractArtifact aExtends = aArtifact.getExtendedArtifact();
+		IAbstractArtifact bExtends = bArtifact.getExtendedArtifact();
 		if (aExtends != null) {
 			aExt = aExtends.getFullyQualifiedName();
 		} else {

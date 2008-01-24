@@ -98,16 +98,16 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	public void addDependencies(IDependency[] dependencies,
 			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
 
-	public IDependency makeIDependency(String relativePath)
+	public IDependency makeDependency(String relativePath)
 			throws TigerstripeException;
 
-	public IFacetReference makeIFacetReference(URI facetURI)
+	public IFacetReference makeFacetReference(URI facetURI)
 			throws TigerstripeException;
 
-	public IFacetReference makeIFacetReference(String projectRelativePath)
+	public IFacetReference makeFacetReference(String projectRelativePath)
 			throws TigerstripeException;
 
-	public IUseCaseReference makeIUseCaseReference(String projectRelativePath)
+	public IUseCaseReference makeUseCaseReference(String projectRelativePath)
 			throws TigerstripeException;
 
 	public void addFacetReference(IFacetReference facetRef)
@@ -230,26 +230,4 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	public String getAdvancedProperty(String property, String defaultValue)
 	throws TigerstripeException;
 
-	/**
-	 * Returns the artifact manager session for this Tigerstripe project.
-	 * 
-	 * @return
-	 */
-	public IArtifactManagerSession getIArtifactManagerSession()
-			throws TigerstripeException;
-
-	/**
-	 * Returns the Plugin references defined in this project
-	 * 
-	 * @return
-	 */
-	public IPluginReference[] getIPluginReferences()
-			throws TigerstripeException;
-
-	// ==========================================
-	// Project references are direct references to other projects that are
-	// required
-	// for the local project to build properly.
-	public ITigerstripeProject[] getIReferencedProjects()
-			throws TigerstripeException;
 }

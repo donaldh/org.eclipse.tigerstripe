@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
-public interface IStringPPluginProperty extends IPluggablePluginProperty {
+public interface IStringPluginProperty extends IPluginProperty {
 
 	public String getDefaultString();
 

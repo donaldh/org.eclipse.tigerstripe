@@ -119,7 +119,7 @@ public class UseCaseProcessor {
 		File baseDir = project.getBaseDir();
 		getAllUseCases(baseDir, relPaths);
 		for (String relPath : relPaths) {
-			IUseCaseReference ref = project.makeIUseCaseReference(relPath);
+			IUseCaseReference ref = project.makeUseCaseReference(relPath);
 			allUseCases.add(ref);
 		}
 
