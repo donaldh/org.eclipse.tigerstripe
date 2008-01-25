@@ -251,7 +251,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			Set<IAbstractArtifact> implementingArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
 				IAbstractArtifact[] implementingArtArray = ((IAbstractArtifact) artifact)
-						.getImplementingIArtifacts();
+						.getImplementingArtifacts();
 				for (IAbstractArtifact implementingArt : implementingArtArray) {
 					// if an artifact of the same type isn't already in the
 					// diagram,

@@ -47,6 +47,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IException;
@@ -110,13 +111,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	private Collection<ILabel> labels;
 
 	/** The collection of inherited fields for this artifact */
-	private Collection inheritedFields = null;
+	protected Collection<IField> inheritedFields = null;
 
 	/** The collection of inherited labels for this artifact */
-	private Collection inheritedLabels = null;
+	protected Collection<ILabel> inheritedLabels = null;
 
 	/** The collection of inherited methods for this artifact */
-	private Collection inheritedMethods = null;
+	protected Collection<IMethod> inheritedMethods = null;
 
 	/** The list of artifacts that are extending "this". */
 	private Collection<IAbstractArtifact> extendingArtifacts = new ArrayList<IAbstractArtifact>();
@@ -143,17 +144,17 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	// Facet scoping for Fields/Methods/Labels. Build lazily filtered list when
 	// ever needed
-	private IField[] facetFilteredFields = null;
+	protected Collection<IField> facetFilteredFields = null;
 
-	private IField[] facetFilteredInheritedFields = null;
+	protected Collection<IField> facetFilteredInheritedFields = null;
 
-	private IMethod[] facetFilteredMethods = null;
+	protected Collection<IMethod> facetFilteredMethods = null;
 
-	private IMethod[] facetFilteredInheritedMethods = null;
+	protected Collection<IMethod> facetFilteredInheritedMethods = null;
 
-	private ILabel[] facetFilteredLabels = null;
+	protected Collection<ILabel> facetFilteredLabels = null;
 
-	private ILabel[] facetFilteredInheritedLabels = null;
+	protected Collection<ILabel> facetFilteredInheritedLabels = null;
 
 	protected JavaClass getJavaClass() {
 		return this.javaClass;
@@ -621,10 +622,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return type;
 		}
 
-		public IType getIType() {
-			return getType();
-		}
-
 		public void setType(Type type) {
 			this.type = type;
 		}
@@ -797,7 +794,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return Collection of Field - a collection of Fields for this artifact
 	 */
-	public Collection getInheritedFields() {
+	public Collection<IField> getInheritedFields() {
 		if (inheritedFields == null) {
 			try {
 				resolveInheritedFields();
@@ -835,7 +832,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return Collection of Method - a collection of Methods for this artifact
 	 */
-	public Collection getInheritedMethods() {
+	public Collection<IMethod> getInheritedMethods() {
 		if (inheritedMethods == null) {
 			try {
 				resolveInheritedMethods();
@@ -895,7 +892,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	// Methods to satisfy the IAbstractArtifact interface
 
 	public void addField(IField field) {
-		fields.add(field);
+		this.fields.add(field);
 		((Field) field).setContainingArtifact(this);
 
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
@@ -931,7 +928,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public void addLabel(ILabel label) {
-		labels.add(label);
+		this.labels.add(label);
 		((Label) label).setContainingArtifact(this);
 
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
@@ -972,7 +969,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public void addMethod(IMethod method) {
-		getMethods().add(method);
+		this.methods.add(method);
 		((Method) method).setContainingArtifact(this);
 
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
@@ -981,7 +978,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public void removeMethods(Collection<IMethod> methods) {
-		getMethods().removeAll(methods);
+		this.methods.removeAll(methods);
 		for (IMethod method : methods) {
 			((Method) method).setContainingArtifact(null);
 		}
@@ -1065,9 +1062,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return result.toArray(new IAbstractArtifact[result.size()]);
 	}
 
-	public IAbstractArtifact[] getExtendingIArtifacts() {
-		return getExtendingArtifacts();
-	}
 
 	/**
 	 * Updates all the artifacts that were extending this to extend the new
@@ -1441,94 +1435,72 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	// =================================================================
 	// Methods to satisfy the IArtifact interface
 
-	public IField[] getIFields(boolean filterFacetExcludedFields) {
-		Collection fields = getFields();
+	
+	public Collection<IField> getFields(boolean filterFacetExcludedFields) {
+		Collection<IField> fields = getFields();
 		if (filterFacetExcludedFields) {
 			if (facetFilteredFields == null) {
-				Collection filtered = filterFacetExcludedComponents(fields);
-				facetFilteredFields = (IField[]) filtered
-						.toArray(new IField[filtered.size()]);
+				facetFilteredFields = Field.filterFacetExcludedFields(fields);
 			}
-			return facetFilteredFields;
+			return Collections.unmodifiableCollection(facetFilteredFields);
 		} else
-			return (IField[]) fields.toArray(new IField[fields.size()]);
+			return Collections.unmodifiableCollection(this.fields);
 	}
 
-	public IField[] getInheritedIFields() {
-		return getInheritedIFields(false);
-	}
-
-	public IField[] getInheritedIFields(boolean filterFacetExcludedFields) {
+	public Collection<IField> getInheritedFields(boolean filterFacetExcludedFields) {
 		Collection fields = getInheritedFields();
 		if (filterFacetExcludedFields) {
 			if (facetFilteredInheritedFields == null) {
-				Collection filtered = filterFacetExcludedComponents(fields);
-				facetFilteredInheritedFields = (IField[]) filtered
-						.toArray(new IField[filtered.size()]);
+				facetFilteredInheritedFields = Field.filterFacetExcludedFields(fields);
 			}
-			return facetFilteredInheritedFields;
+			return Collections.unmodifiableCollection(facetFilteredInheritedFields);
 		} else
-			return (IField[]) fields.toArray(new IField[fields.size()]);
+		    return Collections.unmodifiableCollection(this.getInheritedFields());
 	}
 
-	public ILabel[] getILabels(boolean filterFacetExcludedLabels) {
+	public Collection<ILabel> getLabels(boolean filterFacetExcludedLabels) {
 		Collection labels = getLabels();
 		if (filterFacetExcludedLabels) {
 			if (facetFilteredLabels == null) {
-				Collection filtered = filterFacetExcludedComponents(labels);
-				facetFilteredLabels = (ILabel[]) filtered
-						.toArray(new ILabel[filtered.size()]);
+				facetFilteredLabels = Label.filterFacetExcludedLabels(labels);
 			}
-			return facetFilteredLabels;
+			return Collections.unmodifiableCollection(facetFilteredLabels);
 		} else
-			return (ILabel[]) labels.toArray(new ILabel[labels.size()]);
+			return Collections.unmodifiableCollection(this.labels);
 	}
 
-	public ILabel[] getInheritedILabels() {
-		return getInheritedILabels(false);
-	}
-
-	public ILabel[] getInheritedILabels(boolean filterFacetExcludedLabels) {
+	public Collection<ILabel> getInheritedLabels(boolean filterFacetExcludedLabels) {
 		Collection labels = getInheritedLabels();
 		if (filterFacetExcludedLabels) {
 			if (facetFilteredInheritedLabels == null) {
-				Collection filtered = filterFacetExcludedComponents(labels);
-				facetFilteredInheritedLabels = (ILabel[]) filtered
-						.toArray(new ILabel[filtered.size()]);
+				facetFilteredInheritedLabels = Label.filterFacetExcludedLabels(labels);
 			}
-			return facetFilteredInheritedLabels;
+			return Collections.unmodifiableCollection(facetFilteredInheritedLabels);
 		} else
-			return (ILabel[]) labels.toArray(new ILabel[labels.size()]);
+			return Collections.unmodifiableCollection(this.getInheritedLabels());
 	}
 
-	public IMethod[] getIMethods(boolean filterFacetExcludedMethods) {
+	public Collection<IMethod> getMethods(boolean filterFacetExcludedMethods) {
 		Collection methods = getMethods();
 		if (filterFacetExcludedMethods) {
 			if (facetFilteredMethods == null) {
-				Collection filtered = filterFacetExcludedComponents(methods);
-				facetFilteredMethods = (IMethod[]) filtered
-						.toArray(new IMethod[filtered.size()]);
+				facetFilteredMethods = Method.filterFacetExcludedMethods(methods);
 			}
-			return facetFilteredMethods;
+			return Collections.unmodifiableCollection(facetFilteredMethods);
 		} else
-			return (IMethod[]) methods.toArray(new IMethod[methods.size()]);
+		    return Collections.unmodifiableCollection(this.methods);
 	}
 
-	public IMethod[] getInheritedIMethods() {
-		return getInheritedIMethods(false);
-	}
 
-	public IMethod[] getInheritedIMethods(boolean filterFacetExcludedMethods) {
+	public Collection<IMethod> getInheritedMethods(boolean filterFacetExcludedMethods) {
 		Collection methods = getInheritedMethods();
 		if (filterFacetExcludedMethods) {
 			if (facetFilteredInheritedMethods == null) {
-				Collection filtered = filterFacetExcludedComponents(methods);
-				facetFilteredInheritedMethods = (IMethod[]) filtered
-						.toArray(new IMethod[filtered.size()]);
+				facetFilteredInheritedMethods = Method.filterFacetExcludedMethods(methods);
 			}
-			return facetFilteredInheritedMethods;
+			return Collections.unmodifiableCollection(facetFilteredInheritedMethods);
 		} else
-			return (IMethod[]) methods.toArray(new IMethod[methods.size()]);
+			return Collections.unmodifiableCollection(this.getInheritedMethods());
 	}
 
 	public IAbstractArtifact getExtendedArtifact() {
@@ -1589,7 +1561,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return false;
 	}
 
-	public IAbstractArtifact[] getImplementingIArtifacts() {
+	public IAbstractArtifact[] getImplementingArtifacts() {
 		return new IAbstractArtifact[0];
 	}
 

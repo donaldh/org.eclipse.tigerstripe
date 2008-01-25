@@ -45,7 +45,7 @@ public interface IAbstractArtifact extends IModelComponent {
 
 		public boolean isRefByKeyResult();
 
-		public IType getIType();
+		public IType getType();
 	}
 
 	public void setFullyQualifiedName(String fqn);
@@ -167,6 +167,14 @@ public interface IAbstractArtifact extends IModelComponent {
 	public IAbstractArtifact getExtendedArtifact();
 
 	/**
+	 * Returns the Ancestors of this class if defined. If no ancestor was
+	 * defined return new IArtifact[0].
+	 * 
+	 * @return IArtifact[] - an array of all ancestors to this artifact
+	 */
+	public IAbstractArtifact[] getAncestors();
+	
+	/**
 	 * Returns an array of all the artifacts that extends this directly.
 	 */
 	public IAbstractArtifact[] getExtendingArtifacts();
@@ -203,13 +211,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 */
 	public IModelUpdater getUpdater() throws TigerstripeException;
 
-	/**
-	 * Returns the Ancestors of this class if defined. If no ancestor was
-	 * defined return new IArtifact[0].
-	 * 
-	 * @return IArtifact[] - an array of all ancestors to this artifact
-	 */
-	public IAbstractArtifact[] getAncestors();
+
 
 	/**
 	 * Returns an array of all the field types for this artifact.
@@ -250,7 +252,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @return IField[] - an array of all the fields for this artifact
 	 */
-	public IField[] getIFields(boolean filterFacetExcludedFields);
+	public Collection<IField> getFields(boolean filterFacetExcludedFields);
 
 	/**
 	 * Returns the labels defined for this artifact. This will be limited to the
@@ -268,7 +270,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 *            are returned.
 	 * @return ILabel[] - an array of all the labels for this artifact
 	 */
-	public ILabel[] getILabels(boolean filterFacetExcludedLabels);
+	public Collection<ILabel> getLabels(boolean filterFacetExcludedLabels);
 
 	/**
 	 * Returns the methods defined for this artifact. This will be limited to
@@ -286,7 +288,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 *            are returned.
 	 * @return IMethod[] - an array of all the methods for this artifact
 	 */
-	public IMethod[] getIMethods(boolean filterFacetExcludedMethods);
+	public Collection<IMethod> getMethods(boolean filterFacetExcludedMethods);
 
 	/**
 	 * Returns the details contained in the project that this artifact belongs
@@ -321,7 +323,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @return Not implemented - returns an empty array
 	 */
-	public IAbstractArtifact[] getImplementingIArtifacts();
+	public IAbstractArtifact[] getImplementingArtifacts();
 
 	/**
 	 * Returns the inherited fields for this artifact. Only inherited fields
@@ -335,7 +337,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @return IField[] - an array of all the inherited fields for this artifact
 	 */
-	public IField[] getInheritedIFields();
+	public Collection<IField> getInheritedFields();
 
 	/**
 	 * Returns the inherited fields for this artifact. Only inherited fields
@@ -351,7 +353,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 *            are returned.
 	 * @return IField[] - an array of all the inherited fields for this artifact
 	 */
-	public IField[] getInheritedIFields(boolean filterFacetExcludedFields);
+	public Collection<IField> getInheritedFields(boolean filterFacetExcludedFields);
 
 	/**
 	 * Returns the inherited labels for this artifact. Only inherited labels
@@ -365,7 +367,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @return ILabel[] - an array of all the inherited labels for this artifact
 	 */
-	public ILabel[] getInheritedILabels();
+	public Collection<ILabel> getInheritedLabels();
 
 	/**
 	 * Returns the inherited labels for this artifact. Only inherited labels
@@ -381,7 +383,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 *            are returned.
 	 * @return ILabel[] - an array of all the inherited labels for this artifact
 	 */
-	public ILabel[] getInheritedILabels(boolean filterFacetExcludedLabels);
+	public Collection<ILabel> getInheritedLabels(boolean filterFacetExcludedLabels);
 
 	/**
 	 * Returns the inherited methods for this artifact. Only inherited methods
@@ -396,7 +398,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return IMethod[] - an array of all the inherited methods for this
 	 *         artifact
 	 */
-	public IMethod[] getInheritedIMethods();
+	public Collection<IMethod> getInheritedMethods();
 
 	/**
 	 * Returns the inherited methods for this artifact. Only inherited methods
@@ -413,7 +415,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return IMethod[] - an array of all the inherited methods for this
 	 *         artifact
 	 */
-	public IMethod[] getInheritedIMethods(boolean filterFacetExcludedMethods);
+	public Collection<IMethod> getInheritedMethods(boolean filterFacetExcludedMethods);
 
 	/**
 	 * Returns the project that contains this artifact.

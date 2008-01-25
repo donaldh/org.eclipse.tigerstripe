@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssj
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEntitySpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.tags.PropertiesConstants;
@@ -30,7 +31,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -1155,4 +1158,33 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 		return result;
 	}
+	
+	/**
+	 * Returns a duplicate of the initial list where all components that are not
+	 * in the current active facet are filtered out.
+	 * 
+	 * @param components
+	 * @return
+	 */
+	public static Collection<IMethod> filterFacetExcludedMethods(
+			Collection<IMethod> components) {
+		ArrayList<IMethod> result = new ArrayList<IMethod>();
+		for (Iterator<IMethod> iter = components.iterator(); iter
+				.hasNext();) {
+			IMethod component = iter.next();
+			try {
+				if (!component.isInActiveFacet())
+					continue;
+				else
+					result.add(component);
+			} catch (TigerstripeException e) {
+				TigerstripeRuntime.logErrorMessage(
+						"Error while evaluating isInActiveFacet for "
+								+ component.getName() + ": " + e.getMessage(),
+						e);
+			}
+		}
+		return result;
+	}
+	
 }

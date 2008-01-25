@@ -135,11 +135,11 @@ public class AssociationArtifact extends AbstractArtifact implements
 		return IField.EMPTY_LIST;
 	}
 
+	
 	@Override
 	public Collection<ILabel> getLabels() {
 		return ILabel.EMPTY_LIST;
 	}
-
 	@Override
 	public Collection<IMethod> getMethods() {
 		return IMethod.EMPTY_LIST;

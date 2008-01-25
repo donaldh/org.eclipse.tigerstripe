@@ -11,11 +11,15 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -184,6 +188,34 @@ public class Label extends ArtifactComponent implements ILabel {
 			result.addStereotypeInstance(inst);
 		}
 
+		return result;
+	}
+	
+	/**
+	 * Returns a duplicate of the initial list where all components that are not
+	 * in the current active facet are filtered out.
+	 * 
+	 * @param components
+	 * @return
+	 */
+	public static Collection<ILabel> filterFacetExcludedLabels(
+			Collection<ILabel> components) {
+		ArrayList<ILabel> result = new ArrayList<ILabel>();
+		for (Iterator<ILabel> iter = components.iterator(); iter
+				.hasNext();) {
+			ILabel component = iter.next();
+			try {
+				if (!component.isInActiveFacet())
+					continue;
+				else
+					result.add(component);
+			} catch (TigerstripeException e) {
+				TigerstripeRuntime.logErrorMessage(
+						"Error while evaluating isInActiveFacet for "
+								+ component.getName() + ": " + e.getMessage(),
+						e);
+			}
+		}
 		return result;
 	}
 }

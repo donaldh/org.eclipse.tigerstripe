@@ -16,8 +16,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.AssociationClassArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -104,20 +106,15 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	@Override
 	public Collection<IMethod> getMethods() {
 		return Collections.unmodifiableCollection(methods);
-	}
+	}	
 
+	
 	@Override
 	public Collection<IField> getFields() {
 		return Collections.unmodifiableCollection(fields);
 	}
-
-	@Override
-	public IField[] getInheritedIFields() {
-		Collection fields = getInheritedFields();
-		IField[] result = new IField[fields.size()];
-		return (IField[]) fields.toArray(result);
-	}
-
+		
+	
 	/*
 	 * (non-Javadoc)
 	 * 
