@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench;
 
+import org.eclipse.tigerstripe.workbench.internal.TigerstripeRuntimeDetails;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.WorkbenchProfileSession;
@@ -87,5 +88,14 @@ public class TigerstripeCore {
 		}
 
 		return workbenchProfileSession;
+	}
+
+	/**
+	 * 	Returns the runtime details for this install
+	 * 
+	 * @return
+	 */
+	public final static IRuntimeDetails getRuntimeDetails() {
+		return TigerstripeRuntimeDetails.INSTANCE;
 	}
 }

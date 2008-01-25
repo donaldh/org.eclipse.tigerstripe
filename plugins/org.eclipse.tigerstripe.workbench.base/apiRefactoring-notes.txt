@@ -25,7 +25,8 @@ R - IBooleanPPluginProperty to be renamed as IBooleanPluginProperty (no need for
 - getSupportedArtifactClasses returms Class[] - not sure what this should be Class<IAbstractArtifact> ?
 - Overtime we'll get rid of the warnings inside internal package.
 - ILabel should really be ILiteral?
-					    
+- All the startup procedure should be revisited (TigerstripeRuntime, and PostInstallOptions to be removed and
+	replaced by some Runtime details available directly from TigerstripeCore.
 
 ###################################
 In IAbstractTigerstripeProject
