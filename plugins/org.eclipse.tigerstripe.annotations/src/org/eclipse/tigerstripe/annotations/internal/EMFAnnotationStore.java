@@ -91,7 +91,8 @@ public class EMFAnnotationStore extends AnnotationStore {
 		// look for an existing value
 		for (Annotation ann : getAnnotationContext().getAnnotations()) {
 			if (ann.getAnnotationSpecificationID()
-					.equals(specification.getID())) {
+					.equals(specification.getID())
+					&& ann.getUri().equals(URI)) {
 				targetAnnotation = ann;
 			}
 		}
@@ -128,22 +129,22 @@ public class EMFAnnotationStore extends AnnotationStore {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * 	This callback is used when the factory detects that the underlying store file was removed
-	 * In this case, the store is marked as dirty.
+	 * This callback is used when the factory detects that the underlying store
+	 * file was removed In this case, the store is marked as dirty.
 	 * 
 	 */
 	public void storeFileDeleted() {
-		//TODO
+		// TODO
 	}
-	
+
 	/**
-	 * 	This callback is used when the factory detects that the underlying store file was changed
-	 * In this case, the store needs to be reloaded.
+	 * This callback is used when the factory detects that the underlying store
+	 * file was changed In this case, the store needs to be reloaded.
 	 * 
 	 */
 	public void storeFileChanged() {
-		//TODO
+		// TODO
 	}
 }
