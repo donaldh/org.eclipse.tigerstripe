@@ -29,9 +29,9 @@ import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.IBooleanAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.IStringAnnotationSpecification;
 
-public class AnnotationSpecificationFormManager {
+public class AnnotationFormManager {
 
-	public static Map<String, Widget> addAnnotationFormComposites(
+	public static Map<String, Widget> addFormComposites(
 			Composite parent, AnnotationStore store, String uri,
 			IAnnotationForm form) {
 
@@ -93,15 +93,12 @@ public class AnnotationSpecificationFormManager {
 		Button checkbox = null;
 		try {
 			checkbox = new Button(specComposite, SWT.CHECK);
-			checkbox
-					.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			checkbox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 			if (store.getAnnotation(spec, uri) != null) {
-				checkbox.setSelection((Boolean) store.getAnnotation(spec, uri));
-			} else if (spec.getDefaultValue().equals("true")) {
-				checkbox.setSelection(true);
+				checkbox.setSelection((Boolean) store.getAnnotation(spec, uri));  
 			} else {
-				checkbox.setSelection(false);
+				checkbox.setSelection(Boolean.getBoolean(spec.getDefaultValue()));
 			}
 		} catch (AnnotationCoreException e) {
 			// TODO Auto-generated catch block

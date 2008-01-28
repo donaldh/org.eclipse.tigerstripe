@@ -28,6 +28,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -43,7 +46,7 @@ import org.eclipse.tigerstripe.annotations.AnnotationStore;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
 import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
 import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
-import org.eclipse.tigerstripe.annotations.ui.internal.AnnotationSpecificationFormManager;
+import org.eclipse.tigerstripe.annotations.ui.internal.AnnotationFormManager;
 import org.eclipse.tigerstripe.annotations.ui.internal.widgets.AnnotationFormComposite;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
@@ -55,7 +58,7 @@ public class AnnotationsView extends ViewPart {
 
 	private IProject project;
 
-	private Map specComposites;
+	private Map compositeMap;
 
 	private AnnotationStore store;
 
@@ -95,15 +98,19 @@ public class AnnotationsView extends ViewPart {
 	@Override
 	public void createPartControl(Composite parent) {
 
-		GridData gridData;
-
+		FormData formData;
 		this.parent = parent;
 
-		parent.setLayout(new GridLayout());
+		parent.setLayout(new FormLayout());
 
 		Label label = new Label(parent, SWT.LEFT);
 		label.setText("Annotation Scheme: ");
-
+		formData = new FormData();
+		formData.top = new FormAttachment(0, 5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+		label.setLayoutData(formData);
+		
 		schemeComboViewer = new ComboViewer(parent, SWT.DROP_DOWN);
 		schemeComboViewer.setLabelProvider(new SchemeLabelProvider());
 		schemeComboViewer.setContentProvider(new ArrayContentProvider());
@@ -114,10 +121,14 @@ public class AnnotationsView extends ViewPart {
 					}
 				});
 
+		
 		Combo schemeCombo = schemeComboViewer.getCombo();
-
-		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
-		schemeCombo.setLayoutData(gridData);
+		formData = new FormData();
+		formData.top = new FormAttachment(label, 5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+		schemeCombo.setLayoutData(formData);
+		
 		hookPageSelection();
 
 	}
@@ -169,7 +180,7 @@ public class AnnotationsView extends ViewPart {
 	}
 
 	private void setComboViewerInput(IResource resource) {
-		System.out.println(resource.getLocationURI().toString());
+
 		try {
 			uri = resource.getLocationURI().toString();
 			project = resource.getProject();
@@ -177,6 +188,8 @@ public class AnnotationsView extends ViewPart {
 			IAnnotationScheme[] schemes = AnnotationSchemeRegistry.eINSTANCE
 					.getDefinedSchemes(uri);
 			schemeComboViewer.setInput(schemes);
+			schemeComboViewer.getCombo().select(0);
+			schemeComboViewer.setSelection(schemeComboViewer.getSelection());
 		} catch (AnnotationCoreException e) {
 			// TODO - Pop up exception dialog
 			e.printStackTrace();
@@ -184,6 +197,11 @@ public class AnnotationsView extends ViewPart {
 	}
 
 	private void schemeComboSelectionChanged(SelectionChangedEvent event) {
+
+		FormData formData;
+		Button defaults = null;
+		Button apply = null;
+		Button cancel = null;
 
 		IStructuredSelection selection = (IStructuredSelection) event
 				.getSelection();
@@ -193,28 +211,53 @@ public class AnnotationsView extends ViewPart {
 
 		clearAnnotationFormData();
 
-		Composite composite = new AnnotationFormComposite(parent, SWT.NONE);
-		composite.setLayout(new FillLayout(SWT.VERTICAL));
-
 		IAnnotationScheme scheme = (IAnnotationScheme) selection
 				.getFirstElement();
-
 		final IAnnotationForm form = scheme.selectForm(uri);
+
+		Composite container = new AnnotationFormComposite(parent, SWT.NONE);
+		formData = new FormData();
+		formData.top = new FormAttachment(schemeComboViewer.getCombo(), 5);
+		formData.bottom = new FormAttachment(100, -5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, -5);
+		container.setLayoutData(formData);
+		container.setLayout(new FormLayout());
+
+		Composite composite = new Composite(container, SWT.NONE);
 		try {
 			store = AnnotationStore.getDefaultFactory().getAnnotationStore(
 					project, scheme);
-
-			// discuss this... uri
-			specComposites = AnnotationSpecificationFormManager
-					.addAnnotationFormComposites(composite, store, uri, form);
+			compositeMap = AnnotationFormManager.addFormComposites(composite,
+					store, uri, form);
 		} catch (AnnotationCoreException e1) {
 			e1.printStackTrace();
 		}
 
-		// TODO - exclude button if no annotation forms
-		final Button applyBtn = new Button(composite, SWT.PUSH);
-		applyBtn.setText("Apply");
-		applyBtn.addSelectionListener(new SelectionListener() {
+		// add buttons
+		cancel = new Button(container, SWT.PUSH);
+		cancel.setText("Cancel");
+		formData = new FormData();
+		formData.right = new FormAttachment(100, -5);
+		formData.bottom = new FormAttachment(100, -5);
+		cancel.setLayoutData(formData);
+		cancel.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				cancelUserInput(form);
+			}
+		});
+
+		apply = new Button(container, SWT.PUSH);
+		apply.setText("Apply");
+		formData = new FormData();
+		formData.right = new FormAttachment(cancel, -5);
+		formData.bottom = new FormAttachment(100, -5);
+		apply.setLayoutData(formData);
+		apply.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				widgetSelected(e);
 			}
@@ -224,18 +267,43 @@ public class AnnotationsView extends ViewPart {
 			}
 		});
 
+		defaults = new Button(container, SWT.PUSH);
+		defaults.setText("Restore Defaults");
+		formData = new FormData();
+		formData.right = new FormAttachment(apply, -5);
+		formData.bottom = new FormAttachment(100, -5);
+		defaults.setLayoutData(formData);
+		defaults.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				restoreDefaults(form);
+			}
+
+		});
+
+		// Add annotation form
+		formData = new FormData();
+		formData.top = new FormAttachment(0, 5);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, 5);
+		composite.setLayoutData(formData);
+		composite.setLayout(new FillLayout(SWT.VERTICAL));
+
 		parent.layout();
 
 	}
 
+	// TODO - REFACTOR
 	private void persistAnnotations(IAnnotationForm form) {
 
 		try {
 			IAnnotationSpecification[] specs = form.getSpecifications();
 			for (IAnnotationSpecification spec : specs) {
 
-				// TODO - FIX THIS!!!
-				Widget widget = (Widget) specComposites.get(spec.getID());
+				Widget widget = (Widget) compositeMap.get(spec.getID());
 				if (widget instanceof Text) {
 					Text text = (Text) widget;
 					store.setAnnotation(spec, uri, text.getText());
@@ -250,13 +318,70 @@ public class AnnotationsView extends ViewPart {
 		} catch (AnnotationCoreException e) {
 			e.printStackTrace();
 		}
+	}
 
+	// TODO - REFACTOR
+	private void restoreDefaults(IAnnotationForm form) {
+
+		IAnnotationSpecification[] specs = form.getSpecifications();
+		for (IAnnotationSpecification spec : specs) {
+
+			Widget widget = (Widget) compositeMap.get(spec.getID());
+			if (widget instanceof Text) {
+				Text text = (Text) widget;
+				if (spec.getDefaultValue() == null) {
+					text.setText("");
+				} else {
+					text.setText(spec.getDefaultValue());
+				}
+			} else if (widget instanceof Button) {
+				Button button = (Button) widget;
+				if (spec.getDefaultValue() == null) {
+					button.setSelection(false);
+				} else {
+					button.setSelection(Boolean.getBoolean(spec
+							.getDefaultValue()));
+				}
+			}
+		}
+	}
+
+	// TODO - REFACTOR
+	protected void cancelUserInput(IAnnotationForm form) {
+
+		try {
+			IAnnotationSpecification[] specifications = form
+					.getSpecifications();
+			for (IAnnotationSpecification spec : specifications) {
+
+				Widget widget = (Widget) compositeMap.get(spec.getID());
+				if (widget instanceof Text) {
+					Text text = (Text) widget;
+					if (store.getAnnotation(spec, uri) == null) {
+						text.setText("");
+					} else {
+						text.setText((String) store.getAnnotation(spec, uri));
+					}
+				} else if (widget instanceof Button) {
+					Button button = (Button) widget;
+					if (store.getAnnotation(spec, uri) == null) {
+						button.setSelection(false);
+					} else {
+						button.setSelection((Boolean) store.getAnnotation(spec,
+								uri));
+					}
+				}
+			}
+		} catch (AnnotationCoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void clearAnnotationFormData() {
 
 		store = null;
-		specComposites = null;
+		compositeMap = null;
 
 		Control[] children = parent.getChildren();
 		for (Control control : children) {
