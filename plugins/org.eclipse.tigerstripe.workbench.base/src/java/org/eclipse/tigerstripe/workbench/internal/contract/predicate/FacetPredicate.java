@@ -10,22 +10,22 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.contract.predicate;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
 import org.eclipse.tigerstripe.workbench.internal.contract.ContractUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
@@ -78,7 +78,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 	// This is used to gather inconsistencies that may be found during facet
 	// resolution.
-	private List<TigerstripeError> errors = new ArrayList<TigerstripeError>();
+	private MultiStatus errors = new MultiStatus(BasePlugin.getPluginId(), 222,
+			"Facet Inconsitencies", null);
 
 	public FacetPredicate(IFacetReference facetRef,
 			ITigerstripeProject tsProject) {
@@ -87,11 +88,11 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 	}
 
 	public boolean isConsistent() {
-		return getInconsistencies().length == 0;
+		return getInconsistencies().isOK();
 	}
 
-	public TigerstripeError[] getInconsistencies() {
-		return errors.toArray(new TigerstripeError[errors.size()]);
+	public IStatus getInconsistencies() {
+		return errors;
 	}
 
 	protected IFacetReference getFacetRef() {
@@ -148,8 +149,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		monitor.beginTask("Resolving facet scope",
 				ITigerstripeProgressMonitor.UNKNOWN);
 
-		long start = System.currentTimeMillis();
-		errors.clear();
+//		long start = System.currentTimeMillis();
+		errors = new MultiStatus(BasePlugin.getPluginId(), 222,
+				"Facet Inconsistencies", null);
 		IContractSegment facet = facetRef.resolve();
 
 		// first get the primary predicate strictly based on the scope
@@ -209,7 +211,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		}
 
 		monitor.done();
-		long end = System.currentTimeMillis();
+		// long end = System.currentTimeMillis();
 	}
 
 	/**
@@ -286,8 +288,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			IAbstractArtifact parent = artifact.getExtendedArtifact();
 			if (primaryPredicate.isExcluded(parent)
 					|| isExcludedByAnnotation(parent)) {
-				TigerstripeError error = new TigerstripeError(
-						TigerstripeErrorLevel.ERROR,
+				IStatus error = new Status(IStatus.ERROR, BasePlugin
+						.getPluginId(),
 						"Inconsistent type hierarchy: Parent of "
 								+ artifact.getFullyQualifiedName() + " ("
 								+ parent.getFullyQualifiedName()
@@ -307,8 +309,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			} else {
 				if (primaryPredicate.isExcluded(arti)
 						|| isExcludedByAnnotation(arti)) {
-					TigerstripeError error = new TigerstripeError(
-							TigerstripeErrorLevel.ERROR,
+					IStatus error = new Status(IStatus.ERROR, BasePlugin
+							.getPluginId(),
 							"Inconsistent artifact: referenced artifact in "
 									+ artifact.getFullyQualifiedName() + " ("
 									+ arti.getFullyQualifiedName()
@@ -386,8 +388,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 					if ((isExcludedByAnnotation(arti) || primaryPredicate
 							.isExcluded(arti))
 							&& !isExcludedByAnnotation(method)) {
-						TigerstripeError error = new TigerstripeError(
-								TigerstripeErrorLevel.ERROR,
+						IStatus error = new Status(IStatus.ERROR, BasePlugin
+								.getPluginId(),
 								"Inconsistent facet: the return type ("
 										+ arti.getFullyQualifiedName()
 										+ ") of method "
@@ -416,8 +418,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 						if ((isExcludedByAnnotation(argArti) || primaryPredicate
 								.isExcluded(argArti))
 								&& !isExcludedByAnnotation(arg)) {
-							TigerstripeError error = new TigerstripeError(
-									TigerstripeErrorLevel.ERROR,
+							IStatus error = new Status(
+									IStatus.ERROR,
+									BasePlugin.getPluginId(),
 									"Inconsistent facet: the type ("
 											+ argArti.getFullyQualifiedName()
 											+ ") of argument '"
@@ -447,8 +450,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 									exc.getFullyQualifiedName());
 					if (isExcludedByAnnotation(excArti)
 							|| primaryPredicate.isExcluded(excArti)) {
-						TigerstripeError error = new TigerstripeError(
-								TigerstripeErrorLevel.ERROR,
+						IStatus error = new Status(
+								IStatus.ERROR,
+								BasePlugin.getPluginId(),
 								"Inconsistent facet: the exception of method "
 										+ artifact.getFullyQualifiedName()
 										+ ":"

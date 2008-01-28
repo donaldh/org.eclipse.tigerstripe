@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.elements;
 
 import java.util.Iterator;
-import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
@@ -29,8 +29,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 
@@ -46,18 +44,17 @@ public class MessageListDialog extends TSMessageDialog {
 
 	private int[] tableColumnWidth = { 65, 400 };
 
-	public MessageListDialog(Shell parent, List<TigerstripeError> errorList,
-			String title) {
+	public MessageListDialog(Shell parent, IStatus errorList, String title) {
 		super(parent);
 		MessageList list = new MessageList();
-		for (TigerstripeError error : errorList) {
+		for (IStatus error : errorList.getChildren()) {
 			Message msg = new Message();
-			msg.setMessage(error.getErrorMessage());
-			if (error.getErrorLevel() == TigerstripeErrorLevel.ERROR)
+			msg.setMessage(error.getMessage());
+			if (error.getSeverity() == IStatus.ERROR)
 				msg.setSeverity(Message.ERROR);
-			else if (error.getErrorLevel() == TigerstripeErrorLevel.INFO)
+			else if (error.getSeverity() == IStatus.INFO)
 				msg.setSeverity(Message.INFO);
-			else if (error.getErrorLevel() == TigerstripeErrorLevel.WARNING)
+			else if (error.getSeverity() == IStatus.WARNING)
 				msg.setSeverity(Message.WARNING);
 			list.addMessage(msg);
 		}

@@ -11,10 +11,8 @@
 package org.eclipse.tigerstripe.workbench.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 public interface ILabel extends IModelComponent {
@@ -30,8 +28,6 @@ public interface ILabel extends IModelComponent {
 	public IType getIType();
 
 	public String getLabelString();
-
-	public List<TigerstripeError> validate();
 
 	public ILabel clone();
 

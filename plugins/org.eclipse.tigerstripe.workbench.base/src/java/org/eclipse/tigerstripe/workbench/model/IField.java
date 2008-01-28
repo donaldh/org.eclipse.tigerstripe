@@ -11,10 +11,8 @@
 package org.eclipse.tigerstripe.workbench.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 /**
@@ -86,8 +84,6 @@ public interface IField extends IModelComponent {
 	public void setOrdered(boolean isOrdered);
 
 	public void setUnique(boolean isUnique);
-
-	public List<TigerstripeError> validate();
 
 	/**
 	 * Clones this Field.

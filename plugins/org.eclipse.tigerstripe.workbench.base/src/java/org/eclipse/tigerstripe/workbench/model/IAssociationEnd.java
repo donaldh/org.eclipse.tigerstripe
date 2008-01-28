@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model;
 
-import java.util.List;
-
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
@@ -239,8 +236,6 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 	 */
 	@Deprecated
 	public IType getType();
-
-	public List<TigerstripeError> validate();
 
 	/**
 	 * Returns the aggregation type of the end.

@@ -11,12 +11,11 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.AssociationArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
@@ -135,11 +134,11 @@ public class AssociationArtifact extends AbstractArtifact implements
 		return IField.EMPTY_LIST;
 	}
 
-	
 	@Override
 	public Collection<ILabel> getLabels() {
 		return ILabel.EMPTY_LIST;
 	}
+
 	@Override
 	public Collection<IMethod> getMethods() {
 		return IMethod.EMPTY_LIST;
@@ -188,25 +187,20 @@ public class AssociationArtifact extends AbstractArtifact implements
 	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILabel#validate()
 	 */
 	@Override
-	public List<TigerstripeError> validate() {
-		List<TigerstripeError> errors = new ArrayList();
-
+	public IStatus validate() {
 		// first check for errors using the AbstractArtifact.validate() method
-		List<TigerstripeError> errorList = super.validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
+		MultiStatus result = (MultiStatus) super.validate();
 
 		// next, check for some Association-specific errors (i.e. that the
 		// aEnd and zEnd are valid
-		errorList = ((IAssociationEnd) getAEnd()).validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
-		errorList = ((IAssociationEnd) getZEnd()).validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
+		IStatus aEndStatus = ((IAssociationEnd) getAEnd()).validate();
+		if (!aEndStatus.isOK())
+			result.add(aEndStatus);
+		IStatus zEndStatus = ((IAssociationEnd) getZEnd()).validate();
+		if (!zEndStatus.isOK())
+			result.add(zEndStatus);
 
-		return errors;
-
+		return result;
 	}
 
 	@Override

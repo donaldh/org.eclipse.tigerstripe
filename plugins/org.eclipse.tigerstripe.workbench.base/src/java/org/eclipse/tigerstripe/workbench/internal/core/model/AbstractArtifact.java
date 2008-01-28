@@ -26,16 +26,18 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method.Argument;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -47,7 +49,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IException;
@@ -1062,7 +1063,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return result.toArray(new IAbstractArtifact[result.size()]);
 	}
 
-
 	/**
 	 * Updates all the artifacts that were extending this to extend the new
 	 * artifact instead.
@@ -1114,8 +1114,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @see org.eclipse.tigerstripe.api.artifacts.model.IAbstractArtifact#validate()
 	 */
-	public List<TigerstripeError> validate() {
-		List<TigerstripeError> errors = new ArrayList<TigerstripeError>();
+	public IStatus validate() {
+		MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
+				"Artifact Validation", null);
+
 		/*
 		 * check the value of the artifact name to ensure it will make a
 		 * legitimate class name in the model
@@ -1124,12 +1126,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				.matches()
 				&& !TigerstripeValidationUtils.elementNamePattern.matcher(
 						getName()).matches()) {
-			errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR, "'"
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
 					+ getName() + "' is not a legal artifact name"));
 		} else if (TigerstripeValidationUtils.keywordList.contains(getName())) {
-			errors
-					.add(new TigerstripeError(
-							TigerstripeErrorLevel.ERROR,
+			result
+					.add(new Status(
+							IStatus.ERROR,
+							BasePlugin.getPluginId(),
 							"'"
 									+ getName()
 									+ "' is is a reserved keyword and cannot be used as an artifact name"));
@@ -1140,28 +1143,28 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		if (iaa != null
 				&& iaa.getFullyQualifiedName().equals(
 						this.getFullyQualifiedName()))
-			errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR,
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 					"Illegal Inheritance for '" + this.getName()
 							+ "'; an object cannot extend itself"));
 		// check validity of the fields defined for this artifact
 		for (IField field : getFields()) {
-			List<TigerstripeError> errorList = field.validate();
-			if (!errorList.isEmpty())
-				errors.addAll(errorList);
+			IStatus fieldStatus = field.validate();
+			if (!fieldStatus.isOK())
+				result.add(fieldStatus);
 		}
 		// check validity of the labels (constants) defined for this artifact
 		for (ILabel label : getLabels()) {
-			List<TigerstripeError> errorList = label.validate();
-			if (!errorList.isEmpty())
-				errors.addAll(errorList);
+			IStatus labelStatus = label.validate();
+			if (!labelStatus.isOK())
+				result.add(labelStatus);
 		}
 		// check validity of the methods defined for this artifact
 		for (IMethod method : getMethods()) {
-			List<TigerstripeError> errorList = method.validate();
-			if (!errorList.isEmpty())
-				errors.addAll(errorList);
+			IStatus methodStatus = method.validate();
+			if (!methodStatus.isOK())
+				result.add(methodStatus);
 		}
-		return errors;
+		return result;
 	}
 
 	public void doSave(ITigerstripeProgressMonitor monitor)
@@ -1435,7 +1438,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	// =================================================================
 	// Methods to satisfy the IArtifact interface
 
-	
 	public Collection<IField> getFields(boolean filterFacetExcludedFields) {
 		Collection<IField> fields = getFields();
 		if (filterFacetExcludedFields) {
@@ -1447,15 +1449,19 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return Collections.unmodifiableCollection(this.fields);
 	}
 
-	public Collection<IField> getInheritedFields(boolean filterFacetExcludedFields) {
+	public Collection<IField> getInheritedFields(
+			boolean filterFacetExcludedFields) {
 		Collection fields = getInheritedFields();
 		if (filterFacetExcludedFields) {
 			if (facetFilteredInheritedFields == null) {
-				facetFilteredInheritedFields = Field.filterFacetExcludedFields(fields);
+				facetFilteredInheritedFields = Field
+						.filterFacetExcludedFields(fields);
 			}
-			return Collections.unmodifiableCollection(facetFilteredInheritedFields);
+			return Collections
+					.unmodifiableCollection(facetFilteredInheritedFields);
 		} else
-		    return Collections.unmodifiableCollection(this.getInheritedFields());
+			return Collections
+					.unmodifiableCollection(this.getInheritedFields());
 	}
 
 	public Collection<ILabel> getLabels(boolean filterFacetExcludedLabels) {
@@ -1469,38 +1475,46 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return Collections.unmodifiableCollection(this.labels);
 	}
 
-	public Collection<ILabel> getInheritedLabels(boolean filterFacetExcludedLabels) {
+	public Collection<ILabel> getInheritedLabels(
+			boolean filterFacetExcludedLabels) {
 		Collection labels = getInheritedLabels();
 		if (filterFacetExcludedLabels) {
 			if (facetFilteredInheritedLabels == null) {
-				facetFilteredInheritedLabels = Label.filterFacetExcludedLabels(labels);
+				facetFilteredInheritedLabels = Label
+						.filterFacetExcludedLabels(labels);
 			}
-			return Collections.unmodifiableCollection(facetFilteredInheritedLabels);
+			return Collections
+					.unmodifiableCollection(facetFilteredInheritedLabels);
 		} else
-			return Collections.unmodifiableCollection(this.getInheritedLabels());
+			return Collections
+					.unmodifiableCollection(this.getInheritedLabels());
 	}
 
 	public Collection<IMethod> getMethods(boolean filterFacetExcludedMethods) {
 		Collection methods = getMethods();
 		if (filterFacetExcludedMethods) {
 			if (facetFilteredMethods == null) {
-				facetFilteredMethods = Method.filterFacetExcludedMethods(methods);
+				facetFilteredMethods = Method
+						.filterFacetExcludedMethods(methods);
 			}
 			return Collections.unmodifiableCollection(facetFilteredMethods);
 		} else
-		    return Collections.unmodifiableCollection(this.methods);
+			return Collections.unmodifiableCollection(this.methods);
 	}
 
-
-	public Collection<IMethod> getInheritedMethods(boolean filterFacetExcludedMethods) {
+	public Collection<IMethod> getInheritedMethods(
+			boolean filterFacetExcludedMethods) {
 		Collection methods = getInheritedMethods();
 		if (filterFacetExcludedMethods) {
 			if (facetFilteredInheritedMethods == null) {
-				facetFilteredInheritedMethods = Method.filterFacetExcludedMethods(methods);
+				facetFilteredInheritedMethods = Method
+						.filterFacetExcludedMethods(methods);
 			}
-			return Collections.unmodifiableCollection(facetFilteredInheritedMethods);
+			return Collections
+					.unmodifiableCollection(facetFilteredInheritedMethods);
 		} else
-			return Collections.unmodifiableCollection(this.getInheritedMethods());
+			return Collections.unmodifiableCollection(this
+					.getInheritedMethods());
 	}
 
 	public IAbstractArtifact getExtendedArtifact() {

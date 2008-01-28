@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.contract.predicate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.core.util.LogicalPredicate;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 
@@ -38,21 +38,22 @@ public class LogicalFacetPredicate extends LogicalPredicate implements
 		addAll(Arrays.asList(predicates));
 	}
 
-	public TigerstripeError[] getInconsistencies() {
-		List<TigerstripeError> result = new ArrayList<TigerstripeError>();
+	public IStatus getInconsistencies() {
+		MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
+				"Facet Inconsistencies", null);
 		int s = size();
 		for (int i = 0; i < s; i++) {
 			Predicate pred = get(i);
 			if (pred instanceof IFacetPredicate) {
 				IFacetPredicate fPred = (IFacetPredicate) pred;
-				result.addAll(Arrays.asList(fPred.getInconsistencies()));
+				result.add(fPred.getInconsistencies());
 			}
 		}
-		return result.toArray(new TigerstripeError[result.size()]);
+		return result;
 	}
 
 	public boolean isConsistent() {
-		return getInconsistencies().length == 0;
+		return getInconsistencies().isOK();
 	}
 
 	public void resolve(ITigerstripeProgressMonitor monitor) {

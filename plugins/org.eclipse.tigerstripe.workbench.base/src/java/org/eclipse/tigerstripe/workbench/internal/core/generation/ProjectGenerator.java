@@ -23,7 +23,10 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
@@ -31,8 +34,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModule
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.MultiFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -73,7 +74,7 @@ public class ProjectGenerator {
 		this.processor = new UseCaseProcessor(project, config);
 	}
 
-	public PluginRunResult[] run() throws TigerstripeException,
+	public PluginRunStatus[] run() throws TigerstripeException,
 			GenerationException {
 		return run(new TigerstripeNullProgressMonitor());
 	}
@@ -104,10 +105,10 @@ public class ProjectGenerator {
 				IProjectDetails.USECASE_USEXSLT_DEFAULT));
 	}
 
-	public PluginRunResult[] run(ITigerstripeProgressMonitor monitor)
+	public PluginRunStatus[] run(ITigerstripeProgressMonitor monitor)
 			throws TigerstripeException, GenerationException {
 
-		List<PluginRunResult> overallResult = new ArrayList<PluginRunResult>();
+		List<PluginRunStatus> overallResult = new ArrayList<PluginRunStatus>();
 
 		try {
 			monitor.beginTask("Refreshing project", IProgressMonitor.UNKNOWN);
@@ -122,12 +123,12 @@ public class ProjectGenerator {
 
 			// First look at the modules to be generated.
 			if (config.isGenerateModules()) {
-				PluginRunResult[] subResult = generateModules(monitor);
+				PluginRunStatus[] subResult = generateModules(monitor);
 				overallResult.addAll(Arrays.asList(subResult));
 			}
 
 			if (config.isGenerateRefProjects()) {
-				PluginRunResult[] subResult = generateRefProjects(monitor);
+				PluginRunStatus[] subResult = generateRefProjects(monitor);
 				overallResult.addAll(Arrays.asList(subResult));
 			}
 
@@ -141,7 +142,7 @@ public class ProjectGenerator {
 					project.resetActiveFacet();
 					monitor.done();
 				}
-				PluginRunResult[] subResult = internalRun(monitor);
+				PluginRunStatus[] subResult = internalRun(monitor);
 				overallResult.addAll(Arrays.asList(subResult));
 
 				// Use case processing
@@ -161,18 +162,19 @@ public class ProjectGenerator {
 				IFacetReference facetRef = project.getActiveFacet();
 				if (facetRef.getFacetPredicate() != null
 						&& !facetRef.getFacetPredicate().isConsistent()) {
-					TigerstripeError[] facetInconsistencies = new TigerstripeError[0];
-					facetInconsistencies = facetRef.getFacetPredicate()
+					IStatus facetInconsistencies = facetRef.getFacetPredicate()
 							.getInconsistencies();
 					FacetActivationResult res = new FacetActivationResult(
 							project, config, facetRef);
-					for (TigerstripeError error : facetInconsistencies) {
-						res.addError(error);
+					if (facetInconsistencies.isMultiStatus()) {
+						for (IStatus error : facetInconsistencies.getChildren()) {
+							res.add(error);
+						}
 					}
 					overallResult.add(res);
 				}
 
-				PluginRunResult[] subResult = internalRun(monitor);
+				PluginRunStatus[] subResult = internalRun(monitor);
 				overallResult.addAll(Arrays.asList(subResult));
 
 				// Use case processing
@@ -183,7 +185,7 @@ public class ProjectGenerator {
 
 				if (project.getFacetReferences().length == 0) {
 					// no Facet defined simply run plugins.
-					PluginRunResult[] subResult = internalRun(monitor);
+					PluginRunStatus[] subResult = internalRun(monitor);
 					overallResult.addAll(Arrays.asList(subResult));
 
 					// Use case processing
@@ -194,7 +196,7 @@ public class ProjectGenerator {
 
 					IFacetReference currentFacet = project.getActiveFacet();
 					if (config.isMergeFacets()) {
-						PluginRunResult[] facetResult = new PluginRunResult[0];
+						PluginRunStatus[] facetResult = new PluginRunStatus[0];
 						IFacetReference mergedFacet = new MultiFacetReference(
 								project.getFacetReferences(), project);
 						project.setActiveFacet(mergedFacet, monitor);
@@ -212,7 +214,7 @@ public class ProjectGenerator {
 						for (IFacetReference facetRef : project
 								.getFacetReferences()) {
 
-							PluginRunResult[] facetResult = new PluginRunResult[0];
+							PluginRunStatus[] facetResult = new PluginRunStatus[0];
 							if (facetRef.canResolve()) {
 								monitor.beginTask("Setting active facet to: "
 										+ facetRef.resolve().getName(),
@@ -221,14 +223,16 @@ public class ProjectGenerator {
 								if (facetRef.getFacetPredicate() != null
 										&& !facetRef.getFacetPredicate()
 												.isConsistent()) {
-									TigerstripeError[] facetInconsistencies = new TigerstripeError[0];
-									facetInconsistencies = facetRef
+									IStatus facetInconsistencies = facetRef
 											.getFacetPredicate()
 											.getInconsistencies();
 									FacetActivationResult res = new FacetActivationResult(
 											project, config, facetRef);
-									for (TigerstripeError error : facetInconsistencies) {
-										res.addError(error);
+									if (facetInconsistencies.isMultiStatus()) {
+										for (IStatus error : facetInconsistencies
+												.getChildren()) {
+											res.add(error);
+										}
 									}
 									overallResult.add(res);
 								}
@@ -261,7 +265,7 @@ public class ProjectGenerator {
 				}
 			}
 
-			return overallResult.toArray(new PluginRunResult[overallResult
+			return overallResult.toArray(new PluginRunStatus[overallResult
 					.size()]);
 		} finally {
 			resetAfterGeneration();
@@ -277,7 +281,7 @@ public class ProjectGenerator {
 	 * @throws TigerstripeException
 	 * @throws GenerationException
 	 */
-	private PluginRunResult[] internalRun(ITigerstripeProgressMonitor monitor)
+	private PluginRunStatus[] internalRun(ITigerstripeProgressMonitor monitor)
 			throws TigerstripeException, GenerationException,
 			GenerationCanceledException {
 
@@ -295,7 +299,7 @@ public class ProjectGenerator {
 		boolean changedStdOutStdErr = false;
 		// allocate List that is used to hold the results from running
 		// each of the plugins
-		List<PluginRunResult> result = new ArrayList<PluginRunResult>();
+		List<PluginRunStatus> result = new ArrayList<PluginRunStatus>();
 
 		try {
 			Collection<PluginReport> reports = new ArrayList<PluginReport>();
@@ -327,16 +331,19 @@ public class ProjectGenerator {
 					internalPluginLoop(ref, result, reports, monitor);
 					if (ref.validationFailed()) {
 						validationFailed = true;
-						PluginRunResult res = new PluginRunResult(ref, project,
+						PluginRunStatus res = new PluginRunStatus(ref, project,
 								config, project.getActiveFacet());
-						TigerstripeError error = new TigerstripeError(
-								TigerstripeErrorLevel.ERROR,
-								"Validation Failed: "
-										+ ref.getValidationFailMessage());
-						if (ref.getValidationFailThrowable() instanceof Exception)
-							error.setCorrespondingException((Exception) ref
-									.getValidationFailThrowable());
-						res.addError(error);
+						IStatus error = new Status(IStatus.ERROR, BasePlugin
+								.getPluginId(), "Validation Failed: "
+								+ ref.getValidationFailMessage());
+						if (ref.getValidationFailThrowable() instanceof Exception) {
+							error = new Status(IStatus.ERROR, BasePlugin
+									.getPluginId(), "Validation Failed: "
+									+ ref.getValidationFailMessage(),
+									(Exception) ref
+											.getValidationFailThrowable());
+						}
+						res.add(error);
 						result.add(res);
 					}
 				}
@@ -374,11 +381,11 @@ public class ProjectGenerator {
 			}
 		}
 
-		return result.toArray(new PluginRunResult[result.size()]);
+		return result.toArray(new PluginRunStatus[result.size()]);
 	}
 
 	private void internalPluginLoop(PluginRef ref,
-			List<PluginRunResult> result, Collection<PluginReport> reports,
+			List<PluginRunStatus> result, Collection<PluginReport> reports,
 			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
 		// Make sure we only trigger "generation" plugins (i.e. not
 		// the
@@ -393,7 +400,7 @@ public class ProjectGenerator {
 
 			PluginLogger.setUpForRun(ref, config);
 
-			PluginRunResult pluginResult = new PluginRunResult(ref, project,
+			PluginRunStatus pluginResult = new PluginRunStatus(ref, project,
 					config, project.getActiveFacet());
 			try {
 				monitor.worked(1);
@@ -412,13 +419,12 @@ public class ProjectGenerator {
 
 				monitor.worked(1);
 			} catch (TigerstripeException e) {
-				TigerstripeError error = new TigerstripeError(
-						TigerstripeErrorLevel.ERROR,
+				IStatus error = new Status(IStatus.ERROR, BasePlugin
+						.getPluginId(),
 						"An error was detected while triggering '"
 								+ ref.getLabel()
-								+ "' plugin. Generation maybe incomplete.");
-				error.setCorrespondingException(e);
-				pluginResult.addError(error);
+								+ "' plugin. Generation maybe incomplete.", e);
+				pluginResult.add(error);
 				result.add(pluginResult);
 				if (e.getException() != null) {
 					PluginLogger.log(LogLevel.ERROR,
@@ -434,13 +440,12 @@ public class ProjectGenerator {
 							e);
 				}
 			} catch (Exception e) {
-				TigerstripeError error = new TigerstripeError(
-						TigerstripeErrorLevel.ERROR,
+				IStatus error = new Status(IStatus.ERROR, BasePlugin
+						.getPluginId(),
 						"An error was detected while triggering '"
 								+ ref.getLabel()
-								+ "' plugin. Generation maybe incomplete.");
-				error.setCorrespondingException(e);
-				pluginResult.addError(error);
+								+ "' plugin. Generation maybe incomplete.", e);
+				pluginResult.add(error);
 				result.add(pluginResult);
 				PluginLogger.log(LogLevel.ERROR,
 						"An error was detected while triggering '"
@@ -507,10 +512,9 @@ public class ProjectGenerator {
 				errLogger.removeAllAppenders();
 				errLogger.addAppender(stderrAppender);
 				errLogger.setAdditivity(false);
-				Level warn = Level.WARN;
 				// Temporary disabled until go ahead from Eclipse Legal to use.
-//				System.setErr(new PrintStream(new LoggingOutputStream(
-//						errLogger, warn), true));
+				// System.setErr(new PrintStream(new LoggingOutputStream(
+				// errLogger, warn), true));
 				// and also make sure everything sent to System.out
 				// is logged
 				PatternLayout stdoutPatternLayout = new PatternLayout();
@@ -526,18 +530,17 @@ public class ProjectGenerator {
 				outLogger.setLevel(info);
 				outLogger.setAdditivity(false);
 				// Temporary disabled until go ahead from Eclipse Legal to use.
-//				System.setOut(new PrintStream(new LoggingOutputStream(
-//						outLogger, info), true));
+				// System.setOut(new PrintStream(new LoggingOutputStream(
+				// outLogger, info), true));
 			} catch (IOException e) {
 				TigerstripeRuntime.logErrorMessage("IOException detected", e);
-				PluginRunResult pluginResult = new PluginRunResult(ref,
+				PluginRunStatus pluginResult = new PluginRunStatus(ref,
 						project, config, project.getActiveFacet());
-				TigerstripeError error = new TigerstripeError(
-						TigerstripeErrorLevel.ERROR,
+				IStatus error = new Status(IStatus.ERROR, BasePlugin
+						.getPluginId(),
 						"An error was detected while redirecting stdout/stderr."
-								+ " Generation maybe incomplete.");
-				error.setCorrespondingException(e);
-				pluginResult.addError(error);
+								+ " Generation maybe incomplete.", e);
+				pluginResult.add(error);
 			}
 		}
 
@@ -584,9 +587,9 @@ public class ProjectGenerator {
 		project.getArtifactManagerSession().generationComplete();
 	}
 
-	private PluginRunResult[] generateRefProjects(
+	private PluginRunStatus[] generateRefProjects(
 			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
-		PluginRunResult[] result = new PluginRunResult[0];
+		PluginRunStatus[] result = new PluginRunStatus[0];
 		ITigerstripeProject[] refProjects = project.getReferencedProjects();
 
 		monitor.beginTask("Generating Referenced Projects", refProjects.length);
@@ -600,7 +603,7 @@ public class ProjectGenerator {
 			refConfig.setAbsoluteOutputDir(absDir);
 			ProjectGenerator gen = new ProjectGenerator(refProject, refConfig);
 			result = gen.run();
-			for (PluginRunResult res : result) {
+			for (PluginRunStatus res : result) {
 				res.setContext("Referenced Project");
 			}
 			monitor.worked(1);
@@ -610,11 +613,11 @@ public class ProjectGenerator {
 		return result;
 	}
 
-	private PluginRunResult[] generateModules(
+	private PluginRunStatus[] generateModules(
 			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
 		String corePath = TigerstripeRuntime
 				.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
-		PluginRunResult[] result = new PluginRunResult[0];
+		PluginRunStatus[] result = new PluginRunStatus[0];
 		IDependency[] dependencies = project.getDependencies();
 
 		monitor.beginTask("Generating Dependencies", dependencies.length);
@@ -649,7 +652,7 @@ public class ProjectGenerator {
 			ProjectGenerator gen = new ProjectGenerator(modProj, myConfig);
 			result = gen.run(monitor);
 
-			for (PluginRunResult res : result) {
+			for (PluginRunStatus res : result) {
 				res.setContext("dependency");
 			}
 			modProj.clearTemporaryDependencies(monitor); // necessary step so

@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.contract.segment;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 
 /**
@@ -38,11 +38,10 @@ public interface IFacetPredicate extends Predicate {
 	public boolean isConsistent();
 
 	/**
-	 * Returns an array of inconsistencies as found during facet resolution.
-	 * 
-	 * Returns empty array is predicate is not resolved.
+	 * Returns an Multistatus containing all inconsistencies for this Facet
+	 * Predicate
 	 * 
 	 * @return
 	 */
-	public TigerstripeError[] getInconsistencies();
+	public IStatus getInconsistencies();
 }

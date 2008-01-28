@@ -54,8 +54,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
@@ -66,6 +64,7 @@ import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.StereotypeSectionManager;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
@@ -277,9 +276,9 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		boolean result = false;
 		try {
-			AbstractArtifact artifact = tsProject.getArtifactManagerSession()
+			IAbstractArtifact artifact = tsProject.getArtifactManagerSession()
 					.getArtifactByFullyQualifiedName(this.getAttributeClass());
-			if (artifact != null && artifact instanceof ManagedEntityArtifact) {
+			if (artifact != null && artifact instanceof IManagedEntityArtifact) {
 				result = true;
 			}
 		} catch (TigerstripeException e) {

@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model.artifacts;
 
-import java.util.List;
-
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.IType;
 
@@ -30,8 +27,6 @@ public interface IDependencyArtifact extends IAbstractArtifact, IRelationship {
 	public void setZEndType(IType zEndType);
 
 	public IType makeIType();
-
-	public List<TigerstripeError> validate();
 
 	/**
 	 * The type of the AEnd for this Dependency.

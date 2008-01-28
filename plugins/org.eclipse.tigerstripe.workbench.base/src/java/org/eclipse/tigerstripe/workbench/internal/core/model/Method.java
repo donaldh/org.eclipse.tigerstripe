@@ -14,14 +14,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjMethod;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEntitySpecifics;
@@ -31,9 +32,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -628,7 +627,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 
 		public IAbstractArtifact getContainingArtifact() {
-			return (IAbstractArtifact) this.parentMethod.getContainingArtifact();
+			return (IAbstractArtifact) this.parentMethod
+					.getContainingArtifact();
 		}
 
 		// =========================================================================
@@ -703,9 +703,10 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			this.fullyQualifiedName = fullyQualifiedName;
 		}
 
-		public List<TigerstripeError> validate() {
+		public IStatus validate() {
 
-			List<TigerstripeError> errors = new ArrayList();
+			MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
+					"Exception validation", null);
 
 			// check the fully qualified name of the exception to ensure
 			// that it is a valid Java name, do this by checking both the
@@ -719,13 +720,14 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					.matches()
 					&& !TigerstripeValidationUtils.elementNamePattern.matcher(
 							className).matches())
-				errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR,
+				result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 						"'" + getName() + "' is not a legal exception name"));
 			// check class name to ensure it is not a reserved keyword
 			else if (TigerstripeValidationUtils.keywordList.contains(className)) {
-				errors
-						.add(new TigerstripeError(
-								TigerstripeErrorLevel.ERROR,
+				result
+						.add(new Status(
+								IStatus.ERROR,
+								BasePlugin.getPluginId(),
 								"'"
 										+ getName()
 										+ "' is a reserved keyword and cannot be used as exception name"));
@@ -736,20 +738,21 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			String packageName = Util.packageOf(getFullyQualifiedName());
 			if (!TigerstripeValidationUtils.packageNamePattern.matcher(
 					packageName).matches())
-				errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR,
+				result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 						"'" + packageName
 								+ "' is not a legal exception package name"));
 			else if (TigerstripeValidationUtils.keywordList
 					.contains(packageName)) {
-				errors
-						.add(new TigerstripeError(
-								TigerstripeErrorLevel.ERROR,
+				result
+						.add(new Status(
+								IStatus.ERROR,
+								BasePlugin.getPluginId(),
 								"'"
 										+ packageName
 										+ "' is a reserved keyword and cannot be used as an exception package name"));
 			}
 
-			return errors;
+			return result;
 		}
 
 		public IException clone() {
@@ -782,7 +785,6 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	public IType getReturnIType() {
 		return this.returnType;
 	}
-
 
 	public IType makeIType() {
 		return new Type(getArtifactManager());
@@ -853,7 +855,6 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		IArgument[] result = new IArgument[getArguments().size()];
 		return (IArgument[]) getArguments().toArray(result);
 	}
-
 
 	public IArgument makeIArgument() {
 		return new Argument(this);
@@ -1011,21 +1012,23 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	 * 
 	 * @see org.eclipse.tigerstripe.api.artifacts.model.IMethod#validate()
 	 */
-	public List<TigerstripeError> validate() {
+	public IStatus validate() {
 
-		List<TigerstripeError> errors = new ArrayList();
+		MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
+				"Method validation", null);
 
 		// check method name to ensure that it is a valid method name in Java
 		if (!TigerstripeValidationUtils.elementNamePattern.matcher(getName())
 				.matches()) {
-			errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR, "'"
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
 					+ getName() + "' is not a valid method name"));
 		}
 		// check method name to ensure it is not a reserved keyword
 		else if (TigerstripeValidationUtils.keywordList.contains(getName())) {
-			errors
-					.add(new TigerstripeError(
-							TigerstripeErrorLevel.ERROR,
+			result
+					.add(new Status(
+							IStatus.ERROR,
+							BasePlugin.getPluginId(),
 							"method named '"
 									+ getName()
 									+ "' is a reserved keyword and cannot be used as method name"));
@@ -1033,13 +1036,13 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		// check the validity of the method return type
 		boolean isMethodReturnCheck = true;
-		List<TigerstripeError> errorList = getReturnIType().validate(
+		IStatus returnTypeStatus = getReturnIType().validate(
 				isMethodReturnCheck);
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
+		if (!returnTypeStatus.isOK())
+			result.add(returnTypeStatus);
 
 		// check the validity of the method parameter names and types
-		Collection argList = getArguments();
+		Collection<IArgument> argList = getArguments();
 		Iterator iter = argList.iterator();
 		while (iter.hasNext()) {
 
@@ -1048,16 +1051,17 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			// Java
 			if (!TigerstripeValidationUtils.elementNamePattern.matcher(
 					arg.getName()).matches()) {
-				errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR,
+				result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 						"'" + getName() + "::" + arg.getName()
 								+ "' is not a valid method name"));
 			}
 			// check parameter name to ensure it is not a reserved keyword
 			else if (TigerstripeValidationUtils.keywordList.contains(arg
 					.getName())) {
-				errors
-						.add(new TigerstripeError(
-								TigerstripeErrorLevel.ERROR,
+				result
+						.add(new Status(
+								IStatus.ERROR,
+								BasePlugin.getPluginId(),
 								"'"
 										+ getName()
 										+ "::"
@@ -1066,21 +1070,21 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			}
 
 			// check the parameter type to ensure it is a valid data type
-			errorList = arg.getIType().validate();
-			if (!errorList.isEmpty())
-				errors.addAll(errorList);
+			IStatus typeStatus = arg.getIType().validate();
+			if (!typeStatus.isOK())
+				result.addAll(typeStatus);
 
 		}
 
 		// check exceptions to ensure that they are valid class names
 		IException[] iExceptions = this.getIExceptions();
 		for (int i = 0; i < iExceptions.length; i++) {
-			errorList = iExceptions[i].validate();
-			if (!errorList.isEmpty())
-				errors.addAll(errorList);
+			IStatus s = iExceptions[i].validate();
+			if (!s.isOK())
+				result.addAll(s);
 		}
 
-		return errors;
+		return result;
 
 	}
 
@@ -1158,7 +1162,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Returns a duplicate of the initial list where all components that are not
 	 * in the current active facet are filtered out.
@@ -1169,8 +1173,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	public static Collection<IMethod> filterFacetExcludedMethods(
 			Collection<IMethod> components) {
 		ArrayList<IMethod> result = new ArrayList<IMethod>();
-		for (Iterator<IMethod> iter = components.iterator(); iter
-				.hasNext();) {
+		for (Iterator<IMethod> iter = components.iterator(); iter.hasNext();) {
 			IMethod component = iter.next();
 			try {
 				if (!component.isInActiveFacet())
@@ -1186,5 +1189,5 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 		return result;
 	}
-	
+
 }

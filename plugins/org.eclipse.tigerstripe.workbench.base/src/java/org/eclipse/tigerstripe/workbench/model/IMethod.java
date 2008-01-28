@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
@@ -119,7 +119,7 @@ public interface IMethod extends IModelComponent {
 
 		public void setFullyQualifiedName(String fqn);
 
-		public List<TigerstripeError> validate();
+		public IStatus validate();
 
 		public IException clone();
 
@@ -263,8 +263,6 @@ public interface IMethod extends IModelComponent {
 	 * @param instance
 	 */
 	public void setInstanceMethod(boolean instance);
-
-	public List<TigerstripeError> validate();
 
 	/**
 	 * Returns the OSSJ flavor details for this method

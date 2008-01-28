@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model;
 
-import java.util.List;
-
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
@@ -21,17 +19,19 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
  * 
  * @author Eric Dillon
  */
-public interface IType  {
+public interface IType {
 
 	/**
 	 * Static integer value for multiple multiplicity - ie "*"
-	 * @deprecated  no use of Multiplicity any more, please use Type Multiplicity
+	 * 
+	 * @deprecated no use of Multiplicity any more, please use Type Multiplicity
 	 */
 	@Deprecated
 	public final static int MULTIPLICITY_MULTI = 1;
 	/**
 	 * Static integer value for single multiplicity - ie "0..1"
-	 * @deprecated  no use of Multiplicity any more, please use Type Multiplicity
+	 * 
+	 * @deprecated no use of Multiplicity any more, please use Type Multiplicity
 	 */
 	@Deprecated
 	public final static int MULTIPLICITY_SINGLE = 0;
@@ -49,9 +49,9 @@ public interface IType  {
 
 	public void setTypeMultiplicity(EMultiplicity multiplicity);
 
-	public List<TigerstripeError> validate();
+	public IStatus validate();
 
-	public List<TigerstripeError> validate(boolean isMethodReturnCheck);
+	public IStatus validate(boolean isMethodReturnCheck);
 
 	public IType clone();
 

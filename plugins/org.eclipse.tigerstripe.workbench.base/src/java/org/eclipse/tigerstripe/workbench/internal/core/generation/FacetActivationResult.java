@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
-public class FacetActivationResult extends PluginRunResult {
+public class FacetActivationResult extends PluginRunStatus {
 
 	public FacetActivationResult(ITigerstripeProject project, RunConfig config,
 			IFacetReference facetRef) {
@@ -32,7 +32,7 @@ public class FacetActivationResult extends PluginRunResult {
 	public String toString(boolean includeHTML) {
 		StringBuffer buf = new StringBuffer();
 
-		boolean hasError = getErrors().length != 0;
+		boolean hasError = !isOK();
 		try {
 			String projectType = "Inconsistent Facet:";
 
@@ -49,13 +49,13 @@ public class FacetActivationResult extends PluginRunResult {
 			else
 				buf.append("\n");
 
-			for (TigerstripeError error : getErrors()) {
+			for (IStatus error : getChildren()) {
 				if (includeHTML)
 					buf.append("<li><span color=\"red\">");
 				if (!includeHTML)
 					buf.append(" - ");
-				buf.append(error.getErrorLevel().toString() + ": "
-						+ error.getErrorMessage());
+				buf.append(getSeverityString(error.getSeverity()) + ": "
+						+ error.getMessage());
 				if (includeHTML)
 					buf.append("<br/>");
 				else

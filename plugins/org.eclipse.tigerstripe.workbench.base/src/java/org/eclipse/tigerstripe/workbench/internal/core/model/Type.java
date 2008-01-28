@@ -10,12 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -381,7 +380,7 @@ public class Type implements IType {
 		return false;
 	}
 
-	public List<TigerstripeError> validate() {
+	public IStatus validate() {
 		return this.validate(false);
 	}
 
@@ -395,9 +394,10 @@ public class Type implements IType {
 	 * 
 	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILabel#validate()
 	 */
-	public List<TigerstripeError> validate(boolean isMethodReturnCheck) {
+	public IStatus validate(boolean isMethodReturnCheck) {
 
-		List<TigerstripeError> errors = new ArrayList();
+		MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
+				"Type validation", null);
 
 		// check the type name; it should either be a primitive profile type or
 		// a valid
@@ -410,14 +410,15 @@ public class Type implements IType {
 				typeName).matches()
 				&& !TigerstripeValidationUtils.elementNamePattern.matcher(
 						typeName).matches()) {
-			errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR, "'"
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
 					+ typeName + "' is not a legal type name"));
 		}
 		// check label name to ensure it is not a reserved keyword
 		else if (TigerstripeValidationUtils.keywordList.contains(typeName)) {
-			errors
-					.add(new TigerstripeError(
-							TigerstripeErrorLevel.ERROR,
+			result
+					.add(new Status(
+							IStatus.ERROR,
+							BasePlugin.getPluginId(),
 							"'"
 									+ typeName
 									+ "' is a reserved keyword and cannot be used as type name"));
@@ -427,18 +428,19 @@ public class Type implements IType {
 		if (!packageName.equals("")
 				&& !TigerstripeValidationUtils.packageNamePattern.matcher(
 						packageName).matches())
-			errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR, "'"
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
 					+ packageName + "' is not a legal package name"));
 		else if (TigerstripeValidationUtils.keywordList.contains(packageName)) {
-			errors
-					.add(new TigerstripeError(
-							TigerstripeErrorLevel.ERROR,
+			result
+					.add(new Status(
+							IStatus.ERROR,
+							BasePlugin.getPluginId(),
 							"'"
 									+ packageName
 									+ "' is a reserved keyword and cannot be used as package name"));
 		}
 
-		return errors;
+		return result;
 
 	}
 

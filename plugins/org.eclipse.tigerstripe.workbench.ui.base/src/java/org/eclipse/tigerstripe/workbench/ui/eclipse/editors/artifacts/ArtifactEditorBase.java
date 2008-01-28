@@ -14,7 +14,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
@@ -28,7 +27,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -191,9 +189,9 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				.beginTask("Saving " + getIArtifact().getFullyQualifiedName(),
 						1);
 		// check for errors, if errors are found they will be displayed
-		List<TigerstripeError> errorList = getIArtifact().validate();
-		if (!errorList.isEmpty()) {
-			if (TigerstripeError.errorExists(errorList)) {
+		IStatus errorList = getIArtifact().validate();
+		if (!errorList.isOK()) {
+			if (errorList.matches(IStatus.ERROR)) {
 				// display error list and exit without saving
 				MessageListDialog dialog = new MessageListDialog(getContainer()
 						.getShell(), errorList, "Save Failed: Invalid Artifact");
@@ -313,8 +311,9 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	}
 
 	private void refreshModelPages() {
-		for (Iterator iter = modelPages.iterator(); iter.hasNext();) {
-			TigerstripeFormPage page = (TigerstripeFormPage) iter.next();
+		for (Iterator<TigerstripeFormPage> iter = modelPages.iterator(); iter
+				.hasNext();) {
+			TigerstripeFormPage page = iter.next();
 			page.refresh();
 		}
 	}

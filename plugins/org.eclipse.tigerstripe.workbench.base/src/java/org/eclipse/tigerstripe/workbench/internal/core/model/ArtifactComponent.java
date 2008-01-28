@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.tags.StereotypeTags;
 import org.eclipse.tigerstripe.workbench.internal.core.util.encode.XmlEscape;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 
@@ -55,7 +56,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 	protected static XmlEscape xmlEncode = new XmlEscape();
 
 	// The parent artifact for this Artifact Component
-	private AbstractArtifact parentArtifact;
+	private IAbstractArtifact parentArtifact;
 
 	// The manager this artifact belongs to
 	private ArtifactManager artifactMgr;
@@ -79,11 +80,11 @@ public abstract class ArtifactComponent implements IModelComponent,
 	 * 
 	 * @return
 	 */
-	public AbstractArtifact getParentArtifact() {
+	public IAbstractArtifact getParentArtifact() {
 		return this.parentArtifact;
 	}
 
-	public void setParentArtifact(AbstractArtifact parentArtifact) {
+	public void setParentArtifact(IAbstractArtifact parentArtifact) {
 		this.parentArtifact = parentArtifact;
 	}
 

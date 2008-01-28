@@ -53,9 +53,8 @@ import org.eclipse.tigerstripe.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.eclipse.wizards.model.ArtifactAttributeModel;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDialog;
@@ -269,9 +268,9 @@ public class AttributesSelectionDialog extends TSMessageDialog {
 
 		try {
 			ITigerstripeProject project = tsContext.getProjectHandle();
-			AbstractArtifact artifact = project.getArtifactManagerSession()
+			IAbstractArtifact artifact = project.getArtifactManagerSession()
 					.getArtifactByFullyQualifiedName(this.getAttributeClass());
-			if (artifact != null && artifact instanceof ManagedEntityArtifact) {
+			if (artifact != null && artifact instanceof IManagedEntityArtifact) {
 				result = true;
 			}
 		} catch (TigerstripeException e) {
@@ -639,8 +638,8 @@ public class AttributesSelectionDialog extends TSMessageDialog {
 	 * Gets the default attribute type from the active profile.
 	 */
 	private String getDefaultTypeName() {
-		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
-				.getActiveProfile();
+		IWorkbenchProfile profile = TigerstripeCore
+				.getIWorkbenchProfileSession().getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}
 

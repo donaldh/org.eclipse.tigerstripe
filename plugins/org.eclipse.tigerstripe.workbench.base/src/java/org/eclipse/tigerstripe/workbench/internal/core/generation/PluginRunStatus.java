@@ -12,13 +12,13 @@ package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IPluginReference;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -30,9 +30,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  * @author Eric Dillon
  * 
  */
-public class PluginRunResult {
-
-	private List<TigerstripeError> errors = new ArrayList<TigerstripeError>();
+public class PluginRunStatus extends MultiStatus implements IStatus {
 
 	private IPluginReference pluginRef;
 
@@ -46,9 +44,10 @@ public class PluginRunResult {
 		this.context = context;
 	}
 
-	public PluginRunResult(IPluginReference pluginRef,
+	public PluginRunStatus(IPluginReference pluginRef,
 			ITigerstripeProject project, RunConfig config,
 			IFacetReference facetRef) {
+		super(BasePlugin.getPluginId(), 222, "Plugin Run Status", null);
 		this.pluginRef = pluginRef;
 		this.project = project;
 		this.facetRef = facetRef;
@@ -66,24 +65,8 @@ public class PluginRunResult {
 		return context;
 	}
 
-	public void addError(TigerstripeError error) {
-		errors.add(error);
-	}
-
-	public TigerstripeError[] getErrors() {
-		return errors.toArray(new TigerstripeError[errors.size()]);
-	}
-
 	public IPluginReference getPluginRef() {
 		return this.pluginRef;
-	}
-
-	public boolean errorExists() {
-		return TigerstripeError.errorExists(errors);
-	}
-
-	public boolean warningExists() {
-		return TigerstripeError.warningExists(errors);
 	}
 
 	@Override
@@ -92,9 +75,10 @@ public class PluginRunResult {
 	}
 
 	public String toString(boolean includeHTML) {
+		super.toString();
 		StringBuffer buf = new StringBuffer();
 
-		boolean hasError = getErrors().length != 0;
+		boolean hasError = !isOK();
 		try {
 			String projectType = "Project";
 			if (project instanceof ITigerstripeModuleProject) {
@@ -131,27 +115,27 @@ public class PluginRunResult {
 				else
 					buf.append("\n");
 			} else {
-				for (TigerstripeError error : getErrors()) {
+				for (IStatus status : getChildren()) {
 					if (includeHTML)
 						buf.append("<li><span color=\"red\">");
-					buf.append(error.getErrorLevel().toString() + ": "
-							+ error.getErrorMessage());
+					buf.append(getSeverityString(status.getSeverity()) + ": "
+							+ status.getMessage());
 					if (includeHTML)
 						buf.append("<br/>");
 					else
 						buf.append("\n");
 
-					if (error.getCorrespondingException() instanceof TigerstripeException) {
-						TigerstripeException tsExc = (TigerstripeException) error
-								.getCorrespondingException();
+					if (status.getException() instanceof TigerstripeException) {
+						TigerstripeException tsExc = (TigerstripeException) status
+								.getException();
 						if (tsExc.getException() != null) {
 							StringWriter writer = new StringWriter();
 							tsExc.getException().printStackTrace(
 									new PrintWriter(writer));
 							buf.append(writer.toString());
 						}
-					} else if (error.getCorrespondingException() != null)
-						buf.append(error.getCorrespondingException()
+					} else if (status.getException() != null)
+						buf.append(status.getException()
 								.getLocalizedMessage());
 					if (includeHTML)
 						buf.append("<br/>");
@@ -168,5 +152,18 @@ public class PluginRunResult {
 					e);
 		}
 		return buf.toString();
+	}
+
+	protected String getSeverityString(int severity) {
+		switch (severity) {
+		case IStatus.ERROR:
+			return "Error";
+		case IStatus.WARNING:
+			return "Warning";
+		case IStatus.INFO:
+			return "Info";
+		default:
+			return "Unknown";
+		}
 	}
 }

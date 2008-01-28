@@ -12,13 +12,12 @@ package org.eclipse.tigerstripe.workbench.model.artifacts;
 
 import java.io.Writer;
 import java.util.Collection;
-import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
@@ -119,8 +118,6 @@ public interface IAbstractArtifact extends IModelComponent {
 
 	public void doSilentSave(ITigerstripeProgressMonitor monitor)
 			throws TigerstripeException;
-
-	public List<TigerstripeError> validate();
 
 	public void write(Writer writer) throws TigerstripeException;
 

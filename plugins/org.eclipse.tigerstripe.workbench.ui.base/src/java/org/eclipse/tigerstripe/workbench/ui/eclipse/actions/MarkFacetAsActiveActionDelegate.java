@@ -32,8 +32,6 @@ import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -116,20 +114,9 @@ public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 									222,
 									"Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model.",
 									null);
-							for (TigerstripeError error : fPred
-									.getInconsistencies()) {
-								int statusLevel = IStatus.OK;
-								if (error.getErrorLevel() == TigerstripeErrorLevel.ERROR) {
-									statusLevel = IStatus.ERROR;
-								} else if (error.getErrorLevel() == TigerstripeErrorLevel.WARNING) {
-									statusLevel = IStatus.WARNING;
-								} else if (error.getErrorLevel() == TigerstripeErrorLevel.INFO) {
-									statusLevel = IStatus.INFO;
-								}
-								Status s = new Status(statusLevel,
-										TigerstripePluginConstants.PLUGIN_ID,
-										222, error.getErrorMessage(), null);
-								status.add(s);
+							for (IStatus error : fPred
+									.getInconsistencies().getChildren()) {
+								status.add(error);
 							}
 							return status;
 						}

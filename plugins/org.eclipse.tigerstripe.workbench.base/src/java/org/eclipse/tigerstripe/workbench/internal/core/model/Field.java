@@ -13,12 +13,13 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -245,34 +246,39 @@ public class Field extends ArtifactComponent implements IField {
 	 * 
 	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILabel#validate()
 	 */
-	public List<TigerstripeError> validate() {
+	public IStatus validate() {
 
-		List<TigerstripeError> errors = new ArrayList();
+		MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
+				"Field Validation", null);
 
 		// check field name to ensure that it is a valid fieldname in Java
 		if (!TigerstripeValidationUtils.elementNamePattern.matcher(getName())
 				.matches()
 				&& !TigerstripeValidationUtils.allUppercase.matcher(getName())
 						.matches()) {
-			errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR, "'"
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
 					+ getName() + "' is not a valid field name"));
 		}
 		// check field name to ensure it is not a reserved keyword
 		else if (TigerstripeValidationUtils.keywordList.contains(getName())) {
-			errors
-					.add(new TigerstripeError(
-							TigerstripeErrorLevel.ERROR,
+			result
+					.add(new Status(
+							IStatus.ERROR,
+							BasePlugin.getPluginId(),
 							"'"
 									+ getName()
 									+ "' is a reserved keyword and cannot be used as field name"));
 		}
 
 		// check the validity of the type for this field
-		List<TigerstripeError> errorList = getIType().validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
+		IStatus typeStatus = getIType().validate();
+		if (!typeStatus.isOK())
+			result.add(typeStatus);
 
-		return errors;
+		if (result.isOK())
+			return Status.OK_STATUS;
+		else
+			return result;
 
 	}
 
@@ -317,8 +323,7 @@ public class Field extends ArtifactComponent implements IField {
 		}
 		return result;
 	}
-	
-	
+
 	/**
 	 * Returns a duplicate of the initial list where all components that are not
 	 * in the current active facet are filtered out.
@@ -329,8 +334,7 @@ public class Field extends ArtifactComponent implements IField {
 	public static Collection<IField> filterFacetExcludedFields(
 			Collection<IField> components) {
 		ArrayList<IField> result = new ArrayList<IField>();
-		for (Iterator<IField> iter = components.iterator(); iter
-				.hasNext();) {
+		for (Iterator<IField> iter = components.iterator(); iter.hasNext();) {
 			IField component = iter.next();
 			try {
 				if (!component.isInActiveFacet())

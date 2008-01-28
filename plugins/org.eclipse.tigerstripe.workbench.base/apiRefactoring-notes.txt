@@ -27,6 +27,10 @@ R - IBooleanPPluginProperty to be renamed as IBooleanPluginProperty (no need for
 - ILabel should really be ILiteral?
 - All the startup procedure should be revisited (TigerstripeRuntime, and PostInstallOptions to be removed and
 	replaced by some Runtime details available directly from TigerstripeCore.
+X - PluginRunResult renamed to PluginRunStatus, also made it a MultiStatus.
+- Remove IQueryCapabilitiesArtifacts.jave
+- Remove IQueryModelArtifacts.java
+- Remove IQuerySessionArtifacts.java
 
 ###################################
 In IAbstractTigerstripeProject
@@ -47,7 +51,7 @@ R - Remove all "makeI***()" methods to keep only "make***()"
 - References to ITigerstripeProgressMonitor should be removed from the API. In fact, a proper
 	IProgressMonitor (from Eclipse) should be used instead.
 - IAbstractTigerstripeProject should implement IAdaptable
-- TigerstripeError (in internal.utils) should be replaced with IStatus from Eclipse.
+X - TigerstripeError (in internal.utils) should be replaced with IStatus from Eclipse.
 
 
 ###################################
@@ -92,3 +96,13 @@ X - This is bizarre - all of the getIxxx return an Array of stuff, but the (inte
 In IAssociationClassArtifact
 X - Removed all superfluous add/set/remove/get Fields that are inherited from IAbstractArtifact anyway.
 
+###################################
+In IWorkbenchProfile
+- remove all returned arrays and replace with corresponding collections.
+- parse(..) and asText(..) should be removed.
+
+###################################
+in IArtifactManagerSession
+- remove extractArtifact
+- remove extractArtifactModel
+- Revisit once Artifact lifecycle is clarified.

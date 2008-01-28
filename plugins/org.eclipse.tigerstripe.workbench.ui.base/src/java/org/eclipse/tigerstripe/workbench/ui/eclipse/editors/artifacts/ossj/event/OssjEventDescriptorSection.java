@@ -39,11 +39,11 @@ import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IEventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEventSpecifics;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
@@ -172,7 +172,7 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 				IArtifactManagerSession session = getIArtifact().getIProject()
 						.getArtifactManagerSession();
 
-				AbstractArtifact artifact = session
+				IAbstractArtifact artifact = session
 						.getArtifactByFullyQualifiedName(getField().getIType()
 								.getFullyQualifiedName());
 				if (artifact != null

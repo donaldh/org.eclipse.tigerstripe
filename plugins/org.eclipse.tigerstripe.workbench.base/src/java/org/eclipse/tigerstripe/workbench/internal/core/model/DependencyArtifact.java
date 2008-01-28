@@ -11,13 +11,13 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.DependencyArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -204,24 +204,25 @@ public class DependencyArtifact extends AbstractArtifact implements
 			this.type = type;
 		}
 
-		public List<TigerstripeError> validate() {
+		public IStatus validate() {
 
-			List<TigerstripeError> errors = new ArrayList();
+			MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
+					"DependendyEnd Validation", null);
 
 			// check the validity of the type for this association end
-			List<TigerstripeError> errorList = ((IType) getIType()).validate();
-			if (!errorList.isEmpty())
-				errors.addAll(errorList);
+			IStatus typeStatus = ((IType) getIType()).validate();
+			if (!typeStatus.isOK())
+				result.add(typeStatus);
 
 			// making sure association ends are not scalars
 			if (getIType() != null
 					&& (getIType().isPrimitive() || getIType()
 							.getFullyQualifiedName().equals("String"))) {
-				errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR,
+				result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 						"Dependency End cannot be a primitive type."));
 			}
 
-			return errors;
+			return result;
 		}
 
 		public String getNameForType(String typeName) {
@@ -264,32 +265,28 @@ public class DependencyArtifact extends AbstractArtifact implements
 	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILabel#validate()
 	 */
 	@Override
-	public List<TigerstripeError> validate() {
-
-		List<TigerstripeError> errors = new ArrayList();
+	public IStatus validate() {
 
 		// first check for errors using the AbstractArtifact.validate() method
-		List<TigerstripeError> errorList = super.validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
+		MultiStatus result = (MultiStatus) super.validate();
 
 		// in addition to the AbstractArtifact.validate() checks, need to also
 		// check the aEnd and zEnd types to ensure that they are valid
-		errorList = ((IType) getAEndType()).validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
-		errorList = ((IType) getZEndType()).validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
+		IStatus aEndTypeStatus = ((IType) getAEndType()).validate();
+		if (!aEndTypeStatus.isOK())
+			result.add(aEndTypeStatus);
+		IStatus zEndTypeStatus = ((IType) getZEndType()).validate();
+		if (!zEndTypeStatus.isOK())
+			result.add(zEndTypeStatus);
 
-		errorList = ((DependencyEnd) aRelationshipEnd).validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
-		errorList = ((DependencyEnd) zRelationshipEnd).validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
+		IStatus aEndStatus = ((DependencyEnd) aRelationshipEnd).validate();
+		if (!aEndStatus.isOK())
+			result.add(aEndStatus);
+		IStatus zEndStatus = ((DependencyEnd) zRelationshipEnd).validate();
+		if (!zEndStatus.isOK())
+			result.add(zEndStatus);
 
-		return errors;
+		return result;
 
 	}
 

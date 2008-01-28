@@ -13,12 +13,13 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
@@ -145,32 +146,37 @@ public class Label extends ArtifactComponent implements ILabel {
 	 * 
 	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILabel#validate()
 	 */
-	public List<TigerstripeError> validate() {
+	public IStatus validate() {
 
-		List<TigerstripeError> errors = new ArrayList();
+		MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
+				"Label validation", null);
 
 		// check label name to ensure that it is a valid fieldname in Java
 		if (!TigerstripeValidationUtils.literalNamePattern.matcher(getName())
 				.matches()) {
-			errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR, "'"
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
 					+ getName() + "' is not a valid label name"));
 		}
 		// check label name to ensure it is not a reserved keyword
 		else if (TigerstripeValidationUtils.keywordList.contains(getName())) {
-			errors
-					.add(new TigerstripeError(
-							TigerstripeErrorLevel.ERROR,
+			result
+					.add(new Status(
+							IStatus.ERROR,
+							BasePlugin.getPluginId(),
 							"'"
 									+ getName()
 									+ "' is a reserved keyword and cannot be used as label name"));
 		}
 
 		// check the validity of the type for this label
-		List<TigerstripeError> errorList = getIType().validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
+		IStatus typeStatus = getIType().validate();
+		if (!typeStatus.isOK())
+			result.add(typeStatus);
 
-		return errors;
+		if (result.isOK())
+			return Status.OK_STATUS;
+		else
+			return result;
 
 	}
 
@@ -190,7 +196,7 @@ public class Label extends ArtifactComponent implements ILabel {
 
 		return result;
 	}
-	
+
 	/**
 	 * Returns a duplicate of the initial list where all components that are not
 	 * in the current active facet are filtered out.
@@ -201,8 +207,7 @@ public class Label extends ArtifactComponent implements ILabel {
 	public static Collection<ILabel> filterFacetExcludedLabels(
 			Collection<ILabel> components) {
 		ArrayList<ILabel> result = new ArrayList<ILabel>();
-		for (Iterator<ILabel> iter = components.iterator(); iter
-				.hasNext();) {
+		for (Iterator<ILabel> iter = components.iterator(); iter.hasNext();) {
 			ILabel component = iter.next();
 			try {
 				if (!component.isInActiveFacet())

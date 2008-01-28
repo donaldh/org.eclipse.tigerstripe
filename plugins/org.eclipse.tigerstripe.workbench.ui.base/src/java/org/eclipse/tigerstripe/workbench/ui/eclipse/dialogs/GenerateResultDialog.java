@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunResult;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.ColorUtils;
 
 /**
@@ -43,15 +43,15 @@ public class GenerateResultDialog extends Dialog {
 
 	private Button copyToClipboardButton;
 
-	private PluginRunResult[] result;
+	private PluginRunStatus[] result;
 
 	public GenerateResultDialog(IShellProvider parentShell,
-			PluginRunResult[] result) {
+			PluginRunStatus[] result) {
 		super(parentShell);
 		this.result = result;
 	}
 
-	public GenerateResultDialog(Shell parentShell, PluginRunResult[] result) {
+	public GenerateResultDialog(Shell parentShell, PluginRunStatus[] result) {
 		super(parentShell);
 		setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
 		this.result = result;
@@ -126,12 +126,12 @@ public class GenerateResultDialog extends Dialog {
 				new Transfer[] { TextTransfer.getInstance() });
 	}
 
-	private String asText(PluginRunResult[] result, boolean includeHTML) {
+	private String asText(PluginRunStatus[] result, boolean includeHTML) {
 		StringBuffer buffer = new StringBuffer();
 
 		if (includeHTML)
 			buffer.append("<form>");
-		for (PluginRunResult res : result) {
+		for (PluginRunStatus res : result) {
 			buffer.append(res.toString(includeHTML));
 		}
 
@@ -140,11 +140,11 @@ public class GenerateResultDialog extends Dialog {
 		return buffer.toString();
 	}
 
-	private boolean hasErrors(PluginRunResult[] result) {
+	private boolean hasErrors(PluginRunStatus[] result) {
 
 		boolean errorFound = false;
-		for (PluginRunResult res : result) {
-			if (res.errorExists() || res.warningExists()) {
+		for (PluginRunStatus res : result) {
+			if (!res.isOK()) {
 				errorFound = true;
 				continue;
 			}

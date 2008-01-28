@@ -20,7 +20,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeLi
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
@@ -100,10 +99,10 @@ public interface IArtifactManagerSession  {
 	public void removeArtifact(IAbstractArtifact artifact)
 			throws TigerstripeException;
 
-	public AbstractArtifact getArtifactByFullyQualifiedName(String fqn)
+	public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn)
 			throws TigerstripeException;
 
-	public AbstractArtifact getArtifactByFullyQualifiedName(String fqn,
+	public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn,
 			boolean includeDependencies);
 
 	/**

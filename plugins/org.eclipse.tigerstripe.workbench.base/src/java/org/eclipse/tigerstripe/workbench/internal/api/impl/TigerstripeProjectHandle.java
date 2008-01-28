@@ -31,7 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReferenc
 import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunResult;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.ProjectGenerator;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractImportCheckpointHelper;
@@ -211,7 +211,7 @@ public abstract class TigerstripeProjectHandle extends
 			throws TigerstripeException {
 
 		ProjectGenerator generator = new ProjectGenerator(this);
-		PluginRunResult[] result = generator.run();
+		PluginRunStatus[] result = generator.run();
 
 	}
 

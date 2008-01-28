@@ -1,0 +1,18 @@
+<h1>Artifacts Lifecycle</h1>
+<p>As part of a the API-refactoring, the lifecycle of Artifacts has been revisited. The existing
+API had evolved into a very complicated series of interactions between the Artifact Mgr and its
+clients.</p>
+<p>The lifecycle of Artifacts now takes into account the following requirements:
+<ul>
+	<li><strong>Decoupling with persistence layer</strong>: the API should make no assumption
+	about the persistence mechanism used to persist Artifacts. In particular, nothing regarding
+	the parsing/loading should be explicitly exposed thru the API</li>
+	<li><strong>Working copy for Editing in Editor</strong>: requires the ability to get a working copy of
+	an Artifact. Optionally, this working copy should be refreshed by changes to that artifact
+	from other clients.</li>
+	<li><strong>Listeners for changes on Artifacts</strong>: registering for changes.</li>
+	<li><strong>Resource tracking</strong>: ie. if the underlying resource where the artifact
+	is persisted, it should be reloaded and working copies should be notified.</li>
+	
+</ul>
+</p>

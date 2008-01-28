@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
@@ -197,41 +197,46 @@ public class AssociationEnd extends ArtifactComponent implements
 			return getContainingRelationship().getRelationshipAEnd();
 	}
 
-	public List<TigerstripeError> validate() {
+	public IStatus validate() {
 
-		List<TigerstripeError> errors = new ArrayList();
+		MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
+				"AssociationEnd Validation", null);
 
 		// check association end's name to ensure that it is a valid fieldname
 		// in Java
 		if (!TigerstripeValidationUtils.elementNamePattern.matcher(getName())
 				.matches()) {
-			errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR, "'"
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
 					+ getName() + "' is not a valid association end name"));
 		}
 		// check association end's name to ensure it is not a reserved keyword
 		else if (TigerstripeValidationUtils.keywordList.contains(getName())) {
-			errors
-					.add(new TigerstripeError(
-							TigerstripeErrorLevel.ERROR,
+			result
+					.add(new Status(
+							IStatus.ERROR,
+							BasePlugin.getPluginId(),
 							"'"
 									+ getName()
 									+ "' is a reserved keyword and cannot be used an association end name"));
 		}
 
 		// check the validity of the type for this association end
-		List<TigerstripeError> errorList = getType().validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
+		IStatus typeStatus = getType().validate();
+		if (!typeStatus.isOK())
+			result.add(typeStatus);
 
 		// making sure association ends are not scalars
 		if (getType() != null
 				&& (getType().isPrimitive() || getType()
 						.getFullyQualifiedName().equals("String"))) {
-			errors.add(new TigerstripeError(TigerstripeErrorLevel.ERROR,
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 					"Association End cannot be a primitive type."));
 		}
 
-		return errors;
+		if (result.isOK())
+			return Status.OK_STATUS;
+		else
+			return result;
 
 	}
 

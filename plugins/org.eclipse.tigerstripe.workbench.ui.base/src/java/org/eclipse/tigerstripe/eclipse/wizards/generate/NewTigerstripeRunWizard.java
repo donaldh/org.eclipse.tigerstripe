@@ -36,7 +36,7 @@ import org.eclipse.tigerstripe.eclipse.wizards.NewTSElementWizard;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationCanceledException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationException;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunResult;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.ProjectGenerator;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -56,7 +56,7 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 	// The main page
 	private NewTigerstripeRunWizardPage fPage;
 
-	private PluginRunResult[] result;
+	private PluginRunStatus[] result;
 
 	public NewTigerstripeRunWizard() {
 		super();

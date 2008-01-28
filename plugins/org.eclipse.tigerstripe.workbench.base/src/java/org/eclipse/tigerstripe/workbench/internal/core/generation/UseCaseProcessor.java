@@ -26,13 +26,14 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeErrorLevel;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.rendering.DiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -161,7 +162,7 @@ public class UseCaseProcessor {
 			// TigerstripeRuntime.logInfoMessage("Processing " +
 			// ref.getProjectRelativePath());
 		} else {
-			result.addError(new TigerstripeError(TigerstripeErrorLevel.ERROR,
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 					"Can't find use case: " + ref.getProjectRelativePath()));
 		}
 
@@ -234,17 +235,19 @@ public class UseCaseProcessor {
 				f.write(beforeXsl);
 			}
 		} catch (IOException e) {
-			TigerstripeError error = new TigerstripeError(
-					TigerstripeErrorLevel.ERROR, "While processing use case:"
-							+ ref.getProjectRelativePath());
-			error.setCorrespondingException(e);
-			result.addError(error);
+			IStatus error = new Status(
+					IStatus.ERROR,
+					BasePlugin.getPluginId(),
+					"While processing use case:" + ref.getProjectRelativePath(),
+					e);
+			result.add(error);
 		} catch (Exception e) {
-			TigerstripeError error = new TigerstripeError(
-					TigerstripeErrorLevel.ERROR, "While processing use case:"
-							+ ref.getProjectRelativePath());
-			error.setCorrespondingException(e);
-			result.addError(error);
+			IStatus error = new Status(
+					IStatus.ERROR,
+					BasePlugin.getPluginId(),
+					"While processing use case:" + ref.getProjectRelativePath(),
+					e);
+			result.add(error);
 		} finally {
 			if (f != null) {
 				try {

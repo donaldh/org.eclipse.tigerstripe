@@ -10,15 +10,15 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
-public class UseCaseProcessingResult extends PluginRunResult {
+public class UseCaseProcessingResult extends PluginRunStatus {
 
 	private IUseCaseReference useCaseRef;
 
@@ -38,7 +38,7 @@ public class UseCaseProcessingResult extends PluginRunResult {
 	public String toString(boolean includeHTML) {
 		StringBuffer buf = new StringBuffer();
 
-		boolean hasError = getErrors().length != 0;
+		boolean hasError = !isOK();
 		try {
 			String projectType = "Project";
 			if (getProject() instanceof ITigerstripeModuleProject) {
@@ -75,17 +75,16 @@ public class UseCaseProcessingResult extends PluginRunResult {
 				else
 					buf.append("\n");
 			} else {
-				for (TigerstripeError error : getErrors()) {
+				for (IStatus error : getChildren()) {
 					if (includeHTML)
 						buf.append("<li><span color=\"red\">");
-					buf.append(error.getErrorLevel().toString() + ": "
-							+ error.getErrorMessage());
+					buf.append(getSeverityString(error.getSeverity()) + ": "
+							+ error.getMessage());
 					if (includeHTML)
 						buf.append("<br/>");
 					else
 						buf.append("\n");
-					buf.append(error.getCorrespondingException()
-							.getLocalizedMessage());
+					buf.append(error.getException().getLocalizedMessage());
 					if (includeHTML)
 						buf.append("<br/>");
 					else
@@ -102,5 +101,4 @@ public class UseCaseProcessingResult extends PluginRunResult {
 		}
 		return buf.toString();
 	}
-
 }

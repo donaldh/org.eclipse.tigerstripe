@@ -29,8 +29,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -219,7 +219,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		// Register for changes in the profile... except for the Phantom project
 		// artifact mgr!
 		if (!(tsProject instanceof PhantomTigerstripeProject)) {
-			TigerstripeCore.getIWorkbenchProfileSession().addActiveProfileListener(this);
+			TigerstripeCore.getIWorkbenchProfileSession()
+					.addActiveProfileListener(this);
 		}
 	}
 
@@ -314,8 +315,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 		// @since 1.2
 		// All core artifacts are conditioned by the active profile
-		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
-				.getActiveProfile();
+		IWorkbenchProfile profile = TigerstripeCore
+				.getIWorkbenchProfileSession().getActiveProfile();
 		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 				.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 
@@ -698,7 +699,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				return local;
 			else {
 				if (includeDependencies) {
-					AbstractArtifact result = getArtifactByFullyQualifiedNameInChained(
+					IAbstractArtifact result = getArtifactByFullyQualifiedNameInChained(
 							name, monitor);
 					if (result == null) {
 						try {
@@ -710,7 +711,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 									"TigerstripeException detected", e);
 						}
 					}
-					return result;
+					return (AbstractArtifact) result;
 				} else
 					return null;
 			}
@@ -1712,7 +1713,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	protected synchronized AbstractArtifact getArtifactByFullyQualifiedNameInReferences(
 			String name) {
-		AbstractArtifact result = null;
+		IAbstractArtifact result = null;
 
 		for (ITigerstripeProject project : getTSProject()
 				.getReferencedProjects()) {
@@ -1722,13 +1723,13 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				// do not include dependencies
 				result = session.getArtifactByFullyQualifiedName(name);
 				if (result != null)
-					return result;
+					return (AbstractArtifact) result;
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
 						"TigerstripeException detected", e);
 			}
 		}
-		return result;
+		return (AbstractArtifact) result;
 	}
 
 	protected synchronized Collection<IAbstractArtifact> getArtifactsByModelInReferences(

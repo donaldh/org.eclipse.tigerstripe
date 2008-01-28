@@ -14,12 +14,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.TigerstripeError;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.AssociationClassArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -115,24 +111,6 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	}
 		
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * used to validate the AssociationClass when saving it to the underlying
-	 * data model (in this class, just delegates responsibility to it's
-	 * superclass, the Association class)
-	 * 
-	 * @see org.eclipse.tigerstripe.core.model.AssociationArtifact#validate()
-	 */
-	@Override
-	public List<TigerstripeError> validate() {
-		List<TigerstripeError> errors = new ArrayList();
-		List<TigerstripeError> errorList = super.validate();
-		if (!errorList.isEmpty())
-			errors.addAll(errorList);
-		return errors;
-	}
-
 	@Override
 	public Object[] getChildren() {
 		ArrayList<Object> result = new ArrayList<Object>();
