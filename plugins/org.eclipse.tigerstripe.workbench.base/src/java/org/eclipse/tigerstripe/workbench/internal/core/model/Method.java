@@ -609,7 +609,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 
 		public IType getType() {
-			return getType();
+			return this.type;
 		}
 
 		public void setType(IType type) {

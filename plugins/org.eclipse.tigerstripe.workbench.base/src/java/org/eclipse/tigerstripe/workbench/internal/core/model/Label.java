@@ -120,7 +120,7 @@ public class Label extends ArtifactComponent implements ILabel {
 	}
 
 	public IType getType() {
-		return getType();
+		return this.type;
 	}
 
 	public Properties getAnnotationProperties(String annotation) {
