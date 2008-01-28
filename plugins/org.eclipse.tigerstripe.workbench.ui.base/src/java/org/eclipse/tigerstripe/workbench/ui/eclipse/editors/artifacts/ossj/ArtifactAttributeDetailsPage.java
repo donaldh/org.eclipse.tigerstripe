@@ -429,7 +429,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 
 	private void updateButtonsState() {
 		setSilentUpdate(true);
-		Type fieldType = (Type) field.getIType();
+		Type fieldType = (Type) field.getType();
 		if (fieldType.isEntityType()) {
 			if (refByKeyButton != null)
 				refByKeyButton.setEnabled(!isReadOnly);
@@ -454,10 +454,10 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		IField field = getField();
 		nameText.setText(getField().getName());
 
-		if (field.getIType() != null) {
-			typeText.setText(Misc.removeJavaLangString(field.getIType()
+		if (field.getType() != null) {
+			typeText.setText(Misc.removeJavaLangString(field.getType()
 					.getFullyQualifiedName()));
-			IModelComponent.EMultiplicity mult = field.getIType().getTypeMultiplicity();
+			IModelComponent.EMultiplicity mult = field.getType().getTypeMultiplicity();
 			multiplicityCombo.select(IModelComponent.EMultiplicity.indexOf(mult));
 			updateDefaultValueCombo();
 		}
@@ -585,7 +585,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 			getField().setVisibility(getVisibility());
 			pageModified();
 		} else if (e.getSource() == multiplicityCombo) {
-			IType type = getField().getIType();
+			IType type = getField().getType();
 			IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity.values()[multiplicityCombo
 					.getSelectionIndex()];
 			type.setTypeMultiplicity(mult);
@@ -620,7 +620,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 					viewer.refresh(getField());
 				}
 			} else if (e.getSource() == typeText) {
-				IType type = getField().getIType();
+				IType type = getField().getType();
 				type.setFullyQualifiedName(typeText.getText().trim());
 
 				updateDefaultValueCombo();
@@ -640,8 +640,8 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 
 	private void updateDefaultValueCombo() {
 		// Update the default value control based on the field type
-		if (getField().getIType() != null) {
-			Type type = (Type) getField().getIType();
+		if (getField().getType() != null) {
+			Type type = (Type) getField().getType();
 			IAbstractArtifact art = type.getArtifact();
 			if (art instanceof IEnumArtifact) {
 				IEnumArtifact enumArt = (IEnumArtifact) art;

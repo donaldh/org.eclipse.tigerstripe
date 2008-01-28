@@ -60,18 +60,18 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 						iMethod.setName(newValue);
 						needSave = true;
 					} else if (TYPE_FEATURE.equals(featureId)) {
-						IType type = iMethod.makeIType();
+						IType type = iMethod.makeType();
 						type.setFullyQualifiedName(newValue);
-						if (iMethod.getReturnIType() != null) {
+						if (iMethod.getReturnType() != null) {
 							// don't lose the multiplicity
-							type.setTypeMultiplicity(iMethod.getReturnIType()
+							type.setTypeMultiplicity(iMethod.getReturnType()
 									.getTypeMultiplicity());
 						}
-						iMethod.setReturnIType(type);
+						iMethod.setReturnType(type);
 						needSave = true;
 					} else if (MULTIPLICITY_FEATURE.equals(featureId)) {
 						IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity.parse(newValue);
-						iMethod.getReturnIType().setTypeMultiplicity(mult);
+						iMethod.getReturnType().setTypeMultiplicity(mult);
 						needSave = true;
 					} else if (VISIBILITY_FEATURE.equals(featureId)) {
 						if ("PUBLIC".equals(newValue)) {

@@ -66,14 +66,14 @@ public interface IField extends IModelComponent {
 	 */
 	public void setDefaultValue(String value);
 
-	public IType makeIType();
+	public IType makeType();
 	
 	/**
 	 * Returns the type of this field.
 	 * 
 	 * @return IType - the type of this field
 	 */
-	public IType getIType();
+	public IType getType();
 
 	public String getLabelString();
 

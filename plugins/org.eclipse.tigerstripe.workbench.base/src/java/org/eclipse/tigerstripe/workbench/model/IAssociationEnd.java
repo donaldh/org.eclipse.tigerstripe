@@ -145,7 +145,7 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 
 	public void setUnique(boolean isUnique);
 
-	public IType makeIType();
+	public IType makeType();
 
 	/**
 	 * Returns the type of the end.

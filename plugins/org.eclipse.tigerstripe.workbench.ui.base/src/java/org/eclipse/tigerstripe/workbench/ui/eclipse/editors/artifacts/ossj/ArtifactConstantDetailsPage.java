@@ -33,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
@@ -344,7 +345,7 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 		ILabel label = getLabel();
 		nameText.setText(getLabel().getName());
 
-		String typeFqn = Misc.removeJavaLangString(getLabel().getIType()
+		String typeFqn = Misc.removeJavaLangString(getLabel().getType()
 				.getFullyQualifiedName());
 
 		for (int i = 0; i < supportedPrimitiveTypes.length; i++) {
@@ -409,11 +410,11 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 				|| e.getSource() == protectedButton) {
 			getLabel().setVisibility(getVisibility());
 		} else if (e.getSource() == baseTypeCombo) {
-			IType type = getLabel().makeIType();
+			IType type = getLabel().makeType();
 			type.setFullyQualifiedName(baseTypeCombo.getItem(baseTypeCombo
 					.getSelectionIndex()));
-			type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
-			getLabel().setIType(type);
+			type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);;
+			getLabel().setType(type);
 		}
 		pageModified();
 	}

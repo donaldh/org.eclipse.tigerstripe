@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -37,7 +38,7 @@ public interface IMethod extends IModelComponent {
 
 		public void setUnique(boolean isUnique);
 
-		public void setIType(IType type);
+		public void setType(IType type);
 
 		/**
 		 * valid values are IField.REFBY_VALUE, IField.REFBY_KEY,
@@ -84,7 +85,7 @@ public interface IMethod extends IModelComponent {
 		 * 
 		 * @return IType - the type of this argument
 		 */
-		public IType getIType();
+		public IType getType();
 
 		/**
 		 * Returns the name associated with this argument.
@@ -190,13 +191,13 @@ public interface IMethod extends IModelComponent {
 		}
 	}
 
-	public IException makeIException();
+	public IException makeException();
 
-	public void setIExceptions(IException[] exceptions);
+	public void setExceptions(Collection<IException> exceptions);
 
-	public void addIException(IException exception);
+	public void addException(IException exception);
 
-	public void removeIExceptions(IException[] exception);
+	public void removeExceptions(Collection<IException> exception);
 
 	/**
 	 * Sets the return type to void
@@ -210,7 +211,7 @@ public interface IMethod extends IModelComponent {
 	 * 
 	 * @return
 	 */
-	public IType makeIType();
+	public IType makeType();
 
 	/**
 	 * Returns a String containing the methodName+profile&returntype. This is
@@ -229,15 +230,15 @@ public interface IMethod extends IModelComponent {
 	 * @param returnType -
 	 *            the return type for this method.
 	 */
-	public void setReturnIType(IType returnType);
+	public void setReturnType(IType returnType);
 
-	public IArgument makeIArgument();
+	public IArgument makeArgument();
 
-	public void setIArguments(IArgument[] arguments);
+	public void setArguments(Collection<IArgument> arguments);
 
-	public void addIArgument(IArgument argument);
+	public void addArgument(IArgument argument);
 
-	public void removeIArguments(IArgument[] arguments);
+	public void removeArguments(Collection<IArgument> arguments);
 
 	public void setOptional(boolean optional);
 
@@ -370,7 +371,7 @@ public interface IMethod extends IModelComponent {
 	 * 
 	 * @return IArgument[] - array of arguments for this Method
 	 */
-	public IArgument[] getIArguments();
+	public Collection<IArgument> getArguments();
 
 	/**
 	 * Returns an array of all of the exceptions for this Method. Returns an
@@ -378,7 +379,7 @@ public interface IMethod extends IModelComponent {
 	 * 
 	 * @return IException[] - An array of all defined exceptions for this Method
 	 */
-	public IException[] getIExceptions();
+	public Collection<IException> getExceptions();
 
 	/**
 	 * Returns an identifier that uniquely identifies this method within the
@@ -405,7 +406,7 @@ public interface IMethod extends IModelComponent {
 	 * 
 	 * @return IType - the type returned by this Method.
 	 */
-	public IType getReturnIType();
+	public IType getReturnType();
 
 	/**
 	 * Returns an integer value indicating the reference type of the return.

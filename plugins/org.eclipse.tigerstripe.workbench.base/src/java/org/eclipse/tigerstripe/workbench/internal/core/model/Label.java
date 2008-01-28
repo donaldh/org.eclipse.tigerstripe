@@ -70,8 +70,8 @@ public class Label extends ArtifactComponent implements ILabel {
 		}
 
 		com.thoughtworks.qdox.model.Type type = field.getType();
-		this.type = new Type(type.getValue(), type.getDimensions(),
-				getArtifactManager());
+		// Create a type with a basic Multiplicity that can be reset below.
+		this.type = new Type(type.getValue(), EMultiplicity.ONE, getArtifactManager()); 
 		setName(field.getName());
 
 		// Extract value of Label
@@ -86,12 +86,9 @@ public class Label extends ArtifactComponent implements ILabel {
 		extractStereotypes();
 	}
 
-	public Type getType() {
-		return this.type;
-	}
 
-	public void setType(Type type) {
-		this.type = type;
+	public void setType(IType type) {
+		this.type = (Type) type;
 	}
 
 	public String getValue() {
@@ -117,15 +114,12 @@ public class Label extends ArtifactComponent implements ILabel {
 		return getName() + "=" + getValue();
 	}
 
-	public void setIType(IType type) {
-		setType((Type) type);
-	}
 
-	public IType makeIType() {
+	public IType makeType() {
 		return new Type(getArtifactManager());
 	}
 
-	public IType getIType() {
+	public IType getType() {
 		return getType();
 	}
 
@@ -169,7 +163,7 @@ public class Label extends ArtifactComponent implements ILabel {
 		}
 
 		// check the validity of the type for this label
-		IStatus typeStatus = getIType().validate();
+		IStatus typeStatus = getType().validate();
 		if (!typeStatus.isOK())
 			result.add(typeStatus);
 
@@ -185,7 +179,7 @@ public class Label extends ArtifactComponent implements ILabel {
 		ILabel result = new Label(getArtifactManager());
 
 		result.setComment(getComment());
-		result.setIType(getIType().clone());
+		result.setType(getType().clone());
 		result.setName(getName());
 		result.setValue(getValue());
 		result.setVisibility(getVisibility());

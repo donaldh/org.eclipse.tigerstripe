@@ -76,19 +76,19 @@ public class Updatedemo {
 					+ artifact.getFullyQualifiedName());
 
 			for (IField field : artifact.getFields()) {
-				IType type = field.getIType();
+				IType type = field.getType();
 				TigerstripeRuntime.logInfoMessage(field.getName() + " "
 						+ type.getName());
 			}
-			for (IMethod method : artifact.getMethods()) {
+/*			for (IMethod method : artifact.getMethods()) {
 				for (int j = 0; j < method.getIArguments().length; j++) {
-					IType type = method.getIArguments()[j].getIType();
+					IType type = method.getIArguments()[j].getType();
 					TigerstripeRuntime.logInfoMessage(method
 							.getIArguments()[j].getName()
 							+ " " + type.getName());
 				}
 
-			}
+			}*/
 
 		}
 

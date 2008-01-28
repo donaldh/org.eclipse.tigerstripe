@@ -542,10 +542,10 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 				// check type
 				if (!Misc.removeJavaLangString(
-						iField.getIType().getFullyQualifiedName()).equals(
+						iField.getType().getFullyQualifiedName()).equals(
 						attribute.getType())) {
 					IStatus status = getErrorStatus("Attribute type in model ("
-							+ iField.getIType().getFullyQualifiedName()
+							+ iField.getType().getFullyQualifiedName()
 							+ ") is different on diagram: "
 							+ attribute.getType());
 					attrStatus.add(status);
@@ -653,7 +653,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 						+ "' in diagram doesn't exist in model.");
 				methResult.add(status);
 			} else {
-				String typeName = iMethod.getReturnIType()
+				String typeName = iMethod.getReturnType()
 						.getFullyQualifiedName();
 				String targetReturnedType = Misc.removeJavaLangString(typeName);
 				if (iMethod.isVoid()) {
@@ -700,9 +700,9 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				AssocMultiplicity eMethodMultiplicy = eMethod
 						.getTypeMultiplicity();
 
-				if (iMethod.getReturnIType() != null) {
+				if (iMethod.getReturnType() != null) {
 					IModelComponent.EMultiplicity iMethodMultiplicity = iMethod
-							.getReturnIType().getTypeMultiplicity();
+							.getReturnType().getTypeMultiplicity();
 					if (eMethodMultiplicy != ClassDiagramUtils
 							.mapTypeMultiplicity(iMethodMultiplicity)) {
 						methResult
@@ -711,22 +711,22 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				}
 
 				// review arguments
-				if (eMethod.getParameters().size() != iMethod.getIArguments().length) {
+				if (eMethod.getParameters().size() != iMethod.getArguments().size()) {
 					methResult
 							.add(getErrorStatus("Number of arguments doesn't match"));
 				} else {
 					// same number of args let's see if they all match
 					List<Parameter> parameters = eMethod.getParameters();
-					IArgument[] arguments = iMethod.getIArguments();
-					for (int index = 0; index < arguments.length; index++) {
+					Iterator<IArgument> argumentIterator = iMethod.getArguments().iterator();
+					for (int index = 0; index < parameters.size(); index++) {
 						boolean changed = false;
 						Parameter theParam = parameters.get(index);
-						IArgument theArg = arguments[index];
+						IArgument theArg = argumentIterator.next();
 						if (!theArg.getName().equals(theParam.getName())) {
 							theParam.setName(theArg.getName());
 							changed = true;
 						}
-						String lclTypeName = theArg.getIType()
+						String lclTypeName = theArg.getType()
 								.getFullyQualifiedName();
 						if (!Misc.removeJavaLangString(lclTypeName).equals(
 								theParam.getType())) {
@@ -734,7 +734,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 									+ theArg.getName() + "' doesn't match"));
 						}
 
-						IModelComponent.EMultiplicity iMultiplicity = theArg.getIType()
+						IModelComponent.EMultiplicity iMultiplicity = theArg.getType()
 								.getTypeMultiplicity();
 						AssocMultiplicity eMultiplicity = theParam
 								.getTypeMultiplicity();

@@ -69,13 +69,13 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 
 		IMethod method = art.makeMethod();
 		method.setName(getMethodName());
-		IType type = method.makeIType();
+		IType type = method.makeType();
 		type.setFullyQualifiedName(getMethodType());
 		if (IModelComponent.EMultiplicity.parse(methodMultiplicity) != null)
 			type.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(methodMultiplicity));
 		else
 			type.setTypeMultiplicity(IModelComponent.EMultiplicity.ZERO_ONE);
-		method.setReturnIType(type);
+		method.setReturnType(type);
 
 		art.addMethod(method);
 		art.doSave(new TigerstripeNullProgressMonitor());

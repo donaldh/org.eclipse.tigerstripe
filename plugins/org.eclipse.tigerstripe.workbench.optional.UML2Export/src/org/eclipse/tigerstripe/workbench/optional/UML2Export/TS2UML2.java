@@ -574,18 +574,18 @@ public class TS2UML2 {
 
 			Comment comment = operation.createOwnedComment();
 			comment.setBody(method.getComment());
-			Type type = getUMLType(method.getReturnIType());
+			Type type = getUMLType(method.getReturnType());
 			if (type != null) {
 				Parameter result = operation.createReturnResult("return", type);
 				result.setLower(1); // Returns are mandatory
-				result.setUpper(getUpperBound(method.getReturnIType()
+				result.setUpper(getUpperBound(method.getReturnType()
 						.getTypeMultiplicity()));
 				result.setDefault(method.getDefaultReturnValue());
 				addReturnTypeStereotype(method, result);
 				result.setName(method.getMethodReturnName());
-				for (IArgument arg : method.getIArguments()) {
+				for (IArgument arg : method.getArguments()) {
 
-					Type argType = getUMLType(arg.getIType());
+					Type argType = getUMLType(arg.getType());
 					if (argType != null) {
 						Parameter param = operation.createOwnedParameter(arg
 								.getName(), argType);
@@ -593,9 +593,9 @@ public class TS2UML2 {
 						parameterComment.setBody(arg.getComment());
 						// TODO arg.getRefBy()
 						// Multiplicity
-						param.setLower(getLowerBound(arg.getIType()
+						param.setLower(getLowerBound(arg.getType()
 								.getTypeMultiplicity()));
-						param.setUpper(getUpperBound(arg.getIType()
+						param.setUpper(getUpperBound(arg.getType()
 								.getTypeMultiplicity()));
 						param.setIsOrdered(arg.isOrdered());
 						param.setIsUnique(arg.isUnique());
@@ -605,13 +605,13 @@ public class TS2UML2 {
 						String msgText = "No type info for :"
 								+ artifact.getName() + ":" + method.getName()
 								+ ": Argument "
-								+ arg.getIType().getFullyQualifiedName();
+								+ arg.getType().getFullyQualifiedName();
 						this.out.println("ERROR : " + msgText);
 						addMessage(msgText, 1);
 						return;
 					}
 				}
-				for (IException exception : method.getIExceptions()) {
+				for (IException exception : method.getExceptions()) {
 
 					// TODO
 
@@ -621,7 +621,7 @@ public class TS2UML2 {
 				// No type for this.
 				String msgText = "No type info for :" + artifact.getName()
 						+ ":" + method.getName() + ": Return type "
-						+ method.getReturnIType().getFullyQualifiedName();
+						+ method.getReturnType().getFullyQualifiedName();
 				this.out.println("ERROR : " + msgText);
 				addMessage(msgText, 1);
 				return;
@@ -666,19 +666,19 @@ public class TS2UML2 {
 
 			Comment comment = operation.createOwnedComment();
 			comment.setBody(method.getComment());
-			Type type = getUMLType(method.getReturnIType());
+			Type type = getUMLType(method.getReturnType());
 			if (type != null) {
 				Parameter result = operation.createReturnResult("return", type);
 				result.setLower(1); // Returns are mandatory
-				result.setUpper(getUpperBound(method.getReturnIType()
+				result.setUpper(getUpperBound(method.getReturnType()
 						.getTypeMultiplicity()));
 				result.setDefault(method.getDefaultReturnValue());
 				addReturnTypeStereotype(method, result);
 				result.setName(method.getMethodReturnName());
 
-				for (IArgument arg : method.getIArguments()) {
+				for (IArgument arg : method.getArguments()) {
 
-					Type argType = getUMLType(arg.getIType());
+					Type argType = getUMLType(arg.getType());
 					if (argType != null) {
 						Parameter param = operation.createOwnedParameter(arg
 								.getName(), argType);
@@ -686,9 +686,9 @@ public class TS2UML2 {
 						parameterComment.setBody(arg.getComment());
 						// TODO arg.getRefBy()
 						// Multiplicity
-						param.setLower(getLowerBound(arg.getIType()
+						param.setLower(getLowerBound(arg.getType()
 								.getTypeMultiplicity()));
-						param.setUpper(getUpperBound(arg.getIType()
+						param.setUpper(getUpperBound(arg.getType()
 								.getTypeMultiplicity()));
 						param.setIsOrdered(arg.isOrdered());
 						param.setIsUnique(arg.isUnique());
@@ -698,13 +698,13 @@ public class TS2UML2 {
 						String msgText = "No type info for :"
 								+ artifact.getName() + ":" + method.getName()
 								+ ": Argument "
-								+ arg.getIType().getFullyQualifiedName();
+								+ arg.getType().getFullyQualifiedName();
 						this.out.println("ERROR : " + msgText);
 						addMessage(msgText, 1);
 						return;
 					}
 				}
-				for (IException exception : method.getIExceptions()) {
+				for (IException exception : method.getExceptions()) {
 
 					// TODO
 
@@ -714,7 +714,7 @@ public class TS2UML2 {
 				// No type for this.
 				String msgText = "No type info for :" + artifact.getName()
 						+ ":" + method.getName() + ": Return type "
-						+ method.getReturnIType().getFullyQualifiedName();
+						+ method.getReturnType().getFullyQualifiedName();
 				this.out.println("ERROR : " + msgText);
 				addMessage(msgText, 1);
 				return;
@@ -730,11 +730,11 @@ public class TS2UML2 {
 			StructuredClassifier classifier) {
 		for (IField field : artifact.getFields()) {
 			Property attribute;
-			Type type = getUMLType(field.getIType());
+			Type type = getUMLType(field.getType());
 			if (type != null) {
-				int lowerBound = getLowerBound(field.getIType()
+				int lowerBound = getLowerBound(field.getType()
 						.getTypeMultiplicity());
-				int upperBound = getUpperBound(field.getIType()
+				int upperBound = getUpperBound(field.getType()
 						.getTypeMultiplicity());
 				this.out.println("Bounds " + lowerBound + " " + upperBound);
 				attribute = classifier.createOwnedAttribute(field.getName(),
@@ -764,7 +764,7 @@ public class TS2UML2 {
 				// No type for this.
 				String msgText = "No type info for :" + artifact.getName()
 						+ ":" + field.getName() + ":"
-						+ field.getIType().getFullyQualifiedName();
+						+ field.getType().getFullyQualifiedName();
 				this.out.println("ERROR : " + msgText);
 				addMessage(msgText, 1);
 				continue;
@@ -1047,7 +1047,7 @@ public class TS2UML2 {
 				EnumerationLiteral lit = enumz.createOwnedLiteral(label
 						.getName());
 				this.out.println("Made a new literal " + label.getName());
-				if (label.getIType().getName().equals("int")) {
+				if (label.getType().getName().equals("int")) {
 					LiteralInteger literalInt = UMLFactory.eINSTANCE
 							.createLiteralInteger();
 					literalInt.setValue(Integer.parseInt(label.getValue()));

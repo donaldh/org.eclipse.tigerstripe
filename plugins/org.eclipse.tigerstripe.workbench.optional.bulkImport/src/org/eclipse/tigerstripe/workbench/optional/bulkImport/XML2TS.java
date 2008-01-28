@@ -32,8 +32,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IEventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjArtifactSpecifics;
@@ -607,7 +607,7 @@ public class XML2TS {
 			OssjEnumSpecifics specs = (OssjEnumSpecifics) enumArt
 					.getIStandardSpecifics();
 			String baseType = element.getAttribute("baseType");
-			IType type = artifact.makeField().makeIType();
+			IType type = artifact.makeField().makeType();
 			type.setFullyQualifiedName(baseType);
 			specs.setBaseIType(type);
 			Properties props = specs.getInterfaceProperties();
@@ -695,7 +695,7 @@ public class XML2TS {
 					.setFullyQualifiedName(element
 							.getAttribute("returnedTypeName"));
 			try {
-				type.setMultiplicity(Integer.valueOf(element
+				type.setTypeMultiplicity(EMultiplicity.valueOf(element
 						.getAttribute("returnedTypeMultiplicity")));
 			} catch (java.lang.NumberFormatException e) {
 				type.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(element
@@ -844,13 +844,13 @@ public class XML2TS {
 			Element field = (Element) fieldNodes.item(fn);
 
 			IField newField = artifact.makeField();
-			IType type = newField.makeIType();
+			IType type = newField.makeType();
 
 			newField.setName(field.getAttribute("name"));
 			type.setFullyQualifiedName(field.getAttribute("type"));
 			// Need to support new and old versions
 			try {
-				type.setMultiplicity(Integer.valueOf(field
+				type.setTypeMultiplicity(EMultiplicity.valueOf(field
 						.getAttribute("typeMultiplicity")));
 			} catch (java.lang.NumberFormatException e) {
 				type.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(field
@@ -898,12 +898,12 @@ public class XML2TS {
 			Element label = (Element) labelNodes.item(ln);
 
 			ILabel newLabel = artifact.makeLabel();
-			IType type = newLabel.makeIType();
+			IType type = newLabel.makeType();
 
 			newLabel.setName(label.getAttribute("name"));
 			newLabel.setValue(label.getAttribute("value"));
 			type.setFullyQualifiedName(label.getAttribute("type"));
-			newLabel.setIType(type);
+			newLabel.setType(type);
 			newLabel.setVisibility(Integer.valueOf(label
 					.getAttribute("visibility")));
 			newLabel.setComment(getComment(label));
@@ -963,11 +963,11 @@ public class XML2TS {
 			if (!newMethod.isVoid()) {
 				if (method.hasAttribute("returnType")
 						&& method.hasAttribute("returnTypeMultiplicity")) {
-					IType returnType = newMethod.makeIType();
+					IType returnType = newMethod.makeType();
 					returnType.setFullyQualifiedName(method
 							.getAttribute("returnType"));
 					try {
-						returnType.setMultiplicity(Integer.valueOf(method
+						returnType.setTypeMultiplicity(EMultiplicity.valueOf(method
 								.getAttribute("returnTypeMultiplicity")));
 					} catch (java.lang.NumberFormatException e) {
 						returnType
@@ -975,7 +975,7 @@ public class XML2TS {
 										.parse(method
 												.getAttribute("returnTypeMultiplicity")));
 					}
-					newMethod.setReturnIType(returnType);
+					newMethod.setReturnType(returnType);
 					if (method.hasAttribute("methodReturnName")) {
 						newMethod.setMethodReturnName(method
 								.getAttribute("methodReturnName"));
@@ -991,29 +991,29 @@ public class XML2TS {
 					continue;
 				}
 			} else {
-				IType returnType = newMethod.makeIType();
+				IType returnType = newMethod.makeType();
 				returnType.setFullyQualifiedName("void");
-				newMethod.setReturnIType(returnType);
+				newMethod.setReturnType(returnType);
 			}
 
 			NodeList argumentNodes = method.getElementsByTagNameNS(namespace,
 					"argument");
 			for (int a = 0; a < argumentNodes.getLength(); a++) {
 				Element argument = (Element) argumentNodes.item(a);
-				IArgument newArgument = newMethod.makeIArgument();
+				IArgument newArgument = newMethod.makeArgument();
 				newArgument.setName(argument.getAttribute("name"));
 				newArgument.setRefBy(Integer.valueOf(argument
 						.getAttribute("refBy")));
-				IType argType = newMethod.makeIType();
+				IType argType = newMethod.makeType();
 				argType.setFullyQualifiedName(argument.getAttribute("type"));
 				try {
-					argType.setMultiplicity(Integer.valueOf(argument
+					argType.setTypeMultiplicity(EMultiplicity.valueOf(argument
 							.getAttribute("typeMultiplicity")));
 				} catch (java.lang.NumberFormatException e) {
 					argType.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(argument
 							.getAttribute("typeMultiplicity")));
 				}
-				newArgument.setIType(argType);
+				newArgument.setType(argType);
 				newArgument.setComment(getComment(argument));
 				if (argument.hasAttribute("ordered")) {
 					newArgument.setOrdered(Boolean.parseBoolean(argument
@@ -1034,17 +1034,17 @@ public class XML2TS {
 						messages)) {
 					newArgument.addStereotypeInstance(st);
 				}
-				newMethod.addIArgument(newArgument);
+				newMethod.addArgument(newArgument);
 			}
 
 			NodeList exceptionNodes = method.getElementsByTagNameNS(namespace,
 					"exception");
 			for (int a = 0; a < exceptionNodes.getLength(); a++) {
 				Element exception = (Element) exceptionNodes.item(a);
-				IException newException = newMethod.makeIException();
+				IException newException = newMethod.makeException();
 				newException.setFullyQualifiedName(exception
 						.getAttribute("name"));
-				newMethod.addIException(newException);
+				newMethod.addException(newException);
 			}
 
 			for (IStereotypeInstance st : getStereotypes(method, out, messages)) {
@@ -1083,7 +1083,7 @@ public class XML2TS {
 				thisEnd.setUnique(Boolean.parseBoolean(endNode
 						.getAttribute("unique")));
 			}
-			IType type = thisEnd.makeIType();
+			IType type = thisEnd.makeType();
 			type.setFullyQualifiedName(endNode.getAttribute("type"));
 			thisEnd.setType(type);
 

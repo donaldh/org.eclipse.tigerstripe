@@ -683,7 +683,7 @@ public class VariableEditPart extends CompartmentEditPart implements
 				IField field = this.getIField();
 				InstanceMap map = (InstanceMap) classInstance.eContainer();
 				if (!InstanceDiagramUtils.isPrimitive(artMgrSessn, field
-						.getIType())) {
+						.getType())) {
 					// remove the references to the old value(s)
 					String oldValue = (String) event.getOldValue();
 					if (oldValue != null && oldValue.length() > 0) {
@@ -732,7 +732,7 @@ public class VariableEditPart extends CompartmentEditPart implements
 				IField field = this.getIField();
 				InstanceMap map = (InstanceMap) classInstance.eContainer();
 				if (!InstanceDiagramUtils.isPrimitive(artMgrSessn, field
-						.getIType())) {
+						.getType())) {
 					// remove the references to the old value(s)
 					Variable oldVar = (Variable) event.getOldValue();
 					if (oldVar != null) {

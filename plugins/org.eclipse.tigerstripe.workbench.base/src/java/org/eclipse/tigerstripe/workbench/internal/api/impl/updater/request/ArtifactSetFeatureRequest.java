@@ -109,7 +109,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 			IType type = null;
 
 			if (featureValue != null) {
-				type = artifact.makeLabel().makeIType();
+				type = artifact.makeLabel().makeType();
 				type.setFullyQualifiedName(featureValue);
 			}
 			artifact.setBaseType(type);
@@ -173,7 +173,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 								.setVisibility(IModelComponent.VISIBILITY_PACKAGE);
 				} else {
 					// It's the end itself that is changing!!
-					IType type = targetEnd.makeIType();
+					IType type = targetEnd.makeType();
 					type.setFullyQualifiedName(featureValue);
 					type.setTypeMultiplicity(targetEnd.getMultiplicity());
 					targetEnd.setType(type);

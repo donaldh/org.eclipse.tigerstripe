@@ -38,14 +38,14 @@ public class PersistUtils {
 		if (method.isVoid())
 			return "void";
 		else {
-			if (method.getReturnIType() == null)
+			if (method.getReturnType() == null)
 				return "void";
 			String multiplicity = "";
-			if (method.getReturnIType().getMultiplicity() == IType.MULTIPLICITY_MULTI) {
+			if (method.getReturnType().getTypeMultiplicity().isArray()) {
 				multiplicity = "[]";
 			}
 
-			return method.getReturnIType().getFullyQualifiedName()
+			return method.getReturnType().getFullyQualifiedName()
 					+ multiplicity;
 		}
 	}

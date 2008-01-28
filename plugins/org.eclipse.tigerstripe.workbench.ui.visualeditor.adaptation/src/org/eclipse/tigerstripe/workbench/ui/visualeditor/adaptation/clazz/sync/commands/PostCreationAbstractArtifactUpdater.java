@@ -111,7 +111,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 					// primitive type,
 					// java scalar, String or EnumerationType
 					// or if the References are disabled
-					String attrType = field.getIType().getFullyQualifiedName();
+					String attrType = field.getType().getFullyQualifiedName();
 					IArtifactManagerSession session = getDiagramProject()
 							.getArtifactManagerSession();
 					if (shouldPopulateAttribute(attrType, session)) {
@@ -126,7 +126,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 						attr.setIsOrdered(field.isOrdered());
 						attr.setIsUnique(field.isUnique());
 						attr.setTypeMultiplicity(ClassDiagramUtils
-								.mapTypeMultiplicity(field.getIType()
+								.mapTypeMultiplicity(field.getType()
 										.getTypeMultiplicity()));
 						for (IStereotypeInstance instance : field
 								.getStereotypeInstances()) {
@@ -144,7 +144,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 							ref.setName(field.getName());
 							ref.setZEnd(targetArt);
 							ref.setTypeMultiplicity(ClassDiagramUtils
-									.mapTypeMultiplicity(field.getIType()
+									.mapTypeMultiplicity(field.getType()
 											.getTypeMultiplicity()));
 							eArtifact.getReferences().add(ref);
 						} else {
@@ -161,7 +161,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 
 			// Create Methods
 			for (IMethod method : getIArtifact().getMethods()) {
-				String methodType = method.getReturnIType()
+				String methodType = method.getReturnType()
 						.getFullyQualifiedName();
 				String methodName = method.getName();
 				Method meth = VisualeditorFactory.eINSTANCE.createMethod();
@@ -175,24 +175,24 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 					meth.setType(Misc.removeJavaLangString(methodType));
 				}
 				meth.setTypeMultiplicity(ClassDiagramUtils
-						.mapTypeMultiplicity(method.getReturnIType()
+						.mapTypeMultiplicity(method.getReturnType()
 								.getTypeMultiplicity()));
 				meth.setIsAbstract(method.isAbstract());
 				meth.setVisibility(ClassDiagramUtils.toVisibility(method
 						.getVisibility()));
 
-				for (IArgument arg : method.getIArguments()) {
+				for (IArgument arg : method.getArguments()) {
 					Parameter param = VisualeditorFactory.eINSTANCE
 							.createParameter();
 					param.setName(arg.getName());
-					param.setType(Misc.removeJavaLangString(arg.getIType()
+					param.setType(Misc.removeJavaLangString(arg.getType()
 							.getFullyQualifiedName()));
 					param.setIsOrdered(arg.isOrdered());
 					param.setIsUnique(arg.isUnique());
 					param.setDefaultValue(arg.getDefaultValue());
 					// IType type = arg.getIType();
 					param.setTypeMultiplicity(ClassDiagramUtils
-							.mapTypeMultiplicity(arg.getIType()
+							.mapTypeMultiplicity(arg.getType()
 									.getTypeMultiplicity()));
 
 					// review stereotypes
@@ -286,7 +286,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 				}
 
 				for (IField field : mirror.getFields()) {
-					if (field.getIType().getFullyQualifiedName().equals(
+					if (field.getType().getFullyQualifiedName().equals(
 							eArtifact.getFullyQualifiedName())
 							&& shouldDisplayReference() // Bug 929
 					) {
@@ -306,7 +306,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 							ref.setName(field.getName());
 							ref.setZEnd(eArtifact);
 							ref.setTypeMultiplicity(ClassDiagramUtils
-									.mapTypeMultiplicity(field.getIType()
+									.mapTypeMultiplicity(field.getType()
 											.getTypeMultiplicity()));
 							eArt.getReferences().add(ref);
 						}

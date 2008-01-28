@@ -19,13 +19,13 @@ public interface ILabel extends IModelComponent {
 
 	public final static List<ILabel> EMPTY_LIST = new ArrayList<ILabel>();
 
-	public void setIType(IType type);
+	public void setType(IType type);
 
-	public IType makeIType();
+	public IType makeType();
 
 	public void setValue(String value);
 
-	public IType getIType();
+	public IType getType();
 
 	public String getLabelString();
 

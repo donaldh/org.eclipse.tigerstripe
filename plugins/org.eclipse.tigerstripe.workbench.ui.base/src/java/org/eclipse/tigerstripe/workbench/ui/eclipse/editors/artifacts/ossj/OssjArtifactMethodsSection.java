@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
@@ -240,10 +241,10 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		String newMethodName = findNewMethodName();
 		newMethod.setName(newMethodName);
 		newMethod.setVoid(true);
-		IType type = newMethod.makeIType();
+		IType type = newMethod.makeType();
 		type.setFullyQualifiedName("void");
-		type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
-		newMethod.setReturnIType(type);
+		type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
+		newMethod.setReturnType(type);
 		newMethod.setVoid(true);
 
 		getIArtifact().addMethod(newMethod);

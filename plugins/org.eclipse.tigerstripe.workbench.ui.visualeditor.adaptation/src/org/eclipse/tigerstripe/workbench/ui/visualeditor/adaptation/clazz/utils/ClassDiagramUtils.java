@@ -98,22 +98,24 @@ public class ClassDiagramUtils {
 
 	}
 
-	public static TypeMultiplicity toMultiplicity(int mult) {
-		switch (mult) {
-		case IType.MULTIPLICITY_SINGLE:
-			return (TypeMultiplicity.NONE_LITERAL);
-		case IType.MULTIPLICITY_MULTI:
+	public static TypeMultiplicity toMultiplicity(EMultiplicity mult) {
+		if (mult.isArray()) {
 			return (TypeMultiplicity.ARRAY_LITERAL);
 		}
-		return TypeMultiplicity.NONE_LITERAL;
+		else {
+			return (TypeMultiplicity.NONE_LITERAL);
+		}
 	}
 
-	public static int fromMultiplicity(TypeMultiplicity mult) {
+/*	
+ * This method would return the WRONG value - fortunately it is never called
+ * 
+ * public static int fromMultiplicity(TypeMultiplicity mult) {
 		if (mult == TypeMultiplicity.NONE_LITERAL)
 			return IType.MULTIPLICITY_SINGLE;
 		else
 			return IType.MULTIPLICITY_MULTI;
-	}
+	}*/
 
 	public static IField findIFieldByName(IAbstractArtifact iArtifact,
 			String name) {
@@ -200,10 +202,10 @@ public class ClassDiagramUtils {
 	}
 
 	public static boolean typesEqual(IField field, Attribute attribute) {
-		if (Misc.removeJavaLangString(field.getIType().getFullyQualifiedName())
+		if (Misc.removeJavaLangString(field.getType().getFullyQualifiedName())
 				.equals(attribute.getType())) {
 			AssocMultiplicity multiplicity = attribute.getTypeMultiplicity();
-			if (multiplicity.equals(mapTypeMultiplicity(field.getIType()
+			if (multiplicity.equals(mapTypeMultiplicity(field.getType()
 					.getTypeMultiplicity())))
 				return true;
 		}
@@ -213,10 +215,10 @@ public class ClassDiagramUtils {
 	public static boolean typesEqual(IField field, Reference reference) {
 		if (reference.getZEnd() == null)
 			return false;
-		if (field.getIType().getFullyQualifiedName().equals(
+		if (field.getType().getFullyQualifiedName().equals(
 				reference.getZEnd().getFullyQualifiedName())) {
 			AssocMultiplicity multiplicity = reference.getTypeMultiplicity();
-			if (multiplicity.equals(mapTypeMultiplicity(field.getIType()
+			if (multiplicity.equals(mapTypeMultiplicity(field.getType()
 					.getTypeMultiplicity())))
 				return true;
 		}

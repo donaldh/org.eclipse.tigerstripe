@@ -46,6 +46,17 @@ public interface IModelComponent extends IStereotypeCapable {
 		public String getLabel() {
 			return label;
 		}
+		
+		// This is a convenience 
+		public boolean isArray() {
+			if (this.equals(ONE) ||
+					this.equals(ZERO) ||
+					this.equals(ZERO_ONE)){
+				return false;
+			} else {
+				return true;
+			}
+		}
 	
 		/**
 		 * Given a String label, return an enumeration value. Returns null if no

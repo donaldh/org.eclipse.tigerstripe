@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -253,12 +254,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 	}
 
-	public Type getReturnType() {
-		return this.returnType;
-	}
-
-	public Collection getArguments() {
-		return this.arguments;
+	public Collection<IArgument> getArguments() {
+		return Collections.unmodifiableCollection(this.arguments);
 	}
 
 	private void buildModel(JavaMethod method) {
@@ -312,7 +309,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		// the type resolution
 		// TigerstripeRuntime.logInfoMessage("Value= " + type.getValue() + " - "
 		// + type.getJavaClass().getFullyQualifiedName());
-		this.returnType = new Type(type.getValue(), type.getDimensions(),
+		this.returnType = new Type(type.getValue(), EMultiplicity.ONE,
 				getArtifactManager());
 		if ("void".equals(type.getValue())) {
 			isVoid = true;
@@ -334,7 +331,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		JavaParameter[] parameters = method.getParameters();
 		for (int i = 0; i < parameters.length; i++) {
 			Type argType = new Type(parameters[i].getType().getValue(),
-					parameters[i].getType().getDimensions(),
+					EMultiplicity.ONE,
 					getArtifactManager());
 			Method.Argument arg = new Method.Argument(this, parameters[i]
 					.getName(), argType);
@@ -371,7 +368,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 				arg.setOrdered(isOrdered);
 				arg.setUnique(isUnique);
 				if (argMultiplicity != null) {
-					arg.getIType().setTypeMultiplicity(
+					arg.getType().setTypeMultiplicity(
 							IModelComponent.EMultiplicity.parse(argMultiplicity));
 				}
 			}
@@ -448,8 +445,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return this.arguments.size() != 0;
 	}
 
-	public Collection getExceptions() {
-		return this.exceptions;
+	public Collection<IException> getExceptions() {
+		return Collections.unmodifiableCollection(this.exceptions);
 	}
 
 	/**
@@ -589,8 +586,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		public String getSignature() {
 			return type.getFullyQualifiedName()
-					+ (type.getMultiplicity() == IType.MULTIPLICITY_SINGLE ? ""
-							: "[]") + " " + getName();
+					+ (type.getTypeMultiplicity().isArray()? "[]"
+							: "") + " " + getName();
 		}
 
 		public Argument(Method parentMethod, String name, Type type) {
@@ -607,19 +604,15 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			this.name = name;
 		}
 
-		public Type getType() {
-			return this.type;
-		}
-
 		public void setType(Type type) {
 			this.type = type;
 		}
 
-		public IType getIType() {
+		public IType getType() {
 			return getType();
 		}
 
-		public void setIType(IType type) {
+		public void setType(IType type) {
 			setType((Type) type);
 		}
 
@@ -670,7 +663,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			result.setComment(getComment());
 			result.setDefaultValue(getDefaultValue());
 			result.setName(getName());
-			result.setIType(getIType().clone());
+			result.setType(getType().clone());
 			result.setOrdered(isOrdered());
 			result.setRefBy(getRefBy());
 			result.setUnique(isUnique());
@@ -773,7 +766,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	// =======================================================================
 	// Methods to satisfy the IMethod interface
 
-	public void setReturnIType(IType type) {
+	public void setReturnType(IType type) {
 		this.returnType = (Type) type;
 		if (type == null || "void".equals(type.getFullyQualifiedName())) {
 			isVoid = true;
@@ -783,26 +776,26 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 	}
 
-	public IType getReturnIType() {
+	public IType getReturnType() {
 		return this.returnType;
 	}
 
-	public IType makeIType() {
+	public IType makeType() {
 		return new Type(getArtifactManager());
 	}
 
 	public String getLabelString() {
 		String result = getName() + "(" + getParamsString() + ")::";
-		String retType = getReturnIType().getName();
+		String retType = getReturnType().getName();
 		if (isVoid()) {
 			retType = "void";
 		}
 		result = result + retType;
 
 		if (!isVoid()
-				&& getReturnIType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
+				&& getReturnType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
 			result = result + "["
-					+ getReturnIType().getTypeMultiplicity().getLabel() + "]";
+					+ getReturnType().getTypeMultiplicity().getLabel() + "]";
 		}
 
 		if (!isVoid() && getDefaultReturnValue() != null) {
@@ -817,8 +810,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 	private String getParamsString() {
 		// get the list of method parameters from method
-		IArgument[] iargs = getIArguments();
-		int numParams = iargs.length;
+		int numParams = getArguments().size();
 		// if the number of arguments is zero, just return an empty string
 		if (numParams == 0)
 			return "";
@@ -826,14 +818,14 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		// method signature
 		StringBuffer paramBuffer = new StringBuffer();
 		int paramCount = 0;
-		for (IArgument iarg : iargs) {
-			String paramString = Util.nameOf(iarg.getIType()
+		for (IArgument iarg : getArguments()) {
+			String paramString = Util.nameOf(iarg.getType()
 					.getFullyQualifiedName());
 			paramBuffer.append(Misc.removeJavaLangString(paramString));
 
-			if (iarg.getIType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
+			if (iarg.getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
 				paramBuffer.append("["
-						+ iarg.getIType().getTypeMultiplicity().getLabel()
+						+ iarg.getType().getTypeMultiplicity().getLabel()
 						+ "]");
 			}
 
@@ -852,26 +844,21 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return paramString;
 	}
 
-	public IArgument[] getIArguments() {
-		IArgument[] result = new IArgument[getArguments().size()];
-		return (IArgument[]) getArguments().toArray(result);
-	}
-
-	public IArgument makeIArgument() {
+	public IArgument makeArgument() {
 		return new Argument(this);
 	}
 
-	public void addIArgument(IArgument argument) {
+	public void addArgument(IArgument argument) {
 		getArguments().add(argument);
 		((Argument) argument).setParentMethod(this);
 	}
 
-	public void removeIArguments(IArgument[] arguments) {
-		getArguments().removeAll(Arrays.asList(arguments));
+	public void removeArguments(Collection<IArgument> arguments) {
+		getArguments().removeAll(arguments);
 	}
 
-	public void setIArguments(IArgument[] arguments) {
-		this.arguments = Arrays.asList(arguments);
+	public void setArguments(Collection<IArgument> arguments) {
+		this.arguments = arguments;
 		for (Argument arg : (Collection<Argument>) this.arguments) {
 			arg.setParentMethod(this);
 		}
@@ -893,36 +880,33 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return this.isOptional;
 	}
 
-	public IException makeIException() {
+	public IException makeException() {
 		return new Method.Exception("java.lang.Exception");
 	}
 
-	public IException[] getIExceptions() {
-		IException[] result = new IException[this.exceptions.size()];
-		return (IException[]) this.exceptions.toArray(result);
+	public void setExceptions(Collection<IException> exceptions) {
+		this.exceptions = exceptions;
 	}
 
-	public void setIExceptions(IException[] exceptions) {
-		this.exceptions = Arrays.asList(exceptions);
-	}
-
-	public void addIException(IException exception) {
+	public void addException(IException exception) {
 		this.exceptions.add(exception);
 	}
 
-	public void removeIExceptions(IException[] exceptions) {
-		this.exceptions.removeAll(Arrays.asList(exceptions));
+	public void removeExceptions(Collection<IException> exceptions) {
+		this.exceptions.removeAll(exceptions);
 	}
 
 	public String getMethodId() {
-		String result = getReturnIType().getFullyQualifiedName() + ":"
+		String result = getReturnType().getFullyQualifiedName() + ":"
 				+ getName() + "(";
 
-		IArgument[] args = getIArguments();
-		for (int i = 0; i < args.length; i++) {
-			if (i > 0)
+		Iterator<IArgument> argIterator = getArguments().iterator();
+		while (argIterator.hasNext()){
+			IArgument arg = argIterator.next();
+			
+			result = result + arg.getType().getFullyQualifiedName();
+			if (argIterator.hasNext())
 				result = result + ",";
-			result = result + args[i].getIType().getFullyQualifiedName();
 		}
 
 		result = result + ")";
@@ -955,9 +939,9 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		result.setSupportedFlavors(getSupportedFlavors());
 		result.setName(getName());
 		result.setComment(getComment());
-		result.setIArguments(getIArguments());
-		result.setReturnIType(getReturnIType());
-		result.setIExceptions(getIExceptions());
+		result.setArguments(getArguments());
+		result.setReturnType(getReturnType());
+		result.setExceptions(getExceptions());
 		result.setOssjMethodProperties((Properties) getOssjMethodProperties()
 				.clone());
 		result.setContainingArtifact(getContainingArtifact());
@@ -1037,7 +1021,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		// check the validity of the method return type
 		boolean isMethodReturnCheck = true;
-		IStatus returnTypeStatus = getReturnIType().validate(
+		IStatus returnTypeStatus = getReturnType().validate(
 				isMethodReturnCheck);
 		if (!returnTypeStatus.isOK())
 			result.add(returnTypeStatus);
@@ -1071,16 +1055,15 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			}
 
 			// check the parameter type to ensure it is a valid data type
-			IStatus typeStatus = arg.getIType().validate();
+			IStatus typeStatus = arg.getType().validate();
 			if (!typeStatus.isOK())
 				result.addAll(typeStatus);
 
 		}
 
 		// check exceptions to ensure that they are valid class names
-		IException[] iExceptions = this.getIExceptions();
-		for (int i = 0; i < iExceptions.length; i++) {
-			IStatus s = iExceptions[i].validate();
+		for (IException exc : getExceptions()) {
+			IStatus s = exc.validate();
 			if (!s.isOK())
 				result.addAll(s);
 		}
@@ -1136,26 +1119,25 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		result.setName(getName());
 		result.setOptional(isOptional());
 		result.setOrdered(isOrdered());
-		result.setReturnIType(getReturnIType().clone());
+		result.setReturnType(getReturnType().clone());
 		result.setReturnRefBy(getReturnRefBy());
 		result.setUnique(isUnique());
 		result.setVisibility(getVisibility());
 		result.setVoid(isVoid());
 
 		// result.setEntityMethodFlavorDetails(flavor, details)
-		IArgument[] args = getIArguments();
-		IArgument[] clonedArgs = new IArgument[args.length];
-		for (int i = 0; i < args.length; i++) {
-			clonedArgs[i] = args[i].clone();
-		}
-		result.setIArguments(clonedArgs);
 
-		IException[] excs = getIExceptions();
-		IException[] clonedExcs = new IException[excs.length];
-		for (int i = 0; i < excs.length; i++) {
-			clonedExcs[i] = excs[i].clone();
+		Collection<IArgument> clonedArgs = new ArrayList<IArgument>();
+		for (IArgument arg : getArguments()) {
+			clonedArgs.add(arg.clone());
 		}
-		result.setIExceptions(clonedExcs);
+		result.setArguments(clonedArgs);
+
+		Collection<IException> clonedExcs = new ArrayList<IException>();
+		for (IException excep : getExceptions()) {
+			clonedExcs.add(excep.clone());
+		}
+		result.setExceptions(clonedExcs);
 
 		IStereotypeInstance[] stereotypeInstances = getStereotypeInstances();
 		for (IStereotypeInstance inst : stereotypeInstances) {

@@ -125,8 +125,8 @@ public class Field extends ArtifactComponent implements IField {
 		}
 
 		com.thoughtworks.qdox.model.Type type = field.getType();
-		this.type = new Type(type.getValue(), type.getDimensions(),
-				getArtifactManager()); // using old fashion constructor
+		// Create a type with a basic Multiplicity that can be reset below.
+		this.type = new Type(type.getValue(), EMultiplicity.ONE, getArtifactManager()); 
 		setName(field.getName());
 
 		Tag tag = getFirstTagByName(FIELD_TAG);
@@ -162,9 +162,6 @@ public class Field extends ArtifactComponent implements IField {
 
 	}
 
-	public Type getType() {
-		return this.type;
-	}
 
 	public boolean isRefByValue() {
 		return "value".equalsIgnoreCase(this.refBy);
@@ -192,11 +189,11 @@ public class Field extends ArtifactComponent implements IField {
 	// ==================================================================
 	// Methods to satisfy the IType interface
 
-	public IType getIType() {
+	public IType getType() {
 		return this.type;
 	}
 
-	public IType makeIType() {
+	public IType makeType() {
 		return new Type(getArtifactManager());
 	}
 
@@ -272,7 +269,7 @@ public class Field extends ArtifactComponent implements IField {
 		}
 
 		// check the validity of the type for this field
-		IStatus typeStatus = getIType().validate();
+		IStatus typeStatus = getType().validate();
 		if (!typeStatus.isOK())
 			result.add(typeStatus);
 
@@ -284,7 +281,7 @@ public class Field extends ArtifactComponent implements IField {
 	}
 
 	public String getLabelString() {
-		String result = getName() + "::" + getIType().getName();
+		String result = getName() + "::" + getType().getName();
 		if (getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
 			result = result + "[" + getType().getTypeMultiplicity().getLabel()
 					+ "]";
@@ -310,7 +307,7 @@ public class Field extends ArtifactComponent implements IField {
 		result.setName(getName());
 		result.setComment(getComment());
 		result.setDefaultValue(getDefaultValue());
-		result.setIType(getIType().clone());
+		result.setIType(getType().clone());
 		result.setOptional(isOptional());
 		result.setOrdered(isOrdered());
 		result.setReadOnly(isReadOnly());

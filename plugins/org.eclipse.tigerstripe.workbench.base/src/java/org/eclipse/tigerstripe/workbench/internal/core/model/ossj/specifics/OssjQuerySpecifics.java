@@ -18,6 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 
 public class OssjQuerySpecifics extends OssjArtifactSpecifics implements
 		IOssjQuerySpecifics {
@@ -38,7 +39,7 @@ public class OssjQuerySpecifics extends OssjArtifactSpecifics implements
 			String strType = props.getProperty("return", "");
 
 			if (strType != null && strType.length() != 0)
-				setReturnedEntityIType(new Type(strType, "", getArtifact()
+				setReturnedEntityIType(new Type(strType, EMultiplicity.ONE, getArtifact()
 						.getArtifactManager()));
 		}
 	}

@@ -248,7 +248,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 
 		String newFieldName = findNewFieldName();
 		newField.setName(newFieldName);
-		IType defaultType = newField.makeIType();
+		IType defaultType = newField.makeType();
 		try {
 			defaultType.setFullyQualifiedName(getDefaultTypeName());
 		} catch (TigerstripeException e) {

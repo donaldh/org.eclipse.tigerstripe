@@ -348,10 +348,10 @@ public class VisualeditorRelationshipUtils {
 		// then create attributes (if needed) and add them to the association
 		// class class EObject
 		for (IField field : assocClassArtifact.getFields()) {
-			String typeName = field.getIType().getFullyQualifiedName();
+			String typeName = field.getType().getFullyQualifiedName();
 			if ("java.lang.String".equals(typeName))
 				typeName = "String";
-			if (!shouldDisplayReference() || field.getIType().isPrimitive()
+			if (!shouldDisplayReference() || field.getType().isPrimitive()
 					|| typeName.equals("String")) {
 				// either our profile indicates that we shouldn't display
 				// non-primitive types as references or it's a primitive
@@ -360,8 +360,8 @@ public class VisualeditorRelationshipUtils {
 						.createAttribute();
 				// set the attribute fields to values that match the
 				// corresponding artifact
-				eAttribute.setMultiplicity(getMultiplicity(field.getIType()
-						.getMultiplicity()));
+				eAttribute.setMultiplicity(getMultiplicity(field.getType()
+						.getTypeMultiplicity()));
 				eAttribute.setName(field.getName());
 				eAttribute.setType(typeName);
 				eAttribute.setVisibility(mapVisibility(field.getVisibility()));
@@ -384,7 +384,7 @@ public class VisualeditorRelationshipUtils {
 					// set the attribute fields to values that match the
 					// corresponding artifact
 					eAttribute.setMultiplicity(getMultiplicity(field
-							.getIType().getMultiplicity()));
+							.getType().getTypeMultiplicity()));
 					eAttribute.setName(field.getName());
 					eAttribute.setType(typeName);
 					eAttribute.setVisibility(mapVisibility(field
@@ -397,8 +397,8 @@ public class VisualeditorRelationshipUtils {
 					Reference ref = VisualeditorFactory.eINSTANCE
 							.createReference();
 					ref.setZEnd((AbstractArtifact) otherNode);
-					ref.setMultiplicity(getMultiplicity(field.getIType()
-							.getMultiplicity()));
+					ref.setMultiplicity(getMultiplicity(field.getType()
+							.getTypeMultiplicity()));
 					ref.setName(field.getName());
 					assocClassClass.getReferences().add(ref);
 				}
@@ -411,10 +411,10 @@ public class VisualeditorRelationshipUtils {
 			// set the method fields to values that match the corresponding
 			// artifact
 			eMethod.setIsAbstract(method.isAbstract());
-			eMethod.setMultiplicity(getMultiplicity(method.getReturnIType()
-					.getMultiplicity()));
+			eMethod.setMultiplicity(getMultiplicity(method.getReturnType()
+					.getTypeMultiplicity()));
 			eMethod.setName(method.getName());
-			String typeName = method.getReturnIType()
+			String typeName = method.getReturnType()
 					.getFullyQualifiedName();
 			if ("java.lang.String".equals(typeName))
 				typeName = "String";
@@ -423,16 +423,16 @@ public class VisualeditorRelationshipUtils {
 			// loop through the arguments to the method (if any) and
 			// add the corresponding set of parameters to this method
 			// EObject
-			IArgument[] arguments = method.getIArguments();
-			for (IArgument argument : arguments) {
+
+			for (IArgument argument : method.getArguments()) {
 				Parameter param = VisualeditorFactory.eINSTANCE
 						.createParameter();
 				// set the parameter fields to values that match the
 				// corresponding artifact
-				param.setMultiplicity(getMultiplicity(argument.getIType()
-						.getMultiplicity()));
+				param.setMultiplicity(getMultiplicity(argument.getType()
+						.getTypeMultiplicity()));
 				param.setName(argument.getName());
-				String paramTypeName = argument.getIType()
+				String paramTypeName = argument.getType()
 						.getFullyQualifiedName();
 				if ("java.lang.String".equals(paramTypeName))
 					paramTypeName = "String";
@@ -503,13 +503,11 @@ public class VisualeditorRelationshipUtils {
 				+ " found");
 	}
 
-	public static TypeMultiplicity getMultiplicity(int multiplicy) {
-		if (multiplicy == IType.MULTIPLICITY_SINGLE)
+	public static TypeMultiplicity getMultiplicity(EMultiplicity multiplicy) {
+		if (! multiplicy.isArray())
 			return TypeMultiplicity.NONE_LITERAL;
-		else if (multiplicy == IType.MULTIPLICITY_MULTI)
+		else 
 			return TypeMultiplicity.ARRAY_LITERAL;
-		throw new IllegalArgumentException("Illegal value " + multiplicy
-				+ " found");
 	}
 
 	public static boolean shouldDisplayReference() {

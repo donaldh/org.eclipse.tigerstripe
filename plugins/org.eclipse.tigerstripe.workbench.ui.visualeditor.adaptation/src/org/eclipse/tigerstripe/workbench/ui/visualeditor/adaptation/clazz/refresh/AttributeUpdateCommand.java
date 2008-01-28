@@ -97,7 +97,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 			// The choice on Attribute or Reference is made on the type
 			// of the IField
 
-			IType type = field.getIType();
+			IType type = field.getType();
 			if (type != null) {
 				String typeStr = type.getFullyQualifiedName();
 				if (!type.isPrimitive() && !typeStr.equals("String")) {
@@ -282,7 +282,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 						if (targetZEndArt != null) {
 							targetRef.setZEnd(targetZEndArt);
 							targetRef.setTypeMultiplicity(ClassDiagramUtils
-									.mapTypeMultiplicity(field.getIType()
+									.mapTypeMultiplicity(field.getType()
 											.getTypeMultiplicity()));
 							targetRef.setIsOrdered(field.isOrdered());
 							targetRef.setIsUnique(field.isUnique());
@@ -310,7 +310,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 							ref.setIsOrdered(field.isOrdered());
 							ref.setIsUnique(field.isUnique());
 							ref.setTypeMultiplicity(ClassDiagramUtils
-									.mapTypeMultiplicity(field.getIType()
+									.mapTypeMultiplicity(field.getType()
 											.getTypeMultiplicity()));
 
 							try {

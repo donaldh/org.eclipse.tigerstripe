@@ -114,7 +114,7 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 		}
 
 		public boolean hasChildren() {
-			IType type = getField().getIType();
+			IType type = getField().getType();
 
 			if (type.isDatatype() || type.isEntityType()) {
 				if (children == null)
@@ -128,7 +128,7 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 			if (hasChildren())
 				return false;
 			else {
-				IType type = getField().getIType();
+				IType type = getField().getType();
 				return type.isPrimitive()
 						|| "java.lang.String".equals(type
 								.getFullyQualifiedName())
@@ -173,7 +173,7 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 						.getArtifactManagerSession();
 
 				IAbstractArtifact artifact = session
-						.getArtifactByFullyQualifiedName(getField().getIType()
+						.getArtifactByFullyQualifiedName(getField().getType()
 								.getFullyQualifiedName());
 				if (artifact != null
 						&& artifact instanceof IManagedEntityArtifact
@@ -216,14 +216,14 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 			IField field = node.getField();
 			if (field.getRefBy() == IField.REFBY_KEY)
 				return node.getName() + " ("
-						+ field.getIType().getFullyQualifiedName() + " by Key)";
+						+ field.getType().getFullyQualifiedName() + " by Key)";
 			else if (field.getRefBy() == IField.REFBY_KEYRESULT)
 				return node.getName() + " ("
-						+ field.getIType().getFullyQualifiedName()
+						+ field.getType().getFullyQualifiedName()
 						+ " by KeyResult)";
 
 			return node.getName() + " ("
-					+ field.getIType().getFullyQualifiedName() + ")";
+					+ field.getType().getFullyQualifiedName() + ")";
 		}
 	}
 
@@ -563,7 +563,7 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 				IEventDescriptorEntry[] entries = (IEventDescriptorEntry[]) specifics
 						.getEventDescriptorEntries();
 				EventDescriptorEntry selectedEntry = new EventDescriptorEntry(
-						node.getFullName(), node.getField().getIType()
+						node.getFullName(), node.getField().getType()
 								.getFullyQualifiedName());
 				selectedEntry.setCustom(false);
 				ArrayList list = new ArrayList();

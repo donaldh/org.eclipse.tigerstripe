@@ -72,7 +72,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 		if (artifact instanceof IAssociationArtifact) {
 			IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 			IAssociationEnd aEnd = assoc.makeAssociationEnd();
-			IType aType = aEnd.makeIType();
+			IType aType = aEnd.makeType();
 			aType.setFullyQualifiedName(aEndType);
 			aEnd.setType(aType);
 			aEnd.setName(aEndName);
@@ -83,7 +83,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			assoc.setAEnd(aEnd);
 
 			IAssociationEnd zEnd = assoc.makeAssociationEnd();
-			IType zType = zEnd.makeIType();
+			IType zType = zEnd.makeType();
 			zType.setFullyQualifiedName(zEndType);
 			zEnd.setType(zType);
 			zEnd.setName(zEndName);
@@ -103,7 +103,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 		} else if (artifact instanceof IAssociationClassArtifact) {
 			IAssociationClassArtifact assocClass = (IAssociationClassArtifact) artifact;
 			IAssociationEnd aEnd = assocClass.makeAssociationEnd();
-			IType aType = aEnd.makeIType();
+			IType aType = aEnd.makeType();
 			aType.setFullyQualifiedName(aEndType);
 			aEnd.setType(aType);
 			aEnd.setName(aEndName);
@@ -114,7 +114,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			assocClass.setAEnd(aEnd);
 
 			IAssociationEnd zEnd = assocClass.makeAssociationEnd();
-			IType zType = zEnd.makeIType();
+			IType zType = zEnd.makeType();
 			zType.setFullyQualifiedName(zEndType);
 			zEnd.setType(zType);
 			zEnd.setName(zEndName);

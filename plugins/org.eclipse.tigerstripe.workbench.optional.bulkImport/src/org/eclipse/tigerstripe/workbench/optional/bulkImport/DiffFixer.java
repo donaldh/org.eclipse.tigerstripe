@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
@@ -769,7 +770,7 @@ public class DiffFixer {
 							 */
 						}
 						for (IException exception : extraExceptions) {
-							diffMethod.addIException(exception);
+							diffMethod.addException(exception);
 							/*
 							 * String msgText = "INFO : New Exception " +
 							 * exception.getName() + " on " + diff.getLocal() + "
@@ -777,7 +778,7 @@ public class DiffFixer {
 							 */
 						}
 						for (IArgument argument : extraArguments) {
-							diffMethod.addIArgument(argument);
+							diffMethod.addArgument(argument);
 							/*
 							 * String msgText = "INFO : New Argument " +
 							 * argument.getName() + " on " + diff.getLocal() + "
@@ -1376,15 +1377,15 @@ public class DiffFixer {
 		/*
 		 * extra ones are ones that are in the MODEL and not the import
 		 */
-		if (component.getIExceptions().length > 0) {
+		if (component.getExceptions().size() > 0) {
 			Collection<IException> remainingExceptions = new ArrayList(Arrays
-					.asList(component.getIExceptions()));
-			Collection<IException> modelExceptions = Arrays.asList(component
-					.getIExceptions());
+					.asList(component.getExceptions()));
+			Collection<IException> modelExceptions = component
+					.getExceptions();
 			for (IException excep : modelExceptions) {
 				// go on the name..
-				for (IException exException : Arrays.asList(extractedComponent
-						.getIExceptions())) {
+				for (IException exException : extractedComponent
+						.getExceptions()) {
 					if (exException.getName().equals(excep.getName())) {
 						remainingExceptions.remove(excep);
 					}
@@ -1403,22 +1404,23 @@ public class DiffFixer {
 		 * NOTE Order is important, so just cut off the length that are alreday
 		 * there
 		 */
-		IArgument[] allArguments = component.getIArguments();
-		IArgument[] exArguments = extractedComponent.getIArguments();
-		if (component.getIArguments().length - exArguments.length > 0) {
-			IArgument[] remainingArguments = new IArgument[component
-					.getIArguments().length
-					- exArguments.length];
-			for (int i = 0; i < remainingArguments.length; i++) {
-				int arg = extractedComponent.getIArguments().length + i;
-				// TigerstripeRuntime.logInfoMessage(i + " " + arg);
-				remainingArguments[i] = allArguments[arg];
-				// TigerstripeRuntime.logInfoMessage(remainingArguments[i].getName());
-				// ;
+		Collection<IArgument> remainingArguments = new ArrayList<IArgument>();
+		
+		Iterator<IArgument> allArguments = component.getArguments().iterator();
+		Iterator<IArgument> extractedArguments = extractedComponent.getArguments().iterator();
+		
+		int a = 0;
+		while (allArguments.hasNext()){
+			IArgument argument = allArguments.next();
+			if (extractedArguments.hasNext()){
+				extractedArguments.next();
+			} else {
+				remainingArguments.add(argument);
 			}
-			return Arrays.asList(remainingArguments);
+			a++;
 		}
-		return Arrays.asList(new IArgument[0]);
+		return remainingArguments;
+
 	}
 
 	public IField getIField(IAbstractArtifact artifact, String fieldName) {

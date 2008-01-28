@@ -363,7 +363,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		for (IField field : artifact.getFields()) {
 			if (!isExcludedByAnnotation(field)) {
-				IType type = field.getIType();
+				IType type = field.getType();
 				IAbstractArtifact arti = (IAbstractArtifact) type
 						.getIArtifact();
 				if (!type.isPrimitive() && arti != null
@@ -379,7 +379,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		for (IMethod method : artifact.getMethods()) {
 			if (!isExcludedByAnnotation(method)) {
 				// first the return type
-				IType returnType = method.getReturnIType();
+				IType returnType = method.getReturnType();
 				IAbstractArtifact arti = (IAbstractArtifact) returnType
 						.getIArtifact();
 				if (!method.isVoid() && !returnType.isPrimitive()
@@ -407,8 +407,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				}
 
 				// then the arguments
-				for (IArgument arg : method.getIArguments()) {
-					IType type = arg.getIType();
+				for (IArgument arg : method.getArguments()) {
+					IType type = arg.getType();
 					IAbstractArtifact argArti = (IAbstractArtifact) type
 							.getIArtifact();
 					if (!type.isPrimitive() && argArti != null
@@ -443,7 +443,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				}
 
 				// finally the exceptions
-				for (IException exc : method.getIExceptions()) {
+				for (IException exc : method.getExceptions()) {
 					IAbstractArtifact excArti = tsProject
 							.getArtifactManagerSession()
 							.getArtifactByFullyQualifiedName(

@@ -12,8 +12,11 @@ package org.eclipse.tigerstripe.workbench.internal.tools.compare;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -693,7 +696,7 @@ public class CompareUtils {
 			aLabelMap.put(label.getName(), label);
 			aLabelValueMap.put(label.getName(), label.getValue());
 			aVisibilityMap.put(label.getName(), label.getVisibility());
-			aTypeMap.put(label.getName(), label.getIType()
+			aTypeMap.put(label.getName(), label.getType()
 					.getFullyQualifiedName());
 			aCommentMap.put(label.getName(), label.getComment());
 
@@ -702,7 +705,7 @@ public class CompareUtils {
 			bLabelMap.put(label.getName(), label);
 			bLabelValueMap.put(label.getName(), label.getValue());
 			bVisibilityMap.put(label.getName(), label.getVisibility());
-			bTypeMap.put(label.getName(), label.getIType()
+			bTypeMap.put(label.getName(), label.getType()
 					.getFullyQualifiedName());
 			bCommentMap.put(label.getName(), label.getComment());
 		}
@@ -788,8 +791,8 @@ public class CompareUtils {
 				differences.addAll(compareFieldComment(aField, bField));
 				differences.addAll(CompareUtils.compareStereotypes(aArtifact,
 						bArtifact, aField, bField, "Artifact:Field"));
-				if (!aField.getIType().getFullyQualifiedName().equals(
-						bField.getIType().getFullyQualifiedName())) {
+				if (!aField.getType().getFullyQualifiedName().equals(
+						bField.getType().getFullyQualifiedName())) {
 					// compare Type
 					differences.add(new Difference(
 							// "","Artifact Field:Type",
@@ -798,11 +801,11 @@ public class CompareUtils {
 							"value", aArtifact.getFullyQualifiedName(),
 							bArtifact.getFullyQualifiedName(),
 							"Artifact:Field:Type", fieldName.toString(), aField
-									.getIType().getFullyQualifiedName(), bField
-									.getIType().getFullyQualifiedName()));
+									.getType().getFullyQualifiedName(), bField
+									.getType().getFullyQualifiedName()));
 				}
-				if (aField.getIType().getTypeMultiplicity() != bField
-						.getIType().getTypeMultiplicity()) {
+				if (aField.getType().getTypeMultiplicity() != bField
+						.getType().getTypeMultiplicity()) {
 					// compare Multiplicity
 					differences.add(new Difference(
 							// "","Artifact Field:Multiplicity",
@@ -811,9 +814,9 @@ public class CompareUtils {
 							"value", aArtifact.getFullyQualifiedName(),
 							bArtifact.getFullyQualifiedName(),
 							"Artifact:Field:Multiplicity",
-							fieldName.toString(), aField.getIType()
+							fieldName.toString(), aField.getType()
 									.getTypeMultiplicity().toString(), bField
-									.getIType().getTypeMultiplicity()
+									.getType().getTypeMultiplicity()
 									.toString()));
 				}
 				if (aField.getRefBy() != bField.getRefBy()) {
@@ -1024,15 +1027,15 @@ public class CompareUtils {
 									.toString()));
 				}
 
-				if (!aMethod.getReturnIType().getFullyQualifiedName().equals(
-						bMethod.getReturnIType().getFullyQualifiedName())) {
+				if (!aMethod.getReturnType().getFullyQualifiedName().equals(
+						bMethod.getReturnType().getFullyQualifiedName())) {
 					differences.add(new Difference("value", aArtifact
 							.getFullyQualifiedName(), bArtifact
 							.getFullyQualifiedName(),
 							"Artifact:Method:ReturnType",
-							methodName.toString(), aMethod.getReturnIType()
+							methodName.toString(), aMethod.getReturnType()
 									.getFullyQualifiedName(), bMethod
-									.getReturnIType().getFullyQualifiedName()));
+									.getReturnType().getFullyQualifiedName()));
 				}
 				if (!aMethod.getMethodReturnName().equals(
 						bMethod.getMethodReturnName())) {
@@ -1044,15 +1047,15 @@ public class CompareUtils {
 									.getMethodReturnName(), bMethod
 									.getMethodReturnName()));
 				}
-				if (aMethod.getReturnIType().getTypeMultiplicity() != bMethod
-						.getReturnIType().getTypeMultiplicity()) {
+				if (aMethod.getReturnType().getTypeMultiplicity() != bMethod
+						.getReturnType().getTypeMultiplicity()) {
 					differences.add(new Difference("value", aArtifact
 							.getFullyQualifiedName(), bArtifact
 							.getFullyQualifiedName(),
 							"Artifact:Method:ReturnType:Multiplicity",
-							methodName.toString(), aMethod.getReturnIType()
+							methodName.toString(), aMethod.getReturnType()
 									.getTypeMultiplicity().toString(), bMethod
-									.getReturnIType().getTypeMultiplicity()
+									.getReturnType().getTypeMultiplicity()
 									.toString()));
 				}
 				if (aMethod.isIteratorReturn() != bMethod.isIteratorReturn()) {
@@ -1122,104 +1125,108 @@ public class CompareUtils {
 						aArtifact, bArtifact, aMethod, bMethod,
 						"Artifact:Method:Return"));
 
-				IMethod.IArgument[] aArgs = aMethod.getIArguments();
-				IMethod.IArgument[] bArgs = bMethod.getIArguments();
-				if (aArgs.length == bArgs.length) {
+				if (aMethod.getArguments().size() == bMethod.getArguments().size()) {
 					// Arguments - order IS important so just Iterate
-					for (int j = 0; j < aArgs.length; j++) {
-						if (!aArgs[j].getName().equals(bArgs[j].getName())) {
+					Iterator<IArgument> aIterator = aMethod.getArguments().iterator();
+					Iterator<IArgument> bIterator = bMethod.getArguments().iterator();
+					for (int j = 0; j < aMethod.getArguments().size(); j++) {
+						IArgument aArg = aIterator.next();
+						IArgument bArg = bIterator.next();
+						
+						
+						if (!aArg.getName().equals(bArg.getName())) {
 							differences.add(new Difference(
 									// "","Artifact Method:Argument:Name",
 									// aArtifact.getFullyQualifiedName(),
-									// methodName.toString()+":["+j+"]",aArgs[j].getName(),bArgs[j].getName()));
+									// methodName.toString()+":["+j+"]",aArg.getName(),bArg.getName()));
 									"value", aArtifact.getFullyQualifiedName(),
 									bArtifact.getFullyQualifiedName(),
 									"Artifact:Method:Argument:Name", methodName
 											.toString()
-											+ ":[" + j + "]", aArgs[j]
-											.getName(), bArgs[j].getName()));
+											+ ":[" + j + "]", aArg
+											.getName(), bArg.getName()));
 						}
-						if (!aArgs[j].getIType().getFullyQualifiedName()
+						if (!aArg.getType().getFullyQualifiedName()
 								.equals(
-										bArgs[j].getIType()
+										bArg.getType()
 												.getFullyQualifiedName())) {
 							differences
 									.add(new Difference(
 											// "","Artifact
 											// Method:Argument:Type",
 											// aArtifact.getFullyQualifiedName(),
-											// methodName.toString()+":["+j+"]",aArgs[j].getIType().getFullyQualifiedName(),bArgs[j].getIType().getFullyQualifiedName()));
+											// methodName.toString()+":["+j+"]",aArg.getIType().getFullyQualifiedName(),bArg.getIType().getFullyQualifiedName()));
 											"value", aArtifact
 													.getFullyQualifiedName(),
 											bArtifact.getFullyQualifiedName(),
 											"Artifact:Method:Argument:Type",
 											methodName.toString() + ":[" + j
-													+ "]", aArgs[j].getIType()
+													+ "]", aArg.getType()
 													.getFullyQualifiedName(),
-											bArgs[j].getIType()
+											bArg.getType()
 													.getFullyQualifiedName()));
 						}
-						if (aArgs[j].getIType().getTypeMultiplicity() != bArgs[j]
-								.getIType().getTypeMultiplicity()) {
+						if (aArg.getType().getTypeMultiplicity() != bArg
+								.getType().getTypeMultiplicity()) {
 							differences.add(new Difference(
 									// "","Artifact
 									// Method:Argument:Multiplicity",
 									// aArtifact.getFullyQualifiedName(),
-									// methodName.toString()+":["+j+"]",aArgs[j].getIType().getMultiplicity(),bArgs[j].getIType().getMultiplicity()));
+									// methodName.toString()+":["+j+"]",aArg.getIType().getMultiplicity(),bArg.getIType().getMultiplicity()));
 									"value", aArtifact.getFullyQualifiedName(),
 									bArtifact.getFullyQualifiedName(),
 									"Artifact:Method:Argument:Multiplicity",
 									methodName.toString() + ":[" + j + "]",
-									aArgs[j].getIType().getTypeMultiplicity()
-											.toString(), bArgs[j].getIType()
+									aArg.getType().getTypeMultiplicity()
+											.toString(), bArg.getType()
 											.getTypeMultiplicity().toString()));
 						}
-						if (aArgs[j].getRefBy() != bArgs[j].getRefBy()) {
+						if (aArg.getRefBy() != bArg.getRefBy()) {
 							differences
 									.add(new Difference(
 											// "","Artifact
 											// Method:Argument:RefBy",
 											// aArtifact.getFullyQualifiedName(),
-											// methodName.toString()+":["+j+"]",aArgs[j].getRefBy(),bArgs[j].getRefBy()));
+											// methodName.toString()+":["+j+"]",aArg.getRefBy(),bArg.getRefBy()));
 											"value", aArtifact
 													.getFullyQualifiedName(),
 											bArtifact.getFullyQualifiedName(),
 											"Artifact:Method:Argument:RefBy",
 											methodName.toString() + ":[" + j
-													+ "]", ((Integer) aArgs[j]
+													+ "]", ((Integer) aArg
 													.getRefBy()).toString(),
-											((Integer) bArgs[j].getRefBy())
+											((Integer) bArg.getRefBy())
 													.toString()));
 						}
-						if (aArgs[j].isOrdered() != bArgs[j].isOrdered()) {
+						if (aArg.isOrdered() != bArg.isOrdered()) {
 							differences
 									.add(new Difference("value", aArtifact
 											.getFullyQualifiedName(), bArtifact
 											.getFullyQualifiedName(),
 											"Artifact:Method:Argument:Ordered",
 											methodName.toString() + ":[" + j
-													+ "]", ((Boolean) aArgs[j]
+													+ "]", ((Boolean) aArg
 													.isOrdered()).toString(),
-											((Boolean) bArgs[j].isOrdered())
+											((Boolean) bArg.isOrdered())
 													.toString()));
 						}
-						if (aArgs[j].isUnique() != bArgs[j].isUnique()) {
+						if (aArg.isUnique() != bArg.isUnique()) {
 							differences
 									.add(new Difference("value", aArtifact
 											.getFullyQualifiedName(), bArtifact
 											.getFullyQualifiedName(),
 											"Artifact:Method:Argument:Unique",
 											methodName.toString() + ":[" + j
-													+ "]", ((Boolean) aArgs[j]
+													+ "]", ((Boolean) aArg
 													.isUnique()).toString(),
-											((Boolean) bArgs[j].isUnique())
+											((Boolean) bArg.isUnique())
 													.toString()));
 						}
 
-						if (aArgs[j].getDefaultValue() != null
-								& bArgs[j].getDefaultValue() != null) {
-							if (!aArgs[j].getDefaultValue().equals(
-									bArgs[j].getDefaultValue())) {
+						if (aArg.getDefaultValue() != null
+								& bArg.getDefaultValue() != null) {
+							if (!aArg.getDefaultValue().equals(
+									bArg.getDefaultValue())) {
 								// Compare DefaultValue
 								differences
 										.add(new Difference(
@@ -1230,14 +1237,14 @@ public class CompareUtils {
 														.getFullyQualifiedName(),
 												"Artifact:Method:Argument:DefaultValue",
 												methodName.toString() + ":["
-														+ j + "]", aArgs[j]
+														+ j + "]", aArg
 														.getDefaultValue(),
-												bArgs[j].getDefaultValue()));
+												bArg.getDefaultValue()));
 							}
-						} else if (!(aArgs[j].getDefaultValue() == null & bArgs[j]
+						} else if (!(aArg.getDefaultValue() == null & bArg
 								.getDefaultValue() == null)) {
 							// ie only one of them is null
-							if (aArgs[j].getDefaultValue() == null) {
+							if (aArg.getDefaultValue() == null) {
 								differences
 										.add(new Difference(
 												"value",
@@ -1247,10 +1254,10 @@ public class CompareUtils {
 														.getFullyQualifiedName(),
 												"Artifact:Method:Argument:DefaultValue",
 												methodName.toString() + ":["
-														+ j + "]", "", bArgs[j]
+														+ j + "]", "", bArg
 														.getDefaultValue()));
 							}
-							if (bArgs[j].getDefaultValue() == null) {
+							if (bArg.getDefaultValue() == null) {
 								differences
 										.add(new Difference(
 												"value",
@@ -1260,17 +1267,17 @@ public class CompareUtils {
 														.getFullyQualifiedName(),
 												"Artifact:Method:Argument:DefaultValue",
 												methodName.toString() + ":["
-														+ j + "]", aArgs[j]
+														+ j + "]", aArg
 														.getDefaultValue(), ""));
 							}
 
 						}
 
-						differences.addAll(compareArgumentComment(aArgs[j],
-								bArgs[j]));
+						differences.addAll(compareArgumentComment(aArg,
+								bArg));
 						differences.addAll(CompareUtils
 								.compareArgumentStereotypes(aArtifact,
-										bArtifact, aArgs[j], bArgs[j],
+										bArtifact, aArg, bArg,
 										"Artifact:Method:Argument"));
 
 					}
@@ -1282,8 +1289,8 @@ public class CompareUtils {
 							"value", aArtifact.getFullyQualifiedName(),
 							bArtifact.getFullyQualifiedName(),
 							"Artifact:Method:ArgumentList", methodName
-									.toString(), ((Integer) aArgs.length)
-									.toString(), ((Integer) bArgs.length)
+									.toString(), ((Integer) aMethod.getArguments().size())
+									.toString(), ((Integer) bMethod.getArguments().size())
 									.toString()));
 
 				}
@@ -1300,14 +1307,12 @@ public class CompareUtils {
 							((Boolean) bMethod.isInstanceMethod()).toString()));
 				}
 
-				IMethod.IException[] aExceps = aMethod.getIExceptions();
-				IMethod.IException[] bExceps = bMethod.getIExceptions();
 				ArrayList<String> aExcepsNames = new ArrayList<String>();
 				ArrayList<String> bExcepsNames = new ArrayList<String>();
-				for (IMethod.IException ex : aExceps) {
+				for (IMethod.IException ex : aMethod.getExceptions()) {
 					aExcepsNames.add(ex.getFullyQualifiedName());
 				}
-				for (IMethod.IException ex : bExceps) {
+				for (IMethod.IException ex : bMethod.getExceptions()) {
 					bExcepsNames.add(ex.getFullyQualifiedName());
 				}
 				for (String name : aExcepsNames) {

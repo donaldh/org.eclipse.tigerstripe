@@ -111,4 +111,4 @@ in IArtifactManagerSession
 
 ###################################
 in IType
-- remove deprecated methods/fields
+- remove deprecated methods/fields - this has very far reaching consequences

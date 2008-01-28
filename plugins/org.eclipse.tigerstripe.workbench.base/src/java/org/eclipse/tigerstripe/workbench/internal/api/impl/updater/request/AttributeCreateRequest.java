@@ -69,7 +69,7 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 
 		IField field = art.makeField();
 		field.setName(getAttributeName());
-		IType type = field.makeIType();
+		IType type = field.makeType();
 		type.setFullyQualifiedName(getAttributeType());
 
 		if (IModelComponent.EMultiplicity.parse(attributeMultiplicity) != null)

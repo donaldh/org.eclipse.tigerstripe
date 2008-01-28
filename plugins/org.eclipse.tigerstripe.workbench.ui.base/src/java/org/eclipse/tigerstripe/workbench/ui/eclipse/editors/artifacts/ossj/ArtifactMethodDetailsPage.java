@@ -12,6 +12,8 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
@@ -62,6 +64,7 @@ import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
@@ -603,8 +606,14 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		public Object[] getElements(Object inputElement) {
 			IMethod mtd = (IMethod) getMethod();
-			if (mtd != null)
-				return mtd.getIArguments();
+			if (mtd != null){
+				Object[] args = new Object[mtd.getArguments().size()];
+				Iterator<IArgument> argIterator  = mtd.getArguments().iterator();
+				for (int i=0;i<mtd.getArguments().size();i++){
+					args[i] = argIterator.next();
+				}
+				return  args;
+			}		
 			return new IMethod.IArgument[0];
 		}
 
@@ -631,14 +640,14 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			if (element instanceof IArgument) {
 				IArgument arg = (IArgument) element;
 
-				String fqn = arg.getIType().getFullyQualifiedName();
+				String fqn = arg.getType().getFullyQualifiedName();
 				if (((AbstractArtifact) arg.getContainingArtifact())
 						.getArtifactManager() != null) {
 					ArtifactManager mgr = ((AbstractArtifact) arg
 							.getContainingArtifact()).getArtifactManager();
 					if (mgr.getArtifactByFullyQualifiedName(fqn, true,
 							new TigerstripeNullProgressMonitor()) instanceof IPrimitiveTypeArtifact) {
-						fqn = arg.getIType().getName();
+						fqn = arg.getType().getName();
 					}
 				}
 
@@ -662,9 +671,9 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				String label = stereotypePrefix + arg.getName() + ": "
 						+ Misc.removeJavaLangString(fqn);
 
-				if (arg.getIType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
+				if (arg.getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
 					label = label + "["
-							+ arg.getIType().getTypeMultiplicity().getLabel()
+							+ arg.getType().getTypeMultiplicity().getLabel()
 							+ "]";
 				}
 
@@ -707,7 +716,14 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		public Object[] getElements(Object inputElement) {
 			IMethod mtd = (IMethod) getMethod();
 			if (mtd != null)
-				return mtd.getIExceptions();
+				if (mtd != null){
+					Object[] excs = new Object[mtd.getExceptions().size()];
+					Iterator<IException> excIterator  = mtd.getExceptions().iterator();
+					for (int i=0;i<mtd.getExceptions().size();i++){
+						excs[i] = excIterator.next();
+					}
+					return  excs;
+				}		
 			return new IMethod.IException[0];
 		}
 
@@ -866,8 +882,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		methodReturnNameText.setEnabled(!isReadOnly && !getMethod().isVoid());
 
 		boolean refByEnabled = !isReadOnly && !getMethod().isVoid()
-				&& getMethod().getReturnIType() != null
-				&& getMethod().getReturnIType().isEntityType();
+				&& getMethod().getReturnType() != null
+				&& getMethod().getReturnType().isEntityType();
 
 		if (refByKeyButton != null)
 			refByKeyButton.setEnabled(refByEnabled);
@@ -911,11 +927,11 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			multiplicityCombo.setEnabled(!isReadOnly && !getMethod().isVoid());
 		}
 		typeBrowseButton.setEnabled(!isReadOnly && !getMethod().isVoid());
-		typeText.setText(Misc.removeJavaLangString(getMethod().getReturnIType()
+		typeText.setText(Misc.removeJavaLangString(getMethod().getReturnType()
 				.getFullyQualifiedName()));
 		if (!getMethod().isVoid()) {
 			multiplicityCombo.select(IModelComponent.EMultiplicity.indexOf(getMethod()
-					.getReturnIType().getTypeMultiplicity()));
+					.getReturnType().getTypeMultiplicity()));
 			updateDefaultValueCombo();
 			defaultReturnValue.setEnabled(!isReadOnly);
 			editReturnAnnotations.setEnabled(!isReadOnly);
@@ -942,8 +958,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		if (iteratorReturnButton != null) {
 			iteratorReturnButton.setSelection(getMethod().isIteratorReturn());
 			if (!getMethod().isVoid()) {
-				if (getMethod().getReturnIType().getMultiplicity() == IType.MULTIPLICITY_MULTI
-						&& getMethod().getReturnIType().isEntityType()) {
+				if (getMethod().getReturnType().getTypeMultiplicity().isArray()
+						&& getMethod().getReturnType().isEntityType()) {
 					iteratorReturnButton.setEnabled(!isReadOnly);
 				} else {
 					iteratorReturnButton.setEnabled(false);
@@ -1067,11 +1083,11 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			pageModified();
 		} else if (!isVoid.getSelection()
 				&& event.getSource() == this.multiplicityCombo) {
-			IType type = getMethod().makeIType();
+			IType type = getMethod().makeType();
 			type.setFullyQualifiedName(this.typeText.getText().trim());
 			type.setTypeMultiplicity(IModelComponent.EMultiplicity.at(multiplicityCombo
 					.getSelectionIndex()));
-			getMethod().setReturnIType(type);
+			getMethod().setReturnType(type);
 			pageModified();
 		} else if (event.getSource() == refByKeyButton) {
 			getMethod().setReturnRefBy(IField.REFBY_KEY);
@@ -1159,7 +1175,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	}
 
 	private void addArgButtonPressed() {
-		IType type = getMethod().makeIType();
+		IType type = getMethod().makeType();
 		try {
 			type.setFullyQualifiedName(getDefaultTypeName());
 		} catch (TigerstripeException e) {
@@ -1168,13 +1184,13 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 					"Default Primitive Type For Parameter", e.getMessage());
 			return;
 		}
-		type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
+		type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
 
-		IArgument newArg = getMethod().makeIArgument();
+		IArgument newArg = getMethod().makeArgument();
 		newArg.setName(getNewUniqueArg());
-		newArg.setIType(type);
+		newArg.setType(type);
 
-		getMethod().addIArgument(newArg);
+		getMethod().addArgument(newArg);
 		argViewer.add(newArg);
 		argViewer.setSelection(new StructuredSelection(newArg), true);
 		pageModified();
@@ -1220,7 +1236,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		if (msgDialog.open() == 0) {
 			argViewer.remove(selectedLabels);
-			getMethod().removeIArguments(selectedLabels);
+			getMethod().removeArguments(Arrays.asList(selectedLabels));
 			this.pageModified();
 
 			// Refresh the viewer for the method label (which will update the
@@ -1254,10 +1270,10 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 							.asList(new Object[] { master.getIArtifact() }));
 			if (artifacts.length != 0) {
 				initialType = artifacts[0].getFullyQualifiedName();
-				IMethod.IException newArg = getMethod().makeIException();
+				IMethod.IException newArg = getMethod().makeException();
 				newArg.setFullyQualifiedName(initialType);
 
-				getMethod().addIException(newArg);
+				getMethod().addException(newArg);
 				exceptionViewer.add(newArg);
 				exceptionViewer.setSelection(new StructuredSelection(newArg),
 						true);
@@ -1292,7 +1308,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		if (msgDialog.open() == 0) {
 			exceptionViewer.remove(selectedLabels);
-			getMethod().removeIExceptions(selectedLabels);
+			getMethod().removeExceptions(Arrays.asList(selectedLabels));
 			this.pageModified();
 		}
 		updateForm();
@@ -1315,7 +1331,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				newArgs[i - 1] = (IArgument) allItems[i].getData();
 			}
 		}
-		method.setIArguments(newArgs);
+		method.setArguments(Arrays.asList(newArgs));
 		pageModified();
 
 		// Refresh the viewer for the method label (which will update the method
@@ -1346,7 +1362,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				newArgs[i + 1] = (IArgument) allItems[i].getData();
 			}
 		}
-		method.setIArguments(newArgs);
+		method.setArguments(Arrays.asList(newArgs));
 		pageModified();
 
 		// Refresh the viewer for the method label (which will update the method
@@ -1373,7 +1389,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		ArgumentEditDialog dialog = new ArgumentEditDialog(master.getSection()
 				.getShell(), selectedArgs[0], Arrays.asList(getMethod()
-				.getIArguments()), elem, master.getIArtifact().getIProject());
+				.getArguments()), elem, master.getIArtifact().getIProject());
 
 		if (dialog.open() == 0) {
 			pageModified();
@@ -1401,11 +1417,11 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 					viewer.refresh(getMethod());
 				}
 			} else if (event.getSource() == typeText) {
-				IType type = getMethod().makeIType();
+				IType type = getMethod().makeType();
 				type.setFullyQualifiedName(typeText.getText().trim());
 				type.setTypeMultiplicity(IModelComponent.EMultiplicity.at(multiplicityCombo
 						.getSelectionIndex()));
-				getMethod().setReturnIType(type);
+				getMethod().setReturnType(type);
 				updateDefaultValueCombo();
 			} else if (event.getSource() == commentText) {
 				getMethod().setComment(commentText.getText().trim());
@@ -1434,8 +1450,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 	private void updateDefaultValueCombo() {
 		// Update the default value control based on the field type
-		if (getMethod().getReturnIType() != null) {
-			Type type = (Type) getMethod().getReturnIType();
+		if (getMethod().getReturnType() != null) {
+			Type type = (Type) getMethod().getReturnType();
 			IAbstractArtifact art = type.getArtifact();
 			if (art instanceof IEnumArtifact) {
 				IEnumArtifact enumArt = (IEnumArtifact) art;

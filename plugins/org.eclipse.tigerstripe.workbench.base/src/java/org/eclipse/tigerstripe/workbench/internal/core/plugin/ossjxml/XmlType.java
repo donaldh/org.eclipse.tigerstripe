@@ -16,6 +16,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.OssjUtil;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 
 /**
  * @author Eric Dillon
@@ -43,6 +44,7 @@ public class XmlType {
 
 	private PluginRef pluginRef;
 
+	// HACKED To stop it complaining - due for deletion
 	public XmlType(String fullyQualifiedName, String dimensions,
 			ArtifactManager artifactManager, PluginRef pluginRef)
 			throws TigerstripeException {
@@ -52,11 +54,12 @@ public class XmlType {
 		this.namespace = "ts";
 		this.pluginRef = pluginRef;
 
-		this.type = new Type(fullyQualifiedName, dimensions,
+		this.type = new Type(fullyQualifiedName, EMultiplicity.ONE,
 				this.artifactManager);
 		build();
 	}
 
+	// HACKED To stop it complaining - due for deletion
 	public XmlType(String namespace, String fullyQualifiedName,
 			String dimensions, ArtifactManager artifactManager,
 			PluginRef pluginRef) throws TigerstripeException {
@@ -66,7 +69,7 @@ public class XmlType {
 		this.namespace = namespace;
 		this.pluginRef = pluginRef;
 
-		this.type = new Type(fullyQualifiedName, dimensions,
+		this.type = new Type(fullyQualifiedName, EMultiplicity.ONE,
 				this.artifactManager);
 		build();
 	}

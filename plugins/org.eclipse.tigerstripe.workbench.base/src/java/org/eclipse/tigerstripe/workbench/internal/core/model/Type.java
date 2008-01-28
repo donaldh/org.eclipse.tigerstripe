@@ -35,7 +35,7 @@ public class Type implements IType {
 
 	private String fullyQualifiedName;
 
-	private String dimensions;
+	/*private String dimensions;*/
 
 	private IModelComponent.EMultiplicity multiplicity;
 
@@ -54,7 +54,7 @@ public class Type implements IType {
 	public void setTypeMultiplicity(IModelComponent.EMultiplicity multiplicity) {
 		this.multiplicity = multiplicity;
 
-		// for compatibility reason, we need to set the dimension attribute to
+		/*// for compatibility reason, we need to set the dimension attribute to
 		// the closest match
 		if (multiplicity == IModelComponent.EMultiplicity.ONE
 				|| multiplicity == IModelComponent.EMultiplicity.ZERO_ONE
@@ -62,7 +62,7 @@ public class Type implements IType {
 			dimensions = dimensionsAsString(MULTIPLICITY_SINGLE);
 		} else {
 			dimensions = dimensionsAsString(MULTIPLICITY_MULTI);
-		}
+		}*/
 	}
 
 	public String getName() {
@@ -73,15 +73,15 @@ public class Type implements IType {
 		this.fullyQualifiedName = name;
 	}
 
-	public String getDimensions() {
+/*	public String getDimensions() {
 		return this.dimensions;
-	}
+	}*/
 
 	public ArtifactManager getArtifactManager() {
 		return this.artifactManager;
 	}
 
-	public void setDimensions(String dimensions) {
+/*	public void setDimensions(String dimensions) {
 		this.dimensions = dimensions;
 
 		// For compatibility reasons, we need to update the type multiplicity
@@ -90,7 +90,7 @@ public class Type implements IType {
 		} else {
 			multiplicity = IModelComponent.EMultiplicity.ZERO_ONE;
 		}
-	}
+	}*/
 
 	public Type(ArtifactManager artifactMgr) {
 		this("", IModelComponent.EMultiplicity.ZERO_ONE, artifactMgr);
@@ -111,13 +111,13 @@ public class Type implements IType {
 	 * @deprecated since 2.2-rc, no use of dimensions anymore, multiplicity
 	 *             instead
 	 */
-	@Deprecated
+	/*@Deprecated
 	public Type(String fullyQualifiedName, String dimensions,
 			ArtifactManager artifactMgr) {
 		setFullyQualifiedName(fullyQualifiedName);
 		setDimensions(dimensions);
 		this.artifactManager = artifactMgr;
-	}
+	}*/
 
 	/**
 	 * 
@@ -128,10 +128,10 @@ public class Type implements IType {
 	 *             instead
 	 */
 	@Deprecated
-	public Type(String fullyQualifiedName, int dimensions,
+/*	public Type(String fullyQualifiedName, int dimensions,
 			ArtifactManager artifactMgr) {
 		this(fullyQualifiedName, dimensionsAsString(dimensions), artifactMgr);
-	}
+	}*/
 
 	/**
 	 * 
@@ -140,7 +140,7 @@ public class Type implements IType {
 	 * @deprecated since 2.2-rc, no use of dimensions anymore, multiplicity
 	 *             instead
 	 */
-	@Deprecated
+/*	@Deprecated
 	private static String dimensionsAsString(int dimensions) {
 		String result = "";
 		for (int i = 0; i < dimensions; i++) {
@@ -148,7 +148,7 @@ public class Type implements IType {
 		}
 
 		return result;
-	}
+	}*/
 
 	/**
 	 * Returns true if this type is a primitive type
@@ -287,7 +287,7 @@ public class Type implements IType {
 			EnumArtifact en = (EnumArtifact) artifact;
 			return en.getBaseType();
 		} else
-			return new Type(artifact.getFullyQualifiedName(), 0,
+			return new Type(artifact.getFullyQualifiedName(), EMultiplicity.ZERO_ONE,
 					getArtifactManager());
 	}
 
@@ -296,34 +296,35 @@ public class Type implements IType {
 	 * 
 	 */
 	public boolean isArray() {
-		return !"".equals(getDimensions());
+		return this.getTypeMultiplicity().isArray();
+		//return !"".equals(getDimensions());
 	}
 
 	// ================================================================
 	// Methods to satisfy the IType interface
 
 	public int getMultiplicity() {
-		if ("".equals(this.dimensions))
+/*		if ("".equals(this.dimensions))
 			return IType.MULTIPLICITY_SINGLE;
 		else
-			return IType.MULTIPLICITY_MULTI;
+			return IType.MULTIPLICITY_MULTI;*/
+		return 0;
 	}
 
 	public void setMultiplicity(int multiplicity) {
-		switch (multiplicity) {
+/*		switch (multiplicity) {
 		case IType.MULTIPLICITY_SINGLE:
 			this.dimensions = "";
 			break;
 		default:
 			this.dimensions = "[]";
 			break;
-		}
+		}*/
 	}
 
 	public String defaultValue() {
 		String result = "";
-		switch (getMultiplicity()) {
-		case IType.MULTIPLICITY_SINGLE:
+		if (!getTypeMultiplicity().isArray()){
 			String type = getFullyQualifiedName();
 			if ("java.lang.String".equals(type)) {
 				result = "\"Value\"";
@@ -332,7 +333,6 @@ public class Type implements IType {
 			} else if ("int".equals(type)) {
 				result = "0";
 			}
-			break;
 		}
 
 		return result;

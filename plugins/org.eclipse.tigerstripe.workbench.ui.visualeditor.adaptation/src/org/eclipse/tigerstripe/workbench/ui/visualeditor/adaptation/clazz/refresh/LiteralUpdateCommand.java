@@ -50,7 +50,7 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 			} else {
 				// review that everything matches
 				String targetType = Misc.removeJavaLangString(targetLabel
-						.getIType().getFullyQualifiedName());
+						.getType().getFullyQualifiedName());
 				String targetValue = targetLabel.getValue();
 				if (eLiteral.getType() == null
 						|| !eLiteral.getType().equals(targetType)) {
@@ -82,7 +82,7 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 
 			if (!found) {
 				// need to create a new method in the EMF domain
-				IType iLabelType = iLabel.getIType();
+				IType iLabelType = iLabel.getType();
 				if (iLabelType != null
 						&& iLabelType.getFullyQualifiedName() != null
 						&& iLabelType.getFullyQualifiedName().length() != 0) {

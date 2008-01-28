@@ -230,7 +230,7 @@ public class OssjQuerySpecificsSection extends ArtifactSectionPart {
 					.setText(artifacts[0].getFullyQualifiedName());
 			IOssjQuerySpecifics specifics = (IOssjQuerySpecifics) getIArtifact()
 					.getIStandardSpecifics();
-			IType type = getIArtifact().makeField().makeIType();
+			IType type = getIArtifact().makeField().makeType();
 			type.setFullyQualifiedName(returnedEntityTypeText.getText().trim());
 			specifics.setReturnedEntityIType(type);
 			markPageModified();
@@ -274,7 +274,7 @@ public class OssjQuerySpecificsSection extends ArtifactSectionPart {
 			} else if (e.getSource() == returnedEntityTypeText) {
 				IOssjQuerySpecifics specifics = (IOssjQuerySpecifics) getIArtifact()
 						.getIStandardSpecifics();
-				IType type = getIArtifact().makeField().makeIType();
+				IType type = getIArtifact().makeField().makeType();
 				type.setFullyQualifiedName(returnedEntityTypeText.getText()
 						.trim());
 				specifics.setReturnedEntityIType(type);

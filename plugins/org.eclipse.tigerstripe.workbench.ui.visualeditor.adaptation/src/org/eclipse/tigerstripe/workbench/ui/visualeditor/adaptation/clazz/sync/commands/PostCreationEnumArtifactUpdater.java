@@ -46,7 +46,7 @@ public class PostCreationEnumArtifactUpdater extends
 
 			// Create Literals
 			for (ILabel label : getIArtifact().getLabels()) {
-				String labelType = label.getIType().getFullyQualifiedName();
+				String labelType = label.getType().getFullyQualifiedName();
 				String labelName = label.getName();
 				String labelValue = label.getValue();
 				Literal lit = VisualeditorFactory.eINSTANCE.createLiteral();

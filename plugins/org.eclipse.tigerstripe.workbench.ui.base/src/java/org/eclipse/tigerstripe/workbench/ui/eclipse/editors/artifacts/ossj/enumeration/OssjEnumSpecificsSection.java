@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssj
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
@@ -189,11 +190,11 @@ public class OssjEnumSpecificsSection extends ArtifactSectionPart {
 			if (e.getSource() == baseTypeCombo) {
 				IOssjEnumSpecifics specifics = (IOssjEnumSpecifics) getIArtifact()
 						.getIStandardSpecifics();
-				IType type = getIArtifact().makeField().makeIType();
+				IType type = getIArtifact().makeField().makeType();
 				type
 						.setFullyQualifiedName(IEnumArtifact.baseTypeOptions[baseTypeCombo
 								.getSelectionIndex()]);
-				type.setMultiplicity(IType.MULTIPLICITY_SINGLE);
+				type.setTypeMultiplicity(EMultiplicity.ZERO_STAR);
 				specifics.setBaseIType(type);
 				markPageModified();
 			} else if (e.getSource() == isExtensible) {

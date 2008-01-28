@@ -331,9 +331,9 @@ public class ArgumentEditDialog extends TSMessageDialog {
 			descriptionField.setText("");
 		}
 
-		if (initialArgument.getIType() != null) {
+		if (initialArgument.getType() != null) {
 			attributeClassDialogField.setText(Misc
-					.removeJavaLangString(initialArgument.getIType()
+					.removeJavaLangString(initialArgument.getType()
 							.getFullyQualifiedName()));
 		} else {
 			attributeClassDialogField.setText("String");
@@ -388,7 +388,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 				, initialArgument.isUnique());
 
 		multiplicityCombo.selectItem(IModelComponent.EMultiplicity.indexOf(initialArgument
-				.getIType().getTypeMultiplicity()));
+				.getType().getTypeMultiplicity()));
 		// attributeDimensionDialogField.setText(String.valueOf(initialArgument
 		// .getIType().getMultiplicity()));
 		getShell().setText("Argument Details");
@@ -553,12 +553,12 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		// populate the attribute
 		initialArgument.setName(attributeNameDialogField.getText());
 		org.eclipse.tigerstripe.workbench.model.IType type = initialArgument
-				.getIType();
+				.getType();
 		type.setFullyQualifiedName(attributeClass);
 		type.setTypeMultiplicity(IModelComponent.EMultiplicity.at(multiplicityCombo
 				.getSelectionIndex()));
 
-		initialArgument.setIType(type);
+		initialArgument.setType(type);
 		initialArgument.setComment(descriptionField.getText());
 
 		if (defaultValueIsSet && attributeDefaultValue != null
@@ -753,7 +753,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 	private void updateDefaultValueCombo() {
 		// Update the default value control based on the field type
 		if (attributeClass != null) {
-			Type type = (Type) getIArgument().getIType();
+			Type type = (Type) getIArgument().getType();
 			IAbstractArtifact art = type.getArtifactManager()
 					.getArtifactByFullyQualifiedName(attributeClass, true,
 							new TigerstripeNullProgressMonitor());

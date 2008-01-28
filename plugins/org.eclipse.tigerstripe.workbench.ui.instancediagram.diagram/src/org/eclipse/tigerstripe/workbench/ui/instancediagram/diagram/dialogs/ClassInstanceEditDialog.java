@@ -372,7 +372,7 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			} else {
 				entry.source = "";
 			}
-			entry.type = field.getIType();
+			entry.type = field.getType();
 			if (variableNames.contains(entry.name)) {
 				entry.enabled = true;
 				String value = variableNameValMap.get(entry.name);

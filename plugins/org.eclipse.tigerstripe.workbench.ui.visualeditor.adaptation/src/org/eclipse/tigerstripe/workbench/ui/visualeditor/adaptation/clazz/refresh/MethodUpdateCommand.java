@@ -321,7 +321,7 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 
 			if (!found) {
 				// need to create a new method in the EMF domain
-				IType iMethodType = iMethod.getReturnIType();
+				IType iMethodType = iMethod.getReturnType();
 				if (iMethodType != null
 						&& iMethodType.getFullyQualifiedName() != null
 						&& iMethodType.getFullyQualifiedName().length() != 0) {
@@ -347,18 +347,18 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 							.mapTypeMultiplicity(iMethodType
 									.getTypeMultiplicity()));
 
-					for (IArgument arg : iMethod.getIArguments()) {
+					for (IArgument arg : iMethod.getArguments()) {
 						Parameter param = VisualeditorFactory.eINSTANCE
 								.createParameter();
 						param.setName(arg.getName());
 						String lclTypeStr = getFqnForTypeAndIArtifact(arg
-								.getIType(), iArtifact);
+								.getType(), iArtifact);
 						param.setType(Misc.removeJavaLangString(lclTypeStr));
 						param.setIsOrdered(arg.isOrdered());
 						param.setIsUnique(arg.isUnique());
 						param.setDefaultValue(arg.getDefaultValue());
 						param.setTypeMultiplicity(ClassDiagramUtils
-								.mapTypeMultiplicity(arg.getIType()
+								.mapTypeMultiplicity(arg.getType()
 										.getTypeMultiplicity()));
 						meth.getParameters().add(param);
 					}

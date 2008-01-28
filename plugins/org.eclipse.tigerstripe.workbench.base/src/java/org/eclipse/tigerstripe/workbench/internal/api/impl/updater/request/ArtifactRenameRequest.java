@@ -154,10 +154,10 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 				}
 
 				for (IField field : artifact.getFields()) {
-					if (field.getIType() != null
-							&& field.getIType().getFullyQualifiedName().equals(
+					if (field.getType() != null
+							&& field.getType().getFullyQualifiedName().equals(
 									oldFQN)) {
-						((Type) field.getIType())
+						((Type) field.getType())
 								.setFullyQualifiedName(referencedArtifact
 										.getFullyQualifiedName());
 						needSave = true;
@@ -165,20 +165,20 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 				}
 
 				for (IMethod method : artifact.getMethods()) {
-					if (method.getReturnIType() != null
-							&& method.getReturnIType().getFullyQualifiedName()
+					if (method.getReturnType() != null
+							&& method.getReturnType().getFullyQualifiedName()
 									.equals(oldFQN)) {
-						((Type) method.getReturnIType())
+						((Type) method.getReturnType())
 								.setFullyQualifiedName(referencedArtifact
 										.getFullyQualifiedName());
 						needSave = true;
 					}
 
-					for (IArgument arg : method.getIArguments()) {
-						if (arg.getIType() != null
-								&& arg.getIType().getFullyQualifiedName()
+					for (IArgument arg : method.getArguments()) {
+						if (arg.getType() != null
+								&& arg.getType().getFullyQualifiedName()
 										.equals(oldFQN)) {
-							((Type) arg.getIType())
+							((Type) arg.getType())
 									.setFullyQualifiedName(referencedArtifact
 											.getFullyQualifiedName());
 							needSave = true;
@@ -186,7 +186,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 					}
 
 					if (referencedArtifact instanceof IExceptionArtifact) {
-						for (IException exc : method.getIExceptions()) {
+						for (IException exc : method.getExceptions()) {
 							if (exc.getFullyQualifiedName().equals(oldFQN)) {
 								exc.setFullyQualifiedName(referencedArtifact
 										.getFullyQualifiedName());

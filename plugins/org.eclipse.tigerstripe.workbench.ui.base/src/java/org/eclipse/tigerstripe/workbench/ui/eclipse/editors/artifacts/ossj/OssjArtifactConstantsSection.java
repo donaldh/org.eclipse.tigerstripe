@@ -41,6 +41,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.Label;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -296,7 +297,7 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 
 		String newLabelName = findNewFieldName();
 		newLabel.setName(newLabelName);
-		IType defaultType = newLabel.makeIType();
+		IType defaultType = newLabel.makeType();
 
 		// See bug #77, #90
 		if (getForcedBaseType() != null) {
@@ -304,8 +305,8 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		} else {
 			defaultType.setFullyQualifiedName("String");
 		}
-		defaultType.setMultiplicity(IType.MULTIPLICITY_SINGLE);
-		newLabel.setIType(defaultType);
+		defaultType.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
+		newLabel.setType(defaultType);
 
 		newLabel.setValue(getInitialLiteralValue(defaultType));
 

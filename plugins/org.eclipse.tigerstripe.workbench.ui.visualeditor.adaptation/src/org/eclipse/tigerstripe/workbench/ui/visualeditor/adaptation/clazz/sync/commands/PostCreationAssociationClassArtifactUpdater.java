@@ -71,7 +71,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 					// primitive type,
 					// java scalar, String or EnumerationType
 					// or if the References are disabled
-					String attrType = field.getIType().getFullyQualifiedName();
+					String attrType = field.getType().getFullyQualifiedName();
 					IArtifactManagerSession session = getDiagramProject()
 							.getArtifactManagerSession();
 					if (PostCreationAbstractArtifactUpdater
@@ -87,7 +87,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 						attr.setIsOrdered(field.isOrdered());
 						attr.setIsUnique(field.isUnique());
 						attr.setTypeMultiplicity(ClassDiagramUtils
-								.mapTypeMultiplicity(field.getIType()
+								.mapTypeMultiplicity(field.getType()
 										.getTypeMultiplicity()));
 						for (IStereotypeInstance instance : field
 								.getStereotypeInstances()) {
@@ -105,7 +105,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 							ref.setName(field.getName());
 							ref.setZEnd(targetArt);
 							ref.setTypeMultiplicity(ClassDiagramUtils
-									.mapTypeMultiplicity(field.getIType()
+									.mapTypeMultiplicity(field.getType()
 											.getTypeMultiplicity()));
 							eArtifact.getReferences().add(ref);
 						} else {
@@ -122,7 +122,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 
 			// Create Methods
 			for (IMethod method : getIArtifact().getMethods()) {
-				String methodType = method.getReturnIType()
+				String methodType = method.getReturnType()
 						.getFullyQualifiedName();
 				String methodName = method.getName();
 				Method meth = VisualeditorFactory.eINSTANCE.createMethod();
@@ -136,15 +136,15 @@ public class PostCreationAssociationClassArtifactUpdater extends
 				meth.setVisibility(ClassDiagramUtils.toVisibility(method
 						.getVisibility()));
 
-				for (IArgument arg : method.getIArguments()) {
+				for (IArgument arg : method.getArguments()) {
 					Parameter param = VisualeditorFactory.eINSTANCE
 							.createParameter();
 					param.setName(arg.getName());
-					param.setType(Misc.removeJavaLangString(arg.getIType()
+					param.setType(Misc.removeJavaLangString(arg.getType()
 							.getFullyQualifiedName()));
-					IType type = arg.getIType();
+					IType type = arg.getType();
 					TypeMultiplicity mult = TypeMultiplicity.NONE_LITERAL;
-					if (type.getMultiplicity() == IType.MULTIPLICITY_MULTI) {
+					if (type.getTypeMultiplicity().isArray()) {
 						mult = TypeMultiplicity.ARRAY_LITERAL;
 					}
 					param.setMultiplicity(mult);
@@ -195,7 +195,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 				}
 
 				for (IField field : mirror.getFields()) {
-					if (field.getIType().getFullyQualifiedName().equals(
+					if (field.getType().getFullyQualifiedName().equals(
 							eArtifact.getFullyQualifiedName())) {
 						// before we add this reference we need to make sure
 						// it's not already
@@ -212,7 +212,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 									.createReference();
 							ref.setName(field.getName());
 							ref.setZEnd(eArtifact);
-							if (field.getIType().getMultiplicity() == IType.MULTIPLICITY_MULTI) {
+							if (field.getType().getTypeMultiplicity().isArray()) {
 								ref
 										.setMultiplicity(TypeMultiplicity.ARRAY_LITERAL);
 							} else {

@@ -58,11 +58,11 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 						iField.setName(newValue);
 						needSave = true;
 					} else if (TYPE_FEATURE.equals(featureId)) {
-						iField.getIType().setFullyQualifiedName(newValue);
+						iField.getType().setFullyQualifiedName(newValue);
 						needSave = true;
 					} else if (MULTIPLICITY_FEATURE.equals(featureId)) {
 						IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity.parse(newValue);
-						iField.getIType().setTypeMultiplicity(mult);
+						iField.getType().setTypeMultiplicity(mult);
 						needSave = true;
 					} else if (VISIBILITY_FEATURE.equals(featureId)) {
 						if ("PUBLIC".equals(newValue)) {

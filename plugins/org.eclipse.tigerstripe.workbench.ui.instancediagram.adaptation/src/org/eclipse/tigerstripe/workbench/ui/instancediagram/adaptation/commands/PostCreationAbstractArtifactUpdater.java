@@ -64,7 +64,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 			try {
 				// Attr should only be populated if type is, either
 				// primitive type, java scalar, String or EnumerationType
-				String attrType = field.getIType().getFullyQualifiedName();
+				String attrType = field.getType().getFullyQualifiedName();
 				IArtifactManagerSession session = getDiagramProject()
 						.getArtifactManagerSession();
 				if (shouldPopulateVariable(attrType, session)) {

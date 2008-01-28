@@ -127,9 +127,13 @@ public class AssociationEnd extends ArtifactComponent implements
 		}
 
 		com.thoughtworks.qdox.model.Type type = field.getType();
-		this.type = new Type(type.getValue(), type.getDimensions(),
+		// the *type* at the end should have a fixed multiplicity of one.
+		// Note this is different from the multiplicity of the end.
+		
+		this.type = new Type(type.getValue(), EMultiplicity.ONE,
 				getArtifactManager());
 		setName(field.getName());
+		
 
 		// Extract value of Label
 		Properties props = null;
@@ -155,6 +159,8 @@ public class AssociationEnd extends ArtifactComponent implements
 		multiplicity = IModelComponent.EMultiplicity.parse(props.getProperty("multiplicity",
 				IModelComponent.EMultiplicity.ONE.getLabel()));
 
+
+		
 		// Extract all the stereotypes
 		extractStereotypes();
 	}
@@ -179,7 +185,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		return this.containingAssociation;
 	}
 
-	public IType makeIType() {
+	public IType makeType() {
 		return new Type(getArtifactManager());
 	}
 

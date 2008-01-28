@@ -72,9 +72,9 @@ public class LabelCreateRequest extends BaseArtifactElementRequest implements
 		ILabel label = art.makeLabel();
 		label.setName(getLabelName());
 		label.setValue(getLabelValue());
-		IType type = label.makeIType();
+		IType type = label.makeType();
 		type.setFullyQualifiedName(getLabelType());
-		label.setIType(type);
+		label.setType(type);
 		art.addLabel(label);
 		art.doSave(new TigerstripeNullProgressMonitor());
 	}

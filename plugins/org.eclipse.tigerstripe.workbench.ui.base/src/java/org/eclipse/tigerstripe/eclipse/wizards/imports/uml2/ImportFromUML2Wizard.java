@@ -351,7 +351,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 			specs.setPrimaryKey("String");
 		} else if (specifics instanceof IOssjEnumSpecifics) {
 			IOssjEnumSpecifics specs = (IOssjEnumSpecifics) specifics;
-			IType type = newArtifact.makeField().makeIType();
+			IType type = newArtifact.makeField().makeType();
 			type.setFullyQualifiedName("String");
 			specs.setBaseIType(type);
 		}
@@ -368,7 +368,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 				IField field = newArtifact.makeField();
 				field.setName(attr.getName());
 				field.setComment(attr.getDescription());
-				IType type = field.makeIType();
+				IType type = field.makeType();
 				type.setFullyQualifiedName(attr.getType()
 						.getFullyQualifiedName());
 				type.setMultiplicity(attr.getDimensions());
@@ -383,9 +383,9 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 				ILabel label = newArtifact.makeLabel();
 				label.setName(cst.getName());
 				label.setComment(cst.getDescription());
-				IType type = label.makeIType();
+				IType type = label.makeType();
 				type.setFullyQualifiedName("String");
-				label.setIType(type);
+				label.setType(type);
 				label.setValue(cst.getValue());
 				label.setVisibility(cst.getVisibility());
 				newArtifact.addLabel(label);
@@ -398,18 +398,18 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 				IMethod method = newArtifact.makeMethod();
 				method.setName(op.getName());
 				method.setComment(op.getDescription());
-				IType returnType = method.makeIType();
+				IType returnType = method.makeType();
 				returnType.setFullyQualifiedName(op.getReturnType()
 						.getFullyQualifiedName());
 				for (AnnotableElementOperationParameter param : op
 						.getAnnotableElementOperationParameters()) {
-					IArgument arg = method.makeIArgument();
+					IArgument arg = method.makeArgument();
 					arg.setName(param.getName());
-					IType argType = method.makeIType();
+					IType argType = method.makeType();
 					argType.setFullyQualifiedName(param.getType()
 							.getFullyQualifiedName());
-					arg.setIType(argType);
-					method.addIArgument(arg);
+					arg.setType(argType);
+					method.addArgument(arg);
 				}
 
 				// FIXME: we're not importing the exceptions !
@@ -436,7 +436,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 					IField field = artifact.makeField();
 					field.setName(attr.getName());
 					field.setComment(attr.getDescription());
-					IType type = field.makeIType();
+					IType type = field.makeType();
 					type.setFullyQualifiedName(attr.getType()
 							.getFullyQualifiedName());
 					type.setMultiplicity(attr.getDimensions());
@@ -458,9 +458,9 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 					ILabel label = artifact.makeLabel();
 					label.setName(cst.getName());
 					label.setComment(cst.getDescription());
-					IType type = label.makeIType();
+					IType type = label.makeType();
 					type.setFullyQualifiedName("String");
-					label.setIType(type);
+					label.setType(type);
 					label.setValue(cst.getValue());
 
 					List<ILabel> tmp = new ArrayList<ILabel>();
@@ -479,19 +479,19 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 					IMethod method = artifact.makeMethod();
 					method.setName(op.getName());
 					method.setComment(op.getDescription());
-					IType returnType = method.makeIType();
+					IType returnType = method.makeType();
 					returnType.setFullyQualifiedName(op.getReturnType()
 							.getFullyQualifiedName());
-					method.setReturnIType(returnType);
+					method.setReturnType(returnType);
 					for (AnnotableElementOperationParameter param : op
 							.getAnnotableElementOperationParameters()) {
-						IArgument arg = method.makeIArgument();
+						IArgument arg = method.makeArgument();
 						arg.setName(param.getName());
-						IType argType = method.makeIType();
+						IType argType = method.makeType();
 						argType.setFullyQualifiedName(param.getType()
 								.getFullyQualifiedName());
 						// FIXME: can't set the argType dimension
-						method.addIArgument(arg);
+						method.addArgument(arg);
 					}
 					// FIXME: can't set the exceptions
 

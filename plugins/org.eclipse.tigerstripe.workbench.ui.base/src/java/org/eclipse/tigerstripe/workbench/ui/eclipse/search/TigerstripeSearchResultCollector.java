@@ -64,7 +64,7 @@ public class TigerstripeSearchResultCollector {
 
 	private IStatus acceptField(IField field) {
 		SearchPatternData data = getData();
-		String fieldType = field.getIType().getFullyQualifiedName();
+		String fieldType = field.getType().getFullyQualifiedName();
 
 		if (data.getSearchFor() == ITigerstripeSearchConstants.TYPE
 				&& data.matchPattern(fieldType)) {
@@ -82,7 +82,7 @@ public class TigerstripeSearchResultCollector {
 
 	private IStatus acceptLabel(ILabel label) {
 		SearchPatternData data = getData();
-		String labelType = label.getIType().getFullyQualifiedName();
+		String labelType = label.getType().getFullyQualifiedName();
 		if (data.getSearchFor() == ITigerstripeSearchConstants.TYPE
 				&& data.matchPattern(labelType)) {
 			if (data.getLimitTo() == ITigerstripeSearchConstants.REFERENCES
@@ -99,7 +99,7 @@ public class TigerstripeSearchResultCollector {
 
 	private IStatus acceptMethod(IMethod method) {
 		SearchPatternData data = getData();
-		String methodType = method.getReturnIType().getFullyQualifiedName();
+		String methodType = method.getReturnType().getFullyQualifiedName();
 		if (data.getSearchFor() == ITigerstripeSearchConstants.TYPE) {
 			if (data.matchPattern(methodType)) {
 				if (data.getLimitTo() == ITigerstripeSearchConstants.REFERENCES
@@ -108,8 +108,8 @@ public class TigerstripeSearchResultCollector {
 							ArtifactMatch.REFERENCE_MATCH));
 			}
 
-			for (IArgument arg : method.getIArguments()) {
-				String argType = arg.getIType().getFullyQualifiedName();
+			for (IArgument arg : method.getArguments()) {
+				String argType = arg.getType().getFullyQualifiedName();
 				if (data.matchPattern(argType)) {
 					if (data.getLimitTo() == ITigerstripeSearchConstants.REFERENCES
 							|| data.getLimitTo() == ITigerstripeSearchConstants.ALL_OCCURRENCES)
@@ -118,7 +118,7 @@ public class TigerstripeSearchResultCollector {
 				}
 			}
 
-			for (IException excp : method.getIExceptions()) {
+			for (IException excp : method.getExceptions()) {
 				String excpType = excp.getFullyQualifiedName();
 				if (data.matchPattern(excpType)) {
 					if (data.getLimitTo() == ITigerstripeSearchConstants.REFERENCES

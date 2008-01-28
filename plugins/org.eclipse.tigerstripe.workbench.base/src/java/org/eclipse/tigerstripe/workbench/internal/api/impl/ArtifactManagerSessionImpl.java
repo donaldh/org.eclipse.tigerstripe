@@ -345,7 +345,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			resAEnd.setNavigable(origAssoc.getAEnd().isNavigable());
 			resAEnd.setOrdered(origAssoc.getAEnd().isOrdered());
 			resAEnd.setVisibility(origAssoc.getAEnd().getVisibility());
-			IType aType = resAEnd.makeIType();
+			IType aType = resAEnd.makeType();
 			aType.setFullyQualifiedName(origAssoc.getAEnd().getType()
 					.getFullyQualifiedName());
 			resAEnd.setType(aType);
@@ -360,7 +360,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			resZEnd.setNavigable(origAssoc.getZEnd().isNavigable());
 			resZEnd.setOrdered(origAssoc.getZEnd().isOrdered());
 			resZEnd.setVisibility(origAssoc.getZEnd().getVisibility());
-			IType zType = resZEnd.makeIType();
+			IType zType = resZEnd.makeType();
 			zType.setFullyQualifiedName(origAssoc.getZEnd().getType()
 					.getFullyQualifiedName());
 			resZEnd.setType(zType);

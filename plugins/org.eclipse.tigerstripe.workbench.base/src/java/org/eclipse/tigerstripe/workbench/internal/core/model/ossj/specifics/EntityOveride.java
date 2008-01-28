@@ -262,7 +262,7 @@ public class EntityOveride {
 		createMethod.setOssjMethodProperties(new Properties());
 		createMethod.setOssjMethodProperties(specifics
 				.getCRUDProperties(IOssjEntitySpecifics.CREATE));
-		createMethod.setReturnIType(createMethod.makeIType());
+		createMethod.setReturnType(createMethod.makeType());
 		result[0] = createMethod;
 
 		IOssjMethod setMethod = (IOssjMethod) artifact.makeMethod();
@@ -270,7 +270,7 @@ public class EntityOveride {
 		setMethod.setSupportedFlavors(IOssjFlavorDefaults.setMethodFlavors);
 		setMethod.setOssjMethodProperties(specifics
 				.getCRUDProperties(IOssjEntitySpecifics.SET));
-		setMethod.setReturnIType(setMethod.makeIType());
+		setMethod.setReturnType(setMethod.makeType());
 		result[1] = setMethod;
 
 		IOssjMethod getMethod = (IOssjMethod) artifact.makeMethod();
@@ -278,7 +278,7 @@ public class EntityOveride {
 		getMethod.setSupportedFlavors(IOssjFlavorDefaults.getMethodFlavors);
 		getMethod.setOssjMethodProperties(specifics
 				.getCRUDProperties(IOssjEntitySpecifics.GET));
-		getMethod.setReturnIType(getMethod.makeIType());
+		getMethod.setReturnType(getMethod.makeType());
 		result[2] = getMethod;
 
 		IOssjMethod removeMethod = (IOssjMethod) artifact.makeMethod();
@@ -287,7 +287,7 @@ public class EntityOveride {
 				.setSupportedFlavors(IOssjFlavorDefaults.removeMethodFlavors);
 		removeMethod.setOssjMethodProperties(specifics
 				.getCRUDProperties(IOssjEntitySpecifics.DELETE));
-		removeMethod.setReturnIType(removeMethod.makeIType());
+		removeMethod.setReturnType(removeMethod.makeType());
 		result[3] = removeMethod;
 		return result;
 	}

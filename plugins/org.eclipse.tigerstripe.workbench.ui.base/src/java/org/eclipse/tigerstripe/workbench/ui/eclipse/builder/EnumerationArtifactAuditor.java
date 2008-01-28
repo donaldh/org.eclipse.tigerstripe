@@ -78,7 +78,7 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 			// See bug #80
 			// Check that baseType is used on all labels
 			for (ILabel label : artifact.getLabels()) {
-				IType labelType = label.getIType();
+				IType labelType = label.getType();
 
 				String baseTypeStr = Misc.removeJavaLangString(baseType
 						.getFullyQualifiedName());

@@ -651,7 +651,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		while (it.hasNext()) {
 			Field field = (Field) it.next();
 			int refBy = field.getRefBy();
-			Type type = field.getType();
+			Type type = (Type) field.getType();
 
 			FieldTypeRef item = new FieldTypeRef();
 			item.setRefBy(refBy);
@@ -1396,15 +1396,15 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 		for (Iterator iter = fields.iterator(); iter.hasNext();) {
 			Field field = (Field) iter.next();
-			String fqn = field.getIType().getFullyQualifiedName();
-			if (!field.getIType().isPrimitive() && !result.contains(fqn))
+			String fqn = field.getType().getFullyQualifiedName();
+			if (!field.getType().isPrimitive() && !result.contains(fqn))
 				result.add(fqn);
 		}
 
 		for (Iterator iter = methods.iterator(); iter.hasNext();) {
 			Method method = (Method) iter.next();
-			String fqn = method.getReturnIType().getFullyQualifiedName();
-			if (!"void".equals(fqn) && !method.getReturnIType().isPrimitive()
+			String fqn = method.getReturnType().getFullyQualifiedName();
+			if (!"void".equals(fqn) && !method.getReturnType().isPrimitive()
 					&& !result.contains(fqn)) {
 				result.add(fqn);
 			}
@@ -1412,14 +1412,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			for (Iterator argIter = method.getArguments().iterator(); argIter
 					.hasNext();) {
 				Argument arg = (Argument) argIter.next();
-				if (!arg.getIType().isPrimitive()
-						&& !result.contains(arg.getIType()
+				if (!arg.getType().isPrimitive()
+						&& !result.contains(arg.getType()
 								.getFullyQualifiedName())) {
-					result.add(arg.getIType().getFullyQualifiedName());
+					result.add(arg.getType().getFullyQualifiedName());
 				}
 			}
 
-			for (IException except : method.getIExceptions()) {
+			for (IException except : method.getExceptions()) {
 				result.add(except.getFullyQualifiedName());
 			}
 		}
@@ -1582,16 +1582,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public IAbstractArtifact[] getReferencedIArtifacts() {
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 		for (IField field : getFields()) {
-			if (!field.getIType().isPrimitive()
-					&& !(field.getIType().getIArtifact() instanceof IPrimitiveTypeArtifact)
-					&& field.getIType().getIArtifact() != null) {
-				result.add(field.getIType().getIArtifact());
+			if (!field.getType().isPrimitive()
+					&& !(field.getType().getIArtifact() instanceof IPrimitiveTypeArtifact)
+					&& field.getType().getIArtifact() != null) {
+				result.add(field.getType().getIArtifact());
 			}
 		}
 
 		for (IMethod method : getMethods()) {
 			if (!method.isVoid()) {
-				IType returnType = method.getReturnIType();
+				IType returnType = method.getReturnType();
 				if (!returnType.isPrimitive()
 						&& !(returnType.getIArtifact() instanceof IPrimitiveTypeArtifact)
 						&& returnType.getIArtifact() != null) {
@@ -1599,8 +1599,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				}
 			}
 
-			for (IArgument arg : method.getIArguments()) {
-				IType artType = arg.getIType();
+			for (IArgument arg : method.getArguments()) {
+				IType artType = arg.getType();
 				if (!artType.isPrimitive()
 						&& !(artType.getIArtifact() instanceof IPrimitiveTypeArtifact)
 						&& artType.getIArtifact() != null) {

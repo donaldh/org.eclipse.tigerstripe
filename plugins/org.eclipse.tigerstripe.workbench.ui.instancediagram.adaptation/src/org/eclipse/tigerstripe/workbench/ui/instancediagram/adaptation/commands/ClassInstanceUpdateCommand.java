@@ -81,7 +81,7 @@ public class ClassInstanceUpdateCommand extends AbstractInstanceUpdateCommand {
 				if (field == null) {
 					variablesToRemove.add(variable);
 				} else if (!InstanceDiagramUtils.isPrimitive(artMgrSession,
-						field.getIType())) {
+						field.getType())) {
 					String value = variable.getValue();
 					List<String> values = InstanceDiagramUtils
 							.instanceReferencesAsList(value);
