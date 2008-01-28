@@ -44,9 +44,9 @@ import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
@@ -1117,13 +1117,13 @@ public class TS2UML2 {
 			// TODO make one...
 
 			IAssociationEnd end1 = ((IAssociationArtifact) artifact).getAEnd();
-			Type e1Type = getUMLType(end1.getIType());
+			Type e1Type = getUMLType(end1.getType());
 			Type type1 = null;
 			if (e1Type != null)
 				type1 = typeMap.get(e1Type.getQualifiedName());
 
 			IAssociationEnd end2 = ((IAssociationArtifact) artifact).getZEnd();
-			Type e2Type = getUMLType(end2.getIType());
+			Type e2Type = getUMLType(end2.getType());
 			Type type2 = null;
 			if (e2Type != null)
 				type2 = typeMap.get(e2Type.getQualifiedName());
@@ -1221,8 +1221,8 @@ public class TS2UML2 {
 			} else {
 				String msgText = artifact.getName()
 						+ " One or the other end was not a valid type : "
-						+ end1.getIType().getFullyQualifiedName() + " "
-						+ end2.getIType().getFullyQualifiedName();
+						+ end1.getType().getFullyQualifiedName() + " "
+						+ end2.getType().getFullyQualifiedName();
 				out.println("ERROR :" + msgText);
 				addMessage(msgText, 0);
 				return null;
@@ -1259,13 +1259,13 @@ public class TS2UML2 {
 			}
 			// TODO make one...
 			IAssociationEnd end1 = ((IAssociationArtifact) artifact).getAEnd();
-			Type e1Type = getUMLType(end1.getIType());
+			Type e1Type = getUMLType(end1.getType());
 			Type type1 = null;
 			if (e1Type != null)
 				type1 = typeMap.get(e1Type.getQualifiedName());
 
 			IAssociationEnd end2 = ((IAssociationArtifact) artifact).getZEnd();
-			Type e2Type = getUMLType(end2.getIType());
+			Type e2Type = getUMLType(end2.getType());
 			Type type2 = null;
 			if (e2Type != null)
 				type2 = typeMap.get(e2Type.getQualifiedName());
@@ -1330,8 +1330,8 @@ public class TS2UML2 {
 			} else {
 				String msgText = artifact.getName()
 						+ " One or the other end was not a valid type : "
-						+ end1.getIType().getFullyQualifiedName() + " "
-						+ end2.getIType().getFullyQualifiedName();
+						+ end1.getType().getFullyQualifiedName() + " "
+						+ end2.getType().getFullyQualifiedName();
 				out.println("ERROR :" + msgText);
 				addMessage(msgText, 0);
 				return null;
@@ -1348,7 +1348,7 @@ public class TS2UML2 {
 	// There doesn't always have to be an upper and lower bound......
 	// eg "*", "0" or "1" - what does that come out as ?
 
-	private int getLowerBound(EMultiplicity multi) {
+	private int getLowerBound(IModelComponent.EMultiplicity multi) {
 		if (multi.getLabel().startsWith("0"))
 			return 0;
 		else if (multi.getLabel().startsWith("1"))
@@ -1359,7 +1359,7 @@ public class TS2UML2 {
 			return 0;
 	}
 
-	private int getUpperBound(EMultiplicity multi) {
+	private int getUpperBound(IModelComponent.EMultiplicity multi) {
 		if (multi.getLabel().endsWith("0"))
 			return 0;
 		else if (multi.getLabel().endsWith("1"))

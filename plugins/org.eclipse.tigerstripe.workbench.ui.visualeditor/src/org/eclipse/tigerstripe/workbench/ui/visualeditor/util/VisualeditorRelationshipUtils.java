@@ -31,8 +31,8 @@ import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
@@ -473,18 +473,18 @@ public class VisualeditorRelationshipUtils {
 	}
 
 	public static AssocMultiplicity getRelationshipMuliplicity(
-			EMultiplicity multiplicity) {
-		if (multiplicity == EMultiplicity.ONE)
+			IModelComponent.EMultiplicity multiplicity) {
+		if (multiplicity == IModelComponent.EMultiplicity.ONE)
 			return AssocMultiplicity.ONE_LITERAL;
-		else if (multiplicity == EMultiplicity.ONE_STAR)
+		else if (multiplicity == IModelComponent.EMultiplicity.ONE_STAR)
 			return AssocMultiplicity.ONE_STAR_LITERAL;
-		else if (multiplicity == EMultiplicity.STAR)
+		else if (multiplicity == IModelComponent.EMultiplicity.STAR)
 			return AssocMultiplicity.STAR_LITERAL;
-		else if (multiplicity == EMultiplicity.ZERO)
+		else if (multiplicity == IModelComponent.EMultiplicity.ZERO)
 			return AssocMultiplicity.ZERO_LITERAL;
-		else if (multiplicity == EMultiplicity.ZERO_ONE)
+		else if (multiplicity == IModelComponent.EMultiplicity.ZERO_ONE)
 			return AssocMultiplicity.ZERO_ONE_LITERAL;
-		else if (multiplicity == EMultiplicity.ZERO_STAR)
+		else if (multiplicity == IModelComponent.EMultiplicity.ZERO_STAR)
 			return AssocMultiplicity.ZERO_STAR_LITERAL;
 		throw new IllegalArgumentException("Illegal value " + multiplicity
 				+ " found");

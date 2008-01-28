@@ -16,7 +16,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 public class AttributeSetRequest extends BaseArtifactElementRequest implements
@@ -61,7 +61,7 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 						iField.getIType().setFullyQualifiedName(newValue);
 						needSave = true;
 					} else if (MULTIPLICITY_FEATURE.equals(featureId)) {
-						EMultiplicity mult = EMultiplicity.parse(newValue);
+						IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity.parse(newValue);
 						iField.getIType().setTypeMultiplicity(mult);
 						needSave = true;
 					} else if (VISIBILITY_FEATURE.equals(featureId)) {

@@ -28,13 +28,13 @@ R - IBooleanPPluginProperty to be renamed as IBooleanPluginProperty (no need for
 - All the startup procedure should be revisited (TigerstripeRuntime, and PostInstallOptions to be removed and
 	replaced by some Runtime details available directly from TigerstripeCore.
 X - PluginRunResult renamed to PluginRunStatus, also made it a MultiStatus.
-- Remove IQueryCapabilitiesArtifacts.jave
-- Remove IQueryModelArtifacts.java
-- Remove IQuerySessionArtifacts.java
+R - Remove IQueryCapabilitiesArtifacts.jave
+R - Remove IQueryModelArtifacts.java
+R - Remove IQuerySessionArtifacts.java
 
 ###################################
 In IAbstractTigerstripeProject
-- getIProjectDetails() and getProjectDetails are redundant. Keep getProjectDetails() and make
+R - getIProjectDetails() and getProjectDetails are redundant. Keep getProjectDetails() and make
 	that a convention (no "I" in accessor as seems to be convention in other eclipse plugins
 	e.g.: IResource.getProject() returns IProject
 
@@ -46,7 +46,7 @@ X - remove getCVSCreator(), also removed corresponding actions/wizard from ui.
 	how to best handle this case. I suspect same case exists for other interfaces.
 R - Remove all "getI***()" methods to keep only "get****()"
 R - Remove all "makeI***()" methods to keep only "make***()"
-- getProjectDetails() is redundant with IProjectDescriptor.getProjectDetails(). Should be removed
+R - getProjectDetails() is redundant with IProjectDescriptor.getProjectDetails(). Should be removed
 	from ITigerstripeProject
 - References to ITigerstripeProgressMonitor should be removed from the API. In fact, a proper
 	IProgressMonitor (from Eclipse) should be used instead.
@@ -72,7 +72,9 @@ In IAssociationEnd
 	already even if the implementation reverts back to the closest value of the current
 	enumeration internally. It may be as simple as adding a "CUSTOM" literal where we'd 
 	keep the actual upper and lower bounds?
-- getContainingAssociation() and should return an IAssociation
+R - getContainingAssociation() and should return an IAssociation
+R - remove getType and rename getIType to getType ! 
+R - Move Multiplicity Enum to IModelComponent
 	
 ###################################
 in IModelComponent
@@ -106,3 +108,7 @@ in IArtifactManagerSession
 - remove extractArtifact
 - remove extractArtifactModel
 - Revisit once Artifact lifecycle is clarified.
+
+###################################
+in IType
+- remove deprecated methods/fields

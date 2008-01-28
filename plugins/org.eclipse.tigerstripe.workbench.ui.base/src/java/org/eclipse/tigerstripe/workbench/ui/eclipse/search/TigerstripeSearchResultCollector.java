@@ -138,7 +138,7 @@ public class TigerstripeSearchResultCollector {
 
 	private IStatus acceptAssociationEnd(IAssociationEnd assocEnd) {
 		SearchPatternData data = getData();
-		String endType = assocEnd.getIType().getFullyQualifiedName();
+		String endType = assocEnd.getType().getFullyQualifiedName();
 		if (data.getSearchFor() == ITigerstripeSearchConstants.TYPE
 				&& data.matchPattern(endType)) {
 			if (data.getLimitTo() == ITigerstripeSearchConstants.REFERENCES

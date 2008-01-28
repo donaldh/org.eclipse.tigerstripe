@@ -76,8 +76,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -753,7 +754,7 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			// ClassInstanceEditDialog class
 			// that only allows for selection of a single element from the list
 			// it presents)
-			EMultiplicity typeMult = type.getTypeMultiplicity();
+			IModelComponent.EMultiplicity typeMult = type.getTypeMultiplicity();
 			if (InstanceDiagramUtils.getRelationshipMuliplicity(typeMult) == InstanceDiagramUtils.RELATIONSHIP_SINGLE)
 				dialog = new TSListSelectionDialog(getShell(), entries,
 						new ArrayContentProvider(), new LabelProvider(),

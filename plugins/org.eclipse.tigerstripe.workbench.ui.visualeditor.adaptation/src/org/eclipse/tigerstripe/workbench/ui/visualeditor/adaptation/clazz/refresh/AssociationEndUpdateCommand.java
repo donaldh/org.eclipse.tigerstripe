@@ -11,9 +11,10 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
@@ -164,47 +165,47 @@ public class AssociationEndUpdateCommand extends
 		IAssociationEnd aEnd = (IAssociationEnd) iArtifact.getAEnd();
 		IAssociationEnd zEnd = (IAssociationEnd) iArtifact.getZEnd();
 
-		if (aEnd.getMultiplicity() == EMultiplicity.ONE
+		if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE
 				&& eAssociation.getAEndMultiplicity() != AssocMultiplicity.ONE_LITERAL) {
 			eAssociation.setAEndMultiplicity(AssocMultiplicity.ONE_LITERAL);
-		} else if (aEnd.getMultiplicity() == EMultiplicity.ONE_STAR
+		} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE_STAR
 				&& eAssociation.getAEndMultiplicity() != AssocMultiplicity.ONE_STAR_LITERAL) {
 			eAssociation
 					.setAEndMultiplicity(AssocMultiplicity.ONE_STAR_LITERAL);
-		} else if (aEnd.getMultiplicity() == EMultiplicity.STAR
+		} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.STAR
 				&& eAssociation.getAEndMultiplicity() != AssocMultiplicity.STAR_LITERAL) {
 			eAssociation.setAEndMultiplicity(AssocMultiplicity.STAR_LITERAL);
-		} else if (aEnd.getMultiplicity() == EMultiplicity.ZERO
+		} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO
 				&& eAssociation.getAEndMultiplicity() != AssocMultiplicity.ZERO_LITERAL) {
 			eAssociation.setAEndMultiplicity(AssocMultiplicity.ZERO_LITERAL);
-		} else if (aEnd.getMultiplicity() == EMultiplicity.ZERO_ONE
+		} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_ONE
 				&& eAssociation.getAEndMultiplicity() != AssocMultiplicity.ZERO_ONE_LITERAL) {
 			eAssociation
 					.setAEndMultiplicity(AssocMultiplicity.ZERO_ONE_LITERAL);
-		} else if (aEnd.getMultiplicity() == EMultiplicity.ZERO_STAR
+		} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_STAR
 				&& eAssociation.getAEndMultiplicity() != AssocMultiplicity.ZERO_STAR_LITERAL) {
 			eAssociation
 					.setAEndMultiplicity(AssocMultiplicity.ZERO_STAR_LITERAL);
 		}
 
-		if (zEnd.getMultiplicity() == EMultiplicity.ONE
+		if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE
 				&& eAssociation.getZEndMultiplicity() != AssocMultiplicity.ONE_LITERAL) {
 			eAssociation.setZEndMultiplicity(AssocMultiplicity.ONE_LITERAL);
-		} else if (zEnd.getMultiplicity() == EMultiplicity.ONE_STAR
+		} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE_STAR
 				&& eAssociation.getZEndMultiplicity() != AssocMultiplicity.ONE_STAR_LITERAL) {
 			eAssociation
 					.setZEndMultiplicity(AssocMultiplicity.ONE_STAR_LITERAL);
-		} else if (zEnd.getMultiplicity() == EMultiplicity.STAR
+		} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.STAR
 				&& eAssociation.getZEndMultiplicity() != AssocMultiplicity.STAR_LITERAL) {
 			eAssociation.setZEndMultiplicity(AssocMultiplicity.STAR_LITERAL);
-		} else if (zEnd.getMultiplicity() == EMultiplicity.ZERO
+		} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO
 				&& eAssociation.getZEndMultiplicity() != AssocMultiplicity.ZERO_LITERAL) {
 			eAssociation.setZEndMultiplicity(AssocMultiplicity.ZERO_LITERAL);
-		} else if (zEnd.getMultiplicity() == EMultiplicity.ZERO_ONE
+		} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_ONE
 				&& eAssociation.getZEndMultiplicity() != AssocMultiplicity.ZERO_ONE_LITERAL) {
 			eAssociation
 					.setZEndMultiplicity(AssocMultiplicity.ZERO_ONE_LITERAL);
-		} else if (zEnd.getMultiplicity() == EMultiplicity.ZERO_STAR
+		} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_STAR
 				&& eAssociation.getZEndMultiplicity() != AssocMultiplicity.ZERO_STAR_LITERAL) {
 			eAssociation
 					.setZEndMultiplicity(AssocMultiplicity.ZERO_STAR_LITERAL);

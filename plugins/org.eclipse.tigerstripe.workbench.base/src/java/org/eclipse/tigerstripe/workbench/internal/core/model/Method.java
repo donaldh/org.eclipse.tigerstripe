@@ -33,8 +33,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidatio
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
@@ -319,7 +320,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			if (typeMultiplicity != null) {
 				// setting proper type multiplicity is present (i.e. otherwise
 				// model is prior to 2.2rc)
-				this.returnType.setTypeMultiplicity(EMultiplicity
+				this.returnType.setTypeMultiplicity(IModelComponent.EMultiplicity
 						.parse(typeMultiplicity));
 			}
 		}
@@ -371,7 +372,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 				arg.setUnique(isUnique);
 				if (argMultiplicity != null) {
 					arg.getIType().setTypeMultiplicity(
-							EMultiplicity.parse(argMultiplicity));
+							IModelComponent.EMultiplicity.parse(argMultiplicity));
 				}
 			}
 		}
@@ -799,7 +800,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		result = result + retType;
 
 		if (!isVoid()
-				&& getReturnIType().getTypeMultiplicity() != EMultiplicity.ONE) {
+				&& getReturnIType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
 			result = result + "["
 					+ getReturnIType().getTypeMultiplicity().getLabel() + "]";
 		}
@@ -830,7 +831,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					.getFullyQualifiedName());
 			paramBuffer.append(Misc.removeJavaLangString(paramString));
 
-			if (iarg.getIType().getTypeMultiplicity() != EMultiplicity.ONE) {
+			if (iarg.getIType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
 				paramBuffer.append("["
 						+ iarg.getIType().getTypeMultiplicity().getLabel()
 						+ "]");

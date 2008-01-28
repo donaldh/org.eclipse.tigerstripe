@@ -15,8 +15,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 public class AttributeCreateRequest extends BaseArtifactElementRequest
@@ -71,12 +72,12 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 		IType type = field.makeIType();
 		type.setFullyQualifiedName(getAttributeType());
 
-		if (EMultiplicity.parse(attributeMultiplicity) != null)
+		if (IModelComponent.EMultiplicity.parse(attributeMultiplicity) != null)
 			type
-					.setTypeMultiplicity(EMultiplicity
+					.setTypeMultiplicity(IModelComponent.EMultiplicity
 							.parse(attributeMultiplicity));
 		else
-			type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
+			type.setTypeMultiplicity(IModelComponent.EMultiplicity.ZERO_ONE);
 		field.setIType(type);
 
 		art.addField(field);

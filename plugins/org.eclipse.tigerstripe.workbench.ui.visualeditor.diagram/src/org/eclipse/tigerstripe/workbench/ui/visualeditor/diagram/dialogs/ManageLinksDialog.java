@@ -227,16 +227,16 @@ public class ManageLinksDialog extends TSMessageDialog {
 				IAssociationArtifact association = (IAssociationArtifact) relationship;
 				relationshipName = association.getFullyQualifiedName();
 				aEnd = association.getRelationshipAEnd();
-				aEndName = aEnd.getIType().getFullyQualifiedName();
+				aEndName = aEnd.getType().getFullyQualifiedName();
 				zEnd = association.getRelationshipZEnd();
-				zEndName = zEnd.getIType().getFullyQualifiedName();
+				zEndName = zEnd.getType().getFullyQualifiedName();
 			} else {
 				IDependencyArtifact dependency = (IDependencyArtifact) relationship;
 				relationshipName = dependency.getFullyQualifiedName();
 				aEnd = dependency.getRelationshipAEnd();
-				aEndName = aEnd.getIType().getFullyQualifiedName();
+				aEndName = aEnd.getType().getFullyQualifiedName();
 				zEnd = dependency.getRelationshipZEnd();
-				zEndName = zEnd.getIType().getFullyQualifiedName();
+				zEndName = zEnd.getType().getFullyQualifiedName();
 			}
 		}
 

@@ -56,13 +56,14 @@ import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
@@ -697,7 +698,7 @@ public class XML2TS {
 				type.setMultiplicity(Integer.valueOf(element
 						.getAttribute("returnedTypeMultiplicity")));
 			} catch (java.lang.NumberFormatException e) {
-				type.setTypeMultiplicity(EMultiplicity.parse(element
+				type.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(element
 						.getAttribute("returnedTypeMultiplicity")));
 			}
 			queryArt.setReturnedType((IType) type);
@@ -852,7 +853,7 @@ public class XML2TS {
 				type.setMultiplicity(Integer.valueOf(field
 						.getAttribute("typeMultiplicity")));
 			} catch (java.lang.NumberFormatException e) {
-				type.setTypeMultiplicity(EMultiplicity.parse(field
+				type.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(field
 						.getAttribute("typeMultiplicity")));
 			}
 			this.out.println(type.getTypeMultiplicity().getLabel());
@@ -970,7 +971,7 @@ public class XML2TS {
 								.getAttribute("returnTypeMultiplicity")));
 					} catch (java.lang.NumberFormatException e) {
 						returnType
-								.setTypeMultiplicity(EMultiplicity
+								.setTypeMultiplicity(IModelComponent.EMultiplicity
 										.parse(method
 												.getAttribute("returnTypeMultiplicity")));
 					}
@@ -1009,7 +1010,7 @@ public class XML2TS {
 					argType.setMultiplicity(Integer.valueOf(argument
 							.getAttribute("typeMultiplicity")));
 				} catch (java.lang.NumberFormatException e) {
-					argType.setTypeMultiplicity(EMultiplicity.parse(argument
+					argType.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(argument
 							.getAttribute("typeMultiplicity")));
 				}
 				newArgument.setIType(argType);
@@ -1070,7 +1071,7 @@ public class XML2TS {
 					.getAttribute("aggregation")));
 			thisEnd.setChangeable(EChangeableEnum.parse(endNode
 					.getAttribute("changeable")));
-			thisEnd.setMultiplicity(EMultiplicity.parse(endNode
+			thisEnd.setMultiplicity(IModelComponent.EMultiplicity.parse(endNode
 					.getAttribute("multiplicity")));
 			thisEnd.setNavigable(Boolean.parseBoolean(endNode
 					.getAttribute("navigable")));

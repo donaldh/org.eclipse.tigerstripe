@@ -54,7 +54,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -360,7 +361,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		bgd.widthHint = 200;
 		aEndRoleNameField.setLayoutData(bgd);
 		// add the control used to select the multiplicity
-		String[] multLabels = EMultiplicity.labels();
+		String[] multLabels = IModelComponent.EMultiplicity.labels();
 		AssocMultiplicity aEndMult = association.getAEndMultiplicity();
 		Label aEndMultiplicityLabel = new Label(aEndBox, SWT.NULL);
 		aEndMultiplicityLabel.setText("Multiplicity:");
@@ -551,7 +552,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		String newAEndRoleName = aEndRoleNameField.getText();
 		if (!newAEndRoleName.equals(association.getAEndName()))
 			changedValuesMap.put("aEndName", newAEndRoleName);
-		String newAEndMultiplicity = EMultiplicity.at(
+		String newAEndMultiplicity = IModelComponent.EMultiplicity.at(
 				aEndMultiplicityCombo.getSelectionIndex()).getLabel();
 		if (!newAEndMultiplicity.equals(association.getAEndMultiplicity()
 				.getLiteral()))
@@ -581,7 +582,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		String newZEndRoleName = zEndRoleNameField.getText();
 		if (!newZEndRoleName.equals(association.getZEndName()))
 			changedValuesMap.put("zEndName", newZEndRoleName);
-		String newZEndMultiplicity = EMultiplicity.at(
+		String newZEndMultiplicity = IModelComponent.EMultiplicity.at(
 				zEndMultiplicityCombo.getSelectionIndex()).getLabel();
 		if (!newZEndMultiplicity.equals(association.getZEndMultiplicity()
 				.getLiteral()))

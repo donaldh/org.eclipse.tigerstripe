@@ -13,9 +13,10 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.ann
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableAssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableDatatype;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 
 public class UML2AnnotableAssociationEnd extends UML2AnnotableBase implements
 		AnnotableAssociationEnd {
@@ -24,7 +25,7 @@ public class UML2AnnotableAssociationEnd extends UML2AnnotableBase implements
 	private boolean isNavigable;
 	private boolean isOrdered;
 	private EAggregationEnum aggregation = EAggregationEnum.NONE;
-	private EMultiplicity multiplicity = EMultiplicity.ONE;
+	private IModelComponent.EMultiplicity multiplicity = IModelComponent.EMultiplicity.ONE;
 	private EChangeableEnum changeable = EChangeableEnum.NONE;
 	private int visibility;
 
@@ -56,7 +57,7 @@ public class UML2AnnotableAssociationEnd extends UML2AnnotableBase implements
 		return this.changeable;
 	}
 
-	public EMultiplicity getEndMultiplicity() {
+	public IModelComponent.EMultiplicity getEndMultiplicity() {
 		return this.multiplicity;
 	}
 
@@ -72,7 +73,7 @@ public class UML2AnnotableAssociationEnd extends UML2AnnotableBase implements
 		this.changeable = changeableEnum;
 	}
 
-	public void setEndMultiplicity(EMultiplicity multiplicity) {
+	public void setEndMultiplicity(IModelComponent.EMultiplicity multiplicity) {
 		if (multiplicity == null) {
 			TigerstripeRuntime.logInfoMessage("multiplicity is null");
 		}

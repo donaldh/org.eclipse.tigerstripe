@@ -24,6 +24,74 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 public interface IModelComponent extends IStereotypeCapable {
 
 	/**
+	 * An enum of the possible values for the multiplicity of an end.
+	 * 
+	 */
+	public enum EMultiplicity {
+		ONE("1"), ZERO("0"), ZERO_ONE("0..1"), ZERO_STAR("0..*"), ONE_STAR(
+				"1..*"), STAR("*");
+	
+		private String label;
+		private static String[] labels;
+	
+		EMultiplicity(String label) {
+			this.label = label;
+		}
+	
+		/**
+		 * Return the label for an enumeration value.
+		 * 
+		 * @return String - the label.
+		 */
+		public String getLabel() {
+			return label;
+		}
+	
+		/**
+		 * Given a String label, return an enumeration value. Returns null if no
+		 * enumeration corresponds to the label.
+		 * 
+		 * @param label
+		 * @return the enumeration value that corresponds to the label.
+		 */
+		public static EMultiplicity parse(String label) {
+			for (EMultiplicity val : values()) {
+				if (val.label.equals(label))
+					return val;
+			}
+			return EMultiplicity.ONE;
+		}
+	
+		public static int indexOf(EMultiplicity mult) {
+			for (int index = 0; index < values().length; index++) {
+				if (mult == values()[index])
+					return index;
+			}
+			throw new IllegalArgumentException("Illegal multiplicity literal: "
+					+ mult);
+		}
+	
+		public static EMultiplicity at(int index) {
+			if (index >= 0 && index < values().length)
+				return values()[index];
+			throw new IllegalArgumentException("Illegal multiplicity literal: "
+					+ index);
+		}
+	
+		public static String[] labels() {
+			if (labels == null) {
+				labels = new String[values().length];
+				int i = 0;
+				for (EMultiplicity mult : values()) {
+					labels[i] = mult.label;
+					i++;
+				}
+			}
+			return labels;
+		}
+	}
+
+	/**
 	 * Static integer value for private visibility.
 	 */
 	public final static int VISIBILITY_PACKAGE = 3;

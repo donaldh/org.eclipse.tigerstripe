@@ -39,8 +39,6 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	public IArtifactManagerSession getArtifactManagerSession()
 			throws TigerstripeException;
 
-	public IProjectDetails getProjectDetails() throws TigerstripeException;
-
 	public void generate(ITigerstripeVisitor visitor)
 			throws TigerstripeException;
 

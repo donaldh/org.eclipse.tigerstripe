@@ -37,7 +37,7 @@ public class TSElementSorter extends JavaElementSorter {
 				// if it's a dependency end, check to see if it's the aEnd or
 				// not
 				IRelationshipEnd irel = (IRelationshipEnd) element;
-				String relName = irel.getNameForType(irel.getIType()
+				String relName = irel.getNameForType(irel.getType()
 						.getFullyQualifiedName());
 				// if it's the aEnd, return the appropriate static int
 				if (relName.equals("aEnd"))

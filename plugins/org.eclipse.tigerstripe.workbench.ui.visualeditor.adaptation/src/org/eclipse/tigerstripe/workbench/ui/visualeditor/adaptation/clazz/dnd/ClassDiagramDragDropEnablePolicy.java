@@ -100,9 +100,9 @@ public class ClassDiagramDragDropEnablePolicy {
 					IRelationship rel = (IRelationship) artifact;
 					if (rel.getRelationshipAEnd() != null
 							&& rel.getRelationshipZEnd() != null) {
-						String aEndFQN = rel.getRelationshipAEnd().getIType()
+						String aEndFQN = rel.getRelationshipAEnd().getType()
 								.getFullyQualifiedName();
-						String zEndFQN = rel.getRelationshipZEnd().getIType()
+						String zEndFQN = rel.getRelationshipZEnd().getType()
 								.getFullyQualifiedName();
 
 						result = (element == null)

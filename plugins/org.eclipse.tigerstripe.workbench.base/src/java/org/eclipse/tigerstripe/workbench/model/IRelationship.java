@@ -52,7 +52,7 @@ public interface IRelationship {
 		 * 
 		 * @return
 		 */
-		public IType getIType();
+		public IType getType();
 
 		/**
 		 * Returns the containing IRelationshipEnd

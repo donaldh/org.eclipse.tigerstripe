@@ -40,8 +40,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
 import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -257,7 +258,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 			return;
 		}
 
-		defaultType.setTypeMultiplicity(EMultiplicity.ONE);
+		defaultType.setTypeMultiplicity(IModelComponent.EMultiplicity.ONE);
 		newField.setIType(defaultType);
 		newField.setRefBy(IField.REFBY_VALUE);
 

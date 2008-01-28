@@ -15,8 +15,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 public class MethodCreateRequest extends BaseArtifactElementRequest implements
@@ -70,10 +71,10 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 		method.setName(getMethodName());
 		IType type = method.makeIType();
 		type.setFullyQualifiedName(getMethodType());
-		if (EMultiplicity.parse(methodMultiplicity) != null)
-			type.setTypeMultiplicity(EMultiplicity.parse(methodMultiplicity));
+		if (IModelComponent.EMultiplicity.parse(methodMultiplicity) != null)
+			type.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(methodMultiplicity));
 		else
-			type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
+			type.setTypeMultiplicity(IModelComponent.EMultiplicity.ZERO_ONE);
 		method.setReturnIType(type);
 
 		art.addMethod(method);

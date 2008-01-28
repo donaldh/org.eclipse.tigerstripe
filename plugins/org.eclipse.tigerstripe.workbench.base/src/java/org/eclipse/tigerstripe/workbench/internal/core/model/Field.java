@@ -23,8 +23,9 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 
 import com.thoughtworks.qdox.model.DocletTag;
@@ -146,7 +147,7 @@ public class Field extends ArtifactComponent implements IField {
 			if (typeMultiplicity != null) {
 				// setting proper type multiplicity is present (i.e. otherwise
 				// model is prior to 2.2rc)
-				this.type.setTypeMultiplicity(EMultiplicity
+				this.type.setTypeMultiplicity(IModelComponent.EMultiplicity
 						.parse(typeMultiplicity));
 			}
 
@@ -284,7 +285,7 @@ public class Field extends ArtifactComponent implements IField {
 
 	public String getLabelString() {
 		String result = getName() + "::" + getIType().getName();
-		if (getType().getTypeMultiplicity() != EMultiplicity.ONE) {
+		if (getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
 			result = result + "[" + getType().getTypeMultiplicity().getLabel()
 					+ "]";
 		}

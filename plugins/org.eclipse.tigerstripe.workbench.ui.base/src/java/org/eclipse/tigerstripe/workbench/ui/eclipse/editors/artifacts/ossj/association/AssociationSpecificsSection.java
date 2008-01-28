@@ -36,7 +36,7 @@ import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDialog;
@@ -167,9 +167,9 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 			aggrStrs[i++] = val.getLabel();
 		}
 
-		mulStrs = new String[EMultiplicity.values().length];
+		mulStrs = new String[IModelComponent.EMultiplicity.values().length];
 		i = 0;
-		for (EMultiplicity val : EMultiplicity.values()) {
+		for (IModelComponent.EMultiplicity val : IModelComponent.EMultiplicity.values()) {
 			mulStrs[i++] = val.getLabel();
 		}
 
@@ -512,7 +512,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		IAssociationEnd aEnd = artifact.getAEnd();
 		aEndNameText.setText(aEnd.getName());
 		aEndCommentText.setText(aEnd.getComment());
-		aEndTypeText.setText(aEnd.getIType().getFullyQualifiedName());
+		aEndTypeText.setText(aEnd.getType().getFullyQualifiedName());
 		aEndAggregationCombo.select(indexIn(aggrStrs, aEnd.getAggregation()
 				.getLabel()));
 		aEndChangeableCombo.select(indexIn(chanStrs, aEnd.getChangeable()
@@ -528,7 +528,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		IAssociationEnd zEnd = artifact.getZEnd();
 		zEndNameText.setText(zEnd.getName());
 		zEndCommentText.setText(zEnd.getComment());
-		zEndTypeText.setText(zEnd.getIType().getFullyQualifiedName());
+		zEndTypeText.setText(zEnd.getType().getFullyQualifiedName());
 		zEndAggregationCombo.select(indexIn(aggrStrs, zEnd.getAggregation()
 				.getLabel()));
 		zEndChangeableCombo.select(indexIn(chanStrs, zEnd.getChangeable()
@@ -605,14 +605,14 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 				int i = aEndMultiplicityCombo.getSelectionIndex();
 				if (i != -1) {
 					String label = mulStrs[i];
-					aEnd.setMultiplicity(EMultiplicity.parse(label));
+					aEnd.setMultiplicity(IModelComponent.EMultiplicity.parse(label));
 					markPageModified();
 				}
 			} else if (e.getSource() == zEndMultiplicityCombo) {
 				int i = zEndMultiplicityCombo.getSelectionIndex();
 				if (i != -1) {
 					String label = mulStrs[i];
-					zEnd.setMultiplicity(EMultiplicity.parse(label));
+					zEnd.setMultiplicity(IModelComponent.EMultiplicity.parse(label));
 					markPageModified();
 				}
 			} else if (e.getSource() == aEndChangeableCombo) {

@@ -18,8 +18,9 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 
@@ -36,7 +37,7 @@ public class Type implements IType {
 
 	private String dimensions;
 
-	private EMultiplicity multiplicity;
+	private IModelComponent.EMultiplicity multiplicity;
 
 	public String getFullyQualifiedName() {
 		return this.fullyQualifiedName;
@@ -46,18 +47,18 @@ public class Type implements IType {
 		return Util.packageOf(this.fullyQualifiedName);
 	}
 
-	public EMultiplicity getTypeMultiplicity() {
+	public IModelComponent.EMultiplicity getTypeMultiplicity() {
 		return this.multiplicity;
 	}
 
-	public void setTypeMultiplicity(EMultiplicity multiplicity) {
+	public void setTypeMultiplicity(IModelComponent.EMultiplicity multiplicity) {
 		this.multiplicity = multiplicity;
 
 		// for compatibility reason, we need to set the dimension attribute to
 		// the closest match
-		if (multiplicity == EMultiplicity.ONE
-				|| multiplicity == EMultiplicity.ZERO_ONE
-				|| multiplicity == EMultiplicity.ZERO) {
+		if (multiplicity == IModelComponent.EMultiplicity.ONE
+				|| multiplicity == IModelComponent.EMultiplicity.ZERO_ONE
+				|| multiplicity == IModelComponent.EMultiplicity.ZERO) {
 			dimensions = dimensionsAsString(MULTIPLICITY_SINGLE);
 		} else {
 			dimensions = dimensionsAsString(MULTIPLICITY_MULTI);
@@ -85,17 +86,17 @@ public class Type implements IType {
 
 		// For compatibility reasons, we need to update the type multiplicity
 		if (dimensionsAsString(MULTIPLICITY_MULTI).equals(dimensions)) {
-			multiplicity = EMultiplicity.ZERO_STAR;
+			multiplicity = IModelComponent.EMultiplicity.ZERO_STAR;
 		} else {
-			multiplicity = EMultiplicity.ZERO_ONE;
+			multiplicity = IModelComponent.EMultiplicity.ZERO_ONE;
 		}
 	}
 
 	public Type(ArtifactManager artifactMgr) {
-		this("", EMultiplicity.ZERO_ONE, artifactMgr);
+		this("", IModelComponent.EMultiplicity.ZERO_ONE, artifactMgr);
 	}
 
-	public Type(String fullyQualifiedName, EMultiplicity typeMultiplicity,
+	public Type(String fullyQualifiedName, IModelComponent.EMultiplicity typeMultiplicity,
 			ArtifactManager artifactMgr) {
 		setFullyQualifiedName(fullyQualifiedName);
 		setTypeMultiplicity(typeMultiplicity);

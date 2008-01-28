@@ -13,9 +13,10 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -53,7 +54,7 @@ public class PostCreationAssociationArtifactUpdater extends
 
 			IAssociationEnd aEnd = iAssoc.getAEnd();
 			AbstractArtifact target = helper.findAbstractArtifactFor(aEnd
-					.getIType().getFullyQualifiedName());
+					.getType().getFullyQualifiedName());
 			// association.setAEnd(target); // Already done upon creation thru
 			// drop
 			association.setAEndIsNavigable(aEnd.isNavigable());
@@ -62,19 +63,19 @@ public class PostCreationAssociationArtifactUpdater extends
 			association.setAEndName(aEnd.getName());
 			association.setAEndVisibility(ClassDiagramUtils.toVisibility(aEnd
 					.getVisibility()));
-			if (aEnd.getMultiplicity() == EMultiplicity.ONE) {
+			if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE) {
 				association.setAEndMultiplicity(AssocMultiplicity.ONE_LITERAL);
-			} else if (aEnd.getMultiplicity() == EMultiplicity.ONE_STAR) {
+			} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE_STAR) {
 				association
 						.setAEndMultiplicity(AssocMultiplicity.ONE_STAR_LITERAL);
-			} else if (aEnd.getMultiplicity() == EMultiplicity.STAR) {
+			} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.STAR) {
 				association.setAEndMultiplicity(AssocMultiplicity.STAR_LITERAL);
-			} else if (aEnd.getMultiplicity() == EMultiplicity.ZERO) {
+			} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO) {
 				association.setAEndMultiplicity(AssocMultiplicity.ZERO_LITERAL);
-			} else if (aEnd.getMultiplicity() == EMultiplicity.ZERO_ONE) {
+			} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_ONE) {
 				association
 						.setAEndMultiplicity(AssocMultiplicity.ZERO_ONE_LITERAL);
-			} else if (aEnd.getMultiplicity() == EMultiplicity.ZERO_STAR) {
+			} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_STAR) {
 				association
 						.setAEndMultiplicity(AssocMultiplicity.ZERO_STAR_LITERAL);
 			}
@@ -96,7 +97,7 @@ public class PostCreationAssociationArtifactUpdater extends
 			}
 
 			IAssociationEnd zEnd = iAssoc.getZEnd();
-			target = helper.findAbstractArtifactFor(aEnd.getIType()
+			target = helper.findAbstractArtifactFor(aEnd.getType()
 					.getFullyQualifiedName());
 			// association.setZEnd(target);// Already done upon creation thru
 			// drop
@@ -106,19 +107,19 @@ public class PostCreationAssociationArtifactUpdater extends
 			association.setZEndName(zEnd.getName());
 			association.setZEndVisibility(ClassDiagramUtils.toVisibility(zEnd
 					.getVisibility()));
-			if (zEnd.getMultiplicity() == EMultiplicity.ONE) {
+			if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE) {
 				association.setZEndMultiplicity(AssocMultiplicity.ONE_LITERAL);
-			} else if (zEnd.getMultiplicity() == EMultiplicity.ONE_STAR) {
+			} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE_STAR) {
 				association
 						.setZEndMultiplicity(AssocMultiplicity.ONE_STAR_LITERAL);
-			} else if (zEnd.getMultiplicity() == EMultiplicity.STAR) {
+			} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.STAR) {
 				association.setZEndMultiplicity(AssocMultiplicity.STAR_LITERAL);
-			} else if (zEnd.getMultiplicity() == EMultiplicity.ZERO) {
+			} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO) {
 				association.setZEndMultiplicity(AssocMultiplicity.ZERO_LITERAL);
-			} else if (zEnd.getMultiplicity() == EMultiplicity.ZERO_ONE) {
+			} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_ONE) {
 				association
 						.setZEndMultiplicity(AssocMultiplicity.ZERO_ONE_LITERAL);
-			} else if (zEnd.getMultiplicity() == EMultiplicity.ZERO_STAR) {
+			} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_STAR) {
 				association
 						.setZEndMultiplicity(AssocMultiplicity.ZERO_STAR_LITERAL);
 			}

@@ -22,11 +22,12 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
@@ -201,18 +202,18 @@ public class InstanceDiagramUtils {
 		return null;
 	}
 
-	public static int getRelationshipMuliplicity(EMultiplicity multiplicity) {
-		if (multiplicity == EMultiplicity.ONE)
+	public static int getRelationshipMuliplicity(IModelComponent.EMultiplicity multiplicity) {
+		if (multiplicity == IModelComponent.EMultiplicity.ONE)
 			return RELATIONSHIP_SINGLE;
-		else if (multiplicity == EMultiplicity.ZERO)
+		else if (multiplicity == IModelComponent.EMultiplicity.ZERO)
 			return RELATIONSHIP_SINGLE;
-		else if (multiplicity == EMultiplicity.ZERO_ONE)
+		else if (multiplicity == IModelComponent.EMultiplicity.ZERO_ONE)
 			return RELATIONSHIP_SINGLE;
-		else if (multiplicity == EMultiplicity.ONE_STAR)
+		else if (multiplicity == IModelComponent.EMultiplicity.ONE_STAR)
 			return RELATIONSHIP_MULTIPLE;
-		else if (multiplicity == EMultiplicity.STAR)
+		else if (multiplicity == IModelComponent.EMultiplicity.STAR)
 			return RELATIONSHIP_MULTIPLE;
-		else if (multiplicity == EMultiplicity.ZERO_STAR)
+		else if (multiplicity == IModelComponent.EMultiplicity.ZERO_STAR)
 			return RELATIONSHIP_MULTIPLE;
 		throw new IllegalArgumentException("Illegal value " + multiplicity
 				+ " found");
@@ -265,33 +266,33 @@ public class InstanceDiagramUtils {
 		if (updateAEnd) {
 			String lowerBound = eAssociation.getAEndMultiplicityLowerBound();
 			String upperBound = eAssociation.getAEndMultiplicityUpperBound();
-			if (aEnd.getMultiplicity() == EMultiplicity.ONE
+			if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE
 					&& (lowerBound == null || !"1".equals(lowerBound))) {
 				eAssociation.setAEndMultiplicityLowerBound("1");
 				eAssociation.setAEndMultiplicityUpperBound("");
-			} else if (aEnd.getMultiplicity() == EMultiplicity.ONE_STAR) {
+			} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE_STAR) {
 				if (lowerBound == null || !"1".equals(lowerBound)) {
 					eAssociation.setAEndMultiplicityLowerBound("1");
 				}
 				if (upperBound == null || !"*".equals(upperBound)) {
 					eAssociation.setAEndMultiplicityUpperBound("*");
 				}
-			} else if (aEnd.getMultiplicity() == EMultiplicity.STAR
+			} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.STAR
 					&& (lowerBound == null || !"*".equals(lowerBound))) {
 				eAssociation.setAEndMultiplicityLowerBound("*");
 				eAssociation.setAEndMultiplicityUpperBound("");
-			} else if (aEnd.getMultiplicity() == EMultiplicity.ZERO
+			} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO
 					&& (lowerBound == null || !"0".equals(lowerBound))) {
 				eAssociation.setAEndMultiplicityLowerBound("0");
 				eAssociation.setAEndMultiplicityUpperBound("");
-			} else if (aEnd.getMultiplicity() == EMultiplicity.ZERO_ONE) {
+			} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_ONE) {
 				if (lowerBound == null || !"0".equals(lowerBound)) {
 					eAssociation.setAEndMultiplicityLowerBound("0");
 				}
 				if (upperBound == null || !"1".equals(upperBound)) {
 					eAssociation.setAEndMultiplicityUpperBound("1");
 				}
-			} else if (aEnd.getMultiplicity() == EMultiplicity.ZERO_STAR) {
+			} else if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_STAR) {
 				if (lowerBound == null || !"0".equals(lowerBound)) {
 					eAssociation.setAEndMultiplicityLowerBound("0");
 				}
@@ -304,33 +305,33 @@ public class InstanceDiagramUtils {
 		if (updateZEnd) {
 			String lowerBound = eAssociation.getZEndMultiplicityLowerBound();
 			String upperBound = eAssociation.getZEndMultiplicityLowerBound();
-			if (zEnd.getMultiplicity() == EMultiplicity.ONE
+			if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE
 					&& (lowerBound == null || !"1".equals(lowerBound))) {
 				eAssociation.setZEndMultiplicityLowerBound("1");
 				eAssociation.setZEndMultiplicityUpperBound("");
-			} else if (zEnd.getMultiplicity() == EMultiplicity.ONE_STAR) {
+			} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE_STAR) {
 				if (lowerBound == null || !"1".equals(lowerBound)) {
 					eAssociation.setZEndMultiplicityLowerBound("1");
 				}
 				if (upperBound == null || !"*".equals(upperBound)) {
 					eAssociation.setZEndMultiplicityUpperBound("*");
 				}
-			} else if (zEnd.getMultiplicity() == EMultiplicity.STAR
+			} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.STAR
 					&& (lowerBound == null || !"*".equals(lowerBound))) {
 				eAssociation.setZEndMultiplicityLowerBound("*");
 				eAssociation.setZEndMultiplicityUpperBound("");
-			} else if (zEnd.getMultiplicity() == EMultiplicity.ZERO
+			} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO
 					&& (lowerBound == null || !"0".equals(lowerBound))) {
 				eAssociation.setZEndMultiplicityLowerBound("0");
 				eAssociation.setZEndMultiplicityUpperBound("");
-			} else if (zEnd.getMultiplicity() == EMultiplicity.ZERO_ONE) {
+			} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_ONE) {
 				if (lowerBound == null || !"0".equals(lowerBound)) {
 					eAssociation.setZEndMultiplicityLowerBound("0");
 				}
 				if (upperBound == null || !"1".equals(upperBound)) {
 					eAssociation.setZEndMultiplicityUpperBound("1");
 				}
-			} else if (zEnd.getMultiplicity() == EMultiplicity.ZERO_STAR) {
+			} else if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ZERO_STAR) {
 				if (lowerBound == null || !"0".equals(lowerBound)) {
 					eAssociation.setZEndMultiplicityLowerBound("0");
 				}

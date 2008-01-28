@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgr
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 public class MethodSetRequest extends BaseArtifactElementRequest implements
@@ -70,7 +70,7 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 						iMethod.setReturnIType(type);
 						needSave = true;
 					} else if (MULTIPLICITY_FEATURE.equals(featureId)) {
-						EMultiplicity mult = EMultiplicity.parse(newValue);
+						IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity.parse(newValue);
 						iMethod.getReturnIType().setTypeMultiplicity(mult);
 						needSave = true;
 					} else if (VISIBILITY_FEATURE.equals(featureId)) {

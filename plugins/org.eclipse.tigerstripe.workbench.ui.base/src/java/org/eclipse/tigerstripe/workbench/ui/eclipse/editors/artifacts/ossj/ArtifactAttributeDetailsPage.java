@@ -42,7 +42,7 @@ import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
@@ -254,7 +254,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 				| SWT.READ_ONLY | SWT.BORDER);
 		multiplicityCombo.setEnabled(!isReadOnly);
 		toolkit.adapt(this.multiplicityCombo, true, true);
-		for (EMultiplicity multVal : EMultiplicity.values()) {
+		for (IModelComponent.EMultiplicity multVal : IModelComponent.EMultiplicity.values()) {
 			multiplicityCombo.add(multVal.getLabel());
 		}
 		multiplicityCombo.addModifyListener(adapter);
@@ -457,8 +457,8 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		if (field.getIType() != null) {
 			typeText.setText(Misc.removeJavaLangString(field.getIType()
 					.getFullyQualifiedName()));
-			EMultiplicity mult = field.getIType().getTypeMultiplicity();
-			multiplicityCombo.select(EMultiplicity.indexOf(mult));
+			IModelComponent.EMultiplicity mult = field.getIType().getTypeMultiplicity();
+			multiplicityCombo.select(IModelComponent.EMultiplicity.indexOf(mult));
 			updateDefaultValueCombo();
 		}
 
@@ -586,7 +586,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 			pageModified();
 		} else if (e.getSource() == multiplicityCombo) {
 			IType type = getField().getIType();
-			EMultiplicity mult = EMultiplicity.values()[multiplicityCombo
+			IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity.values()[multiplicityCombo
 					.getSelectionIndex()];
 			type.setTypeMultiplicity(mult);
 			pageModified();

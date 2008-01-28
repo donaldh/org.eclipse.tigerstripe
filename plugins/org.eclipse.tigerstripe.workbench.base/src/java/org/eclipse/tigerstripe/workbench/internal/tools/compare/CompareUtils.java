@@ -126,14 +126,14 @@ public class CompareUtils {
 							"Association:AssociationEnd:" + aORz, "Name",
 							aName, bName));
 		}
-		if (!aEnd.getIType().getFullyQualifiedName().equals(
-				bEnd.getIType().getFullyQualifiedName())) {
+		if (!aEnd.getType().getFullyQualifiedName().equals(
+				bEnd.getType().getFullyQualifiedName())) {
 			// compare Type
 			differences.add(new Difference("value", aEnd
 					.getContainingArtifact().getFullyQualifiedName(), bEnd
 					.getContainingArtifact().getFullyQualifiedName(),
 					"Association:AssociationEnd:" + aORz + ":Type", aName, aEnd
-							.getIType().getFullyQualifiedName(), bEnd.getIType()
+							.getType().getFullyQualifiedName(), bEnd.getType()
 							.getFullyQualifiedName()));
 		}
 		if (aEnd.getMultiplicity() != bEnd.getMultiplicity()) {

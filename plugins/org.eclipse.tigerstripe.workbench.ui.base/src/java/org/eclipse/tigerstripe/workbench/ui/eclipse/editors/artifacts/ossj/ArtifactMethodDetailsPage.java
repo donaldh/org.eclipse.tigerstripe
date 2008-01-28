@@ -61,8 +61,8 @@ import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
@@ -394,7 +394,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				| SWT.READ_ONLY | SWT.BORDER);
 		multiplicityCombo.setEnabled(!isReadOnly);
 		toolkit.adapt(this.multiplicityCombo, true, true);
-		multiplicityCombo.setItems(EMultiplicity.labels());
+		multiplicityCombo.setItems(IModelComponent.EMultiplicity.labels());
 		multiplicityCombo.addSelectionListener(adapter);
 		label = toolkit.createLabel(sectionClient, "");
 
@@ -662,7 +662,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				String label = stereotypePrefix + arg.getName() + ": "
 						+ Misc.removeJavaLangString(fqn);
 
-				if (arg.getIType().getTypeMultiplicity() != EMultiplicity.ONE) {
+				if (arg.getIType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
 					label = label + "["
 							+ arg.getIType().getTypeMultiplicity().getLabel()
 							+ "]";
@@ -914,7 +914,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		typeText.setText(Misc.removeJavaLangString(getMethod().getReturnIType()
 				.getFullyQualifiedName()));
 		if (!getMethod().isVoid()) {
-			multiplicityCombo.select(EMultiplicity.indexOf(getMethod()
+			multiplicityCombo.select(IModelComponent.EMultiplicity.indexOf(getMethod()
 					.getReturnIType().getTypeMultiplicity()));
 			updateDefaultValueCombo();
 			defaultReturnValue.setEnabled(!isReadOnly);
@@ -1069,7 +1069,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				&& event.getSource() == this.multiplicityCombo) {
 			IType type = getMethod().makeIType();
 			type.setFullyQualifiedName(this.typeText.getText().trim());
-			type.setTypeMultiplicity(EMultiplicity.at(multiplicityCombo
+			type.setTypeMultiplicity(IModelComponent.EMultiplicity.at(multiplicityCombo
 					.getSelectionIndex()));
 			getMethod().setReturnIType(type);
 			pageModified();
@@ -1403,7 +1403,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			} else if (event.getSource() == typeText) {
 				IType type = getMethod().makeIType();
 				type.setFullyQualifiedName(typeText.getText().trim());
-				type.setTypeMultiplicity(EMultiplicity.at(multiplicityCombo
+				type.setTypeMultiplicity(IModelComponent.EMultiplicity.at(multiplicityCombo
 						.getSelectionIndex()));
 				getMethod().setReturnIType(type);
 				updateDefaultValueCombo();

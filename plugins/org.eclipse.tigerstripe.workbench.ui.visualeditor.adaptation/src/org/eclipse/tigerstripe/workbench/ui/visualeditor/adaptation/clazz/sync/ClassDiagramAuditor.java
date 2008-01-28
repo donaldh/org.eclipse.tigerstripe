@@ -27,10 +27,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
@@ -242,10 +243,10 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		String iAEnd = null;
 		String iZEnd = null;
 		if (iAssoc.getAEnd() != null) {
-			iAEnd = iAssoc.getAEnd().getIType().getFullyQualifiedName();
+			iAEnd = iAssoc.getAEnd().getType().getFullyQualifiedName();
 		}
 		if (iAssoc.getZEnd() != null) {
-			iZEnd = iAssoc.getZEnd().getIType().getFullyQualifiedName();
+			iZEnd = iAssoc.getZEnd().getType().getFullyQualifiedName();
 		}
 
 		String eAEnd = null;
@@ -337,8 +338,8 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		}
 
 		// check multiplicities
-		EMultiplicity iAEndMultiplicity = iAssoc.getAEnd().getMultiplicity();
-		EMultiplicity iZEndMultiplicity = iAssoc.getZEnd().getMultiplicity();
+		IModelComponent.EMultiplicity iAEndMultiplicity = iAssoc.getAEnd().getMultiplicity();
+		IModelComponent.EMultiplicity iZEndMultiplicity = iAssoc.getZEnd().getMultiplicity();
 		AssocMultiplicity eAEndMultiplicity = eAssociation
 				.getAEndMultiplicity();
 		AssocMultiplicity eZEndMultiplicity = eAssociation
@@ -700,7 +701,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 						.getTypeMultiplicity();
 
 				if (iMethod.getReturnIType() != null) {
-					EMultiplicity iMethodMultiplicity = iMethod
+					IModelComponent.EMultiplicity iMethodMultiplicity = iMethod
 							.getReturnIType().getTypeMultiplicity();
 					if (eMethodMultiplicy != ClassDiagramUtils
 							.mapTypeMultiplicity(iMethodMultiplicity)) {
@@ -733,7 +734,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 									+ theArg.getName() + "' doesn't match"));
 						}
 
-						EMultiplicity iMultiplicity = theArg.getIType()
+						IModelComponent.EMultiplicity iMultiplicity = theArg.getIType()
 								.getTypeMultiplicity();
 						AssocMultiplicity eMultiplicity = theParam
 								.getTypeMultiplicity();

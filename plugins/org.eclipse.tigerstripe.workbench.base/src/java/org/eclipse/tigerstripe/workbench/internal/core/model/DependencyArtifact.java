@@ -118,11 +118,11 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	public IType getAEndType() {
-		return getRelationshipAEnd().getIType();
+		return getRelationshipAEnd().getType();
 	}
 
 	public IType getZEndType() {
-		return getRelationshipZEnd().getIType();
+		return getRelationshipZEnd().getType();
 	}
 
 	@Override
@@ -196,7 +196,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 				return getContainingRelationship().getRelationshipAEnd();
 		}
 
-		public IType getIType() {
+		public IType getType() {
 			return type;
 		}
 
@@ -210,13 +210,13 @@ public class DependencyArtifact extends AbstractArtifact implements
 					"DependendyEnd Validation", null);
 
 			// check the validity of the type for this association end
-			IStatus typeStatus = ((IType) getIType()).validate();
+			IStatus typeStatus = ((IType) getType()).validate();
 			if (!typeStatus.isOK())
 				result.add(typeStatus);
 
 			// making sure association ends are not scalars
-			if (getIType() != null
-					&& (getIType().isPrimitive() || getIType()
+			if (getType() != null
+					&& (getType().isPrimitive() || getType()
 							.getFullyQualifiedName().equals("String"))) {
 				result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 						"Dependency End cannot be a primitive type."));
@@ -226,10 +226,10 @@ public class DependencyArtifact extends AbstractArtifact implements
 		}
 
 		public String getNameForType(String typeName) {
-			if (typeName.equals(aRelationshipEnd.getIType()
+			if (typeName.equals(aRelationshipEnd.getType()
 					.getFullyQualifiedName()))
 				return "aEnd";
-			else if (typeName.equals(zRelationshipEnd.getIType()
+			else if (typeName.equals(zRelationshipEnd.getType()
 					.getFullyQualifiedName()))
 				return "zEnd";
 			return "";

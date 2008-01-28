@@ -305,8 +305,8 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 				|| ((IRelationship) artifact).getRelationshipZEnd() == null)
 			return;
 
-		if (((IRelationship) artifact).getRelationshipAEnd().getIType() == null
-				|| ((IRelationship) artifact).getRelationshipZEnd().getIType() == null)
+		if (((IRelationship) artifact).getRelationshipAEnd().getType() == null
+				|| ((IRelationship) artifact).getRelationshipZEnd().getType() == null)
 			return;
 
 		FacetPredicate pred = getPrimaryPredicate();
@@ -322,13 +322,13 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 				IAbstractArtifact aEnd = getContainingProject()
 						.getArtifactManagerSession()
 						.getArtifactByFullyQualifiedName(
-								rel.getRelationshipAEnd().getIType()
+								rel.getRelationshipAEnd().getType()
 										.getFullyQualifiedName());
 				if (pred.evaluate(aEnd)) {
 					// remove zEnd
 					FacetPredicate resolvedPred = (FacetPredicate) getFacetPredicate();
 					resolvedPred.addTempExclude(rel.getRelationshipZEnd()
-							.getIType().getFullyQualifiedName());
+							.getType().getFullyQualifiedName());
 					activeMgr.setActiveFacet(this,
 							new TigerstripeNullProgressMonitor());
 				}

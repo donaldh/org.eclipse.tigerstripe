@@ -271,9 +271,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			// look at the ends
 			IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 			addRelatedArtifacts(scope, (IAbstractArtifact) assoc.getAEnd()
-					.getIType().getIArtifact(), false, monitor);
+					.getType().getIArtifact(), false, monitor);
 			addRelatedArtifacts(scope, (IAbstractArtifact) assoc.getZEnd()
-					.getIType().getIArtifact(), false, monitor);
+					.getType().getIArtifact(), false, monitor);
 
 			if (!(artifact instanceof IAssociationClassArtifact))
 				return;

@@ -18,8 +18,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.ModelUpdaterImpl;
@@ -67,10 +67,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IUpdateProcedureArtifac
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
-import org.eclipse.tigerstripe.workbench.queries.IQueryCapabilitiesArtifacts;
-import org.eclipse.tigerstripe.workbench.queries.IQueryModelArtifacts;
 import org.eclipse.tigerstripe.workbench.queries.IQueryRelationshipsByArtifact;
-import org.eclipse.tigerstripe.workbench.queries.IQuerySessionArtifacts;
 
 public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
@@ -144,17 +141,14 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 	public String[] getSupportedQueries() {
 		return new String[] { IQueryAllArtifacts.class.getName(),
-				IQueryModelArtifacts.class.getName(),
-				IQueryCapabilitiesArtifacts.class.getName(),
-				IQuerySessionArtifacts.class.getName(),
+
 				IQueryArtifactsByType.class.getName(),
 				IQueryRelationshipsByArtifact.class.getName() };
 	}
 
 	protected IArtifactQuery[] getQueryImplementations() {
 		return new IArtifactQuery[] { new QueryAllArtifacts(),
-				new QueryModelArtifacts(), new QueryCapabilitiesArtifacts(),
-				new QuerySessionArtifacts(), new QueryArtifactsByType(),
+				new QueryArtifactsByType(),
 				new QueryRelationshipsByArtifact() };
 	}
 
@@ -352,7 +346,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			resAEnd.setOrdered(origAssoc.getAEnd().isOrdered());
 			resAEnd.setVisibility(origAssoc.getAEnd().getVisibility());
 			IType aType = resAEnd.makeIType();
-			aType.setFullyQualifiedName(origAssoc.getAEnd().getIType()
+			aType.setFullyQualifiedName(origAssoc.getAEnd().getType()
 					.getFullyQualifiedName());
 			resAEnd.setType(aType);
 			resultAssoc.setAEnd(resAEnd);
@@ -367,7 +361,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			resZEnd.setOrdered(origAssoc.getZEnd().isOrdered());
 			resZEnd.setVisibility(origAssoc.getZEnd().getVisibility());
 			IType zType = resZEnd.makeIType();
-			zType.setFullyQualifiedName(origAssoc.getZEnd().getIType()
+			zType.setFullyQualifiedName(origAssoc.getZEnd().getType()
 					.getFullyQualifiedName());
 			resZEnd.setType(zType);
 			resultAssoc.setZEnd(resZEnd);

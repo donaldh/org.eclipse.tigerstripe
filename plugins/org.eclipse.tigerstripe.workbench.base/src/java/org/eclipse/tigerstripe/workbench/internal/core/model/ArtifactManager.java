@@ -1529,13 +1529,13 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				String zEndFQN = null;
 
 				IRelationshipEnd aEnd = rel.getRelationshipAEnd();
-				if (aEnd != null && aEnd.getIType() != null) {
-					aEndFQN = aEnd.getIType().getFullyQualifiedName();
+				if (aEnd != null && aEnd.getType() != null) {
+					aEndFQN = aEnd.getType().getFullyQualifiedName();
 				}
 
 				IRelationshipEnd zEnd = rel.getRelationshipZEnd();
-				if (zEnd != null && zEnd.getIType() != null) {
-					zEndFQN = zEnd.getIType().getFullyQualifiedName();
+				if (zEnd != null && zEnd.getType() != null) {
+					zEndFQN = zEnd.getType().getFullyQualifiedName();
 				}
 
 				if (aEndFQN != null && zEndFQN != null) {

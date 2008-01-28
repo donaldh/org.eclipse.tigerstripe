@@ -37,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.uml2.uml.AggregationKind;
@@ -525,10 +525,10 @@ public class UML2MappingUtils {
 				end.setChangeable(EChangeableEnum.parse("none"));
 
 				String multStr = readMultiplicity(mEnd);
-				if (EMultiplicity.parse(multStr) != null) {
-					end.setEndMultiplicity(EMultiplicity.parse(multStr));
+				if (IModelComponent.EMultiplicity.parse(multStr) != null) {
+					end.setEndMultiplicity(IModelComponent.EMultiplicity.parse(multStr));
 				} else {
-					end.setEndMultiplicity(EMultiplicity.ONE_STAR);
+					end.setEndMultiplicity(IModelComponent.EMultiplicity.ONE_STAR);
 					Message msg = new Message();
 					msg.setMessage("Multiplicity '" + multStr
 							+ "' not supported for " + annotable.getName()

@@ -19,6 +19,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
@@ -44,7 +45,7 @@ public class AssociationEnd extends ArtifactComponent implements
 
 	private EAggregationEnum aggregation = EAggregationEnum.NONE;
 
-	private EMultiplicity multiplicity;
+	private IModelComponent.EMultiplicity multiplicity;
 
 	private boolean isNavigable;
 
@@ -69,7 +70,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		this.changeable = changeable;
 	}
 
-	public void setMultiplicity(EMultiplicity multiplicity) {
+	public void setMultiplicity(IModelComponent.EMultiplicity multiplicity) {
 		this.multiplicity = multiplicity;
 	}
 
@@ -101,7 +102,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		return changeable;
 	}
 
-	public EMultiplicity getMultiplicity() {
+	public IModelComponent.EMultiplicity getMultiplicity() {
 		return multiplicity;
 	}
 
@@ -151,18 +152,14 @@ public class AssociationEnd extends ArtifactComponent implements
 				EAggregationEnum.NONE.getLabel()));
 		changeable = EChangeableEnum.parse(props.getProperty("changeable",
 				EChangeableEnum.NONE.getLabel()));
-		multiplicity = EMultiplicity.parse(props.getProperty("multiplicity",
-				EMultiplicity.ONE.getLabel()));
+		multiplicity = IModelComponent.EMultiplicity.parse(props.getProperty("multiplicity",
+				IModelComponent.EMultiplicity.ONE.getLabel()));
 
 		// Extract all the stereotypes
 		extractStereotypes();
 	}
 
-	public Type getType() {
-		return this.type;
-	}
-
-	public IType getIType() {
+	public IType getType() {
 		return this.type;
 	}
 

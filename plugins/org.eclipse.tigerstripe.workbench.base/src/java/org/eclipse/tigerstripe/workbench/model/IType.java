@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.model;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 /**
@@ -47,7 +47,7 @@ public interface IType {
 	@Deprecated
 	public void setMultiplicity(int multiplicity);
 
-	public void setTypeMultiplicity(EMultiplicity multiplicity);
+	public void setTypeMultiplicity(IModelComponent.EMultiplicity multiplicity);
 
 	public IStatus validate();
 
@@ -111,7 +111,7 @@ public interface IType {
 	 * @return
 	 * @since 2.2-rc
 	 */
-	public EMultiplicity getTypeMultiplicity();
+	public IModelComponent.EMultiplicity getTypeMultiplicity();
 
 	/**
 	 * Test to see of the type represented here is a Tigerstripe artifact (of

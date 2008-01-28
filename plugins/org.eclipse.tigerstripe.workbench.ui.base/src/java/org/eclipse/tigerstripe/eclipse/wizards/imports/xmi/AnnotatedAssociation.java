@@ -13,9 +13,10 @@ package org.eclipse.tigerstripe.eclipse.wizards.imports.xmi;
 import java.util.Properties;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 
 public class AnnotatedAssociation extends AnnotatedElement {
 
@@ -25,8 +26,8 @@ public class AnnotatedAssociation extends AnnotatedElement {
 	private String aEndName;
 	private String zEndName;
 
-	private EMultiplicity aEndMultiplicity = EMultiplicity.ONE;
-	private EMultiplicity zEndMultiplicity = EMultiplicity.ONE;
+	private IModelComponent.EMultiplicity aEndMultiplicity = IModelComponent.EMultiplicity.ONE;
+	private IModelComponent.EMultiplicity zEndMultiplicity = IModelComponent.EMultiplicity.ONE;
 
 	private EChangeableEnum aEndChangeable = EChangeableEnum.NONE;
 	private EChangeableEnum zEndChangeable = EChangeableEnum.NONE;
@@ -112,11 +113,11 @@ public class AnnotatedAssociation extends AnnotatedElement {
 		aEndChangeable = endChangeable;
 	}
 
-	public EMultiplicity getAEndMultiplicity() {
+	public IModelComponent.EMultiplicity getAEndMultiplicity() {
 		return aEndMultiplicity;
 	}
 
-	public void setAEndMultiplicity(EMultiplicity endMultiplicity) {
+	public void setAEndMultiplicity(IModelComponent.EMultiplicity endMultiplicity) {
 		aEndMultiplicity = endMultiplicity;
 	}
 
@@ -136,11 +137,11 @@ public class AnnotatedAssociation extends AnnotatedElement {
 		zEndChangeable = endChangeable;
 	}
 
-	public EMultiplicity getZEndMultiplicity() {
+	public IModelComponent.EMultiplicity getZEndMultiplicity() {
 		return zEndMultiplicity;
 	}
 
-	public void setZEndMultiplicity(EMultiplicity endMultiplicity) {
+	public void setZEndMultiplicity(IModelComponent.EMultiplicity endMultiplicity) {
 		zEndMultiplicity = endMultiplicity;
 	}
 

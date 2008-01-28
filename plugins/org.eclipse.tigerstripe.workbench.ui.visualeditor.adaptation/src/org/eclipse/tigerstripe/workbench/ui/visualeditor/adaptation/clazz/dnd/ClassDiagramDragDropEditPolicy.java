@@ -119,9 +119,9 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 								CreateElementRequest.class))
 						.getParameter("IAbstractArtifact");
 
-				String aEndType = iArtifact.getRelationshipAEnd().getIType()
+				String aEndType = iArtifact.getRelationshipAEnd().getType()
 						.getFullyQualifiedName();
-				String zEndType = iArtifact.getRelationshipZEnd().getIType()
+				String zEndType = iArtifact.getRelationshipZEnd().getType()
 						.getFullyQualifiedName();
 
 				MapHelper helper = new MapHelper((Map) ((Diagram) getHost()

@@ -60,8 +60,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILabel;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
@@ -174,7 +175,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		multiItems[0] = "0..1";
 		multiItems[1] = "*";
 		multiplicityCombo = new ComboDialogField(0);
-		multiplicityCombo.setItems(EMultiplicity.labels());
+		multiplicityCombo.setItems(IModelComponent.EMultiplicity.labels());
 		multiplicityCombo.setLabelText("Multiplicity");
 		multiplicityCombo.setDialogFieldListener(adapter);
 
@@ -386,7 +387,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		modifierButtons.setSelection(1 // UNIQUE
 				, initialArgument.isUnique());
 
-		multiplicityCombo.selectItem(EMultiplicity.indexOf(initialArgument
+		multiplicityCombo.selectItem(IModelComponent.EMultiplicity.indexOf(initialArgument
 				.getIType().getTypeMultiplicity()));
 		// attributeDimensionDialogField.setText(String.valueOf(initialArgument
 		// .getIType().getMultiplicity()));
@@ -554,7 +555,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		org.eclipse.tigerstripe.workbench.model.IType type = initialArgument
 				.getIType();
 		type.setFullyQualifiedName(attributeClass);
-		type.setTypeMultiplicity(EMultiplicity.at(multiplicityCombo
+		type.setTypeMultiplicity(IModelComponent.EMultiplicity.at(multiplicityCombo
 				.getSelectionIndex()));
 
 		initialArgument.setIType(type);

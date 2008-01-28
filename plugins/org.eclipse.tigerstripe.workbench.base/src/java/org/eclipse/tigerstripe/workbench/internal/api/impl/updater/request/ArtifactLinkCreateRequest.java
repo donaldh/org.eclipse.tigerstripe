@@ -15,8 +15,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactLinkCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
@@ -76,7 +77,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			aEnd.setType(aType);
 			aEnd.setName(aEndName);
 			aEnd.setNavigable(aEndNavigability);
-			aEnd.setMultiplicity(EMultiplicity.ONE); // FIXME this should be
+			aEnd.setMultiplicity(IModelComponent.EMultiplicity.ONE); // FIXME this should be
 			// translated from
 			// Diagram
 			assoc.setAEnd(aEnd);
@@ -87,7 +88,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			zEnd.setType(zType);
 			zEnd.setName(zEndName);
 			zEnd.setNavigable(zEndNavigability);
-			zEnd.setMultiplicity(EMultiplicity.ONE); // FIXME this should be
+			zEnd.setMultiplicity(IModelComponent.EMultiplicity.ONE); // FIXME this should be
 			// translated from
 			// Diagram
 			assoc.setZEnd(zEnd);
@@ -107,7 +108,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			aEnd.setType(aType);
 			aEnd.setName(aEndName);
 			aEnd.setNavigable(aEndNavigability);
-			aEnd.setMultiplicity(EMultiplicity.ONE); // FIXME this should be
+			aEnd.setMultiplicity(IModelComponent.EMultiplicity.ONE); // FIXME this should be
 			// translated from
 			// Diagram
 			assocClass.setAEnd(aEnd);
@@ -117,7 +118,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			zType.setFullyQualifiedName(zEndType);
 			zEnd.setType(zType);
 			zEnd.setName(zEndName);
-			zEnd.setMultiplicity(EMultiplicity.ONE); // FIXME this should be
+			zEnd.setMultiplicity(IModelComponent.EMultiplicity.ONE); // FIXME this should be
 			// translated from
 			// Diagram
 			zEnd.setNavigable(zEndNavigability);

@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
@@ -223,36 +223,36 @@ public class ClassDiagramUtils {
 		return false;
 	}
 
-	public static AssocMultiplicity mapTypeMultiplicity(EMultiplicity eMult) {
-		if (eMult == EMultiplicity.ONE)
+	public static AssocMultiplicity mapTypeMultiplicity(IModelComponent.EMultiplicity eMult) {
+		if (eMult == IModelComponent.EMultiplicity.ONE)
 			return AssocMultiplicity.ONE_LITERAL;
-		else if (eMult == EMultiplicity.ONE_STAR)
+		else if (eMult == IModelComponent.EMultiplicity.ONE_STAR)
 			return AssocMultiplicity.ONE_STAR_LITERAL;
-		else if (eMult == EMultiplicity.STAR)
+		else if (eMult == IModelComponent.EMultiplicity.STAR)
 			return AssocMultiplicity.STAR_LITERAL;
-		else if (eMult == EMultiplicity.ZERO)
+		else if (eMult == IModelComponent.EMultiplicity.ZERO)
 			return AssocMultiplicity.ZERO_LITERAL;
-		else if (eMult == EMultiplicity.ZERO_ONE)
+		else if (eMult == IModelComponent.EMultiplicity.ZERO_ONE)
 			return AssocMultiplicity.ZERO_ONE_LITERAL;
-		else if (eMult == EMultiplicity.ZERO_STAR)
+		else if (eMult == IModelComponent.EMultiplicity.ZERO_STAR)
 			return AssocMultiplicity.ZERO_STAR_LITERAL;
 
 		throw new IllegalArgumentException("Invalid multiplicity " + eMult);
 	}
 
-	public static EMultiplicity mapTypeMultiplicity(AssocMultiplicity aMult) {
+	public static IModelComponent.EMultiplicity mapTypeMultiplicity(AssocMultiplicity aMult) {
 		if (aMult == AssocMultiplicity.ONE_LITERAL)
-			return EMultiplicity.ONE;
+			return IModelComponent.EMultiplicity.ONE;
 		else if (aMult == AssocMultiplicity.ONE_STAR_LITERAL)
-			return EMultiplicity.ONE_STAR;
+			return IModelComponent.EMultiplicity.ONE_STAR;
 		else if (aMult == AssocMultiplicity.STAR_LITERAL)
-			return EMultiplicity.STAR;
+			return IModelComponent.EMultiplicity.STAR;
 		else if (aMult == AssocMultiplicity.ZERO_LITERAL)
-			return EMultiplicity.ZERO;
+			return IModelComponent.EMultiplicity.ZERO;
 		else if (aMult == AssocMultiplicity.ZERO_ONE_LITERAL)
-			return EMultiplicity.ZERO_ONE;
+			return IModelComponent.EMultiplicity.ZERO_ONE;
 		else if (aMult == AssocMultiplicity.ZERO_STAR_LITERAL)
-			return EMultiplicity.ZERO_STAR;
+			return IModelComponent.EMultiplicity.ZERO_STAR;
 
 		throw new IllegalArgumentException("Invalid multiplicity " + aMult);
 	}

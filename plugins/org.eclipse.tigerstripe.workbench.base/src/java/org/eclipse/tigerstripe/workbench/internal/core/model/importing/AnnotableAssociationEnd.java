@@ -10,9 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing;
 
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 
 public interface AnnotableAssociationEnd extends Annotable {
 
@@ -32,9 +33,9 @@ public interface AnnotableAssociationEnd extends Annotable {
 
 	public EChangeableEnum getChangeable();
 
-	public void setEndMultiplicity(EMultiplicity multiplicity);
+	public void setEndMultiplicity(IModelComponent.EMultiplicity multiplicity);
 
-	public EMultiplicity getEndMultiplicity();
+	public IModelComponent.EMultiplicity getEndMultiplicity();
 
 	public void setOrdered(boolean isOrdered);
 

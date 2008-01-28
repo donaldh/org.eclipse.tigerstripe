@@ -33,7 +33,7 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 
 		IAssociationArtifact artifact = (IAssociationArtifact) getArtifact();
 
-		IType aEndType = artifact.getAEnd().getIType();
+		IType aEndType = artifact.getAEnd().getType();
 		boolean aEndDefined = false;
 		if (aEndType == null || aEndType.getFullyQualifiedName().length() == 0) {
 			TigerstripeProjectAuditor.reportError(
@@ -42,7 +42,7 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		} else
 			aEndDefined = true;
 
-		IType zEndType = artifact.getZEnd().getIType();
+		IType zEndType = artifact.getZEnd().getType();
 		boolean zEndDefined = false;
 		if (zEndType == null || zEndType.getFullyQualifiedName().length() == 0) {
 			TigerstripeProjectAuditor.reportError(
@@ -66,9 +66,9 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		// on which projects they live in
 		IAssociationArtifact artifact = (IAssociationArtifact) getArtifact();
 
-		IType aEndType = artifact.getAEnd().getIType();
+		IType aEndType = artifact.getAEnd().getType();
 		boolean aEndNavigable = artifact.getAEnd().isNavigable();
-		IType zEndType = artifact.getZEnd().getIType();
+		IType zEndType = artifact.getZEnd().getType();
 		boolean zEndNavigable = artifact.getZEnd().isNavigable();
 		try {
 			IAbstractArtifact aEndArt = getTSProject()

@@ -116,9 +116,9 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 			// String endName =
 			// end.getNameForType(end.getType().getFullyQualifiedName());
 			String endName = end.getName();
-			return (endName.equals("")) ? decorateText(end.getIType().getName(),
+			return (endName.equals("")) ? decorateText(end.getType().getName(),
 					element) : decorateText(endName + "::"
-					+ end.getIType().getName(), element);
+					+ end.getType().getName(), element);
 		} else if (element instanceof AbstractLogicalExplorerNode) {
 			AbstractLogicalExplorerNode node = (AbstractLogicalExplorerNode) element;
 			return decorateText(node.getText(), element);

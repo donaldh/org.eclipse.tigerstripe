@@ -99,13 +99,13 @@ public class ArtifactRelationshipCache {
 			String zEndFQN = null;
 
 			IRelationshipEnd aEnd = rel.getRelationshipAEnd();
-			if (aEnd != null && aEnd.getIType() != null) {
-				aEndFQN = aEnd.getIType().getFullyQualifiedName();
+			if (aEnd != null && aEnd.getType() != null) {
+				aEndFQN = aEnd.getType().getFullyQualifiedName();
 			}
 
 			IRelationshipEnd zEnd = rel.getRelationshipZEnd();
-			if (zEnd != null && zEnd.getIType() != null) {
-				zEndFQN = zEnd.getIType().getFullyQualifiedName();
+			if (zEnd != null && zEnd.getType() != null) {
+				zEndFQN = zEnd.getType().getFullyQualifiedName();
 			}
 
 			if (aEndFQN != null) {
@@ -201,9 +201,9 @@ public class ArtifactRelationshipCache {
 			if (oldRelationship != relationship) {
 				// let's remove all entries about this old one
 				String oldAEnd = oldRelationship.getRelationshipAEnd()
-						.getIType().getFullyQualifiedName();
+						.getType().getFullyQualifiedName();
 				String oldZEnd = oldRelationship.getRelationshipZEnd()
-						.getIType().getFullyQualifiedName();
+						.getType().getFullyQualifiedName();
 
 				removeRelationshipForFQN(oldAEnd, oldRelationship, ORIGINATING);
 				removeRelationshipForFQN(oldZEnd, oldRelationship, TERMINATING);
@@ -216,8 +216,8 @@ public class ArtifactRelationshipCache {
 			}
 		}
 
-		IType aEndType = relationship.getRelationshipAEnd().getIType();
-		IType zEndType = relationship.getRelationshipZEnd().getIType();
+		IType aEndType = relationship.getRelationshipAEnd().getType();
+		IType zEndType = relationship.getRelationshipZEnd().getType();
 		String aEndFQN = null;
 		String zEndFQN = null;
 		if (aEndType != null) {
@@ -238,14 +238,14 @@ public class ArtifactRelationshipCache {
 		if (relationship != null) {
 			// let's remove all entries about this old one
 			if (relationship.getRelationshipAEnd() != null
-					&& relationship.getRelationshipAEnd().getIType() != null) {
-				String oldAEnd = relationship.getRelationshipAEnd().getIType()
+					&& relationship.getRelationshipAEnd().getType() != null) {
+				String oldAEnd = relationship.getRelationshipAEnd().getType()
 						.getFullyQualifiedName();
 				removeRelationshipForFQN(oldAEnd, relationship, ORIGINATING);
 			}
 			if (relationship.getRelationshipZEnd() != null
-					&& relationship.getRelationshipZEnd().getIType() != null) {
-				String oldZEnd = relationship.getRelationshipZEnd().getIType()
+					&& relationship.getRelationshipZEnd().getType() != null) {
+				String oldZEnd = relationship.getRelationshipZEnd().getType()
 						.getFullyQualifiedName();
 				removeRelationshipForFQN(oldZEnd, relationship, TERMINATING);
 			}

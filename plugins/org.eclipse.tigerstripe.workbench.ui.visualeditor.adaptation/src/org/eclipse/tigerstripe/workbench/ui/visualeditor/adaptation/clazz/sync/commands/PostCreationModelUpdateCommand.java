@@ -288,9 +288,9 @@ public class PostCreationModelUpdateCommand extends
 				nodesInMap = (HashMap<String, QualifiedNamedElement>) returnObjects[3];
 			}
 			for (IRelationship relationship : possibleRelationships) {
-				String aEndName = relationship.getRelationshipAEnd().getIType()
+				String aEndName = relationship.getRelationshipAEnd().getType()
 						.getFullyQualifiedName();
-				String zEndName = relationship.getRelationshipZEnd().getIType()
+				String zEndName = relationship.getRelationshipZEnd().getType()
 						.getFullyQualifiedName();
 				if (aEndName.equals(iArtifact.getFullyQualifiedName())) {
 					// this eObject corresponds to the aEnd of this

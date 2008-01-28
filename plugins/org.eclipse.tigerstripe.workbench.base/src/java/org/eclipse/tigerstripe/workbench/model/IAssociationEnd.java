@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.model;
 
 import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 
 public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 
@@ -92,80 +93,12 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 	}
 
 	/**
-	 * An enum of the possible values for the multiplicity of an end.
-	 * 
-	 */
-	public enum EMultiplicity {
-		ONE("1"), ZERO("0"), ZERO_ONE("0..1"), ZERO_STAR("0..*"), ONE_STAR(
-				"1..*"), STAR("*");
-	
-		private String label;
-		private static String[] labels;
-	
-		EMultiplicity(String label) {
-			this.label = label;
-		}
-	
-		/**
-		 * Return the label for an enumeration value.
-		 * 
-		 * @return String - the label.
-		 */
-		public String getLabel() {
-			return label;
-		}
-	
-		/**
-		 * Given a String label, return an enumeration value. Returns null if no
-		 * enumeration corresponds to the label.
-		 * 
-		 * @param label
-		 * @return the enumeration value that corresponds to the label.
-		 */
-		public static EMultiplicity parse(String label) {
-			for (EMultiplicity val : values()) {
-				if (val.label.equals(label))
-					return val;
-			}
-			return EMultiplicity.ONE;
-		}
-	
-		public static int indexOf(EMultiplicity mult) {
-			for (int index = 0; index < values().length; index++) {
-				if (mult == values()[index])
-					return index;
-			}
-			throw new IllegalArgumentException("Illegal multiplicity literal: "
-					+ mult);
-		}
-	
-		public static EMultiplicity at(int index) {
-			if (index >= 0 && index < values().length)
-				return values()[index];
-			throw new IllegalArgumentException("Illegal multiplicity literal: "
-					+ index);
-		}
-	
-		public static String[] labels() {
-			if (labels == null) {
-				labels = new String[values().length];
-				int i = 0;
-				for (EMultiplicity mult : values()) {
-					labels[i] = mult.label;
-					i++;
-				}
-			}
-			return labels;
-		}
-	}
-
-	/**
 	 * Returns the Association that is the "container" for the end. This is an
 	 * alias for getContainingArtifact()
 	 * 
 	 * @return the containing artifact.
 	 */
-	public IAbstractArtifact getContainingAssociation();
+	public IAssociationArtifact getContainingAssociation();
 
 	public void setNavigable(boolean isNavigable);
 
@@ -173,7 +106,7 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 
 	public void setChangeable(EChangeableEnum changeable);
 
-	public void setMultiplicity(EMultiplicity multiplicity);
+	public void setMultiplicity(IModelComponent.EMultiplicity multiplicity);
 
 	/**
 	 * Returns the IArtifact that is the "container" for the end. This will
@@ -219,23 +152,14 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 	 * 
 	 * @return IType - the type of the end
 	 */
-	public IType getIType();
+	public IType getType();
 
 	/**
 	 * Returns the multiplicity of the end.
 	 * 
 	 * @return enumeration of the multiplicity type.
 	 */
-	public EMultiplicity getMultiplicity();
-
-	/**
-	 * Returns the type of the end.
-	 * 
-	 * @return IType - the type of the end
-	 * @deprecated use getIType for consistency
-	 */
-	@Deprecated
-	public IType getType();
+	public IModelComponent.EMultiplicity getMultiplicity();
 
 	/**
 	 * Returns the aggregation type of the end.

@@ -48,7 +48,7 @@ public class QueryRelationshipsByArtifact extends ArtifactQueryBase implements
 						.getOriginatingRelationshipForFQN(origFQN,
 								includeProjectDependencies);
 				for (IRelationship rel : tmpResult) {
-					if (termFQN.equals(rel.getRelationshipZEnd().getIType()
+					if (termFQN.equals(rel.getRelationshipZEnd().getType()
 							.getFullyQualifiedName())) {
 						result.add(rel);
 					}

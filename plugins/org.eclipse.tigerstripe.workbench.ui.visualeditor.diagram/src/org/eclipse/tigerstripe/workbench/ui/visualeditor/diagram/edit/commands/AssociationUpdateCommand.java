@@ -30,8 +30,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -126,7 +127,7 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 						.get("aEndMultiplicity");
 				AssocMultiplicity assocMult = association.getAEndMultiplicity();
 				if (!assocMult.toString().equals(newMultiplicityStr)) {
-					iAssociationAEnd.setMultiplicity(EMultiplicity
+					iAssociationAEnd.setMultiplicity(IModelComponent.EMultiplicity
 							.parse(newMultiplicityStr));
 				}
 			}
@@ -189,7 +190,7 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 						.get("zEndMultiplicity");
 				AssocMultiplicity assocMult = association.getZEndMultiplicity();
 				if (!assocMult.toString().equals(newMultiplicityStr)) {
-					iAssociationZEnd.setMultiplicity(EMultiplicity
+					iAssociationZEnd.setMultiplicity(IModelComponent.EMultiplicity
 							.parse(newMultiplicityStr));
 				}
 			}

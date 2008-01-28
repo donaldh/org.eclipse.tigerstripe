@@ -76,8 +76,6 @@ public interface IAbstractTigerstripeProject {
 	 */
 	public File getBaseDir();
 
-	public IProjectDetails getIProjectDetails()
-	throws TigerstripeException;
 
 
 
