@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotations.ui.views;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
@@ -45,6 +46,7 @@ import org.eclipse.tigerstripe.annotations.IAnnotationForm;
 import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
 import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.ui.internal.AnnotationFormManager;
+import org.eclipse.tigerstripe.annotations.ui.internal.AnnotationSchemeComparator;
 import org.eclipse.tigerstripe.annotations.ui.internal.widgets.AnnotationFormComposite;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
@@ -108,7 +110,7 @@ public class AnnotationsView extends ViewPart {
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		label.setLayoutData(formData);
-		
+
 		schemeComboViewer = new ComboViewer(parent, SWT.DROP_DOWN);
 		schemeComboViewer.setLabelProvider(new SchemeLabelProvider());
 		schemeComboViewer.setContentProvider(new ArrayContentProvider());
@@ -119,14 +121,13 @@ public class AnnotationsView extends ViewPart {
 					}
 				});
 
-		
 		Combo schemeCombo = schemeComboViewer.getCombo();
 		formData = new FormData();
 		formData.top = new FormAttachment(label, 5);
 		formData.left = new FormAttachment(0, 5);
 		formData.right = new FormAttachment(100, -5);
 		schemeCombo.setLayoutData(formData);
-		
+
 		hookPageSelection();
 
 	}
@@ -185,6 +186,7 @@ public class AnnotationsView extends ViewPart {
 			clearAnnotationFormData();
 			IAnnotationScheme[] schemes = AnnotationSchemeRegistry.eINSTANCE
 					.getDefinedSchemes(uri);
+			Arrays.sort(schemes, new AnnotationSchemeComparator());
 			schemeComboViewer.setInput(schemes);
 			schemeComboViewer.getCombo().select(0);
 			schemeComboViewer.setSelection(schemeComboViewer.getSelection());
@@ -196,9 +198,9 @@ public class AnnotationsView extends ViewPart {
 
 	// probably temporary
 	private String getURIFromResource(IResource resource) {
-		
+
 		IAdaptable adaptable = (IAdaptable) resource;
-		if(adaptable.getAdapter(IProject.class) != null) {
+		if (adaptable.getAdapter(IProject.class) != null) {
 			String uri = resource.getLocationURI().toString();
 			uri = uri.replaceAll("file:/", "project:/");
 			return uri;
@@ -224,7 +226,7 @@ public class AnnotationsView extends ViewPart {
 
 		IAnnotationScheme scheme = (IAnnotationScheme) selection
 				.getFirstElement();
-		
+
 		final IAnnotationForm form = scheme.selectForm(uri);
 
 		Composite container = new AnnotationFormComposite(parent, SWT.NONE);
