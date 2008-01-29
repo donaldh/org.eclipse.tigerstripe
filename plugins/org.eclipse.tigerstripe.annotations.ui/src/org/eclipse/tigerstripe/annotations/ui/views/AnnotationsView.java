@@ -180,7 +180,7 @@ public class AnnotationsView extends ViewPart {
 	private void setComboViewerInput(IResource resource) {
 
 		try {
-			uri = resource.getLocationURI().toString();
+			uri = getURIFromResource(resource);
 			project = resource.getProject();
 			clearAnnotationFormData();
 			IAnnotationScheme[] schemes = AnnotationSchemeRegistry.eINSTANCE
@@ -191,6 +191,19 @@ public class AnnotationsView extends ViewPart {
 		} catch (AnnotationCoreException e) {
 			// TODO - Pop up exception dialog
 			e.printStackTrace();
+		}
+	}
+
+	// probably temporary
+	private String getURIFromResource(IResource resource) {
+		
+		IAdaptable adaptable = (IAdaptable) resource;
+		if(adaptable.getAdapter(IProject.class) != null) {
+			String uri = resource.getLocationURI().toString();
+			uri = uri.replaceAll("file:/", "project:/");
+			return uri;
+		} else {
+			return resource.getLocationURI().toString();
 		}
 	}
 
@@ -211,6 +224,7 @@ public class AnnotationsView extends ViewPart {
 
 		IAnnotationScheme scheme = (IAnnotationScheme) selection
 				.getFirstElement();
+		
 		final IAnnotationForm form = scheme.selectForm(uri);
 
 		Composite container = new AnnotationFormComposite(parent, SWT.NONE);
@@ -250,7 +264,7 @@ public class AnnotationsView extends ViewPart {
 		});
 
 		apply = new Button(container, SWT.PUSH);
-		apply.setText("Apply");
+		apply.setText("&Apply");
 		formData = new FormData();
 		formData.right = new FormAttachment(cancel, -5);
 		formData.bottom = new FormAttachment(100, -5);
@@ -266,7 +280,7 @@ public class AnnotationsView extends ViewPart {
 		});
 
 		defaults = new Button(container, SWT.PUSH);
-		defaults.setText("Restore Defaults");
+		defaults.setText("Restore &Defaults");
 		formData = new FormData();
 		formData.right = new FormAttachment(apply, -5);
 		formData.bottom = new FormAttachment(100, -5);
