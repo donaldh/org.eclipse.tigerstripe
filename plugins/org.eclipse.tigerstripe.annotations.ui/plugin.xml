@@ -10,6 +10,7 @@
       <view
             category="org.eclipse.tigerstripe.annotations"
             class="org.eclipse.tigerstripe.annotations.ui.views.AnnotationsView"
+            icon="src/icons/ts_logo.gif.gif"
             id="org.eclipse.tigerstripe.annotation.ui.views.AnnotationsView"
             name="Annotations">
       </view>
