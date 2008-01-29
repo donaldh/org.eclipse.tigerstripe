@@ -132,19 +132,19 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 								.getFullyQualifiedName().equals(newName) || artifact
 								.getExtendedArtifact().getFullyQualifiedName()
 								.equals(oldFQN))) {
-					artifact.setExtendedIArtifact(referencedArtifact);
+					artifact.setExtendedArtifact(referencedArtifact);
 					needSave = true;
 				}
 
 				// take care of implemented artifacts same way
-				IAbstractArtifact[] implemented = artifact
+				Collection<IAbstractArtifact> implemented = artifact
 						.getImplementedArtifacts();
 				boolean changed = false;
-				for (int i = 0; i < implemented.length; i++) {
-					IAbstractArtifact implArt = implemented[i];
+				for (IAbstractArtifact impl : implemented) {
+					IAbstractArtifact implArt = impl;
 					if (implArt.getFullyQualifiedName().equals(oldFQN)
 							|| implArt.getFullyQualifiedName().equals(newName)) {
-						implemented[i] = referencedArtifact;
+						impl = referencedArtifact;
 						changed = true;
 					}
 				}
@@ -200,7 +200,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 					ISessionArtifact session = (ISessionArtifact) artifact;
 
 					if (referencedArtifact instanceof IQueryArtifact) {
-						for (INamedQuery q : session.getINamedQueries()) {
+						for (INamedQuery q : session.getNamedQueries()) {
 							if (q.getFullyQualifiedName().equals(oldFQN)) {
 								q.setFullyQualifiedName(referencedArtifact
 										.getFullyQualifiedName());
@@ -209,7 +209,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 						}
 					} else if (referencedArtifact instanceof IManagedEntityArtifact) {
 						for (IManagedEntityDetails detail : session
-								.getIManagedEntityDetails()) {
+								.getManagedEntityDetails()) {
 							if (detail.getFullyQualifiedName().equals(oldFQN)) {
 								detail.setFullyQualifiedName(referencedArtifact
 										.getFullyQualifiedName());
@@ -218,7 +218,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 						}
 					} else if (referencedArtifact instanceof IUpdateProcedureArtifact) {
 						for (IExposedUpdateProcedure proc : session
-								.getIExposedUpdateProcedures()) {
+								.getExposedUpdateProcedures()) {
 							if (proc.getFullyQualifiedName().equals(oldFQN)) {
 								proc.setFullyQualifiedName(referencedArtifact
 										.getFullyQualifiedName());
@@ -226,7 +226,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 							}
 						}
 					} else if (referencedArtifact instanceof IEventArtifact) {
-						for (IEmittedEvent event : session.getIEmittedEvents()) {
+						for (IEmittedEvent event : session.getEmittedEvents()) {
 							if (event.getFullyQualifiedName().equals(oldFQN)) {
 								event.setFullyQualifiedName(referencedArtifact
 										.getFullyQualifiedName());

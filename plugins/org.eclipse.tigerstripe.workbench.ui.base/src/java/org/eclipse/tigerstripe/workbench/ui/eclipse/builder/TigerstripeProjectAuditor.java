@@ -244,7 +244,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			IArtifactManagerSession session = proj.getArtifactManagerSession();
 			IAbstractArtifact art = session.getArtifactByFullyQualifiedName(
 					fqn, true);
-			ITigerstripeProject targetProject = art.getIProject();
+			ITigerstripeProject targetProject = art.getTigerstripeProject();
 			if (targetProject != null) {
 				IJavaProject jProject = EclipsePlugin
 						.getIJavaProject(targetProject);

@@ -414,7 +414,7 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		public String getName();
 	}
 
-	public IManagedEntityDetails makeIManagedEntityDetails();
+	public IManagedEntityDetails makeManagedEntityDetails();
 
 	/**
 	 * Add/sets IManagedEntityDetails for the target entity If such managed
@@ -422,34 +422,34 @@ public interface ISessionArtifact extends IAbstractArtifact{
 	 * 
 	 * @param details
 	 */
-	public void addIManagedEntityDetails(IManagedEntityDetails details);
+	public void addManagedEntityDetails(IManagedEntityDetails details);
 
-	public void removeIManagedEntityDetails(IManagedEntityDetails[] details);
+	public void removeManagedEntityDetails(IManagedEntityDetails[] details);
 
-	public INamedQuery makeINamedQuery();
+	public INamedQuery makeNamedQuery();
 
-	public void addINamedQuery(INamedQuery details);
+	public void addNamedQuery(INamedQuery details);
 
-	public void removeINamedQuery(INamedQuery[] details);
+	public void removeNamedQuery(INamedQuery[] details);
 
-	public IExposedUpdateProcedure makeIExposedUpdateProcedure();
+	public IExposedUpdateProcedure makeExposedUpdateProcedure();
 
-	public void addIExposedUpdateProcedure(IExposedUpdateProcedure details);
+	public void addExposedUpdateProcedure(IExposedUpdateProcedure details);
 
-	public void removeIExposedUpdateProcedure(IExposedUpdateProcedure[] details);
+	public void removeExposedUpdateProcedure(IExposedUpdateProcedure[] details);
 
-	public IEmittedEvent makeIEmittedEvent();
+	public IEmittedEvent makeEmittedEvent();
 
-	public void addIEmittedEvent(IEmittedEvent details);
+	public void addEmittedEvent(IEmittedEvent details);
 
-	public void removeIEmittedEvent(IEmittedEvent[] details);
+	public void removeEmittedEvent(IEmittedEvent[] details);
 
-	public IEmittedEvent[] getIEmittedEvents();
+	public Collection<IEmittedEvent> getEmittedEvents();
 
-	public IExposedUpdateProcedure[] getIExposedUpdateProcedures();
+	public Collection<IExposedUpdateProcedure> getExposedUpdateProcedures();
 
-	public IManagedEntityDetails[] getIManagedEntityDetails();
+	public Collection<IManagedEntityDetails> getManagedEntityDetails();
 
-	public INamedQuery[] getINamedQueries();
+	public Collection<INamedQuery> getNamedQueries();
 
 }

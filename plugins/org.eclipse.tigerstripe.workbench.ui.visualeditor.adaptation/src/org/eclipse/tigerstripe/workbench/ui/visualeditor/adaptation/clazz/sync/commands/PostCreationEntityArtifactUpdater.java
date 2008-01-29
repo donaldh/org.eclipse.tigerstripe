@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.commands;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
@@ -56,8 +57,8 @@ public class PostCreationEntityArtifactUpdater extends
 							.getArtifactByFullyQualifiedName(fqn);
 					if (iArt instanceof ISessionArtifact) {
 						ISessionArtifact iSession = (ISessionArtifact) iArt;
-						IManagedEntityDetails[] details = iSession
-								.getIManagedEntityDetails();
+						Collection<IManagedEntityDetails> details = iSession
+								.getManagedEntityDetails();
 						for (IManagedEntityDetails detail : details) {
 							if (detail.getFullyQualifiedName().equals(
 									getEArtifact().getFullyQualifiedName())) {

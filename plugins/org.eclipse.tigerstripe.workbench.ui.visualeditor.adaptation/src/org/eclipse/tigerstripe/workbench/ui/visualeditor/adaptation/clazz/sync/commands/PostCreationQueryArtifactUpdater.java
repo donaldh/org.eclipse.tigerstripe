@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.commands;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
@@ -76,7 +77,7 @@ public class PostCreationQueryArtifactUpdater extends
 							.getArtifactByFullyQualifiedName(fqn);
 					if (iArt instanceof ISessionArtifact) {
 						ISessionArtifact iSession = (ISessionArtifact) iArt;
-						INamedQuery[] queries = iSession.getINamedQueries();
+						Collection<INamedQuery> queries = iSession.getNamedQueries();
 						for (INamedQuery query : queries) {
 							if (query.getFullyQualifiedName().equals(
 									getEArtifact().getFullyQualifiedName())) {

@@ -159,7 +159,7 @@ public class ConvertArtifactDialog extends TSMessageDialog {
 	protected void okPressed() {
 
 		try {
-			IArtifactManagerSession session = artifact.getIProject()
+			IArtifactManagerSession session = artifact.getTigerstripeProject()
 					.getArtifactManagerSession();
 			int index = combo.getSelectionIndex();
 			String label = combo.getItem(index);

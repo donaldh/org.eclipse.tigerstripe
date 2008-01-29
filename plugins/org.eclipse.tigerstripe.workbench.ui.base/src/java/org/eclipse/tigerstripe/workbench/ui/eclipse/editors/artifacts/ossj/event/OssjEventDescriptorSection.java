@@ -169,7 +169,7 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 		private void refreshChildren() {
 			children = new ArrayList();
 			try {
-				IArtifactManagerSession session = getIArtifact().getIProject()
+				IArtifactManagerSession session = getIArtifact().getTigerstripeProject()
 						.getArtifactManagerSession();
 
 				IAbstractArtifact artifact = session

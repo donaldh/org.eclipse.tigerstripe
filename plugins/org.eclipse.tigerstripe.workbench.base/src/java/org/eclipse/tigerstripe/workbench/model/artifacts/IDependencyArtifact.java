@@ -26,7 +26,7 @@ public interface IDependencyArtifact extends IAbstractArtifact, IRelationship {
 
 	public void setZEndType(IType zEndType);
 
-	public IType makeIType();
+	public IType makeType();
 
 	/**
 	 * The type of the AEnd for this Dependency.

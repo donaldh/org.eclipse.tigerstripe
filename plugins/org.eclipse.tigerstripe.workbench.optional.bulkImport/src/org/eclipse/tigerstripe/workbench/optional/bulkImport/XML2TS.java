@@ -459,7 +459,7 @@ public class XML2TS {
 			IAbstractArtifact exArtifact = mgrSession
 					.makeArtifact(specificType.artifactType);
 			exArtifact.setFullyQualifiedName(extendedArtifact);
-			inArtifact.setExtendedIArtifact(exArtifact);
+			inArtifact.setExtendedArtifact(exArtifact);
 
 			setLabels(artifactElement, inArtifact, out, messages);
 			setFields(artifactElement, inArtifact, out, messages);
@@ -679,10 +679,10 @@ public class XML2TS {
 
 		} else if (aType.equals(IDependencyArtifact.class.getName())) {
 			IDependencyArtifact depArt = (IDependencyArtifact) artifact;
-			IType atype = depArt.makeIType();
+			IType atype = depArt.makeType();
 			atype.setFullyQualifiedName(element.getAttribute("aEndTypeName"));
 			depArt.setAEndType(atype);
-			IType ztype = depArt.makeIType();
+			IType ztype = depArt.makeType();
 			ztype.setFullyQualifiedName(element.getAttribute("zEndTypeName"));
 			depArt.setZEndType(ztype);
 
@@ -690,7 +690,7 @@ public class XML2TS {
 			IQueryArtifact queryArt = (IQueryArtifact) artifact;
 			OssjQuerySpecifics specs = (OssjQuerySpecifics) queryArt
 					.getIStandardSpecifics();
-			IType type = queryArt.makeIType();
+			IType type = queryArt.makeType();
 			type
 					.setFullyQualifiedName(element
 							.getAttribute("returnedTypeName"));
@@ -789,32 +789,32 @@ public class XML2TS {
 		NodeList eventNodes = element.getElementsByTagNameNS(namespace,
 				"emittedEvent");
 		for (int ee = 0; ee < eventNodes.getLength(); ee++) {
-			IEmittedEvent event = session.makeIEmittedEvent();
+			IEmittedEvent event = session.makeEmittedEvent();
 			event.setFullyQualifiedName(((Element) eventNodes.item(ee))
 					.getAttribute("name"));
-			session.addIEmittedEvent(event);
+			session.addEmittedEvent(event);
 		}
 		NodeList updateNodes = element.getElementsByTagNameNS(namespace,
 				"exposedUpdateProcedure");
 		for (int up = 0; up < updateNodes.getLength(); up++) {
 			IExposedUpdateProcedure update = session
-					.makeIExposedUpdateProcedure();
+					.makeExposedUpdateProcedure();
 			update.setFullyQualifiedName(((Element) updateNodes.item(up))
 					.getAttribute("name"));
-			session.addIExposedUpdateProcedure(update);
+			session.addExposedUpdateProcedure(update);
 		}
 		NodeList queryNodes = element.getElementsByTagNameNS(namespace,
 				"exposedQuery");
 		for (int q = 0; q < queryNodes.getLength(); q++) {
-			INamedQuery query = session.makeINamedQuery();
+			INamedQuery query = session.makeNamedQuery();
 			query.setFullyQualifiedName(((Element) queryNodes.item(q))
 					.getAttribute("name"));
-			session.addINamedQuery(query);
+			session.addNamedQuery(query);
 		}
 		NodeList entityDetailNodes = element.getElementsByTagNameNS(namespace,
 				"managedEntityDetails");
 		for (int med = 0; med < entityDetailNodes.getLength(); med++) {
-			IManagedEntityDetails details = session.makeIManagedEntityDetails();
+			IManagedEntityDetails details = session.makeManagedEntityDetails();
 			Element detailElement = (Element) entityDetailNodes.item(med);
 			details.setFullyQualifiedName(detailElement.getAttribute("name"));
 
@@ -831,7 +831,7 @@ public class XML2TS {
 			 * all of this stuff..... NodeList flavorExceptionNodes =
 			 * flavor.getElementsByTagNameNS(namespace,"exceptions"); }
 			 */
-			session.addIManagedEntityDetails(details);
+			session.addManagedEntityDetails(details);
 		}
 	}
 

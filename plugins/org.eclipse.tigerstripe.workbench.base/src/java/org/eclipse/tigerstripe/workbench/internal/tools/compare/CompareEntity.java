@@ -38,15 +38,13 @@ public class CompareEntity {
 	public static ArrayList<Difference> compareImplements(
 			IAbstractArtifact aArtifact, IAbstractArtifact bArtifact) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		IAbstractArtifact[] aImpls = aArtifact.getImplementedArtifacts();
-		IAbstractArtifact[] bImpls = bArtifact.getImplementedArtifacts();
 
 		ArrayList<String> aImplsNames = new ArrayList<String>();
 		ArrayList<String> bImplsNames = new ArrayList<String>();
-		for (IAbstractArtifact imp : aImpls) {
+		for (IAbstractArtifact imp : aArtifact.getImplementedArtifacts()) {
 			aImplsNames.add(imp.getFullyQualifiedName());
 		}
-		for (IAbstractArtifact imp : bImpls) {
+		for (IAbstractArtifact imp : bArtifact.getImplementedArtifacts()) {
 			bImplsNames.add(imp.getFullyQualifiedName());
 		}
 		for (String name : aImplsNames) {

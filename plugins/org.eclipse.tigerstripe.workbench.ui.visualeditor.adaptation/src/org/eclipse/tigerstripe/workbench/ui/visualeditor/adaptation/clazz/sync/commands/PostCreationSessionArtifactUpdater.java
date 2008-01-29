@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.commands;
 
+import java.util.Collection;
+
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
@@ -44,7 +46,7 @@ public class PostCreationSessionArtifactUpdater extends
 		ISessionArtifact session = (ISessionArtifact) getIArtifact();
 
 		// look thru the supported queries
-		INamedQuery[] queries = session.getINamedQueries();
+		Collection<INamedQuery> queries = session.getNamedQueries();
 		for (INamedQuery query : queries) {
 			MapHelper helper = new MapHelper(getMap());
 			NamedQueryArtifact eQuery = (NamedQueryArtifact) helper
@@ -56,7 +58,7 @@ public class PostCreationSessionArtifactUpdater extends
 		}
 
 		// look thru the exposed update procedures
-		IExposedUpdateProcedure[] procs = session.getIExposedUpdateProcedures();
+		Collection<IExposedUpdateProcedure> procs = session.getExposedUpdateProcedures();
 		for (IExposedUpdateProcedure proc : procs) {
 			MapHelper helper = new MapHelper(getMap());
 			UpdateProcedureArtifact eProc = (UpdateProcedureArtifact) helper
@@ -68,7 +70,7 @@ public class PostCreationSessionArtifactUpdater extends
 		}
 
 		// look thru the emitted Notifications
-		IEmittedEvent[] events = session.getIEmittedEvents();
+		Collection<IEmittedEvent> events = session.getEmittedEvents();
 		for (IEmittedEvent event : events) {
 			MapHelper helper = new MapHelper(getMap());
 			NotificationArtifact eEvent = (NotificationArtifact) helper
@@ -80,7 +82,7 @@ public class PostCreationSessionArtifactUpdater extends
 		}
 
 		// look thru the emitted Notifications
-		IManagedEntityDetails[] details = session.getIManagedEntityDetails();
+		Collection<IManagedEntityDetails> details = session.getManagedEntityDetails();
 		for (IManagedEntityDetails detail : details) {
 			MapHelper helper = new MapHelper(getMap());
 			ManagedEntityArtifact eArt = (ManagedEntityArtifact) helper

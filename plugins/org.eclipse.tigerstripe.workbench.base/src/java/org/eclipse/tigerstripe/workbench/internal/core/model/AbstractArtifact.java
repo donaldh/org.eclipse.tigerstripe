@@ -175,7 +175,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	// ======================================================================
 	// since 2.2: Implemented Artifacts
-	public IAbstractArtifact[] getImplementedArtifacts() {
+	public Collection<IAbstractArtifact> getImplementedArtifacts() {
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
 		for (IAbstractArtifact art : implementedArtifacts) {
@@ -196,28 +196,24 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			}
 		}
 
-		return result.toArray(new IAbstractArtifact[result.size()]);
+		return Collections.unmodifiableCollection(result);
 	}
 
-	public void setImplementedArtifacts(IAbstractArtifact[] artifacts) {
+	public void setImplementedArtifacts(Collection<IAbstractArtifact> artifacts) {
 		implementedArtifacts.clear();
-		implementedArtifacts.addAll(Arrays.asList(artifacts));
+		implementedArtifacts.addAll(artifacts);
 	}
 
 	/**
 	 * coming from IArtifact (External API)
 	 */
-	public IAbstractArtifact[] getAncestors() {
+	public Collection<IAbstractArtifact> getAncestors() {
 		ArrayList<IAbstractArtifact> ancestors = new ArrayList<IAbstractArtifact>();
-		IAbstractArtifact[] ancArray = new IAbstractArtifact[0];
 		if (getExtendedArtifact() != null) {
 			ancestors.add(getExtendedArtifact());
-			ancestors.addAll(Arrays
-					.asList(getExtendedArtifact().getAncestors()));
-			return ancestors.toArray(ancArray);
-
-		} else
-			return new IAbstractArtifact[0];
+			ancestors.addAll(getExtendedArtifact().getAncestors());
+		} 
+		return Collections.unmodifiableCollection(ancestors);
 	}
 
 	/**
@@ -359,10 +355,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 		boolean ignoreTags = false;
 		try {
-			if (getIProject() != null) {
+			if (getTigerstripeProject() != null) {
 				// if IProject is null it means we're in a module.
 				ignoreTags = "false"
-						.equalsIgnoreCase(getIProject()
+						.equalsIgnoreCase(getTigerstripeProject()
 								.getAdvancedProperty(
 										IAdvancedProperties.PROP_MISC_IgnoreArtifactElementsWithoutTag));
 			}
@@ -429,7 +425,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 						.getFullyQualifiedName())) {
 			String parentClass = getJavaClass().getSuperJavaClass()
 					.getFullyQualifiedName();
-			setExtendedIArtifact(getArtifactManager()
+			setExtendedArtifact(getArtifactManager()
 					.getArtifactByFullyQualifiedName(parentClass, true, monitor));
 
 			if (getExtendedArtifact() == null) {
@@ -439,7 +435,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				// method below
 				AbstractArtifact art = (AbstractArtifact) makeArtifact();
 				art.setFullyQualifiedName(parentClass);
-				setExtendedIArtifact(art);
+				setExtendedArtifact(art);
 			}
 		}
 	}
@@ -526,7 +522,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			IAbstractArtifact realArtifact = getArtifactManager()
 					.getArtifactByFullyQualifiedName(fqn, true, monitor);
 			if (realArtifact != null) {
-				setExtendedIArtifact(realArtifact);
+				setExtendedArtifact(realArtifact);
 			}
 		}
 	}
@@ -1039,7 +1035,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return
 	 * @since 2.2-beta
 	 */
-	public IAbstractArtifact[] getExtendingArtifacts() {
+	public Collection<IAbstractArtifact> getExtendingArtifacts() {
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
 		for (IAbstractArtifact art : extendingArtifacts) {
@@ -1060,7 +1056,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			}
 		}
 
-		return result.toArray(new IAbstractArtifact[result.size()]);
+		return Collections.unmodifiableCollection(result);
 	}
 
 	/**
@@ -1070,16 +1066,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @param newArtifact
 	 */
 	/* package */void updateExtendingArtifacts(IAbstractArtifact newArtifact) {
-		IAbstractArtifact[] arts = getExtendingArtifacts();
+		Collection<IAbstractArtifact> arts = getExtendingArtifacts();
 		for (IAbstractArtifact art : arts) {
-			art.setExtendedIArtifact(newArtifact);
+			art.setExtendedArtifact(newArtifact);
 		}
 		clearExtendingArtifacts(); // This shouldn't be necessary as each set
 		// above will
 		// remove from our list.
 	}
 
-	public void setExtendedIArtifact(IAbstractArtifact artifact) {
+	public void setExtendedArtifact(IAbstractArtifact artifact) {
 		// Since 2.2-beta we realized that the extended artifact wasn't
 		// updated properly: when an artifact is modified, a new instance
 		// replaces
@@ -1319,7 +1315,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		persister.applyTemplate();
 	}
 
-	public IProjectDescriptor getIProjectDescriptor() {
+	public IProjectDescriptor getProjectDescriptor() {
 		return getTSProject();
 	}
 
@@ -1327,7 +1323,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * Returns a Handle for the project if it exists. Please note that for
 	 * Artifacts living in a module, this will return NULL;
 	 */
-	public ITigerstripeProject getIProject() {
+	public ITigerstripeProject getTigerstripeProject() {
 		TigerstripeProjectHandle handle = null;
 
 		if (getTSProject() == null || getTSProject().getBaseDir() == null)
@@ -1380,52 +1376,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	public abstract AbstractArtifact getModel();
 
-	/**
-	 * Returns a collection of all artifacts FQNs referenced in this artifact
-	 * 
-	 * It explores: extended artifacts, fields, method returns and method args
-	 * 
-	 * @return
-	 */
-	public Collection getReferencedArtifacts() {
-		Collection result = new ArrayList();
-
-		if (hasExtends()) {
-			result.add(getExtends().getFullyQualifiedName());
-		}
-
-		for (Iterator iter = fields.iterator(); iter.hasNext();) {
-			Field field = (Field) iter.next();
-			String fqn = field.getType().getFullyQualifiedName();
-			if (!field.getType().isPrimitive() && !result.contains(fqn))
-				result.add(fqn);
-		}
-
-		for (Iterator iter = methods.iterator(); iter.hasNext();) {
-			Method method = (Method) iter.next();
-			String fqn = method.getReturnType().getFullyQualifiedName();
-			if (!"void".equals(fqn) && !method.getReturnType().isPrimitive()
-					&& !result.contains(fqn)) {
-				result.add(fqn);
-			}
-
-			for (Iterator argIter = method.getArguments().iterator(); argIter
-					.hasNext();) {
-				Argument arg = (Argument) argIter.next();
-				if (!arg.getType().isPrimitive()
-						&& !result.contains(arg.getType()
-								.getFullyQualifiedName())) {
-					result.add(arg.getType().getFullyQualifiedName());
-				}
-			}
-
-			for (IException except : method.getExceptions()) {
-				result.add(except.getFullyQualifiedName());
-			}
-		}
-
-		return result;
-	}
 
 	public IMethod getMethodById(String methodId) {
 		for (IMethod method : methods) {
@@ -1521,9 +1471,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return getExtends();
 	}
 
-	public ITigerstripeProject getITigerstripeProject() {
-		return getIProject();
-	}
 
 	public Object[] getChildren() {
 		Collection<IField> fields = getFields();
@@ -1575,12 +1522,18 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return false;
 	}
 
-	public IAbstractArtifact[] getImplementingArtifacts() {
-		return new IAbstractArtifact[0];
+	public Collection<IAbstractArtifact> getImplementingArtifacts() {
+		return Collections.unmodifiableCollection(new ArrayList<IAbstractArtifact>());
 	}
 
-	public IAbstractArtifact[] getReferencedIArtifacts() {
+	public Collection<IAbstractArtifact> getReferencedArtifacts() {
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
+		
+		if (hasExtends()) {
+			result.add(getExtends());
+		}
+		
+		
 		for (IField field : getFields()) {
 			if (!field.getType().isPrimitive()
 					&& !(field.getType().getIArtifact() instanceof IPrimitiveTypeArtifact)
@@ -1607,12 +1560,17 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 					result.add(artType.getIArtifact());
 				}
 			}
+			
+
+			// FIXME : Include Exceptions.
+			// FIXME : Include Associations/Dependencies ?
+			
 		}
-		return result.toArray(new IAbstractArtifact[result.size()]);
+		return Collections.unmodifiableCollection(result);
 	}
 
-	public IAbstractArtifact[] getReferencingIArtifacts() {
-		return new IAbstractArtifact[0];
+	public Collection<IAbstractArtifact> getReferencingArtifacts() {
+		return Collections.unmodifiableCollection(new HashSet<IAbstractArtifact>());
 	}
 
 	// public boolean equals( Object obj ) {

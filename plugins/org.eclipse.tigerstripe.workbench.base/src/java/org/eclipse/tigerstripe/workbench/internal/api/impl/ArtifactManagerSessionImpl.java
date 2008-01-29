@@ -317,7 +317,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 		result.setComment(orig.getComment());
 		result.setFullyQualifiedName(orig.getFullyQualifiedName());
-		result.setExtendedIArtifact(orig.getExtendedArtifact());
+		result.setExtendedArtifact(orig.getExtendedArtifact());
 		result.setVisibility(orig.getVisibility());
 
 		if (orig.getIStandardSpecifics() instanceof IOssjArtifactSpecifics) {
@@ -369,11 +369,11 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 				&& model instanceof DependencyArtifact) {
 			DependencyArtifact origDep = (DependencyArtifact) orig;
 			DependencyArtifact resultDep = (DependencyArtifact) result;
-			IType aType = resultDep.makeIType();
+			IType aType = resultDep.makeType();
 			aType.setFullyQualifiedName(origDep.getAEndType()
 					.getFullyQualifiedName());
 			resultDep.setAEndType(aType);
-			IType zType = resultDep.makeIType();
+			IType zType = resultDep.makeType();
 			zType.setFullyQualifiedName(origDep.getZEndType()
 					.getFullyQualifiedName());
 			resultDep.setZEndType(zType);

@@ -60,7 +60,8 @@ public class OssjSessionNotificationsSection extends OssjSessionElementsSection 
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof ISessionArtifact) {
 				ISessionArtifact session = (ISessionArtifact) inputElement;
-				return session.getIEmittedEvents();
+				Collection<IEmittedEvent> events = session.getEmittedEvents();
+				return events.toArray();
 			}
 			return new Object[0];
 		}
@@ -172,7 +173,7 @@ public class OssjSessionNotificationsSection extends OssjSessionElementsSection 
 		if (elsd.open() == Window.OK) {
 			Object[] details = elsd.getResult();
 			for (int i = 0; i < details.length; i++) {
-				session.addIEmittedEvent((IEmittedEvent) details[i]);
+				session.addEmittedEvent((IEmittedEvent) details[i]);
 				getViewer().add(details[i]);
 				markPageModified();
 			}
@@ -186,10 +187,10 @@ public class OssjSessionNotificationsSection extends OssjSessionElementsSection 
 		// with
 		// already selected entities.
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-		List selectedOptions = Arrays.asList(session.getIEmittedEvents());
+		List selectedOptions = Arrays.asList(session.getEmittedEvents());
 
 		Collection queries = new ArrayList();
-		IArtifactManagerSession ams = session.getIProject()
+		IArtifactManagerSession ams = session.getTigerstripeProject()
 				.getArtifactManagerSession();
 		IQueryArtifactsByType query = (IQueryArtifactsByType) ams
 				.makeQuery(IQueryArtifactsByType.class.getName());
@@ -217,7 +218,7 @@ public class OssjSessionNotificationsSection extends OssjSessionElementsSection 
 			}
 
 			if (keepGoing) {
-				IEmittedEvent details = session.makeIEmittedEvent();
+				IEmittedEvent details = session.makeEmittedEvent();
 				details.setFullyQualifiedName(entity.getFullyQualifiedName());
 				result.add(details);
 			}
@@ -255,7 +256,7 @@ public class OssjSessionNotificationsSection extends OssjSessionElementsSection 
 			getViewer().remove(selectedLabels);
 
 			ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-			session.removeIEmittedEvent(selectedLabels);
+			session.removeEmittedEvent(selectedLabels);
 			markPageModified();
 		}
 		updateForm();

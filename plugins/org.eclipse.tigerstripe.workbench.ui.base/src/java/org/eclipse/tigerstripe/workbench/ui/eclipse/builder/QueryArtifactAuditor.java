@@ -46,7 +46,7 @@ public class QueryArtifactAuditor extends AbstractArtifactAuditor implements
 			// As of 1.0.6 we allow both Datatype and Entity type to be returned
 			String fqn = returnedType.getFullyQualifiedName();
 			try {
-				IArtifactManagerSession session = artifact.getIProject()
+				IArtifactManagerSession session = artifact.getTigerstripeProject()
 						.getArtifactManagerSession();
 				IAbstractArtifact returnType = session
 						.getArtifactByFullyQualifiedName(fqn);

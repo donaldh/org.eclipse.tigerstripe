@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
+import java.util.Collection;
+
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.INamedQuery;
@@ -32,7 +34,7 @@ public class SessionSupportsUpdateCommand extends AbstractArtifactUpdateCommand 
 		ISessionArtifact iSession = (ISessionArtifact) iArtifact;
 
 		session.getNamedQueries().clear();
-		INamedQuery[] details = iSession.getINamedQueries();
+		Collection<INamedQuery> details = iSession.getNamedQueries();
 		MapHelper helper = new MapHelper((Map) eArtifact.eContainer());
 		for (INamedQuery detail : details) {
 			String fqn = detail.getFullyQualifiedName();

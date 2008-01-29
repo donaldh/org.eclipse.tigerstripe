@@ -359,7 +359,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 		IAbstractArtifact extArt = session.makeArtifact(newArtifact);
 		extArt.setFullyQualifiedName(anno.getParentAnnotableElement()
 				.getFullyQualifiedName());
-		newArtifact.setExtendedIArtifact(extArt);
+		newArtifact.setExtendedArtifact(extArt);
 
 		// go thru all the attr
 		for (AnnotableElementAttribute attr : anno

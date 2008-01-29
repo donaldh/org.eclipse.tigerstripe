@@ -23,10 +23,6 @@ public class CompareSession {
 
 	public static ArrayList<Difference> compareDetails(ISessionArtifact artA,
 			ISessionArtifact artB) {
-		ISessionArtifact.IManagedEntityDetails[] aDetails = artA
-				.getIManagedEntityDetails();
-		ISessionArtifact.IManagedEntityDetails[] bDetails = artB
-				.getIManagedEntityDetails();
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 
 		String scope = "Session:ManagedEntity";
@@ -34,10 +30,10 @@ public class CompareSession {
 		Map<String, ISessionArtifact.IManagedEntityDetails> aNames = new HashMap<String, ISessionArtifact.IManagedEntityDetails>();
 		Map<String, ISessionArtifact.IManagedEntityDetails> bNames = new HashMap<String, ISessionArtifact.IManagedEntityDetails>();
 
-		for (ISessionArtifact.IManagedEntityDetails entity : aDetails) {
+		for (ISessionArtifact.IManagedEntityDetails entity : artA.getManagedEntityDetails()) {
 			aNames.put(entity.getFullyQualifiedName(), entity);
 		}
-		for (ISessionArtifact.IManagedEntityDetails entity : bDetails) {
+		for (ISessionArtifact.IManagedEntityDetails entity : artB.getManagedEntityDetails()) {
 			bNames.put(entity.getFullyQualifiedName(), entity);
 		}
 		for (String name : aNames.keySet()) {
@@ -203,18 +199,16 @@ public class CompareSession {
 
 	public static ArrayList<Difference> compareEmittedEvents(
 			ISessionArtifact artA, ISessionArtifact artB) {
-		ISessionArtifact.IEmittedEvent[] aEvents = artA.getIEmittedEvents();
-		ISessionArtifact.IEmittedEvent[] bEvents = artB.getIEmittedEvents();
 
 		String scope = "Session:Event";
 
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		ArrayList<String> aNames = new ArrayList<String>();
 		ArrayList<String> bNames = new ArrayList<String>();
-		for (ISessionArtifact.IEmittedEvent event : aEvents) {
+		for (ISessionArtifact.IEmittedEvent event : artA.getEmittedEvents()) {
 			aNames.add(event.getFullyQualifiedName());
 		}
-		for (ISessionArtifact.IEmittedEvent event : bEvents) {
+		for (ISessionArtifact.IEmittedEvent event : artA.getEmittedEvents()) {
 			bNames.add(event.getFullyQualifiedName());
 		}
 		differences.addAll(CompareUtils.compareLists(artA
@@ -225,20 +219,16 @@ public class CompareSession {
 
 	public static ArrayList<Difference> compareEmittedUpdates(
 			ISessionArtifact artA, ISessionArtifact artB) {
-		ISessionArtifact.IExposedUpdateProcedure[] aUpdates = artA
-				.getIExposedUpdateProcedures();
-		ISessionArtifact.IExposedUpdateProcedure[] bUpdates = artB
-				.getIExposedUpdateProcedures();
 
 		String scope = "Session:UpdateProcedure";
 
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		ArrayList<String> aNames = new ArrayList<String>();
 		ArrayList<String> bNames = new ArrayList<String>();
-		for (ISessionArtifact.IExposedUpdateProcedure update : aUpdates) {
+		for (ISessionArtifact.IExposedUpdateProcedure update : artA.getExposedUpdateProcedures()) {
 			aNames.add(update.getFullyQualifiedName());
 		}
-		for (ISessionArtifact.IExposedUpdateProcedure update : bUpdates) {
+		for (ISessionArtifact.IExposedUpdateProcedure update : artB.getExposedUpdateProcedures()) {
 			bNames.add(update.getFullyQualifiedName());
 		}
 		differences.addAll(CompareUtils.compareLists(artA
@@ -249,18 +239,16 @@ public class CompareSession {
 
 	public static ArrayList<Difference> compareEmittedQueries(
 			ISessionArtifact artA, ISessionArtifact artB) {
-		ISessionArtifact.INamedQuery[] aQueries = artA.getINamedQueries();
-		ISessionArtifact.INamedQuery[] bQueries = artB.getINamedQueries();
 
 		String scope = "Session:Query";
 
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		ArrayList<String> aNames = new ArrayList<String>();
 		ArrayList<String> bNames = new ArrayList<String>();
-		for (ISessionArtifact.INamedQuery query : aQueries) {
+		for (ISessionArtifact.INamedQuery query : artA.getNamedQueries()) {
 			aNames.add(query.getFullyQualifiedName());
 		}
-		for (ISessionArtifact.INamedQuery query : bQueries) {
+		for (ISessionArtifact.INamedQuery query : artB.getNamedQueries()) {
 			bNames.add(query.getFullyQualifiedName());
 		}
 		differences.addAll(CompareUtils.compareLists(artA

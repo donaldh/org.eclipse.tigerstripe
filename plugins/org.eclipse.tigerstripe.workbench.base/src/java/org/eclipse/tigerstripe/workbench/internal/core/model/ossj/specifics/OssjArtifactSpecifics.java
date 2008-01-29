@@ -70,8 +70,8 @@ public abstract class OssjArtifactSpecifics extends StandardSpecifics implements
 	public void applyDefaults() {
 		try {
 			this.interfaceProperties.put("package", "com.mycompany");
-			ITigerstripeProject tsProject = getArtifact().getIProject();
-			getArtifact().getIProject();
+			ITigerstripeProject tsProject = getArtifact().getTigerstripeProject();
+			getArtifact().getTigerstripeProject();
 			IPluginReference[] refs = tsProject.getPluginReferences();
 
 			for (IPluginReference ref : refs) {

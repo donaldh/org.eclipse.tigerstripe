@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -31,8 +32,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -233,8 +234,8 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 		TableWrapData td = null;
 
 		String projectLabel = "";
-		if (getIArtifact().getIProject() != null) {
-			projectLabel = getIArtifact().getIProject().getProjectLabel();
+		if (getIArtifact().getTigerstripeProject() != null) {
+			projectLabel = getIArtifact().getTigerstripeProject().getProjectLabel();
 		}
 
 		Label label = toolkit.createLabel(parent, "Project: ", SWT.NULL);
@@ -369,9 +370,9 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 			} else if (e.getSource() == extendNameText) {
 
 				if (extendNameText.getText().trim().length() == 0) {
-					getIArtifact().setExtendedIArtifact(null);
+					getIArtifact().setExtendedArtifact(null);
 				} else {
-					ITigerstripeProject project = getIArtifact().getIProject();
+					ITigerstripeProject project = getIArtifact().getTigerstripeProject();
 					IArtifactManagerSession session = project
 							.getArtifactManagerSession();
 
@@ -394,7 +395,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 									.getText().trim());
 						}
 					}
-					getIArtifact().setExtendedIArtifact(artifact);
+					getIArtifact().setExtendedArtifact(artifact);
 				}
 			}
 			markPageModified();
@@ -417,7 +418,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 		// Bug 789, need to handle the case of AssociationClasses differently
 		if (getIArtifact() instanceof IAssociationClassArtifact) {
-			dialog = new BrowseForArtifactDialog(getIArtifact().getIProject(),
+			dialog = new BrowseForArtifactDialog(getIArtifact().getTigerstripeProject(),
 					new IAbstractArtifact[] { AssociationClassArtifact.MODEL,
 							ManagedEntityArtifact.MODEL });
 			dialog.setTitle("Super Artifact");
@@ -430,7 +431,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 			// Fix the text for the Title and Message with the specific Artifact
 			// Type
 			// Bug # 124
-			dialog = new BrowseForArtifactDialog(getIArtifact().getIProject(),
+			dialog = new BrowseForArtifactDialog(getIArtifact().getTigerstripeProject(),
 					getIArtifact());
 			String name = getIArtifact().getClass().getSimpleName();
 			dialog.setTitle("Super " + name);
@@ -442,7 +443,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 		}
 		if (artifacts.length != 0) {
 			extendNameText.setText(artifacts[0].getFullyQualifiedName());
-			getIArtifact().setExtendedIArtifact(artifacts[0]);
+			getIArtifact().setExtendedArtifact(artifacts[0]);
 			markPageModified();
 		}
 	}
@@ -463,7 +464,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 			public Object[] getElements(Object inputElement) {
 				if (inputElement instanceof IAbstractArtifact) {
 					IAbstractArtifact art = (IAbstractArtifact) inputElement;
-					ITigerstripeProject tsProject = art.getIProject();
+					ITigerstripeProject tsProject = art.getTigerstripeProject();
 					if (tsProject != null) {
 						try {
 							IArtifactManagerSession session = tsProject
@@ -509,13 +510,13 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 		dialog
 				.setInitialSelections(ComparableArtifact
 						.asComparableArtifacts(getIArtifact()
-								.getImplementedArtifacts()));
+								.getImplementedArtifacts()).toArray());
 
 		if (dialog.open() == Window.OK) {
 			Object[] selectedObjects = dialog.getResult();
-			IAbstractArtifact[] art = new IAbstractArtifact[selectedObjects.length];
+			Collection<IAbstractArtifact> art = new ArrayList<IAbstractArtifact>();
 			for (int i = 0; i < selectedObjects.length; i++) {
-				art[i] = (IAbstractArtifact) selectedObjects[i];
+				art.add((IAbstractArtifact) selectedObjects[i]);
 			}
 			getIArtifact().setImplementedArtifacts(art);
 			implementsText.setText(getIArtifact()

@@ -1349,11 +1349,11 @@ public class TigerstripeModelingAssistantProvider extends
 					.getArtifactManagerSession();
 			IAbstractArtifact src = session
 					.getArtifactByFullyQualifiedName(srcEArtifactFQN);
-			ITigerstripeProject srcProject = src.getITigerstripeProject();
+			ITigerstripeProject srcProject = src.getTigerstripeProject();
 
 			IAbstractArtifact tgt = session
 					.getArtifactByFullyQualifiedName(tgtEArtifactFQN);
-			ITigerstripeProject tgProject = tgt.getITigerstripeProject();
+			ITigerstripeProject tgProject = tgt.getTigerstripeProject();
 
 			boolean srcIsLocal = tsProject.equals(srcProject);
 			boolean tgtIsLocal = tsProject.equals(tgProject);

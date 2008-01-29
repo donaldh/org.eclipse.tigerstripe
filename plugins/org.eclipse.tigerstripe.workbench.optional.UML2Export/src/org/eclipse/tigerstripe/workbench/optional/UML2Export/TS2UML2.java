@@ -280,28 +280,28 @@ public class TS2UML2 {
 				intf.applyStereotype(iS);
 				ArrayList emitList = new ArrayList();
 				for (IEmittedEvent emitted : ((ISessionArtifact) artifact)
-						.getIEmittedEvents()) {
+						.getEmittedEvents()) {
 					emitList.add(mapName(emitted.getFullyQualifiedName()));
 				}
 				intf.setValue(iS, "emits", emitList);
 
 				ArrayList manageList = new ArrayList();
 				for (IManagedEntityDetails details : ((ISessionArtifact) artifact)
-						.getIManagedEntityDetails()) {
+						.getManagedEntityDetails()) {
 					manageList.add(mapName(details.getFullyQualifiedName()));
 				}
 				intf.setValue(iS, "manages", manageList);
 
 				ArrayList supportList = new ArrayList();
 				for (INamedQuery query : ((ISessionArtifact) artifact)
-						.getINamedQueries()) {
+						.getNamedQueries()) {
 					supportList.add(mapName(query.getFullyQualifiedName()));
 				}
 				intf.setValue(iS, "supports", supportList);
 
 				ArrayList exposesList = new ArrayList();
 				for (IExposedUpdateProcedure proc : ((ISessionArtifact) artifact)
-						.getIExposedUpdateProcedures()) {
+						.getExposedUpdateProcedures()) {
 					exposesList.add(mapName(proc.getFullyQualifiedName()));
 				}
 				intf.setValue(iS, "exposes", exposesList);
@@ -402,9 +402,8 @@ public class TS2UML2 {
 				IManagedEntityArtifact entity = (IManagedEntityArtifact) artifact;
 				// Do the implements
 				Class clazz = makeOrFindClass(entity);
-				for (int i = 0; i < entity.getImplementedArtifacts().length; i++) {
-					Interface implClazz = makeOrFindInterface(entity
-							.getImplementedArtifacts()[i]);
+				for (IAbstractArtifact impl : entity.getImplementedArtifacts()) {
+					Interface implClazz = makeOrFindInterface(impl);
 					clazz.createInterfaceRealization("implements", implClazz);
 					this.out.println("Created implementation "
 							+ implClazz.getQualifiedName());
@@ -413,9 +412,8 @@ public class TS2UML2 {
 				IAssociationClassArtifact assocClass = (IAssociationClassArtifact) artifact;
 				// Do the implements
 				Class clazz = makeOrFindClass(assocClass);
-				for (int i = 0; i < assocClass.getImplementedArtifacts().length; i++) {
-					Interface implClazz = makeOrFindInterface(assocClass
-							.getImplementedArtifacts()[i]);
+				for (IAbstractArtifact impl :  assocClass.getImplementedArtifacts()) {
+					Interface implClazz = makeOrFindInterface(impl);
 					clazz.createInterfaceRealization("implements", implClazz);
 					this.out.println("Created implementation "
 							+ implClazz.getQualifiedName());

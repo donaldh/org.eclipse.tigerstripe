@@ -81,9 +81,9 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 							zEndType.getFullyQualifiedName());
 			if (aEndArt != null && zEndArt != null) {
 				ITigerstripeProject aEndProject = (ITigerstripeProject) aEndArt
-						.getITigerstripeProject();
+						.getTigerstripeProject();
 				ITigerstripeProject zEndProject = (ITigerstripeProject) zEndArt
-						.getITigerstripeProject();
+						.getTigerstripeProject();
 
 				ITigerstripeProject localProject = getTSProject();
 

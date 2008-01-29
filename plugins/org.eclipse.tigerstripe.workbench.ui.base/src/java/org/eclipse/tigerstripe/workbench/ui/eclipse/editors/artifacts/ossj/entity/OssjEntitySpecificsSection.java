@@ -175,7 +175,7 @@ public class OssjEntitySpecificsSection extends ArtifactSectionPart {
 
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-					getIArtifact().getIProject(),
+					getIArtifact().getTigerstripeProject(),
 					new IAbstractArtifact[] { PrimitiveTypeArtifact.MODEL,
 							DatatypeArtifact.MODEL });
 			dialog.setTitle("Artifact Type Selection");

@@ -59,7 +59,8 @@ public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof ISessionArtifact) {
 				ISessionArtifact session = (ISessionArtifact) inputElement;
-				return session.getINamedQueries();
+				Collection<INamedQuery> queries =  session.getNamedQueries();
+				return queries.toArray();
 			}
 			return new Object[0];
 		}
@@ -171,7 +172,7 @@ public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 		if (elsd.open() == Window.OK) {
 			Object[] details = elsd.getResult();
 			for (int i = 0; i < details.length; i++) {
-				session.addINamedQuery((INamedQuery) details[i]);
+				session.addNamedQuery((INamedQuery) details[i]);
 				getViewer().add(details[i]);
 				markPageModified();
 			}
@@ -184,10 +185,10 @@ public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 		// with
 		// already selected entities.
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-		List selectedOptions = Arrays.asList(session.getINamedQueries());
+		List selectedOptions = Arrays.asList(session.getNamedQueries());
 
 		Collection queries = new ArrayList();
-		IArtifactManagerSession ams = session.getIProject()
+		IArtifactManagerSession ams = session.getTigerstripeProject()
 				.getArtifactManagerSession();
 		IQueryArtifactsByType query = (IQueryArtifactsByType) ams
 				.makeQuery(IQueryArtifactsByType.class.getName());
@@ -215,7 +216,7 @@ public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 			}
 
 			if (keepGoing) {
-				INamedQuery details = session.makeINamedQuery();
+				INamedQuery details = session.makeNamedQuery();
 				details.setFullyQualifiedName(entity.getFullyQualifiedName());
 				result.add(details);
 			}
@@ -252,7 +253,7 @@ public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 			getViewer().remove(selectedLabels);
 
 			ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-			session.removeINamedQuery(selectedLabels);
+			session.removeNamedQuery(selectedLabels);
 			markPageModified();
 		}
 		updateForm();

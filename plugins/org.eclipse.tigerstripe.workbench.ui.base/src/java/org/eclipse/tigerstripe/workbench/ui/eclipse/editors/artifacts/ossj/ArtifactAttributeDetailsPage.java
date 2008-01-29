@@ -673,7 +673,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(master
-					.getIArtifact().getIProject(), new IAbstractArtifact[0]);
+					.getIArtifact().getTigerstripeProject(), new IAbstractArtifact[0]);
 			dialog.setTitle("Artifact Type Selection");
 			dialog.setMessage("Enter a filter (* = any number of characters)"
 					+ " or an empty string for no filtering: ");

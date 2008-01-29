@@ -25,5 +25,5 @@ public interface IQueryArtifact extends IAbstractArtifact {
 
 	public void setReturnedType(IType type);
 
-	public IType makeIType();
+	public IType makeType();
 }

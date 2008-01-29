@@ -687,7 +687,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 	protected String browseButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getIProject(), new IAbstractArtifact[0]);
+				getIArtifact().getTigerstripeProject(), new IAbstractArtifact[0]);
 		dialog.setIncludePrimitiveTypes(false);
 		dialog.setTitle("Association End Type");
 		dialog.setMessage("Select the type of the Association End.");

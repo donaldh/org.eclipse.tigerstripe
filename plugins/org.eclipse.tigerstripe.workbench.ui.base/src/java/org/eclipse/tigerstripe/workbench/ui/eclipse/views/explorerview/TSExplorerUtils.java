@@ -56,7 +56,7 @@ public class TSExplorerUtils {
 		// modules.
 
 		IJavaProject jProject = EclipsePlugin.getIJavaProject(artifact
-				.getIProject());
+				.getTigerstripeProject());
 		if (jProject == null)
 			// This will happen when considering artifact from Phantom Project
 			throw new TigerstripeException("Unknown path for "

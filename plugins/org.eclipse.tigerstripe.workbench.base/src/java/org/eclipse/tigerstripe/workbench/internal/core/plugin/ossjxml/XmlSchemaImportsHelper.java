@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginRef;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper.PckXSDMapping;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 /**
  * This helper class allows to build a list of imports required for a specific
@@ -148,15 +149,12 @@ public class XmlSchemaImportsHelper {
 			}
 			// }
 
-			Collection references = artifact.getReferencedArtifacts();
+			Collection<IAbstractArtifact> references = artifact.getReferencedArtifacts();
 			// TigerstripeRuntime.logInfoMessage("Looping on references (" +
 			// references.size()
 			// + ")");
-			for (Iterator refIter = references.iterator(); refIter.hasNext();) {
-				String fqn = (String) refIter.next();
-				AbstractArtifact refArtifact = mgr
-						.getArtifactByFullyQualifiedName(fqn, true,
-								new TigerstripeNullProgressMonitor());
+			for (Iterator<IAbstractArtifact> refIter = references.iterator(); refIter.hasNext();) {
+				IAbstractArtifact refArtifact =  refIter.next();
 				if (refArtifact != null
 
 				// ED: not sure why this was here. it would cause TS to ignore
@@ -167,7 +165,7 @@ public class XmlSchemaImportsHelper {
 				) {
 					// TigerstripeRuntime.logInfoMessage("Handling ref=" +
 					// refArtifact.getFullyQualifiedName() );
-					ArtifactManager parentMgr = refArtifact
+					ArtifactManager parentMgr = ((AbstractArtifact) refArtifact)
 							.getArtifactManager();
 					if (parentMgr instanceof ModuleArtifactManager) {
 						// TigerstripeRuntime.logInfoMessage(" ... found it in a
@@ -208,12 +206,12 @@ public class XmlSchemaImportsHelper {
 								 */
 							}
 						}
-					} else if (!isInSameProject(refArtifact, artifact)) {
+					} else if (!isInSameProject((AbstractArtifact) refArtifact, artifact)) {
 						// This is a ref defined in a referenced project
 						TigerstripeProject embeddedProject = null;
 						try {
 							embeddedProject = ((TigerstripeProjectHandle) refArtifact
-									.getIProject()).getTSProject();
+									.getTigerstripeProject()).getTSProject();
 						} catch (TigerstripeException e) {
 							// shouldn't happen here
 							TigerstripeRuntime.logErrorMessage(
@@ -295,8 +293,8 @@ public class XmlSchemaImportsHelper {
 
 	private boolean isInSameProject(AbstractArtifact refArtifact,
 			AbstractArtifact artifact) {
-		return refArtifact.getIProject().getURI().equals(
-				artifact.getIProject().getURI());
+		return refArtifact.getTigerstripeProject().getURI().equals(
+				artifact.getTigerstripeProject().getURI());
 	}
 
 	/**

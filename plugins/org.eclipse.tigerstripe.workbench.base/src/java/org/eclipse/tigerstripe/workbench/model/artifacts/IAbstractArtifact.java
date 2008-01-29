@@ -111,7 +111,7 @@ public interface IAbstractArtifact extends IModelComponent {
 
 	public void removeMethods(Collection<IMethod> methods);
 
-	public void setExtendedIArtifact(IAbstractArtifact artifact);
+	public void setExtendedArtifact(IAbstractArtifact artifact);
 
 	public void doSave(ITigerstripeProgressMonitor monitor)
 			throws TigerstripeException;
@@ -123,7 +123,7 @@ public interface IAbstractArtifact extends IModelComponent {
 
 	public String asText() throws TigerstripeException;
 
-	public ITigerstripeProject getIProject();
+	public ITigerstripeProject getTigerstripeProject();
 
 	/**
 	 * Sets the value of the isAbstract flag for this.
@@ -169,12 +169,12 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @return IArtifact[] - an array of all ancestors to this artifact
 	 */
-	public IAbstractArtifact[] getAncestors();
+	public Collection<IAbstractArtifact> getAncestors();
 	
 	/**
 	 * Returns an array of all the artifacts that extends this directly.
 	 */
-	public IAbstractArtifact[] getExtendingArtifacts();
+	public Collection<IAbstractArtifact> getExtendingArtifacts();
 
 	/**
 	 * Returns all children for this artifact
@@ -195,7 +195,7 @@ public interface IAbstractArtifact extends IModelComponent {
 
 	public String getImplementedArtifactsAsStr();
 
-	public void setImplementedArtifacts(IAbstractArtifact[] artifacts);
+	public void setImplementedArtifacts(Collection<IAbstractArtifact> artifacts);
 
 	public String getArtifactPath() throws TigerstripeException;
 
@@ -297,7 +297,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @return
 	 */
-	public IProjectDescriptor getIProjectDescriptor();
+	public IProjectDescriptor getProjectDescriptor();
 
 	/**
 	 * Returns the standard specific details for this artifact.
@@ -311,7 +311,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * this artifact;
 	 * 
 	 */
-	public IAbstractArtifact[] getImplementedArtifacts();
+	public Collection<IAbstractArtifact> getImplementedArtifacts();
 
 	/**
 	 * Returns an array containing all the artifacts that are implementing this.
@@ -320,7 +320,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @return Not implemented - returns an empty array
 	 */
-	public IAbstractArtifact[] getImplementingArtifacts();
+	public Collection<IAbstractArtifact> getImplementingArtifacts();
 
 	/**
 	 * Returns the inherited fields for this artifact. Only inherited fields
@@ -414,15 +414,6 @@ public interface IAbstractArtifact extends IModelComponent {
 	 */
 	public Collection<IMethod> getInheritedMethods(boolean filterFacetExcludedMethods);
 
-	/**
-	 * Returns the project that contains this artifact.
-	 * 
-	 * NOTE: if this is contained in a module, the return is null.
-	 * {@link #getIProjectDescriptor()}
-	 * 
-	 * @return the containing Project.
-	 */
-	public ITigerstripeProject getITigerstripeProject();
 
 	/**
 	 * Returns the package where this artifact is defined. If this artifact is
@@ -432,7 +423,6 @@ public interface IAbstractArtifact extends IModelComponent {
 	 */
 	public String getPackage();
 
-	public Collection<String> getReferencedArtifacts();
 
 	/**
 	 * Returns an array containing all the artifacts being referenced (through a
@@ -440,7 +430,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @return
 	 */
-	public IAbstractArtifact[] getReferencedIArtifacts();
+	public Collection<IAbstractArtifact> getReferencedArtifacts();
 
 	/**
 	 * Returns an array with all the artifacts referencing this artifact.
@@ -450,7 +440,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @return Empty array
 	 */
-	public IAbstractArtifact[] getReferencingIArtifacts();
+	public Collection<IAbstractArtifact> getReferencingArtifacts();
 
 	/**
 	 * Returns true if this artifact extends another artifact.

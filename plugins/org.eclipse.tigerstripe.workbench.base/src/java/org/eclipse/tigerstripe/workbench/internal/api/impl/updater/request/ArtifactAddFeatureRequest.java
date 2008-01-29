@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
@@ -59,38 +59,37 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 			ISessionArtifact session = (ISessionArtifact) art;
 			if (EXPOSED_PROCEDURES.equals(featureId)) {
 				IExposedUpdateProcedure proc = session
-						.makeIExposedUpdateProcedure();
+						.makeExposedUpdateProcedure();
 				proc.setFullyQualifiedName(featureValue);
-				session.addIExposedUpdateProcedure(proc);
+				session.addExposedUpdateProcedure(proc);
 				session.doSave(new TigerstripeNullProgressMonitor()); // FIXME
 			} else if (MANAGED_ENTITIES.equals(featureId)) {
 				IManagedEntityDetails details = session
-						.makeIManagedEntityDetails();
+						.makeManagedEntityDetails();
 				details.setFullyQualifiedName(featureValue);
-				session.addIManagedEntityDetails(details);
+				session.addManagedEntityDetails(details);
 				session.doSave(new TigerstripeNullProgressMonitor());
 			} else if (EMITTED_NOTIFICATIONS.equals(featureId)) {
-				IEmittedEvent event = session.makeIEmittedEvent();
+				IEmittedEvent event = session.makeEmittedEvent();
 				event.setFullyQualifiedName(featureValue);
-				session.addIEmittedEvent(event);
+				session.addEmittedEvent(event);
 				session.doSave(new TigerstripeNullProgressMonitor());
 			} else if (NAMED_QUERIES.equals(featureId)) {
-				INamedQuery query = session.makeINamedQuery();
+				INamedQuery query = session.makeNamedQuery();
 				query.setFullyQualifiedName(featureValue);
-				session.addINamedQuery(query);
+				session.addNamedQuery(query);
 				session.doSave(new TigerstripeNullProgressMonitor());
 			}
 		} else if (art instanceof IManagedEntityArtifact) {
 			IManagedEntityArtifact me = (IManagedEntityArtifact) art;
-			IAbstractArtifact[] arts = me.getImplementedArtifacts();
+			Collection<IAbstractArtifact> arts = me.getImplementedArtifacts();
 			List<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
-			list.addAll(Arrays.asList(arts));
+			list.addAll(arts);
 			IAbstractArtifact target = mgrSession
 					.getArtifactByFullyQualifiedName(featureValue);
 			if (target != null) {
 				list.add(target);
-				me.setImplementedArtifacts(list
-						.toArray(new IAbstractArtifact[list.size()]));
+				me.setImplementedArtifacts(list);
 				me.doSave(new TigerstripeNullProgressMonitor());
 			}
 		}

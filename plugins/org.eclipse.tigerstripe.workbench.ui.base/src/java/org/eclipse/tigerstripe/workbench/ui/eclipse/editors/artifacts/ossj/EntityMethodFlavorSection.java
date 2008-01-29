@@ -481,7 +481,7 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 
 	private void addExceptionButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getIProject(), ExceptionArtifact.MODEL);
+				getIArtifact().getTigerstripeProject(), ExceptionArtifact.MODEL);
 		dialog.setMessage("Select Exception Artifacts to add.");
 		dialog.setTitle("Exception Artifact Selector");
 		try {

@@ -61,7 +61,8 @@ public class OssjSessionUpdateProceduresSection extends
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof ISessionArtifact) {
 				ISessionArtifact session = (ISessionArtifact) inputElement;
-				return session.getIExposedUpdateProcedures();
+				Collection<IExposedUpdateProcedure> updates = session.getExposedUpdateProcedures();
+				return updates.toArray();
 			}
 			return new Object[0];
 		}
@@ -174,7 +175,7 @@ public class OssjSessionUpdateProceduresSection extends
 			Object[] details = elsd.getResult();
 			for (int i = 0; i < details.length; i++) {
 				session
-						.addIExposedUpdateProcedure((IExposedUpdateProcedure) details[i]);
+						.addExposedUpdateProcedure((IExposedUpdateProcedure) details[i]);
 				getViewer().add(details[i]);
 				markPageModified();
 			}
@@ -188,10 +189,10 @@ public class OssjSessionUpdateProceduresSection extends
 		// already selected entities.
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
 		List selectedOptions = Arrays.asList(session
-				.getIExposedUpdateProcedures());
+				.getExposedUpdateProcedures());
 
 		Collection procs = new ArrayList();
-		IArtifactManagerSession ams = session.getIProject()
+		IArtifactManagerSession ams = session.getTigerstripeProject()
 				.getArtifactManagerSession();
 		IQueryArtifactsByType query = (IQueryArtifactsByType) ams
 				.makeQuery(IQueryArtifactsByType.class.getName());
@@ -223,7 +224,7 @@ public class OssjSessionUpdateProceduresSection extends
 
 			if (keepGoing) {
 				IExposedUpdateProcedure details = session
-						.makeIExposedUpdateProcedure();
+						.makeExposedUpdateProcedure();
 				details.setFullyQualifiedName(entity.getFullyQualifiedName());
 				result.add(details);
 			}
@@ -262,7 +263,7 @@ public class OssjSessionUpdateProceduresSection extends
 			getViewer().remove(selectedLabels);
 
 			ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-			session.removeIExposedUpdateProcedure(selectedLabels);
+			session.removeExposedUpdateProcedure(selectedLabels);
 			markPageModified();
 		}
 		updateForm();

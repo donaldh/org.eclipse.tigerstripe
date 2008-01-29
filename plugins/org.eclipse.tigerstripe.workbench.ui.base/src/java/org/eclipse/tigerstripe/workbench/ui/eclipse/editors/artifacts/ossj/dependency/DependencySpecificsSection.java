@@ -221,12 +221,12 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 		if (!isSilentUpdate()) {
 			IDependencyArtifact dep = (IDependencyArtifact) getIArtifact();
 			if (e.getSource() == aEndTypeText) {
-				IType type = dep.makeIType();
+				IType type = dep.makeType();
 				type.setFullyQualifiedName(aEndTypeText.getText().trim());
 				dep.setAEndType(type);
 				markPageModified();
 			} else if (e.getSource() == zEndTypeText) {
-				IType type = dep.makeIType();
+				IType type = dep.makeType();
 				type.setFullyQualifiedName(zEndTypeText.getText().trim());
 				dep.setZEndType(type);
 				markPageModified();
@@ -239,7 +239,7 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 			IDependencyArtifact dep = (IDependencyArtifact) getIArtifact();
 
 			if (e.getSource() == aEndTypeBrowseButton) {
-				IType type = dep.makeIType();
+				IType type = dep.makeType();
 				String typeStr = browseButtonPressed();
 				if (typeStr != null) {
 					type.setFullyQualifiedName(typeStr);
@@ -248,7 +248,7 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 					markPageModified();
 				}
 			} else if (e.getSource() == zEndTypeBrowseButton) {
-				IType type = dep.makeIType();
+				IType type = dep.makeType();
 				String typeStr = browseButtonPressed();
 				if (typeStr != null) {
 					type.setFullyQualifiedName(typeStr);
@@ -262,7 +262,7 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 
 	protected String browseButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getIProject(), new IAbstractArtifact[0]);
+				getIArtifact().getTigerstripeProject(), new IAbstractArtifact[0]);
 		dialog.setTitle("Dependency End Type");
 		dialog.setMessage("Select the type of the Dependency End.");
 		dialog.setIncludePrimitiveTypes(false);

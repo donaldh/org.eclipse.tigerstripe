@@ -14,6 +14,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -143,7 +144,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 			Properties prop = tag.getProperties();
 			EmittedEvent eevent = new EmittedEvent(result.getArtifactManager());
 			eevent.setFullyQualifiedName(prop.getProperty("event"));
-			result.addIEmittedEvent(eevent);
+			result.addEmittedEvent(eevent);
 		}
 
 		OssjSessionFacadeSpecifics specifics = (OssjSessionFacadeSpecifics) result
@@ -198,21 +199,20 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		setIStandardSpecifics(specifics);
 	}
 
-	public Collection getManagedEntities() {
-		log.debug("returning " + this.managedEntities.size());
-		return this.managedEntities;
+	public Collection<IManagedEntityDetails> getManagedEntityDetails() {
+		return Collections.unmodifiableCollection(this.managedEntities);
 	}
 
-	public Collection getNamedQueries() {
-		return this.namedQueries;
+	public Collection<INamedQuery> getNamedQueries() {
+		return Collections.unmodifiableCollection(this.namedQueries);
 	}
 
-	public Collection getEmittedEvents() {
-		return this.emittedEvents;
+	public Collection<IEmittedEvent> getEmittedEvents() {
+		return Collections.unmodifiableCollection(this.emittedEvents);
 	}
 
-	public Collection getExposedUpdateProcedures() {
-		return this.exposedUpdateProcedures;
+	public Collection<IExposedUpdateProcedure> getExposedUpdateProcedures() {
+		return Collections.unmodifiableCollection(this.exposedUpdateProcedures);
 	}
 
 	public class NamedQuery implements INamedQuery {
@@ -367,30 +367,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		return new SessionArtifactPersister(this, writer);
 	}
 
-	public IManagedEntityDetails[] getIManagedEntityDetails() {
-		IManagedEntityDetails[] result = new IManagedEntityDetails[managedEntities
-				.size()];
-		return managedEntities.toArray(result);
-	}
-
-	public INamedQuery[] getINamedQueries() {
-		INamedQuery[] result = new INamedQuery[namedQueries.size()];
-		return (INamedQuery[]) namedQueries.toArray(result);
-	}
-
-	public IExposedUpdateProcedure[] getIExposedUpdateProcedures() {
-		IExposedUpdateProcedure[] result = new IExposedUpdateProcedure[exposedUpdateProcedures
-				.size()];
-		return (IExposedUpdateProcedure[]) exposedUpdateProcedures
-				.toArray(result);
-	}
-
-	public IEmittedEvent[] getIEmittedEvents() {
-		IEmittedEvent[] result = new IEmittedEvent[emittedEvents.size()];
-		return (IEmittedEvent[]) emittedEvents.toArray(result);
-	}
-
-	public void addIManagedEntityDetails(IManagedEntityDetails details) {
+	public void addManagedEntityDetails(IManagedEntityDetails details) {
 		// if details for the given entity already exist, we replace it
 		IManagedEntityDetails existingToRemove = null;
 		for (IManagedEntityDetails mDetails : managedEntities) {
@@ -407,47 +384,47 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		managedEntities.add(details);
 	}
 
-	public void removeIManagedEntityDetails(IManagedEntityDetails[] details) {
+	public void removeManagedEntityDetails(IManagedEntityDetails[] details) {
 		managedEntities.removeAll(Arrays.asList(details));
 	}
 
-	public void addINamedQuery(INamedQuery details) {
+	public void addNamedQuery(INamedQuery details) {
 		namedQueries.add(details);
 	}
 
-	public void removeINamedQuery(INamedQuery[] details) {
+	public void removeNamedQuery(INamedQuery[] details) {
 		namedQueries.removeAll(Arrays.asList(details));
 	}
 
-	public void addIExposedUpdateProcedure(IExposedUpdateProcedure proc) {
+	public void addExposedUpdateProcedure(IExposedUpdateProcedure proc) {
 		exposedUpdateProcedures.add(proc);
 	}
 
-	public void removeIExposedUpdateProcedure(IExposedUpdateProcedure[] proc) {
+	public void removeExposedUpdateProcedure(IExposedUpdateProcedure[] proc) {
 		exposedUpdateProcedures.removeAll(Arrays.asList(proc));
 	}
 
-	public void addIEmittedEvent(IEmittedEvent details) {
+	public void addEmittedEvent(IEmittedEvent details) {
 		emittedEvents.add(details);
 	}
 
-	public void removeIEmittedEvent(IEmittedEvent[] details) {
+	public void removeEmittedEvent(IEmittedEvent[] details) {
 		emittedEvents.removeAll(Arrays.asList(details));
 	}
 
-	public IManagedEntityDetails makeIManagedEntityDetails() {
+	public IManagedEntityDetails makeManagedEntityDetails() {
 		return new ManagedEntityDetails(getArtifactManager());
 	}
 
-	public INamedQuery makeINamedQuery() {
+	public INamedQuery makeNamedQuery() {
 		return new NamedQuery(getArtifactManager());
 	}
 
-	public IEmittedEvent makeIEmittedEvent() {
+	public IEmittedEvent makeEmittedEvent() {
 		return new EmittedEvent(getArtifactManager());
 	}
 
-	public IExposedUpdateProcedure makeIExposedUpdateProcedure() {
+	public IExposedUpdateProcedure makeExposedUpdateProcedure() {
 		return new ExposedUpdateProcedure(getArtifactManager());
 	}
 
@@ -463,33 +440,38 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		}
 		return null;
 	}
-
+/*
+ * This is commented out because the new Collection version of getReferencedArtifacts only takes Artifacts and not Strings.
+ * We would need to look up the Artifact and add that.
+ * Canm add back in if required.
+ * 
+ * 
 	@Override
-	public Collection getReferencedArtifacts() {
-		Collection result = super.getReferencedArtifacts();
+	public Collection<IAbstractArtifact> getReferencedIArtifacts() {
+		Collection<IAbstractArtifact> result = super.getReferencedIArtifacts();
 
-		Collection<ManagedEntityDetails> managedEntityDetails = getManagedEntities();
-		for (ManagedEntityDetails details : managedEntityDetails) {
-			result.add(details.getFullyQualifiedName());
+		Collection<IManagedEntityDetails> managedEntityDetails = getManagedEntityDetails();
+		for (IManagedEntityDetails details : managedEntityDetails) {
+			result.add(details.get);
 		}
 
-		Collection<NamedQuery> queries = getNamedQueries();
-		for (NamedQuery query : queries) {
-			result.add(query.getFullyQualifiedName());
+		Collection<INamedQuery> queries = getNamedQueries();
+		for (INamedQuery query : queries) {
+			result.add(query);
 		}
 
-		Collection<ExposedUpdateProcedure> procs = getExposedUpdateProcedures();
-		for (ExposedUpdateProcedure proc : procs) {
-			result.add(proc.getFullyQualifiedName());
+		Collection<IExposedUpdateProcedure> procs = getExposedUpdateProcedures();
+		for (IExposedUpdateProcedure proc : procs) {
+			result.add(proc);
 		}
 
-		Collection<EmittedEvent> events = getEmittedEvents();
-		for (EmittedEvent event : events) {
-			result.add(event.getFullyQualifiedName());
+		Collection<IEmittedEvent> events = getEmittedEvents();
+		for (IEmittedEvent event : events) {
+			result.add(event);
 		}
 
 		return result;
-	}
+	}*/
 
 	@Override
 	public void addMethod(IMethod method) {

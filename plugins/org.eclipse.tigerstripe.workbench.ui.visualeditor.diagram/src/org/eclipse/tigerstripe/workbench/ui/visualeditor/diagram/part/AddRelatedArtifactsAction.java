@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -128,8 +129,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			// Handle extending Artifacts
 			Set<IAbstractArtifact> extendingArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
-				IAbstractArtifact[] extendingArtArray = artifact
-						.getExtendingArtifacts();
+				Collection<IAbstractArtifact> extendingArtArray = artifact.getExtendingArtifacts();
 				for (IAbstractArtifact extendingArt : extendingArtArray) {
 					if (!namesOfArtifactsInMap.contains(extendingArt
 							.getFullyQualifiedName())) {
@@ -232,9 +232,9 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			// Handling implemented Artifacts
 			Set<IAbstractArtifact> implementedArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
-				IAbstractArtifact[] implementedArtArray = artifact
+				Collection<IAbstractArtifact> implementedArts = artifact
 						.getImplementedArtifacts();
-				for (IAbstractArtifact implementedArt : implementedArtArray) {
+				for (IAbstractArtifact implementedArt : implementedArts) {
 					// if an artifact of the same type isn't already in the
 					// diagram,
 					// add it to the list
@@ -250,9 +250,9 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			// Handling implementing Artifacts
 			Set<IAbstractArtifact> implementingArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
-				IAbstractArtifact[] implementingArtArray = ((IAbstractArtifact) artifact)
+				Collection<IAbstractArtifact> implementingArts = ((IAbstractArtifact) artifact)
 						.getImplementingArtifacts();
-				for (IAbstractArtifact implementingArt : implementingArtArray) {
+				for (IAbstractArtifact implementingArt : implementingArts) {
 					// if an artifact of the same type isn't already in the
 					// diagram,
 					// add it to the list
@@ -270,28 +270,26 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			// Handling referenced artifacts
 			Set<IAbstractArtifact> referencedArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
-				IAbstractArtifact[] referencedArtArray = ((IAbstractArtifact) artifact)
-						.getReferencedIArtifacts();
-				for (IAbstractArtifact referencedArt : referencedArtArray) {
-					// if an artifact of the same type isn't already in the
-					// diagram,
-					// add it to the list
-					// of implementing artifacts that could be added
-					if (!namesOfArtifactsInMap.contains(referencedArt
-							.getFullyQualifiedName())) {
-						relationshipsExist = true;
-						referencedArtifacts
-								.add((IAbstractArtifact) referencedArt);
+
+				for (IAbstractArtifact referencedArt : artifact.getReferencedArtifacts()) {
+						// if an artifact of the same type isn't already in the
+						// diagram,
+						// add it to the list
+						// of implementing artifacts that could be added
+						if (!namesOfArtifactsInMap.contains(referencedArt
+								.getFullyQualifiedName())) {
+							relationshipsExist = true;
+							referencedArtifacts
+							.add((IAbstractArtifact) referencedArt);
+						}
+
 					}
-				}
 			}
 
 			// Handling referencing artifacts
 			Set<IAbstractArtifact> referencingArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
-				IAbstractArtifact[] referencingArtArray = ((IAbstractArtifact) artifact)
-						.getReferencingIArtifacts();
-				for (IAbstractArtifact referencingArt : referencingArtArray) {
+				for (IAbstractArtifact referencingArt : artifact.getReferencingArtifacts()) {
 					// if an artifact of the same type isn't already in the
 					// diagram,
 					// add it to the list

@@ -94,10 +94,10 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			assoc.setZEnd(zEnd);
 		} else if (artifact instanceof IDependencyArtifact) {
 			IDependencyArtifact dep = (IDependencyArtifact) artifact;
-			IType aType = dep.makeIType();
+			IType aType = dep.makeType();
 			aType.setFullyQualifiedName(aEndType);
 			dep.setAEndType(aType);
-			IType zType = dep.makeIType();
+			IType zType = dep.makeType();
 			zType.setFullyQualifiedName(zEndType);
 			dep.setZEndType(zType);
 		} else if (artifact instanceof IAssociationClassArtifact) {

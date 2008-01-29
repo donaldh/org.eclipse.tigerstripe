@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
+import java.util.Collection;
+
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IEmittedEvent;
@@ -32,7 +34,7 @@ public class SessionEmitsUpdateCommand extends AbstractArtifactUpdateCommand {
 		ISessionArtifact iSession = (ISessionArtifact) iArtifact;
 
 		session.getEmittedNotifications().clear();
-		IEmittedEvent[] details = iSession.getIEmittedEvents();
+		Collection<IEmittedEvent> details = iSession.getEmittedEvents();
 		MapHelper helper = new MapHelper((Map) eArtifact.eContainer());
 		for (IEmittedEvent detail : details) {
 			String fqn = detail.getFullyQualifiedName();

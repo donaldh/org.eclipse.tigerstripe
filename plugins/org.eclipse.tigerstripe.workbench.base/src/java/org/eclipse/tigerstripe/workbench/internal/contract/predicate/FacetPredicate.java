@@ -254,7 +254,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		// If this is a Datatype, we add its subtypes and their related
 		// artifacts
 		if (artifact instanceof IDatatypeArtifact) {
-			IAbstractArtifact[] subTypes = artifact.getExtendingArtifacts();
+			Collection<IAbstractArtifact> subTypes = artifact.getExtendingArtifacts();
 			for (IAbstractArtifact subType : subTypes) {
 				if (!scope.contains(subType)) {
 					addRelatedArtifacts(scope, subType, true, monitor);
@@ -477,7 +477,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 	private Collection<IAbstractArtifact> getAncestors(
 			IAbstractArtifact artifact, boolean excludeAbstract) {
-		IAbstractArtifact[] ancestors = artifact.getAncestors();
+		Collection<IAbstractArtifact> ancestors = artifact.getAncestors();
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 		for (IAbstractArtifact arti : ancestors) {
 			if (!arti.isAbstract())
@@ -516,7 +516,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			ISessionArtifact sessionArt = (ISessionArtifact) artifact;
 
 			// Emitted events
-			for (IEmittedEvent emittedEvent : sessionArt.getIEmittedEvents()) {
+			for (IEmittedEvent emittedEvent : sessionArt.getEmittedEvents()) {
 				String fqn = emittedEvent.getFullyQualifiedName();
 				IAbstractArtifact arti = session
 						.getArtifactByFullyQualifiedName(fqn);
@@ -530,7 +530,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			}
 
 			// Named queries
-			for (INamedQuery namedQuery : sessionArt.getINamedQueries()) {
+			for (INamedQuery namedQuery : sessionArt.getNamedQueries()) {
 				String fqn = namedQuery.getFullyQualifiedName();
 				IAbstractArtifact arti = session
 						.getArtifactByFullyQualifiedName(fqn);
@@ -545,7 +545,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 			// Exposed update procs
 			for (IExposedUpdateProcedure updateProc : sessionArt
-					.getIExposedUpdateProcedures()) {
+					.getExposedUpdateProcedures()) {
 				String fqn = updateProc.getFullyQualifiedName();
 				IAbstractArtifact arti = session
 						.getArtifactByFullyQualifiedName(fqn);
@@ -560,7 +560,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 			// Managed Entities
 			for (IManagedEntityDetails managedEntity : sessionArt
-					.getIManagedEntityDetails()) {
+					.getManagedEntityDetails()) {
 				String fqn = managedEntity.getFullyQualifiedName();
 				IAbstractArtifact arti = session
 						.getArtifactByFullyQualifiedName(fqn);

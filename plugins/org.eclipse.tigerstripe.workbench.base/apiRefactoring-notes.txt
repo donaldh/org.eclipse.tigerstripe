@@ -92,6 +92,9 @@ X - This is bizarre - all of the getIxxx return an Array of stuff, but the (inte
 	persistence options could be envisioned?
 - asText() should be removed as it is only relevant to POJO persistence.
 - write(...) should be removed as it is only relevant to POJO persistence.
+R  - getReferencedArtifacts and getReferencedIArtifacts return Artifcats and Strings respectively. This is inconsistent. And the implementation are duplicating much of the same code.
+  Need to review the requirements of this class to see if Assocs should be handled as well.
+R - more methods to return Collections -getAncestors etc
 
 
 ###################################
@@ -112,3 +115,7 @@ in IArtifactManagerSession
 ###################################
 in IType
 - remove deprecated methods/fields - this has very far reaching consequences
+
+##################################
+IStereotypeCapabable, IStereoType (See also IMethod)
+- change ArrayBased methdos to Collection

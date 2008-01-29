@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.sess
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -75,7 +76,8 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof ISessionArtifact) {
 				ISessionArtifact session = (ISessionArtifact) inputElement;
-				return session.getIManagedEntityDetails();
+				Collection details = session.getManagedEntityDetails();
+				return details.toArray();
 			}
 			return new Object[0];
 		}
@@ -195,7 +197,7 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 			if (dialog.open() == Window.OK) {
 				// Apply changes
 				ISessionArtifact sessionArt = (ISessionArtifact) getIArtifact();
-				sessionArt.addIManagedEntityDetails(clonedSelection); // This
+				sessionArt.addManagedEntityDetails(clonedSelection); // This
 				// will
 				// replace
 				// the
@@ -229,7 +231,7 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 			Object[] details = elsd.getResult();
 			for (int i = 0; i < details.length; i++) {
 				session
-						.addIManagedEntityDetails((IManagedEntityDetails) details[i]);
+						.addManagedEntityDetails((IManagedEntityDetails) details[i]);
 				getViewer().add(details[i]);
 				markPageModified();
 			}
@@ -245,10 +247,10 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 		// already selected entities.
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
 		List selectedOptions = Arrays
-				.asList(session.getIManagedEntityDetails());
+				.asList(session.getManagedEntityDetails());
 
 		Collection entities = new ArrayList();
-		IArtifactManagerSession ams = session.getIProject()
+		IArtifactManagerSession ams = session.getTigerstripeProject()
 				.getArtifactManagerSession();
 		IQueryArtifactsByType query = (IQueryArtifactsByType) ams
 				.makeQuery(IQueryArtifactsByType.class.getName());
@@ -279,7 +281,7 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 
 			if (keepGoing) {
 				IManagedEntityDetails details = session
-						.makeIManagedEntityDetails();
+						.makeManagedEntityDetails();
 				details.setFullyQualifiedName(entity.getFullyQualifiedName());
 				result.add(details);
 			}
@@ -317,7 +319,7 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 			getViewer().remove(selectedLabels);
 
 			ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-			session.removeIManagedEntityDetails(selectedLabels);
+			session.removeManagedEntityDetails(selectedLabels);
 			markPageModified();
 		}
 		updateForm();

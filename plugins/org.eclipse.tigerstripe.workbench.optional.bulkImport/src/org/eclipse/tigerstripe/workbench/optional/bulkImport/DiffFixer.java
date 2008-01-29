@@ -141,7 +141,7 @@ public class DiffFixer {
 										"Artifact:Extends", "", extName, ""));
 							}
 							// set it to null for now
-							newArt.setExtendedIArtifact(null);
+							newArt.setExtendedArtifact(null);
 
 							newArt.doSave(new TigerstripeNullProgressMonitor());
 							String msgText = "INFO : Added Artifact "
@@ -193,7 +193,7 @@ public class DiffFixer {
 						IAbstractArtifact extArtifact = mgrSession
 								.getArtifactByFullyQualifiedName(fqn);
 						// if (extArtifact != null){
-						artifact.setExtendedIArtifact(extArtifact);
+						artifact.setExtendedArtifact(extArtifact);
 						String msgText = "INFO : Updated Extends for "
 								+ diff.getLocal();
 						out.println(msgText);
@@ -213,11 +213,11 @@ public class DiffFixer {
 					try {
 						String fqnList = diff.getLocalVal();
 						String[] fqnArray = fqnList.split(",");
-						IAbstractArtifact[] implArray = new IAbstractArtifact[fqnArray.length];
+						Collection<IAbstractArtifact> implArray = new ArrayList<IAbstractArtifact>();
 						for (int f = 0; f < fqnArray.length; f++) {
 							// They might not exist just yet so make one..
 							// This should have no long term effects...
-							implArray[f] = mgrSession.makeArtifact(fqnArray[f]);
+							implArray.add((IAbstractArtifact) mgrSession.makeArtifact(fqnArray[f]));
 						}
 						artifact.setImplementedArtifacts(implArray);
 						String msgText = "INFO : Updated Implements for "
@@ -1258,9 +1258,9 @@ public class DiffFixer {
 						} else {
 							// This is new XML Thing
 							IManagedEntityDetails q = session
-									.makeIManagedEntityDetails();
+									.makeManagedEntityDetails();
 							q.setFullyQualifiedName(diff.getObject());
-							session.addIManagedEntityDetails(q);
+							session.addManagedEntityDetails(q);
 							session
 									.doSave(new TigerstripeNullProgressMonitor());
 							String msgText = "INFO : Managed Entity "
@@ -1277,9 +1277,9 @@ public class DiffFixer {
 							out.println(msgText);
 						} else {
 							// This is new XML Thing
-							IEmittedEvent q = session.makeIEmittedEvent();
+							IEmittedEvent q = session.makeEmittedEvent();
 							q.setFullyQualifiedName(diff.getObject());
-							session.addIEmittedEvent(q);
+							session.addEmittedEvent(q);
 							session
 									.doSave(new TigerstripeNullProgressMonitor());
 							String msgText = "INFO : Added Event "
@@ -1298,9 +1298,9 @@ public class DiffFixer {
 						} else {
 							// This is new XML Thing
 							IExposedUpdateProcedure q = session
-									.makeIExposedUpdateProcedure();
+									.makeExposedUpdateProcedure();
 							q.setFullyQualifiedName(diff.getObject());
-							session.addIExposedUpdateProcedure(q);
+							session.addExposedUpdateProcedure(q);
 							session
 									.doSave(new TigerstripeNullProgressMonitor());
 							String msgText = "INFO : Added UpdateProcedure "
@@ -1317,9 +1317,9 @@ public class DiffFixer {
 							out.println(msgText);
 						} else {
 							// This is new XML Thing
-							INamedQuery q = session.makeINamedQuery();
+							INamedQuery q = session.makeNamedQuery();
 							q.setFullyQualifiedName(diff.getObject());
-							session.addINamedQuery(q);
+							session.addNamedQuery(q);
 							session
 									.doSave(new TigerstripeNullProgressMonitor());
 							String msgText = "INFO : Added Named Query "

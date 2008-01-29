@@ -90,7 +90,7 @@ public class SchemaUtils {
 				} else {
 					try {
 						parentProject = ((TigerstripeProjectHandle) artifact
-								.getIProject()).getTSProject();
+								.getTigerstripeProject()).getTSProject();
 						// TigerstripeRuntime.logInfoMessage(" Found fqn=" + fqn
 						// + " in project " + parentProject.getProjectLabel());
 					} catch (TigerstripeException e) {

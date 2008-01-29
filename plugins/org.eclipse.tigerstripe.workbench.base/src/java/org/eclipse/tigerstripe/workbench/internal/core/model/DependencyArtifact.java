@@ -82,14 +82,14 @@ public class DependencyArtifact extends AbstractArtifact implements
 			if (tag != null) {
 				// extracting aEnd
 				String typeStr = field.getType().getValue();
-				IType type = makeIType();
+				IType type = makeType();
 				type.setFullyQualifiedName(typeStr);
 				setAEndType(type);
 			} else {
 				tag = field.getTagByName(ZEND_TAG);
 				if (tag != null) {
 					String typeStr = field.getType().getValue();
-					IType type = makeIType();
+					IType type = makeType();
 					type.setFullyQualifiedName(typeStr);
 					setZEndType(type);
 				}
@@ -101,7 +101,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 		return LABEL;
 	}
 
-	public IType makeIType() {
+	public IType makeType() {
 		return new Type(getArtifactManager());
 	}
 

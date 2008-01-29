@@ -78,10 +78,10 @@ public abstract class ArtifactSectionPart extends TigerstripeSectionPart {
 			String fqn = text.getText();
 			if (fqn != null && fqn.length() != 0) {
 				if (getIArtifact() != null
-						&& getIArtifact().getIProject() != null) {
+						&& getIArtifact().getTigerstripeProject() != null) {
 					try {
 						IArtifactManagerSession session = getIArtifact()
-								.getIProject().getArtifactManagerSession();
+								.getTigerstripeProject().getArtifactManagerSession();
 						IAbstractArtifact target = session
 								.getArtifactByFullyQualifiedName(fqn);
 						if (target != null) {

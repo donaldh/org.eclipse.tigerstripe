@@ -562,7 +562,7 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 
 	private void addExceptionButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				parentSessionArtifact.getIProject(), ExceptionArtifact.MODEL);
+				parentSessionArtifact.getTigerstripeProject(), ExceptionArtifact.MODEL);
 		dialog.setMessage("Select Exception Artifacts to add.");
 		dialog.setTitle("Exception Artifact Selector");
 		try {

@@ -92,10 +92,10 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	@Override
 	protected void closeMyself() {
 		try {
-			if (artifact != null && artifact.getIProject() != null) {
-				artifact.getIProject().getArtifactManagerSession()
+			if (artifact != null && artifact.getTigerstripeProject() != null) {
+				artifact.getTigerstripeProject().getArtifactManagerSession()
 						.removeArtifactChangeListener(this);
-				artifact.getIProject().getArtifactManagerSession()
+				artifact.getTigerstripeProject().getArtifactManagerSession()
 						.removeArtifactChangeListener(this);
 			}
 		} catch (TigerstripeException e) {
@@ -120,10 +120,10 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 			setIArtifact(artifact);
 
 			try {
-				if (artifact != null && artifact.getIProject() != null) {
-					artifact.getIProject().getArtifactManagerSession()
+				if (artifact != null && artifact.getTigerstripeProject() != null) {
+					artifact.getTigerstripeProject().getArtifactManagerSession()
 							.addArtifactChangeListener(this);
-					artifact.getIProject().getArtifactManagerSession()
+					artifact.getTigerstripeProject().getArtifactManagerSession()
 							.addActiveFacetListener(this);
 				}
 			} catch (TigerstripeException e) {
@@ -267,7 +267,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		FileEditorInput input = (FileEditorInput) sourcePage.getEditorInput();
 		IAbstractArtifact originalArtifact = getIArtifact();
 
-		ITigerstripeProject project = originalArtifact.getIProject();
+		ITigerstripeProject project = originalArtifact.getTigerstripeProject();
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 
 		if (sourcePage.getDocumentProvider().getDocument(input) != null) { // Bug
@@ -336,8 +336,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	@Override
 	public void dispose() {
 		try {
-			if (artifact != null && artifact.getIProject() != null) {
-				artifact.getIProject().getArtifactManagerSession()
+			if (artifact != null && artifact.getTigerstripeProject() != null) {
+				artifact.getTigerstripeProject().getArtifactManagerSession()
 						.removeArtifactChangeListener(this);
 			}
 		} catch (TigerstripeException e) {

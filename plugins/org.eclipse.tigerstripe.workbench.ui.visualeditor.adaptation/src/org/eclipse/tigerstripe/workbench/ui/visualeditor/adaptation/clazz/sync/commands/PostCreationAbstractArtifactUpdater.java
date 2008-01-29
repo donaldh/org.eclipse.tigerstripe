@@ -10,11 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.commands;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
@@ -271,7 +272,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 				}
 
 				// take care of artifacts implementing this new object
-				if (mirror.getImplementedArtifacts().length != 0) {
+				if (mirror.getImplementedArtifacts().size() != 0) {
 					for (IAbstractArtifact iArt : mirror
 							.getImplementedArtifacts()) {
 						if (iArt.getFullyQualifiedName().equals(
@@ -336,8 +337,8 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 		}
 
 		// Take care of Implements
-		if (getIArtifact().getImplementedArtifacts().length != 0) {
-			IAbstractArtifact[] arts = getIArtifact().getImplementedArtifacts();
+		if (getIArtifact().getImplementedArtifacts().size() != 0) {
+			Collection<IAbstractArtifact> arts = getIArtifact().getImplementedArtifacts();
 			for (IAbstractArtifact art : arts) {
 				AbstractArtifact eArt = helper.findAbstractArtifactFor(art);
 				if (eArt != null) {

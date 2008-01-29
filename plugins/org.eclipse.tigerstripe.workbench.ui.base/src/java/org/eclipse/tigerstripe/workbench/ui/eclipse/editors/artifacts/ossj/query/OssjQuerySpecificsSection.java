@@ -218,7 +218,7 @@ public class OssjQuerySpecificsSection extends ArtifactSectionPart {
 
 	private void browseButtonPressed() throws TigerstripeException {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getIProject(), new IAbstractArtifact[] {
+				getIArtifact().getTigerstripeProject(), new IAbstractArtifact[] {
 						ManagedEntityArtifact.MODEL, DatatypeArtifact.MODEL });
 		dialog.setTitle("Returned Type");
 		dialog.setMessage("Select the type of the returned Entities.");

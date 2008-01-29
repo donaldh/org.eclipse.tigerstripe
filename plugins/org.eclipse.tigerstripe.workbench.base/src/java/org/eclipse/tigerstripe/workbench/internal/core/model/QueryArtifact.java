@@ -73,7 +73,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 		return getReturnedEntityType();
 	}
 
-	public IType makeIType() {
+	public IType makeType() {
 		return new Type(getArtifactManager());
 	}
 

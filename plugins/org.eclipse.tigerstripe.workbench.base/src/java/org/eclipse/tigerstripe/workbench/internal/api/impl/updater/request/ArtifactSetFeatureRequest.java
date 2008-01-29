@@ -85,7 +85,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 				target = mgrSession
 						.getArtifactByFullyQualifiedName(featureValue);
 			}
-			artifact.setExtendedIArtifact(target);
+			artifact.setExtendedArtifact(target);
 			artifact.doSave(new TigerstripeNullProgressMonitor());
 		} else if (ISABSTRACT_FEATURE.equals(featureId)) {
 			IAbstractArtifact artifact = (IAbstractArtifact) art;
@@ -98,7 +98,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 			IType type = null;
 
 			if (featureValue != null) {
-				type = artifact.makeIType();
+				type = artifact.makeType();
 				type.setFullyQualifiedName(featureValue);
 			}
 			artifact.setReturnedType(type);

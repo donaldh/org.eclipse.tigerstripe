@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class ImplementsUpdateCommand extends AbstractArtifactUpdateCommand {
 	@Override
 	public void updateEArtifact(AbstractArtifact eArtifact,
 			IAbstractArtifact iArtifact) {
-		IAbstractArtifact[] iImplements = new IAbstractArtifact[0];
+		Collection<IAbstractArtifact> iImplements = new ArrayList<IAbstractArtifact>();
 		if (iArtifact.getImplementedArtifacts() != null) {
 			iImplements = iArtifact.getImplementedArtifacts();
 		}
@@ -37,7 +39,7 @@ public class ImplementsUpdateCommand extends AbstractArtifactUpdateCommand {
 
 		Map map = (Map) eArtifact.eContainer();
 		MapHelper helper = new MapHelper(map);
-		if (eImplements.size() != iImplements.length) {
+		if (eImplements.size() != iImplements.size()) {
 			eImplements.clear();
 			for (IAbstractArtifact iImpl : iImplements) {
 				AbstractArtifact eArt = helper.findAbstractArtifactFor(iImpl);

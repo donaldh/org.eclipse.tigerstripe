@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
+import java.util.Collection;
+
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IExposedUpdateProcedure;
@@ -32,8 +34,8 @@ public class SessionExposesUpdateCommand extends AbstractArtifactUpdateCommand {
 		ISessionArtifact iSession = (ISessionArtifact) iArtifact;
 
 		session.getExposedProcedures().clear();
-		IExposedUpdateProcedure[] details = iSession
-				.getIExposedUpdateProcedures();
+		Collection<IExposedUpdateProcedure> details = iSession
+				.getExposedUpdateProcedures();
 		MapHelper helper = new MapHelper((Map) eArtifact.eContainer());
 		for (IExposedUpdateProcedure detail : details) {
 			String fqn = detail.getFullyQualifiedName();

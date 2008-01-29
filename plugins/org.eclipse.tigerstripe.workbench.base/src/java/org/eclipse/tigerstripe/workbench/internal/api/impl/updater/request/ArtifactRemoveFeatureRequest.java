@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
@@ -48,15 +49,14 @@ public class ArtifactRemoveFeatureRequest extends BaseArtifactElementRequest
 		if (art instanceof IManagedEntityArtifact
 				|| art instanceof IAssociationClassArtifact) {
 			IAbstractArtifact me = (IAbstractArtifact) art;
-			IAbstractArtifact[] arts = me.getImplementedArtifacts();
+			Collection<IAbstractArtifact> arts = me.getImplementedArtifacts();
 			List<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
-			list.addAll(Arrays.asList(arts));
+			list.addAll(arts);
 			IAbstractArtifact target = mgrSession
 					.getArtifactByFullyQualifiedName(featureValue);
 			if (target != null) {
 				list.remove(target);
-				me.setImplementedArtifacts(list
-						.toArray(new IAbstractArtifact[list.size()]));
+				me.setImplementedArtifacts(list);
 				me.doSave(new TigerstripeNullProgressMonitor());
 			}
 		}

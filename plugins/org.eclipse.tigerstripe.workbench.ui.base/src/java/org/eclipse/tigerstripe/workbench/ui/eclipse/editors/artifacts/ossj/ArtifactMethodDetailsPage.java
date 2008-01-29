@@ -1136,7 +1136,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(master
-					.getIArtifact().getIProject(), new IAbstractArtifact[0]);
+					.getIArtifact().getTigerstripeProject(), new IAbstractArtifact[0]);
 			dialog.setTitle("Artifact Type Selection");
 			dialog.setMessage("Enter a filter (* = any number of characters)"
 					+ " or an empty string for no filtering: ");
@@ -1257,7 +1257,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		// IJavaElement elem = JavaCore.create(input.getFile());
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(master
-					.getIArtifact().getIProject(), ExceptionArtifact.MODEL);
+					.getIArtifact().getTigerstripeProject(), ExceptionArtifact.MODEL);
 			// Fix the text for the Title and Message with the specific Artifact
 			// Type
 			// Bug # 124
@@ -1389,7 +1389,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		ArgumentEditDialog dialog = new ArgumentEditDialog(master.getSection()
 				.getShell(), selectedArgs[0], Arrays.asList(getMethod()
-				.getArguments()), elem, master.getIArtifact().getIProject());
+				.getArguments()), elem, master.getIArtifact().getTigerstripeProject());
 
 		if (dialog.open() == 0) {
 			pageModified();

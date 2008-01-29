@@ -105,7 +105,7 @@ public class RefactorActionHelper {
 		// Figure out the list of projects to refresh
 		for (ArtifactUnitPair pair : selectedArtifacts) {
 			if (!pair.unit.exists()) {
-				ITigerstripeProject prj = pair.artifact.getIProject();
+				ITigerstripeProject prj = pair.artifact.getTigerstripeProject();
 				if (prj != null) {
 					projectsToRefresh.add(prj);
 				}
