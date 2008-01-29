@@ -8,3 +8,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.tigerstripe.annotations
 Eclipse-LazyStart: true
+Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
