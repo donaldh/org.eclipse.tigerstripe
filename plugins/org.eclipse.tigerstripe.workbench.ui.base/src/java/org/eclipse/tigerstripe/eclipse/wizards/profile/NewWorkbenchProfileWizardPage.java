@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 
@@ -52,7 +53,7 @@ public class NewWorkbenchProfileWizardPage extends WizardNewFileCreationPage {
 	 */
 	@Override
 	protected InputStream getInitialContents() {
-		IWorkbenchProfile emptyProfile = TigerstripeCore.getIWorkbenchProfileSession()
+		WorkbenchProfile emptyProfile = (WorkbenchProfile) TigerstripeCore.getIWorkbenchProfileSession()
 				.makeWorkbenchProfile();
 
 		String name = this.getFileName();

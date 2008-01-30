@@ -29,6 +29,7 @@ import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchProfileRole;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -60,7 +61,7 @@ public class ProfileEditor extends TigerstripeFormEditor {
 
 	private ProfileSourcePage sourcePage;
 
-	private IWorkbenchProfile profile;
+	private WorkbenchProfile profile;
 
 	private void updateTitle() {
 		IEditorInput input = getEditorInput();
@@ -82,12 +83,12 @@ public class ProfileEditor extends TigerstripeFormEditor {
 		return jProject;
 	}
 
-	public IWorkbenchProfile getProfile() throws TigerstripeException {
+	public WorkbenchProfile getProfile() throws TigerstripeException {
 		if (profile == null) {
 			if (getEditorInput() instanceof FileEditorInput) {
 				IFile file = ((FileEditorInput) getEditorInput()).getFile();
 				try {
-					profile = TigerstripeCore.getIWorkbenchProfileSession()
+					profile = (WorkbenchProfile) TigerstripeCore.getIWorkbenchProfileSession()
 							.getWorkbenchProfileFor(
 									file.getLocation().toOSString());
 				} catch (TigerstripeException e) {

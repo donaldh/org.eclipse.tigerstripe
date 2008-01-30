@@ -38,6 +38,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.primitiveType.PrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
@@ -286,7 +287,7 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 
 		try {
 			ProfileEditor editor = (ProfileEditor) getPage().getEditor();
-			IWorkbenchProfile profile = editor.getProfile();
+			WorkbenchProfile profile = (WorkbenchProfile) editor.getProfile();
 			String name = findNewTypeName();
 
 			PrimitiveTypeDef newPrimitiveTypeDef = new PrimitiveTypeDef();
@@ -347,7 +348,7 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 		IPrimitiveTypeDef primitiveTypeDef = (IPrimitiveTypeDef) selectedItems[0]
 				.getData();
 		try {
-			IWorkbenchProfile profile = ((ProfileEditor) getPage().getEditor())
+			WorkbenchProfile profile = ((ProfileEditor) getPage().getEditor())
 					.getProfile();
 			profile.setDefaultPrimitiveType(primitiveTypeDef);
 			((PrimitiveTypeLabelProvider) viewer.getLabelProvider())

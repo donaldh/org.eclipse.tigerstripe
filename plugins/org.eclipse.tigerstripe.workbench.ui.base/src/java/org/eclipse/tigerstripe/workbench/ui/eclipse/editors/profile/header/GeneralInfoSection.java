@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchProfileRole;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -573,7 +574,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					.getEditorInput();
 
 			try {
-				IWorkbenchProfile handle = TigerstripeCore.getIWorkbenchProfileSession()
+				WorkbenchProfile handle = (WorkbenchProfile) TigerstripeCore.getIWorkbenchProfileSession()
 						.getWorkbenchProfileFor(
 								input.getFile().getLocation().toOSString());
 

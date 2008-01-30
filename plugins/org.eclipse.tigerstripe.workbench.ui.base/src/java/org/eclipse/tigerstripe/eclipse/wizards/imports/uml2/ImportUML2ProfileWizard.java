@@ -33,6 +33,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.primitiveType.PrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeAttributeFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
@@ -171,7 +172,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 		// mapExistence = this.firstPage.getMapExistence();
 		try {
 			File pro = new File(this.firstPage.getProfileFilename());
-			IWorkbenchProfile handle = TigerstripeCore.getIWorkbenchProfileSession()
+			WorkbenchProfile handle = (WorkbenchProfile) TigerstripeCore.getIWorkbenchProfileSession()
 					.getWorkbenchProfileFor(pro.getAbsolutePath());
 			Utilities.setupPaths();
 			loadProfile(handle, new File(this.firstPage.getFilename()), monitor);
@@ -215,7 +216,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 
 	}
 
-	private void loadProfile(IWorkbenchProfile handle, File source,
+	private void loadProfile(WorkbenchProfile handle, File source,
 			IProgressMonitor monitor) {
 		File logFile = new File(source + "/TSLoadprofile.log");
 
@@ -269,7 +270,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 
 	}
 
-	private void loadUMLModel(Model model, IWorkbenchProfile handle,
+	private void loadUMLModel(Model model, WorkbenchProfile handle,
 			SubProgressMonitor subMonitor) {
 		ArrayList existingDefs = new ArrayList();
 		Collection<IPrimitiveTypeDef> defs = handle.getPrimitiveTypeDefs(true);
@@ -311,7 +312,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 		}
 	}
 
-	private void loadUMLProfile(Profile profile, IWorkbenchProfile handle,
+	private void loadUMLProfile(Profile profile, WorkbenchProfile handle,
 			Model model, SubProgressMonitor subMonitor) {
 		TreeIterator t = profile.eAllContents();
 		subMonitor.beginTask("Processing UML Classes ", profile

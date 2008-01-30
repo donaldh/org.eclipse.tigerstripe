@@ -17,6 +17,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -73,7 +74,7 @@ public class StereotypesSection extends BaseStereotypeSectionPart implements
 
 		try {
 			ProfileEditor editor = (ProfileEditor) getPage().getEditor();
-			IWorkbenchProfile profile = editor.getProfile();
+			WorkbenchProfile profile = editor.getProfile();
 			String name = findNewStereotypeName();
 
 			Stereotype newStereotype = new Stereotype(profile);

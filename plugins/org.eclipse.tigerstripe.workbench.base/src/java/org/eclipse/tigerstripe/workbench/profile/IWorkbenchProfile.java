@@ -64,21 +64,21 @@ public interface IWorkbenchProfile {
 	public final static String XML_VERSION = "version";
 	public final static String XML_DESCRIPTION = "description";
 
-	public void setName(String name);
+	//public void setName(String name);
 
 	public String getName();
 
-	public void setVersion(String version);
+	//public void setVersion(String version);
 
 	public String getVersion();
 
-	public void setDescription(String description);
+	//public void setDescription(String description);
 
 	public String getDescription();
 
 	public Collection<IStereotype> getStereotypes();
 
-	public void setStereotypes(Collection<IStereotype> stereotypes)
+	/*public void setStereotypes(Collection<IStereotype> stereotypes)
 			throws TigerstripeException;
 
 	public void addStereotype(IStereotype stereotype)
@@ -88,11 +88,11 @@ public interface IWorkbenchProfile {
 			throws TigerstripeException;
 
 	public void removeStereotypes(Collection<IStereotype> stereotype)
-			throws TigerstripeException;
+			throws TigerstripeException;*/
 
 	public Collection<IPrimitiveTypeDef> getPrimitiveTypeDefs(boolean includeReservedTypes);
 
-	public void setPrimitiveTypeDefs(Collection<IPrimitiveTypeDef> primitiveTypeDefs)
+	/*public void setPrimitiveTypeDefs(Collection<IPrimitiveTypeDef> primitiveTypeDefs)
 			throws TigerstripeException;
 
 	public void addPrimitiveTypeDef(IPrimitiveTypeDef stereotype)
@@ -105,7 +105,7 @@ public interface IWorkbenchProfile {
 			throws TigerstripeException;
 
 	public void setDefaultPrimitiveType(IPrimitiveTypeDef stereotype)
-			throws TigerstripeException;
+			throws TigerstripeException;*/
 
 	public IPrimitiveTypeDef getDefaultPrimitiveType();
 
@@ -163,7 +163,7 @@ public interface IWorkbenchProfile {
 	 * @param propertyName
 	 * @param property
 	 */
-	public void setProperty(String propertyName,
-			IWorkbenchProfileProperty property);
+	/*public void setProperty(String propertyName,
+			IWorkbenchProfileProperty property);*/
 
 }
