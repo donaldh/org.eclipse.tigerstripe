@@ -103,7 +103,8 @@ X - Removed all superfluous add/set/remove/get Fields that are inherited from IA
 
 ###################################
 In IWorkbenchProfile
-- remove all returned arrays and replace with corresponding collections.
+R - remove all returned arrays and replace with corresponding collections.
+R - removed "writing" methods
 - parse(..) and asText(..) should be removed.
 
 ###################################
@@ -111,6 +112,7 @@ in IArtifactManagerSession
 - remove extractArtifact
 - remove extractArtifactModel
 - Revisit once Artifact lifecycle is clarified.
+R - Change Arrays to Collections
 
 ###################################
 in IType

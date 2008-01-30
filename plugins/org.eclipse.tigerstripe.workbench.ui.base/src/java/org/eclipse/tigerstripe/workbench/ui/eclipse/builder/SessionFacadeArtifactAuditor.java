@@ -59,7 +59,7 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 
 		try {
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-					.getIWorkbenchProfileSession().getActiveProfile()
+					.getWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 			IArtifactManagerSession session = artifact.getTigerstripeProject()
@@ -129,7 +129,7 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 
 		try {
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-					.getIWorkbenchProfileSession().getActiveProfile()
+					.getWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 			IArtifactManagerSession session = artifact.getTigerstripeProject()
 					.getArtifactManagerSession();
@@ -164,7 +164,7 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 
 		try {
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-					.getIWorkbenchProfileSession().getActiveProfile()
+					.getWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 			IArtifactManagerSession session = artifact.getTigerstripeProject()
 					.getArtifactManagerSession();

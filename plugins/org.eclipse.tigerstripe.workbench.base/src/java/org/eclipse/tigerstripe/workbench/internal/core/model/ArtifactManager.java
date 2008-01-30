@@ -220,7 +220,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		// Register for changes in the profile... except for the Phantom project
 		// artifact mgr!
 		if (!(tsProject instanceof PhantomTigerstripeProject)) {
-			TigerstripeCore.getIWorkbenchProfileSession()
+			TigerstripeCore.getWorkbenchProfileSession()
 					.addActiveProfileListener(this);
 		}
 	}
@@ -317,7 +317,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		// @since 1.2
 		// All core artifacts are conditioned by the active profile
 		IWorkbenchProfile profile = TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile();
+				.getWorkbenchProfileSession().getActiveProfile();
 		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 				.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 
@@ -1767,7 +1767,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * @param fqn
 	 * @return
 	 */
-	public synchronized IAbstractArtifact[] getAllKnownArtifactsByFullyQualifiedName(
+	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
 			String fqn, ITigerstripeProgressMonitor monitor) {
 		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
@@ -1779,34 +1779,32 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		}
 
 		// get modules references then
-		IAbstractArtifact[] moduleArts = getAllKnownArtifactsByFullyQualifiedNameInModules(
+		Collection<IAbstractArtifact> moduleArts = getAllKnownArtifactsByFullyQualifiedNameInModules(
 				fqn, monitor);
-		if (moduleArts.length != 0) {
+		if (moduleArts.size() != 0) {
 			for (IAbstractArtifact art : moduleArts)
 				result.add(art);
 		}
 
 		// get the references projects last
-		IAbstractArtifact[] projectsArts = getAllKnownArtifactsByFullyQualifiedNameInReferencedProjects(fqn);
-		if (projectsArts.length != 0) {
+		Collection<IAbstractArtifact> projectsArts = getAllKnownArtifactsByFullyQualifiedNameInReferencedProjects(fqn);
+		if (projectsArts.size() != 0) {
 			for (IAbstractArtifact art : projectsArts)
 				result.add(art);
 		}
 
-		IAbstractArtifact[] arrResult = new IAbstractArtifact[result.size()];
-		return result.toArray(arrResult);
+		return result;
 	}
 
-	public synchronized IAbstractArtifact[] getAllKnownArtifactsByFullyQualifiedNameInModules(
+	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedNameInModules(
 			String fqn, ITigerstripeProgressMonitor monitor) {
 
 		List<IAbstractArtifact> list = depContentCache
 				.getAllKnownArtifactsByFullyQualifiedName(fqn, monitor);
-		IAbstractArtifact[] result = new IAbstractArtifact[list.size()];
-		return list.toArray(result);
+		return list;
 	}
 
-	public synchronized IAbstractArtifact[] getAllKnownArtifactsByFullyQualifiedNameInReferencedProjects(
+	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedNameInReferencedProjects(
 			String fqn) {
 		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
@@ -1824,8 +1822,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			}
 		}
 
-		IAbstractArtifact[] arrResult = new IAbstractArtifact[result.size()];
-		return result.toArray(arrResult);
+		return result;
 	}
 
 	public synchronized void profileChanged(IWorkbenchProfile newActiveProfile) {

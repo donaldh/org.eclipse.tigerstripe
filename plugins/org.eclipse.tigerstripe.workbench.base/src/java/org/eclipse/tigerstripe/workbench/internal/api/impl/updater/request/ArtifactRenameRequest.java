@@ -54,8 +54,9 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
+		try{
 		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		String target = newName;
 		if (art != null) {
@@ -64,11 +65,15 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 				target = artPack + "." + newName;
 			}
 			IAbstractArtifact newArt = mgrSession
-					.getIArtifactByFullyQualifiedName(target);
+					.getArtifactByFullyQualifiedName(target);
 			return newArt == null;
 		}
 
 		return false;
+		}
+		catch (TigerstripeException t){
+			return false;
+		}
 	}
 
 	@Override

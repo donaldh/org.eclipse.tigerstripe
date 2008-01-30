@@ -182,7 +182,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 		StringBuffer buf = new StringBuffer();
 
 		final IWorkbenchProfileSession session = TigerstripeCore
-				.getIWorkbenchProfileSession();
+				.getWorkbenchProfileSession();
 
 		buf.append("<form>");
 		buf.append("<p/>");
@@ -286,7 +286,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 								monitor.worked(2);
 
 								IWorkbenchProfileSession session = TigerstripeCore
-										.getIWorkbenchProfileSession();
+										.getWorkbenchProfileSession();
 								monitor.subTask("Creating Profile");
 
 								rollbackCreated = session
@@ -391,7 +391,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					"Rollback Profile Error", errMessage);
 		} else {
 			final IWorkbenchProfileSession session = TigerstripeCore
-					.getIWorkbenchProfileSession();
+					.getWorkbenchProfileSession();
 			if (!session.canRollback()) {
 				MessageDialog
 						.openWarning(
@@ -494,7 +494,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 							monitor
 									.subTask("Resetting profile to factory defaults");
 							IWorkbenchProfileSession session = TigerstripeCore
-									.getIWorkbenchProfileSession();
+									.getWorkbenchProfileSession();
 							rollbackCreated = session.setDefaultActiveProfile();
 							monitor.worked(2);
 
@@ -574,7 +574,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					.getEditorInput();
 
 			try {
-				WorkbenchProfile handle = (WorkbenchProfile) TigerstripeCore.getIWorkbenchProfileSession()
+				WorkbenchProfile handle = (WorkbenchProfile) TigerstripeCore.getWorkbenchProfileSession()
 						.getWorkbenchProfileFor(
 								input.getFile().getLocation().toOSString());
 

@@ -67,7 +67,7 @@ public class TigerstripePaletteFactory {
 		 * palette (only those artifacts that should be in the model for a given
 		 * profile)
 		 */
-		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
 				.getActiveProfile();
 		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 				.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);

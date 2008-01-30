@@ -69,7 +69,7 @@ public class ProfileAnnotations2UML2 {
 
 	/** constructor */
 	public ProfileAnnotations2UML2() {
-		this.profileSession = TigerstripeCore.getIWorkbenchProfileSession();
+		this.profileSession = TigerstripeCore.getWorkbenchProfileSession();
 		Utilities.setupPaths();
 		try {
 			this.umlMetamodel = Utilities.openModelURI(URI

@@ -88,7 +88,7 @@ public class ProfileEditor extends TigerstripeFormEditor {
 			if (getEditorInput() instanceof FileEditorInput) {
 				IFile file = ((FileEditorInput) getEditorInput()).getFile();
 				try {
-					profile = (WorkbenchProfile) TigerstripeCore.getIWorkbenchProfileSession()
+					profile = (WorkbenchProfile) TigerstripeCore.getWorkbenchProfileSession()
 							.getWorkbenchProfileFor(
 									file.getLocation().toOSString());
 				} catch (TigerstripeException e) {

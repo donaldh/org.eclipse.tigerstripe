@@ -280,7 +280,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 	 */
 	private String getDefaultTypeName() throws TigerstripeException {
 		IWorkbenchProfile profile = TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile();
+				.getWorkbenchProfileSession().getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}
 

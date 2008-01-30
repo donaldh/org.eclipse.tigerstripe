@@ -103,7 +103,7 @@ public class BrowseForStereotypeDialog {
 	 */
 	private Object[] getAvailableStereotypesList() throws TigerstripeException {
 
-		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
 				.getActiveProfile();
 		Collection<IStereotype> stereotypes = new ArrayList<IStereotype>();
 

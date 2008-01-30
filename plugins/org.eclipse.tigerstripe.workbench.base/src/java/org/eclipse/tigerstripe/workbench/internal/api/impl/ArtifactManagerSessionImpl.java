@@ -82,19 +82,24 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		this.artifactManager = artifactManager;
 	}
 
-	public Class[] getSupportedArtifactClasses() {
+	public Collection<Class> getSupportedArtifactClasses() {
 		Class[] potentials = { IManagedEntityArtifact.class,
-				IDatatypeArtifact.class, IEventArtifact.class,
-				IQueryArtifact.class, IExceptionArtifact.class,
-				ISessionArtifact.class, IEnumArtifact.class,
-				IUpdateProcedureArtifact.class, IAssociationArtifact.class,
-				IAssociationClassArtifact.class, IPrimitiveTypeArtifact.class,
+				IDatatypeArtifact.class, 
+				IEventArtifact.class,
+				IQueryArtifact.class, 
+				IExceptionArtifact.class,
+				ISessionArtifact.class, 
+				IEnumArtifact.class,
+				IUpdateProcedureArtifact.class, 
+				IAssociationArtifact.class,
+				IAssociationClassArtifact.class, 
+				IPrimitiveTypeArtifact.class,
 				IDependencyArtifact.class };
 
 		ArrayList<Class> result = new ArrayList<Class>();
 
 		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 
 		for (Class pot : potentials) {
@@ -103,14 +108,14 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			}
 		}
 
-		return result.toArray(new Class[result.size()]);
+		return Collections.unmodifiableCollection(result);
 	}
 
-	public String[] getSupportedArtifacts() {
-		Class[] classes = getSupportedArtifactClasses();
-		String[] classNames = new String[classes.length];
-		for (int i = 0; i < classes.length; i++) {
-			classNames[i] = classes[i].getName();
+	public Collection<String> getSupportedArtifacts() {
+		Collection<Class> classes = getSupportedArtifactClasses();
+		Collection<String> classNames = new ArrayList<String>();
+		for (Class clazz: classes) {
+			classNames.add(clazz.getName());
 		}
 		return classNames;
 	}
@@ -198,16 +203,8 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 	public IAbstractArtifact makeArtifact(String type)
 			throws IllegalArgumentException {
-		String[] supportedArtifacts = getSupportedArtifacts();
-		int index = -1;
-		for (int i = 0; i < supportedArtifacts.length; i++) {
-			if (supportedArtifacts[i].equals(type)) {
-				index = i;
-			}
-		}
-
-		if (index == -1)
-			throw new IllegalArgumentException("Unknown artifact type: " + type);
+	
+			
 
 		if (IManagedEntityArtifact.class.getName().equals(type))
 			return new ManagedEntityArtifact(getArtifactManager());
@@ -233,7 +230,8 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			return new PrimitiveTypeArtifact(getArtifactManager());
 		else if (IDependencyArtifact.class.getName().equals(type))
 			return new DependencyArtifact(getArtifactManager());
-		return null;
+		else 
+			throw new IllegalArgumentException("Unknown artifact type: " + type);
 	}
 
 	public AbstractArtifact getArtifactByFullyQualifiedName(String fqn) {
@@ -385,43 +383,14 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		return result;
 	}
 
-	public IAbstractArtifact[] getAllKnownArtifactsByFullyQualifiedName(
+	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
 			String fqn) {
 		return getArtifactManager().getAllKnownArtifactsByFullyQualifiedName(
-				fqn, new TigerstripeNullProgressMonitor()); // FIXME
+				fqn, new TigerstripeNullProgressMonitor()); 
+		// FIXME
 	}
 
-	// //////////////////////////////////////////
-	// external API stuff
-	// //////////////////////////////////////////
 
-	public IAbstractArtifact[] getAllKnownIArtifactsByFullyQualifiedName(String fqn) {
-		return getAllKnownArtifactsByFullyQualifiedName(fqn);
-	}
-
-	public IAbstractArtifact getIArtifactByFullyQualifiedName(String fqn,
-			boolean includeDependencies) {
-		return getArtifactByFullyQualifiedName(fqn, includeDependencies);
-	}
-
-	public IAbstractArtifact getIArtifactByFullyQualifiedName(String fqn) {
-		return getArtifactByFullyQualifiedName(fqn);
-	}
-
-	public String[] getSupportedIArtifacts() {
-		return new String[] { IManagedEntityArtifact.class.getName(),
-				IDatatypeArtifact.class.getName(),
-				IEventArtifact.class.getName(),
-				IQueryArtifact.class.getName(),
-				IExceptionArtifact.class.getName(),
-				ISessionArtifact.class.getName(),
-				IEnumArtifact.class.getName(),
-				IUpdateProcedureArtifact.class.getName(),
-				IAssociationArtifact.class.getName(),
-				IAssociationClassArtifact.class.getName(),
-				IPrimitiveTypeArtifact.class.getName(),
-				IDependencyArtifact.class.getName() };
-	}
 
 	public void addArtifactChangeListener(IArtifactChangeListener listener) {
 		getArtifactManager().addArtifactManagerListener(listener);

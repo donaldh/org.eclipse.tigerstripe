@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.model;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 /**

@@ -639,7 +639,7 @@ public class AttributesSelectionDialog extends TSMessageDialog {
 	 */
 	private String getDefaultTypeName() {
 		IWorkbenchProfile profile = TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile();
+				.getWorkbenchProfileSession().getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}
 

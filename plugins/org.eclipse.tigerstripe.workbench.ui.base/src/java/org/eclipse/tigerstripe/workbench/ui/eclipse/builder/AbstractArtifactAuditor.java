@@ -157,7 +157,7 @@ public abstract class AbstractArtifactAuditor {
 	protected void checkInterfacePackage() {
 
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 		if (prop

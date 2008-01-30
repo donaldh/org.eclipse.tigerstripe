@@ -53,7 +53,7 @@ public class NewWorkbenchProfileWizardPage extends WizardNewFileCreationPage {
 	 */
 	@Override
 	protected InputStream getInitialContents() {
-		WorkbenchProfile emptyProfile = (WorkbenchProfile) TigerstripeCore.getIWorkbenchProfileSession()
+		WorkbenchProfile emptyProfile = (WorkbenchProfile) TigerstripeCore.getWorkbenchProfileSession()
 				.makeWorkbenchProfile();
 
 		String name = this.getFileName();

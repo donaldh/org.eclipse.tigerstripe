@@ -50,7 +50,7 @@ public class ProfileDescriptorAuditor {
 			for (IResource res : resources) {
 				try {
 					IWorkbenchProfile workbenchProfile = TigerstripeCore
-							.getIWorkbenchProfileSession()
+							.getWorkbenchProfileSession()
 							.getWorkbenchProfileFor(
 									res.getLocation().toOSString());
 					checkPrimitiveTypes(workbenchProfile, res);

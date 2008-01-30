@@ -86,7 +86,7 @@ public class OssjEntitySpecificsPage extends TigerstripeFormPage {
 		managedForm.addPart(part);
 
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 		if (prop

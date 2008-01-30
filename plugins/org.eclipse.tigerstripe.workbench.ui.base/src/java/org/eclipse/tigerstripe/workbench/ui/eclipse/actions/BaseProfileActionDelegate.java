@@ -51,7 +51,7 @@ public class BaseProfileActionDelegate {
 		if (obj instanceof IFile) {
 			IFile profileFile = (IFile) obj;
 			try {
-				profile = TigerstripeCore.getIWorkbenchProfileSession()
+				profile = TigerstripeCore.getWorkbenchProfileSession()
 						.getWorkbenchProfileFor(
 								profileFile.getLocation().toOSString());
 			} catch (TigerstripeException e) {

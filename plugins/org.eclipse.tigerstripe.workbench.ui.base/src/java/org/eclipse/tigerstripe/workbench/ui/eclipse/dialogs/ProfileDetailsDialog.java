@@ -90,7 +90,7 @@ public class ProfileDetailsDialog extends Dialog {
 		area.setLayoutData(new GridData(GridData.FILL_BOTH));
 		applyDialogFont(area);
 
-		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
 				.getActiveProfile();
 
 		Label nameLabel = new Label(area, SWT.NONE);
@@ -169,7 +169,7 @@ public class ProfileDetailsDialog extends Dialog {
 	}
 
 	private void refresh() {
-		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
 				.getActiveProfile();
 		descText.setText(profile.getDescription());
 		nameText.setText(profile.getName());
@@ -205,7 +205,7 @@ public class ProfileDetailsDialog extends Dialog {
 							monitor
 									.subTask("Resetting profile to factory defaults");
 							IWorkbenchProfileSession session = TigerstripeCore
-									.getIWorkbenchProfileSession();
+									.getWorkbenchProfileSession();
 							rollbackCreated = session.setDefaultActiveProfile();
 							monitor.worked(2);
 
@@ -283,7 +283,7 @@ public class ProfileDetailsDialog extends Dialog {
 				} else {
 					try {
 						final IWorkbenchProfile handle = TigerstripeCore
-								.getIWorkbenchProfileSession()
+								.getWorkbenchProfileSession()
 								.getWorkbenchProfileFor(
 										srcFile.getAbsolutePath());
 
@@ -333,7 +333,7 @@ public class ProfileDetailsDialog extends Dialog {
 										monitor.worked(2);
 
 										IWorkbenchProfileSession session = TigerstripeCore
-												.getIWorkbenchProfileSession();
+												.getWorkbenchProfileSession();
 										monitor.subTask("Creating Profile");
 
 										rollbackCreated = session

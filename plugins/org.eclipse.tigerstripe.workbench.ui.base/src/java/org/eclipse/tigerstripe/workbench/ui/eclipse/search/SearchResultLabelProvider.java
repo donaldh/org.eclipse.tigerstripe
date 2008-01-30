@@ -143,7 +143,7 @@ public class SearchResultLabelProvider extends LabelProvider {
 			ArtifactManager mgr = (ArtifactManager) element;
 			if (mgr.getTSProject() instanceof PhantomTigerstripeProject)
 				return "Active Profile ("
-						+ TigerstripeCore.getIWorkbenchProfileSession().getActiveProfile()
+						+ TigerstripeCore.getWorkbenchProfileSession().getActiveProfile()
 								.getName() + ")";
 		}
 

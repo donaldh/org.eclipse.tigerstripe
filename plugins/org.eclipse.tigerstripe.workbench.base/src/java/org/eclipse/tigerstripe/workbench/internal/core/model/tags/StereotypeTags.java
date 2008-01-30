@@ -149,7 +149,7 @@ public final class StereotypeTags {
 		if (stereotypeName != null && stereotypeName.length() != 0) {
 			// now build the IStereotypeInstance from the extracted
 			// Properties.
-			IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
+			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
 					.getActiveProfile();
 			IStereotype stereotype = profile
 					.getStereotypeByName(stereotypeName);
@@ -242,7 +242,7 @@ public final class StereotypeTags {
 			throw new TigerstripeException("Stereotype " + name + " not found.");
 
 		// now build the IStereotypeInstance from the extracted Properties.
-		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
 				.getActiveProfile();
 		IStereotype stereotype = profile.getStereotypeByName(name);
 		if (stereotype != null) {

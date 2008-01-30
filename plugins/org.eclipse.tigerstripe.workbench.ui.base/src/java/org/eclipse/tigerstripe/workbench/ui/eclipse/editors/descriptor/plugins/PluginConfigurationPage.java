@@ -64,7 +64,7 @@ public class PluginConfigurationPage extends TigerstripeFormPage {
 
 		// sections
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 		if (prop.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_JVT_PLUGIN)) {

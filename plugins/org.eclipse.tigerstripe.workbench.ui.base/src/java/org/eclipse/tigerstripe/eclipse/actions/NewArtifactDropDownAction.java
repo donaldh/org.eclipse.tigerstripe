@@ -64,7 +64,7 @@ public class NewArtifactDropDownAction extends Action implements IMenuCreator,
 
 		// register for changes in the profile, so the menu can be rebuilt
 		// dynamically
-		TigerstripeCore.getIWorkbenchProfileSession().addActiveProfileListener(this);
+		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(this);
 	}
 
 	public void dispose() {
@@ -94,7 +94,7 @@ public class NewArtifactDropDownAction extends Action implements IMenuCreator,
 
 			// @since 1.2
 			// All core artifacts are conditioned by the active profile
-			IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
+			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
 					.getActiveProfile();
 			CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);

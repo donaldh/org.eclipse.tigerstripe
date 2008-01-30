@@ -45,23 +45,28 @@ public class LabelRemoveRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
-		if (art == null)
-			return false;
+		try{
+			IAbstractArtifact art = mgrSession
+			.getArtifactByFullyQualifiedName(getArtifactFQN());
+			if (art == null)
+				return false;
 
-		for (ILabel label : art.getLabels()) {
-			if (label.getName().equals(getLabelName()))
-				return true;
+			for (ILabel label : art.getLabels()) {
+				if (label.getName().equals(getLabelName()))
+					return true;
+			}
+			return false;
 		}
-		return false;
+		catch (TigerstripeException t){
+			return false;
+		}
 	}
 
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		for (ILabel label : art.getLabels()) {
 			if (label.getName().equals(getLabelName())) {

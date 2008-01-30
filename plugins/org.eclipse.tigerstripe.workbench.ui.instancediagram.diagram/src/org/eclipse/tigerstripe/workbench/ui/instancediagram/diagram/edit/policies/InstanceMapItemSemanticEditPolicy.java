@@ -247,7 +247,7 @@ public class InstanceMapItemSemanticEditPolicy extends
 
 	private static boolean sessionFacadeInstancesEnabled() {
 		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
 		return prop
 				.getPropertyValue(IGlobalSettingsProperty.ENABLE_SESSIONFACADE_ONINSTDIAG);

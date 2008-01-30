@@ -210,7 +210,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 	private boolean isRefByEnabled() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		return prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEREFBY_MODIFIERS);

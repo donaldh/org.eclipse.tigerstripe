@@ -374,7 +374,7 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	 * Gets the default attribute type from the active profile.
 	 */
 	private static String getDefaultTypeName() throws TigerstripeException {
-		IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
+		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
 				.getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}

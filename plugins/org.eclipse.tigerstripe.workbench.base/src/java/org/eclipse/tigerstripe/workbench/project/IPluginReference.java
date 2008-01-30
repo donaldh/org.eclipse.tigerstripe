@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.project;
 
-import java.util.Properties;
-
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;

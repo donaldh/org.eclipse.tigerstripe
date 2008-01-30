@@ -172,7 +172,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 		// mapExistence = this.firstPage.getMapExistence();
 		try {
 			File pro = new File(this.firstPage.getProfileFilename());
-			WorkbenchProfile handle = (WorkbenchProfile) TigerstripeCore.getIWorkbenchProfileSession()
+			WorkbenchProfile handle = (WorkbenchProfile) TigerstripeCore.getWorkbenchProfileSession()
 					.getWorkbenchProfileFor(pro.getAbsolutePath());
 			Utilities.setupPaths();
 			loadProfile(handle, new File(this.firstPage.getFilename()), monitor);

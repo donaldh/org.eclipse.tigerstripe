@@ -315,7 +315,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		label = toolkit.createLabel(sectionClient, "");
 
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 		if (prop

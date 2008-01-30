@@ -55,7 +55,7 @@ public class DeployProfileActionDelegate extends BaseProfileActionDelegate
 						monitor.worked(2);
 
 						IWorkbenchProfileSession session = TigerstripeCore
-								.getIWorkbenchProfileSession();
+								.getWorkbenchProfileSession();
 						monitor.subTask("Creating Profile");
 
 						rollbackCreated = session.saveAsActiveProfile(handle);

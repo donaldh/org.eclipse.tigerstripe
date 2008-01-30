@@ -145,7 +145,7 @@ public class NewWizardsActionGroup extends ActionGroup {
 							// All core artifacts are conditioned by the active
 							// profile
 							IWorkbenchProfile profile = TigerstripeCore
-									.getIWorkbenchProfileSession()
+									.getWorkbenchProfileSession()
 									.getActiveProfile();
 							CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 									.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);

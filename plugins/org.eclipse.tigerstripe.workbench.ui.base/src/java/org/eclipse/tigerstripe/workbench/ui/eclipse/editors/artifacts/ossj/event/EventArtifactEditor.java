@@ -47,7 +47,7 @@ public class EventArtifactEditor extends ArtifactEditorBase {
 			addModelPage(page);
 
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-					.getIWorkbenchProfileSession().getActiveProfile()
+					.getWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 			if (prop

@@ -49,23 +49,28 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
-		if (art == null)
-			return false;
-
-		for (IMethod method : art.getMethods()) {
-			if (method.getName().equals(getMethodName()))
+		try{
+			IAbstractArtifact art = mgrSession
+			.getArtifactByFullyQualifiedName(getArtifactFQN());
+			if (art == null)
 				return false;
+
+			for (IMethod method : art.getMethods()) {
+				if (method.getName().equals(getMethodName()))
+					return false;
+			}
+			return true;
 		}
-		return true;
+		catch (TigerstripeException t){
+			return false;
+		}
 	}
 
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		IMethod method = art.makeMethod();
 		method.setName(getMethodName());

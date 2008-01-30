@@ -35,17 +35,13 @@ import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
  */
 public interface IArtifactManagerSession  {
 
-	/**
-	 * Returns a list of all supported Artifact Types
-	 * 
-	 */
-	public String[] getSupportedArtifacts();
+
 
 	/**
 	 * Returns a list of all supported Artifact Types
 	 * 
 	 */
-	public Class[] getSupportedArtifactClasses();
+	public Collection<Class> getSupportedArtifactClasses();
 
 	/**
 	 * Returns a list of supported QueryArtifacts
@@ -113,7 +109,7 @@ public interface IArtifactManagerSession  {
 	 * @param fqn
 	 * @return
 	 */
-	public IAbstractArtifact[] getAllKnownArtifactsByFullyQualifiedName(
+	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
 			String fqn);
 
 	/**
@@ -252,27 +248,12 @@ public interface IArtifactManagerSession  {
 
 	public void resetBroadcastMask() throws TigerstripeException;
 
-	/**
-	 * Returns all known artifacts with the given FQN. If multiple definitions
-	 * are found along the classpath (modules and dependencies), they are
-	 * returned in the order they are found.
-	 * 
-	 * @param fqn
-	 * @return
-	 */
-	public IAbstractArtifact[] getAllKnownIArtifactsByFullyQualifiedName(String fqn);
-
-	// TODO What about excpetions!
-	public IAbstractArtifact getIArtifactByFullyQualifiedName(String fqn);
-
-	public IAbstractArtifact getIArtifactByFullyQualifiedName(String fqn,
-	boolean includeDependencies);
-
+	
 	/**
 	 * Returns a list of all supported Artifact Types
 	 * 
 	 */
-	public String[] getSupportedIArtifacts();
+	public Collection<String> getSupportedArtifacts();
 
 	/**
 	 * Makes a new Artifact Query

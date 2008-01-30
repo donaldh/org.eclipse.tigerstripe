@@ -57,7 +57,7 @@ public class PhantomTigerstripeProjectMgr implements
 	private PhantomTigerstripeProjectMgr() {
 		// register self as a listener for Active profile changes so we can
 		// update the phantom project accordingly
-		TigerstripeCore.getIWorkbenchProfileSession().addActiveProfileListener(this);
+		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(this);
 	}
 
 	public static PhantomTigerstripeProjectMgr getInstance() {
@@ -141,7 +141,7 @@ public class PhantomTigerstripeProjectMgr implements
 
 			(artifactMgrSession).setLockForGeneration(true);
 
-			IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
+			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
 					.getActiveProfile();
 			Collection<IPrimitiveTypeDef> defs = profile.getPrimitiveTypeDefs(false);
 			for (IPrimitiveTypeDef def : defs) {

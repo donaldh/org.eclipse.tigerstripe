@@ -28,16 +28,21 @@ public class LabelSetRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+		try{
+			IAbstractArtifact art = mgrSession
+			.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		if (art != null) {
-			for (ILabel label : art.getLabels()) {
-				if (label.getName().equals(labelName))
-					return true;
+			if (art != null) {
+				for (ILabel label : art.getLabels()) {
+					if (label.getName().equals(labelName))
+						return true;
+				}
 			}
+			return false;
 		}
-		return false;
+		catch (TigerstripeException t){
+			return false;
+		}
 	}
 
 	@Override
@@ -45,7 +50,7 @@ public class LabelSetRequest extends BaseArtifactElementRequest implements
 			throws TigerstripeException {
 
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		boolean needSave = false;
 		if (art != null) {

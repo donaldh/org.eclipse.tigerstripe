@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.model.artifacts;
 import java.io.Writer;
 import java.util.Collection;
 
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;

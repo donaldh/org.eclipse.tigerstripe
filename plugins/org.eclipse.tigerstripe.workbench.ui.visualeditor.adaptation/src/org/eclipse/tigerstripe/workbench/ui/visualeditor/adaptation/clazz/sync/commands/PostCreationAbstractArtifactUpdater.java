@@ -84,7 +84,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 	 */
 	private static boolean shouldDisplayReference() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayReference = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
@@ -228,18 +228,21 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 
 		if (!shouldDisplayReference())
 			return true;
+		try {
+			IAbstractArtifact art = session.getArtifactByFullyQualifiedName(attrType);
+			if (art instanceof IPrimitiveTypeArtifact)
+				return true;
+			else if (art instanceof IEnumArtifact)
+				return true;
+			else if (art == null)
+				return Util.isJavaScalarType(attrType)
+				|| attrType.equals("java.lang.String")
+				|| attrType.equals("String");
 
-		IAbstractArtifact art = session.getIArtifactByFullyQualifiedName(attrType);
-		if (art instanceof IPrimitiveTypeArtifact)
-			return true;
-		else if (art instanceof IEnumArtifact)
-			return true;
-		else if (art == null)
-			return Util.isJavaScalarType(attrType)
-					|| attrType.equals("java.lang.String")
-					|| attrType.equals("String");
-
-		return false;
+			return false;
+		} catch (TigerstripeException t) {
+			return false;
+		}
 	}
 
 	protected void internalUpdateIncomingConnections()
@@ -253,7 +256,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 		for (AbstractArtifact eArt : eArtifacts) {
 			AbstractArtifactHelper aHelper = new AbstractArtifactHelper(eArt);
 			IAbstractArtifact mirror = (IAbstractArtifact) session
-					.getIArtifactByFullyQualifiedName(eArt
+					.getArtifactByFullyQualifiedName(eArt
 							.getFullyQualifiedName(), true);
 			// Take care of attributes in other artifacts that should now
 			// point to this new object

@@ -32,8 +32,9 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
+		try{
 		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		if (art != null) {
 			for (IMethod method : art.getMethods()) {
@@ -42,6 +43,10 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 			}
 		}
 		return false;
+		}
+		catch (TigerstripeException t){
+			return false;
+		}
 	}
 
 	@Override
@@ -49,7 +54,7 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 			throws TigerstripeException {
 
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		boolean needSave = false;
 		if (art != null) {

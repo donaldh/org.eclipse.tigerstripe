@@ -60,7 +60,7 @@ public class ArtifactCreateRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IAbstractArtifact art = mgrSession.getIArtifactByFullyQualifiedName(
+		IAbstractArtifact art = mgrSession.getArtifactByFullyQualifiedName(
 				getFullyQualifiedName(), false);
 		return art == null;
 	}

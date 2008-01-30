@@ -268,7 +268,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 						IAbstractArtifact iArtifact = association
 								.getCorrespondingIArtifact();
 						Collection<IStereotype> availStereotypes = TigerstripeCore
-								.getIWorkbenchProfileSession()
+								.getWorkbenchProfileSession()
 								.getActiveProfile()
 								.getAvailableStereotypeForCapable(iArtifact);
 						// TODO - Not sure why these were sorted ?

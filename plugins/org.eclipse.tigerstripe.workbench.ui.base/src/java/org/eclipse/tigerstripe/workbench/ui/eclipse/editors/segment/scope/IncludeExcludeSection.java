@@ -598,7 +598,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
 	private void addAnnotationPatternSelected(int type) {
 
-		IWorkbenchProfile activeProfile = TigerstripeCore.getIWorkbenchProfileSession()
+		IWorkbenchProfile activeProfile = TigerstripeCore.getWorkbenchProfileSession()
 				.getActiveProfile();
 		TableItem[] items = annotationExcludesTable.getItems();
 		Collection<IStereotypeInstance> existingStereotypes = new ArrayList<IStereotypeInstance>();

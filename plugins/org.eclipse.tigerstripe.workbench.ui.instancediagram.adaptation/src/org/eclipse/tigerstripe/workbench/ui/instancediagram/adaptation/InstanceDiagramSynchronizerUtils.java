@@ -68,7 +68,7 @@ public class InstanceDiagramSynchronizerUtils {
 		for (ClassInstance eInstance : classInstances) {
 			String fqn = eInstance.getFullyQualifiedName();
 			IAbstractArtifact eArtifact = (IAbstractArtifact) artifactMgrSession
-					.getIArtifactByFullyQualifiedName(fqn);
+					.getArtifactByFullyQualifiedName(fqn);
 			if (instanceIsRelated(eArtifact, artifact)) {
 				updateEArtifact(diagram, diagramEP, editingDomain,
 						diagramEditDomain, eInstance, artifact);

@@ -241,7 +241,7 @@ public class TypedElementImpl extends NamedElementImpl implements TypedElement {
 	 */
 	private static boolean shouldDisplayReference() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayReference = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
@@ -336,7 +336,7 @@ public class TypedElementImpl extends NamedElementImpl implements TypedElement {
 		// else if it's a primitive type but not "void", accept the change
 		else if (!newType.equals("void")) {
 			Collection<IPrimitiveTypeDef> primitiveTypes = TigerstripeCore
-					.getIWorkbenchProfileSession().getActiveProfile()
+					.getWorkbenchProfileSession().getActiveProfile()
 					.getPrimitiveTypeDefs(true);
 			for (IPrimitiveTypeDef primitive : primitiveTypes) {
 				String name = "";

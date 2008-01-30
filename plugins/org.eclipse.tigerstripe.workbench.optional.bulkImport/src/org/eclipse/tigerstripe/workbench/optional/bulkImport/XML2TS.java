@@ -127,7 +127,7 @@ public class XML2TS {
 
 	// default constructor
 	public XML2TS() {
-		this.profileSession = TigerstripeCore.getIWorkbenchProfileSession();
+		this.profileSession = TigerstripeCore.getWorkbenchProfileSession();
 	}
 
 	public ImportBundle loadXMLtoTigerstripe(File importFile,

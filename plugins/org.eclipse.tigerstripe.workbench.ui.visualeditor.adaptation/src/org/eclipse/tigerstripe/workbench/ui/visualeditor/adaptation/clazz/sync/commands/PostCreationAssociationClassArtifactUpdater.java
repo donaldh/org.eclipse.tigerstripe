@@ -180,7 +180,7 @@ public class PostCreationAssociationClassArtifactUpdater extends
 		List<AbstractArtifact> eArtifacts = getMap().getArtifacts();
 		for (AbstractArtifact eArt : eArtifacts) {
 			AbstractArtifactHelper aHelper = new AbstractArtifactHelper(eArt);
-			IAbstractArtifact mirror = session.getIArtifactByFullyQualifiedName(eArt
+			IAbstractArtifact mirror = session.getArtifactByFullyQualifiedName(eArt
 					.getFullyQualifiedName(), true);
 			// Take care of attributes in other artifacts that should now
 			// point to this new object

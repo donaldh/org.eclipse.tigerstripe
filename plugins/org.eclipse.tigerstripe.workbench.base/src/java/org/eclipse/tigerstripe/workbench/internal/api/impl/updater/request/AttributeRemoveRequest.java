@@ -45,23 +45,28 @@ public class AttributeRemoveRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
-		if (art == null)
-			return false;
+		try{
+			IAbstractArtifact art = mgrSession
+			.getArtifactByFullyQualifiedName(getArtifactFQN());
+			if (art == null)
+				return false;
 
-		for (IField field : art.getFields()) {
-			if (field.getName().equals(getAttributeName()))
-				return true;
+			for (IField field : art.getFields()) {
+				if (field.getName().equals(getAttributeName()))
+					return true;
+			}
+			return false;
 		}
-		return false;
+		catch (TigerstripeException t){
+			return false;
+		}
 	}
 
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		for (IField field : art.getFields()) {
 			if (field.getName().equals(getAttributeName())) {

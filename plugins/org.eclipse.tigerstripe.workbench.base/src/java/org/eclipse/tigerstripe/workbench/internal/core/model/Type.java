@@ -368,7 +368,7 @@ public class Type implements IType {
 	 */
 	private boolean isPrimitiveProfileType() {
 		Collection<IPrimitiveTypeDef> primitiveTypeDefs = TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile()
+				.getWorkbenchProfileSession().getActiveProfile()
 				.getPrimitiveTypeDefs(true);
 		for (IPrimitiveTypeDef primitive: primitiveTypeDefs) {
 			String typeDefPackageName = primitive.getPackageName();

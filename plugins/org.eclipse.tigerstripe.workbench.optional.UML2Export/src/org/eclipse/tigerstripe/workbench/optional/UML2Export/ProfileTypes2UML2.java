@@ -48,7 +48,7 @@ public class ProfileTypes2UML2 {
 
 	/** constructor */
 	public ProfileTypes2UML2() {
-		this.profileSession = TigerstripeCore.getIWorkbenchProfileSession();
+		this.profileSession = TigerstripeCore.getWorkbenchProfileSession();
 	}
 
 	public Map<String, Type> loadTSProfileTypestoUML(File exportDir,

@@ -51,23 +51,28 @@ public class LabelCreateRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
-		if (art == null)
-			return false;
-
-		for (ILabel label : art.getLabels()) {
-			if (label.getName().equals(getLabelName()))
+		try{
+			IAbstractArtifact art = mgrSession
+			.getArtifactByFullyQualifiedName(getArtifactFQN());
+			if (art == null)
 				return false;
+
+			for (ILabel label : art.getLabels()) {
+				if (label.getName().equals(getLabelName()))
+					return false;
+			}
+			return true;
 		}
-		return true;
+		catch (TigerstripeException t){
+			return false;
+		}
 	}
 
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		ILabel label = art.makeLabel();
 		label.setName(getLabelName());

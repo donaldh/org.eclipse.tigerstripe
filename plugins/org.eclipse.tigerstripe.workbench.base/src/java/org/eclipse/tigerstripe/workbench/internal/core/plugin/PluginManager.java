@@ -62,7 +62,7 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 
 	private PluginManager() {
 		this.housings = new ArrayList<PluginHousing>();
-		TigerstripeCore.getIWorkbenchProfileSession().addActiveProfileListener(this);
+		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(this);
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 		try {
 
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-					.getIWorkbenchProfileSession().getActiveProfile()
+					.getWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 			// These are the old "plugins" that weren't really pluggable

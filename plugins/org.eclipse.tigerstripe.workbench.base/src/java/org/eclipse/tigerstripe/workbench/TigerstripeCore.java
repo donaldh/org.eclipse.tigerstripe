@@ -81,7 +81,7 @@ public class TigerstripeCore {
 	 * @return IWorkbenchProfileSession - the default IWorkbenchProfileSession
 	 *         (Singleton)
 	 */
-	public static IWorkbenchProfileSession getIWorkbenchProfileSession() {
+	public static IWorkbenchProfileSession getWorkbenchProfileSession() {
 		if (workbenchProfileSession == null) {
 			workbenchProfileSession = new WorkbenchProfileSession();
 			workbenchProfileSession.reloadActiveProfile();

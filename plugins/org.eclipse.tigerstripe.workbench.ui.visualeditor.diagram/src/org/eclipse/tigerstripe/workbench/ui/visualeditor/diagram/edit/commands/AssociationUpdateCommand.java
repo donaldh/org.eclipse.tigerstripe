@@ -86,8 +86,9 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 			IProgressMonitor progressMonitor, IAdaptable info)
 			throws ExecutionException {
 		if (!changedValuesMap.isEmpty()) {
+			try {
 			IAssociationArtifact iAssociation = (IAssociationArtifact) artMgrSession
-					.getIArtifactByFullyQualifiedName(association
+					.getArtifactByFullyQualifiedName(association
 							.getFullyQualifiedName());
 			AssociationEnd iAssociationAEnd = (AssociationEnd) iAssociation
 					.getAEnd();
@@ -273,6 +274,9 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 						association.setName(newName);
 					}
 				}
+			}
+			} catch (TigerstripeException t){
+				return CommandResult.newErrorCommandResult(t);
 			}
 		}
 		return CommandResult.newOKCommandResult();

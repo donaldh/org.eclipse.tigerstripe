@@ -36,8 +36,9 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
+		try{
 		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		if (EXPOSED_PROCEDURES.equals(featureId)
 				|| MANAGED_ENTITIES.equals(featureId)
@@ -49,12 +50,16 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 					|| art instanceof IAssociationClassArtifact;
 		return false;
 	}
+	catch (TigerstripeException t){
+		return false;
+	}
+	}
 
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 		if (art instanceof ISessionArtifact) {
 			ISessionArtifact session = (ISessionArtifact) art;
 			if (EXPOSED_PROCEDURES.equals(featureId)) {

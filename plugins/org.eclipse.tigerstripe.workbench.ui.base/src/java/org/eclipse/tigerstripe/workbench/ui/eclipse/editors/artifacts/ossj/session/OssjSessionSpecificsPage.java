@@ -82,7 +82,7 @@ public class OssjSessionSpecificsPage extends TigerstripeFormPage {
 		body.setLayout(layout);
 
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 		TigerstripeSectionPart part = null;

@@ -35,7 +35,7 @@ public class NameProviderImpl implements INameProvider {
 
 	private void initialize() throws TigerstripeException {
 		indexMap = new HashMap<Class, Integer>();
-		Class[] supportedArtifacts = project.getArtifactManagerSession()
+		Collection<Class> supportedArtifacts = project.getArtifactManagerSession()
 				.getSupportedArtifactClasses();
 		for (Class supportedArtifact : supportedArtifacts) {
 			indexMap.put(supportedArtifact, new Integer(0));

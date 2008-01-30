@@ -265,7 +265,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		MethodDetailsPageListener adapter = new MethodDetailsPageListener();
 
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 		section = toolkit.createSection(parent, ExpandableComposite.NO_TITLE);
@@ -1211,7 +1211,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	 */
 	private String getDefaultTypeName() throws TigerstripeException {
 		IWorkbenchProfile profile = TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile();
+				.getWorkbenchProfileSession().getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}
 

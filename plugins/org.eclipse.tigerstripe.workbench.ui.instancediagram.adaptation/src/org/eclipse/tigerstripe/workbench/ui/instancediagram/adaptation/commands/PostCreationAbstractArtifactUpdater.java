@@ -107,7 +107,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 		List<ClassInstance> eArtifacts = getMap().getClassInstances();
 		for (ClassInstance eArt : eArtifacts) {
 			ClassInstanceHelper aHelper = new ClassInstanceHelper(eArt);
-			IAbstractArtifact mirror = session.getIArtifactByFullyQualifiedName(eArt
+			IAbstractArtifact mirror = session.getArtifactByFullyQualifiedName(eArt
 					.getFullyQualifiedName(), true);
 			// Take care of variables in other artifacts that should now
 			// point to this new object

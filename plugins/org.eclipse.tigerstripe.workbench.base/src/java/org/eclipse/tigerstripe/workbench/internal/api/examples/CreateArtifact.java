@@ -54,7 +54,7 @@ public class CreateArtifact {
 					.getArtifactManagerSession();
 
 			// the list of artifacts
-			String[] artifactTypes = artifactMgrSession.getSupportedArtifacts();
+			//String[] artifactTypes = artifactMgrSession.getSupportedArtifacts();
 
 			IManagedEntityArtifact artifact = (IManagedEntityArtifact) artifactMgrSession
 					.makeArtifact(IManagedEntityArtifact.class.getName());

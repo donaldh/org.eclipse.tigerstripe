@@ -133,7 +133,7 @@ public class ArtifactMetadataSessionImpl implements IArtifactMetadataSession {
 	private void registerTmpDefault() {
 
 		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 		try {
 			if (prop.getDetailsForType(IManagedEntityArtifact.class.getName())

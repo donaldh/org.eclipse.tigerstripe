@@ -178,7 +178,7 @@ public class TigerstripeModelingAssistantProvider extends
 			 * the palette (only those artifacts that should be in the model for
 			 * a given profile)
 			 */
-			IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
+			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
 					.getActiveProfile();
 			CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
@@ -228,7 +228,7 @@ public class TigerstripeModelingAssistantProvider extends
 	 */
 	private boolean shouldDisplayReference() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayReference = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
@@ -237,7 +237,7 @@ public class TigerstripeModelingAssistantProvider extends
 
 	private boolean shouldDisplayManages() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayManages = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEMANAGEDENTITIES_ONSESSION);
@@ -246,7 +246,7 @@ public class TigerstripeModelingAssistantProvider extends
 
 	private boolean shouldDisplayExposes() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayExposes = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEEXPOSEDPROCEDURES_ONSESSION);
@@ -255,7 +255,7 @@ public class TigerstripeModelingAssistantProvider extends
 
 	private boolean shouldDisplayEmits() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayEmits = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEEMITTEDNOTIFICATIONS_ONSESSION);
@@ -264,7 +264,7 @@ public class TigerstripeModelingAssistantProvider extends
 
 	private boolean shouldDisplayUses() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayUses = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USENAMEDQUERIES_ONSESSION);
@@ -273,7 +273,7 @@ public class TigerstripeModelingAssistantProvider extends
 
 	private boolean shouldDisplayImplements() {
 		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
 		boolean displayImplements = prop
 				.getPropertyValue(IGlobalSettingsProperty.IMPLEMENTSRELATIONSHIP);

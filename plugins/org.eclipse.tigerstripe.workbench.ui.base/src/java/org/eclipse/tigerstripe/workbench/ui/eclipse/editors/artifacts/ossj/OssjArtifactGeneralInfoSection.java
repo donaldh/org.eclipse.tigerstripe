@@ -159,7 +159,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 		createExtendName(getBody(), getToolkit());
 
 		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
-				.getIWorkbenchProfileSession().getActiveProfile().getProperty(
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
 		boolean implementsEnabled = prop
 				.getPropertyValue(IGlobalSettingsProperty.IMPLEMENTSRELATIONSHIP);

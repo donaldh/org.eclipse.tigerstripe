@@ -36,45 +36,50 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+		try{
+			IAbstractArtifact art = mgrSession
+			.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		if (EXTENDS_FEATURE.equals(featureId))
-			return art != null;
-		else if (ISABSTRACT_FEATURE.equals(featureId))
-			return art != null;
-		else if (RETURNED_TYPE.equals(featureId))
-			return art instanceof IQueryArtifact;
-		else if (BASE_TYPE.equals(featureId))
-			return art instanceof IEnumArtifact;
-		else if (AEND.equals(featureId) || AENDName.equals(featureId)
-				|| AENDAGGREGATION.equals(featureId)
-				|| AENDISCHANGEABLE.equals(featureId)
-				|| AENDNAVIGABLE.equals(featureId)
-				|| AENDISORDERED.equals(featureId)
-				|| AENDVISIBILITY.equals(featureId)
-				|| AENDISUNIQUE.equals(featureId)
-				|| AENDMULTIPLICITY.equals(featureId) || ZEND.equals(featureId)
-				|| ZENDName.equals(featureId)
-				|| ZENDAGGREGATION.equals(featureId)
-				|| ZENDNAVIGABLE.equals(featureId)
-				|| ZENDISCHANGEABLE.equals(featureId)
-				|| ZENDISORDERED.equals(featureId)
-				|| ZENDMULTIPLICITY.equals(featureId)
-				|| ZENDVISIBILITY.equals(featureId)
-				|| ZENDISUNIQUE.equals(featureId))
-			return (art instanceof IAssociationArtifact)
-					|| (art instanceof IDependencyArtifact)
-					&& featureValue != null;
-		else
+			if (EXTENDS_FEATURE.equals(featureId))
+				return art != null;
+			else if (ISABSTRACT_FEATURE.equals(featureId))
+				return art != null;
+			else if (RETURNED_TYPE.equals(featureId))
+				return art instanceof IQueryArtifact;
+			else if (BASE_TYPE.equals(featureId))
+				return art instanceof IEnumArtifact;
+			else if (AEND.equals(featureId) || AENDName.equals(featureId)
+					|| AENDAGGREGATION.equals(featureId)
+					|| AENDISCHANGEABLE.equals(featureId)
+					|| AENDNAVIGABLE.equals(featureId)
+					|| AENDISORDERED.equals(featureId)
+					|| AENDVISIBILITY.equals(featureId)
+					|| AENDISUNIQUE.equals(featureId)
+					|| AENDMULTIPLICITY.equals(featureId) || ZEND.equals(featureId)
+					|| ZENDName.equals(featureId)
+					|| ZENDAGGREGATION.equals(featureId)
+					|| ZENDNAVIGABLE.equals(featureId)
+					|| ZENDISCHANGEABLE.equals(featureId)
+					|| ZENDISORDERED.equals(featureId)
+					|| ZENDMULTIPLICITY.equals(featureId)
+					|| ZENDVISIBILITY.equals(featureId)
+					|| ZENDISUNIQUE.equals(featureId))
+				return (art instanceof IAssociationArtifact)
+				|| (art instanceof IDependencyArtifact)
+				&& featureValue != null;
+			else
+				return false;
+		}
+		catch (TigerstripeException t){
 			return false;
+		}
 	}
 
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		IAbstractArtifact art = mgrSession
-				.getIArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN());
 		if (EXTENDS_FEATURE.equals(featureId)) {
 			IAbstractArtifact artifact = (IAbstractArtifact) art;
 
