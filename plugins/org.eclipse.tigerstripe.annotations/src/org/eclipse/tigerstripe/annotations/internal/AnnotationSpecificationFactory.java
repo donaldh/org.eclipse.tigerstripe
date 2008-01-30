@@ -25,11 +25,13 @@ import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
 public class AnnotationSpecificationFactory {
 
 	private static String[] annotationSpecKeys = {
-			"stringAnnotationSpecification", "booleanAnnotationSpecification" };
+			"stringAnnotationSpecification", "booleanAnnotationSpecification",
+			"enumerationAnnotationSpecification" };
 
 	private static Class[] annotationSpecImpls = {
 			StringAnnotationSpecification.class,
-			BooleanAnnotationSpecification.class };
+			BooleanAnnotationSpecification.class,
+			EnumerationAnnotationSpecification.class };
 
 	/**
 	 * 
