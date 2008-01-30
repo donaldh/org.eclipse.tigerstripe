@@ -78,7 +78,7 @@ R - Move Multiplicity Enum to IModelComponent
 	
 ###################################
 in IModelComponent
-- Visibility should be an Enum, not a bunch statics
+R - Visibility should be an Enum, not a bunch statics
 - "isInActiveFacet" should be extracted from here. Maybe in a "IFacetCapable" interface that
 	would live in the internal package for now and would further be implemented by IModelComponent
 	when we expose facets.

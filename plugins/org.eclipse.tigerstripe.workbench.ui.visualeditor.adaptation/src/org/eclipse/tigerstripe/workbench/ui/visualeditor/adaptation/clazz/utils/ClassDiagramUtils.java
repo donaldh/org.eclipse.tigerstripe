@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
@@ -68,33 +69,33 @@ public class ClassDiagramUtils {
 	 * @param tsVisibility
 	 * @return
 	 */
-	public static Visibility toVisibility(int tsVisibility) {
+	public static Visibility toVisibility(EVisibility tsVisibility) {
 		switch (tsVisibility) {
-		case IModelComponent.VISIBILITY_PACKAGE:
+		case PACKAGE:
 			return Visibility.PACKAGE_LITERAL;
-		case IModelComponent.VISIBILITY_PRIVATE:
+		case PRIVATE:
 			return Visibility.PRIVATE_LITERAL;
-		case IModelComponent.VISIBILITY_PROTECTED:
+		case PROTECTED:
 			return Visibility.PROTECTED_LITERAL;
-		case IModelComponent.VISIBILITY_PUBLIC:
+		case PUBLIC:
 			return Visibility.PUBLIC_LITERAL;
 		}
 
 		return Visibility.PUBLIC_LITERAL;
 	}
 
-	public static int fromVisibility(Visibility visibility) {
+	public static EVisibility fromVisibility(Visibility visibility) {
 		switch (visibility.getValue()) {
 		case Visibility.PACKAGE:
-			return IModelComponent.VISIBILITY_PACKAGE;
+			return EVisibility.PACKAGE;
 		case Visibility.PRIVATE:
-			return IModelComponent.VISIBILITY_PRIVATE;
+			return EVisibility.PRIVATE;
 		case Visibility.PROTECTED:
-			return IModelComponent.VISIBILITY_PROTECTED;
+			return EVisibility.PROTECTED;
 		case Visibility.PUBLIC:
-			return IModelComponent.VISIBILITY_PUBLIC;
+			return EVisibility.PUBLIC;
 		}
-		return IModelComponent.VISIBILITY_PUBLIC;
+		return EVisibility.PUBLIC;
 
 	}
 

@@ -556,16 +556,16 @@ public class TS2UML2 {
 			// TODO method.isOptional()
 			// TODO method.isVoid()
 			switch (method.getVisibility()) {
-			case IModelComponent.VISIBILITY_PACKAGE:
+			case PACKAGE:
 				operation.setVisibility(VisibilityKind.PACKAGE_LITERAL);
 				break;
-			case IModelComponent.VISIBILITY_PRIVATE:
+			case PRIVATE:
 				operation.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 				break;
-			case IModelComponent.VISIBILITY_PROTECTED:
+			case PROTECTED:
 				operation.setVisibility(VisibilityKind.PROTECTED_LITERAL);
 				break;
-			case IModelComponent.VISIBILITY_PUBLIC:
+			case PUBLIC:
 				operation.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 				break;
 			}
@@ -648,16 +648,16 @@ public class TS2UML2 {
 			// TODO method.isOptional()
 			// TODO method.isVoid()
 			switch (method.getVisibility()) {
-			case IModelComponent.VISIBILITY_PACKAGE:
+			case PACKAGE:
 				operation.setVisibility(VisibilityKind.PACKAGE_LITERAL);
 				break;
-			case IModelComponent.VISIBILITY_PRIVATE:
+			case PRIVATE:
 				operation.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 				break;
-			case IModelComponent.VISIBILITY_PROTECTED:
+			case PROTECTED:
 				operation.setVisibility(VisibilityKind.PROTECTED_LITERAL);
 				break;
-			case IModelComponent.VISIBILITY_PUBLIC:
+			case PUBLIC:
 				operation.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 				break;
 			}
@@ -743,16 +743,16 @@ public class TS2UML2 {
 					attribute.setDefault(field.getDefaultValue());
 				}
 				switch (field.getVisibility()) {
-				case IModelComponent.VISIBILITY_PACKAGE:
+				case PACKAGE:
 					attribute.setVisibility(VisibilityKind.PACKAGE_LITERAL);
 					break;
-				case IModelComponent.VISIBILITY_PRIVATE:
+				case PRIVATE:
 					attribute.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 					break;
-				case IModelComponent.VISIBILITY_PROTECTED:
+				case PROTECTED:
 					attribute.setVisibility(VisibilityKind.PROTECTED_LITERAL);
 					break;
-				case IModelComponent.VISIBILITY_PUBLIC:
+				case PUBLIC:
 					attribute.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 					break;
 				}
@@ -1170,16 +1170,16 @@ public class TS2UML2 {
 				aEnd.setUpper(end1UpperBound);
 
 				switch (end1.getVisibility()) {
-				case IModelComponent.VISIBILITY_PACKAGE:
+				case PACKAGE:
 					aEnd.setVisibility(VisibilityKind.PACKAGE_LITERAL);
 					break;
-				case IModelComponent.VISIBILITY_PRIVATE:
+				case PRIVATE:
 					aEnd.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 					break;
-				case IModelComponent.VISIBILITY_PROTECTED:
+				case PROTECTED:
 					aEnd.setVisibility(VisibilityKind.PROTECTED_LITERAL);
 					break;
-				case IModelComponent.VISIBILITY_PUBLIC:
+				case PUBLIC:
 					aEnd.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 					break;
 				}
@@ -1196,16 +1196,16 @@ public class TS2UML2 {
 				aEnd.setUpper(end2UpperBound);
 
 				switch (end2.getVisibility()) {
-				case IModelComponent.VISIBILITY_PACKAGE:
+				case PACKAGE:
 					zEnd.setVisibility(VisibilityKind.PACKAGE_LITERAL);
 					break;
-				case IModelComponent.VISIBILITY_PRIVATE:
+				case PRIVATE:
 					zEnd.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 					break;
-				case IModelComponent.VISIBILITY_PROTECTED:
+				case PROTECTED:
 					zEnd.setVisibility(VisibilityKind.PROTECTED_LITERAL);
 					break;
-				case IModelComponent.VISIBILITY_PUBLIC:
+				case PUBLIC:
 					zEnd.setVisibility(VisibilityKind.PUBLIC_LITERAL);
 					break;
 				}

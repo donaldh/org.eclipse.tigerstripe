@@ -38,6 +38,7 @@ import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.uml2.uml.AggregationKind;
@@ -178,16 +179,16 @@ public class UML2MappingUtils {
 				int tsVis = 0;
 				switch (umlVis) {
 				case VisibilityKind.PUBLIC:
-					tsVis = IModelComponent.VISIBILITY_PUBLIC;
+					tsVis = EVisibility.indexOf(EVisibility.PUBLIC);
 					break;
 				case VisibilityKind.PRIVATE:
-					tsVis = IModelComponent.VISIBILITY_PRIVATE;
+					tsVis = EVisibility.indexOf(EVisibility.PRIVATE);
 					break;
 				case VisibilityKind.PROTECTED:
-					tsVis = IModelComponent.VISIBILITY_PROTECTED;
+					tsVis = EVisibility.indexOf(EVisibility.PROTECTED);
 					break;
 				case VisibilityKind.PACKAGE:
-					tsVis = IModelComponent.VISIBILITY_PACKAGE;
+					tsVis = EVisibility.indexOf(EVisibility.PACKAGE);
 					break;
 				}
 				attribute.setVisibility(tsVis);
@@ -328,16 +329,16 @@ public class UML2MappingUtils {
 				int tsVis = 0;
 				switch (umlVis) {
 				case VisibilityKind.PUBLIC:
-					tsVis = IModelComponent.VISIBILITY_PUBLIC;
+					tsVis = EVisibility.indexOf(EVisibility.PUBLIC);
 					break;
 				case VisibilityKind.PRIVATE:
-					tsVis = IModelComponent.VISIBILITY_PRIVATE;
+					tsVis = EVisibility.indexOf(EVisibility.PRIVATE);
 					break;
 				case VisibilityKind.PROTECTED:
-					tsVis = IModelComponent.VISIBILITY_PROTECTED;
+					tsVis = EVisibility.indexOf(EVisibility.PROTECTED);
 					break;
 				case VisibilityKind.PACKAGE:
-					tsVis = IModelComponent.VISIBILITY_PACKAGE;
+					tsVis = EVisibility.indexOf(EVisibility.PACKAGE);
 					break;
 				}
 				op.setVisibility(tsVis);
@@ -546,16 +547,16 @@ public class UML2MappingUtils {
 				int tsVis = 0;
 				switch (umlVis) {
 				case VisibilityKind.PUBLIC:
-					tsVis = IModelComponent.VISIBILITY_PUBLIC;
+					tsVis = EVisibility.indexOf(EVisibility.PUBLIC);
 					break;
 				case VisibilityKind.PRIVATE:
-					tsVis = IModelComponent.VISIBILITY_PRIVATE;
+					tsVis = EVisibility.indexOf(EVisibility.PRIVATE);
 					break;
 				case VisibilityKind.PROTECTED:
-					tsVis = IModelComponent.VISIBILITY_PROTECTED;
+					tsVis = EVisibility.indexOf(EVisibility.PROTECTED);
 					break;
 				case VisibilityKind.PACKAGE:
-					tsVis = IModelComponent.VISIBILITY_PACKAGE;
+					tsVis = EVisibility.indexOf(EVisibility.PACKAGE);
 					break;
 				}
 				end.setVisibility(tsVis);

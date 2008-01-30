@@ -52,7 +52,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 
 	private String comment;
 
-	private int visibility;
+	private EVisibility visibility;
 
 	protected static XmlEscape xmlEncode = new XmlEscape();
 
@@ -258,23 +258,26 @@ public abstract class ArtifactComponent implements IModelComponent,
 		// }
 	}
 
-	public void setVisibility(int visibility) {
+	public void setVisibility(EVisibility visibility) {
 		this.visibility = visibility;
 	}
 
-	public int getVisibility() {
+	public EVisibility getVisibility() {
 		return this.visibility;
 	}
 
+	/*
+	 * This method is needed because the QDOX stuff returns a  String[] of ALL modifiers
+	 */
 	protected void setVisibility(String[] modifiers) {
-		setVisibility(IModelComponent.VISIBILITY_PACKAGE);
+		setVisibility(EVisibility.PACKAGE);
 		for (String modifier : modifiers) {
 			if ("public".equals(modifier)) {
-				setVisibility(IModelComponent.VISIBILITY_PUBLIC);
+				setVisibility(EVisibility.PUBLIC);
 			} else if ("protected".equals(modifier)) {
-				setVisibility(IModelComponent.VISIBILITY_PROTECTED);
+				setVisibility(EVisibility.PROTECTED);
 			} else if ("private".equals(modifier)) {
-				setVisibility(IModelComponent.VISIBILITY_PRIVATE);
+				setVisibility(EVisibility.PRIVATE);
 			}
 		}
 	}

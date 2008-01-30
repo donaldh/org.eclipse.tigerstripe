@@ -66,6 +66,7 @@ import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
@@ -1020,26 +1021,26 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		setSilentUpdate(false);
 	}
 
-	private void setVisibility(int visibility) {
+	private void setVisibility(EVisibility visibility) {
 		publicButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PUBLIC);
+				.setSelection(visibility.equals(EVisibility.PUBLIC));
 		protectedButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PROTECTED);
+				.setSelection(visibility.equals(EVisibility.PROTECTED));
 		privateButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PRIVATE);
+				.setSelection(visibility.equals(EVisibility.PRIVATE));
 		packageButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PACKAGE);
+				.setSelection(visibility.equals(EVisibility.PACKAGE));
 	}
 
-	private int getVisibility() {
+	private EVisibility getVisibility() {
 		if (publicButton.getSelection())
-			return IModelComponent.VISIBILITY_PUBLIC;
+			return EVisibility.PUBLIC;
 		else if (protectedButton.getSelection())
-			return IModelComponent.VISIBILITY_PROTECTED;
+			return EVisibility.PROTECTED;
 		else if (packageButton.getSelection())
-			return IModelComponent.VISIBILITY_PACKAGE;
+			return EVisibility.PACKAGE;
 		else
-			return IModelComponent.VISIBILITY_PRIVATE;
+			return EVisibility.PRIVATE;
 	}
 
 	/**

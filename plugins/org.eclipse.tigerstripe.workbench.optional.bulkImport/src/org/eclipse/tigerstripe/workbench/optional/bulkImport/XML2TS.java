@@ -64,6 +64,7 @@ import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
@@ -859,8 +860,8 @@ public class XML2TS {
 			this.out.println(type.getTypeMultiplicity().getLabel());
 			// end
 			newField.setType(type);
-			newField.setVisibility(Integer.valueOf(field
-					.getAttribute("visibility")));
+			newField.setVisibility(EVisibility.at(Integer.valueOf(field
+					.getAttribute("visibility"))));
 			newField.setOptional(Boolean.parseBoolean(field
 					.getAttribute("optional")));
 			newField.setReadOnly(Boolean.parseBoolean(field
@@ -904,8 +905,8 @@ public class XML2TS {
 			newLabel.setValue(label.getAttribute("value"));
 			type.setFullyQualifiedName(label.getAttribute("type"));
 			newLabel.setType(type);
-			newLabel.setVisibility(Integer.valueOf(label
-					.getAttribute("visibility")));
+			newLabel.setVisibility(EVisibility.at(Integer.valueOf(label
+					.getAttribute("visibility"))));
 			newLabel.setComment(getComment(label));
 
 			for (IStereotypeInstance st : getStereotypes(label, out, messages)) {
@@ -925,8 +926,8 @@ public class XML2TS {
 			IMethod newMethod = artifact.makeMethod();
 
 			newMethod.setName(method.getAttribute("name"));
-			newMethod.setVisibility(Integer.valueOf(method
-					.getAttribute("visibility")));
+			newMethod.setVisibility(EVisibility.at(Integer.valueOf(method
+					.getAttribute("visibility"))));
 			newMethod.setOptional(Boolean.parseBoolean(method
 					.getAttribute("optional")));
 			newMethod.setInstanceMethod(Boolean.parseBoolean(method

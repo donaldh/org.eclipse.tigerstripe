@@ -33,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereo
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -137,8 +138,7 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 						.get("aEndVisibility");
 				Visibility oldVisibility = association.getAEndVisibility();
 				if (!oldVisibility.toString().equals(newVisibilityStr)) {
-					iAssociationAEnd.setVisibility(Visibility.get(
-							newVisibilityStr).getValue());
+					iAssociationAEnd.setVisibility(EVisibility.parse(newVisibilityStr));
 				}
 			}
 			// next, the aEnd aggregation value
@@ -200,8 +200,7 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 						.get("zEndVisibility");
 				Visibility oldVisibility = association.getZEndVisibility();
 				if (!oldVisibility.toString().equals(newVisibilityStr)) {
-					iAssociationZEnd.setVisibility(Visibility.get(
-							newVisibilityStr).getValue());
+					iAssociationZEnd.setVisibility(EVisibility.parse(newVisibilityStr));
 				}
 			}
 			// next, the zEnd aggregation value

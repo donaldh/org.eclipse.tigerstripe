@@ -20,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
@@ -161,16 +162,16 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 				} else if (featureId.endsWith("Visibility")) {
 					if ("PUBLIC".equals(featureValue))
 						targetEnd
-								.setVisibility(IModelComponent.VISIBILITY_PUBLIC);
+								.setVisibility(EVisibility.PUBLIC);
 					else if ("PROTECTED".equals(featureValue))
 						targetEnd
-								.setVisibility(IModelComponent.VISIBILITY_PROTECTED);
+								.setVisibility(EVisibility.PROTECTED);
 					else if ("PRIVATE".equals(featureValue))
 						targetEnd
-								.setVisibility(IModelComponent.VISIBILITY_PRIVATE);
+								.setVisibility(EVisibility.PRIVATE);
 					else if ("PACKAGE".equals(featureValue))
 						targetEnd
-								.setVisibility(IModelComponent.VISIBILITY_PACKAGE);
+								.setVisibility(EVisibility.PACKAGE);
 				} else {
 					// It's the end itself that is changing!!
 					IType type = targetEnd.makeType();

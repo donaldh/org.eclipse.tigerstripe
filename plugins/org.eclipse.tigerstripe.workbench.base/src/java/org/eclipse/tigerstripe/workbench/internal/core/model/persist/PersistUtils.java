@@ -19,19 +19,7 @@ public class PersistUtils {
 	public String getVisibilityAsString(IModelComponent component) {
 		if (component == null)
 			return "public";
-
-		switch (component.getVisibility()) {
-		case IModelComponent.VISIBILITY_PRIVATE:
-			return "private";
-		case IModelComponent.VISIBILITY_PROTECTED:
-			return "protected";
-		case IModelComponent.VISIBILITY_PUBLIC:
-			return "public";
-		case IModelComponent.VISIBILITY_PACKAGE:
-			return "";
-		default:
-			return "public";
-		}
+		return component.getVisibility().getLabel();
 	}
 
 	public String getReturnType(IMethod method) {

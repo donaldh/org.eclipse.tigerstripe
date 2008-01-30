@@ -37,6 +37,7 @@ import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDialog;
@@ -718,48 +719,48 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		return -1;
 	}
 
-	private int getAEndVisibility() {
+	private EVisibility getAEndVisibility() {
 		if (aEndPublicButton.getSelection())
-			return IModelComponent.VISIBILITY_PUBLIC;
+			return EVisibility.PUBLIC;
 		else if (aEndProtectedButton.getSelection())
-			return IModelComponent.VISIBILITY_PROTECTED;
+			return EVisibility.PROTECTED;
 		else if (aEndPrivateButton.getSelection())
-			return IModelComponent.VISIBILITY_PRIVATE;
+			return EVisibility.PRIVATE;
 		else
-			return IModelComponent.VISIBILITY_PACKAGE;
+			return EVisibility.PACKAGE;
 	}
 
-	private int getZEndVisibility() {
+	private EVisibility getZEndVisibility() {
 		if (zEndPublicButton.getSelection())
-			return IModelComponent.VISIBILITY_PUBLIC;
+			return EVisibility.PUBLIC;
 		else if (zEndProtectedButton.getSelection())
-			return IModelComponent.VISIBILITY_PROTECTED;
+			return EVisibility.PROTECTED;
 		else if (zEndPrivateButton.getSelection())
-			return IModelComponent.VISIBILITY_PRIVATE;
+			return EVisibility.PRIVATE;
 		else
-			return IModelComponent.VISIBILITY_PACKAGE;
+			return EVisibility.PACKAGE;
 	}
 
-	private void setAEndVisibility(int visibility) {
+	private void setAEndVisibility(EVisibility visibility) {
 		aEndPublicButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PUBLIC);
+				.setSelection(visibility.equals(EVisibility.PUBLIC));
 		aEndProtectedButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PROTECTED);
+				.setSelection(visibility.equals(EVisibility.PROTECTED));
 		aEndPrivateButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PRIVATE);
+				.setSelection(visibility.equals(EVisibility.PRIVATE));
 		aEndPackageButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PACKAGE);
+				.setSelection(visibility.equals(EVisibility.PACKAGE));
 	}
 
-	private void setZEndVisibility(int visibility) {
+	private void setZEndVisibility(EVisibility visibility) {
 		zEndPublicButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PUBLIC);
+				.setSelection(visibility.equals(EVisibility.PUBLIC));
 		zEndProtectedButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PROTECTED);
+				.setSelection(visibility.equals(EVisibility.PROTECTED));
 		zEndPrivateButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PRIVATE);
+				.setSelection(visibility.equals(EVisibility.PRIVATE));
 		zEndPackageButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PACKAGE);
+				.setSelection(visibility.equals(EVisibility.PACKAGE));
 	}
 
 }

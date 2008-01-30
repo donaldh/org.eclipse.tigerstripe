@@ -24,7 +24,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 public interface IModelComponent extends IStereotypeCapable {
 
 	/**
-	 * An enum of the possible values for the multiplicity of an end.
+	 * An enum of the possible values for the multiplicity of an component.
 	 * 
 	 */
 	public enum EMultiplicity {
@@ -101,23 +101,55 @@ public interface IModelComponent extends IStereotypeCapable {
 			return labels;
 		}
 	}
+	/**
+	 * An enum of the possible values for the visibility of a component.
+	 * 
+	 */
+	public enum EVisibility {
 
-	/**
-	 * Static integer value for private visibility.
-	 */
-	public final static int VISIBILITY_PACKAGE = 3;
-	/**
-	 * Static integer value for private visibility.
-	 */
-	public final static int VISIBILITY_PRIVATE = 2;
-	/**
-	 * Static integer value for protected visibility.
-	 */
-	public final static int VISIBILITY_PROTECTED = 1;
-	/**
-	 * Static integer value for public visibility.
-	 */
-	public final static int VISIBILITY_PUBLIC = 0;
+		PUBLIC("public"), PROTECTED("protected"), PRIVATE("private"), PACKAGE("package");
+	
+		private String label;
+
+		private static String[] labels;
+	
+		EVisibility(String label) {
+			this.label = label;
+		}
+		/**
+		 * Return the label for an enumeration value.
+		 * 
+		 * @return String - the label.
+		 */
+		public String getLabel() {
+			return this.label;
+		}
+		
+		public static EVisibility parse(String label) {
+			for (EVisibility val : values()) {
+				if (val.label.equals(label))
+					return val;
+			}
+			return EVisibility.PUBLIC;
+		}
+	
+		public static int indexOf(EVisibility visibility) {
+			for (int index = 0; index < values().length; index++) {
+				if (visibility == values()[index])
+					return index;
+			}
+			throw new IllegalArgumentException("Illegal visibility literal: "
+					+ visibility);
+		}
+	
+		public static EVisibility at(int index) {
+			if (index >= 0 && index < values().length)
+				return values()[index];
+			throw new IllegalArgumentException("Illegal visibility index: "
+					+ index);
+		}
+	}
+	
 
 	/**
 	 * Sets the name associated with this component
@@ -128,7 +160,7 @@ public interface IModelComponent extends IStereotypeCapable {
 
 	public void setComment(String comment);
 
-	public void setVisibility(int visibility);
+	public void setVisibility(EVisibility visibility);
 
 	/**
 	 * Returns the comment (or plain-english description) associated with this
@@ -151,7 +183,7 @@ public interface IModelComponent extends IStereotypeCapable {
 	 * 
 	 * @return int - representing the visbility
 	 */
-	public int getVisibility();
+	public EVisibility getVisibility();
 
 	/**
 	 * Returns true if this component is included in the current active facet.

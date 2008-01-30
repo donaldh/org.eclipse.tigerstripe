@@ -33,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
@@ -490,16 +491,16 @@ public class VisualeditorRelationshipUtils {
 				+ " found");
 	}
 
-	public static Visibility mapVisibility(int visibility) {
-		if (visibility == IModelComponent.VISIBILITY_PUBLIC)
+	public static Visibility mapVisibility(EVisibility visibility) {
+		if (visibility.equals(EVisibility.PUBLIC))
 			return Visibility.PUBLIC_LITERAL;
-		else if (visibility == IModelComponent.VISIBILITY_PACKAGE)
+		else if (visibility.equals(EVisibility.PACKAGE))
 			return Visibility.PACKAGE_LITERAL;
-		else if (visibility == IModelComponent.VISIBILITY_PROTECTED)
+		else if (visibility.equals(EVisibility.PROTECTED))
 			return Visibility.PROTECTED_LITERAL;
-		else if (visibility == IModelComponent.VISIBILITY_PRIVATE)
+		else if (visibility.equals(EVisibility.PRIVATE))
 			return Visibility.PRIVATE_LITERAL;
-		throw new IllegalArgumentException("Illegal value " + visibility
+		throw new IllegalArgumentException("Illegal value " + visibility.getLabel()
 				+ " found");
 	}
 

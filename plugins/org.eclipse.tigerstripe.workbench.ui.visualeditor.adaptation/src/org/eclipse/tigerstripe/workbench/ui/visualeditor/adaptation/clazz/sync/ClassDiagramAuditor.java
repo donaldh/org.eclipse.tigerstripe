@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
@@ -416,8 +417,8 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		}
 
 		// End Visibility
-		int iAEndVisibility = iAssoc.getAEnd().getVisibility();
-		int iZEndVisibility = iAssoc.getZEnd().getVisibility();
+		EVisibility iAEndVisibility = iAssoc.getAEnd().getVisibility();
+		EVisibility iZEndVisibility = iAssoc.getZEnd().getVisibility();
 		Visibility eAEndVisibility = eAssociation.getAEndVisibility();
 		Visibility eZEndVisibility = eAssociation.getZEndVisibility();
 

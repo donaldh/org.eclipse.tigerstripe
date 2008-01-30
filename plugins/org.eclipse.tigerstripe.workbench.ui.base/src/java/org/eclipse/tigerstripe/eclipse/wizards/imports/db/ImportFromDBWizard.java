@@ -77,6 +77,7 @@ import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
@@ -362,7 +363,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 				type.setFullyQualifiedName("String");
 				label.setType(type);
 				label.setValue(cst.getValue());
-				label.setVisibility(cst.getVisibility());
+				label.setVisibility(EVisibility.at(cst.getVisibility()));
 				newArtifact.addLabel(label);
 			}
 		}

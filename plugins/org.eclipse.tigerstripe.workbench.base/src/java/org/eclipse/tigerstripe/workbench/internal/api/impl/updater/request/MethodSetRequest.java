@@ -18,6 +18,7 @@ import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 public class MethodSetRequest extends BaseArtifactElementRequest implements
@@ -76,16 +77,16 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 					} else if (VISIBILITY_FEATURE.equals(featureId)) {
 						if ("PUBLIC".equals(newValue)) {
 							iMethod
-									.setVisibility(IModelComponent.VISIBILITY_PUBLIC);
+									.setVisibility(EVisibility.PUBLIC);
 						} else if ("PROTECTED".equals(newValue)) {
 							iMethod
-									.setVisibility(IModelComponent.VISIBILITY_PROTECTED);
+									.setVisibility(EVisibility.PROTECTED);
 						} else if ("PRIVATE".equals(newValue)) {
 							iMethod
-									.setVisibility(IModelComponent.VISIBILITY_PRIVATE);
+									.setVisibility(EVisibility.PRIVATE);
 						} else if ("PACKAGE".equals(newValue)) {
 							iMethod
-									.setVisibility(IModelComponent.VISIBILITY_PACKAGE);
+									.setVisibility(EVisibility.PACKAGE);
 						}
 						needSave = true;
 					} else if (ISABSTRACT_FEATURE.equals(featureId)) {

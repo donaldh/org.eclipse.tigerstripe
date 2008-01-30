@@ -199,8 +199,8 @@ public class CompareUtils {
 					.getContainingArtifact().getFullyQualifiedName(), bEnd
 					.getContainingArtifact().getFullyQualifiedName(),
 					"Association:AssociationEnd:" + aORz + ":Visibility",
-					aName, ((Integer) aEnd.getVisibility()).toString(),
-					((Integer) bEnd.getVisibility()).toString()));
+					aName, aEnd.getVisibility().getLabel(),
+					bEnd.getVisibility().getLabel()));
 		}
 		return differences;
 	}
@@ -841,8 +841,8 @@ public class CompareUtils {
 							"value", aArtifact.getFullyQualifiedName(),
 							bArtifact.getFullyQualifiedName(),
 							"Artifact:Field:Visibility", fieldName.toString(),
-							((Integer) aField.getVisibility()).toString(),
-							((Integer) bField.getVisibility()).toString()));
+							aField.getVisibility().getLabel(),
+							bField.getVisibility().getLabel()));
 				}
 				if (aField.isOptional() != bField.isOptional()) {
 					// Compare Optional
@@ -1007,9 +1007,9 @@ public class CompareUtils {
 							.getFullyQualifiedName(), bArtifact
 							.getFullyQualifiedName(),
 							"Artifact:Method:Visibility",
-							methodName.toString(), ((Integer) aMethod
-									.getVisibility()).toString(),
-							((Integer) bMethod.getVisibility()).toString()));
+							methodName.toString(), aMethod
+									.getVisibility().getLabel(),
+							bMethod.getVisibility().getLabel()));
 				}
 				// Need to be less clever....
 				// In theory of one or the other is void, then the return type

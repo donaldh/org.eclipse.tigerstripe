@@ -34,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.model.ILabel;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
@@ -368,22 +369,22 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 		setSilentUpdate(false);
 	}
 
-	private void setVisibility(int visibility) {
+	private void setVisibility(EVisibility visibility) {
 		publicButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PUBLIC);
+				.setSelection(visibility.equals(EVisibility.PUBLIC));
 		protectedButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PROTECTED);
+				.setSelection(visibility.equals(EVisibility.PROTECTED));
 		privateButton
-				.setSelection(visibility == IModelComponent.VISIBILITY_PRIVATE);
+				.setSelection(visibility.equals(EVisibility.PRIVATE));
 	}
 
-	private int getVisibility() {
+	private EVisibility getVisibility() {
 		if (publicButton.getSelection())
-			return IModelComponent.VISIBILITY_PUBLIC;
+			return EVisibility.PUBLIC;
 		else if (protectedButton.getSelection())
-			return IModelComponent.VISIBILITY_PROTECTED;
+			return EVisibility.PROTECTED;
 		else
-			return IModelComponent.VISIBILITY_PRIVATE;
+			return EVisibility.PRIVATE;
 	}
 
 	/**
