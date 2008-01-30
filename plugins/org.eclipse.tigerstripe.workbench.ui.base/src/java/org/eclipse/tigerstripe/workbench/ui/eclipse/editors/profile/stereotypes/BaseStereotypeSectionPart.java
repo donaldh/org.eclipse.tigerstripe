@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.stereotypes;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -306,15 +309,15 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 	 */
 	protected void removeButtonSelected(SelectionEvent event) {
 		TableItem[] selectedItems = viewer.getTable().getSelection();
-		IStereotype[] selectedFields = new IStereotype[selectedItems.length];
+		Collection<IStereotype> selectedFields = new ArrayList<IStereotype>();
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (IStereotype) selectedItems[i].getData();
+			selectedFields.add((IStereotype) selectedItems[i].getData());
 		}
 
 		String message = "Do you really want to remove ";
-		if (selectedFields.length > 1) {
-			message = message + "these " + selectedFields.length
+		if (selectedFields.size() > 1) {
+			message = message + "these " + selectedFields.size()
 					+ " annotations?";
 		} else {
 			message = message + "this annotation?";

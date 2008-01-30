@@ -141,7 +141,7 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 			OssjEntityMethodFlavor flavor = (OssjEntityMethodFlavor) element;
 			EntityMethodFlavorDetails details = new EntityMethodFlavorDetails(
 					((Method) currentMethod).getContainingArtifact(),
-					currentMethod.getOssjMethodProperties().getProperty(
+					((Method) currentMethod).getOssjMethodProperties().getProperty(
 							flavor.getPojoLabel()));
 
 			boolean hasOverride = getOverride().hasOveride(
@@ -542,7 +542,7 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 
 		if (selectedFlavor != null) {
 			String property = selectedFlavor.getPojoLabel();
-			String flavorStr = currentMethod.getOssjMethodProperties()
+			String flavorStr = ((Method) currentMethod).getOssjMethodProperties()
 					.getProperty(property);
 			currentFlavorDetails = new EntityMethodFlavorDetails(
 					((Method) currentMethod).getContainingArtifact(), flavorStr);

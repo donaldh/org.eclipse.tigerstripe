@@ -25,13 +25,13 @@ public interface IProjectDetails  {
 	 * the namespace prefix to be used when referencing the common API in
 	 * generated XSDs
 	 */
-	public final static String OSSJ_COMMON_NAMESPACE_PREFIX = "ossj.common.namespacePrefix";
+	//public final static String OSSJ_COMMON_NAMESPACE_PREFIX = "ossj.common.namespacePrefix";
 
 	/* The target namespace for the OSSJ common schema */
-	public final static String OSSJ_COMMON_TARGET_NAMESPACE = "ossj.common.targetNamespace";
+	//public final static String OSSJ_COMMON_TARGET_NAMESPACE = "ossj.common.targetNamespace";
 
 	/* The OSSJ Common schema location */
-	public final static String OSSJ_COMMON_SCHEMA_LOCATION = "ossj.common.schemaLocation";
+	//public final static String OSSJ_COMMON_SCHEMA_LOCATION = "ossj.common.schemaLocation";
 
 	/* The default artifact package for newly created artifacts */
 	public final static String DEFAULTARTIFACTPACKAGE_PROP = "defaultArtifactPackage";
@@ -75,9 +75,9 @@ public interface IProjectDetails  {
 
 	// ==============================================================
 	/* Mandatory values are checked for existence by the Auditor */
-	public final static String[] MANDATORY_PROPERTIES = {
-			OSSJ_COMMON_NAMESPACE_PREFIX, OSSJ_COMMON_TARGET_NAMESPACE,
-			OSSJ_COMMON_SCHEMA_LOCATION };
+	public final static String[] MANDATORY_PROPERTIES = { };
+	//		OSSJ_COMMON_NAMESPACE_PREFIX, OSSJ_COMMON_TARGET_NAMESPACE,
+	//		OSSJ_COMMON_SCHEMA_LOCATION };
 
 	public void setName(String name);
 

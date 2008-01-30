@@ -166,14 +166,14 @@ public class BrowseForArtifactDialog {
 		return new AbstractArtifact[0];
 	}
 
-	private IPrimitiveTypeArtifact[] getBuiltinPrimitiveTypes()
+	private Collection<IPrimitiveTypeArtifact> getBuiltinPrimitiveTypes()
 			throws TigerstripeException {
 		try {
 			if (isIncludePrimitiveTypes())
 				return TigerstripeCore.getDefaultProjectSession().getPhantomProject()
 						.getReservedPrimitiveTypes();
 			else
-				return new IPrimitiveTypeArtifact[0];
+				return new ArrayList<IPrimitiveTypeArtifact>();
 		} catch (TigerstripeLicenseException e) {
 			throw new TigerstripeException(
 					"Invalid license: " + e.getMessage(), e);
@@ -187,7 +187,7 @@ public class BrowseForArtifactDialog {
 	private Object[] getAvailableArtifactsList(List selectedElements)
 			throws TigerstripeException {
 
-		Collection artifacts = new LinkedList();
+		Collection<IAbstractArtifact> artifacts = new LinkedList<IAbstractArtifact>();
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 
 		// If we were given an empty array of artifactModels, just
@@ -196,7 +196,7 @@ public class BrowseForArtifactDialog {
 			IQueryAllArtifacts query = (IQueryAllArtifacts) session
 					.makeQuery(IQueryAllArtifacts.class.getName());
 			artifacts.addAll(session.queryArtifact(query));
-			artifacts.addAll(Arrays.asList(getBuiltinPrimitiveTypes()));
+			artifacts.addAll(getBuiltinPrimitiveTypes());
 		} else {
 			for (IAbstractArtifact art : this.artifactModels) {
 				IQueryArtifactsByType query = (IQueryArtifactsByType) session
@@ -204,7 +204,7 @@ public class BrowseForArtifactDialog {
 				query.setArtifactType(art.getClass().getName());
 				artifacts.addAll(session.queryArtifact(query));
 				if (art instanceof IPrimitiveTypeArtifact) {
-					artifacts.addAll(Arrays.asList(getBuiltinPrimitiveTypes()));
+					artifacts.addAll(getBuiltinPrimitiveTypes());
 				}
 			}
 		}
@@ -217,8 +217,7 @@ public class BrowseForArtifactDialog {
 		// overwriten
 		// artifacts locally.
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-		List<String> nameList = new ArrayList<String>(); // used to avoid
-		// duplicates
+		List<String> nameList = new ArrayList<String>(); // used to avoid duplicates
 		for (Iterator iterArtifacts = artifacts.iterator(); iterArtifacts
 				.hasNext();) {
 			AbstractArtifact artifact = (AbstractArtifact) iterArtifacts.next();

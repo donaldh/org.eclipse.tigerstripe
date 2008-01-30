@@ -151,7 +151,7 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	private Properties getWSDLPluginProperties() {
 		IPluginReference ref = getWSDLPluginReference();
 		if (ref != null)
-			return ref.getProperties();
+			return ((PluginRef) ref).getProperties();
 
 		return null;
 	}
@@ -165,7 +165,7 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	private Properties getWSDLExamplePluginProperties() {
 		IPluginReference ref = getWSDLExamplePluginReference();
 		if (ref != null)
-			return ref.getProperties();
+			return ((PluginRef) ref).getProperties();
 
 		return null;
 	}
@@ -276,15 +276,15 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * @param ref
 	 */
 	private void applyDefault(IPluginReference ref) {
-		ref.getProperties().setProperty("targetNamespace", "tns");
-		ref.getProperties().setProperty("targetPrefix", "tns");
-		ref
+		((PluginRef) ref).getProperties().setProperty("targetNamespace", "tns");
+		((PluginRef) ref).getProperties().setProperty("targetPrefix", "tns");
+		((PluginRef) ref)
 				.getProperties()
 				.setProperty(
 						"WSNotificationsLocation",
 						"http://www-128.ibm.com/developerworks/library/specification/ws-notification/WS-BaseN.wsdl");
-		ref.getProperties().setProperty("includeWSNotifications", "true");
-		ref.getProperties().setProperty("activeVersion",
+		((PluginRef) ref).getProperties().setProperty("includeWSNotifications", "true");
+		((PluginRef) ref).getProperties().setProperty("activeVersion",
 				IOssjWSDLProfilePlugin.defaultVersion);
 	}
 

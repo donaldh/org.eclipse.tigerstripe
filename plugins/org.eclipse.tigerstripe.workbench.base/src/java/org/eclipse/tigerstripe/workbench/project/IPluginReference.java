@@ -118,19 +118,8 @@ public interface IPluginReference {
 	public String getGroupId();
 
 	public String getPluginId();
-
-	// Bug 927 changed the return type to be the external version
 	
 	public ITigerstripeProject getProjectHandle();
-
-	/**
-	 * 
-	 * @return
-	 * @deprecated use {@link #getProperty(String)}. Note that table properties
-	 *             cannot be read through this method.
-	 */
-	@Deprecated
-	public Properties getProperties();
 
 	/**
 	 * Returns the value of the property as defined in the plugin reference.

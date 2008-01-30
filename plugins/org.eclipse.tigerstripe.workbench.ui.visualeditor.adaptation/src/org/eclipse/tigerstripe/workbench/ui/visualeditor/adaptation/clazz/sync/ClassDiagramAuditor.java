@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,7 +31,6 @@ import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
@@ -359,18 +358,19 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 		// check annotations
 		if (eAssociation.getStereotypes().size() != iAssoc
-				.getStereotypeInstances().length) {
+				.getStereotypeInstances().size()) {
 			IStatus status = getErrorStatus("Annotations don't match");
 			result.add(status);
 		} else {
 			// same number of stereotypes let's see if they all
 			// match
 			List<String> eStereotypes = eAssociation.getStereotypes();
-			IStereotypeInstance[] iStereotypes = iAssoc
+			Iterator<String> eStereo = eStereotypes.iterator();
+			Collection<IStereotypeInstance> iStereotypes = iAssoc
 					.getStereotypeInstances();
-			for (int index = 0; index < iStereotypes.length; index++) {
-				String eStereotypeName = eStereotypes.get(index);
-				String iStereotypeName = iStereotypes[index].getName();
+			for (IStereotypeInstance iStereo : iStereotypes) {
+				String eStereotypeName = eStereo.next();
+				String iStereotypeName = iStereo.getName();
 				if (!eStereotypeName.equals(iStereotypeName)) {
 					IStatus status = getErrorStatus("Annotations don't match");
 					result.add(status);
@@ -578,18 +578,19 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				}
 
 				if (attribute.getStereotypes().size() != iField
-						.getStereotypeInstances().length) {
+						.getStereotypeInstances().size()) {
 					IStatus status = getErrorStatus("Annotations don't match");
 					attrStatus.add(status);
 				} else {
 					// same number of stereotypes let's see if they all
 					// match
 					List<String> eStereotypes = attribute.getStereotypes();
-					IStereotypeInstance[] iStereotypes = iField
+					Iterator<String> eStereo = eStereotypes.iterator();
+					Collection<IStereotypeInstance> iStereotypes = iField
 							.getStereotypeInstances();
-					for (int index = 0; index < iStereotypes.length; index++) {
-						String eStereotypeName = eStereotypes.get(index);
-						String iStereotypeName = iStereotypes[index].getName();
+					for (IStereotypeInstance iStereo: iStereotypes) {
+						String eStereotypeName = eStereo.next();
+						String iStereotypeName = iStereo.getName();
 						if (!eStereotypeName.equals(iStereotypeName)) {
 							IStatus status = getErrorStatus("Annotations don't match");
 							attrStatus.add(status);
@@ -662,7 +663,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 				if (eMethod.getType() != null
 						&& !eMethod.getType().equals(targetReturnedType)) {
-					IStatus status = getErrorStatus("Return type doesn't in Diagram ("
+					IStatus status = getErrorStatus("Return type in Diagram ("
 							+ eMethod.getType()
 							+ ") doesn't match model: "
 							+ targetReturnedType);
@@ -697,16 +698,20 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				}
 
 				// review multiplicity, swap if necessary
-				AssocMultiplicity eMethodMultiplicy = eMethod
-						.getTypeMultiplicity();
+				// First check if the method has a void return type - in which case, the multiplicity is moot
+				if (!iMethod.isVoid()){
+					AssocMultiplicity eMethodMultiplicy = eMethod
+					.getTypeMultiplicity();
 
-				if (iMethod.getReturnType() != null) {
-					IModelComponent.EMultiplicity iMethodMultiplicity = iMethod
-							.getReturnType().getTypeMultiplicity();
-					if (eMethodMultiplicy != ClassDiagramUtils
-							.mapTypeMultiplicity(iMethodMultiplicity)) {
-						methResult
-								.add(getErrorStatus("multiplicity doesn't match"));
+					if (iMethod.getReturnType() != null) {
+						IModelComponent.EMultiplicity iMethodMultiplicity = iMethod
+						.getReturnType().getTypeMultiplicity();
+						if (eMethodMultiplicy != ClassDiagramUtils
+								.mapTypeMultiplicity(iMethodMultiplicity)) {
+							methResult
+							.add(getErrorStatus("return multiplicity doesn't match "
+									+iMethodMultiplicity.getLabel()+ " "+eMethodMultiplicy.getLiteral()));
+						}
 					}
 				}
 
@@ -774,7 +779,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 						// review stereotypes
 						if (theParam.getStereotypes().size() != theArg
-								.getStereotypeInstances().length) {
+								.getStereotypeInstances().size()) {
 							methResult
 									.add(getErrorStatus("Number of Annotations for '"
 											+ theArg.getName()
@@ -784,13 +789,11 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 							// match
 							List<String> eStereotypes = theParam
 									.getStereotypes();
-							IStereotypeInstance[] iStereotypes = theArg
-									.getStereotypeInstances();
-							for (int aindex = 0; aindex < iStereotypes.length; aindex++) {
-								String eStereotypeName = eStereotypes
-										.get(aindex);
-								String iStereotypeName = iStereotypes[aindex]
-										.getName();
+							Iterator<String> eStereo = eStereotypes.iterator();
+							Collection<IStereotypeInstance> iStereotypes = theArg.getStereotypeInstances();
+							for (IStereotypeInstance iStereo : iStereotypes) {
+								String eStereotypeName = eStereo.next();
+								String iStereotypeName = iStereo.getName();
 								if (!eStereotypeName.equals(iStereotypeName)) {
 									methResult
 											.add(getErrorStatus("Annotations for '"
@@ -805,18 +808,18 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 				// review stereotypes
 				if (eMethod.getStereotypes().size() != iMethod
-						.getStereotypeInstances().length) {
+						.getStereotypeInstances().size()) {
 					// not even the same number of args, let's redo the list
 					methResult
 							.add(getErrorStatus("Number of Annotations doesn't match"));
 				} else {
 					// same number of stereotypes let's see if they all match
 					List<String> eStereotypes = eMethod.getStereotypes();
-					IStereotypeInstance[] iStereotypes = iMethod
-							.getStereotypeInstances();
-					for (int index = 0; index < iStereotypes.length; index++) {
-						String eStereotypeName = eStereotypes.get(index);
-						String iStereotypeName = iStereotypes[index].getName();
+					Iterator<String> eStereo = eStereotypes.iterator();
+					Collection<IStereotypeInstance> iStereotypes = iMethod.getStereotypeInstances();
+					for (IStereotypeInstance iStereo : iStereotypes) {
+						String eStereotypeName = eStereo.next();
+						String iStereotypeName = iStereo.getName();
 						if (!eStereotypeName.equals(iStereotypeName)) {
 							methResult
 									.add(getErrorStatus("Annotations don't match"));

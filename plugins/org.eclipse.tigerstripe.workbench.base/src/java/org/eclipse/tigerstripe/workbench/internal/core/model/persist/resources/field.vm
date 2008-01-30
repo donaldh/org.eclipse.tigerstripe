@@ -25,7 +25,7 @@
      *## Take care of the stereotypes
 #foreach( $stereotype in $field.getStereotypeInstances() )
      * @tigerstripe.stereotype st.name = "$stereotype.Name"
-#foreach( $stAttr in $stereotype.getCharacterizingIStereotype().getAttributes() ) 
+#foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
  #if ( $stAttr.isArray() )
  *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
 	#else
@@ -38,6 +38,10 @@
      * $tag
 #end
      */
-	$utils.getVisibilityAsString( $field ) $field.Type.FullyQualifiedName$field.Type.Dimensions $field.Name;
+#set ($dimensions = "")
+#if ($field.Type.TypeMultiplicity.isArray())
+#set ($dimensions = "[]")
+#end
+	$utils.getVisibilityAsString( $field ) $field.Type.FullyQualifiedName$dimensions $field.Name;
 
 #end

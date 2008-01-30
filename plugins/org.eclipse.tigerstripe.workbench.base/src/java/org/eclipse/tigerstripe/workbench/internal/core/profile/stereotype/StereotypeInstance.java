@@ -34,7 +34,7 @@ public class StereotypeInstance implements IStereotypeInstance {
 	}
 
 
-	public IStereotype getCharacterizingIStereotype() {
+	public IStereotype getCharacterizingStereotype() {
 		return this.characterizingStereotype;
 	}
 
@@ -143,8 +143,8 @@ public class StereotypeInstance implements IStereotypeInstance {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		IStereotypeInstance copy = new StereotypeInstance(
-				getCharacterizingIStereotype());
-		for (IStereotypeAttribute attr : getCharacterizingIStereotype()
+				getCharacterizingStereotype());
+		for (IStereotypeAttribute attr : getCharacterizingStereotype()
 				.getAttributes()) {
 			try {
 				if (attr.isArray()) {

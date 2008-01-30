@@ -197,7 +197,7 @@ public class Field extends ArtifactComponent implements IField {
 		return new Type(getArtifactManager());
 	}
 
-	public void setIType(IType type) {
+	public void setType(IType type) {
 		this.type = (Type) type;
 	}
 
@@ -307,7 +307,7 @@ public class Field extends ArtifactComponent implements IField {
 		result.setName(getName());
 		result.setComment(getComment());
 		result.setDefaultValue(getDefaultValue());
-		result.setIType(getType().clone());
+		result.setType(getType().clone());
 		result.setOptional(isOptional());
 		result.setOrdered(isOrdered());
 		result.setReadOnly(isReadOnly());
@@ -315,7 +315,7 @@ public class Field extends ArtifactComponent implements IField {
 		result.setUnique(isUnique());
 		result.setVisibility(getVisibility());
 
-		IStereotypeInstance[] stereotypeInstances = getStereotypeInstances();
+		Collection<IStereotypeInstance> stereotypeInstances = getStereotypeInstances();
 		for (IStereotypeInstance inst : stereotypeInstances) {
 			result.addStereotypeInstance(inst);
 		}

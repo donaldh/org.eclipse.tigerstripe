@@ -10,11 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -333,20 +335,20 @@ public class TypedElementImpl extends NamedElementImpl implements TypedElement {
 			acceptChanges = true;
 		// else if it's a primitive type but not "void", accept the change
 		else if (!newType.equals("void")) {
-			IPrimitiveTypeDef[] primitiveTypes = TigerstripeCore
+			Collection<IPrimitiveTypeDef> primitiveTypes = TigerstripeCore
 					.getIWorkbenchProfileSession().getActiveProfile()
 					.getPrimitiveTypeDefs(true);
-			for (int i = 0; i < primitiveTypes.length; i++) {
+			for (IPrimitiveTypeDef primitive : primitiveTypes) {
 				String name = "";
-				if (primitiveTypes[i].getPackageName().equals("<reserved>"))
-					name = primitiveTypes[i].getName();
+				if (primitive.getPackageName().equals("<reserved>"))
+					name = primitive.getName();
 				else
-					name = primitiveTypes[i].getPackageName() + "."
-							+ primitiveTypes[i].getName();
+					name = primitive.getPackageName() + "."
+							+ primitive.getName();
 				if (newType.equals(name)) {
 					acceptChanges = true;
 					break;
-				} else if (newType.equals(primitiveTypes[i].getName())) {
+				} else if (newType.equals(primitive.getName())) {
 					// Allowing the users to omit the "primitive." prefix on a
 					// primitive type
 					// So they can type "datetime" or "primitive.datetime" and

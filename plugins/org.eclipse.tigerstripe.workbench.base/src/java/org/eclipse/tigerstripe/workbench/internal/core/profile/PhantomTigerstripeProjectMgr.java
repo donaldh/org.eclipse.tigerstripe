@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.zip.ZipException;
 
@@ -142,7 +143,7 @@ public class PhantomTigerstripeProjectMgr implements
 
 			IWorkbenchProfile profile = TigerstripeCore.getIWorkbenchProfileSession()
 					.getActiveProfile();
-			IPrimitiveTypeDef[] defs = profile.getPrimitiveTypeDefs(false);
+			Collection<IPrimitiveTypeDef> defs = profile.getPrimitiveTypeDefs(false);
 			for (IPrimitiveTypeDef def : defs) {
 				IPrimitiveTypeArtifact artifact = (IPrimitiveTypeArtifact) artifactMgrSession
 						.makeArtifact(IPrimitiveTypeArtifact.class.getName());

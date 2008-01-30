@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.profile;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
@@ -66,15 +67,14 @@ public class ProfileValidator {
 	 * this could grow to other tests on primitive types in the future
 	 */
 	private void checkPrimitiveTypes(IWorkbenchProfile workbenchProfile) {
-		IPrimitiveTypeDef[] primitiveTypes = workbenchProfile
-				.getPrimitiveTypeDefs(false);
-		for (int i = 0; i < primitiveTypes.length; i++) {
-			if (!primitiveTypes[i].isValidName()) {
+		Collection<IPrimitiveTypeDef> primitiveTypes = workbenchProfile.getPrimitiveTypeDefs(false);
+		for (IPrimitiveTypeDef type: primitiveTypes) {
+			if (!type.isValidName()) {
 				reportError("Invalid primitive type name '"
-						+ primitiveTypes[i].getName() + "' detected");
-			} else if (!primitiveTypes[i].isRecommendedName()) {
+						+ type.getName() + "' detected");
+			} else if (!type.isRecommendedName()) {
 				reportWarning("Type name '"
-						+ primitiveTypes[i].getName()
+						+ type.getName()
 						+ "' is not recommended as the name of a primitive type");
 			}
 		}

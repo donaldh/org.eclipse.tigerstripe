@@ -183,7 +183,7 @@ public class Label extends ArtifactComponent implements ILabel {
 		result.setName(getName());
 		result.setValue(getValue());
 		result.setVisibility(getVisibility());
-		IStereotypeInstance[] stereotypeInstances = getStereotypeInstances();
+		Collection<IStereotypeInstance> stereotypeInstances = getStereotypeInstances();
 		for (IStereotypeInstance inst : stereotypeInstances) {
 			result.addStereotypeInstance(inst);
 		}

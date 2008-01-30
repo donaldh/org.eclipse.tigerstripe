@@ -858,7 +858,7 @@ public class XML2TS {
 			}
 			this.out.println(type.getTypeMultiplicity().getLabel());
 			// end
-			newField.setIType(type);
+			newField.setType(type);
 			newField.setVisibility(Integer.valueOf(field
 					.getAttribute("visibility")));
 			newField.setOptional(Boolean.parseBoolean(field

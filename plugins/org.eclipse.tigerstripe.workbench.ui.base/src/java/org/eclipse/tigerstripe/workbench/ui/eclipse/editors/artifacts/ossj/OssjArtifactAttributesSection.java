@@ -259,7 +259,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		}
 
 		defaultType.setTypeMultiplicity(IModelComponent.EMultiplicity.ONE);
-		newField.setIType(defaultType);
+		newField.setType(defaultType);
 		newField.setRefBy(IField.REFBY_VALUE);
 
 		getIArtifact().addField(newField);

@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.scope;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -35,6 +38,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeInstance;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -597,7 +601,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		IWorkbenchProfile activeProfile = TigerstripeCore.getIWorkbenchProfileSession()
 				.getActiveProfile();
 		TableItem[] items = annotationExcludesTable.getItems();
-		IStereotypeInstance[] existingStereotypes = new IStereotypeInstance[items.length];
+		Collection<IStereotypeInstance> existingStereotypes = new ArrayList<IStereotypeInstance>();
 		for (int i = 0; i < items.length; i++) {
 			String stereoLabel = ((ScopeAnnotationPattern) items[i].getData()).annotationName;
 			IStereotype stereotype = activeProfile
@@ -607,7 +611,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 						+ stereoLabel + "'. Ignoring");
 				continue;
 			} else {
-				existingStereotypes[i] = stereotype.makeInstance();
+				existingStereotypes.add(stereotype.makeInstance());
 			}
 		}
 

@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.optional.UML2Export;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -63,10 +64,10 @@ public class ProfileTypes2UML2 {
 		this.model = UMLFactory.eINSTANCE.createModel();
 		model.setName(modelName);
 
-		IPrimitiveTypeDef[] ptds = this.profileSession.getActiveProfile()
+		Collection<IPrimitiveTypeDef> ptds = this.profileSession.getActiveProfile()
 				.getPrimitiveTypeDefs(true);
-		for (int i = 0; i < ptds.length; i++) {
-			IPrimitiveTypeDef ptd = ptds[i];
+		for (IPrimitiveTypeDef ptd : ptds) {
+
 			Type type = model.createOwnedPrimitiveType(ptd.getName());
 			primitiveTypeMap.put(ptd.getName(), type);
 		}

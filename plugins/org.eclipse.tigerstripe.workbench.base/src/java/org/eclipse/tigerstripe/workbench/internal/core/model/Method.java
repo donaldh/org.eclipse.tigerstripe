@@ -102,7 +102,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			((Method) theMethod).addReturnStereotypeInstance(instance);
 		}
 
-		public IStereotypeInstance[] getStereotypeInstances() {
+		public Collection<IStereotypeInstance> getStereotypeInstances() {
 			return ((Method) theMethod).getReturnStereotypeInstances();
 		}
 
@@ -110,7 +110,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			((Method) theMethod).removeReturnStereotypeInstance(instance);
 		}
 
-		public void removeStereotypeInstances(IStereotypeInstance[] instances) {
+		public void removeStereotypeInstances(Collection<IStereotypeInstance> instances) {
 			((Method) theMethod).removeReturnStereotypeInstances(instances);
 		}
 	}
@@ -225,9 +225,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return this.methodReturnName;
 	}
 
-	public IStereotypeInstance[] getReturnStereotypeInstances() {
-		return methodReturnStereotypes
-				.toArray(new IStereotypeInstance[methodReturnStereotypes.size()]);
+	public Collection<IStereotypeInstance> getReturnStereotypeInstances() {
+		return Collections.unmodifiableCollection(methodReturnStereotypes);
 	}
 
 	public void addReturnStereotypeInstance(IStereotypeInstance instance) {
@@ -248,7 +247,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 	}
 
-	public void removeReturnStereotypeInstances(IStereotypeInstance[] instances) {
+	public void removeReturnStereotypeInstances(Collection<IStereotypeInstance> instances) {
 		for (IStereotypeInstance instance : instances) {
 			removeReturnStereotypeInstance(instance);
 		}
@@ -628,17 +627,10 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		// =========================================================================
 		// Stereotype handling
 
-		public IStereotypeInstance[] getStereotypeInstances() {
-			return stereotypeInstances
-					.toArray(new IStereotypeInstance[this.stereotypeInstances
-							.size()]);
+		public Collection<IStereotypeInstance> getStereotypeInstances() {
+			return Collections.unmodifiableCollection(stereotypeInstances);
 		}
 
-		public void addStereotypeInstances(IStereotypeInstance[] instances) {
-			for (IStereotypeInstance instance : instances) {
-				addStereotypeInstance(instance);
-			}
-		}
 
 		public void addStereotypeInstance(IStereotypeInstance instance) {
 			if (!stereotypeInstances.contains(instance)) {
@@ -646,13 +638,19 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			}
 		}
 
+		public void addStereotypeInstances(Collection<IStereotypeInstance> instances) {
+			for (IStereotypeInstance instance : instances) {
+				addStereotypeInstance(instance);
+			}
+		}
+		
 		public void removeStereotypeInstance(IStereotypeInstance instance) {
 			if (stereotypeInstances.contains(instance)) {
 				this.stereotypeInstances.remove(instance);
 			}
 		}
 
-		public void removeStereotypeInstances(IStereotypeInstance[] instances) {
+		public void removeStereotypeInstances(Collection<IStereotypeInstance> instances) {
 			for (IStereotypeInstance instance : instances) {
 				removeStereotypeInstance(instance);
 			}
@@ -668,7 +666,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			result.setRefBy(getRefBy());
 			result.setUnique(isUnique());
 
-			IStereotypeInstance[] stereotypeInstances = getStereotypeInstances();
+			Collection<IStereotypeInstance> stereotypeInstances = getStereotypeInstances();
 			for (IStereotypeInstance inst : stereotypeInstances) {
 				result.addStereotypeInstance(inst);
 			}
@@ -1139,7 +1137,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 		result.setExceptions(clonedExcs);
 
-		IStereotypeInstance[] stereotypeInstances = getStereotypeInstances();
+		Collection<IStereotypeInstance> stereotypeInstances = getStereotypeInstances();
 		for (IStereotypeInstance inst : stereotypeInstances) {
 			result.addStereotypeInstance(inst);
 		}

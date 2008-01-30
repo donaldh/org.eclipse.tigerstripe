@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IColorProvider;
@@ -89,7 +92,7 @@ public class StereotypeSectionManager {
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof IStereotypeCapable) {
 				IStereotypeCapable component = (IStereotypeCapable) inputElement;
-				return component.getStereotypeInstances();
+				return component.getStereotypeInstances().toArray();
 			} else
 				return new IStereotypeInstance[0];
 		}
@@ -250,7 +253,7 @@ public class StereotypeSectionManager {
 				// main
 				// instance
 				for (IStereotypeAttribute attr : instance
-						.getCharacterizingIStereotype().getAttributes()) {
+						.getCharacterizingStereotype().getAttributes()) {
 					try {
 						if (attr.isArray()) {
 							instance.setAttributeValues(attr, workingInstance
@@ -274,16 +277,16 @@ public class StereotypeSectionManager {
 
 	protected void removeButtonSelected(SelectionEvent e) {
 		TableItem[] selectedItems = this.viewer.getTable().getSelection();
-		IStereotypeInstance[] selectedLabels = new IStereotypeInstance[selectedItems.length];
+		Collection<IStereotypeInstance> selectedLabels = new ArrayList<IStereotypeInstance>();
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedLabels[i] = (IStereotypeInstance) selectedItems[i]
-					.getData();
+			selectedLabels.add((IStereotypeInstance) selectedItems[i]
+					.getData());
 		}
 
 		String message = "Do you really want to remove ";
-		if (selectedLabels.length > 1) {
-			message = message + "these " + selectedLabels.length
+		if (selectedLabels.size()> 1) {
+			message = message + "these " + selectedLabels.size()
 					+ " annotations?";
 		} else {
 			message = message + "this annotation?";
@@ -330,7 +333,7 @@ public class StereotypeSectionManager {
 				// main
 				// instance
 				for (IStereotypeAttribute attr : instance
-						.getCharacterizingIStereotype().getAttributes()) {
+						.getCharacterizingStereotype().getAttributes()) {
 					try {
 						if (attr.isArray()) {
 							instance.setAttributeValues(attr, workingInstance

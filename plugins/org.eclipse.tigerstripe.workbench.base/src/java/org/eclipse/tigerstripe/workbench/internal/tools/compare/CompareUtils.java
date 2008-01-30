@@ -379,27 +379,27 @@ public class CompareUtils {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		// Check that the same stereotypes are applied.
 		// Then check the values for the attributes
-		List<IStereotypeInstance> aInstances = Arrays.asList(aComponent
-				.getStereotypeInstances());
-		List<IStereotypeInstance> bInstances = Arrays.asList(bComponent
-				.getStereotypeInstances());
+		Collection<IStereotypeInstance> aInstances = aComponent
+				.getStereotypeInstances();
+		Collection<IStereotypeInstance> bInstances = bComponent
+				.getStereotypeInstances();
 
-		ListIterator<IStereotypeInstance> aIt;
+		Iterator<IStereotypeInstance> aIt;
 
-		aIt = aInstances.listIterator();
+		aIt = aInstances.iterator();
 		while (aIt.hasNext()) {
 			IStereotypeInstance aInst = aIt.next();
 			boolean foundit = false;
-			ListIterator<IStereotypeInstance> bIt = bInstances
-					.listIterator();
+			Iterator<IStereotypeInstance> bIt = bInstances
+					.iterator();
 			while (bIt.hasNext()) {
 				IStereotypeInstance bInst = bIt.next();
-				if (aInst.getCharacterizingIStereotype().equals(
-						bInst.getCharacterizingIStereotype())) {
+				if (aInst.getCharacterizingStereotype().equals(
+						bInst.getCharacterizingStereotype())) {
 					// compare the values
 					foundit = true;
 					for (IStereotypeAttribute attr : aInst
-							.getCharacterizingIStereotype()
+							.getCharacterizingStereotype()
 							.getIAttributes()) {
 						try {
 							if (attr.isArray()) {
@@ -446,15 +446,15 @@ public class CompareUtils {
 			}
 		}
 
-		ListIterator<IStereotypeInstance> bIt = bInstances.listIterator();
+		Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 		while (bIt.hasNext()) {
 			IStereotypeInstance bInst = bIt.next();
 			boolean foundit = false;
-			aIt = aInstances.listIterator();
+			aIt = aInstances.iterator();
 			while (aIt.hasNext()) {
 				IStereotypeInstance aInst = aIt.next();
-				if (aInst.getCharacterizingIStereotype().equals(
-						bInst.getCharacterizingIStereotype())) {
+				if (aInst.getCharacterizingStereotype().equals(
+						bInst.getCharacterizingStereotype())) {
 					foundit = true;
 				}
 			}
@@ -485,26 +485,26 @@ public class CompareUtils {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		// Check that the same stereotypes are applied.
 		// Then check the values for the attributes
-		List<IStereotypeInstance> aInstances = Arrays.asList(aArgument
-				.getStereotypeInstances());
-		List<IStereotypeInstance> bInstances = Arrays.asList(bArgument
-				.getStereotypeInstances());
+		Collection<IStereotypeInstance> aInstances = aArgument
+				.getStereotypeInstances();
+		Collection<IStereotypeInstance> bInstances = bArgument
+				.getStereotypeInstances();
 
-		ListIterator<IStereotypeInstance> aIt;
+		Iterator<IStereotypeInstance> aIt;
 
-		aIt = aInstances.listIterator();
+		aIt = aInstances.iterator();
 		while (aIt.hasNext()) {
 			IStereotypeInstance aInst = aIt.next();
 			boolean foundit = false;
-			ListIterator<IStereotypeInstance> bIt = bInstances.listIterator();
+			Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 			while (bIt.hasNext()) {
 				IStereotypeInstance bInst = bIt.next();
-				if (aInst.getCharacterizingIStereotype().equals(
-						bInst.getCharacterizingIStereotype())) {
+				if (aInst.getCharacterizingStereotype().equals(
+						bInst.getCharacterizingStereotype())) {
 					// compare the values
 					foundit = true;
 					for (IStereotypeAttribute attr : aInst
-							.getCharacterizingIStereotype().getAttributes()) {
+							.getCharacterizingStereotype().getAttributes()) {
 						try {
 							if (attr.isArray()) {
 								// compare the array values...
@@ -550,15 +550,15 @@ public class CompareUtils {
 			}
 		}
 
-		ListIterator<IStereotypeInstance> bIt = bInstances.listIterator();
+		Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 		while (bIt.hasNext()) {
 			IStereotypeInstance bInst = bIt.next();
 			boolean foundit = false;
-			aIt = aInstances.listIterator();
+			aIt = aInstances.iterator();
 			while (aIt.hasNext()) {
 				IStereotypeInstance aInst = aIt.next();
-				if (aInst.getCharacterizingIStereotype().equals(
-						bInst.getCharacterizingIStereotype())) {
+				if (aInst.getCharacterizingStereotype().equals(
+						bInst.getCharacterizingStereotype())) {
 					foundit = true;
 				}
 			}
@@ -588,26 +588,26 @@ public class CompareUtils {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		// Check that the same stereotypes are applied.
 		// Then check the values for the attributes
-		List<IStereotypeInstance> aInstances = Arrays.asList(aMethod
-				.getReturnStereotypeInstances());
-		List<IStereotypeInstance> bInstances = Arrays.asList(bMethod
-				.getReturnStereotypeInstances());
+		Collection<IStereotypeInstance> aInstances = aMethod
+				.getReturnStereotypeInstances();
+		Collection<IStereotypeInstance> bInstances = bMethod
+				.getReturnStereotypeInstances();
 
-		ListIterator<IStereotypeInstance> aIt;
+		Iterator<IStereotypeInstance> aIt;
 
-		aIt = aInstances.listIterator();
+		aIt = aInstances.iterator();
 		while (aIt.hasNext()) {
 			IStereotypeInstance aInst = aIt.next();
 			boolean foundit = false;
-			ListIterator<IStereotypeInstance> bIt = bInstances.listIterator();
+			Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 			while (bIt.hasNext()) {
 				IStereotypeInstance bInst = bIt.next();
-				if (aInst.getCharacterizingIStereotype().equals(
-						bInst.getCharacterizingIStereotype())) {
+				if (aInst.getCharacterizingStereotype().equals(
+						bInst.getCharacterizingStereotype())) {
 					// compare the values
 					foundit = true;
 					for (IStereotypeAttribute attr : aInst
-							.getCharacterizingIStereotype().getAttributes()) {
+							.getCharacterizingStereotype().getAttributes()) {
 						try {
 							if (attr.isArray()) {
 								// compare the array values...
@@ -653,15 +653,15 @@ public class CompareUtils {
 			}
 		}
 
-		ListIterator<IStereotypeInstance> bIt = bInstances.listIterator();
+		Iterator<IStereotypeInstance> bIt = bInstances.iterator();
 		while (bIt.hasNext()) {
 			IStereotypeInstance bInst = bIt.next();
 			boolean foundit = false;
-			aIt = aInstances.listIterator();
+			aIt = aInstances.iterator();
 			while (aIt.hasNext()) {
 				IStereotypeInstance aInst = aIt.next();
-				if (aInst.getCharacterizingIStereotype().equals(
-						bInst.getCharacterizingIStereotype())) {
+				if (aInst.getCharacterizingStereotype().equals(
+						bInst.getCharacterizingStereotype())) {
 					foundit = true;
 				}
 			}

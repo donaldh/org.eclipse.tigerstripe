@@ -44,7 +44,7 @@ public class BrowseForStereotypeDialog {
 		}
 	}
 
-	private IStereotypeInstance[] existingInstances;
+	private Collection<IStereotypeInstance> existingInstances;
 
 	private String title = "Stereotype Selection";
 
@@ -58,8 +58,8 @@ public class BrowseForStereotypeDialog {
 	 * @param model
 	 */
 	public BrowseForStereotypeDialog(IStereotypeCapable component,
-			IStereotypeInstance[] existingInstances) {
-		this.existingInstances = (IStereotypeInstance[]) existingInstances;
+			Collection<IStereotypeInstance> existingInstances) {
+		this.existingInstances =  existingInstances;
 		this.component = component;
 	}
 
@@ -108,17 +108,17 @@ public class BrowseForStereotypeDialog {
 		Collection<IStereotype> stereotypes = new ArrayList<IStereotype>();
 
 		if (component != null) {
-			stereotypes.addAll(Arrays.asList(profile
-					.getAvailableStereotypeForCapable(component)));
+			stereotypes.addAll(profile
+					.getAvailableStereotypeForCapable(component));
 		} else {
-			stereotypes.addAll(Arrays.asList(profile.getStereotypes()));
+			stereotypes.addAll(profile.getStereotypes());
 		}
 		if (stereotypes.size() == 0)
 			return new Object[0];
 
 		// now go thru the list and remove those that can't be re added
 		for (IStereotypeInstance instance : existingInstances) {
-			IStereotype st = instance.getCharacterizingIStereotype();
+			IStereotype st = instance.getCharacterizingStereotype();
 			if (stereotypes.contains(st)) {
 				stereotypes.remove(st);
 			}

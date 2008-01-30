@@ -77,9 +77,11 @@ public abstract class OssjArtifactSpecifics extends StandardSpecifics implements
 			for (IPluginReference ref : refs) {
 				// if jvtPlugin
 				if (OSSJ_JVT_SPEC.equals(ref.getPluginId())) {
-					Properties refProps = ref.getProperties();
-					this.interfaceProperties.put("package", refProps
-							.getProperty("defaultInterfacePackage", ""));
+					if (ref.getProperty("defaultInterfacePackage") == null){
+						this.interfaceProperties.put("package","");
+					}else {
+						this.interfaceProperties.put("package", ref.getProperty("defaultInterfacePackage"));
+					}
 				}
 			}
 		} catch (TigerstripeException e) {

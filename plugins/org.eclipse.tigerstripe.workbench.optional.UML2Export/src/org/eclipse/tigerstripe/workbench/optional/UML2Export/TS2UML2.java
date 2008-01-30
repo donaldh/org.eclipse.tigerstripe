@@ -784,7 +784,7 @@ public class TS2UML2 {
 				out.println("     Applied Stereotype " + inst.getName()
 						+ " to component : " + component.getName());
 				for (IStereotypeAttribute stAttr : inst
-						.getCharacterizingIStereotype().getIAttributes()) {
+						.getCharacterizingStereotype().getIAttributes()) {
 					try {
 						if (stAttr.isArray()) {
 							out.println(attribute.getValue(stereotype,
@@ -826,7 +826,7 @@ public class TS2UML2 {
 				out.println("     Applied Stereotype " + inst.getName()
 						+ " to return of method : " + method.getName());
 				for (IStereotypeAttribute stAttr : inst
-						.getCharacterizingIStereotype().getIAttributes()) {
+						.getCharacterizingStereotype().getIAttributes()) {
 					try {
 						if (stAttr.isArray()) {
 							// out.println(result.getValue(stereotype,

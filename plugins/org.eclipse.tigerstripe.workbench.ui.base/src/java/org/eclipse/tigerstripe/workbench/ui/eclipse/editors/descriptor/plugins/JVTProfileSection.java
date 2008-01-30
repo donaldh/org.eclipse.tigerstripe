@@ -137,7 +137,7 @@ public class JVTProfileSection extends TigerstripeDescriptorSectionPart {
 	private Properties getXMLPluginProperties() {
 		IPluginReference ref = getJvtPluginReference();
 		if (ref != null)
-			return ref.getProperties();
+			return ((PluginRef) ref).getProperties();
 
 		return null;
 	}
@@ -208,9 +208,9 @@ public class JVTProfileSection extends TigerstripeDescriptorSectionPart {
 	 * @param ref
 	 */
 	private void applyDefault(IPluginReference ref) {
-		ref.getProperties().setProperty("defaultInterfacePackage",
+		((PluginRef) ref).getProperties().setProperty("defaultInterfacePackage",
 				"com.mycompany");
-		ref.getProperties().setProperty("activeVersion",
+		((PluginRef) ref).getProperties().setProperty("activeVersion",
 				IOssjJVTProfilePlugin.defaultVersion);
 	}
 

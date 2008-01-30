@@ -267,20 +267,20 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 					try {
 						IAbstractArtifact iArtifact = association
 								.getCorrespondingIArtifact();
-						IStereotype[] availStereotypes = TigerstripeCore
+						Collection<IStereotype> availStereotypes = TigerstripeCore
 								.getIWorkbenchProfileSession()
 								.getActiveProfile()
-								.getAvailableStereotypeForComponent(iArtifact);
-						Arrays.sort(availStereotypes,
+								.getAvailableStereotypeForCapable(iArtifact);
+						// TODO - Not sure why these were sorted ?
+/*						Arrays.sort(availStereotypes,
 								new Comparator<IStereotype>() {
 									public int compare(IStereotype o1,
 											IStereotype o2) {
 										return o1.getName().compareTo(
 												o2.getName());
 									}
-								});
-						List<IStereotype> availStereotypeList = Arrays
-								.asList(availStereotypes);
+								});*/
+						Collection<IStereotype> availStereotypeList = availStereotypes;
 						List<IStereotype> selectedStereotypeList = new ArrayList<IStereotype>();
 						for (IStereotype availStereotype : availStereotypeList) {
 							if (stereotypeVals.contains(availStereotype

@@ -149,7 +149,7 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 			OssjEntityMethodFlavor flavor = (OssjEntityMethodFlavor) element;
 			EntityMethodFlavorDetails details = new EntityMethodFlavorDetails(
 					((Method) currentMethod).getContainingArtifact(),
-					currentMethod.getOssjMethodProperties().getProperty(
+					((Method) currentMethod).getOssjMethodProperties().getProperty(
 							flavor.getPojoLabel()));
 			return flavor.getPojoLabel() + " (" + details.getFlag() + ")";
 		}
@@ -466,7 +466,7 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 
 		if (selectedFlavor != null) {
 			String property = selectedFlavor.getPojoLabel();
-			String flavorStr = currentMethod.getOssjMethodProperties()
+			String flavorStr = ((Method) currentMethod).getOssjMethodProperties()
 					.getProperty(property);
 			currentFlavorDetails = new EntityMethodFlavorDetails(
 					((Method) currentMethod).getContainingArtifact(), flavorStr);
@@ -649,22 +649,22 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 		IOssjEntitySpecifics specifics = (IOssjEntitySpecifics) getIArtifact()
 				.getIStandardSpecifics();
 
-		currentMethod.getOssjMethodProperties().setProperty(
+		((Method) currentMethod).getOssjMethodProperties().setProperty(
 				selectedFlavor.getPojoLabel(), currentFlavorDetails.toString());
 
 		// CRUD methods need to be handled separately
 		if ("create".equals(methodName)) {
 			specifics.setCRUDProperties(IOssjEntitySpecifics.CREATE,
-					currentMethod.getOssjMethodProperties());
+					((Method) currentMethod).getOssjMethodProperties());
 		} else if ("get".equals(methodName)) {
 			specifics.setCRUDProperties(IOssjEntitySpecifics.GET,
-					currentMethod.getOssjMethodProperties());
+					((Method) currentMethod).getOssjMethodProperties());
 		} else if ("set".equals(methodName)) {
 			specifics.setCRUDProperties(IOssjEntitySpecifics.SET,
-					currentMethod.getOssjMethodProperties());
+					((Method) currentMethod).getOssjMethodProperties());
 		} else if ("remove".equals(methodName)) {
 			specifics.setCRUDProperties(IOssjEntitySpecifics.DELETE,
-					currentMethod.getOssjMethodProperties());
+					((Method) currentMethod).getOssjMethodProperties());
 		}
 	}
 

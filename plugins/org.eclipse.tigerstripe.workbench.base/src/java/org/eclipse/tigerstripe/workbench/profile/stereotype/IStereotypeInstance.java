@@ -116,7 +116,7 @@ public interface IStereotypeInstance {
 	 * 
 	 * @return the characterizing stereotype
 	 */
-	public IStereotype getCharacterizingIStereotype();
+	public IStereotype getCharacterizingStereotype();
 
 
 	public final static IStereotypeInstance[] EMPTY_ARRAY = new IStereotypeInstance[0];

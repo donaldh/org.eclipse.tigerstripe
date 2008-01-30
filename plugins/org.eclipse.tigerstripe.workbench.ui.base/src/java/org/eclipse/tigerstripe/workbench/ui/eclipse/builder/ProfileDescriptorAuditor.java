@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -74,19 +75,19 @@ public class ProfileDescriptorAuditor {
 	 */
 	private void checkPrimitiveTypes(IWorkbenchProfile workbenchProfile,
 			IResource iresource) {
-		IPrimitiveTypeDef[] primitiveTypes = workbenchProfile
+		Collection<IPrimitiveTypeDef> primitiveTypes = workbenchProfile
 				.getPrimitiveTypeDefs(false);
-		for (int i = 0; i < primitiveTypes.length; i++) {
-			if (!primitiveTypes[i].isValidName()) {
+		for (IPrimitiveTypeDef prim: primitiveTypes) {
+			if (!prim.isValidName()) {
 				TigerstripeProjectAuditor.reportError(
 						"Invalid primitive type name '"
-								+ primitiveTypes[i].getName() + "' detected",
+								+ prim.getName() + "' detected",
 						iresource, 222);
-			} else if (!primitiveTypes[i].isRecommendedName()) {
+			} else if (!prim.isRecommendedName()) {
 				TigerstripeProjectAuditor
 						.reportWarning(
 								"Type name '"
-										+ primitiveTypes[i].getName()
+										+ prim.getName()
 										+ "' is not recommended as the name of a primitive type",
 								iresource, 222);
 			}

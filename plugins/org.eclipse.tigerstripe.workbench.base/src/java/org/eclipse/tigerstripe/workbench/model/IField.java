@@ -56,7 +56,7 @@ public interface IField extends IModelComponent {
 	public void setRefBy(int refBy);
 
 	
-	public void setIType(IType type);
+	public void setType(IType type);
 
 	/**
 	 * Sets the default value for this field if it exists, null otherwise.

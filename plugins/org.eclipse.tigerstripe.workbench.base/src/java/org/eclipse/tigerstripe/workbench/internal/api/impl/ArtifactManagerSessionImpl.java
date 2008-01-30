@@ -581,7 +581,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 				includeProjectDependencies);
 	}
 
-	public IPrimitiveTypeArtifact[] getReservedPrimitiveTypes()
+	public Collection<IPrimitiveTypeArtifact> getReservedPrimitiveTypes()
 			throws TigerstripeException {
 		return getArtifactManager().getReservedPrimitiveTypeArtifacts();
 	}

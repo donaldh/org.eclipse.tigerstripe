@@ -30,6 +30,7 @@ import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginRef;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
@@ -273,7 +274,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 				renderer.setEnabled(enabled);
 			}
 			// Make sure the ref has the correct properties
-			Properties properties = ref.getProperties();
+			Properties properties = ((PluginRef) ref).getProperties();
 			String[] definedProps = ref.getDefinedProperties();
 			Properties usableProps = new Properties();
 			PluggablePluginProject pProject = housing.getBody().getPProject();
@@ -424,7 +425,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 			if (ref != null) {
 				IPluginProperty property = renderer.getProperty();
-				String serializedValue = ref.getProperties().getProperty(
+				String serializedValue = ((PluginRef) ref).getProperties().getProperty(
 						property.getName());
 				renderer.update(serializedValue);
 			}

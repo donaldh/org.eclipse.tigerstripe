@@ -15,6 +15,7 @@ import java.util.Properties;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.csv.CSVPlugin;
 import org.eclipse.tigerstripe.workbench.project.IPluginReference;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -39,7 +40,7 @@ public abstract class AbstractCSVCreateSection extends
 	protected Properties getCSVCreatePluginProperties() {
 		IPluginReference ref = getCSVCreatePluginReference();
 		if (ref != null)
-			return ref.getProperties();
+			return ((PluginRef) ref).getProperties();
 
 		return null;
 	}

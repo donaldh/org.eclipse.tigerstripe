@@ -372,7 +372,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 				type.setFullyQualifiedName(attr.getType()
 						.getFullyQualifiedName());
 				type.setMultiplicity(attr.getDimensions());
-				field.setIType(type);
+				field.setType(type);
 				newArtifact.addField(field);
 			}
 		}
@@ -440,7 +440,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 					type.setFullyQualifiedName(attr.getType()
 							.getFullyQualifiedName());
 					type.setMultiplicity(attr.getDimensions());
-					field.setIType(type);
+					field.setType(type);
 
 					List<IField> tmp = new ArrayList<IField>();
 					tmp.add(field);

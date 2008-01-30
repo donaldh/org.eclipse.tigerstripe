@@ -87,9 +87,7 @@ public final class StereotypeTags {
 			if (argName != null && argName.length() != 0) {
 				ArrayList<IStereotypeInstance> argInstances = map.get(argName);
 				if (argInstances != null) {
-					argument.addStereotypeInstances(argInstances
-							.toArray(new IStereotypeInstance[argInstances
-									.size()]));
+					argument.addStereotypeInstances(argInstances);
 				}
 			}
 		}
@@ -267,7 +265,7 @@ public final class StereotypeTags {
 		buffer.append(instance.getName());
 
 		for (IStereotypeAttribute attr : instance
-				.getCharacterizingIStereotype().getAttributes()) {
+				.getCharacterizingStereotype().getAttributes()) {
 			buffer.append(" ");
 			String name = attr.getName();
 			String value = "";

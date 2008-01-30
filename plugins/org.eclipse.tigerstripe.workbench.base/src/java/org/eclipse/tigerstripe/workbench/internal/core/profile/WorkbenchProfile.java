@@ -15,6 +15,8 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -374,19 +376,18 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		}
 	}
 
-	public IPrimitiveTypeDef[] getPrimitiveTypeDefs(boolean includeReservedTypes) {
+	public Collection<IPrimitiveTypeDef> getPrimitiveTypeDefs(boolean includeReservedTypes) {
 		if (!includeReservedTypes)
-			return primitiveTypeDefs
-					.toArray(new IPrimitiveTypeDef[primitiveTypeDefs.size()]);
+			return Collections.unmodifiableCollection(primitiveTypeDefs);
 		else {
 			ArrayList<IPrimitiveTypeDef> result = new ArrayList<IPrimitiveTypeDef>();
 			result.addAll(primitiveTypeDefs);
-			result.addAll(Arrays.asList(getReservedPrimitiveTypes()));
-			return result.toArray(new IPrimitiveTypeDef[result.size()]);
+			result.addAll(getReservedPrimitiveTypes());
+			return Collections.unmodifiableCollection(result);
 		}
 	}
 
-	public static IPrimitiveTypeDef[] getReservedPrimitiveTypes() {
+	public static Collection<IPrimitiveTypeDef> getReservedPrimitiveTypes() {
 		if (reservedPrimitiveTypeDefs == null) {
 			reservedPrimitiveTypeDefs = new ArrayList<IPrimitiveTypeDef>();
 			for (String[] def : IPrimitiveTypeArtifact.reservedPrimitiveTypes) {
@@ -400,8 +401,7 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 				reservedPrimitiveTypeDefs.add(pDef);
 			}
 		}
-		return reservedPrimitiveTypeDefs
-				.toArray(new IPrimitiveTypeDef[reservedPrimitiveTypeDefs.size()]);
+		return Collections.unmodifiableCollection(reservedPrimitiveTypeDefs);
 	}
 
 	public void removePrimitiveTypeDef(IPrimitiveTypeDef primitiveTypeDef)
@@ -414,14 +414,14 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 					+ "'.");
 	}
 
-	public void removePrimitiveTypeDefs(IPrimitiveTypeDef[] primitiveTypeDefs)
+	public void removePrimitiveTypeDefs(Collection<IPrimitiveTypeDef> primitiveTypeDefs)
 			throws TigerstripeException {
 		for (IPrimitiveTypeDef primitiveTypeDef : primitiveTypeDefs) {
 			removePrimitiveTypeDef(primitiveTypeDef);
 		}
 	}
 
-	public void setPrimitiveTypeDefs(IPrimitiveTypeDef[] primitiveTypeDefs)
+	public void setPrimitiveTypeDefs(Collection<IPrimitiveTypeDef> primitiveTypeDefs)
 			throws TigerstripeException {
 		this.primitiveTypeDefs.clear();
 		for (IPrimitiveTypeDef primitiveTypeDef : primitiveTypeDefs) {
@@ -455,8 +455,7 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 			throws TigerstripeException {
 
 		defaultPrimitiveType = null;
-		List<IPrimitiveTypeDef> allTypeDefs = Arrays
-				.asList(getPrimitiveTypeDefs(true));
+		Collection<IPrimitiveTypeDef> allTypeDefs = getPrimitiveTypeDefs(true);
 
 		if (allTypeDefs.contains(primitiveTypeDef)) {
 			defaultPrimitiveType = primitiveTypeDef;
@@ -478,8 +477,8 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		}
 	}
 
-	public IStereotype[] getStereotypes() {
-		return stereotypes.toArray(new IStereotype[stereotypes.size()]);
+	public Collection<IStereotype> getStereotypes() {
+		return Collections.unmodifiableCollection(stereotypes);
 	}
 
 	public void removeStereotype(IStereotype stereotype)
@@ -492,14 +491,14 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 					+ "'.");
 	}
 
-	public void removeStereotypes(IStereotype[] stereotypes)
+	public void removeStereotypes(Collection<IStereotype> stereotypes)
 			throws TigerstripeException {
 		for (IStereotype stereotype : stereotypes) {
 			removeStereotype(stereotype);
 		}
 	}
 
-	public void setStereotypes(IStereotype[] stereotypes)
+	public void setStereotypes(Collection<IStereotype> stereotypes)
 			throws TigerstripeException {
 		this.stereotypes.clear();
 		for (IStereotype stereotype : stereotypes) {
@@ -521,18 +520,8 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		return null;
 	}
 
-	/**
-	 * @deprecated use
-	 *             {@link #getAvailableStereotypeForCapable(IModelComponent)}
-	 *             instead
-	 */
-	@Deprecated
-	public IStereotype[] getAvailableStereotypeForComponent(
-			IModelComponent component) {
-		return getAvailableStereotypeForCapable((IStereotypeCapable) component);
-	}
 
-	public IStereotype[] getAvailableStereotypeForCapable(
+	public Collection<IStereotype> getAvailableStereotypeForCapable(
 			IStereotypeCapable capable) {
 		ArrayList<IStereotype> result = new ArrayList<IStereotype>();
 		// TODO: we might want to cache this?
@@ -566,7 +555,7 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 				}
 			}
 		}
-		return result.toArray(new IStereotype[result.size()]);
+		return Collections.unmodifiableCollection(result);
 	}
 
 	// =================================================================================

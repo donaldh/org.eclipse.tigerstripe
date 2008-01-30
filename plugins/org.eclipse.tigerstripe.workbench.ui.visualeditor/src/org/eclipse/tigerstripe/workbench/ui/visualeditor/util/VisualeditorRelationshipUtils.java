@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.util;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +29,6 @@ import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
-import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
@@ -225,7 +225,7 @@ public class VisualeditorRelationshipUtils {
 		dependency.setPackage(dependencyArtifact.getPackage());
 		dependency.setIsAbstract(dependencyArtifact.isAbstract());
 		dependency.setIsReadonly(dependencyArtifact.isReadonly());
-		IStereotypeInstance[] stereotypes = dependencyArtifact
+		Collection<IStereotypeInstance> stereotypes = dependencyArtifact
 				.getStereotypeInstances();
 		for (IStereotypeInstance stereotype : stereotypes) {
 			dependency.getStereotypes().add(stereotype.getName());
@@ -252,7 +252,7 @@ public class VisualeditorRelationshipUtils {
 		assoc.setPackage(assocArtifact.getPackage());
 		assoc.setIsAbstract(assocArtifact.isAbstract());
 		assoc.setIsReadonly(assocArtifact.isReadonly());
-		IStereotypeInstance[] stereotypes = assocArtifact
+		Collection<IStereotypeInstance> stereotypes = assocArtifact
 				.getStereotypeInstances();
 		for (IStereotypeInstance stereotype : stereotypes) {
 			assoc.getStereotypes().add(stereotype.getName());
@@ -304,7 +304,7 @@ public class VisualeditorRelationshipUtils {
 		assocClassClass.setPackage(assocClass.getPackage());
 		assocClassClass.setIsAbstract(assocClassArtifact.isAbstract());
 		assocClassClass.setIsReadonly(assocClassArtifact.isReadonly());
-		IStereotypeInstance[] stereotypes = assocClassArtifact
+		Collection<IStereotypeInstance> stereotypes = assocClassArtifact
 				.getStereotypeInstances();
 		for (IStereotypeInstance stereotype : stereotypes) {
 			assocClassClass.getStereotypes().add(stereotype.getName());

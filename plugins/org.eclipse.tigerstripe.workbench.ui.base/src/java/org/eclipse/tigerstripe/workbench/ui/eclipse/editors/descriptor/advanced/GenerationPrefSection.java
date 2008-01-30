@@ -39,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjJVTProfilePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.JvtPluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
@@ -364,9 +365,10 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	 * @param ref
 	 */
 	private void applyDefault(IPluginReference ref) {
-		ref.getProperties().setProperty("defaultInterfacePackage",
+		
+		((PluginRef)ref).getProperties().setProperty("defaultInterfacePackage",
 				"com.mycompany");
-		ref.getProperties().setProperty("activeVersion",
+		((PluginRef)ref).getProperties().setProperty("activeVersion",
 				IOssjJVTProfilePlugin.defaultVersion);
 	}
 

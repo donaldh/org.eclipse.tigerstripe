@@ -178,7 +178,7 @@ public class Expander implements IExpander {
 			for (int i = 0; i < definedProps.length; i++) {
 				if (definedProps[i].equals(propName)) {
 					// found one - get the value
-					String value = this.pluginRef.getProperties().getProperty(
+					String value = (String) this.pluginRef.getProperty(
 							propName);
 					// replace the first occurence of this in the original
 					// string.

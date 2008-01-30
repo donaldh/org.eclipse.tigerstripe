@@ -182,7 +182,7 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 	private Properties getXMLPluginProperties() {
 		IPluginReference ref = getXMLPluginReference();
 		if (ref != null)
-			return ref.getProperties();
+			return ((PluginRef) ref).getProperties();
 
 		return null;
 	}
@@ -268,7 +268,7 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 				.setDefaultSchemaName("xml/${name}/v${ver}/OSSJ-${name}-v${ver}.xsd");
 		mapper.setTargetNamespace("http://ossj.org/xml/${name}/v${ver}");
 		mapper.setDefaultUserPrefix("ossj-${name}-v${ver}");
-		ref.getProperties().setProperty("activeVersion",
+		((PluginRef) ref).getProperties().setProperty("activeVersion",
 				IOssjXMLProfilePlugin.defaultVersion);
 
 	}

@@ -40,7 +40,7 @@ public class UnresolvedStereotypeInstance implements IStereotypeInstance {
 		this.label = stereotypeLabel;
 	}
 
-	public IStereotype getCharacterizingIStereotype() {
+	public IStereotype getCharacterizingStereotype() {
 		return null;
 	}
 

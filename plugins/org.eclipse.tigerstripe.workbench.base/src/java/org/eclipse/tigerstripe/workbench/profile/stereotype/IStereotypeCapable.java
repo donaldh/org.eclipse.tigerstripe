@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.profile.stereotype;
 
+import java.util.Collection;
+
 
 /**
  * Interface to be implemented by all components of the model that can be
@@ -28,13 +30,13 @@ public interface IStereotypeCapable {
 	 * 
 	 * @return array of IStereotypeInstance.
 	 */
-	public IStereotypeInstance[] getStereotypeInstances();
+	public Collection<IStereotypeInstance> getStereotypeInstances();
 
 	public void addStereotypeInstance(IStereotypeInstance instance);
 
 	public void removeStereotypeInstance(IStereotypeInstance instance);
 
-	public void removeStereotypeInstances(IStereotypeInstance[] instances);
+	public void removeStereotypeInstances(Collection<IStereotypeInstance> instances);
 
 
 

@@ -188,9 +188,9 @@ public class CSVCreateOverviewSection extends AbstractCSVCreateSection {
 	 * @param ref
 	 */
 	private void applyDefault(IPluginReference ref) {
-		ref.getProperties().setProperty(CSVPlugin.CSV_DIRECTORY, "csv");
-		ref.getProperties().setProperty(CSVPlugin.INCLUDE_INHERITED, "true");
-		ref.getProperties().setProperty(CSVPlugin.LEVEL_OF_DETAIL, "max");
+		((PluginRef) ref).getProperties().setProperty(CSVPlugin.CSV_DIRECTORY, "csv");
+		((PluginRef) ref).getProperties().setProperty(CSVPlugin.INCLUDE_INHERITED, "true");
+		((PluginRef) ref).getProperties().setProperty(CSVPlugin.LEVEL_OF_DETAIL, "max");
 		// Fix bug 108 - No value in "publishing" a project that has not been
 		// "generated"
 		// ref.getProperties().setProperty(PublisherPlugin.GENERATE_BEFOREPUBLISH,

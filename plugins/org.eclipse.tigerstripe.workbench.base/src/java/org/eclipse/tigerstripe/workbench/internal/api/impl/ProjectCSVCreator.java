@@ -82,8 +82,12 @@ public class ProjectCSVCreator implements IProjectCSVCreator {
 			csvPluginRef = getCSVPluginRef();
 			if (csvPluginRef == null)
 				return "unknown";
-			String relDir = csvPluginRef.getProperties().getProperty(
-					CSVPlugin.CSV_DIRECTORY, "unknown");
+			String relDir;
+			if (csvPluginRef.getProperty(CSVPlugin.CSV_DIRECTORY) == null){
+				relDir = (String) csvPluginRef.getProperty(CSVPlugin.CSV_DIRECTORY);
+			}
+				else 
+					relDir = "unknown";
 			return getProject().getURI().getPath() + File.separator + relDir;
 		} catch (TigerstripeException e) {
 			return "unknown";

@@ -237,7 +237,7 @@ public interface IArtifactManagerSession  {
 	public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies) throws TigerstripeException;
 
-	public IPrimitiveTypeArtifact[] getReservedPrimitiveTypes()
+	public Collection<IPrimitiveTypeArtifact> getReservedPrimitiveTypes()
 			throws TigerstripeException;
 
 	/**

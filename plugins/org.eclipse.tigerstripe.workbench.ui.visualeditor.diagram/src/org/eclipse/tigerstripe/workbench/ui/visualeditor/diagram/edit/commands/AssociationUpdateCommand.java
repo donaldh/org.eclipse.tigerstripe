@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.commands;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +33,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereo
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -103,7 +103,7 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 				List assocSteoreotypes = association.getStereotypes();
 				String oldStereotypeLabel = getStereotypeLabel(assocSteoreotypes);
 				if (!assocSteoreotypes.equals(newAssocStereotypeLabel)) {
-					IStereotypeInstance[] existingInstances = (IStereotypeInstance[]) iAssociation
+					Collection<IStereotypeInstance> existingInstances =  iAssociation
 							.getStereotypeInstances();
 					iAssociation.removeStereotypeInstances(existingInstances);
 					for (Stereotype newAssocStereotypeVal : newAssocStereotypeVals) {

@@ -263,15 +263,14 @@ public class DiffFixer {
 
 					if (diff.getType().equals("value")) {
 						attName = st[1];
-						IStereotypeInstance[] insts = artifact
+						Collection<IStereotypeInstance> insts = artifact
 								.getStereotypeInstances();
-						IStereotypeInstance inst;
-						for (int i = 0; i < insts.length; i++) {
-							if (insts[i].getName().equals(stName)) {
-								inst = insts[i];
+						
+						for (IStereotypeInstance inst :insts) {
+							if (inst.getName().equals(stName)) {
 								IStereotypeInstance instAPI = (IStereotypeInstance) inst;
 								IStereotypeAttribute attribute = instAPI
-										.getCharacterizingIStereotype()
+										.getCharacterizingStereotype()
 										.getAttributeByName(attName);
 
 								instAPI.setAttributeValue(attribute, diff
@@ -292,17 +291,16 @@ public class DiffFixer {
 							String value = st[2];
 							// Have to be careful here - can't do a wholesale
 							// mash....
-							IStereotypeInstance[] insts = artifact
+							Collection<IStereotypeInstance> insts = artifact
 									.getStereotypeInstances();
-							IStereotypeInstance inst;
-							for (int i = 0; i < insts.length; i++) {
-								if (insts[i].getName().equals(stName)) {
-									inst = insts[i];
+							
+							for (IStereotypeInstance inst :insts) {
+								if (inst.getName().equals(stName)) {
 									TigerstripeRuntime.logInfoMessage("iname "
 											+ inst.getName());
 									IStereotypeInstance instAPI = (IStereotypeInstance) inst;
 									IStereotypeAttribute attribute = instAPI
-											.getCharacterizingIStereotype()
+											.getCharacterizingStereotype()
 											.getAttributeByName(attName);
 									TigerstripeRuntime.logInfoMessage("sname "
 											+ attName);
@@ -354,12 +352,12 @@ public class DiffFixer {
 
 					} else {
 						if (diff.getLocalVal().equals("present")) {
-							IStereotypeInstance[] insts = extractedArtifact
+							Collection<IStereotypeInstance> insts = extractedArtifact
 									.getStereotypeInstances();
-							IStereotypeInstance inst;
-							for (int i = 0; i < insts.length; i++) {
-								if (insts[i].getName().equals(stName)) {
-									inst = insts[i];
+							
+							for (IStereotypeInstance inst : insts) {
+								if (inst.getName().equals(stName)) {
+
 									IStereotypeInstance instAPI = (IStereotypeInstance) inst;
 									artifact.addStereotypeInstance(instAPI);
 									String msgText = "INFO : Added stereotype "
@@ -502,17 +500,16 @@ public class DiffFixer {
 							String value = st[3];
 							// Have to be careful here - can't do a wholesale
 							// mash....
-							IStereotypeInstance[] insts = field
+							Collection<IStereotypeInstance> insts = field
 									.getStereotypeInstances();
-							IStereotypeInstance inst;
-							for (int i = 0; i < insts.length; i++) {
-								// out.println(insts[i].getName());
-								if (insts[i].getName().equals(stName)) {
-									inst = insts[i];
+							
+							for (IStereotypeInstance inst : insts) {
+								
+								if (inst.getName().equals(stName)) {
 									// out.println("iname "+inst.getName());
 									IStereotypeInstance instAPI = (IStereotypeInstance) inst;
 									IStereotypeAttribute attribute = instAPI
-											.getCharacterizingIStereotype()
+											.getCharacterizingStereotype()
 											.getAttributeByName(attName);
 									out.println("sname " + attName);
 									if (!attribute.isArray()) {
@@ -647,16 +644,16 @@ public class DiffFixer {
 							String value = st[3];
 							// Have to be careful here - can't do a wholesale
 							// mash....
-							IStereotypeInstance[] insts = label
+							Collection<IStereotypeInstance> insts = label
 									.getStereotypeInstances();
-							IStereotypeInstance inst;
-							for (int i = 0; i < insts.length; i++) {
-								if (insts[i].getName().equals(stName)) {
-									inst = insts[i];
+							
+							for (IStereotypeInstance inst :insts) {
+								if (inst.getName().equals(stName)) {
+
 									// out.println("iname "+inst.getName());
 									IStereotypeInstance instAPI = (IStereotypeInstance) inst;
 									IStereotypeAttribute attribute = instAPI
-											.getCharacterizingIStereotype()
+											.getCharacterizingStereotype()
 											.getAttributeByName(attName);
 									// out.println("sname "+attName);
 									if (!attribute.isArray()) {
@@ -811,18 +808,18 @@ public class DiffFixer {
 							String value = st[3];
 							// Have to be careful here - can't do a wholesale
 							// mash....
-							IStereotypeInstance[] insts = method
+							Collection<IStereotypeInstance> insts = method
 									.getStereotypeInstances();
-							IStereotypeInstance inst;
+							
 							// out.println("Len" +insts.length);
-							for (int i = 0; i < insts.length; i++) {
+							for (IStereotypeInstance inst:  insts) {
 								// out.println(insts[i].getName());
-								if (insts[i].getName().equals(stName)) {
-									inst = insts[i];
+								if (inst.getName().equals(stName)) {
+									inst = inst;
 									// out.println("iname "+inst.getName());
 									IStereotypeInstance instAPI = (IStereotypeInstance) inst;
 									IStereotypeAttribute attribute = instAPI
-											.getCharacterizingIStereotype()
+											.getCharacterizingStereotype()
 											.getAttributeByName(attName);
 									// out.println("sname "+attName);
 									if (!attribute.isArray()) {
@@ -1352,15 +1349,13 @@ public class DiffFixer {
 		 * extra ones are ones that are in the MODEL and not the import
 		 * 
 		 */
-		if (component.getStereotypeInstances().length > 0) {
+		if (component.getStereotypeInstances().size() > 0) {
 			Collection<IStereotypeInstance> remainingModelStereos = new ArrayList(
 					Arrays.asList(component.getStereotypeInstances()));
-			Collection<IStereotypeInstance> modelStereos = Arrays
-					.asList(component.getStereotypeInstances());
+			Collection<IStereotypeInstance> modelStereos = component.getStereotypeInstances();
 			for (IStereotypeInstance stereo : modelStereos) {
 				// go on the name..
-				for (IStereotypeInstance exStereo : Arrays
-						.asList(extractedComponent.getStereotypeInstances())) {
+				for (IStereotypeInstance exStereo : extractedComponent.getStereotypeInstances()) {
 					if (exStereo.getName().equals(stereo.getName())) {
 						remainingModelStereos.remove(stereo);
 					}

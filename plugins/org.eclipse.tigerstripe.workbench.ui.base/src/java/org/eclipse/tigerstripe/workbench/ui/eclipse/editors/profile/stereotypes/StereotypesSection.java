@@ -51,7 +51,7 @@ public class StereotypesSection extends BaseStereotypeSectionPart implements
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof IWorkbenchProfile) {
 				IWorkbenchProfile profile = (IWorkbenchProfile) inputElement;
-				return profile.getStereotypes();
+				return profile.getStereotypes().toArray();
 			}
 			return new Object[0];
 		}

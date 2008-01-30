@@ -242,15 +242,6 @@ public interface IMethod extends IModelComponent {
 
 	public void setOptional(boolean optional);
 
-	/**
-	 * @deprecated DO NOT USE. Please use setOssjEntityMethodFlavorDetails
-	 *             instead.
-	 * 
-	 * @param prop -
-	 *            the internal representation for the flavor details.
-	 */
-	@Deprecated
-	public void setOssjMethodProperties(Properties prop);
 
 	/**
 	 * Sets the "InstanceMethod" flag.
@@ -298,12 +289,7 @@ public interface IMethod extends IModelComponent {
 	public void setEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor,
 			IEntityMethodFlavorDetails details) throws TigerstripeException;
 
-	/**
-	 * @deprecated Do not use. Use getEntityMethodFlavorDetails instead.
-	 * @return internal representation for OSSJ method flavor details.
-	 */
-	@Deprecated
-	public Properties getOssjMethodProperties();
+
 
 	public void setUnique(boolean isUnique);
 
@@ -338,13 +324,13 @@ public interface IMethod extends IModelComponent {
 	 * 
 	 * @return
 	 */
-	public IStereotypeInstance[] getReturnStereotypeInstances();
+	public Collection<IStereotypeInstance> getReturnStereotypeInstances();
 
 	public void addReturnStereotypeInstance(IStereotypeInstance instance);
 
 	public void removeReturnStereotypeInstance(IStereotypeInstance instance);
 
-	public void removeReturnStereotypeInstances(IStereotypeInstance[] instances);
+	public void removeReturnStereotypeInstances(Collection<IStereotypeInstance> instances);
 
 	public IMethod clone();
 

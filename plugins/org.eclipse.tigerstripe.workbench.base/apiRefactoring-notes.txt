@@ -15,7 +15,7 @@ X - Remove project locator facility stuff from TigerstripeCore: this should be r
 	completely, but in the meantime should be on InternalTigerstripeCore
 X - Move ArtifactMetadataSession from TigerstripeCore into InternalTigerstripeCore for now. 
 	Eventually this should be moved to org.eclipse.tigerstripe.model when available.
-- "TigerstripeProject.java" should be renamed as "TigerstripeProjectDescriptor.java"
+R - "TigerstripeProject.java" should be renamed as "TigerstripeProjectDescriptor.java"
 X - rename methods on TigerstripeCore for consistency: getProjectSession and getProfileSession
 R - IPluginAwareArtifactModel.java should be removed and combined with IArtifactModel.java. (Also changed the calls to this model)
 R - IPluggablePluginProperty should be renamed as ITigerstripePluginProperty.
@@ -56,14 +56,14 @@ X - TigerstripeError (in internal.utils) should be replaced with IStatus from Ec
 
 ###################################
 In IProjectDetails
-- remove references to OSSJ
+R - remove references to OSSJ - Note this meant their removal from the GUI
 - it seems it could be reworked. For example the "getProjectLabel()" on 
 	IProjectDescriptor could make sense here instead?
 
 ###################################
 In IPluginReference
 - the name IPluginReference doesn't seem appropriate anymore? Seems more like a "IPluginConfig"?
-- remove any method marked as deprecated
+R - remove any method marked as deprecated
 	
 ###################################
 In IAssociationEnd
@@ -118,4 +118,4 @@ in IType
 
 ##################################
 IStereotypeCapabable, IStereoType (See also IMethod)
-- change ArrayBased methdos to Collection
+R - change ArrayBased methdos to Collection

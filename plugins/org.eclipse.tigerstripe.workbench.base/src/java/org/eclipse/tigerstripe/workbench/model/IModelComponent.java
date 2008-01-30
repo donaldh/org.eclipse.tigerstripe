@@ -130,12 +130,6 @@ public interface IModelComponent extends IStereotypeCapable {
 
 	public void setVisibility(int visibility);
 
-	public void addStereotypeInstance(IStereotypeInstance instance);
-
-	public void removeStereotypeInstance(IStereotypeInstance instance);
-
-	public void removeStereotypeInstances(IStereotypeInstance[] instances);
-
 	/**
 	 * Returns the comment (or plain-english description) associated with this
 	 * model component.

@@ -65,6 +65,5 @@ public class OverviewPage extends TigerstripeFormPage {
 		managedForm.addPart(new WelcomeSection(this, body, toolkit));
 		managedForm.addPart(new GeneralInfoSection(this, body, toolkit));
 		managedForm.addPart(new ProjectContentSection(this, body, toolkit));
-		managedForm.addPart(new OssjDefaultsSection(this, body, toolkit));
 	}
 }

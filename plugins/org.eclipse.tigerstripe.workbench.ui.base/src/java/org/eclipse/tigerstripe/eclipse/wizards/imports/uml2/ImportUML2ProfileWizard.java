@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -271,9 +272,9 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 	private void loadUMLModel(Model model, IWorkbenchProfile handle,
 			SubProgressMonitor subMonitor) {
 		ArrayList existingDefs = new ArrayList();
-		IPrimitiveTypeDef[] defs = handle.getPrimitiveTypeDefs(true);
-		for (int d = 0; d < defs.length; d++) {
-			existingDefs.add(defs[d].getName());
+		Collection<IPrimitiveTypeDef> defs = handle.getPrimitiveTypeDefs(true);
+		for (IPrimitiveTypeDef prim :defs) {
+			existingDefs.add(prim.getName());
 		}
 		TreeIterator t = model.eAllContents();
 		subMonitor.beginTask("Processing UML Classes ", model
@@ -351,10 +352,10 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 							+ st.getName());
 					// Before going further see if these's already one of
 					// these...
-					IStereotype[] existingStereos = handle.getStereotypes();
-					for (int e = 0; e < existingStereos.length; e++) {
-						String exName = existingStereos[e].getName();
-						existingStereoNames.put(exName, existingStereos[e]);
+					Collection<IStereotype> existingStereos = handle.getStereotypes();
+					for (IStereotype existing : existingStereos) {
+						String exName = existing.getName();
+						existingStereoNames.put(exName, existing);
 					}
 					if (existingStereoNames.keySet().contains(st.getName())) {
 

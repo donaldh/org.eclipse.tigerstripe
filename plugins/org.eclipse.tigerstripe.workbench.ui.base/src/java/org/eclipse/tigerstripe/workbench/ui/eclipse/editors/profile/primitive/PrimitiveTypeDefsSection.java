@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.primitive;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -76,7 +79,7 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof IWorkbenchProfile) {
 				IWorkbenchProfile profile = (IWorkbenchProfile) inputElement;
-				return profile.getPrimitiveTypeDefs(true);
+				return profile.getPrimitiveTypeDefs(true).toArray();
 			}
 			return new Object[0];
 		}
@@ -272,7 +275,7 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 			return false;
 		}
 		if (ProfileEditor.isEditable()
-				&& profile.getPrimitiveTypeDefs(true).length > 0)
+				&& profile.getPrimitiveTypeDefs(true).size() > 0)
 			return true;
 		else
 			return false;
@@ -306,15 +309,15 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 	@Override
 	protected void removeButtonSelected(SelectionEvent event) {
 		TableItem[] selectedItems = viewer.getTable().getSelection();
-		IPrimitiveTypeDef[] selectedFields = new IPrimitiveTypeDef[selectedItems.length];
+		Collection<IPrimitiveTypeDef> selectedFields = new ArrayList<IPrimitiveTypeDef>();
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (IPrimitiveTypeDef) selectedItems[i].getData();
+			selectedFields.add((IPrimitiveTypeDef) selectedItems[i].getData());
 		}
 
 		String message = "Do you really want to remove ";
-		if (selectedFields.length > 1) {
-			message = message + "these " + selectedFields.length
+		if (selectedFields.size() > 1) {
+			message = message + "these " + selectedFields.size()
 					+ " Primitive Type definitions ?";
 		} else {
 			message = message + "this Primitive Type definition?";

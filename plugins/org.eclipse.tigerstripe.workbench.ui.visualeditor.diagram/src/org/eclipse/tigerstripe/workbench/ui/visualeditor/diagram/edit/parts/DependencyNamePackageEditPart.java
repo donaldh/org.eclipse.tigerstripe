@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -256,17 +257,17 @@ public class DependencyNamePackageEditPart extends
 					.getPropertyValue(DiagramPropertiesHelper.HIDESTEREOTYPES))) {
 
 				if (iArtifact != null) {
-					IStereotypeInstance[] stereotypes = iArtifact
+					Collection<IStereotypeInstance> stereotypes = iArtifact
 							.getStereotypeInstances();
-					if (stereotypes.length != 0)
+					if (stereotypes.size() != 0)
 						stereotypeBuffer.append("<<");
 					int count = 0;
 					for (IStereotypeInstance stereotype : stereotypes) {
 						stereotypeBuffer.append(stereotype.getName());
-						if (++count < stereotypes.length)
+						if (++count < stereotypes.size())
 							stereotypeBuffer.append(", ");
 					}
-					if (stereotypes.length != 0)
+					if (stereotypes.size() != 0)
 						stereotypeBuffer.append(">>\n");
 				}
 			}

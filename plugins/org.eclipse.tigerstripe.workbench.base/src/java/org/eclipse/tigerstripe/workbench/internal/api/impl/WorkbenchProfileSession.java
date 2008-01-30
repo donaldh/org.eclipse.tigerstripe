@@ -16,6 +16,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -95,12 +96,12 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 			}
 		}
 
-		IPrimitiveTypeDef[] primitiveTypes = profile
+		Collection<IPrimitiveTypeDef> primitiveTypes = profile
 				.getPrimitiveTypeDefs(false);
 		List badTypesList = new ArrayList();
-		for (int i = 0; i < primitiveTypes.length; i++) {
-			if (!primitiveTypes[i].isValidName()) {
-				badTypesList.add(primitiveTypes[i].getName());
+		for (IPrimitiveTypeDef primitiveType : primitiveTypes) {
+			if (!primitiveType.isValidName()) {
+				badTypesList.add(primitiveType.getName());
 			}
 		}
 		// if error was found with at least one of the primitive type names,

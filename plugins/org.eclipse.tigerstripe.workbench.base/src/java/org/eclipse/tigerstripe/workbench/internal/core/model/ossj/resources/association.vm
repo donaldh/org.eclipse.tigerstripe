@@ -43,7 +43,7 @@ public abstract class $artifact.Name
      *## Take care of the stereotypes
      #foreach( $stereotype in $artifact.AEnd.getStereotypeInstances() )
      * @tigerstripe.stereotype st.name = "$stereotype.Name"
-     #foreach( $stAttr in $stereotype.getCharacterizingIStereotype().getAttributes() ) 
+     #foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
      #if ( $stAttr.isArray() )
      *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
      #else
@@ -68,7 +68,7 @@ public abstract class $artifact.Name
      *## Take care of the stereotypes
      #foreach( $stereotype in $artifact.ZEnd.getStereotypeInstances() )
      * @tigerstripe.stereotype st.name = "$stereotype.Name"
-     #foreach( $stAttr in $stereotype.getCharacterizingIStereotype().getAttributes() ) 
+     #foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
      #if ( $stAttr.isArray() )
      *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
      #else

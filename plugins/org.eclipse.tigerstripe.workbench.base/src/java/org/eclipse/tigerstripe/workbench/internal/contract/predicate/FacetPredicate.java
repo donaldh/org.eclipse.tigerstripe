@@ -130,7 +130,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		if (capable == null)
 			return false;
 		IContractSegment facet = facetRef.resolve();
-		IStereotypeInstance[] stereos = capable.getStereotypeInstances();
+		Collection<IStereotypeInstance> stereos = capable.getStereotypeInstances();
 
 		for (IStereotypeInstance stereo : stereos) {
 			String name = stereo.getName();

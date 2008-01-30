@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEntitySpecifics;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -303,12 +304,12 @@ public class OssjMethodOptionsSection extends ArtifactSectionPart {
 			PropertiesTableItem item = (PropertiesTableItem) methodsMap
 					.get(methodId);
 			if (item == null) {
-				item = new PropertiesTableItem(masterTable, SWT.NULL, method
+				item = new PropertiesTableItem(masterTable, SWT.NULL, ((Method) method)
 						.getOssjMethodProperties(), method.getName());
 				methodsMap.put(methodId, item);
 			}
 
-			item.setMethodProperties(method.getOssjMethodProperties());
+			item.setMethodProperties(((Method) method).getOssjMethodProperties());
 			item.refresh();
 		}
 

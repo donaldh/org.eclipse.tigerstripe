@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import java.util.Collection;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
@@ -365,12 +367,12 @@ public class Type implements IType {
 	 * as the list of legal primitive types (excluding the reserved types).
 	 */
 	private boolean isPrimitiveProfileType() {
-		IPrimitiveTypeDef[] primitiveTypeDefs = TigerstripeCore
+		Collection<IPrimitiveTypeDef> primitiveTypeDefs = TigerstripeCore
 				.getIWorkbenchProfileSession().getActiveProfile()
 				.getPrimitiveTypeDefs(true);
-		for (int i = 0; i < primitiveTypeDefs.length; i++) {
-			String typeDefPackageName = primitiveTypeDefs[i].getPackageName();
-			String typeDefName = primitiveTypeDefs[i].getName();
+		for (IPrimitiveTypeDef primitive: primitiveTypeDefs) {
+			String typeDefPackageName = primitive.getPackageName();
+			String typeDefName = primitive.getName();
 			if (typeDefPackageName.equals("<reserved>")
 					&& this.fullyQualifiedName.equals(typeDefName))
 				return true;

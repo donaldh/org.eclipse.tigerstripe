@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl;
 
 import java.net.URI;
+import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
@@ -35,7 +36,7 @@ public class TigerstripePhantomProjectHandle extends TigerstripeProjectHandle
 		super(getPhantomURI());
 	}
 
-	public IPrimitiveTypeArtifact[] getReservedPrimitiveTypes()
+	public Collection<IPrimitiveTypeArtifact> getReservedPrimitiveTypes()
 			throws TigerstripeException {
 		return getArtifactManagerSession().getReservedPrimitiveTypes();
 	}

@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.profile;
 
 import java.io.Reader;
+import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IWorkbenchProfileProperty;
@@ -75,9 +76,9 @@ public interface IWorkbenchProfile {
 
 	public String getDescription();
 
-	public IStereotype[] getStereotypes();
+	public Collection<IStereotype> getStereotypes();
 
-	public void setStereotypes(IStereotype[] stereotypes)
+	public void setStereotypes(Collection<IStereotype> stereotypes)
 			throws TigerstripeException;
 
 	public void addStereotype(IStereotype stereotype)
@@ -86,12 +87,12 @@ public interface IWorkbenchProfile {
 	public void removeStereotype(IStereotype stereotype)
 			throws TigerstripeException;
 
-	public void removeStereotypes(IStereotype[] stereotype)
+	public void removeStereotypes(Collection<IStereotype> stereotype)
 			throws TigerstripeException;
 
-	public IPrimitiveTypeDef[] getPrimitiveTypeDefs(boolean includeReservedTypes);
+	public Collection<IPrimitiveTypeDef> getPrimitiveTypeDefs(boolean includeReservedTypes);
 
-	public void setPrimitiveTypeDefs(IPrimitiveTypeDef[] primitiveTypeDefs)
+	public void setPrimitiveTypeDefs(Collection<IPrimitiveTypeDef> primitiveTypeDefs)
 			throws TigerstripeException;
 
 	public void addPrimitiveTypeDef(IPrimitiveTypeDef stereotype)
@@ -100,7 +101,7 @@ public interface IWorkbenchProfile {
 	public void removePrimitiveTypeDef(IPrimitiveTypeDef stereotype)
 			throws TigerstripeException;
 
-	public void removePrimitiveTypeDefs(IPrimitiveTypeDef[] stereotype)
+	public void removePrimitiveTypeDefs(Collection<IPrimitiveTypeDef> stereotype)
 			throws TigerstripeException;
 
 	public void setDefaultPrimitiveType(IPrimitiveTypeDef stereotype)
@@ -138,16 +139,6 @@ public interface IWorkbenchProfile {
 	 */
 	public IStereotype getStereotypeByName(String name);
 
-	/**
-	 * Returns an array of stereotype for a given scope
-	 * 
-	 * @param scope
-	 * @return
-	 * @deprected use {@link #getAvailableStereotypeForCapable(IModelComponent)}
-	 *            instead
-	 */
-	public IStereotype[] getAvailableStereotypeForComponent(
-			IModelComponent component);
 
 	/**
 	 * Returns an array of stereotype for a given scope
@@ -155,7 +146,7 @@ public interface IWorkbenchProfile {
 	 * @param scope
 	 * @return
 	 */
-	public IStereotype[] getAvailableStereotypeForCapable(
+	public Collection<IStereotype> getAvailableStereotypeForCapable(
 			IStereotypeCapable component);
 
 	/**

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.project;
 
+import java.util.Collection;
+
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -32,6 +34,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  */
 public interface IPhantomTigerstripeProject extends ITigerstripeProject {
 
-	public IPrimitiveTypeArtifact[] getReservedPrimitiveTypes()
+	public Collection<IPrimitiveTypeArtifact> getReservedPrimitiveTypes()
 			throws TigerstripeException;
 }

@@ -78,7 +78,7 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 							.parse(attributeMultiplicity));
 		else
 			type.setTypeMultiplicity(IModelComponent.EMultiplicity.ZERO_ONE);
-		field.setIType(type);
+		field.setType(type);
 
 		art.addField(field);
 		art.doSave(new TigerstripeNullProgressMonitor());

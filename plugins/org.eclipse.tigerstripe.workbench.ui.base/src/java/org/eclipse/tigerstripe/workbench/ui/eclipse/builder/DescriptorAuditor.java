@@ -205,17 +205,16 @@ public class DescriptorAuditor {
 
 	private void checkPropertiesOnPluginRef(IPluginReference ref) {
 		if (ref.isEnabled()) {
-			Properties presentProps = ref.getProperties();
-
 			String[] definedProps = ref.getDefinedProperties();
+			
 			for (int i = 0; i < definedProps.length; i++) {
-				if (presentProps.getProperty(definedProps[i]) == null
-						|| presentProps.getProperty(definedProps[i]).length() == 0) {
+				if (ref.getProperty(definedProps[i]) == null) {
 					TigerstripeProjectAuditor.reportError("Property '"
 							+ definedProps[i] + "' is undefined.",
 							projectDescriptor, 222);
 				}
 			}
+			// TODO : Check the Property TYPE is the same?
 		}
 
 		// FIXME: this should not be implemented here

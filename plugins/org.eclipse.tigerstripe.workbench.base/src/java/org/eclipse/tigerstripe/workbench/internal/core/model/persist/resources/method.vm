@@ -17,7 +17,7 @@
 	 *  isAbstract = "$method.isAbstract()"
      *  isOrdered = "$method.isOrdered()"
      *  isUnique = "$method.isUnique()"
-     *  typeMultiplicity = "$method.ReturnIType.TypeMultiplicity.Label"
+     *  typeMultiplicity = "$method.ReturnType.TypeMultiplicity.Label"
      *  returnName = "$method.MethodReturnName"
 #if ($method.hasDefaultReturnValue())     *  defaultReturnValue = "$xmlEncode.encode($method.DefaultReturnValue)" 
 #end
@@ -35,7 +35,7 @@
  ## Take care of the arguement stereotypes (since 2.2.1)
 #foreach( $stereotype in $argument.getStereotypeInstances() )
      *   @tigerstripe.arg-stereotype st.name = "$stereotype.Name" st.arg.name = "$argument.Name"
-#foreach( $stAttr in $stereotype.getCharacterizingIStereotype().getAttributes() ) 
+#foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
  #if ( $stAttr.isArray() )
  *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
 	#else
@@ -49,7 +49,7 @@
 ## Take care of the stereotypes
 #foreach( $stereotype in $method.getStereotypeInstances() )
      * @tigerstripe.stereotype st.name = "$stereotype.Name"
-#foreach( $stAttr in $stereotype.getCharacterizingIStereotype().getAttributes() ) 
+#foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
  #if ( $stAttr.isArray() )
  *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
 	#else
@@ -60,7 +60,7 @@
 ## Take care of the stereotypes on the return (since 2.2.1)
 #foreach( $stereotype in $method.getReturnStereotypeInstances() )
      * @tigerstripe.ret-stereotype st.name = "$stereotype.Name"
-#foreach( $stAttr in $stereotype.getCharacterizingIStereotype().getAttributes() ) 
+#foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
  #if ( $stAttr.isArray() )
  *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
 	#else

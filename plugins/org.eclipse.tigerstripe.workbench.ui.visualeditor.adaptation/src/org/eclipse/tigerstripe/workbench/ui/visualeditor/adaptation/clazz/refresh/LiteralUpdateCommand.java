@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
@@ -98,7 +100,7 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 
 			if (eLiteral != null) {
 				if (eLiteral.getStereotypes().size() != iLabel
-						.getStereotypeInstances().length) {
+						.getStereotypeInstances().size()) {
 					// not even the same number of args, let's redo the list
 					eLiteral.getStereotypes().clear();
 					for (IStereotypeInstance stereo : iLabel
@@ -108,15 +110,15 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 				} else {
 					// same number of stereotypes let's see if they all match
 					List<String> eStereotypes = eLiteral.getStereotypes();
-					IStereotypeInstance[] iStereotypes = iLabel
-							.getStereotypeInstances();
-					for (int index = 0; index < iStereotypes.length; index++) {
-						String eStereotypeName = eStereotypes.get(index);
-						String iStereotypeName = iStereotypes[index].getName();
+					Iterator<String> eStereo = eStereotypes.iterator();
+					Collection<IStereotypeInstance> iStereotypes = iLabel.getStereotypeInstances();
+					for (IStereotypeInstance iStereo : iStereotypes) {
+						String eStereotypeName = eStereo.next();
+						String iStereotypeName = iStereo.getName();
+						
 						if (!eStereotypeName.equals(iStereotypeName)) {
-							eLiteral.getStereotypes().remove(index);
-							eLiteral.getStereotypes().add(index,
-									iStereotypeName);
+							eLiteral.getStereotypes().remove(eStereo);
+							eLiteral.getStereotypes().add(iStereotypeName);
 						}
 					}
 				}

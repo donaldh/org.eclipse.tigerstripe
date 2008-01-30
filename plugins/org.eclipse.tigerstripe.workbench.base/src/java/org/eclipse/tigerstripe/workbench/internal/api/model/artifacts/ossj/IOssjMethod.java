@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
 
+import java.util.Properties;
+
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 
@@ -49,4 +51,23 @@ public interface IOssjMethod extends IMethod {
 	public IOssjMethod cloneToIOssjMethod();
 
 	public void setDefaultFlavors();
+	
+	/**
+	 * @deprecated Do not use. Use getEntityMethodFlavorDetails instead.
+	 * @return internal representation for OSSJ method flavor details.
+	 */
+	@Deprecated
+	public Properties getOssjMethodProperties();
+	
+	/**
+	 * @deprecated DO NOT USE. Please use setOssjEntityMethodFlavorDetails
+	 *             instead.
+	 * 
+	 * @param prop -
+	 *            the internal representation for the flavor details.
+	 */
+	@Deprecated
+	public void setOssjMethodProperties(Properties prop);
+
+	
 }

@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -93,7 +94,7 @@ public class ProfileAnnotations2UML2 {
 		this.profile = UMLFactory.eINSTANCE.createProfile();
 		profile.setName(profileName);
 
-		IStereotype[] stereos = this.profileSession.getActiveProfile()
+		Collection<IStereotype> stereos = this.profileSession.getActiveProfile()
 				.getStereotypes();
 
 		// Possible metaClasses for scope
@@ -163,8 +164,8 @@ public class ProfileAnnotations2UML2 {
 		// Primitive
 
 		// create the Enumerations for any Check List type of stereos
-		for (int i = 0; i < stereos.length; i++) {
-			IStereotype stereo = stereos[i];
+		for (IStereotype stereo : stereos) {
+			
 			for (IStereotypeAttribute attr : stereo.getAttributes()) {
 				if (attr.getKind() == IStereotypeAttribute.ENTRY_LIST_KIND) {
 					// Need an enum for these.
@@ -183,8 +184,7 @@ public class ProfileAnnotations2UML2 {
 			}
 		}
 
-		for (int i = 0; i < stereos.length; i++) {
-			IStereotype stereo = stereos[i];
+		for (IStereotype stereo : stereos) {
 			Stereotype stereotype = profile.createOwnedStereotype(stereo
 					.getName(), false);
 			out.println("Added " + stereo.getName() + " Stereotype");

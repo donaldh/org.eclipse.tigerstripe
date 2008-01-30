@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -104,10 +105,8 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return this.tags;
 	}
 
-	public IStereotypeInstance[] getStereotypeInstances() {
-		return stereotypeInstances
-				.toArray(new IStereotypeInstance[this.stereotypeInstances
-						.size()]);
+	public Collection<IStereotypeInstance> getStereotypeInstances() {
+		return Collections.unmodifiableCollection(stereotypeInstances);
 	}
 
 	public void addStereotypeInstance(IStereotypeInstance instance) {
@@ -122,7 +121,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 		}
 	}
 
-	public void removeStereotypeInstances(IStereotypeInstance[] instances) {
+	public void removeStereotypeInstances(Collection<IStereotypeInstance> instances) {
 		for (IStereotypeInstance instance : instances) {
 			removeStereotypeInstance(instance);
 		}

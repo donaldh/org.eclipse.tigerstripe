@@ -120,7 +120,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		// We need to keep track of the attribute/widget to handle changes and
 		// updates
 		// appropriately.
-		IStereotype stereotype = instance.getCharacterizingIStereotype();
+		IStereotype stereotype = instance.getCharacterizingStereotype();
 		for (IStereotypeAttribute attr : stereotype.getAttributes()) {
 			int attrKind = attr.getKind();
 			switch (attrKind) {

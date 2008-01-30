@@ -163,7 +163,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	private int defaultFacetBehavior = IGNORE_ACTIVEFACET;
 
-	private static IPrimitiveTypeArtifact[] reservedPrimitiveTypeArtifacts = null;
+	private static ArrayList<IPrimitiveTypeArtifact> reservedPrimitiveTypeArtifacts = null;
 
 	// be notified or not
 
@@ -173,31 +173,32 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 */
 	private ArtifactRelationshipCache relationshipCache;
 
-	public IPrimitiveTypeArtifact[] getReservedPrimitiveTypeArtifacts() {
+	public Collection<IPrimitiveTypeArtifact> getReservedPrimitiveTypeArtifacts() {
 		if (reservedPrimitiveTypeArtifacts == null) {
-			IPrimitiveTypeDef[] defs = WorkbenchProfile
+			Collection<IPrimitiveTypeDef> defs = WorkbenchProfile
 					.getReservedPrimitiveTypes();
-			reservedPrimitiveTypeArtifacts = new IPrimitiveTypeArtifact[defs.length];
+			reservedPrimitiveTypeArtifacts = new ArrayList<IPrimitiveTypeArtifact>();
 			try {
 				IArtifactManagerSession phantomSession = TigerstripeCore
 						.getDefaultProjectSession().getPhantomProject()
 						.getArtifactManagerSession();
 				ArtifactManager mgr = ((ArtifactManagerSessionImpl) phantomSession)
 						.getArtifactManager();
-				int i = 0;
+
 				for (IPrimitiveTypeDef def : defs) {
 					if (!"void".equals(def.getName())) {
-						reservedPrimitiveTypeArtifacts[i] = new PrimitiveTypeArtifact(
+						PrimitiveTypeArtifact newPrimitive = new PrimitiveTypeArtifact(
 								mgr);
-						reservedPrimitiveTypeArtifacts[i]
-								.setFullyQualifiedName(def.getName());
-						i++;
+						newPrimitive.setFullyQualifiedName(def.getName());
+						reservedPrimitiveTypeArtifacts.add(newPrimitive);
 					}
 				}
-				reservedPrimitiveTypeArtifacts[i] = new PrimitiveTypeArtifact(
+				PrimitiveTypeArtifact reservedPrimitive = new PrimitiveTypeArtifact(
 						mgr);
-				reservedPrimitiveTypeArtifacts[i]
-						.setFullyQualifiedName("String");
+				reservedPrimitive.setFullyQualifiedName("String");
+				reservedPrimitiveTypeArtifacts.add(reservedPrimitive);
+
+						
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
 						"TigerstripeException detected", e);

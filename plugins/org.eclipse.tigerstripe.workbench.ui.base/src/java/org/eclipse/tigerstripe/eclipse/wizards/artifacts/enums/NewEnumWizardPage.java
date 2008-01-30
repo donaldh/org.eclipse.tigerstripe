@@ -183,9 +183,10 @@ public class NewEnumWizardPage extends TSRuntimeBasedWizardPage implements
 			for (int i = 0; i < refs.length; i++) {
 				// if jvtPlugin
 				if ("ossj-jvt-spec".equals(refs[i].getPluginId())) {
-					Properties refProps = refs[i].getProperties();
-					this.targetPackageDialogField.setText(refProps.getProperty(
-							"defaultInterfacePackage", "com.mycompany"));
+					if(refs[i].getProperty("defaultInterfacePackage") == null )
+						this.targetPackageDialogField.setText((String) refs[i].getProperty("defaultInterfacePackage"));
+					else 
+						this.targetPackageDialogField.setText( "com.mycompany");
 
 				}
 
