@@ -11,17 +11,15 @@
 package org.eclipse.tigerstripe.annotations.ui.internal;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Widget;
 import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
 import org.eclipse.tigerstripe.annotations.AnnotationStore;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
@@ -31,80 +29,113 @@ import org.eclipse.tigerstripe.annotations.IStringAnnotationSpecification;
 
 public class AnnotationFormManager {
 
-	public static Map<String, Widget> addFormComposites(
-			Composite parent, AnnotationStore store, String uri,
-			IAnnotationForm form) {
+	private static final String ANNOTATION_SPEC = "ANNOTATION_SPEC";
 
-		Map<String, Widget> map = new HashMap<String, Widget>();
+	public static Composite createFormComposite(Composite parent, IAnnotationForm form) {
+
+		GridData gridData;
+
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setLayout(new GridLayout(2, false));
 
 		IAnnotationSpecification[] specs = form.getSpecifications();
 		Arrays.sort(specs, new AnnotationSpecificationComparator());
 		for (IAnnotationSpecification spec : specs) {
-			Widget widget = null;
-			Composite specComposite = new Composite(parent, SWT.NONE);
-			specComposite.setLayout(new GridLayout(2, true));
+
 			if (spec instanceof IStringAnnotationSpecification) {
-				widget = addStringAnnotation(specComposite, spec, store, uri);
+
+				Label label = new Label(composite, SWT.LEFT);
+				label.setText(spec.getUserLabel());
+				Text text = new Text(composite, SWT.SINGLE | SWT.BORDER);
+				gridData = new GridData();
+				gridData.horizontalAlignment = GridData.FILL;
+				gridData.grabExcessHorizontalSpace = true;
+				text.setLayoutData(gridData);
+				text.setData(ANNOTATION_SPEC, spec);
+
 			} else if (spec instanceof IBooleanAnnotationSpecification) {
-				widget = addBooleanAnnotation(specComposite, spec, store, uri);
-			} else {
-				continue;
-			}
-			map.put(spec.getID(), widget);
-		}
 
-		return map;
+				Button checkbox = new Button(composite, SWT.CHECK);
+				gridData = new GridData();
+				gridData.horizontalSpan = 2;
+				gridData.verticalIndent = 3;
+				checkbox.setLayoutData(gridData);
+				checkbox.setData(ANNOTATION_SPEC, spec);
+				checkbox.setText(spec.getUserLabel());
+			}
+
+		}
+		return composite;
 
 	}
 
-	private static Widget addStringAnnotation(Composite specComposite,
-			IAnnotationSpecification spec, AnnotationStore store, String uri) {
+	public static void setFormCompositeData(Composite composite, AnnotationStore store, String URI, boolean useDefault) {
 
-		Label label = new Label(specComposite, SWT.LEFT);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		label.setText(spec.getUserLabel());
+		IAnnotationSpecification spec;
 
-		Text text = null;
-		try {
-			text = new Text(specComposite, SWT.SINGLE);
-			text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		Control[] controls = composite.getChildren();
+		for (Control control : controls) {
 
-			if (store.getAnnotation(spec, uri) != null) {
-				text.setText((String) store.getAnnotation(spec, uri));
-			} else if (spec.getDefaultValue() != null
-					&& (!spec.getDefaultValue().equals(""))) {
-				text.setText(spec.getDefaultValue());
+			try {
+				spec = (IAnnotationSpecification) control.getData(ANNOTATION_SPEC);
+				if (control instanceof Text) {
+					String annotation = (String) store.getAnnotation(spec, URI);
+					if (annotation == null || useDefault) {
+						String value = (spec.getDefaultValue() != null) ? spec.getDefaultValue() : "";
+						((Text) control).setText(value);
+					} else {
+						((Text) control).setText(annotation);
+					}
+				} else if (control instanceof Button) {
+					Boolean annotation = (Boolean) store.getAnnotation(spec, URI);
+					if (annotation == null || useDefault) {
+						String value = (spec.getDefaultValue() != null) ? spec.getDefaultValue() : "false";
+						((Button) control).setSelection(Boolean.getBoolean(value));
+					} else {
+						((Button) control).setSelection(annotation);
+					}
+				}
+			} catch (AnnotationCoreException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+		}
+	}
+
+	public static void writeFormCompositeData(Composite composite, AnnotationStore store, String URI) {
+
+		IAnnotationSpecification spec;
+
+		Control[] controls = composite.getChildren();
+		try {
+			for (Control control : controls) {
+
+				spec = (IAnnotationSpecification) control.getData(ANNOTATION_SPEC);
+				if (control instanceof Text) {
+					if (((Text) control).getText() != null || !((Text) control).getText().equals("")) {
+						store.setAnnotation(spec, URI, ((Text) control).getText());
+					}
+				} else if (control instanceof Button) {
+					store.setAnnotation(spec, URI, ((Button) control).getSelection());
+				}
+			}
+			store.store();
 		} catch (AnnotationCoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return text;
 	}
 
-	private static Widget addBooleanAnnotation(Composite specComposite,
-			IAnnotationSpecification spec, AnnotationStore store, String uri) {
+	public static void clearFormCompositeData(Composite composite) {
 
-		Label label = new Label(specComposite, SWT.LEFT);
-		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		label.setText(spec.getUserLabel());
-
-		Button checkbox = null;
-		try {
-			checkbox = new Button(specComposite, SWT.CHECK);
-			checkbox.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-			if (store.getAnnotation(spec, uri) != null) {
-				checkbox.setSelection((Boolean) store.getAnnotation(spec, uri));  
-			} else {
-				checkbox.setSelection(Boolean.getBoolean(spec.getDefaultValue()));
+		for (Control control : composite.getChildren()) {
+			if (control instanceof Text) {
+				((Text) control).setText("");
+			} else if (control instanceof Button) {
+				((Button) control).setSelection(false);
 			}
-		} catch (AnnotationCoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		return checkbox;
 	}
 
 }
