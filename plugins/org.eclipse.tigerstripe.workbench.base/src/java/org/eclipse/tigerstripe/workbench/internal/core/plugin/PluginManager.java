@@ -27,7 +27,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchPr
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.csv.CSVPlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.OssjInterfacePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.ws.OssjWsdlPlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.wsExample.OssjWsdlExamplePlugin;
@@ -152,8 +151,6 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 			// OssjJvtStubPlugin.class );
 			// registerHousing( jvtStubPlugin );
 
-			PluginHousing cSVPlugin = new PluginHousing(CSVPlugin.class);
-			registerHousing(cSVPlugin);
 
 			// This will load the actual pluggable plugins
 			loadPluggableHousings();

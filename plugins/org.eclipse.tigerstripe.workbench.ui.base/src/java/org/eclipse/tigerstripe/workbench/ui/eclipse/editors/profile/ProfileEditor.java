@@ -155,9 +155,7 @@ public class ProfileEditor extends TigerstripeFormEditor {
 				// addPage(rulesPage);
 				// addModelPage(rulesPage);
 
-				// PublishConfigurationPage pubPage = new
-				// PublishConfigurationPage(
-				// this );
+				
 				// addPage( pubPage );
 				// addModelPage( pubPage );
 

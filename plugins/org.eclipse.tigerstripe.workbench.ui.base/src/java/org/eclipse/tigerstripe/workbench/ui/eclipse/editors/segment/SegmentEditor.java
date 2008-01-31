@@ -140,11 +140,7 @@ public class SegmentEditor extends TigerstripeFormEditor {
 			// addPage(rulesPage);
 			// addModelPage(rulesPage);
 
-			// PublishConfigurationPage pubPage = new
-			// PublishConfigurationPage(
-			// this );
-			// addPage( pubPage );
-			// addModelPage( pubPage );
+
 
 			// AdvancedConfigurationPage advPage = new
 			// AdvancedConfigurationPage( this );

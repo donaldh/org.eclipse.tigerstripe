@@ -14,8 +14,6 @@ import java.net.URI;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
-import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectCSVCreator;
-import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectPublisher;
 import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePackager;
 
 public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
@@ -34,11 +32,5 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 		return new ModulePackager(this);
 	}
 
-	public IProjectPublisher getPublisher() {
-		return null;
-	}
 
-	public IProjectCSVCreator getCSVCreator() {
-		return new ProjectCSVCreator(this);
-	}
 }

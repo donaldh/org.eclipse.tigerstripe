@@ -16,8 +16,6 @@ import java.util.Collection;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectCSVCreator;
-import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectPublisher;
 import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
@@ -57,13 +55,6 @@ public class TigerstripePhantomProjectHandle extends TigerstripeProjectHandle
 		return new ModulePackager(this);
 	}
 
-	public IProjectPublisher getPublisher() {
-		return null;
-	}
-
-	public IProjectCSVCreator getCSVCreator() {
-		return new ProjectCSVCreator(this);
-	}
 
 	public static URI getPhantomURI() {
 		return PhantomTigerstripeProjectMgr.getInstance().getPhantomURI();

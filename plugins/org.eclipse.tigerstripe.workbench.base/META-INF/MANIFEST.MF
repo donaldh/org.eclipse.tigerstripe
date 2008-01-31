@@ -129,7 +129,6 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.external.project,
    org.eclipse.tigerstripe.api.publish,
    org.eclipse.tigerstripe.api.modules",
- org.eclipse.tigerstripe.workbench.internal.api.publish,
  org.eclipse.tigerstripe.workbench.internal.api.rendering,
  org.eclipse.tigerstripe.workbench.internal.api.role,
  org.eclipse.tigerstripe.workbench.internal.api.utils;uses:="org.eclipse.tigerstripe.api.project",
@@ -252,12 +251,6 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.core.project,
    org.apache.velocity,
    org.eclipse.tigerstripe.core.model",
- org.eclipse.tigerstripe.workbench.internal.core.plugin.csv;
-  uses:="org.eclipse.tigerstripe.core.generation,
-   org.eclipse.tigerstripe.core.plugin,
-   org.eclipse.tigerstripe.core.model,
-   org.eclipse.tigerstripe.core.plugin.base,
-   org.eclipse.tigerstripe.api.project",
  org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.ws;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.core.plugin,

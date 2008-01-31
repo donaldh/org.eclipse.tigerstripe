@@ -13,8 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
-import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectCSVCreator;
-import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectPublisher;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
 public class ReadOnlyTigerstripeProjectHandle extends TigerstripeProjectHandle {
@@ -31,17 +29,11 @@ public class ReadOnlyTigerstripeProjectHandle extends TigerstripeProjectHandle {
 		this.project = project;
 	}
 
-	public IProjectCSVCreator getCSVCreator() {
-		return null;
-	}
 
 	public IModulePackager getPackager() {
 		return null;
 	}
 
-	public IProjectPublisher getPublisher() {
-		return null;
-	}
 
 	@Override
 	public TigerstripeProject getTSProject() throws TigerstripeException {

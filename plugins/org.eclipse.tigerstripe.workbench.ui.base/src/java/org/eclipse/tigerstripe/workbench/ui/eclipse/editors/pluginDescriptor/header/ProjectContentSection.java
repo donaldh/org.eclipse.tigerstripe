@@ -83,9 +83,7 @@ public class ProjectContentSection extends PluginDescriptorSectionPart {
 							PluginDescriptorRulesPage.PAGE_ID);
 				} else if ("runtime".equals(e.getHref())) {
 					getPage().getEditor().setActivePage(RuntimePage.PAGE_ID);
-					// } else if ( "publish".equals( (String) e.getHref() )) {
-					// getPage().getEditor().setActivePage(
-					// PublishConfigurationPage.PAGE_ID );
+
 				}
 			}
 		});

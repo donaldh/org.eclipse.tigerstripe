@@ -14,7 +14,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.modelImport.ImportPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.modelImport.xmi.XMITopLevelPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.ossj.OssjJVTPreferencePage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.publish.PublishPreferencePage;
+
 
 /**
  * A convenience class that initializes the default values of the preference
@@ -44,7 +44,6 @@ public class PreferencesInitializer {
 		GeneralPreferencePage.initializeDefaults();
 		GenerationPreferencePage.initializeDefaults();
 		AdvancedPreferencePage.initializeDefaults();
-		PublishPreferencePage.initializeDefaults();
 
 		OssjJVTPreferencePage.initializeDefaults();
 		ImportPreferencePage.initializeDefaults();

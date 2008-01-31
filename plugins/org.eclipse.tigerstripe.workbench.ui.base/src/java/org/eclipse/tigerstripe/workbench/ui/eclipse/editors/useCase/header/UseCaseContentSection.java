@@ -78,9 +78,7 @@ public class UseCaseContentSection extends TigerstripeSectionPart {
 					// )) {
 					// getPage().getEditor().setActivePage(
 					// DescriptorDependenciesPage.PAGE_ID );
-					// } else if ( "publish".equals( (String) e.getHref() )) {
-					// getPage().getEditor().setActivePage(
-					// PublishConfigurationPage.PAGE_ID );
+
 				}
 			}
 		});

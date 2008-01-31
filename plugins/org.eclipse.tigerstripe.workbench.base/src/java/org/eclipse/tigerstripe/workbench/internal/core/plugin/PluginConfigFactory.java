@@ -139,10 +139,6 @@ public class PluginConfigFactory {
 			pluginConfig = new WsdlPluginConfig(project);
 		} else if (WsdlExamplePluginConfig.MODEL.getPluginId().equals(pluginId)) {
 			pluginConfig = new WsdlExamplePluginConfig(project);
-		} else if (PublishPluginConfig.MODEL.getPluginId().equals(pluginId)) {
-			pluginConfig = new PublishPluginConfig(project);
-		} else if (CSVCreatePluginConfig.MODEL.getPluginId().equals(pluginId)) {
-			pluginConfig = new CSVCreatePluginConfig(project);
 		} else {
 			// Consider it as a PluggablePluginConfig then.
 			PluggablePluginConfig ref = new PluggablePluginConfig(project);

@@ -16,8 +16,6 @@ import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
-import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectCSVCreator;
-import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectPublisher;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleRef;
@@ -49,17 +47,11 @@ public class ModuleProjectHandle extends TigerstripeProjectHandle implements
 		return moduleRef.getEmbeddedProject();
 	}
 
-	public IProjectCSVCreator getCSVCreator() {
-		return null;
-	}
 
 	public IModulePackager getPackager() {
 		return null;
 	}
 
-	public IProjectPublisher getPublisher() {
-		return null;
-	}
 
 	@Override
 	public IArtifactManagerSession getArtifactManagerSession()
