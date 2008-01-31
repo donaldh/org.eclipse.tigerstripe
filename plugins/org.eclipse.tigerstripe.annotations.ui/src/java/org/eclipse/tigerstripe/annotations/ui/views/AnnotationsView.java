@@ -42,7 +42,6 @@ import org.eclipse.tigerstripe.annotations.AnnotationSchemeRegistry;
 import org.eclipse.tigerstripe.annotations.AnnotationStore;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
 import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
-import org.eclipse.tigerstripe.annotations.IAnnotationStoreFactory;
 import org.eclipse.tigerstripe.annotations.ui.internal.AnnotationFormManager;
 import org.eclipse.tigerstripe.annotations.ui.internal.AnnotationSchemeComparator;
 import org.eclipse.ui.ISelectionListener;
@@ -51,19 +50,17 @@ import org.eclipse.ui.part.ViewPart;
 
 public class AnnotationsView extends ViewPart {
 
-	private Composite parent;
+	private Button defaults;
 
-	private Button defaults = null;
+	private Button apply;
 
-	private Button apply = null;
+	private Button cancel;
 
-	private Button cancel = null;
+	private Composite formComposite;
 
 	private ComboViewer schemeComboViewer;
 
 	private IResource resource;
-
-	private Composite formComposite;
 
 	private ISelectionListener pageSelectionListener;
 
@@ -102,11 +99,18 @@ public class AnnotationsView extends ViewPart {
 	}
 
 	@Override
+	public void dispose() {
+		super.dispose();
+		if (pageSelectionListener != null) {
+			getSite().getPage().removeSelectionListener(pageSelectionListener);
+		}
+	}
+
+	@Override
 	public void createPartControl(Composite parent) {
 
 		FormData formData;
 
-		this.parent = parent;
 		parent.setLayout(new FormLayout());
 
 		Label label = new Label(parent, SWT.LEFT);
@@ -135,7 +139,6 @@ public class AnnotationsView extends ViewPart {
 
 		cancel = new Button(parent, SWT.PUSH);
 		cancel.setText("Cancel");
-		// cancel.setEnabled(false);
 		formData = new FormData();
 		formData.right = new FormAttachment(100, -5);
 		formData.bottom = new FormAttachment(100, -5);
@@ -146,13 +149,12 @@ public class AnnotationsView extends ViewPart {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				cancelUserInput();
+				processButtonEvent(e);
 			}
 		});
 
 		apply = new Button(parent, SWT.PUSH);
 		apply.setText("&Apply");
-		// apply.setEnabled(false);
 		formData = new FormData();
 		formData.right = new FormAttachment(cancel, -5);
 		formData.bottom = new FormAttachment(100, -5);
@@ -163,7 +165,7 @@ public class AnnotationsView extends ViewPart {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				writeFormData();
+				processButtonEvent(e);
 			}
 		});
 
@@ -179,7 +181,7 @@ public class AnnotationsView extends ViewPart {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				restoreFormData();
+				processButtonEvent(e);
 			}
 
 		});
@@ -195,14 +197,6 @@ public class AnnotationsView extends ViewPart {
 
 		hookPageSelection();
 
-	}
-
-	@Override
-	public void dispose() {
-		super.dispose();
-		if (pageSelectionListener != null) {
-			getSite().getPage().removeSelectionListener(pageSelectionListener);
-		}
 	}
 
 	private void pageSelectionChanged(IWorkbenchPart part, ISelection selection) {
@@ -222,17 +216,24 @@ public class AnnotationsView extends ViewPart {
 
 		IAdaptable adaptable = (IAdaptable) element;
 		resource = (IResource) adaptable.getAdapter(IResource.class);
-		if (resource != null) {
+		if (resource == null) {
+			
+			schemeComboViewer.setInput(new String[]{});
+			schemeComboViewer.getCombo().setEnabled(false);
+			((StackLayout)formComposite.getLayout()).topControl = null;
+			formComposite.getParent().layout(true, true);
+		} else {
+
 			try {
 				IAnnotationScheme[] schemes = AnnotationSchemeRegistry.eINSTANCE
 						.getDefinedSchemes(getURIFromResource());
 				Arrays.sort(schemes, new AnnotationSchemeComparator());
+				schemeComboViewer.getCombo().setEnabled(true);
 				schemeComboViewer.setInput(schemes);
 				schemeComboViewer.getCombo().select(0);
 				schemeComboViewer.setSelection(schemeComboViewer.getSelection());
 			} catch (AnnotationCoreException e) {
-
-				// TODO - Pop up exception dialog
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -266,51 +267,34 @@ public class AnnotationsView extends ViewPart {
 		formComposite.setData(form);
 		((StackLayout) formComposite.getLayout()).topControl = composite;
 
-		parent.layout(true, true);
+		formComposite.getParent().layout(true, true);
 	}
 
-	private void writeFormData() {
+	private void processButtonEvent(SelectionEvent event) {
+
+		Composite composite = null;
+		IAnnotationForm form = null;
+		AnnotationStore store = null;
 
 		try {
-			IAnnotationForm form = (IAnnotationForm) formComposite.getData();
-			AnnotationStore store = AnnotationStore.getDefaultFactory().getAnnotationStore(resource.getProject(),
-					form.getScheme());
-			Composite composite = (Composite) ((StackLayout) formComposite.getLayout()).topControl;
-			AnnotationFormManager.writeFormCompositeData(composite, store, getURIFromResource());
+			form = (IAnnotationForm) formComposite.getData();
+			store = AnnotationStore.getDefaultFactory().getAnnotationStore(resource.getProject(), form.getScheme());
+			composite = (Composite) ((StackLayout) formComposite.getLayout()).topControl;
 		} catch (AnnotationCoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
 
-	private void restoreFormData() {
-		
-		try {
-			IAnnotationForm form = (IAnnotationForm) formComposite.getData();
-			AnnotationStore store = AnnotationStore.getDefaultFactory().getAnnotationStore(resource.getProject(),
-					form.getScheme());
-			Composite composite = (Composite) ((StackLayout) formComposite.getLayout()).topControl;
+		if (event.getSource() == apply) {
+			AnnotationFormManager.writeFormCompositeData(composite, store, getURIFromResource());
+		} else if (event.getSource() == defaults) {
 			AnnotationFormManager.setFormCompositeData(composite, store, getURIFromResource(), true);
 			AnnotationFormManager.writeFormCompositeData(composite, store, getURIFromResource());
-		} catch (AnnotationCoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} else if (event.getSource() == cancel) {
+			AnnotationFormManager.setFormCompositeData(composite, store, getURIFromResource(), false);
 		}
 	}
 
-	private void cancelUserInput() {
-		try {
-			IAnnotationForm form = (IAnnotationForm) formComposite.getData();
-			AnnotationStore store = AnnotationStore.getDefaultFactory().getAnnotationStore(resource.getProject(),
-					form.getScheme());
-			Composite composite = (Composite) ((StackLayout) formComposite.getLayout()).topControl;
-			AnnotationFormManager.setFormCompositeData(composite, store, getURIFromResource(), false);
-		} catch (AnnotationCoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	private String getURIFromResource() {
 
 		IAdaptable adaptable = (IAdaptable) resource;

@@ -16,6 +16,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -25,6 +26,7 @@ import org.eclipse.tigerstripe.annotations.AnnotationStore;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
 import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.IBooleanAnnotationSpecification;
+import org.eclipse.tigerstripe.annotations.IEnumerationAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.IStringAnnotationSpecification;
 
 public class AnnotationFormManager {
@@ -38,9 +40,9 @@ public class AnnotationFormManager {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setLayout(new GridLayout(2, false));
 
-		IAnnotationSpecification[] specs = form.getSpecifications();
-		Arrays.sort(specs, new AnnotationSpecificationComparator());
-		for (IAnnotationSpecification spec : specs) {
+		IAnnotationSpecification[] specifications = form.getSpecifications();
+		Arrays.sort(specifications, new AnnotationSpecificationComparator());
+		for (IAnnotationSpecification spec : specifications) {
 
 			if (spec instanceof IStringAnnotationSpecification) {
 
@@ -62,6 +64,19 @@ public class AnnotationFormManager {
 				checkbox.setLayoutData(gridData);
 				checkbox.setData(ANNOTATION_SPEC, spec);
 				checkbox.setText(spec.getUserLabel());
+
+			} else if (spec instanceof IEnumerationAnnotationSpecification) {
+
+				Label label = new Label(composite, SWT.LEFT);
+				label.setText(spec.getUserLabel());
+				Combo combo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
+				gridData = new GridData();
+				gridData.horizontalAlignment = GridData.FILL;
+				gridData.grabExcessHorizontalSpace = true;
+				combo.setLayoutData(gridData);
+				combo.setItems(((IEnumerationAnnotationSpecification) spec).getLiterals());
+				combo.setData(ANNOTATION_SPEC, spec);
+
 			}
 
 		}
@@ -79,6 +94,7 @@ public class AnnotationFormManager {
 			try {
 				spec = (IAnnotationSpecification) control.getData(ANNOTATION_SPEC);
 				if (control instanceof Text) {
+
 					String annotation = (String) store.getAnnotation(spec, URI);
 					if (annotation == null || useDefault) {
 						String value = (spec.getDefaultValue() != null) ? spec.getDefaultValue() : "";
@@ -86,7 +102,9 @@ public class AnnotationFormManager {
 					} else {
 						((Text) control).setText(annotation);
 					}
+
 				} else if (control instanceof Button) {
+
 					Boolean annotation = (Boolean) store.getAnnotation(spec, URI);
 					if (annotation == null || useDefault) {
 						String value = (spec.getDefaultValue() != null) ? spec.getDefaultValue() : "false";
@@ -94,6 +112,17 @@ public class AnnotationFormManager {
 					} else {
 						((Button) control).setSelection(annotation);
 					}
+
+				} else if (control instanceof Combo) {
+
+					String annotation = (String) store.getAnnotation(spec, URI);
+					if (annotation == null || useDefault) {
+						String value = (spec.getDefaultValue() != null) ? spec.getDefaultValue() : "";
+						((Combo) control).setText(value);
+					} else {
+						((Combo) control).setText(annotation);
+					}
+
 				}
 			} catch (AnnotationCoreException e) {
 				// TODO Auto-generated catch block
@@ -117,6 +146,10 @@ public class AnnotationFormManager {
 					}
 				} else if (control instanceof Button) {
 					store.setAnnotation(spec, URI, ((Button) control).getSelection());
+				} else if (control instanceof Combo) {
+					if (((Combo) control).getText() != null || !((Combo) control).getText().equals("")) {
+						store.setAnnotation(spec, URI, ((Combo) control).getText());
+					}
 				}
 			}
 			store.store();
@@ -134,6 +167,9 @@ public class AnnotationFormManager {
 				((Text) control).setText("");
 			} else if (control instanceof Button) {
 				((Button) control).setSelection(false);
+			} else if (control instanceof Combo) {
+				// temp!
+				((Combo) control).setText("<empty>");
 			}
 		}
 	}
