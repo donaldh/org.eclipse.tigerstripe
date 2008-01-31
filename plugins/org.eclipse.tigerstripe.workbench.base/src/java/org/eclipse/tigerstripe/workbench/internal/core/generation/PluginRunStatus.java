@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -32,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  */
 public class PluginRunStatus extends MultiStatus implements IStatus {
 
-	private IPluginReference pluginRef;
+	private IPluginConfig pluginConfig;
 
 	private ITigerstripeProject project;
 
@@ -44,11 +44,11 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 		this.context = context;
 	}
 
-	public PluginRunStatus(IPluginReference pluginRef,
+	public PluginRunStatus(IPluginConfig pluginConfig,
 			ITigerstripeProject project, RunConfig config,
 			IFacetReference facetRef) {
 		super(BasePlugin.getPluginId(), 222, "Plugin Run Status", null);
-		this.pluginRef = pluginRef;
+		this.pluginConfig = pluginConfig;
 		this.project = project;
 		this.facetRef = facetRef;
 	}
@@ -65,8 +65,8 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 		return context;
 	}
 
-	public IPluginReference getPluginRef() {
-		return this.pluginRef;
+	public IPluginConfig getPluginConfig() {
+		return this.pluginConfig;
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 				buf.append("<b>");
 			buf.append("[" + projectType + ": "
 					+ project.getProjectDetails().getName() + ", Plugin: "
-					+ pluginRef.getPluginId());
+					+ pluginConfig.getPluginId());
 
 			if (facetRef != null && facetRef.canResolve()) {
 				String facetName = facetRef.resolve().getName();

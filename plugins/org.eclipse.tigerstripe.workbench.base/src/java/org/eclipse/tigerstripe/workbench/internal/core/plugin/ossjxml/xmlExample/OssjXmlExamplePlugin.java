@@ -19,14 +19,14 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessio
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.tools.example.Xml2example;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -47,9 +47,9 @@ public class OssjXmlExamplePlugin extends BasePlugin {
 
 	public final static String PLUGIN_ID = "ossj-xml-example-spec";
 
-	private final static String GROUP_ID = PluginRefFactory.GROUPID_TS;
+	private final static String GROUP_ID = PluginConfigFactory.GROUPID_TS;
 
-	private final static String VERSION = PluginRefFactory.VERSION_1_3;
+	private final static String VERSION = PluginConfigFactory.VERSION_1_3;
 
 	private final static String REPORTTEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/plugin/ossjxml/xmlExample/resources/OSSJ_XML_EXAMPLE_REPORT.vm";
 
@@ -85,24 +85,24 @@ public class OssjXmlExamplePlugin extends BasePlugin {
 		return VERSION;
 	}
 
-	public void trigger(PluginRef pluginRef, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 
 		try {
-			ITigerstripeProject handle = pluginRef.getProjectHandle();
+			ITigerstripeProject handle = pluginConfig.getProjectHandle();
 			// (ITigerstripeProject) API.getDefaultProjectSession()
 			// .makeTigerstripeProject(
-			// pluginRef.getProject().getBaseDir().toURI(), null);
+			// pluginConfig.getProject().getBaseDir().toURI(), null);
 			ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
 					.getArtifactManagerSession();
 
 			// Check if the XMLPugin is enabled - otherwise we'll have no XML!
-			XmlPluginRef xmlRef = (XmlPluginRef) pluginRef.getProject()
-					.findPluginRef(XmlPluginRef.MODEL);
+			XmlPluginConfig xmlRef = (XmlPluginConfig) pluginConfig.getProject()
+					.findPluginConfig(XmlPluginConfig.MODEL);
 
 			if (xmlRef.isEnabled()) {
 				ArtifactManager artifactMgr = session.getArtifactManager();
-				this.report = new PluginReport(pluginRef);
+				this.report = new PluginReport(pluginConfig);
 				this.report.setTemplate(REPORTTEMPLATE);
 
 				// Put the meat in here
@@ -115,33 +115,33 @@ public class OssjXmlExamplePlugin extends BasePlugin {
 				for (Iterator iter = generatedSchemas.iterator(); iter
 						.hasNext();) {
 					String schemaName = (String) iter.next();
-					String schemaFilename = pluginRef.getProject()
+					String schemaFilename = pluginConfig.getProject()
 							.getProjectDetails().getOutputDirectory()
 							+ File.separator + schemaName;
 					// TigerstripeRuntime.logInfoMessage(schemaFilename);
 					// File schema = new File(schemaFilename);
 					// File schemaFullPath = new File(
-					// pluginRef.getProject().getBaseDir()
+					// pluginConfig.getProject().getBaseDir()
 					// + File.separator + schema.getPath());
 
 					Xml2example g = new Xml2example();
 					g.setTargetDirSuffix("XMLexamples");
 					g
 							.setAllowNetworkSchemas("true"
-									.equalsIgnoreCase(pluginRef
+									.equalsIgnoreCase(pluginConfig
 											.getProject()
 											.getAdvancedProperty(
 													IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleAllowNetwork)));
-					String defaultLocn = pluginRef
+					String defaultLocn = pluginConfig
 							.getProject()
 							.getAdvancedProperty(
 									IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleDefaultlocation);
-					File projBaseDir = pluginRef.getProject().getBaseDir();
+					File projBaseDir = pluginConfig.getProject().getBaseDir();
 
 					g.setSchemaDefaultPath(projBaseDir + "\\" + defaultLocn);
-					// g.generateExample(schemaFullPath, pluginRef);
+					// g.generateExample(schemaFullPath, pluginConfig);
 
-					g.generateExample(schemaName, pluginRef);
+					g.generateExample(schemaName, pluginConfig);
 
 				}
 
@@ -167,12 +167,12 @@ public class OssjXmlExamplePlugin extends BasePlugin {
 	/**
 	 * Returns true if this plugin is enabled in the given ITigerstripeProject
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 * @return
 	 */
 	public static boolean isEnabled(ITigerstripeProject tsProject)
 			throws TigerstripeException {
-		IPluginReference[] refs = tsProject.getPluginReferences();
+		IPluginConfig[] refs = tsProject.getPluginConfigs();
 
 		for (int i = 0; i < refs.length; i++) {
 			if (PLUGIN_ID.equals(refs[i].getPluginId())
@@ -185,7 +185,7 @@ public class OssjXmlExamplePlugin extends BasePlugin {
 	}
 
 	public int getCategory() {
-		return IPluginReference.GENERATE_CATEGORY;
+		return IPluginConfig.GENERATE_CATEGORY;
 	}
 
 }

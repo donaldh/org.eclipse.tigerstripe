@@ -15,7 +15,7 @@ import java.io.File;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.publish.IProjectCSVCreator;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.csv.CSVPlugin;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -37,54 +37,54 @@ public class ProjectCSVCreator implements IProjectCSVCreator {
 	}
 
 	public boolean isCSVCreateable() {
-		IPluginReference cSVPluginRef;
+		IPluginConfig cSVPluginConfig;
 		try {
-			cSVPluginRef = getCSVPluginRef();
-			if (cSVPluginRef == null)
+			cSVPluginConfig = getCSVPluginConfig();
+			if (cSVPluginConfig == null)
 				return false;
 		} catch (TigerstripeException e) {
 			return false;
 		}
 
-		if (!cSVPluginRef.isEnabled())
+		if (!cSVPluginConfig.isEnabled())
 			return false;
 		return true;
 	}
 
-	protected IPluginReference getCSVPluginRef() throws TigerstripeException {
+	protected IPluginConfig getCSVPluginConfig() throws TigerstripeException {
 		// extract the corresponding publisher plugin ref in the descriptor.
 		// and trigger it
-		IPluginReference cSVPluginRef = null;
-		IPluginReference[] plugins = getProject().getPluginReferences();
+		IPluginConfig cSVPluginConfig = null;
+		IPluginConfig[] plugins = getProject().getPluginConfigs();
 		for (int i = 0; i < plugins.length; i++) {
 			if (plugins[i].getPluginId().equals(CSVPlugin.PLUGIN_ID)) {
-				cSVPluginRef = plugins[i];
+				cSVPluginConfig = plugins[i];
 			}
 		}
-		return cSVPluginRef;
+		return cSVPluginConfig;
 	}
 
 	public void createCSV() throws TigerstripeException {
 
 		if (isCSVCreateable()) {
-			IPluginReference csvPluginRef = getCSVPluginRef();
+			IPluginConfig csvPluginConfig = getCSVPluginConfig();
 
 			// Ok, let's trigger it now
-			csvPluginRef.trigger();
+			csvPluginConfig.trigger();
 		} else
 			throw new TigerstripeException(
 					"Project is not csv-able. Please make sure required details for publish are populated.");
 	}
 
 	public String getCSVDirectory() {
-		IPluginReference csvPluginRef;
+		IPluginConfig csvPluginConfig;
 		try {
-			csvPluginRef = getCSVPluginRef();
-			if (csvPluginRef == null)
+			csvPluginConfig = getCSVPluginConfig();
+			if (csvPluginConfig == null)
 				return "unknown";
 			String relDir;
-			if (csvPluginRef.getProperty(CSVPlugin.CSV_DIRECTORY) == null){
-				relDir = (String) csvPluginRef.getProperty(CSVPlugin.CSV_DIRECTORY);
+			if (csvPluginConfig.getProperty(CSVPlugin.CSV_DIRECTORY) == null){
+				relDir = (String) csvPluginConfig.getProperty(CSVPlugin.CSV_DIRECTORY);
 			}
 				else 
 					relDir = "unknown";

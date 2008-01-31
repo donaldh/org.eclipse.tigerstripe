@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifa
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 
 /**
@@ -33,11 +33,11 @@ public class OssjUtil {
 
 	private ArtifactManager artifactManager;
 
-	private PluginRef pluginRef;
+	private PluginConfig pluginConfig;
 
-	public OssjUtil(ArtifactManager artifactManager, PluginRef pluginRef) {
+	public OssjUtil(ArtifactManager artifactManager, PluginConfig pluginConfig) {
 		this.artifactManager = artifactManager;
-		this.pluginRef = pluginRef;
+		this.pluginConfig = pluginConfig;
 	}
 
 	public boolean isTSArtifact(String fullyQualifiedName) {
@@ -62,15 +62,15 @@ public class OssjUtil {
 					+ fullyQualifiedName + "' failed.");
 
 		if (artifact instanceof ManagedEntityArtifact)
-			return new ValueInterfaceModel(artifact, this.pluginRef);
+			return new ValueInterfaceModel(artifact, this.pluginConfig);
 		else if (artifact instanceof DatatypeArtifact)
-			return new DatatypeInterfaceModel(artifact, this.pluginRef);
+			return new DatatypeInterfaceModel(artifact, this.pluginConfig);
 		else if (artifact instanceof QueryArtifact)
-			return new QueryInterfaceModel(artifact, this.pluginRef);
+			return new QueryInterfaceModel(artifact, this.pluginConfig);
 		else if (artifact instanceof UpdateProcedureArtifact)
-			return new UpdateProcedureInterfaceModel(artifact, this.pluginRef);
+			return new UpdateProcedureInterfaceModel(artifact, this.pluginConfig);
 		else
-			return new OssjInterfaceModel(artifact, pluginRef);
+			return new OssjInterfaceModel(artifact, pluginConfig);
 	}
 
 	public ValueIteratorInterfaceModel valueIteratorInterfaceOf(
@@ -80,7 +80,7 @@ public class OssjUtil {
 						new TigerstripeNullProgressMonitor());
 
 		if (artifact instanceof ManagedEntityArtifact)
-			return new ValueIteratorInterfaceModel(artifact, this.pluginRef);
+			return new ValueIteratorInterfaceModel(artifact, this.pluginConfig);
 		else
 			throw new TigerstripeException(
 					"Value iterator interface look up of '"
@@ -94,7 +94,7 @@ public class OssjUtil {
 						new TigerstripeNullProgressMonitor());
 
 		if (artifact instanceof ManagedEntityArtifact)
-			return new KeyInterfaceModel(artifact, this.pluginRef);
+			return new KeyInterfaceModel(artifact, this.pluginConfig);
 		else
 			throw new TigerstripeException("Key interface look up of '"
 					+ fullyQualifiedName + "' failed.");
@@ -107,7 +107,7 @@ public class OssjUtil {
 						new TigerstripeNullProgressMonitor());
 
 		if (artifact instanceof ManagedEntityArtifact)
-			return new KeyResultInterfaceModel(artifact, this.pluginRef);
+			return new KeyResultInterfaceModel(artifact, this.pluginConfig);
 		else
 			throw new TigerstripeException("Key result interface look up of '"
 					+ fullyQualifiedName + "' failed.");
@@ -120,7 +120,7 @@ public class OssjUtil {
 						new TigerstripeNullProgressMonitor());
 
 		if (artifact instanceof ManagedEntityArtifact)
-			return new KeyResultIteratorInterfaceModel(artifact, this.pluginRef);
+			return new KeyResultIteratorInterfaceModel(artifact, this.pluginConfig);
 		else
 			throw new TigerstripeException(
 					"Key result iterator interface look up of '"

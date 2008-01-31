@@ -20,16 +20,16 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.WsdlPluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.WsdlPluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.tools.example.Wsdl2example;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -50,9 +50,9 @@ public class OssjWsdlExamplePlugin extends BasePlugin {
 
 	public final static String PLUGIN_ID = "ossj-wsdl-example-spec";
 
-	private final static String GROUP_ID = PluginRefFactory.GROUPID_TS;
+	private final static String GROUP_ID = PluginConfigFactory.GROUPID_TS;
 
-	private final static String VERSION = PluginRefFactory.VERSION_1_3;
+	private final static String VERSION = PluginConfigFactory.VERSION_1_3;
 
 	private final static String REPORTTEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/plugin/ossj/wsExample/resources/OSSJ_WSDL_EXAMPLE_REPORT.vm";
 
@@ -88,24 +88,24 @@ public class OssjWsdlExamplePlugin extends BasePlugin {
 		return VERSION;
 	}
 
-	public void trigger(PluginRef pluginRef, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 
 		try {
-			ITigerstripeProject handle = pluginRef.getProjectHandle();
+			ITigerstripeProject handle = pluginConfig.getProjectHandle();
 			// (ITigerstripeProject) API.getDefaultProjectSession()
 			// .makeTigerstripeProject(
-			// pluginRef.getProject().getBaseDir().toURI(), null);
+			// pluginConfig.getProject().getBaseDir().toURI(), null);
 			ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
 					.getArtifactManagerSession();
 
 			// Check if the WSDLPugin is enabled - otherwise we'll have no WSDL!
-			WsdlPluginRef wsdlRef = (WsdlPluginRef) pluginRef.getProject()
-					.findPluginRef(WsdlPluginRef.MODEL);
+			WsdlPluginConfig wsdlRef = (WsdlPluginConfig) pluginConfig.getProject()
+					.findPluginConfig(WsdlPluginConfig.MODEL);
 
 			if (wsdlRef.isEnabled()) {
 				ArtifactManager artifactMgr = session.getArtifactManager();
-				this.report = new PluginReport(pluginRef);
+				this.report = new PluginReport(pluginConfig);
 				this.report.setTemplate(REPORTTEMPLATE);
 
 				Collection facades = artifactMgr.getArtifactsByModel(
@@ -120,32 +120,32 @@ public class OssjWsdlExamplePlugin extends BasePlugin {
 						.hasNext();) {
 					String wsdlName = (String) iter.next();
 					// String filename =
-					// pluginRef.getProject().getProjectDetails().getOutputDirectory()
+					// pluginConfig.getProject().getProjectDetails().getOutputDirectory()
 					// + File.separator
 					// + facade.getName() + ".wsdl";
 
 					// File wsdl = new File(filename);
 					// File wsdlFullPath = new File(
-					// pluginRef.getProject().getBaseDir()
+					// pluginConfig.getProject().getBaseDir()
 					// + File.separator + wsdl.getPath());
 
 					Wsdl2example g = new Wsdl2example();
 					g.setTargetDirSuffix("SOAPexamples");
 					g
 							.setAllowNetworkSchemas("true"
-									.equalsIgnoreCase(pluginRef
+									.equalsIgnoreCase(pluginConfig
 											.getProject()
 											.getAdvancedProperty(
 													IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleAllowNetwork)));
-					String defaultLocn = pluginRef
+					String defaultLocn = pluginConfig
 							.getProject()
 							.getAdvancedProperty(
 									IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleDefaultlocation);
-					File projBaseDir = pluginRef.getProject().getBaseDir();
+					File projBaseDir = pluginConfig.getProject().getBaseDir();
 
 					g.setSchemaDefaultPath(projBaseDir + "\\" + defaultLocn);
-					// g.generateExample(wsdlFullPath,pluginRef);
-					g.generateExample(wsdlName, pluginRef, config);
+					// g.generateExample(wsdlFullPath,pluginConfig);
+					g.generateExample(wsdlName, pluginConfig, config);
 
 				}
 			} else {
@@ -168,16 +168,16 @@ public class OssjWsdlExamplePlugin extends BasePlugin {
 	/**
 	 * Returns true if this plugin is enabled in the given ITigerstripeProject
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 * @return
 	 */
 	public static boolean isEnabled(ITigerstripeProject tsProject)
 			throws TigerstripeException {
-		IPluginReference[] refs = tsProject.getPluginReferences();
+		IPluginConfig[] refs = tsProject.getPluginConfigs();
 
 		// Check if the WSDLPugin is enabled - otherwise we'll have no XML!
-		WsdlPluginRef wsdlRef = (WsdlPluginRef) ((TigerstripeProject) tsProject)
-				.findPluginRef(WsdlPluginRef.MODEL);
+		WsdlPluginConfig wsdlRef = (WsdlPluginConfig) ((TigerstripeProject) tsProject)
+				.findPluginConfig(WsdlPluginConfig.MODEL);
 
 		for (int i = 0; i < refs.length; i++) {
 			if (PLUGIN_ID.equals(refs[i].getPluginId())
@@ -190,7 +190,7 @@ public class OssjWsdlExamplePlugin extends BasePlugin {
 	}
 
 	public int getCategory() {
-		return IPluginReference.GENERATE_CATEGORY;
+		return IPluginConfig.GENERATE_CATEGORY;
 	}
 
 }

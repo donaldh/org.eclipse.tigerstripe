@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 
 public class GenerationException extends TigerstripeException {
 
@@ -19,20 +19,20 @@ public class GenerationException extends TigerstripeException {
 	 * 
 	 */
 	private static final long serialVersionUID = -597020633833963651L;
-	private IPluginReference pluginRef;
+	private IPluginConfig pluginConfig;
 
-	public GenerationException(String message, IPluginReference pluginRef) {
+	public GenerationException(String message, IPluginConfig pluginConfig) {
 		super(message);
-		this.pluginRef = pluginRef;
+		this.pluginConfig = pluginConfig;
 	}
 
-	public GenerationException(String message, IPluginReference pluginRef,
+	public GenerationException(String message, IPluginConfig pluginConfig,
 			Exception e) {
 		super(message, e);
-		this.pluginRef = pluginRef;
+		this.pluginConfig = pluginConfig;
 	}
 
-	public IPluginReference getPluginRef() {
-		return this.pluginRef;
+	public IPluginConfig getPluginConfig() {
+		return this.pluginConfig;
 	}
 }

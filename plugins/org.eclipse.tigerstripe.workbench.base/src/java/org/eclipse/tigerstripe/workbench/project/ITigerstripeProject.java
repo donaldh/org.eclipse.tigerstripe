@@ -195,7 +195,7 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	 * 
 	 * @return
 	 */
-	public IPluginReference[] getPluginReferences() throws TigerstripeException;
+	public IPluginConfig[] getPluginConfigs() throws TigerstripeException;
 
 	// ==========================================
 	// Project references are direct references to other projects that are

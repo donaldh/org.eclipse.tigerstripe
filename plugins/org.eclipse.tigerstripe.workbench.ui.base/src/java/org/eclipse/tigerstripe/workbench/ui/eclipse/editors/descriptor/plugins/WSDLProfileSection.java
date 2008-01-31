@@ -34,13 +34,13 @@ import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjWSDLProfilePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.WsdlExamplePluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.WsdlPluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.WsdlExamplePluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.WsdlPluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -149,9 +149,9 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 */
 	private Properties getWSDLPluginProperties() {
-		IPluginReference ref = getWSDLPluginReference();
+		IPluginConfig ref = getWSDLPluginConfig();
 		if (ref != null)
-			return ((PluginRef) ref).getProperties();
+			return ((PluginConfig) ref).getProperties();
 
 		return null;
 	}
@@ -163,9 +163,9 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 */
 	private Properties getWSDLExamplePluginProperties() {
-		IPluginReference ref = getWSDLExamplePluginReference();
+		IPluginConfig ref = getWSDLExamplePluginConfig();
 		if (ref != null)
-			return ((PluginRef) ref).getProperties();
+			return ((PluginConfig) ref).getProperties();
 
 		return null;
 	}
@@ -176,10 +176,10 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference getWSDLPluginReference() {
+	private IPluginConfig getWSDLPluginConfig() {
 		try {
 			ITigerstripeProject handle = getTSProject();
-			IPluginReference[] plugins = handle.getPluginReferences();
+			IPluginConfig[] plugins = handle.getPluginConfigs();
 
 			for (int i = 0; i < plugins.length; i++) {
 				if ("ossj-wsdl-spec".equals(plugins[i].getPluginId()))
@@ -199,10 +199,10 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference getWSDLExamplePluginReference() {
+	private IPluginConfig getWSDLExamplePluginConfig() {
 		try {
 			ITigerstripeProject handle = getTSProject();
-			IPluginReference[] plugins = handle.getPluginReferences();
+			IPluginConfig[] plugins = handle.getPluginConfigs();
 
 			for (int i = 0; i < plugins.length; i++) {
 				if ("ossj-wsdl-example-spec".equals(plugins[i].getPluginId()))
@@ -216,10 +216,10 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 		return null;
 	}
 
-	private void addPluginToDescriptor(IPluginReference ref) {
+	private void addPluginToDescriptor(IPluginConfig ref) {
 		try {
 			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getTSProject();
-			handle.addPluginReference(ref);
+			handle.addPluginConfig(ref);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -231,10 +231,10 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference createDefaultWsdlPluginReference() {
+	private IPluginConfig createDefaultWsdlPluginConfig() {
 		try {
-			PluginRef ref = PluginRefFactory.getInstance().createPluginRef(
-					WsdlPluginRef.MODEL, getTigerstripeProject());
+			PluginConfig ref = PluginConfigFactory.getInstance().createPluginConfig(
+					WsdlPluginConfig.MODEL, getTigerstripeProject());
 			applyDefault(ref);
 			return ref;
 		} catch (UnknownPluginException e) {
@@ -249,10 +249,10 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference createDefaultWsdlExamplePluginReference() {
+	private IPluginConfig createDefaultWsdlExamplePluginReference() {
 		try {
-			PluginRef ref = PluginRefFactory.getInstance().createPluginRef(
-					WsdlExamplePluginRef.MODEL, getTigerstripeProject());
+			PluginConfig ref = PluginConfigFactory.getInstance().createPluginConfig(
+					WsdlExamplePluginConfig.MODEL, getTigerstripeProject());
 			applyExampleDefault(ref);
 			return ref;
 		} catch (UnknownPluginException e) {
@@ -275,16 +275,16 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @param ref
 	 */
-	private void applyDefault(IPluginReference ref) {
-		((PluginRef) ref).getProperties().setProperty("targetNamespace", "tns");
-		((PluginRef) ref).getProperties().setProperty("targetPrefix", "tns");
-		((PluginRef) ref)
+	private void applyDefault(IPluginConfig ref) {
+		((PluginConfig) ref).getProperties().setProperty("targetNamespace", "tns");
+		((PluginConfig) ref).getProperties().setProperty("targetPrefix", "tns");
+		((PluginConfig) ref)
 				.getProperties()
 				.setProperty(
 						"WSNotificationsLocation",
 						"http://www-128.ibm.com/developerworks/library/specification/ws-notification/WS-BaseN.wsdl");
-		((PluginRef) ref).getProperties().setProperty("includeWSNotifications", "true");
-		((PluginRef) ref).getProperties().setProperty("activeVersion",
+		((PluginConfig) ref).getProperties().setProperty("includeWSNotifications", "true");
+		((PluginConfig) ref).getProperties().setProperty("activeVersion",
 				IOssjWSDLProfilePlugin.defaultVersion);
 	}
 
@@ -293,7 +293,7 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @param ref
 	 */
-	private void applyExampleDefault(IPluginReference ref) {
+	private void applyExampleDefault(IPluginConfig ref) {
 		// ref.getProperties().setProperty("targetNamespace", "tns");
 
 	}
@@ -437,10 +437,10 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	protected void handleWidgetSelected(SelectionEvent e) {
 		if (!isSilentUpdate()) {
 			if (e.getSource() == generate) {
-				if (getWSDLPluginReference() == null) {
-					addPluginToDescriptor(createDefaultWsdlPluginReference());
+				if (getWSDLPluginConfig() == null) {
+					addPluginToDescriptor(createDefaultWsdlPluginConfig());
 				}
-				getWSDLPluginReference().setEnabled(
+				getWSDLPluginConfig().setEnabled(
 						generate.getSelection() && !this.isReadonly());
 				markPageModified();
 			} else if (e.getSource() == includeWSNotificationsButton) {
@@ -462,14 +462,14 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 				dialog
 						.setMessage("Do you really want to apply default values?\nAll current values will be lost.");
 				if (dialog.open() == SWT.YES) {
-					applyDefault(getWSDLPluginReference());
+					applyDefault(getWSDLPluginConfig());
 					markPageModified();
 				}
 			} else if (e.getSource() == generateExamples) {
-				if (getWSDLExamplePluginReference() == null) {
+				if (getWSDLExamplePluginConfig() == null) {
 					addPluginToDescriptor(createDefaultWsdlExamplePluginReference());
 				}
-				getWSDLExamplePluginReference().setEnabled(
+				getWSDLExamplePluginConfig().setEnabled(
 						generateExamples.getSelection() && !this.isReadonly());
 				markPageModified();
 			}
@@ -490,8 +490,8 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 	protected void updateForm() {
 		setSilentUpdate(true);
 
-		if (getWSDLPluginReference() == null
-				|| !getWSDLPluginReference().isEnabled()) {
+		if (getWSDLPluginConfig() == null
+				|| !getWSDLPluginConfig().isEnabled()) {
 			generate.setSelection(false);
 		} else {
 			Properties pluginProperties = getWSDLPluginProperties();
@@ -507,10 +507,10 @@ public class WSDLProfileSection extends TigerstripeDescriptorSectionPart {
 					"WSNotificationsLocation", ""));
 
 			Properties examplePluginProperties = getWSDLExamplePluginProperties();
-			if (getWSDLExamplePluginReference() == null) {
+			if (getWSDLExamplePluginConfig() == null) {
 				addPluginToDescriptor(createDefaultWsdlExamplePluginReference());
 			}
-			generateExamples.setSelection(getWSDLExamplePluginReference()
+			generateExamples.setSelection(getWSDLExamplePluginConfig()
 					.isEnabled());
 
 			int versionIndex = -1;

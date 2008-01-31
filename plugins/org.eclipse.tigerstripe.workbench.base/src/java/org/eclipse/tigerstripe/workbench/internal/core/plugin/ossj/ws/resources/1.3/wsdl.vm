@@ -9,8 +9,8 @@
    Contributors:
       E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
 *#
-#set ($includeWSNotif = $pluginRef.getProperties().getProperty("includeWSNotifications", "false"))
-#set ($WsNotifLocation = $pluginRef.getProperties().getProperty("WSNotificationsLocation", "http://www-128.ibm.com/developerworks/library/specification/ws-notification/WS-BaseN.wsdl"))
+#set ($includeWSNotif = $pluginConfig.getProperties().getProperty("includeWSNotifications", "false"))
+#set ($WsNotifLocation = $pluginConfig.getProperties().getProperty("WSNotificationsLocation", "http://www-128.ibm.com/developerworks/library/specification/ws-notification/WS-BaseN.wsdl"))
 ##
 ##
 <?xml version="1.0" encoding="utf-8"?>

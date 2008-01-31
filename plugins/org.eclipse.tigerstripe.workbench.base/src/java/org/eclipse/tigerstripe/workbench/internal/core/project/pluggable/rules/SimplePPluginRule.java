@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ISimpleT
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -99,11 +99,11 @@ public class SimplePPluginRule extends BaseTemplatePPluginRule implements
 		return elm;
 	}
 
-	public void trigger(PluggablePluginRef pluginRef, IPluginRuleExecutor exec)
+	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
 			throws TigerstripeException {
 		Writer writer = null;
 		try {
-			this.report = new RuleReport(pluginRef);
+			this.report = new RuleReport(pluginConfig);
 			this.report.setTemplate(PluggablePlugin.TEMPLATE_PREFIX + "/"
 					+ REPORTTEMPLATE);
 			this.report.setName(getName());
@@ -115,20 +115,20 @@ public class SimplePPluginRule extends BaseTemplatePPluginRule implements
 			VelocityEngine engine = setClasspathLoaderForVelocity();
 			Template template = engine.getTemplate(getTemplate());
 
-			Expander expander = new Expander(pluginRef);
+			Expander expander = new Expander(pluginConfig);
 			String targetFile = expander.expandVar(getOutputFile());
-			File outputFileF = getOutputFile(pluginRef, targetFile, exec
+			File outputFileF = getOutputFile(pluginConfig, targetFile, exec
 					.getConfig());
 
 			// Only create the flag if we are allowed to overwrite Or the file
 			// doesn't exist
 			if (isOverwriteFiles() || !outputFileF.exists()) {
 
-				writer = getDefaultWriter(pluginRef, targetFile, exec
+				writer = getDefaultWriter(pluginConfig, targetFile, exec
 						.getConfig());
 
 				// TODO add referenced user-java objects into the context
-				VelocityContext defaultContext = getDefaultContext(pluginRef,
+				VelocityContext defaultContext = getDefaultContext(pluginConfig,
 						exec);
 				VelocityContext localContext = exec.getPlugin()
 						.getLocalVelocityContext(defaultContext, this);

@@ -18,12 +18,12 @@ import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
  * A reference to a plugin as it may appear in a Tigerstripe Project.
  * 
  * Within a Tigerstripe project, plugin-specific configuration can be stored
- * through these IPluginReference.
+ * through these IPluginConfig.
  * 
  * @author Eric Dillon
  * 
  */
-public interface IPluginReference {
+public interface IPluginConfig {
 
 	public static final int GENERATE_CATEGORY = 0;
 	public static final int PUBLISH_CATEGORY = 1;

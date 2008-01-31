@@ -1,4 +1,4 @@
-			<pluginReport	group 	= "$report.PluginRef.groupId"
+			<pluginReport	group 	= "$report.pluginConfig.groupId"
 #*
   Copyright (c) 2007 Cisco Systems, Inc.
   All rights reserved. This program and the accompanying materials
@@ -9,9 +9,9 @@
    Contributors:
       E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
 *#
-							id		= "$report.PluginRef.pluginId"
-							version = "$report.PluginRef.Version" >
-#foreach ($property in $report.PluginRef.getDefinedProperties())
-					<property $property = "$report.PluginRef.Properties.getProperty($property)" />
+							id		= "$report.pluginConfig.pluginId"
+							version = "$report.pluginConfig.Version" >
+#foreach ($property in $report.pluginConfig.getDefinedProperties())
+					<property $property = "$report.pluginConfig.Properties.getProperty($property)" />
 #end
 

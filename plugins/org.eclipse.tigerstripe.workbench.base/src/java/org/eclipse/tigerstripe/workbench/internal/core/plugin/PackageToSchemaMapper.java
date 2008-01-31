@@ -130,7 +130,7 @@ public class PackageToSchemaMapper {
 	/**
 	 * The default constructor
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 */
 	public PackageToSchemaMapper() {
 		pkgMap = new HashMap();

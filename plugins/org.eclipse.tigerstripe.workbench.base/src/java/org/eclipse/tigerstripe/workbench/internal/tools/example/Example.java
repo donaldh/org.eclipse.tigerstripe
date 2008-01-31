@@ -22,7 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,7 +36,7 @@ public class Example {
 	protected boolean debugging = false;
 
 	protected HashMap defaults;
-	protected PluginRef pluginRef;
+	protected PluginConfig pluginConfig;
 
 	protected DocumentBuilderFactory factory;
 	protected DocumentBuilder parser;
@@ -133,7 +133,7 @@ public class Example {
 					// This would normally be the outputDir ?
 					File searchDir = new File(localDir
 							+ File.separator
-							+ pluginRef.getProject().getProjectDetails()
+							+ pluginConfig.getProject().getProjectDetails()
 									.getOutputDirectory());
 					File foundLocation = findSchemaFile(searchDir, assumedName);
 					// TigerstripeRuntime.logInfoMessage(foundLocation);

@@ -23,7 +23,7 @@ import org.apache.log4j.RollingFileAppender;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 
 /**
@@ -43,7 +43,7 @@ public class PluginLogger {
 
 	private static Logger pluginLogger;
 
-	private static PluginRef pluginRef;
+	private static PluginConfig pluginConfig;
 
 	private static final int maxNumBackupLogs = 9;
 
@@ -52,35 +52,35 @@ public class PluginLogger {
 	/**
 	 * Sets up the logger prior to running a pluggable plugin
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 */
-	public static void setUpForRun(PluginRef pluginRef, RunConfig config)
+	public static void setUpForRun(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
-		PluginLogger.pluginRef = pluginRef;
+		PluginLogger.pluginConfig = pluginConfig;
 
-		if (pluginRef.isLogEnabled()) {
+		if (pluginConfig.isLogEnabled()) {
 			TigerstripeRuntime.logTraceMessage("Setting up logger for plugin: "
-					+ pluginRef.toString());
-			initLogger(pluginRef, config);
+					+ pluginConfig.toString());
+			initLogger(pluginConfig, config);
 		}
 	}
 
-	private static void initLogger(PluginRef pluginRef, RunConfig config)
+	private static void initLogger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 
 		try {
 			String tigerstripeLoggerID = PluginLogger.class.getCanonicalName();
 
-			String outputDir = pluginRef.getProjectHandle().getProjectDetails()
+			String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
 					.getOutputDirectory();
-			String projectDir = pluginRef.getProjectHandle().getBaseDir()
+			String projectDir = pluginConfig.getProjectHandle().getBaseDir()
 					.getCanonicalPath();
 
 			String outputPath = projectDir + File.separator + outputDir
-					+ File.separator + pluginRef.getLogPath();
+					+ File.separator + pluginConfig.getLogPath();
 			if (config != null && config.getAbsoluteOutputDir() != null) {
 				outputPath = config.getAbsoluteOutputDir() + File.separator
-						+ outputDir + File.separator + pluginRef.getLogPath();
+						+ outputDir + File.separator + pluginConfig.getLogPath();
 			}
 
 			File outputFile = new File(outputPath);
@@ -107,13 +107,13 @@ public class PluginLogger {
 				appender.rollOver();
 			pluginLogger.addAppender(appender);
 			pluginLogger.setAdditivity(false);
-			pluginLogger.setLevel(toLevel(pluginRef.getCurrentLogLevel()));
+			pluginLogger.setLevel(toLevel(pluginConfig.getCurrentLogLevel()));
 
 			logInitialized = true;
 		} catch (IOException e) {
 			TigerstripeRuntime.logErrorMessage(
 					"Error while trying to set up log for plugin: "
-							+ pluginRef.getLabel(), e);
+							+ pluginConfig.getLabel(), e);
 		}
 
 	}
@@ -165,7 +165,7 @@ public class PluginLogger {
 		if (logInitialized) {
 			TigerstripeRuntime
 					.logTraceMessage("Tearing down logger for plugin: "
-							+ pluginRef.toString());
+							+ pluginConfig.toString());
 			pluginLogger.removeAllAppenders();
 			logInitialized = false;
 		}

@@ -15,9 +15,9 @@ import java.util.Properties;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.csv.CSVPlugin;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.DescriptorEditor;
@@ -38,9 +38,9 @@ public abstract class AbstractCSVCreateSection extends
 	 * 
 	 */
 	protected Properties getCSVCreatePluginProperties() {
-		IPluginReference ref = getCSVCreatePluginReference();
+		IPluginConfig ref = getCSVCreatePluginConfg();
 		if (ref != null)
-			return ((PluginRef) ref).getProperties();
+			return ((PluginConfig) ref).getProperties();
 
 		return null;
 	}
@@ -51,11 +51,11 @@ public abstract class AbstractCSVCreateSection extends
 	 * 
 	 * @return
 	 */
-	protected IPluginReference getCSVCreatePluginReference() {
+	protected IPluginConfig getCSVCreatePluginConfg() {
 		try {
 
 			ITigerstripeProject handle = getTSProject();
-			IPluginReference[] plugins = handle.getPluginReferences();
+			IPluginConfig[] plugins = handle.getPluginConfigs();
 
 			for (int i = 0; i < plugins.length; i++) {
 				if (CSVPlugin.PLUGIN_ID.equals(plugins[i].getPluginId()))

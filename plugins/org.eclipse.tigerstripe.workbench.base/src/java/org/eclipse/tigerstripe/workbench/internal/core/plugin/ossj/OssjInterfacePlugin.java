@@ -32,12 +32,12 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -59,9 +59,9 @@ public class OssjInterfacePlugin extends BasePlugin {
 
 	public final static String PLUGIN_ID = "ossj-jvt-spec";
 
-	private final static String GROUP_ID = PluginRefFactory.GROUPID_TS;
+	private final static String GROUP_ID = PluginConfigFactory.GROUPID_TS;
 
-	private final static String VERSION = PluginRefFactory.VERSION_1_3;
+	private final static String VERSION = PluginConfigFactory.VERSION_1_3;
 
 	private final static String[] supportedNatures = { PluginBody.OSSJ_NATURE };
 
@@ -97,22 +97,22 @@ public class OssjInterfacePlugin extends BasePlugin {
 		return VERSION;
 	}
 
-	public void trigger(PluginRef pluginRef, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 
 		// try {
-		ITigerstripeProject handle = pluginRef.getProjectHandle();
+		ITigerstripeProject handle = pluginConfig.getProjectHandle();
 		// (ITigerstripeProject) API
 		// .getDefaultProjectSession().makeTigerstripeProject(
-		// pluginRef.getProject().getBaseDir().toURI(), null);
+		// pluginConfig.getProject().getBaseDir().toURI(), null);
 		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
 				.getArtifactManagerSession();
 
 		ArtifactManager artifactMgr = session.getArtifactManager();
 		artifactMgr.lock(true);
-		this.report = new PluginReport(pluginRef);
+		this.report = new PluginReport(pluginConfig);
 		this.report.setTemplate(OssjInterfaceModel.TEMPLATE_PREFIX + "/"
-				+ pluginRef.getActiveVersion() + "/" + REPORTTEMPLATE);
+				+ pluginConfig.getActiveVersion() + "/" + REPORTTEMPLATE);
 
 		// // Code generation is based on Managed Entity Artifacts, so we
 		// iterate
@@ -124,23 +124,23 @@ public class OssjInterfacePlugin extends BasePlugin {
 		for (Iterator iter = entities.iterator(); iter.hasNext();) {
 			ManagedEntityArtifact entity = (ManagedEntityArtifact) iter.next();
 			ValueInterfaceModel valueModel = new ValueInterfaceModel(entity,
-					pluginRef);
-			generateWithTemplate(valueModel, pluginRef, config);
+					pluginConfig);
+			generateWithTemplate(valueModel, pluginConfig, config);
 
 			ValueIteratorInterfaceModel iterModel = new ValueIteratorInterfaceModel(
-					entity, pluginRef);
-			generateWithTemplate(iterModel, pluginRef, config);
+					entity, pluginConfig);
+			generateWithTemplate(iterModel, pluginConfig, config);
 
-			KeyInterfaceModel model = new KeyInterfaceModel(entity, pluginRef);
-			generateWithTemplate(model, pluginRef, config);
+			KeyInterfaceModel model = new KeyInterfaceModel(entity, pluginConfig);
+			generateWithTemplate(model, pluginConfig, config);
 
 			KeyResultInterfaceModel resultModel = new KeyResultInterfaceModel(
-					entity, pluginRef);
-			generateWithTemplate(resultModel, pluginRef, config);
+					entity, pluginConfig);
+			generateWithTemplate(resultModel, pluginConfig, config);
 
 			KeyResultIteratorInterfaceModel resultIteratorModel = new KeyResultIteratorInterfaceModel(
-					entity, pluginRef);
-			generateWithTemplate(resultIteratorModel, pluginRef, config);
+					entity, pluginConfig);
+			generateWithTemplate(resultIteratorModel, pluginConfig, config);
 		}
 
 		// Code generation is based on Datatype Artifacts, so we iterate
@@ -151,8 +151,8 @@ public class OssjInterfacePlugin extends BasePlugin {
 		for (Iterator iter = datatypes.iterator(); iter.hasNext();) {
 			DatatypeArtifact datatype = (DatatypeArtifact) iter.next();
 			DatatypeInterfaceModel model = new DatatypeInterfaceModel(datatype,
-					pluginRef);
-			generateWithTemplate(model, pluginRef, config);
+					pluginConfig);
+			generateWithTemplate(model, pluginConfig, config);
 		}
 
 		// Code generation is based on Enum Artifacts, so we iterate
@@ -161,8 +161,8 @@ public class OssjInterfacePlugin extends BasePlugin {
 				false, new TigerstripeNullProgressMonitor());
 		for (Iterator iter = enums.iterator(); iter.hasNext();) {
 			EnumArtifact aEnum = (EnumArtifact) iter.next();
-			EnumInterfaceModel model = new EnumInterfaceModel(aEnum, pluginRef);
-			generateWithTemplate(model, pluginRef, config);
+			EnumInterfaceModel model = new EnumInterfaceModel(aEnum, pluginConfig);
+			generateWithTemplate(model, pluginConfig, config);
 		}
 
 		// Code generation is based on Update Procedure Artifacts, so we
@@ -175,12 +175,12 @@ public class OssjInterfacePlugin extends BasePlugin {
 			UpdateProcedureArtifact aProc = (UpdateProcedureArtifact) iter
 					.next();
 			UpdateProcedureInterfaceModel model = new UpdateProcedureInterfaceModel(
-					aProc, pluginRef);
-			generateWithTemplate(model, pluginRef, config);
+					aProc, pluginConfig);
+			generateWithTemplate(model, pluginConfig, config);
 			// Need to add a reponse Model for DG 1.3
 			UpdateProcedureResponseInterfaceModel responseModel = new UpdateProcedureResponseInterfaceModel(
-					aProc, pluginRef);
-			generateWithTemplate(responseModel, pluginRef, config);
+					aProc, pluginConfig);
+			generateWithTemplate(responseModel, pluginConfig, config);
 		}
 
 		// Code generation is based on Exception Artifacts, so we iterate
@@ -191,8 +191,8 @@ public class OssjInterfacePlugin extends BasePlugin {
 		for (Iterator iter = exceptions.iterator(); iter.hasNext();) {
 			ExceptionArtifact aException = (ExceptionArtifact) iter.next();
 			ExceptionInterfaceModel model = new ExceptionInterfaceModel(
-					aException, pluginRef);
-			generateWithTemplate(model, pluginRef, config);
+					aException, pluginConfig);
+			generateWithTemplate(model, pluginConfig, config);
 		}
 
 		// Code generation is based on SessionFacade Artifacts, so we
@@ -204,14 +204,14 @@ public class OssjInterfacePlugin extends BasePlugin {
 		for (Iterator iter = facades.iterator(); iter.hasNext();) {
 			SessionFacadeArtifact facade = (SessionFacadeArtifact) iter.next();
 			SessionFacadeInterfaceModel model = new SessionFacadeInterfaceModel(
-					facade, pluginRef);
-			generateWithTemplate(model, pluginRef, config);
+					facade, pluginConfig);
+			generateWithTemplate(model, pluginConfig, config);
 			SessionFacadeHomeInterfaceModel homeModel = new SessionFacadeHomeInterfaceModel(
-					facade, pluginRef);
-			generateWithTemplate(homeModel, pluginRef, config);
+					facade, pluginConfig);
+			generateWithTemplate(homeModel, pluginConfig, config);
 			SessionOptionalOpsInterfaceModel optionalOpsModel = new SessionOptionalOpsInterfaceModel(
-					facade, pluginRef);
-			generateWithTemplate(optionalOpsModel, pluginRef, config);
+					facade, pluginConfig);
+			generateWithTemplate(optionalOpsModel, pluginConfig, config);
 		}
 
 		// // Code generation is based on Event Artifacts, so we iterate
@@ -222,12 +222,12 @@ public class OssjInterfacePlugin extends BasePlugin {
 		for (Iterator iter = events.iterator(); iter.hasNext();) {
 			EventArtifact event = (EventArtifact) iter.next();
 			EventInterfaceModel model = new EventInterfaceModel(event,
-					pluginRef);
-			generateWithTemplate(model, pluginRef, config);
+					pluginConfig);
+			generateWithTemplate(model, pluginConfig, config);
 
 			EventDescriptorInterfaceModel descrModel = new EventDescriptorInterfaceModel(
-					event, pluginRef);
-			generateWithTemplate(descrModel, pluginRef, config);
+					event, pluginConfig);
+			generateWithTemplate(descrModel, pluginConfig, config);
 		}
 
 		// Code generation is based on Query Artifacts, so we iterate
@@ -238,12 +238,12 @@ public class OssjInterfacePlugin extends BasePlugin {
 		for (Iterator iter = queries.iterator(); iter.hasNext();) {
 			QueryArtifact query = (QueryArtifact) iter.next();
 			QueryInterfaceModel model = new QueryInterfaceModel(query,
-					pluginRef);
-			generateWithTemplate(model, pluginRef, config);
+					pluginConfig);
+			generateWithTemplate(model, pluginConfig, config);
 			// Need to add a reponse Model for DG 1.3
 			QueryResponseInterfaceModel responseModel = new QueryResponseInterfaceModel(
-					query, pluginRef);
-			generateWithTemplate(responseModel, pluginRef, config);
+					query, pluginConfig);
+			generateWithTemplate(responseModel, pluginConfig, config);
 		}
 		artifactMgr.lock(false);
 		// } catch (TigerstripeLicenseException e) {
@@ -252,15 +252,15 @@ public class OssjInterfacePlugin extends BasePlugin {
 	}
 
 	private void generateWithTemplate(OssjInterfaceModel model,
-			PluginRef pluginRef, RunConfig config) throws TigerstripeException {
+			PluginConfig pluginConfig, RunConfig config) throws TigerstripeException {
 		// Build up a local context for the template
 		VelocityContext localContext = new VelocityContext(getDefaultContext());
 
 		// try {
-		ITigerstripeProject handle = pluginRef.getProjectHandle();
+		ITigerstripeProject handle = pluginConfig.getProjectHandle();
 		// (ITigerstripeProject) API
 		// .getDefaultProjectSession().makeTigerstripeProject(
-		// pluginRef.getProject().getBaseDir().toURI(), null);
+		// pluginConfig.getProject().getBaseDir().toURI(), null);
 		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
 				.getArtifactManagerSession();
 
@@ -269,10 +269,10 @@ public class OssjInterfacePlugin extends BasePlugin {
 		if (model.getGenerate()) {
 			localContext.put("artifact", model.getArtifact());
 			localContext.put("model", model);
-			localContext.put("ossjUtil", new OssjUtil(artifactMgr, pluginRef));
-			localContext.put("pluginRef", pluginRef);
+			localContext.put("ossjUtil", new OssjUtil(artifactMgr, pluginConfig));
+			localContext.put("pluginConfig", pluginConfig);
 			localContext.put("runtime", TigerstripeRuntime.getInstance());
-			localContext.put("tsProject", pluginRef.getProject());
+			localContext.put("tsProject", pluginConfig.getProject());
 			try {
 				setClasspathLoaderForVelocity();
 
@@ -281,7 +281,7 @@ public class OssjInterfacePlugin extends BasePlugin {
 				String filename = model.getInterfacePath() + File.separator
 						+ model.getInterfaceFilename();
 
-				setDefaultDestination(pluginRef, new File(filename), config);
+				setDefaultDestination(pluginConfig, new File(filename), config);
 
 				// create the output
 				template.merge(localContext, getDefaultWriter());
@@ -329,12 +329,12 @@ public class OssjInterfacePlugin extends BasePlugin {
 	/**
 	 * Returns true if this plugin is enabled in the given ITigerstripeProject
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 * @return
 	 */
 	public static boolean isEnabled(ITigerstripeProject tsProject)
 			throws TigerstripeException {
-		IPluginReference[] refs = tsProject.getPluginReferences();
+		IPluginConfig[] refs = tsProject.getPluginConfigs();
 
 		for (int i = 0; i < refs.length; i++) {
 			if (PLUGIN_ID.equals(refs[i].getPluginId())
@@ -347,7 +347,7 @@ public class OssjInterfacePlugin extends BasePlugin {
 	}
 
 	public int getCategory() {
-		return IPluginReference.GENERATE_CATEGORY;
+		return IPluginConfig.GENERATE_CATEGORY;
 	}
 
 }

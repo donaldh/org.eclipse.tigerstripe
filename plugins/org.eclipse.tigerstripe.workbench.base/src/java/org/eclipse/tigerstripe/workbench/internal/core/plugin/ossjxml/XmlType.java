@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin.ossjxml;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.OssjUtil;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
@@ -42,17 +42,17 @@ public class XmlType {
 
 	private ArtifactManager artifactManager;
 
-	private PluginRef pluginRef;
+	private PluginConfig pluginConfig;
 
 	// HACKED To stop it complaining - due for deletion
 	public XmlType(String fullyQualifiedName, String dimensions,
-			ArtifactManager artifactManager, PluginRef pluginRef)
+			ArtifactManager artifactManager, PluginConfig pluginConfig)
 			throws TigerstripeException {
 		this.fullyQualifiedName = fullyQualifiedName;
 		this.dimensions = dimensions;
 		this.artifactManager = artifactManager;
 		this.namespace = "ts";
-		this.pluginRef = pluginRef;
+		this.pluginConfig = pluginConfig;
 
 		this.type = new Type(fullyQualifiedName, EMultiplicity.ONE,
 				this.artifactManager);
@@ -62,12 +62,12 @@ public class XmlType {
 	// HACKED To stop it complaining - due for deletion
 	public XmlType(String namespace, String fullyQualifiedName,
 			String dimensions, ArtifactManager artifactManager,
-			PluginRef pluginRef) throws TigerstripeException {
+			PluginConfig pluginConfig) throws TigerstripeException {
 		this.fullyQualifiedName = fullyQualifiedName;
 		this.dimensions = dimensions;
 		this.artifactManager = artifactManager;
 		this.namespace = namespace;
-		this.pluginRef = pluginRef;
+		this.pluginConfig = pluginConfig;
 
 		this.type = new Type(fullyQualifiedName, EMultiplicity.ONE,
 				this.artifactManager);
@@ -76,7 +76,7 @@ public class XmlType {
 
 	private void build() throws TigerstripeException {
 		// This looks All wrong...
-		String commonNamespace = this.pluginRef.getProject()
+		String commonNamespace = this.pluginConfig.getProject()
 				.getProjectDetails().getProperty("ossj.common.namespacePrefix",
 						"");
 		// String commonNamespace = "co-v1-3";
@@ -90,7 +90,7 @@ public class XmlType {
 			this.keyName = "";
 			this.keyResultName = "";
 		}
-		OssjUtil util = new OssjUtil(this.artifactManager, this.pluginRef);
+		OssjUtil util = new OssjUtil(this.artifactManager, this.pluginConfig);
 
 		if (this.type.isPrimitive()) {
 			if (this.name.equals("ArrayOf")) {

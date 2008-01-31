@@ -70,13 +70,13 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 	 * housing.
 	 * 
 	 * @param ref -
-	 *            PluginRef the plugin reference to resolve
+	 *            PluginConfig the plugin reference to resolve
 	 * @return PluginHousing - the plugin housing corresponding to the given
-	 *         PluginRef.
+	 *         PluginConfig.
 	 * @throws UnknownPluginException,
-	 *             if the PluginRef cannot be resolved
+	 *             if the PluginConfig cannot be resolved
 	 */
-	public PluginHousing resolveReference(PluginRef ref)
+	public PluginHousing resolveReference(PluginConfig ref)
 			throws UnknownPluginException {
 
 		for (Iterator iter = this.housings.iterator(); iter.hasNext();) {

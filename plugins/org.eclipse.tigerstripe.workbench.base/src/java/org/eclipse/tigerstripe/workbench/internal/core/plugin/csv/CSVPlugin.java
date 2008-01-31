@@ -36,14 +36,14 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -69,9 +69,9 @@ public class CSVPlugin extends BasePlugin {
 
 	public final static String PLUGIN_ID = "csv-spec";
 
-	private final static String GROUP_ID = PluginRefFactory.GROUPID_TS;
+	private final static String GROUP_ID = PluginConfigFactory.GROUPID_TS;
 
-	private final static String VERSION = PluginRefFactory.VERSION_1_3;
+	private final static String VERSION = PluginConfigFactory.VERSION_1_3;
 
 	private final static String REPORTTEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/plugin/csv/resources/CSV_REPORT.vm";
 
@@ -118,28 +118,28 @@ public class CSVPlugin extends BasePlugin {
 		return VERSION;
 	}
 
-	public void trigger(PluginRef pluginRef, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 		try {
 			ITigerstripeProject handle = (ITigerstripeProject) TigerstripeCore
 					.getDefaultProjectSession().makeTigerstripeProject(
-							pluginRef.getProject().getBaseDir().toURI(), null);
+							pluginConfig.getProject().getBaseDir().toURI(), null);
 			ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
 					.getArtifactManagerSession();
 
 			ArtifactManager artifactMgr = session.getArtifactManager();
-			this.report = new PluginReport(pluginRef);
+			this.report = new PluginReport(pluginConfig);
 			this.report.setTemplate(REPORTTEMPLATE);
 
-			CSVModel model = new CSVModel(pluginRef);
-			generateWithTemplate(model, pluginRef, artifactMgr, config);
+			CSVModel model = new CSVModel(pluginConfig);
+			generateWithTemplate(model, pluginConfig, artifactMgr, config);
 
 		} catch (TigerstripeLicenseException e) {
 			throw new TigerstripeException("License issue", e);
 		}
 	}
 
-	private void generateWithTemplate(CSVModel model, PluginRef pluginRef,
+	private void generateWithTemplate(CSVModel model, PluginConfig pluginConfig,
 			ArtifactManager artifactMgr, RunConfig config)
 			throws TigerstripeException {
 
@@ -177,7 +177,7 @@ public class CSVPlugin extends BasePlugin {
 				DependencyArtifact.MODEL, false,
 				new TigerstripeNullProgressMonitor());
 
-		TigerstripeProject tsProject = pluginRef.getProject();
+		TigerstripeProject tsProject = pluginConfig.getProject();
 
 		VelocityContext localContext = new VelocityContext(getDefaultContext());
 		localContext.put("entities", entities); // TODO scope?
@@ -193,12 +193,12 @@ public class CSVPlugin extends BasePlugin {
 		localContext.put("associationClasses", associationClasses);
 		localContext.put("dependencies", dependencies);
 
-		localContext.put("pluginRef", pluginRef);
-		localContext.put("tsProject", pluginRef.getProject());
+		localContext.put("pluginConfig", pluginConfig);
+		localContext.put("tsProject", pluginConfig.getProject());
 		localContext.put("runtime", TigerstripeRuntime.getInstance());
 		localContext.put("reportUtils", new ReportUtils());
 
-		localContext.put("detail", getCardinal(DETAIL_OPTIONS, pluginRef
+		localContext.put("detail", getCardinal(DETAIL_OPTIONS, pluginConfig
 				.getProperties().getProperty(LEVEL_OF_DETAIL)));
 
 		try {
@@ -208,12 +208,12 @@ public class CSVPlugin extends BasePlugin {
 
 			// String filename = model.getDestinationDir() + File.separator
 			// +"project.csv";
-			String filename = pluginRef.getProperties().getProperty(
+			String filename = pluginConfig.getProperties().getProperty(
 					CSV_DIRECTORY)
 					+ File.separator
 					+ tsProject.getProjectDetails().getName()
 					+ ".csv";
-			setDefaultDestination(pluginRef, new File(filename), config);
+			setDefaultDestination(pluginConfig, new File(filename), config);
 
 			// create the output
 			template.merge(localContext, getDefaultWriter());
@@ -260,12 +260,12 @@ public class CSVPlugin extends BasePlugin {
 	/**
 	 * Returns true if this plugin is enabled in the given ITigerstripeProject
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 * @return
 	 */
 	public static boolean isEnabled(ITigerstripeProject tsProject)
 			throws TigerstripeException {
-		IPluginReference[] refs = tsProject.getPluginReferences();
+		IPluginConfig[] refs = tsProject.getPluginConfigs();
 
 		for (int i = 0; i < refs.length; i++) {
 			if (PLUGIN_ID.equals(refs[i].getPluginId())
@@ -278,7 +278,7 @@ public class CSVPlugin extends BasePlugin {
 	}
 
 	public int getCategory() {
-		return IPluginReference.PUBLISH_CATEGORY;
+		return IPluginConfig.PUBLISH_CATEGORY;
 	}
 
 }

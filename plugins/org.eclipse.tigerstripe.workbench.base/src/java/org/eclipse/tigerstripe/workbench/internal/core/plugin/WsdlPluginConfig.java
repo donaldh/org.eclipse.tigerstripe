@@ -10,20 +10,20 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjJVTProfilePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjWSDLProfilePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
-public class JvtPluginRef extends PluginRef {
+public class WsdlPluginConfig extends PluginConfig {
 
-	public final static JvtPluginRef MODEL = new JvtPluginRef(null);
+	public final static WsdlPluginConfig MODEL = new WsdlPluginConfig(null);
 
-	private final static String GROUPID = PluginRefFactory.GROUPID_TS;
-	private final static String PLUGINID = "ossj-jvt-spec";
+	private final static String GROUPID = PluginConfigFactory.GROUPID_TS;
+	private final static String PLUGINID = "ossj-wsdl-spec";
 
 	@Override
 	public String getActiveVersion() {
 		return getProperties().getProperty("activeVersion",
-				IOssjJVTProfilePlugin.defaultVersion);
+				IOssjWSDLProfilePlugin.defaultVersion);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class JvtPluginRef extends PluginRef {
 		return PLUGINID;
 	}
 
-	/* package */JvtPluginRef(TigerstripeProject project) {
+	/* package */WsdlPluginConfig(TigerstripeProject project) {
 		super(project);
 	}
 

@@ -16,7 +16,7 @@
 	<tigerstripeDetails
 		version = "$reportUtils.stripPropertyString($runtime.getProperty("tigerstripe.feature.version"))">
 			<generatePlugins>
-#foreach ($plugin in $pluginRefs)
+#foreach ($plugin in $pluginConfigs)
 #if( $reportUtils.isGeneratePlugin($plugin.Category) )
 				<plugin
 					group 	= "$plugin.groupId"

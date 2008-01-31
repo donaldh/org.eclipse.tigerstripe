@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 
 /**
  * @author Eric Dillon
@@ -30,9 +30,9 @@ public class KeyInterfaceModel extends OssjInterfaceModel {
 	private final static String TEMPLATE = "keyInterface.vm";
 	public final static String KEYINTERFACE_TAG = "tigerstripe.key-interface";
 
-	public KeyInterfaceModel(AbstractArtifact artifact, PluginRef pluginRef)
+	public KeyInterfaceModel(AbstractArtifact artifact, PluginConfig pluginConfig)
 			throws TigerstripeException {
-		super(artifact, pluginRef);
+		super(artifact, pluginConfig);
 		setTemplate(TEMPLATE);
 	}
 

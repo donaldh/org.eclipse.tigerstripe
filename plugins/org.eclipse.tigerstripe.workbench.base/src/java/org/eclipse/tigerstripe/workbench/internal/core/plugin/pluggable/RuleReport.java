@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ICopyRule;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 
 /**
@@ -27,8 +27,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
  */
 public class RuleReport extends PluginReport {
 
-	public RuleReport(PluginRef pluginRef) {
-		super(pluginRef);
+	public RuleReport(PluginConfig pluginConfig) {
+		super(pluginConfig);
 	}
 
 	private String name;

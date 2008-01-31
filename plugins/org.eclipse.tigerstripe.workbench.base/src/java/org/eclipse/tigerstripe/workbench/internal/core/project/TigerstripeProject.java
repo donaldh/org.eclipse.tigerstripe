@@ -50,11 +50,11 @@ import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReferenc
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -100,7 +100,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	/**
 	 * The references to all plugins used by this project
 	 */
-	private Collection pluginReferences = new ArrayList();
+	private Collection<IPluginConfig> pluginConfigs = new ArrayList<IPluginConfig>();
 
 	/**
 	 * A set of ArtifactRepositories
@@ -130,12 +130,12 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	// ==========================================
-	public Collection getPluginReferences() {
-		return this.pluginReferences;
+	public Collection<IPluginConfig> getPluginConfigs() {
+		return this.pluginConfigs;
 	}
 
-	public void setPluginReferences(Collection pluginReferences) {
-		this.pluginReferences = pluginReferences;
+	public void setPluginConfigs(Collection<IPluginConfig> pluginConfigs) {
+		this.pluginConfigs = pluginConfigs;
 	}
 
 	public Collection getArtifactRepositories() {
@@ -192,7 +192,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 			loadProjectDetails(document);
 			loadRepositories(document);
-			loadPluginReferences(document);
+			loadPluginConfigs(document);
 			loadDependencies(document);
 			loadReferences(document);
 			loadFacetReferences(document);
@@ -348,8 +348,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	private Element buildPluginsElement(Document document) {
 		Element plugins = document.createElement("plugins");
 
-		for (Iterator iter = getPluginReferences().iterator(); iter.hasNext();) {
-			PluginRef ref = (PluginRef) iter.next();
+		for (Iterator iter = getPluginConfigs().iterator(); iter.hasNext();) {
+			PluginConfig ref = (PluginConfig) iter.next();
 			Element plugin = ref.buildPluginElement(document);
 
 			plugins.appendChild(plugin);
@@ -479,32 +479,32 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		}
 	}
 
-	private void loadPluginReferences(Document document)
+	private void loadPluginConfigs(Document document)
 			throws TigerstripeException {
 
-		this.pluginReferences = new ArrayList();
+		this.pluginConfigs = new ArrayList();
 		NodeList plugins = document
-				.getElementsByTagName(PluginRef.PLUGIN_REFERENCE_TAG);
+				.getElementsByTagName(PluginConfig.PLUGIN_REFERENCE_TAG);
 
 		for (int i = 0; i < plugins.getLength(); i++) {
 			Node node = plugins.item(i);
 			try {
-				PluginRef ref = PluginRefFactory.getInstance().createPluginRef(
+				PluginConfig ref = PluginConfigFactory.getInstance().createPluginConfig(
 						(Element) node, this);
 
 				// need to make sure it can be resolved
 				ref.resolve();
 
-				this.pluginReferences.add(ref);
+				this.pluginConfigs.add(ref);
 			} catch (UnknownPluginException e) {
 				log.info(e);
 			}
 		}
 	}
 
-	public PluginRef findPluginRef(PluginRef model) {
-		for (Iterator iter = getPluginReferences().iterator(); iter.hasNext();) {
-			PluginRef ref = (PluginRef) iter.next();
+	public PluginConfig findPluginConfig(PluginConfig model) {
+		for (Iterator iter = getPluginConfigs().iterator(); iter.hasNext();) {
+			PluginConfig ref = (PluginConfig) iter.next();
 			if (model.getPluginId().equals(ref.getPluginId())
 					&& model.getGroupId().equals(ref.getGroupId()))
 				return ref;
@@ -1010,12 +1010,6 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public List<IFacetReference> getFacetReferences()
 			throws TigerstripeException {
 		return facetReferences;
-	}
-
-	public IPluginReference[] getIPluginReferences()
-			throws TigerstripeException {
-		return (IPluginReference[]) pluginReferences
-				.toArray(new IPluginReference[pluginReferences.size()]);
 	}
 
 	public ITigerstripeProject[] getIReferencedProjects()

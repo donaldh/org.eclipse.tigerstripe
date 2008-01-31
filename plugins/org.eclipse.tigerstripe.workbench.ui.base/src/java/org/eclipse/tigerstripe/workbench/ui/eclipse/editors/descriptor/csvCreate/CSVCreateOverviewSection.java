@@ -36,14 +36,14 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.CSVCreatePluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.CSVCreatePluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.csv.CSVPlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.ui.IFileEditorInput;
@@ -145,10 +145,10 @@ public class CSVCreateOverviewSection extends AbstractCSVCreateSection {
 		toolkit.createLabel(parent, "");
 	}
 
-	private void addCSVCreatePluginToDescriptor(IPluginReference ref) {
+	private void addCSVCreatePluginToDescriptor(IPluginConfig ref) {
 		try {
 			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getTSProject();
-			handle.addPluginReference(ref);
+			handle.addPluginConfig(ref);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -160,10 +160,10 @@ public class CSVCreateOverviewSection extends AbstractCSVCreateSection {
 	 * 
 	 * @return
 	 */
-	private IPluginReference createDefaultCSVCreatePluginReference() {
+	private IPluginConfig createDefaultCSVCreatePluginConfig() {
 		try {
-			PluginRef ref = PluginRefFactory.getInstance().createPluginRef(
-					CSVCreatePluginRef.MODEL, getTigerstripeProject());
+			PluginConfig ref = PluginConfigFactory.getInstance().createPluginConfig(
+					CSVCreatePluginConfig.MODEL, getTigerstripeProject());
 			applyDefault(ref);
 			return ref;
 		} catch (UnknownPluginException e) {
@@ -187,10 +187,10 @@ public class CSVCreateOverviewSection extends AbstractCSVCreateSection {
 	 * 
 	 * @param ref
 	 */
-	private void applyDefault(IPluginReference ref) {
-		((PluginRef) ref).getProperties().setProperty(CSVPlugin.CSV_DIRECTORY, "csv");
-		((PluginRef) ref).getProperties().setProperty(CSVPlugin.INCLUDE_INHERITED, "true");
-		((PluginRef) ref).getProperties().setProperty(CSVPlugin.LEVEL_OF_DETAIL, "max");
+	private void applyDefault(IPluginConfig ref) {
+		((PluginConfig) ref).getProperties().setProperty(CSVPlugin.CSV_DIRECTORY, "csv");
+		((PluginConfig) ref).getProperties().setProperty(CSVPlugin.INCLUDE_INHERITED, "true");
+		((PluginConfig) ref).getProperties().setProperty(CSVPlugin.LEVEL_OF_DETAIL, "max");
 		// Fix bug 108 - No value in "publishing" a project that has not been
 		// "generated"
 		// ref.getProperties().setProperty(PublisherPlugin.GENERATE_BEFOREPUBLISH,
@@ -289,10 +289,10 @@ public class CSVCreateOverviewSection extends AbstractCSVCreateSection {
 		if (!isSilentUpdate()) {
 			Properties pluginProperties = getCSVCreatePluginProperties();
 			if (e.getSource() == generate) {
-				if (getCSVCreatePluginReference() == null) {
-					addCSVCreatePluginToDescriptor(createDefaultCSVCreatePluginReference());
+				if (getCSVCreatePluginConfg() == null) {
+					addCSVCreatePluginToDescriptor(createDefaultCSVCreatePluginConfig());
 				}
-				getCSVCreatePluginReference().setEnabled(
+				getCSVCreatePluginConfg().setEnabled(
 						generate.getSelection());
 				markPageModified();
 			} else if (e.getSource() == applyDefaultButton) {
@@ -302,7 +302,7 @@ public class CSVCreateOverviewSection extends AbstractCSVCreateSection {
 				dialog
 						.setMessage("Do you really want to apply default values?\nAll current values will be lost.");
 				if (dialog.open() == SWT.YES) {
-					applyDefault(getCSVCreatePluginReference());
+					applyDefault(getCSVCreatePluginConfg());
 					markPageModified();
 				}
 				// Fix bug 108 - No value in "publishing" a project that has not
@@ -362,8 +362,8 @@ public class CSVCreateOverviewSection extends AbstractCSVCreateSection {
 	protected void updateForm() {
 		setSilentUpdate(true);
 
-		if (getCSVCreatePluginReference() == null
-				|| !getCSVCreatePluginReference().isEnabled()) {
+		if (getCSVCreatePluginConfg() == null
+				|| !getCSVCreatePluginConfg().isEnabled()) {
 			generate.setSelection(false);
 		} else {
 			Properties pluginProperties = getCSVCreatePluginProperties();

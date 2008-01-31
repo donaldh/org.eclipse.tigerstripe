@@ -10,34 +10,41 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IPublishPlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IVersionAwarePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
-public class PublishPluginRef extends PluginRef {
+public class UnknownPluginConfig extends PluginConfig {
 
-	public final static PublishPluginRef MODEL = new PublishPluginRef(null);
+	private String pluginId;
+	private String groupId;
 
-	private final static String GROUPID = "ts";
-	private final static String PLUGINID = "publisher";
-
-	/* package */PublishPluginRef(TigerstripeProject project) {
+	public UnknownPluginConfig(TigerstripeProject project) {
 		super(project);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String getActiveVersion() {
 		return getProperties().getProperty("activeVersion",
-				IPublishPlugin.defaultVersion);
-	}
-
-	@Override
-	public String getPluginId() {
-		return PLUGINID;
+				IVersionAwarePlugin.NONE);
 	}
 
 	@Override
 	public String getGroupId() {
-		return GROUPID;
+		return groupId;
+	}
+
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
+	}
+
+	@Override
+	public String getPluginId() {
+		return pluginId;
+	}
+
+	public void setPluginId(String pluginId) {
+		this.pluginId = pluginId;
 	}
 
 }

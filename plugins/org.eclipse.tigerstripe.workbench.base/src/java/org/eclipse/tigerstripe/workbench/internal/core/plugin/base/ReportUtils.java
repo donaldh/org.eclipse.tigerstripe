@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin.base;
 
 import java.util.Date;
 
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 
 public class ReportUtils {
 
@@ -21,7 +21,7 @@ public class ReportUtils {
 	}
 
 	public boolean isGeneratePlugin(int value) {
-		if (value == IPluginReference.GENERATE_CATEGORY)
+		if (value == IPluginConfig.GENERATE_CATEGORY)
 			return true;
 		else
 			return false;

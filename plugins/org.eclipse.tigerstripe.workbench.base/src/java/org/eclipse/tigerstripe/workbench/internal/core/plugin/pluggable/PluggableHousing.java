@@ -35,10 +35,10 @@ public class PluggableHousing extends PluginHousing {
 		return (PluggablePlugin) this.body;
 	}
 
-	public PluggablePluginRef makeDefaultPluginRef(
+	public PluggablePluginConfig makeDefaultPluginConfig(
 			TigerstripeProjectHandle project) throws TigerstripeException {
 
-		PluggablePluginRef result = new PluggablePluginRef(project
+		PluggablePluginConfig result = new PluggablePluginConfig(project
 				.getTSProject());
 		result.setVersion(getVersion());
 		result.setEnabled(true);

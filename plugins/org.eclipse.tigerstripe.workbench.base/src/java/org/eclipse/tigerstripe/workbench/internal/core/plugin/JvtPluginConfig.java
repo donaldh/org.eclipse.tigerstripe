@@ -10,16 +10,21 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IWSDLExampleProfilePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjJVTProfilePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
-public class WsdlExamplePluginRef extends PluginRef {
+public class JvtPluginConfig extends PluginConfig {
 
-	public final static WsdlExamplePluginRef MODEL = new WsdlExamplePluginRef(
-			null);
+	public final static JvtPluginConfig MODEL = new JvtPluginConfig(null);
 
-	private final static String GROUPID = PluginRefFactory.GROUPID_TS;
-	private final static String PLUGINID = "ossj-wsdl-example-spec";
+	private final static String GROUPID = PluginConfigFactory.GROUPID_TS;
+	private final static String PLUGINID = "ossj-jvt-spec";
+
+	@Override
+	public String getActiveVersion() {
+		return getProperties().getProperty("activeVersion",
+				IOssjJVTProfilePlugin.defaultVersion);
+	}
 
 	@Override
 	public String getGroupId() {
@@ -27,17 +32,11 @@ public class WsdlExamplePluginRef extends PluginRef {
 	}
 
 	@Override
-	public String getActiveVersion() {
-		return getProperties().getProperty("activeVersion",
-				IWSDLExampleProfilePlugin.defaultVersion);
-	}
-
-	@Override
 	public String getPluginId() {
 		return PLUGINID;
 	}
 
-	/* package */WsdlExamplePluginRef(TigerstripeProject project) {
+	/* package */JvtPluginConfig(TigerstripeProject project) {
 		super(project);
 	}
 

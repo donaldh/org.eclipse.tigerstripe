@@ -38,7 +38,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractI
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -164,34 +164,34 @@ public abstract class TigerstripeProjectHandle extends
 		return projectContainer;
 	}
 
-	public IPluginReference[] getPluginReferences() throws TigerstripeException {
+	public IPluginConfig[] getPluginConfigs() throws TigerstripeException {
 
 		TigerstripeProject project = getTSProject();
-		Collection ref = project.getPluginReferences();
+		Collection ref = project.getPluginConfigs();
 
-		IPluginReference[] result = new IPluginReference[ref.size()];
-		result = (IPluginReference[]) ref.toArray(new IPluginReference[ref
+		IPluginConfig[] result = new IPluginConfig[ref.size()];
+		result = (IPluginConfig[]) ref.toArray(new IPluginConfig[ref
 				.size()]);
 
 		// Since 2.1 added reference to ProjectHandle
-		for (IPluginReference pRef : result) {
+		for (IPluginConfig pRef : result) {
 			pRef.setProjectHandle(this);
 		}
 
 		return result;
 	}
 
-	public void addPluginReference(IPluginReference ref)
+	public void addPluginConfig(IPluginConfig ref)
 			throws TigerstripeException {
 		TigerstripeProject project = getTSProject();
-		Collection refs = project.getPluginReferences();
+		Collection refs = project.getPluginConfigs();
 		refs.add(ref);
 	}
 
-	public void removePluginReference(IPluginReference ref)
+	public void removePluginConfig(IPluginConfig ref)
 			throws TigerstripeException {
 		TigerstripeProject project = getTSProject();
-		Collection refs = project.getPluginReferences();
+		Collection refs = project.getPluginConfigs();
 		refs.remove(ref);
 	}
 
@@ -221,11 +221,11 @@ public abstract class TigerstripeProjectHandle extends
 		getTSProject().reload(true);
 
 		log.info("Publishing...");
-		IPluginReference[] refs = getPluginReferences();
+		IPluginConfig[] refs = getPluginConfigs();
 		for (int i = 0; i < refs.length; i++) {
 			log.info(" ..." + refs[i].getGroupId() + "/"
 					+ refs[i].getPluginId() + "(" + refs[i].getVersion() + ")");
-			if (refs[i].getCategory() == IPluginReference.PUBLISH_CATEGORY)
+			if (refs[i].getCategory() == IPluginConfig.PUBLISH_CATEGORY)
 				refs[i].trigger();
 		}
 	}
@@ -507,11 +507,6 @@ public abstract class TigerstripeProjectHandle extends
 	public void setActiveFacet(IFacetReference facet,
 			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
 		getArtifactManagerSession().setActiveFacet(facet, monitor);
-	}
-
-	public IPluginReference[] getIPluginReferences()
-	throws TigerstripeException {
-		return getPluginReferences();
 	}
 
 	public ITigerstripeProject[] getIReferencedProjects()

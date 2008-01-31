@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper.PckXSDMapping;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
@@ -77,9 +77,9 @@ public class XmlSchemaImportsHelper {
 		for (Iterator iter = content.iterator(); iter.hasNext();) {
 			AbstractArtifact artifact = (AbstractArtifact) iter.next();
 
-			XmlPluginRef projRef = (XmlPluginRef) artifact.getTSProject()
-					.findPluginRef(XmlPluginRef.MODEL);
-			exp.setPluginRef(projRef);
+			XmlPluginConfig projRef = (XmlPluginConfig) artifact.getTSProject()
+					.findPluginConfig(XmlPluginConfig.MODEL);
+			exp.setPluginConfig(projRef);
 
 			// TigerstripeRuntime.logInfoMessage( "Artifact = " +
 			// artifact.getFullyQualifiedName() );
@@ -174,8 +174,8 @@ public class XmlSchemaImportsHelper {
 						ModuleArtifactManager moduleMgr = (ModuleArtifactManager) parentMgr;
 						TigerstripeProject embeddedProject = moduleMgr
 								.getEmbeddedProject();
-						XmlPluginRef ref = (XmlPluginRef) embeddedProject
-								.findPluginRef(XmlPluginRef.MODEL);
+						XmlPluginConfig ref = (XmlPluginConfig) embeddedProject
+								.findPluginConfig(XmlPluginConfig.MODEL);
 						if (ref != null) {
 							PckXSDMapping mapping = ref.getMapper()
 									.getPckXSDMapping(refArtifact.getPackage());
@@ -217,8 +217,8 @@ public class XmlSchemaImportsHelper {
 							TigerstripeRuntime.logErrorMessage(
 									"TigerstripeException detected", e);
 						}
-						XmlPluginRef ref = (XmlPluginRef) embeddedProject
-								.findPluginRef(XmlPluginRef.MODEL);
+						XmlPluginConfig ref = (XmlPluginConfig) embeddedProject
+								.findPluginConfig(XmlPluginConfig.MODEL);
 						if (ref != null) {
 							PckXSDMapping mapping = ref.getMapper()
 									.getPckXSDMapping(refArtifact.getPackage());

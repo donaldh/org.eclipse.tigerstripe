@@ -11,17 +11,17 @@
 package org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
-public class PluggablePluginRef extends PluginRef {
+public class PluggablePluginConfig extends PluginConfig {
 
 	private String pluginId;
 
 	private String groupId;
 
-	public PluggablePluginRef(TigerstripeProject project) {
+	public PluggablePluginConfig(TigerstripeProject project) {
 		super(project);
 	}
 
@@ -60,7 +60,7 @@ public class PluggablePluginRef extends PluginRef {
 			resolve(); // need to make sure the housing as not been un-plugged
 			super.trigger();
 		} catch (UnknownPluginException e) {
-			// Ignore it just means the pluginRef is in the tigerstripe.xml
+			// Ignore it just means the pluginConfig is in the tigerstripe.xml
 			// descriptor but the housing is not registered.
 		}
 	}

@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -31,19 +31,19 @@ import org.w3c.dom.Element;
 /**
  * @author Eric Dillon
  * 
- * A PluginRef is a reference to a plugin that conditions what is triggered for
- * a run of Tigerstripe. PluginRefs are captured by the ant TigerstripeTask.
+ * A PluginConfig is a reference to a plugin that conditions what is triggered for
+ * a run of Tigerstripe. PluginConfigs are captured by the ant TigerstripeTask.
  * 
  * A plugin is identified by 3 attributes - groupId: the organization that built
  * the plugin - pluginId: an identifier for that plugin, it is unique within the
  * groupId - version: the version for that plugin.
  * 
- * Once the pluginRef has been resolved (i.e. the corresponding PluginHousing
+ * Once the pluginConfig has been resolved (i.e. the corresponding PluginHousing
  * was successfully found), it can be executed (i.e. calling the actual plugin
  * code)
  * 
  */
-public abstract class PluginRef implements IPluginReference {
+public abstract class PluginConfig implements IPluginConfig {
 
 	public static final String PLUGIN_REFERENCE_TAG = "plugin";
 
@@ -69,7 +69,7 @@ public abstract class PluginRef implements IPluginReference {
 
 	private Throwable failThrowable = null;
 
-	public PluginRef(TigerstripeProject project) {
+	public PluginConfig(TigerstripeProject project) {
 		this.properties = new Properties();
 		this.project = project;
 	}
@@ -141,7 +141,7 @@ public abstract class PluginRef implements IPluginReference {
 	 * so it can be executed.
 	 * 
 	 * @param manager -
-	 *            PluginManager the manager to use to resolve this PluginRef.
+	 *            PluginManager the manager to use to resolve this PluginConfig.
 	 * @throws UnknownPluginException
 	 *             if this Plugin Reference cannot be resolved.
 	 */
@@ -240,7 +240,7 @@ public abstract class PluginRef implements IPluginReference {
 
 	// =============================================================
 	// XML Marshalling
-	// These methods are used to encode/decode the pluginRef into the
+	// These methods are used to encode/decode the pluginConfig into the
 	// tigerstripe.xml
 	// descriptor.
 

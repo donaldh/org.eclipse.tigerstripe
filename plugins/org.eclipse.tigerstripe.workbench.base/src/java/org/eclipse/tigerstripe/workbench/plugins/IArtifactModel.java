@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.plugins;
 
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 
 /**
  * This is the interface that needs to be implemented by model classess attached
@@ -40,8 +40,8 @@ public interface IArtifactModel {
 	 * This method is called once right after creation of this object. The
 	 * argument corresponds to the current plugin reference.
 	 * 
-	 * @param pluginRef -
+	 * @param pluginConfig -
 	 *            The current plugin Reference
 	 */
-	public void setPluginRef(IPluginReference pluginRef);
+	public void setPluginConfig(IPluginConfig pluginConfig);
 }

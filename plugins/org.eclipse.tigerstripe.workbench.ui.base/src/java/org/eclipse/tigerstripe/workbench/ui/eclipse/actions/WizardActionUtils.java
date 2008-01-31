@@ -27,12 +27,12 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportModel;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportRunner;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
@@ -64,7 +64,7 @@ public class WizardActionUtils {
 			if (handle == null)
 				throw new TigerstripeException("Invalid Tigerstripe Project");
 
-			IPluginReference[] plugins = handle.getPluginReferences();
+			IPluginConfig[] plugins = handle.getPluginConfigs();
 			String projectName = handle.getProjectDetails().getName();
 
 			handle.getArtifactManagerSession().refresh(
@@ -74,8 +74,8 @@ public class WizardActionUtils {
 
 			for (Iterator iter = Arrays.asList(plugins).iterator(); iter
 					.hasNext();) {
-				PluginRef ref = (PluginRef) iter.next();
-				if (ref.getCategory() == IPluginReference.GENERATE_CATEGORY
+				PluginConfig ref = (PluginConfig) iter.next();
+				if (ref.getCategory() == IPluginConfig.GENERATE_CATEGORY
 						&& ref.isEnabled()) {
 					try {
 						monitor.worked(1);

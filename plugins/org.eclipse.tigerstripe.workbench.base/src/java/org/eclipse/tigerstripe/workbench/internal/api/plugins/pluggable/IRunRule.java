@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -43,7 +43,7 @@ public interface IRunRule {
 
 	public IPluggablePluginProject getProject();
 
-	public void trigger(PluggablePluginRef pluginRef, IPluginRuleExecutor exec)
+	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
 			throws TigerstripeException;
 
 	public boolean isEnabled();

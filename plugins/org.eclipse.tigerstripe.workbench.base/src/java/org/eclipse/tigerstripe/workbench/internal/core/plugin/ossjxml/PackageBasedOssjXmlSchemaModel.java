@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper.PckXSDMapping;
 
 /**
@@ -40,7 +40,7 @@ public class PackageBasedOssjXmlSchemaModel {
 
 	private PckXSDMapping mapping;
 
-	private PluginRef pluginRef;
+	private PluginConfig pluginConfig;
 
 	public String getTargetNamespace() {
 		return mapping.getTargetNamespace();
@@ -59,14 +59,14 @@ public class PackageBasedOssjXmlSchemaModel {
 	 * 
 	 */
 	protected PackageBasedOssjXmlSchemaModel(PckXSDMapping mapping,
-			PluginRef pluginRef) throws TigerstripeException {
-		this.pluginRef = pluginRef;
-		setTemplate(TEMPLATE_PREFIX + "/" + pluginRef.getActiveVersion() + "/"
+			PluginConfig pluginConfig) throws TigerstripeException {
+		this.pluginConfig = pluginConfig;
+		setTemplate(TEMPLATE_PREFIX + "/" + pluginConfig.getActiveVersion() + "/"
 				+ TEMPLATE);
-		setCommonTemplate(TEMPLATE_PREFIX + "/" + pluginRef.getActiveVersion()
+		setCommonTemplate(TEMPLATE_PREFIX + "/" + pluginConfig.getActiveVersion()
 				+ "/" + COMMON_TEMPLATE);
 		setOperationTemplate(TEMPLATE_PREFIX + "/"
-				+ pluginRef.getActiveVersion() + "/" + OPERATION_TEMPLATE);
+				+ pluginConfig.getActiveVersion() + "/" + OPERATION_TEMPLATE);
 		this.mapping = mapping;
 	}
 
@@ -99,7 +99,7 @@ public class PackageBasedOssjXmlSchemaModel {
 	}
 
 	public String getDestinationDir() {
-		return pluginRef.getProject().getProjectDetails().getOutputDirectory();
+		return pluginConfig.getProject().getProjectDetails().getOutputDirectory();
 	}
 
 	/**

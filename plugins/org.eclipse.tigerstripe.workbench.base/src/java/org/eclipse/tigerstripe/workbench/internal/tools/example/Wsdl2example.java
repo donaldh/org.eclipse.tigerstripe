@@ -29,7 +29,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -47,7 +47,7 @@ public class Wsdl2example extends Example {
 	private HashMap<String, String> defMap;
 	private String wsdlPath;
 
-	public void generateExample(String wsdlName, PluginRef pluginRef,
+	public void generateExample(String wsdlName, PluginConfig pluginConfig,
 			RunConfig config) throws IOException, ParserConfigurationException,
 			org.xml.sax.SAXException, TigerstripeException {
 		try {
@@ -56,17 +56,17 @@ public class Wsdl2example extends Example {
 
 			this.wsdlPath = ws.getParent();
 
-			String wsdlFilename = pluginRef.getProject().getProjectDetails()
+			String wsdlFilename = pluginConfig.getProject().getProjectDetails()
 					.getOutputDirectory()
 					+ File.separator + wsdlName;
 
 			File myFile = new File(wsdlFilename);
-			File wsdlFile = new File(pluginRef.getProject().getBaseDir()
+			File wsdlFile = new File(pluginConfig.getProject().getBaseDir()
 					+ File.separator + myFile.getPath());
 
 			this.defMap = new HashMap();
 			this.schemaMap = new HashMap();
-			this.pluginRef = pluginRef;
+			this.pluginConfig = pluginConfig;
 			this.defaults = new HashMap();
 			this.runningList = new ArrayList<String>();
 			setDefaultsForTypes();
@@ -97,15 +97,15 @@ public class Wsdl2example extends Example {
 			}
 
 			if (this.wsdlPath == null) {
-				this.targetDir = pluginRef.getProject().getBaseDir()
+				this.targetDir = pluginConfig.getProject().getBaseDir()
 						+ File.separator
-						+ pluginRef.getProject().getProjectDetails()
+						+ pluginConfig.getProject().getProjectDetails()
 								.getOutputDirectory() + File.separator
 						+ this.suffix;
 			} else {
-				this.targetDir = pluginRef.getProject().getBaseDir()
+				this.targetDir = pluginConfig.getProject().getBaseDir()
 						+ File.separator
-						+ pluginRef.getProject().getProjectDetails()
+						+ pluginConfig.getProject().getProjectDetails()
 								.getOutputDirectory() + File.separator
 						+ this.suffix + File.separator + this.wsdlPath;
 			}
@@ -169,7 +169,7 @@ public class Wsdl2example extends Example {
 						.getElementsByTagName("xsd:schema");
 				for (int m = 0; m < schemas.getLength(); m++) {
 					Element schemaElement = (Element) schemas.item(m);
-					success = loadSchemas(pluginRef.getProject().getBaseDir()
+					success = loadSchemas(pluginConfig.getProject().getBaseDir()
 							.getAbsolutePath().toString(), schemaElement);
 				}
 			}
@@ -317,7 +317,7 @@ public class Wsdl2example extends Example {
 				transformer.setOutputProperty("indent", "yes");
 				transformer.transform(source, result);
 				out.close();
-				Collection<String> files = this.pluginRef.getReport()
+				Collection<String> files = this.pluginConfig.getReport()
 						.getGeneratedFiles();
 				if (this.wsdlPath == null) {
 					files.add(this.suffix + File.separator + this.wsdlName

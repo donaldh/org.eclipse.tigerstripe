@@ -30,10 +30,10 @@ public interface PluginBody {
 	/**
 	 * Triggers a PluginBody based on the specified reference
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 * @throws TigerstripeException
 	 */
-	public void trigger(PluginRef pluginRef, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException;
 
 	public String getLabel();

@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
 import org.eclipse.tigerstripe.workbench.plugins.IExpander;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -36,20 +36,20 @@ public class Expander implements IExpander {
 
 	private String modelName = "model";
 
-	private IPluginReference pluginRef;
+	private IPluginConfig pluginConfig;
 	private IAbstractArtifact currentArtifact;
 	private IArtifactModel currentModel;
 
-	public Expander(PluginRef pluginRef) {
-		this.pluginRef = pluginRef;
+	public Expander(PluginConfig pluginConfig) {
+		this.pluginConfig = pluginConfig;
 	}
 
 	public Expander() {
-		this.pluginRef = null;
+		this.pluginConfig = null;
 	}
 
-	public void setPluginRef(IPluginReference pluginRef) {
-		this.pluginRef = pluginRef;
+	public void setPluginConfig(IPluginConfig pluginConfig) {
+		this.pluginConfig = pluginConfig;
 	}
 
 	/**
@@ -105,10 +105,10 @@ public class Expander implements IExpander {
 	}
 
 	public String expandVar(String inString) {
-		if (this.pluginRef == null)
+		if (this.pluginConfig == null)
 			return inString;
 		else {
-			TigerstripeProject project = ((PluginRef) this.pluginRef)
+			TigerstripeProject project = ((PluginConfig) this.pluginConfig)
 					.getProject();
 			return expandVar(inString, project);
 		}
@@ -141,7 +141,7 @@ public class Expander implements IExpander {
 	}
 
 	/**
-	 * Matches properties of the pluginRef, based on the leading tag PROP_TAG.
+	 * Matches properties of the pluginConfig, based on the leading tag PROP_TAG.
 	 * 
 	 * There should then be a "." followed by a property name that exists
 	 * 
@@ -174,11 +174,11 @@ public class Expander implements IExpander {
 			String propName = result.group().substring(tagLength,
 					result.group().length() - 1);
 			// see it it's a declared property
-			String[] definedProps = this.pluginRef.getDefinedProperties();
+			String[] definedProps = this.pluginConfig.getDefinedProperties();
 			for (int i = 0; i < definedProps.length; i++) {
 				if (definedProps[i].equals(propName)) {
 					// found one - get the value
-					String value = (String) this.pluginRef.getProperty(
+					String value = (String) this.pluginConfig.getProperty(
 							propName);
 					// replace the first occurence of this in the original
 					// string.
@@ -373,7 +373,7 @@ public class Expander implements IExpander {
 		// and always point to the *local* project CommonNS
 		// NOTE THIS USES THE LOCAL PROJECT IN ALL CASES - ie IT IGNORES THE
 		// PROJECT THAT IS PASSED IN
-		TigerstripeProject localProject = ((PluginRef) this.pluginRef)
+		TigerstripeProject localProject = ((PluginConfig) this.pluginConfig)
 				.getProject();
 
 		Pattern commonNSName = Pattern.compile("\\$\\{project\\.CommonNS\\}");

@@ -59,7 +59,7 @@ import org.eclipse.tigerstripe.eclipse.wizards.artifacts.LabelsSelectionDialog;
 import org.eclipse.tigerstripe.eclipse.wizards.artifacts.TSRuntimeBasedWizardPage;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
@@ -178,7 +178,7 @@ public class NewEnumWizardPage extends TSRuntimeBasedWizardPage implements
 										""));
 			}
 
-			IPluginReference[] refs = project.getPluginReferences();
+			IPluginConfig[] refs = project.getPluginConfigs();
 
 			for (int i = 0; i < refs.length; i++) {
 				// if jvtPlugin

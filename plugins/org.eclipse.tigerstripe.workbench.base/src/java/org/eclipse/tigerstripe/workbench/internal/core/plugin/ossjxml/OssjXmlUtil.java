@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin.ossjxml;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Label;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
 
 /**
@@ -25,11 +25,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
 public class OssjXmlUtil {
 
 	private ArtifactManager artifactManager;
-	private PluginRef pluginRef;
+	private PluginConfig pluginConfig;
 
-	public OssjXmlUtil(ArtifactManager artifactManager, PluginRef pluginRef) {
+	public OssjXmlUtil(ArtifactManager artifactManager, PluginConfig pluginConfig) {
 		this.artifactManager = artifactManager;
-		this.pluginRef = pluginRef;
+		this.pluginConfig = pluginConfig;
 	}
 
 	/**
@@ -46,13 +46,13 @@ public class OssjXmlUtil {
 	public XmlType typeOf(String fullyQualifiedName, String dimension)
 			throws TigerstripeException {
 		return new XmlType(fullyQualifiedName, dimension, this.artifactManager,
-				this.pluginRef);
+				this.pluginConfig);
 	}
 
 	public XmlType typeNSOf(String namespace, String fullyQualifiedName,
 			String dimension) throws TigerstripeException {
 		XmlType me = new XmlType(namespace, fullyQualifiedName, dimension,
-				this.artifactManager, this.pluginRef);
+				this.artifactManager, this.pluginConfig);
 		return me;
 	}
 

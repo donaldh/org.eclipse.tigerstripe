@@ -31,17 +31,17 @@ public class PluginHousing {
 	/**
 	 * Triggers the housing for the specified reference
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 */
-	public void trigger(PluginRef pluginRef, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
-		body.trigger(pluginRef, config);
+		body.trigger(pluginConfig, config);
 	}
 
 	/**
 	 * Triggers the housing for the specified reference
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 */
 	public PluginReport getReport() throws TigerstripeException {
 		return body.getReport();
@@ -95,7 +95,7 @@ public class PluginHousing {
 		return this.body.getDefinedProperties();
 	}
 
-	public boolean matchRef(PluginRef ref) {
+	public boolean matchRef(PluginConfig ref) {
 		return getPluginId().equals(ref.getPluginId())
 				&& getGroupId().equals(ref.getGroupId())
 				&& getVersion().equals(ref.getVersion());

@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessio
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.ws.OssjWsdlPlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -39,18 +39,18 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 public class GenerateAuditor {
 
 	/**
-	 * Performs last minute check on the given pluginRef. returns false if the
+	 * Performs last minute check on the given pluginConfig. returns false if the
 	 * corresponding plugin shouldn't be run
 	 * 
 	 * @param shell
 	 * @param ref
 	 * @return
 	 */
-	public static Status checkRefBeforeTrigger(Shell shell, PluginRef ref) {
+	public static Status checkRefBeforeTrigger(Shell shell, PluginConfig ref) {
 		return checkForWSDL(shell, ref);
 	}
 
-	private static Status checkForWSDL(Shell shell, PluginRef ref) {
+	private static Status checkForWSDL(Shell shell, PluginConfig ref) {
 
 		// If no Session Artifact popup and block WSDL Generation.
 		if (OssjWsdlPlugin.PLUGIN_ID.equals(ref.getPluginId())) {

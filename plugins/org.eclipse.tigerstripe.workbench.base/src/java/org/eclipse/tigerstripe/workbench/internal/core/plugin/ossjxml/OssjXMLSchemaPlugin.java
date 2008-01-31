@@ -38,16 +38,16 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArti
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper.PckXSDMapping;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.OssjUtil;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossjxml.XmlSchemaImportsHelper.NamespaceRef;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -68,9 +68,9 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 
 	public final static String PLUGIN_ID = "ossj-xml-spec";
 
-	private final static String GROUP_ID = PluginRefFactory.GROUPID_TS;
+	private final static String GROUP_ID = PluginConfigFactory.GROUPID_TS;
 
-	private final static String VERSION = PluginRefFactory.VERSION_1_3;
+	private final static String VERSION = PluginConfigFactory.VERSION_1_3;
 
 	private final static String REPORTTEMPLATE = "OSSJ_XML_REPORT.vm";
 
@@ -106,34 +106,34 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 		return VERSION;
 	}
 
-	public void trigger(PluginRef pluginRef, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 		// try {
-		ITigerstripeProject handle = pluginRef.getProjectHandle();
+		ITigerstripeProject handle = pluginConfig.getProjectHandle();
 		// (ITigerstripeProject) API
 		// .getDefaultProjectSession().makeTigerstripeProject(
-		// pluginRef.getProject().getBaseDir().toURI(), null);
+		// pluginConfig.getProject().getBaseDir().toURI(), null);
 		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
 				.getArtifactManagerSession();
 		ArtifactManager artifactMgr = session.getArtifactManager();
-		this.report = new OssjXMLSchemaPluginReport(pluginRef);
+		this.report = new OssjXMLSchemaPluginReport(pluginConfig);
 		this.report.setTemplate(PackageBasedOssjXmlSchemaModel.TEMPLATE_PREFIX
-				+ "/" + pluginRef.getActiveVersion() + "/" + REPORTTEMPLATE);
+				+ "/" + pluginConfig.getActiveVersion() + "/" + REPORTTEMPLATE);
 
-		XmlPluginRef xmlRef = (XmlPluginRef) pluginRef;
+		XmlPluginConfig xmlRef = (XmlPluginConfig) pluginConfig;
 		PackageToSchemaMapper mapper = xmlRef.getMapper();
 
 		if (mapper.useDefaultMapping()) {
 			PckXSDMapping mapping = mapper.getDefaultMapping();
 			PackageBasedOssjXmlSchemaModel model = new PackageBasedOssjXmlSchemaModel(
-					mapping, pluginRef);
-			generateWithTemplate(model, pluginRef, artifactMgr, config);
+					mapping, pluginConfig);
+			generateWithTemplate(model, pluginConfig, artifactMgr, config);
 		} else {
 			PckXSDMapping[] mappings = mapper.getMappings();
 			for (int i = 0; i < mappings.length; i++) {
 				PackageBasedOssjXmlSchemaModel model = new PackageBasedOssjXmlSchemaModel(
-						mappings[i], pluginRef);
-				generateWithTemplate(model, pluginRef, artifactMgr, config);
+						mappings[i], pluginConfig);
+				generateWithTemplate(model, pluginConfig, artifactMgr, config);
 			}
 		}
 		this.report.setMapper(mapper);
@@ -143,10 +143,10 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 	}
 
 	private void generateWithTemplate(PackageBasedOssjXmlSchemaModel model,
-			PluginRef pluginRef, ArtifactManager artifactMgr, RunConfig config)
+			PluginConfig pluginConfig, ArtifactManager artifactMgr, RunConfig config)
 			throws TigerstripeException {
 
-		XmlPluginRef xmlRef = (XmlPluginRef) pluginRef;
+		XmlPluginConfig xmlRef = (XmlPluginConfig) pluginConfig;
 
 		ArtifactFilter filter = null;
 		if (xmlRef.getMapper().useDefaultMapping()) {
@@ -201,7 +201,7 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 				xmlRef.getMapper());
 		importsHelper.buildImportList(artifactMgr, model.getContent());
 
-		SchemaUtils sUtils = new SchemaUtils(pluginRef, artifactMgr,
+		SchemaUtils sUtils = new SchemaUtils(pluginConfig, artifactMgr,
 				importsHelper);
 
 		VelocityContext localContext = new VelocityContext(getDefaultContext());
@@ -213,20 +213,20 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 		localContext.put("queries", queries);
 
 		localContext.put("updateProcedures", updateProcedures);
-		localContext.put("ossjUtil", new OssjUtil(artifactMgr, pluginRef));
+		localContext.put("ossjUtil", new OssjUtil(artifactMgr, pluginConfig));
 		localContext
-				.put("ossjXmlUtil", new OssjXmlUtil(artifactMgr, pluginRef));
+				.put("ossjXmlUtil", new OssjXmlUtil(artifactMgr, pluginConfig));
 		localContext.put("model", model);
-		localContext.put("pluginRef", pluginRef);
+		localContext.put("pluginConfig", pluginConfig);
 		localContext.put("runtime", TigerstripeRuntime.getInstance());
-		localContext.put("tsProject", pluginRef.getProject());
+		localContext.put("tsProject", pluginConfig.getProject());
 		localContext.put("schemaUtils", sUtils);
-		localContext.put("exp", new Expander(pluginRef));
+		localContext.put("exp", new Expander(pluginConfig));
 		localContext.put("manager", artifactMgr);
 		localContext.put("targetNamespace", model.getTargetNamespace());
 		try {
 			setClasspathLoaderForVelocity();
-			Expander exp = new Expander(pluginRef);
+			Expander exp = new Expander(pluginConfig);
 
 			String modelName = model.getName();
 			if (!modelName.endsWith(".xsd")) {
@@ -242,12 +242,12 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 
 				// from here same as the general case
 				String filename = model.getDestinationDir() + "/" + modelName;
-				setDefaultDestination(pluginRef, new File(exp.expandVar(
-						filename, pluginRef.getProject())), config);
+				setDefaultDestination(pluginConfig, new File(exp.expandVar(
+						filename, pluginConfig.getProject())), config);
 				template.merge(localContext, getDefaultWriter());
 				getDefaultWriter().close();
 				Collection<String> files = this.report.getGeneratedFiles();
-				files.add(exp.expandVar(modelName, pluginRef.getProject()));
+				files.add(exp.expandVar(modelName, pluginConfig.getProject()));
 
 				// Now do it for each session.
 				template = Velocity.getTemplate(model.getOperationTemplate());
@@ -285,13 +285,13 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 					// TigerstripeRuntime.logInfoMessage(newRef.targetLocation);
 					// TigerstripeRuntime.logInfoMessage(newRef.prefix);
 
-					setDefaultDestination(pluginRef, new File(exp.expandVar(
-							newFilename, pluginRef.getProject())), config);
+					setDefaultDestination(pluginConfig, new File(exp.expandVar(
+							newFilename, pluginConfig.getProject())), config);
 					template.merge(localContext, getDefaultWriter());
 					getDefaultWriter().close();
 
 					files.add(exp.expandVar(sUtils.insertSessionName(modelName,
-							sessName), pluginRef.getProject()));
+							sessName), pluginConfig.getProject()));
 
 					sUtils.getNRefs().remove(newRef);
 
@@ -305,8 +305,8 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 
 				String filename = model.getDestinationDir() + "/" + modelName;
 
-				setDefaultDestination(pluginRef, new File(exp.expandVar(
-						filename, pluginRef.getProject())), config);
+				setDefaultDestination(pluginConfig, new File(exp.expandVar(
+						filename, pluginConfig.getProject())), config);
 
 				// create the output
 				template.merge(localContext, getDefaultWriter());
@@ -314,7 +314,7 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 				getDefaultWriter().close();
 				Collection<String> files = this.report.getGeneratedFiles();
 
-				files.add(exp.expandVar(modelName, pluginRef.getProject()));
+				files.add(exp.expandVar(modelName, pluginConfig.getProject()));
 			}
 		} catch (MethodInvocationException e) {
 			Throwable th = e.getWrappedThrowable();
@@ -343,12 +343,12 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 	/**
 	 * Returns true if this plugin is enabled in the given ITigerstripeProject
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 * @return
 	 */
 	public static boolean isEnabled(ITigerstripeProject tsProject)
 			throws TigerstripeException {
-		IPluginReference[] refs = tsProject.getPluginReferences();
+		IPluginConfig[] refs = tsProject.getPluginConfigs();
 
 		for (int i = 0; i < refs.length; i++) {
 			if (PLUGIN_ID.equals(refs[i].getPluginId())
@@ -360,10 +360,10 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 		return false;
 	}
 
-	public static PluginRef getXmlSchemaPluginRef(TigerstripeProject project) {
-		Collection pluginRefs = project.getPluginReferences();
+	public static PluginConfig getXmlSchemaPluginRef(TigerstripeProject project) {
+		Collection pluginRefs = project.getPluginConfigs();
 		for (Iterator iter = pluginRefs.iterator(); iter.hasNext();) {
-			PluginRef ref = (PluginRef) iter.next();
+			PluginConfig ref = (PluginConfig) iter.next();
 			if (PLUGIN_ID.equals(ref.getPluginId())
 					&& GROUP_ID.equals(ref.getGroupId()))
 				return ref;
@@ -372,7 +372,7 @@ public class OssjXMLSchemaPlugin extends BasePlugin {
 	}
 
 	public int getCategory() {
-		return IPluginReference.GENERATE_CATEGORY;
+		return IPluginConfig.GENERATE_CATEGORY;
 	}
 
 }

@@ -44,7 +44,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
@@ -154,7 +154,7 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 	 * 
 	 * @return VelocityContext - the default context
 	 */
-	protected VelocityContext getDefaultContext(PluggablePluginRef pluginRef,
+	protected VelocityContext getDefaultContext(PluggablePluginConfig pluginConfig,
 			IPluginRuleExecutor exec) throws TigerstripeException,
 			TigerstripeLicenseException {
 		if (this.defaultVContext == null) {
@@ -166,10 +166,10 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		// TODO allow to reference a filter from Use-defined java object
 		ArtifactFilter filter = new ArtifactNoFilter();
 
-		ITigerstripeProject handle = pluginRef.getProjectHandle();
+		ITigerstripeProject handle = pluginConfig.getProjectHandle();
 		// (ITigerstripeProject) API
 		// .getDefaultProjectSession().makeTigerstripeProject(
-		// pluginRef.getProject().getBaseDir().toURI(), null);
+		// pluginConfig.getProject().getBaseDir().toURI(), null);
 		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
 				.getArtifactManagerSession();
 		ArtifactManager artifactMgr = session.getArtifactManager();
@@ -299,13 +299,13 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		defaultVContext.put("allDependencies", allDependencies);
 		defaultVContext.put("allSessions", allSessions);
 
-		defaultVContext.put("pluginRef", pluginRef);
+		defaultVContext.put("pluginConfig", pluginConfig);
 		defaultVContext.put("runtime", TigerstripeRuntime.getInstance());
 
 		// This should eventually get removed as TigerstripeProject is not in
 		// the API
-		defaultVContext.put("tsProject", pluginRef.getProject());
-		defaultVContext.put("exp", new Expander(pluginRef));
+		defaultVContext.put("tsProject", pluginConfig.getProject());
+		defaultVContext.put("exp", new Expander(pluginConfig));
 		defaultVContext.put("manager", artifactMgr);
 
 		defaultVContext.put("tsProjectHandle", handle);
@@ -317,13 +317,13 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 
 	// protected VelocityContext getRule
 
-	protected File getOutputFile(PluggablePluginRef pluginRef,
+	protected File getOutputFile(PluggablePluginConfig pluginConfig,
 			String outputFile, RunConfig config) throws TigerstripeException {
 		String outputPath = "";
 		try {
-			String outputDir = pluginRef.getProjectHandle().getProjectDetails()
+			String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
 					.getOutputDirectory();
-			String projectDir = pluginRef.getProjectHandle().getBaseDir()
+			String projectDir = pluginConfig.getProjectHandle().getBaseDir()
 					.getCanonicalPath();
 
 			outputPath = projectDir + File.separator + outputDir
@@ -343,11 +343,11 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		}
 	}
 
-	protected Writer getDefaultWriter(PluggablePluginRef pluginRef,
+	protected Writer getDefaultWriter(PluggablePluginConfig pluginConfig,
 			String outputFile, RunConfig config) throws TigerstripeException {
 
 		try {
-			File outputFileF = getOutputFile(pluginRef, outputFile, config);
+			File outputFileF = getOutputFile(pluginConfig, outputFile, config);
 			if (outputFileF.getParentFile() != null
 					&& !outputFileF.getParentFile().exists()) {
 				outputFileF.getParentFile().mkdirs();

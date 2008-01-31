@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.project;
 
 import java.io.File;
+import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 
@@ -48,7 +49,7 @@ public interface IProjectDescriptor {
 	 * 
 	 * @return
 	 */
-	public IPluginReference[] getIPluginReferences()
+	public Collection<IPluginConfig> getPluginConfigs()
 			throws TigerstripeException;
 
 	// ==========================================

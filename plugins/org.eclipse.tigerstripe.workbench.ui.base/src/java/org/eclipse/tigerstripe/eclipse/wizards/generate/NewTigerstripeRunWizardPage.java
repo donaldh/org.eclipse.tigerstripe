@@ -54,8 +54,8 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.ColorUtils;
@@ -263,7 +263,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		ArrayList<String> labels = new ArrayList<String>();
 		for (Iterator it = housings.iterator(); it.hasNext();) {
 			PluginHousing housing = (PluginHousing) it.next();
-			if (housing.getCategory() == IPluginReference.GENERATE_CATEGORY) {
+			if (housing.getCategory() == IPluginConfig.GENERATE_CATEGORY) {
 				labels.add(housing.getLabel());
 				// TigerstripeRuntime.logInfoMessage("adding label " +
 				// housing.getLabel());
@@ -492,201 +492,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		throw new TigerstripeException("Invalid project");
 	}
 
-	// /**
-	// *
-	// * @param monitor
-	// * a progress monitor to report progress. The progress monitor
-	// * must not be <code>null</code>
-	// * @throws CoreException
-	// * Thrown if creating the package failed.
-	// * @throws InterruptedException
-	// * Thrown when the operation has been cancelled.
-	// * @since 2.1
-	// */
-	// public IStatus[] runTigerstripe(IProgressMonitor monitor,
-	// List<IContractSegment> segments) throws CoreException,
-	// InterruptedException {
-	//
-	// ITigerstripeProject handle = null;
-	//
-	// Predicate predicate = ContractUtils.getPredicateFor(segments,
-	// LogicalPredicate.OR);
-	//
-	// try {
-	// if (monitor == null) {
-	// monitor = new NullProgressMonitor();
-	// }
-	//
-	// List statuses = new ArrayList();
-	// Collection<PluginReport> reports = new ArrayList<PluginReport>();
-	//
-	// try {
-	// if (getTSRuntimeContext() != null) {
-	// handle = getTSRuntimeContext().getProjectHandle();
-	// }
-	//
-	// if (handle == null) {
-	// throw new TigerstripeException(
-	// "Invalid Tigerstripe Project");
-	// }
-	//
-	// // Make sure the Artifact Mgr is up-2-date
-	//
-	// monitor.worked(3);
-	// monitor.setTaskName("Refreshing project");
-	// handle.getArtifactManagerSession().refresh(false);
-	// ((ArtifactManagerSessionImpl) handle
-	// .getArtifactManagerSession())
-	// .setLockForGeneration(true);
-	//
-	// if (predicate != null) {
-	// monitor.beginTask("Applying Contract Segment(s)", 10);
-	// handle.getArtifactManagerSession().setScopingPredicate(
-	// predicate);
-	// monitor.done();
-	// }
-	//
-	// IPluginReference[] plugins = handle.getPluginReferences();
-	// String projectName = handle.getProjectDetails().getName();
-	// boolean atLeastOne = false;
-	// for (Iterator iter = Arrays.asList(plugins).iterator(); iter
-	// .hasNext();) {
-	// PluginRef ref = (PluginRef) iter.next();
-	//
-	// // Make sure we only trigger "generation" plugins (i.e. not
-	// // the
-	// // publisher)
-	//
-	// // TODO NOW! check to see if a pluggable Ref actually exists
-	// // (may have been recently un-deployed - during this
-	// // session)
-	//
-	// if (ref.getCategory() == IPluginReference.GENERATE_CATEGORY
-	// && ref.isEnabled()) {
-	// atLeastOne = true;
-	// try {
-	// monitor.worked(1);
-	// monitor.setTaskName("Running: " + ref.getLabel());
-	//
-	// Status status = GenerateAuditor
-	// .checkRefBeforeTrigger(getShell(), ref);
-	// if (status == null) {
-	// // TODO Capture the list of generated stuff
-	// ref.trigger();
-	// PluginReport rep = ref.getReport();
-	// if (rep != null)
-	// reports.add(rep);
-	// } else {
-	// statuses.add(status);
-	// }
-	// monitor.worked(1);
-	// } catch (TigerstripeException e) {
-	// Status status = new Status(
-	// IStatus.ERROR,
-	// EclipsePlugin.PLUGIN_ID,
-	// 222,
-	// "An error was detected while triggering '"
-	// + ref.getLabel()
-	// + "' plugin. Generation maybe incomplete.",
-	// e);
-	// EclipsePlugin.logErrorStatus(
-	// "Tigerstripe Generation Error Detected.",
-	// status);
-	// statuses.add(status);
-	// } catch (Exception e) {
-	// TigerstripeRuntime.logErrorMessage("Exception detected", e);
-	// Status status = new Status(
-	// IStatus.ERROR,
-	// EclipsePlugin.PLUGIN_ID,
-	// 222,
-	// "An unknown error was detected while triggering '"
-	// + ref.getLabel()
-	// + "' plugin. Generation maybe incomplete.",
-	// e);
-	// EclipsePlugin
-	// .logErrorStatus(
-	// "Unexpected Tigerstripe Generation Error Detected.",
-	// status);
-	// statuses.add(status);
-	// }
-	// }
-	// }
-	//
-	// if (!atLeastOne) {
-	// Status status = new Status(IStatus.WARNING,
-	// EclipsePlugin.PLUGIN_ID, 222,
-	// "No profile was selected. Nothing was generated.",
-	// null);
-	// statuses.add(status);
-	// } else {
-	//
-	// try {
-	// TigerstripeProjectHandle tsHandle = (TigerstripeProjectHandle) handle;
-	//
-	// ReportModel model = new ReportModel(
-	// (TigerstripeProject) tsHandle.getTSProject());
-	//
-	// if ("true"
-	// .equalsIgnoreCase(handle
-	// .getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_GenerateReport)))
-	// {
-	// ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
-	// .getArtifactManagerSession();
-	// ArtifactManager artifactMgr = session
-	// .getArtifactManager();
-	// ReportRunner runner = new ReportRunner();
-	// monitor.setTaskName("Creating Tigerstripe Report");
-	// runner.generateReport(model, artifactMgr, reports);
-	// }
-	//
-	// } catch (Exception e) {
-	// TigerstripeRuntime.logErrorMessage("Exception detected", e);
-	// }
-	// }
-	// } catch (TigerstripeException e) {
-	// Status status = new Status(
-	// IStatus.ERROR,
-	// EclipsePlugin.PLUGIN_ID,
-	// 222,
-	// "An error was detected while generating a Tigerstripe project. Generation
-	// maybe incomplete.",
-	// e);
-	// EclipsePlugin.logErrorStatus(
-	// "Tigerstripe Generation Error Detected.", status);
-	// statuses.add(status);
-	// }
-	//
-	// if (monitor.isCanceled()) {
-	// throw new InterruptedException();
-	// }
-	//
-	// IStatus[] result = new IStatus[statuses.size()];
-	// if (result.length != 0) {
-	// return (IStatus[]) statuses.toArray(result);
-	// }
-	//
-	// return result;
-	// } finally {
-	// try {
-	// if (predicate != null) {
-	// handle.getArtifactManagerSession().setScopingPredicate(
-	// predicate);
-	// }
-	// } catch (TigerstripeException e) {
-	// EclipsePlugin.log(e);
-	// } finally {
-	// try {
-	// if (handle != null)
-	// ((ArtifactManagerSessionImpl) handle
-	// .getArtifactManagerSession())
-	// .setLockForGeneration(false);
-	// } catch (TigerstripeException e) {
-	// EclipsePlugin.log(e);
-	// }
-	// }
-	// }
-	// }
-
+	
 	/**
 	 * Perform any required update based on the runtime context
 	 * 
@@ -756,14 +562,14 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 				ITigerstripeProject handle = getTSRuntimeContext()
 						.getProjectHandle();
 				if (handle != null) {
-					IPluginReference[] refs = handle.getPluginReferences();
+					IPluginConfig[] refs = handle.getPluginConfigs();
 					boolean oneAtleastIsEnabled = false;
 					for (int i = 0; i < refs.length; i++) {
 						// oneAtleastIsEnabled = oneAtleastIsEnabled
 						if (refs[i].isEnabled()
-								&& refs[i].getCategory() == IPluginReference.GENERATE_CATEGORY) {
+								&& refs[i].getCategory() == IPluginConfig.GENERATE_CATEGORY) {
 							for (int j = 0; j < buttonNames.length; j++) {
-								if (buttonNames[j].equals(((PluginRef) refs[i])
+								if (buttonNames[j].equals(((PluginConfig) refs[i])
 										.getLabel())) {
 									profileSelectionButtons[j]
 											.setSelection(refs[i].isEnabled());

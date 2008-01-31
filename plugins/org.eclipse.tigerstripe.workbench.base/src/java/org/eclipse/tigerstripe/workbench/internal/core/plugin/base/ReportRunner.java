@@ -86,7 +86,7 @@ public class ReportRunner {
 		localContext.put("sessions", sessions);
 		localContext.put("manager", artifactMgr);
 
-		localContext.put("pluginRefs", project.getPluginReferences());
+		localContext.put("pluginConfigs", project.getPluginConfigs());
 		localContext.put("tsProject", project);
 		localContext.put("runtime", TigerstripeRuntime.getInstance());
 		localContext.put("util", util);
@@ -107,7 +107,7 @@ public class ReportRunner {
 			String filename = model.getDestinationDir() + File.separator
 					+ model.getName();
 
-			// setDefaultDestination(pluginRef, new File(filename));
+			// setDefaultDestination(pluginConfig, new File(filename));
 			File defaultDestination;
 			File file = new File(filename);
 			File targetInCorrectPath = new File(project.getBaseDir()

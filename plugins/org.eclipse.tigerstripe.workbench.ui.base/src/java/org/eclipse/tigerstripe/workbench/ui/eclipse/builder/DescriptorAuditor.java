@@ -23,10 +23,10 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper.PckXSDMapping;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
@@ -140,9 +140,9 @@ public class DescriptorAuditor {
 
 	private void checkPluginProperties(ITigerstripeProject tsProject) {
 		try {
-			IPluginReference[] pluginRefs = tsProject.getPluginReferences();
-			for (int i = 0; i < pluginRefs.length; i++) {
-				checkPropertiesOnPluginRef(pluginRefs[i]);
+			IPluginConfig[] pluginConfigs = tsProject.getPluginConfigs();
+			for (int i = 0; i < pluginConfigs.length; i++) {
+				checkPropertiesOnPluginConfig(pluginConfigs[i]);
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
@@ -203,7 +203,7 @@ public class DescriptorAuditor {
 		}
 	}
 
-	private void checkPropertiesOnPluginRef(IPluginReference ref) {
+	private void checkPropertiesOnPluginConfig(IPluginConfig ref) {
 		if (ref.isEnabled()) {
 			String[] definedProps = ref.getDefinedProperties();
 			
@@ -219,8 +219,8 @@ public class DescriptorAuditor {
 
 		// FIXME: this should not be implemented here
 		// Check XmlPlugin Mapping properties
-		if (ref instanceof XmlPluginRef) {
-			XmlPluginRef xmlRef = (XmlPluginRef) ref;
+		if (ref instanceof XmlPluginConfig) {
+			XmlPluginConfig xmlRef = (XmlPluginConfig) ref;
 			PackageToSchemaMapper mapper = xmlRef.getMapper();
 
 			if (mapper.useDefaultMapping()) {

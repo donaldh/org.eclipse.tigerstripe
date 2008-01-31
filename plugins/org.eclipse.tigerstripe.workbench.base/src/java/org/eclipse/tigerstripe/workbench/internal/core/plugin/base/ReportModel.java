@@ -32,7 +32,7 @@ public class ReportModel {
 
 	private Collection content = new ArrayList();
 
-	// private PluginRef pluginRef;
+	// private PluginConfig pluginConfig;
 	private TigerstripeProject project;
 
 	/**

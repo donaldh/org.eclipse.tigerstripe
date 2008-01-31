@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 
@@ -46,7 +46,7 @@ public abstract class BasePlugin implements PluginBody {
 	 * @throws IOException
 	 *             if the file cannot be written
 	 */
-	protected void setDefaultDestination(PluginRef ref, File file,
+	protected void setDefaultDestination(PluginConfig ref, File file,
 			RunConfig config) throws IOException {
 
 		String baseDir = ref.getProjectHandle().getBaseDir().getAbsolutePath();

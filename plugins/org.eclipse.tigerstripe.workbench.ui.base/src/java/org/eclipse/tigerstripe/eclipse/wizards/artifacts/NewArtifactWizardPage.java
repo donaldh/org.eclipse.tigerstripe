@@ -66,7 +66,7 @@ import org.eclipse.tigerstripe.eclipse.wizards.model.ArtifactAttributeModel;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDialog;
@@ -1256,7 +1256,7 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 										""));
 			}
 
-			IPluginReference[] refs = project.getPluginReferences();
+			IPluginConfig[] refs = project.getPluginConfigs();
 
 			for (int i = 0; i < refs.length; i++) {
 				// if jvtPlugin

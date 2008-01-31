@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 
 /**
  * @author Eric Dillon
@@ -25,9 +25,9 @@ public class QueryInterfaceModel extends OssjInterfaceModel {
 
 	private final static String TEMPLATE = "queryInterface.vm";
 
-	public QueryInterfaceModel(AbstractArtifact artifact, PluginRef pluginRef)
+	public QueryInterfaceModel(AbstractArtifact artifact, PluginConfig pluginConfig)
 			throws TigerstripeException {
-		super(artifact, pluginRef);
+		super(artifact, pluginConfig);
 		setTemplate(TEMPLATE);
 	}
 

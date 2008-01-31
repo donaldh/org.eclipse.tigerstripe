@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 
 /**
  * @author Eric Dillon
@@ -45,22 +45,22 @@ public class OssjInterfaceModel {
 	private String templatePrefix;
 
 	// The reference to the plugin that's in context
-	private PluginRef pluginRef;
+	private PluginConfig pluginConfig;
 
 	/**
 	 * Default constructor
 	 * 
 	 */
-	protected OssjInterfaceModel(AbstractArtifact artifact, PluginRef pluginRef)
+	protected OssjInterfaceModel(AbstractArtifact artifact, PluginConfig pluginConfig)
 			throws TigerstripeException {
 		this.artifact = artifact;
-		this.pluginRef = pluginRef;
+		this.pluginConfig = pluginConfig;
 		build(artifact.getArtifactManager());
-		setTemplatePrefix(TEMPLATE_PREFIX + "/" + pluginRef.getActiveVersion());
+		setTemplatePrefix(TEMPLATE_PREFIX + "/" + pluginConfig.getActiveVersion());
 	}
 
-	protected PluginRef getPluginRef() {
-		return this.pluginRef;
+	protected PluginConfig getPluginRef() {
+		return this.pluginConfig;
 	}
 
 	protected void setTemplatePrefix(String templatePrefix) {

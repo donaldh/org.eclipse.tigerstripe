@@ -36,16 +36,16 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 
 	private PluggablePlugin plugin;
 
-	private PluggablePluginRef pluginRef;
+	private PluggablePluginConfig pluginConfig;
 
 	private ArrayList<RuleReport> reports;
 
 	private RunConfig config;
 
 	public PluginRuleExecutor(PluggablePlugin plugin,
-			PluggablePluginRef pluginRef, RunConfig config) {
+			PluggablePluginConfig pluginConfig, RunConfig config) {
 		this.plugin = plugin;
-		this.pluginRef = pluginRef;
+		this.pluginConfig = pluginConfig;
 		this.config = config;
 	}
 
@@ -74,7 +74,7 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 			monitor.subTask(rule.getName());
 			if (rule.isEnabled()) {
 				counter++;
-				rule.trigger(pluginRef, this);
+				rule.trigger(pluginConfig, this);
 				if (rule instanceof SimplePPluginRule) {
 					SimplePPluginRule aRule = (SimplePPluginRule) rule;
 					RuleReport subReport = aRule.getReport();
@@ -103,7 +103,7 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 			monitor.subTask(rule.getName());
 			if (rule.isEnabled()) {
 				counter++;
-				rule.trigger(pluginRef, this);
+				rule.trigger(pluginConfig, this);
 				if (rule instanceof ArtifactBasedPPluginRule) {
 					ArtifactBasedPPluginRule aRule = (ArtifactBasedPPluginRule) rule;
 					RuleReport subReport = aRule.getReport();

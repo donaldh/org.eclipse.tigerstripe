@@ -81,7 +81,7 @@ public class ProjectDetails implements IProjectDetails {
 	/**
 	 * Sets the nature of the project
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef for valid project
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig for valid project
 	 *      natures
 	 */
 	public void setNature(String nature) {

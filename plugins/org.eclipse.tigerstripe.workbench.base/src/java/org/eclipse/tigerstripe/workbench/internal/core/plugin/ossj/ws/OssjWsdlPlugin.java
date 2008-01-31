@@ -33,10 +33,10 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifa
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper.PckXSDMapping;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.OssjUtil;
@@ -46,7 +46,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossjxml.XmlSchemaI
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -73,9 +73,9 @@ public class OssjWsdlPlugin extends BasePlugin {
 
 	public final static String PLUGIN_ID = "ossj-wsdl-spec";
 
-	private final static String GROUP_ID = PluginRefFactory.GROUPID_TS;
+	private final static String GROUP_ID = PluginConfigFactory.GROUPID_TS;
 
-	private final static String VERSION = PluginRefFactory.VERSION_1_3;
+	private final static String VERSION = PluginConfigFactory.VERSION_1_3;
 
 	private final static String REPORTTEMPLATE = "OSSJ_WSDL_REPORT.vm";
 
@@ -121,10 +121,10 @@ public class OssjWsdlPlugin extends BasePlugin {
 	 * @return
 	 */
 	public PckXSDMapping computeXSDImport(ISessionArtifact facade,
-			PluginRef pluginRef) throws TigerstripeException {
-		TigerstripeProject tsProject = pluginRef.getProject();
-		XmlPluginRef xmlRef = (XmlPluginRef) tsProject
-				.findPluginRef(XmlPluginRef.MODEL);
+			PluginConfig pluginConfig) throws TigerstripeException {
+		TigerstripeProject tsProject = pluginConfig.getProject();
+		XmlPluginConfig xmlRef = (XmlPluginConfig) tsProject
+				.findPluginConfig(XmlPluginConfig.MODEL);
 
 		PackageToSchemaMapper mapper = xmlRef.getMapper();
 		if (mapper.useDefaultMapping())
@@ -142,32 +142,32 @@ public class OssjWsdlPlugin extends BasePlugin {
 		}
 	}
 
-	public void trigger(PluginRef pluginRef, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 
 		// try {
-		ITigerstripeProject handle = pluginRef.getProjectHandle();
+		ITigerstripeProject handle = pluginConfig.getProjectHandle();
 		// (ITigerstripeProject) API.getDefaultProjectSession()
 		// .makeTigerstripeProject(
-		// pluginRef.getProject().getBaseDir().toURI(), null);
+		// pluginConfig.getProject().getBaseDir().toURI(), null);
 		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
 				.getArtifactManagerSession();
 
 		ArtifactManager artifactMgr = session.getArtifactManager();
-		this.report = new PluginReport(pluginRef);
+		this.report = new PluginReport(pluginConfig);
 		this.report.setTemplate(OssjWsdlModel.TEMPLATE_PREFIX + "/"
-				+ pluginRef.getActiveVersion() + "/" + REPORTTEMPLATE);
+				+ pluginConfig.getActiveVersion() + "/" + REPORTTEMPLATE);
 
-		buildNamespaceList(artifactMgr, pluginRef);
+		buildNamespaceList(artifactMgr, pluginConfig);
 
 		Collection facades = artifactMgr.getArtifactsByModel(
 				SessionFacadeArtifact.MODEL, false,
 				new TigerstripeNullProgressMonitor());
 		for (Iterator iter = facades.iterator(); iter.hasNext();) {
 			SessionFacadeArtifact facade = (SessionFacadeArtifact) iter.next();
-			OssjWsdlModel model = new OssjWsdlModel(facade, pluginRef);
+			OssjWsdlModel model = new OssjWsdlModel(facade, pluginConfig);
 
-			generateWithTemplate(model, pluginRef, artifactMgr, config);
+			generateWithTemplate(model, pluginConfig, artifactMgr, config);
 
 		}
 		// } catch (TigerstripeLicenseException e) {
@@ -175,13 +175,13 @@ public class OssjWsdlPlugin extends BasePlugin {
 		// }
 	}
 
-	private void generateWithTemplate(OssjWsdlModel model, PluginRef pluginRef,
+	private void generateWithTemplate(OssjWsdlModel model, PluginConfig pluginConfig,
 			ArtifactManager artifactMgr, RunConfig config)
 			throws TigerstripeException {
 
-		TigerstripeProject tsProject = pluginRef.getProject();
-		XmlPluginRef xmlRef = (XmlPluginRef) tsProject
-				.findPluginRef(XmlPluginRef.MODEL);
+		TigerstripeProject tsProject = pluginConfig.getProject();
+		XmlPluginConfig xmlRef = (XmlPluginConfig) tsProject
+				.findPluginConfig(XmlPluginConfig.MODEL);
 
 		// Some extra stuff in case of multiple schemas in same package
 		// which means we changed the name...
@@ -239,7 +239,7 @@ public class OssjWsdlPlugin extends BasePlugin {
 		importsHelper.buildImportList(artifactMgr, model.getContent(), false);
 
 		SchemaUtils sUtils = new SchemaUtils(xmlRef, artifactMgr, importsHelper);
-		Expander exp = new Expander(pluginRef);
+		Expander exp = new Expander(pluginConfig);
 		VelocityContext localContext = new VelocityContext(getDefaultContext());
 		/*
 		 * localContext.put("entities", entities); // TODO scope?
@@ -250,31 +250,31 @@ public class OssjWsdlPlugin extends BasePlugin {
 		 * localContext.put("queries", queries); // TODO scope?
 		 * localContext.put("updateProcs", updates); // TODO scope?
 		 */
-		localContext.put("ossjUtil", new OssjUtil(artifactMgr, pluginRef));
+		localContext.put("ossjUtil", new OssjUtil(artifactMgr, pluginConfig));
 		localContext.put("ossjXmlUtil", new OssjWsdlUtil());
 		localContext.put("ossjWsdlUtil", new OssjWsdlUtil());
 		localContext.put("model", model);
 		localContext.put("artifact", model.getArtifact());
-		localContext.put("pluginRef", pluginRef);
-		localContext.put("tsProject", pluginRef.getProject());
+		localContext.put("pluginConfig", pluginConfig);
+		localContext.put("tsProject", pluginConfig.getProject());
 		localContext.put("runtime", TigerstripeRuntime.getInstance());
 		localContext.put("schemaUtils", sUtils);
 		localContext.put("exp", exp);
 
 		String sessName = model.getArtifact().getName();
-		String wsdlProp = pluginRef.getProperties().getProperty(
+		String wsdlProp = pluginConfig.getProperties().getProperty(
 				"targetNamespace",
 				"http://www.eclipse.tigerstripe.org/xml/DefaultWSDLName");
 
 		// PckXSDMapping mapping = computeXSDImport( (ISessionArtifact)
-		// model.getArtifact(), pluginRef);
+		// model.getArtifact(), pluginConfig);
 		// localContext.put( "xsdMapping", mapping );
 
 		try {
 			if (all_sessions.size() > 1) {
 				localContext
 						.put("prefix", exp.expandVar(sUtils.insertSessionName(
-								pluginRef.getProperties().getProperty(
+								pluginConfig.getProperties().getProperty(
 										"targetPrefix", "tns"), sessName)));
 				localContext.put("wsdlName", exp.expandVar(sUtils
 						.insertSessionName(wsdlProp, sessName)));
@@ -307,7 +307,7 @@ public class OssjWsdlPlugin extends BasePlugin {
 				localContext.put("xsdNamespace", newRef.prefix);
 
 			} else {
-				localContext.put("prefix", exp.expandVar(pluginRef
+				localContext.put("prefix", exp.expandVar(pluginConfig
 						.getProperties().getProperty("targetPrefix", "tns")));
 				localContext.put("wsdlName", exp.expandVar(wsdlProp));
 				localContext.put("xsdNamespace", sUtils
@@ -321,7 +321,7 @@ public class OssjWsdlPlugin extends BasePlugin {
 			Template template = Velocity.getTemplate(model.getTemplate());
 			String filename = model.getDestinationDir() + File.separator
 					+ model.getName() + ".wsdl";
-			setDefaultDestination(pluginRef, new File(filename), config);
+			setDefaultDestination(pluginConfig, new File(filename), config);
 			// create the output
 			template.merge(localContext, getDefaultWriter());
 			getDefaultWriter().close();
@@ -359,7 +359,7 @@ public class OssjWsdlPlugin extends BasePlugin {
 	 * 
 	 */
 	private void buildNamespaceList(ArtifactManager artifactMgr,
-			PluginRef pluginRef) {
+			PluginConfig pluginConfig) {
 		Collection artifacts = artifactMgr.getAllArtifacts(true,
 				new TigerstripeNullProgressMonitor());
 
@@ -371,7 +371,7 @@ public class OssjWsdlPlugin extends BasePlugin {
 		for (Iterator iter = artifacts.iterator(); iter.hasNext();) {
 			AbstractArtifact artifact = (AbstractArtifact) iter.next();
 			try {
-				OssjWsdlModel model = new OssjWsdlModel(artifact, pluginRef);
+				OssjWsdlModel model = new OssjWsdlModel(artifact, pluginConfig);
 				if (!this.namespaceMap.containsKey(model.getTargetNamespace())) {
 					Namespace ns = new Namespace();
 					ns.setTargetNamespace(model.getTargetNamespace());
@@ -429,12 +429,12 @@ public class OssjWsdlPlugin extends BasePlugin {
 	/**
 	 * Returns true if this plugin is enabled in the given ITigerstripeProject
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 * @return
 	 */
 	public static boolean isEnabled(ITigerstripeProject tsProject)
 			throws TigerstripeException {
-		IPluginReference[] refs = tsProject.getPluginReferences();
+		IPluginConfig[] refs = tsProject.getPluginConfigs();
 
 		for (int i = 0; i < refs.length; i++) {
 			if (PLUGIN_ID.equals(refs[i].getPluginId())
@@ -447,7 +447,7 @@ public class OssjWsdlPlugin extends BasePlugin {
 	}
 
 	public int getCategory() {
-		return IPluginReference.GENERATE_CATEGORY;
+		return IPluginConfig.GENERATE_CATEGORY;
 	}
 
 }

@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
@@ -82,16 +82,16 @@ public class PluggablePlugin extends BasePlugin {
 		}
 	}
 
-	public void trigger(PluginRef pluginRef, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
-		this.report = new PluggablePluginReport(pluginRef);
+		this.report = new PluggablePluginReport(pluginConfig);
 		this.report.setTemplate(TEMPLATE_PREFIX + "/" + REPORTTEMPLATE);
 
 		// Update the ref with any missing properties, and
 		// remove any that are not valid.
 
-		Properties properties = pluginRef.getProperties();
-		String[] definedProps = pluginRef.getDefinedProperties();
+		Properties properties = pluginConfig.getProperties();
+		String[] definedProps = pluginConfig.getDefinedProperties();
 		Properties usableProps = new Properties();
 
 		for (int i = 0; i < definedProps.length; i++) {
@@ -109,10 +109,10 @@ public class PluggablePlugin extends BasePlugin {
 						.getProperty(definedProps[i]));
 			}
 		}
-		pluginRef.setProperties(usableProps);
+		pluginConfig.setProperties(usableProps);
 
 		PluginRuleExecutor executor = new PluginRuleExecutor(this,
-				(PluggablePluginRef) pluginRef, config);
+				(PluggablePluginConfig) pluginConfig, config);
 		executor.trigger();
 
 		ArrayList<RuleReport> ruleReports = executor.getReports();

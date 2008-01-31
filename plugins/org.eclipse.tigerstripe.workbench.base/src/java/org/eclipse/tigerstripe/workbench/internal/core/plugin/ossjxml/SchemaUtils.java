@@ -22,22 +22,22 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 
 public class SchemaUtils {
 
-	private PluginRef pluginRef;
+	private PluginConfig pluginConfig;
 
 	private ArtifactManager mgr;
 
 	private XmlSchemaImportsHelper importsHelper;
 
-	public SchemaUtils(PluginRef pluginRef, ArtifactManager mgr,
+	public SchemaUtils(PluginConfig pluginConfig, ArtifactManager mgr,
 			XmlSchemaImportsHelper importsHelper) {
-		this.pluginRef = pluginRef;
+		this.pluginConfig = pluginConfig;
 		this.mgr = mgr;
 		this.importsHelper = importsHelper;
 	}
@@ -60,14 +60,14 @@ public class SchemaUtils {
 	public String targetNamespaceForArtifact(String fqn) {
 		AbstractArtifact artifact = mgr.getArtifactByFullyQualifiedName(fqn,
 				false, new TigerstripeNullProgressMonitor());
-		Expander exp = new Expander(this.pluginRef);
+		Expander exp = new Expander(this.pluginConfig);
 		if (artifact != null) {
 			// It is a local artifact
-			PackageToSchemaMapper mapper = ((XmlPluginRef) pluginRef)
+			PackageToSchemaMapper mapper = ((XmlPluginConfig) pluginConfig)
 					.getMapper();
 
 			return exp.expandVar(mapper.getPckXSDMapping(artifact.getPackage())
-					.getTargetNamespace(), this.pluginRef.getProject());
+					.getTargetNamespace(), this.pluginConfig.getProject());
 		} else {
 			// Let's see if we can find it in a dependency
 			artifact = mgr.getArtifactByFullyQualifiedName(fqn, true,
@@ -99,9 +99,9 @@ public class SchemaUtils {
 								"TigerstripeException detected", e);
 					}
 				}
-				PluginRef xmlPluginRef = findXmlPluginRef(parentProject);
+				PluginConfig xmlPluginRef = findXmlPluginRef(parentProject);
 				if (xmlPluginRef != null) {
-					PackageToSchemaMapper mapper = ((XmlPluginRef) xmlPluginRef)
+					PackageToSchemaMapper mapper = ((XmlPluginConfig) xmlPluginRef)
 							.getMapper();
 					// TigerstripeRuntime.logInfoMessage(" Returing : " +
 					// mapper.getPckXSDMapping(artifact.getPackage())
@@ -140,7 +140,7 @@ public class SchemaUtils {
 			return sessName + start;
 	}
 
-	private static PluginRef findXmlPluginRef(TigerstripeProject parentProject) {
+	private static PluginConfig findXmlPluginRef(TigerstripeProject parentProject) {
 		return OssjXMLSchemaPlugin.getXmlSchemaPluginRef(parentProject);
 	}
 }

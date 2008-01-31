@@ -30,13 +30,13 @@ import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -122,13 +122,13 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	 * Returns the reference for this plugin in the local project based on the
 	 * details found in the housing.
 	 * 
-	 * @return the pluginRef from the tigerstripe.xml descriptor if it exists,
+	 * @return the pluginConfig from the tigerstripe.xml descriptor if it exists,
 	 *         null otherwise.
 	 */
-	private IPluginReference getPluginReference() {
+	private IPluginConfig getPluginConfig() {
 		try {
 			ITigerstripeProject handle = getTSProject();
-			IPluginReference[] plugins = handle.getPluginReferences();
+			IPluginConfig[] plugins = handle.getPluginConfigs();
 
 			for (int i = 0; i < plugins.length; i++) {
 				if (housing.getPluginId().equals(plugins[i].getPluginId()))
@@ -207,7 +207,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 			}
 
 			public void widgetSelected(SelectionEvent e) {
-				IPluginReference ref = getPluginReference();
+				IPluginConfig ref = getPluginConfig();
 				int index = loggingLevelCombo.getSelectionIndex();
 				if (ref != null) {
 					if (index < PluginLog.LogLevel.values().length) {
@@ -250,15 +250,15 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 	/**
 	 * Initialize the global properties. One of 2 cases may happen: - No
-	 * PluginRef exists. In this case we set default values for all fields and
-	 * leave the "generate" disabled. Upon enablement of Generate, a PluginRef
-	 * is created and pushed into the tigerstripe.xml - a PluginRef
+	 * PluginConfig exists. In this case we set default values for all fields and
+	 * leave the "generate" disabled. Upon enablement of Generate, a PluginConfig
+	 * is created and pushed into the tigerstripe.xml - a PluginConfig
 	 * corresponding to this housing is found in the Tigerstripe.xml descriptor.
 	 * In this case we use it. - However - The list of properties may have
 	 * changed due to plugin re-deployment.
 	 */
 	private void initGlobalProperties() {
-		IPluginReference ref = getPluginReference();
+		IPluginConfig ref = getPluginConfig();
 		if (ref == null) {
 			generate.setSelection(false);
 			applyDefaultButton.setEnabled(false);
@@ -266,7 +266,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 				renderer.setEnabled(false);
 			}
 		} else {
-			PluggablePluginRef pRef = (PluggablePluginRef) ref;
+			PluggablePluginConfig pRef = (PluggablePluginConfig) ref;
 			boolean enabled = pRef.isEnabled();
 			generate.setSelection(enabled);
 			applyDefaultButton.setEnabled(enabled);
@@ -274,7 +274,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 				renderer.setEnabled(enabled);
 			}
 			// Make sure the ref has the correct properties
-			Properties properties = ((PluginRef) ref).getProperties();
+			Properties properties = ((PluginConfig) ref).getProperties();
 			String[] definedProps = ref.getDefinedProperties();
 			Properties usableProps = new Properties();
 			PluggablePluginProject pProject = housing.getBody().getPProject();
@@ -327,11 +327,11 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		super.commit(onSave);
 	}
 
-	private PluggablePluginRef createInitialPluginRef() {
+	private PluggablePluginConfig createInitialPluginConfig() {
 		try {
 			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getITigerstripeProject();
-			PluggablePluginRef ref = housing.makeDefaultPluginRef(handle);
-			handle.addPluginReference(ref);
+			PluggablePluginConfig ref = housing.makeDefaultPluginConfig(handle);
+			handle.addPluginConfig(ref);
 			return ref;
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
@@ -342,11 +342,11 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	protected void handleWidgetSelected(SelectionEvent e) {
 		if (!isSilentUpdate()) {
 			if (e.getSource() == generate) {
-				// Upon first enablement, we need to check that a PluginRef
+				// Upon first enablement, we need to check that a PluginConfig
 				// exists for this housing in the tigerstripe.xml descriptor
-				if (generate.getSelection() && getPluginReference() == null) {
-					// first time. Let's create a pluginRef in the descriptor
-					PluggablePluginRef ref = createInitialPluginRef();
+				if (generate.getSelection() && getPluginConfig() == null) {
+					// first time. Let's create a pluginConfig in the descriptor
+					PluggablePluginConfig ref = createInitialPluginConfig();
 					if (ref == null) {
 						// it didn't work
 						generate.setSelection(false);
@@ -356,7 +356,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 				}
 
-				getPluginReference().setEnabled(generate.getSelection());
+				getPluginConfig().setEnabled(generate.getSelection());
 				markPageModified();
 			} else if (e.getSource() == applyDefaultButton) {
 				MessageBox dialog = new MessageBox(getSection().getShell(),
@@ -389,7 +389,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	protected void updateForm() {
 		setSilentUpdate(true);
 
-		IPluginReference ref = getPluginReference();
+		IPluginConfig ref = getPluginConfig();
 
 		boolean isEnabled = generate.getSelection();
 		applyDefaultButton.setEnabled(isEnabled && !this.isReadonly());
@@ -425,7 +425,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 			if (ref != null) {
 				IPluginProperty property = renderer.getProperty();
-				String serializedValue = ((PluginRef) ref).getProperties().getProperty(
+				String serializedValue = ((PluginConfig) ref).getProperties().getProperty(
 						property.getName());
 				renderer.update(serializedValue);
 			}
@@ -439,7 +439,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 	/**
 	 * This method is called when the property is changed from a renderer. It
-	 * will propagate the value down to the PluginRef for persistence
+	 * will propagate the value down to the PluginConfig for persistence
 	 * 
 	 * @param property
 	 * @param value
@@ -447,7 +447,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	 */
 	public void storeProperty(IPluginProperty property, Object value)
 			throws TigerstripeException {
-		PluggablePluginRef ref = (PluggablePluginRef) getPluginReference();
+		PluggablePluginConfig ref = (PluggablePluginConfig) getPluginConfig();
 		if (ref != null) {
 			Properties props = ref.getProperties();
 			props.setProperty(property.getName(), property.serialize(value));

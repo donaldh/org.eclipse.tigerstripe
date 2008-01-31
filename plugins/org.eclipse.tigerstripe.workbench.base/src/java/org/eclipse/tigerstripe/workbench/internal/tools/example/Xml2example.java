@@ -28,7 +28,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -40,7 +40,7 @@ public class Xml2example extends Example {
 	private Document xmlDoc;
 	private String schemaPath;
 
-	public void generateExample(String schemaName, PluginRef pluginRef)
+	public void generateExample(String schemaName, PluginConfig pluginConfig)
 			throws IOException, ParserConfigurationException,
 			org.xml.sax.SAXException, TigerstripeException {
 		try {
@@ -48,15 +48,15 @@ public class Xml2example extends Example {
 			File sc = new File(schemaName);
 			this.schemaPath = sc.getParent();
 
-			String schemaFilename = pluginRef.getProject().getProjectDetails()
+			String schemaFilename = pluginConfig.getProject().getProjectDetails()
 					.getOutputDirectory()
 					+ File.separator + schemaName;
 			// TigerstripeRuntime.logInfoMessage(schemaFilename);
 			File schema = new File(schemaFilename);
-			File xmlFile = new File(pluginRef.getProject().getBaseDir()
+			File xmlFile = new File(pluginConfig.getProject().getBaseDir()
 					+ File.separator + schema.getPath());
 
-			this.pluginRef = pluginRef;
+			this.pluginConfig = pluginConfig;
 			this.schemaMap = new HashMap();
 			this.defaults = new HashMap();
 			this.runningList = new ArrayList<String>();
@@ -87,15 +87,15 @@ public class Xml2example extends Example {
 				this.targetDir = this.targetDir + suffix;
 			}
 			if (this.schemaPath == null) {
-				this.targetDir = pluginRef.getProject().getBaseDir()
+				this.targetDir = pluginConfig.getProject().getBaseDir()
 						+ File.separator
-						+ pluginRef.getProject().getProjectDetails()
+						+ pluginConfig.getProject().getProjectDetails()
 								.getOutputDirectory() + File.separator
 						+ this.suffix;
 			} else {
-				this.targetDir = pluginRef.getProject().getBaseDir()
+				this.targetDir = pluginConfig.getProject().getBaseDir()
 						+ File.separator
-						+ pluginRef.getProject().getProjectDetails()
+						+ pluginConfig.getProject().getProjectDetails()
 								.getOutputDirectory() + File.separator
 						+ this.suffix + File.separator + schemaPath;
 			}
@@ -131,7 +131,7 @@ public class Xml2example extends Example {
 			}
 
 			// loadSchemas(localDir,xmlRoot);
-			loadSchemas(pluginRef.getProject().getBaseDir().getAbsolutePath()
+			loadSchemas(pluginConfig.getProject().getBaseDir().getAbsolutePath()
 					.toString(), xmlRoot);
 			NodeList elements = xmlRoot.getChildNodes();
 
@@ -217,9 +217,9 @@ public class Xml2example extends Example {
 			transformer.transform(source, result);
 			out.close();
 
-			Collection<String> files = this.pluginRef.getReport()
+			Collection<String> files = this.pluginConfig.getReport()
 					.getGeneratedFiles();
-			String subTarget = targetDir.replace(this.pluginRef.getProject()
+			String subTarget = targetDir.replace(this.pluginConfig.getProject()
 					.getProjectDetails().getOutputDirectory(), "");
 			if (this.schemaPath == null) {
 				files.add(this.suffix + File.separator + elementElementName

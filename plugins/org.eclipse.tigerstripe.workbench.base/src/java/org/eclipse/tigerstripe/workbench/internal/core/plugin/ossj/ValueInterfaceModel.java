@@ -16,7 +16,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 
 /**
  * @author Eric Dillon
@@ -31,9 +31,9 @@ public class ValueInterfaceModel extends OssjInterfaceModel {
 
 	private KeyInterfaceModel keyIntfModel;
 
-	public ValueInterfaceModel(AbstractArtifact artifact, PluginRef pluginRef)
+	public ValueInterfaceModel(AbstractArtifact artifact, PluginConfig pluginConfig)
 			throws TigerstripeException {
-		super(artifact, pluginRef);
+		super(artifact, pluginConfig);
 		setTemplate(TEMPLATE);
 	}
 

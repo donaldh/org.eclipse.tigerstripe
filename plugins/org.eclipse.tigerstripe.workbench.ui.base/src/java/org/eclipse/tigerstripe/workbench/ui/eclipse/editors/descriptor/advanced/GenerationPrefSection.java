@@ -38,12 +38,12 @@ import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjJVTProfilePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.JvtPluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.JvtPluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
@@ -332,13 +332,13 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference getJvtPluginReference() {
+	private IPluginConfig getJvtPluginConfig() {
 		try {
 			ITigerstripeProject handle = getTSProject();
-			IPluginReference[] plugins = handle.getPluginReferences();
+			IPluginConfig[] plugins = handle.getPluginConfigs();
 
 			for (int i = 0; i < plugins.length; i++) {
-				if (JvtPluginRef.MODEL.getPluginId().equals(
+				if (JvtPluginConfig.MODEL.getPluginId().equals(
 						plugins[i].getPluginId()))
 					return plugins[i];
 			}
@@ -364,11 +364,11 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @param ref
 	 */
-	private void applyDefault(IPluginReference ref) {
+	private void applyDefault(IPluginConfig ref) {
 		
-		((PluginRef)ref).getProperties().setProperty("defaultInterfacePackage",
+		((PluginConfig)ref).getProperties().setProperty("defaultInterfacePackage",
 				"com.mycompany");
-		((PluginRef)ref).getProperties().setProperty("activeVersion",
+		((PluginConfig)ref).getProperties().setProperty("activeVersion",
 				IOssjJVTProfilePlugin.defaultVersion);
 	}
 

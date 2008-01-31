@@ -24,7 +24,7 @@ import java.util.Collection;
  */
 public class PluginReport {
 
-	private PluginRef pluginRef;
+	private PluginConfig pluginConfig;
 
 	private String template;
 
@@ -56,12 +56,12 @@ public class PluginReport {
 		this.template = template;
 	}
 
-	public PluginRef getPluginRef() {
-		return this.pluginRef;
+	public PluginConfig getPluginConfig() {
+		return this.pluginConfig;
 	}
 
-	public PluginReport(PluginRef pluginRef) {
-		this.pluginRef = pluginRef;
+	public PluginReport(PluginConfig pluginConfig) {
+		this.pluginConfig = pluginConfig;
 	}
 
 }

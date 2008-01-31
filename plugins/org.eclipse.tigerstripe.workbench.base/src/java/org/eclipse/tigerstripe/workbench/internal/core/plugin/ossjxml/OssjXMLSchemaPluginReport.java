@@ -11,15 +11,15 @@
 package org.eclipse.tigerstripe.workbench.internal.core.plugin.ossjxml;
 
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 
 public class OssjXMLSchemaPluginReport extends PluginReport {
 
 	private PackageToSchemaMapper mapper;
 
-	public OssjXMLSchemaPluginReport(PluginRef pluginRef) {
-		super(pluginRef);
+	public OssjXMLSchemaPluginReport(PluginConfig pluginConfig) {
+		super(pluginConfig);
 	}
 
 	public PackageToSchemaMapper getMapper() {

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 
 public class GenerationCanceledException extends GenerationException {
 
@@ -20,14 +20,14 @@ public class GenerationCanceledException extends GenerationException {
 	private static final long serialVersionUID = 2174195954192075358L;
 
 	public GenerationCanceledException(String message,
-			IPluginReference pluginRef, Exception e) {
-		super(message, pluginRef, e);
+			IPluginConfig pluginConfig, Exception e) {
+		super(message, pluginConfig, e);
 		// TODO Auto-generated constructor stub
 	}
 
 	public GenerationCanceledException(String message,
-			IPluginReference pluginRef) {
-		super(message, pluginRef);
+			IPluginConfig pluginConfig) {
+		super(message, pluginConfig);
 		// TODO Auto-generated constructor stub
 	}
 

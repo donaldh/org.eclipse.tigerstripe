@@ -39,7 +39,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactNoFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
@@ -172,13 +172,13 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 		return elm;
 	}
 
-	public void trigger(PluggablePluginRef pluginRef, IPluginRuleExecutor exec)
+	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
 			throws TigerstripeException {
 		IAbstractArtifact currentArtifact = null;
 		// TigerstripeRuntime.logInfoMessage("triggering " + getName());
 		Writer writer = null;
 		try {
-			this.report = new RuleReport(pluginRef);
+			this.report = new RuleReport(pluginConfig);
 			this.report.setTemplate(PluggablePlugin.TEMPLATE_PREFIX + "/"
 					+ REPORTTEMPLATE);
 			this.report.setName(getName());
@@ -190,9 +190,9 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 
 			VelocityEngine engine = setClasspathLoaderForVelocity();
 			Template template = engine.getTemplate(getTemplate());
-			Expander expander = new Expander(pluginRef);
+			Expander expander = new Expander(pluginConfig);
 			// TODO add referenced user-java objects into the context
-			// VelocityContext defaultContext = getDefaultContext(pluginRef,
+			// VelocityContext defaultContext = getDefaultContext(pluginConfig,
 			// exec);
 			// VelocityContext localContext = exec.getPlugin()
 			// .getLocalVelocityContext(defaultContext, this);
@@ -233,9 +233,9 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 			// Phew - got it!
 
 			// IProjectSession session = API.getDefaultProjectSession();
-			IAbstractTigerstripeProject aProject = pluginRef.getProjectHandle();
+			IAbstractTigerstripeProject aProject = pluginConfig.getProjectHandle();
 			// session
-			// .makeTigerstripeProject(pluginRef.getProject().getBaseDir()
+			// .makeTigerstripeProject(pluginConfig.getProject().getBaseDir()
 			// .toURI(), ITigerstripeProject.class
 			// .getCanonicalName());
 
@@ -250,11 +250,11 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 				// where dependencies/referenced projects need to be looped over
 				ArtifactFilter fFilter = new ArtifactNoFilter();
 				if (isIncludeDependencies()) {
-					IFacetReference ref = pluginRef.getProjectHandle()
+					IFacetReference ref = pluginConfig.getProjectHandle()
 							.getActiveFacet();
 					if (ref != null) {
 						IFacetPredicate allPredicate = new FacetPredicate(ref,
-								pluginRef.getProjectHandle());
+								pluginConfig.getProjectHandle());
 						allPredicate.resolve(exec.getConfig().getMonitor());
 						fFilter = new PredicateFilter(allPredicate);
 					}
@@ -312,7 +312,7 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 					}
 				}
 
-				VelocityContext defaultContext = getDefaultContext(pluginRef,
+				VelocityContext defaultContext = getDefaultContext(pluginConfig,
 						exec);
 
 				for (IAbstractArtifact artifact : resultSet) {
@@ -333,7 +333,7 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 						if (modelObj instanceof IArtifactModel) {
 							model = (IArtifactModel) modelObj;
 							model.setIArtifact(artifact);
-							model.setPluginRef(pluginRef);
+							model.setPluginConfig(pluginConfig);
 							
 							localContext.put(getModelClassName(), model);
 							expander
@@ -348,7 +348,7 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 
 					localContext.put("artifact", artifact);
 					localContext.put("templateName", template.getName());
-					localContext.put("pluginRef", pluginRef);
+					localContext.put("pluginConfig", pluginConfig);
 
 					// Logging stuff
 					localContext.put("pluginLog", new PluginVelocityLog(
@@ -356,14 +356,14 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 
 					expander.setCurrentArtifact(artifact);
 					String targetFile = expander.expandVar(getOutputFile());
-					File outputFileF = getOutputFile(pluginRef, targetFile,
+					File outputFileF = getOutputFile(pluginConfig, targetFile,
 							exec.getConfig());
 
 					// Only create the flag if we are allowed to overwrite Or
 					// the file doesn't exist
 					if (isOverwriteFiles() || !outputFileF.exists()) {
 
-						writer = getDefaultWriter(pluginRef, targetFile, exec
+						writer = getDefaultWriter(pluginConfig, targetFile, exec
 								.getConfig());
 						template.merge(localContext, writer);
 						writer.close();

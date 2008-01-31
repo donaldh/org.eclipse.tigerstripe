@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 
 /**
  * @author Eric Dillon
@@ -25,8 +25,8 @@ public class SessionFacadeHomeInterfaceModel extends OssjInterfaceModel {
 	private final static String TEMPLATE = "sessionFacadeHomeInterface.vm";
 
 	protected SessionFacadeHomeInterfaceModel(AbstractArtifact artifact,
-			PluginRef pluginRef) throws TigerstripeException {
-		super(artifact, pluginRef);
+			PluginConfig pluginConfig) throws TigerstripeException {
+		super(artifact, pluginConfig);
 		setTemplate(TEMPLATE);
 	}
 

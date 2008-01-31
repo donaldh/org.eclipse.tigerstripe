@@ -24,15 +24,15 @@ public class UnknownPluginException extends TigerstripeException {
 	 * 
 	 */
 	private static final long serialVersionUID = 3377151236277856787L;
-	private PluginRef unresolvedRef;
+	private PluginConfig unresolvedRef;
 
-	public UnknownPluginException(PluginRef ref) {
+	public UnknownPluginException(PluginConfig ref) {
 		super(Messages
 				.formatMessage(Messages.UNKNOWN_PLUGIN, ref.getPluginId()));
 		this.unresolvedRef = ref;
 	}
 
-	public PluginRef getUnresolvedRef() {
+	public PluginConfig getUnresolvedRef() {
 		return this.unresolvedRef;
 	}
 }

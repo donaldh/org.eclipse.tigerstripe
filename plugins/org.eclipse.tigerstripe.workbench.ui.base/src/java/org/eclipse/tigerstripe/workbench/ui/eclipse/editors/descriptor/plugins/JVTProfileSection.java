@@ -34,12 +34,12 @@ import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjJVTProfilePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.JvtPluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.JvtPluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -135,9 +135,9 @@ public class JVTProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 */
 	private Properties getXMLPluginProperties() {
-		IPluginReference ref = getJvtPluginReference();
+		IPluginConfig ref = getJvtPluginConfig();
 		if (ref != null)
-			return ((PluginRef) ref).getProperties();
+			return ((PluginConfig) ref).getProperties();
 
 		return null;
 	}
@@ -148,13 +148,13 @@ public class JVTProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference getJvtPluginReference() {
+	private IPluginConfig getJvtPluginConfig() {
 		try {
 			ITigerstripeProject handle = getTSProject();
-			IPluginReference[] plugins = handle.getPluginReferences();
+			IPluginConfig[] plugins = handle.getPluginConfigs();
 
 			for (int i = 0; i < plugins.length; i++) {
-				if (JvtPluginRef.MODEL.getPluginId().equals(
+				if (JvtPluginConfig.MODEL.getPluginId().equals(
 						plugins[i].getPluginId()))
 					return plugins[i];
 			}
@@ -175,10 +175,10 @@ public class JVTProfileSection extends TigerstripeDescriptorSectionPart {
 		}
 	}
 
-	private void addXMLPluginToDescriptor(IPluginReference ref) {
+	private void addXMLPluginToDescriptor(IPluginConfig ref) {
 		try {
 			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getTSProject();
-			handle.addPluginReference(ref);
+			handle.addPluginConfig(ref);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -190,10 +190,10 @@ public class JVTProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference createDefaultJvtPluginReference() {
+	private IPluginConfig createDefaultJvtPluginConfig() {
 		try {
-			PluginRef ref = PluginRefFactory.getInstance().createPluginRef(
-					JvtPluginRef.MODEL, getTigerstripeProject());
+			PluginConfig ref = PluginConfigFactory.getInstance().createPluginConfig(
+					JvtPluginConfig.MODEL, getTigerstripeProject());
 			applyDefault(ref);
 			return ref;
 		} catch (UnknownPluginException e) {
@@ -207,10 +207,10 @@ public class JVTProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @param ref
 	 */
-	private void applyDefault(IPluginReference ref) {
-		((PluginRef) ref).getProperties().setProperty("defaultInterfacePackage",
+	private void applyDefault(IPluginConfig ref) {
+		((PluginConfig) ref).getProperties().setProperty("defaultInterfacePackage",
 				"com.mycompany");
-		((PluginRef) ref).getProperties().setProperty("activeVersion",
+		((PluginConfig) ref).getProperties().setProperty("activeVersion",
 				IOssjJVTProfilePlugin.defaultVersion);
 	}
 
@@ -318,10 +318,10 @@ public class JVTProfileSection extends TigerstripeDescriptorSectionPart {
 	protected void handleWidgetSelected(SelectionEvent e) {
 		if (!isSilentUpdate()) {
 			if (e.getSource() == generate) {
-				if (getJvtPluginReference() == null) {
-					addXMLPluginToDescriptor(createDefaultJvtPluginReference());
+				if (getJvtPluginConfig() == null) {
+					addXMLPluginToDescriptor(createDefaultJvtPluginConfig());
 				}
-				getJvtPluginReference().setEnabled(generate.getSelection());
+				getJvtPluginConfig().setEnabled(generate.getSelection());
 				markPageModified();
 			} else if (e.getSource() == activeVersionCombo) {
 				getXMLPluginProperties()
@@ -337,7 +337,7 @@ public class JVTProfileSection extends TigerstripeDescriptorSectionPart {
 				dialog
 						.setMessage("Do you really want to apply default values?\nAll current values will be lost.");
 				if (dialog.open() == SWT.YES) {
-					applyDefault(getJvtPluginReference());
+					applyDefault(getJvtPluginConfig());
 					markPageModified();
 				}
 			}
@@ -358,8 +358,8 @@ public class JVTProfileSection extends TigerstripeDescriptorSectionPart {
 	protected void updateForm() {
 		setSilentUpdate(true);
 
-		if (getJvtPluginReference() == null
-				|| !getJvtPluginReference().isEnabled()) {
+		if (getJvtPluginConfig() == null
+				|| !getJvtPluginConfig().isEnabled()) {
 			generate.setSelection(false);
 		} else {
 			Properties pluginProperties = getXMLPluginProperties();

@@ -11,7 +11,7 @@
 *#
  *  Generated with Tigerstripe(tm) v$runtime.getProperty("tigerstripe.feature.version")
  *
- *  Plugin  : $pluginRef.groupId/$pluginRef.pluginId ($pluginRef.ActiveVersion)
+ *  Plugin  : $pluginConfig.groupId/$pluginConfig.pluginId ($pluginConfig.ActiveVersion)
  *	
  *  DO NOT EDIT THIS CODE WAS AUTOMATICALLY GENERATED
  */

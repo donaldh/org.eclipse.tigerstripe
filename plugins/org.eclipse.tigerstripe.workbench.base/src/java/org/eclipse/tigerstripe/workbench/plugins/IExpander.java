@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.plugins;
 
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 public interface IExpander {
@@ -20,12 +20,12 @@ public interface IExpander {
 	public final String PROP_TAG = "ppProp";
 
 	/**
-	 * Sets the pluginRef for the expander. This is needed in all cases unless
+	 * Sets the pluginConfig for the expander. This is needed in all cases unless
 	 * you want to just get the project properties.
 	 * 
-	 * @param pluginRef
+	 * @param pluginConfig
 	 */
-	public void setPluginRef(IPluginReference pluginRef);
+	public void setPluginConfig(IPluginConfig pluginConfig);
 
 	/**
 	 * Allows to set a "current artifact" for this expander. When a current

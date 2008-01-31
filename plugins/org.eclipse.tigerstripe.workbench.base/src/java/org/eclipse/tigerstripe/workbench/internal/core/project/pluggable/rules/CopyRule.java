@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ICopyRul
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
 import org.w3c.dom.Document;
@@ -98,10 +98,10 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 		return ICopyRule.class.getCanonicalName();
 	}
 
-	public void trigger(PluggablePluginRef pluginRef, IPluginRuleExecutor exec)
+	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
 			throws TigerstripeException {
 
-		this.report = new RuleReport(pluginRef);
+		this.report = new RuleReport(pluginConfig);
 		this.report.setTemplate(PluggablePlugin.TEMPLATE_PREFIX + "/"
 				+ REPORTTEMPLATE);
 		this.report.setName(getName());
@@ -110,8 +110,8 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 		this.report.setFilesetMatch(filesetMatch);
 		this.report.setCopyFrom(getCopyFrom());
 
-		Expander expander = new Expander(pluginRef);
-		String expandedToDir = expander.expandVar(getToDirectory(), pluginRef
+		Expander expander = new Expander(pluginConfig);
+		String expandedToDir = expander.expandVar(getToDirectory(), pluginConfig
 				.getProject());
 		this.report.setToDirectory(expandedToDir);
 
@@ -119,9 +119,9 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 		String outputPath = "";
 		File outputDirectory = null;
 		try {
-			String outputDir = pluginRef.getProjectHandle().getProjectDetails()
+			String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
 					.getOutputDirectory();
-			String projectDir = pluginRef.getProjectHandle().getBaseDir()
+			String projectDir = pluginConfig.getProjectHandle().getBaseDir()
 					.getCanonicalPath();
 
 			outputPath = projectDir + File.separator + outputDir;
@@ -143,7 +143,7 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 					+ outputPath + "': " + e.getMessage());
 		}
 
-		String srcPrefix = pluginRef.getProjectHandle().getBaseDir()
+		String srcPrefix = pluginConfig.getProjectHandle().getBaseDir()
 				.getAbsolutePath();
 		if (getCopyFrom() == ICopyRule.FROM_PLUGIN) {
 			srcPrefix = exec.getPlugin().getPProject().getBaseDir()
@@ -168,7 +168,7 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 					+ getFilesetMatch());
 			if (!srcFile.exists()) {
 				String src = "project '"
-						+ pluginRef.getProjectHandle().getProjectLabel() + "'";
+						+ pluginConfig.getProjectHandle().getProjectLabel() + "'";
 				if (getCopyFrom() == ICopyRule.FROM_PLUGIN) {
 					src = "deployed plugin.";
 				}

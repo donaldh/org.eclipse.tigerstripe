@@ -15,7 +15,7 @@ import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 
 /**
  * @author Eric Dillon
@@ -35,7 +35,7 @@ public class CSVModel {
 
 	private Collection content = new ArrayList();
 
-	private PluginRef pluginRef;
+	private PluginConfig pluginConfig;
 
 	/**
 	 * Returns the AbstractArtifact used to build this OssjInterfaceModel
@@ -54,8 +54,8 @@ public class CSVModel {
 	 * Default constructor
 	 * 
 	 */
-	protected CSVModel(PluginRef pluginRef) throws TigerstripeException {
-		this.pluginRef = pluginRef;
+	protected CSVModel(PluginConfig pluginConfig) throws TigerstripeException {
+		this.pluginConfig = pluginConfig;
 		setTemplate(TEMPLATE);
 		build();
 	}
@@ -77,7 +77,7 @@ public class CSVModel {
 	 */
 	protected void build() throws TigerstripeException {
 		// TODO extract destination directory from context
-		this.destinationDir = this.pluginRef.getProject().getProjectDetails()
+		this.destinationDir = this.pluginConfig.getProject().getProjectDetails()
 				.getOutputDirectory();
 
 	}

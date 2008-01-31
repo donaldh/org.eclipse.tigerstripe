@@ -45,14 +45,14 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjWSDLProfilePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjXMLProfilePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRefFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlExamplePluginRef;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlExamplePluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper.PckXSDMapping;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -180,9 +180,9 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 */
 	private Properties getXMLPluginProperties() {
-		IPluginReference ref = getXMLPluginReference();
+		IPluginConfig ref = getXMLPluginConfig();
 		if (ref != null)
-			return ((PluginRef) ref).getProperties();
+			return ((PluginConfig) ref).getProperties();
 
 		return null;
 	}
@@ -193,13 +193,13 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference getXMLPluginReference() {
+	private IPluginConfig getXMLPluginConfig() {
 		try {
 			ITigerstripeProject handle = getTSProject();
-			IPluginReference[] plugins = handle.getPluginReferences();
+			IPluginConfig[] plugins = handle.getPluginConfigs();
 
 			for (int i = 0; i < plugins.length; i++) {
-				if (XmlPluginRef.MODEL.getPluginId().equals(
+				if (XmlPluginConfig.MODEL.getPluginId().equals(
 						plugins[i].getPluginId()))
 					return plugins[i];
 			}
@@ -210,10 +210,10 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 		return null;
 	}
 
-	private void addPluginToDescriptor(IPluginReference ref) {
+	private void addPluginToDescriptor(IPluginConfig ref) {
 		try {
 			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getTSProject();
-			handle.addPluginReference(ref);
+			handle.addPluginConfig(ref);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -225,10 +225,10 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference createDefaultXMLPluginReference() {
+	private IPluginConfig createDefaultXMLPluginConfig() {
 		try {
-			PluginRef ref = PluginRefFactory.getInstance().createPluginRef(
-					XmlPluginRef.MODEL, getTigerstripeProject());
+			PluginConfig ref = PluginConfigFactory.getInstance().createPluginConfig(
+					XmlPluginConfig.MODEL, getTigerstripeProject());
 			applyDefault(ref);
 			return ref;
 		} catch (UnknownPluginException e) {
@@ -256,9 +256,9 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @param ref
 	 */
-	private void applyDefault(IPluginReference ref) {
+	private void applyDefault(IPluginConfig ref) {
 
-		XmlPluginRef xmlRef = (XmlPluginRef) ref;
+		XmlPluginConfig xmlRef = (XmlPluginConfig) ref;
 		PackageToSchemaMapper mapper = xmlRef.getMapper();
 
 		mapper.setUseDefaultMapping(true);
@@ -268,7 +268,7 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 				.setDefaultSchemaName("xml/${name}/v${ver}/OSSJ-${name}-v${ver}.xsd");
 		mapper.setTargetNamespace("http://ossj.org/xml/${name}/v${ver}");
 		mapper.setDefaultUserPrefix("ossj-${name}-v${ver}");
-		((PluginRef) ref).getProperties().setProperty("activeVersion",
+		((PluginConfig) ref).getProperties().setProperty("activeVersion",
 				IOssjXMLProfilePlugin.defaultVersion);
 
 	}
@@ -475,10 +475,10 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference getXmlExamplePluginReference() {
+	private IPluginConfig getXmlExamplePluginConfig() {
 		try {
 			ITigerstripeProject handle = getTSProject();
-			IPluginReference[] plugins = handle.getPluginReferences();
+			IPluginConfig[] plugins = handle.getPluginConfigs();
 
 			for (int i = 0; i < plugins.length; i++) {
 				if ("ossj-xml-example-spec".equals(plugins[i].getPluginId()))
@@ -498,10 +498,10 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @return
 	 */
-	private IPluginReference createDefaultXmlExamplePluginReference() {
+	private IPluginConfig createDefaultXmlExamplePluginReference() {
 		try {
-			PluginRef ref = PluginRefFactory.getInstance().createPluginRef(
-					XmlExamplePluginRef.MODEL, getTigerstripeProject());
+			PluginConfig ref = PluginConfigFactory.getInstance().createPluginConfig(
+					XmlExamplePluginConfig.MODEL, getTigerstripeProject());
 			applyExampleDefault(ref);
 			return ref;
 		} catch (UnknownPluginException e) {
@@ -515,7 +515,7 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 	 * 
 	 * @param ref
 	 */
-	private void applyExampleDefault(IPluginReference ref) {
+	private void applyExampleDefault(IPluginConfig ref) {
 		// ref.getProperties().setProperty("targetNamespace", "tns");
 
 	}
@@ -570,11 +570,11 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 	protected void handleWidgetSelected(SelectionEvent e) {
 		if (!isSilentUpdate()) {
 			if (e.getSource() == generate) {
-				PluginRef ref = (PluginRef) getXMLPluginReference();
+				PluginConfig ref = (PluginConfig) getXMLPluginConfig();
 				if (ref == null) {
-					addPluginToDescriptor(createDefaultXMLPluginReference());
+					addPluginToDescriptor(createDefaultXMLPluginConfig());
 				}
-				getXMLPluginReference().setEnabled(
+				getXMLPluginConfig().setEnabled(
 						generate.getSelection() && !this.isReadonly());
 				markPageModified();
 			} else if (e.getSource() == applyDefaultButton) {
@@ -584,7 +584,7 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 				dialog
 						.setMessage("Do you really want to apply default values?\nAll current values will be lost.");
 				if (dialog.open() == SWT.YES) {
-					applyDefault(getXMLPluginReference());
+					applyDefault(getXMLPluginConfig());
 					markPageModified();
 				}
 			} else if (e.getSource() == activeVersionCombo) {
@@ -605,10 +605,10 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 						useDefaultMappingButton.getSelection());
 				markPageModified();
 			} else if (e.getSource() == generateExamples) {
-				if (getXmlExamplePluginReference() == null) {
+				if (getXmlExamplePluginConfig() == null) {
 					addPluginToDescriptor(createDefaultXmlExamplePluginReference());
 				}
-				getXmlExamplePluginReference().setEnabled(
+				getXmlExamplePluginConfig().setEnabled(
 						generateExamples.getSelection() && !this.isReadonly());
 				markPageModified();
 			} else if (e.getSource() == useEnumValues) {
@@ -701,16 +701,16 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 	protected void updateForm() {
 		setSilentUpdate(true);
 
-		if (getXMLPluginReference() == null
-				|| !getXMLPluginReference().isEnabled()) {
+		if (getXMLPluginConfig() == null
+				|| !getXMLPluginConfig().isEnabled()) {
 			generate.setSelection(false);
 		} else {
 			Properties pluginProperties = getXMLPluginProperties();
 			generate.setSelection(true);
-			if (getXmlExamplePluginReference() == null) {
+			if (getXmlExamplePluginConfig() == null) {
 				addPluginToDescriptor(createDefaultXmlExamplePluginReference());
 			}
-			generateExamples.setSelection(getXmlExamplePluginReference()
+			generateExamples.setSelection(getXmlExamplePluginConfig()
 					.isEnabled());
 			int versionIndex = -1;
 			String activeVersion = pluginProperties.getProperty(
@@ -798,7 +798,7 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 		mappingTableViewer.getTable().setEnabled(
 				!useDefaultMappingButton.getSelection() && !this.isReadonly());
 
-		// In case the pluginRef is not enabled altogether...
+		// In case the pluginConfig is not enabled altogether...
 		if (!generate.getSelection()) {
 			useDefaultMappingButton.setEnabled(false);
 			defaultSchemaNameText.setEnabled(false);
@@ -820,9 +820,9 @@ public class XMLProfileSection extends TigerstripeDescriptorSectionPart {
 
 	// Handling of the Package<->XSD mapping
 	private PackageToSchemaMapper getPackageToSchemaMapper() {
-		XmlPluginRef ref = (XmlPluginRef) getXMLPluginReference();
+		XmlPluginConfig ref = (XmlPluginConfig) getXMLPluginConfig();
 		if (ref == null) {
-			ref = (XmlPluginRef) createDefaultXMLPluginReference();
+			ref = (XmlPluginConfig) createDefaultXMLPluginConfig();
 			addPluginToDescriptor(ref);
 		}
 

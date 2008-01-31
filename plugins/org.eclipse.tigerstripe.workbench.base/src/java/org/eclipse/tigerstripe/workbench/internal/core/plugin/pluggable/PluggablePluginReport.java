@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable;
 
 import java.util.ArrayList;
 
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 
 /**
@@ -25,8 +25,8 @@ public class PluggablePluginReport extends PluginReport {
 
 	private ArrayList<RuleReport> childReports = new ArrayList<RuleReport>();
 
-	public PluggablePluginReport(PluginRef pluginRef) {
-		super(pluginRef);
+	public PluggablePluginReport(PluginConfig pluginConfig) {
+		super(pluginConfig);
 	}
 
 	public ArrayList<RuleReport> getChildReports() {

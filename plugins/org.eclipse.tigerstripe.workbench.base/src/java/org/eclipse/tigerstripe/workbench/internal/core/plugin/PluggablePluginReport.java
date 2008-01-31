@@ -26,8 +26,8 @@ public class PluggablePluginReport extends PluginReport {
 
 	private ArrayList<RuleReport> ruleReports;
 
-	public PluggablePluginReport(PluginRef pluginRef) {
-		super(pluginRef);
+	public PluggablePluginReport(PluginConfig pluginConfig) {
+		super(pluginConfig);
 
 	}
 

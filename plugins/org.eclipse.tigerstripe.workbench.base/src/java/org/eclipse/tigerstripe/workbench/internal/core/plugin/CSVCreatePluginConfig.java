@@ -10,26 +10,24 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjXMLProfilePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.ICSVCreatePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
-public class XmlExamplePluginRef extends PluginRef {
+public class CSVCreatePluginConfig extends PluginConfig {
 
-	public final static XmlExamplePluginRef MODEL = new XmlExamplePluginRef(
-			null);
+	public final static CSVCreatePluginConfig MODEL = new CSVCreatePluginConfig(null);
 
-	private final static String GROUPID = PluginRefFactory.GROUPID_TS;
-	private final static String PLUGINID = "ossj-xml-example-spec";
+	private final static String GROUPID = "ts";
+	private final static String PLUGINID = "csv-spec";
+
+	/* package */CSVCreatePluginConfig(TigerstripeProject project) {
+		super(project);
+	}
 
 	@Override
 	public String getActiveVersion() {
 		return getProperties().getProperty("activeVersion",
-				IOssjXMLProfilePlugin.defaultVersion);
-	}
-
-	@Override
-	public String getGroupId() {
-		return GROUPID;
+				ICSVCreatePlugin.defaultVersion);
 	}
 
 	@Override
@@ -37,8 +35,9 @@ public class XmlExamplePluginRef extends PluginRef {
 		return PLUGINID;
 	}
 
-	/* package */XmlExamplePluginRef(TigerstripeProject project) {
-		super(project);
+	@Override
+	public String getGroupId() {
+		return GROUPID;
 	}
 
 }

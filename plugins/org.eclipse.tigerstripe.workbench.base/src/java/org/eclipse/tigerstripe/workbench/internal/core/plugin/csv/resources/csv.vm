@@ -9,7 +9,7 @@
    Contributors:
       E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
 *#
-#set ($includeInherited = $pluginRef.getProperties().getProperty("includeInherited",""))
+#set ($includeInherited = $pluginConfig.getProperties().getProperty("includeInherited",""))
 $reportUtils.getTimeStamp()
 ==========================================
 #parse ("$resourceDir/ProjectHeadings.vm")

@@ -14,7 +14,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.w3c.dom.Element;
@@ -23,11 +23,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * A singleton factory class for all PluginRef
+ * A singleton factory class for all PluginConfig
  * 
  * @author Eric Dillon
  */
-public class PluginRefFactory {
+public class PluginConfigFactory {
 
 	private final static String GROUPID_4DH = "4dh";
 	public final static String GROUPID_TS = "ts";
@@ -38,28 +38,28 @@ public class PluginRefFactory {
 	/** logger for output */
 	private static Logger log = Logger.getLogger(App.class);
 
-	private static PluginRefFactory instance;
+	private static PluginConfigFactory instance;
 
-	public static PluginRefFactory getInstance() {
+	public static PluginConfigFactory getInstance() {
 		if (instance == null) {
-			instance = new PluginRefFactory();
+			instance = new PluginConfigFactory();
 		}
 		return instance;
 	}
 
-	public PluginRef createPluginRef(PluginRef model, TigerstripeProject project)
+	public PluginConfig createPluginConfig(PluginConfig model, TigerstripeProject project)
 			throws UnknownPluginException {
-		return createPluginRefInternal(model.getPluginId(), model.getGroupId(),
+		return createPluginConfigInternal(model.getPluginId(), model.getGroupId(),
 				model.getVersion(), project);
 	}
 
 	/**
-	 * Creates a pluginRef corresponding to the given element
+	 * Creates a pluginConfig corresponding to the given element
 	 * 
 	 * @param element
 	 * @return
 	 */
-	public PluginRef createPluginRef(Element element, TigerstripeProject project)
+	public PluginConfig createPluginConfig(Element element, TigerstripeProject project)
 			throws UnknownPluginException {
 
 		String groupId = null;
@@ -90,7 +90,7 @@ public class PluginRefFactory {
 			version = VERSION_1_3;
 		}
 
-		PluginRef pluginRef = createPluginRefInternal(pluginId, groupId,
+		PluginConfig pluginConfig = createPluginConfigInternal(pluginId, groupId,
 				version, project);
 
 		if (enabledNode == null || enabledNode.getNodeValue().length() == 0) {
@@ -103,55 +103,55 @@ public class PluginRefFactory {
 		if (loggingNode != null) {
 			String loggingIndex = loggingNode.getNodeValue();
 			int index = Integer.parseInt(loggingIndex);
-			pluginRef.setLogLevel(PluginLog.LogLevel.fromInt(index));
+			pluginConfig.setLogLevel(PluginLog.LogLevel.fromInt(index));
 		}
 
 		if (disableLoggingNode != null) {
 			String disableLabel = disableLoggingNode.getNodeValue();
 			boolean disable = Boolean.parseBoolean(disableLabel);
-			pluginRef.setDisableLogging(disable);
+			pluginConfig.setDisableLogging(disable);
 		}
 
-		pluginRef.setVersion(version);
-		pluginRef.setEnabled(enabled);
+		pluginConfig.setVersion(version);
+		pluginConfig.setEnabled(enabled);
 
 		// Load plugin Properties
 		Properties properties = loadProperties(element);
-		pluginRef.setProperties(properties);
+		pluginConfig.setProperties(properties);
 
-		pluginRef.extractSpecificXMLContent(element);
+		pluginConfig.extractSpecificXMLContent(element);
 
-		return pluginRef;
+		return pluginConfig;
 	}
 
-	private PluginRef createPluginRefInternal(String pluginId, String groupId,
+	private PluginConfig createPluginConfigInternal(String pluginId, String groupId,
 			String version, TigerstripeProject project)
 			throws UnknownPluginException {
 
-		PluginRef pluginRef = null;
-		if (JvtPluginRef.MODEL.getPluginId().equals(pluginId)) {
-			pluginRef = new JvtPluginRef(project);
-		} else if (XmlPluginRef.MODEL.getPluginId().equals(pluginId)) {
-			pluginRef = new XmlPluginRef(project);
-		} else if (XmlExamplePluginRef.MODEL.getPluginId().equals(pluginId)) {
-			pluginRef = new XmlExamplePluginRef(project);
-		} else if (WsdlPluginRef.MODEL.getPluginId().equals(pluginId)) {
-			pluginRef = new WsdlPluginRef(project);
-		} else if (WsdlExamplePluginRef.MODEL.getPluginId().equals(pluginId)) {
-			pluginRef = new WsdlExamplePluginRef(project);
-		} else if (PublishPluginRef.MODEL.getPluginId().equals(pluginId)) {
-			pluginRef = new PublishPluginRef(project);
-		} else if (CSVCreatePluginRef.MODEL.getPluginId().equals(pluginId)) {
-			pluginRef = new CSVCreatePluginRef(project);
+		PluginConfig pluginConfig = null;
+		if (JvtPluginConfig.MODEL.getPluginId().equals(pluginId)) {
+			pluginConfig = new JvtPluginConfig(project);
+		} else if (XmlPluginConfig.MODEL.getPluginId().equals(pluginId)) {
+			pluginConfig = new XmlPluginConfig(project);
+		} else if (XmlExamplePluginConfig.MODEL.getPluginId().equals(pluginId)) {
+			pluginConfig = new XmlExamplePluginConfig(project);
+		} else if (WsdlPluginConfig.MODEL.getPluginId().equals(pluginId)) {
+			pluginConfig = new WsdlPluginConfig(project);
+		} else if (WsdlExamplePluginConfig.MODEL.getPluginId().equals(pluginId)) {
+			pluginConfig = new WsdlExamplePluginConfig(project);
+		} else if (PublishPluginConfig.MODEL.getPluginId().equals(pluginId)) {
+			pluginConfig = new PublishPluginConfig(project);
+		} else if (CSVCreatePluginConfig.MODEL.getPluginId().equals(pluginId)) {
+			pluginConfig = new CSVCreatePluginConfig(project);
 		} else {
-			// Consider it as a PluggablePluginRef then.
-			PluggablePluginRef ref = new PluggablePluginRef(project);
+			// Consider it as a PluggablePluginConfig then.
+			PluggablePluginConfig ref = new PluggablePluginConfig(project);
 			ref.setGroupId(groupId);
 			ref.setPluginId(pluginId);
 			ref.setVersion(version);
-			pluginRef = ref;
+			pluginConfig = ref;
 		}
-		return pluginRef;
+		return pluginConfig;
 	}
 
 	private Properties loadProperties(Node node) {

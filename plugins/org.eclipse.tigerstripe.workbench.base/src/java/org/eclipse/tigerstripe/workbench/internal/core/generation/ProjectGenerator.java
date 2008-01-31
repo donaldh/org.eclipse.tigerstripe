@@ -37,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgress
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.MultiFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportModel;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportRunner;
@@ -45,7 +45,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgr
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.IPluginReference;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -311,13 +311,13 @@ public class ProjectGenerator {
 			// project.getArtifactManagerSession())
 			// .setLockForGeneration(true);
 
-			IPluginReference[] plugins = project.getPluginReferences();
+			IPluginConfig[] plugins = project.getPluginConfigs();
 			boolean isFirstRef = true;
 			boolean validationFailed = false;
 
 			// First run all validation plugins if any
-			for (IPluginReference iRef : plugins) {
-				PluginRef ref = (PluginRef) iRef;
+			for (IPluginConfig iRef : plugins) {
+				PluginConfig ref = (PluginConfig) iRef;
 				if (isFirstRef) {
 					isFirstRef = false;
 					changedStdOutStdErr = hijackOutput(ref, logMessages,
@@ -350,8 +350,8 @@ public class ProjectGenerator {
 			}
 
 			if (!validationFailed) {
-				for (IPluginReference iRef : plugins) {
-					PluginRef ref = (PluginRef) iRef;
+				for (IPluginConfig iRef : plugins) {
+					PluginConfig ref = (PluginConfig) iRef;
 					if (isFirstRef) {
 						isFirstRef = false;
 						changedStdOutStdErr = hijackOutput(ref, logMessages,
@@ -384,7 +384,7 @@ public class ProjectGenerator {
 		return result.toArray(new PluginRunStatus[result.size()]);
 	}
 
-	private void internalPluginLoop(PluginRef ref,
+	private void internalPluginLoop(PluginConfig ref,
 			List<PluginRunStatus> result, Collection<PluginReport> reports,
 			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
 		// Make sure we only trigger "generation" plugins (i.e. not
@@ -395,7 +395,7 @@ public class ProjectGenerator {
 		// (may have been recently un-deployed - during this
 		// session)
 
-		if (ref.getCategory() == IPluginReference.GENERATE_CATEGORY
+		if (ref.getCategory() == IPluginConfig.GENERATE_CATEGORY
 				&& ref.isEnabled()) {
 
 			PluginLogger.setUpForRun(ref, config);
@@ -471,7 +471,7 @@ public class ProjectGenerator {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	private boolean hijackOutput(PluginRef ref, boolean logMessages,
+	private boolean hijackOutput(PluginConfig ref, boolean logMessages,
 			PrintStream stdErrStreamRef, FileAppender stderrAppender,
 			PrintStream stdOutStreamRef, FileAppender stdoutAppender)
 			throws TigerstripeException {

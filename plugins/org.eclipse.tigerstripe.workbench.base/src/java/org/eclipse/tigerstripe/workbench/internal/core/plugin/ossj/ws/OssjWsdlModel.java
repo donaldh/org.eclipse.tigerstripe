@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginRef;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 
 /**
  * @author Eric Dillon
@@ -44,7 +44,7 @@ public class OssjWsdlModel {
 
 	private Collection content = new ArrayList();
 
-	private PluginRef pluginRef;
+	private PluginConfig pluginConfig;
 
 	public String getTargetNamespace() {
 		return this.targetNamespace;
@@ -79,10 +79,10 @@ public class OssjWsdlModel {
 	 * Default constructor
 	 * 
 	 */
-	protected OssjWsdlModel(AbstractArtifact artifact, PluginRef pluginRef)
+	protected OssjWsdlModel(AbstractArtifact artifact, PluginConfig pluginConfig)
 			throws TigerstripeException {
-		this.pluginRef = pluginRef;
-		setTemplate(TEMPLATE_PREFIX + "/" + pluginRef.getActiveVersion() + "/"
+		this.pluginConfig = pluginConfig;
+		setTemplate(TEMPLATE_PREFIX + "/" + pluginConfig.getActiveVersion() + "/"
 				+ TEMPLATE);
 		setArtifact(artifact);
 		build(artifact.getArtifactManager());
@@ -109,7 +109,7 @@ public class OssjWsdlModel {
 	 */
 	protected void build(ArtifactManager manager) throws TigerstripeException {
 		// TODO extract destination directory from context
-		this.destinationDir = this.pluginRef.getProject().getProjectDetails()
+		this.destinationDir = this.pluginConfig.getProject().getProjectDetails()
 				.getOutputDirectory();
 
 		// Read the tigerstripe.interface tag
