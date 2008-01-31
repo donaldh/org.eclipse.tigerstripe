@@ -395,7 +395,7 @@ public class Type implements IType {
 	 * the type being checked is a return type for a method so the additional
 	 * valid value of "void" should also be allowed
 	 * 
-	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILabel#validate()
+	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILiteral#validate()
 	 */
 	public IStatus validate(boolean isMethodReturnCheck) {
 

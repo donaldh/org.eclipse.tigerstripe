@@ -24,18 +24,18 @@ import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactDeleteRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactRemoveFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeRemoveRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILabelRemoveRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
@@ -245,15 +245,15 @@ public class TSRemoveFromModelAction extends BaseDiagramPartAction implements
 							aReq.setMethodName(method.getName());
 							aReq.setSource(this);
 							request = aReq;
-						} else if (component instanceof ILabel) {
-							ILabel label = (ILabel) component;
-							ILabelRemoveRequest aReq = (ILabelRemoveRequest) updater
+						} else if (component instanceof ILiteral) {
+							ILiteral literal = (ILiteral) component;
+							ILiteralRemoveRequest aReq = (ILiteralRemoveRequest) updater
 									.getRequestFactory()
 									.makeRequest(
-											ILabelRemoveRequest.class.getName());
-							aReq.setArtifactFQN(label.getContainingArtifact()
+											ILiteralRemoveRequest.class.getName());
+							aReq.setArtifactFQN(literal.getContainingArtifact()
 									.getFullyQualifiedName());
-							aReq.setLabelName(label.getName());
+							aReq.setLiteralName(literal.getName());
 							aReq.setSource(this);
 							request = aReq;
 						}

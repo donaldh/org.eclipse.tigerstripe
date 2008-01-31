@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.artifacts;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.ArtifactSettingDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 

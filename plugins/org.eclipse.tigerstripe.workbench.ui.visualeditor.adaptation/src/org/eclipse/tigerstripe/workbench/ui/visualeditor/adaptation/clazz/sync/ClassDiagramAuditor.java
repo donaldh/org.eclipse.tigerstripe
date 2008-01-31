@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
@@ -839,8 +839,8 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		MultiStatus result = new MultiStatus(Activator.PLUGIN_ID, 222,
 				"Literals", null);
 
-		List<ILabel> labels = new ArrayList<ILabel>();
-		labels.addAll(iArtifact.getLabels());
+		List<ILiteral> literals = new ArrayList<ILiteral>();
+		literals.addAll(iArtifact.getLiterals());
 		List<Literal> eLiterals = eArtifact.getLiterals();
 
 		for (Literal eLiteral : eLiterals) {
@@ -852,24 +852,24 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 			}
 
 			// remove it from the list of fields
-			ILabel iLabel = null;
+			ILiteral iLiteral = null;
 			MultiStatus litResult = new MultiStatus(Activator.PLUGIN_ID, 222,
 					literalName, null);
-			for (Iterator<ILabel> iter = labels.iterator(); iter.hasNext();) {
-				ILabel label = iter.next();
-				if (literalName.equals(label.getName())) {
-					iLabel = label;
+			for (Iterator<ILiteral> iter = literals.iterator(); iter.hasNext();) {
+				ILiteral literal = iter.next();
+				if (literalName.equals(literal.getName())) {
+					iLiteral = literal;
 					iter.remove();
 					break;
 				}
 			}
 
-			if (iLabel == null) {
+			if (iLiteral == null) {
 				IStatus status = getErrorStatus("Literal '" + literalName
 						+ "' in diagram doesn't exist in model.");
 				litResult.add(status);
 			} else {
-				String labelValue = iLabel.getValue();
+				String labelValue = iLiteral.getValue();
 				if (!labelValue.equals(eLiteral.getValue())) {
 					IStatus status = getErrorStatus("Values don't match");
 					litResult.add(status);

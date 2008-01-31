@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgress
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.EnumArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
@@ -102,53 +102,53 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	 * Return the NAME of the Enum with the lowest value. If a String based Enum
 	 * the return is indeterminate
 	 * 
-	 * @return Name of the label with lowest integer value.
+	 * @return Name of the literal with lowest integer value.
 	 */
-	public String getMinLabel() {
+	public String getMinLiteral() {
 
-		if (getLabels().isEmpty())
+		if (getLiterals().isEmpty())
 			return null;
 
 		if (getBaseType().getFullyQualifiedName().equals("int")) {
-			ILabel result = null;
+			ILiteral result = null;
 			int val = 0;
 			int min = 0;
-			for (ILabel label : getLabels()) {
-				val = Integer.valueOf(label.getValue());
+			for (ILiteral literal : getLiterals()) {
+				val = Integer.valueOf(literal.getValue());
 				if (val <= min) {
 					min = val;
-					result = label;
+					result = literal;
 				}
 			}
 			return result.getName();
 		} else
-			return getLabels().iterator().next().getName();
+			return getLiterals().iterator().next().getName();
 	}
 
 	/**
 	 * Return the NAME of the Enum with the lowest value. If a String based Enum
 	 * the return is indeterminate
 	 * 
-	 * @return Name of the label with lowest integer value.
+	 * @return Name of the literal with lowest integer value.
 	 */
-	public String getMaxLabel() {
-		if (getLabels().isEmpty())
+	public String getMaxLiteral() {
+		if (getLiterals().isEmpty())
 			return null;
 
 		if (getBaseType().getFullyQualifiedName().equals("int")) {
-			ILabel result = null;
+			ILiteral result = null;
 			int val = 0;
 			int max = 0;
-			for (ILabel label : getLabels()) {
-				val = Integer.valueOf(label.getValue());
+			for (ILiteral literal : getLiterals()) {
+				val = Integer.valueOf(literal.getValue());
 				if (val >= max) {
 					max = val;
-					result = label;
+					result = literal;
 				}
 			}
 			return result.getName();
 		} else
-			return getLabels().iterator().next().getName();
+			return getLiterals().iterator().next().getName();
 	}
 
 	public boolean getExtensible() {

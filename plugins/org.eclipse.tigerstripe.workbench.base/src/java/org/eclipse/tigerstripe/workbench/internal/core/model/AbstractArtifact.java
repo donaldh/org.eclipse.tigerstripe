@@ -47,7 +47,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
@@ -108,14 +108,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	/** The collection of (unique, non-primitve) datatypes of the fields */
 	private Collection fieldTypes;
 
-	/** The collection of labels (enum) for this artifact */
-	private Collection<ILabel> labels;
+	/** The collection of literals (enum) for this artifact */
+	private Collection<ILiteral> literals;
 
 	/** The collection of inherited fields for this artifact */
 	protected Collection<IField> inheritedFields = null;
 
-	/** The collection of inherited labels for this artifact */
-	protected Collection<ILabel> inheritedLabels = null;
+	/** The collection of inherited literals for this artifact */
+	protected Collection<ILiteral> inheritedLiterals = null;
 
 	/** The collection of inherited methods for this artifact */
 	protected Collection<IMethod> inheritedMethods = null;
@@ -143,7 +143,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	/** whether the originating javaClass is abstract or not */
 	private boolean isAbstract = false;
 
-	// Facet scoping for Fields/Methods/Labels. Build lazily filtered list when
+	// Facet scoping for Fields/Methods/Literals. Build lazily filtered list when
 	// ever needed
 	protected Collection<IField> facetFilteredFields = null;
 
@@ -153,9 +153,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	protected Collection<IMethod> facetFilteredInheritedMethods = null;
 
-	protected Collection<ILabel> facetFilteredLabels = null;
+	protected Collection<ILiteral> facetFilteredLiterals = null;
 
-	protected Collection<ILabel> facetFilteredInheritedLabels = null;
+	protected Collection<ILiteral> facetFilteredInheritedLiterals = null;
 
 	protected JavaClass getJavaClass() {
 		return this.javaClass;
@@ -232,7 +232,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		super(artifactMgr);
 		methods = new ArrayList();
 		fields = new ArrayList();
-		labels = new ArrayList();
+		literals = new ArrayList();
 
 		if (artifactMgr != null) { // it's null for MODELs
 			if (artifactMgr instanceof ModuleArtifactManager) {
@@ -401,20 +401,20 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			}
 		}
 
-		// And the labels
-		this.labels = new ArrayList();
-		JavaField[] labels = clazz.getFields();
-		for (int i = 0; i < labels.length; i++) {
-			Label label = new Label(labels[i], getArtifactManager());
+		// And the literals
+		this.literals = new ArrayList();
+		JavaField[] javaFields = clazz.getFields();
+		for (int i = 0; i < javaFields.length; i++) {
+			Literal literal = new Literal(javaFields[i], getArtifactManager());
 			if (ignoreTags) {
-				this.labels.add(label);
-				label.setContainingArtifact(this);
-				label.extractCustomProperties();
-			} else if (label.getFirstTagByName(AbstractArtifactTag.PREFIX
-					+ AbstractArtifactTag.LABEL) != null) {
-				this.labels.add(label);
-				label.setContainingArtifact(this);
-				label.extractCustomProperties();
+				this.literals.add(literal);
+				literal.setContainingArtifact(this);
+				literal.extractCustomProperties();
+			} else if (literal.getFirstTagByName(AbstractArtifactTag.PREFIX
+					+ AbstractArtifactTag.LITERAL) != null) {
+				this.literals.add(literal);
+				literal.setContainingArtifact(this);
+				literal.extractCustomProperties();
 			}
 		}
 
@@ -551,15 +551,15 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 */
 	private void extractReferencedComments(JavaClass clazz) {
-		JavaField[] labels = clazz.getFields();
-		for (int i = 0; i < labels.length; i++) {
-			Label label = new Label(labels[i], getArtifactManager());
-			if (label.getFirstTagByName(AbstractArtifactTag.PREFIX
+		JavaField[] javaFields = clazz.getFields();
+		for (int i = 0; i < javaFields.length; i++) {
+			Literal literal = new Literal(javaFields[i], getArtifactManager());
+			if (literal.getFirstTagByName(AbstractArtifactTag.PREFIX
 					+ AbstractArtifactTag.REFCOMMENT) != null) {
 				RefComment rComment = new RefComment(this);
-				rComment.setContent(label.getComment());
-				rComment.setLabel(label.getName());
-				refComments.put(label.getName(), rComment);
+				rComment.setContent(literal.getComment());
+				rComment.setLabel(literal.getName());
+				refComments.put(literal.getName(), rComment);
 			}
 		}
 	}
@@ -698,13 +698,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * walking up the inheritence tree if any.
 	 * 
 	 */
-	protected void resolveInheritedLabels() throws TigerstripeException {
+	protected void resolveInheritedLiterals() throws TigerstripeException {
 		// The inherited labels
 		List<AbstractArtifact> visited = new ArrayList<AbstractArtifact>();
 		AbstractArtifact parent = getExtends();
-		this.inheritedLabels = new ArrayList();
+		this.inheritedLiterals = new ArrayList();
 		while (parent != null) {
-			this.inheritedLabels.addAll(parent.getLabels());
+			this.inheritedLiterals.addAll(parent.getLiterals());
 			parent = parent.getExtends();
 			if (visited.contains(parent))
 				throw new TigerstripeException(
@@ -778,12 +778,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	/**
-	 * Returns all the non-inherited labels for this Artifact
+	 * Returns all the non-inherited literals for this Artifact
 	 * 
-	 * @return Collection of Labels - a collection of Labels for this artifact
+	 * @return Collection of Literals - a collection of Literals for this artifact
 	 */
-	public Collection<ILabel> getLabels() {
-		return Collections.unmodifiableCollection(this.labels);
+	public Collection<ILiteral> getLiterals() {
+		return Collections.unmodifiableCollection(this.literals);
 	}
 
 	/**
@@ -806,22 +806,22 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	/**
-	 * Returns all the inherited labels for this artifact.
+	 * Returns all the inherited literals for this artifact.
 	 * 
-	 * @return Collection of Label - a collection of Labels for this artifact
+	 * @return Collection of Literals - a collection of Literals for this artifact
 	 */
-	public Collection getInheritedLabels() {
-		if (inheritedLabels == null) {
+	public Collection getInheritedLiterals() {
+		if (inheritedLiterals == null) {
 			try {
-				resolveInheritedLabels();
+				resolveInheritedLiterals();
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
-						"While trying to resolved inherited Labels for "
+						"While trying to resolved inherited Literals for "
 								+ getFullyQualifiedName(), e);
 				return Collections.EMPTY_LIST;
 			}
 		}
-		return this.inheritedLabels;
+		return this.inheritedLiterals;
 	}
 
 	/**
@@ -924,39 +924,39 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		facetFilteredFields = null;
 	}
 
-	public void addLabel(ILabel label) {
-		this.labels.add(label);
-		((Label) label).setContainingArtifact(this);
+	public void addLiteral(ILiteral literal) {
+		this.literals.add(literal);
+		((Literal) literal).setContainingArtifact(this);
 
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
-		facetFilteredLabels = null;
+		facetFilteredLiterals = null;
 	}
 
-	public void removeLabels(Collection<ILabel> labels) {
-		this.labels.removeAll(labels);
-		for (ILabel label : labels) {
-			((Label) label).setContainingArtifact(null);
+	public void removeLiterals(Collection<ILiteral> literals) {
+		this.literals.removeAll(literals);
+		for (ILiteral literal : literals) {
+			((Literal) literal).setContainingArtifact(null);
 		}
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
-		facetFilteredLabels = null;
+		facetFilteredLiterals = null;
 	}
 
-	public ILabel makeLabel() {
-		Label result = new Label(getArtifactManager());
+	public ILiteral makeLiteral() {
+		Literal result = new Literal(getArtifactManager());
 		return result;
 	}
 
-	public void setLabels(Collection<ILabel> labels) {
-		this.labels.clear();
-		this.labels.addAll(labels);
-		for (ILabel label : labels) {
-			((Label) label).setContainingArtifact(this);
+	public void setLiterals(Collection<ILiteral> literals) {
+		this.literals.clear();
+		this.literals.addAll(literals);
+		for (ILiteral literal : literals) {
+			((Literal) literal).setContainingArtifact(this);
 		}
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
-		facetFilteredLabels = null;
+		facetFilteredLiterals = null;
 	}
 
 	public IMethod makeMethod() {
@@ -1148,11 +1148,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			if (!fieldStatus.isOK())
 				result.add(fieldStatus);
 		}
-		// check validity of the labels (constants) defined for this artifact
-		for (ILabel label : getLabels()) {
-			IStatus labelStatus = label.validate();
-			if (!labelStatus.isOK())
-				result.add(labelStatus);
+		// check validity of the literals (constants) defined for this artifact
+		for (ILiteral literal : getLiterals()) {
+			IStatus literalStatus = literal.validate();
+			if (!literalStatus.isOK())
+				result.add(literalStatus);
 		}
 		// check validity of the methods defined for this artifact
 		for (IMethod method : getMethods()) {
@@ -1414,30 +1414,30 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 					.unmodifiableCollection(this.getInheritedFields());
 	}
 
-	public Collection<ILabel> getLabels(boolean filterFacetExcludedLabels) {
-		Collection labels = getLabels();
-		if (filterFacetExcludedLabels) {
-			if (facetFilteredLabels == null) {
-				facetFilteredLabels = Label.filterFacetExcludedLabels(labels);
+	public Collection<ILiteral> getLiterals(boolean filterFacetExcludedLiterals) {
+		Collection<ILiteral> literals = getLiterals();
+		if (filterFacetExcludedLiterals) {
+			if (facetFilteredLiterals == null) {
+				facetFilteredLiterals = Literal.filterFacetExcludedLiterals(literals);
 			}
-			return Collections.unmodifiableCollection(facetFilteredLabels);
+			return Collections.unmodifiableCollection(facetFilteredLiterals);
 		} else
-			return Collections.unmodifiableCollection(this.labels);
+			return Collections.unmodifiableCollection(this.literals);
 	}
 
-	public Collection<ILabel> getInheritedLabels(
-			boolean filterFacetExcludedLabels) {
-		Collection labels = getInheritedLabels();
-		if (filterFacetExcludedLabels) {
-			if (facetFilteredInheritedLabels == null) {
-				facetFilteredInheritedLabels = Label
-						.filterFacetExcludedLabels(labels);
+	public Collection<ILiteral> getInheritedLiterals(
+			boolean filterFacetExcludedLiterals) {
+		Collection<ILiteral> literals = getInheritedLiterals();
+		if (filterFacetExcludedLiterals) {
+			if (facetFilteredInheritedLiterals == null) {
+				facetFilteredInheritedLiterals = Literal
+						.filterFacetExcludedLiterals(literals);
 			}
 			return Collections
-					.unmodifiableCollection(facetFilteredInheritedLabels);
+					.unmodifiableCollection(facetFilteredInheritedLiterals);
 		} else
 			return Collections
-					.unmodifiableCollection(this.getInheritedLabels());
+					.unmodifiableCollection(this.getInheritedLiterals());
 	}
 
 	public Collection<IMethod> getMethods(boolean filterFacetExcludedMethods) {
@@ -1475,10 +1475,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public Object[] getChildren() {
 		Collection<IField> fields = getFields();
 		Collection<IMethod> methods = getMethods();
-		Collection<ILabel> labels = getLabels();
+		Collection<ILiteral> literals = getLiterals();
 
 		Object[] objects = new Object[fields.size() + methods.size()
-				+ labels.size()];
+				+ literals.size()];
 		int index = 0;
 		for (IField field : fields) {
 			objects[index++] = field;
@@ -1486,8 +1486,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		for (IMethod method : methods) {
 			objects[index++] = method;
 		}
-		for (ILabel label : labels) {
-			objects[index++] = label;
+		for (ILiteral literal : literals) {
+			objects[index++] = literal;
 		}
 		return objects;
 	}
@@ -1594,10 +1594,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	/* package */void resetFacetFilteredLists() {
 		facetFilteredFields = null;
 		facetFilteredMethods = null;
-		facetFilteredLabels = null;
+		facetFilteredLiterals = null;
 		facetFilteredInheritedFields = null;
 		facetFilteredInheritedMethods = null;
-		facetFilteredInheritedLabels = null;
+		facetFilteredInheritedLiterals = null;
 	}
 
 	@Override

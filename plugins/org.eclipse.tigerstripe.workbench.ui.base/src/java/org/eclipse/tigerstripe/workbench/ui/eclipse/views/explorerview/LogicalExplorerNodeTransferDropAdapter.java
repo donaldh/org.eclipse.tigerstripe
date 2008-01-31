@@ -30,7 +30,7 @@ import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.action.LogicalNodeMoveAction;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;

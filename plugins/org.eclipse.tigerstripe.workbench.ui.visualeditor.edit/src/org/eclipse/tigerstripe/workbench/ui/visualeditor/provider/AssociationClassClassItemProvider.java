@@ -21,7 +21,7 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClassClass;
 
 /**

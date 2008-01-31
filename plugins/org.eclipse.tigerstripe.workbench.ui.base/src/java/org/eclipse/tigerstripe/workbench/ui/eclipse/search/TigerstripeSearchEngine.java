@@ -16,13 +16,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.search.ui.ISearchPageContainer;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
@@ -87,8 +87,8 @@ public class TigerstripeSearchEngine {
 			collector.acceptModelComponent(method);
 		}
 
-		for (ILabel label : artifact.getLabels()) {
-			collector.acceptModelComponent(label);
+		for (ILiteral literal : artifact.getLiterals()) {
+			collector.acceptModelComponent(literal);
 		}
 
 		monitor.worked(1);

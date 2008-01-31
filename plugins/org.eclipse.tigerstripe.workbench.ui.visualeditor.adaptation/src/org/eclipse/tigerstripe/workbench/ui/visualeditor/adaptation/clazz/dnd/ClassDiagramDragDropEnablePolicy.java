@@ -17,7 +17,7 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.tigerstripe.eclipse.utils.AbstractArtifactAdapter;
+import org.eclipse.tigerstripe.workbench.eclipse.utils.AbstractArtifactAdapter;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;

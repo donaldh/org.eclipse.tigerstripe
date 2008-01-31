@@ -22,7 +22,7 @@ public class StereotypeScopeDetails implements IStereotypeScopeDetails {
 	private boolean isArgumentLevel;
 	private boolean isAttributeLevel;
 	private boolean isMethodLevel;
-	private boolean isLabelLevel;
+	private boolean isLiteralLevel;
 
 	public void setArgumentLevel(boolean isArgumentLevel) {
 		this.isArgumentLevel = isArgumentLevel;
@@ -38,8 +38,8 @@ public class StereotypeScopeDetails implements IStereotypeScopeDetails {
 		this.isAttributeLevel = isAttributeLevel;
 	}
 
-	public void setLabelLevel(boolean isLabelLevel) {
-		this.isLabelLevel = isLabelLevel;
+	public void setLiteralLevel(boolean isLiteralLevel) {
+		this.isLiteralLevel = isLiteralLevel;
 	}
 
 	public void setMethodLevel(boolean isMethodLevel) {
@@ -69,8 +69,8 @@ public class StereotypeScopeDetails implements IStereotypeScopeDetails {
 		return isAttributeLevel;
 	}
 
-	public boolean isLabelLevel() {
-		return isLabelLevel;
+	public boolean isLiteralLevel() {
+		return isLiteralLevel;
 	}
 
 	public boolean isMethodLevel() {

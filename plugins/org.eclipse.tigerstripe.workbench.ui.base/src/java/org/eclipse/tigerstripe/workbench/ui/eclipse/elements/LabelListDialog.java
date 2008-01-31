@@ -24,10 +24,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.eclipse.wizards.artifacts.LabelsSelectionDialog;
-import org.eclipse.tigerstripe.eclipse.wizards.artifacts.NewArtifactWizardPage;
-import org.eclipse.tigerstripe.eclipse.wizards.artifacts.enums.LabelRef;
-import org.eclipse.tigerstripe.eclipse.wizards.artifacts.enums.LabelRefsListLabelProvider;
+import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.LabelsSelectionDialog;
+import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
+import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.enums.LabelRef;
+import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.enums.LabelRefsListLabelProvider;
 
 public class LabelListDialog extends TSMessageDialog {
 

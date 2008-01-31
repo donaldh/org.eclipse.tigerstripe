@@ -14,14 +14,14 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.ETAdapter;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILabelCreateRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILabelSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralCreateRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Enumeration;
@@ -90,13 +90,13 @@ public class LiteralETAdapter extends BaseETAdapter implements ETAdapter {
 				} else if (!arg0.getOldStringValue().equals(
 						arg0.getNewStringValue())) {
 					try {
-						ILabelSetRequest request = (ILabelSetRequest) getModelUpdater()
+						ILiteralSetRequest request = (ILiteralSetRequest) getModelUpdater()
 								.getRequestFactory().makeRequest(
-										IModelChangeRequestFactory.LABEL_SET);
+										IModelChangeRequestFactory.LITERAL_SET);
 						request.setArtifactFQN(((AbstractArtifact) literal
 								.eContainer()).getFullyQualifiedName());
-						request.setFeatureId(ILabelSetRequest.NAME_FEATURE);
-						request.setLabelName(arg0.getOldStringValue());
+						request.setFeatureId(ILiteralSetRequest.NAME_FEATURE);
+						request.setLiteralName(arg0.getOldStringValue());
 						request.setOldValue(arg0.getOldStringValue());
 						request.setNewValue(arg0.getNewStringValue());
 
@@ -122,13 +122,13 @@ public class LiteralETAdapter extends BaseETAdapter implements ETAdapter {
 				} else if (!arg0.getOldStringValue().equals(
 						arg0.getNewStringValue())) {
 					try {
-						ILabelSetRequest request = (ILabelSetRequest) getModelUpdater()
+						ILiteralSetRequest request = (ILiteralSetRequest) getModelUpdater()
 								.getRequestFactory().makeRequest(
-										IModelChangeRequestFactory.LABEL_SET);
+										IModelChangeRequestFactory.LITERAL_SET);
 						request.setArtifactFQN(((AbstractArtifact) literal
 								.eContainer()).getFullyQualifiedName());
-						request.setFeatureId(ILabelSetRequest.VALUE_FEATURE);
-						request.setLabelName(literal.getName());
+						request.setFeatureId(ILiteralSetRequest.VALUE_FEATURE);
+						request.setLiteralName(literal.getName());
 						request.setOldValue(arg0.getOldStringValue());
 						request.setNewValue(arg0.getNewStringValue());
 						postChangeRequest(request);
@@ -145,12 +145,12 @@ public class LiteralETAdapter extends BaseETAdapter implements ETAdapter {
 			IModelUpdater modelUpdater, AbstractArtifact artifact) {
 		try {
 			// Yes! Create the attribute
-			ILabelCreateRequest request = (ILabelCreateRequest) modelUpdater
+			ILiteralCreateRequest request = (ILiteralCreateRequest) modelUpdater
 					.getRequestFactory().makeRequest(
-							IModelChangeRequestFactory.LABEL_CREATE);
+							IModelChangeRequestFactory.LITERAL_CREATE);
 			request.setArtifactFQN(parentArtifactFQN);
-			request.setLabelName(literalName);
-			request.setLabelValue(literalValue);
+			request.setLiteralName(literalName);
+			request.setLiteralValue(literalValue);
 
 			String type = null;
 			if (artifact instanceof Enumeration) {
@@ -159,7 +159,7 @@ public class LiteralETAdapter extends BaseETAdapter implements ETAdapter {
 			} else {
 				type = "int";
 			}
-			request.setLabelType(type);
+			request.setLiteralType(type);
 			modelUpdater.handleChangeRequest(request);
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",

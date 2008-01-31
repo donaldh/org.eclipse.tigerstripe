@@ -32,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactMana
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
@@ -677,97 +677,97 @@ public class CompareUtils {
 		return differences;
 	}
 
-	public static ArrayList<Difference> compareLabels(
+	public static ArrayList<Difference> compareLiterals(
 			IAbstractArtifact aArtifact, IAbstractArtifact bArtifact) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		Map<String, ILabel> aLabelMap = new HashMap();
-		Map<String, String> aLabelValueMap = new HashMap();
+		Map<String, ILiteral> aLiteralMap = new HashMap();
+		Map<String, String> aLiteralValueMap = new HashMap();
 		Map aTypeMap = new HashMap();
 		Map aVisibilityMap = new HashMap();
 		Map aCommentMap = new HashMap();
 
-		Map<String, ILabel> bLabelMap = new HashMap();
-		Map<String, String> bLabelValueMap = new HashMap();
+		Map<String, ILiteral> bLiteralMap = new HashMap();
+		Map<String, String> bLiteralValueMap = new HashMap();
 
 		Map bTypeMap = new HashMap();
 		Map bVisibilityMap = new HashMap();
 		Map bCommentMap = new HashMap();
-		for (ILabel label : aArtifact.getLabels()) {
-			aLabelMap.put(label.getName(), label);
-			aLabelValueMap.put(label.getName(), label.getValue());
-			aVisibilityMap.put(label.getName(), label.getVisibility());
-			aTypeMap.put(label.getName(), label.getType()
+		for (ILiteral literal : aArtifact.getLiterals()) {
+			aLiteralMap.put(literal.getName(), literal);
+			aLiteralValueMap.put(literal.getName(), literal.getValue());
+			aVisibilityMap.put(literal.getName(), literal.getVisibility());
+			aTypeMap.put(literal.getName(), literal.getType()
 					.getFullyQualifiedName());
-			aCommentMap.put(label.getName(), label.getComment());
+			aCommentMap.put(literal.getName(), literal.getComment());
 
 		}
-		for (ILabel label : bArtifact.getLabels()) {
-			bLabelMap.put(label.getName(), label);
-			bLabelValueMap.put(label.getName(), label.getValue());
-			bVisibilityMap.put(label.getName(), label.getVisibility());
-			bTypeMap.put(label.getName(), label.getType()
+		for (ILiteral literal : bArtifact.getLiterals()) {
+			bLiteralMap.put(literal.getName(), literal);
+			bLiteralValueMap.put(literal.getName(), literal.getValue());
+			bVisibilityMap.put(literal.getName(), literal.getVisibility());
+			bTypeMap.put(literal.getName(), literal.getType()
 					.getFullyQualifiedName());
-			bCommentMap.put(label.getName(), label.getComment());
+			bCommentMap.put(literal.getName(), literal.getComment());
 		}
 
-		for (Object labelName : aLabelMap.keySet()) {
-			if (bLabelMap.containsKey(labelName.toString())) {
+		for (Object literalName : aLiteralMap.keySet()) {
+			if (bLiteralMap.containsKey(literalName.toString())) {
 				// it's in both, so compare
 				// TigerstripeRuntime.logInfoMessage(CompareUtils.class, "Hunky
 				// Dory "+aArtifact.getFullyQualifiedName()+""+labelName+"
 				// "+aLabelMap.get(labelName)+ " "+bLabelMap.get(labelName));
-				if (!aLabelValueMap.get(labelName).equals(
-						bLabelValueMap.get(labelName))) {
+				if (!aLiteralValueMap.get(literalName).equals(
+						bLiteralValueMap.get(literalName))) {
 					differences.add(new Difference("value", aArtifact
 							.getFullyQualifiedName(), bArtifact
-							.getFullyQualifiedName(), "Artifact:Label:Value",
-							labelName.toString(), aLabelValueMap.get(labelName)
-									.toString(), bLabelValueMap.get(labelName)
+							.getFullyQualifiedName(), "Artifact:Literal:Value",
+							literalName.toString(), aLiteralValueMap.get(literalName)
+									.toString(), bLiteralValueMap.get(literalName)
 									.toString()));
 				}
 				// Check Type
-				if (!aTypeMap.get(labelName).equals(bTypeMap.get(labelName))) {
+				if (!aTypeMap.get(literalName).equals(bTypeMap.get(literalName))) {
 					differences.add(new Difference("value", aArtifact
 							.getFullyQualifiedName(), bArtifact
-							.getFullyQualifiedName(), "Artifact:Label:Type",
-							labelName.toString(), aTypeMap.get(labelName)
-									.toString(), bTypeMap.get(labelName)
+							.getFullyQualifiedName(), "Artifact:Literal:Type",
+							literalName.toString(), aTypeMap.get(literalName)
+									.toString(), bTypeMap.get(literalName)
 									.toString()));
 				}
 				// Check visibility
-				if (!aVisibilityMap.get(labelName).equals(
-						bVisibilityMap.get(labelName))) {
+				if (!aVisibilityMap.get(literalName).equals(
+						bVisibilityMap.get(literalName))) {
 					differences.add(new Difference("value", aArtifact
 							.getFullyQualifiedName(), bArtifact
 							.getFullyQualifiedName(),
-							"Artifact:Label:Visibility", labelName.toString(),
-							aVisibilityMap.get(labelName).toString(),
-							bVisibilityMap.get(labelName).toString()));
+							"Artifact:Literal:Visibility", literalName.toString(),
+							aVisibilityMap.get(literalName).toString(),
+							bVisibilityMap.get(literalName).toString()));
 				}
 				// Comment
 
-				differences.addAll(compareLabelComment(
-						aLabelMap.get(labelName), bLabelMap.get(labelName)));
+				differences.addAll(compareLiteralComment(
+						aLiteralMap.get(literalName), bLiteralMap.get(literalName)));
 				differences.addAll(CompareUtils.compareStereotypes(aArtifact,
-						bArtifact, aLabelMap.get(labelName), bLabelMap
-								.get(labelName), "Artifact:Label"));
-				bLabelMap.remove(labelName.toString());
+						bArtifact, aLiteralMap.get(literalName), bLiteralMap
+								.get(literalName), "Artifact:Literal"));
+				bLiteralMap.remove(literalName.toString());
 			} else {
 				differences.add(new Difference("presence", aArtifact
 						.getFullyQualifiedName(), bArtifact
-						.getFullyQualifiedName(), "Artifact:Label", labelName
+						.getFullyQualifiedName(), "Artifact:Literal", literalName
 						.toString(), "present", "absent"));
 			}
 		}
-		for (Object labelName : bLabelMap.keySet()) {
+		for (Object literalName : bLiteralMap.keySet()) {
 			// Stuff in B not A
 			differences.add(new Difference(
 					// "","Artifact Label in B not A",
 					// bArtifact.getFullyQualifiedName(),
 					// labelName.toString(),""));
 					"presence", aArtifact.getFullyQualifiedName(), bArtifact
-							.getFullyQualifiedName(), "Artifact:Label",
-					labelName.toString(), "absent", "present"));
+							.getFullyQualifiedName(), "Artifact:Literal",
+					literalName.toString(), "absent", "present"));
 		}
 		return differences;
 	}
@@ -1415,14 +1415,14 @@ public class CompareUtils {
 		return differences;
 	}
 
-	public static ArrayList<Difference> compareLabelComment(ILabel a, ILabel b) {
+	public static ArrayList<Difference> compareLiteralComment(ILiteral a, ILiteral b) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		String aComment = a.getComment();
 		String bComment = b.getComment();
 		if (!aComment.equals(bComment)) {
 			differences.add(new Difference("value", a.getContainingArtifact()
 					.getFullyQualifiedName(), b.getContainingArtifact()
-					.getFullyQualifiedName(), "Artifact:Label:Comment", a
+					.getFullyQualifiedName(), "Artifact:Literal:Comment", a
 					.getName(), aComment, bComment));
 		}
 		return differences;

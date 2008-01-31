@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStan
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -76,29 +76,29 @@ public interface IAbstractArtifact extends IModelComponent {
 	public void removeFields(Collection<IField> fields);
 
 	/**
-	 * Returns the labels defined for this artifact
+	 * Returns the literals defined for this artifact
 	 * 
 	 */
-	public Collection<ILabel> getLabels();
+	public Collection<ILiteral> getLiterals();
 
 	/**
-	 * Make a new blank artifact label
+	 * Make a new blank artifact literal
 	 * 
 	 * @return
 	 */
-	public ILabel makeLabel();
+	public ILiteral makeLiteral();
 
 	/**
-	 * Sets the labels for this Abstract Artifact
+	 * Sets the literals for this Abstract Artifact
 	 * 
-	 * @param labels
+	 * @param literals
 	 * @throws IllegalArgumentException
 	 */
-	public void setLabels(Collection<ILabel> labels);
+	public void setLiterals(Collection<ILiteral> literals);
 
-	public void addLabel(ILabel label);
+	public void addLiteral(ILiteral literal);
 
-	public void removeLabels(Collection<ILabel> labels);
+	public void removeLiterals(Collection<ILiteral> literals);
 
 	public Collection<IMethod> getMethods();
 
@@ -251,22 +251,22 @@ public interface IAbstractArtifact extends IModelComponent {
 	public Collection<IField> getFields(boolean filterFacetExcludedFields);
 
 	/**
-	 * Returns the labels defined for this artifact. This will be limited to the
-	 * labels defined locally in this artifact. If no label was defined return
+	 * Returns the literals defined for this artifact. This will be limited to the
+	 * literals defined locally in this artifact. If no literal was defined return
 	 * new IField[0].
 	 * 
-	 * Note : Some artifact types do not support Labels and will always return
+	 * Note : Some artifact types do not support literals and will always return
 	 * an empty array.
 	 * 
-	 * @see getInheritedILabels()
+	 * @see getInheritedLietrals()
 	 * 
-	 * @param filterFacetExcludedLabels -
-	 *            if set to true, all labels that are excluded by the active
-	 *            facet will be filtered out. If no facet is active, all labels
+	 * @param filterFacetExcludedliterals -
+	 *            if set to true, all literals that are excluded by the active
+	 *            facet will be filtered out. If no facet is active, all literals
 	 *            are returned.
-	 * @return ILabel[] - an array of all the labels for this artifact
+	 * @return Collection<ILiteral> - a collection of all the literals for this artifact
 	 */
-	public Collection<ILabel> getLabels(boolean filterFacetExcludedLabels);
+	public Collection<ILiteral> getLiterals(boolean filterFacetExcludedLiterals);
 
 	/**
 	 * Returns the methods defined for this artifact. This will be limited to
@@ -352,34 +352,34 @@ public interface IAbstractArtifact extends IModelComponent {
 	public Collection<IField> getInheritedFields(boolean filterFacetExcludedFields);
 
 	/**
-	 * Returns the inherited labels for this artifact. Only inherited labels
-	 * will be included, but all inherited labels (ie from all ancestors) will
-	 * be included. If no label was inherited return new IField[0].
+	 * Returns the inherited literals for this artifact. Only inherited literals
+	 * will be included, but all inherited literals (ie from all ancestors) will
+	 * be included. If no literals was inherited return new IField[0].
 	 * 
-	 * this is equivalent to getInheritedILabels(false)
+	 * this is equivalent to getInheritedLiterals(false)
 	 * 
-	 * Note : Some artifact types do not support Labels and will always return
+	 * Note : Some artifact types do not support literals and will always return
 	 * an empty array.
 	 * 
-	 * @return ILabel[] - an array of all the inherited labels for this artifact
+	 * @return Collection<ILiteral> - a collection of all the inherited literals for this artifact
 	 */
-	public Collection<ILabel> getInheritedLabels();
+	public Collection<ILiteral> getInheritedLiterals();
 
 	/**
-	 * Returns the inherited labels for this artifact. Only inherited labels
-	 * will be included, but all inherited labels (ie from all ancestors) will
-	 * be included. If no label was inherited return new Iield[0].
+	 * Returns the inherited literals for this artifact. Only inherited literals
+	 * will be included, but all inherited literals (ie from all ancestors) will
+	 * be included. If no literals was inherited return new Iield[0].
 	 * 
-	 * Note : Some artifact types do not support Labels and will always return
+	 * Note : Some artifact types do not support literals and will always return
 	 * an empty array.
 	 * 
-	 * @param filterFacetExcludedLabels -
-	 *            if set to true, all labels that are excluded by the active
-	 *            facet will be filtered out. If no facet is active, all labels
+	 * @param filterFacetExcludedLiterals -
+	 *            if set to true, all literals that are excluded by the active
+	 *            facet will be filtered out. If no facet is active, all literals
 	 *            are returned.
-	 * @return ILabel[] - an array of all the inherited labels for this artifact
+	 * @return Collection<ILiteral> - a collection of all the inherited literals for this artifact
 	 */
-	public Collection<ILabel> getInheritedLabels(boolean filterFacetExcludedLabels);
+	public Collection<ILiteral> getInheritedLiterals(boolean filterFacetExcludedLiterals);
 
 	/**
 	 * Returns the inherited methods for this artifact. Only inherited methods

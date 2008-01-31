@@ -35,7 +35,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -112,7 +112,7 @@ public class DiffFixer {
 						.get(diff.getLocal());
 
 				IField field = null;
-				ILabel label = null;
+				ILiteral literal = null;
 				IMethod method = null;
 				IType type = null;
 
@@ -552,24 +552,24 @@ public class DiffFixer {
 					}
 				}
 
-				// ================== Labels ============================
+				// ================== literals ============================
 
 				/**
-				 * This case is for a missing label in the project We will *NOT*
-				 * remove any extra labels
+				 * This case is for a missing literals in the project We will *NOT*
+				 * remove any extra literals
 				 * 
 				 * 
 				 */
-				if (diff.getScope().equals("Artifact:Label")) {
+				if (diff.getScope().equals("Artifact:Literal")) {
 					if (diff.getLocalVal().equals("present")) {
-						label = getILabel(extractedArtifact, diff.getObject());
-						artifact.addLabel(label);
+						literal = getILiteral(extractedArtifact, diff.getObject());
+						artifact.addLiteral(literal);
 						artifact.doSave(new TigerstripeNullProgressMonitor());
-						String msgText = "INFO : Added Label "
+						String msgText = "INFO : Added Literal "
 								+ diff.getObject() + " on " + diff.getLocal();
 						out.println(msgText);
 					} else {
-						String msgText = "New Label " + diff.getObject()
+						String msgText = "New Literal " + diff.getObject()
 								+ " in Artifact " + diff.getLocal()
 								+ " will not be changed";
 						out.println("INFO : " + msgText);
@@ -578,42 +578,42 @@ public class DiffFixer {
 				}
 
 				/**
-				 * This case is for a difference within an existing Label NB
+				 * This case is for a difference within an existing literals NB
 				 * Will do multiple changes in one go...
 				 * 
 				 * This is dangerous as we could have added Stereotypes in the
 				 * model. Or new Stereotype Array Values.....
 				 * 
-				 * Copy out "new Stereotypes" - Replace Label - Add back "new
+				 * Copy out "new Stereotypes" - Replace literals - Add back "new
 				 * Stereotypes"
 				 * 
 				 */
-				if (diff.getScope().startsWith("Artifact:Label:")) {
+				if (diff.getScope().startsWith("Artifact:Literal:")) {
 					// Can get a "presence" diff for stereotypes.
 					if (diff.getType().equals("value")
 							|| ((diff.getType().equals("presence") && diff
 									.getLocalVal().equals("present")) && !diff
 									.getScope().endsWith(":ArrayValue"))) {
-						String labelName = "";
+						String literalName = "";
 						if (diff.getObject().indexOf(":") > 0) {
-							labelName = diff.getObject().substring(0,
+							literalName = diff.getObject().substring(0,
 									diff.getObject().indexOf(":"));
 						} else {
-							labelName = diff.getObject();
+							literalName = diff.getObject();
 						}
 
-						label = getILabel(artifact, labelName);
-						ILabel diffLabel = getILabel(extractedArtifact,
-								labelName);
+						literal = getILiteral(artifact, literalName);
+						ILiteral diffLiteral = getILiteral(extractedArtifact,
+								literalName);
 						Collection<IStereotypeInstance> extraStereos = getExtraStereos(
-								label, diffLabel);
-						if (label != null) {
-							artifact.removeLabels(Collections.singleton(label));
+								literal, diffLiteral);
+						if (literal != null) {
+							artifact.removeLiterals(Collections.singleton(literal));
 						}
 
-						artifact.addLabel(diffLabel);
+						artifact.addLiteral(diffLiteral);
 						for (IStereotypeInstance inst : extraStereos) {
-							diffLabel
+							diffLiteral
 									.addStereotypeInstance((IStereotypeInstance) inst);
 							/*
 							 * String msgText = "INFO : New Stereotype " +
@@ -621,19 +621,19 @@ public class DiffFixer {
 							 * will not be changed"; out.println(msgText);
 							 */
 						}
-						String msgText = "INFO : Replaced Label "
+						String msgText = "INFO : Replaced Literal "
 								+ diff.getObject() + " on " + diff.getLocal();
 						out.println(msgText);
 						artifact.doSave(new TigerstripeNullProgressMonitor());
 					} else if (diff.getScope().endsWith(":ArrayValue")) {
-						String labelName;
+						String literalName;
 						if (diff.getObject().indexOf(":") > 0) {
-							labelName = diff.getObject().substring(0,
+							literalName = diff.getObject().substring(0,
 									diff.getObject().indexOf(":"));
 						} else {
-							labelName = diff.getObject();
+							literalName = diff.getObject();
 						}
-						label = getILabel(artifact, labelName);
+						literal = getILiteral(artifact, literalName);
 						// out.println("Dealing with array");
 						String stName = "";
 						String attName = "";
@@ -644,7 +644,7 @@ public class DiffFixer {
 							String value = st[3];
 							// Have to be careful here - can't do a wholesale
 							// mash....
-							Collection<IStereotypeInstance> insts = label
+							Collection<IStereotypeInstance> insts = literal
 									.getStereotypeInstances();
 							
 							for (IStereotypeInstance inst :insts) {
@@ -1426,10 +1426,10 @@ public class DiffFixer {
 		return null;
 	}
 
-	public ILabel getILabel(IAbstractArtifact artifact, String labelName) {
-		for (ILabel label : artifact.getLabels()) {
-			if (label.getName().equals(labelName))
-				return label;
+	public ILiteral getILiteral(IAbstractArtifact artifact, String literalName) {
+		for (ILiteral literal : artifact.getLiterals()) {
+			if (literal.getName().equals(literalName))
+				return literal;
 		}
 		return null;
 	}

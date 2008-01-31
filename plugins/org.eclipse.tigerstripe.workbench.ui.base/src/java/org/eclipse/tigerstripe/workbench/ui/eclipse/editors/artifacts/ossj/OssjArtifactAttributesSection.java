@@ -35,14 +35,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -261,6 +262,7 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		defaultType.setTypeMultiplicity(IModelComponent.EMultiplicity.ONE);
 		newField.setType(defaultType);
 		newField.setRefBy(IField.REFBY_VALUE);
+		newField.setVisibility(EVisibility.PUBLIC);
 
 		getIArtifact().addField(newField);
 		viewer.add(newField);

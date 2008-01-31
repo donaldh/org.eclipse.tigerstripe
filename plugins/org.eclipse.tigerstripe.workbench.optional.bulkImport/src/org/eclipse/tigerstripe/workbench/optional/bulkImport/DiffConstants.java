@@ -48,10 +48,10 @@ public class DiffConstants {
 				"Artifact:Field:Optional"), ARTIFACT_FIELD_READONLY(
 				"Artifact:Field:ReadOnly"),
 
-		ARTIFACT_LABEL("Artifact:Label"), ARTIFACT_LABEL_VISIBILITY(
-				"Artifact:Label:Visibility"), ARTIFACT_LABEL_TYPE(
-				"Artifact:Label:Type"), ARTIFACT_LABEL_VALUE(
-				"Artifact:Label:Value"),
+		ARTIFACT_LITERAL("Artifact:Literal"), ARTIFACT_LITERAL_VISIBILITY(
+				"Artifact:Literal:Visibility"), ARTIFACT_LITERAL_TYPE(
+				"Artifact:Literal:Type"), ARTIFACT_LITERAL_VALUE(
+				"Artifact:Literal:Value"),
 
 		ARTIFACT_METHOD("Artifact:Method"), ARTIFACT_METHOD_OPTIONAL(
 				"Artifact:Method:Optional"), ARTIFACT_METHOD_VISIBILITY(

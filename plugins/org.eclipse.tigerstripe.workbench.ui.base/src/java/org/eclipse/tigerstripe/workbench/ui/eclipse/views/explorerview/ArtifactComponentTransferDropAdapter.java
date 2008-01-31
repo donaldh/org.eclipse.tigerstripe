@@ -34,11 +34,11 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -116,11 +116,11 @@ public class ArtifactComponentTransferDropAdapter extends
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) method
 								.getContainingArtifact();
 						targetArtifact.addMethod(method.clone());
-					} else if (component instanceof ILabel) {
-						ILabel lit = (ILabel) component;
+					} else if (component instanceof ILiteral) {
+						ILiteral lit = (ILiteral) component;
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) lit
 								.getContainingArtifact();
-						targetArtifact.addLabel(lit.clone());
+						targetArtifact.addLiteral(lit.clone());
 					}
 				}
 
@@ -154,7 +154,7 @@ public class ArtifactComponentTransferDropAdapter extends
 		List<IModelComponent> result = new ArrayList<IModelComponent>();
 		for (Object obj : selectedElements) {
 			if (obj instanceof IField || obj instanceof IMethod
-					|| obj instanceof ILabel) {
+					|| obj instanceof ILiteral) {
 				result.add((IModelComponent) obj);
 			}
 		}
@@ -189,12 +189,12 @@ public class ArtifactComponentTransferDropAdapter extends
 								.removeMethods(Collections.singleton(method));
 						targetArtifact.addMethod(method);
 						srcArtifacts.add(srcArtifact);
-					} else if (component instanceof ILabel) {
-						ILabel lit = (ILabel) component;
+					} else if (component instanceof ILiteral) {
+						ILiteral lit = (ILiteral) component;
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) lit
 								.getContainingArtifact();
-						srcArtifact.removeLabels(Collections.singleton(lit));
-						targetArtifact.addLabel(lit);
+						srcArtifact.removeLiterals(Collections.singleton(lit));
+						targetArtifact.addLiteral(lit);
 						srcArtifacts.add(srcArtifact);
 					}
 				}
@@ -326,10 +326,10 @@ public class ArtifactComponentTransferDropAdapter extends
 						cRes = TSExplorerUtils
 								.getIResourceForArtifact((IAbstractArtifact) method
 										.getContainingArtifact());
-					} else if (component instanceof ILabel) {
-						ILabel label = (ILabel) component;
+					} else if (component instanceof ILiteral) {
+						ILiteral literal = (ILiteral) component;
 						cRes = TSExplorerUtils
-								.getIResourceForArtifact((IAbstractArtifact) label
+								.getIResourceForArtifact((IAbstractArtifact) literal
 										.getContainingArtifact());
 					}
 
@@ -376,10 +376,10 @@ public class ArtifactComponentTransferDropAdapter extends
 					if (methLabel.equals(method.getLabelString()))
 						return false;
 				}
-			} else if (component instanceof ILabel) {
+			} else if (component instanceof ILiteral) {
 				String name = component.getName();
-				for (ILabel label : artifact.getLabels()) {
-					if (name.equals(label.getName()))
+				for (ILiteral literal : artifact.getLiterals()) {
+					if (name.equals(literal.getName()))
 						return false;
 				}
 			}
@@ -404,7 +404,7 @@ public class ArtifactComponentTransferDropAdapter extends
 		boolean acceptFields = !(artifact instanceof IEnumArtifact || artifact instanceof ISessionArtifact);
 
 		for (IModelComponent component : getIModelComponents()) {
-			if (component instanceof ILabel && !acceptLiterals)
+			if (component instanceof ILiteral && !acceptLiterals)
 				return false;
 			else if (component instanceof IField && !acceptFields)
 				return false;

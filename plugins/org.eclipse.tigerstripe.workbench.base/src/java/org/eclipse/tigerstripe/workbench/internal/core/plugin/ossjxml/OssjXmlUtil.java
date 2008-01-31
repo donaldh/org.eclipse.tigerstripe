@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin.ossjxml;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.model.Label;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Literal;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
 
@@ -56,11 +56,11 @@ public class OssjXmlUtil {
 		return me;
 	}
 
-	public String valueOfLabel(Label label) {
-		if (label.getType().getName().equals("int"))
-			return label.getValue();
+	public String valueOfLabel(Literal literal) {
+		if (literal.getType().getName().equals("int"))
+			return literal.getValue();
 		else
-			return VelocityContextUtil.stripExternalQuotes(label.getValue());
+			return VelocityContextUtil.stripExternalQuotes(literal.getValue());
 	}
 
 	public String xMLComment(String inString) {

@@ -27,8 +27,8 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.refactoring.reorg.DeleteAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -36,7 +36,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -118,7 +118,7 @@ public class TSDeleteAction extends DeleteAction {
 						return;
 					}
 				} else if (obj instanceof IField || obj instanceof IMethod
-						|| obj instanceof ILabel) {
+						|| obj instanceof ILiteral) {
 					iAbstractArtifactComponentSelected = true;
 				} else {
 					iResourceSelected = true;
@@ -255,11 +255,11 @@ public class TSDeleteAction extends DeleteAction {
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);
 						}
-					} else if (obj instanceof ILabel) {
-						ILabel label = (ILabel) obj;
-						IAbstractArtifact art = (IAbstractArtifact) label
+					} else if (obj instanceof ILiteral) {
+						ILiteral literal = (ILiteral) obj;
+						IAbstractArtifact art = (IAbstractArtifact) literal
 								.getContainingArtifact();
-						art.removeLabels(Collections.singleton(label));
+						art.removeLiterals(Collections.singleton(literal));
 						try {
 							art
 									.doSilentSave(new TigerstripeNullProgressMonitor());

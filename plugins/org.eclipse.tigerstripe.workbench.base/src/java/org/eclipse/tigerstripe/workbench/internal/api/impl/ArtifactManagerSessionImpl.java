@@ -378,7 +378,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		}
 
 		result.setFields(orig.getFields());
-		result.setLabels(orig.getLabels());
+		result.setLiterals(orig.getLiterals());
 		result.setMethods(orig.getMethods());
 		return result;
 	}

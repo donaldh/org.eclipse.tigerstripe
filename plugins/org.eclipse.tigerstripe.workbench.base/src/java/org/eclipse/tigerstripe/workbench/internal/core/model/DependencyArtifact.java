@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgress
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.DependencyArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -144,8 +144,8 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public Collection<ILabel> getLabels() {
-		return ILabel.EMPTY_LIST;
+	public Collection<ILiteral> getLiterals() {
+		return ILiteral.EMPTY_LIST;
 	}
 
 	@Override
@@ -262,7 +262,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 	 * used to validate the Dependency when saving it to the underlying data
 	 * model
 	 * 
-	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILabel#validate()
+	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILiteral#validate()
 	 */
 	@Override
 	public IStatus validate() {

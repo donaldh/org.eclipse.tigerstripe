@@ -40,7 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -1041,19 +1041,19 @@ public class TS2UML2 {
 			typeMap.put(enumz.getQualifiedName(), enumz);
 
 			// We can add EnumLiterals
-			for (ILabel label : artifact.getLabels()) {
-				EnumerationLiteral lit = enumz.createOwnedLiteral(label
+			for (ILiteral literal : artifact.getLiterals()) {
+				EnumerationLiteral lit = enumz.createOwnedLiteral(literal
 						.getName());
-				this.out.println("Made a new literal " + label.getName());
-				if (label.getType().getName().equals("int")) {
+				this.out.println("Made a new literal " + literal.getName());
+				if (literal.getType().getName().equals("int")) {
 					LiteralInteger literalInt = UMLFactory.eINSTANCE
 							.createLiteralInteger();
-					literalInt.setValue(Integer.parseInt(label.getValue()));
+					literalInt.setValue(Integer.parseInt(literal.getValue()));
 					lit.setSpecification(literalInt);
 				} else {
 					LiteralString literalString = UMLFactory.eINSTANCE
 							.createLiteralString();
-					literalString.setValue(label.getValue());
+					literalString.setValue(literal.getValue());
 					lit.setSpecification(literalString);
 				}
 			}

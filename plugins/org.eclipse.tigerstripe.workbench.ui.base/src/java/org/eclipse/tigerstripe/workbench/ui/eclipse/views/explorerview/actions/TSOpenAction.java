@@ -26,8 +26,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
@@ -42,7 +42,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArti
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -279,7 +279,7 @@ public class TSOpenAction extends OpenAction {
 				openEditor(objects[i], page);
 			} else if (objects[i] instanceof IField
 					|| objects[i] instanceof IMethod
-					|| objects[i] instanceof ILabel
+					|| objects[i] instanceof ILiteral
 					|| objects[i] instanceof IRelationshipEnd) {
 				// if it's a field, a method, or a Label, then open the
 				// appropriate section of
@@ -293,8 +293,8 @@ public class TSOpenAction extends OpenAction {
 				else if (objects[i] instanceof IMethod)
 					artifact = (IAbstractArtifact) ((IMethod) objects[i])
 							.getContainingArtifact();
-				else if (objects[i] instanceof ILabel)
-					artifact = (IAbstractArtifact) ((ILabel) objects[i])
+				else if (objects[i] instanceof ILiteral)
+					artifact = (IAbstractArtifact) ((ILiteral) objects[i])
 							.getContainingArtifact();
 				else if (objects[i] instanceof DependencyEnd)
 					artifact = (IAbstractArtifact) ((DependencyEnd) objects[i])
@@ -389,7 +389,7 @@ public class TSOpenAction extends OpenAction {
 							table.setFocus();
 							methodsSection.updateMaster();
 							break;
-						} else if (objects[i] instanceof ILabel
+						} else if (objects[i] instanceof ILiteral
 								&& formParts[j] instanceof OssjArtifactConstantsSection) {
 							// else if we are working with a label and we've
 							// found the Constants section, then we are in
@@ -409,10 +409,10 @@ public class TSOpenAction extends OpenAction {
 							TableViewer viewer = constantsSection.getViewer();
 							Table table = viewer.getTable();
 							table.deselectAll();
-							ILabel thisLabel = (ILabel) objects[i];
+							ILiteral thisLabel = (ILiteral) objects[i];
 							for (int row = 0; row < table.getItemCount(); row++) {
 								TableItem tableItem = table.getItem(row);
-								ILabel rowLabel = (ILabel) tableItem.getData();
+								ILiteral rowLabel = (ILiteral) tableItem.getData();
 								if (thisLabel.getName().equals(
 										rowLabel.getName())) {
 									table.select(row);
@@ -503,7 +503,7 @@ public class TSOpenAction extends OpenAction {
 				continue;
 			if (element instanceof IMethod)
 				continue;
-			if (element instanceof ILabel)
+			if (element instanceof ILiteral)
 				continue;
 			if (element instanceof IRelationshipEnd)
 				continue;

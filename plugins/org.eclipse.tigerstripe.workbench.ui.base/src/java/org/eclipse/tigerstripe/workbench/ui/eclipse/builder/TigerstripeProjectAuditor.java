@@ -42,9 +42,9 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
@@ -57,9 +57,9 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILabelCreateRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILabelRemoveRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILabelSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralCreateRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralRemoveRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
@@ -341,14 +341,14 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					} else if (executedRequest instanceof IMethodSetRequest) {
 						IMethodSetRequest req = (IMethodSetRequest) executedRequest;
 						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof ILabelCreateRequest) {
-						ILabelCreateRequest req = (ILabelCreateRequest) executedRequest;
+					} else if (executedRequest instanceof ILiteralCreateRequest) {
+						ILiteralCreateRequest req = (ILiteralCreateRequest) executedRequest;
 						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof ILabelSetRequest) {
-						ILabelSetRequest req = (ILabelSetRequest) executedRequest;
+					} else if (executedRequest instanceof ILiteralSetRequest) {
+						ILiteralSetRequest req = (ILiteralSetRequest) executedRequest;
 						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof ILabelRemoveRequest) {
-						ILabelRemoveRequest req = (ILabelRemoveRequest) executedRequest;
+					} else if (executedRequest instanceof ILiteralRemoveRequest) {
+						ILiteralRemoveRequest req = (ILiteralRemoveRequest) executedRequest;
 						success = refreshArtifact(req.getArtifactFQN(), monitor);
 					}
 					if (!success)

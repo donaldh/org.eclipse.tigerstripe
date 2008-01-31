@@ -27,7 +27,7 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerMessages;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TigerstripeExplorerPart;
 import org.eclipse.ui.PlatformUI;

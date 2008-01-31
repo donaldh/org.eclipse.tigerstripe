@@ -29,9 +29,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
@@ -39,7 +39,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
@@ -646,10 +646,10 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 			IAbstractArtifact art = type.getArtifact();
 			if (art instanceof IEnumArtifact) {
 				IEnumArtifact enumArt = (IEnumArtifact) art;
-				String[] items = new String[enumArt.getLabels().size()];
+				String[] items = new String[enumArt.getLiterals().size()];
 				int i = 0;
-				for (ILabel label : enumArt.getLabels()) {
-					items[i] = label.getName();
+				for (ILiteral literal : enumArt.getLiterals()) {
+					items[i] = literal.getName();
 					i++;
 				}
 				defaultValueText.setItems(items);

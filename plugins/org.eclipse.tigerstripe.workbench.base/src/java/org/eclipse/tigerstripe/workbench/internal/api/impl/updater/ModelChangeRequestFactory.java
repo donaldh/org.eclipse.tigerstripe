@@ -23,9 +23,9 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.Artif
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.AttributeCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.AttributeRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.AttributeSetRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.LabelCreateRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.LabelRemoveRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.LabelSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.LiteralCreateRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.LiteralRemoveRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.LiteralSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.MethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.MethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.MethodSetRequest;
@@ -38,7 +38,7 @@ public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 
 	ATTRIBUTE_CREATE, ATTRIBUTE_REMOVE, ATTRIBUTE_SET,
 
-	LABEL_CREATE, LABEL_REMOVE, LABEL_SET,
+	LITERAL_CREATE, LITERAL_REMOVE, LITERAL_SET,
 
 	ARTIFACT_SET_FEATURE, ARTIFACT_ADD_FEATURE, ARTIFACT_REMOVE_FEATURE,
 			ARTIFACT_RENAME, ARTIFACT_DELETE,
@@ -53,8 +53,8 @@ public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 			AttributeCreateRequest.class, AttributeRemoveRequest.class,
 			AttributeSetRequest.class,
 
-			LabelCreateRequest.class, LabelRemoveRequest.class,
-			LabelSetRequest.class,
+			LiteralCreateRequest.class, LiteralRemoveRequest.class,
+			LiteralSetRequest.class,
 
 			ArtifactSetFeatureRequest.class, ArtifactAddFeatureRequest.class,
 			ArtifactRemoveFeatureRequest.class, ArtifactRenameRequest.class,

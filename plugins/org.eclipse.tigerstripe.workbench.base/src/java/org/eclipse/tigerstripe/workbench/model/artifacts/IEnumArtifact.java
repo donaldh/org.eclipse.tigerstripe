@@ -45,7 +45,7 @@ public interface IEnumArtifact extends IAbstractArtifact {
 	 * 
 	 * @return Name of the label with highest integer value.
 	 */
-	public String getMaxLabel();
+	public String getMaxLiteral();
 
 	/**
 	 * Return the NAME of the Enum with the lowest value. If a String based Enum
@@ -53,5 +53,5 @@ public interface IEnumArtifact extends IAbstractArtifact {
 	 * 
 	 * @return Name of the label with lowest integer value.
 	 */
-	public String getMinLabel();
+	public String getMinLiteral();
 }

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.preferences;
 
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.modelImport.ImportPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.modelImport.xmi.XMITopLevelPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.ossj.OssjJVTPreferencePage;

@@ -44,10 +44,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -59,7 +59,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLe
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -1456,10 +1456,10 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			IAbstractArtifact art = type.getArtifact();
 			if (art instanceof IEnumArtifact) {
 				IEnumArtifact enumArt = (IEnumArtifact) art;
-				String[] items = new String[enumArt.getLabels().size()];
+				String[] items = new String[enumArt.getLiterals().size()];
 				int i = 0;
-				for (ILabel label : enumArt.getLabels()) {
-					items[i] = label.getName();
+				for (ILiteral literal : enumArt.getLiterals()) {
+					items[i] = literal.getName();
 					i++;
 				}
 				defaultReturnValue.setItems(items);

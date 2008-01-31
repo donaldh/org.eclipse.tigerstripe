@@ -39,7 +39,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.Global
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
@@ -534,7 +534,7 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 				result.add(stereotype);
 			} else if (capable instanceof IMethod && details.isMethodLevel()) {
 				result.add(stereotype);
-			} else if (capable instanceof ILabel && details.isLabelLevel()) {
+			} else if (capable instanceof ILiteral && details.isLiteralLevel()) {
 				result.add(stereotype);
 			} else if ((capable instanceof IArgument || capable instanceof ReturnTypeWrapper)
 					&& details.isArgumentLevel()) {

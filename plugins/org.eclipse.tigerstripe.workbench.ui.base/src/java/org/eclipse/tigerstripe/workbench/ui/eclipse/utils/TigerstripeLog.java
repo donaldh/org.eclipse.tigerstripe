@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.utils;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 
 public class TigerstripeLog {
 	/**

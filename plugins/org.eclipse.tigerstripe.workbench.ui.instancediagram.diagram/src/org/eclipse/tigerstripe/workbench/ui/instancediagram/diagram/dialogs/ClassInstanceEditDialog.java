@@ -69,13 +69,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
@@ -594,8 +594,8 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			ArrayList<String> stringVals = new ArrayList<String>();
 			do {
 				List<String> lclStringVals = new ArrayList<String>();
-				for (ILabel label : iArtifact.getLabels())
-					lclStringVals.add(label.getName());
+				for (ILiteral literal : iArtifact.getLiterals())
+					lclStringVals.add(literal.getName());
 				stringVals.addAll(0, lclStringVals);
 			} while ((iArtifact = iArtifact.getExtendedArtifact()) != null);
 			stringVals.add(0, "");

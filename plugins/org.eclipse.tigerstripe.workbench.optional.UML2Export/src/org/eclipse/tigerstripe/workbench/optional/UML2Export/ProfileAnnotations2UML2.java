@@ -226,7 +226,7 @@ public class ProfileAnnotations2UML2 {
 			if (scopeDetails.isMethodLevel()) {
 				stereotype.createExtension(operationMetaclass, false);
 			}
-			if (scopeDetails.isLabelLevel()) {
+			if (scopeDetails.isLiteralLevel()) {
 				stereotype.createExtension(enumLiteralMetaclass, false);
 			}
 			if (scopeDetails.isAttributeLevel()) {

@@ -27,11 +27,11 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -238,7 +238,7 @@ public class OpenArtifactAnnotationsInEditorAction extends
 							table.deselectAll();
 							for (int row = 0; row < table.getItemCount(); row++) {
 								TableItem tableItem = table.getItem(row);
-								ILabel rowLabel = (ILabel) tableItem.getData();
+								ILiteral rowLabel = (ILiteral) tableItem.getData();
 								if (thisLiteral.getName().equals(
 										rowLabel.getName())) {
 									table.select(row);

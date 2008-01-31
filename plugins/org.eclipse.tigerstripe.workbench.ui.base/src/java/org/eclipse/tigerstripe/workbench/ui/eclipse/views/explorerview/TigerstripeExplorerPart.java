@@ -68,11 +68,11 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -124,9 +124,9 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 					IMethod method = (IMethod) obj;
 					revealArtifact((IAbstractArtifact) method
 							.getContainingArtifact());
-				} else if (obj instanceof ILabel) {
-					ILabel label = (ILabel) obj;
-					revealArtifact((IAbstractArtifact) label
+				} else if (obj instanceof ILiteral) {
+					ILiteral literal = (ILiteral) obj;
+					revealArtifact((IAbstractArtifact) literal
 							.getContainingArtifact());
 				} else if (obj instanceof IAssociationEnd) {
 					IAssociationEnd end = (IAssociationEnd) obj;

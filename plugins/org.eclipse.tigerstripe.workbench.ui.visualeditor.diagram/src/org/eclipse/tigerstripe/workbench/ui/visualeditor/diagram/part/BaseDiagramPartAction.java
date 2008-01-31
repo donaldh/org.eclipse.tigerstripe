@@ -29,11 +29,11 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -223,9 +223,9 @@ public abstract class BaseDiagramPartAction {
 							.eContainer();
 					IAbstractArtifact artifact = getArtifact(project, qne);
 					String labelName = lit.getName();
-					for (ILabel label : artifact.getLabels()) {
-						if (label.getName().equals(labelName)) {
-							components.add(label);
+					for (ILiteral literal : artifact.getLiterals()) {
+						if (literal.getName().equals(labelName)) {
+							components.add(literal);
 						}
 					}
 				} catch (TigerstripeException e) {

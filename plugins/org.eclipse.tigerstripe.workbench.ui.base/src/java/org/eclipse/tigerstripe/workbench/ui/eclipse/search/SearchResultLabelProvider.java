@@ -17,14 +17,14 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -57,7 +57,7 @@ public class SearchResultLabelProvider extends LabelProvider {
 			return Images.getInstance().get(Images.FIELDPRIVATE_ICON);
 		else if (element instanceof IMethod)
 			return Images.getInstance().get(Images.METHODPUB_ICON);
-		else if (element instanceof ILabel)
+		else if (element instanceof ILiteral)
 			return Images.getInstance().get(Images.LITERAL_ICON);
 		else if (element instanceof IAssociationEnd)
 			return Images.getInstance().get(Images.ASSOCIATIONARROW_ICON);
@@ -104,10 +104,10 @@ public class SearchResultLabelProvider extends LabelProvider {
 							+ " - "
 							+ ((IMethod) element).getContainingArtifact()
 									.getFullyQualifiedName();
-				} else if (element instanceof ILabel) {
+				} else if (element instanceof ILiteral) {
 					label = label
 							+ " - "
-							+ ((ILabel) element).getContainingArtifact()
+							+ ((ILiteral) element).getContainingArtifact()
 									.getFullyQualifiedName();
 				} else if (element instanceof IAssociationEnd) {
 					label = label

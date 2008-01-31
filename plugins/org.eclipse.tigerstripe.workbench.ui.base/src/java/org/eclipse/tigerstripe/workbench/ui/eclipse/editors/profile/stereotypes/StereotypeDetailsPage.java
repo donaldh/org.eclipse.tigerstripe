@@ -46,8 +46,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
@@ -118,7 +118,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 
 	private Button attributeLevelButton;
 
-	private Button constantLevelButton;
+	private Button literalLevelButton;
 
 	private Button argumentLevelButton;
 
@@ -278,8 +278,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		} else if (e.getSource() == attributeLevelButton) {
 			details.setAttributeLevel(attributeLevelButton.getSelection());
 			pageModified();
-		} else if (e.getSource() == constantLevelButton) {
-			details.setLabelLevel(constantLevelButton.getSelection());
+		} else if (e.getSource() == literalLevelButton) {
+			details.setLiteralLevel(literalLevelButton.getSelection());
 			pageModified();
 		} else if (e.getSource() == argumentLevelButton) {
 			details.setArgumentLevel(argumentLevelButton.getSelection());
@@ -395,12 +395,12 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		attributeLevelButton
 				.setToolTipText("Mark this annotation applicable to any Artifact Attribute, regardless of containing Artifact Type");
 
-		constantLevelButton = toolkit.createButton(scopeComp, "Any Label",
+		literalLevelButton = toolkit.createButton(scopeComp, "Any Literal",
 				SWT.CHECK);
-		constantLevelButton.setEnabled(ProfileEditor.isEditable());
-		constantLevelButton.addSelectionListener(adapter);
-		constantLevelButton
-				.setToolTipText("Mark this annotation applicable to any Enumeration Label, regardless of containing Artifact Type");
+		literalLevelButton.setEnabled(ProfileEditor.isEditable());
+		literalLevelButton.addSelectionListener(adapter);
+		literalLevelButton
+				.setToolTipText("Mark this annotation applicable to any Enumeration Literal, regardless of containing Artifact Type");
 
 		argumentLevelButton = toolkit.createButton(scopeComp, "Any Argument",
 				SWT.CHECK);
@@ -962,8 +962,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 				.isMethodLevel());
 		attributeLevelButton.setSelection(st.getStereotypeScopeDetails()
 				.isAttributeLevel());
-		constantLevelButton.setSelection(st.getStereotypeScopeDetails()
-				.isLabelLevel());
+		literalLevelButton.setSelection(st.getStereotypeScopeDetails()
+				.isLiteralLevel());
 		argumentLevelButton.setSelection(st.getStereotypeScopeDetails()
 				.isArgumentLevel());
 

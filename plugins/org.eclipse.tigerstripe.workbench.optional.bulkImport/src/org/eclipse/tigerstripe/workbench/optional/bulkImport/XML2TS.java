@@ -54,7 +54,7 @@ import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -462,7 +462,7 @@ public class XML2TS {
 			exArtifact.setFullyQualifiedName(extendedArtifact);
 			inArtifact.setExtendedArtifact(exArtifact);
 
-			setLabels(artifactElement, inArtifact, out, messages);
+			setLiterals(artifactElement, inArtifact, out, messages);
 			setFields(artifactElement, inArtifact, out, messages);
 			setMethods(artifactElement, inArtifact, out, messages);
 
@@ -891,28 +891,28 @@ public class XML2TS {
 		}
 	}
 
-	private void setLabels(Element element, IAbstractArtifact artifact,
+	private void setLiterals(Element element, IAbstractArtifact artifact,
 			PrintWriter out, MessageList messages) {
-		NodeList labelNodes = element
-				.getElementsByTagNameNS(namespace, "label");
-		for (int ln = 0; ln < labelNodes.getLength(); ln++) {
-			Element label = (Element) labelNodes.item(ln);
+		NodeList literalNodes = element
+				.getElementsByTagNameNS(namespace, "literal");
+		for (int ln = 0; ln < literalNodes.getLength(); ln++) {
+			Element literal = (Element) literalNodes.item(ln);
 
-			ILabel newLabel = artifact.makeLabel();
-			IType type = newLabel.makeType();
+			ILiteral newLiteral = artifact.makeLiteral();
+			IType type = newLiteral.makeType();
 
-			newLabel.setName(label.getAttribute("name"));
-			newLabel.setValue(label.getAttribute("value"));
-			type.setFullyQualifiedName(label.getAttribute("type"));
-			newLabel.setType(type);
-			newLabel.setVisibility(EVisibility.at(Integer.valueOf(label
+			newLiteral.setName(literal.getAttribute("name"));
+			newLiteral.setValue(literal.getAttribute("value"));
+			type.setFullyQualifiedName(literal.getAttribute("type"));
+			newLiteral.setType(type);
+			newLiteral.setVisibility(EVisibility.at(Integer.valueOf(literal
 					.getAttribute("visibility"))));
-			newLabel.setComment(getComment(label));
+			newLiteral.setComment(getComment(literal));
 
-			for (IStereotypeInstance st : getStereotypes(label, out, messages)) {
-				newLabel.addStereotypeInstance(st);
+			for (IStereotypeInstance st : getStereotypes(literal, out, messages)) {
+				newLiteral.addStereotypeInstance(st);
 			}
-			artifact.addLabel(newLabel);
+			artifact.addLiteral(newLiteral);
 		}
 	}
 

@@ -39,7 +39,7 @@ public interface IStereotypeScopeDetails {
 
 	public void setMethodLevel(boolean isMethodLevel);
 
-	public void setLabelLevel(boolean isLabelLevel);
+	public void setLiteralLevel(boolean isLiteralLevel);
 
 	public void setArgumentLevel(boolean isArgumentLevel);
 
@@ -76,7 +76,7 @@ public interface IStereotypeScopeDetails {
 	 * 
 	 * @return true if applicable at lebel level
 	 */
-	public boolean isLabelLevel();
+	public boolean isLiteralLevel();
 
 	/**
 	 * Return true if the stereotype can be applied at method level.

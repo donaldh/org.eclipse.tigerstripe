@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.AssociationArt
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
@@ -135,8 +135,8 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public Collection<ILabel> getLabels() {
-		return ILabel.EMPTY_LIST;
+	public Collection<ILiteral> getLiterals() {
+		return ILiteral.EMPTY_LIST;
 	}
 
 	@Override
@@ -184,7 +184,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 	 * values (both are IAssociationEnds so just check with the underlying
 	 * IAssociationEnd class to see if they are valid)
 	 * 
-	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILabel#validate()
+	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILiteral#validate()
 	 */
 	@Override
 	public IStatus validate() {

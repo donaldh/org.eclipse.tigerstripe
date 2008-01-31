@@ -166,7 +166,7 @@ public class Comparer {
 			IUpdateProcedureArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		differences.addAll(CompareUtils.compareInterface(artA, artB));
-		differences.addAll(CompareUtils.compareLabels(artA, artB));
+		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareUtils.compareFields(artA, artB));
 		differences.addAll(CompareUtils.compareSingleExtension(artA, artB));
 		differences.addAll(CompareUtils
@@ -178,7 +178,7 @@ public class Comparer {
 			IEnumArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		differences.addAll(CompareUtils.compareInterface(artA, artB));
-		differences.addAll(CompareUtils.compareLabels(artA, artB));
+		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareEnumeration.compareEnumSpecifics(artA, artB));
 		return differences;
 	}
@@ -187,7 +187,7 @@ public class Comparer {
 			IEventArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		differences.addAll(CompareUtils.compareInterface(artA, artB));
-		differences.addAll(CompareUtils.compareLabels(artA, artB));
+		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareUtils.compareFields(artA, artB));
 		differences.addAll(CompareEvent.compareEventSpecifics(artA, artB));
 		differences.addAll(CompareUtils.compareSingleExtension(artA, artB));
@@ -198,7 +198,7 @@ public class Comparer {
 			IDatatypeArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		differences.addAll(CompareUtils.compareInterface(artA, artB));
-		differences.addAll(CompareUtils.compareLabels(artA, artB));
+		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareUtils.compareFields(artA, artB));
 		differences.addAll(CompareUtils.compareMethods(artA, artB));
 		// No specifics
@@ -221,7 +221,7 @@ public class Comparer {
 			IQueryArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		differences.addAll(CompareUtils.compareInterface(artA, artB));
-		differences.addAll(CompareUtils.compareLabels(artA, artB));
+		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareUtils.compareFields(artA, artB));
 		differences.addAll(CompareQuery.compareQuerySpecifics(artA, artB));
 		differences.addAll(CompareUtils.compareSingleExtension(artA, artB));
@@ -234,7 +234,7 @@ public class Comparer {
 			IManagedEntityArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 		differences.addAll(CompareUtils.compareInterface(artA, artB));
-		differences.addAll(CompareUtils.compareLabels(artA, artB));
+		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareUtils.compareFields(artA, artB));
 		differences.addAll(CompareUtils.compareMethods(artA, artB));
 		differences.addAll(CompareEntity.compareImplements(artA, artB));

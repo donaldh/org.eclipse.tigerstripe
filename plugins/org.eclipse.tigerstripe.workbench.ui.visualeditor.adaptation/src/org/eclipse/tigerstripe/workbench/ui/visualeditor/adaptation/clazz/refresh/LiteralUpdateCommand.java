@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -38,10 +38,10 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 		List<Literal> eLiterals = eArtifact.getLiterals();
 		List<Literal> toDelete = new ArrayList<Literal>();
 		for (Literal eLiteral : eLiterals) {
-			ILabel targetLabel = null;
-			for (ILabel iLabel : iArtifact.getLabels()) {
-				if (iLabel.getName().equals(eLiteral.getName())) {
-					targetLabel = iLabel;
+			ILiteral targetLabel = null;
+			for (ILiteral iLiteral : iArtifact.getLiterals()) {
+				if (iLiteral.getName().equals(eLiteral.getName())) {
+					targetLabel = iLiteral;
 					break;
 				}
 			}
@@ -72,10 +72,10 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 		// in the EMF domain
 		eLiterals = eArtifact.getLiterals();
 		Literal eLiteral = null;
-		for (ILabel iLabel : iArtifact.getLabels()) {
+		for (ILiteral iLiteral : iArtifact.getLiterals()) {
 			boolean found = false;
 			for (Literal thisLiteral : eLiterals) {
-				if (thisLiteral.getName().equals(iLabel.getName())) {
+				if (thisLiteral.getName().equals(iLiteral.getName())) {
 					eLiteral = thisLiteral;
 					found = true;
 					break;
@@ -84,26 +84,26 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 
 			if (!found) {
 				// need to create a new method in the EMF domain
-				IType iLabelType = iLabel.getType();
-				if (iLabelType != null
-						&& iLabelType.getFullyQualifiedName() != null
-						&& iLabelType.getFullyQualifiedName().length() != 0) {
-					String typeStr = iLabelType.getFullyQualifiedName();
+				IType iLiteralType = iLiteral.getType();
+				if (iLiteralType != null
+						&& iLiteralType.getFullyQualifiedName() != null
+						&& iLiteralType.getFullyQualifiedName().length() != 0) {
+					String typeStr = iLiteralType.getFullyQualifiedName();
 
 					eLiteral = VisualeditorFactory.eINSTANCE.createLiteral();
-					eLiteral.setName(iLabel.getName());
+					eLiteral.setName(iLiteral.getName());
 					eLiteral.setType(typeStr);
-					eLiteral.setValue(iLabel.getValue());
+					eLiteral.setValue(iLiteral.getValue());
 					eArtifact.getLiterals().add(eLiteral);
 				}
 			}
 
 			if (eLiteral != null) {
-				if (eLiteral.getStereotypes().size() != iLabel
+				if (eLiteral.getStereotypes().size() != iLiteral
 						.getStereotypeInstances().size()) {
 					// not even the same number of args, let's redo the list
 					eLiteral.getStereotypes().clear();
-					for (IStereotypeInstance stereo : iLabel
+					for (IStereotypeInstance stereo : iLiteral
 							.getStereotypeInstances()) {
 						eLiteral.getStereotypes().add(stereo.getName());
 					}
@@ -111,7 +111,7 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 					// same number of stereotypes let's see if they all match
 					List<String> eStereotypes = eLiteral.getStereotypes();
 					Iterator<String> eStereo = eStereotypes.iterator();
-					Collection<IStereotypeInstance> iStereotypes = iLabel.getStereotypeInstances();
+					Collection<IStereotypeInstance> iStereotypes = iLiteral.getStereotypeInstances();
 					for (IStereotypeInstance iStereo : iStereotypes) {
 						String eStereotypeName = eStereo.next();
 						String iStereotypeName = iStereo.getName();

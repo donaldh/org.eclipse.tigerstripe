@@ -242,7 +242,7 @@ public class Field extends ArtifactComponent implements IField {
 	 * 
 	 * used to validate the Field when saving it to the underlying data model
 	 * 
-	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILabel#validate()
+	 * @see org.eclipse.tigerstripe.api.artifacts.model.ILiteral#validate()
 	 */
 	public IStatus validate() {
 

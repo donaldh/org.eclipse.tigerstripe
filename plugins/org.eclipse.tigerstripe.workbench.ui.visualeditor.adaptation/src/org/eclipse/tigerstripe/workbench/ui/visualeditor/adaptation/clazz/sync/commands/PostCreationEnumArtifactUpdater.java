@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -45,15 +45,15 @@ public class PostCreationEnumArtifactUpdater extends
 			enume.setBaseType(iEnum.getBaseTypeStr());
 
 			// Create Literals
-			for (ILabel label : getIArtifact().getLabels()) {
-				String labelType = label.getType().getFullyQualifiedName();
-				String labelName = label.getName();
-				String labelValue = label.getValue();
+			for (ILiteral literal : getIArtifact().getLiterals()) {
+				String labelType = literal.getType().getFullyQualifiedName();
+				String labelName = literal.getName();
+				String labelValue = literal.getValue();
 				Literal lit = VisualeditorFactory.eINSTANCE.createLiteral();
 				lit.setName(labelName);
 				lit.setValue(labelValue);
 				lit.setType(Misc.removeJavaLangString(labelType));
-				for (IStereotypeInstance instance : label
+				for (IStereotypeInstance instance : literal
 						.getStereotypeInstances()) {
 					lit.getStereotypes().add(instance.getName());
 				}

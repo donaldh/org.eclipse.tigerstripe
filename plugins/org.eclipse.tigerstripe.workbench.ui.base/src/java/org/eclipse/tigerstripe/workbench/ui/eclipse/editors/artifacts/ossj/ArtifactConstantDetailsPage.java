@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
@@ -84,7 +84,7 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 
 	private OssjArtifactConstantsSection master;
 
-	private ILabel label;
+	private ILiteral literal;
 
 	private Button addAnno;
 
@@ -162,12 +162,12 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 	}
 
 	// ============================================================
-	private void setILabel(ILabel label) {
-		this.label = label;
+	private void setLiteral(ILiteral literal) {
+		this.literal = literal;
 	}
 
-	private ILabel getLabel() {
-		return label;
+	private ILiteral getLiteral() {
+		return literal;
 	}
 
 	// ============================================================
@@ -321,19 +321,19 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 
 			Table labelsTable = master.getViewer().getTable();
 
-			ILabel selected = (ILabel) labelsTable.getSelection()[0].getData();
-			setILabel(selected);
+			ILiteral selected = (ILiteral) labelsTable.getSelection()[0].getData();
+			setLiteral(selected);
 			ArtifactEditorBase editor = (ArtifactEditorBase) master.getPage()
 					.getEditor();
 
 			if (stereotypeMgr == null) {
 				stereotypeMgr = new StereotypeSectionManager(addAnno, editAnno,
-						removeAnno, annTable, (ArtifactComponent) getLabel(),
+						removeAnno, annTable, (ArtifactComponent) getLiteral(),
 						master.getSection().getShell(), editor);
 				stereotypeMgr.delegate();
 			} else {
 				stereotypeMgr
-						.setArtifactComponent((ArtifactComponent) getLabel());
+						.setArtifactComponent((ArtifactComponent) getLiteral());
 			}
 
 			updateForm();
@@ -343,10 +343,10 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 	private void updateForm() {
 
 		setSilentUpdate(true);
-		ILabel label = getLabel();
-		nameText.setText(getLabel().getName());
+		ILiteral literal = getLiteral();
+		nameText.setText(getLiteral().getName());
 
-		String typeFqn = Misc.removeJavaLangString(getLabel().getType()
+		String typeFqn = Misc.removeJavaLangString(getLiteral().getType()
 				.getFullyQualifiedName());
 
 		for (int i = 0; i < supportedPrimitiveTypes.length; i++) {
@@ -357,9 +357,9 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 			}
 		}
 
-		valueText.setText(getLabel().getValue());
-		setVisibility(getLabel().getVisibility());
-		commentText.setText(getLabel().getComment() != null ? getLabel()
+		valueText.setText(getLiteral().getValue());
+		setVisibility(getLiteral().getVisibility());
+		commentText.setText(getLiteral().getComment() != null ? getLiteral()
 				.getComment() : "");
 
 		if (stereotypeMgr != null) {
@@ -370,6 +370,9 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 	}
 
 	private void setVisibility(EVisibility visibility) {
+		if (visibility == null){
+			visibility = EVisibility.PUBLIC;
+		}
 		publicButton
 				.setSelection(visibility.equals(EVisibility.PUBLIC));
 		protectedButton
@@ -409,13 +412,13 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 	public void handleWidgetSelected(SelectionEvent e) {
 		if (e.getSource() == publicButton || e.getSource() == privateButton
 				|| e.getSource() == protectedButton) {
-			getLabel().setVisibility(getVisibility());
+			getLiteral().setVisibility(getVisibility());
 		} else if (e.getSource() == baseTypeCombo) {
-			IType type = getLabel().makeType();
+			IType type = getLiteral().makeType();
 			type.setFullyQualifiedName(baseTypeCombo.getItem(baseTypeCombo
 					.getSelectionIndex()));
 			type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);;
-			getLabel().setType(type);
+			getLiteral().setType(type);
 		}
 		pageModified();
 	}
@@ -425,21 +428,21 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 			// when updating the form, the changes to all fields should be
 			// ignored so that the form is not marked as dirty.
 			if (e.getSource() == nameText) {
-				getLabel().setName(nameText.getText().trim());
+				getLiteral().setName(nameText.getText().trim());
 				if (master != null) {
 					TableViewer viewer = master.getViewer();
 					// viewer.refresh(getLabel());
 					viewer.refresh();
 				}
 			} else if (e.getSource() == valueText) {
-				getLabel().setValue(valueText.getText().trim());
+				getLiteral().setValue(valueText.getText().trim());
 				if (master != null) {
 					TableViewer viewer = master.getViewer();
 					viewer.refresh();
 
 				}
 			} else if (e.getSource() == commentText) {
-				getLabel().setComment(commentText.getText().trim());
+				getLiteral().setComment(commentText.getText().trim());
 			}
 
 			pageModified();

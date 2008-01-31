@@ -18,7 +18,7 @@ import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.internal.ui.dialogs.TypeSelectionDialog2;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.eclipse.runtime.messages.NewWizardMessages;
+import org.eclipse.tigerstripe.workbench.eclipse.runtime.messages.NewWizardMessages;
 
 public class Utils {
 

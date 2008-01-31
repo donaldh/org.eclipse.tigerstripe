@@ -20,14 +20,14 @@ import org.eclipse.jdt.internal.ui.packageview.PackageExplorerProblemsDecorator;
 import org.eclipse.jdt.internal.ui.viewsupport.JavaUILabelProvider;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -108,9 +108,9 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 		} else if (element instanceof IMethod) {
 			IMethod method = (IMethod) element;
 			return decorateText(method.getLabelString(), element);
-		} else if (element instanceof ILabel) {
-			ILabel label = (ILabel) element;
-			return decorateText(label.getLabelString(), element);
+		} else if (element instanceof ILiteral) {
+			ILiteral literal = (ILiteral) element;
+			return decorateText(literal.getLabelString(), element);
 		} else if (element instanceof IRelationshipEnd) {
 			IRelationshipEnd end = (IRelationshipEnd) element;
 			// String endName =
@@ -174,7 +174,7 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 		else if (element instanceof IMethod)
 			return decorateImage(Images.getInstance()
 					.get(Images.METHODPUB_ICON), element);
-		else if (element instanceof ILabel)
+		else if (element instanceof ILiteral)
 			return decorateImage(Images.getInstance().get(Images.LITERAL_ICON),
 					element);
 		else if (element instanceof IAssociationEnd)
@@ -245,7 +245,7 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 			return artifactLabelProvider.getForeground(element);
 		else if (element instanceof IMethod)
 			return artifactLabelProvider.getForeground(element);
-		else if (element instanceof ILabel)
+		else if (element instanceof ILiteral)
 			return artifactLabelProvider.getForeground(element);
 		else if (element instanceof IAssociationEnd)
 			return artifactLabelProvider.getForeground(element);

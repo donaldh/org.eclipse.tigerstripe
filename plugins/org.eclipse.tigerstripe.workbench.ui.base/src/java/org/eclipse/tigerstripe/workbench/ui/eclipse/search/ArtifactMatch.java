@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.search;
 import org.eclipse.search.ui.text.Match;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -48,8 +48,8 @@ public class ArtifactMatch extends Match {
 			} else if (component instanceof IMethod) {
 				containingArtifact = (IAbstractArtifact) ((IMethod) component)
 						.getContainingArtifact();
-			} else if (component instanceof ILabel) {
-				containingArtifact = (IAbstractArtifact) ((ILabel) component)
+			} else if (component instanceof ILiteral) {
+				containingArtifact = (IAbstractArtifact) ((ILiteral) component)
 						.getContainingArtifact();
 			} else if (component instanceof IAssociationEnd) {
 				containingArtifact = (IAbstractArtifact) ((IAssociationEnd) component)

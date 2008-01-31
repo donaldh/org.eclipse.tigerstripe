@@ -115,7 +115,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 			IType type = null;
 
 			if (featureValue != null) {
-				type = artifact.makeLabel().makeType();
+				type = artifact.makeLiteral().makeType();
 				type.setFullyQualifiedName(featureValue);
 			}
 			artifact.setBaseType(type);

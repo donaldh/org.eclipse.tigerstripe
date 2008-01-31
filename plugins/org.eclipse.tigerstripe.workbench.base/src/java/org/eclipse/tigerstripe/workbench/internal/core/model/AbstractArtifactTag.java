@@ -31,7 +31,7 @@ public interface AbstractArtifactTag {
 	 */
 	public final static String FIELD = "field";
 	public final static String METHOD = "method";
-	public final static String LABEL = "label";
+	public final static String LITERAL = "label";
 	public final static String REFCOMMENT = "refComment";
 
 	// =========================== MARKING TAGS

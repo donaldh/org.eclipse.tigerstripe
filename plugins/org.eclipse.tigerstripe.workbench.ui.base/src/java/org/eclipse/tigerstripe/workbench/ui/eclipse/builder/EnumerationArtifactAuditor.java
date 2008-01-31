@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
@@ -77,8 +77,8 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 
 			// See bug #80
 			// Check that baseType is used on all labels
-			for (ILabel label : artifact.getLabels()) {
-				IType labelType = label.getType();
+			for (ILiteral literal : artifact.getLiterals()) {
+				IType labelType = literal.getType();
 
 				String baseTypeStr = Misc.removeJavaLangString(baseType
 						.getFullyQualifiedName());
@@ -93,7 +93,7 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 					TigerstripeProjectAuditor
 							.reportError(
 									"The type of label '"
-											+ label.getName()
+											+ literal.getName()
 											+ "' in '"
 											+ artifact.getFullyQualifiedName()
 											+ "' is incompatible with the defined base type for this Enumeration Artifact ( expected='"
@@ -105,9 +105,9 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 
 			// Check for identical values
 			HashMap<String, String> valueDefinitionMap = new HashMap<String, String>();
-			for (ILabel label : artifact.getLabels()) {
-				String value = label.getValue();
-				String name = label.getName();
+			for (ILiteral literal : artifact.getLiterals()) {
+				String value = literal.getValue();
+				String name = literal.getName();
 				if (valueDefinitionMap.containsKey(value)) {
 					String otherDefName = (String) valueDefinitionMap
 							.get(value);

@@ -37,11 +37,12 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEnumSpecifics;
-import org.eclipse.tigerstripe.workbench.internal.core.model.Label;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Literal;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -120,7 +121,7 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof IAbstractArtifact) {
 				IAbstractArtifact artifact = (IAbstractArtifact) inputElement;
-				return artifact.getLabels().toArray();
+				return artifact.getLiterals().toArray();
 			}
 			return new Object[0];
 		}
@@ -137,12 +138,12 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 	class MasterLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
-			ILabel label = (ILabel) obj;
+			ILiteral literal = (ILiteral) obj;
 			switch (index) {
 			case 1:
-				return label.getValue();
+				return literal.getValue();
 			default:
-				return label.getName();
+				return literal.getName();
 			}
 		}
 
@@ -217,16 +218,16 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		nameSorter = new ViewerSorter() {
 			@Override
 			public int compare(Viewer viewer, Object label1, Object label2) {
-				return ((Label) label1).getName().compareToIgnoreCase(
-						((Label) label2).getName());
+				return ((Literal) label1).getName().compareToIgnoreCase(
+						((Literal) label2).getName());
 			}
 		};
 
 		valueSorter = new ViewerSorter() {
 			@Override
 			public int compare(Viewer viewer, Object label1, Object label2) {
-				return ((Label) label1).getValue().compareToIgnoreCase(
-						((Label) label2).getValue());
+				return ((Literal) label1).getValue().compareToIgnoreCase(
+						((Literal) label2).getValue());
 			}
 		};
 
@@ -293,11 +294,11 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 	 */
 	protected void addButtonSelected(SelectionEvent event) {
 		IAbstractArtifact artifact = getIArtifact();
-		ILabel newLabel = artifact.makeLabel();
+		ILiteral newLiteral = artifact.makeLiteral();
 
 		String newLabelName = findNewFieldName();
-		newLabel.setName(newLabelName);
-		IType defaultType = newLabel.makeType();
+		newLiteral.setName(newLabelName);
+		IType defaultType = newLiteral.makeType();
 
 		// See bug #77, #90
 		if (getForcedBaseType() != null) {
@@ -306,13 +307,13 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 			defaultType.setFullyQualifiedName("String");
 		}
 		defaultType.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
-		newLabel.setType(defaultType);
+		newLiteral.setType(defaultType);
+		newLiteral.setVisibility(EVisibility.PUBLIC);
+		newLiteral.setValue(getInitialLiteralValue(defaultType));
 
-		newLabel.setValue(getInitialLiteralValue(defaultType));
-
-		getIArtifact().addLabel(newLabel);
-		viewer.add(newLabel);
-		viewer.setSelection(new StructuredSelection(newLabel), true);
+		getIArtifact().addLiteral(newLiteral);
+		viewer.add(newLiteral);
+		viewer.setSelection(new StructuredSelection(newLiteral), true);
 		markPageModified();
 	}
 
@@ -332,7 +333,7 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		// make sure we're not creating a duplicate
 		TableItem[] items = viewer.getTable().getItems();
 		for (int i = 0; i < items.length; i++) {
-			String name = ((ILabel) items[i].getData()).getName();
+			String name = ((ILiteral) items[i].getData()).getName();
 			if (result.equals(name))
 				return findNewFieldName();
 		}
@@ -346,10 +347,10 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 	 */
 	protected void removeButtonSelected(SelectionEvent event) {
 		TableItem[] selectedItems = viewer.getTable().getSelection();
-		ILabel[] selectedLabels = new ILabel[selectedItems.length];
+		ILiteral[] selectedLabels = new ILiteral[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedLabels[i] = (ILabel) selectedItems[i].getData();
+			selectedLabels[i] = (ILiteral) selectedItems[i].getData();
 		}
 
 		String message = "Do you really want to remove ";
@@ -366,7 +367,7 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 
 		if (msgDialog.open() == 0) {
 			viewer.remove(selectedLabels);
-			getIArtifact().removeLabels(Arrays.asList(selectedLabels));
+			getIArtifact().removeLiterals(Arrays.asList(selectedLabels));
 			markPageModified();
 		}
 		updateMaster();
@@ -387,7 +388,7 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 	}
 
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(Label.class, // TODO remove the dependency on
+		detailsPart.registerPage(Literal.class, // TODO remove the dependency on
 				// Core and use API instead
 				new ArtifactConstantDetailsPage(getIArtifact().isReadonly()));
 	}

@@ -27,9 +27,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.eclipse.wizards.TSRuntimeContext;
-import org.eclipse.tigerstripe.eclipse.wizards.artifacts.TSRuntimeBasedWizardPage;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
+import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.TSRuntimeBasedWizardPage;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {

@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
@@ -45,8 +45,8 @@ public class TigerstripeSearchResultCollector {
 			return acceptAssociationEnd((IAssociationEnd) component);
 		else if (component instanceof IMethod)
 			return acceptMethod((IMethod) component);
-		else if (component instanceof ILabel)
-			return acceptLabel((ILabel) component);
+		else if (component instanceof ILiteral)
+			return acceptLabel((ILiteral) component);
 		return Status.CANCEL_STATUS;
 	}
 
@@ -80,18 +80,18 @@ public class TigerstripeSearchResultCollector {
 		return org.eclipse.core.runtime.Status.OK_STATUS;
 	}
 
-	private IStatus acceptLabel(ILabel label) {
+	private IStatus acceptLabel(ILiteral literal) {
 		SearchPatternData data = getData();
-		String labelType = label.getType().getFullyQualifiedName();
+		String labelType = literal.getType().getFullyQualifiedName();
 		if (data.getSearchFor() == ITigerstripeSearchConstants.TYPE
 				&& data.matchPattern(labelType)) {
 			if (data.getLimitTo() == ITigerstripeSearchConstants.REFERENCES
 					|| data.getLimitTo() == ITigerstripeSearchConstants.ALL_OCCURRENCES)
-				result.addMatch(new ArtifactMatch(label, 0, 0,
+				result.addMatch(new ArtifactMatch(literal, 0, 0,
 						ArtifactMatch.REFERENCE_MATCH));
 		} else if (data.getSearchFor() == ITigerstripeSearchConstants.LITERAL
-				&& data.matchPattern(label.getName())) {
-			result.addMatch(new ArtifactMatch(label, 0, 0,
+				&& data.matchPattern(literal.getName())) {
+			result.addMatch(new ArtifactMatch(literal, 0, 0,
 					ArtifactMatch.REFERENCE_MATCH));
 		}
 		return org.eclipse.core.runtime.Status.OK_STATUS;

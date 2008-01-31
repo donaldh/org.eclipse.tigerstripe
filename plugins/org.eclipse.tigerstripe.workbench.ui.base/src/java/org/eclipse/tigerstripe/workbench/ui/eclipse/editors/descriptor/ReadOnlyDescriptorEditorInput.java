@@ -16,8 +16,8 @@ import java.io.Reader;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.core.JarEntryFile;
-import org.eclipse.tigerstripe.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ReadOnlyEditorInput;

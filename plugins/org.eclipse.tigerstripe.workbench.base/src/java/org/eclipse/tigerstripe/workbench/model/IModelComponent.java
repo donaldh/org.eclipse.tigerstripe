@@ -186,7 +186,7 @@ public interface IModelComponent extends IStereotypeCapable {
 	/**
 	 * Returns true if this component is included in the current active facet.
 	 * 
-	 * For IFields, IMethods and ILabels this looks at Annotation-based
+	 * For IFields, IMethods and ILiterals this looks at Annotation-based
 	 * exclusion only.
 	 * 
 	 * If no facet is active, always returns true.

@@ -16,7 +16,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILabel;
+import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
@@ -58,7 +58,7 @@ public class TSElementSorter extends JavaElementSorter {
 			return ASSOCIATION_END_ZEND;
 		} else if (element instanceof IField)
 			return FIELD;
-		else if (element instanceof ILabel)
+		else if (element instanceof ILiteral)
 			return CONSTANT;
 		else if (element instanceof IMethod)
 			return METHOD;
@@ -93,9 +93,9 @@ public class TSElementSorter extends JavaElementSorter {
 		else if (element instanceof IMethod)
 			// for an IMethod, just return the label string
 			return ((IMethod) element).getLabelString();
-		else if (element instanceof ILabel)
+		else if (element instanceof ILiteral)
 			// for an ILabel, just return the label string
-			return ((ILabel) element).getLabelString();
+			return ((ILiteral) element).getLabelString();
 		else if (element instanceof IAssociationEnd) {
 			// if here, it's an association end, so need to determine whether
 			// it's the aEnd or the zEnd

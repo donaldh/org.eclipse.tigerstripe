@@ -21,9 +21,9 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILabelCreateRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILabelRemoveRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILabelSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralCreateRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralRemoveRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
@@ -57,11 +57,11 @@ public interface IModelChangeRequestFactory {
 	public final static String ATTRIBUTE_SET = IAttributeSetRequest.class
 			.getName();
 
-	public final static String LABEL_CREATE = ILabelCreateRequest.class
+	public final static String LITERAL_CREATE = ILiteralCreateRequest.class
 			.getName();
-	public final static String LABEL_REMOVE = ILabelRemoveRequest.class
+	public final static String LITERAL_REMOVE = ILiteralRemoveRequest.class
 			.getName();
-	public final static String LABEL_SET = ILabelSetRequest.class.getName();
+	public final static String LITERAL_SET = ILiteralSetRequest.class.getName();
 
 	public final static String METHOD_CREATE = IMethodCreateRequest.class
 			.getName();

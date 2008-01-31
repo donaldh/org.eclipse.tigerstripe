@@ -130,7 +130,7 @@
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/controls"
                style="push"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenGenerateInterfaceWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenGenerateInterfaceWizardAction"
                disabledIcon="src/icons/run_tigerstripe_gs.gif"
                icon="src/icons/run_tigerstripe.gif"
                id="org.eclipse.tigerstripe.eclipse.generateAction"
@@ -140,7 +140,7 @@
                tooltip="Generate current Project"/>
          <action
                allowLabelUpdate="true"
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewSessionArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewSessionArtifactWizardAction"
                disabledIcon="src/icons/new_session_gs.gif"
                icon="src/icons/new_session.gif"
                id="org.eclipse.tigerstripe.eclipse.newInterfaceAction"
@@ -157,7 +157,7 @@
             <separator name="controls"/>
          </menu>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewSessionArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewSessionArtifactWizardAction"
                disabledIcon="src/icons/new_session_gs.gif"
                icon="src/icons/new_session.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewSessionAction"
@@ -166,14 +166,14 @@
                style="push"
                tooltip="Create new Tigerstripe Project"/>
      	<action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewProjectWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewProjectWizardAction"
                icon="src/icons/new_project.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewProjectAction"
                label="New Project"
                style="push"
                tooltip="Create new Tigerstripe Project"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewExceptionArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewExceptionArtifactWizardAction"
                disabledIcon="src/icons/new_exception_gs.gif"
                icon="src/icons/new_exception.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openExceptionProjectAction"
@@ -181,7 +181,7 @@
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
                style="push"/> 
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewNotificationArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewNotificationArtifactWizardAction"
                disabledIcon="src/icons/new_notification_gs.gif"
                icon="src/icons/new_notification.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNotificationProjectAction"
@@ -190,7 +190,7 @@
                style="push"
                tooltip="Create new Tigerstripe Project"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewUpdateProcedureArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewUpdateProcedureArtifactWizardAction"
                disabledIcon="src/icons/new_updateProc_gs.gif"
                icon="src/icons/new_updateProc.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewUpdateProcedureAction"
@@ -198,7 +198,7 @@
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
                style="push"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewQueryArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewQueryArtifactWizardAction"
                disabledIcon="src/icons/new_query_gs.gif"
                icon="src/icons/new_query.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewQueryAction"
@@ -207,7 +207,7 @@
                style="push"
                tooltip="Create new Tigerstripe Project"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewAssociationClassArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewAssociationClassArtifactWizardAction"
                disabledIcon="src/icons/new_associationClass_gs.gif"
                icon="src/icons/new_associationClass.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewAssociationClassAction"
@@ -216,7 +216,7 @@
                style="push"
                tooltip="Create new Association Class Artifact"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewAssociationArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewAssociationArtifactWizardAction"
                disabledIcon="src/icons/new_association_gs.gif"
                icon="src/icons/new_association.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewAssociationAction"
@@ -225,7 +225,7 @@
                style="push"
                tooltip="Create new Association Artifact"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewDependencyArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewDependencyArtifactWizardAction"
                disabledIcon="src/icons/new_dependency_gs.gif"
                icon="src/icons/new_dependency.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewDependencyAction"
@@ -234,7 +234,7 @@
                style="push"
                tooltip="Create new Dependency Artifact"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewEnumArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewEnumArtifactWizardAction"
                disabledIcon="src/icons/new_enum_gs.gif"
                icon="src/icons/new_enum.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewEnumAction"
@@ -243,7 +243,7 @@
                style="push"
                tooltip="Create new Enumeration Artifact"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewDatatypeArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewDatatypeArtifactWizardAction"
                disabledIcon="src/icons/new_datatype_gs.gif"
                icon="src/icons/new_datatype.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openDatatypeProjectAction"
@@ -252,7 +252,7 @@
                style="push"
                tooltip="Create new Tigerstripe Project"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewEntityArtifactWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewEntityArtifactWizardAction"
                disabledIcon="src/icons/new_entity_gs.gif"
                icon="src/icons/new_entity.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewEntityAction"
@@ -261,7 +261,7 @@
                style="push"
                tooltip="Create new Tigerstripe Project"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.NewArtifactDropDownAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.NewArtifactDropDownAction"
                disabledIcon="src/icons/new_entity_gs.gif"
                icon="src/icons/new_entity.gif"
                id="org.eclipse.tigerstripe.eclipse.newArtifactAction"
@@ -270,7 +270,7 @@
                toolbarPath="Normal/additions"
                tooltip="Create new Tigerstripe Artifacts"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenNewProjectWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewProjectWizardAction"
                icon="src/icons/new_project.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"
                label="Tigerstripe Project"
@@ -293,7 +293,7 @@
             <separator name="newGroup2"/>
          </menu>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenGenerateInterfaceWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenGenerateInterfaceWizardAction"
                disabledIcon="src/icons/run_tigerstripe_gs.gif"
                icon="src/icons/run_tigerstripe.gif"
                id="org.eclipse.tigerstripe.eclipse.generateAction"
@@ -302,14 +302,14 @@
                style="push"
                tooltip="Generate current Project"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenImportUML2ProfileWizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenImportUML2ProfileWizardAction"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openImportUML@ProfileAction"
                label="UML2 Profile"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
                style="push"
                tooltip="Import a UML2 Profile as a Tigerstripe Profile"/>
          <action
-               class="org.eclipse.tigerstripe.eclipse.actions.OpenImportFromUML2WizardAction"
+               class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenImportFromUML2WizardAction"
                id="org.eclipse.tigerstripe.workbench.ui.base.action2"
                label="UML2 Model"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
@@ -330,7 +330,7 @@
       </category>
       <wizard
             category="org.eclipse.tigerstripe.eclipse"
-            class="org.eclipse.tigerstripe.eclipse.wizards.project.NewProjectWizard"
+            class="org.eclipse.tigerstripe.workbench.eclipse.wizards.project.NewProjectWizard"
             finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
             icon="src/icons/new_project.gif"
             id="org.eclipse.tigerstripe.eclipse.wizards.NewProjectWizard"
@@ -339,7 +339,7 @@
       </wizard>
       <wizard
             category="org.eclipse.tigerstripe.eclipse"
-            class="org.eclipse.tigerstripe.eclipse.wizards.pluggablePlugin.NewPluginProjectWizard"
+            class="org.eclipse.tigerstripe.workbench.eclipse.wizards.pluggablePlugin.NewPluginProjectWizard"
             finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
             icon="src/icons/plugin.gif"
             id="org.eclipse.tigerstripe.community.wizard1"
@@ -347,21 +347,21 @@
             project="true"/>
       <wizard
             category="org.eclipse.tigerstripe.eclipse"
-            class="org.eclipse.tigerstripe.eclipse.wizards.profile.NewWorkbenchProfileWizard"
+            class="org.eclipse.tigerstripe.workbench.eclipse.wizards.profile.NewWorkbenchProfileWizard"
             finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
             icon="src/icons/profile.gif"
             id="org.eclipse.tigerstripe.eclipse.wizards.NewProfileWizard"
             name="Workbench Profile"/>
       <wizard
             category="org.eclipse.tigerstripe.eclipse"
-            class="org.eclipse.tigerstripe.eclipse.wizards.segment.NewContractSegmentWizard"
+            class="org.eclipse.tigerstripe.workbench.eclipse.wizards.segment.NewContractSegmentWizard"
             finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
             icon="src/icons/segment.gif"
             id="org.eclipse.tigerstripe.eclipse.wizards.NewSegmentWizard"
             name="Contract Facet"/>
       <wizard
             category="org.eclipse.tigerstripe.eclipse"
-            class="org.eclipse.tigerstripe.eclipse.wizards.useCase.NewUseCaseWizard"
+            class="org.eclipse.tigerstripe.workbench.eclipse.wizards.useCase.NewUseCaseWizard"
             finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
             icon="src/icons/useCase.gif"
             id="org.eclipse.tigerstripe.eclipse.wizards.NewUseCaseWizard"
@@ -474,13 +474,13 @@
             name="Tigerstripe"/>
       <wizard
             category="org.eclipse.tigerstripe.importWizardCategory"
-            class="org.eclipse.tigerstripe.eclipse.wizards.imports.uml2.ImportUML2ProfileWizard"
+            class="org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.uml2.ImportUML2ProfileWizard"
             icon="src/icons/importExport.gif.gif"
             id="org.eclipse.tigerstripe.workbench.ui.base.wizard5"
             name="Import UML2 Profile"/>
       <wizard
             category="org.eclipse.tigerstripe.importWizardCategory"
-            class="org.eclipse.tigerstripe.eclipse.wizards.imports.uml2.ImportFromUML2Wizard"
+            class="org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.uml2.ImportFromUML2Wizard"
             icon="src/icons/importExport.gif.gif"
             id="org.eclipse.tigerstripe.workbench.ui.base.wizard6"
             name="Import UML2 Model"/>
