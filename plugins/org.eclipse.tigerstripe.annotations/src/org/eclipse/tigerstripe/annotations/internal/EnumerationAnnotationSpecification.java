@@ -22,14 +22,15 @@ public class EnumerationAnnotationSpecification extends
 		BaseAnnotationSpecification implements IAnnotationSpecification,
 		IEnumerationAnnotationSpecification {
 
-	private Set<String> literals = new HashSet<String>();
+	private Set<AnnotationSpecificationLiteral> literals = new HashSet<AnnotationSpecificationLiteral>();
 
-	public void addLiteral(String literal) {
+	public void addLiteral(AnnotationSpecificationLiteral literal) {
 		literals.add(literal);
 	}
 
-	public String[] getLiterals() {
-		return literals.toArray(new String[literals.size()]);
+	public AnnotationSpecificationLiteral[] getLiterals() {
+		return literals.toArray(new AnnotationSpecificationLiteral[literals
+				.size()]);
 	}
 
 	@Override
@@ -37,9 +38,12 @@ public class EnumerationAnnotationSpecification extends
 		super.populate(element, parentForm);
 
 		// parse the Literals
+		AnnotationSpecificationLiteral literal;
 		for (IConfigurationElement child : element.getChildren("literal")) {
-			String lit = child.getAttribute("name");
-			addLiteral(lit);
+			literal = new AnnotationSpecificationLiteral();
+			literal.setValue(child.getAttribute("name"));
+			literal.setIndex(Integer.parseInt(child.getAttribute("index")));
+			addLiteral(literal);
 		}
 	}
 

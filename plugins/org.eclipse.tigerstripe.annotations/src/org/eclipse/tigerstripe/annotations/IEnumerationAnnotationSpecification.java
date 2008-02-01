@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotations;
 
+import org.eclipse.tigerstripe.annotations.internal.AnnotationSpecificationLiteral;
+
 /**
  * 
  * @author erdillon
@@ -18,6 +20,6 @@ package org.eclipse.tigerstripe.annotations;
 public interface IEnumerationAnnotationSpecification extends
 		IAnnotationSpecification {
 
-	public String[] getLiterals();
+	public AnnotationSpecificationLiteral[] getLiterals();
 	
 }
