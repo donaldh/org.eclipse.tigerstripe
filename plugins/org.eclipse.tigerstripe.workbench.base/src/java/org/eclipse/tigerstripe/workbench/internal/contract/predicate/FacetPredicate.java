@@ -271,9 +271,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			// look at the ends
 			IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 			addRelatedArtifacts(scope, (IAbstractArtifact) assoc.getAEnd()
-					.getType().getIArtifact(), false, monitor);
+					.getType().getArtifact(), false, monitor);
 			addRelatedArtifacts(scope, (IAbstractArtifact) assoc.getZEnd()
-					.getType().getIArtifact(), false, monitor);
+					.getType().getArtifact(), false, monitor);
 
 			if (!(artifact instanceof IAssociationClassArtifact))
 				return;
@@ -365,7 +365,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			if (!isExcludedByAnnotation(field)) {
 				IType type = field.getType();
 				IAbstractArtifact arti = (IAbstractArtifact) type
-						.getIArtifact();
+						.getArtifact();
 				if (!type.isPrimitive() && arti != null
 						&& !(arti instanceof IPrimitiveTypeArtifact)
 						&& !isExcludedByAnnotation(arti)
@@ -381,7 +381,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				// first the return type
 				IType returnType = method.getReturnType();
 				IAbstractArtifact arti = (IAbstractArtifact) returnType
-						.getIArtifact();
+						.getArtifact();
 				if (!method.isVoid() && !returnType.isPrimitive()
 						&& arti != null
 						&& !(arti instanceof IPrimitiveTypeArtifact)) {
@@ -410,7 +410,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				for (IArgument arg : method.getArguments()) {
 					IType type = arg.getType();
 					IAbstractArtifact argArti = (IAbstractArtifact) type
-							.getIArtifact();
+							.getArtifact();
 					if (!type.isPrimitive() && argArti != null
 							&& !(argArti instanceof IPrimitiveTypeArtifact)) {
 
@@ -576,7 +576,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		} else if (artifact instanceof IQueryArtifact) {
 			IQueryArtifact query = (IQueryArtifact) artifact;
 			result.add((IAbstractArtifact) query.getReturnedType()
-					.getIArtifact());
+					.getArtifact());
 		}
 
 		return result;

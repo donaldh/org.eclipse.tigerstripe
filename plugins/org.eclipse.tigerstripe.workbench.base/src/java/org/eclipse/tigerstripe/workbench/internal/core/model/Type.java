@@ -23,7 +23,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 
 /**
@@ -355,10 +354,6 @@ public class Type implements IType {
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new TigerstripeNullProgressMonitor());
 		return artifact;
-	}
-
-	public IAbstractArtifact getIArtifact() {
-		return getArtifact();
 	}
 
 	/*

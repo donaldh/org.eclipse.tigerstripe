@@ -77,7 +77,7 @@ public interface IType {
 	 *         in the same project(including dependencies & refereneces), null
 	 *         otherwise.
 	 */
-	public IAbstractArtifact getIArtifact();
+	public IAbstractArtifact getArtifact();
 
 	/**
 	 * Returns an integer value indicating the multiplicity of this type.

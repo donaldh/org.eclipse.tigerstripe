@@ -1539,9 +1539,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		
 		for (IField field : getFields()) {
 			if (!field.getType().isPrimitive()
-					&& !(field.getType().getIArtifact() instanceof IPrimitiveTypeArtifact)
-					&& field.getType().getIArtifact() != null) {
-				result.add(field.getType().getIArtifact());
+					&& !(field.getType().getArtifact() instanceof IPrimitiveTypeArtifact)
+					&& field.getType().getArtifact() != null) {
+				result.add(field.getType().getArtifact());
 			}
 		}
 
@@ -1549,18 +1549,18 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			if (!method.isVoid()) {
 				IType returnType = method.getReturnType();
 				if (!returnType.isPrimitive()
-						&& !(returnType.getIArtifact() instanceof IPrimitiveTypeArtifact)
-						&& returnType.getIArtifact() != null) {
-					result.add(returnType.getIArtifact());
+						&& !(returnType.getArtifact() instanceof IPrimitiveTypeArtifact)
+						&& returnType.getArtifact() != null) {
+					result.add(returnType.getArtifact());
 				}
 			}
 
 			for (IArgument arg : method.getArguments()) {
 				IType artType = arg.getType();
 				if (!artType.isPrimitive()
-						&& !(artType.getIArtifact() instanceof IPrimitiveTypeArtifact)
-						&& artType.getIArtifact() != null) {
-					result.add(artType.getIArtifact());
+						&& !(artType.getArtifact() instanceof IPrimitiveTypeArtifact)
+						&& artType.getArtifact() != null) {
+					result.add(artType.getArtifact());
 				}
 			}
 			
