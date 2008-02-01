@@ -38,8 +38,6 @@ import com.thoughtworks.qdox.model.JavaField;
  */
 public class Field extends ArtifactComponent implements IField {
 
-	private final static String FIELD_TAG = "tigerstripe.field";
-
 	public static int refByFromLabel(String label) {
 		int result = IField.NON_APPLICABLE;
 		for (int i = 0; i < refByLabels.length; i++) {
@@ -129,7 +127,8 @@ public class Field extends ArtifactComponent implements IField {
 		this.type = new Type(type.getValue(), EMultiplicity.ONE, getArtifactManager()); 
 		setName(field.getName());
 
-		Tag tag = getFirstTagByName(FIELD_TAG);
+		Tag tag = getFirstTagByName(AbstractArtifactTag.PREFIX
+				+ AbstractArtifactTag.FIELD);
 		if (tag != null) {
 			Properties prop = tag.getProperties();
 			this.refBy = (prop.getProperty("ref-by", "value")).toLowerCase();

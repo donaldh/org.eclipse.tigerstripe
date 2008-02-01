@@ -37,7 +37,6 @@ import com.thoughtworks.qdox.model.JavaField;
  */
 public class Literal extends ArtifactComponent implements ILiteral {
 
-	private final static String LITERAL_TAG = "tigerstripe.label";
 
 	private AbstractArtifact containingArtifact;
 
@@ -75,7 +74,8 @@ public class Literal extends ArtifactComponent implements ILiteral {
 		setName(field.getName());
 
 		// Extract value of Literal
-		Tag tag = getFirstTagByName(LITERAL_TAG);
+		Tag tag = getFirstTagByName(AbstractArtifactTag.PREFIX
+				+ AbstractArtifactTag.LITERAL);
 		if (tag != null) {
 			Properties props = tag.getProperties();
 			this.value = props.getProperty("value", field.getName()

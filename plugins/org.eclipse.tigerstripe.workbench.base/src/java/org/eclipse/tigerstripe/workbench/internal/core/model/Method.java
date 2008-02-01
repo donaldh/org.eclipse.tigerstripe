@@ -55,8 +55,6 @@ import com.thoughtworks.qdox.model.JavaParameter;
  */
 public class Method extends ArtifactComponent implements IOssjMethod {
 
-	private final static String METHOD_TAG = "tigerstripe.method";
-
 	private final static String EXPOSED_PROP_ID = "ossj.method";
 
 	private boolean isAbstract;
@@ -274,7 +272,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 
 		// Extract method tag stuff
-		Tag methodTag = getFirstTagByName(METHOD_TAG);
+		Tag methodTag = getFirstTagByName(AbstractArtifactTag.PREFIX
+				+ AbstractArtifactTag.METHOD);
 		String typeMultiplicity = null;
 		if (methodTag != null) {
 			Properties props = methodTag.getProperties();
