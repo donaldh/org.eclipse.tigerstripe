@@ -12,7 +12,11 @@ package org.eclipse.tigerstripe.annotations.ui.internal;
 
 import java.util.Arrays;
 
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -25,6 +29,7 @@ import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
 import org.eclipse.tigerstripe.annotations.AnnotationStore;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
 import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
+import org.eclipse.tigerstripe.annotations.IAnnotationSpecificationLiteral;
 import org.eclipse.tigerstripe.annotations.IBooleanAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.IEnumerationAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.IStringAnnotationSpecification;
@@ -33,7 +38,8 @@ public class AnnotationFormManager {
 
 	private static final String ANNOTATION_SPEC = "ANNOTATION_SPEC";
 
-	public static Composite createFormComposite(Composite parent, IAnnotationForm form) {
+	public static Composite createFormComposite(Composite parent,
+			IAnnotationForm form) {
 
 		GridData gridData;
 
@@ -69,13 +75,45 @@ public class AnnotationFormManager {
 
 				Label label = new Label(composite, SWT.LEFT);
 				label.setText(spec.getUserLabel());
-				Combo combo = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
+				ComboViewer comboViewer = new ComboViewer(composite,
+						SWT.DROP_DOWN);
+				comboViewer.setLabelProvider(new ILabelProvider() {
+
+					public Image getImage(Object element) {
+						return null;
+					}
+
+					public String getText(Object element) {
+						IAnnotationSpecificationLiteral literal = (IAnnotationSpecificationLiteral) element;
+						return literal.getValue();
+					}
+
+					public void addListener(ILabelProviderListener listener) {
+					}
+
+					public void dispose() {
+					}
+
+					public boolean isLabelProperty(Object element,
+							String property) {
+						return false;
+					}
+
+					public void removeListener(ILabelProviderListener listener) {
+					}
+
+				});
+
 				gridData = new GridData();
 				gridData.horizontalAlignment = GridData.FILL;
 				gridData.grabExcessHorizontalSpace = true;
-				combo.setLayoutData(gridData);
-				combo.setItems(((IEnumerationAnnotationSpecification) spec).getLiterals());
-				combo.setData(ANNOTATION_SPEC, spec);
+				comboViewer.getCombo().setLayoutData(gridData);
+				IAnnotationSpecificationLiteral[] literals = ((IEnumerationAnnotationSpecification) spec)
+						.getLiterals();
+				Arrays.sort(literals,
+						new AnnotationSpecificationLiteralComparator());
+				comboViewer.add(literals);
+				comboViewer.getCombo().setData(ANNOTATION_SPEC, spec);
 
 			}
 
@@ -84,7 +122,8 @@ public class AnnotationFormManager {
 
 	}
 
-	public static void setFormCompositeData(Composite composite, AnnotationStore store, String URI, boolean useDefault) {
+	public static void setFormCompositeData(Composite composite,
+			AnnotationStore store, String URI, boolean useDefault) {
 
 		IAnnotationSpecification spec;
 
@@ -92,12 +131,14 @@ public class AnnotationFormManager {
 		for (Control control : controls) {
 
 			try {
-				spec = (IAnnotationSpecification) control.getData(ANNOTATION_SPEC);
+				spec = (IAnnotationSpecification) control
+						.getData(ANNOTATION_SPEC);
 				if (control instanceof Text) {
 
 					String annotation = (String) store.getAnnotation(spec, URI);
 					if (annotation == null || useDefault) {
-						String value = (spec.getDefaultValue() != null) ? spec.getDefaultValue() : "";
+						String value = (spec.getDefaultValue() != null) ? spec
+								.getDefaultValue() : "";
 						((Text) control).setText(value);
 					} else {
 						((Text) control).setText(annotation);
@@ -105,10 +146,13 @@ public class AnnotationFormManager {
 
 				} else if (control instanceof Button) {
 
-					Boolean annotation = (Boolean) store.getAnnotation(spec, URI);
+					Boolean annotation = (Boolean) store.getAnnotation(spec,
+							URI);
 					if (annotation == null || useDefault) {
-						String value = (spec.getDefaultValue() != null) ? spec.getDefaultValue() : "false";
-						((Button) control).setSelection(Boolean.getBoolean(value));
+						String value = (spec.getDefaultValue() != null) ? spec
+								.getDefaultValue() : "false";
+						((Button) control).setSelection(Boolean
+								.getBoolean(value));
 					} else {
 						((Button) control).setSelection(annotation);
 					}
@@ -117,7 +161,8 @@ public class AnnotationFormManager {
 
 					String annotation = (String) store.getAnnotation(spec, URI);
 					if (annotation == null || useDefault) {
-						String value = (spec.getDefaultValue() != null) ? spec.getDefaultValue() : "";
+						String value = (spec.getDefaultValue() != null) ? spec
+								.getDefaultValue() : "";
 						((Combo) control).setText(value);
 					} else {
 						((Combo) control).setText(annotation);
@@ -131,7 +176,8 @@ public class AnnotationFormManager {
 		}
 	}
 
-	public static void writeFormCompositeData(Composite composite, AnnotationStore store, String URI) {
+	public static void writeFormCompositeData(Composite composite,
+			AnnotationStore store, String URI) {
 
 		IAnnotationSpecification spec;
 
@@ -139,16 +185,22 @@ public class AnnotationFormManager {
 		try {
 			for (Control control : controls) {
 
-				spec = (IAnnotationSpecification) control.getData(ANNOTATION_SPEC);
+				spec = (IAnnotationSpecification) control
+						.getData(ANNOTATION_SPEC);
 				if (control instanceof Text) {
-					if (((Text) control).getText() != null || !((Text) control).getText().equals("")) {
-						store.setAnnotation(spec, URI, ((Text) control).getText());
+					if (((Text) control).getText() != null
+							|| !((Text) control).getText().equals("")) {
+						store.setAnnotation(spec, URI, ((Text) control)
+								.getText());
 					}
 				} else if (control instanceof Button) {
-					store.setAnnotation(spec, URI, ((Button) control).getSelection());
+					store.setAnnotation(spec, URI, ((Button) control)
+							.getSelection());
 				} else if (control instanceof Combo) {
-					if (((Combo) control).getText() != null || !((Combo) control).getText().equals("")) {
-						store.setAnnotation(spec, URI, ((Combo) control).getText());
+					if (((Combo) control).getText() != null
+							|| !((Combo) control).getText().equals("")) {
+						store.setAnnotation(spec, URI, ((Combo) control)
+								.getText());
 					}
 				}
 			}

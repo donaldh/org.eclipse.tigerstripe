@@ -64,6 +64,8 @@ public class AnnotationsView extends ViewPart {
 
 	private ISelectionListener pageSelectionListener;
 
+	private Map<String, String> schemeForUriMap = new HashMap<String, String>();
+
 	// Move map for form manager??
 	private Map<String, Composite> formCompositeMap = new HashMap<String, Composite>();
 
@@ -217,26 +219,44 @@ public class AnnotationsView extends ViewPart {
 		IAdaptable adaptable = (IAdaptable) element;
 		resource = (IResource) adaptable.getAdapter(IResource.class);
 		if (resource == null) {
-			
-			schemeComboViewer.setInput(new String[]{});
+
+			schemeComboViewer.setInput(new String[] {});
 			schemeComboViewer.getCombo().setEnabled(false);
-			((StackLayout)formComposite.getLayout()).topControl = null;
+			((StackLayout) formComposite.getLayout()).topControl = null;
 			formComposite.getParent().layout(true, true);
 		} else {
 
 			try {
+				int index = 0;
 				IAnnotationScheme[] schemes = AnnotationSchemeRegistry.eINSTANCE
 						.getDefinedSchemes(getURIFromResource());
 				Arrays.sort(schemes, new AnnotationSchemeComparator());
 				schemeComboViewer.getCombo().setEnabled(true);
 				schemeComboViewer.setInput(schemes);
-				schemeComboViewer.getCombo().select(0);
+
+				// get selected scheme for a particular URI
+				String schemeUserId = schemeForUriMap.get(getSchemeTypeURI());
+				if (schemeUserId != null) {
+					index = getSchemeIndexFromCombo(schemeUserId);
+				}
+
+				schemeComboViewer.getCombo().select(index);
 				schemeComboViewer.setSelection(schemeComboViewer.getSelection());
 			} catch (AnnotationCoreException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private int getSchemeIndexFromCombo(String schemeUserId) {
+
+		for (int i = 0; i < schemeComboViewer.getCombo().getItemCount(); i++) {
+			if (schemeUserId.equals(schemeComboViewer.getCombo().getItem(i))){
+				return i;
+			}
+		}
+		return 0;
 	}
 
 	private void schemeComboSelectionChanged(SelectionChangedEvent event) {
@@ -247,8 +267,11 @@ public class AnnotationsView extends ViewPart {
 		}
 
 		IAnnotationScheme scheme = (IAnnotationScheme) selection.getFirstElement();
-		IAnnotationForm form = scheme.selectForm(getURIFromResource());
 
+		// maintain selected scheme for a particular URI if previously visited
+		schemeForUriMap.put(getSchemeTypeURI(), scheme.getNamespaceUserLabel());
+
+		IAnnotationForm form = scheme.selectForm(getURIFromResource());
 		Composite composite = (Composite) formCompositeMap.get(form.getID());
 		if (composite == null) {
 			composite = AnnotationFormManager.createFormComposite(formComposite, form);
@@ -257,7 +280,8 @@ public class AnnotationsView extends ViewPart {
 
 		try {
 			AnnotationFormManager.clearFormCompositeData(composite);
-			AnnotationStore store = AnnotationStore.getDefaultFactory().getAnnotationStore(resource.getProject(), scheme);
+			AnnotationStore store = AnnotationStore.getDefaultFactory().getAnnotationStore(resource.getProject(),
+					scheme);
 			AnnotationFormManager.setFormCompositeData(composite, store, getURIFromResource(), false);
 		} catch (AnnotationCoreException e) {
 			// TODO Auto-generated catch block
@@ -295,6 +319,21 @@ public class AnnotationsView extends ViewPart {
 		}
 	}
 
+	// Temp until we sort out IAnnotable (hacked to work with .java files for now...)
+	private String getSchemeTypeURI() {
+		
+		String uri = getURIFromResource();
+		String type = uri.substring(0, uri.indexOf(':'));
+		
+		// now see if .java file (i.e. ManagedEntity)
+		if(uri.indexOf('.') > 0) {
+			type += uri.substring(uri.indexOf('.'));
+		}
+		
+		return type;
+		
+	}
+	
 	private String getURIFromResource() {
 
 		IAdaptable adaptable = (IAdaptable) resource;

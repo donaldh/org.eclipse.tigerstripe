@@ -12,15 +12,15 @@ package org.eclipse.tigerstripe.annotations.ui.internal;
 
 import java.util.Comparator;
 
-import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
+import org.eclipse.tigerstripe.annotations.IAnnotationSpecificationLiteral;
 
-public class AnnotationSchemeComparator implements
-		Comparator<IAnnotationScheme> {
+public class AnnotationSpecificationLiteralComparator implements
+		Comparator<IAnnotationSpecificationLiteral> {
 
-	public int compare(IAnnotationScheme scheme1, IAnnotationScheme scheme2) {
+	public int compare(IAnnotationSpecificationLiteral literal1,
+			IAnnotationSpecificationLiteral literal2) {
 
-		return scheme1.getNamespaceUserLabel().compareTo(
-				scheme2.getNamespaceUserLabel());
-
+		return (literal1.getIndex() - literal2.getIndex());
 	}
+
 }
