@@ -123,7 +123,7 @@ public class AnnotationsView extends ViewPart {
 		formData.right = new FormAttachment(100, -5);
 		label.setLayoutData(formData);
 
-		schemeComboViewer = new ComboViewer(parent, SWT.DROP_DOWN);
+		schemeComboViewer = new ComboViewer(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
 		schemeComboViewer.setLabelProvider(new SchemeLabelProvider());
 		schemeComboViewer.setContentProvider(new ArrayContentProvider());
 		schemeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -188,7 +188,7 @@ public class AnnotationsView extends ViewPart {
 
 		});
 
-		formComposite = new Composite(parent, SWT.BORDER);
+		formComposite = new Composite(parent, SWT.NONE);
 		formData = new FormData();
 		formData.top = new FormAttachment(schemeCombo, 5);
 		formData.bottom = new FormAttachment(cancel, -5);

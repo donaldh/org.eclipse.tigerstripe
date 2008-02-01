@@ -76,7 +76,7 @@ public class AnnotationFormManager {
 				Label label = new Label(composite, SWT.LEFT);
 				label.setText(spec.getUserLabel());
 				ComboViewer comboViewer = new ComboViewer(composite,
-						SWT.DROP_DOWN);
+						SWT.DROP_DOWN | SWT.READ_ONLY);
 				comboViewer.setLabelProvider(new ILabelProvider() {
 
 					public Image getImage(Object element) {
