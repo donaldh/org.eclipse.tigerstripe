@@ -109,6 +109,28 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return Collections.unmodifiableCollection(stereotypeInstances);
 	}
 
+	
+	@Override
+	public IStereotypeInstance getStereotypeInstanceByName(String name) {
+		for (IStereotypeInstance inst : stereotypeInstances){
+			if (inst.getName().equals(name)){
+				return inst;
+			}
+		}
+		return null;
+	}
+
+	
+	
+	@Override
+	public boolean hasStereotypeInstance(String name) {
+		IStereotypeInstance inst = getStereotypeInstanceByName(name);
+		if (inst == null)
+			return false;
+		else
+			return true;
+	}
+
 	public void addStereotypeInstance(IStereotypeInstance instance) {
 		if (!stereotypeInstances.contains(instance)) {
 			this.stereotypeInstances.add(instance);

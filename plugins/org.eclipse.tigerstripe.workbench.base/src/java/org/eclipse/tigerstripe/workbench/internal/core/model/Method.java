@@ -104,6 +104,25 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			return ((Method) theMethod).getReturnStereotypeInstances();
 		}
 
+		@Override
+		public IStereotypeInstance getStereotypeInstanceByName(String name) {
+			for (IStereotypeInstance inst : methodReturnStereotypes){
+				if (inst.getName().equals(name)){
+					return inst;
+				}
+			}
+			return null;
+		}
+		
+		@Override
+		public boolean hasStereotypeInstance(String name) {
+			IStereotypeInstance inst = getStereotypeInstanceByName(name);
+			if (inst == null)
+				return false;
+			else
+				return true;
+		}
+		
 		public void removeStereotypeInstance(IStereotypeInstance instance) {
 			((Method) theMethod).removeReturnStereotypeInstance(instance);
 		}
@@ -630,7 +649,25 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			return Collections.unmodifiableCollection(stereotypeInstances);
 		}
 
+		@Override
+		public IStereotypeInstance getStereotypeInstanceByName(String name) {
+			for (IStereotypeInstance inst : stereotypeInstances){
+				if (inst.getName().equals(name)){
+					return inst;
+				}
+			}
+			return null;
+		}
 
+		@Override
+		public boolean hasStereotypeInstance(String name) {
+			IStereotypeInstance inst = getStereotypeInstanceByName(name);
+			if (inst == null)
+				return false;
+			else
+				return true;
+		}
+		
 		public void addStereotypeInstance(IStereotypeInstance instance) {
 			if (!stereotypeInstances.contains(instance)) {
 				this.stereotypeInstances.add(instance);

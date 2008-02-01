@@ -31,6 +31,21 @@ public interface IStereotypeCapable {
 	 * @return array of IStereotypeInstance.
 	 */
 	public Collection<IStereotypeInstance> getStereotypeInstances();
+	/**
+	 * Returns a StereotypeInstance with the name supplied.
+	 * If there is no instance with that name, null is returned.
+	 * @param name
+	 * @return IStereotypeInstance
+	 */
+	public IStereotypeInstance getStereotypeInstanceByName(String name);
+	
+	/**
+	 * Checks for the presence of the named stereotype.
+	 *  
+	 * @param name
+	 * @return 
+	 */
+	public boolean hasStereotypeInstance(String name);
 
 	public void addStereotypeInstance(IStereotypeInstance instance);
 
