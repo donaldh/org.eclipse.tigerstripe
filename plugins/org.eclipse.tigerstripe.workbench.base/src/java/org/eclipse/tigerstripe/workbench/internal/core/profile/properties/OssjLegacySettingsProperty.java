@@ -61,7 +61,7 @@ public class OssjLegacySettingsProperty extends MultiPropertiesProfileProperty
 					"Named Queries can be explicitly referenced on a "
 							+ SessionFacadeArtifact.LABEL, "true", "" },
 
-			{
+/*			{
 					ENABLE_JVT_PLUGIN,
 					"Enable the legacy OSS/J Plugin for JVT Profile generation",
 					"true", "OSS/J Legacy Plugins" },
@@ -72,7 +72,7 @@ public class OssjLegacySettingsProperty extends MultiPropertiesProfileProperty
 			{
 					ENABLE_WSDL_PLUGIN,
 					"Enable the legacy OSS/J Plugin for WSDL Profile generation",
-					"true", "" }, };
+					"true", "" },*/ };
 
 	@Override
 	protected String getPropertyLabel() {

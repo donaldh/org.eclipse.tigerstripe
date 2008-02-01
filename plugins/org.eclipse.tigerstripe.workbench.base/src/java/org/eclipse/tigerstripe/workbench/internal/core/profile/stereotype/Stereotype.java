@@ -291,7 +291,7 @@ public class Stereotype implements IStereotype {
 		scope.addAttribute("attribute", String.valueOf(details
 				.isAttributeLevel()));
 		scope.addAttribute("method", String.valueOf(details.isMethodLevel()));
-		scope.addAttribute("literal", String.valueOf(details.isLiteralLevel()));
+		scope.addAttribute("label", String.valueOf(details.isLiteralLevel()));
 
 		if (details.getArtifactLevelTypes() != null) {
 			String[] types = details.getArtifactLevelTypes();
@@ -335,7 +335,7 @@ public class Stereotype implements IStereotype {
 					.attributeValue("attribute")));
 			details.setMethodLevel("true"
 					.equals(scope.attributeValue("method")));
-			details.setLiteralLevel("true".equals(scope.attributeValue("literal")));
+			details.setLiteralLevel("true".equals(scope.attributeValue("label")));
 			details.setArtifactLevelTypes(null);
 			ArrayList<String> incls = new ArrayList<String>();
 			for (Iterator<Element> iter = scope

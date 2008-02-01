@@ -24,8 +24,8 @@ public interface IOssjLegacySettigsProperty extends IWorkbenchProfileProperty {
 	public final static String USEEXPOSEDPROCEDURES_ONSESSION = "useExposedUpdateProceduresOnSession";
 	public final static String USENAMEDQUERIES_ONSESSION = "useNamedQueriesOnSession";
 
-	public final static String ENABLE_JVT_PLUGIN = "enableJVTLegacyPlugin";
-	public final static String ENABLE_XML_PLUGIN = "enableXMLLegacyPlugin";
-	public final static String ENABLE_WSDL_PLUGIN = "enableWSDLLegacyPlugin";
+	//public final static String ENABLE_JVT_PLUGIN = "enableJVTLegacyPlugin";
+	//public final static String ENABLE_XML_PLUGIN = "enableXMLLegacyPlugin";
+	//public final static String ENABLE_WSDL_PLUGIN = "enableWSDLLegacyPlugin";
 
 }

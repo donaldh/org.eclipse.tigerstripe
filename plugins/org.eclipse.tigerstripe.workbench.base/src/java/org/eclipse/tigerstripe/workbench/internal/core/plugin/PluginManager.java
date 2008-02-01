@@ -24,14 +24,8 @@ import java.util.zip.ZipFile;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.OssjInterfacePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.ws.OssjWsdlPlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.wsExample.OssjWsdlExamplePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossjxml.OssjXMLSchemaPlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossjxml.xmlExample.OssjXmlExamplePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
@@ -112,52 +106,14 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 	public void load() {
 		housings = new ArrayList();
 
-		try {
-
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 					.getWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
-
-			// These are the old "plugins" that weren't really pluggable
-			if (prop
-					.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_JVT_PLUGIN)) {
-				PluginHousing ossjPlugin = new PluginHousing(
-						OssjInterfacePlugin.class);
-				registerHousing(ossjPlugin);
-			}
-
-			if (prop
-					.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_XML_PLUGIN)) {
-				PluginHousing xmlPlugin = new PluginHousing(
-						OssjXMLSchemaPlugin.class);
-				registerHousing(xmlPlugin);
-
-				PluginHousing xmlExamplePlugin = new PluginHousing(
-						OssjXmlExamplePlugin.class);
-				registerHousing(xmlExamplePlugin);
-			}
-			if (prop
-					.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_WSDL_PLUGIN)) {
-				PluginHousing wsdlPlugin = new PluginHousing(
-						OssjWsdlPlugin.class);
-				registerHousing(wsdlPlugin);
-
-				PluginHousing wsdlExamplePlugin = new PluginHousing(
-						OssjWsdlExamplePlugin.class);
-				registerHousing(wsdlExamplePlugin);
-			}
-
-			// PluginHousing jvtStubPlugin = new PluginHousing(
-			// OssjJvtStubPlugin.class );
-			// registerHousing( jvtStubPlugin );
 
 
 			// This will load the actual pluggable plugins
 			loadPluggableHousings();
 
-		} catch (TigerstripeException e) {
-			// TODO need proper error handling here
-		}
 	}
 
 	/**

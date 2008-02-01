@@ -263,6 +263,9 @@ public abstract class ArtifactComponent implements IModelComponent,
 	}
 
 	public EVisibility getVisibility() {
+		if (this.visibility == null){
+			setVisibility(EVisibility.PUBLIC);
+		}
 		return this.visibility;
 	}
 

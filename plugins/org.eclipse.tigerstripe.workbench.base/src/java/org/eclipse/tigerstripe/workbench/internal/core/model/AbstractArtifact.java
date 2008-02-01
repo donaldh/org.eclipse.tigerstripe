@@ -910,7 +910,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public IField makeField() {
-		return new Field(getArtifactManager());
+		Field result = new Field(getArtifactManager());
+		result.setContainingArtifact(this);
+		return result;
 	}
 
 	public void setFields(Collection<IField> fields) {
@@ -945,6 +947,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	public ILiteral makeLiteral() {
 		Literal result = new Literal(getArtifactManager());
+		result.setContainingArtifact(this);
 		return result;
 	}
 

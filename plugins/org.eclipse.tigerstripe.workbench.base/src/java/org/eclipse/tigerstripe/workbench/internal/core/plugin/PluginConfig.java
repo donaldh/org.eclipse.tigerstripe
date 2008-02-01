@@ -98,7 +98,7 @@ public abstract class PluginConfig implements IPluginConfig {
 		return result;
 	}
 
-	public abstract String getActiveVersion();
+
 
 	public void setProperties(Properties properties) {
 		if (properties != null) {

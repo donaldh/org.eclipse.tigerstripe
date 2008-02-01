@@ -67,19 +67,7 @@ public class PluginConfigurationPage extends TigerstripeFormPage {
 				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
-		if (prop.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_JVT_PLUGIN)) {
-			managedForm.addPart(new JVTProfileSection(this, body, toolkit));
-		}
-
-		if (prop.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_XML_PLUGIN)) {
-			managedForm.addPart(new XMLProfileSection(this, body, toolkit));
-		}
-
-		if (prop
-				.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_WSDL_PLUGIN)) {
-			managedForm.addPart(new WSDLProfileSection(this, body, toolkit));
-		}
-
+		
 		addUserPluginsParts(managedForm, toolkit);
 	}
 

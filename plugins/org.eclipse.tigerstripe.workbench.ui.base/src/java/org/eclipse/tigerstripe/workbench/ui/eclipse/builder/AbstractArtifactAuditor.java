@@ -101,7 +101,7 @@ public abstract class AbstractArtifactAuditor {
 		checkAttributes(monitor);
 		checkLabels(monitor);
 		checkMethods(monitor);
-		checkInterfacePackage();
+		//checkInterfacePackage();
 		checkSuperArtifact();
 		checkImplementedArtifacts();
 	}
@@ -154,7 +154,7 @@ public abstract class AbstractArtifactAuditor {
 				getArtifact());
 	}
 
-	protected void checkInterfacePackage() {
+	/*protected void checkInterfacePackage() {
 
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 				.getWorkbenchProfileSession().getActiveProfile().getProperty(
@@ -190,7 +190,7 @@ public abstract class AbstractArtifactAuditor {
 				}
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Checks that the super artifact has the same artifact type. We don't worry

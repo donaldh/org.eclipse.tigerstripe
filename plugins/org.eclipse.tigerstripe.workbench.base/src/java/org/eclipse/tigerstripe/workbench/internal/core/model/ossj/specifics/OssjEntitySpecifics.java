@@ -20,8 +20,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.internal.core.model.tags.PropertiesConstants;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.KeyInterfaceModel;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.ValueInterfaceModel;
 import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
 
@@ -180,13 +178,13 @@ public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 		// THIS IS A HACK TO OVERWRITE WHAT WAS EXTRACTED in SUPER.BUILD()
 		// because the tag is different for an Entity
 		Tag intfTag = getArtifact().getFirstTagByName(
-				ValueInterfaceModel.VALUE_TAG);
+				OssjTags.VALUE_TAG);
 		if (intfTag != null) {
 			setInterfaceProperties(intfTag.getProperties());
 		}
 
 		Tag keyIntfTag = getArtifact().getFirstTagByName(
-				KeyInterfaceModel.KEYINTERFACE_TAG);
+				OssjTags.KEYINTERFACE_TAG);
 		if (keyIntfTag != null) {
 			interfaceKeyProperties = keyIntfTag.getProperties();
 		}

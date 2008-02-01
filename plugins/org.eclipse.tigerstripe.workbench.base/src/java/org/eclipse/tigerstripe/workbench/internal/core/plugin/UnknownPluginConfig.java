@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IVersionAwarePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
 public class UnknownPluginConfig extends PluginConfig {
@@ -23,11 +22,6 @@ public class UnknownPluginConfig extends PluginConfig {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String getActiveVersion() {
-		return getProperties().getProperty("activeVersion",
-				IVersionAwarePlugin.NONE);
-	}
 
 	@Override
 	public String getGroupId() {

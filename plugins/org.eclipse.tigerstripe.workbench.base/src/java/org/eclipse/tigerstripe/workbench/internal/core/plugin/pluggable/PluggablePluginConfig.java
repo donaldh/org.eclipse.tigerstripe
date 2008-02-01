@@ -26,12 +26,6 @@ public class PluggablePluginConfig extends PluginConfig {
 	}
 
 	@Override
-	public String getActiveVersion() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getPluginId() {
 		return pluginId;
 	}

@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 
-import java.util.Properties;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -22,9 +20,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.XmlPluginConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PackageToSchemaMapper.PckXSDMapping;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -215,48 +210,6 @@ public class DescriptorAuditor {
 				}
 			}
 			// TODO : Check the Property TYPE is the same?
-		}
-
-		// FIXME: this should not be implemented here
-		// Check XmlPlugin Mapping properties
-		if (ref instanceof XmlPluginConfig) {
-			XmlPluginConfig xmlRef = (XmlPluginConfig) ref;
-			PackageToSchemaMapper mapper = xmlRef.getMapper();
-
-			if (mapper.useDefaultMapping()) {
-				String str = mapper.getDefaultSchemaName();
-				if (str == null || str.trim().length() == 0) {
-					TigerstripeProjectAuditor.reportError(
-							"XML Schema name undefined for project '"
-									+ project.getName() + "'.",
-							projectDescriptor, 222);
-				}
-
-				str = mapper.getDefaultSchemaLocation();
-				if (str == null || str.trim().length() == 0) {
-					TigerstripeProjectAuditor.reportError(
-							"XML Schema location undefined for project '"
-									+ project.getName() + "'.",
-							projectDescriptor, 222);
-				}
-
-				str = mapper.getTargetNamespace();
-				if (str == null || str.trim().length() == 0) {
-					TigerstripeProjectAuditor.reportError(
-							"XML Schema namespace undefined for project '"
-									+ project.getName() + "'.",
-							projectDescriptor, 222);
-				}
-
-			} else {
-				PckXSDMapping[] mappings = mapper.getMappings();
-				if (mappings == null || mappings.length == 0) {
-					TigerstripeProjectAuditor.reportError(
-							"No Package-XSD mapping defined for project '"
-									+ project.getName() + "'.",
-							projectDescriptor, 222);
-				}
-			}
 		}
 
 	}

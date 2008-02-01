@@ -18,7 +18,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.StandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.OssjInterfaceModel;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -95,7 +94,7 @@ public abstract class OssjArtifactSpecifics extends StandardSpecifics implements
 		super.build();
 		// extract the interface properties
 		Tag intfTag = getArtifact().getFirstTagByName(
-				OssjInterfaceModel.INTERFACE_TAG);
+				OssjTags.INTERFACE_TAG);
 		if (intfTag != null) {
 			interfaceProperties = intfTag.getProperties();
 		}

@@ -129,24 +129,13 @@ public class PluginConfigFactory {
 			throws UnknownPluginException {
 
 		PluginConfig pluginConfig = null;
-		if (JvtPluginConfig.MODEL.getPluginId().equals(pluginId)) {
-			pluginConfig = new JvtPluginConfig(project);
-		} else if (XmlPluginConfig.MODEL.getPluginId().equals(pluginId)) {
-			pluginConfig = new XmlPluginConfig(project);
-		} else if (XmlExamplePluginConfig.MODEL.getPluginId().equals(pluginId)) {
-			pluginConfig = new XmlExamplePluginConfig(project);
-		} else if (WsdlPluginConfig.MODEL.getPluginId().equals(pluginId)) {
-			pluginConfig = new WsdlPluginConfig(project);
-		} else if (WsdlExamplePluginConfig.MODEL.getPluginId().equals(pluginId)) {
-			pluginConfig = new WsdlExamplePluginConfig(project);
-		} else {
-			// Consider it as a PluggablePluginConfig then.
+		
 			PluggablePluginConfig ref = new PluggablePluginConfig(project);
 			ref.setGroupId(groupId);
 			ref.setPluginId(pluginId);
 			ref.setVersion(version);
 			pluginConfig = ref;
-		}
+		
 		return pluginConfig;
 	}
 

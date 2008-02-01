@@ -102,8 +102,6 @@ public interface IPluginConfig {
 
 	public Throwable getValidationFailThrowable();
 
-	public String getActiveVersion();
-
 	public int getCategory();
 
 	/**

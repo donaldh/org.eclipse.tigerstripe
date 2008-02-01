@@ -37,8 +37,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin.IOssjJVTProfilePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.JvtPluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -91,17 +89,6 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	// Should messages from code generation be logged during run
 	// (PROP_GENERATION_LogMessages)
 	private Button logMessagesButton;
-
-	// should XML message payload samples be generated
-	// (PROP_GENERATION_GenerateXmlMessagePayloadSample)
-	// Moved to the wsdl page for consistency
-	// private Button generateWSDLExamplesButton;
-
-	// should examples use the network for schemas
-	// (PROP_GENERATION_MessagePayloadSampleAllowNetwork)
-	private Button allowNetworkButton;
-
-	private Text defaultSchemaLocationText;
 
 	// Artifact elements without tags should be ignored
 	// (PROP_MISC_IgnoreArtifactElementsWithoutTag)
@@ -198,26 +185,6 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 				EclipsePlugin.log(status);
 			}
 
-		} else if (e.getSource() == allowNetworkButton) {
-
-			try {
-				handle
-						.setAdvancedProperty(
-								IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleAllowNetwork,
-								String.valueOf(allowNetworkButton
-										.getSelection()));
-				markPageModified();
-			} catch (TigerstripeException ee) {
-				Status status = new Status(
-						IStatus.ERROR,
-						TigerstripePluginConstants.PLUGIN_ID,
-						222,
-						"Error while setting "
-								+ IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleAllowNetwork
-								+ " advanced property on Project "
-								+ handle.getProjectLabel(), ee);
-				EclipsePlugin.log(status);
-			}
 		} else if (e.getSource() == ignoreElementsWithoutTagsButton) {
 			try {
 				handle
@@ -277,29 +244,8 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		if (!isSilentUpdate()) {
 			// when updating the form, the changes to all fields should be
 			// ignored so that the form is not marked as dirty.
-			ITigerstripeProject handle = getTSProject();
 
-			if (e.getSource() == defaultSchemaLocationText) {
-				try {
-					handle
-							.setAdvancedProperty(
-									IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleDefaultlocation,
-									String.valueOf(defaultSchemaLocationText
-											.getText()));
-				} catch (TigerstripeException ee) {
-					Status status = new Status(
-							IStatus.ERROR,
-							TigerstripePluginConstants.PLUGIN_ID,
-							222,
-							"Error while setting "
-									+ IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleDefaultlocation
-									+ " advanced property on Project "
-									+ handle.getProjectLabel(), ee);
-					EclipsePlugin.log(status);
-				}
-			}
-
-			markPageModified();
+			//markPageModified();
 		}
 	}
 
@@ -326,29 +272,6 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		getToolkit().paintBordersFor(getBody());
 	}
 
-	/**
-	 * Returns the XML plugin ref from the descriptor if it exists, null
-	 * otherwise.
-	 * 
-	 * @return
-	 */
-	private IPluginConfig getJvtPluginConfig() {
-		try {
-			ITigerstripeProject handle = getTSProject();
-			IPluginConfig[] plugins = handle.getPluginConfigs();
-
-			for (int i = 0; i < plugins.length; i++) {
-				if (JvtPluginConfig.MODEL.getPluginId().equals(
-						plugins[i].getPluginId()))
-					return plugins[i];
-			}
-
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
-		}
-
-		return null;
-	}
 
 	private TigerstripeProject getTigerstripeProject() {
 		try {
@@ -368,8 +291,6 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		
 		((PluginConfig)ref).getProperties().setProperty("defaultInterfacePackage",
 				"com.mycompany");
-		((PluginConfig)ref).getProperties().setProperty("activeVersion",
-				IOssjJVTProfilePlugin.defaultVersion);
 	}
 
 	private void createButtons(Composite parent, FormToolkit toolkit)
@@ -762,16 +683,6 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 							.equalsIgnoreCase(handle
 									.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_LogMessages)));
 
-			allowNetworkButton
-					.setSelection("true"
-							.equalsIgnoreCase(handle
-									.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleAllowNetwork)));
-
-			defaultSchemaLocationText
-					.setText(handle
-							.getAdvancedProperty(
-									IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleDefaultlocation,
-									""));
 
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
@@ -844,28 +755,6 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		logMessagesButton.setLayoutData(gd);
 		logMessagesButton.addSelectionListener(listener);
 
-		allowNetworkButton = toolkit.createButton(innerComposite,
-				"Allow Internet Access for message payload samples", SWT.CHECK);
-
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		gd.horizontalSpan = 8;
-		allowNetworkButton.setLayoutData(gd);
-		allowNetworkButton.addSelectionListener(listener);
-
-		Label label = toolkit
-				.createLabel(
-						innerComposite,
-						"Default Location for schemas (relative to Project Base Dir): ",
-						SWT.NULL);
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		gd.horizontalSpan = 3;
-		label.setLayoutData(gd);
-
-		defaultSchemaLocationText = toolkit.createText(innerComposite, "");
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		gd.horizontalSpan = 2;
-		defaultSchemaLocationText.setLayoutData(gd);
-		defaultSchemaLocationText.addModifyListener(listener);
 		getToolkit().paintBordersFor(innerComposite);
 
 	}

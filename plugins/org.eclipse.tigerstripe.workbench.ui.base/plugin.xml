@@ -505,7 +505,7 @@
       <extension
          point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">
       <contribution
-            actionClass="org.eclipse.tigerstripe.eclipse.actions.OpenNewContractUseCaseWizardAction"
+            actionClass="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewContractUseCaseWizardAction"
             name="Open Contract Use Case Action"/>
    </extension>
       <extension

@@ -111,7 +111,6 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request;uses:="org.eclipse.tigerstripe.api.artifacts.updater",
  org.eclipse.tigerstripe.workbench.internal.api.modules;uses:="org.eclipse.tigerstripe.api.utils,org.eclipse.tigerstripe.api.project",
  org.eclipse.tigerstripe.workbench.internal.api.plugins,
- org.eclipse.tigerstripe.workbench.internal.api.plugins.builtin,
  org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.api.external.plugins,
@@ -251,13 +250,6 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.core.project,
    org.apache.velocity,
    org.eclipse.tigerstripe.core.model",
- org.eclipse.tigerstripe.workbench.internal.core.plugin.ossj.ws;
-  uses:="org.eclipse.tigerstripe.core.generation,
-   org.eclipse.tigerstripe.core.plugin,
-   org.eclipse.tigerstripe.core.model,
-   org.eclipse.tigerstripe.core.plugin.base,
-   org.eclipse.tigerstripe.api.project,
-   org.eclipse.tigerstripe.api.artifacts.model.ossj",
  org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.api.external.plugins,

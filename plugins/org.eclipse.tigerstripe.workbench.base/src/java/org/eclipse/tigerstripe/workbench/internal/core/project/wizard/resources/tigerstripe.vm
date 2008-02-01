@@ -14,28 +14,14 @@
 		<outputDirectory>$details.OutputDirectory</outputDirectory>
 		<nature>$details.Nature</nature>
 		<property name="defaultArtifactPackage">$details.DefaultArtifactPackage</property>
-		<property name="ossj.common.schemaLocation">http://ossj.org/xml/Common/v1-3/OSSJ-Common-v1-3.xsd</property>
-		<property name="ossj.common.namespacePrefix">co-v1-3</property>
-		<property name="ossj.common.targetNamespace">http://ossj.org/xml/Common/v1-3</property>
-	</project>
+		</project>
 	<repositories>
 		<repository baseDir=".">
 			<includes>src/**/*.java</includes>
 		</repository>
 	</repositories>
 	<plugins>
-		<plugin enabled="false" groupId="ts" pluginId="ossj-jvt-spec" version="dev">
-			<property name="defaultInterfacePackage">$details.DefaultInterfacePackage</property>
-		</plugin>
-		<plugin enabled="false" groupId="ts" pluginId="ossj-xml-spec" version="dev">
-			<packageMapping defaultLocation="http://ossj.org/xml/${name}/v${ver}/OSSJ-${name}-v${ver}.xsd" defaultName="xml/${name}/v${ver}/OSSJ-${name}-v${ver}.xsd" targetNamespace="http://ossj.org/xml/${name}/v${ver}"  defaultUserPrefix="ossj-${name}-v${ver}" useDefaultMapping="true"/>
-		</plugin>
-		<plugin enabled="false" groupId="ts" pluginId="ossj-wsdl-spec" version="dev">
-			<property name="targetNamespace">$details.DefaultXsdNamespace</property>
-			<property name="includeWSNotifications">true</property>
-			<property name="WSNotificationsLocation">http://www-128.ibm.com/developerworks/library/specification/ws-notification/WS-BaseN.wsdl</property>
-		</plugin>
-		</plugins>
+			</plugins>
 	<dependencies>
 	#foreach($key in $details.ReqModules.keySet())
 		<dependency path="$key"/>
