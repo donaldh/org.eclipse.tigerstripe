@@ -41,7 +41,7 @@ public class EnumerationAnnotationSpecification extends
 		AnnotationSpecificationLiteral literal;
 		for (IConfigurationElement child : element.getChildren("literal")) {
 			literal = new AnnotationSpecificationLiteral();
-			literal.setValue(child.getAttribute("name"));
+			literal.setValue(child.getAttribute("value"));
 			literal.setIndex(Integer.parseInt(child.getAttribute("index")));
 			addLiteral(literal);
 		}

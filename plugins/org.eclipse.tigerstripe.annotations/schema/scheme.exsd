@@ -283,18 +283,18 @@
    <element name="literal">
       <annotation>
          <appInfo>
-            <meta.element labelAttribute="name"/>
+            <meta.element labelAttribute="value"/>
          </appInfo>
       </annotation>
       <complexType>
-         <attribute name="name" type="string" use="required">
+         <attribute name="value" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
             </annotation>
          </attribute>
-          <attribute name="index" type="string" use="required">
+         <attribute name="index" type="string" use="required">
             <annotation>
                <documentation>
                   
