@@ -219,7 +219,7 @@ public class AnnotationsView extends ViewPart {
 		IAdaptable adaptable = (IAdaptable) element;
 		resource = (IResource) adaptable.getAdapter(IResource.class);
 		if (resource == null) {
-
+			
 			schemeComboViewer.setInput(new String[] {});
 			schemeComboViewer.getCombo().setEnabled(false);
 			((StackLayout) formComposite.getLayout()).topControl = null;
@@ -272,6 +272,11 @@ public class AnnotationsView extends ViewPart {
 		schemeForUriMap.put(getSchemeTypeURI(), scheme.getNamespaceUserLabel());
 
 		IAnnotationForm form = scheme.selectForm(getURIFromResource());
+		if(form == null) {
+			((StackLayout) formComposite.getLayout()).topControl = null;
+			formComposite.getParent().layout(true, true);
+			return;
+		}
 		Composite composite = (Composite) formCompositeMap.get(form.getID());
 		if (composite == null) {
 			composite = AnnotationFormManager.createFormComposite(formComposite, form);
