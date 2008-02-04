@@ -151,7 +151,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 						IAssociationEnd zEnd = (IAssociationEnd) ((IAssociationArtifact) relationship)
 								.getZEnd();
 						IAbstractArtifact associatedArt = zEnd.getType()
-								.getIArtifact();
+								.getArtifact();
 						// if an artifact of the same type isn't already in the
 						// diagram, add it to the list
 						// of associated artifacts that could be added
@@ -170,7 +170,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 					} else if (relationship instanceof IDependencyArtifact) {
 						IRelationshipEnd zEnd = ((IDependencyArtifact) relationship)
 								.getRelationshipZEnd();
-						IAbstractArtifact dependentArt = zEnd.getType().getIArtifact();
+						IAbstractArtifact dependentArt = zEnd.getType().getArtifact();
 						// if an artifact of the same type isn't already in the
 						// diagram, add it to the list
 						// of dependent artifacts that could be added
@@ -196,7 +196,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 						IAssociationEnd aEnd = (IAssociationEnd) ((IAssociationArtifact) relationship)
 								.getAEnd();
 						IAbstractArtifact associatingArt = aEnd.getType()
-								.getIArtifact();
+								.getArtifact();
 						// if an artifact of the same type isn't already in the
 						// diagram, add it to the list
 						// of associating artifacts that could be added
@@ -215,7 +215,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 					} else if (relationship instanceof IDependencyArtifact) {
 						IRelationshipEnd aEnd = ((IDependencyArtifact) relationship)
 								.getRelationshipAEnd();
-						IAbstractArtifact dependingArt = aEnd.getType().getIArtifact();
+						IAbstractArtifact dependingArt = aEnd.getType().getArtifact();
 						// if an artifact of the same type isn't already in the
 						// diagram, add it to the list
 						// of depending artifacts that could be added
@@ -540,9 +540,9 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 				AssociationClassArtifact assocClassArt = (AssociationClassArtifact) artifact;
 				IAbstractArtifact[] endArray = new IAbstractArtifact[] {
 						(IAbstractArtifact) assocClassArt.getAEnd()
-								.getType().getIArtifact(),
+								.getType().getArtifact(),
 						(IAbstractArtifact) assocClassArt.getZEnd()
-								.getType().getIArtifact() };
+								.getType().getArtifact() };
 				associationClassEndsMap.put(assocClassArt, endArray);
 			} else {
 				artifactsToAdd.add(artifact);
