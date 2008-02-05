@@ -82,8 +82,6 @@ public class ExternalModules {
 	// resultList.add(dep);
 	// } catch ( TigerstripeException e ) {
 	// // invalid module, ignore
-	// } catch ( TigerstripeLicenseException e ) {
-	// // invalid module, ignore
 	// }
 	// }
 	// }

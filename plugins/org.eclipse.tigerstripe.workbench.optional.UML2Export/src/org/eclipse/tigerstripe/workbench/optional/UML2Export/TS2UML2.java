@@ -46,7 +46,6 @@ import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IException;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;

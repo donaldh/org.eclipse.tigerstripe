@@ -21,7 +21,6 @@ import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
@@ -391,9 +390,7 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 				}
 			}
 
-		} catch (TigerstripeLicenseException e) {
-			TigerstripeRuntime.logErrorMessage(
-					"TigerstripeLicenseException detected", e);
+		
 		} catch (TigerstripeException e) {
 			TigerstripeException newException;
 			if (currentArtifact != null) {

@@ -32,11 +32,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
@@ -144,8 +143,6 @@ public abstract class NewTSElementWizard extends Wizard implements INewWizard {
 					} catch (PartInitException e) {
 						EclipsePlugin.log(e);
 					} catch (FileNotFoundException e) {
-						EclipsePlugin.log(e);
-					} catch (TigerstripeLicenseException e) {
 						EclipsePlugin.log(e);
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);

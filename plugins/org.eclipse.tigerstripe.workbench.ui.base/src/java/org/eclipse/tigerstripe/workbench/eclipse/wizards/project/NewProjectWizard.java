@@ -32,7 +32,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ExternalModules;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -213,8 +212,6 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 							page.openEditor(new FileEditorInput(ifile),
 									TSOpenAction.DESCRIPTOR_EDITOR);
 						} catch (PartInitException e) {
-							EclipsePlugin.log(e);
-						} catch (TigerstripeLicenseException e) {
 							EclipsePlugin.log(e);
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);

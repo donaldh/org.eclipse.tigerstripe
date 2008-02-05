@@ -47,7 +47,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ExternalModules;
@@ -425,8 +424,6 @@ public class DescriptorDependenciesSection extends
 						viewer.add(localDependency);
 						markPageModified();
 					} catch (TigerstripeException e) {
-						EclipsePlugin.log(e);
-					} catch (TigerstripeLicenseException e) {
 						EclipsePlugin.log(e);
 					}
 				}

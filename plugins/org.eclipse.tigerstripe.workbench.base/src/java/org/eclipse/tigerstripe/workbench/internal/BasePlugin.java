@@ -10,8 +10,6 @@
  */
 package org.eclipse.tigerstripe.workbench.internal;
 
-import java.util.Dictionary;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
@@ -25,7 +23,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 public class BasePlugin extends Plugin {

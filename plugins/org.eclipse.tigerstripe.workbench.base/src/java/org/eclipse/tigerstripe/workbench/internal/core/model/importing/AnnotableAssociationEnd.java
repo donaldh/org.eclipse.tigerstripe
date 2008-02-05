@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.importing;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 
 public interface AnnotableAssociationEnd extends Annotable {
 

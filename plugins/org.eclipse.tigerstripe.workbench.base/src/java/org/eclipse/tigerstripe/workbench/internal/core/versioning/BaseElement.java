@@ -28,7 +28,6 @@ import org.dom4j.io.XMLWriter;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.api.versioning.IBaseElement;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -243,17 +242,13 @@ public abstract class BaseElement implements IBaseElement {
 					} else
 						return null;
 				}
-				try {
+
 					IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 					IAbstractTigerstripeProject tsProject = session
 							.makeTigerstripeProject(containingFolder.toURI(),
 									null);
 					return tsProject;
-				} catch (TigerstripeLicenseException e) {
-					throw new TigerstripeException(
-							"Can't figure containing project: "
-									+ e.getLocalizedMessage(), e);
-				}
+				
 			}
 		}
 		return null;

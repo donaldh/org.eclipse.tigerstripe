@@ -22,7 +22,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgr
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;

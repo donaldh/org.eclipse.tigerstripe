@@ -31,7 +31,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;

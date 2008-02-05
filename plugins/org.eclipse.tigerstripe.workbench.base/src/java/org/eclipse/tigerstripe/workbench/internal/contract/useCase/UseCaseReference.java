@@ -16,7 +16,6 @@ import java.net.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
@@ -150,9 +149,6 @@ public class UseCaseReference implements IUseCaseReference {
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
-		} catch (TigerstripeLicenseException e) {
-			TigerstripeRuntime.logErrorMessage(
-					"TigerstripeLicenseException detected", e);
 		}
 		return null;
 	}

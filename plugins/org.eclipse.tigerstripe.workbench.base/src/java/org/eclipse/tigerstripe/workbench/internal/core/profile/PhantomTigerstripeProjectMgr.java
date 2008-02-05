@@ -26,7 +26,6 @@ import java.util.zip.ZipException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
@@ -161,9 +160,6 @@ public class PhantomTigerstripeProjectMgr implements
 					// this was an invalid artifact, ignore here.
 				}
 			}
-		} catch (TigerstripeLicenseException e) {
-			// this is a bit of an annoyance here...
-
 		} catch (TigerstripeException e) {
 			// Error occured, ignoring now until proper logging.
 			// FIXME logging

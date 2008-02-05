@@ -41,7 +41,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
@@ -614,9 +613,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
 						"TigerstripeException detected", e);
-			} catch (TigerstripeLicenseException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"TigerstripeLicenseException detected", e);
+			
 			}
 		}
 		return null;
@@ -639,7 +636,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			Node path = namedAttributes.getNamedItem("path");
 
 			String label = path.getNodeValue();
-			try {
+
 
 				IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
 						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
@@ -654,10 +651,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 				if (prj != null)
 					addReferencedProject(prj);
-			} catch (TigerstripeLicenseException e) {
-				throw new TigerstripeException(
-						"Licensing error while loading referenced projects", e);
-			}
+			
+			
 		}
 	}
 

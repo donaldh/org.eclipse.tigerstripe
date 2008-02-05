@@ -39,7 +39,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.ui.dialogs.SelectionStatusDialog;
 
@@ -86,9 +85,7 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 					try {
 						tsProject = TigerstripeCore.getDefaultProjectSession()
 								.makeTigerstripeProject(projectURI, null);
-					} catch (TigerstripeLicenseException e) {
-
-					} catch (TigerstripeException e) {
+										} catch (TigerstripeException e) {
 
 					}
 					if (tsProject != null && tsProject.exists())

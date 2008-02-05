@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.persist;
 
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.IType;
 
 public class PersistUtils {
 

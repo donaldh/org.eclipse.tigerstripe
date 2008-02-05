@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 

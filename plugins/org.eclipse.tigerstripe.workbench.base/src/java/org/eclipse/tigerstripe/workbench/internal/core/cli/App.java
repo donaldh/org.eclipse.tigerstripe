@@ -27,7 +27,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -212,9 +211,7 @@ public class App {
 					project.generate(new TigerstripeProjectVisitor());
 					log.info("  Successfully completed.");
 				}
-			} catch (TigerstripeLicenseException e) {
-				log.error(e.getLocalizedMessage());
-				returnCode = RC_INIT_ERROR;
+			
 			} catch (TigerstripeException e) {
 				log.error(e.getLocalizedMessage());
 				returnCode = RC_INIT_ERROR;

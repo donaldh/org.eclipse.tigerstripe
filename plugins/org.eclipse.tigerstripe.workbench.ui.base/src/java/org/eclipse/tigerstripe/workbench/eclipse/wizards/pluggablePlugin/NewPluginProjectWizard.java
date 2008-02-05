@@ -50,7 +50,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
@@ -186,10 +185,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 									TSOpenAction.PLUGIN_DESCRIPTOR_EDITOR);
 						} catch (PartInitException e) {
 							EclipsePlugin.log(e);
-						} catch (TigerstripeLicenseException e) {
-							EclipsePlugin.log(e);
-							// } catch (TigerstripeException e) {
-							// EclipsePlugin.log(e);
+
 						}
 					}
 				});

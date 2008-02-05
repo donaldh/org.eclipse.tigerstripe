@@ -27,7 +27,6 @@ import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;

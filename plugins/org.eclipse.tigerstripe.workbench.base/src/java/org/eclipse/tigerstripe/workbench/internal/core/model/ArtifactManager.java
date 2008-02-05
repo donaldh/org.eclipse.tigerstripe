@@ -32,7 +32,6 @@ import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
@@ -202,9 +201,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
 						"TigerstripeException detected", e);
-			} catch (TigerstripeLicenseException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"TigerstripeLicenseException detected", e);
+			
 			}
 		}
 		return reservedPrimitiveTypeArtifacts;
@@ -266,9 +263,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
-				} catch (TigerstripeLicenseException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeLicenseException detected", e);
+				
 				}
 			}
 

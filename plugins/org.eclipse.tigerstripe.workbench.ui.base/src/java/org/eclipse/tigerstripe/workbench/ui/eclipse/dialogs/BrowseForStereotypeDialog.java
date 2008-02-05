@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.eclipse.jface.viewers.LabelProvider;

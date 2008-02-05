@@ -23,7 +23,6 @@ import java.util.Properties;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
@@ -155,8 +154,8 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 	 * @return VelocityContext - the default context
 	 */
 	protected VelocityContext getDefaultContext(PluggablePluginConfig pluginConfig,
-			IPluginRuleExecutor exec) throws TigerstripeException,
-			TigerstripeLicenseException {
+			IPluginRuleExecutor exec) throws TigerstripeException
+			 {
 		if (this.defaultVContext == null) {
 			this.defaultVContext = new VelocityContext();
 			VelocityContextUtil util = new VelocityContextUtil();

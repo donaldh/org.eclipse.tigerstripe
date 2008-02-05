@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench;
 
 import org.eclipse.tigerstripe.workbench.internal.TigerstripeRuntimeDetails;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.WorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
@@ -21,7 +20,6 @@ import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
  * The entry point for all interactions with the Tigerstripe API This is a
  * singleton class that acts as the factory class for any Tigerstripe Project.
  * 
- * Also, as the singleton is accessed, the TigerstripeLicense is checked.
  * 
  * Throughout the Tigerstripe API, a set of patterns are used:
  * <ul>
@@ -63,7 +61,7 @@ public class TigerstripeCore {
 	 * @return IProjectSession - the default project session.
 	 */
 	public static IProjectSession getDefaultProjectSession()
-			throws TigerstripeLicenseException {
+			 {
 
 		if (projectSession == null) {
 			ProjectSessionImpl session = new ProjectSessionImpl();

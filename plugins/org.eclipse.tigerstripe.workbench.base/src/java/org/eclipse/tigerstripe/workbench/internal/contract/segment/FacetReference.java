@@ -16,7 +16,6 @@ import java.net.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -198,9 +197,6 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
-		} catch (TigerstripeLicenseException e) {
-			TigerstripeRuntime.logErrorMessage(
-					"TigerstripeLicenseException detected", e);
 		}
 		return null;
 	}

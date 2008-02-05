@@ -21,7 +21,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.ui.IWorkbench;
@@ -133,12 +132,9 @@ public class TopLevelPreferencePage extends FieldEditorPreferencePage implements
 		label.setText("  " + TigerstripeRuntime.getTigerstripeRuntimeRoot());
 		label.setLayoutData(gd);
 		LicensedAccess licensedAccess = null;
-		try {
+
 			licensedAccess = LicensedAccess.getInstance();
-		} catch (TigerstripeLicenseException e) {
-			TigerstripeRuntime.logInfoMessage(
-					"TigerstripeLicenseException detected", e);
-		}
+		
 	}
 
 	public void init(IWorkbench workbench) {

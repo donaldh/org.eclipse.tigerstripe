@@ -12,10 +12,9 @@ package org.eclipse.tigerstripe.workbench.internal.api.examples;
 
 import java.io.File;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEntitySpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
@@ -82,9 +81,7 @@ public class CreateArtifact {
 			// THen it is possible to set specifics
 			entitySpecs.setPrimaryKey("String");
 
-		} catch (TigerstripeLicenseException e) {
-			TigerstripeRuntime.logErrorMessage(
-					"TigerstripeLicenseException detected", e);
+
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);

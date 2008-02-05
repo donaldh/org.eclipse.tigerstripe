@@ -356,8 +356,6 @@ public class TSDeleteAction extends DeleteAction {
 		// }
 		// } catch (TigerstripeException e) {
 		// EclipsePlugin.log(e);
-		// } catch (TigerstripeLicenseException e) {
-		// EclipsePlugin.log(e);
 		// }
 		// }
 	}

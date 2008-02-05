@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.util.license;
 
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 
 /**
  * This class is the singleton shell to validate any Licensed functionality
@@ -30,7 +29,7 @@ public class LicensedAccess implements ILicensedAccess {
 	}
 
 	public static LicensedAccess getInstance()
-			throws TigerstripeLicenseException {
+			 {
 		if (instance == null) {
 			instance = new LicensedAccess();
 			instance.initialize();
@@ -42,7 +41,7 @@ public class LicensedAccess implements ILicensedAccess {
 	 * Initialise the Licensing Framework by looking up the license and loading
 	 * the corresponding properties.
 	 */
-	private void initialize() throws TigerstripeLicenseException {
+	private void initialize() {
 
 	}
 
@@ -50,10 +49,9 @@ public class LicensedAccess implements ILicensedAccess {
 	 * Asserts that the given feature is accessible with the current license
 	 * 
 	 * @param feature
-	 * @throws TigerstripeLicenseException
 	 */
 	public void assertLicense(String feature)
-			throws TigerstripeLicenseException {
+			 {
 	}
 
 	public static TSWorkbenchPluggablePluginRole getWorkbenchPluggablePluginRole() {

@@ -62,7 +62,6 @@ import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;

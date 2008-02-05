@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -19,11 +18,10 @@ import java.util.List;
 
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -168,16 +166,13 @@ public class BrowseForArtifactDialog {
 
 	private Collection<IPrimitiveTypeArtifact> getBuiltinPrimitiveTypes()
 			throws TigerstripeException {
-		try {
+
 			if (isIncludePrimitiveTypes())
 				return TigerstripeCore.getDefaultProjectSession().getPhantomProject()
 						.getReservedPrimitiveTypes();
 			else
 				return new ArrayList<IPrimitiveTypeArtifact>();
-		} catch (TigerstripeLicenseException e) {
-			throw new TigerstripeException(
-					"Invalid license: " + e.getMessage(), e);
-		}
+		
 	}
 
 	/**

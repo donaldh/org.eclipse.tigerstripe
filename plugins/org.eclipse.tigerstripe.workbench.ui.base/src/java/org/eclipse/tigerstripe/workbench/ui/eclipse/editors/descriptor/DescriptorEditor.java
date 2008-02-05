@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
@@ -165,7 +164,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 		// Bug 584: the cached handle needs to see his underlying
 		// TigerstripeProject
 		// updated
-		try {
+
 			final IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 
 			IRunnableWithProgress op = new IRunnableWithProgress() {
@@ -195,9 +194,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 				EclipsePlugin.log(ee);
 			}
 
-		} catch (TigerstripeLicenseException e) {
-			EclipsePlugin.log(e);
-		}
+		
 
 		getEditor(sourcePageIndex).doSave(monitor);
 	}

@@ -17,7 +17,6 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -108,9 +107,6 @@ public class TigerstripeModuleBuildTask extends Task {
 				// };
 
 				log.info("  Successfully completed.");
-			} catch (TigerstripeLicenseException e) {
-				log.error(e.getLocalizedMessage());
-				returnCode = RC_INIT_ERROR;
 			} catch (TigerstripeException e) {
 				log.error(e.getLocalizedMessage());
 				returnCode = RC_INIT_ERROR;

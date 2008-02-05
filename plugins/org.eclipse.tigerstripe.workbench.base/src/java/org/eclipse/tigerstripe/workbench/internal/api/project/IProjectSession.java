@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.api.project;
 import java.net.URI;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -40,8 +39,6 @@ public interface IProjectSession  {
 	 *            ISimplePluggablePluginProject.class.getName() to create a
 	 *            Plugin Project. otherwise a Genering TigerstripeOssjProject is
 	 *            created by default
-	 * @throws TigerstripeLicenseException
-	 *             if the current license doesn't allow this operation
 	 * @throws UnsupportedOperationException
 	 *             if the projectType is not supported
 	 * @throws org.eclipse.tigerstripe.workbench.TigerstripeException
@@ -49,7 +46,7 @@ public interface IProjectSession  {
 	 * @return
 	 */
 	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI,
-			String projectType) throws TigerstripeLicenseException,
+			String projectType) throws 
 			UnsupportedOperationException, TigerstripeException;
 
 	public IDependency makeIDependency(String absolutePath)
@@ -75,12 +72,10 @@ public interface IProjectSession  {
 	 * Type.
 	 * 
 	 * @param projectURI
-	 * @throws TigerstripeLicenseException
-	 *             if the current license doesn't allow this operation
 	 * @throws org.eclipse.tigerstripe.workbench.TigerstripeException
 	 *             if any other error occured.
 	 * @return
 	 */
 	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI)
-			throws TigerstripeLicenseException, TigerstripeException;
+			throws TigerstripeException;
 }

@@ -16,7 +16,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.Annotable
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 
 public class AnnotatedAssociation extends AnnotatedElement {
 

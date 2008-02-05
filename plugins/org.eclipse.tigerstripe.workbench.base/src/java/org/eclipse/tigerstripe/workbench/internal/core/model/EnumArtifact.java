@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
-import java.util.Collection;
 
 import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;

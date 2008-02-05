@@ -26,11 +26,10 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -131,9 +130,7 @@ public class TSExplorerUtils {
 						return artifact;
 					} else
 						return null;
-				} catch (TigerstripeLicenseException e) {
-					EclipsePlugin.log(e);
-					return null;
+
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 					return null;
@@ -234,8 +231,7 @@ public class TSExplorerUtils {
 								.toURI(), null);
 
 				return tsProject;
-			} catch (TigerstripeLicenseException e) {
-				EclipsePlugin.log(e);
+
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}

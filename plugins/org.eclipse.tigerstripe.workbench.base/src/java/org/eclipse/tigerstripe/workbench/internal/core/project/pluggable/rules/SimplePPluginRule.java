@@ -19,7 +19,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginVelocityLog;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ISimpleTemplateRunRule;
@@ -156,9 +155,7 @@ public class SimplePPluginRule extends BaseTemplatePPluginRule implements
 				files.add(targetFile);
 			}
 
-		} catch (TigerstripeLicenseException e) {
-			TigerstripeRuntime.logErrorMessage(
-					"TigerstripeLicenseException detected", e);
+		
 		} catch (TigerstripeException e) {
 			throw e;
 		} catch (Exception e) {

@@ -30,7 +30,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -99,8 +98,7 @@ public class ClasspathUpdater {
 						prjRef = (ITigerstripeProject) TigerstripeCore
 								.getDefaultProjectSession()
 								.makeTigerstripeProject(uri, null);
-					} catch (TigerstripeLicenseException e) {
-						// ignore here
+
 					} catch (TigerstripeException e) {
 						// ignore here
 					}

@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.AbstractPluggablePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.SimplePluggablePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
@@ -49,7 +48,7 @@ public class ProjectSessionImpl implements IProjectSession {
 	}
 
 	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI)
-			throws TigerstripeLicenseException, TigerstripeException {
+			throws  TigerstripeException {
 		return makeTigerstripeProject(projectURI, null);
 	}
 
@@ -60,15 +59,13 @@ public class ProjectSessionImpl implements IProjectSession {
 	 * @param projectType -
 	 *            the project type.
 	 * 
-	 * @throws TigerstripeLicenseException
-	 *             if the current license doesn't allow this operation
 	 * @throws UnsupportedOperationException
 	 *             if the projectType is not supported
 	 * @throws org.eclipse.tigerstripe.workbench.TigerstripeException
 	 *             if any other error occured.
 	 */
 	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI,
-			String projectType) throws TigerstripeLicenseException,
+			String projectType) throws 
 			UnsupportedOperationException, TigerstripeException {
 
 		if (projectMappedByURIs.containsKey(projectURI)) {

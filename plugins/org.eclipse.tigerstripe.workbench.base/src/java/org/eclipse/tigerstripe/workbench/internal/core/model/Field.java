@@ -25,7 +25,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidatio
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 
 import com.thoughtworks.qdox.model.DocletTag;

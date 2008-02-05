@@ -37,9 +37,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.IJavaStatusConstants;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -50,7 +48,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.install.PostInstallActions;
 import org.eclipse.tigerstripe.workbench.eclipse.utils.ProjectLocatorFacilityForEclipse;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
@@ -384,17 +381,6 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 		return PLUGIN_ID;
 	}
 
-	public void handleLicenseException(Shell shell,
-			TigerstripeLicenseException e) {
-		Dialog dialog = new MessageDialog(
-				shell,
-				"Tigerstripe Licensing",
-				null,
-				"Your license of Tigerstripe does not allow access to this feature.",
-				MessageDialog.ERROR, new String[] { "OK" }, 0);
-		dialog.open();
-	}
-
 	/**
 	 * Initialize the Tigerstripe API. In particular sets up the specific
 	 * facilities for the Eclipse IDE
@@ -456,8 +442,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 							.toURI(), null);
 
 			return tsProject;
-		} catch (TigerstripeLicenseException e) {
-			EclipsePlugin.log(e);
+
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}

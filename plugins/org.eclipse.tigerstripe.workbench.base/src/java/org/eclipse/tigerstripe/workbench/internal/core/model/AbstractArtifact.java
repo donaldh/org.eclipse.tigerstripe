@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,13 +32,11 @@ import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.Method.Argument;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
@@ -51,7 +48,6 @@ import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -1339,9 +1335,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e); // FIXME
-		} catch (TigerstripeLicenseException e) {
-			TigerstripeRuntime.logErrorMessage(
-					"TigerstripeLicenseException detected", e);
+	
 		}
 		return handle;
 	}
@@ -1622,7 +1616,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				throw new TigerstripeException("No updater for "
 						+ getFullyQualifiedName()
 						+ ": artifact is read-only (module)");
-			try {
+
 				IAbstractTigerstripeProject aProject = TigerstripeCore
 						.getDefaultProjectSession().makeTigerstripeProject(
 								mgr.getTSProject().getBaseDir().toURI());
@@ -1633,10 +1627,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				} else
 					throw new TigerstripeException("Can't figure updater for "
 							+ getFullyQualifiedName());
-			} catch (TigerstripeLicenseException e) {
-				throw new TigerstripeException("Can't figure updater for "
-						+ getFullyQualifiedName() + ": " + e.getMessage(), e);
-			}
+			
 		}
 
 		return myUpdater;

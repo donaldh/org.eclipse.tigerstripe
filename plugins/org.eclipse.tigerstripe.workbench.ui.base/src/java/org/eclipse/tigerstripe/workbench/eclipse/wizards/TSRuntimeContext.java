@@ -14,11 +14,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.TigerstripeLicenseException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -78,7 +76,7 @@ public class TSRuntimeContext {
 				projectRoot = res.getProject();
 
 				// Validate and Load the project descriptor
-				try {
+
 					IProjectSession session = TigerstripeCore.getDefaultProjectSession();
 
 					if (session.makeTigerstripeProject(projectRoot
@@ -89,9 +87,7 @@ public class TSRuntimeContext {
 					} else
 						throw new TigerstripeException(
 								"Not a Tigerstripe Project.");
-				} catch (TigerstripeLicenseException e) {
-					EclipsePlugin.log(e);
-				}
+
 
 				// We're good...
 				result = projectHandle.exists();
