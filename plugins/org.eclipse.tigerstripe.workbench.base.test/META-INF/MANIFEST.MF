@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test plug-in for Tigerstripe Workbench Base
+Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.base.test
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.tigerstripe.workbench.base.test.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.junit,
+ org.eclipse.tigerstripe.workbench.base,
+ org.eclipse.core.resources
+Eclipse-LazyStart: true
