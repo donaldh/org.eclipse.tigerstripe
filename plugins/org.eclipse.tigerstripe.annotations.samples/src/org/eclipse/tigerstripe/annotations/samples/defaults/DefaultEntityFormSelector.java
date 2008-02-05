@@ -15,7 +15,8 @@ public class DefaultEntityFormSelector implements ISelector {
 	}
 
 	public boolean select(String URI) {
-		if(URI.endsWith(".java")) {
+
+		if (URI.startsWith("tigerstripe:")) {
 			return true;
 		}
 		return false;

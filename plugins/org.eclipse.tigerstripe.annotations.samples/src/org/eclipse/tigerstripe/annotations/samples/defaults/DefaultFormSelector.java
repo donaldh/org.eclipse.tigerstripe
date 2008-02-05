@@ -16,10 +16,10 @@ public class DefaultFormSelector implements ISelector {
 
 	public boolean select(String URI) {
 		// these have selector defined already (need to discuss this)
-		if(URI.startsWith("project:/") || URI.endsWith(".java")) {
-			return false;
+		if(!URI.startsWith("tigerstripe:/")) {
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public void setContext(Object context) {

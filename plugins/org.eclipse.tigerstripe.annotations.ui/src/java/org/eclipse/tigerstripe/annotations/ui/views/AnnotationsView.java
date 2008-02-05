@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -40,10 +39,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
 import org.eclipse.tigerstripe.annotations.AnnotationSchemeRegistry;
 import org.eclipse.tigerstripe.annotations.AnnotationStore;
+import org.eclipse.tigerstripe.annotations.IAnnotable;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
 import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
 import org.eclipse.tigerstripe.annotations.ui.internal.AnnotationFormManager;
 import org.eclipse.tigerstripe.annotations.ui.internal.AnnotationSchemeComparator;
+import org.eclipse.tigerstripe.annotations.ui.internal.DefaultAnnotable;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
@@ -60,7 +61,10 @@ public class AnnotationsView extends ViewPart {
 
 	private ComboViewer schemeComboViewer;
 
-	private IResource resource;
+	// The current annotatble.
+	private IAnnotable currentAnnotable;
+
+	// private IResource resource;
 
 	private ISelectionListener pageSelectionListener;
 
@@ -123,14 +127,16 @@ public class AnnotationsView extends ViewPart {
 		formData.right = new FormAttachment(100, -5);
 		label.setLayoutData(formData);
 
-		schemeComboViewer = new ComboViewer(parent, SWT.DROP_DOWN | SWT.READ_ONLY);
+		schemeComboViewer = new ComboViewer(parent, SWT.DROP_DOWN
+				| SWT.READ_ONLY);
 		schemeComboViewer.setLabelProvider(new SchemeLabelProvider());
 		schemeComboViewer.setContentProvider(new ArrayContentProvider());
-		schemeComboViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			public void selectionChanged(SelectionChangedEvent event) {
-				schemeComboSelectionChanged(event);
-			}
-		});
+		schemeComboViewer
+				.addSelectionChangedListener(new ISelectionChangedListener() {
+					public void selectionChanged(SelectionChangedEvent event) {
+						schemeComboSelectionChanged(event);
+					}
+				});
 
 		Combo schemeCombo = schemeComboViewer.getCombo();
 		formData = new FormData();
@@ -217,9 +223,18 @@ public class AnnotationsView extends ViewPart {
 		}
 
 		IAdaptable adaptable = (IAdaptable) element;
-		resource = (IResource) adaptable.getAdapter(IResource.class);
-		if (resource == null) {
-			
+
+		// First try to adapt as a IAnnotable
+		currentAnnotable = (IAnnotable) adaptable.getAdapter(IAnnotable.class);
+		if (currentAnnotable == null) {
+			// Try then to default to IResource and build a fake annotable
+			IResource res = (IResource) adaptable.getAdapter(IResource.class);
+			if (res != null) {
+				currentAnnotable = new DefaultAnnotable(res);
+			}
+		}
+
+		if (currentAnnotable == null) {
 			schemeComboViewer.setInput(new String[] {});
 			schemeComboViewer.getCombo().setEnabled(false);
 			((StackLayout) formComposite.getLayout()).topControl = null;
@@ -229,7 +244,7 @@ public class AnnotationsView extends ViewPart {
 			try {
 				int index = 0;
 				IAnnotationScheme[] schemes = AnnotationSchemeRegistry.eINSTANCE
-						.getDefinedSchemes(getURIFromResource());
+						.getDefinedSchemes(currentAnnotable.getURI());
 				Arrays.sort(schemes, new AnnotationSchemeComparator());
 				schemeComboViewer.getCombo().setEnabled(true);
 				schemeComboViewer.setInput(schemes);
@@ -241,7 +256,8 @@ public class AnnotationsView extends ViewPart {
 				}
 
 				schemeComboViewer.getCombo().select(index);
-				schemeComboViewer.setSelection(schemeComboViewer.getSelection());
+				schemeComboViewer
+						.setSelection(schemeComboViewer.getSelection());
 			} catch (AnnotationCoreException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -252,7 +268,7 @@ public class AnnotationsView extends ViewPart {
 	private int getSchemeIndexFromCombo(String schemeUserId) {
 
 		for (int i = 0; i < schemeComboViewer.getCombo().getItemCount(); i++) {
-			if (schemeUserId.equals(schemeComboViewer.getCombo().getItem(i))){
+			if (schemeUserId.equals(schemeComboViewer.getCombo().getItem(i))) {
 				return i;
 			}
 		}
@@ -261,33 +277,41 @@ public class AnnotationsView extends ViewPart {
 
 	private void schemeComboSelectionChanged(SelectionChangedEvent event) {
 
-		IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) event
+				.getSelection();
 		if (!(selection.getFirstElement() instanceof IAnnotationScheme)) {
 			return;
 		}
 
-		IAnnotationScheme scheme = (IAnnotationScheme) selection.getFirstElement();
+		IAnnotationScheme scheme = (IAnnotationScheme) selection
+				.getFirstElement();
 
-		// maintain selected scheme for a particular URI if previously visited
-		schemeForUriMap.put(getSchemeTypeURI(), scheme.getNamespaceUserLabel());
-
-		IAnnotationForm form = scheme.selectForm(getURIFromResource());
-		if(form == null) {
-			((StackLayout) formComposite.getLayout()).topControl = null;
-			formComposite.getParent().layout(true, true);
-			return;
-		}
-		Composite composite = (Composite) formCompositeMap.get(form.getID());
-		if (composite == null) {
-			composite = AnnotationFormManager.createFormComposite(formComposite, form);
-			formCompositeMap.put(form.getID(), composite);
-		}
+		Composite composite = null;
+		IAnnotationForm form = null;
 
 		try {
+			// maintain selected scheme for a particular URI if previously
+			// visited
+			schemeForUriMap.put(getSchemeTypeURI(), scheme
+					.getNamespaceUserLabel());
+
+			form = scheme.selectForm(currentAnnotable.getURI());
+			if (form == null) {
+				((StackLayout) formComposite.getLayout()).topControl = null;
+				formComposite.getParent().layout(true, true);
+				return;
+			}
+			composite = (Composite) formCompositeMap.get(form.getID());
+			if (composite == null) {
+				composite = AnnotationFormManager.createFormComposite(
+						formComposite, form);
+				formCompositeMap.put(form.getID(), composite);
+			}
+
 			AnnotationFormManager.clearFormCompositeData(composite);
-			AnnotationStore store = AnnotationStore.getDefaultFactory().getAnnotationStore(resource.getProject(),
-					scheme);
-			AnnotationFormManager.setFormCompositeData(composite, store, getURIFromResource(), false);
+			AnnotationStore store = currentAnnotable.getStore(scheme);
+			AnnotationFormManager.setFormCompositeData(composite, store,
+					currentAnnotable.getURI(), false);
 		} catch (AnnotationCoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -307,53 +331,47 @@ public class AnnotationsView extends ViewPart {
 
 		try {
 			form = (IAnnotationForm) formComposite.getData();
-			store = AnnotationStore.getDefaultFactory().getAnnotationStore(resource.getProject(), form.getScheme());
+			store = currentAnnotable.getStore(form.getScheme());
 			composite = (Composite) ((StackLayout) formComposite.getLayout()).topControl;
+
+			if (event.getSource() == apply) {
+				AnnotationFormManager.writeFormCompositeData(composite, store,
+						currentAnnotable.getURI());
+			} else if (event.getSource() == defaults) {
+				AnnotationFormManager.setFormCompositeData(composite, store,
+						currentAnnotable.getURI(), true);
+				AnnotationFormManager.writeFormCompositeData(composite, store,
+						currentAnnotable.getURI());
+			} else if (event.getSource() == cancel) {
+				AnnotationFormManager.setFormCompositeData(composite, store,
+						currentAnnotable.getURI(), false);
+			}
 		} catch (AnnotationCoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		if (event.getSource() == apply) {
-			AnnotationFormManager.writeFormCompositeData(composite, store, getURIFromResource());
-		} else if (event.getSource() == defaults) {
-			AnnotationFormManager.setFormCompositeData(composite, store, getURIFromResource(), true);
-			AnnotationFormManager.writeFormCompositeData(composite, store, getURIFromResource());
-		} else if (event.getSource() == cancel) {
-			AnnotationFormManager.setFormCompositeData(composite, store, getURIFromResource(), false);
-		}
 	}
 
-	// Temp until we sort out IAnnotable (hacked to work with .java files for now...)
-	private String getSchemeTypeURI() {
-		
-		String uri = getURIFromResource();
+	// Temp until we sort out IAnnotable (hacked to work with .java files for
+	// now...)
+	private String getSchemeTypeURI() throws AnnotationCoreException {
+
+		String uri = currentAnnotable.getURI();
 		String type = uri.substring(0, uri.indexOf(':'));
-		
+
 		// now see if .java file (i.e. ManagedEntity)
-		if(uri.indexOf('.') > 0) {
+		if (uri.indexOf('.') > 0) {
 			type += uri.substring(uri.indexOf('.'));
 		}
-		
-		return type;
-		
-	}
-	
-	private String getURIFromResource() {
 
-		IAdaptable adaptable = (IAdaptable) resource;
-		if (adaptable.getAdapter(IProject.class) != null) {
-			String uri = resource.getLocationURI().toString();
-			uri = uri.replaceAll("file:/", "project:/");
-			return uri;
-		} else {
-			return resource.getLocationURI().toString();
-		}
+		return type;
+
 	}
 
 	private void hookPageSelection() {
 		pageSelectionListener = new ISelectionListener() {
-			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+			public void selectionChanged(IWorkbenchPart part,
+					ISelection selection) {
 				pageSelectionChanged(part, selection);
 			}
 		};

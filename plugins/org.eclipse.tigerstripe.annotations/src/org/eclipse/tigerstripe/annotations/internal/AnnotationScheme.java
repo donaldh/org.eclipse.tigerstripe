@@ -62,6 +62,7 @@ public class AnnotationScheme implements IAnnotationScheme {
 					foundDefault = form;
 				} else {
 					foundDefined = form;
+					break;
 				}
 			}
 		}
