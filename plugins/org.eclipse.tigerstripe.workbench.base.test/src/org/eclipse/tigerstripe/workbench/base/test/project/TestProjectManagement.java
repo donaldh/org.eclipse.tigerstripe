@@ -77,7 +77,7 @@ public class TestProjectManagement extends TestCase {
 
 		IAbstractTigerstripeProject tsProject = TigerstripeCore
 				.findProject(proj.getFullPath());
-		assertNull(tsProject);
+		assertFalse(tsProject.exists());
 	}
 
 	public void testMakeProjectDetails() {

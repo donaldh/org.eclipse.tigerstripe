@@ -15,6 +15,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -22,8 +26,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -31,15 +38,20 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 /**
  * A Factory for all Project related stuff
  * 
+ * This includes a cache for project handles.
+ * 
+ * This is a singleton that listens to workspace changes to make sure the cache
+ * is
+ * 
  * @author erdillon
  * 
  */
-public class TigerstripeProjectFactory {
+public class TigerstripeProjectFactory implements IResourceChangeListener {
 
 	public final static TigerstripeProjectFactory INSTANCE = new TigerstripeProjectFactory();
 
 	private TigerstripeProjectFactory() {
-
+		registerForProjectDeletion();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -123,5 +135,37 @@ public class TigerstripeProjectFactory {
 		URI uri = path.toFile().toURI();
 		return InternalTigerstripeCore.getDefaultProjectSession()
 				.makeTigerstripeProject(uri);
+	}
+
+	/**
+	 * As a result of a project being deleted we need to remove its entry in the
+	 * cache
+	 * 
+	 * @param projectPath
+	 */
+	private void projectDeleted(IPath projectPath) {
+		IProjectSession session = InternalTigerstripeCore
+				.getDefaultProjectSession();
+		try {
+			IAbstractTigerstripeProject proj = findProject(projectPath);
+			session.removeFromCache(proj);
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+	}
+
+	// ==============================================
+	// Resource change listener.
+	@Override
+	public void resourceChanged(IResourceChangeEvent event) {
+		IResource res = event.getResource();
+		if (res instanceof IProject) {
+			projectDeleted(res.getFullPath());
+		}
+	}
+
+	private void registerForProjectDeletion() {
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
+				IResourceChangeEvent.PRE_DELETE);
 	}
 }
