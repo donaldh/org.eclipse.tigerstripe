@@ -40,6 +40,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation,
  org.eclipse.tigerstripe.workbench.ui.base,
  org.eclipse.gmf.runtime.diagram.ui.actions,
- org.eclipse.jdt.ui
+ org.eclipse.jdt.ui,
+ org.eclipse.tigerstripe.annotations
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

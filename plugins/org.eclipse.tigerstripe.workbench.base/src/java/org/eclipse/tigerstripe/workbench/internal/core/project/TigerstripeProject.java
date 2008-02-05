@@ -37,7 +37,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.ReaderInputStream;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -608,7 +607,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	private ITigerstripeProject getTSProject() {
 		if (getBaseDir() != null) {
 			try {
-				return (ITigerstripeProject) TigerstripeCore.getDefaultProjectSession()
+				return (ITigerstripeProject) InternalTigerstripeCore.getDefaultProjectSession()
 						.makeTigerstripeProject(getBaseDir().toURI());
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
@@ -641,11 +640,11 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 				IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
 						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 
-				ITigerstripeProject self = (ITigerstripeProject) TigerstripeCore
+				ITigerstripeProject self = (ITigerstripeProject) InternalTigerstripeCore
 						.getDefaultProjectSession().makeTigerstripeProject(
 								getBaseDir().toURI(), null);
 				URI uri = loc.locate(self, label);
-				ITigerstripeProject prj = (ITigerstripeProject) TigerstripeCore
+				ITigerstripeProject prj = (ITigerstripeProject) InternalTigerstripeCore
 						.getDefaultProjectSession().makeTigerstripeProject(uri,
 								null);
 

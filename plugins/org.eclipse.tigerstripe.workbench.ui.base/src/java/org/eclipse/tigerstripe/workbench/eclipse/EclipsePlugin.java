@@ -43,7 +43,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.install.PostInstallActions;
 import org.eclipse.tigerstripe.workbench.eclipse.utils.ProjectLocatorFacilityForEclipse;
@@ -436,7 +435,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 			return null;
 
 		try {
-			IProjectSession session = TigerstripeCore.getDefaultProjectSession();
+			IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
 			IAbstractTigerstripeProject tsProject = session
 					.makeTigerstripeProject(project.getLocation().toFile()
 							.toURI(), null);

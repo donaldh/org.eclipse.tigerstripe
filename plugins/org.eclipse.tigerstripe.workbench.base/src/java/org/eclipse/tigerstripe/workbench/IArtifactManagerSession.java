@@ -33,9 +33,8 @@ import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
  * @author Eric Dillon
  * @since 0.3
  */
-public interface IArtifactManagerSession  {
-
-
+@Deprecated
+public interface IArtifactManagerSession {
 
 	/**
 	 * Returns a list of all supported Artifact Types
@@ -248,7 +247,6 @@ public interface IArtifactManagerSession  {
 
 	public void resetBroadcastMask() throws TigerstripeException;
 
-	
 	/**
 	 * Returns a list of all supported Artifact Types
 	 * 

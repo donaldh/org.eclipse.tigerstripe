@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.eclipse.tigerstripe.annotations.IAnnotable;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
@@ -109,19 +110,16 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return Collections.unmodifiableCollection(stereotypeInstances);
 	}
 
-	
 	@Override
 	public IStereotypeInstance getStereotypeInstanceByName(String name) {
-		for (IStereotypeInstance inst : stereotypeInstances){
-			if (inst.getName().equals(name)){
+		for (IStereotypeInstance inst : stereotypeInstances) {
+			if (inst.getName().equals(name)) {
 				return inst;
 			}
 		}
 		return null;
 	}
 
-	
-	
 	@Override
 	public boolean hasStereotypeInstance(String name) {
 		IStereotypeInstance inst = getStereotypeInstanceByName(name);
@@ -143,7 +141,8 @@ public abstract class ArtifactComponent implements IModelComponent,
 		}
 	}
 
-	public void removeStereotypeInstances(Collection<IStereotypeInstance> instances) {
+	public void removeStereotypeInstances(
+			Collection<IStereotypeInstance> instances) {
 		for (IStereotypeInstance instance : instances) {
 			removeStereotypeInstance(instance);
 		}
@@ -285,14 +284,15 @@ public abstract class ArtifactComponent implements IModelComponent,
 	}
 
 	public EVisibility getVisibility() {
-		if (this.visibility == null){
+		if (this.visibility == null) {
 			setVisibility(EVisibility.PUBLIC);
 		}
 		return this.visibility;
 	}
 
 	/*
-	 * This method is needed because the QDOX stuff returns a  String[] of ALL modifiers
+	 * This method is needed because the QDOX stuff returns a String[] of ALL
+	 * modifiers
 	 */
 	protected void setVisibility(String[] modifiers) {
 		setVisibility(EVisibility.PACKAGE);
@@ -348,6 +348,15 @@ public abstract class ArtifactComponent implements IModelComponent,
 			}
 		}
 		return result;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Object getAdapter(Class adapter) {
+		if (adapter == IAnnotable.class) {
+			return new ModelComponentAnnotable(this);
+		}
+		return null;
 	}
 
 }

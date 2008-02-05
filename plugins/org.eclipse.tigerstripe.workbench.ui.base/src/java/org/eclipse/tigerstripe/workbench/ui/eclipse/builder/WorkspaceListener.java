@@ -43,9 +43,9 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
@@ -132,14 +132,14 @@ public class WorkspaceListener implements IElementChangedListener,
 			if (res instanceof IProject) {
 				IProject jProject = (IProject) res;
 				try {
-					IProjectSession session = TigerstripeCore.getDefaultProjectSession();
+					IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
 					IPath path = jProject.getFullPath();
 					IPath root = ResourcesPlugin.getWorkspace().getRoot()
 							.getLocation();
 					URI targetURI = root.append(path).toFile().toURI();
 					IAbstractTigerstripeProject tsProject = session
 							.makeTigerstripeProject(targetURI, null);
-					TigerstripeCore.getDefaultProjectSession().removeFromCache(tsProject);
+					InternalTigerstripeCore.getDefaultProjectSession().removeFromCache(tsProject);
 
 					// Bug 936: remove from watch list of
 					// DiagramSynchronizationManager

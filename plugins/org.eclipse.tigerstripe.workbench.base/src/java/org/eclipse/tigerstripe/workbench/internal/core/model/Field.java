@@ -18,6 +18,7 @@ import java.util.Properties;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.annotations.IAnnotable;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -346,4 +347,5 @@ public class Field extends ArtifactComponent implements IField {
 		}
 		return result;
 	}
+	
 }

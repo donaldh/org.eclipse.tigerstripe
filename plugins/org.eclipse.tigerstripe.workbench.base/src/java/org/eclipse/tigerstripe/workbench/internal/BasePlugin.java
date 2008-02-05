@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.internal;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IStatus;
@@ -18,11 +20,14 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AnnotableAdapterFactory;
+import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.osgi.framework.BundleContext;
 
 public class BasePlugin extends Plugin {
@@ -35,7 +40,7 @@ public class BasePlugin extends Plugin {
 	private Location installLocation;
 
 	private String tigerstripeRuntimeDir;
-	
+
 	public BasePlugin() {
 		super();
 		plugin = this;
@@ -48,11 +53,11 @@ public class BasePlugin extends Plugin {
 	public static String getPluginId() {
 		return PLUGIN_ID;
 	}
-	
+
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		
+
 		installLocation = Platform.getInstallLocation();
 		String installationPath = installLocation.getURL().getPath();
 
@@ -62,6 +67,12 @@ public class BasePlugin extends Plugin {
 			TigerstripeRuntime.setTigerstripeRuntimeRoot(tigerstripeRuntimeDir);
 			TigerstripeRuntime.initLogger();
 		}
+
+		// Register AdapterFactories
+		IAdapterManager manager = Platform.getAdapterManager();
+		IAdapterFactory factory = new AnnotableAdapterFactory();
+		manager.registerAdapters(factory, IJavaElement.class);
+		manager.registerAdapters(factory, IModelComponent.class);
 
 		extensionPointRegistered();
 	}

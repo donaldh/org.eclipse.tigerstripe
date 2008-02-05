@@ -31,8 +31,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
@@ -151,7 +151,7 @@ public class TS2UML2 {
 					.findMember(new Path(tSProjectName));
 
 			java.net.URI projectURI = tsContainer.getLocationURI();
-			IProjectSession session = TigerstripeCore
+			IProjectSession session = InternalTigerstripeCore
 					.getDefaultProjectSession();
 			tsProject = (ITigerstripeProject) session.makeTigerstripeProject(
 					projectURI, ITigerstripeProject.class.getName());

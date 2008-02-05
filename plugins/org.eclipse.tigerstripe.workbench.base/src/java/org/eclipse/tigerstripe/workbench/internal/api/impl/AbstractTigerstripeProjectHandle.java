@@ -14,11 +14,21 @@ import java.io.File;
 import java.net.URI;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
-public abstract class AbstractTigerstripeProjectHandle {
+public abstract class AbstractTigerstripeProjectHandle implements
+		IAbstractTigerstripeProject {
 
 	public abstract String getProjectLabel();
 
@@ -92,4 +102,43 @@ public abstract class AbstractTigerstripeProjectHandle {
 	public long handleTStamp() {
 		return this.handleTStamp;
 	}
+
+	@SuppressWarnings("unchecked")
+	public Object getAdapter(Class adapter) {
+		if (adapter == IProject.class) {
+			try {
+				return getIProject(this);
+			} catch (TigerstripeException e) {
+				return null;
+			}
+		}
+		return null;
+	}
+
+	private IProject getIProject(IAbstractTigerstripeProject tsProject)
+			throws TigerstripeException {
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		File file = new File(tsProject.getURI());
+		IPath path = new Path(file.getAbsolutePath());
+		IContainer container = root.getContainerForLocation(path);
+		if (container instanceof IProject)
+			return (IProject) container;
+		throw new TigerstripeException("Can't resolve "
+				+ tsProject.getBaseDir() + " as Eclipse IProject");
+	}
+
+	public void delete(boolean force, IProgressMonitor monitor)
+			throws TigerstripeException {
+		IProject project = (IProject) getAdapter(IProject.class);
+		if (project != null) {
+			try {
+				project.delete(force, monitor);
+			} catch (CoreException e) {
+				new TigerstripeException(
+						"An error occured while trying to delete project:"
+								+ e.getMessage(), e);
+			}
+		}
+	}
+
 }

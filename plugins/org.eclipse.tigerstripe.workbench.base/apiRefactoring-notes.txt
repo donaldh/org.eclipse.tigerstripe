@@ -31,6 +31,8 @@ X - PluginRunResult renamed to PluginRunStatus, also made it a MultiStatus.
 R - Remove IQueryCapabilitiesArtifacts.jave
 R - Remove IQueryModelArtifacts.java
 R - Remove IQuerySessionArtifacts.java
+X - Moved references to IProjectSession to InternalTigerstripeCore to provide new simpler API for
+	project management directly on TigerstripeCore.
 
 ###################################
 In IAbstractTigerstripeProject

@@ -13,8 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.core.project;
 import java.io.File;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -70,6 +70,10 @@ public class ProjectDetails implements IProjectDetails {
 
 	public ProjectDetails(AbstractTigerstripeProject parentProject) {
 		this.properties = new Properties();
+		setParentProject(parentProject);
+	}
+
+	public void setParentProject(AbstractTigerstripeProject parentProject) {
 		this.parentProject = parentProject;
 	}
 
@@ -80,8 +84,8 @@ public class ProjectDetails implements IProjectDetails {
 	/**
 	 * Sets the nature of the project
 	 * 
-	 * @see org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig for valid project
-	 *      natures
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig
+	 *      for valid project natures
 	 */
 	public void setNature(String nature) {
 		this.nature = nature;
@@ -107,7 +111,7 @@ public class ProjectDetails implements IProjectDetails {
 		}
 
 		try {
-			IAbstractTigerstripeProject aProject = TigerstripeCore
+			IAbstractTigerstripeProject aProject = InternalTigerstripeCore
 					.getDefaultProjectSession().makeTigerstripeProject(
 							parentProject.getBaseDir().toURI());
 			if (aProject instanceof ITigerstripeProject) {
@@ -120,7 +124,7 @@ public class ProjectDetails implements IProjectDetails {
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
-		
+
 		}
 		return result;
 	}

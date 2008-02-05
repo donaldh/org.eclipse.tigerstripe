@@ -13,6 +13,9 @@ package org.eclipse.tigerstripe.workbench.project;
 import java.io.File;
 import java.net.URI;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 
@@ -22,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisito
  * @author Eric Dillon
  * @since 1.2
  */
-public interface IAbstractTigerstripeProject {
+public interface IAbstractTigerstripeProject extends IAdaptable {
 
 	/**
 	 * The project label is a contextual name use to identify the project.
@@ -35,7 +38,6 @@ public interface IAbstractTigerstripeProject {
 	 */
 	public String getProjectLabel();
 
-
 	public URI getURI();
 
 	public void validate(ITigerstripeVisitor visitor)
@@ -43,6 +45,12 @@ public interface IAbstractTigerstripeProject {
 
 	public IProjectDetails getProjectDetails() throws TigerstripeException;
 
+	/**
+	 * 
+	 * @throws TigerstripeException
+	 * @deprecated this method should be removed. The descriptor only should be
+	 *             save-able. It makes no sense to "save" the project handle.
+	 */
 	public void doSave() throws TigerstripeException;
 
 	/**
@@ -76,8 +84,6 @@ public interface IAbstractTigerstripeProject {
 	 */
 	public File getBaseDir();
 
-
-
-
-
+	public void delete(boolean force, IProgressMonitor monitor)
+			throws TigerstripeException;
 }

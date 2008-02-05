@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.tigerstripe.workbench.model.IModelManager;
 
 /**
  * Handle on a Tigerstripe Project
@@ -30,6 +31,8 @@ import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgress
  * @since 0.3
  */
 public interface ITigerstripeProject extends IAbstractTigerstripeProject {
+
+	public IModelManager getModelManager() throws TigerstripeException;
 
 	/**
 	 * Returns the artifact manager session for this Tigerstripe project.
@@ -226,6 +229,6 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 			throws TigerstripeException;
 
 	public String getAdvancedProperty(String property, String defaultValue)
-	throws TigerstripeException;
+			throws TigerstripeException;
 
 }

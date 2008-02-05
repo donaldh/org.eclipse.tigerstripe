@@ -25,8 +25,8 @@ import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -177,7 +177,7 @@ public class App {
 
 			File baseDir = new File(".");
 			try {
-				ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
+				ITigerstripeProject project = (ITigerstripeProject) InternalTigerstripeCore
 						.getDefaultProjectSession().makeTigerstripeProject(
 								baseDir.toURI(), null);
 

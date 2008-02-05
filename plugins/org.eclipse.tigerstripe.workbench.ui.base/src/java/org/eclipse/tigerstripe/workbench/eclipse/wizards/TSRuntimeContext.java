@@ -15,8 +15,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -77,7 +77,7 @@ public class TSRuntimeContext {
 
 				// Validate and Load the project descriptor
 
-					IProjectSession session = TigerstripeCore.getDefaultProjectSession();
+					IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
 
 					if (session.makeTigerstripeProject(projectRoot
 							.getLocation().toFile().toURI(), null) instanceof ITigerstripeProject) {

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
@@ -20,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
  * 
  * @author Eric Dillon
  */
-public interface IModelComponent extends IStereotypeCapable {
+public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 
 	/**
 	 * An enum of the possible values for the multiplicity of an component.
@@ -197,4 +198,5 @@ public interface IModelComponent extends IStereotypeCapable {
 	public boolean isInActiveFacet() throws TigerstripeException;
 
 	public IStatus validate();
+	
 }

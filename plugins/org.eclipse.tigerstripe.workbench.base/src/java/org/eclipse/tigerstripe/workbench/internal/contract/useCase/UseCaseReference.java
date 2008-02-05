@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.contract.useCase;
 import java.io.File;
 import java.net.URI;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
@@ -138,10 +137,10 @@ public class UseCaseReference implements IUseCaseReference {
 				IProjectLocator locator = (IProjectLocator) InternalTigerstripeCore
 						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 				URI uri = locator.locate(contextProject, projectLabel);
-				aProject = TigerstripeCore.getDefaultProjectSession()
+				aProject = InternalTigerstripeCore.getDefaultProjectSession()
 						.makeTigerstripeProject(uri);
 			} else {
-				aProject = TigerstripeCore.getDefaultProjectSession()
+				aProject = InternalTigerstripeCore.getDefaultProjectSession()
 						.makeTigerstripeProject(project.getBaseDir().toURI());
 			}
 			if (aProject instanceof ITigerstripeProject)

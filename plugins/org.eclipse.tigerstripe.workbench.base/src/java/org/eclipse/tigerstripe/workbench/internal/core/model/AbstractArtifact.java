@@ -25,14 +25,16 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
@@ -47,6 +49,7 @@ import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
@@ -139,7 +142,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	/** whether the originating javaClass is abstract or not */
 	private boolean isAbstract = false;
 
-	// Facet scoping for Fields/Methods/Literals. Build lazily filtered list when
+	// Facet scoping for Fields/Methods/Literals. Build lazily filtered list
+	// when
 	// ever needed
 	protected Collection<IField> facetFilteredFields = null;
 
@@ -208,7 +212,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		if (getExtendedArtifact() != null) {
 			ancestors.add(getExtendedArtifact());
 			ancestors.addAll(getExtendedArtifact().getAncestors());
-		} 
+		}
 		return Collections.unmodifiableCollection(ancestors);
 	}
 
@@ -776,7 +780,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	/**
 	 * Returns all the non-inherited literals for this Artifact
 	 * 
-	 * @return Collection of Literals - a collection of Literals for this artifact
+	 * @return Collection of Literals - a collection of Literals for this
+	 *         artifact
 	 */
 	public Collection<ILiteral> getLiterals() {
 		return Collections.unmodifiableCollection(this.literals);
@@ -804,7 +809,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	/**
 	 * Returns all the inherited literals for this artifact.
 	 * 
-	 * @return Collection of Literals - a collection of Literals for this artifact
+	 * @return Collection of Literals - a collection of Literals for this
+	 *         artifact
 	 */
 	public Collection getInheritedLiterals() {
 		if (inheritedLiterals == null) {
@@ -1329,13 +1335,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return null;
 
 		try {
-			handle = (TigerstripeProjectHandle) TigerstripeCore
+			handle = (TigerstripeProjectHandle) InternalTigerstripeCore
 					.getDefaultProjectSession().makeTigerstripeProject(
 							getTSProject().getBaseDir().toURI(), null);
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e); // FIXME
-	
+
 		}
 		return handle;
 	}
@@ -1372,7 +1378,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public abstract AbstractArtifact getModel();
-
 
 	public IMethod getMethodById(String methodId) {
 		for (IMethod method : methods) {
@@ -1415,7 +1420,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		Collection<ILiteral> literals = getLiterals();
 		if (filterFacetExcludedLiterals) {
 			if (facetFilteredLiterals == null) {
-				facetFilteredLiterals = Literal.filterFacetExcludedLiterals(literals);
+				facetFilteredLiterals = Literal
+						.filterFacetExcludedLiterals(literals);
 			}
 			return Collections.unmodifiableCollection(facetFilteredLiterals);
 		} else
@@ -1433,8 +1439,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return Collections
 					.unmodifiableCollection(facetFilteredInheritedLiterals);
 		} else
-			return Collections
-					.unmodifiableCollection(this.getInheritedLiterals());
+			return Collections.unmodifiableCollection(this
+					.getInheritedLiterals());
 	}
 
 	public Collection<IMethod> getMethods(boolean filterFacetExcludedMethods) {
@@ -1467,7 +1473,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public IAbstractArtifact getExtendedArtifact() {
 		return getExtends();
 	}
-
 
 	public Object[] getChildren() {
 		Collection<IField> fields = getFields();
@@ -1520,17 +1525,17 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public Collection<IAbstractArtifact> getImplementingArtifacts() {
-		return Collections.unmodifiableCollection(new ArrayList<IAbstractArtifact>());
+		return Collections
+				.unmodifiableCollection(new ArrayList<IAbstractArtifact>());
 	}
 
 	public Collection<IAbstractArtifact> getReferencedArtifacts() {
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
-		
+
 		if (hasExtends()) {
 			result.add(getExtends());
 		}
-		
-		
+
 		for (IField field : getFields()) {
 			if (!field.getType().isPrimitive()
 					&& !(field.getType().getArtifact() instanceof IPrimitiveTypeArtifact)
@@ -1557,17 +1562,17 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 					result.add(artType.getArtifact());
 				}
 			}
-			
 
 			// FIXME : Include Exceptions.
 			// FIXME : Include Associations/Dependencies ?
-			
+
 		}
 		return Collections.unmodifiableCollection(result);
 	}
 
 	public Collection<IAbstractArtifact> getReferencingArtifacts() {
-		return Collections.unmodifiableCollection(new HashSet<IAbstractArtifact>());
+		return Collections
+				.unmodifiableCollection(new HashSet<IAbstractArtifact>());
 	}
 
 	// public boolean equals( Object obj ) {
@@ -1617,19 +1622,65 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 						+ getFullyQualifiedName()
 						+ ": artifact is read-only (module)");
 
-				IAbstractTigerstripeProject aProject = TigerstripeCore
-						.getDefaultProjectSession().makeTigerstripeProject(
-								mgr.getTSProject().getBaseDir().toURI());
-				if (aProject instanceof ITigerstripeProject) {
-					IArtifactManagerSession session = ((ITigerstripeProject) aProject)
-							.getArtifactManagerSession();
-					myUpdater = session.getIModelUpdater();
-				} else
-					throw new TigerstripeException("Can't figure updater for "
-							+ getFullyQualifiedName());
-			
+			IAbstractTigerstripeProject aProject = InternalTigerstripeCore
+					.getDefaultProjectSession().makeTigerstripeProject(
+							mgr.getTSProject().getBaseDir().toURI());
+			if (aProject instanceof ITigerstripeProject) {
+				IArtifactManagerSession session = ((ITigerstripeProject) aProject)
+						.getArtifactManagerSession();
+				myUpdater = session.getIModelUpdater();
+			} else
+				throw new TigerstripeException("Can't figure updater for "
+						+ getFullyQualifiedName());
+
 		}
 
 		return myUpdater;
 	}
+
+	// ==========================================================
+	// IWorkingCopy interface
+
+	private boolean isWorkingCopy = false;
+	private boolean workingCopyIsDirty = false;
+
+	@Override
+	public void addArtifactChangeListener(IArtifactChangeListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean isDirty() {
+		return workingCopyIsDirty;
+	}
+
+	@Override
+	public boolean isWorkingCopy() {
+		return isWorkingCopy;
+	}
+
+	public void setWorkingCopy(boolean isWorkingCopy) {
+		this.isWorkingCopy = isWorkingCopy;
+	}
+
+	@Override
+	public void removeArtifactChangeListener(IArtifactChangeListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Object getOriginal() throws TigerstripeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IWorkingCopy makeWorkingCopy(IProgressMonitor monitor)
+			throws TigerstripeException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

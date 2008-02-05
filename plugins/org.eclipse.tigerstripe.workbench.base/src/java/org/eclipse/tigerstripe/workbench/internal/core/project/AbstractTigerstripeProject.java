@@ -112,6 +112,7 @@ public abstract class AbstractTigerstripeProject {
 
 	public void setProjectDetails(ProjectDetails projectDetails) {
 		this.projectDetails = projectDetails;
+		projectDetails.setParentProject(this);
 	}
 
 	public File getBaseDir() {

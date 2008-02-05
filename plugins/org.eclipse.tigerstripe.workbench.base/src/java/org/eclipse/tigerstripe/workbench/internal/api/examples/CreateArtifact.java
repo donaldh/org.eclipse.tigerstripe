@@ -13,8 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.api.examples;
 import java.io.File;
 
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEntitySpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
@@ -39,7 +39,7 @@ public class CreateArtifact {
 
 	public void body() {
 		try {
-			IProjectSession session = TigerstripeCore.getDefaultProjectSession();
+			IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
 
 			File projectDir = new File(
 					"C:/JWorkspace/runtime-EclipseApplication/MyTSProject");

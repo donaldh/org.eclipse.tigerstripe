@@ -1,18 +1,33 @@
 <h1>Artifacts Lifecycle</h1>
-<p>As part of a the API-refactoring, the lifecycle of Artifacts has been revisited. The existing
-API had evolved into a very complicated series of interactions between the Artifact Mgr and its
-clients.</p>
-<p>The lifecycle of Artifacts now takes into account the following requirements:
+<p>As part of a the API-refactoring, the lifecycle of Artifacts has
+been revisited. The existing API had evolved into a very complicated
+series of interactions between the Artifact Mgr and its clients.</p>
+<h2>Roles</h2>
 <ul>
-	<li><strong>Decoupling with persistence layer</strong>: the API should make no assumption
-	about the persistence mechanism used to persist Artifacts. In particular, nothing regarding
-	the parsing/loading should be explicitly exposed thru the API</li>
-	<li><strong>Working copy for Editing in Editor</strong>: requires the ability to get a working copy of
-	an Artifact. Optionally, this working copy should be refreshed by changes to that artifact
-	from other clients.</li>
-	<li><strong>Listeners for changes on Artifacts</strong>: registering for changes.</li>
-	<li><strong>Resource tracking</strong>: ie. if the underlying resource where the artifact
-	is persisted, it should be reloaded and working copies should be notified.</li>
-	
+	<li>The Artifact Mgr holds the reference value of an Artifact and
+	is responsible for persisting them</li>
+	<li>Changes to artifacts can only occur in 2 ways:
+	<ol>
+		<li>Getting a "working copy" of an artifact from the Art. Mgr.,
+		applying changes to it, and "committing" the changes on the working
+		copy by providing it back to the art mgr.</li>
+		<li>Submitting an IArtifactChangeRequest to the Art. Mgr.</li>
+	</ol>
+	</li>
+	<li>Each change will be made as atomic functions and automatically
+	persisted</li>
+	<li>The Art. Mgr. will use a defined persistence layer that is
+	responsible to provide read/store mechanisms to the Art. Mgr.</li>
+	<li>The Art. Mgr provides mechanisms to query models</li>
+	<li>During a generation phase no changes on the model shall be
+	permitted</li>
+	<li>There is one Art. Mgr. per Tigerstripe project. It cannot be
+	accessed directly but through a "session" through the project handle.</li>
+	<li>Working copies of Artifacts need to optionally receive
+	notifications that their original artifact has been modified in the
+	Art. Mgr. Trying to commit a working copy that is "out-of-sync" should
+	optionally raise an exception.</li>
 </ul>
+<h2>Use Cases</h2>
+
 </p>

@@ -26,6 +26,7 @@ import java.util.zip.ZipException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
@@ -56,7 +57,8 @@ public class PhantomTigerstripeProjectMgr implements
 	private PhantomTigerstripeProjectMgr() {
 		// register self as a listener for Active profile changes so we can
 		// update the phantom project accordingly
-		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(this);
+		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(
+				this);
 	}
 
 	public static PhantomTigerstripeProjectMgr getInstance() {
@@ -131,7 +133,7 @@ public class PhantomTigerstripeProjectMgr implements
 		int numberCreated = 0;
 		ArtifactManagerSessionImpl artifactMgrSession = null;
 		try {
-			artifactMgrSession = (ArtifactManagerSessionImpl) TigerstripeCore
+			artifactMgrSession = (ArtifactManagerSessionImpl) InternalTigerstripeCore
 					.getDefaultProjectSession().getPhantomProject()
 					.getArtifactManagerSession();
 
@@ -140,9 +142,10 @@ public class PhantomTigerstripeProjectMgr implements
 
 			(artifactMgrSession).setLockForGeneration(true);
 
-			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
-					.getActiveProfile();
-			Collection<IPrimitiveTypeDef> defs = profile.getPrimitiveTypeDefs(false);
+			IWorkbenchProfile profile = TigerstripeCore
+					.getWorkbenchProfileSession().getActiveProfile();
+			Collection<IPrimitiveTypeDef> defs = profile
+					.getPrimitiveTypeDefs(false);
 			for (IPrimitiveTypeDef def : defs) {
 				IPrimitiveTypeArtifact artifact = (IPrimitiveTypeArtifact) artifactMgrSession
 						.makeArtifact(IPrimitiveTypeArtifact.class.getName());

@@ -10,11 +10,26 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench;
 
+import java.util.Collection;
+import java.util.Map;
+
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.TigerstripeRuntimeDetails;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.WorkbenchProfileSession;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 
 /**
  * The entry point for all interactions with the Tigerstripe API This is a
@@ -46,29 +61,11 @@ public class TigerstripeCore {
 
 	private static IWorkbenchProfileSession workbenchProfileSession;
 
-	private static IProjectSession projectSession;
+	// FIXME: this needs to be changed, and the migration logic updated
+	// accordingly
+	public final static String MODELPROJECT_NATURE_ID = "org.eclipse.tigerstripe.workbench.ui.base.tigerstripeProject";
 
 	protected TigerstripeCore() {
-	}
-
-	/**
-	 * Returns the default Project Session for this API. There is only 1 project
-	 * session per instance of Tigerstripe Workbench. (Singleton)
-	 * 
-	 * This is the main entry point in the API to access project level
-	 * information.
-	 * 
-	 * @return IProjectSession - the default project session.
-	 */
-	public static IProjectSession getDefaultProjectSession()
-			 {
-
-		if (projectSession == null) {
-			ProjectSessionImpl session = new ProjectSessionImpl();
-			projectSession = session;
-		}
-
-		return projectSession;
 	}
 
 	/**
@@ -89,11 +86,64 @@ public class TigerstripeCore {
 	}
 
 	/**
-	 * 	Returns the runtime details for this install
+	 * Returns the runtime details for this install
 	 * 
 	 * @return
 	 */
 	public final static IRuntimeDetails getRuntimeDetails() {
 		return TigerstripeRuntimeDetails.INSTANCE;
 	}
+
+	/**
+	 * Returns a IAbstractTigerstripeProject corresponding to the given path.
+	 * 
+	 * The path is expected to be the folder where the project is stored. if no
+	 * tigerstripe-related project descriptor is found there, no project is
+	 * returned.
+	 * 
+	 * @param path
+	 * @return
+	 * @throws TigerstripeException
+	 */
+	public static IAbstractTigerstripeProject findProject(IPath path)
+			throws TigerstripeException {
+		return TigerstripeProjectFactory.INSTANCE.findProject(path);
+	}
+
+	/**
+	 * Creates a project of the given type at the given folder, and returns a
+	 * handle on that project
+	 * 
+	 * @param projectDetails
+	 * @param location -
+	 *            location for the project to create, if null the default
+	 *            location is used
+	 * @param projectType -
+	 *            one of the types as returned by
+	 * @param monitor -
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static IAbstractTigerstripeProject createProject(
+			IProjectDetails projectDetails, IPath location, Class projectType,
+			Map<String, Object> properties, IProgressMonitor monitor)
+			throws TigerstripeException {
+		return TigerstripeProjectFactory.INSTANCE.createProject(projectDetails,
+				location, projectType, properties, monitor);
+	}
+
+	public static IProjectDetails makeProjectDetails() {
+		return new ProjectDetails(null);
+	}
+
+	/**
+	 * Returns a collection of Tigerstripe project types that are supported
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static Collection<Class> getSupportedProjectTypes() {
+		return TigerstripeProjectFactory.INSTANCE.getSupportedProjectTypes();
+	}
+
 }

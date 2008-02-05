@@ -26,9 +26,9 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
@@ -165,7 +165,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 		// TigerstripeProject
 		// updated
 
-			final IProjectSession session = TigerstripeCore.getDefaultProjectSession();
+			final IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
 
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor) {

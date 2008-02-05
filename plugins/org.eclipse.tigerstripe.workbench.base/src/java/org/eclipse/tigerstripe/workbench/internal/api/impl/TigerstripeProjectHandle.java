@@ -17,11 +17,16 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
+import org.eclipse.tigerstripe.workbench.internal.api.model.ModelManager;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpoint;
 import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
@@ -37,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractImportCheckpointHelper;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.model.IModelManager;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -46,6 +52,10 @@ public abstract class TigerstripeProjectHandle extends
 		AbstractTigerstripeProjectHandle implements ITigerstripeProject {
 
 	private INameProvider nameProvider;
+
+	private ModelManager modelManager;
+
+	private ArtifactManager manager;
 
 	public final static String DESCRIPTOR_FILENAME = ITigerstripeConstants.PROJECT_DESCRIPTOR;
 
@@ -88,10 +98,24 @@ public abstract class TigerstripeProjectHandle extends
 		throw new TigerstripeException("Invalid project handle.");
 	}
 
+	@Override
+	public IModelManager getModelManager() throws TigerstripeException {
+		if (modelManager == null) {
+			if (manager == null)
+				manager = new ArtifactManager(getTSProject());
+			modelManager = new ModelManager(manager);
+		}
+
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public IArtifactManagerSession getArtifactManagerSession()
 			throws TigerstripeException {
 		if (artifactMgrSession == null) {
-			ArtifactManager manager = new ArtifactManager(getTSProject());
+			if (manager == null) {
+				manager = new ArtifactManager(getTSProject());
+			}
 			setArtifactManagerSession(new ArtifactManagerSessionImpl(manager));
 		}
 
@@ -170,8 +194,7 @@ public abstract class TigerstripeProjectHandle extends
 		Collection ref = project.getPluginConfigs();
 
 		IPluginConfig[] result = new IPluginConfig[ref.size()];
-		result = (IPluginConfig[]) ref.toArray(new IPluginConfig[ref
-				.size()]);
+		result = (IPluginConfig[]) ref.toArray(new IPluginConfig[ref.size()]);
 
 		// Since 2.1 added reference to ProjectHandle
 		for (IPluginConfig pRef : result) {
@@ -181,8 +204,7 @@ public abstract class TigerstripeProjectHandle extends
 		return result;
 	}
 
-	public void addPluginConfig(IPluginConfig ref)
-			throws TigerstripeException {
+	public void addPluginConfig(IPluginConfig ref) throws TigerstripeException {
 		TigerstripeProject project = getTSProject();
 		Collection refs = project.getPluginConfigs();
 		refs.add(ref);
@@ -417,8 +439,6 @@ public abstract class TigerstripeProjectHandle extends
 		return getArtifactManagerSession();
 	}
 
-	
-
 	public void doSave() throws TigerstripeException {
 		try {
 			TigerstripeProject project = getTSProject();
@@ -510,12 +530,11 @@ public abstract class TigerstripeProjectHandle extends
 	}
 
 	public ITigerstripeProject[] getIReferencedProjects()
-	throws TigerstripeException {
+			throws TigerstripeException {
 		return getReferencedProjects();
 	}
 
-	public IProjectDetails getIProjectDetails()
-	throws TigerstripeException {
+	public IProjectDetails getIProjectDetails() throws TigerstripeException {
 		return getProjectDetails();
 	}
 

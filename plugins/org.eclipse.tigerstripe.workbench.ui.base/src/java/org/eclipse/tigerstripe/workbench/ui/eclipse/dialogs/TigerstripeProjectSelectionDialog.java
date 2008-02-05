@@ -37,8 +37,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.ui.dialogs.SelectionStatusDialog;
 
@@ -83,7 +83,7 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 							.toURI();
 					IAbstractTigerstripeProject tsProject = null;
 					try {
-						tsProject = TigerstripeCore.getDefaultProjectSession()
+						tsProject = InternalTigerstripeCore.getDefaultProjectSession()
 								.makeTigerstripeProject(projectURI, null);
 										} catch (TigerstripeException e) {
 

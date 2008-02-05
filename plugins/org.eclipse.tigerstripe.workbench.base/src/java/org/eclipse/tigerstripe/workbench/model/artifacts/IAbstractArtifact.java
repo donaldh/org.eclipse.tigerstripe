@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -31,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  * 
  * @author Eric Dillon
  */
-public interface IAbstractArtifact extends IModelComponent {
+public interface IAbstractArtifact extends IModelComponent, IWorkingCopy {
 
 	public interface IFieldTypeRef {
 

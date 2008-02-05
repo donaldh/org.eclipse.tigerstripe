@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.project.IDependency;
  * 
  * @author Eric Dillon
  * @since 0.3
+ * @deprecated use TigerstripeCore methods directly instead
  */
 public interface IProjectSession  {
 

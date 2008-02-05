@@ -15,6 +15,7 @@ import java.net.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePackager;
+import org.eclipse.tigerstripe.workbench.model.IModelManager;
 
 public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 
@@ -31,6 +32,5 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 	public IModulePackager getPackager() {
 		return new ModulePackager(this);
 	}
-
 
 }

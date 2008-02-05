@@ -44,9 +44,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ExternalModules;
@@ -405,7 +405,7 @@ public class DescriptorDependenciesSection extends
 					File file = (File) toAdd[i];
 
 					try {
-						IDependency dep = TigerstripeCore.getDefaultProjectSession()
+						IDependency dep = InternalTigerstripeCore.getDefaultProjectSession()
 								.makeIDependency(file.getAbsolutePath());
 
 						TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getTSProject();

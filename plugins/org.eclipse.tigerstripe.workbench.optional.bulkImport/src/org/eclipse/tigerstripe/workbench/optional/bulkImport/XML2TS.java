@@ -35,6 +35,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IEventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjArtifactSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEntitySpecifics;
@@ -149,7 +150,7 @@ public class XML2TS {
 						.getRoot().findMember(new Path(tSProjectName));
 
 				URI projectURI = tsContainer.getLocationURI();
-				IProjectSession session = TigerstripeCore.getDefaultProjectSession();
+				IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
 				ITigerstripeProject tsProject = (ITigerstripeProject) session
 						.makeTigerstripeProject(projectURI,
 								ITigerstripeProject.class.getName());

@@ -13,7 +13,9 @@ Require-Bundle: org.eclipse.ui,
  org.apache.commons.logging,
  org.apache.ant,
  org.apache.log4j,
- org.eclipse.update.core
+ org.eclipse.update.core,
+ org.eclipse.tigerstripe.annotations,
+ org.eclipse.jdt.launching
 Eclipse-LazyStart: true
 Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apache.velocity.runtime.resource",
  org.apache.velocity.app;

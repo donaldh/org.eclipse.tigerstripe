@@ -15,10 +15,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.ETAdapter;
+import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -155,7 +155,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 							TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 									.getArtifactManager().getTSProject();
 
-							ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
+							ITigerstripeProject tsProject = (ITigerstripeProject) InternalTigerstripeCore
 									.getDefaultProjectSession()
 									.makeTigerstripeProject(
 											project.getBaseDir().toURI(), null);
@@ -314,7 +314,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 								TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 										.getArtifactManager().getTSProject();
 
-								ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
+								ITigerstripeProject tsProject = (ITigerstripeProject) InternalTigerstripeCore
 										.getDefaultProjectSession()
 										.makeTigerstripeProject(
 												project.getBaseDir().toURI(),
