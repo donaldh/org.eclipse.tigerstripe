@@ -328,4 +328,67 @@ public class TestArtifacts extends TestCase {
 		project.delete(true, new NullProgressMonitor());
 	}
 
+	public final void testReferencedArtifacts()throws TigerstripeException{
+		IAbstractTigerstripeProject aProject = createModelProject("testReferencedArtifacts");
+		assertTrue(aProject instanceof ITigerstripeProject);
+		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		ArtifactTestHelper artHelper = new ArtifactTestHelper(project);
+
+		// Make two artifacts
+		IManagedEntityArtifact left = (IManagedEntityArtifact) artHelper
+				.createArtifact(IManagedEntityArtifact.class.getName(), "Left",
+						"com.test");
+		IManagedEntityArtifact right = (IManagedEntityArtifact) artHelper
+		.createArtifact(IManagedEntityArtifact.class.getName(), "Left",
+				"com.test");
+		
+		IField reference = left.makeField();
+		reference.setName("refersToRight");
+		IType refType = reference.makeType();
+		refType.setFullyQualifiedName(right.getFullyQualifiedName());
+		reference.setType(refType);
+		left.addField(reference);
+		
+		// Add  a non-reference as well!
+		IField nonReference = left.makeField();
+		nonReference.setName("refersToRight");
+		IType simpleType = nonReference.makeType();
+		refType.setFullyQualifiedName("primitive.int");
+		nonReference.setType(simpleType);
+		left.addField(nonReference);
+		
+		left.doSave(new TigerstripeNullProgressMonitor());
+		
+		Collection<IAbstractArtifact> referencedArtifacts  = left.getReferencedArtifacts();
+		assertTrue("Referenced Artifact collection size is incorrect ("
+				+ referencedArtifacts.size() + ") after addition of Fields",
+				referencedArtifacts.size() == 1);
+		
+		Collection<IAbstractArtifact> referencingArtifacts  = right.getReferencingArtifacts();
+		assertTrue("Referencing Artifact collection size is incorrect ("
+				+ referencingArtifacts.size() + ") after addition of Fields",
+				referencingArtifacts.size() == 1);
+		
+		
+		// Now remove the reference again
+		left.removeFields(left.getFields());
+		left.doSave(new TigerstripeNullProgressMonitor());
+		
+		referencedArtifacts  = left.getReferencedArtifacts();
+		assertTrue("Referenced Artifact collection size is incorrect ("
+				+ referencedArtifacts.size() + ") after removal of Fields",
+				referencedArtifacts.size() == 0);
+		
+		referencingArtifacts  = right.getReferencingArtifacts();
+		assertTrue("Referencing Artifact collection size is incorrect ("
+				+ referencingArtifacts.size() + ") after removal of Fields",
+				referencingArtifacts.size() == 0);
+		
+		
+		
+		
+		
+		
+	}
+	
 }
