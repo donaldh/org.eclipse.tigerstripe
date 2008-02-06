@@ -136,6 +136,14 @@ public interface IMethod extends IModelComponent {
 		 * @return String - the name of the exception
 		 */
 		public String getName();
+		
+		/**
+		 * Returns the package associated with this exception.
+		 * 
+		 * @return String - the package where this exception is defined.
+		 */
+		public String getPackage();
+		
 	}
 
 	// Entity Method Flavor

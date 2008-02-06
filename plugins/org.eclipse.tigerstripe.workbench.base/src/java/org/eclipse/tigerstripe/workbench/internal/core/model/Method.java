@@ -717,9 +717,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			return this.fullyQualifiedName;
 		}
 
+		public String getPackage() {
+			return Util.packageOf(getFullyQualifiedName());
+		}
+
 		public String getName() {
-			return this.fullyQualifiedName.substring(this.fullyQualifiedName
-					.lastIndexOf(".") + 1);
+			return Util.nameOf(getFullyQualifiedName());
 		}
 
 		public void setFullyQualifiedName(String fullyQualifiedName) {
@@ -882,12 +885,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	}
 
 	public void addArgument(IArgument argument) {
-		getArguments().add(argument);
+		arguments.add(argument);
 		((Argument) argument).setParentMethod(this);
 	}
 
 	public void removeArguments(Collection<IArgument> arguments) {
-		getArguments().removeAll(arguments);
+		arguments.removeAll(arguments);
 	}
 
 	public void setArguments(Collection<IArgument> arguments) {
