@@ -161,12 +161,14 @@ public class ContractSegment extends VersionAwareElement implements
 
 				if (getContainingProject() != null) {
 					if (ref.getContainingProject() != null
-							&& !ref.getContainingProject().getProjectLabel()
-									.equals(
+							&& !ref.getContainingProject().getProjectDetails()
+									.getName().equals(
 											getContainingProject()
-													.getProjectLabel())) {
+													.getProjectDetails()
+													.getName())) {
 						refElm.addAttribute("project", ref
-								.getContainingProject().getProjectLabel());
+								.getContainingProject().getProjectDetails()
+								.getName());
 					}
 				}
 			}

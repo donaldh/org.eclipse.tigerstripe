@@ -88,7 +88,7 @@ public class TigerstripeModuleBuildTask extends Task {
 				final ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
 						.findProject(baseDir.toURI());
 				log.info("  Building Module : "
-						+ (new File(tsProject.getURI())).getAbsolutePath());
+						+ tsProject.getLocation().toOSString());
 				// final IProject project = (IProject)tsProject ;
 				internalPerformFinish(tsProject, moduleId, modulePath);
 
@@ -136,8 +136,7 @@ public class TigerstripeModuleBuildTask extends Task {
 			header.setModuleID(moduleID);
 
 			// monitor.worked(3);
-			String classesDirStr = tsProject.getURI().getPath()
-					+ File.separator + "/bin";
+			String classesDirStr = tsProject.getLocation().append("bin").toOSString();
 			File classesDir = new File(classesDirStr);
 			packager.packageUp(file.toURI(), classesDir, header,
 					new TigerstripeLogProgressMonitor());

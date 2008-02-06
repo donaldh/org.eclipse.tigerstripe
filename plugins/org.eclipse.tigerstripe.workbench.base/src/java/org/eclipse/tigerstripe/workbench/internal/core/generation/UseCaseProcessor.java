@@ -98,7 +98,7 @@ public class UseCaseProcessor {
 					// we found one
 					try {
 						String relPath = Util.getRelativePath(file, project
-								.getBaseDir());
+								.getLocation().toFile());
 						relPaths.add(relPath);
 					} catch (IOException e) {
 						TigerstripeRuntime.logErrorMessage(
@@ -117,7 +117,7 @@ public class UseCaseProcessor {
 
 		// gather all use case files in the project
 		List<String> relPaths = new ArrayList<String>();
-		File baseDir = project.getBaseDir();
+		File baseDir = project.getLocation().toFile();
 		getAllUseCases(baseDir, relPaths);
 		for (String relPath : relPaths) {
 			IUseCaseReference ref = project.makeUseCaseReference(relPath);
@@ -191,8 +191,8 @@ public class UseCaseProcessor {
 			if (outputDir == null) {
 				outputDir = project.getProjectDetails().getOutputDirectory();
 			}
-			String relOutputPath = project.getBaseDir() + File.separator
-					+ outputDir + File.separator;
+			String relOutputPath = project.getLocation().toFile()
+					+ File.separator + outputDir + File.separator;
 			int i = ref.getProjectRelativePath().lastIndexOf(
 					IUseCase.FILE_EXTENSION);
 			if (i == -1) {

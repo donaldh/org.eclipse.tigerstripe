@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.annotables;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElement;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElementPackage;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.BaseAnnotableModel;
@@ -29,7 +30,7 @@ public class AnnotableModelFromDB extends BaseAnnotableModel {
 	}
 
 	public AnnotableModelFromDB(ITigerstripeProject targetProject,
-			IModelImportConfiguration config) {
+			IModelImportConfiguration config) throws TigerstripeException {
 		super(targetProject, config);
 	}
 

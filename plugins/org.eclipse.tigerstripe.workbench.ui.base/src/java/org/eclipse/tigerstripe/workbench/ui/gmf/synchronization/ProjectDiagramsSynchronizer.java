@@ -79,21 +79,21 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 
 	public void initialize() {
 		registerSelfForChanges();
-		Job initialIndexing = new Job("Indexing diagrams in "
-				+ getProject().getProjectLabel()) {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				initialize(monitor);
-				return Status.OK_STATUS;
-			}
-		};
-
 		try {
+			Job initialIndexing = new Job("Indexing diagrams in "
+					+ getProject().getProjectLabel()) {
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					initialize(monitor);
+					return Status.OK_STATUS;
+				}
+			};
+
 			initialIndexing.setRule(createInitialRule());
+			initialIndexing.schedule();
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
-		initialIndexing.schedule();
 	}
 
 	private ISchedulingRule createInitialRule() throws TigerstripeException {

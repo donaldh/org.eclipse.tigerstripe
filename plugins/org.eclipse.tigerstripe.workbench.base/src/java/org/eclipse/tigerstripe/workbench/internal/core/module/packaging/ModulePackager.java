@@ -135,7 +135,7 @@ public class ModulePackager implements IModulePackager {
 	 */
 	protected void compileArtifacts(File classesDir)
 			throws TigerstripeException {
-		String projectDir = getTSProject().getBaseDir().getAbsolutePath();
+		String projectDir = getTSProject().getLocation().toOSString();
 
 		List<String> compilerArgs = new ArrayList<String>();
 
@@ -167,8 +167,8 @@ public class ModulePackager implements IModulePackager {
 					coreLib = dep.getPath();
 					continue; // add the core lib at the end
 				} else
-					classpath += getTSProject().getBaseDir() + File.separator
-							+ dep.getPath() + ";";
+					classpath += getTSProject().getLocation().toFile()
+							+ File.separator + dep.getPath() + ";";
 			}
 			if (coreLib != null) {
 				classpath += coreLib;
@@ -192,15 +192,15 @@ public class ModulePackager implements IModulePackager {
 			for (Object obj : artifacts) {
 				AbstractArtifact artifact = (AbstractArtifact) obj;
 				unitsNumber++;
-				compilerArgs.add(getTSProject().getBaseDir() + File.separator
-						+ artifact.getArtifactPath());
+				compilerArgs.add(getTSProject().getLocation().toFile()
+						+ File.separator + artifact.getArtifactPath());
 			}
 
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage(
 					"Error while compiling artifacts for project '"
-							+ getTSProject().getProjectLabel() + "': "
-							+ e.getMessage(), e);
+							+ getTSProject().getProjectLabel()
+							+ "': " + e.getMessage(), e);
 		}
 
 		// Try and compile
@@ -271,7 +271,8 @@ public class ModulePackager implements IModulePackager {
 				TigerstripeRuntime
 						.logErrorMessage(
 								"Can't package project '"
-										+ getTSProject().getProjectLabel()
+										+ getTSProject().getProjectDetails()
+												.getName()
 										+ "' into a module without JDK. Please install Java JDK instead of Java JRE.",
 								e);
 				throw new TigerstripeException(
@@ -355,7 +356,8 @@ public class ModulePackager implements IModulePackager {
 	 * 
 	 */
 	protected void copyDescriptor(File tmpDir) throws TigerstripeException {
-		File descriptor = new File(getTSProject().getURI().getPath()
+		File descriptor = new File(getTSProject().getLocation().toFile()
+				.toURI().getPath()
 				+ File.separator + ITigerstripeConstants.PROJECT_DESCRIPTOR);
 		try {
 			FileUtils.copy(descriptor.getAbsolutePath(), tmpDir

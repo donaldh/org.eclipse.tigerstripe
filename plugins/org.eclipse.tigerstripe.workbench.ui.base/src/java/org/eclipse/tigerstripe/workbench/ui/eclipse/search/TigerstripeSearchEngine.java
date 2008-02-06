@@ -109,8 +109,9 @@ public class TigerstripeSearchEngine {
 						.getArtifactManagerSession();
 				Collection<IAbstractArtifact> artifacts = session
 						.queryArtifact(new QueryAllArtifacts());
-				monitor.beginTask("Searching '" + project.getProjectLabel()
-						+ "'", artifacts.size());
+				monitor.beginTask("Searching '"
+						+ project.getProjectLabel() + "'",
+						artifacts.size());
 				for (IAbstractArtifact artifact : artifacts) {
 					IStatus s = searchArtifact(artifact, collector, monitor);
 					if (s == Status.CANCEL_STATUS)

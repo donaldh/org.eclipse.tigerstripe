@@ -322,12 +322,12 @@ public class CompareUtils {
 			AbstractArtifact artifact = (AbstractArtifact) iAbsArtifact;
 			TigerstripeProject project = artifact.getTSProject();
 			if (project != null)
-				return project.getProjectDetails().getName();
+				return project.getProjectLabel();
 			// Could be in a Dependency
 			ArtifactManager parent = artifact.getArtifactManager();
 			if (parent instanceof ModuleArtifactManager) {
 				project = ((ModuleArtifactManager) parent).getEmbeddedProject();
-				return "module:" + project.getProjectDetails().getName();
+				return "module:" + project.getProjectLabel();
 			}
 			return "";
 		} else

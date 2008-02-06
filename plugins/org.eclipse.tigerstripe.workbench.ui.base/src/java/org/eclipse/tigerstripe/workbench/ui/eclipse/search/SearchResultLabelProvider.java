@@ -130,7 +130,7 @@ public class SearchResultLabelProvider extends LabelProvider {
 			// module
 			ModuleArtifactManager mMgr = (ModuleArtifactManager) element;
 			if (mMgr.getEmbeddedProject() != null)
-				return mMgr.getEmbeddedProject().getProjectDetails().getName()
+				return mMgr.getEmbeddedProject().getProjectLabel()
 						+ "-"
 						+ mMgr.getEmbeddedProject().getProjectDetails()
 								.getVersion();

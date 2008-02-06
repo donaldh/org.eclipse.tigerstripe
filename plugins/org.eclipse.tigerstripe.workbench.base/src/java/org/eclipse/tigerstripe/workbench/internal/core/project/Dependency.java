@@ -93,7 +93,7 @@ public class Dependency implements IDependency {
 	public ITigerstripeModuleProject makeModuleProject(
 			ITigerstripeProject containingProject) throws TigerstripeException {
 		ITigerstripeModuleProject result = new ModuleProjectHandle(
-				containingProject.getURI(), this);
+				containingProject.getLocation().toFile().toURI(), this);
 		return result;
 	}
 

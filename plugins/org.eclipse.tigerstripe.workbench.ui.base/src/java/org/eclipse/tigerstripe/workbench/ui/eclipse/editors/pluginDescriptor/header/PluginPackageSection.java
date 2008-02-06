@@ -151,7 +151,8 @@ public class PluginPackageSection extends PluginDescriptorSectionPart {
 											.openInformation(
 													getBody().getShell(),
 													projectHandle
-															.getProjectLabel()
+															.getProjectDetails()
+															.getName()
 															+ " Plugin",
 													"Plugin '"
 															+ projectHandle
@@ -168,7 +169,8 @@ public class PluginPackageSection extends PluginDescriptorSectionPart {
 											.openError(
 													getBody().getShell(),
 													projectHandle
-															.getProjectLabel()
+															.getProjectDetails()
+															.getName()
 															+ " Plugin",
 													"Plugin '"
 															+ projectHandle

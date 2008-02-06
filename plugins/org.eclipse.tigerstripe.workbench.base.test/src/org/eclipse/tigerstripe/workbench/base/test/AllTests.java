@@ -18,6 +18,7 @@ import org.eclipse.tigerstripe.workbench.base.test.model.TestFields;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestLiterals;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestMethods;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestModelManager;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestModelProjectLifecycle;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestProjectManagement;
 
 public class AllTests {
@@ -30,9 +31,11 @@ public class AllTests {
 
 		// Basic project operations
 		suite.addTestSuite(TestProjectManagement.class);
+		suite.addTestSuite(TestModelProjectLifecycle.class);
 
 		// Model operations
-	//	suite.addTestSuite(TestModelManager.class); // None of these are implemented yet!
+		// suite.addTestSuite(TestModelManager.class); // None of these are
+		// implemented yet!
 		suite.addTestSuite(TestArtifacts.class);
 		suite.addTestSuite(TestFields.class);
 		suite.addTestSuite(TestLiterals.class);

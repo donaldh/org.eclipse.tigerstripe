@@ -281,7 +281,7 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 		// content
 		// of the diagram would be deleted.
 		try {
-			monitor.beginTask("Building " + getTSProject().getProjectLabel(),
+			monitor.beginTask("Building " + getTSProject().getProjectDetails().getName(),
 					10);
 			getTSProject().getArtifactManagerSession().refresh(
 					new TigerstripeProgressMonitor(monitor));

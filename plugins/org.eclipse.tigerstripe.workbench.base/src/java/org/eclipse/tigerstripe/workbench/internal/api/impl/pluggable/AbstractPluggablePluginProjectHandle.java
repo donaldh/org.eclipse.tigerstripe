@@ -14,7 +14,9 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URI;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
@@ -43,8 +45,7 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		super(projectURI);
 	}
 
-	public IPluginProperty[] getGlobalProperties()
-			throws TigerstripeException {
+	public IPluginProperty[] getGlobalProperties() throws TigerstripeException {
 		return getPPProject().getGlobalProperties();
 	}
 
@@ -89,13 +90,11 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 	}
 
 	@Override
-	public String getProjectLabel() {
-		try {
-			return getPPProject().getProjectLabel();
-		} catch (TigerstripeException e) {
-			// Ignore for now
-		}
-		return "unknown";
+	public void setProjectDetails(IProjectDetails projectDetails)
+			throws WorkingCopyException, TigerstripeException {
+		assertSet(_UNKWOWN_FIELD);
+		PluggablePluginProject project = getPPProject();
+//		project.getSetProjectDetails(projectDetails);
 	}
 
 	public String[] getSupportedPluginProperties() {
@@ -223,8 +222,7 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		}
 	}
 
-	public IProjectDetails getIProjectDetails()
-			throws TigerstripeException {
+	public IProjectDetails getIProjectDetails() throws TigerstripeException {
 
 		return getProjectDetails();
 	}
@@ -338,4 +336,11 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		PluggablePluginProject project = getPPProject();
 		return project.getPluginNature();
 	}
+
+	@Override
+	protected void doCommit(IProgressMonitor monitor)
+			throws TigerstripeException {
+		doSave();
+	}
+
 }

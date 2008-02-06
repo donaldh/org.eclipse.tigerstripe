@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -103,8 +104,8 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 		TableWrapData td = null;
 
 		idLabel = toolkit.createLabel(parent, "ID: ", SWT.WRAP);
-
-		String projectLabel = getTSProject().getProjectLabel();
+		String projectLabel = "";
+		projectLabel = getTSProject().getProjectLabel();
 		// on a ReadOnly descriptor (ie. from a module, this will be null)
 		if (projectLabel == null) {
 			projectLabel = "<MODULE>";
@@ -190,14 +191,17 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 
 			try {
 				if (e.getSource() == nameText) {
-					handle.getProjectDetails().setName(
-							nameText.getText().trim());
+					IProjectDetails details = handle.getProjectDetails();
+					details.setName(nameText.getText().trim());
+					handle.setProjectDetails(details);
 				} else if (e.getSource() == versionText) {
-					handle.getProjectDetails().setVersion(
-							versionText.getText().trim());
+					IProjectDetails details = handle.getProjectDetails();
+					details.setVersion(versionText.getText().trim());
+					handle.setProjectDetails(details);
 				} else if (e.getSource() == descriptionText) {
-					handle.getProjectDetails().setDescription(
-							descriptionText.getText().trim());
+					IProjectDetails details = handle.getProjectDetails();
+					details.setDescription(descriptionText.getText().trim());
+					handle.setProjectDetails(details);
 				}
 			} catch (TigerstripeException ee) {
 				Status status = new Status(

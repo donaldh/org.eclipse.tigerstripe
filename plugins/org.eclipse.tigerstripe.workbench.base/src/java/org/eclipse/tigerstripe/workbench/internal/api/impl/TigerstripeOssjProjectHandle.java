@@ -12,10 +12,11 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 
 import java.net.URI;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePackager;
-import org.eclipse.tigerstripe.workbench.model.IModelManager;
 
 public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 
@@ -31,6 +32,14 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 
 	public IModulePackager getPackager() {
 		return new ModulePackager(this);
+	}
+
+	@Override
+	public WorkingCopyManager doCreateCopy(IProgressMonitor monitor)
+			throws TigerstripeException {
+		TigerstripeProjectHandle copy = new TigerstripeOssjProjectHandle(
+				getURI());
+		return copy;
 	}
 
 }

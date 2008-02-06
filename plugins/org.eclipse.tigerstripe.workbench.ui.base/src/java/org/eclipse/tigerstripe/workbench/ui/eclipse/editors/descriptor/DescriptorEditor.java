@@ -172,9 +172,9 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 			public void run(IProgressMonitor monitor) {
 				try {
 					monitor.beginTask("Refreshing Project Cache...", 10);
-					session.refreshCacheFor(getTSProject().getURI(),
-							getTSProject(), new TigerstripeProgressMonitor(
-									monitor));
+					session.refreshCacheFor(getTSProject().getLocation()
+							.toFile().toURI(), getTSProject(),
+							new TigerstripeProgressMonitor(monitor));
 					monitor.done();
 				} catch (TigerstripeException ee) {
 					EclipsePlugin.log(ee);
@@ -305,8 +305,8 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 					// for
 					// the underlying TigerstripeProject
 					try {
-						workingHandle = new TigerstripeOssjProjectHandle(handle
-								.getURI());
+						workingHandle = (ITigerstripeProject) handle
+								.makeWorkingCopy(null);
 					} catch (TigerstripeException e) {
 						return null;
 					}

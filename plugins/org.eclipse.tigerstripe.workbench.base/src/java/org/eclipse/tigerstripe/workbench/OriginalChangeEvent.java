@@ -10,14 +10,19 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench;
 
-/**
- * This interface is intended to be implemented by clients of the IWorkingCopy
- * interface to be notified when the original object has changed
- * 
- * @author erdillon
- * 
- */
-public interface IOriginalChangeListener {
+public class OriginalChangeEvent {
 
-	public void originalChanged(OriginalChangeEvent changeEvent);
+	private int eventType;
+
+	public final static int ORIGINAL_CHANGED = 0;
+
+	public final static int ORIGINAL_DELETED = 1;
+
+	public OriginalChangeEvent(int eventType) {
+		this.eventType = eventType;
+	}
+
+	public int getChangeType() {
+		return this.eventType;
+	}
 }

@@ -152,7 +152,7 @@ public class XML2TS {
 						.findProject(projectURI);
 				this.mgrSession = tsProject.getArtifactManagerSession();
 				String msgText = " Source Project : "
-						+ tsProject.getProjectDetails().getName();
+						+ tsProject.getProjectLabel();
 				addMessage(messages, msgText, 2);
 				out.println("info : " + msgText);
 				this.mgrSession.refresh(true, new TigerstripeProgressMonitor(

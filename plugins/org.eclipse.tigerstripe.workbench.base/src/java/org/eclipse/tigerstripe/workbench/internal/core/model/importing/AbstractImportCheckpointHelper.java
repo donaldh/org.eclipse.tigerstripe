@@ -39,8 +39,8 @@ public class AbstractImportCheckpointHelper {
 	}
 
 	protected File getCheckpointFile() {
-		return new File(project.getURI().getPath() + File.separator
-				+ IImportCheckpoint.CHECKPOINT_FILE);
+		return new File(project.getLocation().toFile().toURI().getPath()
+				+ File.separator + IImportCheckpoint.CHECKPOINT_FILE);
 	}
 
 	public IImportCheckpointDetails makeImportCheckpointDetails(

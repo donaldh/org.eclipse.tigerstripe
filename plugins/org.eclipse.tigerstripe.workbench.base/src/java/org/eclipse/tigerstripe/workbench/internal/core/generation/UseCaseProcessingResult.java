@@ -48,7 +48,7 @@ public class UseCaseProcessingResult extends PluginRunStatus {
 			if (hasError && includeHTML)
 				buf.append("<b>");
 			buf.append("[" + projectType + ": "
-					+ getProject().getProjectDetails().getName()
+					+ getProject().getProjectLabel()
 					+ ", Use Case: " + useCaseRef.getProjectRelativePath());
 
 			if (getFacetReference() != null && getFacetReference().canResolve()) {

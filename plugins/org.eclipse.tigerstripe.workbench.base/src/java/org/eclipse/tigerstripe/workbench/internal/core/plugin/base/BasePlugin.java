@@ -49,7 +49,7 @@ public abstract class BasePlugin implements PluginBody {
 	protected void setDefaultDestination(PluginConfig ref, File file,
 			RunConfig config) throws IOException {
 
-		String baseDir = ref.getProjectHandle().getBaseDir().getAbsolutePath();
+		String baseDir = ref.getProjectHandle().getLocation().toOSString();
 
 		if (config != null && config.getAbsoluteOutputDir() != null) {
 			baseDir = config.getAbsoluteOutputDir();

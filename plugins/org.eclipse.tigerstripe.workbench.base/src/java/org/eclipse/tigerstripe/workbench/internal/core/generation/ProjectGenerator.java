@@ -491,8 +491,8 @@ public class ProjectGenerator {
 				String outputFile = "generation.log";
 				String outputDir = ref.getProjectHandle().getProjectDetails()
 						.getOutputDirectory();
-				String projectDir = ref.getProjectHandle().getBaseDir()
-						.getCanonicalPath();
+				String projectDir = ref.getProjectHandle().getLocation()
+						.toOSString();
 
 				String outputPath = projectDir + File.separator + outputDir
 						+ File.separator + outputFile;
@@ -596,10 +596,9 @@ public class ProjectGenerator {
 		for (ITigerstripeProject refProject : refProjects) {
 
 			RunConfig refConfig = new RunConfig(refProject);
-			String absDir = project.getBaseDir().getAbsolutePath()
-					+ File.separator
+			String absDir = project.getLocation().toOSString() + File.separator
 					+ project.getProjectDetails().getOutputDirectory()
-					+ File.separator + refProject.getProjectDetails().getName();
+					+ File.separator + refProject.getProjectLabel();
 			refConfig.setAbsoluteOutputDir(absDir);
 			ProjectGenerator gen = new ProjectGenerator(refProject, refConfig);
 			result = gen.run();

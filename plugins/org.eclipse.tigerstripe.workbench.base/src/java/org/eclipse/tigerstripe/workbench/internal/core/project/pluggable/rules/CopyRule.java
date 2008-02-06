@@ -98,8 +98,8 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 		return ICopyRule.class.getCanonicalName();
 	}
 
-	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
-			throws TigerstripeException {
+	public void trigger(PluggablePluginConfig pluginConfig,
+			IPluginRuleExecutor exec) throws TigerstripeException {
 
 		this.report = new RuleReport(pluginConfig);
 		this.report.setTemplate(PluggablePlugin.TEMPLATE_PREFIX + "/"
@@ -111,40 +111,34 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 		this.report.setCopyFrom(getCopyFrom());
 
 		Expander expander = new Expander(pluginConfig);
-		String expandedToDir = expander.expandVar(getToDirectory(), pluginConfig
-				.getProject());
+		String expandedToDir = expander.expandVar(getToDirectory(),
+				pluginConfig.getProject());
 		this.report.setToDirectory(expandedToDir);
 
 		// Get target absolute directory (Created it if needed)
 		String outputPath = "";
 		File outputDirectory = null;
-		try {
-			String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
-					.getOutputDirectory();
-			String projectDir = pluginConfig.getProjectHandle().getBaseDir()
-					.getCanonicalPath();
+		String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
+				.getOutputDirectory();
+		String projectDir = pluginConfig.getProjectHandle().getLocation()
+				.toOSString();
 
-			outputPath = projectDir + File.separator + outputDir;
-			if (exec.getConfig() != null
-					&& exec.getConfig().getAbsoluteOutputDir() != null) {
-				outputPath = exec.getConfig().getAbsoluteOutputDir()
-						+ File.separator + outputDir;
-			}
-
-			// create any subdir in the outputDir if any is included
-			// in the outputFile
-			outputDirectory = new File(outputPath + File.separator
-					+ expandedToDir);
-			if (!outputDirectory.exists()) {
-				outputDirectory.mkdirs();
-			}
-		} catch (IOException e) {
-			throw new TigerstripeException("Error while trying to create '"
-					+ outputPath + "': " + e.getMessage());
+		outputPath = projectDir + File.separator + outputDir;
+		if (exec.getConfig() != null
+				&& exec.getConfig().getAbsoluteOutputDir() != null) {
+			outputPath = exec.getConfig().getAbsoluteOutputDir()
+					+ File.separator + outputDir;
 		}
 
-		String srcPrefix = pluginConfig.getProjectHandle().getBaseDir()
-				.getAbsolutePath();
+		// create any subdir in the outputDir if any is included
+		// in the outputFile
+		outputDirectory = new File(outputPath + File.separator + expandedToDir);
+		if (!outputDirectory.exists()) {
+			outputDirectory.mkdirs();
+		}
+
+		String srcPrefix = pluginConfig.getProjectHandle().getLocation()
+				.toOSString();
 		if (getCopyFrom() == ICopyRule.FROM_PLUGIN) {
 			srcPrefix = exec.getPlugin().getPProject().getBaseDir()
 					.getAbsolutePath();
@@ -161,14 +155,16 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 				FileUtils.copyFileset(srcDir.getAbsolutePath(), outputDirectory
 						.getAbsolutePath(), includes, true);
 			} catch (IOException e) {
-				throw new TigerstripeException("Error while copying fileset: " + e.getMessage(), e);
+				throw new TigerstripeException("Error while copying fileset: "
+						+ e.getMessage(), e);
 			}
 		} else {
 			File srcFile = new File(srcPrefix + File.separator
 					+ getFilesetMatch());
 			if (!srcFile.exists()) {
 				String src = "project '"
-						+ pluginConfig.getProjectHandle().getProjectLabel() + "'";
+						+ pluginConfig.getProjectHandle().getProjectDetails()
+								.getName() + "'";
 				if (getCopyFrom() == ICopyRule.FROM_PLUGIN) {
 					src = "deployed plugin.";
 				}

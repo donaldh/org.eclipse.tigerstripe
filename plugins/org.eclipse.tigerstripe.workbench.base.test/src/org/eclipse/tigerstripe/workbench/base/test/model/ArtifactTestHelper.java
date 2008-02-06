@@ -70,7 +70,8 @@ public class ArtifactTestHelper {
 		artifact.doSave(new TigerstripeNullProgressMonitor());
 
 		String artifactPath = artifact.getArtifactPath();
-		File artFile = new File(project.getBaseDir().getAbsolutePath()
+		File artFile = new File(project.getLocation().toFile()
+				.getAbsolutePath()
 				+ File.separator + artifactPath);
 		Assert.assertTrue(artFile.exists());
 		Assert.assertTrue("Artifact " + artifact.getArtifactType()
@@ -81,7 +82,8 @@ public class ArtifactTestHelper {
 	public void remove(IAbstractArtifact artifact) throws TigerstripeException {
 		Assert.assertNotNull(artifact);
 		String artifactPath = artifact.getArtifactPath();
-		File artFile = new File(project.getBaseDir().getAbsolutePath()
+		File artFile = new File(project.getLocation().toFile()
+				.getAbsolutePath()
 				+ File.separator + artifactPath);
 		session.removeArtifact(artifact);
 

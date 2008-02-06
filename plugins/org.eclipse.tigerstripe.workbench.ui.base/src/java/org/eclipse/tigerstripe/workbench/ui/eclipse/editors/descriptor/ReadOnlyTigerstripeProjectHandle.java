@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
@@ -29,14 +31,19 @@ public class ReadOnlyTigerstripeProjectHandle extends TigerstripeProjectHandle {
 		this.project = project;
 	}
 
-
 	public IModulePackager getPackager() {
 		return null;
 	}
-
 
 	@Override
 	public TigerstripeProject getTSProject() throws TigerstripeException {
 		return project;
 	}
+
+	@Override
+	protected WorkingCopyManager doCreateCopy(IProgressMonitor monitor)
+			throws TigerstripeException {
+		throw new TigerstripeException("Operation not supported.");
+	}
+
 }

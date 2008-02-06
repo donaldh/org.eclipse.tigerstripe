@@ -171,13 +171,8 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 			} else {
 				String path = dep.getProjectRelativePath();
 				if (!dep.getContainingProject().equals(getTSProject())) {
-					try {
-						path += " ("
-								+ dep.getContainingProject()
-										.getProjectDetails().getName() + ")";
-					} catch (TigerstripeException e) {
-						EclipsePlugin.log(e);
-					}
+					path += " (" + dep.getContainingProject().getProjectLabel()
+							+ ")";
 				}
 				return path;
 			}

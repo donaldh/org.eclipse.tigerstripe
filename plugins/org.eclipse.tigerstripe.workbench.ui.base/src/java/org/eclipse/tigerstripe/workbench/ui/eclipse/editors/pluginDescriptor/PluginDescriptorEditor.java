@@ -176,7 +176,7 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 				try {
 					monitor.beginTask("Refreshing Project Cache...", 10);
 					session.refreshCacheFor(getIPluggablePluginProject()
-							.getURI(), getIPluggablePluginProject(),
+							.getLocation().toFile().toURI(), getIPluggablePluginProject(),
 							new TigerstripeProgressMonitor(monitor));
 					monitor.done();
 				} catch (TigerstripeException ee) {
@@ -287,7 +287,7 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 					// Create a working Copy where we substitute a new object
 					// for the underlying plugin project
 					workingHandle = new SimplePluggablePluginProjectHandle(
-							handle.getURI());
+							handle.getLocation().toFile().toURI());
 				}
 			}
 		}

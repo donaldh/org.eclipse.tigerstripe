@@ -13,7 +13,9 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 import java.net.URI;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePackager;
@@ -55,8 +57,14 @@ public class TigerstripePhantomProjectHandle extends TigerstripeProjectHandle
 		return new ModulePackager(this);
 	}
 
-
 	public static URI getPhantomURI() {
 		return PhantomTigerstripeProjectMgr.getInstance().getPhantomURI();
 	}
+
+	@Override
+	protected WorkingCopyManager doCreateCopy(IProgressMonitor monitor)
+			throws TigerstripeException {
+		throw new TigerstripeException("Operation not supported.");
+	}
+
 }

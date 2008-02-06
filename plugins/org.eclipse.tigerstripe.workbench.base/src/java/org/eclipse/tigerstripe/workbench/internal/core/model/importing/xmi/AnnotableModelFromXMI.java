@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing.xmi;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.BaseAnnotableModel;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.IModelImportConfiguration;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -27,7 +28,7 @@ public class AnnotableModelFromXMI extends BaseAnnotableModel {
 	}
 
 	public AnnotableModelFromXMI(ITigerstripeProject targetProject,
-			IModelImportConfiguration config) {
+			IModelImportConfiguration config) throws TigerstripeException {
 		super(targetProject, config);
 	}
 }

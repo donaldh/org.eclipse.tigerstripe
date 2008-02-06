@@ -294,7 +294,7 @@ public class ClasspathUpdater {
 	}
 
 	private static IClasspathEntry newProjectEntry(ITigerstripeProject project) {
-		IPath path = new Path(project.getURI().getPath());
+		IPath path = project.getLocation();
 		return new ClasspathEntry(IPackageFragmentRoot.K_BINARY,
 				IClasspathEntry.CPE_PROJECT, JavaProject
 						.canonicalizedPath(new Path("/" + path.lastSegment())),

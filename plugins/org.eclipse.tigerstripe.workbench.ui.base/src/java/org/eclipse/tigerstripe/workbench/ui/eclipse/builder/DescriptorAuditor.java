@@ -99,7 +99,8 @@ public class DescriptorAuditor {
 			if (oldLegacyOSSJ != null) {
 				tsProject.removeDependency(oldLegacyOSSJ,
 						new TigerstripeProgressMonitor(monitor));
-				tsProject.doSave();
+				// doSave();
+				tsProject.commit(monitor);
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
@@ -110,12 +111,11 @@ public class DescriptorAuditor {
 		try {
 			for (IFacetReference ref : tsProject.getFacetReferences()) {
 				if (!ref.canResolve()) {
-					TigerstripeProjectAuditor.reportError(
-							"Facet '" + ref.getProjectRelativePath()
-									+ "' referenced in project '"
-									+ tsProject.getProjectLabel()
-									+ " cannot be found.", projectDescriptor,
-							222);
+					TigerstripeProjectAuditor.reportError("Facet '"
+							+ ref.getProjectRelativePath()
+							+ "' referenced in project '"
+							+ tsProject.getProjectLabel()
+							+ " cannot be found.", projectDescriptor, 222);
 				} else if (ref.getGenerationDir() == null
 						|| ref.getGenerationDir().trim().length() == 0) {
 					TigerstripeProjectAuditor
@@ -123,7 +123,8 @@ public class DescriptorAuditor {
 									"Facet '"
 											+ ref.getProjectRelativePath()
 											+ "' referenced in project '"
-											+ tsProject.getProjectLabel()
+											+ tsProject.getProjectDetails()
+													.getName()
 											+ " does not have a specific generation directory.",
 									projectDescriptor, 222);
 				}
@@ -201,7 +202,7 @@ public class DescriptorAuditor {
 	private void checkPropertiesOnPluginConfig(IPluginConfig ref) {
 		if (ref.isEnabled()) {
 			String[] definedProps = ref.getDefinedProperties();
-			
+
 			for (int i = 0; i < definedProps.length; i++) {
 				if (ref.getProperty(definedProps[i]) == null) {
 					TigerstripeProjectAuditor.reportError("Property '"

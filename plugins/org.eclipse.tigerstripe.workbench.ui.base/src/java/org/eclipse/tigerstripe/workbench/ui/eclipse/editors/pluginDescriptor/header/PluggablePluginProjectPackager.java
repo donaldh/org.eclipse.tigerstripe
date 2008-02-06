@@ -101,7 +101,7 @@ public class PluggablePluginProjectPackager {
 
 		} catch (IOException e) {
 			throw new TigerstripeException("Error while packaging up '"
-					+ project.getProjectLabel() + "':" + e.getMessage(), e);
+					+ project.getProjectDetails().getName() + "':" + e.getMessage(), e);
 		} finally {
 			if (zipper != null) {
 				try {

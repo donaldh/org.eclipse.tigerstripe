@@ -162,7 +162,7 @@ public class TS2UML2 {
 			e.printStackTrace(this.out);
 		}
 
-		String modelName = tsProject.getProjectDetails().getName();
+		String modelName = tsProject.getProjectLabel();
 		this.model = UMLFactory.eINSTANCE.createModel();
 		model.setName(modelName);
 		model.applyProfile(tsProfile);

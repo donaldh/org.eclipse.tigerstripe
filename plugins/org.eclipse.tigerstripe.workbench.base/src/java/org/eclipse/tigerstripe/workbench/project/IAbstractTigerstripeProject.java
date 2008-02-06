@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.project;
 
-import java.io.File;
-import java.net.URI;
-
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.workbench.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 
 /**
@@ -24,33 +24,17 @@ import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisito
  * @author Eric Dillon
  * @since 1.2
  */
-public interface IAbstractTigerstripeProject extends IAdaptable {
+public interface IAbstractTigerstripeProject extends IAdaptable, IWorkingCopy {
 
-	/**
-	 * The project label is a contextual name use to identify the project.
-	 * Typically, within most IDEs projects have a local name within the
-	 * workspace, this is it!
-	 * 
-	 * Internally, an IProjectLocator facility is used to determine the value
-	 * 
-	 * @return
-	 */
 	public String getProjectLabel();
-
-	public URI getURI();
 
 	public void validate(ITigerstripeVisitor visitor)
 			throws TigerstripeException;
 
 	public IProjectDetails getProjectDetails() throws TigerstripeException;
 
-	/**
-	 * 
-	 * @throws TigerstripeException
-	 * @deprecated this method should be removed. The descriptor only should be
-	 *             save-able. It makes no sense to "save" the project handle.
-	 */
-	public void doSave() throws TigerstripeException;
+	public void setProjectDetails(IProjectDetails projectDetails)
+			throws WorkingCopyException, TigerstripeException;
 
 	/**
 	 * A proper comparison mechanism for IAbstractTigerstripeProject
@@ -76,12 +60,7 @@ public interface IAbstractTigerstripeProject extends IAdaptable {
 	 */
 	public boolean exists();
 
-	/**
-	 * Base directory for the project
-	 * 
-	 * @return
-	 */
-	public File getBaseDir();
+	public IPath getLocation();
 
 	public void delete(boolean force, IProgressMonitor monitor)
 			throws TigerstripeException;

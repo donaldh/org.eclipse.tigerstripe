@@ -21,6 +21,8 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IArtifactBasedTemplateRunRule;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
@@ -68,24 +70,25 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 					PluggablePluginProjectAuditor.reportError(
 							"Classname undefined for artifact filter ("
 									+ artifactFilterClass
-									+ ") in artifact rule '" + aRule.getName()
+									+ ") in artifact rule '"
+									+ aRule.getName()
 									+ "' in project '"
-									+ getPProject().getProjectLabel() + "'",
+									+ getPProject().getProjectDetails()
+											.getName() + "'",
 							projectDescriptor, 222);
 				} else {
 					// The classname needs to be a class that implements
 					// IArtifactFilter
 					if (!type.isClass()) {
-						PluggablePluginProjectAuditor
-								.reportError(
-										"The artifact filter ("
-												+ artifactFilterClass
-												+ ") in artifact rule '"
-												+ aRule.getName()
-												+ "' is not a Java class in project '"
-												+ getPProject()
-														.getProjectLabel()
-												+ "'", projectDescriptor, 222);
+						PluggablePluginProjectAuditor.reportError(
+								"The artifact filter ("
+										+ artifactFilterClass
+										+ ") in artifact rule '"
+										+ aRule.getName()
+										+ "' is not a Java class in project '"
+										+ getPProject().getProjectDetails()
+												.getName() + "'",
+								projectDescriptor, 222);
 					} else {
 						String[] intfs = getImplementatedInterfaces(type,
 								jProject);
@@ -109,13 +112,16 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 											+ "' must implement '"
 											+ IArtifactFilter.class.getName()
 											+ "' in project '"
-											+ getPProject().getProjectLabel()
-											+ "'", projectDescriptor, 222);
+											+ getPProject().getProjectDetails()
+													.getName() + "'",
+									projectDescriptor, 222);
 						}
 					}
 				}
 			} catch (JavaModelException e) {
 				// ignore ?
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
 			}
 		}
 
@@ -132,9 +138,11 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 					PluggablePluginProjectAuditor.reportError(
 							"Classname undefined for model ("
 									+ artifactModelClass
-									+ ") in artifact rule '" + aRule.getName()
+									+ ") in artifact rule '"
+									+ aRule.getName()
 									+ "' in project '"
-									+ getPProject().getProjectLabel() + "'",
+									+ getPProject().getProjectDetails()
+											.getName() + "'",
 							projectDescriptor, 222);
 				} else {
 					// The classname needs to be a class that implements
@@ -165,19 +173,23 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 						}
 						if (!found) {
 							PluggablePluginProjectAuditor.reportError(
-									"The artifact model (" + artifactModelClass
+									"The artifact model ("
+											+ artifactModelClass
 											+ ") in artifact rule '"
 											+ aRule.getName()
 											+ "' must implement '"
 											+ IArtifactModel.class.getName()
 											+ "' in project '"
-											+ getPProject().getProjectLabel()
-											+ "'", projectDescriptor, 222);
+											+ getPProject().getProjectDetails()
+													.getName() + "'",
+									projectDescriptor, 222);
 						}
 					}
 				}
 			} catch (JavaModelException e) {
 				// ignore ?
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
 			}
 		}
 

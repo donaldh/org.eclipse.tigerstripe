@@ -12,7 +12,9 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable;
 
 import java.net.URI;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ISimplePluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 
@@ -46,6 +48,12 @@ public class SimplePluggablePluginProjectHandle extends
 			throws TigerstripeException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected WorkingCopyManager doCreateCopy(IProgressMonitor monitor)
+			throws TigerstripeException {
+		throw new TigerstripeException("Operation not supported.");
 	}
 
 }

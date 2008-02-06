@@ -73,8 +73,7 @@ public class PluginLogger {
 
 			String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
 					.getOutputDirectory();
-			String projectDir = pluginConfig.getProjectHandle().getBaseDir()
-					.getCanonicalPath();
+			String projectDir = pluginConfig.getProjectHandle().getLocation().toOSString();
 
 			String outputPath = projectDir + File.separator + outputDir
 					+ File.separator + pluginConfig.getLogPath();

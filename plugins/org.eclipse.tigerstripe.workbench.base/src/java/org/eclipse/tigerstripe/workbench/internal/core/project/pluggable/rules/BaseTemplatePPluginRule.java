@@ -153,9 +153,9 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 	 * 
 	 * @return VelocityContext - the default context
 	 */
-	protected VelocityContext getDefaultContext(PluggablePluginConfig pluginConfig,
-			IPluginRuleExecutor exec) throws TigerstripeException
-			 {
+	protected VelocityContext getDefaultContext(
+			PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
+			throws TigerstripeException {
 		if (this.defaultVContext == null) {
 			this.defaultVContext = new VelocityContext();
 			VelocityContextUtil util = new VelocityContextUtil();
@@ -309,7 +309,7 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 
 		defaultVContext.put("tsProjectHandle", handle);
 		defaultVContext.put("managerSession", session);
-		defaultVContext.put("pluginDir", getProject().getBaseDir());
+		defaultVContext.put("pluginDir", getProject().getLocation().toFile());
 
 		return this.defaultVContext;
 	}
@@ -319,27 +319,22 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 	protected File getOutputFile(PluggablePluginConfig pluginConfig,
 			String outputFile, RunConfig config) throws TigerstripeException {
 		String outputPath = "";
-		try {
-			String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
-					.getOutputDirectory();
-			String projectDir = pluginConfig.getProjectHandle().getBaseDir()
-					.getCanonicalPath();
+		String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
+				.getOutputDirectory();
+		String projectDir = pluginConfig.getProjectHandle().getLocation()
+				.toOSString();
 
-			outputPath = projectDir + File.separator + outputDir
-					+ File.separator + outputFile;
-			if (config != null && config.getAbsoluteOutputDir() != null) {
-				outputPath = config.getAbsoluteOutputDir() + File.separator
-						+ outputDir + File.separator + outputFile;
-			}
-
-			// create any subdir in the outputDir if any is included
-			// in the outputFile
-			File outputFileF = new File(outputPath);
-			return outputFileF;
-		} catch (IOException e) {
-			throw new TigerstripeException("Error while trying to create '"
-					+ outputPath + "': " + e.getMessage());
+		outputPath = projectDir + File.separator + outputDir + File.separator
+				+ outputFile;
+		if (config != null && config.getAbsoluteOutputDir() != null) {
+			outputPath = config.getAbsoluteOutputDir() + File.separator
+					+ outputDir + File.separator + outputFile;
 		}
+
+		// create any subdir in the outputDir if any is included
+		// in the outputFile
+		File outputFileF = new File(outputPath);
+		return outputFileF;
 	}
 
 	protected Writer getDefaultWriter(PluggablePluginConfig pluginConfig,

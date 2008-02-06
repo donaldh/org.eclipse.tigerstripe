@@ -29,7 +29,7 @@ public class DefaultProjectLocator implements IProjectLocator {
 
 	public URI locate(ITigerstripeProject projectContext, String projectLabel)
 			throws TigerstripeException {
-		URI uriContext = projectContext.getURI();
+		URI uriContext = projectContext.getLocation().toFile().toURI();
 		String newPath = uriContext.getPath() + File.separator + ".."
 				+ File.separator + projectLabel;
 		File newFile = new File(newPath);

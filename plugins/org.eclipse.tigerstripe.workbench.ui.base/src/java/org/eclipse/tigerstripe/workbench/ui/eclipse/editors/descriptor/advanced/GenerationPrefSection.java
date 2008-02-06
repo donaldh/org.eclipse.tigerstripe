@@ -245,7 +245,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			// when updating the form, the changes to all fields should be
 			// ignored so that the form is not marked as dirty.
 
-			//markPageModified();
+			// markPageModified();
 		}
 	}
 
@@ -272,7 +272,6 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		getToolkit().paintBordersFor(getBody());
 	}
 
-
 	private TigerstripeProject getTigerstripeProject() {
 		try {
 			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getTSProject();
@@ -288,9 +287,9 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	 * @param ref
 	 */
 	private void applyDefault(IPluginConfig ref) {
-		
-		((PluginConfig)ref).getProperties().setProperty("defaultInterfacePackage",
-				"com.mycompany");
+
+		((PluginConfig) ref).getProperties().setProperty(
+				"defaultInterfacePackage", "com.mycompany");
 	}
 
 	private void createButtons(Composite parent, FormToolkit toolkit)
@@ -501,7 +500,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 
 						try {
 							String relative = Util.getRelativePath(file,
-									getTSProject().getBaseDir());
+									getTSProject().getLocation().toFile());
 
 							IPath path = new Path(relative);
 							IResource res = baseFile.getParent().findMember(
@@ -667,7 +666,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 				dialog.setText("Upgrade project descriptor");
 				dialog
 						.setMessage("Advanced properties are not properly set (in project '"
-								+ handle.getProjectDetails().getName()
+								+ handle.getProjectLabel()
 								+ "').\nDefault preferences will be applied.");
 				dialog.open();
 				applyAdvancedPropertiesDefaults();
@@ -682,7 +681,6 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 					.setSelection("true"
 							.equalsIgnoreCase(handle
 									.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_LogMessages)));
-
 
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);

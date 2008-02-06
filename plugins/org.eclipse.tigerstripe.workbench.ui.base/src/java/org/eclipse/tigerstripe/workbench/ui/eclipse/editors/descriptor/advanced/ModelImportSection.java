@@ -564,7 +564,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 				dialog.setText("Upgrade project descriptor");
 				dialog
 						.setMessage("Advanced properties are not properly set (in project '"
-								+ handle.getProjectDetails().getName()
+								+ handle.getProjectLabel()
 								+ "').\nDefault preferences will be applied.");
 				dialog.open();
 				applyAdvancedPropertiesDefaults();
@@ -675,6 +675,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 								+ " advanced property on Project "
 								+ handle.getProjectLabel(), ee);
 				EclipsePlugin.log(status);
+
 			}
 		} else if (e.getSource() == importViews) {
 			try {

@@ -156,7 +156,8 @@ public class PluginDebugSection extends PluginDescriptorSectionPart {
 											.openInformation(
 													getBody().getShell(),
 													projectHandle
-															.getProjectLabel()
+															.getProjectDetails()
+															.getName()
 															+ " Plugin",
 													"Plugin '"
 															+ projectHandle
@@ -174,7 +175,8 @@ public class PluginDebugSection extends PluginDescriptorSectionPart {
 											.openError(
 													getBody().getShell(),
 													projectHandle
-															.getProjectLabel()
+															.getProjectDetails()
+															.getName()
 															+ " Plugin",
 													"Plugin '"
 															+ projectHandle
@@ -248,7 +250,9 @@ public class PluginDebugSection extends PluginDescriptorSectionPart {
 								MessageDialog
 										.openError(
 												getBody().getShell(),
-												projectHandle.getProjectLabel()
+												projectHandle
+														.getProjectDetails()
+														.getName()
 														+ " Plugin",
 												"An Error occured while trying to un-deploy plugin '"
 														+ projectHandle

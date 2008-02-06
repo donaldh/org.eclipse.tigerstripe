@@ -12,8 +12,10 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 
 import java.net.URI;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
@@ -47,11 +49,9 @@ public class ModuleProjectHandle extends TigerstripeProjectHandle implements
 		return moduleRef.getEmbeddedProject();
 	}
 
-
 	public IModulePackager getPackager() {
 		return null;
 	}
-
 
 	@Override
 	public IArtifactManagerSession getArtifactManagerSession()
@@ -81,4 +81,11 @@ public class ModuleProjectHandle extends TigerstripeProjectHandle implements
 	public void clearTemporaryDependencies(ITigerstripeProgressMonitor monitor) {
 		getModuleManager().clearTemporaryDependencies(monitor);
 	}
+
+	@Override
+	protected WorkingCopyManager doCreateCopy(IProgressMonitor monitor)
+			throws TigerstripeException {
+		throw new TigerstripeException("Operation not supported.");
+	}
+
 }

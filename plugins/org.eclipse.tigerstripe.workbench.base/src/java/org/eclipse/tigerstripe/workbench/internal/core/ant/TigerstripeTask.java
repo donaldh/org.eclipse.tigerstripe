@@ -76,9 +76,9 @@ public class TigerstripeTask extends Task {
 				ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
 						.findProject(baseDir.toURI());
 				log.info("  Generating project: "
-						+ (new File(project.getURI())).getAbsolutePath());
+						+ project.getLocation().toOSString());
 				TigerstripeRuntime.logInfoMessage("Generating Project : "
-						+ project.getURI().getPath().toString());
+						+ project.getLocation().toOSString());
 				project.generate(new TigerstripeProjectVisitor());
 				log.info("  Successfully completed.");
 

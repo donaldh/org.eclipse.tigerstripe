@@ -76,9 +76,10 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 
 				if (operationSucceeded) {
 					MessageDialog.openInformation(targetPart.getSite()
-							.getShell(), projectHandle.getProjectLabel()
+							.getShell(), projectHandle.getProjectDetails()
+							.getName()
 							+ " Plugin", "Plugin '"
-							+ projectHandle.getProjectDetails().getName() + "("
+							+ projectHandle.getProjectLabel() + "("
 							+ projectHandle.getProjectDetails().getVersion()
 							+ ") was successfully deployed.\n ("
 							+ deploymentPath + ")");
@@ -86,7 +87,8 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 					MessageDialog
 							.openError(
 									targetPart.getSite().getShell(),
-									projectHandle.getProjectLabel() + " Plugin",
+									projectHandle.getProjectLabel()
+											+ " Plugin",
 									"Plugin '"
 											+ projectHandle.getProjectDetails()
 													.getName()

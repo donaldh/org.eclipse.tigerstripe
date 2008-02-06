@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 
 public class FacetLabelProvider implements ILabelProvider, IColorProvider {
@@ -28,9 +29,16 @@ public class FacetLabelProvider implements ILabelProvider, IColorProvider {
 		if (element instanceof IFacetReference) {
 			IFacetReference ref = (IFacetReference) element;
 			String result = ref.getProjectRelativePath();
-			if (ref.getContainingProject() != null) {
-				result = result + " ("
-						+ ref.getContainingProject().getProjectLabel() + ")";
+			try {
+				if (ref.getContainingProject() != null) {
+					result = result
+							+ " ("
+							+ ref.getContainingProject().getProjectDetails()
+									.getName() + ")";
+				}
+			} catch (TigerstripeException e) {
+				org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin.log(e);
+				return "unknown";
 			}
 			return result;
 		}

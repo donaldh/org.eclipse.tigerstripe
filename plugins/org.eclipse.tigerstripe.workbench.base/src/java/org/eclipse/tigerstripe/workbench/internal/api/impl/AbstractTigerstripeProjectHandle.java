@@ -21,16 +21,21 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.tigerstripe.workbench.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
-public abstract class AbstractTigerstripeProjectHandle implements
-		IAbstractTigerstripeProject {
+public abstract class AbstractTigerstripeProjectHandle extends
+		WorkingCopyManager implements IAbstractTigerstripeProject, IWorkingCopy {
 
-	public abstract String getProjectLabel();
+	public String getProjectLabel() {
+		return getLocation().lastSegment();
+	}
 
 	// we keep track of a TStamp on the hanlde when we create it to know
 	// when the handle is invalid because the underlying URI actually changed
@@ -65,6 +70,12 @@ public abstract class AbstractTigerstripeProjectHandle implements
 
 	public URI getProjectContainerURI() {
 		return this.projectContainerURI;
+	}
+
+	@Override
+	public IPath getLocation() {
+		Path path = new Path(new File(getURI()).getAbsolutePath());
+		return path;
 	}
 
 	public URI getURI() {
@@ -118,17 +129,21 @@ public abstract class AbstractTigerstripeProjectHandle implements
 	private IProject getIProject(IAbstractTigerstripeProject tsProject)
 			throws TigerstripeException {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		File file = new File(tsProject.getURI());
+		File file = new File(tsProject.getLocation().toOSString());
 		IPath path = new Path(file.getAbsolutePath());
 		IContainer container = root.getContainerForLocation(path);
 		if (container instanceof IProject)
 			return (IProject) container;
 		throw new TigerstripeException("Can't resolve "
-				+ tsProject.getBaseDir() + " as Eclipse IProject");
+				+ tsProject.getLocation() + " as Eclipse IProject");
 	}
 
 	public void delete(boolean force, IProgressMonitor monitor)
 			throws TigerstripeException {
+
+		if (monitor == null)
+			monitor = new NullProgressMonitor();
+
 		IProject project = (IProject) getAdapter(IProject.class);
 		if (project != null) {
 			try {

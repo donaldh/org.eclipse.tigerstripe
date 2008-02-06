@@ -182,10 +182,10 @@ public class App {
 
 				if (getCli().hasOption(PACKAGE)) {
 					log.info("  Packaging project: "
-							+ (new File(project.getURI())).getAbsolutePath());
+							+ project.getLocation().toOSString());
 
 					String targetFile = getCli().getOptionValue(PACKAGE);
-					String moduleID = project.getProjectDetails().getName()
+					String moduleID = project.getProjectLabel()
 							+ "-" + project.getProjectDetails().getVersion();
 					if (getCli().hasOption(MODULEID)) {
 						moduleID = getCli().getOptionValue(MODULEID);
@@ -197,8 +197,8 @@ public class App {
 					IModuleHeader header = packager.makeHeader();
 					header.setModuleID(moduleID);
 
-					String classesDirStr = project.getURI().getPath()
-							+ File.separator + "/bin";
+					String classesDirStr = project.getLocation().append("bin")
+							.toOSString();
 					File classesDir = new File(classesDirStr);
 					packager.packageUp(file.toURI(), classesDir, header,
 							new TigerstripeLogProgressMonitor());
@@ -206,7 +206,7 @@ public class App {
 					log.info("  Successfully packaged.");
 				} else {
 					log.info("  Generating project: "
-							+ (new File(project.getURI())).getAbsolutePath());
+							+ project.getLocation().toOSString());
 					project.generate(new TigerstripeProjectVisitor());
 					log.info("  Successfully completed.");
 				}

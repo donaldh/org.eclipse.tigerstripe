@@ -71,12 +71,12 @@ public class DiagramSynchronizationManager {
 	 * @param project
 	 */
 	public void addTSProjectToWatch(ITigerstripeProject project) {
-		if (!projectWatchHash.containsKey(project.getBaseDir())) {
+		if (!projectWatchHash.containsKey(project.getLocation().toFile())) {
 			TigerstripeRuntime.logDebugMessage("Adding project to watch: "
-					+ project.getBaseDir());
+					+ project.getLocation().toFile());
 			final ProjectDiagramsSynchronizer synchronizer = new ProjectDiagramsSynchronizer(
 					project);
-			projectWatchHash.put(project.getBaseDir(), synchronizer);
+			projectWatchHash.put(project.getLocation().toFile(), synchronizer);
 			synchronizer.initialize(); // this will run in its own thread.
 		}
 	}
@@ -86,11 +86,11 @@ public class DiagramSynchronizationManager {
 	 * 
 	 */
 	public void removeTSProjectToWatch(ITigerstripeProject project) {
-		if (projectWatchHash.containsKey(project.getBaseDir())) {
+		if (projectWatchHash.containsKey(project.getLocation().toFile())) {
 			TigerstripeRuntime.logDebugMessage("Removing project to watch: "
-					+ project.getBaseDir());
+					+ project.getLocation().toFile());
 			ProjectDiagramsSynchronizer synchronizer = projectWatchHash
-					.remove(project.getBaseDir());
+					.remove(project.getLocation().toFile());
 			try {
 				synchronizer.dispose();
 			} catch (TigerstripeException e) {

@@ -16,6 +16,7 @@ import org.eclipse.tigerstripe.annotations.AnnotationStore;
 import org.eclipse.tigerstripe.annotations.IAnnotable;
 import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -114,11 +115,17 @@ public class ModelComponentAnnotable implements IAnnotable {
 		StringBuffer URI = new StringBuffer("tigerstripe://");
 
 		if (artifact.getTigerstripeProject() instanceof ITigerstripeProject) {
-			URI.append(artifact.getTigerstripeProject().getProjectLabel());
-			URI.append("/");
+			try {
+				URI.append(artifact.getTigerstripeProject().getProjectDetails()
+						.getName());
+				URI.append("/");
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
 		} else if (artifact.getTigerstripeProject() instanceof ITigerstripeModuleProject) {
-//			ITigerstripeModuleProject mProject = (ITigerstripeModuleProject) artifact
-//					.getTigerstripeProject();
+			// ITigerstripeModuleProject mProject = (ITigerstripeModuleProject)
+			// artifact
+			// .getTigerstripeProject();
 
 		}
 		URI.append(artifact.getFullyQualifiedName());

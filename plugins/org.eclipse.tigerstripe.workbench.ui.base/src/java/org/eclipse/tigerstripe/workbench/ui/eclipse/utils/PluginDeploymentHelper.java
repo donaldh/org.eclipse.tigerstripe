@@ -50,7 +50,7 @@ public class PluginDeploymentHelper {
 	public String deploy(IProgressMonitor monitor) throws TigerstripeException {
 		String deploymentPath = null;
 		monitor.beginTask("Deploying "
-				+ ppProject.getProjectDetails().getName(), 15);
+				+ ppProject.getProjectLabel(), 15);
 
 		monitor.subTask("Closing all editors");
 		EclipsePlugin.closeAllEditors(true, true, false, false, false);
@@ -77,7 +77,7 @@ public class PluginDeploymentHelper {
 			throws TigerstripeException {
 		String deploymentPath = null;
 		monitor.beginTask("Un-Deploying "
-				+ ppProject.getProjectDetails().getName(), 15);
+				+ ppProject.getProjectLabel(), 15);
 
 		monitor.subTask("Closing all editors");
 		EclipsePlugin.closeAllEditors(true, true, false, false, false);

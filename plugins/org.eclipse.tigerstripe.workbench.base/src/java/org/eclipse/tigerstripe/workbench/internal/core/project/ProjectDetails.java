@@ -106,7 +106,7 @@ public class ProjectDetails implements IProjectDetails {
 		if (parentProject.getBaseDir() == null) {
 			// parent.getBaseDir()==null when this is a module.
 			result = result + File.separator
-					+ parentProject.getProjectDetails().getName();
+					+ parentProject.getProjectLabel();
 			return result;
 		}
 
@@ -158,5 +158,18 @@ public class ProjectDetails implements IProjectDetails {
 
 	public void setProvider(String provider) {
 		this.provider = provider;
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		ProjectDetails clone = new ProjectDetails(parentProject);
+		clone.setDescription(getDescription());
+		clone.setName(getName());
+		clone.setNature(getNature());
+		clone.setProjectOutputDirectory(getOutputDirectory());
+		clone.setProperties((Properties) getProperties().clone());
+		clone.setProvider(getProvider());
+		clone.setVersion(getVersion());
+		return clone;
 	}
 }

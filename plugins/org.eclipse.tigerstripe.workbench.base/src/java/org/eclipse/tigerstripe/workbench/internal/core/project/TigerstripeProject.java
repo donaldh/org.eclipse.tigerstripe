@@ -39,6 +39,7 @@ import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.ReaderInputStream;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -370,12 +371,20 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 							"TigerstripeException detected", e);
 				}
 			} else {
-				refElm.setAttribute("relPath", ref.getProjectRelativePath());
-				if (ref.getContainingProject() != null
-						&& !ref.getContainingProject().getProjectLabel()
-								.equals(getProjectLabel())) {
-					refElm.setAttribute("project", ref.getContainingProject()
-							.getProjectLabel());
+				try {
+					refElm
+							.setAttribute("relPath", ref
+									.getProjectRelativePath());
+					if (ref.getContainingProject() != null
+							&& !ref.getContainingProject().getProjectDetails()
+									.getName().equals(getProjectLabel())) {
+						refElm.setAttribute("project", ref
+								.getContainingProject().getProjectDetails()
+								.getName());
+					}
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
 				}
 			}
 			refElm.setAttribute("genDir", ref.getGenerationDir());
@@ -410,7 +419,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			Element refElm = document.createElement(REFERENCE_TAG);
 
 			try {
-				URI projectURI = ref.getURI();
+				URI projectURI = ref.getLocation().toFile().toURI();
 				IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
 						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 				String label = loc.getLocalLabel(projectURI);
@@ -844,7 +853,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 		for (Iterator iter = referencedProjects.iterator(); iter.hasNext();) {
 			ITigerstripeProject prj = (ITigerstripeProject) iter.next();
-			if (project.getURI().equals(prj.getURI()))
+			if (project.getLocation().equals(prj.getLocation()))
 				return true;
 		}
 

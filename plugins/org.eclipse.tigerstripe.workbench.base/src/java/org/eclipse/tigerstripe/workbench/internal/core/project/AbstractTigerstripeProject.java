@@ -36,7 +36,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -78,6 +77,8 @@ public abstract class AbstractTigerstripeProject {
 	private String filename;
 
 	private boolean notLoaded = true;
+
+	private long loadTStamp = -1;
 
 	/**
 	 * The details of the projects
@@ -424,21 +425,27 @@ public abstract class AbstractTigerstripeProject {
 	 */
 	public void reload(boolean forceReload) throws TigerstripeException {
 
-		if (notLoaded) {
-			forceReload = true;
+		boolean needReload = false;
+		File theFile = getFullPath();
+		if (!theFile.exists())
+			throw new TigerstripeException(Messages.formatMessage(
+					Messages.TIGERSTRIPE_XML_NOT_FOUND, theFile));
+
+		if (notLoaded || forceReload) {
+			needReload = true;
+		} else {
+			// determine if the file has changed on disk
+			long currentTStamp = theFile.lastModified();
+			needReload = currentTStamp != loadTStamp;
 		}
 
-		if (forceReload) {
-			File theFile = getFullPath();
-
-			if (!theFile.exists())
-				throw new TigerstripeException(Messages.formatMessage(
-						Messages.TIGERSTRIPE_XML_NOT_FOUND, theFile));
+		if (needReload) {
 			FileReader reader = null;
 			try {
 				reader = new FileReader(theFile);
 				parse(reader);
 				notLoaded = false;
+				loadTStamp = theFile.lastModified();
 			} catch (FileNotFoundException e) {
 				throw new TigerstripeException(
 						"Tigerstripe descriptor not found ("

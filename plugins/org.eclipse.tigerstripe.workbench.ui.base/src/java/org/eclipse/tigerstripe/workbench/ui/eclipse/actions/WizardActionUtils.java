@@ -65,7 +65,7 @@ public class WizardActionUtils {
 				throw new TigerstripeException("Invalid Tigerstripe Project");
 
 			IPluginConfig[] plugins = handle.getPluginConfigs();
-			String projectName = handle.getProjectDetails().getName();
+			String projectName = handle.getProjectLabel();
 
 			handle.getArtifactManagerSession().refresh(
 					new TigerstripeProgressMonitor(monitor));

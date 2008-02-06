@@ -10,11 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench;
 
-public interface IOriginalChangeEvent {
+public class WorkingCopyException extends TigerstripeException {
 
-	public final static int ORIGINAL_CHANGED = 0;
-	
-	public final static int ORIGINAL_DELETED = 1;
-	
-	public int getChangeType();
+	public WorkingCopyException(String message) {
+		super(message);
+		// TODO Auto-generated constructor stub
+	}
+
+	public WorkingCopyException(String message, Exception e) {
+		super(message, e);
+		// TODO Auto-generated constructor stub
+	}
+
 }

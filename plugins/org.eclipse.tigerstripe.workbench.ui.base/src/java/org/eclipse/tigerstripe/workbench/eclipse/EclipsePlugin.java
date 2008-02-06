@@ -28,7 +28,6 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
@@ -405,8 +404,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 	public static IJavaProject getIJavaProject(
 			IAbstractTigerstripeProject tsProject) {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		File file = new File(tsProject.getURI());
-		IPath path = new Path(file.getAbsolutePath());
+		IPath path = tsProject.getLocation();
 		IContainer container = root.getContainerForLocation(path);
 
 		// If the project cannot be matched to a IProject, return null
@@ -417,16 +415,23 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 		return JavaCore.create((IProject) container.getAdapter(IProject.class));
 	}
 
+	/**
+	 * 
+	 * @param tsProject
+	 * @return
+	 * @throws TigerstripeException
+	 * @deprecated use getAdapter(IProject.class) on IAbstractTigertripeProject
+	 *             instead
+	 */
 	public static IProject getIProject(IAbstractTigerstripeProject tsProject)
 			throws TigerstripeException {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		File file = new File(tsProject.getURI());
-		IPath path = new Path(file.getAbsolutePath());
+		IPath path = tsProject.getLocation();
 		IContainer container = root.getContainerForLocation(path);
 		if (container instanceof IProject)
 			return (IProject) container;
 		throw new TigerstripeException("Can't resolve "
-				+ tsProject.getBaseDir() + " as Eclipse IProject");
+				+ tsProject.getLocation() + " as Eclipse IProject");
 	}
 
 	public static IAbstractTigerstripeProject getITigerstripeProjectFor(

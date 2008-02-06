@@ -235,7 +235,8 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 		String projectLabel = "";
 		if (getIArtifact().getTigerstripeProject() != null) {
-			projectLabel = getIArtifact().getTigerstripeProject().getProjectLabel();
+			projectLabel = getIArtifact().getTigerstripeProject()
+					.getProjectLabel();
 		}
 
 		Label label = toolkit.createLabel(parent, "Project: ", SWT.NULL);
@@ -372,7 +373,8 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 				if (extendNameText.getText().trim().length() == 0) {
 					getIArtifact().setExtendedArtifact(null);
 				} else {
-					ITigerstripeProject project = getIArtifact().getTigerstripeProject();
+					ITigerstripeProject project = getIArtifact()
+							.getTigerstripeProject();
 					IArtifactManagerSession session = project
 							.getArtifactManagerSession();
 
@@ -418,7 +420,8 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 		// Bug 789, need to handle the case of AssociationClasses differently
 		if (getIArtifact() instanceof IAssociationClassArtifact) {
-			dialog = new BrowseForArtifactDialog(getIArtifact().getTigerstripeProject(),
+			dialog = new BrowseForArtifactDialog(getIArtifact()
+					.getTigerstripeProject(),
 					new IAbstractArtifact[] { AssociationClassArtifact.MODEL,
 							ManagedEntityArtifact.MODEL });
 			dialog.setTitle("Super Artifact");
@@ -431,8 +434,8 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 			// Fix the text for the Title and Message with the specific Artifact
 			// Type
 			// Bug # 124
-			dialog = new BrowseForArtifactDialog(getIArtifact().getTigerstripeProject(),
-					getIArtifact());
+			dialog = new BrowseForArtifactDialog(getIArtifact()
+					.getTigerstripeProject(), getIArtifact());
 			String name = getIArtifact().getClass().getSimpleName();
 			dialog.setTitle("Super " + name);
 			dialog.setMessage("Select the " + name + " to be extended.");
@@ -507,10 +510,8 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 				.getShell(), getIArtifact(), artProvider,
 				new AbstractArtifactLabelProvider(),
 				"Select implemented artifacts.");
-		dialog
-				.setInitialSelections(ComparableArtifact
-						.asComparableArtifacts(getIArtifact()
-								.getImplementedArtifacts()).toArray());
+		dialog.setInitialSelections(ComparableArtifact.asComparableArtifacts(
+				getIArtifact().getImplementedArtifacts()).toArray());
 
 		if (dialog.open() == Window.OK) {
 			Object[] selectedObjects = dialog.getResult();

@@ -17,12 +17,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspaceRunnable;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.WorkingCopyException;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
@@ -41,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.ProjectGenerat
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractImportCheckpointHelper;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -50,6 +50,9 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 public abstract class TigerstripeProjectHandle extends
 		AbstractTigerstripeProjectHandle implements ITigerstripeProject {
+
+	// Fields under control of WorkingCopyDelegate
+	private final static int PROJECT_DETAILS = 0;
 
 	private INameProvider nameProvider;
 
@@ -63,16 +66,6 @@ public abstract class TigerstripeProjectHandle extends
 		return DESCRIPTOR_FILENAME;
 	}
 
-	@Override
-	public String getProjectLabel() {
-		try {
-			return getTSProject().getProjectLabel();
-		} catch (TigerstripeException e) {
-			// Ignore for now
-		}
-		return "unknown";
-	}
-
 	/** logger for output */
 	private static Logger log = Logger.getLogger(App.class);
 
@@ -82,6 +75,13 @@ public abstract class TigerstripeProjectHandle extends
 
 	public TigerstripeProjectHandle(URI projectContainerURI) {
 		super(projectContainerURI);
+	}
+
+	@Override
+	public void setProjectDetails(IProjectDetails projectDetails)
+			throws WorkingCopyException, TigerstripeException {
+		assertSet(PROJECT_DETAILS);
+		getTSProject().setProjectDetails((ProjectDetails) projectDetails);
 	}
 
 	public INameProvider getNameProvider() {
@@ -219,7 +219,12 @@ public abstract class TigerstripeProjectHandle extends
 
 	public IProjectDetails getProjectDetails() throws TigerstripeException {
 		TigerstripeProject project = getTSProject();
-		return project.getProjectDetails();
+		try {
+			return (IProjectDetails) project.getProjectDetails().clone();
+		} catch (CloneNotSupportedException e) {
+			// ignore
+			return null;
+		}
 	}
 
 	@Override
@@ -534,8 +539,11 @@ public abstract class TigerstripeProjectHandle extends
 		return getReferencedProjects();
 	}
 
-	public IProjectDetails getIProjectDetails() throws TigerstripeException {
-		return getProjectDetails();
+	// ==============================================================================
+	// WorkingCopy stuff
+	@Override
+	public void doCommit(IProgressMonitor monitor) throws TigerstripeException {
+		doSave();
 	}
 
 }

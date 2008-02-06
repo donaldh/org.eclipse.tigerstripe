@@ -416,7 +416,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 			long endTime = System.currentTimeMillis();
 			TigerstripeRuntime.logTraceMessage(" ["
-					+ getTSProject().getProjectDetails().getName()
+					+ getTSProject().getProjectLabel()
 					+ "] Validated (" + (endTime - startTime) + " ms)");
 
 		} finally {
@@ -861,7 +861,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 			if (!mgrChanged && !forceReload)
 				// TigerstripeRuntime.logTraceMessage("Wouldn't reload "
-				// + getTSProject().getProjectDetails().getName());
+				// + getTSProject().getProjectLabel());
 				return;
 
 			if (forceReload) {
@@ -882,7 +882,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 			// if (forceReload || changedPojos.size() != 0) {
 			// TigerstripeRuntime.logInfoMessage("---------->>>>> Reloading! "
-			// + getTSProject().getProjectDetails().getName()
+			// + getTSProject().getProjectLabel()
 			// + " <<<<<<<<<<--------------");
 			// clean();
 
@@ -895,12 +895,12 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				long endTime = System.currentTimeMillis();
 				TigerstripeRuntime.logTraceMessage("Refreshed ("
 						+ (endTime - startTime) + " ms)"
-						+ getTSProject().getProjectDetails().getName());
+						+ getTSProject().getProjectLabel());
 			} else {
 				long endTime = System.currentTimeMillis();
 				TigerstripeRuntime.logTraceMessage("Skipped a Refresh ("
 						+ (endTime - startTime) + " ms)"
-						+ getTSProject().getProjectDetails().getName());
+						+ getTSProject().getProjectLabel());
 			}
 			// TigerstripeRuntime.logInfoMessage(" -- Done reloading");
 			// }
@@ -999,7 +999,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			ITigerstripeProgressMonitor monitor) {
 		List<PojoState> changedPojos = new ArrayList<PojoState>();
 		// TigerstripeRuntime.logInfoMessage("PojosHaveChanged is running on "
-		// + getTSProject().getProjectDetails().getName());
+		// + getTSProject().getProjectLabel());
 		if (pojoStateMap.isEmpty()) {
 			// This is the first time around
 			pojoStateMap = buildPojoState(resources, monitor);
@@ -1049,7 +1049,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			listFilesRecursive(baseRepFile, allResources);
 		}
 		TigerstripeRuntime.logTraceMessage(" ["
-				+ getTSProject().getProjectDetails().getName() + "] found "
+				+ getTSProject().getProjectLabel() + "] found "
 				+ allResources.size() + " in "
 				+ (System.currentTimeMillis() - startTime)
 				+ " ms (without scanner)");
@@ -1096,11 +1096,11 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		}
 		log.debug("Added " + addedResourceCount + " resources.");
 		TigerstripeRuntime.logTraceMessage(" ["
-				+ getTSProject().getProjectDetails().getName() + "] parsed "
+				+ getTSProject().getProjectLabel() + "] parsed "
 				+ addedResourceCount + " in "
 				+ (System.currentTimeMillis() - startTime) + " ms");
 		// System.err.println(" ["
-		// + getTSProject().getProjectDetails().getName() + "] parsed "
+		// + getTSProject().getProjectLabel() + "] parsed "
 		// + addedResourceCount + " in "
 		// + (System.currentTimeMillis() - startTime) + " ms");
 	}
@@ -1178,11 +1178,11 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		monitor.done();
 
 		TigerstripeRuntime.logTraceMessage(" ["
-				+ getTSProject().getProjectDetails().getName() + "] extracted "
+				+ getTSProject().getProjectLabel() + "] extracted "
 				+ changedPojos.size() + " in "
 				+ (System.currentTimeMillis() - startTime) + " ms");
 		// System.err.println(" ["
-		// + getTSProject().getProjectDetails().getName() + "] extracted "
+		// + getTSProject().getProjectLabel() + "] extracted "
 		// + changedPojos.size() + " in "
 		// + (System.currentTimeMillis() - startTime) + " ms");
 	}

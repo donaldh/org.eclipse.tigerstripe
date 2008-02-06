@@ -88,7 +88,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 			if (hasError && includeHTML)
 				buf.append("<b>");
 			buf.append("[" + projectType + ": "
-					+ project.getProjectDetails().getName() + ", Plugin: "
+					+ project.getProjectLabel() + ", Plugin: "
 					+ pluginConfig.getPluginId());
 
 			if (facetRef != null && facetRef.canResolve()) {

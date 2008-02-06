@@ -10,13 +10,147 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.IOriginalChangeListener;
+import org.eclipse.tigerstripe.workbench.IWorkingCopy;
+import org.eclipse.tigerstripe.workbench.OriginalChangeEvent;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.WorkingCopyException;
+
 /**
- * This class provides basic support for objects that desire to implement the
- * IWorkingCopy interface.
+ * This class can be used by all objects implementing IWorkingCopy to delegate
+ * most of the functionalities
  * 
  * @author erdillon
  * 
  */
-public class WorkingCopyManager {
+public abstract class WorkingCopyManager implements IWorkingCopy {
 
+	protected final static int _UNKWOWN_FIELD = -999;
+
+	private boolean isDirty = false;
+	private boolean isWorkingCopy = false;
+
+	private WorkingCopyManager original;
+
+	private Set<IOriginalChangeListener> listeners = new HashSet<IOriginalChangeListener>();
+	private Set<IWorkingCopy> copies = new HashSet<IWorkingCopy>();
+
+	public WorkingCopyManager getOriginal() {
+		return this.original;
+	}
+
+	protected void setOriginal(WorkingCopyManager original) {
+		this.original = original;
+	}
+
+	public boolean isWorkingCopy() {
+		return isWorkingCopy;
+	}
+
+	protected void setWorkingCopy(boolean isWorkingCopy) {
+		this.isWorkingCopy = isWorkingCopy;
+	}
+
+	protected abstract WorkingCopyManager doCreateCopy(IProgressMonitor monitor)
+			throws TigerstripeException;
+
+	protected abstract void doCommit(IProgressMonitor monitor)
+			throws TigerstripeException;
+
+	public IWorkingCopy makeWorkingCopy(IProgressMonitor monitor)
+			throws TigerstripeException {
+
+		if (monitor == null) {
+			monitor = new NullProgressMonitor();
+		}
+
+		if (isWorkingCopy()) {
+			return getOriginal().makeWorkingCopy(monitor);
+		}
+
+		WorkingCopyManager copy = (WorkingCopyManager) doCreateCopy(monitor);
+		copy.setWorkingCopy(true);
+		copy.setOriginal(this);
+		copies.add(copy);
+
+		return copy;
+	}
+
+	/**
+	 * This method performs a commit by calling the internalCommit
+	 * 
+	 * @param monitor
+	 * @throws TigerstripeException
+	 */
+	public void commit(IProgressMonitor monitor) throws TigerstripeException {
+		if (monitor == null) {
+			monitor = new NullProgressMonitor();
+		}
+
+		if (!isDirty())
+			return;
+
+		if (!isWorkingCopy())
+			throw new TigerstripeException("Commit was called on original.");
+
+		if (wasDisposed()) {
+			throw new TigerstripeException("This working copy was disposed.");
+		}
+
+		doCommit(monitor);
+
+		OriginalChangeEvent event = new OriginalChangeEvent(
+				OriginalChangeEvent.ORIGINAL_CHANGED);
+		notifyListeners(event);
+	}
+
+	private void dispose(IWorkingCopy copy) {
+		copies.remove(copy);
+	}
+
+	public boolean wasDisposed() {
+		return isWorkingCopy() && getOriginal() == null;
+	}
+
+	public void dispose() {
+		if (isWorkingCopy && !wasDisposed()) {
+			((WorkingCopyManager) getOriginal()).dispose(this);
+			original = null;
+		}
+	}
+
+	public void addOriginalChangeListener(IOriginalChangeListener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeOriginalChangeListener(IOriginalChangeListener listener) {
+		listeners.remove(listener);
+	}
+
+	private void notifyListeners(OriginalChangeEvent changeEvent) {
+		for (IOriginalChangeListener listener : listeners) {
+			listener.originalChanged(changeEvent);
+		}
+	}
+
+	public void assertSet(int fieldID) throws WorkingCopyException {
+		if (!isWorkingCopy()) {
+			throw new WorkingCopyException(
+					"Please get a workingCopy to perform set");
+		} else if (wasDisposed()) {
+			throw new WorkingCopyException(
+					"This working copy was already disposed.");
+		}
+
+		isDirty = true;
+	}
+
+	public boolean isDirty() {
+		return isDirty;
+	}
 }

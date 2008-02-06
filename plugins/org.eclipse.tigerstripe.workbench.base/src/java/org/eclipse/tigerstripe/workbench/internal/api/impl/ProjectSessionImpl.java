@@ -31,7 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.Pluggab
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 
-public class ProjectSessionImpl  {
+public class ProjectSessionImpl {
 
 	private Map projectMappedByURIs = new HashMap();
 
@@ -47,7 +47,7 @@ public class ProjectSessionImpl  {
 	}
 
 	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI)
-			throws  TigerstripeException {
+			throws TigerstripeException {
 		return makeTigerstripeProject(projectURI, null);
 	}
 
@@ -64,8 +64,8 @@ public class ProjectSessionImpl  {
 	 *             if any other error occured.
 	 */
 	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI,
-			String projectType) throws 
-			UnsupportedOperationException, TigerstripeException {
+			String projectType) throws UnsupportedOperationException,
+			TigerstripeException {
 
 		if (projectMappedByURIs.containsKey(projectURI)) {
 
@@ -166,7 +166,7 @@ public class ProjectSessionImpl  {
 			for (Iterator<IAbstractTigerstripeProject> iter = projectMappedByURIs
 					.values().iterator(); iter.hasNext();) {
 				IAbstractTigerstripeProject proj = iter.next();
-				if (project.getBaseDir().equals(proj.getBaseDir())) {
+				if (project.getLocation().equals(proj.getLocation())) {
 					iter.remove();
 				}
 			}

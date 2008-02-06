@@ -215,7 +215,7 @@ public class ModuleDescriptorModel {
 			// For performance improvement, let's use what is already on disk if
 			// it exists. If not, revert to processing the artifact the old
 			// fashion "safe but slow" way.
-			String path = getTSProject().getBaseDir() + File.separator
+			String path = getTSProject().getLocation().toFile() + File.separator
 					+ ((AbstractArtifact) artifact).getArtifactPath();
 			File artFile = new File(path);
 			try {

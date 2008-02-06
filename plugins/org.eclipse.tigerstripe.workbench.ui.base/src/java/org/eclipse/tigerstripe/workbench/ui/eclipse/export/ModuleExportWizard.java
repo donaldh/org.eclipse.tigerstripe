@@ -158,7 +158,7 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 			header.setModuleID(moduleID);
 
 			monitor.worked(3);
-			String classesDirStr = tsProject.getURI().getPath()
+			String classesDirStr = tsProject.getLocation().toFile().toURI().getPath()
 					+ File.separator + "/bin";
 			File classesDir = new File(classesDirStr);
 			packager.packageUp(file.toURI(), classesDir, header,
