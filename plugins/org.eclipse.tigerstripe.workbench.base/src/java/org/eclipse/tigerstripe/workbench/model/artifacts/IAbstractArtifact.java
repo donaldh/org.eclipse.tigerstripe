@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.model.artifacts;
 import java.io.Writer;
 import java.util.Collection;
 
+import org.eclipse.tigerstripe.workbench.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
@@ -22,7 +23,6 @@ import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 

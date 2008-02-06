@@ -46,7 +46,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ExternalModules;
@@ -54,6 +53,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleException;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -405,8 +405,9 @@ public class DescriptorDependenciesSection extends
 					File file = (File) toAdd[i];
 
 					try {
-						IDependency dep = InternalTigerstripeCore.getDefaultProjectSession()
-								.makeIDependency(file.getAbsolutePath());
+						IDependency dep = TigerstripeProjectFactory.INSTANCE
+								.getProjectSession().makeIDependency(
+										file.getAbsolutePath());
 
 						TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getTSProject();
 

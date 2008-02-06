@@ -25,8 +25,8 @@ import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -177,9 +177,8 @@ public class App {
 
 			File baseDir = new File(".");
 			try {
-				ITigerstripeProject project = (ITigerstripeProject) InternalTigerstripeCore
-						.getDefaultProjectSession().makeTigerstripeProject(
-								baseDir.toURI(), null);
+				ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
+						.findProject(baseDir.toURI());
 
 				if (getCli().hasOption(PACKAGE)) {
 					log.info("  Packaging project: "
@@ -211,7 +210,7 @@ public class App {
 					project.generate(new TigerstripeProjectVisitor());
 					log.info("  Successfully completed.");
 				}
-			
+
 			} catch (TigerstripeException e) {
 				log.error(e.getLocalizedMessage());
 				returnCode = RC_INIT_ERROR;

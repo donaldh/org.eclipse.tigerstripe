@@ -27,11 +27,10 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
@@ -106,10 +105,9 @@ public class TSExplorerUtils {
 			IResource res = jElem.getResource();
 			if (res != null) {
 				try {
-					IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
-					IAbstractTigerstripeProject aProject = session
-							.makeTigerstripeProject(res.getProject()
-									.getLocation().toFile().toURI(), null);
+					IAbstractTigerstripeProject aProject = TigerstripeCore
+							.findProject(res.getProject().getLocation()
+									.toFile().toURI());
 
 					if (aProject instanceof ITigerstripeProject) {
 						ITigerstripeProject project = (ITigerstripeProject) aProject;
@@ -225,10 +223,8 @@ public class TSExplorerUtils {
 
 		if (project != null) {
 			try {
-				IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
-				IAbstractTigerstripeProject tsProject = session
-						.makeTigerstripeProject(project.getLocation().toFile()
-								.toURI(), null);
+				IAbstractTigerstripeProject tsProject = TigerstripeCore
+						.findProject(project.getLocation().toFile().toURI());
 
 				return tsProject;
 

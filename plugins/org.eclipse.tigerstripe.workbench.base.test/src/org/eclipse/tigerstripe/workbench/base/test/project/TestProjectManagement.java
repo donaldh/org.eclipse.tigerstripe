@@ -27,8 +27,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 public class TestProjectManagement extends TestCase {
 
-	private final static String MODELPROJECT_NAME = "testModelProject";
-
 	public void testFindProject() {
 		fail("Not yet implemented");
 	}
@@ -36,7 +34,7 @@ public class TestProjectManagement extends TestCase {
 	public void testCreateModelProject() throws TigerstripeException,
 			CoreException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName(MODELPROJECT_NAME);
+		projectDetails.setName("testCreateModelProject");
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IAbstractTigerstripeProject project = TigerstripeCore.createProject(
@@ -46,7 +44,8 @@ public class TestProjectManagement extends TestCase {
 
 		project.validate(null);
 
-		IResource proj = workspace.getRoot().findMember(MODELPROJECT_NAME);
+		IResource proj = workspace.getRoot().findMember(
+				"testCreateModelProject");
 		assertNotNull(project);
 		proj.delete(true, new NullProgressMonitor());
 	}
@@ -61,7 +60,7 @@ public class TestProjectManagement extends TestCase {
 	public void testRemoveModelProject() throws TigerstripeException,
 			CoreException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName(MODELPROJECT_NAME);
+		projectDetails.setName("testRemoveModelProject");
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IAbstractTigerstripeProject project = TigerstripeCore.createProject(
@@ -71,7 +70,8 @@ public class TestProjectManagement extends TestCase {
 
 		project.validate(null);
 
-		IResource proj = workspace.getRoot().findMember(MODELPROJECT_NAME);
+		IResource proj = workspace.getRoot().findMember(
+				"testRemoveModelProject");
 		assertNotNull(project);
 		proj.delete(true, new NullProgressMonitor());
 

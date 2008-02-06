@@ -25,10 +25,9 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.api.versioning.IBaseElement;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -243,12 +242,10 @@ public abstract class BaseElement implements IBaseElement {
 						return null;
 				}
 
-					IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
-					IAbstractTigerstripeProject tsProject = session
-							.makeTigerstripeProject(containingFolder.toURI(),
-									null);
-					return tsProject;
-				
+				IAbstractTigerstripeProject tsProject = TigerstripeCore
+						.findProject(containingFolder.toURI());
+				return tsProject;
+
 			}
 		}
 		return null;

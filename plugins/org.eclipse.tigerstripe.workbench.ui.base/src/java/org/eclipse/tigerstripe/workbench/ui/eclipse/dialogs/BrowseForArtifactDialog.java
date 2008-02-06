@@ -20,10 +20,10 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -167,12 +167,12 @@ public class BrowseForArtifactDialog {
 	private Collection<IPrimitiveTypeArtifact> getBuiltinPrimitiveTypes()
 			throws TigerstripeException {
 
-			if (isIncludePrimitiveTypes())
-				return InternalTigerstripeCore.getDefaultProjectSession().getPhantomProject()
-						.getReservedPrimitiveTypes();
-			else
-				return new ArrayList<IPrimitiveTypeArtifact>();
-		
+		if (isIncludePrimitiveTypes())
+			return TigerstripeProjectFactory.INSTANCE.getPhantomProject()
+					.getReservedPrimitiveTypes();
+		else
+			return new ArrayList<IPrimitiveTypeArtifact>();
+
 	}
 
 	/**
@@ -212,7 +212,8 @@ public class BrowseForArtifactDialog {
 		// overwriten
 		// artifacts locally.
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-		List<String> nameList = new ArrayList<String>(); // used to avoid duplicates
+		List<String> nameList = new ArrayList<String>(); // used to avoid
+															// duplicates
 		for (Iterator iterArtifacts = artifacts.iterator(); iterArtifacts
 				.hasNext();) {
 			AbstractArtifact artifact = (AbstractArtifact) iterArtifacts.next();

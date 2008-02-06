@@ -17,9 +17,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -47,10 +46,8 @@ public class Updatedemo {
 					.findMember(new Path(tSProjectName));
 
 			URI projectURI = tsContainer.getLocationURI();
-			IProjectSession session = InternalTigerstripeCore
-					.getDefaultProjectSession();
-			tsProject = (ITigerstripeProject) session.makeTigerstripeProject(
-					projectURI, ITigerstripeProject.class.getName());
+			tsProject = (ITigerstripeProject) TigerstripeCore
+					.findProject(projectURI);
 			this.mgrSession = tsProject.getArtifactManagerSession();
 			this.mgrSession.refresh(true, new TigerstripeNullProgressMonitor());
 		} catch (Exception e) {
@@ -79,15 +76,13 @@ public class Updatedemo {
 				TigerstripeRuntime.logInfoMessage(field.getName() + " "
 						+ type.getName());
 			}
-/*			for (IMethod method : artifact.getMethods()) {
-				for (int j = 0; j < method.getIArguments().length; j++) {
-					IType type = method.getIArguments()[j].getType();
-					TigerstripeRuntime.logInfoMessage(method
-							.getIArguments()[j].getName()
-							+ " " + type.getName());
-				}
-
-			}*/
+			/*
+			 * for (IMethod method : artifact.getMethods()) { for (int j = 0; j <
+			 * method.getIArguments().length; j++) { IType type =
+			 * method.getIArguments()[j].getType();
+			 * TigerstripeRuntime.logInfoMessage(method
+			 * .getIArguments()[j].getName() + " " + type.getName()); } }
+			 */
 
 		}
 

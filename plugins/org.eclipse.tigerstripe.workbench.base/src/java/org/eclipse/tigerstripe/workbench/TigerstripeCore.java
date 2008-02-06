@@ -10,19 +10,17 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench;
 
+import java.io.File;
+import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.internal.TigerstripeRuntimeDetails;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.WorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
@@ -107,6 +105,13 @@ public class TigerstripeCore {
 	 */
 	public static IAbstractTigerstripeProject findProject(IPath path)
 			throws TigerstripeException {
+		return TigerstripeProjectFactory.INSTANCE.findProject(path);
+	}
+
+	public static IAbstractTigerstripeProject findProject(URI uri)
+			throws TigerstripeException {
+		File file = new File(uri);
+		IPath path = new Path(file.getAbsolutePath());
 		return TigerstripeProjectFactory.INSTANCE.findProject(path);
 	}
 

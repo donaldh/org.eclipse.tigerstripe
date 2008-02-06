@@ -35,11 +35,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IEventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjArtifactSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEntitySpecifics;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjArtifactSpecifics;
@@ -150,10 +148,8 @@ public class XML2TS {
 						.getRoot().findMember(new Path(tSProjectName));
 
 				URI projectURI = tsContainer.getLocationURI();
-				IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
-				ITigerstripeProject tsProject = (ITigerstripeProject) session
-						.makeTigerstripeProject(projectURI,
-								ITigerstripeProject.class.getName());
+				ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
+						.findProject(projectURI);
 				this.mgrSession = tsProject.getArtifactManagerSession();
 				String msgText = " Source Project : "
 						+ tsProject.getProjectDetails().getName();
@@ -700,8 +696,10 @@ public class XML2TS {
 				type.setTypeMultiplicity(EMultiplicity.valueOf(element
 						.getAttribute("returnedTypeMultiplicity")));
 			} catch (java.lang.NumberFormatException e) {
-				type.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(element
-						.getAttribute("returnedTypeMultiplicity")));
+				type
+						.setTypeMultiplicity(IModelComponent.EMultiplicity
+								.parse(element
+										.getAttribute("returnedTypeMultiplicity")));
 			}
 			queryArt.setReturnedType((IType) type);
 			Properties props = specs.getInterfaceProperties();
@@ -855,8 +853,8 @@ public class XML2TS {
 				type.setTypeMultiplicity(EMultiplicity.valueOf(field
 						.getAttribute("typeMultiplicity")));
 			} catch (java.lang.NumberFormatException e) {
-				type.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(field
-						.getAttribute("typeMultiplicity")));
+				type.setTypeMultiplicity(IModelComponent.EMultiplicity
+						.parse(field.getAttribute("typeMultiplicity")));
 			}
 			this.out.println(type.getTypeMultiplicity().getLabel());
 			// end
@@ -894,8 +892,8 @@ public class XML2TS {
 
 	private void setLiterals(Element element, IAbstractArtifact artifact,
 			PrintWriter out, MessageList messages) {
-		NodeList literalNodes = element
-				.getElementsByTagNameNS(namespace, "literal");
+		NodeList literalNodes = element.getElementsByTagNameNS(namespace,
+				"literal");
 		for (int ln = 0; ln < literalNodes.getLength(); ln++) {
 			Element literal = (Element) literalNodes.item(ln);
 
@@ -969,8 +967,10 @@ public class XML2TS {
 					returnType.setFullyQualifiedName(method
 							.getAttribute("returnType"));
 					try {
-						returnType.setTypeMultiplicity(EMultiplicity.valueOf(method
-								.getAttribute("returnTypeMultiplicity")));
+						returnType
+								.setTypeMultiplicity(EMultiplicity
+										.valueOf(method
+												.getAttribute("returnTypeMultiplicity")));
 					} catch (java.lang.NumberFormatException e) {
 						returnType
 								.setTypeMultiplicity(IModelComponent.EMultiplicity
@@ -1012,8 +1012,8 @@ public class XML2TS {
 					argType.setTypeMultiplicity(EMultiplicity.valueOf(argument
 							.getAttribute("typeMultiplicity")));
 				} catch (java.lang.NumberFormatException e) {
-					argType.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(argument
-							.getAttribute("typeMultiplicity")));
+					argType.setTypeMultiplicity(IModelComponent.EMultiplicity
+							.parse(argument.getAttribute("typeMultiplicity")));
 				}
 				newArgument.setType(argType);
 				newArgument.setComment(getComment(argument));

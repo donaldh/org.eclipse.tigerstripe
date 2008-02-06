@@ -48,10 +48,10 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
@@ -161,8 +161,8 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 				display.asyncExec(new Runnable() {
 					public void run() {
 						try {
-							IProjectSession session = InternalTigerstripeCore
-									.getDefaultProjectSession();
+							ProjectSessionImpl session = TigerstripeProjectFactory.INSTANCE
+									.getProjectSession();
 							String desc = projectDetails.projectDirectory
 									+ File.separator
 									+ projectDetails.projectName;

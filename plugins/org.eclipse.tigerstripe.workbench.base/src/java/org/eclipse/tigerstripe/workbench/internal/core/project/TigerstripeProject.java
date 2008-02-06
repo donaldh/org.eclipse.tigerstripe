@@ -37,6 +37,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.ReaderInputStream;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -487,8 +488,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		for (int i = 0; i < plugins.getLength(); i++) {
 			Node node = plugins.item(i);
 			try {
-				PluginConfig ref = PluginConfigFactory.getInstance().createPluginConfig(
-						(Element) node, this);
+				PluginConfig ref = PluginConfigFactory.getInstance()
+						.createPluginConfig((Element) node, this);
 
 				// need to make sure it can be resolved
 				ref.resolve();
@@ -607,12 +608,12 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	private ITigerstripeProject getTSProject() {
 		if (getBaseDir() != null) {
 			try {
-				return (ITigerstripeProject) InternalTigerstripeCore.getDefaultProjectSession()
-						.makeTigerstripeProject(getBaseDir().toURI());
+				return (ITigerstripeProject) TigerstripeCore
+						.findProject(getBaseDir().toURI());
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
 						"TigerstripeException detected", e);
-			
+
 			}
 		}
 		return null;
@@ -636,22 +637,18 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 			String label = path.getNodeValue();
 
+			IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
+					.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 
-				IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
-						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
+			ITigerstripeProject self = (ITigerstripeProject) TigerstripeCore
+					.findProject(getBaseDir().toURI());
+			URI uri = loc.locate(self, label);
+			ITigerstripeProject prj = (ITigerstripeProject) TigerstripeCore
+					.findProject(uri);
 
-				ITigerstripeProject self = (ITigerstripeProject) InternalTigerstripeCore
-						.getDefaultProjectSession().makeTigerstripeProject(
-								getBaseDir().toURI(), null);
-				URI uri = loc.locate(self, label);
-				ITigerstripeProject prj = (ITigerstripeProject) InternalTigerstripeCore
-						.getDefaultProjectSession().makeTigerstripeProject(uri,
-								null);
+			if (prj != null)
+				addReferencedProject(prj);
 
-				if (prj != null)
-					addReferencedProject(prj);
-			
-			
 		}
 	}
 
@@ -1011,8 +1008,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		return getReferencedProjects();
 	}
 
-	public IProjectDetails getIProjectDetails()
-			throws TigerstripeException {
+	public IProjectDetails getIProjectDetails() throws TigerstripeException {
 		return getProjectDetails();
 	}
 

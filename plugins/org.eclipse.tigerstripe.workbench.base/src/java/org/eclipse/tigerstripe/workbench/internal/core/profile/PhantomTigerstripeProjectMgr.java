@@ -26,11 +26,11 @@ import java.util.zip.ZipException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
@@ -133,9 +133,8 @@ public class PhantomTigerstripeProjectMgr implements
 		int numberCreated = 0;
 		ArtifactManagerSessionImpl artifactMgrSession = null;
 		try {
-			artifactMgrSession = (ArtifactManagerSessionImpl) InternalTigerstripeCore
-					.getDefaultProjectSession().getPhantomProject()
-					.getArtifactManagerSession();
+			artifactMgrSession = (ArtifactManagerSessionImpl) TigerstripeProjectFactory.INSTANCE
+					.getPhantomProject().getArtifactManagerSession();
 
 			// Bug 536
 			(artifactMgrSession.getArtifactManager()).reset(monitor);

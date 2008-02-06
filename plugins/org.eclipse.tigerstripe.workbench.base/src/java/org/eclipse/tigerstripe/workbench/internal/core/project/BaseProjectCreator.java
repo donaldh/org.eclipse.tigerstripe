@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -46,13 +45,12 @@ public abstract class BaseProjectCreator implements IProjectCreator {
 
 		projectHandle = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				projectName);
-		projectHandle
-				.create(description, new SubProgressMonitor(monitor, 1000));
+		projectHandle.create(description, monitor);
 
 		if (monitor.isCanceled())
 			throw new OperationCanceledException();
 
-		projectHandle.open(new SubProgressMonitor(monitor, 1000));
+		projectHandle.open(monitor);
 	}
 
 	/**
@@ -82,8 +80,11 @@ public abstract class BaseProjectCreator implements IProjectCreator {
 		description.setNatureIds((String[]) newIds.toArray(new String[newIds
 				.size()]));
 
+		try {
 		projectHandle.setDescription(description, null);
-
+		} catch ( CoreException e ) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

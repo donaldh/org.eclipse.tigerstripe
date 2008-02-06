@@ -30,11 +30,12 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.IOriginalChangeListener;
+import org.eclipse.tigerstripe.workbench.IWorkingCopy;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
@@ -49,7 +50,6 @@ import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
@@ -1335,9 +1335,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return null;
 
 		try {
-			handle = (TigerstripeProjectHandle) InternalTigerstripeCore
-					.getDefaultProjectSession().makeTigerstripeProject(
-							getTSProject().getBaseDir().toURI(), null);
+			handle = (TigerstripeProjectHandle) TigerstripeCore
+					.findProject(getTSProject().getBaseDir().toURI());
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e); // FIXME
@@ -1499,17 +1498,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return getArtifactManager().isInActiveFacet(this);
 	}
 
-	/**
-	 * This method is called right before this artifact is removed from its
-	 * artifact manager.
-	 * 
-	 * @since 2.2-beta
-	 */
-	/* package */void dispose() {
-		// nothing for now
-		// Bug 882: was setting extends to null incorrectly.
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof AbstractArtifact)
@@ -1622,9 +1610,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 						+ getFullyQualifiedName()
 						+ ": artifact is read-only (module)");
 
-			IAbstractTigerstripeProject aProject = InternalTigerstripeCore
-					.getDefaultProjectSession().makeTigerstripeProject(
-							mgr.getTSProject().getBaseDir().toURI());
+			IAbstractTigerstripeProject aProject = TigerstripeCore
+					.findProject(mgr.getTSProject().getBaseDir().toURI());
 			if (aProject instanceof ITigerstripeProject) {
 				IArtifactManagerSession session = ((ITigerstripeProject) aProject)
 						.getArtifactManagerSession();
@@ -1645,12 +1632,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	private boolean workingCopyIsDirty = false;
 
 	@Override
-	public void addArtifactChangeListener(IArtifactChangeListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean isDirty() {
 		return workingCopyIsDirty;
 	}
@@ -1665,7 +1646,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	@Override
-	public void removeArtifactChangeListener(IArtifactChangeListener listener) {
+	public void addOriginalChangeListener(IOriginalChangeListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void removeOriginalChangeListener(IOriginalChangeListener listener) {
 		// TODO Auto-generated method stub
 
 	}
@@ -1683,4 +1670,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return null;
 	}
 
+	@Override
+	public void commit(IProgressMonitor monitor) throws TigerstripeException {
+
+	}
+
+	@Override
+	public void dispose() {
+
+	}
 }

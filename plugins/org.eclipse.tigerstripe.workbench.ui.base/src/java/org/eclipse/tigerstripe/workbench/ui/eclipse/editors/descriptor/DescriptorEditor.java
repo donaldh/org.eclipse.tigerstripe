@@ -28,11 +28,11 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormEditor;
@@ -165,36 +165,35 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 		// TigerstripeProject
 		// updated
 
-			final IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
+		final ProjectSessionImpl session = TigerstripeProjectFactory.INSTANCE
+				.getProjectSession();
 
-			IRunnableWithProgress op = new IRunnableWithProgress() {
-				public void run(IProgressMonitor monitor) {
-					try {
-						monitor.beginTask("Refreshing Project Cache...", 10);
-						session.refreshCacheFor(getTSProject().getURI(),
-								getTSProject(), new TigerstripeProgressMonitor(
-										monitor));
-						monitor.done();
-					} catch (TigerstripeException ee) {
-						EclipsePlugin.log(ee);
-					}
+		IRunnableWithProgress op = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor) {
+				try {
+					monitor.beginTask("Refreshing Project Cache...", 10);
+					session.refreshCacheFor(getTSProject().getURI(),
+							getTSProject(), new TigerstripeProgressMonitor(
+									monitor));
+					monitor.done();
+				} catch (TigerstripeException ee) {
+					EclipsePlugin.log(ee);
 				}
-			};
-
-			IWorkbench wb = PlatformUI.getWorkbench();
-			IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
-			Shell shell = win != null ? win.getShell() : null;
-
-			try {
-				ProgressMonitorDialog pDialog = new ProgressMonitorDialog(shell);
-				pDialog.run(true, false, op);
-			} catch (InterruptedException ee) {
-				EclipsePlugin.log(ee);
-			} catch (InvocationTargetException ee) {
-				EclipsePlugin.log(ee);
 			}
+		};
 
-		
+		IWorkbench wb = PlatformUI.getWorkbench();
+		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+		Shell shell = win != null ? win.getShell() : null;
+
+		try {
+			ProgressMonitorDialog pDialog = new ProgressMonitorDialog(shell);
+			pDialog.run(true, false, op);
+		} catch (InterruptedException ee) {
+			EclipsePlugin.log(ee);
+		} catch (InvocationTargetException ee) {
+			EclipsePlugin.log(ee);
+		}
 
 		getEditor(sourcePageIndex).doSave(monitor);
 	}

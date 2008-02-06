@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.ClasspathEntry;
 import org.eclipse.jdt.internal.core.JavaProject;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
@@ -94,9 +95,8 @@ public class ClasspathUpdater {
 
 						URI uri = loc.locate(tsProject, entries[i].getPath()
 								.toString());
-						prjRef = (ITigerstripeProject) InternalTigerstripeCore
-								.getDefaultProjectSession()
-								.makeTigerstripeProject(uri, null);
+						prjRef = (ITigerstripeProject) TigerstripeCore
+								.findProject(uri);
 
 					} catch (TigerstripeException e) {
 						// ignore here

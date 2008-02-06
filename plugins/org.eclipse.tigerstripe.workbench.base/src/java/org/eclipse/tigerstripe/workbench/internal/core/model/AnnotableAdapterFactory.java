@@ -18,11 +18,10 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.annotations.IAnnotable;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -55,11 +54,9 @@ public class AnnotableAdapterFactory implements IAdapterFactory {
 			IResource res = jElem.getResource();
 			if (res != null) {
 				try {
-					IProjectSession session = InternalTigerstripeCore
-							.getDefaultProjectSession();
-					IAbstractTigerstripeProject aProject = session
-							.makeTigerstripeProject(res.getProject()
-									.getLocation().toFile().toURI(), null);
+					IAbstractTigerstripeProject aProject = TigerstripeCore
+							.findProject(res.getProject().getLocation()
+									.toFile().toURI());
 
 					if (aProject instanceof ITigerstripeProject) {
 						ITigerstripeProject project = (ITigerstripeProject) aProject;

@@ -43,11 +43,11 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.install.PostInstallActions;
 import org.eclipse.tigerstripe.workbench.eclipse.utils.ProjectLocatorFacilityForEclipse;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
@@ -387,7 +387,8 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 	 */
 	protected void initialiseAPI() {
 		try {
-			InternalTigerstripeCore.registerFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY,
+			InternalTigerstripeCore.registerFacility(
+					InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY,
 					new ProjectLocatorFacilityForEclipse());
 		} catch (TigerstripeException e) {
 			log(e);
@@ -435,10 +436,8 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 			return null;
 
 		try {
-			IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
-			IAbstractTigerstripeProject tsProject = session
-					.makeTigerstripeProject(project.getLocation().toFile()
-							.toURI(), null);
+			IAbstractTigerstripeProject tsProject = TigerstripeCore
+					.findProject(project.getLocation().toFile().toURI());
 
 			return tsProject;
 

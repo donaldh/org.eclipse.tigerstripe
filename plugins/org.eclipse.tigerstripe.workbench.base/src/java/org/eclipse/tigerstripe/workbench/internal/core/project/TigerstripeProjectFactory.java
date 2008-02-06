@@ -27,10 +27,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
+import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -49,6 +48,8 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 public class TigerstripeProjectFactory implements IResourceChangeListener {
 
 	public final static TigerstripeProjectFactory INSTANCE = new TigerstripeProjectFactory();
+
+	private ProjectSessionImpl session = new ProjectSessionImpl();
 
 	private TigerstripeProjectFactory() {
 		registerForProjectDeletion();
@@ -133,8 +134,7 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 	public IAbstractTigerstripeProject findProject(IPath path)
 			throws TigerstripeException {
 		URI uri = path.toFile().toURI();
-		return InternalTigerstripeCore.getDefaultProjectSession()
-				.makeTigerstripeProject(uri);
+		return session.makeTigerstripeProject(uri);
 	}
 
 	/**
@@ -144,14 +144,17 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 	 * @param projectPath
 	 */
 	private void projectDeleted(IPath projectPath) {
-		IProjectSession session = InternalTigerstripeCore
-				.getDefaultProjectSession();
 		try {
 			IAbstractTigerstripeProject proj = findProject(projectPath);
 			session.removeFromCache(proj);
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 		}
+	}
+
+	public IPhantomTigerstripeProject getPhantomProject()
+			throws TigerstripeException {
+		return session.getPhantomProject();
 	}
 
 	// ==============================================
@@ -167,5 +170,10 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 	private void registerForProjectDeletion() {
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
 				IResourceChangeEvent.PRE_DELETE);
+	}
+
+	// FIXME this is temporary until the project session disappears.
+	public ProjectSessionImpl getProjectSession() {
+		return this.session;
 	}
 }

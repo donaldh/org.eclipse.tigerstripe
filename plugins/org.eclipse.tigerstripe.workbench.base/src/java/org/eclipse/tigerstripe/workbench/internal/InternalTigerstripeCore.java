@@ -19,9 +19,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactMetadataSessi
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ContractSession;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.DefaultProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.DiagramRenderingSession;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IAPIFacility;
 
@@ -35,14 +33,15 @@ import org.eclipse.tigerstripe.workbench.internal.api.utils.IAPIFacility;
 public class InternalTigerstripeCore extends TigerstripeCore {
 
 	/**
-	 * This is a property that can be set on the API when looking up project references. If no locator is set, a default locator implementation is provided instead
+	 * This is a property that can be set on the API when looking up project
+	 * references. If no locator is set, a default locator implementation is
+	 * provided instead
 	 */
 	public final static String PROJECT_LOCATOR_FACILITY = "ide.projectLocator";
 	private final static String[] supportedFacilities = { PROJECT_LOCATOR_FACILITY };
 	private static HashMap<String, IAPIFacility> propertiesMap = new HashMap<String, IAPIFacility>();
 	private static IDiagramRenderingSession diagramRenderingSession;
 	private static IContractSession contractSession;
-	private static IProjectSession projectSession;
 
 	/**
 	 * To allow for better interaction between the IDE used on top of this API,
@@ -101,11 +100,11 @@ public class InternalTigerstripeCore extends TigerstripeCore {
 				continue;
 			}
 		}
-	
+
 		if (!facilityIsSupported)
 			throw new TigerstripeException("'" + facilityID
 					+ "' is not a supported facility.");
-	
+
 		propertiesMap.put(facilityID, facility);
 	}
 
@@ -131,26 +130,5 @@ public class InternalTigerstripeCore extends TigerstripeCore {
 		}
 		return contractSession;
 	}
-
-	/**
-	 * Returns the default Project Session for this API. There is only 1 project
-	 * session per instance of Tigerstripe Workbench. (Singleton)
-	 * 
-	 * This is the main entry point in the API to access project level
-	 * information.
-	 * 
-	 * @return IProjectSession - the default project session.
-	 */
-	public static IProjectSession getDefaultProjectSession()
-			 {
-	
-		if (projectSession == null) {
-			ProjectSessionImpl session = new ProjectSessionImpl();
-			projectSession = session;
-		}
-	
-		return projectSession;
-	}
-
 
 }

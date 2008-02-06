@@ -15,10 +15,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -77,17 +76,13 @@ public class TSRuntimeContext {
 
 				// Validate and Load the project descriptor
 
-					IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
-
-					if (session.makeTigerstripeProject(projectRoot
-							.getLocation().toFile().toURI(), null) instanceof ITigerstripeProject) {
-						projectHandle = (ITigerstripeProject) session
-								.makeTigerstripeProject(projectRoot
-										.getLocation().toFile().toURI(), null);
-					} else
-						throw new TigerstripeException(
-								"Not a Tigerstripe Project.");
-
+				if (TigerstripeCore.findProject(projectRoot.getLocation()
+						.toFile().toURI()) instanceof ITigerstripeProject) {
+					projectHandle = (ITigerstripeProject) TigerstripeCore
+							.findProject(projectRoot.getLocation().toFile()
+									.toURI());
+				} else
+					throw new TigerstripeException("Not a Tigerstripe Project.");
 
 				// We're good...
 				result = projectHandle.exists();

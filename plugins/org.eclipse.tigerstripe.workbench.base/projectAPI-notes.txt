@@ -1,0 +1,46 @@
+##
+##	This file contains a history of the changes to the API related to
+##	Tigerstripe project management
+##
+##########################################
+
+## Overall
+X - Users should be able to create new Tigerstripe projects from the TigerstripeCore. This should
+	trigger the creation of all the necessary files in the project. IProjectSession is 
+	useless and should be removed
+X - Users should not be concerned with caching mechanism. (remove cache mentions from API)
+X - There are currently 2 types of projects handled thru a TigerstripeProjectFactory (internal).
+- ITigerstripeProject should be renamed to IModelProject
+- IPluggablePluginProject should be part of API and renamed as IPluginProject
+- IProjectChangeListener should be part of the API (move out of internal).
+- IPhantomTigerstripeProject should be part of the API (move out of internal). 
+- INameProvider should be removed altogether.
+- ITigerstripeVisitor should be part of the API (move out of internal)
+- IAbstractTigerstripeProject should be renamed to ITigerstripeProject
+- IProjectDescriptor should be removed altogether as users should only be concerned with 
+	project handles, and not have to worry about the project descriptors.
+- The API should use Eclipse resources rather than URI, java.io.File, or anything else
+- IAbstractTigerstripeProject should implement IAdaptable
+- Additional adapters should be implemented in a factory to adapt
+	- IProject to IAbstractTigerstripeProject
+- IProjectSession should be removed once refactor is complete. It has been commented out and
+	kept in the meantime for reference.
+
+## Plugin Projects
+
+## Project lifecycle
+- Users only manipulate project Handles (IAbstractTigerstripeProject)
+- Project handles should implement IWorkingCopy to allow for editing.
+- Projects as returned by TigerstripeCore are always "workingCopies". Any change on them
+	must be committed so the underlying descriptors can be updated in an atomic operation.
+- IDependency should be renamed to IModuleProject
+- There should be 2 types of dependencies:
+	- inheriting IProjectDependency
+	- IModuleProject (ex IDependency)
+	- IReferencedProject
+- doSave() method to be removed from IAbstractTigerstripeProject
+- getURI() to be removed from IAbstractTigerstripeProject
+- getProjectLabel to be removed from IAbstractTigerstripeProject
+- getBaseDir() to be replaced by IPath getFullPath() and IPath getLocation() similar to resources
+	and should return the corresponding folder location.
+	

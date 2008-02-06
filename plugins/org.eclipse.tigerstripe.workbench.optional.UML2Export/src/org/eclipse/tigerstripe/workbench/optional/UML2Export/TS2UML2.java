@@ -31,9 +31,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
@@ -151,10 +150,8 @@ public class TS2UML2 {
 					.findMember(new Path(tSProjectName));
 
 			java.net.URI projectURI = tsContainer.getLocationURI();
-			IProjectSession session = InternalTigerstripeCore
-					.getDefaultProjectSession();
-			tsProject = (ITigerstripeProject) session.makeTigerstripeProject(
-					projectURI, ITigerstripeProject.class.getName());
+			tsProject = (ITigerstripeProject) TigerstripeCore
+					.findProject(projectURI);
 			this.mgrSession = tsProject.getArtifactManagerSession();
 			this.mgrSession.refresh(true, new TigerstripeNullProgressMonitor());
 
@@ -411,7 +408,8 @@ public class TS2UML2 {
 				IAssociationClassArtifact assocClass = (IAssociationClassArtifact) artifact;
 				// Do the implements
 				Class clazz = makeOrFindClass(assocClass);
-				for (IAbstractArtifact impl :  assocClass.getImplementedArtifacts()) {
+				for (IAbstractArtifact impl : assocClass
+						.getImplementedArtifacts()) {
 					Interface implClazz = makeOrFindInterface(impl);
 					clazz.createInterfaceRealization("implements", implClazz);
 					this.out.println("Created implementation "

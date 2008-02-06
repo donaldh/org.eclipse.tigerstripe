@@ -14,8 +14,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 
 /**
@@ -124,8 +124,8 @@ public class ExternalModules {
 		String details = "";
 
 		try {
-			IDependency dep = InternalTigerstripeCore.getDefaultProjectSession().makeIDependency(
-					fullPath);
+			IDependency dep = TigerstripeProjectFactory.INSTANCE
+					.getProjectSession().makeIDependency(fullPath);
 			StringBuffer detBuff = new StringBuffer();
 			detBuff.append(dep.getIProjectDetails().getName());
 			detBuff.append(":");

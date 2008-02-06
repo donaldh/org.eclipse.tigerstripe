@@ -24,7 +24,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.SimplePlugg
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ISimplePluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
@@ -32,7 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.Pluggab
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 
-public class ProjectSessionImpl implements IProjectSession {
+public class ProjectSessionImpl  {
 
 	private Map projectMappedByURIs = new HashMap();
 

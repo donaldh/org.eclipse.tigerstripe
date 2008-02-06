@@ -33,10 +33,9 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
@@ -84,11 +83,9 @@ public abstract class NewTSElementWizard extends Wizard implements INewWizard {
 			display.asyncExec(new Runnable() {
 				public void run() {
 					try {
-						IProjectSession session = InternalTigerstripeCore
-								.getDefaultProjectSession();
-						ITigerstripeProject project = (ITigerstripeProject) session
-								.makeTigerstripeProject(resource.getProject()
-										.getLocation().toFile().toURI(), null);
+						ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
+								.findProject(resource.getProject()
+										.getLocation().toFile().toURI());
 
 						IArtifactManagerSession mgrSession = project
 								.getArtifactManagerSession();

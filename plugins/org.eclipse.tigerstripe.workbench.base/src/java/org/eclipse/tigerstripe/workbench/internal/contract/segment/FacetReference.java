@@ -13,6 +13,14 @@ package org.eclipse.tigerstripe.workbench.internal.contract.segment;
 import java.io.File;
 import java.net.URI;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
@@ -126,8 +134,9 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 			File target = new File(getURI());
 			if (target.exists() && target.canRead()) {
 				if (target.lastModified() != resolvedTStamp) {
-					resolvedSegment = InternalTigerstripeCore.getIContractSession()
-							.makeIContractSegment(getURI());
+					resolvedSegment = InternalTigerstripeCore
+							.getIContractSession().makeIContractSegment(
+									getURI());
 					resolvedTStamp = target.lastModified();
 				}
 				return resolvedSegment;
@@ -182,14 +191,15 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 		try {
 			IAbstractTigerstripeProject aProject = null;
 			if (project == null && projectLabel != null) {
-				IProjectLocator locator = (IProjectLocator) InternalTigerstripeCore
-						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
-				URI uri = locator.locate(contextProject, projectLabel);
-				aProject = InternalTigerstripeCore.getDefaultProjectSession()
-						.makeTigerstripeProject(uri);
+				IWorkspace workspace = ResourcesPlugin.getWorkspace();
+				IResource res = workspace.getRoot().findMember(projectLabel);
+				TigerstripeCore.findProject(res.getFullPath());
 			} else {
-				aProject = InternalTigerstripeCore.getDefaultProjectSession()
-						.makeTigerstripeProject(project.getBaseDir().toURI());
+				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+				File file = project.getBaseDir();
+				IPath path = new Path(file.getAbsolutePath());
+				IContainer container = root.getContainerForLocation(path);
+				aProject = TigerstripeCore.findProject(container.getFullPath());
 			}
 			if (aProject instanceof ITigerstripeProject)
 				return (ITigerstripeProject) aProject;

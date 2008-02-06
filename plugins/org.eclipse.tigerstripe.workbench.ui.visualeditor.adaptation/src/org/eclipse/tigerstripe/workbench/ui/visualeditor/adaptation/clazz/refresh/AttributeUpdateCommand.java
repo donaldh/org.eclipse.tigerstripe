@@ -15,10 +15,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.ETAdapter;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -155,10 +155,8 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 							TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 									.getArtifactManager().getTSProject();
 
-							ITigerstripeProject tsProject = (ITigerstripeProject) InternalTigerstripeCore
-									.getDefaultProjectSession()
-									.makeTigerstripeProject(
-											project.getBaseDir().toURI(), null);
+							ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
+									.findProject(project.getBaseDir().toURI());
 							if (tsProject != null && !isInitialRefresh()) {
 								// FIXME: EXTRA ETADAPTER
 								// FIXME: module project
@@ -226,16 +224,19 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 						} else {
 							// same number of stereotypes let's see if they all
 							// match
-							List<String> eStereotypes = eAttribute.getStereotypes();
+							List<String> eStereotypes = eAttribute
+									.getStereotypes();
 							Iterator<String> eStereo = eStereotypes.iterator();
-							Collection<IStereotypeInstance> iStereotypes = field.getStereotypeInstances();
+							Collection<IStereotypeInstance> iStereotypes = field
+									.getStereotypeInstances();
 							for (IStereotypeInstance iStereo : iStereotypes) {
 								String eStereotypeName = eStereo.next();
 								String iStereotypeName = iStereo.getName();
-								
+
 								if (!eStereotypeName.equals(iStereotypeName)) {
 									eAttribute.getStereotypes().remove(eStereo);
-									eAttribute.getStereotypes().add(iStereotypeName);
+									eAttribute.getStereotypes().add(
+											iStereotypeName);
 								}
 							}
 						}
@@ -314,11 +315,9 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 								TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 										.getArtifactManager().getTSProject();
 
-								ITigerstripeProject tsProject = (ITigerstripeProject) InternalTigerstripeCore
-										.getDefaultProjectSession()
-										.makeTigerstripeProject(
-												project.getBaseDir().toURI(),
-												null);
+								ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
+										.findProject(project.getBaseDir()
+												.toURI());
 								if (tsProject != null && !isInitialRefresh()) {
 									// note: it will be null for a module
 									// FIXME: EXTRA ETADAPTER

@@ -12,15 +12,16 @@ package org.eclipse.tigerstripe.workbench.internal.api.examples;
 
 import java.io.File;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEntitySpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -39,21 +40,18 @@ public class CreateArtifact {
 
 	public void body() {
 		try {
-			IProjectSession session = InternalTigerstripeCore.getDefaultProjectSession();
+			IProjectDetails details = TigerstripeCore.makeProjectDetails();
+			details.setName("MyTSProject");
+			ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
+					.createProject(details, null, ITigerstripeProject.class,
+							null, new NullProgressMonitor());
 
-			File projectDir = new File(
-					"C:/JWorkspace/runtime-EclipseApplication/MyTSProject");
-
-			// The current implementation CANNOT create the project
-			// will be needed. If there is no valid tigerstripe.xml
-			// descriptor, a TigerstripeException is raised.
-			ITigerstripeProject project = (ITigerstripeProject) session
-					.makeTigerstripeProject(projectDir.toURI(), null);
 			IArtifactManagerSession artifactMgrSession = project
 					.getArtifactManagerSession();
 
 			// the list of artifacts
-			//String[] artifactTypes = artifactMgrSession.getSupportedArtifacts();
+			// String[] artifactTypes =
+			// artifactMgrSession.getSupportedArtifacts();
 
 			IManagedEntityArtifact artifact = (IManagedEntityArtifact) artifactMgrSession
 					.makeArtifact(IManagedEntityArtifact.class.getName());
@@ -81,7 +79,6 @@ public class CreateArtifact {
 			// THen it is possible to set specifics
 			entitySpecs.setPrimaryKey("String");
 
-
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
@@ -89,5 +86,4 @@ public class CreateArtifact {
 			// TigerstripeRuntime.logErrorMessage("IOException detected", e);
 		}
 	}
-
 }

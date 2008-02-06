@@ -36,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;

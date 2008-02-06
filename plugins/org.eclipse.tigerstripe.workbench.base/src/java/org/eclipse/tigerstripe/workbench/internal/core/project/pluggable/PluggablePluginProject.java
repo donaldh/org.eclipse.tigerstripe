@@ -25,7 +25,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.tools.ant.util.ReaderInputStream;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IArtifactBasedTemplateRunRule;
@@ -639,9 +638,8 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 	public IPluggablePluginProject getHandle() {
 		try {
-			return (IPluggablePluginProject) InternalTigerstripeCore
-					.getDefaultProjectSession().makeTigerstripeProject(
-							getBaseDir().toURI(), null);
+			return (IPluggablePluginProject) TigerstripeCore
+					.findProject(getBaseDir().toURI());
 		} catch (Exception e) {
 			return null; // should never happen
 		}

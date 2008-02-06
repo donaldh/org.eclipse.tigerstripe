@@ -48,6 +48,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ArtifactRepository;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 import org.eclipse.tigerstripe.workbench.internal.core.util.PredicatedList;
 import org.eclipse.tigerstripe.workbench.internal.core.util.PredicatedMap;
@@ -179,9 +180,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 					.getReservedPrimitiveTypes();
 			reservedPrimitiveTypeArtifacts = new ArrayList<IPrimitiveTypeArtifact>();
 			try {
-				IArtifactManagerSession phantomSession = InternalTigerstripeCore
-						.getDefaultProjectSession().getPhantomProject()
-						.getArtifactManagerSession();
+				IArtifactManagerSession phantomSession = TigerstripeProjectFactory.INSTANCE
+						.getPhantomProject().getArtifactManagerSession();
 				ArtifactManager mgr = ((ArtifactManagerSessionImpl) phantomSession)
 						.getArtifactManager();
 
@@ -255,8 +255,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			// type of the tsProject that is passed
 			if (!(getTSProject() instanceof PhantomTigerstripeProject)) {
 				try {
-					IPhantomTigerstripeProject phantomProject = InternalTigerstripeCore
-							.getDefaultProjectSession().getPhantomProject();
+					IPhantomTigerstripeProject phantomProject = TigerstripeProjectFactory.INSTANCE
+							.getPhantomProject();
 					phantomArtifactMgrSession = phantomProject
 							.getArtifactManagerSession();
 

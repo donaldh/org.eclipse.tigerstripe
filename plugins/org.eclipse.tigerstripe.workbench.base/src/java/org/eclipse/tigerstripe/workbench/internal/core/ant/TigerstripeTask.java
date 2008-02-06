@@ -17,7 +17,6 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectVisitor;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -74,9 +73,8 @@ public class TigerstripeTask extends Task {
 		} else {
 
 			try {
-				ITigerstripeProject project = (ITigerstripeProject) InternalTigerstripeCore
-						.getDefaultProjectSession().makeTigerstripeProject(
-								baseDir.toURI(), null);
+				ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
+						.findProject(baseDir.toURI());
 				log.info("  Generating project: "
 						+ (new File(project.getURI())).getAbsolutePath());
 				TigerstripeRuntime.logInfoMessage("Generating Project : "

@@ -30,11 +30,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ExternalModules;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.perspective.TigerstripePerspectiveFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.actions.TSOpenAction;
@@ -189,8 +189,8 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 				display.asyncExec(new Runnable() {
 					public void run() {
 						try {
-							IProjectSession session = InternalTigerstripeCore
-									.getDefaultProjectSession();
+							ProjectSessionImpl session = TigerstripeProjectFactory.INSTANCE
+									.getProjectSession();
 							String desc = projectDetails.projectDirectory
 									+ File.separator
 									+ projectDetails.projectName;
