@@ -10,13 +10,15 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test;
 
-import org.eclipse.tigerstripe.workbench.base.test.model.TestArtifacts;
-import org.eclipse.tigerstripe.workbench.base.test.model.TestFields;
-import org.eclipse.tigerstripe.workbench.base.test.model.TestModelManager;
-import org.eclipse.tigerstripe.workbench.base.test.project.TestProjectManagement;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.eclipse.tigerstripe.workbench.base.test.model.TestArtifacts;
+import org.eclipse.tigerstripe.workbench.base.test.model.TestFields;
+import org.eclipse.tigerstripe.workbench.base.test.model.TestLiterals;
+import org.eclipse.tigerstripe.workbench.base.test.model.TestMethods;
+import org.eclipse.tigerstripe.workbench.base.test.model.TestModelManager;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestProjectManagement;
 
 public class AllTests {
 
@@ -30,9 +32,11 @@ public class AllTests {
 		suite.addTestSuite(TestProjectManagement.class);
 
 		// Model operations
-		suite.addTestSuite(TestModelManager.class);
+	//	suite.addTestSuite(TestModelManager.class); // None of these are implemented yet!
 		suite.addTestSuite(TestArtifacts.class);
 		suite.addTestSuite(TestFields.class);
+		suite.addTestSuite(TestLiterals.class);
+		suite.addTestSuite(TestMethods.class);
 
 		// $JUnit-END$
 		return suite;

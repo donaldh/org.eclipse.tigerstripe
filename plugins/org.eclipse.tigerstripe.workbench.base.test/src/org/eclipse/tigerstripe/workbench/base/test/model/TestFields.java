@@ -27,8 +27,9 @@ public class TestFields extends junit.framework.TestCase {
 		return aProject;
 	}
 
-	public final void testArtifactFields() throws TigerstripeException {
-		IAbstractTigerstripeProject aProject = createModelProject("testArtifactFields");
+	
+	public final void testFields() throws TigerstripeException {
+		IAbstractTigerstripeProject aProject = createModelProject("testFields");
 		assertTrue(aProject instanceof ITigerstripeProject);
 		ITigerstripeProject project = (ITigerstripeProject) aProject;
 		ArtifactTestHelper artHelper = new ArtifactTestHelper(project);
