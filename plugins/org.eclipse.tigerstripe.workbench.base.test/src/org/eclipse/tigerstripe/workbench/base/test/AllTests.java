@@ -13,11 +13,11 @@ package org.eclipse.tigerstripe.workbench.base.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.tigerstripe.workbench.base.test.generation.TestProjectGenerationBasics;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestArtifacts;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestFields;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestLiterals;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestMethods;
-import org.eclipse.tigerstripe.workbench.base.test.model.TestModelManager;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestModelProjectLifecycle;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestProjectManagement;
 
@@ -32,6 +32,9 @@ public class AllTests {
 		// Basic project operations
 		suite.addTestSuite(TestProjectManagement.class);
 		suite.addTestSuite(TestModelProjectLifecycle.class);
+
+		// Generation Tests
+		suite.addTestSuite(TestProjectGenerationBasics.class);
 
 		// Model operations
 		// suite.addTestSuite(TestModelManager.class); // None of these are

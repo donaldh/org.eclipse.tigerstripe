@@ -27,12 +27,12 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
+import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunStatus;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeLogProgressMonitor;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -210,7 +210,7 @@ public class App {
 				} else {
 					log.info("  Generating project: "
 							+ project.getLocation().toOSString());
-					RunConfig config = project.makeDefaultRunConfig();
+					IRunConfig config = project.makeDefaultRunConfig();
 					PluginRunStatus[] status = project.generate(config, null);
 					if (status.length == 0)
 						log.info("  Successfully completed.");

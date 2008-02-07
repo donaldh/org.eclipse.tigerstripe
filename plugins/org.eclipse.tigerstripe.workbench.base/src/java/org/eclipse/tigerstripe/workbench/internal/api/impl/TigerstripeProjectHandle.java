@@ -21,6 +21,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
+import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
+import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
@@ -33,7 +35,6 @@ import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReferenc
 import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.ProjectGenerator;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -546,9 +547,9 @@ public abstract class TigerstripeProjectHandle extends
 	}
 
 	@Override
-	public PluginRunStatus[] generate(RunConfig config, IProgressMonitor monitor)
+	public PluginRunStatus[] generate(IRunConfig config, IProgressMonitor monitor)
 			throws TigerstripeException {
-		ProjectGenerator generator = new ProjectGenerator(this, config);
+		ProjectGenerator generator = new ProjectGenerator(this, (RunConfig) config);
 		return generator.run();
 	}
 

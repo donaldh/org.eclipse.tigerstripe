@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;

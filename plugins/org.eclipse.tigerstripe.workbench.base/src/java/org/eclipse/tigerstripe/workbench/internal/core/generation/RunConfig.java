@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.generation;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -23,7 +24,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  * @author Eric Dillon
  * 
  */
-public class RunConfig {
+public class RunConfig implements IRunConfig {
 
 	private IProgressMonitor monitor;
 
@@ -54,26 +55,56 @@ public class RunConfig {
 	public RunConfig() {
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#useUseCaseXSL()
+	 */
 	public boolean useUseCaseXSL() {
 		return this.useUseCaseXSL;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setUseUseCaseXSL(boolean)
+	 */
 	public void setUseUseCaseXSL(boolean useUseCaseXSL) {
 		this.useUseCaseXSL = useUseCaseXSL;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#getUseCaseXSL()
+	 */
 	public String getUseCaseXSL() {
 		return this.useCaseXsl;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setUseCaseXSL(java.lang.String)
+	 */
 	public void setUseCaseXSL(String useCaseXsl) {
 		this.useCaseXsl = useCaseXsl;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#getProcessedUseCaseExtension()
+	 */
 	public String getProcessedUseCaseExtension() {
 		return this.processUseCaseExtension;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setProcessedUseCaseExtension(java.lang.String)
+	 */
 	public void setProcessedUseCaseExtension(String processUseCaseExtension) {
 		this.processUseCaseExtension = processUseCaseExtension;
 	}
@@ -121,58 +152,128 @@ public class RunConfig {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setAbsoluteOutputDir(java.lang.String)
+	 */
 	public void setAbsoluteOutputDir(String absoluteOutputDir) {
 		this.absoluteOutputDir = absoluteOutputDir;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#getAbsoluteOutputDir()
+	 */
 	public String getAbsoluteOutputDir() {
 		return this.absoluteOutputDir;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setMergeFacets(boolean)
+	 */
 	public void setMergeFacets(boolean mergeFacets) {
 		this.mergeFacets = mergeFacets;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isMergeFacets()
+	 */
 	public boolean isMergeFacets() {
 		return this.mergeFacets;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setIgnoreFacets(boolean)
+	 */
 	public void setIgnoreFacets(boolean isIgnoreFacet) {
 		this.ignoreFacets = isIgnoreFacet;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isProcessUseCases()
+	 */
 	public boolean isProcessUseCases() {
 		return this.processUseCases;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setProcessUseCases(boolean)
+	 */
 	public void setProcessUseCases(boolean processUseCases) {
 		this.processUseCases = processUseCases;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setGenerateModules(boolean)
+	 */
 	public void setGenerateModules(boolean generateModules) {
 		this.generateModules = generateModules;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isUseCurrentFacet()
+	 */
 	public boolean isUseCurrentFacet() {
 		return useCurrentFacet;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setUseCurrentFacet(boolean)
+	 */
 	public void setUseCurrentFacet(boolean useCurrentFacet) {
 		this.useCurrentFacet = useCurrentFacet;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isGenerateModules()
+	 */
 	public boolean isGenerateModules() {
 		return generateModules;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isIgnoreFacets()
+	 */
 	public boolean isIgnoreFacets() {
 		return ignoreFacets;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isGenerateRefProjects()
+	 */
 	public boolean isGenerateRefProjects() {
 		return generateReferencedProjects;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setGenerateRefProjects(boolean)
+	 */
 	public void setGenerateRefProjects(boolean generateRefProjects) {
 		this.generateReferencedProjects = generateRefProjects;
 	}

@@ -47,6 +47,7 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.dom4j.xpath,
  org.dom4j.xpp,
  org.eclipse.tigerstripe.workbench,
+ org.eclipse.tigerstripe.workbench.generation,
  org.eclipse.tigerstripe.workbench.internal,
  org.eclipse.tigerstripe.workbench.internal.api;
   uses:="org.eclipse.tigerstripe.core.generation,

@@ -15,11 +15,11 @@ import java.net.URI;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
+import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunStatus;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
 
 /**
@@ -40,9 +40,9 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	public IArtifactManagerSession getArtifactManagerSession()
 			throws TigerstripeException;
 
-	public RunConfig makeDefaultRunConfig();
+	public IRunConfig makeDefaultRunConfig();
 
-	public PluginRunStatus[] generate(RunConfig config, IProgressMonitor monitor)
+	public PluginRunStatus[] generate(IRunConfig config, IProgressMonitor monitor)
 			throws TigerstripeException;
 
 	// public void generate(ITigerstripeVisitor visitor)

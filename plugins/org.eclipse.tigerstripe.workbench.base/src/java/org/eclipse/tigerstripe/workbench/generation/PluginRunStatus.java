@@ -8,7 +8,7 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.core.generation;
+package org.eclipse.tigerstripe.workbench.generation;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -20,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
