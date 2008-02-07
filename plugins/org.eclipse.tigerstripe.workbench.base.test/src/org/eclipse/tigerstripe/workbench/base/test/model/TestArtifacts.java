@@ -8,7 +8,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
@@ -99,7 +98,7 @@ public class TestArtifacts extends TestCase {
 				+ ")", allArtifacts.size() == startingArtifacts + 4);
 
 		subTop.setExtendedArtifact(top);
-		subTop.doSave(new TigerstripeNullProgressMonitor());
+		subTop.doSave(new NullProgressMonitor());
 		assertTrue("has Extends not set ", subTop.hasExtends());
 		assertTrue("Extended Artifact not correctly set", subTop
 				.getExtendedArtifact().getFullyQualifiedName().equals(
@@ -114,10 +113,10 @@ public class TestArtifacts extends TestCase {
 						subTop.getFullyQualifiedName()));
 
 		other1.setExtendedArtifact(top);
-		other1.doSave(new TigerstripeNullProgressMonitor());
+		other1.doSave(new NullProgressMonitor());
 
 		other2.setExtendedArtifact(subTop);
-		other2.doSave(new TigerstripeNullProgressMonitor());
+		other2.doSave(new NullProgressMonitor());
 
 		Collection<IAbstractArtifact> extendingSubTop = subTop
 				.getExtendingArtifacts();
@@ -141,7 +140,7 @@ public class TestArtifacts extends TestCase {
 		assertTrue("Ancestors is missing an artifact", ancestors.contains(top));
 
 		other1.setExtendedArtifact(null);
-		other1.doSave(new TigerstripeNullProgressMonitor());
+		other1.doSave(new NullProgressMonitor());
 		assertTrue("hasExtends incorrectly set ", !other1.hasExtends());
 		assertTrue("Extended Artifact still set after set to null", subTop
 				.getExtendedArtifact() != null);
@@ -181,7 +180,7 @@ public class TestArtifacts extends TestCase {
 		String fieldName = "field1";
 		field1.setName(fieldName);
 		top.addField(field1);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		Collection<IField> fields = top.getFields();
 		assertTrue("Field collection size is incorrect", fields.size() == 1);
@@ -193,7 +192,7 @@ public class TestArtifacts extends TestCase {
 				.createArtifact(IManagedEntityArtifact.class.getName(),
 						"subTop", "com.test");
 		subTop.setExtendedArtifact(top);
-		subTop.doSave(new TigerstripeNullProgressMonitor());
+		subTop.doSave(new NullProgressMonitor());
 
 		Collection<IField> inheritedFields = subTop.getInheritedFields();
 		assertTrue("Inherited Field collection size is incorrect",
@@ -203,7 +202,7 @@ public class TestArtifacts extends TestCase {
 
 		top.removeFields(fields);
 
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		Collection<IField> newFields = top.getFields();
 		assertTrue(
@@ -233,7 +232,7 @@ public class TestArtifacts extends TestCase {
 		String literalName = "literal1";
 		literal1.setName(literalName);
 		top.addLiteral(literal1);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		Collection<ILiteral> literals = top.getLiterals();
 		assertTrue("Literal collection size is incorrect", literals.size() == 1);
@@ -245,7 +244,7 @@ public class TestArtifacts extends TestCase {
 				.createArtifact(IManagedEntityArtifact.class.getName(),
 						"subTop", "com.test");
 		subTop.setExtendedArtifact(top);
-		subTop.doSave(new TigerstripeNullProgressMonitor());
+		subTop.doSave(new NullProgressMonitor());
 
 		Collection<ILiteral> inheritedLiterals = subTop.getInheritedLiterals();
 		assertTrue("Inherited Literal collection size is incorrect",
@@ -257,7 +256,7 @@ public class TestArtifacts extends TestCase {
 
 		top.removeLiterals(literals);
 
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		Collection<ILiteral> newLiterals = top.getLiterals();
 		assertTrue(
@@ -290,7 +289,7 @@ public class TestArtifacts extends TestCase {
 		type.setFullyQualifiedName("void");
 		method1.setReturnType(type);
 		top.addMethod(method1);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		Collection<IMethod> methods = top.getMethods();
 		assertTrue("Method collection size is incorrect", methods.size() == 1);
@@ -302,7 +301,7 @@ public class TestArtifacts extends TestCase {
 				.createArtifact(IManagedEntityArtifact.class.getName(),
 						"subTop", "com.test");
 		subTop.setExtendedArtifact(top);
-		subTop.doSave(new TigerstripeNullProgressMonitor());
+		subTop.doSave(new NullProgressMonitor());
 
 		Collection<IMethod> inheritedMethods = subTop.getInheritedMethods();
 		assertTrue("Inherited Method collection size is incorrect",
@@ -313,7 +312,7 @@ public class TestArtifacts extends TestCase {
 
 		top.removeMethods(methods);
 
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		Collection<IMethod> newMethods = top.getMethods();
 		assertTrue(
@@ -357,7 +356,7 @@ public class TestArtifacts extends TestCase {
 		nonReference.setType(simpleType);
 		left.addField(nonReference);
 		
-		left.doSave(new TigerstripeNullProgressMonitor());
+		left.doSave(new NullProgressMonitor());
 		
 		Collection<IAbstractArtifact> referencedArtifacts  = left.getReferencedArtifacts();
 		assertTrue("Referenced Artifact collection size is incorrect ("
@@ -372,7 +371,7 @@ public class TestArtifacts extends TestCase {
 		
 		// Now remove the reference again
 		left.removeFields(left.getFields());
-		left.doSave(new TigerstripeNullProgressMonitor());
+		left.doSave(new NullProgressMonitor());
 		
 		referencedArtifacts  = left.getReferencedArtifacts();
 		assertTrue("Referenced Artifact collection size is incorrect ("

@@ -22,9 +22,9 @@ import java.io.File;
 
 import junit.framework.Assert;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -67,7 +67,7 @@ public class ArtifactTestHelper {
 		artifact.setName(name);
 		artifact.setPackage(packageName);
 
-		artifact.doSave(new TigerstripeNullProgressMonitor());
+		artifact.doSave(new NullProgressMonitor());
 
 		String artifactPath = artifact.getArtifactPath();
 		File artFile = new File(project.getLocation().toFile()

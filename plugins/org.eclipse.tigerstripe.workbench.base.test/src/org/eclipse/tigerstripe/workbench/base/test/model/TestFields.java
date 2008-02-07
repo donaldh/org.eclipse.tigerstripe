@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
@@ -42,7 +41,7 @@ public class TestFields extends junit.framework.TestCase {
 		String fieldName = "field1";
 		field1.setName(fieldName);
 		top.addField(field1);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		Collection<IField> fields = top.getFields();
 		assertTrue("Field collection  does not include correct field", fields
@@ -67,7 +66,7 @@ public class TestFields extends junit.framework.TestCase {
 		field1.setRefBy(refBy);
 		field1.setVisibility(vis);
 
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		// //////////
 		// Make sure we got the right values
@@ -113,7 +112,7 @@ public class TestFields extends junit.framework.TestCase {
 		field1.setRefBy(refBy);
 		field1.setVisibility(vis);
 
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		// //////////
 		// Make sure we got the right values

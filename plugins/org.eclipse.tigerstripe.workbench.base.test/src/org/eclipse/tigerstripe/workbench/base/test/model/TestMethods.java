@@ -6,7 +6,6 @@ import java.util.Iterator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
@@ -45,7 +44,7 @@ public class TestMethods extends junit.framework.TestCase {
 		String methodName = "method1";
 		method1.setName(methodName);
 		top.addMethod(method1);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		Collection<IMethod> methods = top.getMethods();
 		assertTrue("Method collection  does not include correct method", methods
@@ -71,7 +70,7 @@ public class TestMethods extends junit.framework.TestCase {
 		method1.setMethodReturnName(methodReturnName);
 		method1.setVoid(false);
 
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		// //////////
 		// Make sure we got the right values
@@ -116,7 +115,7 @@ public class TestMethods extends junit.framework.TestCase {
 		method1.setMethodReturnName(methodReturnName);
 
 
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		// //////////
 		// Make sure we got the right values
@@ -143,7 +142,7 @@ public class TestMethods extends junit.framework.TestCase {
 		/////////// 
 		// test for a void method setting
 		method1.setVoid(true);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 		IMethod gotVoidMethod = top.getMethods().iterator().next();
 		assertTrue("Method void changed on save", gotVoidMethod.isVoid());
 		assertTrue("void Method type not void", gotNewMethod.getReturnType().getName()
@@ -167,7 +166,7 @@ public class TestMethods extends junit.framework.TestCase {
 		arg0.setType(type);
 		
 		method1.addArgument(arg0);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 		
 		// //////////
 		// Make sure we got the right list size
@@ -196,7 +195,7 @@ public class TestMethods extends junit.framework.TestCase {
 		arg0.setComment(descriptions[2]);
 		arg0.setRefBy(refBys[2]);
 		arg0.setType(newType);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 		
 		gotNewMethod = top.getMethods().iterator().next();
 		assertTrue("Wrong number of Arguments ("+gotNewMethod.getArguments().size()+")",gotNewMethod.getArguments().size() == 1);
@@ -226,7 +225,7 @@ public class TestMethods extends junit.framework.TestCase {
 		arg1.setType(newType);
 		
 		method1.addArgument(arg1);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 		
 		// //////////
 		// Make sure we got the right list size
@@ -247,7 +246,7 @@ public class TestMethods extends junit.framework.TestCase {
 		IException exception0 = method1.makeException();
 		exception0.setFullyQualifiedName(fqns[0]);
 		method1.addException(exception0);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 		
 		// //////////
 		// Make sure we got the right list size
@@ -261,7 +260,7 @@ public class TestMethods extends junit.framework.TestCase {
 		
 		// Change the values
 		exception0.setFullyQualifiedName(fqns[2]);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 		// Make sure we got the right list size
 		gotNewMethod = top.getMethods().iterator().next();
 		assertTrue("Wrong number of Exceptions ("+gotNewMethod.getExceptions().size()+")",gotNewMethod.getExceptions().size() == 1);
@@ -275,7 +274,7 @@ public class TestMethods extends junit.framework.TestCase {
 		IException exception1 = method1.makeException();
 		exception1.setFullyQualifiedName(fqns[1]);
 		method1.addException(exception1);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 		
 		// //////////
 		// Make sure we got the right list size

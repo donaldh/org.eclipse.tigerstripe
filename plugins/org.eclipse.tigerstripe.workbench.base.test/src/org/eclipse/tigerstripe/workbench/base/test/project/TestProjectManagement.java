@@ -42,8 +42,6 @@ public class TestProjectManagement extends TestCase {
 				new NullProgressMonitor());
 		assertNotNull(project);
 
-		project.validate(null);
-
 		IResource proj = workspace.getRoot().findMember(
 				"testCreateModelProject");
 		assertNotNull(project);
@@ -67,8 +65,6 @@ public class TestProjectManagement extends TestCase {
 				projectDetails, null, ITigerstripeProject.class, null,
 				new NullProgressMonitor());
 		assertNotNull(project);
-
-		project.validate(null);
 
 		IResource proj = workspace.getRoot().findMember(
 				"testRemoveModelProject");

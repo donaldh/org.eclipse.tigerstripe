@@ -5,8 +5,6 @@ import java.util.Collection;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
-import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EMultiplicity;
@@ -43,7 +41,7 @@ public class TestLiterals extends junit.framework.TestCase {
 		String literalName = "literal1";
 		literal1.setName(literalName);
 		top.addLiteral(literal1);
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		Collection<ILiteral> literals = top.getLiterals();
 		assertTrue("Literal collection  does not include correct literal", literals
@@ -62,7 +60,7 @@ public class TestLiterals extends junit.framework.TestCase {
 		literal1.setVisibility(vis);
 		literal1.setValue(value);
 
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		// //////////
 		// Make sure we got the right values
@@ -95,7 +93,7 @@ public class TestLiterals extends junit.framework.TestCase {
 		literal1.setVisibility(vis);
 		literal1.setValue(value);
 
-		top.doSave(new TigerstripeNullProgressMonitor());
+		top.doSave(new NullProgressMonitor());
 
 		// //////////
 		// Make sure we got the right values
