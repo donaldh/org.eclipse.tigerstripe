@@ -372,8 +372,7 @@ public class DescriptorDependenciesSection extends
 
 						IDependency dep = handle.makeDependency(res
 								.getProjectRelativePath().toOSString());
-						handle.addDependency(dep, false,
-								new NullProgressMonitor());
+						handle.addDependency(dep, new NullProgressMonitor());
 						viewer.add(dep);
 						markPageModified();
 					} catch (TigerstripeException e) {
@@ -465,7 +464,7 @@ public class DescriptorDependenciesSection extends
 			viewer.remove(selectedFields);
 			ITigerstripeProject handle = getTSProject();
 			try {
-				handle.removeDependencies(selectedFields, false,
+				handle.removeDependencies(selectedFields,
 						new NullProgressMonitor());
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);

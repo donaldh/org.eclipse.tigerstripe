@@ -8,10 +8,8 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.project;
+package org.eclipse.tigerstripe.workbench.project;
 
-import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 public interface IProjectChangeListener {
 

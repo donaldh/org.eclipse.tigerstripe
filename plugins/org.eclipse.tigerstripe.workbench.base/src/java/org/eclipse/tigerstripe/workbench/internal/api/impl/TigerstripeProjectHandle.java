@@ -29,7 +29,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseR
 import org.eclipse.tigerstripe.workbench.internal.api.model.ModelManager;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpoint;
 import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseReference;
@@ -45,14 +44,15 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
+import org.eclipse.tigerstripe.workbench.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 public abstract class TigerstripeProjectHandle extends
 		AbstractTigerstripeProjectHandle implements ITigerstripeProject {
 
-	// Fields under control of WorkingCopyDelegate
-	private final static int PROJECT_DETAILS = 0;
+	// Fields managed by WorkingCopyManager
+	private final static String DEPENDENCIES_F = "dependencies";
 
 	private INameProvider nameProvider;
 
@@ -75,6 +75,12 @@ public abstract class TigerstripeProjectHandle extends
 
 	public TigerstripeProjectHandle(URI projectContainerURI) {
 		super(projectContainerURI);
+	}
+
+	@Override
+	protected void addManagedFields() {
+		super.addManagedFields();
+		managedFields.add(DEPENDENCIES_F);
 	}
 
 	@Override
@@ -191,7 +197,7 @@ public abstract class TigerstripeProjectHandle extends
 	public IPluginConfig[] getPluginConfigs() throws TigerstripeException {
 
 		TigerstripeProject project = getTSProject();
-		Collection ref = project.getPluginConfigs();
+		Collection<IPluginConfig> ref = project.getPluginConfigs();
 
 		IPluginConfig[] result = new IPluginConfig[ref.size()];
 		result = (IPluginConfig[]) ref.toArray(new IPluginConfig[ref.size()]);
@@ -206,14 +212,14 @@ public abstract class TigerstripeProjectHandle extends
 
 	public void addPluginConfig(IPluginConfig ref) throws TigerstripeException {
 		TigerstripeProject project = getTSProject();
-		Collection refs = project.getPluginConfigs();
+		Collection<IPluginConfig> refs = project.getPluginConfigs();
 		refs.add(ref);
 	}
 
 	public void removePluginConfig(IPluginConfig ref)
 			throws TigerstripeException {
 		TigerstripeProject project = getTSProject();
-		Collection refs = project.getPluginConfigs();
+		Collection<IPluginConfig> refs = project.getPluginConfigs();
 		refs.remove(ref);
 	}
 
@@ -234,29 +240,6 @@ public abstract class TigerstripeProjectHandle extends
 		getTSProject().validate(visitor);
 	}
 
-	public void generate(ITigerstripeVisitor visitor)
-			throws TigerstripeException {
-
-		ProjectGenerator generator = new ProjectGenerator(this);
-		PluginRunStatus[] result = generator.run();
-
-	}
-
-	public void publish(ITigerstripeVisitor visitor)
-			throws TigerstripeException {
-		log.info("Loading artifacts");
-		getTSProject().reload(true);
-
-		log.info("Publishing...");
-		IPluginConfig[] refs = getPluginConfigs();
-		for (int i = 0; i < refs.length; i++) {
-			log.info(" ..." + refs[i].getGroupId() + "/"
-					+ refs[i].getPluginId() + "(" + refs[i].getVersion() + ")");
-			if (refs[i].getCategory() == IPluginConfig.PUBLISH_CATEGORY)
-				refs[i].trigger();
-		}
-	}
-
 	public IDependency makeDependency(String relativePath)
 			throws TigerstripeException {
 		return new Dependency(getTSProject(), relativePath);
@@ -264,75 +247,41 @@ public abstract class TigerstripeProjectHandle extends
 
 	public IDependency[] getDependencies() throws TigerstripeException {
 		TigerstripeProject project = getTSProject();
-		Collection deps = project.getDependencies();
+		Collection<IDependency> deps = project.getDependencies();
 
 		IDependency[] result = new IDependency[deps.size()];
 		return (IDependency[]) deps.toArray(result);
 	}
 
 	public void addDependency(IDependency dependency, IProgressMonitor monitor)
-			throws TigerstripeException {
-		addDependency(dependency, true, monitor);
-	}
-
-	public void addDependency(IDependency dependency, boolean updateCache,
-			IProgressMonitor monitor) throws TigerstripeException {
+			throws WorkingCopyException, TigerstripeException {
+		assertSet(DEPENDENCIES_F);
 		TigerstripeProject project = getTSProject();
 		project.addDependency(dependency);
-
-		if (updateCache)
-			((ArtifactManagerSessionImpl) getArtifactManagerSession())
-					.getArtifactManager().updateDependenciesContentCache(
-							monitor);
 	}
 
 	public void addDependencies(IDependency[] dependencies,
-			IProgressMonitor monitor) throws TigerstripeException {
-		addDependencies(dependencies, true, monitor);
-	}
-
-	public void addDependencies(IDependency[] dependencies,
-			boolean updateCache, IProgressMonitor monitor)
-			throws TigerstripeException {
+			IProgressMonitor monitor) throws WorkingCopyException,
+			TigerstripeException {
+		assertSet(DEPENDENCIES_F);
 		TigerstripeProject project = getTSProject();
 		project.addDependencies(dependencies);
-		if (updateCache)
-			((ArtifactManagerSessionImpl) getArtifactManagerSession())
-					.getArtifactManager().updateDependenciesContentCache(
-							monitor);
 	}
 
 	public void removeDependency(IDependency dependency,
-			IProgressMonitor monitor) throws TigerstripeException {
-		removeDependency(dependency, true, monitor);
-	}
-
-	public void removeDependency(IDependency dependency, boolean updateCache,
-			IProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws WorkingCopyException,
+			TigerstripeException {
+		assertSet(DEPENDENCIES_F);
 		TigerstripeProject project = getTSProject();
 		project.removeDependency(dependency);
-
-		if (updateCache)
-			((ArtifactManagerSessionImpl) getArtifactManagerSession())
-					.getArtifactManager().updateDependenciesContentCache(
-							monitor);
 	}
 
 	public void removeDependencies(IDependency[] dependencies,
-			IProgressMonitor monitor) throws TigerstripeException {
-		removeDependencies(dependencies, true, monitor);
-	}
-
-	public void removeDependencies(IDependency[] dependencies,
-			boolean updateCache, IProgressMonitor monitor)
-			throws TigerstripeException {
+			IProgressMonitor monitor) throws WorkingCopyException,
+			TigerstripeException {
+		assertSet(DEPENDENCIES_F);
 		TigerstripeProject project = getTSProject();
 		project.removeDependencies(dependencies);
-
-		if (updateCache)
-			((ArtifactManagerSessionImpl) getArtifactManagerSession())
-					.getArtifactManager().updateDependenciesContentCache(
-							monitor);
 	}
 
 	public void addProjectChangeListener(IProjectChangeListener listener) {
@@ -544,12 +493,23 @@ public abstract class TigerstripeProjectHandle extends
 	@Override
 	public void doCommit(IProgressMonitor monitor) throws TigerstripeException {
 		doSave();
+
+		TigerstripeProjectHandle original = (TigerstripeProjectHandle) getOriginal();
+		original.getTSProject().reload(true); // this will force a reload.
+
+		// Rebuild the cache if dependencies were added
+		if (fieldIsDirty(DEPENDENCIES_F)) {
+			((ArtifactManagerSessionImpl) original.getArtifactManagerSession())
+					.getArtifactManager().updateDependenciesContentCache(
+							monitor);
+		}
 	}
 
 	@Override
-	public PluginRunStatus[] generate(IRunConfig config, IProgressMonitor monitor)
-			throws TigerstripeException {
-		ProjectGenerator generator = new ProjectGenerator(this, (RunConfig) config);
+	public PluginRunStatus[] generate(IRunConfig config,
+			IProgressMonitor monitor) throws TigerstripeException {
+		ProjectGenerator generator = new ProjectGenerator(this,
+				(RunConfig) config);
 		return generator.run();
 	}
 

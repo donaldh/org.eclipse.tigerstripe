@@ -15,11 +15,11 @@ import java.net.URI;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
 
 /**
@@ -42,63 +42,62 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 
 	public IRunConfig makeDefaultRunConfig();
 
-	public PluginRunStatus[] generate(IRunConfig config, IProgressMonitor monitor)
-			throws TigerstripeException;
+	public PluginRunStatus[] generate(IRunConfig config,
+			IProgressMonitor monitor) throws TigerstripeException;
 
 	// public void generate(ITigerstripeVisitor visitor)
 	// throws TigerstripeException;
 
 	public IDependency[] getDependencies() throws TigerstripeException;
 
-	public void removeDependency(IDependency dependency, boolean updateCache,
-			IProgressMonitor monitor) throws TigerstripeException;
-
-	public void removeDependencies(IDependency[] dependencies,
-			boolean updateCache, IProgressMonitor monitor)
-			throws TigerstripeException;
-
-	public void addDependency(IDependency dependency, boolean updateCache,
-			IProgressMonitor monitor) throws TigerstripeException;
-
-	public void addDependencies(IDependency[] dependencies,
-			boolean updateCache, IProgressMonitor monitor)
-			throws TigerstripeException;
-
+	// public void removeDependency(IDependency dependency, boolean updateCache,
+	// IProgressMonitor monitor) throws TigerstripeException;
+	//
+	// public void removeDependencies(IDependency[] dependencies,
+	// boolean updateCache, IProgressMonitor monitor)
+	// throws TigerstripeException;
+	//
+	// public void addDependency(IDependency dependency, boolean updateCache,
+	// IProgressMonitor monitor) throws TigerstripeException;
+	//
+	// public void addDependencies(IDependency[] dependencies,
+	// boolean updateCache, IProgressMonitor monitor)
+	// throws TigerstripeException;
+	//
 	/**
-	 * This is equivalent to removeDependency(dependency, true)
 	 * 
 	 * @param dependency
 	 * @throws TigerstripeException
 	 */
 	public void removeDependency(IDependency dependency,
-			IProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws WorkingCopyException,
+			TigerstripeException;
 
 	/**
-	 * This is equivalent to removeDependencies(dependencies, true)
 	 * 
 	 * @param dependencies
 	 * @throws TigerstripeException
 	 */
 	public void removeDependencies(IDependency[] dependencies,
-			IProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws WorkingCopyException,
+			TigerstripeException;
 
 	/**
-	 * This is equivalent to addDependency(dependency, true)
 	 * 
 	 * @param dependency
 	 * @throws TigerstripeException
 	 */
-	public void addDependency(IDependency dependency,
-			IProgressMonitor monitor) throws TigerstripeException;
+	public void addDependency(IDependency dependency, IProgressMonitor monitor)
+			throws WorkingCopyException, TigerstripeException;
 
 	/**
-	 * This is equivalent to addDependencies( dependencies, true )
 	 * 
 	 * @param dependencies
 	 * @throws TigerstripeException
 	 */
 	public void addDependencies(IDependency[] dependencies,
-			IProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws WorkingCopyException,
+			TigerstripeException;
 
 	public IDependency makeDependency(String relativePath)
 			throws TigerstripeException;

@@ -43,7 +43,6 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
@@ -55,6 +54,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactor
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
+import org.eclipse.tigerstripe.workbench.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
