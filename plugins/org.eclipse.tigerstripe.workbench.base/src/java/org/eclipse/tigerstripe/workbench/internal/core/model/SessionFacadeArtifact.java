@@ -19,11 +19,11 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.SessionArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjSessionFacadeSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
@@ -91,7 +91,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		log.debug(" Extracting Session from "
 				+ javaClass.getFullyQualifiedName());
 		SessionFacadeArtifact result = new SessionFacadeArtifact(javaClass,
@@ -186,7 +186,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 	}
 
 	public SessionFacadeArtifact(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		super(javaClass, artifactMgr, monitor);
 
 		this.managedEntities = new ArrayList();
@@ -236,7 +236,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		public QueryArtifact getArtifact() {
 			QueryArtifact result = (QueryArtifact) this.artifactManager
 					.getArtifactByFullyQualifiedName(getFullyQualifiedName(),
-							true, new TigerstripeNullProgressMonitor());
+							true, new NullProgressMonitor());
 
 			return result;
 		}
@@ -285,7 +285,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		public UpdateProcedureArtifact getArtifact() {
 			UpdateProcedureArtifact result = (UpdateProcedureArtifact) this.artifactManager
 					.getArtifactByFullyQualifiedName(getFullyQualifiedName(),
-							true, new TigerstripeNullProgressMonitor());
+							true, new NullProgressMonitor());
 
 			return result;
 		}
@@ -334,7 +334,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		public EventArtifact getArtifact() {
 			EventArtifact result = (EventArtifact) this.artifactManager
 					.getArtifactByFullyQualifiedName(getFullyQualifiedName(),
-							true, new TigerstripeNullProgressMonitor());
+							true, new NullProgressMonitor());
 
 			return result;
 		}

@@ -18,7 +18,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleRef;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
@@ -69,7 +68,7 @@ public class ModuleProjectHandle extends TigerstripeProjectHandle implements
 	}
 
 	public void updateDependenciesContentCache(
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		getModuleManager().updateDependenciesContentCache(monitor);
 	}
 
@@ -78,7 +77,7 @@ public class ModuleProjectHandle extends TigerstripeProjectHandle implements
 		getModuleManager().addTemporaryDependency(dependency);
 	}
 
-	public void clearTemporaryDependencies(ITigerstripeProgressMonitor monitor) {
+	public void clearTemporaryDependencies(IProgressMonitor monitor) {
 		getModuleManager().clearTemporaryDependencies(monitor);
 	}
 

@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactLinkCreateRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -126,7 +126,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 
 		applyDefaults(artifact, mgrSession);
 		mgrSession.addArtifact(artifact);
-		artifact.doSave(new TigerstripeNullProgressMonitor());
+		artifact.doSave(new NullProgressMonitor());
 	}
 
 }

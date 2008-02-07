@@ -58,6 +58,7 @@ import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
@@ -152,7 +153,8 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 					"defaultArtifactPackage", "");
 		}
 
-		INameProvider provider = tsProject.getNameProvider();
+		INameProvider provider = ((TigerstripeProjectHandle) tsProject)
+				.getNameProvider();
 
 		String defaultUniqueName = null;
 		if (eObject instanceof ManagedEntityArtifact) {
@@ -374,8 +376,8 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	 * Gets the default attribute type from the active profile.
 	 */
 	private static String getDefaultTypeName() throws TigerstripeException {
-		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
-				.getActiveProfile();
+		IWorkbenchProfile profile = TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}
 

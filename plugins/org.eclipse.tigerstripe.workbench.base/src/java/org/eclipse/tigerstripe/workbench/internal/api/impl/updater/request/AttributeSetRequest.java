@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
@@ -99,7 +99,7 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 				}
 			}
 			if (needSave)
-				art.doSave(new TigerstripeNullProgressMonitor());
+				art.doSave(new NullProgressMonitor());
 		}
 	}
 

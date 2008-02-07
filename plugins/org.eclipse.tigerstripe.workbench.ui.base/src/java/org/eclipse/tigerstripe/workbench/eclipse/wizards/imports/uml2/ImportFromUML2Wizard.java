@@ -71,7 +71,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.UML2
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.UML2ImportCheckpointHelper;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xmi.XmiImportCheckpoint;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xmi.XmiImportCheckpointHelper;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
@@ -306,7 +305,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 			Collection<IAbstractArtifact> targetArtifacts = targetSession
 					.queryArtifact(query);
 			for (IAbstractArtifact targetArtifact : targetArtifacts) {
-				targetArtifact.doSave(new TigerstripeNullProgressMonitor());
+				targetArtifact.doSave(new NullProgressMonitor());
 				monitor.worked(1);
 			}
 

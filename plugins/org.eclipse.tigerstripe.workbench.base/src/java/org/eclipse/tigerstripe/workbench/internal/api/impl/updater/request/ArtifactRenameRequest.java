@@ -13,13 +13,13 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 import java.io.File;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
@@ -98,7 +98,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 		// manually
 		mgrSession
 				.renameArtifact(origArt, origArt.getPackage() + "." + newName);
-		origArt.doSave(new TigerstripeNullProgressMonitor());
+		origArt.doSave(new NullProgressMonitor());
 
 		if (!f.delete()) {
 			// TigerstripeRuntime.logInfoMessage("Error deleting: " +
@@ -290,7 +290,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 				}
 
 				if (needSave)
-					artifact.doSave(new TigerstripeNullProgressMonitor());
+					artifact.doSave(new NullProgressMonitor());
 			}
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",

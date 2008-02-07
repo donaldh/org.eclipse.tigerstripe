@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.EnumArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -68,7 +68,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		EnumArtifact result = new EnumArtifact(javaClass, artifactMgr, monitor);
 
 		return result;
@@ -81,7 +81,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	}
 
 	public EnumArtifact(JavaClass javaClass, ArtifactManager artifactMgr,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		super(javaClass, artifactMgr, monitor);
 		OssjEnumSpecifics specifics = new OssjEnumSpecifics(this);
 		specifics.build();

@@ -20,6 +20,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.exception.MethodInvocationException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
@@ -34,7 +35,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifa
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
 
@@ -54,27 +54,27 @@ public class ReportRunner {
 
 		Collection entities = artifactMgr.getArtifactsByModel(
 				ManagedEntityArtifact.MODEL, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 		Collection datatypes = artifactMgr.getArtifactsByModel(
 				DatatypeArtifact.MODEL, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 		Collection queries = artifactMgr.getArtifactsByModel(
 				QueryArtifact.MODEL, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 		Collection enums = artifactMgr.getArtifactsByModel(EnumArtifact.MODEL,
-				false, new TigerstripeNullProgressMonitor());
+				false, new NullProgressMonitor());
 		Collection updateProcedures = artifactMgr.getArtifactsByModel(
 				UpdateProcedureArtifact.MODEL, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 		Collection notifications = artifactMgr.getArtifactsByModel(
 				EventArtifact.MODEL, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 		Collection exceptions = artifactMgr.getArtifactsByModel(
 				ExceptionArtifact.MODEL, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 		Collection sessions = artifactMgr.getArtifactsByModel(
 				SessionFacadeArtifact.MODEL, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		localContext.put("entities", entities);
 		localContext.put("datatypes", datatypes);

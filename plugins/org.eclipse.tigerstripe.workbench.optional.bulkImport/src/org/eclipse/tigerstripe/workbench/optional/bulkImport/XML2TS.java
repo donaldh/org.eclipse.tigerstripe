@@ -89,7 +89,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -155,8 +154,7 @@ public class XML2TS {
 						+ tsProject.getProjectLabel();
 				addMessage(messages, msgText, 2);
 				out.println("info : " + msgText);
-				this.mgrSession.refresh(true, new TigerstripeProgressMonitor(
-						monitor));
+				this.mgrSession.refresh(true, monitor);
 
 			} catch (Exception e) {
 				String msgText = "Problem opening TS Project " + tSProjectName;

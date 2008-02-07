@@ -51,6 +51,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.entity.NewEnt
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.IImportFromWizardPage;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.ImportWithCheckpointWizardPage;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.xmi.XmiImportErrorMessages;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElement;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableModel;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableModelFactory;
@@ -128,8 +129,9 @@ public class ImportFromDBWizardPage extends TSRuntimeBasedWizardPage implements
 						try {
 							monitor.beginTask("Computing delta...", 100);
 							monitor.worked(10);
-							referenceProject.getImportCheckpoint()
-									.computeDelta(annotables);
+							((TigerstripeProjectHandle) referenceProject)
+									.getImportCheckpoint().computeDelta(
+											annotables);
 							monitor.done();
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);

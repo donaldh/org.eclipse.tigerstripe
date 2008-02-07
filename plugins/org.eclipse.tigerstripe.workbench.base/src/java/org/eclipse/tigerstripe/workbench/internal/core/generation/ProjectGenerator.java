@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -33,7 +34,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.MultiFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -41,7 +41,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportModel;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportRunner;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -76,7 +75,7 @@ public class ProjectGenerator {
 
 	public PluginRunStatus[] run() throws TigerstripeException,
 			GenerationException {
-		return run(new TigerstripeNullProgressMonitor());
+		return run(new NullProgressMonitor());
 	}
 
 	private void initializeConfig() throws TigerstripeException {
@@ -105,7 +104,7 @@ public class ProjectGenerator {
 				IProjectDetails.USECASE_USEXSLT_DEFAULT));
 	}
 
-	public PluginRunStatus[] run(ITigerstripeProgressMonitor monitor)
+	public PluginRunStatus[] run(IProgressMonitor monitor)
 			throws TigerstripeException, GenerationException {
 
 		List<PluginRunStatus> overallResult = new ArrayList<PluginRunStatus>();
@@ -138,7 +137,7 @@ public class ProjectGenerator {
 
 				if (currentFacet != null) {
 					monitor.beginTask("Resetting facets",
-							ITigerstripeProgressMonitor.UNKNOWN);
+							IProgressMonitor.UNKNOWN);
 					project.resetActiveFacet();
 					monitor.done();
 				}
@@ -153,7 +152,7 @@ public class ProjectGenerator {
 				if (currentFacet != null) {
 					monitor.beginTask("Reverting to active facet ("
 							+ currentFacet.resolve().getName() + ")",
-							ITigerstripeProgressMonitor.UNKNOWN);
+							IProgressMonitor.UNKNOWN);
 					project.setActiveFacet(currentFacet, monitor);
 					monitor.done();
 				}
@@ -218,7 +217,7 @@ public class ProjectGenerator {
 							if (facetRef.canResolve()) {
 								monitor.beginTask("Setting active facet to: "
 										+ facetRef.resolve().getName(),
-										ITigerstripeProgressMonitor.UNKNOWN);
+										IProgressMonitor.UNKNOWN);
 								project.setActiveFacet(facetRef, monitor);
 								if (facetRef.getFacetPredicate() != null
 										&& !facetRef.getFacetPredicate()
@@ -253,12 +252,12 @@ public class ProjectGenerator {
 					if (currentFacet != null) {
 						monitor.beginTask("Reverting to active facet ("
 								+ currentFacet.resolve().getName() + ")",
-								ITigerstripeProgressMonitor.UNKNOWN);
+								IProgressMonitor.UNKNOWN);
 						project.setActiveFacet(currentFacet, monitor);
 						monitor.done();
 					} else {
 						monitor.beginTask("Restoring initial state",
-								ITigerstripeProgressMonitor.UNKNOWN);
+								IProgressMonitor.UNKNOWN);
 						project.resetActiveFacet();
 						monitor.done();
 					}
@@ -281,7 +280,7 @@ public class ProjectGenerator {
 	 * @throws TigerstripeException
 	 * @throws GenerationException
 	 */
-	private PluginRunStatus[] internalRun(ITigerstripeProgressMonitor monitor)
+	private PluginRunStatus[] internalRun(IProgressMonitor monitor)
 			throws TigerstripeException, GenerationException,
 			GenerationCanceledException {
 
@@ -386,7 +385,7 @@ public class ProjectGenerator {
 
 	private void internalPluginLoop(PluginConfig ref,
 			List<PluginRunStatus> result, Collection<PluginReport> reports,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		// Make sure we only trigger "generation" plugins (i.e. not
 		// the
 		// publisher)
@@ -555,7 +554,7 @@ public class ProjectGenerator {
 	 * @throws TigerstripeException
 	 */
 	private void generateRunReport(Collection<PluginReport> reports,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		try {
 			ReportModel model = new ReportModel(
 					((TigerstripeProjectHandle) project).getTSProject());
@@ -579,7 +578,7 @@ public class ProjectGenerator {
 
 	private void refreshAndSetupForGeneration() throws TigerstripeException {
 		project.getArtifactManagerSession().refresh(false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 		project.getArtifactManagerSession().generationStart();
 	}
 
@@ -588,7 +587,7 @@ public class ProjectGenerator {
 	}
 
 	private PluginRunStatus[] generateRefProjects(
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		PluginRunStatus[] result = new PluginRunStatus[0];
 		ITigerstripeProject[] refProjects = project.getReferencedProjects();
 
@@ -613,7 +612,7 @@ public class ProjectGenerator {
 	}
 
 	private PluginRunStatus[] generateModules(
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		String corePath = TigerstripeRuntime
 				.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
 		PluginRunStatus[] result = new PluginRunStatus[0];

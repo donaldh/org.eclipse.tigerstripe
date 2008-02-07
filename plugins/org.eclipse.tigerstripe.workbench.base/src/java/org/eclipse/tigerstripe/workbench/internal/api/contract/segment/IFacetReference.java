@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.internal.api.contract.segment;
 
 import java.net.URI;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -83,7 +83,7 @@ public interface IFacetReference {
 	 * @return
 	 */
 	public IFacetPredicate computeFacetPredicate(
-			ITigerstripeProgressMonitor monitor);
+			IProgressMonitor monitor);
 
 	/**
 	 * Return the FacetPredicate corresponding to this facet ref.

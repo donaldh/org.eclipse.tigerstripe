@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  */
 public class RunConfig {
 
-	private ITigerstripeProgressMonitor monitor;
+	private IProgressMonitor monitor;
 
 	private boolean ignoreFacets = "true"
 			.equalsIgnoreCase(IProjectDetails.IGNORE_FACETS_DEFAULT);
@@ -78,13 +78,13 @@ public class RunConfig {
 		this.processUseCaseExtension = processUseCaseExtension;
 	}
 
-	public void setMonitor(ITigerstripeProgressMonitor monitor) {
+	public void setMonitor(IProgressMonitor monitor) {
 		this.monitor = monitor;
 	}
 
-	public ITigerstripeProgressMonitor getMonitor() {
+	public IProgressMonitor getMonitor() {
 		if (monitor == null)
-			monitor = new TigerstripeNullProgressMonitor();
+			monitor = new NullProgressMonitor();
 		return monitor;
 	}
 

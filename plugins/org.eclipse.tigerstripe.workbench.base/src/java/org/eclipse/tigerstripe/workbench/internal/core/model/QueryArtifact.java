@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.QueryArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjQuerySpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -62,7 +62,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		QueryArtifact result = new QueryArtifact(javaClass, artifactMgr,
 				monitor);
 
@@ -99,7 +99,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 	}
 
 	public QueryArtifact(JavaClass javaClass, ArtifactManager artifactMgr,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		super(javaClass, artifactMgr, monitor);
 		OssjQuerySpecifics specifics = new OssjQuerySpecifics(this);
 		specifics.build();
@@ -107,7 +107,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 	}
 
 	@Override
-	public void resolveReferences(ITigerstripeProgressMonitor monitor)
+	public void resolveReferences(IProgressMonitor monitor)
 			throws TigerstripeException {
 		super.resolveReferences(monitor);
 

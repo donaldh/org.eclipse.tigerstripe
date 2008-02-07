@@ -23,6 +23,7 @@ import java.util.Map;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -34,7 +35,6 @@ import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
@@ -153,7 +153,7 @@ public class TS2UML2 {
 			tsProject = (ITigerstripeProject) TigerstripeCore
 					.findProject(projectURI);
 			this.mgrSession = tsProject.getArtifactManagerSession();
-			this.mgrSession.refresh(true, new TigerstripeNullProgressMonitor());
+			this.mgrSession.refresh(true, new NullProgressMonitor());
 
 		} catch (Exception e) {
 			String msgText = "Problem opening TS Project " + tSProjectName;

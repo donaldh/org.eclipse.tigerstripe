@@ -30,7 +30,6 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
@@ -283,16 +282,14 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 		try {
 			monitor.beginTask("Building " + getTSProject().getProjectDetails().getName(),
 					10);
-			getTSProject().getArtifactManagerSession().refresh(
-					new TigerstripeProgressMonitor(monitor));
+			getTSProject().getArtifactManagerSession().refresh(monitor);
 			monitor.worked(2);
 
 			for (ITigerstripeProject project : getTSProject()
 					.getReferencedProjects()) {
 				monitor.subTask("Building referenced project: "
 						+ project.getProjectLabel());
-				project.getArtifactManagerSession().refresh(
-						new TigerstripeProgressMonitor(monitor));
+				project.getArtifactManagerSession().refresh(monitor);
 				monitor.worked(1);
 			}
 			monitor.done();
@@ -401,12 +398,10 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 							.getReferencedProjects()) {
 						monitor.subTask("Building referenced project: "
 								+ project.getProjectLabel());
-						project.getArtifactManagerSession().refresh(
-								new TigerstripeProgressMonitor(monitor));
+						project.getArtifactManagerSession().refresh(monitor);
 						monitor.worked(1);
 					}
-					getTSProject().getArtifactManagerSession().refresh(
-							new TigerstripeProgressMonitor(monitor));
+					getTSProject().getArtifactManagerSession().refresh(monitor);
 					monitor.worked(2);
 					monitor.done();
 				} catch (TigerstripeException e) {

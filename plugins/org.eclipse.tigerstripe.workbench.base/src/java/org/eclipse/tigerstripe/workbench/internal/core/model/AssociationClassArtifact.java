@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.AssociationClassArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -47,7 +47,7 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	}
 
 	public AssociationClassArtifact(JavaClass javaClass,
-			ArtifactManager artifactManager, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactManager, IProgressMonitor monitor) {
 		super(javaClass, artifactManager, monitor);
 		StandardSpecifics specifics = new StandardSpecifics(this);
 		specifics.build();
@@ -56,7 +56,7 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		AssociationClassArtifact result = new AssociationClassArtifact(
 				javaClass, artifactMgr, monitor);
 		return result;
@@ -79,7 +79,7 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 
 	@Override
 	protected void buildModel(JavaClass clazz,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		super.buildModel(clazz, monitor);
 	}
 

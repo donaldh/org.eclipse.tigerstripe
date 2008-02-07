@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -53,7 +54,8 @@ public class InstanceDiagramEditorHelper {
 		File projectDir = res.getProject().getLocation().toFile();
 
 		try {
-			String baseRepository = project.getBaseRepository();
+			String baseRepository = ((TigerstripeProjectHandle) project)
+					.getBaseRepository();
 			IResource repo = res.getProject().getFolder(baseRepository);
 			if (repo != null && res.getParent() instanceof IFolder) {
 				IPath resRelPath = res.getParent().getProjectRelativePath();

@@ -19,7 +19,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEntitySpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -65,7 +64,7 @@ public class CreateArtifact {
 			// artifact.write(writer);
 
 			artifactMgrSession.addArtifact(artifact);
-			artifact.doSave(new TigerstripeNullProgressMonitor());
+			artifact.doSave(new NullProgressMonitor());
 			// done!
 
 			// Now to set up some of the OSS/J specifics...

@@ -24,7 +24,6 @@ import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 
 public class DescriptorAuditor {
@@ -81,8 +80,7 @@ public class DescriptorAuditor {
 			IDependency oldLegacyOSSJ = null;
 			for (int i = 0; i < dependencies.length; i++) {
 
-				if (!dependencies[i].isValid(new TigerstripeProgressMonitor(
-						monitor))) {
+				if (!dependencies[i].isValid(monitor)) {
 					TigerstripeProjectAuditor.reportError(
 							"Missing dependency '" + dependencies[i].getPath()
 									+ "'", project, 222);
@@ -97,8 +95,7 @@ public class DescriptorAuditor {
 
 			// @see #299
 			if (oldLegacyOSSJ != null) {
-				tsProject.removeDependency(oldLegacyOSSJ,
-						new TigerstripeProgressMonitor(monitor));
+				tsProject.removeDependency(oldLegacyOSSJ,monitor);
 				// doSave();
 				tsProject.commit(monitor);
 			}

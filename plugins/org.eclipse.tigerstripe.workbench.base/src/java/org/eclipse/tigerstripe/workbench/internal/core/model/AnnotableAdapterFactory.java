@@ -14,6 +14,7 @@ import java.io.StringReader;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.annotations.IAnnotable;
@@ -22,7 +23,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -72,7 +72,7 @@ public class AnnotableAdapterFactory implements IAdapterFactory {
 							StringReader reader = new StringReader(jElem
 									.getSource());
 							artifact = mgr.extractArtifact(reader,
-									new TigerstripeNullProgressMonitor());
+									new NullProgressMonitor());
 						}
 						return artifact.getAdapter(IAnnotable.class);
 					} else

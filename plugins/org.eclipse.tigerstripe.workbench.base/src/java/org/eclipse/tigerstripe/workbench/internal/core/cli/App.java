@@ -27,10 +27,12 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectVisitor;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunStatus;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeLogProgressMonitor;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -185,13 +187,14 @@ public class App {
 							+ project.getLocation().toOSString());
 
 					String targetFile = getCli().getOptionValue(PACKAGE);
-					String moduleID = project.getProjectLabel()
-							+ "-" + project.getProjectDetails().getVersion();
+					String moduleID = project.getProjectLabel() + "-"
+							+ project.getProjectDetails().getVersion();
 					if (getCli().hasOption(MODULEID)) {
 						moduleID = getCli().getOptionValue(MODULEID);
 					}
 
-					IModulePackager packager = project.getPackager();
+					IModulePackager packager = ((TigerstripeOssjProjectHandle) project)
+							.getPackager();
 					File file = new File(targetFile);
 
 					IModuleHeader header = packager.makeHeader();
@@ -207,8 +210,14 @@ public class App {
 				} else {
 					log.info("  Generating project: "
 							+ project.getLocation().toOSString());
-					project.generate(new TigerstripeProjectVisitor());
-					log.info("  Successfully completed.");
+					RunConfig config = project.makeDefaultRunConfig();
+					PluginRunStatus[] status = project.generate(config, null);
+					if (status.length == 0)
+						log.info("  Successfully completed.");
+					else {
+						System.err.print(status[0].getMessage());
+						returnCode = RC_INIT_ERROR;
+					}
 				}
 
 			} catch (TigerstripeException e) {

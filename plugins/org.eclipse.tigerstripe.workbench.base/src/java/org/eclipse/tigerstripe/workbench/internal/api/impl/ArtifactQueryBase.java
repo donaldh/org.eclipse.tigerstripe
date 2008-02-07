@@ -12,14 +12,14 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 
 public abstract class ArtifactQueryBase implements IArtifactQuery {
 
-	private ITigerstripeProgressMonitor monitor = new TigerstripeNullProgressMonitor();
+	private IProgressMonitor monitor = new NullProgressMonitor();
 
 	private boolean includeDependencies = true;
 
@@ -31,11 +31,11 @@ public abstract class ArtifactQueryBase implements IArtifactQuery {
 		this.includeDependencies = includeDependencies;
 	}
 
-	public void setProgressMonitor(ITigerstripeProgressMonitor monitor) {
+	public void setProgressMonitor(IProgressMonitor monitor) {
 		this.monitor = monitor;
 	}
 
-	public ITigerstripeProgressMonitor getProgressMonitor() {
+	public IProgressMonitor getProgressMonitor() {
 		return this.monitor;
 	}
 

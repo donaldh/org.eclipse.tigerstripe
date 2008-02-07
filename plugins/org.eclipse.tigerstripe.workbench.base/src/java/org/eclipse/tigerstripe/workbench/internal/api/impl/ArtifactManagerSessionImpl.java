@@ -18,6 +18,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -28,7 +30,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListe
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjArtifactSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -47,7 +48,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifa
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -140,7 +140,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 		ArtifactQueryBase base = (ArtifactQueryBase) query;
 
-		refresh(new TigerstripeNullProgressMonitor()); // FIXME
+		refresh(new NullProgressMonitor()); // FIXME
 		return base.run(this);
 	}
 
@@ -241,7 +241,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public AbstractArtifact getArtifactByFullyQualifiedName(String fqn,
 			boolean includeDependencies) {
 		return getArtifactManager().getArtifactByFullyQualifiedName(fqn,
-				includeDependencies, new TigerstripeNullProgressMonitor()); // FIXME
+				includeDependencies, new NullProgressMonitor()); // FIXME
 
 	}
 
@@ -249,18 +249,18 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			boolean includeDependencies, boolean isOverridePredicate) {
 		return getArtifactManager().getArtifactByFullyQualifiedName(fqn,
 				includeDependencies, isOverridePredicate,
-				new TigerstripeNullProgressMonitor()); // FIXME
+				new NullProgressMonitor()); // FIXME
 	}
 
 	public IAbstractArtifact extractArtifact(Reader reader,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		return artifactManager.extractArtifact(reader, monitor);
 	}
 
 	public void addArtifact(IAbstractArtifact artifact)
 			throws TigerstripeException {
 		artifactManager.addArtifact(artifact,
-				new TigerstripeNullProgressMonitor()); // FIXME
+				new NullProgressMonitor()); // FIXME
 	}
 
 	public void removeArtifact(IAbstractArtifact artifact)
@@ -268,12 +268,12 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		artifactManager.removeArtifact(artifact);
 	}
 
-	public void refresh(ITigerstripeProgressMonitor monitor)
+	public void refresh(IProgressMonitor monitor)
 			throws TigerstripeException {
 		refresh(false, monitor);
 	}
 
-	public void refresh(boolean forceReload, ITigerstripeProgressMonitor monitor)
+	public void refresh(boolean forceReload, IProgressMonitor monitor)
 			throws TigerstripeException {
 
 		// @since 2.1: when generating module no need to refresh manager
@@ -283,23 +283,23 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		getArtifactManager().refresh(forceReload, monitor);
 	}
 
-	public void refreshReferences(ITigerstripeProgressMonitor monitor)
+	public void refreshReferences(IProgressMonitor monitor)
 			throws TigerstripeException {
 		getArtifactManager().refreshReferences(monitor);
 	}
 
-	public void updateCaches(ITigerstripeProgressMonitor monitor)
+	public void updateCaches(IProgressMonitor monitor)
 			throws TigerstripeException {
 		getArtifactManager().updateCaches(monitor);
 	}
 
-	public void refreshAll(ITigerstripeProgressMonitor monitor)
+	public void refreshAll(IProgressMonitor monitor)
 			throws TigerstripeException {
 		refreshAll(false, monitor);
 	}
 
 	public void refreshAll(boolean forceReload,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		refreshReferences(monitor);
 		refresh(forceReload, monitor);
 	}
@@ -386,7 +386,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
 			String fqn) {
 		return getArtifactManager().getAllKnownArtifactsByFullyQualifiedName(
-				fqn, new TigerstripeNullProgressMonitor()); 
+				fqn, new NullProgressMonitor()); 
 		// FIXME
 	}
 
@@ -423,7 +423,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 		List<IAbstractArtifact> forRemovalArtifacts = new ArrayList<IAbstractArtifact>();
 		Collection<IAbstractArtifact> artifacts = getArtifactManager()
-				.getAllArtifacts(false, new TigerstripeNullProgressMonitor()); // FIXME
+				.getAllArtifacts(false, new NullProgressMonitor()); // FIXME
 		for (IAbstractArtifact artifact : artifacts) {
 			if (packageName.equals(artifact.getPackage())) {
 				forRemovalArtifacts.add(artifact);
@@ -464,7 +464,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 		List<IAbstractArtifact> forRenamingArtifacts = new ArrayList<IAbstractArtifact>();
 		Collection<IAbstractArtifact> artifacts = getArtifactManager()
-				.getAllArtifacts(false, new TigerstripeNullProgressMonitor()); // FIXME
+				.getAllArtifacts(false, new NullProgressMonitor()); // FIXME
 		for (IAbstractArtifact artifact : artifacts) {
 			if (fromPackageName.equals(artifact.getPackage())) {
 				forRenamingArtifacts.add(artifact);
@@ -491,7 +491,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public void renameArtifact(IAbstractArtifact artifact, String toFQN)
 			throws TigerstripeException {
 		getArtifactManager().renameArtifact(artifact, toFQN,
-				new TigerstripeNullProgressMonitor()); // FIXME
+				new NullProgressMonitor()); // FIXME
 	}
 
 	// ====================================================
@@ -508,7 +508,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	}
 
 	public void setActiveFacet(IFacetReference facet,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		getArtifactManager().setActiveFacet(facet, monitor);
 		((FacetReference) facet).startListeningToManager(getArtifactManager());
 	}

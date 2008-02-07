@@ -12,16 +12,14 @@ package org.eclipse.tigerstripe.workbench.project;
 
 import java.net.URI;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
-import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpoint;
-import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IProjectChangeListener;
-import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunStatus;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
 
 /**
@@ -42,25 +40,28 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	public IArtifactManagerSession getArtifactManagerSession()
 			throws TigerstripeException;
 
-	public void generate(ITigerstripeVisitor visitor)
+	public RunConfig makeDefaultRunConfig();
+
+	public PluginRunStatus[] generate(RunConfig config, IProgressMonitor monitor)
 			throws TigerstripeException;
 
-	public IModulePackager getPackager();
+	// public void generate(ITigerstripeVisitor visitor)
+	// throws TigerstripeException;
 
 	public IDependency[] getDependencies() throws TigerstripeException;
 
 	public void removeDependency(IDependency dependency, boolean updateCache,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws TigerstripeException;
 
 	public void removeDependencies(IDependency[] dependencies,
-			boolean updateCache, ITigerstripeProgressMonitor monitor)
+			boolean updateCache, IProgressMonitor monitor)
 			throws TigerstripeException;
 
 	public void addDependency(IDependency dependency, boolean updateCache,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws TigerstripeException;
 
 	public void addDependencies(IDependency[] dependencies,
-			boolean updateCache, ITigerstripeProgressMonitor monitor)
+			boolean updateCache, IProgressMonitor monitor)
 			throws TigerstripeException;
 
 	/**
@@ -70,7 +71,7 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	 * @throws TigerstripeException
 	 */
 	public void removeDependency(IDependency dependency,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws TigerstripeException;
 
 	/**
 	 * This is equivalent to removeDependencies(dependencies, true)
@@ -79,7 +80,7 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	 * @throws TigerstripeException
 	 */
 	public void removeDependencies(IDependency[] dependencies,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws TigerstripeException;
 
 	/**
 	 * This is equivalent to addDependency(dependency, true)
@@ -88,7 +89,7 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	 * @throws TigerstripeException
 	 */
 	public void addDependency(IDependency dependency,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws TigerstripeException;
 
 	/**
 	 * This is equivalent to addDependencies( dependencies, true )
@@ -97,7 +98,7 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	 * @throws TigerstripeException
 	 */
 	public void addDependencies(IDependency[] dependencies,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws TigerstripeException;
 
 	public IDependency makeDependency(String relativePath)
 			throws TigerstripeException;
@@ -118,28 +119,6 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 			throws TigerstripeException;
 
 	public IFacetReference[] getFacetReferences() throws TigerstripeException;
-
-	// Core dependencies don't exist anymore @see #299
-	// /**
-	// *
-	// * @see org.eclipse.tigerstripe.core.project.TigerstripeProject
-	// * @throws NoCoreModelException
-	// * @throws MismatchedCoreModelException
-	// * @since 1.0.3
-	// */
-	// public void checkDefaultCoreModelDependency() throws
-	// TigerstripeException,
-	// NoCoreModelException, MismatchedCoreModelException;
-	//
-	// /**
-	// * Adds the default code model as a dependency
-	// *
-	// * @param forceOverwrite
-	// * @throws TigerstripeException
-	// * @since 1.0.3
-	// */
-	// public void attachDefaultCoreModelDependency(boolean forceOverwrite)
-	// throws TigerstripeException;
 
 	public void addProjectChangeListener(IProjectChangeListener listener);
 
@@ -175,25 +154,6 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 			throws TigerstripeException;
 
 	/**
-	 * Whether the descriptor needs to be upgraded to the correct compatibility
-	 * level (and default values set properly).
-	 * 
-	 * @return
-	 */
-	public boolean requiresDescriptorUpgrade() throws TigerstripeException;
-
-	/**
-	 * Returns the IImportCheckpoint for this project if it exists.
-	 * 
-	 * If no import was performed in this project, no IImportCheckpoint would
-	 * exist and an exception would be thrown.
-	 * 
-	 * @return
-	 * @throws TigerstripeException
-	 */
-	public IImportCheckpoint getImportCheckpoint() throws TigerstripeException;
-
-	/**
 	 * Returns the Plugin references defined in this project
 	 * 
 	 * @return
@@ -207,17 +167,8 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	public ITigerstripeProject[] getReferencedProjects()
 			throws TigerstripeException;
 
-	/**
-	 * Provides a convenient default unique name provider for all artifacts
-	 * being created.
-	 * 
-	 */
-	public INameProvider getNameProvider();
-
-	public String getBaseRepository() throws TigerstripeException;
-
-	public void setActiveFacet(IFacetReference facet,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
+	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
+			throws TigerstripeException;
 
 	public void resetActiveFacet() throws TigerstripeException;
 

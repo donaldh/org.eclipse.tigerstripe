@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.project;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleException;
 
 /**
@@ -78,7 +78,7 @@ public interface IDependency {
 	 * 
 	 * @return
 	 */
-	public boolean isValid(ITigerstripeProgressMonitor monitor);
+	public boolean isValid(IProgressMonitor monitor);
 
 	/**
 	 * Whether this is a valid dependency or not This is equivalent to

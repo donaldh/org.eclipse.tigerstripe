@@ -13,18 +13,18 @@ package org.eclipse.tigerstripe.workbench.internal.core.project;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ModuleProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleException;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleRef;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleRefFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -65,13 +65,13 @@ public class Dependency implements IDependency {
 	}
 
 	public boolean isValid() {
-		return isValid(new TigerstripeNullProgressMonitor());
+		return isValid(new NullProgressMonitor());
 	}
 
-	public boolean isValid(ITigerstripeProgressMonitor monitor) {
+	public boolean isValid(IProgressMonitor monitor) {
 
 		if (monitor == null) {
-			monitor = new TigerstripeNullProgressMonitor();
+			monitor = new NullProgressMonitor();
 		}
 
 		try {
@@ -118,7 +118,7 @@ public class Dependency implements IDependency {
 	 * If the load is successful, a model is created for this module.
 	 * 
 	 */
-	public void validate(ITigerstripeProgressMonitor monitor,
+	public void validate(IProgressMonitor monitor,
 			TigerstripeProjectVisitor visitor) throws InvalidModuleException {
 
 		if (validated)
@@ -153,7 +153,7 @@ public class Dependency implements IDependency {
 
 		ModuleRefFactory factory = ModuleRefFactory.getInstance();
 		return factory.parseModuleHeader(jarFile.toURI(),
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 	}
 
 	private File checkModuleExists() throws InvalidModuleException {
@@ -182,11 +182,11 @@ public class Dependency implements IDependency {
 
 		ModuleRefFactory factory = ModuleRefFactory.getInstance();
 		return factory.parseModuleDetails(jarFile.toURI(),
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 	}
 
 	public ArtifactManager getArtifactManager(
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		if (isValid(monitor)) {
 			if (moduleRef.getArtifactManager().getTSProject() == null)
 				((ModuleArtifactManager) moduleRef.getArtifactManager())

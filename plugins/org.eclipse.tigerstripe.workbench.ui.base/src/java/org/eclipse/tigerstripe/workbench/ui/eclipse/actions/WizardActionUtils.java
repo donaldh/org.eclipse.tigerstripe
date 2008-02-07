@@ -35,7 +35,6 @@ import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 
 ;
 
@@ -67,8 +66,7 @@ public class WizardActionUtils {
 			IPluginConfig[] plugins = handle.getPluginConfigs();
 			String projectName = handle.getProjectLabel();
 
-			handle.getArtifactManagerSession().refresh(
-					new TigerstripeProgressMonitor(monitor));
+			handle.getArtifactManagerSession().refresh(monitor);
 			((ArtifactManagerSessionImpl) handle.getArtifactManagerSession())
 					.setLockForGeneration(true);
 

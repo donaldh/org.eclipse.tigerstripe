@@ -14,8 +14,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -25,12 +27,10 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPre
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.ContractUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 import org.eclipse.tigerstripe.workbench.internal.core.util.RegExpFQNSetPred;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
@@ -106,7 +106,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 	public boolean evaluate(Object obj) {
 		if (!isResolved()) {
 			try {
-				resolve(new TigerstripeNullProgressMonitor());
+				resolve(new NullProgressMonitor());
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage("Can't evaluate :" + obj
 						+ ": " + e.getMessage(), e);
@@ -130,7 +130,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		if (capable == null)
 			return false;
 		IContractSegment facet = facetRef.resolve();
-		Collection<IStereotypeInstance> stereos = capable.getStereotypeInstances();
+		Collection<IStereotypeInstance> stereos = capable
+				.getStereotypeInstances();
 
 		for (IStereotypeInstance stereo : stereos) {
 			String name = stereo.getName();
@@ -144,12 +145,10 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		return false;
 	}
 
-	public void resolve(ITigerstripeProgressMonitor monitor)
-			throws TigerstripeException {
-		monitor.beginTask("Resolving facet scope",
-				ITigerstripeProgressMonitor.UNKNOWN);
+	public void resolve(IProgressMonitor monitor) throws TigerstripeException {
+		monitor.beginTask("Resolving facet scope", IProgressMonitor.UNKNOWN);
 
-//		long start = System.currentTimeMillis();
+		// long start = System.currentTimeMillis();
 		errors = new MultiStatus(BasePlugin.getPluginId(), 222,
 				"Facet Inconsistencies", null);
 		IContractSegment facet = facetRef.resolve();
@@ -198,8 +197,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		// Explore the base artifacts
 		Set<IAbstractArtifact> scope = new HashSet<IAbstractArtifact>();
-		monitor.beginTask("Walking relationships",
-				ITigerstripeProgressMonitor.UNKNOWN);
+		monitor.beginTask("Walking relationships", IProgressMonitor.UNKNOWN);
 		for (IAbstractArtifact artifact : baseArtifacts) {
 			addRelatedArtifacts(scope, artifact, false, monitor);
 		}
@@ -228,7 +226,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 	 */
 	protected void addRelatedArtifacts(Set<IAbstractArtifact> scope,
 			IAbstractArtifact artifact, boolean ignoreParent,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 
 		// First of all ignore all that is excluded
 		if (primaryPredicate.isExcluded(artifact)
@@ -254,7 +252,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		// If this is a Datatype, we add its subtypes and their related
 		// artifacts
 		if (artifact instanceof IDatatypeArtifact) {
-			Collection<IAbstractArtifact> subTypes = artifact.getExtendingArtifacts();
+			Collection<IAbstractArtifact> subTypes = artifact
+					.getExtendingArtifacts();
 			for (IAbstractArtifact subType : subTypes) {
 				if (!scope.contains(subType)) {
 					addRelatedArtifacts(scope, subType, true, monitor);
@@ -341,7 +340,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 	public void addTempExclude(String tmpPattern) {
 		if (!isResolved()) {
 			try {
-				resolve(new TigerstripeNullProgressMonitor());
+				resolve(new NullProgressMonitor());
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(e.getMessage(), e);
 			}
@@ -364,8 +363,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		for (IField field : artifact.getFields()) {
 			if (!isExcludedByAnnotation(field)) {
 				IType type = field.getType();
-				IAbstractArtifact arti = (IAbstractArtifact) type
-						.getArtifact();
+				IAbstractArtifact arti = (IAbstractArtifact) type.getArtifact();
 				if (!type.isPrimitive() && arti != null
 						&& !(arti instanceof IPrimitiveTypeArtifact)
 						&& !isExcludedByAnnotation(arti)

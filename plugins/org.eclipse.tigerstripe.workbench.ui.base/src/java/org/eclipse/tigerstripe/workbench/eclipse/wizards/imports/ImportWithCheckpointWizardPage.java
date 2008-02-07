@@ -55,6 +55,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.TSRuntimeBasedWizardPage;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpoint;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
@@ -193,7 +194,8 @@ public class ImportWithCheckpointWizardPage extends TSRuntimeBasedWizardPage {
 		try {
 			ITigerstripeProject ref = getReferenceTSProject();
 			if (ref != null) {
-				IImportCheckpoint ckpt = ref.getImportCheckpoint();
+				IImportCheckpoint ckpt = ((TigerstripeProjectHandle) ref)
+						.getImportCheckpoint();
 				String ckptType = ckpt.getClass().getCanonicalName();
 
 				String msg = "A '" + ckpt.getHumanReadableType()

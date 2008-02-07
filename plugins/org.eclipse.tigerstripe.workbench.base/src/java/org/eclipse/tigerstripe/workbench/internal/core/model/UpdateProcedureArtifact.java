@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
 
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.UpdateProcedureArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjUpdateProcedureSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -63,7 +63,7 @@ public class UpdateProcedureArtifact extends AbstractArtifact implements
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		UpdateProcedureArtifact result = new UpdateProcedureArtifact(javaClass,
 				artifactMgr, monitor);
 
@@ -79,7 +79,7 @@ public class UpdateProcedureArtifact extends AbstractArtifact implements
 	}
 
 	public UpdateProcedureArtifact(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		super(javaClass, artifactMgr, monitor);
 		OssjUpdateProcedureSpecifics specifics = new OssjUpdateProcedureSpecifics(
 				this);

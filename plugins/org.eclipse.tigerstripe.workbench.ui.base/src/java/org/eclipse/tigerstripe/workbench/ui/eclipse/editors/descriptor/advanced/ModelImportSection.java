@@ -48,6 +48,8 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.mapper.DBDatatypeMapping;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.mapper.DBTypeMapper;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.mapper.UmlDatatypeMapper;
@@ -556,7 +558,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 		try {
 			setSilentUpdate(true);
 
-			if (handle.requiresDescriptorUpgrade()
+			if (((TigerstripeProjectHandle) handle).requiresDescriptorUpgrade()
 					&& !getShownDescriptorUpgrade()) {
 				setShownDescriptorUpgrade(true);
 				MessageBox dialog = new MessageBox(getSection().getShell(),

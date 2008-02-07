@@ -36,7 +36,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 
 /**
  * This class updates the Eclipse Project build path whenever a dependency is
@@ -145,8 +144,7 @@ public class ClasspathUpdater {
 							dep = new Dependency(
 									((TigerstripeProjectHandle) tsProject)
 											.getTSProject(), relPath);
-							if (!dep.isValid(new TigerstripeProgressMonitor(
-									monitor))) {
+							if (!dep.isValid(monitor)) {
 								// This is not a TS module, so it has been put
 								// in
 								// the

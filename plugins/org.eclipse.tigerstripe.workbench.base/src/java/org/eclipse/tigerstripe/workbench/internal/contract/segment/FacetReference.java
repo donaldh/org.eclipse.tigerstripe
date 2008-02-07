@@ -19,6 +19,8 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -28,12 +30,10 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPre
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -213,7 +213,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 	protected IFacetPredicate facetPredicate;
 
 	public IFacetPredicate computeFacetPredicate(
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		facetPredicate = new FacetPredicate(this, getTSProject());
 
 		// Bug 921: this is a bit of a hack for now to keep track of the state
@@ -252,7 +252,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 
 	public IFacetPredicate getFacetPredicate() {
 		if (facetPredicate == null || hasFacetChanged())
-			return computeFacetPredicate(new TigerstripeNullProgressMonitor());
+			return computeFacetPredicate(new NullProgressMonitor());
 
 		return facetPredicate;
 	}
@@ -335,7 +335,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 					resolvedPred.addTempExclude(rel.getRelationshipZEnd()
 							.getType().getFullyQualifiedName());
 					activeMgr.setActiveFacet(this,
-							new TigerstripeNullProgressMonitor());
+							new NullProgressMonitor());
 				}
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(

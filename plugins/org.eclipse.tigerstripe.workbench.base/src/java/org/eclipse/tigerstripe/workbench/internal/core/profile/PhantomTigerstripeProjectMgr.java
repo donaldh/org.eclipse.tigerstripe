@@ -24,14 +24,14 @@ import java.util.List;
 import java.util.zip.ZipException;
 
 import org.apache.tools.ant.DirectoryScanner;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
@@ -72,7 +72,7 @@ public class PhantomTigerstripeProjectMgr implements
 			throws TigerstripeException {
 		if (phantomProject == null) {
 			createPhantomProject();
-			populateFromProfile(new TigerstripeNullProgressMonitor());// FIXME
+			populateFromProfile(new NullProgressMonitor());// FIXME
 			createJarForEclipsePath();
 		}
 		return phantomProject;
@@ -83,7 +83,7 @@ public class PhantomTigerstripeProjectMgr implements
 			// invalidate current phantom project and rebuild
 			// NOTE: the project itself doesn't change, it's content does.
 			createPhantomProject();
-			populateFromProfile(new TigerstripeNullProgressMonitor()); // FIXME
+			populateFromProfile(new NullProgressMonitor()); // FIXME
 			createJarForEclipsePath();
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
@@ -115,7 +115,7 @@ public class PhantomTigerstripeProjectMgr implements
 	 * Populates the PhantomProject from the current active profile.
 	 * 
 	 */
-	protected void populateFromProfile(ITigerstripeProgressMonitor monitor) {
+	protected void populateFromProfile(IProgressMonitor monitor) {
 		if (phantomProject == null)
 			return;
 		needACompile = populatePrimitiveTypes(monitor) != 0;
@@ -128,7 +128,7 @@ public class PhantomTigerstripeProjectMgr implements
 	 * @return returns the number of PrimitiveType artifacts created
 	 * @throws TigerstripeException
 	 */
-	private int populatePrimitiveTypes(ITigerstripeProgressMonitor monitor) {
+	private int populatePrimitiveTypes(IProgressMonitor monitor) {
 
 		int numberCreated = 0;
 		ArtifactManagerSessionImpl artifactMgrSession = null;

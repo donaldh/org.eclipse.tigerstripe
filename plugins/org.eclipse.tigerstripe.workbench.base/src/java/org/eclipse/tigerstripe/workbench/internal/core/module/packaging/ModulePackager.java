@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleException;
@@ -78,7 +78,7 @@ public class ModulePackager implements IModulePackager {
 	 * 
 	 */
 	public void packageUp(URI jarURI, File classesDir, IModuleHeader header,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException,
+			IProgressMonitor monitor) throws TigerstripeException,
 			InvalidModuleException {
 
 		TigerstripeRuntime.logTraceMessage("Packaging "
@@ -376,7 +376,7 @@ public class ModulePackager implements IModulePackager {
 	 * @param tmpDir
 	 */
 	protected void createModuleDescriptor(File tmpDir, ModuleHeader header,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		ModuleDescriptorModel model = new ModuleDescriptorModel(getTSProject());
 		model.setModuleHeader(header);
 

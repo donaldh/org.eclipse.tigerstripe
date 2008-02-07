@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -46,7 +47,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityDetail
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityOveride;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
@@ -573,7 +573,7 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 			List<AbstractArtifact> existingExc = new ArrayList<AbstractArtifact>();
 			for (String fqn : currentFlavorDetails.getExceptions()) {
 				AbstractArtifact art = mgr.getArtifactByFullyQualifiedName(fqn,
-						true, new TigerstripeNullProgressMonitor());
+						true, new NullProgressMonitor());
 				if (art != null) {
 					existingExc.add(art);
 				}

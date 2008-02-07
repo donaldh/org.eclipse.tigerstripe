@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.ExceptionArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjExceptionSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -67,7 +67,7 @@ public class ExceptionArtifact extends AbstractArtifact implements
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		ExceptionArtifact result = new ExceptionArtifact(javaClass,
 				artifactMgr, monitor);
 
@@ -81,7 +81,7 @@ public class ExceptionArtifact extends AbstractArtifact implements
 	}
 
 	public ExceptionArtifact(JavaClass javaClass, ArtifactManager artifactMgr,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		super(javaClass, artifactMgr, monitor);
 		OssjExceptionSpecifics specifics = new OssjExceptionSpecifics(this);
 		specifics.build();

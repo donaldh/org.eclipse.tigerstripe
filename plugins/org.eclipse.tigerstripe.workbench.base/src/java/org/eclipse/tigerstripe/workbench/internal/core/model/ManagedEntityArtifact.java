@@ -14,9 +14,9 @@ import java.io.Writer;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEntitySpecifics;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.ManagedEntityArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEntitySpecifics;
@@ -85,7 +85,7 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		log.debug(" Extracting Entity from "
 				+ javaClass.getFullyQualifiedName());
 		// validate( javaClass );
@@ -96,7 +96,7 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 	}
 
 	public ManagedEntityArtifact(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		super(javaClass, artifactMgr, monitor);
 
 		// this.derivedEntities = new ArrayList();
@@ -106,7 +106,7 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public void resolveReferences(ITigerstripeProgressMonitor monitor)
+	public void resolveReferences(IProgressMonitor monitor)
 			throws TigerstripeException {
 		super.resolveReferences(monitor);
 
@@ -173,7 +173,7 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 		}
 	}
 
-	// private void populateDerivedEntities( ITigerstripeProgressMonitor monitor
+	// private void populateDerivedEntities( IProgressMonitor monitor
 	// ) {
 	//
 	// if (getJavaClass() != null) {

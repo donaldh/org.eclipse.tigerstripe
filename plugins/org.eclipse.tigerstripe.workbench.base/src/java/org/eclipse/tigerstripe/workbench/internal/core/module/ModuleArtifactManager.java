@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -69,7 +69,7 @@ public class ModuleArtifactManager extends ArtifactManager {
 		temporaryDependencies.add(dependency);
 	}
 
-	public void clearTemporaryDependencies(ITigerstripeProgressMonitor monitor) {
+	public void clearTemporaryDependencies(IProgressMonitor monitor) {
 		temporaryDependencies.clear();
 		updateDependenciesContentCache(monitor);
 	}

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -56,7 +57,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
@@ -646,7 +646,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 					ArtifactManager mgr = ((AbstractArtifact) arg
 							.getContainingArtifact()).getArtifactManager();
 					if (mgr.getArtifactByFullyQualifiedName(fqn, true,
-							new TigerstripeNullProgressMonitor()) instanceof IPrimitiveTypeArtifact) {
+							new NullProgressMonitor()) instanceof IPrimitiveTypeArtifact) {
 						fqn = arg.getType().getName();
 					}
 				}

@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 
 import org.apache.log4j.Logger;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.EventArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEventSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -67,7 +67,7 @@ public class EventArtifact extends AbstractArtifact implements IEventArtifact {
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		EventArtifact result = new EventArtifact(javaClass, artifactMgr,
 				monitor);
 
@@ -82,7 +82,7 @@ public class EventArtifact extends AbstractArtifact implements IEventArtifact {
 	}
 
 	public EventArtifact(JavaClass javaClass, ArtifactManager artifactMgr,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		super(javaClass, artifactMgr, monitor);
 		OssjEventSpecifics specifics = new OssjEventSpecifics(this);
 		specifics.build();

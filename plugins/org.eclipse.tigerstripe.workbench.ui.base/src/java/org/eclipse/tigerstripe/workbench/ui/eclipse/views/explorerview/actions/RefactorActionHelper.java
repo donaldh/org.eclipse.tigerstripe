@@ -32,7 +32,6 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -117,8 +116,7 @@ public class RefactorActionHelper {
 		for (ITigerstripeProject project : projectsToRefresh) {
 			try {
 				if (project != null) {
-					project.getArtifactManagerSession().refresh(true,
-							new TigerstripeProgressMonitor(monitor));
+					project.getArtifactManagerSession().refresh(true, monitor);
 
 					IJavaProject jProject = EclipsePlugin
 							.getIJavaProject(project);

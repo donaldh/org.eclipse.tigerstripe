@@ -13,8 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.api.modules;
 import java.io.File;
 import java.net.URI;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleException;
 
 public interface IModulePackager {
@@ -22,6 +22,6 @@ public interface IModulePackager {
 	public IModuleHeader makeHeader();
 
 	public void packageUp(URI jarURI, File classesDir, IModuleHeader header,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException,
+			IProgressMonitor monitor) throws TigerstripeException,
 			InvalidModuleException;
 }

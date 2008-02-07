@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramGraphicalViewer;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -51,7 +52,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessio
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -186,7 +186,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		ArtifactManager artMgr = ((ArtifactManagerSessionImpl) artifactMgrSession)
 				.getArtifactManager();
 		Collection artifacts = artMgr.getAllArtifacts(false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 		for (Object artifact : artifacts) {
 			if (artifact instanceof IAbstractArtifact) {
 				IAbstractArtifact iAbstractArtifact = (IAbstractArtifact) artifact;

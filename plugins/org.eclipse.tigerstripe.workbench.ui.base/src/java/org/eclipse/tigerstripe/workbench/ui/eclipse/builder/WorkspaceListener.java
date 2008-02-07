@@ -52,7 +52,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactDeleteRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
@@ -61,7 +60,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.NatureMigrationUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.GeneralPreferencePage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.DiagramSynchronizationManager;
 import org.eclipse.ui.IWorkbench;
@@ -163,12 +161,9 @@ public class WorkspaceListener implements IElementChangedListener,
 							// Reloading active facet
 							IRunnableWithProgress op = new IRunnableWithProgress() {
 								public void run(IProgressMonitor monitor) {
-									TigerstripeProgressMonitor tsMonitor = new TigerstripeProgressMonitor(
-											monitor);
-
 									// compute the facet predicate while in the
 									// feedback thread
-									ref.computeFacetPredicate(tsMonitor);
+									ref.computeFacetPredicate(monitor);
 								}
 							};
 							IWorkbench wb = PlatformUI.getWorkbench();
@@ -181,7 +176,7 @@ public class WorkspaceListener implements IElementChangedListener,
 										shell);
 								dialog.run(true, false, op);
 								tsProject.setActiveFacet(ref,
-										new TigerstripeNullProgressMonitor());
+										new NullProgressMonitor());
 							} catch (InterruptedException ee) {
 								EclipsePlugin.log(ee);
 							} catch (InvocationTargetException ee) {
@@ -300,7 +295,7 @@ public class WorkspaceListener implements IElementChangedListener,
 				try {
 					IArtifactManagerSession session = tsProject
 							.getArtifactManagerSession();
-					session.refresh(new TigerstripeNullProgressMonitor());
+					session.refresh(new NullProgressMonitor());
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 				}

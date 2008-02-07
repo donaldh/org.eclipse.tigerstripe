@@ -18,7 +18,8 @@ import org.apache.tools.ant.Task;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectVisitor;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.PluginRunStatus;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
 /**
@@ -79,8 +80,15 @@ public class TigerstripeTask extends Task {
 						+ project.getLocation().toOSString());
 				TigerstripeRuntime.logInfoMessage("Generating Project : "
 						+ project.getLocation().toOSString());
-				project.generate(new TigerstripeProjectVisitor());
-				log.info("  Successfully completed.");
+
+				RunConfig config = project.makeDefaultRunConfig();
+				PluginRunStatus[] status = project.generate(config, null);
+				if (status.length == 0)
+					log.info("  Successfully completed.");
+				else {
+					System.out.print(status[0].getMessage());
+					returnCode = RC_INIT_ERROR;
+				}
 
 			} catch (TigerstripeException e) {
 				log.error(e.getLocalizedMessage());

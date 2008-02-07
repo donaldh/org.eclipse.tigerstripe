@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
@@ -34,7 +35,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessio
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -123,7 +123,7 @@ public class TSExplorerUtils {
 							StringReader reader = new StringReader(jElem
 									.getSource());
 							artifact = mgr.extractArtifact(reader,
-									new TigerstripeNullProgressMonitor());
+									new NullProgressMonitor());
 						}
 						return artifact;
 					} else
@@ -143,10 +143,10 @@ public class TSExplorerUtils {
 			IDependency dep = getDependencyFor(classFile);
 			if (dep != null) {
 				ArtifactManager mgr = ((Dependency) dep)
-						.getArtifactManager(new TigerstripeNullProgressMonitor()); // FIXME
+						.getArtifactManager(new NullProgressMonitor()); // FIXME
 				String fqn = getFQNfor(classFile);
 				return mgr.getArtifactByFullyQualifiedName(fqn, false,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 			} else
 				return null;
 		} else if (element instanceof IFile)

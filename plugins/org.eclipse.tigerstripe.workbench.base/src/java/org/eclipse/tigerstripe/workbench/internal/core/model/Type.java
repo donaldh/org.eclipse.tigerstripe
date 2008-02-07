@@ -14,10 +14,10 @@ import java.util.Collection;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
@@ -172,7 +172,7 @@ public class Type implements IType {
 	public boolean isArtifact() {
 		AbstractArtifact artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 		if (artifact != null)
 			return true;
 		return false;
@@ -187,7 +187,7 @@ public class Type implements IType {
 	public boolean isDatatype() {
 		AbstractArtifact artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 		if ((artifact != null) && (artifact instanceof DatatypeArtifact))
 			return true;
 		return false;
@@ -202,7 +202,7 @@ public class Type implements IType {
 	public boolean isQueryType() {
 		AbstractArtifact artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 		if ((artifact != null) && (artifact instanceof QueryArtifact))
 			return true;
 		return false;
@@ -217,7 +217,7 @@ public class Type implements IType {
 	public boolean isUpdateProcedureType() {
 		AbstractArtifact artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 		if ((artifact != null) && (artifact instanceof UpdateProcedureArtifact))
 			return true;
 		return false;
@@ -232,7 +232,7 @@ public class Type implements IType {
 	public boolean isEntityType() {
 		AbstractArtifact artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 		if ((artifact != null) && (artifact instanceof ManagedEntityArtifact))
 			return true;
 		return false;
@@ -247,7 +247,7 @@ public class Type implements IType {
 	public boolean isTSException() {
 		AbstractArtifact artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 		if ((artifact != null) && (artifact instanceof ExceptionArtifact))
 			return true;
 		return false;
@@ -262,7 +262,7 @@ public class Type implements IType {
 	public boolean isEnum() {
 		AbstractArtifact artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 		if ((artifact != null) && (artifact instanceof EnumArtifact))
 			return true;
 		else
@@ -272,7 +272,7 @@ public class Type implements IType {
 	public boolean isExtensibleEnum() {
 		AbstractArtifact artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 		if ((artifact != null) && (artifact instanceof EnumArtifact)) {
 			EnumArtifact en = (EnumArtifact) artifact;
 			return en.getExtensible();
@@ -283,7 +283,7 @@ public class Type implements IType {
 	public Type getBaseType() {
 		AbstractArtifact artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 		if (artifact instanceof EnumArtifact) {
 			EnumArtifact en = (EnumArtifact) artifact;
 			return en.getBaseType();
@@ -352,7 +352,7 @@ public class Type implements IType {
 	public AbstractArtifact getArtifact() {
 		AbstractArtifact artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 		return artifact;
 	}
 

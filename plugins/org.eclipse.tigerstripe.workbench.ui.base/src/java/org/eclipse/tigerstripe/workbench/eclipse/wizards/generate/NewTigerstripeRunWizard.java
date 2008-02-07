@@ -43,7 +43,6 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.GenerateResultDialog;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 
 /**
  * @author Eric Dillon
@@ -128,7 +127,7 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 			RunConfig config = fPage.getRunConfig();
 			ProjectGenerator generator = new ProjectGenerator(getTSProject(),
 					config);
-			result = generator.run(new TigerstripeProgressMonitor(monitor));
+			result = generator.run(monitor);
 
 		} catch (GenerationCanceledException e) {
 			throw new InterruptedException();

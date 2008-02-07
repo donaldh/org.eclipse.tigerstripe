@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.window.Window;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
@@ -30,14 +31,12 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListe
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.MessageListDialog;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.ui.IEditorInput;
@@ -224,7 +223,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		ArtifactManager mgr = aArt.getArtifactManager();
 
 		mgr.removeArtifactManagerListener(this);
-		mgr.notifyArtifactSaved(aArt, new TigerstripeProgressMonitor(monitor));
+		mgr.notifyArtifactSaved(aArt, monitor);
 		mgr.addArtifactManagerListener(this);
 
 		monitor.done();
@@ -277,7 +276,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 			StringReader reader = new StringReader(text);
 			try {
 				IAbstractArtifact newArtifact = session.extractArtifact(reader,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 				setIArtifact(newArtifact);
 				refreshModelPages();
 			} catch (TigerstripeException e) {

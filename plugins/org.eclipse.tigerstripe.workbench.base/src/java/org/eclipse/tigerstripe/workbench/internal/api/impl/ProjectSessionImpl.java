@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.AbstractPluggablePluginProjectHandle;
@@ -24,7 +25,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.SimplePlugg
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ISimplePluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
@@ -175,7 +175,7 @@ public class ProjectSessionImpl {
 
 	public void refreshCacheFor(URI uri,
 			IAbstractTigerstripeProject workingCopy,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		if (projectMappedByURIs.containsKey(uri)) {
 			AbstractTigerstripeProjectHandle result = (AbstractTigerstripeProjectHandle) projectMappedByURIs
 					.get(uri);

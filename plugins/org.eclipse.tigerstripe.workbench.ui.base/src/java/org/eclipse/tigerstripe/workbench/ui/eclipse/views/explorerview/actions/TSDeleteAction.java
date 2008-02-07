@@ -34,7 +34,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContract
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
@@ -238,7 +237,7 @@ public class TSDeleteAction extends DeleteAction {
 						art.removeFields(Collections.singleton(field));
 						try {
 							art
-									.doSilentSave(new TigerstripeNullProgressMonitor());
+									.doSilentSave(new NullProgressMonitor());
 							changedArtifacts.add(art);
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);
@@ -250,7 +249,7 @@ public class TSDeleteAction extends DeleteAction {
 						art.removeMethods(Collections.singleton(method));
 						try {
 							art
-									.doSilentSave(new TigerstripeNullProgressMonitor());
+									.doSilentSave(new NullProgressMonitor());
 							changedArtifacts.add(art);
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);
@@ -262,7 +261,7 @@ public class TSDeleteAction extends DeleteAction {
 						art.removeLiterals(Collections.singleton(literal));
 						try {
 							art
-									.doSilentSave(new TigerstripeNullProgressMonitor());
+									.doSilentSave(new NullProgressMonitor());
 							changedArtifacts.add(art);
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);
@@ -283,7 +282,7 @@ public class TSDeleteAction extends DeleteAction {
 
 					try {
 						mgr.addArtifact(art,
-								new TigerstripeNullProgressMonitor()); // this
+								new NullProgressMonitor()); // this
 						// will
 						// replace
 						// the
@@ -294,7 +293,7 @@ public class TSDeleteAction extends DeleteAction {
 						// of the saves
 						// now
 						mgr.notifyArtifactSaved(art,
-								new TigerstripeNullProgressMonitor());
+								new NullProgressMonitor());
 
 						// for the explorer to be refreshed, the corresponding
 						// resource needs to be refreshed

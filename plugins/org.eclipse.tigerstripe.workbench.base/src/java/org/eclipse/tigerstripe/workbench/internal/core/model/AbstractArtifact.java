@@ -38,7 +38,6 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
@@ -305,7 +304,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 *         changed.
 	 */
 	public abstract AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor);
+			ArtifactManager artifactMgr, IProgressMonitor monitor);
 
 	public boolean isAbstract() {
 		return this.isAbstract;
@@ -325,7 +324,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 *            JavaClass the parsed source file to build a model for
 	 */
 	protected void buildModel(JavaClass clazz,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 
 		setName(clazz.getName());
 		setPackage(clazz.getPackage());
@@ -458,7 +457,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return result.toString();
 	}
 
-	private void extractImplementedArtifacts(ITigerstripeProgressMonitor monitor) {
+	private void extractImplementedArtifacts(IProgressMonitor monitor) {
 		Tag markingTag = getFirstTagByName(getMarkingTag());
 		if (markingTag != null) {
 			String val = markingTag.getProperties().getProperty("implements",
@@ -495,7 +494,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @throws TigerstripeException
 	 */
-	public void resolveReferences(ITigerstripeProgressMonitor monitor)
+	public void resolveReferences(IProgressMonitor monitor)
 			throws TigerstripeException {
 
 		// #386
@@ -516,7 +515,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * This resolves to the correct artifact.
 	 */
-	public void resolveExtendedArtifact(ITigerstripeProgressMonitor monitor) {
+	public void resolveExtendedArtifact(IProgressMonitor monitor) {
 		if (getExtendedArtifact() != null) {
 			String fqn = getExtendedArtifact().getFullyQualifiedName();
 			IAbstractArtifact realArtifact = getArtifactManager()
@@ -527,7 +526,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
-	public void resolveImplementedArtifacts(ITigerstripeProgressMonitor monitor) {
+	public void resolveImplementedArtifacts(IProgressMonitor monitor) {
 		List<IAbstractArtifact> newList = new ArrayList<IAbstractArtifact>();
 		for (IAbstractArtifact art : implementedArtifacts) {
 			String fqn = art.getFullyQualifiedName();
@@ -1168,12 +1167,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return result;
 	}
 
-	public void doSave(ITigerstripeProgressMonitor monitor)
+	public void doSave(IProgressMonitor monitor)
 			throws TigerstripeException {
 		doSave(true, monitor);
 	}
 
-	public void doSilentSave(ITigerstripeProgressMonitor monitor)
+	public void doSilentSave(IProgressMonitor monitor)
 			throws TigerstripeException {
 		doSave(false, monitor);
 	}
@@ -1239,7 +1238,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return artifactPath;
 	}
 
-	private void doSave(boolean notify, ITigerstripeProgressMonitor monitor)
+	private void doSave(boolean notify, IProgressMonitor monitor)
 			throws TigerstripeException {
 
 		// Determine the path for this artifact
@@ -1349,7 +1348,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * Create an abstract artifact from a JavaClass
 	 */
 	public AbstractArtifact(JavaClass javaClass, ArtifactManager artifactMgr,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		this(artifactMgr);
 
 		this.javaClass = javaClass;

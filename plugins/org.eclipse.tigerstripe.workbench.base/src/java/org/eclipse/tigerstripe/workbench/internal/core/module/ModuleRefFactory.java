@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.internal.core.module;
 
 import java.net.URI;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 
 /**
@@ -43,19 +43,19 @@ public class ModuleRefFactory {
 	 * 
 	 * @return the newly created module ref.
 	 */
-	public ModuleRef parseModule(URI jarURI, ITigerstripeProgressMonitor monitor)
+	public ModuleRef parseModule(URI jarURI, IProgressMonitor monitor)
 			throws InvalidModuleException {
 		return new ModuleRef(jarURI, monitor);
 	}
 
 	public IModuleHeader parseModuleHeader(URI jarURI,
-			ITigerstripeProgressMonitor monitor) throws InvalidModuleException {
+			IProgressMonitor monitor) throws InvalidModuleException {
 		UnparsedModuleRef ref = new UnparsedModuleRef(jarURI, monitor);
 		return ref.getModuleHeader();
 	}
 
 	public IProjectDetails parseModuleDetails(URI jarURI,
-			ITigerstripeProgressMonitor monitor) throws InvalidModuleException {
+			IProgressMonitor monitor) throws InvalidModuleException {
 		UnparsedModuleRef ref = new UnparsedModuleRef(jarURI, monitor);
 		return ref.getProjectDetails();
 	}

@@ -15,11 +15,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
@@ -119,7 +119,7 @@ public interface IArtifactManagerSession {
 	 * @throws TigerstripeException
 	 */
 	public IAbstractArtifact extractArtifact(Reader reader,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws TigerstripeException;
 
 	public IAbstractArtifact extractArtifactModel(Reader reader)
 			throws TigerstripeException;
@@ -130,7 +130,7 @@ public interface IArtifactManagerSession {
 	 * 
 	 * @throws TigerstripeException
 	 */
-	public void refresh(ITigerstripeProgressMonitor monitor)
+	public void refresh(IProgressMonitor monitor)
 			throws TigerstripeException;
 
 	/**
@@ -140,27 +140,27 @@ public interface IArtifactManagerSession {
 	 *            it true, POJOs will be reparsed, even if they haven't changed.
 	 * @throws TigerstripeException
 	 */
-	public void refresh(boolean forceReload, ITigerstripeProgressMonitor monitor)
+	public void refresh(boolean forceReload, IProgressMonitor monitor)
 			throws TigerstripeException;
 
 	/**
 	 * Refreshes all the references to other projects
 	 */
-	public void refreshReferences(ITigerstripeProgressMonitor monitor)
+	public void refreshReferences(IProgressMonitor monitor)
 			throws TigerstripeException;
 
 	/**
 	 * Refreshes everything about this session (local artifacts & references)
 	 * Equivalent to refreshAll(false)
 	 */
-	public void refreshAll(ITigerstripeProgressMonitor monitor)
+	public void refreshAll(IProgressMonitor monitor)
 			throws TigerstripeException;
 
 	/**
 	 * Refreshes everything about this session (local artifacts & references)
 	 */
 	public void refreshAll(boolean forceReload,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws TigerstripeException;
 
 	/**
 	 * Makes a new Artifact of type "model" based on the providing artifact,
@@ -181,13 +181,13 @@ public interface IArtifactManagerSession {
 	 */
 	public IModelUpdater getIModelUpdater();
 
-	public void updateCaches(ITigerstripeProgressMonitor monitor)
+	public void updateCaches(IProgressMonitor monitor)
 			throws TigerstripeException;
 
 	// =================================================================
 	// Facet Management
 	public void setActiveFacet(IFacetReference facet,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException;
+			IProgressMonitor monitor) throws TigerstripeException;
 
 	public void resetActiveFacet() throws TigerstripeException;
 

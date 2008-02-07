@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.util;
 
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 
 public class TigerstripeLogProgressMonitor implements
-		ITigerstripeProgressMonitor {
+		IProgressMonitor {
 
 	public void beginTask(String name, int totalWork) {
 		TigerstripeRuntime.logInfoMessage(name);

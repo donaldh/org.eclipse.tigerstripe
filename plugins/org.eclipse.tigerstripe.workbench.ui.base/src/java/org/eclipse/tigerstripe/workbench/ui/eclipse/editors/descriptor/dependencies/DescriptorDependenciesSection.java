@@ -54,7 +54,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleException;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
@@ -374,7 +373,7 @@ public class DescriptorDependenciesSection extends
 						IDependency dep = handle.makeDependency(res
 								.getProjectRelativePath().toOSString());
 						handle.addDependency(dep, false,
-								new TigerstripeNullProgressMonitor());
+								new NullProgressMonitor());
 						viewer.add(dep);
 						markPageModified();
 					} catch (TigerstripeException e) {
@@ -421,7 +420,7 @@ public class DescriptorDependenciesSection extends
 							EclipsePlugin.log(e);
 						}
 						handle.addDependency(localDependency,
-								new TigerstripeNullProgressMonitor());
+								new NullProgressMonitor());
 						viewer.add(localDependency);
 						markPageModified();
 					} catch (TigerstripeException e) {
@@ -467,7 +466,7 @@ public class DescriptorDependenciesSection extends
 			ITigerstripeProject handle = getTSProject();
 			try {
 				handle.removeDependencies(selectedFields, false,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}

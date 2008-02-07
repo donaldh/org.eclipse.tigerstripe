@@ -43,7 +43,6 @@ import org.eclipse.tigerstripe.workbench.eclipse.wizards.NewTSElementWizard;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartReference;
@@ -152,7 +151,7 @@ public abstract class NewArtifactWizard extends NewTSElementWizard {
 		if (tsProject instanceof ITigerstripeProject) {
 			try {
 				((ITigerstripeProject) tsProject).getArtifactManagerSession()
-						.refresh(new TigerstripeProgressMonitor(monitor));
+						.refresh(monitor);
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}

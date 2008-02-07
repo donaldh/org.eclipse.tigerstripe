@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.LogicalFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.LogicalPredicate;
@@ -38,7 +38,7 @@ public class MultiFacetReference extends FacetReference {
 
 	@Override
 	public IFacetPredicate computeFacetPredicate(
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 
 		facetPredicate = new LogicalFacetPredicate(LogicalPredicate.OR);
 		for (IFacetReference facet : facets) {

@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjArtifactSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactCreateRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
 public class ArtifactCreateRequest extends BaseModelChangeRequest implements
@@ -73,7 +73,7 @@ public class ArtifactCreateRequest extends BaseModelChangeRequest implements
 
 		applyDefaults(artifact, mgrSession);
 		mgrSession.addArtifact(artifact);
-		artifact.doSave(new TigerstripeNullProgressMonitor());
+		artifact.doSave(new NullProgressMonitor());
 	}
 
 	// TODO: this should really live in the mgrSession itself

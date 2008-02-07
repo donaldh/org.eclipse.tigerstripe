@@ -29,10 +29,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
@@ -41,7 +42,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListe
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
@@ -52,7 +52,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 import org.eclipse.tigerstripe.workbench.internal.core.util.PredicatedList;
 import org.eclipse.tigerstripe.workbench.internal.core.util.PredicatedMap;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -278,7 +277,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * Resets the ArtifactManager and removes any extracted Artifacts.
 	 * 
 	 */
-	public void reset(ITigerstripeProgressMonitor monitor) {
+	public void reset(IProgressMonitor monitor) {
 		clearExtractedMap();
 		this.namedArtifactsMap.clear();
 		this.filenameMap = new HashMap();
@@ -293,7 +292,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public void updateDependenciesContentCache(
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		// This is called by the TigerstripeProject each time the list of
 		// dependencies is changed.
 		this.depContentCache.updateCache(monitor);
@@ -401,7 +400,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * 
 	 * @throws TigerstripeException
 	 */
-	private void validateArtifacts(ITigerstripeProgressMonitor monitor)
+	private void validateArtifacts(IProgressMonitor monitor)
 			throws TigerstripeException {
 
 		try {
@@ -459,14 +458,14 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public List<IAbstractArtifact> getArtifactsByModel(AbstractArtifact model,
-			boolean includeDependencies, ITigerstripeProgressMonitor monitor) {
+			boolean includeDependencies, IProgressMonitor monitor) {
 		return getArtifactsByModel(model, includeDependencies,
 				shouldOverridePredicate(), monitor);
 	}
 
 	public List<IAbstractArtifact> getArtifactsByModel(AbstractArtifact model,
 			boolean includeDependencies, boolean overridePredicate,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 
 		try {
 			readLock.lock();
@@ -530,7 +529,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * @return
 	 */
 	public List<IAbstractArtifact> getAllArtifacts(boolean includeDependencies,
-			boolean isOverridePredicate, ITigerstripeProgressMonitor monitor) {
+			boolean isOverridePredicate, IProgressMonitor monitor) {
 		try {
 			readLock.lock();
 			List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
@@ -601,19 +600,19 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public Collection getAllArtifacts(boolean includeDependencies,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		return getAllArtifacts(includeDependencies, shouldOverridePredicate(),
 				monitor);
 	}
 
 	public Collection getModelArtifacts(boolean includeDependencies,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		return getModelArtifacts(includeDependencies,
 				shouldOverridePredicate(), monitor);
 	}
 
 	public Collection getModelArtifacts(boolean includeDependencies,
-			boolean overridePredicate, ITigerstripeProgressMonitor monitor) {
+			boolean overridePredicate, IProgressMonitor monitor) {
 		try {
 			readLock.lock();
 			Collection result = new ArrayList();
@@ -639,7 +638,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 */
 	@Deprecated
 	public Collection getCapabilitiesArtifacts(boolean includeDependencies,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		return getCapabilitiesArtifacts(includeDependencies,
 				shouldOverridePredicate(), monitor);
 	}
@@ -653,7 +652,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 */
 	@Deprecated
 	public Collection getCapabilitiesArtifacts(boolean includeDependencies,
-			boolean overridePredicate, ITigerstripeProgressMonitor monitor) {
+			boolean overridePredicate, IProgressMonitor monitor) {
 		try {
 			readLock.lock();
 			Collection result = new ArrayList();
@@ -674,14 +673,14 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
-			boolean includeDependencies, ITigerstripeProgressMonitor monitor) {
+			boolean includeDependencies, IProgressMonitor monitor) {
 		return getArtifactByFullyQualifiedName(name, includeDependencies,
 				shouldOverridePredicate(), monitor);
 	}
 
 	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
 			boolean includeDependencies, boolean isOverridePredicate,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		try {
 			readLock.lock();
 			AbstractArtifact local = null;
@@ -843,7 +842,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 *            will be applied.
 	 */
 	public synchronized void refresh(boolean forceReload,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 
 		// The underlying project for this Artifact Manager may have been
 		// deleted manually, in which case the directory structure will
@@ -917,7 +916,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public synchronized void refreshReferences(
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		for (ITigerstripeProject project : getTSProject()
 				.getReferencedProjects()) {
 			try {
@@ -930,7 +929,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		}
 	}
 
-	public synchronized void updateCaches(ITigerstripeProgressMonitor monitor) {
+	public synchronized void updateCaches(IProgressMonitor monitor) {
 		updateDependenciesContentCache(monitor);
 		relationshipCache.updateCache(monitor);
 	}
@@ -968,7 +967,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	private HashMap<String, PojoState> buildPojoState(List<String> resources,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		HashMap<String, PojoState> result = new HashMap<String, PojoState>();
 
 		monitor.beginTask("Building initial list of POJOs", resources.size());
@@ -996,7 +995,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * @return
 	 */
 	private List<PojoState> pojosHaveChanged(List<String> resources,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		List<PojoState> changedPojos = new ArrayList<PojoState>();
 		// TigerstripeRuntime.logInfoMessage("PojosHaveChanged is running on "
 		// + getTSProject().getProjectLabel());
@@ -1036,7 +1035,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	protected List<String> findAllResourcesFromPath(
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 
 		long startTime = System.currentTimeMillis();
 		List<String> allResources = new ArrayList<String>();
@@ -1156,7 +1155,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * @param sources
 	 */
 	protected void extractFromPojos(List<PojoState> changedPojos,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 
 		long startTime = System.currentTimeMillis();
 
@@ -1280,7 +1279,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public void notifyArtifactSaved(IAbstractArtifact artifact,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 
 		try {
 			writeLock.lock();
@@ -1369,7 +1368,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * @return
 	 */
 	public AbstractArtifact extractArtifact(JavaSource source,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		AbstractArtifact extracted = null;
 		for (Iterator iter = this.discoverableArtifacts.iterator(); iter
 				.hasNext();) {
@@ -1445,7 +1444,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * @throws TigerstripeException
 	 */
 	public AbstractArtifact extractArtifact(Reader reader,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		try {
 			JavaDocBuilder builder = new JavaDocBuilder();
 			JavaSource source = builder.addSource(reader);
@@ -1481,7 +1480,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 *             if the artifact cannot be properly added
 	 */
 	public void addArtifact(IAbstractArtifact iartifact,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 
 		if (iartifact == null)
 			return;
@@ -1649,7 +1648,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	// ==================================================
 	// Logic for Chained ArtifactMgrs
 	protected synchronized Collection getArtifactsByModelInChained(
-			AbstractArtifact model, ITigerstripeProgressMonitor monitor) {
+			AbstractArtifact model, IProgressMonitor monitor) {
 		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 		result.addAll(depContentCache.getArtifactsByModelInChained(model,
 				monitor));
@@ -1658,7 +1657,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	protected synchronized Collection<IAbstractArtifact> getAllChainedArtifacts(
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 
 		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 		result.addAll(depContentCache.getAllChainedArtifacts(monitor));
@@ -1667,7 +1666,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	protected synchronized AbstractArtifact getArtifactByFullyQualifiedNameInChained(
-			String name, ITigerstripeProgressMonitor monitor) {
+			String name, IProgressMonitor monitor) {
 
 		AbstractArtifact result = depContentCache
 				.getArtifactByFullyQualifiedNameInChained(name, monitor);
@@ -1763,7 +1762,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * @return
 	 */
 	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
-			String fqn, ITigerstripeProgressMonitor monitor) {
+			String fqn, IProgressMonitor monitor) {
 		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
 		// Returns any local definition first
@@ -1792,7 +1791,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedNameInModules(
-			String fqn, ITigerstripeProgressMonitor monitor) {
+			String fqn, IProgressMonitor monitor) {
 
 		List<IAbstractArtifact> list = depContentCache
 				.getAllKnownArtifactsByFullyQualifiedName(fqn, monitor);
@@ -1822,7 +1821,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public synchronized void profileChanged(IWorkbenchProfile newActiveProfile) {
 		initManager();
-		refresh(true, new TigerstripeNullProgressMonitor()); // FIXME This
+		refresh(true, new NullProgressMonitor()); // FIXME This
 		// should have a
 		// proper
 		// progress
@@ -1926,7 +1925,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public void renameArtifact(IAbstractArtifact artifact, String toFQN,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		String fromFQN = artifact.getFullyQualifiedName();
 		try {
 			shouldNotify = false; // we don't want to trigger del+add
@@ -2006,7 +2005,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * @throws TigerstripeException
 	 */
 	private void propagateFacetChangeToDependencies(IFacetReference oldFacet,
-			IFacetReference newFacet, ITigerstripeProgressMonitor monitor)
+			IFacetReference newFacet, IProgressMonitor monitor)
 			throws TigerstripeException {
 		if (newFacet == null) {
 			// reseting all referenced projects
@@ -2056,7 +2055,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		activeFacet = null;
 		resetScopingPredicate();
 		propagateFacetChangeToDependencies(oldFacet, null,
-				new TigerstripeNullProgressMonitor()); // FIXME: monitor?
+				new NullProgressMonitor()); // FIXME: monitor?
 		notifyFacetChanged(oldFacet);
 	}
 
@@ -2076,7 +2075,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public void setActiveFacet(IFacetReference facetRef,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		if (facetRef.canResolve()) {
 			IFacetReference oldFacet = activeFacet;
 			activeFacet = facetRef;

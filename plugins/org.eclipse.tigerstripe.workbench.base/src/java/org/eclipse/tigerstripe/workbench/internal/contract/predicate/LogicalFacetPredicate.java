@@ -12,11 +12,11 @@ package org.eclipse.tigerstripe.workbench.internal.contract.predicate;
 
 import java.util.Arrays;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.LogicalPredicate;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 
@@ -56,7 +56,7 @@ public class LogicalFacetPredicate extends LogicalPredicate implements
 		return getInconsistencies().isOK();
 	}
 
-	public void resolve(ITigerstripeProgressMonitor monitor) {
+	public void resolve(IProgressMonitor monitor) {
 
 	}
 

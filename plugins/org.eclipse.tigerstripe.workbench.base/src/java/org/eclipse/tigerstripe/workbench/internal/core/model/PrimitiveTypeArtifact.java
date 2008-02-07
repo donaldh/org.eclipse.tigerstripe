@@ -13,8 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.PrimitiveArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -47,7 +47,7 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 	}
 
 	public PrimitiveTypeArtifact(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		super(javaClass, artifactMgr, monitor);
 		StandardSpecifics specifics = new StandardSpecifics(this);
 		specifics.build();
@@ -56,7 +56,7 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		PrimitiveTypeArtifact result = new PrimitiveTypeArtifact(javaClass,
 				artifactMgr, monitor);
 		return result;
@@ -106,7 +106,7 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public void resolveReferences(ITigerstripeProgressMonitor monitor)
+	public void resolveReferences(IProgressMonitor monitor)
 			throws TigerstripeException {
 		super.resolveReferences(monitor);
 

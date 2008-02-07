@@ -12,11 +12,11 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import java.util.Collections;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 
@@ -73,6 +73,6 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 				art.removeMethods(Collections.singleton(method));
 			}
 		}
-		art.doSave(new TigerstripeNullProgressMonitor());
+		art.doSave(new NullProgressMonitor());
 	}
 }

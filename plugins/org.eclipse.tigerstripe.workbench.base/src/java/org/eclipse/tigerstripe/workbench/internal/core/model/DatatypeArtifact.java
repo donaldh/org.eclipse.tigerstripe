@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
 
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.DatatypeArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjDatatypeSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -69,7 +69,7 @@ public class DatatypeArtifact extends AbstractArtifact implements
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		// validate( javaClass );
 		DatatypeArtifact result = new DatatypeArtifact(javaClass, artifactMgr,
 				monitor);
@@ -83,7 +83,7 @@ public class DatatypeArtifact extends AbstractArtifact implements
 	}
 
 	public DatatypeArtifact(JavaClass javaClass,
-			ArtifactManager artifactManager, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactManager, IProgressMonitor monitor) {
 		super(javaClass, artifactManager, monitor);
 		OssjDatatypeSpecifics specifics = new OssjDatatypeSpecifics(this);
 		specifics.build();

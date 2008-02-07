@@ -71,7 +71,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.DBImpo
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.DBImportCheckpointHelper;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xmi.XmiImportCheckpoint;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xmi.XmiImportCheckpointHelper;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
@@ -281,7 +280,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 			Collection<IAbstractArtifact> targetArtifacts = targetSession
 					.queryArtifact(query);
 			for (IAbstractArtifact targetArtifact : targetArtifacts) {
-				targetArtifact.doSave(new TigerstripeNullProgressMonitor());
+				targetArtifact.doSave(new NullProgressMonitor());
 				monitor.worked(1);
 			}
 

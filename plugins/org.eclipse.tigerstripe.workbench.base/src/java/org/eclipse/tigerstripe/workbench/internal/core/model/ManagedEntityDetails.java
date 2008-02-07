@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityOveride;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
@@ -52,7 +52,7 @@ public class ManagedEntityDetails implements IManagedEntityDetails {
 	public ManagedEntityArtifact getArtifact() {
 		return (ManagedEntityArtifact) artifactManager
 				.getArtifactByFullyQualifiedName(this.fullyQualifiedName, true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 	}
 
 	public EntityOveride getOveride() {

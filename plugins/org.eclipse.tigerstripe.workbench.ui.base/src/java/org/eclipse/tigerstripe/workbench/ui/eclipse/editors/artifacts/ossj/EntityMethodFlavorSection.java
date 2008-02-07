@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -47,7 +48,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityDetail
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityOveride;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -492,7 +492,7 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 			List<AbstractArtifact> existingExc = new ArrayList<AbstractArtifact>();
 			for (String fqn : currentFlavorDetails.getExceptions()) {
 				AbstractArtifact art = mgr.getArtifactByFullyQualifiedName(fqn,
-						true, new TigerstripeNullProgressMonitor());
+						true, new NullProgressMonitor());
 				if (art != null) {
 					existingExc.add(art);
 				}

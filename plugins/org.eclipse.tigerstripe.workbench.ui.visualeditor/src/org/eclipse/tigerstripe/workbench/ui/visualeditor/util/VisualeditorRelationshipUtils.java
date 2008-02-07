@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -24,7 +25,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLe
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
@@ -374,7 +374,7 @@ public class VisualeditorRelationshipUtils {
 				// handles those two cases
 				IAbstractArtifact artifact = artifactMgr
 						.getArtifactByFullyQualifiedName(typeName, false,
-								new TigerstripeNullProgressMonitor());
+								new NullProgressMonitor());
 				if (artifact instanceof IEnumArtifact) {
 					Attribute eAttribute = VisualeditorFactory.eINSTANCE
 							.createAttribute();

@@ -36,7 +36,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
@@ -125,7 +124,7 @@ public class ArtifactComponentTransferDropAdapter extends
 				}
 
 				try {
-					targetArtifact.doSave(new TigerstripeNullProgressMonitor());
+					targetArtifact.doSave(new NullProgressMonitor());
 					IResource res = TSExplorerUtils
 							.getIResourceForArtifact(targetArtifact);
 					if (res != null) {
@@ -200,7 +199,7 @@ public class ArtifactComponentTransferDropAdapter extends
 				}
 
 				try {
-					targetArtifact.doSave(new TigerstripeNullProgressMonitor());
+					targetArtifact.doSave(new NullProgressMonitor());
 					IResource res = TSExplorerUtils
 							.getIResourceForArtifact(targetArtifact);
 					if (res != null) {
@@ -212,7 +211,7 @@ public class ArtifactComponentTransferDropAdapter extends
 						}
 					}
 					for (IAbstractArtifact art : srcArtifacts) {
-						art.doSave(new TigerstripeNullProgressMonitor());
+						art.doSave(new NullProgressMonitor());
 						res = TSExplorerUtils.getIResourceForArtifact(art);
 						if (res != null) {
 							try {

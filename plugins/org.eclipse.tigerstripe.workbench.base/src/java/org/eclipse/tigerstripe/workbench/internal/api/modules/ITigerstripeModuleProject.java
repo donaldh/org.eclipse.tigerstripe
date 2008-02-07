@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.modules;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -50,12 +50,12 @@ public interface ITigerstripeModuleProject extends ITigerstripeProject {
 	 * {@link #addTemporaryDependency(IDependency)} does not do it.
 	 */
 	public void updateDependenciesContentCache(
-			ITigerstripeProgressMonitor monitor);
+			IProgressMonitor monitor);
 
 	/**
 	 * Remove all temporary dependencies that were added for generation.
 	 * 
 	 * @see #addTemporaryDependency(IDependency)
 	 */
-	public void clearTemporaryDependencies(ITigerstripeProgressMonitor monitor);
+	public void clearTemporaryDependencies(IProgressMonitor monitor);
 }

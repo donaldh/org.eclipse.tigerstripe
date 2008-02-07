@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IEventDescriptorEntry;
@@ -29,7 +30,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjArtifactSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEventSpecifics;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
@@ -143,7 +143,7 @@ public class DiffFixer {
 							// set it to null for now
 							newArt.setExtendedArtifact(null);
 
-							newArt.doSave(new TigerstripeNullProgressMonitor());
+							newArt.doSave(new NullProgressMonitor());
 							String msgText = "INFO : Added Artifact "
 									+ diff.getLocal();
 							out.println(msgText);
@@ -175,7 +175,7 @@ public class DiffFixer {
 						String msgText = "INFO : Updated Artifact specifics for "
 								+ diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 					} else {
 						String msgText = "WARNING : Unable to fix diff " + diff;
 						out.println(msgText);
@@ -197,7 +197,7 @@ public class DiffFixer {
 						String msgText = "INFO : Updated Extends for "
 								+ diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						// }
 					} catch (TigerstripeException t) {
 
@@ -223,7 +223,7 @@ public class DiffFixer {
 						String msgText = "INFO : Updated Implements for "
 								+ diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						// }
 					} catch (TigerstripeException t) {
 
@@ -241,13 +241,13 @@ public class DiffFixer {
 						String msgText = "INFO : Updated Comment for "
 								+ diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 					} else if (diff.getObject().equals("Abstract")) {
 						artifact.setAbstract(!artifact.isAbstract());
 						String msgText = "INFO : Updated Abstract for "
 								+ diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 					}
 				}
 
@@ -280,7 +280,7 @@ public class DiffFixer {
 										+ " value for " + diff.getLocal();
 								out.println(msgText);
 								artifact
-										.doSave(new TigerstripeNullProgressMonitor());
+										.doSave(new NullProgressMonitor());
 							}
 						}
 						// Special case for Array Types
@@ -332,7 +332,7 @@ public class DiffFixer {
 												+ diff.getLocal();
 										out.println(msgText);
 										artifact
-												.doSave(new TigerstripeNullProgressMonitor());
+												.doSave(new NullProgressMonitor());
 									}
 								}
 							}
@@ -365,7 +365,7 @@ public class DiffFixer {
 											+ diff.getLocal();
 									out.println(msgText);
 									artifact
-											.doSave(new TigerstripeNullProgressMonitor());
+											.doSave(new NullProgressMonitor());
 								}
 							}
 						} else {
@@ -395,14 +395,14 @@ public class DiffFixer {
 						String msgText = "INFO : Updated Artifact OSSJ specifics:SessionFactoryMethods for "
 								+ diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 					} else if (diff.getObject().equals("SingleExtension")) {
 						specs.setSingleExtensionType(extractedSpecs
 								.isSingleExtensionType());
 						String msgText = "INFO : Updated Artifact OSSJ specifics:SingleExtensionfor "
 								+ diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 					}
 
 					else {
@@ -425,7 +425,7 @@ public class DiffFixer {
 						String msgText = "INFO : Added Field "
 								+ diff.getObject() + "on " + diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 					} else {
 						String msgText = "New Field " + diff.getObject()
 								+ " in Artifact  " + diff.getLocal()
@@ -476,11 +476,11 @@ public class DiffFixer {
 							 */
 						}
 						artifact.addField(diffField);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Replaced Field "
 								+ diff.getObject() + " on " + diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 					} else if (diff.getScope().endsWith(":ArrayValue")) {
 						// out.println("Dealing with array");
 						String fieldName = "";
@@ -538,7 +538,7 @@ public class DiffFixer {
 												+ diff.getLocal();
 										out.println(msgText);
 										artifact
-												.doSave(new TigerstripeNullProgressMonitor());
+												.doSave(new NullProgressMonitor());
 									}
 								}
 							}
@@ -564,7 +564,7 @@ public class DiffFixer {
 					if (diff.getLocalVal().equals("present")) {
 						literal = getILiteral(extractedArtifact, diff.getObject());
 						artifact.addLiteral(literal);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Added Literal "
 								+ diff.getObject() + " on " + diff.getLocal();
 						out.println(msgText);
@@ -624,7 +624,7 @@ public class DiffFixer {
 						String msgText = "INFO : Replaced Literal "
 								+ diff.getObject() + " on " + diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 					} else if (diff.getScope().endsWith(":ArrayValue")) {
 						String literalName;
 						if (diff.getObject().indexOf(":") > 0) {
@@ -682,7 +682,7 @@ public class DiffFixer {
 												+ diff.getLocal();
 										out.println(msgText);
 										artifact
-												.doSave(new TigerstripeNullProgressMonitor());
+												.doSave(new NullProgressMonitor());
 									}
 								}
 							}
@@ -708,7 +708,7 @@ public class DiffFixer {
 					if (diff.getLocalVal().equals("present")) {
 						method = getIMethod(extractedArtifact, diff.getObject());
 						artifact.addMethod(method);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Added Method "
 								+ diff.getObject() + " on " + diff.getLocal();
 						out.println(msgText);
@@ -783,11 +783,11 @@ public class DiffFixer {
 							 */
 						}
 						artifact.addMethod(diffMethod);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Replaced Method " + methodName
 								+ " on " + diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 
 					} else if (diff.getScope().endsWith(":ArrayValue")) {
 						String methodName;
@@ -848,7 +848,7 @@ public class DiffFixer {
 												+ diff.getLocal();
 										out.println(msgText);
 										artifact
-												.doSave(new TigerstripeNullProgressMonitor());
+												.doSave(new NullProgressMonitor());
 									}
 								}
 							}
@@ -898,7 +898,7 @@ public class DiffFixer {
 							out.println(msgText);
 						}
 					}
-					artifact.doSave(new TigerstripeNullProgressMonitor());
+					artifact.doSave(new NullProgressMonitor());
 				}
 
 				// ================== Dependencies ============================
@@ -925,7 +925,7 @@ public class DiffFixer {
 								+ diff.getObject() + " on " + diff.getLocal();
 						out.println(msgText);
 					}
-					artifact.doSave(new TigerstripeNullProgressMonitor());
+					artifact.doSave(new NullProgressMonitor());
 				}
 
 				/**
@@ -942,19 +942,19 @@ public class DiffFixer {
 					if (diff.getObject().equals("PrimaryKeyType")) {
 						entitySpecs.setPrimaryKey(extractedSpecs
 								.getPrimaryKey());
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Updated PrimaryKeyType "
 								+ diff.getObject() + " on " + diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 					} else if (diff.getObject().equals("ExtensibilityType")) {
 						entitySpecs.setExtensibilityType(extractedSpecs
 								.getExtensibilityType());
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Updated ExtensibilityType "
 								+ diff.getObject() + " on " + diff.getLocal();
 						out.println(msgText);
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 					} else {
 						String msgText = "WARNING : Unable to fix diff " + diff;
 						out.println(msgText);
@@ -1051,7 +1051,7 @@ public class DiffFixer {
 						flavorMethod.setEntityMethodFlavorDetails(flavEnum,
 								details);
 					}
-					artifact.doSave(new TigerstripeNullProgressMonitor());
+					artifact.doSave(new NullProgressMonitor());
 					String msgText = "INFO : Updated FlavorDetails on "
 							+ diff.getLocal();
 					out.println(msgText);
@@ -1071,13 +1071,13 @@ public class DiffFixer {
 							.getIStandardSpecifics();
 					if (diff.getObject().equals("BaseType")) {
 						enumSpecs.setBaseIType(extractedSpecs.getBaseIType());
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Updated BaseType on "
 								+ diff.getLocal();
 						out.println(msgText);
 					} else if (diff.getObject().equals("Extensible")) {
 						enumSpecs.setExtensible(extractedSpecs.getExtensible());
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Updated Extensible  on "
 								+ diff.getLocal();
 						out.println(msgText);
@@ -1103,7 +1103,7 @@ public class DiffFixer {
 								.getIStandardSpecifics();
 						querySpecs.setReturnedEntityIType(extractedSpecs
 								.getReturnedEntityIType());
-						artifact.doSave(new TigerstripeNullProgressMonitor());
+						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Updated ReturnType "
 								+ diff.getObject() + " on " + diff.getLocal();
 						out.println(msgText);
@@ -1141,7 +1141,7 @@ public class DiffFixer {
 								}
 							}
 							artifact
-									.doSave(new TigerstripeNullProgressMonitor());
+									.doSave(new NullProgressMonitor());
 							String msgText = "INFO : EventDescriptorEntry "
 									+ diff.getObject() + " updated on "
 									+ diff.getLocal();
@@ -1165,7 +1165,7 @@ public class DiffFixer {
 								}
 							}
 							artifact
-									.doSave(new TigerstripeNullProgressMonitor());
+									.doSave(new NullProgressMonitor());
 							String msgText = "INFO : EventDescriptorEntry "
 									+ diff.getObject() + " added to "
 									+ diff.getLocal();
@@ -1193,7 +1193,7 @@ public class DiffFixer {
 								}
 							}
 							artifact
-									.doSave(new TigerstripeNullProgressMonitor());
+									.doSave(new NullProgressMonitor());
 							String msgText = "INFO : CustomEventDescriptorEntry "
 									+ diff.getObject()
 									+ " updated on "
@@ -1218,7 +1218,7 @@ public class DiffFixer {
 								}
 							}
 							artifact
-									.doSave(new TigerstripeNullProgressMonitor());
+									.doSave(new NullProgressMonitor());
 							String msgText = "INFO : CustomEventDescriptorEntry "
 									+ diff.getObject()
 									+ " added to "
@@ -1259,7 +1259,7 @@ public class DiffFixer {
 							q.setFullyQualifiedName(diff.getObject());
 							session.addManagedEntityDetails(q);
 							session
-									.doSave(new TigerstripeNullProgressMonitor());
+									.doSave(new NullProgressMonitor());
 							String msgText = "INFO : Managed Entity "
 									+ diff.getObject() + " to "
 									+ diff.getLocal();
@@ -1278,7 +1278,7 @@ public class DiffFixer {
 							q.setFullyQualifiedName(diff.getObject());
 							session.addEmittedEvent(q);
 							session
-									.doSave(new TigerstripeNullProgressMonitor());
+									.doSave(new NullProgressMonitor());
 							String msgText = "INFO : Added Event "
 									+ diff.getObject() + " to "
 									+ diff.getLocal();
@@ -1299,7 +1299,7 @@ public class DiffFixer {
 							q.setFullyQualifiedName(diff.getObject());
 							session.addExposedUpdateProcedure(q);
 							session
-									.doSave(new TigerstripeNullProgressMonitor());
+									.doSave(new NullProgressMonitor());
 							String msgText = "INFO : Added UpdateProcedure "
 									+ diff.getObject() + " to "
 									+ diff.getLocal();
@@ -1318,7 +1318,7 @@ public class DiffFixer {
 							q.setFullyQualifiedName(diff.getObject());
 							session.addNamedQuery(q);
 							session
-									.doSave(new TigerstripeNullProgressMonitor());
+									.doSave(new NullProgressMonitor());
 							String msgText = "INFO : Added Named Query "
 									+ diff.getObject() + " to "
 									+ diff.getLocal();

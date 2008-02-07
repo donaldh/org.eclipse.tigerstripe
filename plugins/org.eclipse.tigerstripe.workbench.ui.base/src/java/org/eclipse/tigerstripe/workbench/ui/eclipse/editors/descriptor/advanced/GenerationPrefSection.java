@@ -658,7 +658,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 					IProjectDetails.USECASE_PROC_EXT_DEFAULT));
 			updateXsltText();
 
-			if (handle.requiresDescriptorUpgrade()
+			if (((TigerstripeProjectHandle) handle).requiresDescriptorUpgrade()
 					&& !getShownDescriptorUpgrade()) {
 				setShownDescriptorUpgrade(true);
 				MessageBox dialog = new MessageBox(getSection().getShell(),

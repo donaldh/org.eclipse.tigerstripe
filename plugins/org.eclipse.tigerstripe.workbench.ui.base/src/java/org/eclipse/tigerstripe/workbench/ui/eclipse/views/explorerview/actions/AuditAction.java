@@ -27,7 +27,6 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.ui.IWorkbench;
@@ -102,10 +101,7 @@ public class AuditAction extends BuildAction {
 													IArtifactChangeListener.NOTIFY_NONE);
 									((ITigerstripeProject) tsProject)
 											.getArtifactManagerSession()
-											.refreshAll(
-													true,
-													new TigerstripeProgressMonitor(
-															monitor));
+											.refreshAll(true, monitor);
 									monitor.done();
 								} catch (TigerstripeException e) {
 									EclipsePlugin.log(e);

@@ -44,11 +44,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 
@@ -151,18 +151,20 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 			project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
 			monitor.worked(1);
 
-			IModulePackager packager = tsProject.getPackager();
+			IModulePackager packager = ((TigerstripeOssjProjectHandle) tsProject)
+					.getPackager();
 			File file = new File(jarFile);
 
 			IModuleHeader header = packager.makeHeader();
 			header.setModuleID(moduleID);
 
 			monitor.worked(3);
-			String classesDirStr = tsProject.getLocation().toFile().toURI().getPath()
+			String classesDirStr = tsProject.getLocation().toFile().toURI()
+					.getPath()
 					+ File.separator + "/bin";
 			File classesDir = new File(classesDirStr);
 			packager.packageUp(file.toURI(), classesDir, header,
-					new TigerstripeProgressMonitor(monitor));
+					monitor);
 
 			// Now refresh project
 			// Fixed automatic refresh which was missing - bug # 110

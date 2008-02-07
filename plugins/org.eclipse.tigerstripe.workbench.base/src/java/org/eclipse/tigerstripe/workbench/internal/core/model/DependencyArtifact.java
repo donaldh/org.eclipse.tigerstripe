@@ -13,11 +13,11 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.DependencyArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IField;
@@ -63,7 +63,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	public DependencyArtifact(JavaClass javaClass, ArtifactManager artifactMgr,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		super(javaClass, artifactMgr, monitor);
 		StandardSpecifics specifics = new StandardSpecifics(this);
 		specifics.build();
@@ -72,7 +72,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 
 	@Override
 	protected void buildModel(JavaClass clazz,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		super.buildModel(clazz, monitor);
 
 		// Now extract the aEnd and zEnd
@@ -127,7 +127,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		DependencyArtifact result = new DependencyArtifact(javaClass,
 				artifactMgr, monitor);
 		return result;

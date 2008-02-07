@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginRuleExecutor;
@@ -45,7 +46,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArti
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 
@@ -176,47 +176,47 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		// Let's put what we'll need in the context and get going
 		Collection entities = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(ManagedEntityArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		Collection datatypes = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(DatatypeArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		Collection events = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(EventArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		Collection enums = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(EnumArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		Collection exceptions = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(ExceptionArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		Collection queries = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(QueryArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		Collection sessions = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(SessionFacadeArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		Collection updateProcedures = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(UpdateProcedureArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		Collection associations = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(AssociationArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		Collection dependencies = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(DependencyArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		Collection associationClasses = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(AssociationClassArtifact.MODEL, false,
-						new TigerstripeNullProgressMonitor()), filter);
+						new NullProgressMonitor()), filter);
 
 		// Bug 928: removed ArtifactFilter that was used to filter all lists
 		// below
@@ -224,52 +224,52 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		// projects
 		Collection allEntities = artifactMgr.getArtifactsByModel(
 				ManagedEntityArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection allDatatypes = artifactMgr.getArtifactsByModel(
 				DatatypeArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection allEvents = artifactMgr.getArtifactsByModel(
 				EventArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection allEnums = artifactMgr.getArtifactsByModel(
 				EnumArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection allExceptions = artifactMgr.getArtifactsByModel(
 				ExceptionArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection allQueries = artifactMgr.getArtifactsByModel(
 				QueryArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection allSessions = artifactMgr.getArtifactsByModel(
 				SessionFacadeArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection allUpdateProcedures = artifactMgr.getArtifactsByModel(
 				UpdateProcedureArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection allAssociations = artifactMgr.getArtifactsByModel(
 				AssociationArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection allDependencies = artifactMgr.getArtifactsByModel(
 				DependencyArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection allAssociationClasses = artifactMgr.getArtifactsByModel(
 				AssociationClassArtifact.MODEL, true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		Collection artifacts = artifactMgr.getAllArtifacts(false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 		Collection allArtifacts = artifactMgr.getAllArtifacts(true, false,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 
 		defaultVContext.put("artifacts", artifacts);
 		defaultVContext.put("allArtifacts", allArtifacts);

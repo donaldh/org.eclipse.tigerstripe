@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.contract.segment;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 
 /**
@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
  */
 public interface IFacetPredicate extends Predicate {
 
-	public void resolve(ITigerstripeProgressMonitor monitor)
+	public void resolve(IProgressMonitor monitor)
 			throws TigerstripeException;
 
 	/**

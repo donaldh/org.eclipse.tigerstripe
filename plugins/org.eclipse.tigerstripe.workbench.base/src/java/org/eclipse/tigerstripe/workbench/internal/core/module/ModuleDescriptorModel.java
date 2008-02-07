@@ -31,9 +31,9 @@ import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -76,7 +76,7 @@ public class ModuleDescriptorModel {
 
 	public ModuleDescriptorModel(TigerstripeProject embeddedProject,
 			Reader reader, boolean parseArtifacts,
-			ITigerstripeProgressMonitor monitor) throws InvalidModuleException {
+			IProgressMonitor monitor) throws InvalidModuleException {
 		this.embeddedProject = embeddedProject;
 		artifactMgr = new ModuleArtifactManager(embeddedProject);
 		details = new ProjectDetails(null);
@@ -115,7 +115,7 @@ public class ModuleDescriptorModel {
 	 * @param reader
 	 */
 	private void readModel(Reader reader, boolean parseArtifacts,
-			ITigerstripeProgressMonitor monitor) throws InvalidModuleException {
+			IProgressMonitor monitor) throws InvalidModuleException {
 		try {
 			SAXReader saxReader = new SAXReader();
 			Document document = saxReader.read(reader);
@@ -139,7 +139,7 @@ public class ModuleDescriptorModel {
 	 * Writes this module descriptor model to the given writer
 	 * 
 	 */
-	public void writeModel(Writer writer, ITigerstripeProgressMonitor monitor)
+	public void writeModel(Writer writer, IProgressMonitor monitor)
 			throws TigerstripeException {
 
 		Document document = createXMLDocument(monitor);
@@ -155,7 +155,7 @@ public class ModuleDescriptorModel {
 		}
 	}
 
-	private Document createXMLDocument(ITigerstripeProgressMonitor monitor)
+	private Document createXMLDocument(IProgressMonitor monitor)
 			throws TigerstripeException {
 		Document document = DocumentHelper.createDocument();
 		Element module = document.addElement("module");
@@ -167,7 +167,7 @@ public class ModuleDescriptorModel {
 	}
 
 	private void createHeader(Element module,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		Element hElem = module.addElement("header");
 
 		hElem.addAttribute("moduleID", header.getModuleID());
@@ -179,7 +179,7 @@ public class ModuleDescriptorModel {
 	}
 
 	private void createDetails(Element module,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		Element details = module.addElement("details");
 
 		details.addAttribute("name", getTSProject().getProjectDetails()
@@ -192,7 +192,7 @@ public class ModuleDescriptorModel {
 	}
 
 	private void createArtifacts(Element module,
-			ITigerstripeProgressMonitor monitor) throws TigerstripeException {
+			IProgressMonitor monitor) throws TigerstripeException {
 		Element artifacts = module.addElement("artifacts");
 
 		IArtifactManagerSession session = getTSProject()
@@ -293,7 +293,7 @@ public class ModuleDescriptorModel {
 	}
 
 	private void extractArtifacts(Document doc,
-			ITigerstripeProgressMonitor monitor) throws InvalidModuleException {
+			IProgressMonitor monitor) throws InvalidModuleException {
 		this.artifactMgr = new ModuleArtifactManager(embeddedProject);
 
 		Element root = doc.getRootElement();

@@ -10,12 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.project;
 
-import java.net.URI;
-
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.IDependency;
 
 /**
  * Session facade to manage Tigerstripe projects.

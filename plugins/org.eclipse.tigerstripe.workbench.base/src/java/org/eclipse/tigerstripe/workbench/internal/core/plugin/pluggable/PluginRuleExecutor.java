@@ -12,11 +12,11 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IRunRule;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedPPluginRule;
@@ -66,7 +66,7 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 
 		int counter = 0;
 		// take care of the global rules first
-		ITigerstripeProgressMonitor monitor = config.getMonitor();
+		IProgressMonitor monitor = config.getMonitor();
 		IRunRule[] globalRules = plugin.getPProject().getGlobalRules();
 
 		monitor.beginTask("Running global rules", globalRules.length);

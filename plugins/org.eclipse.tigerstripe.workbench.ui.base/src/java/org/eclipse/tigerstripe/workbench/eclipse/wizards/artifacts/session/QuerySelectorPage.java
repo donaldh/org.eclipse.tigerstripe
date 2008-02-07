@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
@@ -32,7 +33,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
@@ -287,7 +287,7 @@ public class QuerySelectorPage extends WizardPage {
 
 		Collection queries = getArtifactManager()
 				.getArtifactsByModel(QueryArtifact.MODEL, true,
-						new TigerstripeNullProgressMonitor());
+						new NullProgressMonitor());
 
 		if (queries == null || queries.size() == 0)
 			return;

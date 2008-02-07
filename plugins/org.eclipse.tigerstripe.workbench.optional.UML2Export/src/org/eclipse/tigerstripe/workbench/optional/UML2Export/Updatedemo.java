@@ -15,12 +15,12 @@ import java.util.Collection;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -49,7 +49,7 @@ public class Updatedemo {
 			tsProject = (ITigerstripeProject) TigerstripeCore
 					.findProject(projectURI);
 			this.mgrSession = tsProject.getArtifactManagerSession();
-			this.mgrSession.refresh(true, new TigerstripeNullProgressMonitor());
+			this.mgrSession.refresh(true, new NullProgressMonitor());
 		} catch (Exception e) {
 			TigerstripeRuntime.logErrorMessage("Exception detected", e);
 			return;

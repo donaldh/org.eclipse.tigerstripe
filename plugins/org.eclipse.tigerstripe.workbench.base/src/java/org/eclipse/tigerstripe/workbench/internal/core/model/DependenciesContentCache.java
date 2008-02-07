@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.PredicateFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -75,7 +75,7 @@ public class DependenciesContentCache {
 		allKnownArtifactsByFqn = new HashMap<String, List<IAbstractArtifact>>();
 	}
 
-	public synchronized void updateCache(ITigerstripeProgressMonitor monitor) {
+	public synchronized void updateCache(IProgressMonitor monitor) {
 
 		cleanCache();
 
@@ -86,7 +86,7 @@ public class DependenciesContentCache {
 		isInitialized = true;
 	}
 
-	private void updateArtifactsByModel(ITigerstripeProgressMonitor monitor) {
+	private void updateArtifactsByModel(IProgressMonitor monitor) {
 		Collection registeredArtifacts = manager.getRegisteredArtifacts();
 		monitor.beginTask("Cache update - Pass 1", registeredArtifacts.size());
 		for (Iterator iterModel = registeredArtifacts.iterator(); iterModel
@@ -108,7 +108,7 @@ public class DependenciesContentCache {
 		monitor.done();
 	}
 
-	private void updateAllArtifacts(ITigerstripeProgressMonitor monitor) {
+	private void updateAllArtifacts(IProgressMonitor monitor) {
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 		for (Iterator iter = manager.getProjectDependencies().iterator(); iter
 				.hasNext();) {
@@ -123,7 +123,7 @@ public class DependenciesContentCache {
 
 	// TODO: really this could be replaced now with by extracting the first item
 	// in the allKnownArtifactsByFqn...
-	private void updateArtifactsByFqn(ITigerstripeProgressMonitor monitor) {
+	private void updateArtifactsByFqn(IProgressMonitor monitor) {
 		artifactsByFqn = new HashMap();
 		for (Iterator iter = allArtifacts.iterator(); iter.hasNext();) {
 			AbstractArtifact artifact = (AbstractArtifact) iter.next();
@@ -133,7 +133,7 @@ public class DependenciesContentCache {
 	}
 
 	private void updateAllKnownArtifactsByFqn(
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		allKnownArtifactsByFqn = new HashMap();
 		for (Iterator iter = allArtifacts.iterator(); iter.hasNext();) {
 			IAbstractArtifact artifact = (IAbstractArtifact) iter.next();
@@ -151,7 +151,7 @@ public class DependenciesContentCache {
 	}
 
 	public synchronized List<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
-			String fqn, ITigerstripeProgressMonitor monitor) {
+			String fqn, IProgressMonitor monitor) {
 		if (!isInitialized) {
 			updateCache(monitor);
 		}
@@ -164,7 +164,7 @@ public class DependenciesContentCache {
 	}
 
 	public synchronized List<IAbstractArtifact> getArtifactsByModelInChained(
-			AbstractArtifact model, ITigerstripeProgressMonitor monitor) {
+			AbstractArtifact model, IProgressMonitor monitor) {
 		if (!isInitialized)
 			updateCache(monitor);
 
@@ -173,7 +173,7 @@ public class DependenciesContentCache {
 	}
 
 	public synchronized List<IAbstractArtifact> getAllChainedArtifacts(
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		if (!isInitialized)
 			updateCache(monitor);
 
@@ -181,7 +181,7 @@ public class DependenciesContentCache {
 	}
 
 	public synchronized AbstractArtifact getArtifactByFullyQualifiedNameInChained(
-			String name, ITigerstripeProgressMonitor monitor) {
+			String name, IProgressMonitor monitor) {
 		if (!isInitialized)
 			updateCache(monitor);
 

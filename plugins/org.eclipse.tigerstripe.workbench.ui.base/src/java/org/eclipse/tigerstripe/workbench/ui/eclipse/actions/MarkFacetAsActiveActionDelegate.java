@@ -37,7 +37,6 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.SchedulingUtils;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -71,14 +70,12 @@ public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 						+ segment.getName()) {
 
 					@Override
-					protected IStatus run(IProgressMonitor monitor) {
-						final TigerstripeProgressMonitor tsMonitor = new TigerstripeProgressMonitor(
-								monitor);
+					protected IStatus run(final IProgressMonitor monitor) {
 
 						// First make sure the project is built properly
 						try {
 							targetProject.getArtifactManagerSession().refresh(
-									tsMonitor);
+									monitor);
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);
 						}
@@ -86,16 +83,16 @@ public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 						// compute the facet predicate while in the feedback
 						// thread
 						IFacetPredicate fPred = ref
-								.computeFacetPredicate(tsMonitor);
+								.computeFacetPredicate(monitor);
 						Display.getDefault().syncExec(new Runnable() {
 
 							public void run() {
 								try {
-									tsMonitor.beginTask("Applying Facet",
+									monitor.beginTask("Applying Facet",
 											IProgressMonitor.UNKNOWN);
 									targetProject
-											.setActiveFacet(ref, tsMonitor);
-									tsMonitor.done();
+											.setActiveFacet(ref, monitor);
+									monitor.done();
 								} catch (TigerstripeException e) {
 									IStatus status = new Status(
 											IStatus.ERROR,

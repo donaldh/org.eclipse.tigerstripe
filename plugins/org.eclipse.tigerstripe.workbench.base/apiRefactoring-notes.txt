@@ -33,6 +33,8 @@ R - Remove IQueryModelArtifacts.java
 R - Remove IQuerySessionArtifacts.java
 X - Moved references to IProjectSession to InternalTigerstripeCore to provide new simpler API for
 	project management directly on TigerstripeCore.
+X - References to ITigerstripeProgressMonitor should be removed from the API. In fact, a proper
+	IProgressMonitor (from Eclipse) should be used instead.
 
 ###################################
 In IAbstractTigerstripeProject
@@ -50,9 +52,7 @@ R - Remove all "getI***()" methods to keep only "get****()"
 R - Remove all "makeI***()" methods to keep only "make***()"
 R - getProjectDetails() is redundant with IProjectDescriptor.getProjectDetails(). Should be removed
 	from ITigerstripeProject
-- References to ITigerstripeProgressMonitor should be removed from the API. In fact, a proper
-	IProgressMonitor (from Eclipse) should be used instead.
-- IAbstractTigerstripeProject should implement IAdaptable
+X - IAbstractTigerstripeProject should implement IAdaptable
 X - TigerstripeError (in internal.utils) should be replaced with IStatus from Eclipse.
 
 
@@ -122,4 +122,4 @@ in IType
 
 ##################################
 IStereotypeCapabable, IStereoType (See also IMethod)
-R - change ArrayBased methdos to Collection
+R - change ArrayBased methods to Collection

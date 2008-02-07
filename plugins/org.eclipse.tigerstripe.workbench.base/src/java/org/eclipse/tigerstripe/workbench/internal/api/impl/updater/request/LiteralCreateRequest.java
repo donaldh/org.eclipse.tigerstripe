@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralCreateRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
@@ -81,6 +81,6 @@ public class LiteralCreateRequest extends BaseArtifactElementRequest implements
 		type.setFullyQualifiedName(getLiteralType());
 		literal.setType(type);
 		art.addLiteral(literal);
-		art.doSave(new TigerstripeNullProgressMonitor());
+		art.doSave(new NullProgressMonitor());
 	}
 }

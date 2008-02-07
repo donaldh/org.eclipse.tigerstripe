@@ -17,6 +17,7 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -129,14 +130,16 @@ public class TigerstripeModuleBuildTask extends Task {
 			// project.build( IncrementalProjectBuilder.FULL_BUILD, monitor );
 			// monitor.worked(1);
 
-			IModulePackager packager = tsProject.getPackager();
+			IModulePackager packager = ((TigerstripeOssjProjectHandle) tsProject)
+					.getPackager();
 			File file = new File(jarFile);
 
 			IModuleHeader header = packager.makeHeader();
 			header.setModuleID(moduleID);
 
 			// monitor.worked(3);
-			String classesDirStr = tsProject.getLocation().append("bin").toOSString();
+			String classesDirStr = tsProject.getLocation().append("bin")
+					.toOSString();
 			File classesDir = new File(classesDirStr);
 			packager.packageUp(file.toURI(), classesDir, header,
 					new TigerstripeLogProgressMonitor());

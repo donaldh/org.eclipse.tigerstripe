@@ -12,13 +12,13 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.utils
 
 import java.util.List;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
@@ -281,7 +281,7 @@ public class ClassDiagramUtils {
 			return true;
 
 		IAbstractArtifact art = mgr.getArtifactByFullyQualifiedName(attrType, true,
-				new TigerstripeNullProgressMonitor());
+				new NullProgressMonitor());
 		if (art instanceof IPrimitiveTypeArtifact)
 			return true;
 		else if (art instanceof IEnumArtifact)

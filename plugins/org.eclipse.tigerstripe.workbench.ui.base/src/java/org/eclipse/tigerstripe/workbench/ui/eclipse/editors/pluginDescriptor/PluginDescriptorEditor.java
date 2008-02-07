@@ -43,7 +43,6 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.hea
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.properties.PluginDescriptorPropertiesPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.PluginDescriptorRulesPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.runtime.RuntimePage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -177,7 +176,7 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 					monitor.beginTask("Refreshing Project Cache...", 10);
 					session.refreshCacheFor(getIPluggablePluginProject()
 							.getLocation().toFile().toURI(), getIPluggablePluginProject(),
-							new TigerstripeProgressMonitor(monitor));
+							monitor);
 					monitor.done();
 				} catch (TigerstripeException ee) {
 					EclipsePlugin.log(ee);

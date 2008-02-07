@@ -13,9 +13,9 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.AssociationArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
@@ -55,7 +55,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	public AssociationArtifact(JavaClass javaClass,
-			ArtifactManager artifactManager, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactManager, IProgressMonitor monitor) {
 		super(javaClass, artifactManager, monitor);
 		StandardSpecifics specifics = new StandardSpecifics(this);
 		specifics.build();
@@ -64,7 +64,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 
 	@Override
 	protected void buildModel(JavaClass clazz,
-			ITigerstripeProgressMonitor monitor) {
+			IProgressMonitor monitor) {
 		super.buildModel(clazz, monitor);
 
 		// Now extract the aEnd and zEnd
@@ -91,7 +91,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
-			ArtifactManager artifactMgr, ITigerstripeProgressMonitor monitor) {
+			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		AssociationArtifact result = new AssociationArtifact(javaClass,
 				artifactMgr, monitor);
 		return result;

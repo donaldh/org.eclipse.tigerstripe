@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
@@ -42,7 +41,6 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.dependenc
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.facetRefs.FacetReferencesPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.header.OverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins.PluginConfigurationPage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -174,7 +172,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 					monitor.beginTask("Refreshing Project Cache...", 10);
 					session.refreshCacheFor(getTSProject().getLocation()
 							.toFile().toURI(), getTSProject(),
-							new TigerstripeProgressMonitor(monitor));
+							monitor);
 					monitor.done();
 				} catch (TigerstripeException ee) {
 					EclipsePlugin.log(ee);

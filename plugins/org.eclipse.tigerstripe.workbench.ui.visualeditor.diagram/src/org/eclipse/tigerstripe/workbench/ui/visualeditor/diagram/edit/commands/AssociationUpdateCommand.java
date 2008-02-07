@@ -18,6 +18,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
@@ -30,7 +31,6 @@ import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
@@ -242,7 +242,7 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 			// iArtifact...this should
 			// trigger an update of the associated eObject in the diagram
 			try {
-				iAssociation.doSave(new TigerstripeNullProgressMonitor());
+				iAssociation.doSave(new NullProgressMonitor());
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logInfoMessage(
 						"TigerstripeException detected", e);

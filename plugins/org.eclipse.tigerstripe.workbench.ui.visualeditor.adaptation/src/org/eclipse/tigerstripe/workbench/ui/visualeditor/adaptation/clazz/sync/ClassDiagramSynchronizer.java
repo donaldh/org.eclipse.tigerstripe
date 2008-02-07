@@ -35,7 +35,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeLi
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter.ETAdapterFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter.MapETAdapter;
@@ -134,13 +133,11 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 							.getReferencedProjects()) {
 						monitor.subTask("Building referenced project: "
 								+ project.getProjectLabel());
-						project.getArtifactManagerSession().refresh(
-								new TigerstripeProgressMonitor(monitor));
+						project.getArtifactManagerSession().refresh(monitor);
 						monitor.worked(1);
 					}
 
-					getTSProject().getArtifactManagerSession().refresh(
-							new TigerstripeProgressMonitor(monitor));
+					getTSProject().getArtifactManagerSession().refresh(monitor);
 					monitor.worked(2);
 
 					monitor.done();

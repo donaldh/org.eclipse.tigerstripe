@@ -18,8 +18,8 @@ import java.net.URI;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleRef;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
 /**
@@ -31,14 +31,14 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
  */
 public class UnparsedModuleRef extends ModuleRef implements IModuleRef {
 
-	public UnparsedModuleRef(URI jarURI, ITigerstripeProgressMonitor monitor)
+	public UnparsedModuleRef(URI jarURI, IProgressMonitor monitor)
 			throws InvalidModuleException {
 		super(jarURI, monitor);
 	}
 
 	@Override
 	protected void parseTSModuleDescriptor(TigerstripeProject embeddedProject,
-			ITigerstripeProgressMonitor monitor) throws InvalidModuleException,
+			IProgressMonitor monitor) throws InvalidModuleException,
 			IOException {
 		JarFile file = new JarFile(this.jarURI.getPath());
 		JarEntry tsModuleEntry = file

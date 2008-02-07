@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.RelationshipPredicateFilter;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -84,7 +84,7 @@ public class ArtifactRelationshipCache {
 	 * Populates the cache with current relationship found in artifact mgr
 	 * 
 	 */
-	public void updateCache(ITigerstripeProgressMonitor monitor) {
+	public void updateCache(IProgressMonitor monitor) {
 		clearCache();
 		List<IAbstractArtifact> rels = new ArrayList<IAbstractArtifact>();
 

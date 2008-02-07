@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
@@ -91,11 +91,11 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 						.getArtifactByFullyQualifiedName(featureValue);
 			}
 			artifact.setExtendedArtifact(target);
-			artifact.doSave(new TigerstripeNullProgressMonitor());
+			artifact.doSave(new NullProgressMonitor());
 		} else if (ISABSTRACT_FEATURE.equals(featureId)) {
 			IAbstractArtifact artifact = (IAbstractArtifact) art;
 			artifact.setAbstract("true".equals(featureValue));
-			artifact.doSave(new TigerstripeNullProgressMonitor());
+			artifact.doSave(new NullProgressMonitor());
 		} else if (RETURNED_TYPE.equals(featureId)
 				&& art instanceof IQueryArtifact) {
 			IQueryArtifact artifact = (IQueryArtifact) art;
@@ -107,7 +107,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 				type.setFullyQualifiedName(featureValue);
 			}
 			artifact.setReturnedType(type);
-			artifact.doSave(new TigerstripeNullProgressMonitor());
+			artifact.doSave(new NullProgressMonitor());
 		} else if (BASE_TYPE.equals(featureId) && art instanceof IEnumArtifact) {
 			IEnumArtifact artifact = (IEnumArtifact) art;
 
@@ -118,7 +118,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 				type.setFullyQualifiedName(featureValue);
 			}
 			artifact.setBaseType(type);
-			artifact.doSave(new TigerstripeNullProgressMonitor());
+			artifact.doSave(new NullProgressMonitor());
 		} else if (AEND.equals(featureId) || AENDName.equals(featureId)
 				|| AENDAGGREGATION.equals(featureId)
 				|| AENDISCHANGEABLE.equals(featureId)
@@ -183,7 +183,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 					type.setTypeMultiplicity(targetEnd.getMultiplicity());
 					targetEnd.setType(type);
 				}
-				artifact.doSave(new TigerstripeNullProgressMonitor());
+				artifact.doSave(new NullProgressMonitor());
 			} else if (art instanceof IDependencyArtifact) {
 				IDependencyArtifact dep = (IDependencyArtifact) art;
 				if (AEND.equals(featureId)) {
@@ -195,7 +195,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 					type.setFullyQualifiedName(featureValue);
 					dep.setZEndType(type);
 				}
-				dep.doSave(new TigerstripeNullProgressMonitor());
+				dep.doSave(new NullProgressMonitor());
 			}
 		}
 

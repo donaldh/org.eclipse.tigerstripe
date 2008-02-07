@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeNullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
@@ -67,23 +67,23 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 						.makeExposedUpdateProcedure();
 				proc.setFullyQualifiedName(featureValue);
 				session.addExposedUpdateProcedure(proc);
-				session.doSave(new TigerstripeNullProgressMonitor()); // FIXME
+				session.doSave(new NullProgressMonitor()); // FIXME
 			} else if (MANAGED_ENTITIES.equals(featureId)) {
 				IManagedEntityDetails details = session
 						.makeManagedEntityDetails();
 				details.setFullyQualifiedName(featureValue);
 				session.addManagedEntityDetails(details);
-				session.doSave(new TigerstripeNullProgressMonitor());
+				session.doSave(new NullProgressMonitor());
 			} else if (EMITTED_NOTIFICATIONS.equals(featureId)) {
 				IEmittedEvent event = session.makeEmittedEvent();
 				event.setFullyQualifiedName(featureValue);
 				session.addEmittedEvent(event);
-				session.doSave(new TigerstripeNullProgressMonitor());
+				session.doSave(new NullProgressMonitor());
 			} else if (NAMED_QUERIES.equals(featureId)) {
 				INamedQuery query = session.makeNamedQuery();
 				query.setFullyQualifiedName(featureValue);
 				session.addNamedQuery(query);
-				session.doSave(new TigerstripeNullProgressMonitor());
+				session.doSave(new NullProgressMonitor());
 			}
 		} else if (art instanceof IManagedEntityArtifact) {
 			IManagedEntityArtifact me = (IManagedEntityArtifact) art;
@@ -95,7 +95,7 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 			if (target != null) {
 				list.add(target);
 				me.setImplementedArtifacts(list);
-				me.doSave(new TigerstripeNullProgressMonitor());
+				me.doSave(new NullProgressMonitor());
 			}
 		}
 	}

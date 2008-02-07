@@ -13,11 +13,11 @@ package org.eclipse.tigerstripe.workbench.model.artifacts;
 import java.io.Writer;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.ITigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
@@ -113,10 +113,10 @@ public interface IAbstractArtifact extends IModelComponent, IWorkingCopy {
 
 	public void setExtendedArtifact(IAbstractArtifact artifact);
 
-	public void doSave(ITigerstripeProgressMonitor monitor)
+	public void doSave(IProgressMonitor monitor)
 			throws TigerstripeException;
 
-	public void doSilentSave(ITigerstripeProgressMonitor monitor)
+	public void doSilentSave(IProgressMonitor monitor)
 			throws TigerstripeException;
 
 	public void write(Writer writer) throws TigerstripeException;

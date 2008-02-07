@@ -72,7 +72,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.TigerstripeProgressMonitor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TigerstripeExplorerPart;
 import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.DiagramSynchronizationManager;
@@ -602,7 +601,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			// artifact as they are parsed by the Art. Mgr. This is not
 			// necessary since all artifacts will be audited below.
 			session.setBroadcastMask(IArtifactChangeListener.NOTIFY_NONE);
-			session.refreshAll(new TigerstripeProgressMonitor(monitor));
+			session.refreshAll(monitor);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		} finally {
