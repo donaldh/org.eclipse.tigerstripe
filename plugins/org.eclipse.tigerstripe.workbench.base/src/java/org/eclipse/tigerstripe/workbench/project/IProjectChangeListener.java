@@ -17,7 +17,7 @@ public interface IProjectChangeListener {
 
 	public void dependencyRemoved(IDependency dependency);
 
-	public void projectReferenceAdded(ITigerstripeProject project);
+	public void projectReferenceAdded(ITigerstripeModelProject project);
 
-	public void projectReferenceRemoved(ITigerstripeProject project);
+	public void projectReferenceRemoved(ITigerstripeModelProject project);
 }

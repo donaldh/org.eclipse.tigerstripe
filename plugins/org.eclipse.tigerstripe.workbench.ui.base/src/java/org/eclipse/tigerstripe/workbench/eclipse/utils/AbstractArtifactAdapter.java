@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 
 /**
@@ -47,7 +47,7 @@ public class AbstractArtifactAdapter {
 	 * @return
 	 */
 	public static IAbstractArtifact adaptWithin(Object obj,
-			ITigerstripeProject tsProject) {
+			ITigerstripeModelProject tsProject) {
 
 		if (tsProject == null)
 			return null;
@@ -140,9 +140,9 @@ public class AbstractArtifactAdapter {
 			IAbstractTigerstripeProject aProject = EclipsePlugin
 					.getITigerstripeProjectFor(jProject.getProject());
 
-			if (aProject instanceof ITigerstripeProject
+			if (aProject instanceof ITigerstripeModelProject
 					&& (jElement instanceof ICompilationUnit || jElement instanceof IClassFile))
-				return adaptWithin(obj, (ITigerstripeProject) aProject);
+				return adaptWithin(obj, (ITigerstripeModelProject) aProject);
 		}
 		return null;
 	}

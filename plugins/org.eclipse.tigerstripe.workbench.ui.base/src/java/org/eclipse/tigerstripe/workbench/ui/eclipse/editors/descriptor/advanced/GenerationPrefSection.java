@@ -43,7 +43,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.XSLFileSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -128,7 +128,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	}
 
 	private void handleWidgetSelected(SelectionEvent e) {
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 
 		if (e.getSource() == applyDefaultPreferences) {
 			MessageBox dialog = new MessageBox(getSection().getShell(),
@@ -208,7 +208,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	}
 
 	private void applyAdvancedPropertiesDefaults() throws TigerstripeException {
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 
 		IPreferenceStore store = EclipsePlugin.getDefault()
 				.getPreferenceStore();
@@ -311,7 +311,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		outputDirectory.setEnabled(!this.isReadonly());
 		outputDirectory.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				ITigerstripeProject handle = getTSProject();
+				ITigerstripeModelProject handle = getTSProject();
 				if (!isSilentUpdate()) {
 					try {
 						handle.getProjectDetails().setProjectOutputDirectory(
@@ -615,7 +615,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		setSilentUpdate(true);
 		try {
 
-			ITigerstripeProject handle = getTSProject();
+			ITigerstripeModelProject handle = getTSProject();
 
 			outputDirectory.setText(handle.getProjectDetails()
 					.getProjectOutputDirectory());

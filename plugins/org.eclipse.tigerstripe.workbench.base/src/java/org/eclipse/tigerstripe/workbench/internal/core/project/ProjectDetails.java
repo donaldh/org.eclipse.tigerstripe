@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -113,8 +113,8 @@ public class ProjectDetails implements IProjectDetails {
 		try {
 			IAbstractTigerstripeProject aProject = TigerstripeCore
 					.findProject(parentProject.getBaseDir().toURI());
-			if (aProject instanceof ITigerstripeProject) {
-				ITigerstripeProject project = (ITigerstripeProject) aProject;
+			if (aProject instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 				if (project.getActiveFacet() != null) {
 					result = result + File.separator
 							+ project.getActiveFacet().getGenerationDir();

@@ -31,7 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseRefere
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.versioning.VersionAwareElement;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ContractSegment extends VersionAwareElement implements
 		IContractSegment {
@@ -236,12 +236,12 @@ public class ContractSegment extends VersionAwareElement implements
 				FacetReference ref = null;
 				if (uriStr != null) {
 					URI uri = new URI(uriStr);
-					ref = new FacetReference(uri, (ITigerstripeProject) this
+					ref = new FacetReference(uri, (ITigerstripeModelProject) this
 							.getContainingProject());
 				} else if (relPathStr != null) {
 					if (projectLabelStr != null) {
 						ref = new FacetReference(relPathStr, projectLabelStr,
-								(ITigerstripeProject) getContainingProject());
+								(ITigerstripeModelProject) getContainingProject());
 					} else {
 						TigerstripeProject proj = ((TigerstripeOssjProjectHandle) getContainingProject())
 								.getTSProject();
@@ -289,14 +289,14 @@ public class ContractSegment extends VersionAwareElement implements
 				if (uriStr != null) {
 					URI uri = new URI(uriStr);
 					ref = new UseCaseReference(uri,
-							(ITigerstripeProject) getContainingProject());
+							(ITigerstripeModelProject) getContainingProject());
 				} else if (relPathStr != null) {
 
 					if (projectLabelStr != null) {
 						ref = new UseCaseReference(relPathStr, projectLabelStr,
-								(ITigerstripeProject) getContainingProject());
+								(ITigerstripeModelProject) getContainingProject());
 					} else {
-						if (getContainingProject() instanceof ITigerstripeProject) {
+						if (getContainingProject() instanceof ITigerstripeModelProject) {
 							TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getContainingProject();
 							ref = new UseCaseReference(relPathStr, handle
 									.getTSProject());

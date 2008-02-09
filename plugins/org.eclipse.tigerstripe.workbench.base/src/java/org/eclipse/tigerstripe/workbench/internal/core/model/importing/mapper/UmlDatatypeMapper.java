@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * Maps datatypes as usual found in XMIs into Java datatypes
@@ -44,7 +44,7 @@ public class UmlDatatypeMapper extends UmlElementMapper {
 			+ "</umlDatatypeMappingTable>";
 
 	// The target project used to get/set the map
-	private ITigerstripeProject targetProject;
+	private ITigerstripeModelProject targetProject;
 
 	// The default mapping used when no mapping is found
 	private String defaultMapping;
@@ -64,12 +64,12 @@ public class UmlDatatypeMapper extends UmlElementMapper {
 	 *            the XML-ized datatype map as stored as an AdvancedProperty on
 	 *            the project
 	 */
-	public UmlDatatypeMapper(ITigerstripeProject targetProject)
+	public UmlDatatypeMapper(ITigerstripeModelProject targetProject)
 			throws TigerstripeException {
 		this(null, targetProject);
 	}
 
-	public UmlDatatypeMapper(MessageList list, ITigerstripeProject targetProject)
+	public UmlDatatypeMapper(MessageList list, ITigerstripeModelProject targetProject)
 			throws TigerstripeException {
 		super(list);
 		this.targetProject = targetProject;

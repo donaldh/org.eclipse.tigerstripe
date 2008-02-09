@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 
 public class DescriptorAuditor {
@@ -42,7 +42,7 @@ public class DescriptorAuditor {
 
 		this.monitor = monitor;
 
-		ITigerstripeProject tsProject = (ITigerstripeProject) TSExplorerUtils
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TSExplorerUtils
 				.getProjectHandleFor(project);
 		projectDescriptor = project
 				.getFile(ITigerstripeConstants.PROJECT_DESCRIPTOR);
@@ -72,7 +72,7 @@ public class DescriptorAuditor {
 		}
 	}
 
-	private void checkProjectDependencies(ITigerstripeProject tsProject,
+	private void checkProjectDependencies(ITigerstripeModelProject tsProject,
 			IProgressMonitor monitor) {
 		try {
 			IDependency[] dependencies = tsProject.getDependencies();
@@ -104,7 +104,7 @@ public class DescriptorAuditor {
 		}
 	}
 
-	private void checkFacetReferences(ITigerstripeProject tsProject) {
+	private void checkFacetReferences(ITigerstripeModelProject tsProject) {
 		try {
 			for (IFacetReference ref : tsProject.getFacetReferences()) {
 				if (!ref.canResolve()) {
@@ -131,7 +131,7 @@ public class DescriptorAuditor {
 		}
 	}
 
-	private void checkPluginProperties(ITigerstripeProject tsProject) {
+	private void checkPluginProperties(ITigerstripeModelProject tsProject) {
 		try {
 			IPluginConfig[] pluginConfigs = tsProject.getPluginConfigs();
 			for (int i = 0; i < pluginConfigs.length; i++) {
@@ -142,7 +142,7 @@ public class DescriptorAuditor {
 		}
 	}
 
-	private void checkProjectDetails(ITigerstripeProject tsProject) {
+	private void checkProjectDetails(ITigerstripeModelProject tsProject) {
 		try {
 			IProjectDetails details = tsProject.getProjectDetails();
 
@@ -213,7 +213,7 @@ public class DescriptorAuditor {
 	}
 
 	private void alignProjectDependenciesWithEclipseClasspath(
-			ITigerstripeProject project, IProject eclipseProject,
+			ITigerstripeModelProject project, IProject eclipseProject,
 			IProgressMonitor monitor) {
 		ClasspathUpdater.alignDependenciesWithEclipseClasspath(project,
 				eclipseProject, monitor);

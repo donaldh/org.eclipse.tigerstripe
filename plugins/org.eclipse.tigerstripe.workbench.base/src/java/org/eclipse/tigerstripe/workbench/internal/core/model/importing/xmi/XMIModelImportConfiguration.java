@@ -12,15 +12,15 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.importing.xmi;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.BaseModelImportConfiguration;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.IModelImportConfiguration;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class XMIModelImportConfiguration extends BaseModelImportConfiguration {
 
-	public XMIModelImportConfiguration(ITigerstripeProject referenceProject) {
+	public XMIModelImportConfiguration(ITigerstripeModelProject referenceProject) {
 		setReferenceProject(referenceProject);
 	}
 
-	public IModelImportConfiguration make(ITigerstripeProject referenceProject) {
+	public IModelImportConfiguration make(ITigerstripeModelProject referenceProject) {
 		return new XMIModelImportConfiguration(referenceProject);
 	}
 

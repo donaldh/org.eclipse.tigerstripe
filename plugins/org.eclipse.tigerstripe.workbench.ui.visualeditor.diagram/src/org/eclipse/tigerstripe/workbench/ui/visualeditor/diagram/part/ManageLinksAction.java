@@ -35,7 +35,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClassClass;
@@ -81,7 +81,7 @@ public class ManageLinksAction extends BaseDiagramPartAction implements
 			EObject[] elements = getCorrespondingEObjects();
 			map = getMap();
 			try {
-				ITigerstripeProject project = getCorrespondingTigerstripeProject();
+				ITigerstripeModelProject project = getCorrespondingTigerstripeProject();
 				returnObjects = VisualeditorRelationshipUtils
 						.getPossibleRelationshipsForArtifact(project, map,
 								artifact);
@@ -98,7 +98,7 @@ public class ManageLinksAction extends BaseDiagramPartAction implements
 				Diagram obj = (Diagram) tsd.getDiagramEditPart().getModel();
 				map = (Map) obj.getElement();
 				try {
-					ITigerstripeProject project = getCorrespondingTigerstripeProject();
+					ITigerstripeModelProject project = getCorrespondingTigerstripeProject();
 					returnObjects = VisualeditorRelationshipUtils
 							.getPossibleRelationshipsForMap(project, map);
 				} catch (TigerstripeException e) {

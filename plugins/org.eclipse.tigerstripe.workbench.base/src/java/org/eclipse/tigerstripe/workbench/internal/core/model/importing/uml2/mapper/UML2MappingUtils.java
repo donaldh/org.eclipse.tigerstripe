@@ -39,7 +39,7 @@ import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.BehavioralFeature;
@@ -68,10 +68,10 @@ public class UML2MappingUtils {
 
 	private UmlDatatypeMapper umlDatatypeMapper;
 
-	private ITigerstripeProject targetProject;
+	private ITigerstripeModelProject targetProject;
 
 	public UML2MappingUtils(String modelLibrary, MessageList messageList,
-			ITigerstripeProject targetProject) {
+			ITigerstripeModelProject targetProject) {
 		this.modelLibrary = modelLibrary;
 		this.messageList = messageList;
 		this.targetProject = targetProject;
@@ -84,7 +84,7 @@ public class UML2MappingUtils {
 		}
 	}
 
-	public ITigerstripeProject getTargetProject() {
+	public ITigerstripeModelProject getTargetProject() {
 		return this.targetProject;
 	}
 

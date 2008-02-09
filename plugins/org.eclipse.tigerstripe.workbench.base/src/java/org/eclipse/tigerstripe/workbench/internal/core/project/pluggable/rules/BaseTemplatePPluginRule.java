@@ -25,8 +25,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginRuleExecutor;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactFilter;
@@ -47,7 +46,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		ITemplateRunRule {
@@ -110,8 +111,9 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		properties
 				.put("file.resource.loader.class",
 						"org.apache.velocity.runtime.resource.loader.FileResourceLoader");
-		properties.put("file.resource.loader.path", getProject().getPPProject()
-				.getBaseDir().getCanonicalPath());
+		properties.put("file.resource.loader.path",
+				((TigerstripePluginProjectHandle) getProject()).getPPProject()
+						.getBaseDir().getCanonicalPath());
 		// properties.put("file.resource.loader.path",
 		// "/TEMP/plugins/.Plug-1.0_temp");
 
@@ -165,7 +167,7 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		// TODO allow to reference a filter from Use-defined java object
 		ArtifactFilter filter = new ArtifactNoFilter();
 
-		ITigerstripeProject handle = pluginConfig.getProjectHandle();
+		ITigerstripeModelProject handle = pluginConfig.getProjectHandle();
 		// (ITigerstripeProject) API
 		// .getDefaultProjectSession().makeTigerstripeProject(
 		// pluginConfig.getProject().getBaseDir().toURI(), null);
@@ -227,24 +229,20 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 				new NullProgressMonitor());
 
 		Collection allDatatypes = artifactMgr.getArtifactsByModel(
-				DatatypeArtifact.MODEL, true, false,
-				new NullProgressMonitor());
+				DatatypeArtifact.MODEL, true, false, new NullProgressMonitor());
 
 		Collection allEvents = artifactMgr.getArtifactsByModel(
-				EventArtifact.MODEL, true, false,
-				new NullProgressMonitor());
+				EventArtifact.MODEL, true, false, new NullProgressMonitor());
 
 		Collection allEnums = artifactMgr.getArtifactsByModel(
-				EnumArtifact.MODEL, true, false,
-				new NullProgressMonitor());
+				EnumArtifact.MODEL, true, false, new NullProgressMonitor());
 
-		Collection allExceptions = artifactMgr.getArtifactsByModel(
-				ExceptionArtifact.MODEL, true, false,
-				new NullProgressMonitor());
+		Collection allExceptions = artifactMgr
+				.getArtifactsByModel(ExceptionArtifact.MODEL, true, false,
+						new NullProgressMonitor());
 
 		Collection allQueries = artifactMgr.getArtifactsByModel(
-				QueryArtifact.MODEL, true, false,
-				new NullProgressMonitor());
+				QueryArtifact.MODEL, true, false, new NullProgressMonitor());
 
 		Collection allSessions = artifactMgr.getArtifactsByModel(
 				SessionFacadeArtifact.MODEL, true, false,

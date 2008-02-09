@@ -46,13 +46,15 @@ import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class TigerstripeProjectHandle extends
-		AbstractTigerstripeProjectHandle implements ITigerstripeProject {
+		AbstractTigerstripeProjectHandle implements ITigerstripeModelProject {
 
 	// Fields managed by WorkingCopyManager
 	private final static String DEPENDENCIES_F = "dependencies";
+
+	private final static String REFERENCES_F = "referencedProjects";
 
 	private INameProvider nameProvider;
 
@@ -81,6 +83,7 @@ public abstract class TigerstripeProjectHandle extends
 	protected void addManagedFields() {
 		super.addManagedFields();
 		managedFields.add(DEPENDENCIES_F);
+		managedFields.add(REFERENCES_F);
 	}
 
 	@Override
@@ -323,32 +326,36 @@ public abstract class TigerstripeProjectHandle extends
 	// project.attachDefaultCoreModelDependency(forceOverwrite);
 	// }
 	//
-	public void addReferencedProject(ITigerstripeProject project)
-			throws TigerstripeException {
+	public void addReferencedProject(ITigerstripeModelProject project)
+			throws WorkingCopyException, TigerstripeException {
+		assertSet(REFERENCES_F);
 		getTSProject().addReferencedProject(project);
 	}
 
-	public void addReferencedProjects(ITigerstripeProject[] projects)
-			throws TigerstripeException {
+	public void addReferencedProjects(ITigerstripeModelProject[] projects)
+			throws WorkingCopyException, TigerstripeException {
+		assertSet(REFERENCES_F);
 		getTSProject().addReferencedProjects(projects);
 	}
 
-	public ITigerstripeProject[] getReferencedProjects()
-			throws TigerstripeException {
+	public ITigerstripeModelProject[] getReferencedProjects()
+			throws WorkingCopyException, TigerstripeException {
 		return getTSProject().getReferencedProjects();
 	}
 
-	public void removeReferencedProject(ITigerstripeProject project)
-			throws TigerstripeException {
+	public void removeReferencedProject(ITigerstripeModelProject project)
+			throws WorkingCopyException, TigerstripeException {
+		assertSet(REFERENCES_F);
 		getTSProject().removeReferencedProject(project);
 	}
 
-	public void removeReferencedProjects(ITigerstripeProject[] projects)
-			throws TigerstripeException {
+	public void removeReferencedProjects(ITigerstripeModelProject[] projects)
+			throws WorkingCopyException, TigerstripeException {
+		assertSet(REFERENCES_F);
 		getTSProject().removeReferencedProjects(projects);
 	}
 
-	public boolean hasReference(ITigerstripeProject project)
+	public boolean hasReference(ITigerstripeModelProject project)
 			throws TigerstripeException {
 		return getTSProject().hasReference(project);
 	}
@@ -397,14 +404,14 @@ public abstract class TigerstripeProjectHandle extends
 		try {
 			TigerstripeProject project = getTSProject();
 			if (project != null) {
-				project.doSave();
+				project.doSave(null);
 				return;
 			}
 		} catch (TigerstripeException e) {
 			if (tsProject != null) {
 				// This means we are saving on an empty directory, and the
 				// descriptor needs to be created now
-				tsProject.doSave();
+				tsProject.doSave(null);
 				return;
 			}
 		}
@@ -483,7 +490,7 @@ public abstract class TigerstripeProjectHandle extends
 		getArtifactManagerSession().setActiveFacet(facet, monitor);
 	}
 
-	public ITigerstripeProject[] getIReferencedProjects()
+	public ITigerstripeModelProject[] getIReferencedProjects()
 			throws TigerstripeException {
 		return getReferencedProjects();
 	}
@@ -498,7 +505,7 @@ public abstract class TigerstripeProjectHandle extends
 		original.getTSProject().reload(true); // this will force a reload.
 
 		// Rebuild the cache if dependencies were added
-		if (fieldIsDirty(DEPENDENCIES_F)) {
+		if (fieldIsDirty(DEPENDENCIES_F) || fieldIsDirty(REFERENCES_F)) {
 			((ArtifactManagerSessionImpl) original.getArtifactManagerSession())
 					.getArtifactManager().updateDependenciesContentCache(
 							monitor);

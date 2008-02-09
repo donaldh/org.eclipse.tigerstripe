@@ -14,7 +14,7 @@ import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * An element as extract from an AnnotableModel
@@ -88,7 +88,7 @@ public interface AnnotableElement extends AnnotableDatatype {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public IAbstractArtifact makeIArtifact(ITigerstripeProject project)
+	public IAbstractArtifact makeIArtifact(ITigerstripeModelProject project)
 			throws TigerstripeException;
 
 }

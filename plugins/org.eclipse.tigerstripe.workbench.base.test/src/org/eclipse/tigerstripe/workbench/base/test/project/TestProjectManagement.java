@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TestProjectManagement extends TestCase {
 
@@ -38,7 +38,7 @@ public class TestProjectManagement extends TestCase {
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IAbstractTigerstripeProject project = TigerstripeCore.createProject(
-				projectDetails, null, ITigerstripeProject.class, null,
+				projectDetails, null, ITigerstripeModelProject.class, null,
 				new NullProgressMonitor());
 		assertNotNull(project);
 
@@ -62,7 +62,7 @@ public class TestProjectManagement extends TestCase {
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IAbstractTigerstripeProject project = TigerstripeCore.createProject(
-				projectDetails, null, ITigerstripeProject.class, null,
+				projectDetails, null, ITigerstripeModelProject.class, null,
 				new NullProgressMonitor());
 		assertNotNull(project);
 

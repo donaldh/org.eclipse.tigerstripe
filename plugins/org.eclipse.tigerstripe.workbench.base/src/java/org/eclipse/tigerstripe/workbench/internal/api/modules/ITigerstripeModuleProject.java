@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.modules;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * A Tigerstripe Module Project is a temporary project derived from a module for
@@ -24,7 +24,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  * @author Eric Dillon
  * @since 2.1
  */
-public interface ITigerstripeModuleProject extends ITigerstripeProject {
+public interface ITigerstripeModuleProject extends ITigerstripeModelProject {
 
 	/**
 	 * When generating modules, we need to temporarily complete the path of

@@ -25,15 +25,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.tools.ant.util.ReaderInputStream;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IArtifactBasedTemplateRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ICopyRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginClasspathEntry;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ISimpleTemplateRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
@@ -45,11 +38,19 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.A
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime.PluginClasspathEntry;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ISimpleTemplateRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -58,34 +59,39 @@ import org.xml.sax.SAXParseException;
 
 public class PluggablePluginProject extends AbstractTigerstripeProject {
 
-	private final static String[] SUPPORTED_PROPERTIES = {
-			IStringPluginProperty.class.getCanonicalName(),
-			IBooleanPluginProperty.class.getCanonicalName(),
-			ITablePluginProperty.class.getCanonicalName() };
+	public static final String DEFAULT_FILENAME = ITigerstripeConstants.PLUGIN_DESCRIPTOR;
+
+	@SuppressWarnings("unchecked")
+	private final static Class[] SUPPORTED_PROPERTIES = {
+			IStringPluginProperty.class, IBooleanPluginProperty.class,
+			ITablePluginProperty.class };
 
 	private final static String[] SUPPORTED_PROPERTIES_LABELS = {
 			StringPPluginProperty.LABEL, BooleanPPluginProperty.LABEL,
 			TablePPluginProperty.LABEL };
 
+	@SuppressWarnings("unchecked")
 	private final static Class[] PROPERTIES_IMPL = {
 			StringPPluginProperty.class, BooleanPPluginProperty.class,
 			TablePPluginProperty.class };
 
-	private final static String[] SUPPORTED_RULES = {
-			ISimpleTemplateRunRule.class.getCanonicalName(),
-			ICopyRule.class.getCanonicalName() };
+	@SuppressWarnings("unchecked")
+	private final static Class[] SUPPORTED_RULES = {
+			ISimpleTemplateRunRule.class, ICopyRule.class };
 
 	private final static String[] SUPPORTED_RULES_LABELS = {
 			SimplePPluginRule.LABEL, CopyRule.LABEL };
 
+	@SuppressWarnings("unchecked")
 	private final static Class[] RULES_IMPL = { SimplePPluginRule.class,
 			CopyRule.class };
 
-	private final static String[] SUPPORTED_ARTIFACTRULES = { IArtifactBasedTemplateRunRule.class
-			.getCanonicalName(), };
+	@SuppressWarnings("unchecked")
+	private final static Class[] SUPPORTED_ARTIFACTRULES = { IArtifactBasedTemplateRunRule.class, };
 
 	private final static String[] SUPPORTED_ARTIFACTRULES_LABELS = { ArtifactBasedPPluginRule.LABEL };
 
+	@SuppressWarnings("unchecked")
 	private final static Class[] ARTIFACTRULES_IMPL = { ArtifactBasedPPluginRule.class };
 
 	public static final String ROOT_TAG = "ts_plugin";
@@ -163,7 +169,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		this.globalProperties.addAll(Arrays.asList(properties));
 	}
 
-	public String[] getSupportedPluginProperties() {
+	public <T extends IPluginProperty> Class<T>[] getSupportedPluginProperties() {
 		return SUPPORTED_PROPERTIES;
 	}
 
@@ -171,11 +177,12 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		return SUPPORTED_PROPERTIES_LABELS;
 	}
 
-	public IPluginProperty makeProperty(String propertyType)
+	@SuppressWarnings("unchecked")
+	public IPluginProperty makeProperty(Class propertyType)
 			throws TigerstripeException {
 		for (int index = 0; index < SUPPORTED_PROPERTIES.length; index++) {
-			String type = SUPPORTED_PROPERTIES[index];
-			if (type.equals(propertyType)) {
+			Class type = SUPPORTED_PROPERTIES[index];
+			if (type == propertyType) {
 				Class targetImpl = PROPERTIES_IMPL[index];
 				try {
 					IPluginProperty result = (IPluginProperty) targetImpl
@@ -196,12 +203,12 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 	public void addAdditionalFile(String relativePath, int includeExclude) {
 		switch (includeExclude) {
-		case IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE:
+		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
 			if (!additionalFilesInclude.contains(relativePath)) {
 				additionalFilesInclude.add(relativePath);
 			}
 			break;
-		case IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE:
+		case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
 			if (!additionalFilesExclude.contains(relativePath)) {
 				additionalFilesExclude.add(relativePath);
 			}
@@ -210,12 +217,12 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 	public void removeAdditionalFile(String relativePath, int includeExclude) {
 		switch (includeExclude) {
-		case IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE:
+		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
 			if (additionalFilesInclude.contains(relativePath)) {
 				additionalFilesInclude.remove(relativePath);
 			}
 			break;
-		case IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE:
+		case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
 			if (additionalFilesExclude.contains(relativePath)) {
 				additionalFilesExclude.remove(relativePath);
 			}
@@ -224,9 +231,9 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 	public List<String> getAdditionalFiles(int includeExclude) {
 		switch (includeExclude) {
-		case IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE:
+		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
 			return additionalFilesInclude;
-		case IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE:
+		case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
 			return additionalFilesExclude;
 		default:
 			return additionalFilesInclude;
@@ -237,13 +244,13 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		Element additionalFilesElement = document
 				.createElement(ADDITIONAL_FILES);
 
-		for (String entry : getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE)) {
+		for (String entry : getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE)) {
 			Element propElm = document.createElement("includeEntry");
 			propElm.setAttribute("relativePath", entry);
 			additionalFilesElement.appendChild(propElm);
 		}
 
-		for (String entry : getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE)) {
+		for (String entry : getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE)) {
 			Element propElm = document.createElement("excludeEntry");
 			propElm.setAttribute("relativePath", entry);
 			additionalFilesElement.appendChild(propElm);
@@ -526,10 +533,21 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		for (int index = 0; index < properties.getLength(); index++) {
 			Element property = (Element) properties.item(index);
 			String name = property.getAttribute("name");
-			String type = property.getAttribute("type");
+			String typeStr = property.getAttribute("type");
 			String tipToolText = property.getAttribute("tipToolText");
 
+			// Migration from old namespace:
+			if (typeStr
+					.startsWith("com.tigerstripesoftware.api.plugins.pluggable")) {
+				typeStr = "org.eclipse.tigerstripe.workbench.plugins."
+						+ typeStr.substring(typeStr.lastIndexOf(".") + 1);
+			}
+
 			try {
+				@SuppressWarnings("unchecked")
+				Class type = PluggablePluginProject.class.getClassLoader()
+						.loadClass(typeStr);
+
 				IPluginProperty prop = makeProperty(type);
 				prop.setName(name);
 				prop.setProject(getHandle());
@@ -537,11 +555,14 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 				prop.buildBodyFromNode(property);
 				globalProperties.add(prop);
 			} catch (TigerstripeException e) {
-				// just ignore for now
+				BasePlugin.log(e);
+			} catch (ClassNotFoundException e) {
+				BasePlugin.log(e);
 			}
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void loadGlobalRules(Document document) {
 
 		globalRules = new ArrayList<IRunRule>();
@@ -555,13 +576,21 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		for (int index = 0; index < rules.getLength(); index++) {
 			Element rule = (Element) rules.item(index);
 			String name = rule.getAttribute("name");
-			String type = rule.getAttribute("type");
+			String typeStr = rule.getAttribute("type");
 			String description = rule.getAttribute("description");
 			String enabled = "true";
 			if (rule.hasAttribute("enabled")) {
 				enabled = rule.getAttribute("enabled");
 			}
+
+			// Migration from old namespace:
+			if (typeStr
+					.startsWith("com.tigerstripesoftware.api.plugins.pluggable")) {
+				typeStr = "org.eclipse.tigerstripe.workbench.plugins."
+						+ typeStr.substring(typeStr.lastIndexOf(".") + 1);
+			}
 			try {
+				Class type = Class.forName(typeStr);
 				IRunRule prop = makeRule(type);
 				prop.setName(name);
 				prop.setProject(getHandle());
@@ -584,11 +613,14 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 				prop.buildBodyFromNode(rule);
 				globalRules.add(prop);
 			} catch (TigerstripeException e) {
-				// just ignore for now
+				BasePlugin.log(e);
+			} catch (ClassNotFoundException e) {
+				BasePlugin.log(e);
 			}
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void loadArtifactRules(Document document) {
 
 		artifactRules = new ArrayList<ITemplateRunRule>();
@@ -602,13 +634,21 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		for (int index = 0; index < rules.getLength(); index++) {
 			Element rule = (Element) rules.item(index);
 			String name = rule.getAttribute("name");
-			String type = rule.getAttribute("type");
+			String typeStr = rule.getAttribute("type");
+
+			// Migration from old namespace:
+			if (typeStr
+					.startsWith("com.tigerstripesoftware.api.plugins.pluggable")) {
+				typeStr = "org.eclipse.tigerstripe.workbench.plugins."
+						+ typeStr.substring(typeStr.lastIndexOf(".") + 1);
+			}
 			String description = rule.getAttribute("description");
 			String enabled = "true";
 			if (rule.hasAttribute("enabled")) {
 				enabled = rule.getAttribute("enabled");
 			}
 			try {
+				Class type = Class.forName(typeStr);
 				IRunRule rProp = makeRule(type);
 				if (rProp instanceof ITemplateRunRule) {
 					ITemplateRunRule prop = (ITemplateRunRule) rProp;
@@ -632,13 +672,15 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 				}
 			} catch (TigerstripeException e) {
 				// just ignore for now
+			} catch (ClassNotFoundException e) {
+				BasePlugin.log(e);
 			}
 		}
 	}
 
-	public IPluggablePluginProject getHandle() {
+	public ITigerstripePluginProject getHandle() {
 		try {
-			return (IPluggablePluginProject) TigerstripeCore
+			return (ITigerstripePluginProject) TigerstripeCore
 					.findProject(getBaseDir().toURI());
 		} catch (Exception e) {
 			return null; // should never happen
@@ -702,7 +744,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		return this.globalRules.toArray(new IRunRule[globalRules.size()]);
 	}
 
-	public String[] getSupportedPluginRules() {
+	public <T extends IRunRule> Class<T>[] getSupportedPluginRules() {
 		return SUPPORTED_RULES;
 	}
 
@@ -731,7 +773,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 				.size()]);
 	}
 
-	public String[] getSupportedPluginArtifactRules() {
+	public <T extends IArtifactBasedTemplateRunRule> Class<T>[] getSupportedPluginArtifactRules() {
 		return SUPPORTED_ARTIFACTRULES;
 	}
 
@@ -757,12 +799,15 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		return new PluginClasspathEntry();
 	}
 
-	public IRunRule makeRule(String ruleType) throws TigerstripeException {
+	public <T extends IRunRule> IRunRule makeRule(Class<T> ruleType)
+			throws TigerstripeException {
 
 		// First look thru list of Global Rules
 		for (int index = 0; index < SUPPORTED_RULES.length; index++) {
-			String type = SUPPORTED_RULES[index];
-			if (type.equals(ruleType)) {
+			@SuppressWarnings("unchecked")
+			Class type = SUPPORTED_RULES[index];
+			if (type == ruleType) {
+				@SuppressWarnings("unchecked")
 				Class targetImpl = RULES_IMPL[index];
 				try {
 					IRunRule result = (IRunRule) targetImpl.newInstance();
@@ -779,8 +824,9 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 		// then look thru list of Artifact Rules
 		for (int index = 0; index < SUPPORTED_ARTIFACTRULES.length; index++) {
-			String type = SUPPORTED_ARTIFACTRULES[index];
-			if (type.equals(ruleType)) {
+			Class type = SUPPORTED_ARTIFACTRULES[index];
+			if (type == ruleType) {
+				@SuppressWarnings("unchecked")
 				Class targetImpl = ARTIFACTRULES_IMPL[index];
 				try {
 					ITemplateRunRule result = (ITemplateRunRule) targetImpl

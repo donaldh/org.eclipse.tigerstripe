@@ -15,7 +15,7 @@ import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TestMethods extends junit.framework.TestCase {
 
@@ -24,7 +24,7 @@ public class TestMethods extends junit.framework.TestCase {
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
 		details.setName(projectName);
 		IAbstractTigerstripeProject aProject = TigerstripeCore.createProject(
-				details, null, ITigerstripeProject.class, null,
+				details, null, ITigerstripeModelProject.class, null,
 				new NullProgressMonitor());
 		return aProject;
 	}
@@ -32,8 +32,8 @@ public class TestMethods extends junit.framework.TestCase {
 	
 	public final void testMethods() throws TigerstripeException {
 		IAbstractTigerstripeProject aProject = createModelProject("testMethods");
-		assertTrue(aProject instanceof ITigerstripeProject);
-		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		assertTrue(aProject instanceof ITigerstripeModelProject);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		ArtifactTestHelper artHelper = new ArtifactTestHelper(project);
 
 		IManagedEntityArtifact top = (IManagedEntityArtifact) artHelper

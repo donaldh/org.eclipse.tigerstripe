@@ -19,21 +19,21 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.ModelImpo
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.ModelImporterListener;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.mapper.UML2Mapper;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class UML2Importer implements AnnotableModelImporter {
 
 	// FIXME homogenize all importer properly!
 	public ModelImportResult importFromURI(String uri, MessageList list,
 			ModelImporterListener listener, IModelImportConfiguration config,
-			ITigerstripeProject targetProject) {
+			ITigerstripeModelProject targetProject) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public ModelImportResult importFromUML2(MessageList list,
 			ModelImporterListener listener, IModelImportConfiguration config,
-			ITigerstripeProject targetProject) {
+			ITigerstripeModelProject targetProject) {
 		ModelImportResult result = new ModelImportResult();
 		try {
 			listener.importBeginTask("Creating annotable model", 5);

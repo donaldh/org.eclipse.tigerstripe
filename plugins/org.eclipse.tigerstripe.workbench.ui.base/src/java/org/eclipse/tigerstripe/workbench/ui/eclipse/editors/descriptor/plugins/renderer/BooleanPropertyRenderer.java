@@ -18,10 +18,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
 import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginPropertyListener;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class BooleanPropertyRenderer extends BasePropertyRenderer {
@@ -38,7 +38,7 @@ public class BooleanPropertyRenderer extends BasePropertyRenderer {
 	}
 
 	public BooleanPropertyRenderer(Composite parent, FormToolkit toolkit,
-			ITigerstripeProject project, IPluginProperty property,
+			ITigerstripeModelProject project, IPluginProperty property,
 			IPluggablePluginPropertyListener persister) {
 		super(parent, toolkit, project, property, persister);
 	}

@@ -57,7 +57,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.Annotable
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElementOperationParameter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableModel;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.mapper.UmlDatatypeMapper;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -211,12 +211,12 @@ public class AnnotateWizardPage extends WizardPage {
 	protected void setFocus() {
 	}
 
-	protected ITigerstripeProject getTargetProject()
+	protected ITigerstripeModelProject getTargetProject()
 			throws TigerstripeException {
 		return ((IImportFromWizardPage) getPreviousPage()).getTSProject();
 	}
 
-	public ITigerstripeProject getReferenceProject() {
+	public ITigerstripeModelProject getReferenceProject() {
 		IWizardPage[] pages = getWizard().getPages();
 		ImportWithCheckpointWizardPage initialPage = (ImportWithCheckpointWizardPage) pages[0];
 		try {

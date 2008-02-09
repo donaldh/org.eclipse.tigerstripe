@@ -15,7 +15,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.Annotable
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElementPackage;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.BaseAnnotableModel;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.IModelImportConfiguration;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class AnnotableModelFromUML2 extends BaseAnnotableModel {
 
@@ -29,7 +29,7 @@ public class AnnotableModelFromUML2 extends BaseAnnotableModel {
 		this.delta = delta;
 	}
 
-	public AnnotableModelFromUML2(ITigerstripeProject targetProject,
+	public AnnotableModelFromUML2(ITigerstripeModelProject targetProject,
 			IModelImportConfiguration config) throws TigerstripeException {
 		super(targetProject, config);
 	}

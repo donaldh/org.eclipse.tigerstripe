@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.NamedElement;
@@ -79,9 +79,9 @@ public class SortedClassInstanceVariableCompartmentEditPart extends
 		// if the artifact cannot be found, we don't both with sorting fields.
 		IAbstractTigerstripeProject aProject = map
 				.getCorrespondingITigerstripeProject();
-		if (!(aProject instanceof ITigerstripeProject))
+		if (!(aProject instanceof ITigerstripeModelProject))
 			throw new RuntimeException("non-Tigerstripe Project found");
-		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		try {
 			IArtifactManagerSession session = project
 					.getArtifactManagerSession();

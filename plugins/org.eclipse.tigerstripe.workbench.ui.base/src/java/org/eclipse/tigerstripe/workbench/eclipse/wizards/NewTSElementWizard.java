@@ -49,7 +49,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.actions.TSOpenAction;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -83,7 +83,7 @@ public abstract class NewTSElementWizard extends Wizard implements INewWizard {
 			display.asyncExec(new Runnable() {
 				public void run() {
 					try {
-						ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
+						ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
 								.findProject(resource.getProject()
 										.getLocation().toFile().toURI());
 

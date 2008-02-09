@@ -45,7 +45,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDialog;
@@ -373,7 +373,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 				if (extendNameText.getText().trim().length() == 0) {
 					getIArtifact().setExtendedArtifact(null);
 				} else {
-					ITigerstripeProject project = getIArtifact()
+					ITigerstripeModelProject project = getIArtifact()
 							.getTigerstripeProject();
 					IArtifactManagerSession session = project
 							.getArtifactManagerSession();
@@ -467,7 +467,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 			public Object[] getElements(Object inputElement) {
 				if (inputElement instanceof IAbstractArtifact) {
 					IAbstractArtifact art = (IAbstractArtifact) inputElement;
-					ITigerstripeProject tsProject = art.getTigerstripeProject();
+					ITigerstripeModelProject tsProject = art.getTigerstripeProject();
 					if (tsProject != null) {
 						try {
 							IArtifactManagerSession session = tsProject

@@ -64,7 +64,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.databa
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.database.DatabaseModelFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.MessageListDialog;
 
 /**
@@ -78,9 +78,9 @@ public class ImportFromDBWizardPage extends TSRuntimeBasedWizardPage implements
 
 	public final static String PAGE_NAME = "ImportFromXMIWizardPage";
 
-	private ITigerstripeProject targetProject;
+	private ITigerstripeModelProject targetProject;
 
-	private ITigerstripeProject referenceProject;
+	private ITigerstripeModelProject referenceProject;
 
 	protected StringDialogField dbHostField;
 
@@ -370,7 +370,7 @@ public class ImportFromDBWizardPage extends TSRuntimeBasedWizardPage implements
 		};
 
 		try {
-			ITigerstripeProject targetProject = getTSProject();
+			ITigerstripeModelProject targetProject = getTSProject();
 			modelImportResult = factory.importModelFromDb(messageList,
 					listener, targetProject, config);
 			modelLoaded = true;
@@ -379,7 +379,7 @@ public class ImportFromDBWizardPage extends TSRuntimeBasedWizardPage implements
 		}
 	}
 
-	public ITigerstripeProject getTSProject() throws TigerstripeException {
+	public ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		ImportWithCheckpointWizardPage initialPage = (ImportWithCheckpointWizardPage) getWizard()
 				.getPreviousPage(this);
 		return initialPage.getTSProject();

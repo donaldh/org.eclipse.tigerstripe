@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -31,7 +31,7 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class ResetActiveFacetActionDelegate implements IObjectActionDelegate {
 
-	private ITigerstripeProject targetProject;
+	private ITigerstripeModelProject targetProject;
 
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 		// TODO Auto-generated method stub
@@ -72,8 +72,8 @@ public class ResetActiveFacetActionDelegate implements IObjectActionDelegate {
 		if (project != null) {
 			IAbstractTigerstripeProject tsProject = EclipsePlugin
 					.getITigerstripeProjectFor(project);
-			if (tsProject instanceof ITigerstripeProject) {
-				targetProject = (ITigerstripeProject) tsProject;
+			if (tsProject instanceof ITigerstripeModelProject) {
+				targetProject = (ITigerstripeModelProject) tsProject;
 				try {
 					action.setEnabled(targetProject.getActiveFacet() != null);
 				} catch (TigerstripeException e) {

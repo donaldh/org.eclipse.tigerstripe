@@ -34,7 +34,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessio
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.MultiFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -42,12 +41,13 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportModel;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportRunner;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * This class holds the generation logic for Tigerstripe projects, including all
@@ -58,17 +58,17 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  */
 public class ProjectGenerator {
 
-	private ITigerstripeProject project = null;
+	private ITigerstripeModelProject project = null;
 
 	private RunConfig config = null;
 
 	private UseCaseProcessor processor = null;
 
-	public ProjectGenerator(ITigerstripeProject project) {
+	public ProjectGenerator(ITigerstripeModelProject project) {
 		this(project, null);
 	}
 
-	public ProjectGenerator(ITigerstripeProject project, RunConfig config) {
+	public ProjectGenerator(ITigerstripeModelProject project, RunConfig config) {
 		this.project = project;
 		this.config = config;
 		this.processor = new UseCaseProcessor(project, config);
@@ -590,10 +590,10 @@ public class ProjectGenerator {
 	private PluginRunStatus[] generateRefProjects(
 			IProgressMonitor monitor) throws TigerstripeException {
 		PluginRunStatus[] result = new PluginRunStatus[0];
-		ITigerstripeProject[] refProjects = project.getReferencedProjects();
+		ITigerstripeModelProject[] refProjects = project.getReferencedProjects();
 
 		monitor.beginTask("Generating Referenced Projects", refProjects.length);
-		for (ITigerstripeProject refProject : refProjects) {
+		for (ITigerstripeModelProject refProject : refProjects) {
 
 			RunConfig refConfig = new RunConfig(refProject);
 			String absDir = project.getLocation().toOSString() + File.separator

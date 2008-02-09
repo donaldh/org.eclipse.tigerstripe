@@ -55,7 +55,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -1327,7 +1327,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * Returns a Handle for the project if it exists. Please note that for
 	 * Artifacts living in a module, this will return NULL;
 	 */
-	public ITigerstripeProject getTigerstripeProject() {
+	public ITigerstripeModelProject getTigerstripeProject() {
 		TigerstripeProjectHandle handle = null;
 
 		if (getTSProject() == null || getTSProject().getBaseDir() == null)
@@ -1611,8 +1611,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 			IAbstractTigerstripeProject aProject = TigerstripeCore
 					.findProject(mgr.getTSProject().getBaseDir().toURI());
-			if (aProject instanceof ITigerstripeProject) {
-				IArtifactManagerSession session = ((ITigerstripeProject) aProject)
+			if (aProject instanceof ITigerstripeModelProject) {
+				IArtifactManagerSession session = ((ITigerstripeModelProject) aProject)
 						.getArtifactManagerSession();
 				myUpdater = session.getIModelUpdater();
 			} else

@@ -40,7 +40,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifa
 import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
@@ -62,7 +62,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorFactory;
 public class VisualeditorRelationshipUtils {
 
 	public static Object[] getPossibleRelationshipsForArtifact(
-			ITigerstripeProject project, Map map, IAbstractArtifact artifact)
+			ITigerstripeModelProject project, Map map, IAbstractArtifact artifact)
 			throws TigerstripeException {
 		IArtifactManagerSession artifactMgrSession = project
 				.getArtifactManagerSession();
@@ -145,7 +145,7 @@ public class VisualeditorRelationshipUtils {
 	}
 
 	public static Object[] getPossibleRelationshipsForMap(
-			ITigerstripeProject project, Map map) throws TigerstripeException {
+			ITigerstripeModelProject project, Map map) throws TigerstripeException {
 		IArtifactManagerSession artifactMgrSession = project
 				.getArtifactManagerSession();
 		EList artifacts = map.getArtifacts();

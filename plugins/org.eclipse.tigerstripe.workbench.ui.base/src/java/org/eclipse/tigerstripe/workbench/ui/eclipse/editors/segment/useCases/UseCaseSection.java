@@ -46,7 +46,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContract
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.UseCaseSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.SegmentEditor;
@@ -297,7 +297,7 @@ public class UseCaseSection extends TigerstripeSegmentSectionPart implements
 						IResource res = input.getFile().getParent().findMember(
 								path);
 
-						ITigerstripeProject handle = getContainingProject();
+						ITigerstripeModelProject handle = getContainingProject();
 
 						IUseCaseReference dep = handle
 								.makeUseCaseReference(relative);

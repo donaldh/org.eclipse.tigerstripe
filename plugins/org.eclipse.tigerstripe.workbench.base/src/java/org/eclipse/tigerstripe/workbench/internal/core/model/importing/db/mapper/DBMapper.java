@@ -19,14 +19,14 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.annota
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema.DatabaseSchema;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema.DatabaseTable;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class DBMapper extends DBElementMapper {
 
 	private SchemaMapper schemaMapper;
 	private DatabaseTableMapper tableMapper;
 
-	public DBMapper(MessageList list, ITigerstripeProject targetProject,
+	public DBMapper(MessageList list, ITigerstripeModelProject targetProject,
 			IModelImportConfiguration config) {
 		super(list, targetProject, config);
 		this.schemaMapper = new SchemaMapper(list, targetProject, config);

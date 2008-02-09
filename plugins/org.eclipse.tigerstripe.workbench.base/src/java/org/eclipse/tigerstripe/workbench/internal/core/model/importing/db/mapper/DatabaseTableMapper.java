@@ -20,14 +20,14 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema.ImportedKey;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema.TableColumn;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class DatabaseTableMapper extends DBElementMapper {
 
 	private ColumnMapper columnMapper;
 
 	public DatabaseTableMapper(MessageList messageList,
-			ITigerstripeProject targetProject, IModelImportConfiguration config) {
+			ITigerstripeModelProject targetProject, IModelImportConfiguration config) {
 		super(messageList, targetProject, config);
 		this.columnMapper = new ColumnMapper(messageList, targetProject, config);
 	}

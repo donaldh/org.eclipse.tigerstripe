@@ -19,7 +19,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
@@ -46,7 +46,7 @@ public class TigerstripeRefreshDiagramAction implements IObjectActionDelegate {
 		myShell = targetPart.getSite().getShell();
 	}
 
-	public ITigerstripeProject getCorrespondingTigerstripeProject() {
+	public ITigerstripeModelProject getCorrespondingTigerstripeProject() {
 		DiagramGraphicalViewer viewer = (DiagramGraphicalViewer) mySelectedElement
 				.getParent().getViewer();
 		DiagramEditDomain domain = (DiagramEditDomain) viewer.getEditDomain();
@@ -60,8 +60,8 @@ public class TigerstripeRefreshDiagramAction implements IObjectActionDelegate {
 		// domain.getCommandStack().execute(
 		// new ICommandProxy(new RefreshEditPartCommand(mySelectedElement,
 		// true)));
-		if (project instanceof ITigerstripeProject)
-			return (ITigerstripeProject) project;
+		if (project instanceof ITigerstripeModelProject)
+			return (ITigerstripeModelProject) project;
 		return null;
 	}
 
@@ -70,7 +70,7 @@ public class TigerstripeRefreshDiagramAction implements IObjectActionDelegate {
 	 * Artifact manager
 	 */
 	public void run(IAction action) {
-		ITigerstripeProject tsProject = getCorrespondingTigerstripeProject();
+		ITigerstripeModelProject tsProject = getCorrespondingTigerstripeProject();
 		if (tsProject != null) {
 			// MapRefresher refresher = new MapRefresher(mySelectedElement
 			// .getDiagramEditDomain(), mySelectedElement

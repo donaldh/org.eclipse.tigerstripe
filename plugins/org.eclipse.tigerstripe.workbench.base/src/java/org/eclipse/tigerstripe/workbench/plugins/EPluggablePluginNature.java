@@ -8,7 +8,7 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
+package org.eclipse.tigerstripe.workbench.plugins;
 
 /**
  * Pluggable plugin nature

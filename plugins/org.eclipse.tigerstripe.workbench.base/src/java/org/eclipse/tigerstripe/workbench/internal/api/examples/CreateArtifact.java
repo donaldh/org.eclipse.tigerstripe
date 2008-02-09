@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStan
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * Example showing out to create an artifact an persist it through the
@@ -41,8 +41,8 @@ public class CreateArtifact {
 		try {
 			IProjectDetails details = TigerstripeCore.makeProjectDetails();
 			details.setName("MyTSProject");
-			ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
-					.createProject(details, null, ITigerstripeProject.class,
+			ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+					.createProject(details, null, ITigerstripeModelProject.class,
 							null, new NullProgressMonitor());
 
 			IArtifactManagerSession artifactMgrSession = project

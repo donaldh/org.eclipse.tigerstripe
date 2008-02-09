@@ -25,7 +25,7 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DuplicateElementsRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
 
@@ -157,7 +157,7 @@ public class MapItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
 				setDefaults(getNewElement(), getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
@@ -207,7 +207,7 @@ public class MapItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
 				setDefaults(getNewElement(), getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
@@ -257,7 +257,7 @@ public class MapItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
 				setDefaults(getNewElement(), getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
@@ -307,7 +307,7 @@ public class MapItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
 				setDefaults(getNewElement(), getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
@@ -357,7 +357,7 @@ public class MapItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
 				setDefaults(getNewElement(), getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
@@ -407,7 +407,7 @@ public class MapItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
 				setDefaults(getNewElement(), getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
@@ -458,7 +458,7 @@ public class MapItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
 				setDefaults(getNewElement(), getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
@@ -508,7 +508,7 @@ public class MapItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
 				setDefaults(getNewElement(), getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {

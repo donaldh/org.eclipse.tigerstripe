@@ -18,7 +18,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -65,7 +65,7 @@ public class OpenNewInterfaceWizardAction extends AbstractOpenWizardAction {
 
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getTSProjectInFocus();
-		action.setEnabled(aProject instanceof ITigerstripeProject
+		action.setEnabled(aProject instanceof ITigerstripeModelProject
 				&& aProject.exists());
 	}
 

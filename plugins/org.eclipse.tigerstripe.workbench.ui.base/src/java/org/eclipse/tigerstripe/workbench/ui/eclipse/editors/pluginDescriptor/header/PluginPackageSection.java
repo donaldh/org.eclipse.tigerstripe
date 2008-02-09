@@ -21,9 +21,10 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
 import org.eclipse.ui.IWorkbench;
@@ -105,7 +106,7 @@ public class PluginPackageSection extends PluginDescriptorSectionPart {
 						dialog.setFilterExtensions(new String[] { "*.zip" });
 						final String path = dialog.open();
 						if (path != null) {
-							final IPluggablePluginProject projectHandle = getIPluggablePluginProject();
+							final ITigerstripePluginProject projectHandle = getIPluggablePluginProject();
 							IRunnableWithProgress op = new IRunnableWithProgress() {
 								public void run(IProgressMonitor monitor) {
 									try {
@@ -117,7 +118,8 @@ public class PluginPackageSection extends PluginDescriptorSectionPart {
 										}
 
 										PluggablePluginProjectPackager packager = new PluggablePluginProjectPackager(
-												projectHandle.getPPProject());
+												((TigerstripePluginProjectHandle) projectHandle)
+														.getPPProject());
 										packager.packageUpProject(monitor,
 												lPath);
 

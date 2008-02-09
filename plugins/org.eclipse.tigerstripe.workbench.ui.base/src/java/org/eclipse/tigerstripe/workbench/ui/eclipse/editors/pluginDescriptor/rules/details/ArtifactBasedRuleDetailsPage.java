@@ -34,8 +34,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedPPluginRule;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.ArtifactRulesSection;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -303,7 +303,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		Label l = form.getToolkit()
 				.createLabel(sectionClient, "Artifact Type:");
 
-		IPluggablePluginProject project = getPPProject();
+		ITigerstripePluginProject project = getPPProject();
 
 		IArtifactMetadataSession session = InternalTigerstripeCore
 				.getDefaultArtifactMetadataSession();

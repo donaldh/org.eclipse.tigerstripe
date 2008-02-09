@@ -20,7 +20,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.PluginDeploymentHelper;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbench;
@@ -36,7 +36,7 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 			return;
 		IRunnableWithProgress op = null;
 		try {
-			IPluggablePluginProject projectHandle = getPPProject();
+			ITigerstripePluginProject projectHandle = getPPProject();
 			if (MessageDialog
 					.openConfirm(
 							targetPart.getSite().getShell(),

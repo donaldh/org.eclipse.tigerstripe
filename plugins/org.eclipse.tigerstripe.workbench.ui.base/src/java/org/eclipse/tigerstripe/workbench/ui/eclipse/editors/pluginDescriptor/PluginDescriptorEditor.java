@@ -14,7 +14,6 @@ import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -30,12 +29,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.SimplePluggablePluginProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -64,11 +63,11 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 
 	private boolean previousPageWasModel = true;
 
-	private Collection modelPages = new ArrayList();
+	private Collection<TigerstripeFormPage> modelPages = new ArrayList<TigerstripeFormPage>();
 
 	private PluginDescriptorSourcePage sourcePage;
 
-	private IPluggablePluginProject workingHandle;
+	private ITigerstripePluginProject workingHandle;
 
 	private void updateTitle() {
 		IEditorInput input = getEditorInput();
@@ -175,8 +174,8 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 				try {
 					monitor.beginTask("Refreshing Project Cache...", 10);
 					session.refreshCacheFor(getIPluggablePluginProject()
-							.getLocation().toFile().toURI(), getIPluggablePluginProject(),
-							monitor);
+							.getLocation().toFile().toURI(),
+							getIPluggablePluginProject(), monitor);
 					monitor.done();
 				} catch (TigerstripeException ee) {
 					EclipsePlugin.log(ee);
@@ -247,8 +246,7 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 	}
 
 	private void refreshModelPages() {
-		for (Iterator iter = modelPages.iterator(); iter.hasNext();) {
-			TigerstripeFormPage page = (TigerstripeFormPage) iter.next();
+		for (TigerstripeFormPage page : modelPages) {
 			page.refresh();
 		}
 	}
@@ -256,8 +254,9 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 	private void updateTextEditorFromModel() {
 		try {
 			if (getEditorInput() instanceof FileEditorInput) {
-				IPluggablePluginProject projectHandle = getIPluggablePluginProject();
-				PluggablePluginProject project = projectHandle.getPPProject();
+				ITigerstripePluginProject projectHandle = getIPluggablePluginProject();
+				PluggablePluginProject project = ((TigerstripePluginProjectHandle) projectHandle)
+						.getPPProject();
 
 				sourcePage.getDocumentProvider().getDocument(getEditorInput())
 						.set(project.asText());
@@ -274,19 +273,19 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 	// Bug #894: need to make a copy of the handle to work on it, rather than
 	// working directly on the primary object, similarly to the DescriptorEditor
 	// behavior
-	public IPluggablePluginProject getIPluggablePluginProject() {
+	public ITigerstripePluginProject getIPluggablePluginProject() {
 		if (workingHandle == null) {
 			IEditorInput input = getEditorInput();
-			IPluggablePluginProject handle = null;
+			ITigerstripePluginProject handle = null;
 			if (input instanceof IFileEditorInput) {
 				IFileEditorInput fileInput = (IFileEditorInput) input;
-				handle = (IPluggablePluginProject) TSExplorerUtils
+				handle = (ITigerstripePluginProject) TSExplorerUtils
 						.getProjectHandleFor(fileInput.getFile());
 				if (handle != null) {
 					// Create a working Copy where we substitute a new object
 					// for the underlying plugin project
-					workingHandle = new SimplePluggablePluginProjectHandle(
-							handle.getLocation().toFile().toURI());
+					workingHandle = new TigerstripePluginProjectHandle(handle
+							.getLocation().toFile().toURI());
 				}
 			}
 		}
@@ -295,8 +294,8 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 
 	private void updateModelFromTextEditor() throws TigerstripeException {
 		if (getEditorInput() instanceof FileEditorInput) {
-			IPluggablePluginProject projectHandle = getIPluggablePluginProject();
-			PluggablePluginProject originalProject = projectHandle
+			ITigerstripePluginProject projectHandle = getIPluggablePluginProject();
+			PluggablePluginProject originalProject = ((TigerstripePluginProjectHandle) projectHandle)
 					.getPPProject();
 
 			String text = sourcePage.getDocumentProvider().getDocument(

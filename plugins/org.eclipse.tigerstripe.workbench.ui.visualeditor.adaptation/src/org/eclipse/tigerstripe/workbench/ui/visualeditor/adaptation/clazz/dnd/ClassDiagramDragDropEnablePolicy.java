@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.workbench.eclipse.utils.AbstractArtifactAdapter;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.helpers.DiagramEditorHelper;
@@ -71,7 +71,7 @@ public class ClassDiagramDragDropEnablePolicy {
 				.getParent().getViewer().getEditDomain()).getEditorPart();
 
 		DiagramEditorHelper dHelper = new DiagramEditorHelper(editorPart);
-		ITigerstripeProject diagramProject = dHelper
+		ITigerstripeModelProject diagramProject = dHelper
 				.getCorrespondingTigerstripeProject();
 
 		if (diagramProject == null)

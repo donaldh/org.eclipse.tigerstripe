@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.utils.AbstractArtifactAdapter;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers.InstanceDiagramEditorHelper;
@@ -80,7 +80,7 @@ public class InstanceDiagramDragDropEnablePolicy {
 
 		InstanceDiagramEditorHelper dHelper = new InstanceDiagramEditorHelper(
 				editorPart);
-		ITigerstripeProject diagramProject = dHelper
+		ITigerstripeModelProject diagramProject = dHelper
 				.getCorrespondingTigerstripeProject();
 
 		if (diagramProject == null)

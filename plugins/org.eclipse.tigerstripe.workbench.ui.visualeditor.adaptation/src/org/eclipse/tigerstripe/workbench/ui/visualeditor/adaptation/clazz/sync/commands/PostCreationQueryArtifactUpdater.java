@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.INamedQuery;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.NamedQueryArtifact;
@@ -33,7 +33,7 @@ public class PostCreationQueryArtifactUpdater extends
 
 	public PostCreationQueryArtifactUpdater(IAbstractArtifact iArtifact,
 			AbstractArtifact eArtifact, Map map,
-			ITigerstripeProject diagramProject) {
+			ITigerstripeModelProject diagramProject) {
 		super(iArtifact, eArtifact, map, diagramProject);
 	}
 

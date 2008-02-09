@@ -19,12 +19,12 @@ import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ReadOnlyEditorInput;
 
 public class ReadOnlyDescriptorEditorInput extends ReadOnlyEditorInput {
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	public ReadOnlyDescriptorEditorInput(JarEntryFile jarEntryFile) {
 		super(jarEntryFile);
@@ -59,7 +59,7 @@ public class ReadOnlyDescriptorEditorInput extends ReadOnlyEditorInput {
 		return "Read-only Descriptor from Module";
 	}
 
-	public ITigerstripeProject getTSProject() {
+	public ITigerstripeModelProject getTSProject() {
 		if (tsProject == null) {
 			extractTSProject();
 		}

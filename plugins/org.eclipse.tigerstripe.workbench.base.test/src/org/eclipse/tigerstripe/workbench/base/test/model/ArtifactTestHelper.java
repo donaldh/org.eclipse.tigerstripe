@@ -26,7 +26,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * Helper class for multiple actions on Artifacts
@@ -36,10 +36,10 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  */
 public class ArtifactTestHelper {
 
-	private ITigerstripeProject project;
+	private ITigerstripeModelProject project;
 	private IArtifactManagerSession session;
 
-	public ArtifactTestHelper(ITigerstripeProject project) {
+	public ArtifactTestHelper(ITigerstripeModelProject project) {
 		Assert.assertNotNull(project);
 		this.project = project;
 		try {

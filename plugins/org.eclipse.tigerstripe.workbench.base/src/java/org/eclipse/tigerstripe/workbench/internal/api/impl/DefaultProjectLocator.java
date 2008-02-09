@@ -15,7 +15,7 @@ import java.net.URI;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * This is the default project locator that will be used by the API unless a
@@ -27,7 +27,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  */
 public class DefaultProjectLocator implements IProjectLocator {
 
-	public URI locate(ITigerstripeProject projectContext, String projectLabel)
+	public URI locate(ITigerstripeModelProject projectContext, String projectLabel)
 			throws TigerstripeException {
 		URI uriContext = projectContext.getLocation().toFile().toURI();
 		String newPath = uriContext.getPath() + File.separator + ".."

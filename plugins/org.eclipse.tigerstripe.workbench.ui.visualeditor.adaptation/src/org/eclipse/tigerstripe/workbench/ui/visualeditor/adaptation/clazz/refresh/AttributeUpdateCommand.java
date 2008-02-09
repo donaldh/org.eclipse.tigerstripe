@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
@@ -155,7 +155,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 							TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 									.getArtifactManager().getTSProject();
 
-							ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
+							ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
 									.findProject(project.getBaseDir().toURI());
 							if (tsProject != null && !isInitialRefresh()) {
 								// FIXME: EXTRA ETADAPTER
@@ -315,7 +315,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 								TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 										.getArtifactManager().getTSProject();
 
-								ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
+								ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
 										.findProject(project.getBaseDir()
 												.toURI());
 								if (tsProject != null && !isInitialRefresh()) {

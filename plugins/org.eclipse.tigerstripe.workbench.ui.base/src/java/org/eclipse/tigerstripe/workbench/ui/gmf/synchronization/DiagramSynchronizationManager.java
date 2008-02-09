@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.WorkspaceListener;
 
 /**
@@ -70,7 +70,7 @@ public class DiagramSynchronizationManager {
 	 * 
 	 * @param project
 	 */
-	public void addTSProjectToWatch(ITigerstripeProject project) {
+	public void addTSProjectToWatch(ITigerstripeModelProject project) {
 		if (!projectWatchHash.containsKey(project.getLocation().toFile())) {
 			TigerstripeRuntime.logDebugMessage("Adding project to watch: "
 					+ project.getLocation().toFile());
@@ -85,7 +85,7 @@ public class DiagramSynchronizationManager {
 	 * Removing a project from the watchlist, ie. de-registering as listener...
 	 * 
 	 */
-	public void removeTSProjectToWatch(ITigerstripeProject project) {
+	public void removeTSProjectToWatch(ITigerstripeModelProject project) {
 		if (projectWatchHash.containsKey(project.getLocation().toFile())) {
 			TigerstripeRuntime.logDebugMessage("Removing project to watch: "
 					+ project.getLocation().toFile());

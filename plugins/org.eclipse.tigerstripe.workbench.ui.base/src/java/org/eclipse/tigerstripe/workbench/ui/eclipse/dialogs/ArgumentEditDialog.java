@@ -65,7 +65,7 @@ import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.StereotypeSectionManager;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -137,11 +137,11 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 	private List existingParameters;
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	public ArgumentEditDialog(Shell parentShell, IArgument argument,
 			List existingArguments, IJavaElement elem,
-			ITigerstripeProject tsProject) {
+			ITigerstripeModelProject tsProject) {
 		super(parentShell);
 
 		this.tsProject = tsProject;

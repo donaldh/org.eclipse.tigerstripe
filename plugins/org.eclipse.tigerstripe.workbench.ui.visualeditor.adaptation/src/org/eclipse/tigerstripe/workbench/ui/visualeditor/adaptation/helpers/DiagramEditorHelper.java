@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.IEditorPart;
 
 public class DiagramEditorHelper {
@@ -37,19 +37,19 @@ public class DiagramEditorHelper {
 		return res;
 	}
 
-	public ITigerstripeProject getCorrespondingTigerstripeProject() {
+	public ITigerstripeModelProject getCorrespondingTigerstripeProject() {
 
 		IResource res = getIResource();
 		IAbstractTigerstripeProject project = EclipsePlugin
 				.getITigerstripeProjectFor(res.getProject());
-		if (project instanceof ITigerstripeProject)
-			return (ITigerstripeProject) project;
+		if (project instanceof ITigerstripeModelProject)
+			return (ITigerstripeModelProject) project;
 		return null;
 	}
 
 	public String getInitialBasePackage() {
 
-		ITigerstripeProject project = getCorrespondingTigerstripeProject();
+		ITigerstripeModelProject project = getCorrespondingTigerstripeProject();
 		IResource res = getIResource();
 		File projectDir = res.getProject().getLocation().toFile();
 

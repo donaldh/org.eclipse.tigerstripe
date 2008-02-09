@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.TSRuntimeBasedWizardPage;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 
@@ -134,7 +134,7 @@ public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 	protected void initFromContext() {
 		try {
 			TSRuntimeContext context = getTSRuntimeContext();
-			ITigerstripeProject project = context.getProjectHandle();
+			ITigerstripeModelProject project = context.getProjectHandle();
 
 			// TODO
 
@@ -194,7 +194,7 @@ public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 		return jarFileDialogField.getText().trim();
 	}
 
-	public ITigerstripeProject getITigerstripeProject() {
+	public ITigerstripeModelProject getITigerstripeProject() {
 		try {
 			return getTSRuntimeContext().getProjectHandle();
 		} catch (TigerstripeException e) {

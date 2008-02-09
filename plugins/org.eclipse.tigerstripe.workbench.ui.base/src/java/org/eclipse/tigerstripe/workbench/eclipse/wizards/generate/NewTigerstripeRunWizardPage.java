@@ -57,7 +57,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.ColorUtils;
 
 /**
@@ -440,7 +440,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		selectedFacetsTableViewer
 				.setContentProvider(new IStructuredContentProvider() {
 					public Object[] getElements(Object inputElement) {
-						ITigerstripeProject project = (ITigerstripeProject) inputElement;
+						ITigerstripeModelProject project = (ITigerstripeModelProject) inputElement;
 						try {
 							return project.getFacetReferences();
 						} catch (TigerstripeException e) {
@@ -482,8 +482,8 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		facetControlsInitialized = true;
 	}
 
-	protected ITigerstripeProject getTSProject() throws TigerstripeException {
-		ITigerstripeProject handle = null;
+	protected ITigerstripeModelProject getTSProject() throws TigerstripeException {
+		ITigerstripeModelProject handle = null;
 		if (getTSRuntimeContext() != null) {
 			handle = getTSRuntimeContext().getProjectHandle();
 			return handle;
@@ -559,7 +559,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			}
 
 			try {
-				ITigerstripeProject handle = getTSRuntimeContext()
+				ITigerstripeModelProject handle = getTSRuntimeContext()
 						.getProjectHandle();
 				if (handle != null) {
 					IPluginConfig[] refs = handle.getPluginConfigs();

@@ -17,31 +17,43 @@ import java.net.URI;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
+import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginClasspathEntry;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime.PluginClasspathEntry;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
 /**
  * 
  * @author Eric Dillon
  * @since 1.2
  */
-public abstract class AbstractPluggablePluginProjectHandle extends
-		AbstractTigerstripeProjectHandle implements IPluggablePluginProject {
+public class TigerstripePluginProjectHandle extends
+		AbstractTigerstripeProjectHandle implements ITigerstripePluginProject {
+
+	protected final static String GLOBAL_PROPERTIES_F = "globalProperties";
+	protected final static String PLUGIN_NATURE_F = "pluginNature";
 
 	private PluggablePluginProject ppProject;
 
-	public AbstractPluggablePluginProjectHandle(URI projectURI) {
+	@Override
+	protected void addManagedFields() {
+		super.addManagedFields();
+		managedFields.add(GLOBAL_PROPERTIES_F);
+	}
+
+	public TigerstripePluginProjectHandle(URI projectURI) {
 		super(projectURI);
 	}
 
@@ -51,7 +63,11 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 
 	public void setGlobalProperties(IPluginProperty[] properties)
 			throws TigerstripeException {
+		assertSet(GLOBAL_PROPERTIES_F);
 		getPPProject().setGlobalProperties(properties);
+		for (IPluginProperty property : properties) {
+			property.setProject(this);
+		}
 	}
 
 	@Override
@@ -94,14 +110,15 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 			throws WorkingCopyException, TigerstripeException {
 		assertSet(_UNKWOWN_FIELD);
 		PluggablePluginProject project = getPPProject();
-//		project.getSetProjectDetails(projectDetails);
+		project.setProjectDetails((ProjectDetails) projectDetails);
 	}
 
-	public String[] getSupportedPluginProperties() {
+	@SuppressWarnings("unchecked")
+	public Class[] getSupportedPluginProperties() {
 		try {
 			return getPPProject().getSupportedPluginProperties();
 		} catch (TigerstripeException e) {
-			return new String[0];
+			return new Class[0];
 		}
 	}
 
@@ -113,29 +130,37 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		}
 	}
 
-	public IPluginProperty makeProperty(String propertyType)
-			throws TigerstripeException {
+	public <T extends IPluginProperty> IPluginProperty makeProperty(
+			Class<T> propertyType) throws TigerstripeException {
 		return getPPProject().makeProperty(propertyType);
 	}
 
 	public void addGlobalProperties(IPluginProperty[] properties)
 			throws TigerstripeException {
-		getPPProject().addGlobalProperties(properties);
+		for (IPluginProperty property : properties) {
+			addGlobalProperty(property);
+		}
 	}
 
 	public void addGlobalProperty(IPluginProperty property)
 			throws TigerstripeException {
+		assertSet(GLOBAL_PROPERTIES_F);
 		getPPProject().addGlobalProperty(property);
+		property.setProject(this);
 	}
 
 	public void removeGlobalProperties(IPluginProperty[] properties)
 			throws TigerstripeException {
-		getPPProject().removeGlobalProperties(properties);
+		for (IPluginProperty property : properties) {
+			removeGlobalProperty(property);
+		}
 	}
 
 	public void removeGlobalProperty(IPluginProperty property)
 			throws TigerstripeException {
+		assertSet(GLOBAL_PROPERTIES_F);
 		getPPProject().removeGlobalProperty(property);
+		property.setProject(null);
 	}
 
 	// =========================================
@@ -160,11 +185,11 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		getPPProject().removeGlobalRules(rules);
 	}
 
-	public String[] getSupportedPluginRules() {
+	public <T extends IRunRule> Class<T>[] getSupportedPluginRules() {
 		try {
 			return getPPProject().getSupportedPluginRules();
 		} catch (TigerstripeException e) {
-			return new String[0];
+			return new Class[0];
 		}
 	}
 
@@ -176,7 +201,8 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		}
 	}
 
-	public IRunRule makeRule(String ruleType) throws TigerstripeException {
+	public <T extends IRunRule> IRunRule makeRule(Class<T> ruleType)
+			throws TigerstripeException {
 		return getPPProject().makeRule(ruleType);
 	}
 
@@ -206,11 +232,11 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		getPPProject().removeArtifactRules(rules);
 	}
 
-	public String[] getSupportedPluginArtifactRules() {
+	public <T extends IArtifactBasedTemplateRunRule> Class<T>[] getSupportedPluginArtifactRules() {
 		try {
 			return getPPProject().getSupportedPluginArtifactRules();
 		} catch (TigerstripeException e) {
-			return new String[0];
+			return new Class[0];
 		}
 	}
 
@@ -253,23 +279,10 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 		getPPProject().removeClasspathEntry(entry);
 	}
 
-	@Override
-	public boolean exists() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void validate(ITigerstripeVisitor visitor)
-			throws TigerstripeException {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void doSave() throws TigerstripeException {
 		PluggablePluginProject project = getPPProject();
 		if (project != null) {
-			project.doSave();
+			project.doSave(null);
 			return;
 		}
 
@@ -327,7 +340,8 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 	}
 
 	public void setPluginNature(EPluggablePluginNature nature)
-			throws TigerstripeException {
+			throws WorkingCopyException, TigerstripeException {
+		assertSet(PLUGIN_NATURE_F);
 		PluggablePluginProject project = getPPProject();
 		project.setPluginNature(nature);
 	}
@@ -341,6 +355,42 @@ public abstract class AbstractPluggablePluginProjectHandle extends
 	protected void doCommit(IProgressMonitor monitor)
 			throws TigerstripeException {
 		doSave();
+	}
+
+	public final static String DESCRIPTOR_FILENAME = "ts-plugin.xml";
+
+	public String getDescriptorFilename() {
+		return DESCRIPTOR_FILENAME;
+	}
+
+	@Override
+	public boolean exists() {
+		boolean result = false;
+		// check that a descriptor can be found and that it is valid
+		if (findProjectDescriptor()) {
+			try {
+				getPPProject();
+				result = true;
+			} catch (TigerstripeException e) {
+				result = false;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public void validate(ITigerstripeVisitor visitor)
+			throws TigerstripeException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected WorkingCopyManager doCreateCopy(IProgressMonitor monitor)
+			throws TigerstripeException {
+		TigerstripePluginProjectHandle copy = new TigerstripePluginProjectHandle(
+				getURI());
+		return copy;
 	}
 
 }

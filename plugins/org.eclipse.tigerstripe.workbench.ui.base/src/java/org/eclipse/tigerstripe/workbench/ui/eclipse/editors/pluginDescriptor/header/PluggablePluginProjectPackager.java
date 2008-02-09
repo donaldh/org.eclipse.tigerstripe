@@ -29,11 +29,11 @@ import org.eclipse.jdt.internal.compiler.batch.Main;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
 /**
  * Whenever a Plugin Project needs to be deployed/packaged up, the operation is
@@ -119,9 +119,9 @@ public class PluggablePluginProjectPackager {
 		String baseDir = projectDir + File.separator;
 
 		List<String> includePaths = project
-				.getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE);
+				.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE);
 		List<String> excludePaths = project
-				.getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE);
+				.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE);
 		for (String path : includePaths) {
 			String entryPath = baseDir + path;
 			File target = new File(entryPath);

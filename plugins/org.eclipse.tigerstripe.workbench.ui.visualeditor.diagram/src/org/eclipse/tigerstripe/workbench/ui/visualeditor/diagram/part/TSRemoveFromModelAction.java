@@ -40,7 +40,7 @@ import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
@@ -105,7 +105,7 @@ public class TSRemoveFromModelAction extends BaseDiagramPartAction implements
 		if (mySelectedElements.length == 0)
 			return;
 
-		ITigerstripeProject project = getCorrespondingTigerstripeProject();
+		ITigerstripeModelProject project = getCorrespondingTigerstripeProject();
 		IModelUpdater updater = project.getArtifactManagerSession()
 				.getIModelUpdater();
 
@@ -186,7 +186,7 @@ public class TSRemoveFromModelAction extends BaseDiagramPartAction implements
 									+ message
 									+ " from the model?\n(This operation cannot be undone)")) {
 				try {
-					ITigerstripeProject project = getCorrespondingTigerstripeProject();
+					ITigerstripeModelProject project = getCorrespondingTigerstripeProject();
 
 					Set<IRelationship> relationshipsToCascadeDelete = new HashSet<IRelationship>();
 					for (IModelComponent component : components) {

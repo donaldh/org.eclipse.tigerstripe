@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.utils;
 import java.net.URI;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * Provides a location facility for projects references.
@@ -38,7 +38,7 @@ public interface IProjectLocator extends IAPIFacility {
 	 * @return the URI for the given label
 	 * @throws TigerstripeException
 	 */
-	public URI locate(ITigerstripeProject projectContext, String projectLabel)
+	public URI locate(ITigerstripeModelProject projectContext, String projectLabel)
 			throws TigerstripeException;
 
 	/**

@@ -41,7 +41,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
 import com.thoughtworks.qdox.JavaDocBuilder;
@@ -57,7 +57,7 @@ import com.thoughtworks.qdox.model.JavaSource;
 public class ModuleDescriptorModel {
 
 	// The corresponding project
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	private ProjectDetails details;
 
@@ -70,7 +70,7 @@ public class ModuleDescriptorModel {
 	// The default name for the XML descriptor
 	public final static String DESCRIPTOR = "ts-module.xml";
 
-	public ModuleDescriptorModel(ITigerstripeProject project) {
+	public ModuleDescriptorModel(ITigerstripeModelProject project) {
 		setTSProject(project);
 	}
 
@@ -93,11 +93,11 @@ public class ModuleDescriptorModel {
 		return this.artifactMgr;
 	}
 
-	private ITigerstripeProject getTSProject() {
+	private ITigerstripeModelProject getTSProject() {
 		return this.tsProject;
 	}
 
-	protected void setTSProject(ITigerstripeProject project) {
+	protected void setTSProject(ITigerstripeModelProject project) {
 		this.tsProject = project;
 	}
 

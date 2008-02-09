@@ -38,7 +38,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TSExplorerUtils {
 
@@ -109,8 +109,8 @@ public class TSExplorerUtils {
 							.findProject(res.getProject().getLocation()
 									.toFile().toURI());
 
-					if (aProject instanceof ITigerstripeProject) {
-						ITigerstripeProject project = (ITigerstripeProject) aProject;
+					if (aProject instanceof ITigerstripeModelProject) {
+						ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 						IArtifactManagerSession mgr = project
 								.getArtifactManagerSession();
 
@@ -177,8 +177,8 @@ public class TSExplorerUtils {
 				IProject project = jProject.getProject();
 				IAbstractTigerstripeProject atsProject = EclipsePlugin
 						.getITigerstripeProjectFor(project);
-				if (atsProject instanceof ITigerstripeProject) {
-					ITigerstripeProject tsProject = (ITigerstripeProject) atsProject;
+				if (atsProject instanceof ITigerstripeModelProject) {
+					ITigerstripeModelProject tsProject = (ITigerstripeModelProject) atsProject;
 					try {
 						for (IDependency dep : tsProject.getDependencies()) {
 							if (dep.getPath().equals(

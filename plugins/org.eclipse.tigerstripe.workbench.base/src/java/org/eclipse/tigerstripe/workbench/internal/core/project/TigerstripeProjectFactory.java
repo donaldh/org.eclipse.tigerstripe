@@ -28,11 +28,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * A Factory for all Project related stuff
@@ -57,7 +57,7 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 
 	@SuppressWarnings("unchecked")
 	private final static Class[] SUPPORTED_PROJECT_TYPES = {
-			ITigerstripeProject.class, IPluggablePluginProject.class };
+			ITigerstripeModelProject.class, ITigerstripePluginProject.class };
 
 	private final static IProjectCreator[] PROJECT_CREATORS = {
 			new ModelProjectCreator(), new PluginProjectCreator() };

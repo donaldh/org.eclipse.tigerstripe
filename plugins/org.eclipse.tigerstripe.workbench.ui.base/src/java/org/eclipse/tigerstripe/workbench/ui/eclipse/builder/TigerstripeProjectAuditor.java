@@ -68,7 +68,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
@@ -158,7 +158,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	private void processPendingAudits(IProgressMonitor monitor)
 			throws TigerstripeException {
-		ITigerstripeProject tsProject = (ITigerstripeProject) TSExplorerUtils
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TSExplorerUtils
 				.getProjectHandleFor(getProject());
 		IArtifactManagerSession session = tsProject.getArtifactManagerSession();
 		monitor.beginTask("Processing Pending Audits", pendingAudits.size());
@@ -238,12 +238,12 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	private boolean refreshArtifact(String fqn, IProgressMonitor monitor) {
 		try {
-			ITigerstripeProject proj = (ITigerstripeProject) EclipsePlugin
+			ITigerstripeModelProject proj = (ITigerstripeModelProject) EclipsePlugin
 					.getITigerstripeProjectFor(getProject());
 			IArtifactManagerSession session = proj.getArtifactManagerSession();
 			IAbstractArtifact art = session.getArtifactByFullyQualifiedName(
 					fqn, true);
-			ITigerstripeProject targetProject = art.getTigerstripeProject();
+			ITigerstripeModelProject targetProject = art.getTigerstripeProject();
 			if (targetProject != null) {
 				IJavaProject jProject = EclipsePlugin
 						.getIJavaProject(targetProject);
@@ -273,7 +273,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	private boolean refreshPackageFor(String packageName,
 			IProgressMonitor monitor) {
 
-		ITigerstripeProject tsProject = (ITigerstripeProject) TSExplorerUtils
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TSExplorerUtils
 				.getProjectHandleFor(getProject());
 		if (tsProject instanceof TigerstripeProjectHandle) {
 			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) tsProject;
@@ -370,7 +370,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	private void registerForAllChanges() {
 		try {
-			ITigerstripeProject proj = (ITigerstripeProject) EclipsePlugin
+			ITigerstripeModelProject proj = (ITigerstripeModelProject) EclipsePlugin
 					.getITigerstripeProjectFor(getProject());
 			proj.getArtifactManagerSession().getIModelUpdater()
 					.addModelChangeListener(this);
@@ -590,7 +590,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 		monitor.beginTask("Audit Tigerstripe Project", 9);
 
-		ITigerstripeProject tsProject = (ITigerstripeProject) TSExplorerUtils
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TSExplorerUtils
 				.getProjectHandleFor(getProject());
 
 		IArtifactManagerSession session = null;
@@ -640,7 +640,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	private void checkArtifacts(IProgressMonitor monitor) {
-		ITigerstripeProject tsProject = (ITigerstripeProject) TSExplorerUtils
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TSExplorerUtils
 				.getProjectHandleFor(getProject());
 
 		try {

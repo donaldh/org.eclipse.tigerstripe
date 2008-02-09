@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -75,7 +75,7 @@ public class TigerstripeTask extends Task {
 		} else {
 
 			try {
-				ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
+				ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
 						.findProject(baseDir.toURI());
 				log.info("  Generating project: "
 						+ project.getLocation().toOSString());

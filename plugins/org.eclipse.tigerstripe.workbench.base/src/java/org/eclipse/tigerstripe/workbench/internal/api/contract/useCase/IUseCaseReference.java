@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.contract.useCase;
 import java.net.URI;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * Reference to a UseCase from a Contract Segment
@@ -63,5 +63,5 @@ public interface IUseCaseReference {
 	 * 
 	 * @return
 	 */
-	public ITigerstripeProject getContainingProject();
+	public ITigerstripeModelProject getContainingProject();
 }

@@ -66,7 +66,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Variable;
@@ -604,9 +604,9 @@ public class VariableEditPart extends CompartmentEditPart implements
 					.getAdapter(IResource.class);
 			IAbstractTigerstripeProject aProject = EclipsePlugin
 					.getITigerstripeProjectFor(res.getProject());
-			if (!(aProject instanceof ITigerstripeProject))
+			if (!(aProject instanceof ITigerstripeModelProject))
 				throw new RuntimeException("non-Tigerstripe Project found");
-			ITigerstripeProject project = (ITigerstripeProject) aProject;
+			ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 			try {
 				artMgrSession = project.getArtifactManagerSession();
 			} catch (TigerstripeException e) {

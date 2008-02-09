@@ -14,9 +14,9 @@ import java.util.Properties;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 

@@ -16,7 +16,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
@@ -27,7 +27,7 @@ public class TestArtifacts extends TestCase {
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
 		details.setName(projectName);
 		IAbstractTigerstripeProject aProject = TigerstripeCore.createProject(
-				details, null, ITigerstripeProject.class, null,
+				details, null, ITigerstripeModelProject.class, null,
 				new NullProgressMonitor());
 		return aProject;
 	}
@@ -35,8 +35,8 @@ public class TestArtifacts extends TestCase {
 	public final void testCreateRemoveEachArtifactType()
 			throws TigerstripeException {
 		IAbstractTigerstripeProject aProject = createModelProject("testCreateRemoveEachArtifactType");
-		assertTrue(aProject instanceof ITigerstripeProject);
-		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		assertTrue(aProject instanceof ITigerstripeModelProject);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		ArtifactTestHelper artifactHelper = new ArtifactTestHelper(project);
 
 		IArtifactManagerSession mgrSession = project
@@ -69,8 +69,8 @@ public class TestArtifacts extends TestCase {
 
 	public final void testExtendsRelationship() throws TigerstripeException {
 		IAbstractTigerstripeProject aProject = createModelProject("testExtendsRelationship");
-		assertTrue(aProject instanceof ITigerstripeProject);
-		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		assertTrue(aProject instanceof ITigerstripeModelProject);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		ArtifactTestHelper artHelper = new ArtifactTestHelper(project);
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 
@@ -167,8 +167,8 @@ public class TestArtifacts extends TestCase {
 
 	public final void testArtifactFields() throws TigerstripeException {
 		IAbstractTigerstripeProject aProject = createModelProject("testArtifactFields");
-		assertTrue(aProject instanceof ITigerstripeProject);
-		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		assertTrue(aProject instanceof ITigerstripeModelProject);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		ArtifactTestHelper artHelper = new ArtifactTestHelper(project);
 
 		// Try adding stuff to the artifact
@@ -219,8 +219,8 @@ public class TestArtifacts extends TestCase {
 
 	public final void testArtifactLiterals() throws TigerstripeException {
 		IAbstractTigerstripeProject aProject = createModelProject("testArtifactLiterals");
-		assertTrue(aProject instanceof ITigerstripeProject);
-		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		assertTrue(aProject instanceof ITigerstripeModelProject);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		ArtifactTestHelper artHelper = new ArtifactTestHelper(project);
 
 		// Try adding stuff to the artifact
@@ -273,8 +273,8 @@ public class TestArtifacts extends TestCase {
 
 	public final void testArtifactMethods() throws TigerstripeException {
 		IAbstractTigerstripeProject aProject = createModelProject("testArtifactMethods");
-		assertTrue(aProject instanceof ITigerstripeProject);
-		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		assertTrue(aProject instanceof ITigerstripeModelProject);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		ArtifactTestHelper artHelper = new ArtifactTestHelper(project);
 
 		// Try adding stuff to the artifact
@@ -329,8 +329,8 @@ public class TestArtifacts extends TestCase {
 
 	public final void testReferencedArtifacts()throws TigerstripeException{
 		IAbstractTigerstripeProject aProject = createModelProject("testReferencedArtifacts");
-		assertTrue(aProject instanceof ITigerstripeProject);
-		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		assertTrue(aProject instanceof ITigerstripeModelProject);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		ArtifactTestHelper artHelper = new ArtifactTestHelper(project);
 
 		// Make two artifacts

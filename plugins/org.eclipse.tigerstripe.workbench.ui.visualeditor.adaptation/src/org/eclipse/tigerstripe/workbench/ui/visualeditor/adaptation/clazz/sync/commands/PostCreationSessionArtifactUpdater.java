@@ -19,7 +19,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IEmitt
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IExposedUpdateProcedure;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.INamedQuery;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -34,7 +34,7 @@ public class PostCreationSessionArtifactUpdater extends
 
 	public PostCreationSessionArtifactUpdater(IAbstractArtifact iArtifact,
 			AbstractArtifact eArtifact, Map map,
-			ITigerstripeProject diagramProject) {
+			ITigerstripeModelProject diagramProject) {
 		super(iArtifact, eArtifact, map, diagramProject);
 	}
 

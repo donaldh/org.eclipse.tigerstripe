@@ -17,10 +17,10 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class BasePluginActionDelegate {
@@ -43,7 +43,7 @@ public class BasePluginActionDelegate {
 		return targetPart.getSite().getShell();
 	}
 
-	protected IPluggablePluginProject getPPProject() {
+	protected ITigerstripePluginProject getPPProject() {
 		if (selection == null)
 			return null;
 		IAbstractTigerstripeProject tsProject = null;
@@ -52,8 +52,8 @@ public class BasePluginActionDelegate {
 			IResource res = (IResource) obj;
 			IProject proj = res.getProject();
 			tsProject = EclipsePlugin.getITigerstripeProjectFor(proj);
-			if (tsProject instanceof IPluggablePluginProject)
-				return (IPluggablePluginProject) tsProject;
+			if (tsProject instanceof ITigerstripePluginProject)
+				return (ITigerstripePluginProject) tsProject;
 		}
 		return null;
 	}
@@ -73,7 +73,7 @@ public class BasePluginActionDelegate {
 				&& LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.DEPLOY_UNDEPLOY) {
 			action.setEnabled(false);
 		} else {
-			IPluggablePluginProject ppProject = getPPProject();
+			ITigerstripePluginProject ppProject = getPPProject();
 			action.setEnabled(ppProject != null);
 		}
 	}

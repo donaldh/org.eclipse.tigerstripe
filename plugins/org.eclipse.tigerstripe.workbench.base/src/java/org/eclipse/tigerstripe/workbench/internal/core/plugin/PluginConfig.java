@@ -15,16 +15,16 @@ import java.util.Properties;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -57,7 +57,7 @@ public abstract class PluginConfig implements IPluginConfig {
 
 	private PluginHousing housing;
 
-	private ITigerstripeProject projectHandle;
+	private ITigerstripeModelProject projectHandle;
 
 	private PluginLog.LogLevel logLevel = null;
 
@@ -195,7 +195,7 @@ public abstract class PluginConfig implements IPluginConfig {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public ITigerstripeProject getProjectHandle() {
+	public ITigerstripeModelProject getProjectHandle() {
 		return projectHandle;
 	}
 
@@ -203,7 +203,7 @@ public abstract class PluginConfig implements IPluginConfig {
 	 * @since 2.1
 	 * 
 	 */
-	public void setProjectHandle(ITigerstripeProject projectHandle) {
+	public void setProjectHandle(ITigerstripeModelProject projectHandle) {
 		this.projectHandle = projectHandle;
 	}
 

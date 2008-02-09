@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime;
 
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginClasspathEntry;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
 /**
  * Captures the details of a Plugin classpath entry (ie a .jar file for example)
@@ -36,7 +36,7 @@ public class PluginClasspathEntry implements IPluginClasspathEntry {
 		return this.relativePath;
 	}
 
-	public void setProject(IPluggablePluginProject project) {
+	public void setProject(ITigerstripePluginProject project) {
 	}
 
 	public boolean isPresent() {

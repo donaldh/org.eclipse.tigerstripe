@@ -20,12 +20,12 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class BaseAnnotableModel extends BaseAnnotable implements
 		AnnotableModel {
 
-	private ITigerstripeProject targetProject;
+	private ITigerstripeModelProject targetProject;
 
 	private IModelImportConfiguration config;
 
@@ -34,14 +34,14 @@ public abstract class BaseAnnotableModel extends BaseAnnotable implements
 		return true;
 	}
 
-	public BaseAnnotableModel(ITigerstripeProject targetProject,
+	public BaseAnnotableModel(ITigerstripeModelProject targetProject,
 			IModelImportConfiguration config) throws TigerstripeException {
 		super(targetProject.getProjectLabel());
 		this.targetProject = targetProject;
 		this.config = config;
 	}
 
-	public ITigerstripeProject getTargetProject() {
+	public ITigerstripeModelProject getTargetProject() {
 		return this.targetProject;
 	}
 
@@ -98,7 +98,7 @@ public abstract class BaseAnnotableModel extends BaseAnnotable implements
 	 * 
 	 */
 	public void applyTargetProjectArtifactTypes(
-			ITigerstripeProject referenceProject) {
+			ITigerstripeModelProject referenceProject) {
 		Collection<AnnotableElement> elements = getAnnotableElements();
 
 		try {

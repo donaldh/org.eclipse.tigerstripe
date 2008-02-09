@@ -114,13 +114,6 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request;uses:="org.eclipse.tigerstripe.api.artifacts.updater",
  org.eclipse.tigerstripe.workbench.internal.api.modules;uses:="org.eclipse.tigerstripe.api.utils,org.eclipse.tigerstripe.api.project",
  org.eclipse.tigerstripe.workbench.internal.api.plugins,
- org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
-  uses:="org.eclipse.tigerstripe.core.generation,
-   org.eclipse.tigerstripe.api.external.plugins,
-   org.eclipse.tigerstripe.core.plugin.pluggable,
-   org.eclipse.tigerstripe.api.project,
-   org.eclipse.tigerstripe.core.project.pluggable,
-   org.w3c.dom",
  org.eclipse.tigerstripe.workbench.internal.api.profile;uses:="org.eclipse.tigerstripe.api.artifacts.model,org.eclipse.tigerstripe.api.profile.primitiveType,org.eclipse.tigerstripe.api.profile.stereotype",
  org.eclipse.tigerstripe.workbench.internal.api.profile.properties;uses:="org.eclipse.tigerstripe.api.profile",
  org.eclipse.tigerstripe.workbench.internal.api.project;

@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
 /**
@@ -50,7 +50,7 @@ public class UML2ExportWizardPage extends WizardPage {
 	// protected StringButtonDialogField exportFile;
 
 	/** The source of artifacts */
-	private ITigerstripeProject sourceProject;
+	private ITigerstripeModelProject sourceProject;
 
 	protected PrintWriter out;
 	protected MessageList messages;
@@ -171,7 +171,7 @@ public class UML2ExportWizardPage extends WizardPage {
 		updatePageComplete();
 	}
 
-	public ITigerstripeProject getTSProject() throws TigerstripeException {
+	public ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		return sourceProject;
 	}
 

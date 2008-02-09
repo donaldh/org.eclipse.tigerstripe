@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * This is an Eclipse-specific project locator. It can map the project label as
@@ -32,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  */
 public class ProjectLocatorFacilityForEclipse implements IProjectLocator {
 
-	public URI locate(ITigerstripeProject projectContext, String projectLabel)
+	public URI locate(ITigerstripeModelProject projectContext, String projectLabel)
 			throws TigerstripeException {
 
 		IResource res = EclipsePlugin.getWorkspace().getRoot().findMember(

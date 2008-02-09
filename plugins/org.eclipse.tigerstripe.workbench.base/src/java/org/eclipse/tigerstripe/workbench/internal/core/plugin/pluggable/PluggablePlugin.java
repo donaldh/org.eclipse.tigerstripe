@@ -20,15 +20,15 @@ import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginClasspathEntry;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 
 /**

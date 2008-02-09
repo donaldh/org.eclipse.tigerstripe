@@ -47,7 +47,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContract
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForFacetsDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.FacetSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -371,7 +371,7 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 						IResource res = input.getFile().getParent().findMember(
 								path);
 
-						ITigerstripeProject handle = getContainingProject();
+						ITigerstripeModelProject handle = getContainingProject();
 
 						IFacetReference dep = handle
 								.makeFacetReference(relative);

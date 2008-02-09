@@ -36,11 +36,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.BooleanPPluginProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.StringPPluginProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.TablePPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.NewPPluginPropertySelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -128,8 +128,8 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	class MasterContentProvider implements IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof IPluggablePluginProject) {
-				IPluggablePluginProject pPlugin = (IPluggablePluginProject) inputElement;
+			if (inputElement instanceof ITigerstripePluginProject) {
+				ITigerstripePluginProject pPlugin = (ITigerstripePluginProject) inputElement;
 				try {
 					return pPlugin.getGlobalProperties();
 				} catch (TigerstripeException e) {
@@ -287,7 +287,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	 */
 	protected void addButtonSelected(SelectionEvent event) {
 
-		IPluggablePluginProject pProject = getIPluggablePluginProject();
+		ITigerstripePluginProject pProject = getIPluggablePluginProject();
 		NewPPluginPropertySelectionDialog dialog = new NewPPluginPropertySelectionDialog(
 				getBody().getShell(), findNewPropertyName(), pProject);
 
@@ -458,7 +458,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	}
 
 	private void upArgButtonPressed() {
-		IPluggablePluginProject pProject = getIPluggablePluginProject();
+		ITigerstripePluginProject pProject = getIPluggablePluginProject();
 		TableItem[] selectedItems = this.viewer.getTable().getSelection();
 		IPluginProperty[] selectedArgs = new IPluginProperty[selectedItems.length];
 		for (int i = 0; i < selectedItems.length; i++) {
@@ -486,7 +486,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	}
 
 	private void downArgButtonPressed() {
-		IPluggablePluginProject pProject = getIPluggablePluginProject();
+		ITigerstripePluginProject pProject = getIPluggablePluginProject();
 		TableItem[] selectedItems = this.viewer.getTable().getSelection();
 		IPluginProperty[] selectedArgs = new IPluginProperty[selectedItems.length];
 		for (int i = 0; i < selectedItems.length; i++) {

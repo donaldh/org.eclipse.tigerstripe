@@ -17,14 +17,14 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class UseCaseProcessingResult extends PluginRunStatus {
 
 	private IUseCaseReference useCaseRef;
 
 	public UseCaseProcessingResult(IUseCaseReference useCaseRef,
-			ITigerstripeProject project, RunConfig config,
+			ITigerstripeModelProject project, RunConfig config,
 			IFacetReference facetRef) {
 		super(null, project, config, facetRef);
 		this.useCaseRef = useCaseRef;

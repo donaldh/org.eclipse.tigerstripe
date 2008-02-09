@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.plugins;
 
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public interface IExpander {
 
@@ -84,7 +84,7 @@ public interface IExpander {
 	 * @param project
 	 * @return
 	 */
-	public String expandVar(String inString, ITigerstripeProject project);
+	public String expandVar(String inString, ITigerstripeModelProject project);
 
 	/**
 	 * Set the "name" of the model. This is only necessary if the default has

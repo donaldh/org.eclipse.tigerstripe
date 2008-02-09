@@ -32,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.ColorUtils;
@@ -66,8 +66,8 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 				if (TigerstripeProjectNature.hasNature(iProject)) {
 					IAbstractTigerstripeProject aProject = EclipsePlugin
 							.getITigerstripeProjectFor(iProject);
-					if (aProject instanceof ITigerstripeProject) {
-						ITigerstripeProject tsProject = (ITigerstripeProject) aProject;
+					if (aProject instanceof ITigerstripeModelProject) {
+						ITigerstripeModelProject tsProject = (ITigerstripeModelProject) aProject;
 						try {
 							if (tsProject.getActiveFacet() != null
 									&& tsProject.getActiveFacet().canResolve()) {
@@ -202,8 +202,8 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 				if (TigerstripeProjectNature.hasNature(iProject)) {
 					IAbstractTigerstripeProject aProject = EclipsePlugin
 							.getITigerstripeProjectFor(iProject);
-					if (aProject instanceof ITigerstripeProject) {
-						ITigerstripeProject tsProject = (ITigerstripeProject) aProject;
+					if (aProject instanceof ITigerstripeModelProject) {
+						ITigerstripeModelProject tsProject = (ITigerstripeModelProject) aProject;
 						try {
 							if (tsProject.getActiveFacet() != null)
 								return ColorUtils.TS_ORANGE;
@@ -258,8 +258,8 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 			IProject project = res.getProject();
 			IAbstractTigerstripeProject aProject = EclipsePlugin
 					.getITigerstripeProjectFor(project);
-			if (aProject instanceof ITigerstripeProject) {
-				ITigerstripeProject tsProject = (ITigerstripeProject) aProject;
+			if (aProject instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) aProject;
 				try {
 					if (tsProject.getActiveFacet() != null) {
 						IFacetReference ref = tsProject.getActiveFacet();

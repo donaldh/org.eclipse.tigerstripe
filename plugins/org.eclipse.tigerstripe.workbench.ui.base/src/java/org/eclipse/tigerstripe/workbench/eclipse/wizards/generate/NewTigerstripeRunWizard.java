@@ -40,7 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationExce
 import org.eclipse.tigerstripe.workbench.internal.core.generation.ProjectGenerator;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.GenerateResultDialog;
 
@@ -104,12 +104,12 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 	// }
 	//
 
-	private ITigerstripeProject getTSProject() throws TigerstripeException {
+	private ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		IAbstractTigerstripeProject result = EclipsePlugin
 				.getITigerstripeProjectFor(fPage.getIProject());
 
-		if (result instanceof ITigerstripeProject)
-			return (ITigerstripeProject) result;
+		if (result instanceof ITigerstripeModelProject)
+			return (ITigerstripeModelProject) result;
 
 		throw new TigerstripeException("Invalid project");
 	}

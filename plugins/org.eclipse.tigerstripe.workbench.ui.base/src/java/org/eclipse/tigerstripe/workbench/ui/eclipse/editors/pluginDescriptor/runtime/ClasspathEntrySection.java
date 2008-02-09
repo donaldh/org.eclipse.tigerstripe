@@ -43,9 +43,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
@@ -119,8 +119,8 @@ public class ClasspathEntrySection extends PluginDescriptorSectionPart
 	class MasterContentProvider implements IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof IPluggablePluginProject) {
-				IPluggablePluginProject project = (IPluggablePluginProject) inputElement;
+			if (inputElement instanceof ITigerstripePluginProject) {
+				ITigerstripePluginProject project = (ITigerstripePluginProject) inputElement;
 				try {
 					return project.getClasspathEntries();
 				} catch (TigerstripeException e) {
@@ -288,7 +288,7 @@ public class ClasspathEntrySection extends PluginDescriptorSectionPart
 					IResource res = input.getFile().getParent()
 							.findMember(path);
 
-					IPluggablePluginProject handle = getIPluggablePluginProject();
+					ITigerstripePluginProject handle = getIPluggablePluginProject();
 
 					IPluginClasspathEntry dep = handle.makeClasspathEntry();
 					dep.setRelativePath(res.getProjectRelativePath()
@@ -338,7 +338,7 @@ public class ClasspathEntrySection extends PluginDescriptorSectionPart
 
 		if (msgDialog.open() == 0) {
 			viewer.remove(selectedFields);
-			IPluggablePluginProject handle = getIPluggablePluginProject();
+			ITigerstripePluginProject handle = getIPluggablePluginProject();
 			try {
 				handle.removeClasspathEntries(selectedFields);
 			} catch (TigerstripeException e) {
@@ -421,7 +421,7 @@ public class ClasspathEntrySection extends PluginDescriptorSectionPart
 
 	@Override
 	public void refresh() {
-		IPluggablePluginProject handle = getIPluggablePluginProject();
+		ITigerstripePluginProject handle = getIPluggablePluginProject();
 		viewer.setInput(handle);
 
 		viewer.refresh();

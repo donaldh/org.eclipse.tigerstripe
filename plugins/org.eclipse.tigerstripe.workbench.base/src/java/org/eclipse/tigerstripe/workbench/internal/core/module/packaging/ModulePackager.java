@@ -35,7 +35,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleDescriptorMo
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
 /**
@@ -49,7 +49,7 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 public class ModulePackager implements IModulePackager {
 
 	// The project to package up
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	public IModuleHeader makeHeader() {
 		return new ModuleHeader();
@@ -59,16 +59,16 @@ public class ModulePackager implements IModulePackager {
 	 * 
 	 * @param tsProject
 	 */
-	public ModulePackager(ITigerstripeProject tsProject) {
+	public ModulePackager(ITigerstripeModelProject tsProject) {
 		setTSProject(tsProject);
 	}
 
 	// ===================================================
-	public ITigerstripeProject getTSProject() {
+	public ITigerstripeModelProject getTSProject() {
 		return this.tsProject;
 	}
 
-	private void setTSProject(ITigerstripeProject tsProject) {
+	private void setTSProject(ITigerstripeModelProject tsProject) {
 		this.tsProject = tsProject;
 	}
 
@@ -158,7 +158,7 @@ public class ModulePackager implements IModulePackager {
 		try {
 			String classpath = "";
 			String coreLib = null;
-			ITigerstripeProject project = getTSProject();
+			ITigerstripeModelProject project = getTSProject();
 			for (IDependency dep : project.getDependencies()) {
 				String s = dep.getPath();
 				if (dep.getPath().endsWith(

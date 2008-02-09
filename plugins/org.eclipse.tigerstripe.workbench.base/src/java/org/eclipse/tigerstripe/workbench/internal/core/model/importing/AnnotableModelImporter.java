@@ -11,11 +11,11 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing;
 
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public interface AnnotableModelImporter {
 
 	public ModelImportResult importFromURI(String uri, MessageList list,
 			ModelImporterListener listener, IModelImportConfiguration config,
-			ITigerstripeProject targetProject);
+			ITigerstripeModelProject targetProject);
 }

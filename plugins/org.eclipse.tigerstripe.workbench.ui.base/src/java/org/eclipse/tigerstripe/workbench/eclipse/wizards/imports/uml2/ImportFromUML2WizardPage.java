@@ -63,7 +63,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.UML2
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.UML2ModelImportConfiguration;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.MessageListDialog;
 import org.eclipse.uml2.uml.Model;
 
@@ -115,9 +115,9 @@ public class ImportFromUML2WizardPage extends TSRuntimeBasedWizardPage
 	/** The location of the referenced profiles */
 	protected StringButtonDialogField fProfilesDir;
 
-	private ITigerstripeProject targetProject;
+	private ITigerstripeModelProject targetProject;
 
-	private ITigerstripeProject referenceProject;
+	private ITigerstripeModelProject referenceProject;
 
 	/**
 	 * Perform any required update based on the runtime context
@@ -266,7 +266,7 @@ public class ImportFromUML2WizardPage extends TSRuntimeBasedWizardPage
 		};
 
 		try {
-			ITigerstripeProject targetProject = getTSProject();
+			ITigerstripeModelProject targetProject = getTSProject();
 
 			// Set profile stuff
 			Utilities.setupPaths();
@@ -517,7 +517,7 @@ public class ImportFromUML2WizardPage extends TSRuntimeBasedWizardPage
 		updatePageComplete();
 	}
 
-	public ITigerstripeProject getTSProject() throws TigerstripeException {
+	public ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		ImportWithCheckpointWizardPage initialPage = (ImportWithCheckpointWizardPage) getWizard()
 				.getPreviousPage(this);
 		return initialPage.getTSProject();

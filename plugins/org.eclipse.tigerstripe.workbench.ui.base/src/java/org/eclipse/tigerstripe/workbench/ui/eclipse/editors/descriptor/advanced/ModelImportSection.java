@@ -55,7 +55,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.mapper
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.mapper.UmlDatatypeMapper;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.mapper.UmlDatatypeMapping;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.DescriptorEditor;
@@ -311,7 +311,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 				.setLabelProvider(new UmlDatatypeMappingLabelProvider());
 		umlMappingTableViewer
 				.setContentProvider(new UmlDatatypeMappingContentProvider());
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 
 		try {
 			umlDatatypeMapper = new UmlDatatypeMapper(handle);
@@ -436,7 +436,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 				.setLabelProvider(new DBDatatypeMappingLabelProvider());
 		dbMappingTableViewer
 				.setContentProvider(new DBDatatypeMappingContentProvider());
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 
 		try {
 			dbDatatypeMapper = new DBTypeMapper(null, handle, null);
@@ -553,7 +553,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 	}
 
 	protected void updateForm() {
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 
 		try {
 			setSilentUpdate(true);
@@ -600,7 +600,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 	}
 
 	private void handleWidgetSelected(SelectionEvent e) {
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 
 		if (e.getSource() == applyDefaultPreferences) {
 			MessageBox dialog = new MessageBox(getSection().getShell(),
@@ -1003,7 +1003,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 	}
 
 	private void applyAdvancedPropertiesDefaults() throws TigerstripeException {
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 
 		IPreferenceStore store = EclipsePlugin.getDefault()
 				.getPreferenceStore();

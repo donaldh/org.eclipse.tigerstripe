@@ -34,7 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContract
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.SchedulingUtils;
 import org.eclipse.ui.IObjectActionDelegate;
@@ -48,7 +48,7 @@ import org.eclipse.ui.IWorkbenchPart;
  */
 public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 
-	private ITigerstripeProject targetProject;
+	private ITigerstripeModelProject targetProject;
 
 	private IProject iProject;
 
@@ -176,8 +176,8 @@ public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 			iProject = targetResource.getProject();
 			IAbstractTigerstripeProject tsProject = EclipsePlugin
 					.getITigerstripeProjectFor(iProject);
-			if (tsProject instanceof ITigerstripeProject) {
-				targetProject = (ITigerstripeProject) tsProject;
+			if (tsProject instanceof ITigerstripeModelProject) {
+				targetProject = (ITigerstripeModelProject) tsProject;
 				if (IContractSegment.FILE_EXTENSION.equals(targetResource
 						.getFileExtension())) {
 					mySelectedURI = targetResource.getLocationURI();

@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		implements IArtifactAuditor {
@@ -80,12 +80,12 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 					.getArtifactByFullyQualifiedName(
 							zEndType.getFullyQualifiedName());
 			if (aEndArt != null && zEndArt != null) {
-				ITigerstripeProject aEndProject = (ITigerstripeProject) aEndArt
+				ITigerstripeModelProject aEndProject = (ITigerstripeModelProject) aEndArt
 						.getTigerstripeProject();
-				ITigerstripeProject zEndProject = (ITigerstripeProject) zEndArt
+				ITigerstripeModelProject zEndProject = (ITigerstripeModelProject) zEndArt
 						.getTigerstripeProject();
 
-				ITigerstripeProject localProject = getTSProject();
+				ITigerstripeModelProject localProject = getTSProject();
 
 				boolean illegalAssoc = false;
 				if (aEndProject == null && zEndProject == null) {

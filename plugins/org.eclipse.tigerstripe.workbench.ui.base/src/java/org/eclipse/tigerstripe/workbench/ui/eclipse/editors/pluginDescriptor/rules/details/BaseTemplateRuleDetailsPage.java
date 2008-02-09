@@ -48,10 +48,11 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.VMFileSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.VelocityContextDefinitionEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -221,8 +222,11 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 					File file = (File) toAdd[i];
 
 					try {
-						String relative = Util.getRelativePath(file,
-								getPPProject().getPPProject().getBaseDir());
+						String relative = Util
+								.getRelativePath(
+										file,
+										((TigerstripePluginProjectHandle) getPPProject())
+												.getPPProject().getBaseDir());
 
 						IPath path = new Path(relative);
 						IResource res = baseFile.getParent().findMember(path);
@@ -586,8 +590,9 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 				File file = (File) toAdd[i];
 
 				try {
-					String relative = Util.getRelativePath(file, getPPProject()
-							.getPPProject().getBaseDir());
+					String relative = Util.getRelativePath(file,
+							((TigerstripePluginProjectHandle) getPPProject())
+									.getPPProject().getBaseDir());
 
 					IPath path = new Path(relative);
 					IResource res = baseFile.getParent().findMember(path);

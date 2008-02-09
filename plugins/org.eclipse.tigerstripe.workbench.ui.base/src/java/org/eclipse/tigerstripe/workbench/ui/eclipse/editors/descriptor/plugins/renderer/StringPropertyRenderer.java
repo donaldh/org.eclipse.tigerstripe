@@ -18,10 +18,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
+import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginPropertyListener;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class StringPropertyRenderer extends BasePropertyRenderer {
@@ -37,7 +37,7 @@ public class StringPropertyRenderer extends BasePropertyRenderer {
 	}
 
 	public StringPropertyRenderer(Composite parent, FormToolkit toolkit,
-			ITigerstripeProject project, IPluginProperty property,
+			ITigerstripeModelProject project, IPluginProperty property,
 			IPluggablePluginPropertyListener persister) {
 		super(parent, toolkit, project, property, persister);
 	}

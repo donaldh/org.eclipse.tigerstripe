@@ -63,7 +63,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IManag
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.INamedQuery;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.uml2.uml.AggregationKind;
@@ -103,7 +103,7 @@ public class TS2UML2 {
 	private PrintWriter out;
 	private MessageList messages;
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	private Model model;
 	private Model typesModel;
@@ -150,7 +150,7 @@ public class TS2UML2 {
 					.findMember(new Path(tSProjectName));
 
 			java.net.URI projectURI = tsContainer.getLocationURI();
-			tsProject = (ITigerstripeProject) TigerstripeCore
+			tsProject = (ITigerstripeModelProject) TigerstripeCore
 					.findProject(projectURI);
 			this.mgrSession = tsProject.getArtifactManagerSession();
 			this.mgrSession.refresh(true, new NullProgressMonitor());

@@ -32,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -266,7 +266,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		FileEditorInput input = (FileEditorInput) sourcePage.getEditorInput();
 		IAbstractArtifact originalArtifact = getIArtifact();
 
-		ITigerstripeProject project = originalArtifact.getTigerstripeProject();
+		ITigerstripeModelProject project = originalArtifact.getTigerstripeProject();
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 
 		if (sourcePage.getDocumentProvider().getDocument(input) != null) { // Bug

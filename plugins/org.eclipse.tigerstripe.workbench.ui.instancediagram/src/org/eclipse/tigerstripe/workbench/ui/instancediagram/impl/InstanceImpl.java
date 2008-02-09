@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramPackage;
@@ -260,7 +260,7 @@ public class InstanceImpl extends NamedElementImpl implements Instance {
 			throws TigerstripeException {
 		if (eContainer() instanceof InstanceMap) {
 			InstanceMap map = (InstanceMap) eContainer();
-			ITigerstripeProject tsProject = map
+			ITigerstripeModelProject tsProject = map
 					.getCorrespondingITigerstripeProject();
 			IArtifactManagerSession session = tsProject
 					.getArtifactManagerSession();

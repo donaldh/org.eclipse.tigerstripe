@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifa
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.AbstractArtifactLabelProvider;
@@ -42,7 +42,7 @@ import org.eclipse.ui.internal.misc.StringMatcher;
  */
 public class BrowseForArtifactDialog {
 
-	private ITigerstripeProject project;
+	private ITigerstripeModelProject project;
 
 	private IAbstractArtifact[] artifactModels;
 
@@ -69,14 +69,14 @@ public class BrowseForArtifactDialog {
 	 * @param initialElement
 	 * @param model
 	 */
-	public BrowseForArtifactDialog(ITigerstripeProject project,
+	public BrowseForArtifactDialog(ITigerstripeModelProject project,
 			IAbstractArtifact model) {
 		this.project = project;
 		artifactModels = new IAbstractArtifact[1];
 		artifactModels[0] = model;
 	}
 
-	public BrowseForArtifactDialog(ITigerstripeProject project,
+	public BrowseForArtifactDialog(ITigerstripeModelProject project,
 			IAbstractArtifact[] models) {
 		this.project = project;
 		this.artifactModels = models;

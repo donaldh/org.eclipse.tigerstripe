@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TestModelProjectLifecycle extends TestCase {
 
@@ -25,12 +25,12 @@ public class TestModelProjectLifecycle extends TestCase {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
 		projectDetails.setName("testGetWorkingCopy");
 
-		ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
-				.createProject(projectDetails, null, ITigerstripeProject.class,
+		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+				.createProject(projectDetails, null, ITigerstripeModelProject.class,
 						null, new NullProgressMonitor());
 		assertNotNull(project);
 
-		ITigerstripeProject workingCopy = (ITigerstripeProject) project
+		ITigerstripeModelProject workingCopy = (ITigerstripeModelProject) project
 				.makeWorkingCopy(null);
 
 		assertNotNull(workingCopy);
@@ -48,8 +48,8 @@ public class TestModelProjectLifecycle extends TestCase {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
 		projectDetails.setName("testSetOnOriginal");
 
-		ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
-				.createProject(projectDetails, null, ITigerstripeProject.class,
+		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+				.createProject(projectDetails, null, ITigerstripeModelProject.class,
 						null, new NullProgressMonitor());
 		assertNotNull(project);
 
@@ -65,7 +65,7 @@ public class TestModelProjectLifecycle extends TestCase {
 			fail("Shouldn't allow to set project details on original.");
 		} catch (WorkingCopyException e) {
 			// let's try on a working copy now
-			ITigerstripeProject workingCopy = (ITigerstripeProject) project
+			ITigerstripeModelProject workingCopy = (ITigerstripeModelProject) project
 					.makeWorkingCopy(null);
 			try {
 				workingCopy.setProjectDetails(details);

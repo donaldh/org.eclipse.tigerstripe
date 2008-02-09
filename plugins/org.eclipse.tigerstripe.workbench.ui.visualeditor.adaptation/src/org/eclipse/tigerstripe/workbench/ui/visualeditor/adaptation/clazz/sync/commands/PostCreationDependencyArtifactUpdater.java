@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Dependency;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 
@@ -23,7 +23,7 @@ public class PostCreationDependencyArtifactUpdater extends
 	protected Dependency dependency;
 
 	public PostCreationDependencyArtifactUpdater(IAbstractArtifact iArtifact,
-			Dependency dependency, Map map, ITigerstripeProject diagramProject) {
+			Dependency dependency, Map map, ITigerstripeModelProject diagramProject) {
 		super(iArtifact, map, diagramProject);
 		this.dependency = dependency;
 	}

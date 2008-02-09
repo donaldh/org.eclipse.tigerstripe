@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties;
 
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -20,15 +20,15 @@ public abstract class BasePPluginProperty implements IPluginProperty {
 	private String name = "";
 	private String tipToolText = "";
 
-	private IPluggablePluginProject project;
+	private ITigerstripePluginProject project;
 
 	private Object defaultValue;
 
-	public void setProject(IPluggablePluginProject project) {
+	public void setProject(ITigerstripePluginProject project) {
 		this.project = project;
 	}
 
-	public IPluggablePluginProject getProject() {
+	public ITigerstripePluginProject getProject() {
 		return this.project;
 	}
 

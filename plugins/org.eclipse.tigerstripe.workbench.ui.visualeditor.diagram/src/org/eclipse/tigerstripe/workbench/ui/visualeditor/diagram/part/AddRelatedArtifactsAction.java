@@ -47,7 +47,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.dnd.ClassDiagramDragDropEditPolicy;
@@ -84,7 +84,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 						.getFullyQualifiedName());
 			}
 		}
-		ITigerstripeProject tsProject = map
+		ITigerstripeModelProject tsProject = map
 				.getCorrespondingITigerstripeProject();
 		try {
 			IArtifactManagerSession session = tsProject

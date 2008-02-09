@@ -85,7 +85,7 @@ import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
@@ -147,7 +147,7 @@ public class XML2TS {
 						.getRoot().findMember(new Path(tSProjectName));
 
 				URI projectURI = tsContainer.getLocationURI();
-				ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
+				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
 						.findProject(projectURI);
 				this.mgrSession = tsProject.getArtifactManagerSession();
 				String msgText = " Source Project : "

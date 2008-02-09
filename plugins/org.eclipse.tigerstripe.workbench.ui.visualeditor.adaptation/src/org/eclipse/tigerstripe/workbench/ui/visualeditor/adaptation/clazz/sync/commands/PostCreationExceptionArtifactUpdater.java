@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.commands;
 
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 
@@ -20,7 +20,7 @@ public class PostCreationExceptionArtifactUpdater extends
 
 	public PostCreationExceptionArtifactUpdater(IAbstractArtifact iArtifact,
 			AbstractArtifact eArtifact, Map map,
-			ITigerstripeProject diagramProject) {
+			ITigerstripeModelProject diagramProject) {
 		super(iArtifact, eArtifact, map, diagramProject);
 	}
 }

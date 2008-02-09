@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -42,13 +42,13 @@ public abstract class TigerstripeSegmentSectionPart extends
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	protected ITigerstripeProject getContainingProject()
+	protected ITigerstripeModelProject getContainingProject()
 			throws TigerstripeException {
 		IContractSegment facet = getFacet();
 		if (facet != null) {
 			IAbstractTigerstripeProject aProject = facet.getContainingProject();
-			if (aProject instanceof ITigerstripeProject)
-				return (ITigerstripeProject) aProject;
+			if (aProject instanceof ITigerstripeModelProject)
+				return (ITigerstripeModelProject) aProject;
 		}
 		throw new TigerstripeException("No containing project");
 	}

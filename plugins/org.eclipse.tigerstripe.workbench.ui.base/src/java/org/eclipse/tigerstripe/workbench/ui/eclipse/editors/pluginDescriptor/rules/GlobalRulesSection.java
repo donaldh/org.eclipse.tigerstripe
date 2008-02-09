@@ -20,11 +20,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.details.CopyRuleDetailsPage;
@@ -56,8 +57,8 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 
 	class MasterContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof IPluggablePluginProject) {
-				IPluggablePluginProject pPlugin = (IPluggablePluginProject) inputElement;
+			if (inputElement instanceof ITigerstripePluginProject) {
+				ITigerstripePluginProject pPlugin = (ITigerstripePluginProject) inputElement;
 				try {
 					return pPlugin.getGlobalRules();
 				} catch (TigerstripeException e) {
@@ -83,11 +84,12 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 	protected void addButtonSelected(SelectionEvent event) {
 
 		try {
-			IPluggablePluginProject pProject = getIPluggablePluginProject();
+			ITigerstripePluginProject pProject = getIPluggablePluginProject();
 
 			NewPPluginRuleSelectionDialog dialog = new NewPPluginRuleSelectionDialog(
 					getBody().getShell(), findNewRuleName(), pProject, pProject
-							.getSupportedPluginRules(), pProject
+							.getSupportedPluginRules(),
+					((TigerstripePluginProjectHandle) pProject)
 							.getSupportedPluginRuleLabels(), pProject
 							.getGlobalRules());
 

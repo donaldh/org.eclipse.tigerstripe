@@ -19,15 +19,15 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ICopyRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
+import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
 public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
 
-	public GlobalRuleAuditor(IPluggablePluginProject pProject, IProject project) {
+	public GlobalRuleAuditor(ITigerstripePluginProject pProject, IProject project) {
 		super(pProject, project);
 	}
 

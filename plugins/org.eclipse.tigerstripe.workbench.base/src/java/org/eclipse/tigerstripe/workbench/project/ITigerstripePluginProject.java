@@ -8,13 +8,17 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
+package org.eclipse.tigerstripe.workbench.project;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.WorkingCopyException;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
 /**
  * A Pluggable plugin project
@@ -22,37 +26,32 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
  * @author Eric Dillon
  * @since 1.2
  */
-public interface IPluggablePluginProject extends IAbstractTigerstripeProject {
+public interface ITigerstripePluginProject extends IAbstractTigerstripeProject {
 
-	public PluggablePluginProject getPPProject() throws TigerstripeException;
-
-	public IPluginProperty[] getGlobalProperties()
-			throws TigerstripeException;
+	public IPluginProperty[] getGlobalProperties() throws TigerstripeException;
 
 	public void setGlobalProperties(IPluginProperty[] properties)
-			throws TigerstripeException;
+			throws WorkingCopyException, TigerstripeException;
 
 	public void addGlobalProperty(IPluginProperty property)
-			throws TigerstripeException;
+			throws WorkingCopyException, TigerstripeException;
 
 	public void removeGlobalProperty(IPluginProperty property)
-			throws TigerstripeException;
+			throws WorkingCopyException, TigerstripeException;
 
 	public void removeGlobalProperties(IPluginProperty[] properties)
-			throws TigerstripeException;
+			throws WorkingCopyException, TigerstripeException;
 
 	public void addGlobalProperties(IPluginProperty[] properties)
-			throws TigerstripeException;
+			throws WorkingCopyException, TigerstripeException;
 
-	public String[] getSupportedPluginProperties();
-
-	public String[] getSupportedPluginPropertyLabels();
+	public <T extends IPluginProperty> Class<T>[] getSupportedPluginProperties();
 
 	/**
 	 * Factory method for Plugin properties
 	 */
-	public IPluginProperty makeProperty(String propertyType)
-			throws TigerstripeException;
+	public <T extends IPluginProperty> IPluginProperty makeProperty(
+			Class<T> propertyType) throws TigerstripeException;
 
 	// ==================================================
 	// Rules-related definitions
@@ -60,7 +59,8 @@ public interface IPluggablePluginProject extends IAbstractTigerstripeProject {
 	 * Global rules are run once per generation cycle
 	 * 
 	 */
-	public IRunRule makeRule(String ruleType) throws TigerstripeException;
+	public <T extends IRunRule> IRunRule makeRule(Class<T> ruleType)
+			throws TigerstripeException;
 
 	public IRunRule[] getGlobalRules() throws TigerstripeException;
 
@@ -72,9 +72,7 @@ public interface IPluggablePluginProject extends IAbstractTigerstripeProject {
 
 	public void addGlobalRules(IRunRule[] rules) throws TigerstripeException;
 
-	public String[] getSupportedPluginRules();
-
-	public String[] getSupportedPluginRuleLabels();
+	public <T extends IRunRule> Class<T>[] getSupportedPluginRules();
 
 	public ITemplateRunRule[] getArtifactRules() throws TigerstripeException;
 
@@ -104,7 +102,7 @@ public interface IPluggablePluginProject extends IAbstractTigerstripeProject {
 	public IPluginClasspathEntry[] getClasspathEntries()
 			throws TigerstripeException;
 
-	public String[] getSupportedPluginArtifactRules();
+	public <T extends IArtifactBasedTemplateRunRule> Class<T>[] getSupportedPluginArtifactRules();
 
 	public String[] getSupportedPluginArtifactRuleLabels();
 
@@ -113,10 +111,10 @@ public interface IPluggablePluginProject extends IAbstractTigerstripeProject {
 	public final static int ADDITIONAL_FILE_EXCLUDE = 1;
 
 	public void addAdditionalFile(String relativePath, int includeExclude)
-			throws TigerstripeException;
+			throws WorkingCopyException, TigerstripeException;
 
 	public void removeAdditionalFile(String relativePath, int includeExclude)
-			throws TigerstripeException;
+			throws WorkingCopyException, TigerstripeException;
 
 	public String[] getAdditionalFiles(int includeExclude)
 			throws TigerstripeException;
@@ -137,5 +135,5 @@ public interface IPluggablePluginProject extends IAbstractTigerstripeProject {
 	public EPluggablePluginNature getPluginNature() throws TigerstripeException;
 
 	public void setPluginNature(EPluggablePluginNature nature)
-			throws TigerstripeException;
+			throws WorkingCopyException, TigerstripeException;
 }

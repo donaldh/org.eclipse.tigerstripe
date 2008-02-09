@@ -68,7 +68,7 @@ import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.LabelListDialog;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
@@ -1245,7 +1245,7 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 	protected void initFromContext() {
 		try {
 			TSRuntimeContext context = getTSRuntimeContext();
-			ITigerstripeProject project = context.getProjectHandle();
+			ITigerstripeModelProject project = context.getProjectHandle();
 
 			if ("".equals(this.packageDialogField.getText())) {
 				this.packageDialogField

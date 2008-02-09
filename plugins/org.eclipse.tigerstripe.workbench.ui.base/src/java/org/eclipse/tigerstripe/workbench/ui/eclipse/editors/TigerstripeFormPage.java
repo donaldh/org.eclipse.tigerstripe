@@ -26,4 +26,5 @@ public abstract class TigerstripeFormPage extends FormPage {
 	}
 
 	public abstract void refresh();
+
 }

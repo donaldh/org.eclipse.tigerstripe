@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 /**
@@ -30,7 +30,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  */
 public class BrowseForFacetsDialog {
 
-	private ITigerstripeProject[] projects;
+	private ITigerstripeModelProject[] projects;
 
 	private String title;
 
@@ -41,7 +41,7 @@ public class BrowseForFacetsDialog {
 	 * @param initialElement
 	 * @param model
 	 */
-	public BrowseForFacetsDialog(ITigerstripeProject[] projects) {
+	public BrowseForFacetsDialog(ITigerstripeModelProject[] projects) {
 		this.projects = projects;
 	}
 
@@ -80,11 +80,11 @@ public class BrowseForFacetsDialog {
 		return new IFacetReference[0];
 	}
 
-	private List<IFacetReference> getAllFacetsFor(ITigerstripeProject project) {
+	private List<IFacetReference> getAllFacetsFor(ITigerstripeModelProject project) {
 		List<IFacetReference> result = new ArrayList<IFacetReference>();
 		try {
 			result.addAll(Arrays.asList(project.getFacetReferences()));
-			for (ITigerstripeProject refProject : project
+			for (ITigerstripeModelProject refProject : project
 					.getReferencedProjects()) {
 				result.addAll(getAllFacetsFor(refProject));
 			}
@@ -103,7 +103,7 @@ public class BrowseForFacetsDialog {
 			List<IFacetReference> selectedElements) throws TigerstripeException {
 
 		List<IFacetReference> rawList = new ArrayList<IFacetReference>();
-		for (ITigerstripeProject project : projects) {
+		for (ITigerstripeModelProject project : projects) {
 			List<IFacetReference> refs = getAllFacetsFor(project);
 			rawList.addAll(refs);
 		}

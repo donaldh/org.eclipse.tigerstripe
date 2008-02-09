@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * This is a main integration point into the Annotation Framework so all model
@@ -47,7 +47,7 @@ public class ModelComponentAnnotable implements IAnnotable {
 	public AnnotationStore getStore(IAnnotationScheme scheme)
 			throws AnnotationCoreException {
 		try {
-			ITigerstripeProject project = getProject();
+			ITigerstripeModelProject project = getProject();
 			IProject iProject = (IProject) project.getAdapter(IProject.class);
 			if (iProject != null) {
 				return AnnotationStore.getDefaultFactory().getAnnotationStore(
@@ -114,7 +114,7 @@ public class ModelComponentAnnotable implements IAnnotable {
 	protected StringBuffer getArtifactURI(IAbstractArtifact artifact) {
 		StringBuffer URI = new StringBuffer("tigerstripe://");
 
-		if (artifact.getTigerstripeProject() instanceof ITigerstripeProject) {
+		if (artifact.getTigerstripeProject() instanceof ITigerstripeModelProject) {
 			try {
 				URI.append(artifact.getTigerstripeProject().getProjectDetails()
 						.getName());
@@ -133,7 +133,7 @@ public class ModelComponentAnnotable implements IAnnotable {
 		return URI;
 	}
 
-	private ITigerstripeProject getProject() throws TigerstripeException {
+	private ITigerstripeModelProject getProject() throws TigerstripeException {
 		if (component instanceof IAbstractArtifact) {
 			IAbstractArtifact art = (IAbstractArtifact) component;
 			return art.getTigerstripeProject();

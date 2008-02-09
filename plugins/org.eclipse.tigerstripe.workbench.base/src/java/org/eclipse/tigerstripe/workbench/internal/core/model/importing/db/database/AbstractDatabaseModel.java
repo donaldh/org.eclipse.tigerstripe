@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.IModelImp
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.ModelImporterListener;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema.DatabaseSchema;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * An abstract database model
@@ -33,7 +33,7 @@ public abstract class AbstractDatabaseModel {
 	public abstract AbstractDatabaseModel make();
 
 	public abstract DatabaseSchema[] extractSchemas(MessageList list,
-			ITigerstripeProject targetProject,
+			ITigerstripeModelProject targetProject,
 			IModelImportConfiguration config, ModelImporterListener listener)
 			throws TigerstripeException;
 

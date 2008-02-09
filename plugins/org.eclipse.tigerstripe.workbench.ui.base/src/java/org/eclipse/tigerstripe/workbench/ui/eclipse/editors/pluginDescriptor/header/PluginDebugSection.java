@@ -20,9 +20,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.PluginDeploymentHelper;
@@ -109,7 +109,7 @@ public class PluginDebugSection extends PluginDescriptorSectionPart {
 								return;
 							}
 
-							IPluggablePluginProject projectHandle = getIPluggablePluginProject();
+							ITigerstripePluginProject projectHandle = getIPluggablePluginProject();
 							final PluginDeploymentHelper helper = new PluginDeploymentHelper(
 									projectHandle);
 							if (MessageDialog
@@ -203,7 +203,7 @@ public class PluginDebugSection extends PluginDescriptorSectionPart {
 								"Undeploy Plugin Error", errMessage);
 					} else {
 						try {
-							IPluggablePluginProject projectHandle = getIPluggablePluginProject();
+							ITigerstripePluginProject projectHandle = getIPluggablePluginProject();
 
 							final PluginDeploymentHelper helper = new PluginDeploymentHelper(
 									projectHandle);

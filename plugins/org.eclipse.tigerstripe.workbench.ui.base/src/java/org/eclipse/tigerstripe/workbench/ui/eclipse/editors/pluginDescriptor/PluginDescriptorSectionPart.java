@@ -19,7 +19,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -33,7 +33,7 @@ public abstract class PluginDescriptorSectionPart extends
 		super(page, parent, toolkit, style);
 	}
 
-	protected IPluggablePluginProject getIPluggablePluginProject() {
+	protected ITigerstripePluginProject getIPluggablePluginProject() {
 		PluginDescriptorEditor editor = (PluginDescriptorEditor) getPage()
 				.getEditor();
 		return editor.getIPluggablePluginProject();

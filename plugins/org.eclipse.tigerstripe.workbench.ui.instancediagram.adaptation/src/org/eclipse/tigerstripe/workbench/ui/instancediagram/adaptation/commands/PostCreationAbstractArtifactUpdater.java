@@ -19,7 +19,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramFactory;
@@ -44,7 +44,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 
 	public PostCreationAbstractArtifactUpdater(IAbstractArtifact iArtifact,
 			ClassInstance eArtifact, InstanceMap map,
-			ITigerstripeProject diagramProject) {
+			ITigerstripeModelProject diagramProject) {
 		super(iArtifact, map, diagramProject);
 		this.eArtifact = eArtifact;
 	}

@@ -47,7 +47,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePlugi
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
@@ -84,7 +84,7 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 	@Override
 	public boolean performFinish() {
 
-		final ITigerstripeProject tsProject = fPage.getITigerstripeProject();
+		final ITigerstripeModelProject tsProject = fPage.getITigerstripeProject();
 		final IProject project = fPage.getIProject();
 		final String moduleID = fPage.getModuleID();
 		final String jarFile = fPage.getJarFile();
@@ -139,7 +139,7 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 	}
 
 	private void internalPerformFinish(IProgressMonitor monitor,
-			ITigerstripeProject tsProject, IProject project, String moduleID,
+			ITigerstripeModelProject tsProject, IProject project, String moduleID,
 			String jarFile) throws InterruptedException, CoreException {
 
 		try {

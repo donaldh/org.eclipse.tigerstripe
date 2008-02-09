@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.project;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringWriter;
@@ -29,7 +28,18 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.tools.ant.filters.StringInputStream;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
@@ -376,28 +386,12 @@ public abstract class AbstractTigerstripeProject {
 		}
 	}
 
-	/**
-	 * This method checks whether this project contains the necessary mandatory
-	 * IDependency.DEFAULT_CORE_MODEL_DEPENDENCY in the list of dependencies for
-	 * this project.
-	 * 
-	 * It also checks that the version of the attached dependency if it exist is
-	 * the correct version.
-	 * 
-	 * @throws
-	 * @since 1.0.3
-	 */
-
 	public String getProjectLabel() {
-		try {
-			IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
-					.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
-			return loc.getLocalLabel(getBaseDir().toURI());
-		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-					e);
-		}
-		return "unknwon";
+
+		if (getBaseDir() == null)
+			return null; // this is a project desc embedded in a module
+
+		return getBaseDir().getName();
 	}
 
 	public String getAdvancedProperty(String prop) {
@@ -462,15 +456,24 @@ public abstract class AbstractTigerstripeProject {
 		}
 	}
 
-	public void doSave() throws TigerstripeException {
-		File theFile = getFullPath();
-		Writer writer = null;
+	public void doSave(IProgressMonitor monitor) throws TigerstripeException {
+
+		if (monitor == null)
+			monitor = new NullProgressMonitor();
+
+		IPath filePath = new Path(getFullPath().getAbsolutePath());
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IFile[] files = workspace.getRoot().findFilesForLocation(filePath);
+		assert (files.length == 1);
+
+		IFile theFile = files[0];
+		StringWriter writer = new StringWriter();
+		write(writer);
 		try {
-			writer = new FileWriter(theFile);
-			write(writer);
-		} catch (IOException e) {
-			throw new TigerstripeException("Tigerstripe descriptor not found ("
-					+ theFile.getAbsolutePath() + ").", e);
+			theFile.setContents(new StringInputStream(writer.toString()),
+					IResource.FORCE | IResource.KEEP_HISTORY, monitor);
+		} catch (CoreException e) {
+			BasePlugin.log(e);
 		} finally {
 			if (writer != null) {
 				try {
@@ -480,5 +483,16 @@ public abstract class AbstractTigerstripeProject {
 				}
 			}
 		}
+		//		
+		// File theFile = getFullPath();
+		// Writer writer = null;
+		// try {
+		// writer = new FileWriter(theFile);
+		// write(writer);
+		// } catch (IOException e) {
+		// throw new TigerstripeException("Tigerstripe descriptor not found ("
+		// + theFile.getAbsolutePath() + ").", e);
+		// } finally {
+		// }
 	}
 }

@@ -16,7 +16,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * Convienence class to capture values of all selection on the Generation Wizard
@@ -119,7 +119,7 @@ public class RunConfig implements IRunConfig {
 		return monitor;
 	}
 
-	public RunConfig(ITigerstripeProject tsProject) {
+	public RunConfig(ITigerstripeModelProject tsProject) {
 		try {
 			IProjectDetails details = tsProject.getProjectDetails();
 			ignoreFacets = "true".equals(details.getProperties().getProperty(

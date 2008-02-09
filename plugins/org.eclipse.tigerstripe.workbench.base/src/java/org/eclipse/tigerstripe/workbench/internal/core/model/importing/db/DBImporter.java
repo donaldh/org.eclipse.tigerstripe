@@ -21,21 +21,21 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.databa
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.mapper.DBMapper;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema.DatabaseSchema;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class DBImporter implements AnnotableModelImporter {
 
 	// FIXME homogenize all importer properly!
 	public ModelImportResult importFromURI(String uri, MessageList list,
 			ModelImporterListener listener, IModelImportConfiguration config,
-			ITigerstripeProject targetProject) {
+			ITigerstripeModelProject targetProject) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public ModelImportResult importFromDB(MessageList list,
 			ModelImporterListener listener, IModelImportConfiguration config,
-			ITigerstripeProject targetProject) {
+			ITigerstripeModelProject targetProject) {
 
 		ModelImportResult result = new ModelImportResult();
 		DBModelImportConfiguration dbConfig = (DBModelImportConfiguration) config;

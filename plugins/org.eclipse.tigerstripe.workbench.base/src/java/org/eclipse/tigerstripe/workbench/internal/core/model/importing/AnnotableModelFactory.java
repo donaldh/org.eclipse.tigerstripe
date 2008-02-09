@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.DBMode
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.UML2Importer;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.UML2ModelImportConfiguration;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * The main factory for AnnotableModels
@@ -105,7 +105,7 @@ public class AnnotableModelFactory {
 	}
 
 	public IModelImportConfiguration makeConfiguration(Class importerClass,
-			ITigerstripeProject referenceProject) {
+			ITigerstripeModelProject referenceProject) {
 		IModelImportConfiguration config = (IModelImportConfiguration) importerConfigsMap
 				.get(importerClass.getName());
 		return config.make(referenceProject);
@@ -114,7 +114,7 @@ public class AnnotableModelFactory {
 	public ModelImportResult importModelAfterXSLT(String modelUri,
 			Class importerClass, String xslUri, MessageList list,
 			ModelImporterListener listener, IModelImportConfiguration config,
-			ITigerstripeProject targetProject) throws ModelImportException {
+			ITigerstripeModelProject targetProject) throws ModelImportException {
 		String transformedModelUri = applyXSLT(modelUri, xslUri);
 
 		return importModel(transformedModelUri, importerClass, list, listener,
@@ -169,7 +169,7 @@ public class AnnotableModelFactory {
 
 	public ModelImportResult importModel(String modelUri, Class importerClass,
 			MessageList list, ModelImporterListener listener,
-			IModelImportConfiguration config, ITigerstripeProject targetProject)
+			IModelImportConfiguration config, ITigerstripeModelProject targetProject)
 			throws ModelImportException {
 
 		String finalModelUri = applyDefaultXSLTs(modelUri);
@@ -192,7 +192,7 @@ public class AnnotableModelFactory {
 	}
 
 	public ModelImportResult importModelFromDb(MessageList list,
-			ModelImporterListener listener, ITigerstripeProject targetProject,
+			ModelImporterListener listener, ITigerstripeModelProject targetProject,
 			IModelImportConfiguration config) {
 		DBImporter importer = new DBImporter();
 
@@ -209,7 +209,7 @@ public class AnnotableModelFactory {
 	}
 
 	public ModelImportResult importModelFromUML2(MessageList list,
-			ModelImporterListener listener, ITigerstripeProject targetProject,
+			ModelImporterListener listener, ITigerstripeModelProject targetProject,
 			IModelImportConfiguration config) {
 
 		UML2Importer importer = new UML2Importer();

@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.TigerstripeDescriptorSectionPart;
@@ -109,7 +109,7 @@ private Text idText;
 			throws TigerstripeException {
 		TableWrapData td = null;
 
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 
 		DefaultPageListener listener = new DefaultPageListener();
 
@@ -186,7 +186,7 @@ private Text idText;
 		if (!isSilentUpdate()) {
 			// when updating the form, the changes to all fields should be
 			// ignored so that the form is not marked as dirty.
-			ITigerstripeProject handle = getTSProject();
+			ITigerstripeModelProject handle = getTSProject();
 
 			try {
 				if (e.getSource() == idText) {
@@ -221,7 +221,7 @@ private Text idText;
 	}
 
 	protected void updateForm() {
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 
 		try {
 			setSilentUpdate(true);

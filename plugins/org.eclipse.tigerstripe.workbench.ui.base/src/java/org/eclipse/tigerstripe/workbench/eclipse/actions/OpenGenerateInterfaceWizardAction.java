@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.generate.NewTigerstripeRunWizard;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -65,7 +65,7 @@ public class OpenGenerateInterfaceWizardAction extends AbstractOpenWizardAction 
 		super.selectionChanged(action, selection);
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getTSProjectInFocus();
-		action.setEnabled(aProject instanceof ITigerstripeProject
+		action.setEnabled(aProject instanceof ITigerstripeModelProject
 				&& aProject.exists()
 				&& EclipsePlugin.getProjectInFocus().isOpen());
 	}
@@ -85,7 +85,7 @@ public class OpenGenerateInterfaceWizardAction extends AbstractOpenWizardAction 
 		if (project != null) {
 			IAbstractTigerstripeProject tsProject = EclipsePlugin
 					.getITigerstripeProjectFor(project);
-			if (!(tsProject instanceof ITigerstripeProject)) {
+			if (!(tsProject instanceof ITigerstripeModelProject)) {
 				MessageBox dialog = new MessageBox(shell, SWT.ICON_ERROR);
 				dialog.setText("Generate Tigerstripe Project");
 				dialog

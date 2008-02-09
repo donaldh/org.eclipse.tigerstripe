@@ -42,7 +42,7 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.commands.PostCreationModelUpdateCommand;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.helpers.MapHelper;
@@ -165,7 +165,7 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 		IResource res = (IResource) domain.getEditorPart().getEditorInput()
 				.getAdapter(IResource.class);
 
-		ITigerstripeProject project = (ITigerstripeProject) EclipsePlugin
+		ITigerstripeModelProject project = (ITigerstripeModelProject) EclipsePlugin
 				.getITigerstripeProjectFor(res.getProject());
 
 		PostCreationModelUpdateCommand postCreateCommand = new PostCreationModelUpdateCommand(

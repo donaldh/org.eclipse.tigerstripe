@@ -19,7 +19,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
@@ -27,9 +27,9 @@ public class NameProviderImpl implements INameProvider {
 
 	private HashMap<Class, Integer> indexMap = null;
 
-	private ITigerstripeProject project;
+	private ITigerstripeModelProject project;
 
-	public NameProviderImpl(ITigerstripeProject project) {
+	public NameProviderImpl(ITigerstripeModelProject project) {
 		this.project = project;
 	}
 

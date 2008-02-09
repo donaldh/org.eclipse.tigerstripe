@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.dependen
 import java.util.TreeSet;
 
 import org.eclipse.jdt.internal.core.JavaProject;
-import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -34,12 +33,13 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.TigerstripeProjectSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
+import org.eclipse.tigerstripe.workbench.ui.resources.Images;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -56,8 +56,8 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 			IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof ITigerstripeProject) {
-				ITigerstripeProject project = (ITigerstripeProject) inputElement;
+			if (inputElement instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject project = (ITigerstripeModelProject) inputElement;
 				try {
 					return project.getReferencedProjects();
 				} catch (TigerstripeException e) {
@@ -88,13 +88,13 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 
 		@Override
 		public String getText(Object obj) {
-			ITigerstripeProject ref = (ITigerstripeProject) obj;
+			ITigerstripeModelProject ref = (ITigerstripeModelProject) obj;
 			return ref.getProjectLabel();
 		}
 
 		@Override
 		public Image getImage(Object obj) {
-			return JavaPluginImages.get(JavaPluginImages.IMG_OBJS_JAVA_MODEL);
+			return Images.getInstance().get(Images.TSPROJECT_FOLDER);
 		}
 
 	}
@@ -172,14 +172,14 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 
 	protected void addButtonSelected() {
 		FileEditorInput input = (FileEditorInput) getPage().getEditorInput();
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 
 		TreeSet<String> filteredOutProjects = new TreeSet<String>();
 		filteredOutProjects.add(input.getFile().getProject().getName()); // the
 		// current
 		// project
 		try {
-			for (ITigerstripeProject prjRefs : handle.getReferencedProjects()) {
+			for (ITigerstripeModelProject prjRefs : handle.getReferencedProjects()) {
 				filteredOutProjects.add(prjRefs.getProjectLabel());
 			}
 		} catch (TigerstripeException e) {
@@ -193,7 +193,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 			for (Object res : results) {
 				JavaProject prj = (JavaProject) res;
 
-				ITigerstripeProject tsPrj = (ITigerstripeProject) TSExplorerUtils
+				ITigerstripeModelProject tsPrj = (ITigerstripeModelProject) TSExplorerUtils
 						.getProjectHandleFor(prj.getProject());
 				if (tsPrj != null) {
 					try {
@@ -211,10 +211,10 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 
 	protected void removeButtonSelected() {
 		TableItem[] selectedItems = viewer.getTable().getSelection();
-		ITigerstripeProject[] selectedFields = new ITigerstripeProject[selectedItems.length];
+		ITigerstripeModelProject[] selectedFields = new ITigerstripeModelProject[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (ITigerstripeProject) selectedItems[i]
+			selectedFields[i] = (ITigerstripeModelProject) selectedItems[i]
 					.getData();
 		}
 
@@ -235,7 +235,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 			FileEditorInput input = (FileEditorInput) getPage()
 					.getEditorInput();
 
-			ITigerstripeProject handle = getTSProject();
+			ITigerstripeModelProject handle = getTSProject();
 			try {
 				handle.removeReferencedProjects(selectedFields);
 			} catch (TigerstripeException e) {

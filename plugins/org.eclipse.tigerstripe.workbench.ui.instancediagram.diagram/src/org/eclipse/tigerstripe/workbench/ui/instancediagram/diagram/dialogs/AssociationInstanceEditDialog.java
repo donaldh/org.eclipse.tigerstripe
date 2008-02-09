@@ -53,7 +53,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
@@ -103,9 +103,9 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 				.getAdapter(IResource.class);
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getITigerstripeProjectFor(res.getProject());
-		if (!(aProject instanceof ITigerstripeProject))
+		if (!(aProject instanceof ITigerstripeModelProject))
 			throw new RuntimeException("non-Tigerstripe Project found");
-		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		try {
 			artifactMgrSession = project.getArtifactManagerSession();
 			sourceArtifact = artifactMgrSession

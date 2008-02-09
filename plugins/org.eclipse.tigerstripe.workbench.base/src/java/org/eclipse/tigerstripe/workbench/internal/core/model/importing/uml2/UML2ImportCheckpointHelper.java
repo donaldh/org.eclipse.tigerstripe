@@ -11,11 +11,11 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractImportCheckpointHelper;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class UML2ImportCheckpointHelper extends AbstractImportCheckpointHelper {
 
-	public UML2ImportCheckpointHelper(ITigerstripeProject project) {
+	public UML2ImportCheckpointHelper(ITigerstripeModelProject project) {
 		super(project);
 	}
 

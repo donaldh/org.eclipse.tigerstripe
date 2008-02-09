@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.importing;
 
 import java.util.Collection;
 
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * An abstract annotated model.
@@ -55,5 +55,5 @@ public interface AnnotableModel extends Annotable {
 	 * 
 	 */
 	public void applyTargetProjectArtifactTypes(
-			ITigerstripeProject referenceProject);
+			ITigerstripeModelProject referenceProject);
 }

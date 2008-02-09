@@ -29,7 +29,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class UseCaseReference implements IUseCaseReference {
 
@@ -37,15 +37,15 @@ public class UseCaseReference implements IUseCaseReference {
 
 	private TigerstripeProject project;
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
-	private ITigerstripeProject contextProject;
+	private ITigerstripeModelProject contextProject;
 
 	private String projectLabel;
 
 	private String projectRelativePath;
 
-	public UseCaseReference(URI useCaseURI, ITigerstripeProject tsProject) {
+	public UseCaseReference(URI useCaseURI, ITigerstripeModelProject tsProject) {
 		this.useCaseURI = useCaseURI;
 		this.project = null;
 		this.projectRelativePath = null;
@@ -53,7 +53,7 @@ public class UseCaseReference implements IUseCaseReference {
 	}
 
 	public UseCaseReference(String projectRelativePath, String projectLabel,
-			ITigerstripeProject contextProject) {
+			ITigerstripeModelProject contextProject) {
 		this.projectLabel = projectLabel;
 		this.projectRelativePath = projectRelativePath;
 		this.contextProject = contextProject;
@@ -130,11 +130,11 @@ public class UseCaseReference implements IUseCaseReference {
 		}
 	}
 
-	public ITigerstripeProject getContainingProject() {
+	public ITigerstripeModelProject getContainingProject() {
 		return getTSProject();
 	}
 
-	protected ITigerstripeProject getTSProject() {
+	protected ITigerstripeModelProject getTSProject() {
 
 		if (tsProject != null)
 			return tsProject;
@@ -152,8 +152,8 @@ public class UseCaseReference implements IUseCaseReference {
 				IContainer container = root.getContainerForLocation(path);
 				aProject = TigerstripeCore.findProject(container.getFullPath());
 			}
-			if (aProject instanceof ITigerstripeProject)
-				return (ITigerstripeProject) aProject;
+			if (aProject instanceof ITigerstripeModelProject)
+				return (ITigerstripeModelProject) aProject;
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);

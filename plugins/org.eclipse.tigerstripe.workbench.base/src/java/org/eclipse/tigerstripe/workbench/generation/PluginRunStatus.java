@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModule
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * A Plugin run result that contains potential messages/exception regarding a
@@ -35,7 +35,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 
 	private IPluginConfig pluginConfig;
 
-	private ITigerstripeProject project;
+	private ITigerstripeModelProject project;
 
 	private IFacetReference facetRef;
 
@@ -46,7 +46,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 	}
 
 	public PluginRunStatus(IPluginConfig pluginConfig,
-			ITigerstripeProject project, RunConfig config,
+			ITigerstripeModelProject project, RunConfig config,
 			IFacetReference facetRef) {
 		super(BasePlugin.getPluginId(), 222, "Plugin Run Status", null);
 		this.pluginConfig = pluginConfig;
@@ -54,7 +54,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 		this.facetRef = facetRef;
 	}
 
-	protected ITigerstripeProject getProject() {
+	protected ITigerstripeModelProject getProject() {
 		return project;
 	}
 

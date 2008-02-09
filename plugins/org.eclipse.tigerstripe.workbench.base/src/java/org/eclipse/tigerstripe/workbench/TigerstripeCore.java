@@ -62,6 +62,7 @@ public class TigerstripeCore {
 	// FIXME: this needs to be changed, and the migration logic updated
 	// accordingly
 	public final static String MODELPROJECT_NATURE_ID = "org.eclipse.tigerstripe.workbench.ui.base.tigerstripeProject";
+	public final static String PLUGINPROJECT_NATURE_ID = "org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginProject";
 
 	protected TigerstripeCore() {
 	}

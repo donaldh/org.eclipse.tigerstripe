@@ -14,7 +14,7 @@ import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * A reference to a facet as it appears in a Tigerstripe project descriptor.
@@ -100,5 +100,5 @@ public interface IFacetReference {
 	 * 
 	 * @return
 	 */
-	public ITigerstripeProject getContainingProject();
+	public ITigerstripeModelProject getContainingProject();
 }

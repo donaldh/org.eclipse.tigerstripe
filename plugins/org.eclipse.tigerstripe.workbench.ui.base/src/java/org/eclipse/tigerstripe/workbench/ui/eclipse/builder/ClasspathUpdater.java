@@ -35,7 +35,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * This class updates the Eclipse Project build path whenever a dependency is
@@ -47,7 +47,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
 public class ClasspathUpdater {
 
 	public static void alignDependenciesWithEclipseClasspath(
-			ITigerstripeProject tsProject, IProject eclipseProject,
+			ITigerstripeModelProject tsProject, IProject eclipseProject,
 			IProgressMonitor monitor) {
 
 		boolean needUpdate = false;
@@ -74,7 +74,7 @@ public class ClasspathUpdater {
 					// TigerstripeRuntime.logInfoMessage(ClasspathUpdater.class,
 					// " Handling CPE_PROJECT="
 					// + entries[i].getPath());
-					ITigerstripeProject prjRef = null;
+					ITigerstripeModelProject prjRef = null;
 
 					// We need to build a list of project references that are
 					// in the list of reference projects in Eclipse
@@ -94,7 +94,7 @@ public class ClasspathUpdater {
 
 						URI uri = loc.locate(tsProject, entries[i].getPath()
 								.toString());
-						prjRef = (ITigerstripeProject) TigerstripeCore
+						prjRef = (ITigerstripeModelProject) TigerstripeCore
 								.findProject(uri);
 
 					} catch (TigerstripeException e) {
@@ -232,9 +232,9 @@ public class ClasspathUpdater {
 			// descriptor
 			// that are not yet in the classpath
 			try {
-				ITigerstripeProject[] projects = tsProject
+				ITigerstripeModelProject[] projects = tsProject
 						.getReferencedProjects();
-				for (ITigerstripeProject project : projects) {
+				for (ITigerstripeModelProject project : projects) {
 					IClasspathEntry newEntry = newProjectEntry(project);
 
 					if (!contains(newEntryList, newEntry)) {
@@ -291,7 +291,7 @@ public class ClasspathUpdater {
 				ClasspathEntry.NO_EXTRA_ATTRIBUTES);
 	}
 
-	private static IClasspathEntry newProjectEntry(ITigerstripeProject project) {
+	private static IClasspathEntry newProjectEntry(ITigerstripeModelProject project) {
 		IPath path = project.getLocation();
 		return new ClasspathEntry(IPackageFragmentRoot.K_BINARY,
 				IClasspathEntry.CPE_PROJECT, JavaProject

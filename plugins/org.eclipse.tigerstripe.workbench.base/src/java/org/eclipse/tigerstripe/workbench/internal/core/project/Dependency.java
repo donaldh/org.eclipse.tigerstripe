@@ -27,7 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleRefFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * A dependency as declared in a Project Definition
@@ -91,7 +91,7 @@ public class Dependency implements IDependency {
 	 *            the project that contains the module
 	 */
 	public ITigerstripeModuleProject makeModuleProject(
-			ITigerstripeProject containingProject) throws TigerstripeException {
+			ITigerstripeModelProject containingProject) throws TigerstripeException {
 		ITigerstripeModuleProject result = new ModuleProjectHandle(
 				containingProject.getLocation().toFile().toURI(), this);
 		return result;

@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 
 public class ProfileDescriptorAuditor {
@@ -42,7 +42,7 @@ public class ProfileDescriptorAuditor {
 			return;
 
 		this.monitor = monitor;
-		ITigerstripeProject tsProject = (ITigerstripeProject) TSExplorerUtils
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TSExplorerUtils
 				.getProjectHandleFor(project);
 		if (tsProject != null) {
 			monitor.beginTask("Checking profile description", resources.length);

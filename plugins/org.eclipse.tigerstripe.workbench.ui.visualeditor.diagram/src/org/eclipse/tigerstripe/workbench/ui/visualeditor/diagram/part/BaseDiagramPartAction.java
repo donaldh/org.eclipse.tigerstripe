@@ -38,7 +38,7 @@ import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -78,7 +78,7 @@ public abstract class BaseDiagramPartAction {
 		return null;
 	}
 
-	protected ITigerstripeProject getCorrespondingTigerstripeProject()
+	protected ITigerstripeModelProject getCorrespondingTigerstripeProject()
 			throws TigerstripeException {
 		DiagramGraphicalViewer viewer = null;
 		if (mySelectedElements.length != 0 && mySelectedElements[0] != null) {
@@ -112,8 +112,8 @@ public abstract class BaseDiagramPartAction {
 		// domain.getCommandStack().execute(
 		// new ICommandProxy(new RefreshEditPartCommand(mySelectedElement,
 		// true)));
-		if (project instanceof ITigerstripeProject)
-			return (ITigerstripeProject) project;
+		if (project instanceof ITigerstripeModelProject)
+			return (ITigerstripeModelProject) project;
 		return null;
 	}
 
@@ -167,7 +167,7 @@ public abstract class BaseDiagramPartAction {
 
 	protected IModelComponent[] getCorrespondingModelComponents() {
 		List<IModelComponent> components = new ArrayList<IModelComponent>();
-		ITigerstripeProject project = null;
+		ITigerstripeModelProject project = null;
 		try {
 			project = getCorrespondingTigerstripeProject();
 		} catch (TigerstripeException e) {
@@ -237,7 +237,7 @@ public abstract class BaseDiagramPartAction {
 		return components.toArray(new IModelComponent[components.size()]);
 	}
 
-	private IAbstractArtifact getArtifact(ITigerstripeProject project,
+	private IAbstractArtifact getArtifact(ITigerstripeModelProject project,
 			QualifiedNamedElement element) throws TigerstripeException {
 		String fqn = element.getFullyQualifiedName();
 		if (fqn != null && fqn.length() != 0) {

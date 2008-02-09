@@ -78,7 +78,7 @@ import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
 import org.eclipse.ui.INewWizard;
@@ -231,7 +231,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 	 */
 	protected boolean finishCheckpointedImport() {
 		final AnnotableElement[] annotables = secondPage.getRawClasses();
-		final ITigerstripeProject targetProject = (ITigerstripeProject) EclipsePlugin
+		final ITigerstripeModelProject targetProject = (ITigerstripeModelProject) EclipsePlugin
 				.getITigerstripeProjectFor(initialPage.getIProject());
 		checkpointHelper = new XmiImportCheckpointHelper(targetProject);
 
@@ -252,9 +252,9 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 		// let's copy the reference project first
 		// we'll apply the deltas afterward.
 		try {
-			ITigerstripeProject refProject = initialPage
+			ITigerstripeModelProject refProject = initialPage
 					.getReferenceTSProject();
-			ITigerstripeProject targetProject = initialPage.getTSProject();
+			ITigerstripeModelProject targetProject = initialPage.getTSProject();
 			AnnotableElement[] annotables = secondPage.getRawClasses();
 
 			IArtifactManagerSession refSession = refProject
@@ -513,7 +513,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 	 */
 	public boolean finishNewImport() {
 
-		final ITigerstripeProject targetProject = (ITigerstripeProject) EclipsePlugin
+		final ITigerstripeModelProject targetProject = (ITigerstripeModelProject) EclipsePlugin
 				.getITigerstripeProjectFor(initialPage.getIProject());
 
 		checkpointHelper = new UML2ImportCheckpointHelper(targetProject);

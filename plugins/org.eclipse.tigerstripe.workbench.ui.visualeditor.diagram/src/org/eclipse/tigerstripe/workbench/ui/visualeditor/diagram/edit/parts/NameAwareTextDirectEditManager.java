@@ -30,7 +30,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
@@ -88,8 +88,8 @@ public class NameAwareTextDirectEditManager extends TextDirectEditManager {
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getITigerstripeProjectFor(res.getProject());
 
-		if (aProject instanceof ITigerstripeProject) {
-			ITigerstripeProject project = (ITigerstripeProject) aProject;
+		if (aProject instanceof ITigerstripeModelProject) {
+			ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 			try {
 				IArtifactManagerSession session = project
 						.getArtifactManagerSession();

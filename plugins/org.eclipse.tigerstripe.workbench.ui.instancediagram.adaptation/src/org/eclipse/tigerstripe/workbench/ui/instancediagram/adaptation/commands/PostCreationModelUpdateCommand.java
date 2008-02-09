@@ -27,7 +27,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
@@ -55,11 +55,11 @@ public class PostCreationModelUpdateCommand extends
 
 	private List<EObject> eObjects = new ArrayList<EObject>();
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	public PostCreationModelUpdateCommand(TransactionalEditingDomain domain,
 			List<ViewAndElementDescriptor> descriptors,
-			List<IAbstractArtifact> artifacts, ITigerstripeProject tsProject) {
+			List<IAbstractArtifact> artifacts, ITigerstripeModelProject tsProject) {
 		super(domain, "PostCreationModelUpdateCommand", null);
 
 		this.descriptors = descriptors;
@@ -69,7 +69,7 @@ public class PostCreationModelUpdateCommand extends
 
 	public PostCreationModelUpdateCommand(TransactionalEditingDomain domain,
 			Instance eObject, IAbstractArtifact iArtifact,
-			ITigerstripeProject tsProject) {
+			ITigerstripeModelProject tsProject) {
 		super(domain, "PostCreationModelUpdateCommand", null);
 		this.artifacts.add(iArtifact);
 		this.eObjects.add(eObject);
@@ -153,7 +153,7 @@ public class PostCreationModelUpdateCommand extends
 	 */
 	private void buildConnections(IAbstractArtifact iArtifact,
 			ClassInstance eArtifact, InstanceMap map,
-			ITigerstripeProject tsProject) {
+			ITigerstripeModelProject tsProject) {
 
 		BasePostCreationElementUpdater updater = null;
 

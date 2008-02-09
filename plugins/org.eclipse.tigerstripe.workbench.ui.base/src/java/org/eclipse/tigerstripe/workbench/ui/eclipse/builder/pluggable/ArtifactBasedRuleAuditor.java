@@ -23,15 +23,15 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IArtifactBasedTemplateRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
 public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 
-	public ArtifactBasedRuleAuditor(IPluggablePluginProject pProject,
+	public ArtifactBasedRuleAuditor(ITigerstripePluginProject pProject,
 			IProject project) {
 		super(pProject, project);
 	}

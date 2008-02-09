@@ -12,19 +12,19 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.commands
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 
 public abstract class BasePostCreationElementUpdater {
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	private IAbstractArtifact iArtifact;
 
 	private InstanceMap map;
 
 	public BasePostCreationElementUpdater(IAbstractArtifact iArtifact,
-			InstanceMap map, ITigerstripeProject tsProject) {
+			InstanceMap map, ITigerstripeModelProject tsProject) {
 		this.map = map;
 		this.iArtifact = iArtifact;
 		this.tsProject = tsProject;
@@ -38,7 +38,7 @@ public abstract class BasePostCreationElementUpdater {
 		return this.map;
 	}
 
-	protected ITigerstripeProject getDiagramProject() {
+	protected ITigerstripeModelProject getDiagramProject() {
 		return this.tsProject;
 	}
 

@@ -28,8 +28,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
 /**
@@ -44,11 +44,11 @@ public class NewPPluginRuleSelectionDialog extends TSMessageDialog {
 
 	private ComboDialogField ruleTypeCombo;
 
-	private IPluggablePluginProject ppProject;
+	private ITigerstripePluginProject ppProject;
 
 	private IRunRule result;
 
-	private String[] supportedRules;
+	private Class[] supportedRules;
 
 	private IRunRule[] existingRules;
 
@@ -76,8 +76,8 @@ public class NewPPluginRuleSelectionDialog extends TSMessageDialog {
 	}
 
 	public NewPPluginRuleSelectionDialog(Shell parentShell,
-			String initialRuleName, IPluggablePluginProject ppProject,
-			String[] supportedRules, String[] supportedRuleLabels,
+			String initialRuleName, ITigerstripePluginProject ppProject,
+			Class[] supportedRules, String[] supportedRuleLabels,
 			IRunRule[] existingRules) {
 		super(parentShell);
 

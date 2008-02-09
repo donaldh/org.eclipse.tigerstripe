@@ -21,7 +21,8 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.header.PluggablePluginProjectPackager;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbench;
@@ -36,7 +37,7 @@ public class PacakgePluginActionDelegate extends BasePluginActionDelegate
 		dialog.setFilterExtensions(new String[] { "*.zip" });
 		final String path = dialog.open();
 		if (path != null) {
-			final IPluggablePluginProject projectHandle = getPPProject();
+			final ITigerstripePluginProject projectHandle = getPPProject();
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor) {
 					try {
@@ -47,7 +48,8 @@ public class PacakgePluginActionDelegate extends BasePluginActionDelegate
 						}
 
 						PluggablePluginProjectPackager packager = new PluggablePluginProjectPackager(
-								projectHandle.getPPProject());
+								((TigerstripePluginProjectHandle) projectHandle)
+										.getPPProject());
 						packager.packageUpProject(monitor, lPath);
 
 						monitor.done();
@@ -85,8 +87,7 @@ public class PacakgePluginActionDelegate extends BasePluginActionDelegate
 					MessageDialog
 							.openError(
 									getShell(),
-									projectHandle.getProjectLabel()
-											+ " Plugin",
+									projectHandle.getProjectLabel() + " Plugin",
 									"Plugin '"
 											+ projectHandle.getProjectDetails()
 													.getName()

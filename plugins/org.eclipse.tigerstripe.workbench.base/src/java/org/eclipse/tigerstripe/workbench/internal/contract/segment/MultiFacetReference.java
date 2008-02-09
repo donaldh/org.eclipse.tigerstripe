@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.LogicalFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.LogicalPredicate;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class MultiFacetReference extends FacetReference {
 
@@ -31,7 +31,7 @@ public class MultiFacetReference extends FacetReference {
 	private IContractSegment combinedFacet;
 
 	public MultiFacetReference(IFacetReference[] facetsRefs,
-			ITigerstripeProject project) {
+			ITigerstripeModelProject project) {
 		super(null, project);
 		facets.addAll(Arrays.asList(facetsRefs));
 	}

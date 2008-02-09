@@ -28,8 +28,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
 /**
@@ -44,7 +45,7 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 
 	private ComboDialogField propertyTypeCombo;
 
-	private IPluggablePluginProject ppProject;
+	private ITigerstripePluginProject ppProject;
 
 	private IPluginProperty result;
 
@@ -72,7 +73,7 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 	}
 
 	public NewPPluginPropertySelectionDialog(Shell parentShell,
-			String initialPropertyName, IPluggablePluginProject ppProject) {
+			String initialPropertyName, ITigerstripePluginProject ppProject) {
 		super(parentShell);
 
 		this.ppProject = ppProject;
@@ -85,7 +86,8 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 		propertyNameField.setText(initialPropertyName);
 
 		propertyTypeCombo = new ComboDialogField(SWT.READ_ONLY);
-		String[] labels = ppProject.getSupportedPluginPropertyLabels();
+		String[] labels = ((TigerstripePluginProjectHandle) ppProject)
+				.getSupportedPluginPropertyLabels();
 		propertyTypeCombo.setItems(labels);
 		propertyTypeCombo.setLabelText("Property Type:");
 		propertyTypeCombo.setDialogFieldListener(adapter);
@@ -214,7 +216,7 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 	protected void okPressed() {
 		super.okPressed();
 
-		String[] supportedTypes = ppProject.getSupportedPluginProperties();
+		Class[] supportedTypes = ppProject.getSupportedPluginProperties();
 		try {
 			result = ppProject.makeProperty(supportedTypes[propertyTypeCombo
 					.getSelectionIndex()]);

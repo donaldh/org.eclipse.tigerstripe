@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
@@ -40,7 +40,7 @@ public class ClassInstanceUpdateCommand extends AbstractInstanceUpdateCommand {
 		super(eArtifact, iArtifact);
 		InstanceMap instanceMap = (InstanceMap) eArtifact.eContainer();
 		instanceMap.getCorrespondingITigerstripeProject();
-		ITigerstripeProject project = instanceMap
+		ITigerstripeModelProject project = instanceMap
 				.getCorrespondingITigerstripeProject();
 		try {
 			artMgrSession = project.getArtifactManagerSession();

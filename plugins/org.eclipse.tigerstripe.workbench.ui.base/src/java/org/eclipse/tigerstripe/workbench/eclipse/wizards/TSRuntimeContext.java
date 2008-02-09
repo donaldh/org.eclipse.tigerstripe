@@ -19,7 +19,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * This class provides informations about the runtime context (TS Descriptor,
@@ -30,7 +30,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  */
 public class TSRuntimeContext {
 
-	private ITigerstripeProject projectHandle;
+	private ITigerstripeModelProject projectHandle;
 
 	public TSRuntimeContext() {
 	}
@@ -39,7 +39,7 @@ public class TSRuntimeContext {
 		return projectHandle != null && projectHandle.exists();
 	}
 
-	public ITigerstripeProject getProjectHandle() throws TigerstripeException {
+	public ITigerstripeModelProject getProjectHandle() throws TigerstripeException {
 		if (!isValidProject())
 			throw new TigerstripeException("Invalid Project");
 		return this.projectHandle;
@@ -77,8 +77,8 @@ public class TSRuntimeContext {
 				// Validate and Load the project descriptor
 
 				if (TigerstripeCore.findProject(projectRoot.getLocation()
-						.toFile().toURI()) instanceof ITigerstripeProject) {
-					projectHandle = (ITigerstripeProject) TigerstripeCore
+						.toFile().toURI()) instanceof ITigerstripeModelProject) {
+					projectHandle = (ITigerstripeModelProject) TigerstripeCore
 							.findProject(projectRoot.getLocation().toFile()
 									.toURI());
 				} else

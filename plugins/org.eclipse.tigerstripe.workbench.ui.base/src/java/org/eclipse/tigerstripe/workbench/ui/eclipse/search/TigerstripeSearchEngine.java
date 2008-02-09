@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.search.TigerstripeSearchPage.SearchPatternData;
 
 public class TigerstripeSearchEngine {
@@ -102,9 +102,9 @@ public class TigerstripeSearchEngine {
 	private IStatus internalProjectSearch(SearchPatternData searchData,
 			TigerstripeSearchResultCollector collector, IProgressMonitor monitor) {
 		try {
-			ITigerstripeProject[] projects = searchData.getProjectsInScope();
+			ITigerstripeModelProject[] projects = searchData.getProjectsInScope();
 
-			for (ITigerstripeProject project : projects) {
+			for (ITigerstripeModelProject project : projects) {
 				IArtifactManagerSession session = project
 						.getArtifactManagerSession();
 				Collection<IAbstractArtifact> artifacts = session

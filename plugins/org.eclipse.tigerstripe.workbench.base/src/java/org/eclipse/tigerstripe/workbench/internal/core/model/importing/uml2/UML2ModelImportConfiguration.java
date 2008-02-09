@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.BaseModelImportConfiguration;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.IModelImportConfiguration;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.uml2.uml.Model;
 
 public class UML2ModelImportConfiguration extends BaseModelImportConfiguration {
@@ -20,11 +20,11 @@ public class UML2ModelImportConfiguration extends BaseModelImportConfiguration {
 	private Model model;
 	private String modelLibrary;
 
-	public UML2ModelImportConfiguration(ITigerstripeProject referenceProject) {
+	public UML2ModelImportConfiguration(ITigerstripeModelProject referenceProject) {
 		setReferenceProject(referenceProject);
 	}
 
-	public IModelImportConfiguration make(ITigerstripeProject referenceProject) {
+	public IModelImportConfiguration make(ITigerstripeModelProject referenceProject) {
 		return new UML2ModelImportConfiguration(referenceProject);
 	}
 

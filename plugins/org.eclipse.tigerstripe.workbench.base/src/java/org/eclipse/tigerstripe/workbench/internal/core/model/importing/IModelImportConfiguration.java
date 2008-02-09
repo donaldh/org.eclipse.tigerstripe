@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing;
 
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * This interface defines the configuration details for an import.
@@ -20,13 +20,13 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  */
 public interface IModelImportConfiguration {
 
-	public IModelImportConfiguration make(ITigerstripeProject referenceProject);
+	public IModelImportConfiguration make(ITigerstripeModelProject referenceProject);
 
 	/**
 	 * Returns the project to use as a reference (Checkpoint) for the import
 	 * 
 	 * @return
 	 */
-	public ITigerstripeProject getReferenceProject();
+	public ITigerstripeModelProject getReferenceProject();
 
 }

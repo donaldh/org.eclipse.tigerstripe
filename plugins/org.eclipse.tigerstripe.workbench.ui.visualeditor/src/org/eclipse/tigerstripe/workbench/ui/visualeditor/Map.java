@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Map</b></em>'.
@@ -148,8 +148,8 @@ public interface Map extends EObject {
 	 * 
 	 */
 	public void setCorrespondingITigerstripeProject(
-			ITigerstripeProject tsProject);
+			ITigerstripeModelProject tsProject);
 
-	public ITigerstripeProject getCorrespondingITigerstripeProject();
+	public ITigerstripeModelProject getCorrespondingITigerstripeProject();
 
 } // Map

@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Instance Map</b></em>'.
@@ -129,8 +129,8 @@ public interface InstanceMap extends EObject {
 	 * 
 	 */
 	public void setCorrespondingITigerstripeProject(
-			ITigerstripeProject tsProject);
+			ITigerstripeModelProject tsProject);
 
-	public ITigerstripeProject getCorrespondingITigerstripeProject();
+	public ITigerstripeModelProject getCorrespondingITigerstripeProject();
 
 } // InstanceMap

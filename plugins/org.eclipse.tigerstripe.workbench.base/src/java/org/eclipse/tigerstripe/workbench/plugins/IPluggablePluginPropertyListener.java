@@ -8,14 +8,27 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
+package org.eclipse.tigerstripe.workbench.plugins;
+
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 
 /**
- * A simple Pluggable Plugin Project allows to define simple pluggable plugins
+ * This interface is to be implemented by classes that need to persist changes
+ * made to IPluggablePluginProperties when they are rendered.
  * 
  * @author Eric Dillon
  * @since 1.2
  */
-public interface ISimplePluggablePluginProject extends IPluggablePluginProject {
+public interface IPluggablePluginPropertyListener {
 
+	/**
+	 * Stores the current value of the IPluggablePluginProperty
+	 * 
+	 * @param property
+	 * @param value
+	 * @throws TigerstripeException
+	 *             if the operation failed
+	 */
+	public void storeProperty(IPluginProperty property, Object value)
+			throws TigerstripeException;
 }

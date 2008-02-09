@@ -12,16 +12,16 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins.
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
+import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginPropertyListener;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public abstract class BasePropertyRenderer {
 
 	private Composite parent;
 
-	private ITigerstripeProject project;
+	private ITigerstripeModelProject project;
 
 	private IPluginProperty property;
 
@@ -32,7 +32,7 @@ public abstract class BasePropertyRenderer {
 	private boolean silentUpdate;
 
 	public BasePropertyRenderer(Composite parent, FormToolkit toolkit,
-			ITigerstripeProject project, IPluginProperty property,
+			ITigerstripeModelProject project, IPluginProperty property,
 			IPluggablePluginPropertyListener persister) {
 		this.parent = parent;
 		this.project = project;
@@ -68,7 +68,7 @@ public abstract class BasePropertyRenderer {
 		return this.parent;
 	}
 
-	protected ITigerstripeProject getProject() {
+	protected ITigerstripeModelProject getProject() {
 		return this.project;
 	}
 

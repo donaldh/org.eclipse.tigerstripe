@@ -14,7 +14,7 @@ import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * 
@@ -32,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  * @author Eric Dillon
  * @since 1.2
  */
-public interface IPhantomTigerstripeProject extends ITigerstripeProject {
+public interface IPhantomTigerstripeProject extends ITigerstripeModelProject {
 
 	public Collection<IPrimitiveTypeArtifact> getReservedPrimitiveTypes()
 			throws TigerstripeException;

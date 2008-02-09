@@ -37,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseR
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.rendering.DiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * Processor for Usecases during a generation run.
@@ -47,17 +47,17 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
  */
 public class UseCaseProcessor {
 
-	private ITigerstripeProject project;
+	private ITigerstripeModelProject project;
 
 	private RunConfig config = null;
 
 	private DiagramRenderer renderer;
 
-	public UseCaseProcessor(ITigerstripeProject project) {
+	public UseCaseProcessor(ITigerstripeModelProject project) {
 		this(project, null);
 	}
 
-	public UseCaseProcessor(ITigerstripeProject project, RunConfig config) {
+	public UseCaseProcessor(ITigerstripeModelProject project, RunConfig config) {
 		this.project = project;
 		this.config = config;
 		this.renderer = new DiagramRenderer(project);

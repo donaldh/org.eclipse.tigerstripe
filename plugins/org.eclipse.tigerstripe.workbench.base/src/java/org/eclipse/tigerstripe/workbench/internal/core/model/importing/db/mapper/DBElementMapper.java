@@ -12,16 +12,16 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.mappe
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.IModelImportConfiguration;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class DBElementMapper {
 
-	private ITigerstripeProject targetProject;
+	private ITigerstripeModelProject targetProject;
 	private MessageList messageList;
 	private IModelImportConfiguration config;
 
 	public DBElementMapper(MessageList messageList,
-			ITigerstripeProject targetProject, IModelImportConfiguration config) {
+			ITigerstripeModelProject targetProject, IModelImportConfiguration config) {
 		this.messageList = messageList;
 
 		if (messageList == null) {
@@ -31,7 +31,7 @@ public abstract class DBElementMapper {
 		this.config = config;
 	}
 
-	protected ITigerstripeProject getTargetProject() {
+	protected ITigerstripeModelProject getTargetProject() {
 		return this.targetProject;
 	}
 

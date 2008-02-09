@@ -40,7 +40,7 @@ import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.AbstractLogicalExplorerNode;
@@ -92,8 +92,8 @@ public class TSDeleteAction extends DeleteAction {
 						IProject project = resource.getProject();
 						IAbstractTigerstripeProject aProject = EclipsePlugin
 								.getITigerstripeProjectFor(project);
-						if (aProject instanceof ITigerstripeProject) {
-							ITigerstripeProject tsProject = (ITigerstripeProject) aProject;
+						if (aProject instanceof ITigerstripeModelProject) {
+							ITigerstripeModelProject tsProject = (ITigerstripeModelProject) aProject;
 							try {
 								if (tsProject.getActiveFacet() != null) {
 									IFacetReference ref = tsProject
@@ -143,7 +143,7 @@ public class TSDeleteAction extends DeleteAction {
 
 		IAbstractArtifact artifact;
 
-		ITigerstripeProject tsProject;
+		ITigerstripeModelProject tsProject;
 	}
 
 	@Override

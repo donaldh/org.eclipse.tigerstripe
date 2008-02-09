@@ -50,7 +50,7 @@ import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.optional.bulkImport.DiffFixer;
 import org.eclipse.tigerstripe.workbench.optional.bulkImport.ImportBundle;
 import org.eclipse.tigerstripe.workbench.optional.bulkImport.XML2TS;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.MessageListDialog;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
@@ -74,7 +74,7 @@ public class BulkImportWizardPage extends WizardPage {
 	protected SelectionButtonDialogField applyButton;
 
 	/** The ultimate destination of the created artifacts */
-	private ITigerstripeProject targetProject;
+	private ITigerstripeModelProject targetProject;
 
 	ArrayList<Difference> allXMLDiffs;
 	ImportBundle bundle;
@@ -197,7 +197,7 @@ public class BulkImportWizardPage extends WizardPage {
 		updatePageComplete();
 	}
 
-	public ITigerstripeProject getTSProject() throws TigerstripeException {
+	public ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		return targetProject;
 	}
 

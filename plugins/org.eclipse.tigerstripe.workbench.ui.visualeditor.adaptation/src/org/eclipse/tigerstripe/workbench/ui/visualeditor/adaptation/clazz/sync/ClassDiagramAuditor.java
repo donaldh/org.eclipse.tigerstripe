@@ -37,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.IDiagramAuditor;
 import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.DiagramHandle;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
@@ -126,7 +126,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		MultiStatus artResult = new MultiStatus(Activator.PLUGIN_ID, 222,
 				"Artifacts", null);
 		List<AbstractArtifact> artifacts = map.getArtifacts();
-		ITigerstripeProject tsProject = map
+		ITigerstripeModelProject tsProject = map
 				.getCorrespondingITigerstripeProject();
 		for (AbstractArtifact artifact : artifacts) {
 			IStatus status = auditArtifact(artifact, tsProject);
@@ -156,7 +156,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 	}
 
 	private IStatus auditDependency(Dependency eDependency,
-			ITigerstripeProject project) throws TigerstripeException {
+			ITigerstripeModelProject project) throws TigerstripeException {
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 
 		if (eDependency.getFullyQualifiedName() == null
@@ -215,7 +215,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 	}
 
 	private IStatus auditAssociation(Association eAssociation,
-			ITigerstripeProject project) throws TigerstripeException {
+			ITigerstripeModelProject project) throws TigerstripeException {
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 
 		if (eAssociation.getFullyQualifiedName() == null
@@ -438,7 +438,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 	}
 
 	private IStatus auditArtifact(AbstractArtifact eArtifact,
-			ITigerstripeProject project) throws TigerstripeException {
+			ITigerstripeModelProject project) throws TigerstripeException {
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 
 		if (eArtifact.getFullyQualifiedName() == null

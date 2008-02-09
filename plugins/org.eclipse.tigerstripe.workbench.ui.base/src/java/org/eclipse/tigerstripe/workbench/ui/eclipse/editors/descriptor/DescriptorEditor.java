@@ -11,10 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor;
 
 import java.io.StringReader;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -23,16 +21,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -45,10 +38,7 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplore
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 
 public class DescriptorEditor extends TigerstripeFormEditor {
@@ -57,11 +47,11 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 
 	private boolean previousPageWasModel = true;
 
-	private Collection modelPages = new ArrayList();
+	private Collection<TigerstripeFormPage> modelPages = new ArrayList<TigerstripeFormPage>();
 
 	private DescriptorSourcePage sourcePage;
 
-	private ITigerstripeProject workingHandle;
+	private ITigerstripeModelProject workingHandle;
 
 	private void updateTitle() {
 		IEditorInput input = getEditorInput();
@@ -145,9 +135,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		if (getActivePage() != sourcePageIndex) {
-			updateTextEditorFromModel();
-		} else {
+		if (getActivePage() == sourcePageIndex) {
 			try {
 				updateModelFromTextEditor();
 			} catch (TigerstripeException ee) {
@@ -158,42 +146,19 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 			}
 		}
 
-		// Force a refresh on the project session cache
-		// Bug 584: the cached handle needs to see his underlying
-		// TigerstripeProject
-		// updated
-
-		final ProjectSessionImpl session = TigerstripeProjectFactory.INSTANCE
-				.getProjectSession();
-
-		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) {
-				try {
-					monitor.beginTask("Refreshing Project Cache...", 10);
-					session.refreshCacheFor(getTSProject().getLocation()
-							.toFile().toURI(), getTSProject(),
-							monitor);
-					monitor.done();
-				} catch (TigerstripeException ee) {
-					EclipsePlugin.log(ee);
-				}
-			}
-		};
-
-		IWorkbench wb = PlatformUI.getWorkbench();
-		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
-		Shell shell = win != null ? win.getShell() : null;
-
 		try {
-			ProgressMonitorDialog pDialog = new ProgressMonitorDialog(shell);
-			pDialog.run(true, false, op);
-		} catch (InterruptedException ee) {
-			EclipsePlugin.log(ee);
-		} catch (InvocationTargetException ee) {
+			getTSProject().commit(monitor);
+		} catch (TigerstripeException ee) {
 			EclipsePlugin.log(ee);
 		}
 
-		getEditor(sourcePageIndex).doSave(monitor);
+		if (getActivePage() != sourcePageIndex) {
+			((DescriptorSourcePage) getEditor(sourcePageIndex))
+					.firePropertyChange(IEditorPart.PROP_DIRTY);
+		} else {
+			getEditor(sourcePageIndex).doSave(monitor);
+			firePropertyChange(IEditorPart.PROP_DIRTY);
+		}
 	}
 
 	@Override
@@ -228,9 +193,9 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 
 	@Override
 	protected void handlePropertyChange(int propertyId) {
+		super.handlePropertyChange(propertyId);
 		if (propertyId == IEditorPart.PROP_DIRTY)
 			isPageModified = super.isDirty();
-		super.handlePropertyChange(propertyId);
 	}
 
 	@Override
@@ -243,8 +208,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 	}
 
 	private void refreshModelPages() {
-		for (Iterator iter = modelPages.iterator(); iter.hasNext();) {
-			TigerstripeFormPage page = (TigerstripeFormPage) iter.next();
+		for (TigerstripeFormPage page : modelPages) {
 			page.refresh();
 		}
 	}
@@ -290,20 +254,20 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 		}
 	}
 
-	protected ITigerstripeProject getTSProject() {
+	protected ITigerstripeModelProject getTSProject() {
 		if (workingHandle == null) {
 			IEditorInput input = getEditorInput();
-			ITigerstripeProject handle = null;
+			ITigerstripeModelProject handle = null;
 			if (input instanceof IFileEditorInput) {
 				IFileEditorInput fileInput = (IFileEditorInput) input;
-				handle = (ITigerstripeProject) TSExplorerUtils
+				handle = (ITigerstripeModelProject) TSExplorerUtils
 						.getProjectHandleFor(fileInput.getFile());
 				if (handle != null) {
 					// Create a working Copy where we substitute a new object
 					// for
 					// the underlying TigerstripeProject
 					try {
-						workingHandle = (ITigerstripeProject) handle
+						workingHandle = (ITigerstripeModelProject) handle
 								.makeWorkingCopy(null);
 					} catch (TigerstripeException e) {
 						return null;

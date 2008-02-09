@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -67,7 +67,7 @@ public abstract class OpenNewArtifactWizardAction extends
 
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getTSProjectInFocus();
-		action.setEnabled((aProject instanceof ITigerstripeProject && aProject
+		action.setEnabled((aProject instanceof ITigerstripeModelProject && aProject
 				.exists())
 				&& EclipsePlugin.getProjectInFocus().isOpen());
 	}

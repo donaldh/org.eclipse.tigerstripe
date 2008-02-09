@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.actions.AbstractOpenWizardAction;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.export.ModuleExportWizard;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 
@@ -66,14 +66,14 @@ public class OpenModuleExportWizardAction extends AbstractOpenWizardAction {
 			locallyDisabled = true;
 		} else if (ssel != null && ssel.getFirstElement() instanceof IResource) {
 			IResource res = (IResource) ssel.getFirstElement();
-			if (!(EclipsePlugin.getITigerstripeProjectFor(res.getProject()) instanceof ITigerstripeProject))
+			if (!(EclipsePlugin.getITigerstripeProjectFor(res.getProject()) instanceof ITigerstripeModelProject))
 				locallyDisabled = true;
 		} else if (ssel != null
 				&& ssel.getFirstElement() instanceof IJavaElement) {
 			IJavaElement elm = (IJavaElement) ssel.getFirstElement();
 			if (elm.getResource() != null
 					&& !(EclipsePlugin.getITigerstripeProjectFor(elm
-							.getResource().getProject()) instanceof ITigerstripeProject))
+							.getResource().getProject()) instanceof ITigerstripeModelProject))
 				locallyDisabled = true;
 		}
 		if (locallyDisabled)

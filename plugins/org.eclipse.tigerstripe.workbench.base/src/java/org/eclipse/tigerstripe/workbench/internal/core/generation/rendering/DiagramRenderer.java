@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * This class is instantiated in the velocity context for use case processing
@@ -128,11 +128,11 @@ public class DiagramRenderer {
 		}
 	}
 
-	private ITigerstripeProject project;
+	private ITigerstripeModelProject project;
 
 	private Map<DiagKey, DiagEntry> diagMap = new HashMap<DiagKey, DiagEntry>();
 
-	public DiagramRenderer(ITigerstripeProject project) {
+	public DiagramRenderer(ITigerstripeModelProject project) {
 		this.project = project;
 	}
 

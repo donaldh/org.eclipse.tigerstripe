@@ -8,10 +8,11 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
+package org.eclipse.tigerstripe.workbench.plugins;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -39,9 +40,9 @@ public interface IRunRule {
 
 	public abstract void buildBodyFromNode(Node node);
 
-	public void setProject(IPluggablePluginProject project);
+	public void setProject(ITigerstripePluginProject project);
 
-	public IPluggablePluginProject getProject();
+	public ITigerstripePluginProject getProject();
 
 	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
 			throws TigerstripeException;

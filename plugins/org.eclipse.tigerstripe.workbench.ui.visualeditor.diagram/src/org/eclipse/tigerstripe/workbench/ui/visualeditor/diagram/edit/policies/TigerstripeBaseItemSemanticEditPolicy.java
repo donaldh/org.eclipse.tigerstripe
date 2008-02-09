@@ -74,7 +74,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
@@ -124,7 +124,7 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	 * @param eObject
 	 */
 	protected static void setDefaults(EObject eObject,
-			CreateElementRequest createRequest, ITigerstripeProject tsProject)
+			CreateElementRequest createRequest, ITigerstripeModelProject tsProject)
 			throws TigerstripeException {
 
 		// We only need defaults values if not a drag-n-drop of an artifact
@@ -229,7 +229,7 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	private static String getUniqueAssociationEndName(
 			AbstractArtifact aEndType, AbstractArtifact zEndType, int whichEnd) {
 
-		ITigerstripeProject tsProject = null;
+		ITigerstripeModelProject tsProject = null;
 		if (aEndType.eContainer() instanceof org.eclipse.tigerstripe.workbench.ui.visualeditor.Map) {
 			org.eclipse.tigerstripe.workbench.ui.visualeditor.Map map = (org.eclipse.tigerstripe.workbench.ui.visualeditor.Map) aEndType
 					.eContainer();
@@ -515,7 +515,7 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	 * 
 	 * @param affectedFiles
 	 */
-	protected static ITigerstripeProject getCorrespondingTSProject(
+	protected static ITigerstripeModelProject getCorrespondingTSProject(
 			List affectedFiles) {
 		if (affectedFiles == null || affectedFiles.size() == 0)
 			return null;
@@ -524,8 +524,8 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			IResource res = (IResource) affectedFiles.get(0);
 			IAbstractTigerstripeProject tsProject = EclipsePlugin
 					.getITigerstripeProjectFor(res.getProject());
-			if (tsProject instanceof ITigerstripeProject)
-				return (ITigerstripeProject) tsProject;
+			if (tsProject instanceof ITigerstripeModelProject)
+				return (ITigerstripeModelProject) tsProject;
 		}
 
 		return null;

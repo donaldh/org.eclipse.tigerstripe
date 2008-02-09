@@ -12,11 +12,11 @@ package org.eclipse.tigerstripe.workbench.eclipse.wizards.imports;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.ModelImportResult;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public interface IImportFromWizardPage {
 
 	public ModelImportResult getModelImportResult();
 
-	public ITigerstripeProject getTSProject() throws TigerstripeException;
+	public ITigerstripeModelProject getTSProject() throws TigerstripeException;
 }

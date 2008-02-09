@@ -50,7 +50,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.contract.ContractUtils;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 
 public class TigerstripeSearchPage extends DialogPage implements ISearchPage {
@@ -136,11 +136,11 @@ public class TigerstripeSearchPage extends DialogPage implements ISearchPage {
 			return artifacts.toArray(new IAbstractArtifact[artifacts.size()]);
 		}
 
-		public ITigerstripeProject[] getProjectsInScope() {
+		public ITigerstripeModelProject[] getProjectsInScope() {
 			if (container == null)
-				return new ITigerstripeProject[0];
+				return new ITigerstripeModelProject[0];
 
-			List<ITigerstripeProject> prjList = new ArrayList<ITigerstripeProject>();
+			List<ITigerstripeModelProject> prjList = new ArrayList<ITigerstripeModelProject>();
 
 			if (container.getSelectedScope() == ISearchPageContainer.SELECTED_PROJECTS_SCOPE) {
 				String[] projectNames = container.getSelectedProjectNames();
@@ -149,9 +149,9 @@ public class TigerstripeSearchPage extends DialogPage implements ISearchPage {
 							.getProject(projectName);
 					IAbstractTigerstripeProject atsProject = EclipsePlugin
 							.getITigerstripeProjectFor(project);
-					if (atsProject instanceof ITigerstripeProject
+					if (atsProject instanceof ITigerstripeModelProject
 							&& atsProject.exists()) {
-						prjList.add((ITigerstripeProject) atsProject);
+						prjList.add((ITigerstripeModelProject) atsProject);
 					}
 				}
 			} else if (container.getSelectedScope() == ISearchPageContainer.WORKSPACE_SCOPE) {
@@ -160,14 +160,14 @@ public class TigerstripeSearchPage extends DialogPage implements ISearchPage {
 				for (IProject project : projects) {
 					IAbstractTigerstripeProject atsProject = EclipsePlugin
 							.getITigerstripeProjectFor(project);
-					if (atsProject instanceof ITigerstripeProject
+					if (atsProject instanceof ITigerstripeModelProject
 							&& atsProject.exists()) {
-						prjList.add((ITigerstripeProject) atsProject);
+						prjList.add((ITigerstripeModelProject) atsProject);
 					}
 				}
 			}
 
-			return prjList.toArray(new ITigerstripeProject[prjList.size()]);
+			return prjList.toArray(new ITigerstripeModelProject[prjList.size()]);
 		}
 
 		public int getSearchFor() {

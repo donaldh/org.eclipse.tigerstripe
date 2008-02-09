@@ -18,10 +18,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.header.PluggablePluginProjectPackager;
 
@@ -33,9 +34,9 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.hea
  */
 public class PluginDeploymentHelper {
 
-	private IPluggablePluginProject ppProject;
+	private ITigerstripePluginProject ppProject;
 
-	public PluginDeploymentHelper(IPluggablePluginProject ppProject) {
+	public PluginDeploymentHelper(ITigerstripePluginProject ppProject) {
 		Assert.isNotNull(ppProject);
 		this.ppProject = ppProject;
 	}
@@ -49,8 +50,7 @@ public class PluginDeploymentHelper {
 	 */
 	public String deploy(IProgressMonitor monitor) throws TigerstripeException {
 		String deploymentPath = null;
-		monitor.beginTask("Deploying "
-				+ ppProject.getProjectLabel(), 15);
+		monitor.beginTask("Deploying " + ppProject.getProjectLabel(), 15);
 
 		monitor.subTask("Closing all editors");
 		EclipsePlugin.closeAllEditors(true, true, false, false, false);
@@ -62,7 +62,7 @@ public class PluginDeploymentHelper {
 		monitor.worked(3);
 
 		PluggablePluginProjectPackager packager = new PluggablePluginProjectPackager(
-				ppProject.getPPProject());
+				((TigerstripePluginProjectHandle) ppProject).getPPProject());
 		monitor.subTask("Packaging plugin...");
 		packager.packageUpProject(monitor, deploymentPath);
 		monitor.worked(5);
@@ -76,8 +76,7 @@ public class PluginDeploymentHelper {
 	public String unDeploy(IProgressMonitor monitor)
 			throws TigerstripeException {
 		String deploymentPath = null;
-		monitor.beginTask("Un-Deploying "
-				+ ppProject.getProjectLabel(), 15);
+		monitor.beginTask("Un-Deploying " + ppProject.getProjectLabel(), 15);
 
 		monitor.subTask("Closing all editors");
 		EclipsePlugin.closeAllEditors(true, true, false, false, false);
@@ -129,7 +128,7 @@ public class PluginDeploymentHelper {
 		}
 	}
 
-	private String getDefaultPluginFileName(IPluggablePluginProject handle)
+	private String getDefaultPluginFileName(ITigerstripePluginProject handle)
 			throws TigerstripeException {
 		String runtimeRoot = TigerstripeRuntime.getTigerstripeRuntimeRoot();
 		String path = runtimeRoot + File.separator + "plugins" + File.separator;

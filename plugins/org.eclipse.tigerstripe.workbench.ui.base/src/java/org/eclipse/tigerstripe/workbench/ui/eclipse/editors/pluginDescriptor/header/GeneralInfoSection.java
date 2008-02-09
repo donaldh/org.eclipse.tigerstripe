@@ -25,8 +25,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.EPluggablePluginNature;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -236,7 +236,7 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 			// when updating the form, the changes to all fields should be
 			// ignored so that the form is not marked as dirty.
 
-			IPluggablePluginProject handle = getIPluggablePluginProject();
+			ITigerstripePluginProject handle = getIPluggablePluginProject();
 
 			try {
 				if (e.getSource() == nameText) {
@@ -277,7 +277,7 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 	}
 
 	protected void updateForm() {
-		IPluggablePluginProject handle = getIPluggablePluginProject();
+		ITigerstripePluginProject handle = getIPluggablePluginProject();
 
 		try {
 			setSilentUpdate(true);

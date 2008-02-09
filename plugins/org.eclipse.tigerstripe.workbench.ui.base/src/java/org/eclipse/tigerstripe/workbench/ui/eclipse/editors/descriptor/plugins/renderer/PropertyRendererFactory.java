@@ -12,12 +12,12 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins.
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginPropertyListener;
 import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginPropertyListener;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 /**
@@ -31,10 +31,10 @@ public class PropertyRendererFactory {
 	private Composite parent;
 	private FormToolkit toolkit;
 	private IPluggablePluginPropertyListener persister;
-	private ITigerstripeProject project;
+	private ITigerstripeModelProject project;
 
 	public PropertyRendererFactory(Composite parent, FormToolkit toolkit,
-			ITigerstripeProject project,
+			ITigerstripeModelProject project,
 			IPluggablePluginPropertyListener persister) {
 		this.parent = parent;
 		this.toolkit = toolkit;

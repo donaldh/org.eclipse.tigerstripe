@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -25,7 +25,7 @@ public abstract class TigerstripeDescriptorSectionPart extends
 		// TODO Auto-generated constructor stub
 	}
 
-	protected ITigerstripeProject getTSProject() {
+	protected ITigerstripeModelProject getTSProject() {
 		DescriptorEditor editor = (DescriptorEditor) getPage().getEditor();
 		return editor.getTSProject();
 	}

@@ -57,7 +57,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.TSRuntimeBase
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpoint;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 
@@ -192,7 +192,7 @@ public class ImportWithCheckpointWizardPage extends TSRuntimeBasedWizardPage {
 	 */
 	protected boolean validateReferenceProject() {
 		try {
-			ITigerstripeProject ref = getReferenceTSProject();
+			ITigerstripeModelProject ref = getReferenceTSProject();
 			if (ref != null) {
 				IImportCheckpoint ckpt = ((TigerstripeProjectHandle) ref)
 						.getImportCheckpoint();
@@ -238,9 +238,9 @@ public class ImportWithCheckpointWizardPage extends TSRuntimeBasedWizardPage {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public ITigerstripeProject getTSProject() throws TigerstripeException {
+	public ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		if (getPackageFragmentRoot() != null)
-			return (ITigerstripeProject) EclipsePlugin
+			return (ITigerstripeModelProject) EclipsePlugin
 					.getITigerstripeProjectFor(getPackageFragmentRoot()
 							.getJavaProject().getProject());
 		else
@@ -253,10 +253,10 @@ public class ImportWithCheckpointWizardPage extends TSRuntimeBasedWizardPage {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public ITigerstripeProject getReferenceTSProject()
+	public ITigerstripeModelProject getReferenceTSProject()
 			throws TigerstripeException {
 		if (refWorkspaceRoot != null)
-			return (ITigerstripeProject) EclipsePlugin
+			return (ITigerstripeModelProject) EclipsePlugin
 					.getITigerstripeProjectFor(refWorkspaceRoot
 							.getJavaProject().getProject());
 		else

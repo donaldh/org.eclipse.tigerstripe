@@ -20,16 +20,14 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.AbstractPluggablePluginProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.SimplePluggablePluginProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ISimplePluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
 public class ProjectSessionImpl {
 
@@ -43,7 +41,7 @@ public class ProjectSessionImpl {
 
 	public String[] getSupportedTigerstripeProjects() {
 		return new String[] { TigerstripeOssjProjectHandle.class.getName(),
-				ISimplePluggablePluginProject.class.getName() };
+				ITigerstripePluginProject.class.getName() };
 	}
 
 	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI)
@@ -104,10 +102,9 @@ public class ProjectSessionImpl {
 		} else if (projectType == null) {
 			IAbstractTigerstripeProject result = null;
 			projectType = findProjectType(projectURI);
-			if (projectType.equals(ISimplePluggablePluginProject.class
-					.getName())) {
+			if (projectType.equals(ITigerstripePluginProject.class.getName())) {
 				// TODO select the right type
-				result = new SimplePluggablePluginProjectHandle(projectURI);
+				result = new TigerstripePluginProjectHandle(projectURI);
 			} else {
 				result = new TigerstripeOssjProjectHandle(projectURI);
 			}
@@ -115,9 +112,8 @@ public class ProjectSessionImpl {
 			return result;
 		} else {
 			IAbstractTigerstripeProject result = null;
-			if (ISimplePluggablePluginProject.class.getName().equals(
-					projectType)) {
-				result = new SimplePluggablePluginProjectHandle(projectURI);
+			if (ITigerstripePluginProject.class.getName().equals(projectType)) {
+				result = new TigerstripePluginProjectHandle(projectURI);
 			} else {
 				result = new TigerstripeOssjProjectHandle(projectURI);
 			}
@@ -146,7 +142,7 @@ public class ProjectSessionImpl {
 				if (file.endsWith(ITigerstripeConstants.PROJECT_DESCRIPTOR))
 					return TigerstripeOssjProjectHandle.class.getName();
 				else if (file.endsWith(ITigerstripeConstants.PLUGIN_DESCRIPTOR))
-					return ISimplePluggablePluginProject.class.getName();
+					return ITigerstripePluginProject.class.getName();
 			}
 		}
 		return "";
@@ -174,8 +170,8 @@ public class ProjectSessionImpl {
 	}
 
 	public void refreshCacheFor(URI uri,
-			IAbstractTigerstripeProject workingCopy,
-			IProgressMonitor monitor) throws TigerstripeException {
+			IAbstractTigerstripeProject workingCopy, IProgressMonitor monitor)
+			throws TigerstripeException {
 		if (projectMappedByURIs.containsKey(uri)) {
 			AbstractTigerstripeProjectHandle result = (AbstractTigerstripeProjectHandle) projectMappedByURIs
 					.get(uri);
@@ -206,10 +202,10 @@ public class ProjectSessionImpl {
 					// part of
 					// REFRESHALL
 				}
-			} else if (result instanceof IPluggablePluginProject
-					&& workingCopy instanceof IPluggablePluginProject) {
-				AbstractPluggablePluginProjectHandle handle = (AbstractPluggablePluginProjectHandle) result;
-				AbstractPluggablePluginProjectHandle workingHandle = (AbstractPluggablePluginProjectHandle) workingCopy;
+			} else if (result instanceof ITigerstripePluginProject
+					&& workingCopy instanceof ITigerstripePluginProject) {
+				TigerstripePluginProjectHandle handle = (TigerstripePluginProjectHandle) result;
+				TigerstripePluginProjectHandle workingHandle = (TigerstripePluginProjectHandle) workingCopy;
 				PluggablePluginProject project = handle.getPPProject();
 
 				StringReader reader = new StringReader(workingHandle

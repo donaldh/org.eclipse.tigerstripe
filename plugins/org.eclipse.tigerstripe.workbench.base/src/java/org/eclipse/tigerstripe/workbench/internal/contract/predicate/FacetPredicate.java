@@ -52,7 +52,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IManag
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.INamedQuery;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
 /**
@@ -74,7 +74,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 	private RegExpFQNSetPred resolvedPredicate = null;
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	// This is used to gather inconsistencies that may be found during facet
 	// resolution.
@@ -82,7 +82,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			"Facet Inconsitencies", null);
 
 	public FacetPredicate(IFacetReference facetRef,
-			ITigerstripeProject tsProject) {
+			ITigerstripeModelProject tsProject) {
 		this.facetRef = facetRef;
 		this.tsProject = tsProject;
 	}

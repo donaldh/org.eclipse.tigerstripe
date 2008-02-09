@@ -11,11 +11,11 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing.db;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractImportCheckpointHelper;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class DBImportCheckpointHelper extends AbstractImportCheckpointHelper {
 
-	public DBImportCheckpointHelper(ITigerstripeProject project) {
+	public DBImportCheckpointHelper(ITigerstripeModelProject project) {
 		super(project);
 	}
 

@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
 import org.eclipse.tigerstripe.workbench.plugins.IExpander;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * 
@@ -91,7 +91,7 @@ public class Expander implements IExpander {
 	/*
 	 * This is a bit "hairy"
 	 */
-	public String expandVar(String inString, ITigerstripeProject project) {
+	public String expandVar(String inString, ITigerstripeModelProject project) {
 		try {
 			if (project instanceof TigerstripeProjectHandle) {
 				TigerstripeProjectHandle tsProj = (TigerstripeProjectHandle) project;

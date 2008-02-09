@@ -37,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class FacetReference implements IFacetReference, IArtifactChangeListener {
 
@@ -47,9 +47,9 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 
 	private TigerstripeProject project;
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
-	private ITigerstripeProject contextProject;
+	private ITigerstripeModelProject contextProject;
 
 	private String projectLabel;
 
@@ -69,7 +69,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 	// The active mgr when this ref is active or null otherwise
 	private ArtifactManager activeMgr;
 
-	public FacetReference(URI facetURI, ITigerstripeProject tsProject) {
+	public FacetReference(URI facetURI, ITigerstripeModelProject tsProject) {
 		this.facetURI = facetURI;
 		this.project = null;
 		this.projectRelativePath = null;
@@ -77,7 +77,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 	}
 
 	public FacetReference(String projectRelativePath, String projectLabel,
-			ITigerstripeProject contextProject) {
+			ITigerstripeModelProject contextProject) {
 		this.projectLabel = projectLabel;
 		this.projectRelativePath = projectRelativePath;
 		this.contextProject = contextProject;
@@ -179,11 +179,11 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 		}
 	}
 
-	public ITigerstripeProject getContainingProject() {
+	public ITigerstripeModelProject getContainingProject() {
 		return getTSProject();
 	}
 
-	protected ITigerstripeProject getTSProject() {
+	protected ITigerstripeModelProject getTSProject() {
 
 		if (tsProject != null)
 			return tsProject;
@@ -201,8 +201,8 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 				IContainer container = root.getContainerForLocation(path);
 				aProject = TigerstripeCore.findProject(container.getFullPath());
 			}
-			if (aProject instanceof ITigerstripeProject)
-				return (ITigerstripeProject) aProject;
+			if (aProject instanceof ITigerstripeModelProject)
+				return (ITigerstripeModelProject) aProject;
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);

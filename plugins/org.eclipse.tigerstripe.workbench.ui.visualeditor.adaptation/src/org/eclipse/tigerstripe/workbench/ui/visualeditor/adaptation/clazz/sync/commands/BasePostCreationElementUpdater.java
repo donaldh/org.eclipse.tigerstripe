@@ -15,20 +15,20 @@ import java.util.ArrayList;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.NamedElement;
 
 public abstract class BasePostCreationElementUpdater {
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	private IAbstractArtifact iArtifact;
 
 	private Map map;
 
 	public BasePostCreationElementUpdater(IAbstractArtifact iArtifact, Map map,
-			ITigerstripeProject tsProject) {
+			ITigerstripeModelProject tsProject) {
 		this.map = map;
 		this.iArtifact = iArtifact;
 		this.tsProject = tsProject;
@@ -42,7 +42,7 @@ public abstract class BasePostCreationElementUpdater {
 		return this.map;
 	}
 
-	protected ITigerstripeProject getDiagramProject() {
+	protected ITigerstripeModelProject getDiagramProject() {
 		return this.tsProject;
 	}
 

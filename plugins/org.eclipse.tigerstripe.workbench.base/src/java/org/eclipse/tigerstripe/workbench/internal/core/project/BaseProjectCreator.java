@@ -10,11 +10,14 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspace;
@@ -81,8 +84,8 @@ public abstract class BaseProjectCreator implements IProjectCreator {
 				.size()]));
 
 		try {
-		projectHandle.setDescription(description, null);
-		} catch ( CoreException e ) {
+			projectHandle.setDescription(description, null);
+		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 	}
@@ -97,4 +100,22 @@ public abstract class BaseProjectCreator implements IProjectCreator {
 	public void assertValidProperties(Map<String, Object> properties)
 			throws TigerstripeException {
 	}
+
+	protected void createDefaultDescriptor(IProject projectHandle,
+			IProjectDetails projectDetails, String descriptorName,
+			IProgressMonitor monitor) throws TigerstripeException,
+			CoreException, IOException {
+
+		final IFile file = projectHandle.getFile(descriptorName);
+		InputStream stream = openContentStream(projectDetails);
+		if (file.exists()) {
+			file.setContents(stream, true, true, monitor);
+		} else {
+			file.create(stream, true, monitor);
+		}
+		stream.close();
+	}
+
+	protected abstract InputStream openContentStream(
+			IProjectDetails projectDetails) throws TigerstripeException;
 }

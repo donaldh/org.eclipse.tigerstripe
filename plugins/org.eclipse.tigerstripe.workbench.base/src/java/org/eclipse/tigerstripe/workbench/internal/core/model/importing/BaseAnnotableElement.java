@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class BaseAnnotableElement extends BaseAnnotable implements
 		AnnotableElement {
@@ -127,7 +127,7 @@ public class BaseAnnotableElement extends BaseAnnotable implements
 		annotableElementConstants.add(constant);
 	}
 
-	public IAbstractArtifact makeIArtifact(ITigerstripeProject project)
+	public IAbstractArtifact makeIArtifact(ITigerstripeModelProject project)
 			throws TigerstripeException {
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 		return ArtifactFactoryFromAnnotables.getInstance().makeIArtifact(this,

@@ -34,7 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeLogProgressMonitor;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -179,7 +179,7 @@ public class App {
 
 			File baseDir = new File(".");
 			try {
-				ITigerstripeProject project = (ITigerstripeProject) TigerstripeCore
+				ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
 						.findProject(baseDir.toURI());
 
 				if (getCli().hasOption(PACKAGE)) {

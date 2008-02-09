@@ -14,14 +14,14 @@ import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginRuleExecutor;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedPPluginRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
+import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
 
 /**
  * For each run of a PluggablePlugin, a PluginRuleExecutor is instantiated. It

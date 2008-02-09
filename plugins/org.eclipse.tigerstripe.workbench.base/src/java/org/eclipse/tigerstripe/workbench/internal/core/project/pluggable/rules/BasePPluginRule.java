@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules;
 
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -45,13 +45,13 @@ public abstract class BasePPluginRule implements IRunRule {
 
 	public abstract void buildBodyFromNode(Node node);
 
-	private IPluggablePluginProject project;
+	private ITigerstripePluginProject project;
 
-	public void setProject(IPluggablePluginProject project) {
+	public void setProject(ITigerstripePluginProject project) {
 		this.project = project;
 	}
 
-	public IPluggablePluginProject getProject() {
+	public ITigerstripePluginProject getProject() {
 		return this.project;
 	}
 

@@ -30,7 +30,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Class;
@@ -43,14 +43,14 @@ import org.eclipse.uml2.uml.NamedElement;
 
 public class UML2Mapper {
 
-	private ITigerstripeProject targetProject;
+	private ITigerstripeModelProject targetProject;
 
 	private MessageList messageList;
 
 	private IModelImportConfiguration config;
 
 	public UML2Mapper(MessageList messageList,
-			ITigerstripeProject targetProject, IModelImportConfiguration config) {
+			ITigerstripeModelProject targetProject, IModelImportConfiguration config) {
 		this.messageList = messageList;
 
 		if (messageList == null) {
@@ -60,7 +60,7 @@ public class UML2Mapper {
 		this.config = config;
 	}
 
-	protected ITigerstripeProject getTargetProject() {
+	protected ITigerstripeModelProject getTargetProject() {
 		return this.targetProject;
 	}
 

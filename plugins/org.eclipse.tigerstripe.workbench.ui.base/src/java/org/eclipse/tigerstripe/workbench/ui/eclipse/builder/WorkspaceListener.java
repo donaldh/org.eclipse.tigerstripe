@@ -56,7 +56,7 @@ import org.eclipse.tigerstripe.workbench.model.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.NatureMigrationUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.GeneralPreferencePage;
@@ -115,10 +115,10 @@ public class WorkspaceListener implements IElementChangedListener,
 				}
 				IAbstractTigerstripeProject tsProject = EclipsePlugin
 						.getITigerstripeProjectFor(iProject);
-				if (tsProject instanceof ITigerstripeProject) {
+				if (tsProject instanceof ITigerstripeModelProject) {
 					DiagramSynchronizationManager.getInstance()
 							.addTSProjectToWatch(
-									(ITigerstripeProject) tsProject);
+									(ITigerstripeModelProject) tsProject);
 				}
 			}
 		}
@@ -138,10 +138,10 @@ public class WorkspaceListener implements IElementChangedListener,
 
 					// Bug 936: remove from watch list of
 					// DiagramSynchronizationManager
-					if (tsProject instanceof ITigerstripeProject)
+					if (tsProject instanceof ITigerstripeModelProject)
 						DiagramSynchronizationManager.getInstance()
 								.removeTSProjectToWatch(
-										(ITigerstripeProject) tsProject);
+										(ITigerstripeModelProject) tsProject);
 
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
@@ -153,7 +153,7 @@ public class WorkspaceListener implements IElementChangedListener,
 	private void checkActiveFacetChanged(Collection<IResource> changedResources) {
 		for (IResource res : changedResources) {
 			if (IContractSegment.FILE_EXTENSION.equals(res.getFileExtension())) {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(res);
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(res);
 				try {
 					if (tsProject.getActiveFacet() != null) {
 						final IFacetReference ref = tsProject.getActiveFacet();
@@ -196,7 +196,7 @@ public class WorkspaceListener implements IElementChangedListener,
 	private void checkRemovedFacet(Collection<IResource> removedResources) {
 		for (IResource res : removedResources) {
 			if (IContractSegment.FILE_EXTENSION.equals(res.getFileExtension())) {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(res);
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(res);
 				try {
 					if (tsProject != null && tsProject.getActiveFacet() != null) {
 						IFacetReference ref = tsProject.getActiveFacet();
@@ -211,12 +211,12 @@ public class WorkspaceListener implements IElementChangedListener,
 		}
 	}
 
-	protected ITigerstripeProject getCorrespondingTSProject(IResource resource) {
+	protected ITigerstripeModelProject getCorrespondingTSProject(IResource resource) {
 		IProject project = resource.getProject();
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getITigerstripeProjectFor(project);
-		if (aProject instanceof ITigerstripeProject) {
-			ITigerstripeProject tsProject = (ITigerstripeProject) aProject;
+		if (aProject instanceof ITigerstripeModelProject) {
+			ITigerstripeModelProject tsProject = (ITigerstripeModelProject) aProject;
 			return tsProject;
 		}
 		return null;
@@ -290,8 +290,8 @@ public class WorkspaceListener implements IElementChangedListener,
 			IProject project = jProject.getProject();
 			IAbstractTigerstripeProject atsProject = EclipsePlugin
 					.getITigerstripeProjectFor(project);
-			if (atsProject instanceof ITigerstripeProject) {
-				ITigerstripeProject tsProject = (ITigerstripeProject) atsProject;
+			if (atsProject instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) atsProject;
 				try {
 					IArtifactManagerSession session = tsProject
 							.getArtifactManagerSession();
@@ -310,8 +310,8 @@ public class WorkspaceListener implements IElementChangedListener,
 			IProject project = jProject.getProject();
 			IAbstractTigerstripeProject atsProject = EclipsePlugin
 					.getITigerstripeProjectFor(project);
-			if (atsProject instanceof ITigerstripeProject) {
-				ITigerstripeProject tsProject = (ITigerstripeProject) atsProject;
+			if (atsProject instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) atsProject;
 				try {
 					IArtifactManagerSession session = tsProject
 							.getArtifactManagerSession();
@@ -362,8 +362,8 @@ public class WorkspaceListener implements IElementChangedListener,
 			IProject project = jProject.getProject();
 			IAbstractTigerstripeProject atsProject = EclipsePlugin
 					.getITigerstripeProjectFor(project);
-			if (atsProject instanceof ITigerstripeProject) {
-				ITigerstripeProject tsProject = (ITigerstripeProject) atsProject;
+			if (atsProject instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) atsProject;
 				try {
 					IArtifactManagerSession session = tsProject
 							.getArtifactManagerSession();
@@ -544,8 +544,8 @@ public class WorkspaceListener implements IElementChangedListener,
 			IProject project = jProject.getProject();
 			IAbstractTigerstripeProject atsProject = EclipsePlugin
 					.getITigerstripeProjectFor(project);
-			if (atsProject instanceof ITigerstripeProject) {
-				ITigerstripeProject tsProject = (ITigerstripeProject) atsProject;
+			if (atsProject instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) atsProject;
 				try {
 					IArtifactManagerSession session = tsProject
 							.getArtifactManagerSession();

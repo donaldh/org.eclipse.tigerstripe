@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TigerstripeExplorerPart;
 import org.eclipse.tigerstripe.workbench.ui.gmf.TigerstripeShapeNodeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -42,7 +42,7 @@ public class ShowInExplorerAction implements IActionDelegate {
 		try {
 			if (element instanceof QualifiedNamedElement) {
 				Map map = (Map) element.eContainer();
-				ITigerstripeProject project = map
+				ITigerstripeModelProject project = map
 						.getCorrespondingITigerstripeProject();
 				revealQNEInExplorer((QualifiedNamedElement) element, project);
 			}
@@ -65,7 +65,7 @@ public class ShowInExplorerAction implements IActionDelegate {
 	}
 
 	private void revealQNEInExplorer(QualifiedNamedElement qne,
-			ITigerstripeProject project) throws TigerstripeException {
+			ITigerstripeModelProject project) throws TigerstripeException {
 		TigerstripeExplorerPart part = EclipsePlugin.findTigerstripeExplorer();
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 		IAbstractArtifact artifact = session

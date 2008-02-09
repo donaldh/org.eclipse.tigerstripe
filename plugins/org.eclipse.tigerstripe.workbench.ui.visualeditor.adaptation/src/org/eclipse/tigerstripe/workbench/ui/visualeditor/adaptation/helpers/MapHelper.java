@@ -15,7 +15,7 @@ import java.util.List;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Dependency;
@@ -38,7 +38,7 @@ public class MapHelper {
 
 	public IAbstractArtifact getIArtifactFor(AbstractArtifact eArtifact)
 			throws TigerstripeException {
-		ITigerstripeProject tsProject = map
+		ITigerstripeModelProject tsProject = map
 				.getCorrespondingITigerstripeProject();
 		IArtifactManagerSession session = tsProject.getArtifactManagerSession();
 		return session.getArtifactByFullyQualifiedName(eArtifact

@@ -28,13 +28,13 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.UML2
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.UML2ImportCheckpointDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xmi.XmiImportCheckpoint;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xmi.XmiImportCheckpointDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class AbstractImportCheckpointHelper {
 
-	protected ITigerstripeProject project;
+	protected ITigerstripeModelProject project;
 
-	public AbstractImportCheckpointHelper(ITigerstripeProject project) {
+	public AbstractImportCheckpointHelper(ITigerstripeModelProject project) {
 		this.project = project;
 	}
 

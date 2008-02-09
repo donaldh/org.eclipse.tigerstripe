@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.DiagramProperty;
@@ -317,14 +317,14 @@ public class InstanceMapImpl extends EObjectImpl implements InstanceMap {
 		return result.toString();
 	}
 
-	private ITigerstripeProject correspondingTSProject;
+	private ITigerstripeModelProject correspondingTSProject;
 
-	public ITigerstripeProject getCorrespondingITigerstripeProject() {
+	public ITigerstripeModelProject getCorrespondingITigerstripeProject() {
 		return correspondingTSProject;
 	}
 
 	public void setCorrespondingITigerstripeProject(
-			ITigerstripeProject tsProject) {
+			ITigerstripeModelProject tsProject) {
 		correspondingTSProject = tsProject;
 	}
 

@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema.TableColumn;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class Oracle10gModel extends AbstractDatabaseModel {
 
@@ -43,7 +43,7 @@ public class Oracle10gModel extends AbstractDatabaseModel {
 
 	@Override
 	public DatabaseSchema[] extractSchemas(MessageList list,
-			ITigerstripeProject targetProject,
+			ITigerstripeModelProject targetProject,
 			IModelImportConfiguration config, ModelImporterListener listener)
 			throws TigerstripeException {
 

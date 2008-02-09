@@ -61,7 +61,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.TSRuntimeBase
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 // import
@@ -167,7 +167,7 @@ public class NewEnumWizardPage extends TSRuntimeBasedWizardPage implements
 	protected void initFromContext() {
 		try {
 			TSRuntimeContext context = getTSRuntimeContext();
-			ITigerstripeProject project = context.getProjectHandle();
+			ITigerstripeModelProject project = context.getProjectHandle();
 
 			if ("".equals(this.packageDialogField.getText())) {
 				this.packageDialogField

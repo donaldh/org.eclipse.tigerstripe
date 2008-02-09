@@ -34,7 +34,7 @@ import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.OssjArtifactAttributesSection;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.OssjArtifactConstantsSection;
@@ -226,7 +226,7 @@ public class OpenArtifactPartInEditorAction extends BaseDiagramPartAction
 
 	protected IAbstractArtifact getContainingArtifact() {
 		try {
-			ITigerstripeProject project = getCorrespondingTigerstripeProject();
+			ITigerstripeModelProject project = getCorrespondingTigerstripeProject();
 			String fqn = null;
 
 			EObject element = getContainingEObject();

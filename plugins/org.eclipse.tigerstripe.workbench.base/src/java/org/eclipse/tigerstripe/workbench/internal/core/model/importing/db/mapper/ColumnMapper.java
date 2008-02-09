@@ -17,14 +17,14 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.annota
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.annotables.DBAnnotableElementAttribute;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema.TableColumn;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ColumnMapper extends DBElementMapper {
 
 	private DBTypeMapper typeMapper;
 
 	public ColumnMapper(MessageList messageList,
-			ITigerstripeProject targetProject, IModelImportConfiguration config) {
+			ITigerstripeModelProject targetProject, IModelImportConfiguration config) {
 		super(messageList, targetProject, config);
 		try {
 			this.typeMapper = new DBTypeMapper(messageList, targetProject,

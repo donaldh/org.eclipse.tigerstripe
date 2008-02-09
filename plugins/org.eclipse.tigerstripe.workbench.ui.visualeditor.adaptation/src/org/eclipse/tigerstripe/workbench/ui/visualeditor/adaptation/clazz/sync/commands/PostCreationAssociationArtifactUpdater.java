@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
@@ -34,7 +34,7 @@ public class PostCreationAssociationArtifactUpdater extends
 	protected Association association;
 
 	public PostCreationAssociationArtifactUpdater(IAbstractArtifact iArtifact,
-			Association association, Map map, ITigerstripeProject diagramProject) {
+			Association association, Map map, ITigerstripeModelProject diagramProject) {
 		super(iArtifact, map, diagramProject);
 		this.association = association;
 	}

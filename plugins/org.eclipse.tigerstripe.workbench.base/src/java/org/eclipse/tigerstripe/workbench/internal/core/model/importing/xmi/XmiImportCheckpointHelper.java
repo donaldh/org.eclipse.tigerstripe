@@ -11,11 +11,11 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing.xmi;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractImportCheckpointHelper;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class XmiImportCheckpointHelper extends AbstractImportCheckpointHelper {
 
-	public XmiImportCheckpointHelper(ITigerstripeProject project) {
+	public XmiImportCheckpointHelper(ITigerstripeModelProject project) {
 		super(project);
 	}
 

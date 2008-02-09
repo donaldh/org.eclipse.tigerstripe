@@ -13,11 +13,11 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.importing.db;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.BaseModelImportConfiguration;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.IModelImportConfiguration;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.database.AbstractDatabaseModel;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class DBModelImportConfiguration extends BaseModelImportConfiguration {
 
-	public DBModelImportConfiguration(ITigerstripeProject referenceProject) {
+	public DBModelImportConfiguration(ITigerstripeModelProject referenceProject) {
 		setReferenceProject(referenceProject);
 	}
 
@@ -31,7 +31,7 @@ public class DBModelImportConfiguration extends BaseModelImportConfiguration {
 		return this.dbModel;
 	}
 
-	public IModelImportConfiguration make(ITigerstripeProject referenceProject) {
+	public IModelImportConfiguration make(ITigerstripeModelProject referenceProject) {
 		return new DBModelImportConfiguration(referenceProject);
 	}
 

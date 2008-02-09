@@ -15,13 +15,13 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.IModelImp
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.ModelImportResult;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.ModelImporterListener;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class XSDImporter implements AnnotableModelImporter {
 
 	public ModelImportResult importFromURI(String uri, MessageList list,
 			ModelImporterListener listener, IModelImportConfiguration config,
-			ITigerstripeProject targetProject) {
+			ITigerstripeModelProject targetProject) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
@@ -313,7 +313,7 @@ public class QualifiedNamedElementImpl extends NamedElementImpl implements
 			throws TigerstripeException {
 		if (eContainer() instanceof Map) {
 			Map map = (Map) eContainer();
-			ITigerstripeProject tsProject = map
+			ITigerstripeModelProject tsProject = map
 					.getCorrespondingITigerstripeProject();
 			IArtifactManagerSession session = tsProject
 					.getArtifactManagerSession();

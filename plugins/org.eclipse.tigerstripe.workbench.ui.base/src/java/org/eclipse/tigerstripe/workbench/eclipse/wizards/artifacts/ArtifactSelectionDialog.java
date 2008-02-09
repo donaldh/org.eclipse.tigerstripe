@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
@@ -96,7 +96,7 @@ public class ArtifactSelectionDialog {
 
 		Collection artifacts = new ArrayList();
 		try {
-			ITigerstripeProject project = context.getProjectHandle();
+			ITigerstripeModelProject project = context.getProjectHandle();
 			IArtifactManagerSession session = project
 					.getArtifactManagerSession();
 

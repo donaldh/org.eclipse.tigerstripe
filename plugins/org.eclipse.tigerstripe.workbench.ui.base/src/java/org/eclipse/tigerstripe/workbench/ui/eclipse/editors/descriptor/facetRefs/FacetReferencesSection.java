@@ -48,7 +48,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripePr
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForFacetsDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.FacetSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -126,8 +126,8 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 	class MasterContentProvider implements IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof ITigerstripeProject) {
-				ITigerstripeProject project = (ITigerstripeProject) inputElement;
+			if (inputElement instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject project = (ITigerstripeModelProject) inputElement;
 				try {
 					IFacetReference[] deps = project.getFacetReferences();
 					return deps;
@@ -385,7 +385,7 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 						IResource res = input.getFile().getParent().findMember(
 								path);
 
-						ITigerstripeProject handle = getTSProject();
+						ITigerstripeModelProject handle = getTSProject();
 
 						IFacetReference dep = handle
 								.makeFacetReference(relative);
@@ -434,7 +434,7 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 
 		if (msgDialog.open() == 0) {
 			viewer.remove(selectedFields);
-			ITigerstripeProject handle = getTSProject();
+			ITigerstripeModelProject handle = getTSProject();
 			try {
 				for (IFacetReference ref : selectedFields) {
 					handle.removeFacetReference(ref);
@@ -448,7 +448,7 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 	}
 
 	protected void mergeFacetButtonSelected() {
-		ITigerstripeProject handle = getTSProject();
+		ITigerstripeModelProject handle = getTSProject();
 		try {
 			handle.getProjectDetails().getProperties().setProperty(
 					IProjectDetails.MERGE_FACETS,

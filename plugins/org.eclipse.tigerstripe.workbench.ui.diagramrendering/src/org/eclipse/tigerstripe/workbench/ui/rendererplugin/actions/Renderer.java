@@ -38,7 +38,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.ResourceUtils;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
@@ -115,13 +115,13 @@ public class Renderer implements IDiagramRenderer {
 		IFile imageFile = ResourcesPlugin.getWorkspace().getRoot()
 				.getFileForLocation(imagePath);
 		IProject diagramProject = diagramFile.getProject();
-		ITigerstripeProject tmpTsProject = null;
-		if (EclipsePlugin.getITigerstripeProjectFor(diagramProject) instanceof ITigerstripeProject) {
-			tmpTsProject = (ITigerstripeProject) EclipsePlugin
+		ITigerstripeModelProject tmpTsProject = null;
+		if (EclipsePlugin.getITigerstripeProjectFor(diagramProject) instanceof ITigerstripeModelProject) {
+			tmpTsProject = (ITigerstripeModelProject) EclipsePlugin
 					.getITigerstripeProjectFor(diagramProject);
 		} else
 			throw new TigerstripeException("Diagram not in Tigerstripe project");
-		final ITigerstripeProject tsProject = tmpTsProject;
+		final ITigerstripeModelProject tsProject = tmpTsProject;
 		TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE
 				.createEditingDomain();
 
@@ -179,7 +179,7 @@ public class Renderer implements IDiagramRenderer {
 	 * 
 	 * @param diagram
 	 */
-	private void initDiagram(ITigerstripeProject tsProject, Diagram diagram) {
+	private void initDiagram(ITigerstripeModelProject tsProject, Diagram diagram) {
 		// Need to initialize the Map with the TS Project so diagram
 		// content can be resolved
 		EObject eObj = diagram.getElement();

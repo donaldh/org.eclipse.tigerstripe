@@ -34,7 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter.ETAdapterFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter.MapETAdapter;
@@ -129,7 +129,7 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 				try {
 					monitor.beginTask("Building "
 							+ getTSProject().getProjectLabel(), 10);
-					for (ITigerstripeProject project : getTSProject()
+					for (ITigerstripeModelProject project : getTSProject()
 							.getReferencedProjects()) {
 						monitor.subTask("Building referenced project: "
 								+ project.getProjectLabel());
@@ -175,7 +175,7 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 			getTSProject().getArtifactManagerSession()
 					.removeActiveFacetListener(this);
 
-			for (ITigerstripeProject project : getTSProject()
+			for (ITigerstripeModelProject project : getTSProject()
 					.getReferencedProjects()) {
 				project.getArtifactManagerSession()
 						.removeArtifactChangeListener(this);
@@ -185,12 +185,12 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		}
 	}
 
-	protected ITigerstripeProject getTSProject() {
+	protected ITigerstripeModelProject getTSProject() {
 		IEditorPart editorPart = ((DiagramEditDomain) editor
 				.getDiagramEditDomain()).getEditorPart();
 
 		DiagramEditorHelper dHelper = new DiagramEditorHelper(editorPart);
-		ITigerstripeProject diagramProject = dHelper
+		ITigerstripeModelProject diagramProject = dHelper
 				.getCorrespondingTigerstripeProject();
 		return diagramProject;
 	}
@@ -200,7 +200,7 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 				this);
 		getTSProject().getArtifactManagerSession().addActiveFacetListener(this);
 
-		for (ITigerstripeProject project : getTSProject()
+		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			project.getArtifactManagerSession().addArtifactChangeListener(this);
 		}

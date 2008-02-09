@@ -69,7 +69,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
@@ -134,7 +134,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	private boolean mgrChanged = true;
 
 	/** The collection of artifacts types that can be discovered */
-	private Collection discoverableArtifacts;
+	private Collection<IAbstractArtifact> discoverableArtifacts;
 
 	/** A map of extracted Artifacts grouped by Artifact Model */
 	private Map extractedMap = new HashMap();
@@ -234,7 +234,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 		try {
 			writeLock.lock();
-			this.discoverableArtifacts = new ArrayList();
+			this.discoverableArtifacts = new ArrayList<IAbstractArtifact>();
 			clearExtractedMap();
 			this.namedArtifactsMap.clear();
 			this.filenameMap = new HashMap();
@@ -287,7 +287,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		relationshipCache.updateCache(monitor);
 	}
 
-	public Collection getRegisteredArtifacts() {
+	public Collection<IAbstractArtifact> getRegisteredArtifacts() {
 		return this.discoverableArtifacts;
 	}
 
@@ -751,7 +751,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 		// Bug: 928: also, we need to propagate that state change to all
 		// referenced projects/dependencies
-		for (ITigerstripeProject project : getTSProject()
+		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			try {
 				project.getArtifactManagerSession().generationStart();
@@ -772,7 +772,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 		// Bug: 928: also, we need to propagate that state change to all
 		// referenced projects/dependencies
-		for (ITigerstripeProject project : getTSProject()
+		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			try {
 				project.getArtifactManagerSession().generationComplete();
@@ -917,7 +917,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public synchronized void refreshReferences(
 			IProgressMonitor monitor) {
-		for (ITigerstripeProject project : getTSProject()
+		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			try {
 				IArtifactManagerSession session = project
@@ -1370,7 +1370,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	public AbstractArtifact extractArtifact(JavaSource source,
 			IProgressMonitor monitor) throws TigerstripeException {
 		AbstractArtifact extracted = null;
-		for (Iterator iter = this.discoverableArtifacts.iterator(); iter
+		for (Iterator<IAbstractArtifact> iter = this.discoverableArtifacts.iterator(); iter
 				.hasNext();) {
 			AbstractArtifact model = (AbstractArtifact) iter.next();
 
@@ -1407,7 +1407,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	private AbstractArtifact extractArtifactModel(JavaSource source)
 			throws TigerstripeException {
-		for (Iterator iter = this.discoverableArtifacts.iterator(); iter
+		for (Iterator<IAbstractArtifact> iter = this.discoverableArtifacts.iterator(); iter
 				.hasNext();) {
 			AbstractArtifact model = (AbstractArtifact) iter.next();
 
@@ -1686,7 +1686,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	protected synchronized Collection<IAbstractArtifact> getAllArtifactsFromReferences() {
 		ArrayList list = new ArrayList();
 
-		for (ITigerstripeProject project : getTSProject()
+		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			try {
 				IArtifactManagerSession session = project
@@ -1710,7 +1710,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			String name) {
 		IAbstractArtifact result = null;
 
-		for (ITigerstripeProject project : getTSProject()
+		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			try {
 				IArtifactManagerSession session = project
@@ -1731,7 +1731,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			AbstractArtifact model) {
 		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
-		for (ITigerstripeProject project : getTSProject()
+		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			try {
 				IArtifactManagerSession session = project
@@ -1802,7 +1802,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			String fqn) {
 		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
-		for (ITigerstripeProject project : getTSProject()
+		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			try {
 				for (IAbstractArtifact art : project
@@ -1837,7 +1837,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 						.getRelationshipsOriginatingFromFQN(fqn));
 
 		if (includeProjectDependencies) {
-			for (ITigerstripeProject project : getTSProject()
+			for (ITigerstripeModelProject project : getTSProject()
 					.getReferencedProjects()) {
 				ArtifactManager mgr = ((ArtifactManagerSessionImpl) project
 						.getArtifactManagerSession()).getArtifactManager();
@@ -1869,7 +1869,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 		if (includeProjectDependencies) {
 
-			for (ITigerstripeProject project : getTSProject()
+			for (ITigerstripeModelProject project : getTSProject()
 					.getReferencedProjects()) {
 				ArtifactManager mgr = ((ArtifactManagerSessionImpl) project
 						.getArtifactManagerSession()).getArtifactManager();
@@ -2009,7 +2009,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			throws TigerstripeException {
 		if (newFacet == null) {
 			// reseting all referenced projects
-			for (ITigerstripeProject project : getTSProject()
+			for (ITigerstripeModelProject project : getTSProject()
 					.getReferencedProjects()) {
 				try {
 					project.getArtifactManagerSession().resetActiveFacet();
@@ -2028,7 +2028,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 		} else {
 			// this is a new facet being set
-			for (ITigerstripeProject project : getTSProject()
+			for (ITigerstripeModelProject project : getTSProject()
 					.getReferencedProjects()) {
 				try {
 					project.getArtifactManagerSession().setActiveFacet(

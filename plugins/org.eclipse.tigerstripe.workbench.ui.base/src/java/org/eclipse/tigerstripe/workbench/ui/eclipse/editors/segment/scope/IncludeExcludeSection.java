@@ -43,7 +43,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForStereotypeDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.SegmentEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.TigerstripeSegmentSectionPart;
@@ -551,13 +551,13 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		getToolkit().paintBordersFor(getBody());
 	}
 
-	private ITigerstripeProject getTSProject() throws TigerstripeException {
+	private ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		IFile file = ((IFileEditorInput) getPage().getEditorInput()).getFile();
 		IProject project = file.getProject();
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getITigerstripeProjectFor(project);
-		if (aProject instanceof ITigerstripeProject)
-			return (ITigerstripeProject) aProject;
+		if (aProject instanceof ITigerstripeModelProject)
+			return (ITigerstripeModelProject) aProject;
 		return null;
 	}
 

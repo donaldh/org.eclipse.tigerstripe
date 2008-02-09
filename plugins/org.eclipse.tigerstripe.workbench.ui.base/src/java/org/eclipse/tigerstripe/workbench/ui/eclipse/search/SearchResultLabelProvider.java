@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.model.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.resources.Images;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
@@ -75,7 +75,7 @@ public class SearchResultLabelProvider extends LabelProvider {
 			}
 
 			if (element instanceof IProject) {
-				if (EclipsePlugin.getITigerstripeProjectFor((IProject) element) instanceof ITigerstripeProject)
+				if (EclipsePlugin.getITigerstripeProjectFor((IProject) element) instanceof ITigerstripeModelProject)
 					return Images.getInstance().get(Images.TSPROJECT_FOLDER);
 			}
 			if (element instanceof IAdaptable) {

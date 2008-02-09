@@ -42,7 +42,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
@@ -262,13 +262,13 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 	protected void initializeCheckState() throws TigerstripeException {
 
 		uncheckAll();
-		final IPluggablePluginProject project = getIPluggablePluginProject();
+		final ITigerstripePluginProject project = getIPluggablePluginProject();
 		final List<String> excludes = Arrays
 				.asList(project
-						.getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE));
+						.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE));
 		final List<String> includes = Arrays
 				.asList(project
-						.getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE));
+						.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE));
 
 		fTreeViewer.getTree().getDisplay().asyncExec(new Runnable() {
 
@@ -360,26 +360,26 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 	protected void handleCheck(String resourceName, IResource resource,
 			boolean wasTopParentChecked) {
 
-		IPluggablePluginProject project = getIPluggablePluginProject();
+		ITigerstripePluginProject project = getIPluggablePluginProject();
 		try {
 			if (!wasTopParentChecked) {
 				project.addAdditionalFile(resourceName,
-						IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE);
+						ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE);
 				markPageModified();
 				refreshUponStateChange(
-						IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE, null,
+						ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE, null,
 						resourceName);
 			}
 
 			if (Arrays
 					.asList(
 							project
-									.getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE))
+									.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE))
 					.contains(resourceName)) {
 				project.removeAdditionalFile(resourceName,
-						IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE);
+						ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE);
 				refreshUponStateChange(
-						IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE,
+						ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE,
 						resourceName, null);
 				markPageModified();
 			}
@@ -407,22 +407,22 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 	protected void handleUncheck(String resourceName, IResource resource) {
 
 		try {
-			IPluggablePluginProject project = getIPluggablePluginProject();
+			ITigerstripePluginProject project = getIPluggablePluginProject();
 			List<String> excludes = Arrays
 					.asList(project
-							.getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE));
+							.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE));
 			List<String> includes = Arrays
 					.asList(project
-							.getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE));
+							.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE));
 
 			if (fTreeViewer.getChecked(resource.getParent())) {
 				if (!excludes.contains(resourceName)
 						&& (includes != null ? !includes.contains(resourceName)
 								: true)) {
 					project.addAdditionalFile(resourceName,
-							IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE);
+							ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE);
 					refreshUponStateChange(
-							IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE,
+							ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE,
 							null, resourceName);
 					markPageModified();
 				}
@@ -430,9 +430,9 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 			if (includes != null) {
 				if (includes.contains(resourceName)) {
 					project.removeAdditionalFile(resourceName,
-							IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE);
+							ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE);
 					refreshUponStateChange(
-							IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE,
+							ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE,
 							resourceName, null);
 					markPageModified();
 				}
@@ -511,9 +511,9 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 		String parentFolder = getResourceFolderName(folder
 				.getProjectRelativePath().toString());
 
-		removeChildren(IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE,
+		removeChildren(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE,
 				parentFolder);
-		removeChildren(IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE,
+		removeChildren(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE,
 				parentFolder);
 	}
 
@@ -575,19 +575,19 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 
 		try {
 			List<String> entries = null;
-			IPluggablePluginProject project = getIPluggablePluginProject();
+			ITigerstripePluginProject project = getIPluggablePluginProject();
 			List<String> excludes = Arrays
 					.asList(project
-							.getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE));
+							.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE));
 			List<String> includes = Arrays
 					.asList(project
-							.getAdditionalFiles(IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE));
+							.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE));
 
 			switch (includeExclude) {
-			case IPluggablePluginProject.ADDITIONAL_FILE_INCLUDE:
+			case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
 				entries = includes;
 				break;
-			case IPluggablePluginProject.ADDITIONAL_FILE_EXCLUDE:
+			case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
 				entries = excludes;
 			}
 			if (entries != null) {

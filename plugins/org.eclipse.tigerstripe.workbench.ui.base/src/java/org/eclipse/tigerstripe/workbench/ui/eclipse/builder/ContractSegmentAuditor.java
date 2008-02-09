@@ -24,7 +24,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentS
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 
 public class ContractSegmentAuditor {
@@ -37,8 +37,8 @@ public class ContractSegmentAuditor {
 		this.project = project;
 	}
 
-	private ITigerstripeProject getTSProject() {
-		return (ITigerstripeProject) EclipsePlugin
+	private ITigerstripeModelProject getTSProject() {
+		return (ITigerstripeModelProject) EclipsePlugin
 				.getITigerstripeProjectFor(project);
 	}
 
@@ -48,7 +48,7 @@ public class ContractSegmentAuditor {
 			return;
 
 		this.monitor = monitor;
-		ITigerstripeProject tsProject = (ITigerstripeProject) TSExplorerUtils
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TSExplorerUtils
 				.getProjectHandleFor(project);
 		if (tsProject != null) {
 			monitor.beginTask("Checking Contract Facets", resources.length);
@@ -142,7 +142,7 @@ public class ContractSegmentAuditor {
 	 */
 	private void checkArtifactScopes(IContractSegment facet, IResource res) {
 		ISegmentScope scope = facet.getISegmentScope();
-		ITigerstripeProject tsProject = getTSProject();
+		ITigerstripeModelProject tsProject = getTSProject();
 		if (tsProject == null)
 			return;
 

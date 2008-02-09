@@ -51,7 +51,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.gmf.TigerstripeShapeNodeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -1342,18 +1342,18 @@ public class TigerstripeModelingAssistantProvider extends
 		String tgtEArtifactFQN = ((AbstractArtifact) tgtNode.getElement())
 				.getFullyQualifiedName();
 
-		ITigerstripeProject tsProject = map
+		ITigerstripeModelProject tsProject = map
 				.getCorrespondingITigerstripeProject();
 		try {
 			IArtifactManagerSession session = tsProject
 					.getArtifactManagerSession();
 			IAbstractArtifact src = session
 					.getArtifactByFullyQualifiedName(srcEArtifactFQN);
-			ITigerstripeProject srcProject = src.getTigerstripeProject();
+			ITigerstripeModelProject srcProject = src.getTigerstripeProject();
 
 			IAbstractArtifact tgt = session
 					.getArtifactByFullyQualifiedName(tgtEArtifactFQN);
-			ITigerstripeProject tgProject = tgt.getTigerstripeProject();
+			ITigerstripeModelProject tgProject = tgt.getTigerstripeProject();
 
 			boolean srcIsLocal = tsProject.equals(srcProject);
 			boolean tgtIsLocal = tsProject.equals(tgProject);

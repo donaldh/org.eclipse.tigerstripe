@@ -56,7 +56,7 @@ public interface IProjectDescriptor {
 	// Project references are direct references to other projects that are
 	// required
 	// for the local project to build properly.
-	public ITigerstripeProject[] getIReferencedProjects()
+	public ITigerstripeModelProject[] getIReferencedProjects()
 			throws TigerstripeException;
 
 	// ==========================================

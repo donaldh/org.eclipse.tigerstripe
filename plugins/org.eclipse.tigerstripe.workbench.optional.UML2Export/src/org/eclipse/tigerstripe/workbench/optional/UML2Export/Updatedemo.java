@@ -24,7 +24,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.IField;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
@@ -32,7 +32,7 @@ public class Updatedemo {
 
 	private IArtifactManagerSession mgrSession;
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	/** constructor */
 	public Updatedemo() {
@@ -46,7 +46,7 @@ public class Updatedemo {
 					.findMember(new Path(tSProjectName));
 
 			URI projectURI = tsContainer.getLocationURI();
-			tsProject = (ITigerstripeProject) TigerstripeCore
+			tsProject = (ITigerstripeModelProject) TigerstripeCore
 					.findProject(projectURI);
 			this.mgrSession = tsProject.getArtifactManagerSession();
 			this.mgrSession.refresh(true, new NullProgressMonitor());

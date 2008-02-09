@@ -92,5 +92,5 @@ public interface IDependency {
 	 * Make module project
 	 */
 	public ITigerstripeModuleProject makeModuleProject(
-			ITigerstripeProject containingProject) throws TigerstripeException;
+			ITigerstripeModelProject containingProject) throws TigerstripeException;
 }

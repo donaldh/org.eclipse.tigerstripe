@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.model.IModelManager;
  * @author Eric Dillon
  * @since 0.3
  */
-public interface ITigerstripeProject extends IAbstractTigerstripeProject {
+public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 
 	public IModelManager getModelManager() throws TigerstripeException;
 
@@ -45,25 +45,8 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	public PluginRunStatus[] generate(IRunConfig config,
 			IProgressMonitor monitor) throws TigerstripeException;
 
-	// public void generate(ITigerstripeVisitor visitor)
-	// throws TigerstripeException;
-
 	public IDependency[] getDependencies() throws TigerstripeException;
 
-	// public void removeDependency(IDependency dependency, boolean updateCache,
-	// IProgressMonitor monitor) throws TigerstripeException;
-	//
-	// public void removeDependencies(IDependency[] dependencies,
-	// boolean updateCache, IProgressMonitor monitor)
-	// throws TigerstripeException;
-	//
-	// public void addDependency(IDependency dependency, boolean updateCache,
-	// IProgressMonitor monitor) throws TigerstripeException;
-	//
-	// public void addDependencies(IDependency[] dependencies,
-	// boolean updateCache, IProgressMonitor monitor)
-	// throws TigerstripeException;
-	//
 	/**
 	 * 
 	 * @param dependency
@@ -134,23 +117,23 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	 */
 	public boolean hasDependency(IDependency dep) throws TigerstripeException;
 
-	public void addReferencedProject(ITigerstripeProject project)
-			throws TigerstripeException;
+	public void addReferencedProject(ITigerstripeModelProject project)
+			throws WorkingCopyException, TigerstripeException;
 
-	public void addReferencedProjects(ITigerstripeProject[] project)
-			throws TigerstripeException;
+	public void addReferencedProjects(ITigerstripeModelProject[] project)
+			throws WorkingCopyException, TigerstripeException;
 
-	public void removeReferencedProject(ITigerstripeProject project)
-			throws TigerstripeException;
+	public void removeReferencedProject(ITigerstripeModelProject project)
+			throws WorkingCopyException, TigerstripeException;
 
-	public void removeReferencedProjects(ITigerstripeProject[] project)
-			throws TigerstripeException;
+	public void removeReferencedProjects(ITigerstripeModelProject[] project)
+			throws WorkingCopyException, TigerstripeException;
 
-	public boolean hasReference(ITigerstripeProject project)
-			throws TigerstripeException;
+	public boolean hasReference(ITigerstripeModelProject project)
+			throws WorkingCopyException, TigerstripeException;
 
 	public void setAdvancedProperty(String property, String value)
-			throws TigerstripeException;
+			throws WorkingCopyException, TigerstripeException;
 
 	/**
 	 * Returns the Plugin references defined in this project
@@ -163,7 +146,7 @@ public interface ITigerstripeProject extends IAbstractTigerstripeProject {
 	// Project references are direct references to other projects that are
 	// required
 	// for the local project to build properly.
-	public ITigerstripeProject[] getReferencedProjects()
+	public ITigerstripeModelProject[] getReferencedProjects()
 			throws TigerstripeException;
 
 	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)

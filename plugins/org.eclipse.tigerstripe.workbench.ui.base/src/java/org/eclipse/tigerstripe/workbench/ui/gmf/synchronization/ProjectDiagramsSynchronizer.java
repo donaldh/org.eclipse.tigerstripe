@@ -37,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeListener;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.WorkspaceListener;
@@ -57,7 +57,7 @@ import org.eclipse.ui.IEditorPart;
 public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		IResourceChangeListener {
 
-	private ITigerstripeProject project;
+	private ITigerstripeModelProject project;
 
 	private DiagramHandleIndex diagramIndex = new DiagramHandleIndex(this);
 
@@ -73,7 +73,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 			ClassDiagramLogicalNode.MODEL_EXT,
 			InstanceDiagramLogicalNode.MODEL_EXT }; // FIXME: use extension
 
-	/* package */ProjectDiagramsSynchronizer(ITigerstripeProject project) {
+	/* package */ProjectDiagramsSynchronizer(ITigerstripeModelProject project) {
 		this.project = project;
 	}
 
@@ -129,7 +129,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		deregisterSelfForChanges();
 	}
 
-	public ITigerstripeProject getProject() {
+	public ITigerstripeModelProject getProject() {
 		return this.project;
 	}
 

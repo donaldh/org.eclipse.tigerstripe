@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.ui.IWorkbench;
@@ -67,7 +67,7 @@ public class AuditAction extends BuildAction {
 							.getFirstElement()).getAdapter(IResource.class);
 					if (res != null) {
 						if (!(EclipsePlugin.getITigerstripeProjectFor(res
-								.getProject()) instanceof ITigerstripeProject))
+								.getProject()) instanceof ITigerstripeModelProject))
 							return false;
 					}
 				}
@@ -87,19 +87,19 @@ public class AuditAction extends BuildAction {
 				try {
 					final IAbstractTigerstripeProject tsProject = TSExplorerUtils
 							.getProjectHandleFor(project);
-					if (tsProject instanceof ITigerstripeProject) {
+					if (tsProject instanceof ITigerstripeModelProject) {
 						IRunnableWithProgress op = new IRunnableWithProgress() {
 							public void run(IProgressMonitor monitor) {
 								try {
 									monitor.beginTask("Refreshing project:"
-											+ ((ITigerstripeProject) tsProject)
+											+ ((ITigerstripeModelProject) tsProject)
 													.getProjectLabel(), 5);
 
-									((ITigerstripeProject) tsProject)
+									((ITigerstripeModelProject) tsProject)
 											.getArtifactManagerSession()
 											.setBroadcastMask(
 													IArtifactChangeListener.NOTIFY_NONE);
-									((ITigerstripeProject) tsProject)
+									((ITigerstripeModelProject) tsProject)
 											.getArtifactManagerSession()
 											.refreshAll(true, monitor);
 									monitor.done();
@@ -107,7 +107,7 @@ public class AuditAction extends BuildAction {
 									EclipsePlugin.log(e);
 								} finally {
 									try {
-										((ITigerstripeProject) tsProject)
+										((ITigerstripeModelProject) tsProject)
 												.getArtifactManagerSession()
 												.setBroadcastMask(
 														IArtifactChangeListener.NOTIFY_ALL);

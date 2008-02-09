@@ -18,9 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.Map;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -116,24 +114,8 @@ public class ModelProjectCreator extends BaseProjectCreator implements
 		newJavaProject.setRawClasspath(buildPath, projectHandle.getFullPath()
 				.append("bin"), null);
 
-		createDefaultTigerstripeDescriptor(projectHandle, projectDetails,
-				monitor);
-	}
-
-	private static void createDefaultTigerstripeDescriptor(
-			IProject projectHandle, IProjectDetails projectDetails,
-			IProgressMonitor monitor) throws TigerstripeException,
-			CoreException, IOException {
-
-		final IFile file = projectHandle
-				.getFile(TigerstripeProject.DEFAULT_FILENAME);
-		InputStream stream = openContentStream(projectDetails);
-		if (file.exists()) {
-			file.setContents(stream, true, true, monitor);
-		} else {
-			file.create(stream, true, monitor);
-		}
-		stream.close();
+		createDefaultDescriptor(projectHandle, projectDetails,
+				TigerstripeProject.DEFAULT_FILENAME, monitor);
 	}
 
 	/**
@@ -142,7 +124,7 @@ public class ModelProjectCreator extends BaseProjectCreator implements
 	 * @param pageProperties -
 	 *            the properties gathered through the wizard
 	 */
-	private static InputStream openContentStream(IProjectDetails projectDetails)
+	protected InputStream openContentStream(IProjectDetails projectDetails)
 			throws TigerstripeException {
 		byte[] bytes = null;
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();

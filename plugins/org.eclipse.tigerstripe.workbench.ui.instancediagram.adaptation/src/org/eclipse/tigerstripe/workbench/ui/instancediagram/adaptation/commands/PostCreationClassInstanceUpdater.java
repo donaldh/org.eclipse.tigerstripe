@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.commands
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 
@@ -21,7 +21,7 @@ public class PostCreationClassInstanceUpdater extends
 
 	public PostCreationClassInstanceUpdater(IAbstractArtifact iArtifact,
 			ClassInstance eArtifact, InstanceMap map,
-			ITigerstripeProject diagramProject) {
+			ITigerstripeModelProject diagramProject) {
 		super(iArtifact, eArtifact, map, diagramProject);
 	}
 

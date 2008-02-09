@@ -15,11 +15,11 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class FacetActivationResult extends PluginRunStatus {
 
-	public FacetActivationResult(ITigerstripeProject project, RunConfig config,
+	public FacetActivationResult(ITigerstripeModelProject project, RunConfig config,
 			IFacetReference facetRef) {
 		super(null, project, config, facetRef);
 	}

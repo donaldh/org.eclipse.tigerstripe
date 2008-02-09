@@ -24,7 +24,7 @@ import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.IType;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * Abstract Artifact for a Tigerstripe Model
@@ -123,7 +123,7 @@ public interface IAbstractArtifact extends IModelComponent, IWorkingCopy {
 
 	public String asText() throws TigerstripeException;
 
-	public ITigerstripeProject getTigerstripeProject();
+	public ITigerstripeModelProject getTigerstripeProject();
 
 	/**
 	 * Sets the value of the isAbstract flag for this.

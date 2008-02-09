@@ -27,7 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class DBTypeMapper extends DBElementMapper {
 
@@ -65,7 +65,7 @@ public class DBTypeMapper extends DBElementMapper {
 	}
 
 	public DBTypeMapper(MessageList messageList,
-			ITigerstripeProject targetProject, IModelImportConfiguration config)
+			ITigerstripeModelProject targetProject, IModelImportConfiguration config)
 			throws TigerstripeException {
 		super(messageList, targetProject, config);
 		extractMapFromProject();

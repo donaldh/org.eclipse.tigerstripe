@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.gmf.TigerstripeShapeNodeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -152,7 +152,7 @@ public abstract class ArtifactToggleAction extends BaseDiagramPartAction
 			MapEditPart mapEditPart = (MapEditPart) shape.getParent();
 			Map map = (Map) ((Diagram) mapEditPart.getModel()).getElement();
 			MapHelper mapHelper = new MapHelper(map);
-			ITigerstripeProject tsProject = map
+			ITigerstripeModelProject tsProject = map
 					.getCorrespondingITigerstripeProject();
 			if (tsProject != null) {
 				AbstractArtifact[] eArtifacts = getCorrespondingEArtifacts();

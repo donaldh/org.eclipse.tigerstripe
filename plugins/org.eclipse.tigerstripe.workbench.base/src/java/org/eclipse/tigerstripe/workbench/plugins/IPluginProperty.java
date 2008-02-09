@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.plugins;
 
 
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -23,7 +23,7 @@ import org.w3c.dom.Node;
  */
 public interface IPluginProperty  {
 
-	public void setProject(IPluggablePluginProject project);
+	public void setProject(ITigerstripePluginProject project);
 
 	/**
 	 * Returns the label to appear in the GUI
@@ -72,7 +72,7 @@ public interface IPluginProperty  {
 	 */
 	public String getName();
 
-	public IPluggablePluginProject getProject();
+	public ITigerstripePluginProject getProject();
 
 	/**
 	 * The tiptool text that will appear in the GUI

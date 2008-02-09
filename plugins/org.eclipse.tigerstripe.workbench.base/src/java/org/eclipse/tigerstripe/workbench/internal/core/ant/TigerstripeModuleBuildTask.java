@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeLogProgressMonitor;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -86,7 +86,7 @@ public class TigerstripeModuleBuildTask extends Task {
 		} else {
 
 			try {
-				final ITigerstripeProject tsProject = (ITigerstripeProject) TigerstripeCore
+				final ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
 						.findProject(baseDir.toURI());
 				log.info("  Building Module : "
 						+ tsProject.getLocation().toOSString());
@@ -122,7 +122,7 @@ public class TigerstripeModuleBuildTask extends Task {
 
 	}
 
-	private void internalPerformFinish(ITigerstripeProject tsProject,
+	private void internalPerformFinish(ITigerstripeModelProject tsProject,
 			String moduleID, String jarFile) throws InterruptedException {
 
 		try {

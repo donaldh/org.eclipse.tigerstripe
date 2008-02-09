@@ -56,7 +56,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.TigerstripeDescriptorSectionPart;
@@ -133,8 +133,8 @@ public class DescriptorDependenciesSection extends
 	class MasterContentProvider implements IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof ITigerstripeProject) {
-				ITigerstripeProject project = (ITigerstripeProject) inputElement;
+			if (inputElement instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject project = (ITigerstripeModelProject) inputElement;
 				try {
 					// Removing core ref from the list to be displayed
 					// TODO remove all that logic for #299
@@ -368,7 +368,7 @@ public class DescriptorDependenciesSection extends
 						IResource res = input.getFile().getParent().findMember(
 								path);
 
-						ITigerstripeProject handle = getTSProject();
+						ITigerstripeModelProject handle = getTSProject();
 
 						IDependency dep = handle.makeDependency(res
 								.getProjectRelativePath().toOSString());
@@ -462,7 +462,7 @@ public class DescriptorDependenciesSection extends
 
 		if (msgDialog.open() == 0) {
 			viewer.remove(selectedFields);
-			ITigerstripeProject handle = getTSProject();
+			ITigerstripeModelProject handle = getTSProject();
 			try {
 				handle.removeDependencies(selectedFields,
 						new NullProgressMonitor());

@@ -27,8 +27,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessio
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryArtifactsByType;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginVelocityLog;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IArtifactBasedTemplateRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.PredicateFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -41,10 +39,12 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.Pluggabl
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 import org.w3c.dom.Document;
@@ -238,8 +238,8 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 			// .toURI(), ITigerstripeProject.class
 			// .getCanonicalName());
 
-			if (aProject != null && aProject instanceof ITigerstripeProject) {
-				ITigerstripeProject project = (ITigerstripeProject) aProject;
+			if (aProject != null && aProject instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 
 				IArtifactManagerSession mgrSession = project
 						.getArtifactManagerSession();

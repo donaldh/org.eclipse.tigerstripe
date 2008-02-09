@@ -28,7 +28,7 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
@@ -190,7 +190,7 @@ public class SessionFacadeArtifactItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
 				setDefaults(getNewElement(), getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
@@ -411,7 +411,7 @@ public class SessionFacadeArtifactItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
 				setDefaults(getNewElement(), getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
@@ -601,7 +601,7 @@ public class SessionFacadeArtifactItemSemanticEditPolicy extends
 				IAdaptable arg1) throws ExecutionException {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
-				ITigerstripeProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 				AssociationClass assocClass = (AssociationClass) getNewElement();
 				setDefaults(assocClass, getCreateRequest(), tsProject);
 				TigerstripeBaseItemSemanticEditPolicy

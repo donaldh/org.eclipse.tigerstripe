@@ -16,7 +16,7 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * A Diagram handle is a shell object to manipulate GMF diagrams without having
@@ -33,10 +33,10 @@ public class DiagramHandle {
 
 	private IClosedDiagramSynchronizer synchronizer;
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	public DiagramHandle(IResource diagramResource, IResource modelResource,
-			ITigerstripeProject tsProject) {
+			ITigerstripeModelProject tsProject) {
 		this.diagramResource = diagramResource;
 		this.modelResource = modelResource;
 		this.tsProject = tsProject;
@@ -45,11 +45,11 @@ public class DiagramHandle {
 	public DiagramHandle(IResource diagramResource) {
 		this.diagramResource = diagramResource;
 		IProject iProject = diagramResource.getProject();
-		this.tsProject = (ITigerstripeProject) EclipsePlugin
+		this.tsProject = (ITigerstripeModelProject) EclipsePlugin
 				.getITigerstripeProjectFor(iProject);
 	}
 
-	public ITigerstripeProject getITigerstripeProject() {
+	public ITigerstripeModelProject getITigerstripeProject() {
 		return this.tsProject;
 	}
 

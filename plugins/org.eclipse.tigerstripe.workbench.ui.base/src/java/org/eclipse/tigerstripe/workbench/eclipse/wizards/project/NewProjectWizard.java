@@ -35,7 +35,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ExternalModules;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.perspective.TigerstripePerspectiveFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.actions.TSOpenAction;
 import org.eclipse.ui.INewWizard;
@@ -196,7 +196,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 									+ projectDetails.projectName;
 							// + File.separator + "tigerstripe.xml";
 							File file = new File(desc);
-							ITigerstripeProject project = (ITigerstripeProject) session
+							ITigerstripeModelProject project = (ITigerstripeModelProject) session
 									.makeTigerstripeProject(file.toURI(), null);
 
 							IWorkspace workspace = ResourcesPlugin

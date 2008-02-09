@@ -29,7 +29,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
@@ -107,7 +107,7 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 			getTSProject().getArtifactManagerSession()
 					.removeArtifactChangeListener(this);
 
-			for (ITigerstripeProject project : getTSProject()
+			for (ITigerstripeModelProject project : getTSProject()
 					.getReferencedProjects()) {
 				project.getArtifactManagerSession()
 						.removeArtifactChangeListener(this);
@@ -117,13 +117,13 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 		}
 	}
 
-	protected ITigerstripeProject getTSProject() {
+	protected ITigerstripeModelProject getTSProject() {
 		IEditorPart editorPart = ((DiagramEditDomain) editor
 				.getDiagramEditDomain()).getEditorPart();
 
 		InstanceDiagramEditorHelper dHelper = new InstanceDiagramEditorHelper(
 				editorPart);
-		ITigerstripeProject diagramProject = dHelper
+		ITigerstripeModelProject diagramProject = dHelper
 				.getCorrespondingTigerstripeProject();
 		return diagramProject;
 	}
@@ -132,7 +132,7 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 		getTSProject().getArtifactManagerSession().addArtifactChangeListener(
 				this);
 
-		for (ITigerstripeProject project : getTSProject()
+		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			project.getArtifactManagerSession().addArtifactChangeListener(this);
 		}
@@ -285,7 +285,7 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 			getTSProject().getArtifactManagerSession().refresh(monitor);
 			monitor.worked(2);
 
-			for (ITigerstripeProject project : getTSProject()
+			for (ITigerstripeModelProject project : getTSProject()
 					.getReferencedProjects()) {
 				monitor.subTask("Building referenced project: "
 						+ project.getProjectLabel());
@@ -394,7 +394,7 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 
 					monitor.beginTask("Building "
 							+ getTSProject().getProjectLabel(), 10);
-					for (ITigerstripeProject project : getTSProject()
+					for (ITigerstripeModelProject project : getTSProject()
 							.getReferencedProjects()) {
 						monitor.subTask("Building referenced project: "
 								+ project.getProjectLabel());

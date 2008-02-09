@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessio
 import org.eclipse.tigerstripe.workbench.model.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class AnnotableAdapterFactory implements IAdapterFactory {
 
@@ -58,8 +58,8 @@ public class AnnotableAdapterFactory implements IAdapterFactory {
 							.findProject(res.getProject().getLocation()
 									.toFile().toURI());
 
-					if (aProject instanceof ITigerstripeProject) {
-						ITigerstripeProject project = (ITigerstripeProject) aProject;
+					if (aProject instanceof ITigerstripeModelProject) {
+						ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 						IArtifactManagerSession mgr = project
 								.getArtifactManagerSession();
 

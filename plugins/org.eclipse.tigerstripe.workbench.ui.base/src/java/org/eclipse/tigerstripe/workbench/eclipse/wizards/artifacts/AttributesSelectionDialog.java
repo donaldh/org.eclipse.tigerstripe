@@ -56,7 +56,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.wizards.model.ArtifactAttribute
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
@@ -267,7 +267,7 @@ public class AttributesSelectionDialog extends TSMessageDialog {
 		TSRuntimeContext tsContext = this.parentPage.getTSRuntimeContext();
 
 		try {
-			ITigerstripeProject project = tsContext.getProjectHandle();
+			ITigerstripeModelProject project = tsContext.getProjectHandle();
 			IAbstractArtifact artifact = project.getArtifactManagerSession()
 					.getArtifactByFullyQualifiedName(this.getAttributeClass());
 			if (artifact != null && artifact instanceof IManagedEntityArtifact) {

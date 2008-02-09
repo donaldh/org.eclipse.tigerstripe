@@ -10,18 +10,18 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing;
 
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class BaseModelImportConfiguration implements
 		IModelImportConfiguration {
 
-	private ITigerstripeProject referenceProject;
+	private ITigerstripeModelProject referenceProject;
 
-	public ITigerstripeProject getReferenceProject() {
+	public ITigerstripeModelProject getReferenceProject() {
 		return this.referenceProject;
 	}
 
-	public void setReferenceProject(ITigerstripeProject referenceProject) {
+	public void setReferenceProject(ITigerstripeModelProject referenceProject) {
 		this.referenceProject = referenceProject;
 	}
 

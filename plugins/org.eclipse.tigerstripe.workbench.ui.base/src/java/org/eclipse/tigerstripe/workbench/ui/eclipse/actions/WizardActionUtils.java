@@ -33,7 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportModel;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportRunner;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 
 ;
@@ -48,7 +48,7 @@ public class WizardActionUtils {
 	 * @param monitor
 	 * @throws TigerstripeException
 	 */
-	public static IStatus[] triggerGenerate(ITigerstripeProject handle,
+	public static IStatus[] triggerGenerate(ITigerstripeModelProject handle,
 			IProgressMonitor monitor, RunConfig config)
 			throws TigerstripeException, InterruptedException {
 		if (monitor == null) {

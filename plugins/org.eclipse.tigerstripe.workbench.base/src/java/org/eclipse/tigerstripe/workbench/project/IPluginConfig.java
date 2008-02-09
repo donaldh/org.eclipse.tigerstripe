@@ -52,7 +52,7 @@ public interface IPluginConfig {
 	 */
 	public void setEnabled(boolean enabled);
 
-	public void setProjectHandle(ITigerstripeProject projectHandle);
+	public void setProjectHandle(ITigerstripeModelProject projectHandle);
 
 	public boolean isLogEnabled();
 
@@ -115,7 +115,7 @@ public interface IPluginConfig {
 
 	public String getPluginId();
 	
-	public ITigerstripeProject getProjectHandle();
+	public ITigerstripeModelProject getProjectHandle();
 
 	/**
 	 * Returns the value of the property as defined in the plugin reference.

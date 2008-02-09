@@ -37,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowPulldownDelegate2;
 
@@ -187,7 +187,7 @@ public class NewArtifactDropDownAction extends Action implements IMenuCreator,
 	public void selectionChanged(IAction action, ISelection selection) {
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getTSProjectInFocus();
-		action.setEnabled(aProject instanceof ITigerstripeProject
+		action.setEnabled(aProject instanceof ITigerstripeModelProject
 				&& aProject.exists());
 	}
 

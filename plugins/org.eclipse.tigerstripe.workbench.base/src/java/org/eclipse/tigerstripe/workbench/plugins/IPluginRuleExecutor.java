@@ -8,22 +8,19 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable;
+package org.eclipse.tigerstripe.workbench.plugins;
 
-/**
- * Simplest type of rule in a Pluggable Plugin
- * 
- * @author Eric Dillon
- * @since 1.2
- */
-public interface ISimpleTemplateRunRule extends ITemplateRunRule {
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 
-	public boolean isSuppressEmptyFiles();
+public interface IPluginRuleExecutor {
 
-	public void setSuppressEmptyFiles(boolean suppress);
+	public PluggablePlugin getPlugin();
 
-	public boolean isOverwriteFiles();
-
-	public void setOverwriteFiles(boolean overwriteFiles);
-
+	/**
+	 * Get the additional info about the run
+	 * 
+	 * @return
+	 */
+	public RunConfig getConfig();
 }

@@ -29,7 +29,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.TigerstripeEditableEntityEditPart;
@@ -65,7 +65,7 @@ public abstract class BaseDiagramPartAction {
 		return null;
 	}
 
-	protected ITigerstripeProject getCorrespondingTigerstripeProject() {
+	protected ITigerstripeModelProject getCorrespondingTigerstripeProject() {
 		DiagramGraphicalViewer viewer = null;
 		if (mySelectedElement != null) {
 			if (mySelectedElement instanceof ShapeNodeEditPart) {
@@ -91,8 +91,8 @@ public abstract class BaseDiagramPartAction {
 		// domain.getCommandStack().execute(
 		// new ICommandProxy(new RefreshEditPartCommand(mySelectedElement,
 		// true)));
-		if (project instanceof ITigerstripeProject)
-			return (ITigerstripeProject) project;
+		if (project instanceof ITigerstripeModelProject)
+			return (ITigerstripeModelProject) project;
 		return null;
 	}
 
@@ -137,7 +137,7 @@ public abstract class BaseDiagramPartAction {
 	}
 
 	protected IAbstractArtifact getCorrespondingArtifact() {
-		ITigerstripeProject project = getCorrespondingTigerstripeProject();
+		ITigerstripeModelProject project = getCorrespondingTigerstripeProject();
 		String fqn = null;
 
 		EObject element = getCorrespondingEObject();

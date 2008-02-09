@@ -15,12 +15,12 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.IModelImp
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.annotables.DBAnnotableElementPackage;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.schema.DatabaseSchema;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class SchemaMapper extends DBElementMapper {
 
 	public SchemaMapper(MessageList messageList,
-			ITigerstripeProject targetProject, IModelImportConfiguration config) {
+			ITigerstripeModelProject targetProject, IModelImportConfiguration config) {
 		super(messageList, targetProject, config);
 	}
 

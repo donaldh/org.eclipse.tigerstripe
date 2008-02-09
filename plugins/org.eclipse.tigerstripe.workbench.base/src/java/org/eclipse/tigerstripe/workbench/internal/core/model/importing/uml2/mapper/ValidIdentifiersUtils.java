@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.map
 
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ValidIdentifiersUtils {
 
@@ -79,7 +79,7 @@ public class ValidIdentifiersUtils {
 	}
 
 	protected static String getValidPackageName(MessageList messageList,
-			String name, ITigerstripeProject targetProject, String elementName) {
+			String name, ITigerstripeModelProject targetProject, String elementName) {
 		String result = removeIllegalPackageCharacters(name);
 
 		if ("".equals(result)) {

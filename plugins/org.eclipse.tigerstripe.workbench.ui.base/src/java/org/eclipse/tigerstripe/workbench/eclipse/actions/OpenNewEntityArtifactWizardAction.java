@@ -16,7 +16,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.entity.NewEntityWizard;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -43,7 +43,7 @@ public class OpenNewEntityArtifactWizardAction extends
 		super.selectionChanged(action, selection);
 
 		action
-				.setEnabled(EclipsePlugin.getTSProjectInFocus() instanceof ITigerstripeProject);
+				.setEnabled(EclipsePlugin.getTSProjectInFocus() instanceof ITigerstripeModelProject);
 	}
 
 }

@@ -38,7 +38,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePlugi
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.ArtifactSelectorDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.IArtifactLabelProvider;
@@ -353,7 +353,7 @@ public class EntitySelectorWizardPage extends NewContainerWizardPage {
 		TSRuntimeContext context = getTSRuntimeContext();
 		Collection entities = new ArrayList();
 		try {
-			ITigerstripeProject project = context.getProjectHandle();
+			ITigerstripeModelProject project = context.getProjectHandle();
 			IArtifactManagerSession session = project
 					.getArtifactManagerSession();
 

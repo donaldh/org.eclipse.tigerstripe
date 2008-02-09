@@ -37,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
@@ -66,9 +66,9 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 				.getEditorInput().getAdapter(IResource.class);
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getITigerstripeProjectFor(res.getProject());
-		if (!(aProject instanceof ITigerstripeProject))
+		if (!(aProject instanceof ITigerstripeModelProject))
 			throw new RuntimeException("non-Tigerstripe Project found");
-		ITigerstripeProject project = (ITigerstripeProject) aProject;
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		try {
 			artMgrSession = project.getArtifactManagerSession();
 		} catch (TigerstripeException e) {

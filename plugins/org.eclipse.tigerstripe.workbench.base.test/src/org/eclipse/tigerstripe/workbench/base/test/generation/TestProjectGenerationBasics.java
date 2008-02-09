@@ -16,20 +16,20 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 import junit.framework.TestCase;
 
 public class TestProjectGenerationBasics extends TestCase {
 
-	private ITigerstripeProject project;
+	private ITigerstripeModelProject project;
 
 	@Override
 	protected void setUp() throws Exception {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
 		projectDetails.setName("TestProjectGenerationBasics");
-		project = (ITigerstripeProject) TigerstripeCore.createProject(
-				projectDetails, null, ITigerstripeProject.class, null, null);
+		project = (ITigerstripeModelProject) TigerstripeCore.createProject(
+				projectDetails, null, ITigerstripeModelProject.class, null, null);
 	}
 
 	@Override

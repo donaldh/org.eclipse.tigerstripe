@@ -112,4 +112,9 @@ public class DescriptorSourcePage extends TextEditor implements IFormPage,
 		return false;
 	}
 
+	@Override
+	public void firePropertyChange(int property) {
+		super.firePropertyChange(property);
+	}
+
 }

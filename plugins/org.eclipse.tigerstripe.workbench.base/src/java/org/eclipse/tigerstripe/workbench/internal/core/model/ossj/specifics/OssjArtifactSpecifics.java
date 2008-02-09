@@ -19,7 +19,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.StandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class OssjArtifactSpecifics extends StandardSpecifics implements
 		IOssjArtifactSpecifics {
@@ -69,7 +69,7 @@ public abstract class OssjArtifactSpecifics extends StandardSpecifics implements
 	public void applyDefaults() {
 		try {
 			this.interfaceProperties.put("package", "com.mycompany");
-			ITigerstripeProject tsProject = getArtifact().getTigerstripeProject();
+			ITigerstripeModelProject tsProject = getArtifact().getTigerstripeProject();
 			getArtifact().getTigerstripeProject();
 			IPluginConfig[] refs = tsProject.getPluginConfigs();
 

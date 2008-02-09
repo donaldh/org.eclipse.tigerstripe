@@ -30,10 +30,10 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IPluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.IRunRule;
-import org.eclipse.tigerstripe.workbench.internal.api.plugins.pluggable.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 
@@ -131,7 +131,7 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 
 		monitor.beginTask("Audit Tigerstripe Project", 8);
 
-		IPluggablePluginProject pProject = (IPluggablePluginProject) TSExplorerUtils
+		ITigerstripePluginProject pProject = (ITigerstripePluginProject) TSExplorerUtils
 				.getProjectHandleFor(getProject());
 
 		IResource projectDescriptor = getProject().findMember(

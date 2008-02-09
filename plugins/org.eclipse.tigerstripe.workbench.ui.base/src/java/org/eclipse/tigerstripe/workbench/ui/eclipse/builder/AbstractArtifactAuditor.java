@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.IMethod;
 import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class AbstractArtifactAuditor {
 
@@ -30,7 +30,7 @@ public abstract class AbstractArtifactAuditor {
 
 	private IJavaProject jProject;
 
-	private ITigerstripeProject tsProject;
+	private ITigerstripeModelProject tsProject;
 
 	public AbstractArtifactAuditor() {
 
@@ -65,9 +65,9 @@ public abstract class AbstractArtifactAuditor {
 		return jProject;
 	}
 
-	protected ITigerstripeProject getTSProject() {
+	protected ITigerstripeModelProject getTSProject() {
 		if (tsProject == null) {
-			tsProject = (ITigerstripeProject) EclipsePlugin
+			tsProject = (ITigerstripeModelProject) EclipsePlugin
 					.getITigerstripeProjectFor(getIProject());
 		}
 		return tsProject;
