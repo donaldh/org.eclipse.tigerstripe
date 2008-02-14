@@ -1,0 +1,177 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id: IModelImpl.java,v 1.1 2008/02/14 23:57:59 edillon Exp $
+ */
+package org.eclipse.tigerstripe.metamodel.impl;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
+
+import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
+import org.eclipse.tigerstripe.metamodel.IModel;
+import org.eclipse.tigerstripe.metamodel.IPackage;
+import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
+
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>IModel</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IModelImpl#getPackages <em>Packages</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
+public class IModelImpl extends IModelComponentImpl implements IModel {
+	/**
+	 * The cached value of the '{@link #getPackages() <em>Packages</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getPackages()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<IPackage> packages;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected IModelImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected EClass eStaticClass() {
+		return MetamodelPackage.Literals.IMODEL;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<IPackage> getPackages() {
+		if (packages == null) {
+			packages = new EObjectContainmentEList<IPackage>(IPackage.class, this, MetamodelPackage.IMODEL__PACKAGES);
+		}
+		return packages;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<IAbstractArtifact> getAllArtifacts() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IAbstractArtifact getArtifactByName(String fullyQualifiedName) {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case MetamodelPackage.IMODEL__PACKAGES:
+				return ((InternalEList<?>)getPackages()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+			case MetamodelPackage.IMODEL__PACKAGES:
+				return getPackages();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+			case MetamodelPackage.IMODEL__PACKAGES:
+				getPackages().clear();
+				getPackages().addAll((Collection<? extends IPackage>)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public void eUnset(int featureID) {
+		switch (featureID) {
+			case MetamodelPackage.IMODEL__PACKAGES:
+				getPackages().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+			case MetamodelPackage.IMODEL__PACKAGES:
+				return packages != null && !packages.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
+
+} //IModelImpl

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.1 2008/02/14 23:58:01 edillon Exp $
+-->
+
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "tigerstripe" 
+       class = "org.eclipse.tigerstripe.metamodel.MetamodelPackage"
+       genModel = "model/tigerstripe.genmodel" /> 
+  </extension>
+
+</plugin>
