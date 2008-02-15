@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater;
 
-import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 
 /**
  * Base class model change requests

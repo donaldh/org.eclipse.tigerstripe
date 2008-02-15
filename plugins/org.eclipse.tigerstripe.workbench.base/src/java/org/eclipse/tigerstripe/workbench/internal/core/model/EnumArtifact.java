@@ -17,10 +17,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.EnumArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
-import org.eclipse.tigerstripe.workbench.model.ILiteral;
-import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 
 import com.thoughtworks.qdox.model.JavaClass;
 

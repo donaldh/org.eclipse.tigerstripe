@@ -34,7 +34,6 @@ public abstract class WorkingCopyManager implements IWorkingCopy {
 
 	protected final static String _UNKWOWN_FIELD = "_UNKWOWN_FIELD";
 
-	private boolean isDirty = false;
 	private boolean isWorkingCopy = false;
 
 	private WorkingCopyManager original;
@@ -191,6 +190,14 @@ public abstract class WorkingCopyManager implements IWorkingCopy {
 					"This working copy was already disposed.");
 		}
 
+		markFieldDirty(fieldID);
+	}
+
+	protected void markFieldDirty(String fieldID) throws TigerstripeException {
+		int index = managedFields.indexOf(fieldID);
+		if (index == -1)
+			throw new TigerstripeException("Field '" + fieldID
+					+ "' not managed.");
 		fieldDirtyStatus.set(index);
 	}
 

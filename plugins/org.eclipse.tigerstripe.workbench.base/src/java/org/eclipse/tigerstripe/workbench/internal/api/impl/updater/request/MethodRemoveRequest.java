@@ -13,12 +13,12 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 import java.util.Collections;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
-import org.eclipse.tigerstripe.workbench.model.IMethod;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 
 public class MethodRemoveRequest extends BaseModelChangeRequest implements
 		IMethodRemoveRequest {

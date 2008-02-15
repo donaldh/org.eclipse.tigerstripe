@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.model;
 
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 /**
  * A Listener that will be notified of changes on artifacts

@@ -19,6 +19,8 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginVelocityLog;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
@@ -60,6 +62,16 @@ public class SimplePPluginRule extends BaseTemplatePPluginRule implements
 		return ISimpleTemplateRunRule.class.getCanonicalName();
 	}
 
+	public void markProjectDirty() {
+		try {
+			if (getProject() != null)
+				((TigerstripePluginProjectHandle) getProject())
+						.markFieldDirty(TigerstripePluginProjectHandle.GLOBAL_RULE_F);
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+	}
+
 	@Override
 	public void buildBodyFromNode(Node node) {
 		Element elm = (Element) node;
@@ -98,8 +110,8 @@ public class SimplePPluginRule extends BaseTemplatePPluginRule implements
 		return elm;
 	}
 
-	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
-			throws TigerstripeException {
+	public void trigger(PluggablePluginConfig pluginConfig,
+			IPluginRuleExecutor exec) throws TigerstripeException {
 		Writer writer = null;
 		try {
 			this.report = new RuleReport(pluginConfig);
@@ -127,8 +139,8 @@ public class SimplePPluginRule extends BaseTemplatePPluginRule implements
 						.getConfig());
 
 				// TODO add referenced user-java objects into the context
-				VelocityContext defaultContext = getDefaultContext(pluginConfig,
-						exec);
+				VelocityContext defaultContext = getDefaultContext(
+						pluginConfig, exec);
 				VelocityContext localContext = exec.getPlugin()
 						.getLocalVelocityContext(defaultContext, this);
 
@@ -155,7 +167,6 @@ public class SimplePPluginRule extends BaseTemplatePPluginRule implements
 				files.add(targetFile);
 			}
 
-		
 		} catch (TigerstripeException e) {
 			throw e;
 		} catch (Exception e) {

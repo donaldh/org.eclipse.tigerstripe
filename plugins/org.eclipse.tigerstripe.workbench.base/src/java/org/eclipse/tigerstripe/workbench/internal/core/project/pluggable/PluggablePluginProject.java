@@ -160,8 +160,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 	}
 
 	public IPluginProperty[] getGlobalProperties() {
-		return this.globalProperties
-				.toArray(new IPluginProperty[globalProperties.size()]);
+		return globalProperties.toArray(new IPluginProperty[globalProperties.size()]);
 	}
 
 	public void setGlobalProperties(IPluginProperty[] properties) {
@@ -201,7 +200,8 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 				+ propertyType);
 	}
 
-	public void addAdditionalFile(String relativePath, int includeExclude) {
+	public void addAdditionalFile(String relativePath, int includeExclude)
+			 {
 		switch (includeExclude) {
 		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
 			if (!additionalFilesInclude.contains(relativePath)) {
@@ -708,12 +708,21 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		return superValid & isValid;
 	}
 
-	public void addGlobalProperties(IPluginProperty[] properties) {
-		globalProperties.addAll(Arrays.asList(properties));
+	public void addGlobalProperties(IPluginProperty[] properties)
+			 {
+		for (IPluginProperty property : properties) {
+			addGlobalProperty(property);
+		}
 	}
 
+	/**
+	 * 
+	 * @param property
+	 */
 	public void addGlobalProperty(IPluginProperty property) {
-		globalProperties.add(property);
+		if (!globalProperties.contains(property)) {
+			globalProperties.add(property);
+		}
 	}
 
 	public void removeGlobalProperties(IPluginProperty[] properties) {
@@ -729,7 +738,9 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 	}
 
 	public void addGlobalRule(IRunRule rule) {
-		globalRules.add(rule);
+		if (!globalRules.contains(rule)) {
+			globalRules.add(rule);
+		}
 	}
 
 	public void removeGlobalRules(IRunRule[] rules) {
@@ -757,7 +768,9 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 	}
 
 	public void addArtifactRule(ITemplateRunRule rule) {
-		artifactRules.add(rule);
+		if (!artifactRules.contains(rule)) {
+			artifactRules.add(rule);
+		}
 	}
 
 	public void removeArtifactRules(ITemplateRunRule[] rules) {
@@ -781,8 +794,11 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		return SUPPORTED_ARTIFACTRULES_LABELS;
 	}
 
-	public void addClasspathEntry(IPluginClasspathEntry entry) {
-		classpathEntries.add(entry);
+	public void addClasspathEntry(IPluginClasspathEntry entry)
+			 {
+		if (!classpathEntries.contains(entry)) {
+			classpathEntries.add(entry);
+		}
 	}
 
 	public void removeClasspathEntry(IPluginClasspathEntry entry) {

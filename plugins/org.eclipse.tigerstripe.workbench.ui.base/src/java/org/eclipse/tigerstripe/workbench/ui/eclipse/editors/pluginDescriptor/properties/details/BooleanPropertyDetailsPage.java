@@ -17,6 +17,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
@@ -40,8 +41,9 @@ public class BooleanPropertyDetailsPage extends BasePropertyDetailsPage {
 
 	protected void handleWidgetSelected(SelectionEvent e) {
 		if (e.getSource() == defaultBooleanCombo) {
-			getIPluggablePluginProperty().setDefaultValue(
-					defaultBooleanCombo.getSelectionIndex() == 0);
+			IPluginProperty property = getIPluggablePluginProperty();
+			property
+					.setDefaultValue(defaultBooleanCombo.getSelectionIndex() == 0);
 			pageModified();
 		}
 	}

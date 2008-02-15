@@ -12,15 +12,15 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjQuerySpecifics;
-import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IDatatypeArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 
 public class QueryArtifactAuditor extends AbstractArtifactAuditor implements
 		IArtifactAuditor {

@@ -83,4 +83,5 @@ public interface IPluginProperty  {
 
 	public String getType();
 
+	public Object clone();
 }

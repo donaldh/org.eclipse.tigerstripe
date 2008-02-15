@@ -33,7 +33,7 @@ public abstract class PluginDescriptorSectionPart extends
 		super(page, parent, toolkit, style);
 	}
 
-	protected ITigerstripePluginProject getIPluggablePluginProject() {
+	public ITigerstripePluginProject getIPluggablePluginProject() {
 		PluginDescriptorEditor editor = (PluginDescriptorEditor) getPage()
 				.getEditor();
 		return editor.getIPluggablePluginProject();

@@ -25,6 +25,11 @@ public class StringPPluginProperty extends BasePPluginProperty implements
 
 	private final static String DEFAULT_STRING = "";
 
+	public StringPPluginProperty(StringPPluginProperty other) {
+		super(other);
+		setDefaultValue(other.getDefaultValue());
+	}
+
 	public StringPPluginProperty() {
 		setDefaultValue(DEFAULT_STRING);
 	}
@@ -65,6 +70,10 @@ public class StringPPluginProperty extends BasePPluginProperty implements
 
 	public String serialize(Object value) {
 		return (String) value;
+	}
+
+	public Object clone() {
+		return new StringPPluginProperty(this);
 	}
 
 }

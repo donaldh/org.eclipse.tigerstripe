@@ -15,7 +15,7 @@ import org.dom4j.Element;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 
 public class PrimitiveTypeDef implements IPrimitiveTypeDef {

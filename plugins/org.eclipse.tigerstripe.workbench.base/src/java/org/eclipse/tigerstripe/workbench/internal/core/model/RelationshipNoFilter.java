@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
-import org.eclipse.tigerstripe.workbench.model.IRelationship;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 
 /**
  * A filter that filters... NOTHING.

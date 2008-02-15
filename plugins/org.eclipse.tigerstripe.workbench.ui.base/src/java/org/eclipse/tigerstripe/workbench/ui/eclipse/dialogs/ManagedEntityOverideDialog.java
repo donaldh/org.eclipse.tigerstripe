@@ -47,10 +47,10 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityDetail
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityOveride;
-import org.eclipse.tigerstripe.workbench.model.IMethod;
-import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
-import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IManagedEntityDetails;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
 /**

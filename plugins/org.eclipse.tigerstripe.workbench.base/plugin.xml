@@ -2,4 +2,11 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension-point id="diagramRendering" name="Tigerstripe Explorer Diagram Rendering" schema="schema/diagramRendering.exsd"/>
+   <extension
+         point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            class="org.eclipse.tigerstripe.workbench.internal.modelManager.repository.pojo.PojoResourceFactoryImpl"
+            type="java">
+      </parser>
+   </extension>
 </plugin>

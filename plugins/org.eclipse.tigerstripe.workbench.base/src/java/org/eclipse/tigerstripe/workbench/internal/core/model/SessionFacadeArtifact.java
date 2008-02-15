@@ -24,9 +24,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.SessionArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjSessionFacadeSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
-import org.eclipse.tigerstripe.workbench.model.IMethod;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 
 import com.thoughtworks.qdox.model.JavaClass;
 

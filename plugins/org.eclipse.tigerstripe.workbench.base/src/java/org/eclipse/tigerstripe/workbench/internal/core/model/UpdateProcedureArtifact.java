@@ -16,8 +16,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.UpdateProcedureArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjUpdateProcedureSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 
 import com.thoughtworks.qdox.model.JavaClass;
 

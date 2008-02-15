@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.persist;
 
-import org.eclipse.tigerstripe.workbench.model.IMethod;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 
 public class PersistUtils {
 

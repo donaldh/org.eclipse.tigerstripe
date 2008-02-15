@@ -29,7 +29,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.anno
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;

@@ -1,0 +1,40 @@
+#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm")
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+
+/**
+ * $xmlEncode.encode($artifact.Comment)
+ *
+ * @tigerstripe.updateProcedure
+ *      isSingleExtensionType="$artifact.IStandardSpecifics.isSingleExtensionType()"
+ *      isSessionFactoryMethods="$artifact.IStandardSpecifics.isSessionFactoryMethods()"
+ *		isAbstract = "$artifact.isAbstract()"
+ *		implements = "$artifact.getImplementedArtifactsAsStr()"
+ * @tigerstripe.interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
+ *      generate = "true"
+ *## Take care of the stereotypes
+#parse("org/eclipse/tigerstripe/workbench/internal/modelManager/repository/pojo/writer/resources/artifactLevelStereotype.vm")
+ * 
+#foreach( $tag in $artifact.NonTigerstripeTags )
+ * $tag
+#end
+ */
+public class $artifact.Name
+#if( $artifact.hasExtends() )
+  extends $artifact.ExtendedArtifact.FullyQualifiedName
+#end {
+
+#parse("org/eclipse/tigerstripe/workbench/internal/modelManager/repository/pojo/writer/resources/refComments.vm")
+
+#parse("org/eclipse/tigerstripe/workbench/internal/modelManager/repository/pojo/writer/resources/constant.vm")
+
+#parse("org/eclipse/tigerstripe/workbench/internal/modelManager/repository/pojo/writer/resources/field.vm")
+}

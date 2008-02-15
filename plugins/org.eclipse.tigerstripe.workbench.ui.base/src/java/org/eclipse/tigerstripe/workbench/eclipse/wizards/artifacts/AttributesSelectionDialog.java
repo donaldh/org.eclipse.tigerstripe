@@ -53,8 +53,8 @@ import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePlugi
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.model.ArtifactAttributeModel;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDialog;

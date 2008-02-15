@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.project;
 import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
@@ -21,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 
 /**
  * Handle on a Tigerstripe Project
@@ -141,6 +141,12 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 	 * @return
 	 */
 	public IPluginConfig[] getPluginConfigs() throws TigerstripeException;
+
+	public void addPluginConfig(IPluginConfig config)
+			throws TigerstripeException;
+
+	public void removePluginConfig(IPluginConfig config)
+			throws TigerstripeException;
 
 	// ==========================================
 	// Project references are direct references to other projects that are

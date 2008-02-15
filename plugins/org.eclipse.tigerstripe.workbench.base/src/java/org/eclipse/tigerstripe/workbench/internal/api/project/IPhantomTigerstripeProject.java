@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.project;
 import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**

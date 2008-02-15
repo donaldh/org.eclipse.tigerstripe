@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
 import java.util.Properties;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
-import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 
 /**
  * The OSS/J specifics for a method

@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.workbench.model.IRelationship;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 
 /**
  * Allows to filter returned relationships when querying the Artifact Manager

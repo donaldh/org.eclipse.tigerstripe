@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
 
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
-import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact.IEntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
 
 public interface IOssjEntitySpecifics extends IOssjArtifactSpecifics,
 	 IOssjFlavorDefaults {

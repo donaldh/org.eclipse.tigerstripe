@@ -27,7 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AnnotableAdapterFactory;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.osgi.framework.BundleContext;
 
 public class BasePlugin extends Plugin {

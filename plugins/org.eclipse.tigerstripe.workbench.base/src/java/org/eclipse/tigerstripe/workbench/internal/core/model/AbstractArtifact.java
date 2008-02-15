@@ -29,9 +29,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.IOriginalChangeListener;
-import org.eclipse.tigerstripe.workbench.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -45,13 +42,14 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILiteral;
-import org.eclipse.tigerstripe.workbench.model.IMethod;
-import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
@@ -323,8 +321,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @param clazz -
 	 *            JavaClass the parsed source file to build a model for
 	 */
-	protected void buildModel(JavaClass clazz,
-			IProgressMonitor monitor) {
+	protected void buildModel(JavaClass clazz, IProgressMonitor monitor) {
 
 		setName(clazz.getName());
 		setPackage(clazz.getPackage());
@@ -1167,8 +1164,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return result;
 	}
 
-	public void doSave(IProgressMonitor monitor)
-			throws TigerstripeException {
+	public void doSave(IProgressMonitor monitor) throws TigerstripeException {
 		doSave(true, monitor);
 	}
 
@@ -1624,58 +1620,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return myUpdater;
 	}
 
-	// ==========================================================
-	// IWorkingCopy interface
-
-	private boolean isWorkingCopy = false;
-	private boolean workingCopyIsDirty = false;
-
-	@Override
-	public boolean isDirty() {
-		return workingCopyIsDirty;
-	}
-
-	@Override
-	public boolean isWorkingCopy() {
-		return isWorkingCopy;
-	}
-
-	public void setWorkingCopy(boolean isWorkingCopy) {
-		this.isWorkingCopy = isWorkingCopy;
-	}
-
-	@Override
-	public void addOriginalChangeListener(IOriginalChangeListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeOriginalChangeListener(IOriginalChangeListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Object getOriginal() throws TigerstripeException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IWorkingCopy makeWorkingCopy(IProgressMonitor monitor)
-			throws TigerstripeException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void commit(IProgressMonitor monitor) throws TigerstripeException {
-
-	}
-
-	@Override
 	public void dispose() {
-
+		// NON SUPPORTED.
 	}
 }

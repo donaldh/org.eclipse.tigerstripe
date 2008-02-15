@@ -39,7 +39,7 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 
 	protected IManagedForm form;
 
-	private RulesSectionPart master;
+	protected RulesSectionPart master;
 
 	private IRunRule rule;
 
@@ -229,13 +229,14 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 
 	public void handleModifyText(ModifyEvent e) {
 		if (!isSilentUpdate()) {
+			IRunRule rule = getIRunRule();
 			if (e.getSource() == nameText) {
-				getIRunRule().setName(nameText.getText().trim());
+				rule.setName(nameText.getText().trim());
 				if (master != null) {
+					pageModified();
 					TableViewer viewer = master.getViewer();
 					viewer.refresh(getIRunRule());
 				}
-				pageModified();
 			} else if (e.getSource() == descriptionText) {
 				getIRunRule().setDescription(descriptionText.getText().trim());
 				pageModified();

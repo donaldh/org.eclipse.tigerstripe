@@ -14,11 +14,11 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URI;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
@@ -42,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectChangeListener;
@@ -55,6 +56,12 @@ public abstract class TigerstripeProjectHandle extends
 	private final static String DEPENDENCIES_F = "dependencies";
 
 	private final static String REFERENCES_F = "referencedProjects";
+
+	private final static String PLUGIN_CONFIGS_F = "pluginConfigs";
+
+	private final static String ADVANCED_PROPERTY_F = "advancedProperty";
+
+	private final static String FACET_REFERENCE_F = "facetReference";
 
 	private INameProvider nameProvider;
 
@@ -84,12 +91,15 @@ public abstract class TigerstripeProjectHandle extends
 		super.addManagedFields();
 		managedFields.add(DEPENDENCIES_F);
 		managedFields.add(REFERENCES_F);
+		managedFields.add(PLUGIN_CONFIGS_F);
+		managedFields.add(ADVANCED_PROPERTY_F);
+		managedFields.add(FACET_REFERENCE_F);
 	}
 
 	@Override
 	public void setProjectDetails(IProjectDetails projectDetails)
 			throws WorkingCopyException, TigerstripeException {
-		assertSet(PROJECT_DETAILS);
+		assertSet(PROJECT_DETAILS_F);
 		getTSProject().setProjectDetails((ProjectDetails) projectDetails);
 	}
 
@@ -109,14 +119,9 @@ public abstract class TigerstripeProjectHandle extends
 
 	@Override
 	public IModelManager getModelManager() throws TigerstripeException {
-		if (modelManager == null) {
-			if (manager == null)
-				manager = new ArtifactManager(getTSProject());
-			modelManager = new ModelManager(manager);
-		}
-
-		// TODO Auto-generated method stub
-		return null;
+		org.eclipse.tigerstripe.workbench.internal.modelManager.ModelManager manager = new org.eclipse.tigerstripe.workbench.internal.modelManager.ModelManager(
+				this);
+		return manager;
 	}
 
 	public IArtifactManagerSession getArtifactManagerSession()
@@ -214,13 +219,23 @@ public abstract class TigerstripeProjectHandle extends
 	}
 
 	public void addPluginConfig(IPluginConfig ref) throws TigerstripeException {
+		assertSet(PLUGIN_CONFIGS_F);
 		TigerstripeProject project = getTSProject();
 		Collection<IPluginConfig> refs = project.getPluginConfigs();
+
+		// If ref already exists for the given pluginId, replace it
+		for (Iterator<IPluginConfig> iter = refs.iterator(); iter.hasNext();) {
+			IPluginConfig config = iter.next();
+			if (config.getPluginId().equals(ref.getPluginId())) {
+				iter.remove();
+			}
+		}
 		refs.add(ref);
 	}
 
 	public void removePluginConfig(IPluginConfig ref)
 			throws TigerstripeException {
+		assertSet(PLUGIN_CONFIGS_F);
 		TigerstripeProject project = getTSProject();
 		Collection<IPluginConfig> refs = project.getPluginConfigs();
 		refs.remove(ref);
@@ -374,6 +389,7 @@ public abstract class TigerstripeProjectHandle extends
 
 	public void setAdvancedProperty(String property, String value)
 			throws TigerstripeException {
+		assertSet(ADVANCED_PROPERTY_F);
 		TigerstripeProject project = getTSProject();
 		project.setAdvancedProperty(property, value);
 	}
@@ -447,6 +463,7 @@ public abstract class TigerstripeProjectHandle extends
 
 	public void addFacetReference(IFacetReference facetRef)
 			throws TigerstripeException {
+		assertSet(FACET_REFERENCE_F);
 		TigerstripeProject project = getTSProject();
 		if (project != null) {
 			project.addFacetReference(facetRef);
@@ -458,6 +475,7 @@ public abstract class TigerstripeProjectHandle extends
 
 	public void removeFacetReference(IFacetReference facetRef)
 			throws TigerstripeException {
+		assertSet(FACET_REFERENCE_F);
 		TigerstripeProject project = getTSProject();
 		if (project != null) {
 			project.removeFacetReference(facetRef);

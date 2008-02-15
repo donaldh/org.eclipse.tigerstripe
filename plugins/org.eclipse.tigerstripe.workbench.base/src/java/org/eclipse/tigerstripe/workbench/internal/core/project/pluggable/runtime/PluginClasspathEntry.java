@@ -43,4 +43,14 @@ public class PluginClasspathEntry implements IPluginClasspathEntry {
 		return true; // TODO
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof IPluginClasspathEntry) {
+			IPluginClasspathEntry other = (IPluginClasspathEntry) obj;
+			if (other.getRelativePath() != null)
+				return other.getRelativePath().equals(getRelativePath());
+		}
+		return false;
+	}
+
 }

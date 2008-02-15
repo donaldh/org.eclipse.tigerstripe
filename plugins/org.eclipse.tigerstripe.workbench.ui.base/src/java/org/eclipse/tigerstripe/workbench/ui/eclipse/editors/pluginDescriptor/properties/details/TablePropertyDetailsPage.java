@@ -31,6 +31,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.BasePPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty.ColumnDef;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -117,6 +121,7 @@ public class TablePropertyDetailsPage extends BasePropertyDetailsPage {
 		int index = columnDefListViewer.getTable().getSelectionIndex();
 		ColumnDef current = getColumnDefs().remove(index);
 		getColumnDefs().add(index - 1, current);
+		updateProperty();
 		updateForm();
 	}
 
@@ -124,13 +129,25 @@ public class TablePropertyDetailsPage extends BasePropertyDetailsPage {
 		int index = columnDefListViewer.getTable().getSelectionIndex();
 		ColumnDef current = getColumnDefs().remove(index);
 		getColumnDefs().add(index + 1, current);
+		updateProperty();
 		updateForm();
+	}
+
+	/**
+	 * Takes care of pushing the locally modified property back into the project
+	 * descriptor.
+	 * 
+	 */
+	private void updateProperty() {
+		IPluginProperty property = getIPluggablePluginProperty();
+		((BasePPluginProperty) property).markProjectDirty();
 	}
 
 	private void addColumnDefSelected() {
 		ColumnDef newEntry = new ColumnDef();
 		newEntry.columnName = findNewEntryName();
 		getColumnDefs().add(newEntry);
+		updateProperty();
 		columnDefListViewer.add(newEntry);
 		columnDefListViewer.setInput(getColumnDefs());
 		columnDefListViewer.refresh(true);
@@ -161,6 +178,7 @@ public class TablePropertyDetailsPage extends BasePropertyDetailsPage {
 			for (ColumnDef ent : selectedFields) {
 				getColumnDefs().remove(ent);
 			}
+			updateProperty();
 			columnDefListViewer.remove(selectedFields);
 			columnDefListViewer.setInput(getColumnDefs());
 			columnDefListViewer.refresh(true);
@@ -299,6 +317,7 @@ public class TablePropertyDetailsPage extends BasePropertyDetailsPage {
 			int index = viewer.getTable().getSelectionIndex();
 			ColumnDef ent = getColumnDefs().get(index);
 			ent.columnName = (String) value;
+			updateProperty();
 			viewer.refresh(true);
 		}
 	}

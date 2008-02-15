@@ -66,7 +66,7 @@ public abstract class BasePropertyDetailsPage implements IDetailsPage {
 
 	protected IManagedForm form;
 
-	private GlobalPropertiesSection master;
+	protected GlobalPropertiesSection master;
 
 	private IPluginProperty property;
 
@@ -225,16 +225,15 @@ public abstract class BasePropertyDetailsPage implements IDetailsPage {
 		if (!isSilentUpdate()) {
 			// when updating the form, the changes to all fields should be
 			// ignored so that the form is not marked as dirty.
+			IPluginProperty property = getIPluggablePluginProperty();
 			if (e.getSource() == nameText) {
-				getIPluggablePluginProperty()
-						.setName(nameText.getText().trim());
 				if (master != null) {
+					property.setName(nameText.getText().trim());
 					TableViewer viewer = master.getViewer();
 					viewer.refresh(getIPluggablePluginProperty());
 				}
 			} else if (e.getSource() == tipToolText) {
-				getIPluggablePluginProperty().setTipToolText(
-						tipToolText.getText().trim());
+				property.setTipToolText(tipToolText.getText().trim());
 			}
 			pageModified();
 		}

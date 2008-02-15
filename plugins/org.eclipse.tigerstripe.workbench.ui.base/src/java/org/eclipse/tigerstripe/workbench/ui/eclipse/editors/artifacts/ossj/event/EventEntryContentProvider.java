@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.even
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEventSpecifics;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 /**
  * This content provider is expecting a list of EventDescriptorEntries

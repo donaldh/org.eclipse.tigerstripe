@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
 import org.eclipse.tigerstripe.workbench.plugins.IExpander;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;

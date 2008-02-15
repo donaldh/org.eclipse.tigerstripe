@@ -37,11 +37,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
-import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
@@ -213,8 +210,11 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		IPreferenceStore store = EclipsePlugin.getDefault()
 				.getPreferenceStore();
 
-		handle.getProjectDetails().setProjectOutputDirectory(
-				store.getString(GenerationPreferencePage.P_TARGETPATH));
+		IProjectDetails details = getTSProject().getProjectDetails();
+		details.setProjectOutputDirectory(store
+				.getString(GenerationPreferencePage.P_TARGETPATH));
+		getTSProject().setProjectDetails(details);
+
 		handle
 				.setAdvancedProperty(
 						IAdvancedProperties.PROP_GENERATION_GenerateReport,
@@ -272,26 +272,6 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		getToolkit().paintBordersFor(getBody());
 	}
 
-	private TigerstripeProject getTigerstripeProject() {
-		try {
-			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getTSProject();
-			return handle.getTSProject();
-		} catch (TigerstripeException e) {
-			return null;
-		}
-	}
-
-	/**
-	 * Applies the default values
-	 * 
-	 * @param ref
-	 */
-	private void applyDefault(IPluginConfig ref) {
-
-		((PluginConfig) ref).getProperties().setProperty(
-				"defaultInterfacePackage", "com.mycompany");
-	}
-
 	private void createButtons(Composite parent, FormToolkit toolkit)
 			throws TigerstripeException {
 		GridData gd = null;
@@ -314,8 +294,10 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 				ITigerstripeModelProject handle = getTSProject();
 				if (!isSilentUpdate()) {
 					try {
-						handle.getProjectDetails().setProjectOutputDirectory(
-								outputDirectory.getText().trim());
+						IProjectDetails details = handle.getProjectDetails();
+						details.setProjectOutputDirectory(outputDirectory
+								.getText().trim());
+						handle.setProjectDetails(details);
 						markPageModified();
 					} catch (TigerstripeException ee) {
 						EclipsePlugin.log(ee);

@@ -12,18 +12,18 @@ package org.eclipse.tigerstripe.workbench.internal.tools.compare;
 
 import java.util.ArrayList;
 
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IDatatypeArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IEventArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IExceptionArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IQueryArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 
 public class Comparer {
 

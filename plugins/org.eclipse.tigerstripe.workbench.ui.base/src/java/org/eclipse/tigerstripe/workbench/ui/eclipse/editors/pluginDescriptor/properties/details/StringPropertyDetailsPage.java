@@ -16,6 +16,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
@@ -34,18 +35,23 @@ public class StringPropertyDetailsPage extends BasePropertyDetailsPage {
 	}
 
 	protected void handleStringPropertyModifyText(ModifyEvent e) {
-		if (e.getSource() == defaultString) {
-			getIPluggablePluginProperty().setDefaultValue(
-					defaultString.getText().trim());
-			pageModified();
+		if (!isSilentUpdate()) {
+			if (e.getSource() == defaultString) {
+				IPluginProperty property = getIPluggablePluginProperty();
+				property.setDefaultValue(defaultString.getText().trim());
+				pageModified();
+			}
 		}
 	}
 
 	@Override
 	protected void updateForm() {
 		super.updateForm();
+		setSilentUpdate(true);
 		defaultString.setText((String) getIPluggablePluginProperty()
 				.getDefaultValue());
+		setSilentUpdate(false);
+
 	}
 
 	public void createContents(Composite parent) {

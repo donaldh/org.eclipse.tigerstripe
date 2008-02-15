@@ -30,7 +30,7 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;

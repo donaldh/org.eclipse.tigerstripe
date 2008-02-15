@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refre
 
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 
 public class QualifiedNamedElementRefresher extends BaseEObjectRefresher {

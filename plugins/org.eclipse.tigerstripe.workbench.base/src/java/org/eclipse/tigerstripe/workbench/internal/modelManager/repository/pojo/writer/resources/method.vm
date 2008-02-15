@@ -1,0 +1,103 @@
+#foreach($method in $artifact.Methods)
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+    /**
+     * $xmlEncode.encode($method.Comment)
+     * @tigerstripe.method 
+     *  iteratorReturn = "$method.isIteratorReturn()"
+     *  isOptional = "$method.isOptional()"
+	 *  isAbstract = "$method.isAbstract()"
+     *  isOrdered = "$method.isOrdered()"
+     *  isUnique = "$method.isUnique()"
+     *  typeMultiplicity = "$method.ReturnType.TypeMultiplicity.Label"
+     *  returnName = "$method.MethodReturnName"
+#if ($method.hasDefaultReturnValue())     *  defaultReturnValue = "$xmlEncode.encode($method.DefaultReturnValue)" 
+#end
+#foreach( $argument in $method.Arguments )
+     *   @tigerstripe.method-arg 
+	 *     name="$argument.Name" 
+     *     isOrdered = "$argument.isOrdered()"
+     *     isUnique = "$argument.isUnique()"
+     *     typeMultiplicity = "$argument.Type.TypeMultiplicity.Label"
+#if ($argument.hasDefaultValue())     *       defaultValue = "$xmlEncode.encode($argument.DefaultValue)" 
+#end
+	 *     ref-by = "$argument.RefByString" 
+#if ($argument.RefCommentId != "")	 *   refComment="$argument.RefCommentId" 
+#end
+ ## Take care of the arguement stereotypes (since 2.2.1)
+#foreach( $stereotype in $argument.getStereotypeInstances() )
+     *   @tigerstripe.arg-stereotype st.name = "$stereotype.Name" st.arg.name = "$argument.Name"
+#foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
+ #if ( $stAttr.isArray() )
+ *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
+	#else
+ *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+ #end
+#end
+#end
+     
+#end
+     *
+## Take care of the stereotypes
+#foreach( $stereotype in $method.getStereotypeInstances() )
+     * @tigerstripe.stereotype st.name = "$stereotype.Name"
+#foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
+ #if ( $stAttr.isArray() )
+ *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
+	#else
+ *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+ #end
+#end
+#end
+## Take care of the stereotypes on the return (since 2.2.1)
+#foreach( $stereotype in $method.getReturnStereotypeInstances() )
+     * @tigerstripe.ret-stereotype st.name = "$stereotype.Name"
+#foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
+ #if ( $stAttr.isArray() )
+ *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
+	#else
+ *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+ #end
+#end
+#end
+     * 
+     * @tigerstripe.property ts.id = "ossj.method"
+#foreach( $key in $method.getOssjMethodProperties().keySet() )
+     *   $key = "$method.getOssjMethodProperties().getProperty( $key )"
+#end *
+#foreach( $tag in $method.NonTigerstripeTags )
+     * $tag
+#end
+     */
+	$utils.getVisibilityAsString( $method ) abstract $utils.getReturnType($method) ${method.Name}(
+	#set( $firstPass = "true" )
+	#foreach( $argument in $method.Arguments)
+		#if ( $firstPass == "false" )
+		, 
+		#end
+		$argument.getSignature()
+		
+		#set( $firstPass = "false" )
+	#end
+	)
+	#if ( $method.hasExceptions() )
+	  throws 
+	  #set( $firstException = "true" )
+	  #foreach( $exception in $method.Exceptions )
+	    #if ( $firstException == "false" )
+	    ,
+	    #end
+	    $exception.FullyQualifiedName
+	    #set( $firstException = "false" )
+	  #end
+	#end
+	;
+#end

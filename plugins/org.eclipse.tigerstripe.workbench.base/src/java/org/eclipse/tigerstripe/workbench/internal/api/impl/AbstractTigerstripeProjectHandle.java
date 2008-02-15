@@ -33,7 +33,7 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 public abstract class AbstractTigerstripeProjectHandle extends
 		WorkingCopyManager implements IAbstractTigerstripeProject, IWorkingCopy {
 
-	protected final static String PROJECT_DETAILS = "projectDetails";
+	protected final static String PROJECT_DETAILS_F = "projectDetails";
 
 	public String getProjectLabel() {
 		return getLocation().lastSegment();
@@ -41,7 +41,7 @@ public abstract class AbstractTigerstripeProjectHandle extends
 
 	@Override
 	protected void addManagedFields() {
-		managedFields.add(PROJECT_DETAILS);
+		managedFields.add(PROJECT_DETAILS_F);
 	}
 
 	// we keep track of a TStamp on the hanlde when we create it to know

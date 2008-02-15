@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.contract.predicate;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 public class PredicateFilter extends ArtifactFilter {
 

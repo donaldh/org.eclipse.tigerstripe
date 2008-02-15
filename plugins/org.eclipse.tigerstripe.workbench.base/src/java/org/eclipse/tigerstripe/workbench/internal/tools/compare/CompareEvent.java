@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IEventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEventSpecifics;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 
 public class CompareEvent {
 

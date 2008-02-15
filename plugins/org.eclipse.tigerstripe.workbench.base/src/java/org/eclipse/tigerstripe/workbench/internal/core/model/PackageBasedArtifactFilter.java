@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 /**
  * Filters artifacts by package.

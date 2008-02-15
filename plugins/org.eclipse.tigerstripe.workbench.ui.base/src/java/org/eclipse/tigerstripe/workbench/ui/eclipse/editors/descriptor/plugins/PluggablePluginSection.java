@@ -122,8 +122,8 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	 * Returns the reference for this plugin in the local project based on the
 	 * details found in the housing.
 	 * 
-	 * @return the pluginConfig from the tigerstripe.xml descriptor if it exists,
-	 *         null otherwise.
+	 * @return the pluginConfig from the tigerstripe.xml descriptor if it
+	 *         exists, null otherwise.
 	 */
 	private IPluginConfig getPluginConfig() {
 		try {
@@ -217,8 +217,14 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 						ref.setDisableLogging(false);
 					} else
 						ref.setDisableLogging(true);
-					markPageModified();
 
+					IPluginConfig config = getPluginConfig();
+					try {
+						getTSProject().addPluginConfig(config);
+						markPageModified();
+					} catch (TigerstripeException ee) {
+						EclipsePlugin.log(ee);
+					}
 				}
 			}
 		});
@@ -250,12 +256,12 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 	/**
 	 * Initialize the global properties. One of 2 cases may happen: - No
-	 * PluginConfig exists. In this case we set default values for all fields and
-	 * leave the "generate" disabled. Upon enablement of Generate, a PluginConfig
-	 * is created and pushed into the tigerstripe.xml - a PluginConfig
-	 * corresponding to this housing is found in the Tigerstripe.xml descriptor.
-	 * In this case we use it. - However - The list of properties may have
-	 * changed due to plugin re-deployment.
+	 * PluginConfig exists. In this case we set default values for all fields
+	 * and leave the "generate" disabled. Upon enablement of Generate, a
+	 * PluginConfig is created and pushed into the tigerstripe.xml - a
+	 * PluginConfig corresponding to this housing is found in the
+	 * Tigerstripe.xml descriptor. In this case we use it. - However - The list
+	 * of properties may have changed due to plugin re-deployment.
 	 */
 	private void initGlobalProperties() {
 		IPluginConfig ref = getPluginConfig();
@@ -356,8 +362,14 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 				}
 
-				getPluginConfig().setEnabled(generate.getSelection());
-				markPageModified();
+				IPluginConfig config = getPluginConfig();
+				config.setEnabled(generate.getSelection());
+				try {
+					getTSProject().addPluginConfig(config);
+					markPageModified();
+				} catch (TigerstripeException ee) {
+					EclipsePlugin.log(ee);
+				}
 			} else if (e.getSource() == applyDefaultButton) {
 				MessageBox dialog = new MessageBox(getSection().getShell(),
 						SWT.ICON_QUESTION | SWT.YES | SWT.NO);
@@ -368,6 +380,13 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 					for (BasePropertyRenderer renderer : renderers) {
 						renderer.applyDefault();
+					}
+					IPluginConfig config = getPluginConfig();
+					try {
+						getTSProject().addPluginConfig(config);
+						markPageModified();
+					} catch (TigerstripeException ee) {
+						EclipsePlugin.log(ee);
 					}
 					markPageModified();
 				}
@@ -425,8 +444,8 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 			if (ref != null) {
 				IPluginProperty property = renderer.getProperty();
-				String serializedValue = ((PluginConfig) ref).getProperties().getProperty(
-						property.getName());
+				String serializedValue = ((PluginConfig) ref).getProperties()
+						.getProperty(property.getName());
 				renderer.update(serializedValue);
 			}
 
@@ -451,6 +470,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		if (ref != null) {
 			Properties props = ref.getProperties();
 			props.setProperty(property.getName(), property.serialize(value));
+			getTSProject().addPluginConfig(ref);
 			markPageModified();
 		}
 	}

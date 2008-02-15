@@ -1,0 +1,35 @@
+#foreach($literal in $artifact.Literals)
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+    /**
+     * $xmlEncode.encode($literal.Comment)
+     * @tigerstripe.label
+     *  value = '$literal.Value'
+     *  
+     *## Take care of the stereotypes
+#foreach( $stereotype in $literal.getStereotypeInstances() )
+     * @tigerstripe.stereotype st.name = "$stereotype.Name"
+#foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
+ #if ( $stAttr.isArray() )
+ *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
+	#else
+ *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+ #end
+#end
+#end
+     * 
+#foreach( $tag in $literal.NonTigerstripeTags )
+     * $tag
+#end
+     */
+    $utils.getVisibilityAsString( $literal ) final static $literal.Type.FullyQualifiedName $literal.Name = $literal.Value;
+
+#end

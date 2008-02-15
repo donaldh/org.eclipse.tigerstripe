@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.contract.predicate;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.RelationshipFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
-import org.eclipse.tigerstripe.workbench.model.IRelationship;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 
 public class RelationshipPredicateFilter extends RelationshipFilter {
 

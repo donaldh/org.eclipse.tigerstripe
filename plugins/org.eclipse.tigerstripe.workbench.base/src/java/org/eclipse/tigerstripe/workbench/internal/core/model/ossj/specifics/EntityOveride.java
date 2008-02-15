@@ -22,9 +22,9 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssj
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityDetails;
-import org.eclipse.tigerstripe.workbench.model.IMethod;
-import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
 
 /**
  * In the context of Managed Entities, methods are defined on the object itself,

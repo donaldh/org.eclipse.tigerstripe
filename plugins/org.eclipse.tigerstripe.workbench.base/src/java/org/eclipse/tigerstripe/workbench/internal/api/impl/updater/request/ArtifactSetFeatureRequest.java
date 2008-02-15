@@ -11,20 +11,20 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.IType;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent.EVisibility;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IDependencyArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 
 public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 		implements IArtifactSetFeatureRequest {

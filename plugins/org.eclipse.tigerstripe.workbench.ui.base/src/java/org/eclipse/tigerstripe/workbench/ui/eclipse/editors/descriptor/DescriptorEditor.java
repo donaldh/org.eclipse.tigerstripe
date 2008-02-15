@@ -155,6 +155,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 		if (getActivePage() != sourcePageIndex) {
 			((DescriptorSourcePage) getEditor(sourcePageIndex))
 					.firePropertyChange(IEditorPart.PROP_DIRTY);
+			firePropertyChange(IEditorPart.PROP_DIRTY);
 		} else {
 			getEditor(sourcePageIndex).doSave(monitor);
 			firePropertyChange(IEditorPart.PROP_DIRTY);

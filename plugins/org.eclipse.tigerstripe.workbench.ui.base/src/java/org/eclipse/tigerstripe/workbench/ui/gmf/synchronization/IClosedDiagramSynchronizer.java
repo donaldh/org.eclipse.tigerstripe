@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.gmf.synchronization;
 
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 /**
  * 

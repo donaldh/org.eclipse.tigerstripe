@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.api.model;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 /**
  * This interface provides access to all Artifact metadata

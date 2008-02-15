@@ -323,8 +323,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 		// make sure we're not creating a duplicate
 		TableItem[] items = viewer.getTable().getItems();
 		for (int i = 0; i < items.length; i++) {
-			String name = ((IPluginProperty) items[i].getData())
-					.getName();
+			String name = ((IPluginProperty) items[i].getData()).getName();
 			if (result.equals(name))
 				return findNewPropertyName();
 		}
@@ -340,8 +339,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 		IPluginProperty[] selectedFields = new IPluginProperty[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (IPluginProperty) selectedItems[i]
-					.getData();
+			selectedFields[i] = (IPluginProperty) selectedItems[i].getData();
 		}
 
 		String message = "Do you really want to remove ";
@@ -462,8 +460,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 		TableItem[] selectedItems = this.viewer.getTable().getSelection();
 		IPluginProperty[] selectedArgs = new IPluginProperty[selectedItems.length];
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedArgs[i] = (IPluginProperty) selectedItems[i]
-					.getData();
+			selectedArgs[i] = (IPluginProperty) selectedItems[i].getData();
 		}
 		TableItem[] allItems = this.viewer.getTable().getItems();
 		IPluginProperty[] allArgs = new IPluginProperty[allItems.length];
@@ -472,8 +469,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 			newArgs[i] = (IPluginProperty) allItems[i].getData();
 			if (allItems[i].getData().equals(selectedArgs[0]) && i != 0) {
 				newArgs[i] = newArgs[i - 1];
-				newArgs[i - 1] = (IPluginProperty) allItems[i]
-						.getData();
+				newArgs[i - 1] = (IPluginProperty) allItems[i].getData();
 			}
 		}
 		try {
@@ -490,8 +486,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 		TableItem[] selectedItems = this.viewer.getTable().getSelection();
 		IPluginProperty[] selectedArgs = new IPluginProperty[selectedItems.length];
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedArgs[i] = (IPluginProperty) selectedItems[i]
-					.getData();
+			selectedArgs[i] = (IPluginProperty) selectedItems[i].getData();
 		}
 		TableItem[] allItems = this.viewer.getTable().getItems();
 		IPluginProperty[] allArgs = new IPluginProperty[allItems.length];
@@ -501,8 +496,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 			if (allItems[i].getData().equals(selectedArgs[0])
 					&& i != allArgs.length - 1) {
 				newArgs[i] = newArgs[i + 1];
-				newArgs[i + 1] = (IPluginProperty) allItems[i]
-						.getData();
+				newArgs[i + 1] = (IPluginProperty) allItems[i].getData();
 			}
 		}
 		try {

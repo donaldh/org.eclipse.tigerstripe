@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
-import org.eclipse.tigerstripe.workbench.model.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.StereotypeSectionManager;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;

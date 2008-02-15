@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
 
-import org.eclipse.tigerstripe.workbench.model.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
 
 public interface IOssjFlavorDefaults {
 	public final static OssjEntityMethodFlavor[] getMethodFlavors = {

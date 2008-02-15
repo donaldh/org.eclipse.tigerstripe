@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
 
-import org.eclipse.tigerstripe.workbench.model.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 
 public interface IOssjEnumSpecifics extends IOssjArtifactSpecifics {
 

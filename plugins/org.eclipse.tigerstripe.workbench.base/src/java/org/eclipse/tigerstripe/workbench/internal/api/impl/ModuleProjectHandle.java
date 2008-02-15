@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
@@ -22,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactMana
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleRef;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 
 public class ModuleProjectHandle extends TigerstripeProjectHandle implements

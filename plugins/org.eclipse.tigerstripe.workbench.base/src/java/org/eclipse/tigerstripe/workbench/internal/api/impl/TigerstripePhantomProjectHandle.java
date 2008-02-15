@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePa
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 
 public class TigerstripePhantomProjectHandle extends TigerstripeProjectHandle
 		implements IPhantomTigerstripeProject {

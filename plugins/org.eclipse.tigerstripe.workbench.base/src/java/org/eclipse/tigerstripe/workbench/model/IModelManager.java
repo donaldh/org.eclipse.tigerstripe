@@ -12,78 +12,25 @@ package org.eclipse.tigerstripe.workbench.model;
 
 import java.util.Collection;
 
+import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
+import org.eclipse.tigerstripe.workbench.internal.modelManager.IModelRepository;
 
-/**
- * The Model Manager interface provides all the functionalities to create, read,
- * update and query artifacts of a model independently of how they are
- * implemented and persisted.
- * 
- * @author erdillon@cisco.com
- * 
- */
 public interface IModelManager {
 
-	@SuppressWarnings("unchecked")
-	public Collection<Class> getSupportedArtifactTypes();
+	public IModelRepository getDefaultRepository();
 
-	@SuppressWarnings("unchecked")
-	public Collection<Class> getSupportedArtifactQueryTypes();
+	public Collection<IModelRepository> getRepositories();
 
-	/**
-	 * Create a new instance of the given artifact type. The returned artifact
-	 * is a Working Copy that will need to be stored before it gets persisted.
-	 * 
-	 * @param artifactType
-	 * @return
-	 * @throws IllegalArtifactException
-	 */
-	@SuppressWarnings("unchecked")
-	public IAbstractArtifact makeArtifact(Class artifactType)
+	public void addRepository(IModelRepository repository)
 			throws TigerstripeException;
 
-	/**
-	 * Create a new instance of the given artifact type. The returned artifact
-	 * is created based on the given template.
-	 * 
-	 * @param artifactType
-	 * @param template
-	 * @return
-	 * @throws IllegalArtifactException
-	 * @throws TigerstripeException
-	 */
-	@SuppressWarnings("unchecked")
-	public IAbstractArtifact makeArtifact(Class artifactType,
-			IAbstractArtifact template) throws TigerstripeException;
-
-	/**
-	 * Stores the given artifact as part of this model. This operation results
-	 * in the persistence of the given artifact.
-	 * 
-	 * Note that the given artifact needs to be a Working Copy
-	 * 
-	 * @param artifact
-	 * @throws TigerstripeException
-	 */
-	public void storeArtifact(IAbstractArtifact artifact)
+	public void removeRepository(IModelRepository repository)
 			throws TigerstripeException;
 
-	public Collection<IAbstractArtifact> queryArtifacts(IArtifactQuery query,
-			boolean returnWorkingCopies) throws TigerstripeException;
-
-	public IAbstractArtifact findArtifact(String fqn,
-			boolean includeDependencies, boolean returnWorkingCopy)
+	public IAbstractArtifact[] findAllArtifacts(String fullyQualifiedName)
 			throws TigerstripeException;
 
-	public void refresh(boolean includeDependencies);
-
-	public void updateModel(IModelChangeRequest request)
+	public IAbstractArtifact[] getAllArtifacts(boolean includeDependencies)
 			throws TigerstripeException;
-
-	public void deleteArtifact(String fqn) throws TigerstripeException;
-
-	public void deleteArtifacts(String[] fqns) throws TigerstripeException;
 }

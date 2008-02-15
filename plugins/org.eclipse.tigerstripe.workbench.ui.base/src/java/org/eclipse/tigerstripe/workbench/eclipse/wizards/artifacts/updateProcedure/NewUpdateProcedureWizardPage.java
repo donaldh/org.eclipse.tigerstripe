@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 /**
  * @author Eric Dillon

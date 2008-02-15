@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.w3c.dom.Document;
@@ -19,6 +22,15 @@ public abstract class BasePPluginProperty implements IPluginProperty {
 
 	private String name = "";
 	private String tipToolText = "";
+
+	protected BasePPluginProperty() {
+	}
+
+	protected BasePPluginProperty(BasePPluginProperty other) {
+		setName(other.getName());
+		setTipToolText(other.getTipToolText());
+		setProject(other.getProject());
+	}
 
 	private ITigerstripePluginProject project;
 
@@ -36,8 +48,19 @@ public abstract class BasePPluginProperty implements IPluginProperty {
 		return this.name;
 	}
 
+	public void markProjectDirty() {
+		try {
+			if (getProject() != null)
+				((TigerstripePluginProjectHandle) getProject())
+						.markFieldDirty(TigerstripePluginProjectHandle.GLOBAL_PROPERTIES_F);
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+	}
+
 	public void setName(String name) {
 		this.name = name;
+		markProjectDirty();
 	}
 
 	public Object getDefaultValue() {
@@ -46,6 +69,7 @@ public abstract class BasePPluginProperty implements IPluginProperty {
 
 	public void setDefaultValue(Object value) {
 		this.defaultValue = value;
+		markProjectDirty();
 	}
 
 	@Override
@@ -67,5 +91,8 @@ public abstract class BasePPluginProperty implements IPluginProperty {
 
 	public void setTipToolText(String text) {
 		tipToolText = text;
+		markProjectDirty();
 	}
+
+	public abstract Object clone();
 }

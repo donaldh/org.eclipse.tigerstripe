@@ -29,6 +29,7 @@ public abstract class BasePPluginRule implements IRunRule {
 
 	public void setName(String name) {
 		this.name = name;
+		markProjectDirty();
 	}
 
 	public String getDescription() {
@@ -37,6 +38,7 @@ public abstract class BasePPluginRule implements IRunRule {
 
 	public void setDescription(String description) {
 		this.description = description;
+		markProjectDirty();
 	}
 
 	public abstract String getLabel();
@@ -44,6 +46,8 @@ public abstract class BasePPluginRule implements IRunRule {
 	public abstract Node getBodyAsNode(Document document);
 
 	public abstract void buildBodyFromNode(Node node);
+
+	public abstract void markProjectDirty();
 
 	private ITigerstripePluginProject project;
 
@@ -61,6 +65,7 @@ public abstract class BasePPluginRule implements IRunRule {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+		markProjectDirty();
 	}
 
 	public String isEnabledStr() {
@@ -70,4 +75,15 @@ public abstract class BasePPluginRule implements IRunRule {
 	public void setEnabledStr(String enabledStr) {
 		this.enabled = Boolean.parseBoolean(enabledStr);
 	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		if (arg0 instanceof IRunRule) {
+			IRunRule other = (IRunRule) arg0;
+			if (other.getName() != null)
+				return other.getName().equals(getName());
+		}
+		return false;
+	}
+
 }

@@ -32,8 +32,14 @@ public class TablePPluginProperty extends BasePPluginProperty implements
 
 	private List<ColumnDef> columnDefs = new ArrayList<ColumnDef>();
 
+	public TablePPluginProperty(TablePPluginProperty other) {
+		super(other);
+		for (ColumnDef def : other.getColumnDefs()) {
+			columnDefs.add((ColumnDef) def.clone());
+		}
+	}
+
 	public TablePPluginProperty() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public List<ColumnDef> getColumnDefs() {
@@ -134,5 +140,9 @@ public class TablePPluginProperty extends BasePPluginProperty implements
 
 	public TablePropertyRow makeRow() {
 		return new TablePropertyRow(this);
+	}
+
+	public Object clone() {
+		return new TablePPluginProperty(this);
 	}
 }

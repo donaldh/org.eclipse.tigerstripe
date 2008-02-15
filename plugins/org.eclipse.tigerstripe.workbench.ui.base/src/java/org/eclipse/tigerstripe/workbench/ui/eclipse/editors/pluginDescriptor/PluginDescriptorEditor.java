@@ -284,8 +284,14 @@ public class PluginDescriptorEditor extends TigerstripeFormEditor {
 				if (handle != null) {
 					// Create a working Copy where we substitute a new object
 					// for the underlying plugin project
-					workingHandle = new TigerstripePluginProjectHandle(handle
-							.getLocation().toFile().toURI());
+					// workingHandle = new TigerstripePluginProjectHandle(handle
+					// .getLocation().toFile().toURI());
+					try {
+						workingHandle = (ITigerstripePluginProject) handle
+								.makeWorkingCopy(null);
+					} catch (TigerstripeException e) {
+						EclipsePlugin.log(e);
+					}
 				}
 			}
 		}

@@ -58,13 +58,13 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbe
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
-import org.eclipse.tigerstripe.workbench.model.IField;
-import org.eclipse.tigerstripe.workbench.model.ILiteral;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IEnumArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.StereotypeSectionManager;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
@@ -551,7 +551,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		// populate the attribute
 		initialArgument.setName(attributeNameDialogField.getText());
-		org.eclipse.tigerstripe.workbench.model.IType type = initialArgument
+		org.eclipse.tigerstripe.workbench.model.deprecated_.IType type = initialArgument
 				.getType();
 		type.setFullyQualifiedName(attributeClass);
 		type.setTypeMultiplicity(IModelComponent.EMultiplicity.at(multiplicityCombo

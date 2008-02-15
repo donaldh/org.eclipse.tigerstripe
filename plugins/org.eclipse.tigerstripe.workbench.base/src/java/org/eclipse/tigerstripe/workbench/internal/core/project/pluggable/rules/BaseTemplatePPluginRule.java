@@ -73,6 +73,7 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 
 	public void setTemplate(String template) {
 		this.template = template;
+		markProjectDirty();
 	}
 
 	private String outputFile = "";
@@ -83,6 +84,7 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 
 	public void setOutputFile(String outputFile) {
 		this.outputFile = outputFile;
+		markProjectDirty();
 	}
 
 	/**
@@ -362,18 +364,22 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 
 	public void addVelocityContextDefinition(VelocityContextDefinition def) {
 		contextDefinitions.add(def);
+		markProjectDirty();
 	}
 
 	public void addVelocityContextDefinitions(VelocityContextDefinition[] def) {
 		contextDefinitions.addAll(Arrays.asList(def));
+		markProjectDirty();
 	}
 
 	public void removeVelocityContextDefinition(VelocityContextDefinition def) {
 		contextDefinitions.remove(def);
+		markProjectDirty();
 	}
 
 	public void removeVelocityContextDefinitions(VelocityContextDefinition[] def) {
 		contextDefinitions.removeAll(Arrays.asList(def));
+		markProjectDirty();
 	}
 
 	public String[] getMacroLibraries() {
@@ -386,18 +392,22 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 
 	public void addMacroLibraries(String[] library) {
 		macroLibraries.addAll(Arrays.asList(library));
+		markProjectDirty();
 	}
 
 	public void addMacroLibrary(String library) {
 		macroLibraries.add(library);
+		markProjectDirty();
 	}
 
 	public void removeMacroLibraries(String[] library) {
 		macroLibraries.removeAll(Arrays.asList(library));
+		markProjectDirty();
 	}
 
 	public void removeMacroLibrary(String library) {
 		macroLibraries.remove(library);
+		markProjectDirty();
 	}
 
 	public boolean hasMacroLibrary() {

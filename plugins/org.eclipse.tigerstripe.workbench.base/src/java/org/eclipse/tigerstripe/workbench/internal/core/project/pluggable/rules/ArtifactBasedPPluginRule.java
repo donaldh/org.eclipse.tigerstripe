@@ -18,13 +18,14 @@ import java.util.Collection;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.eclipse.tigerstripe.workbench.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryArtifactsByType;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginVelocityLog;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
@@ -38,7 +39,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
@@ -88,8 +90,19 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 		return artifactType;
 	}
 
+	public void markProjectDirty() {
+		try {
+			if (getProject() != null)
+				((TigerstripePluginProjectHandle) getProject())
+						.markFieldDirty(TigerstripePluginProjectHandle.ARTIFACT_RULE_F);
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+	}
+
 	public void setArtifactType(String artifactType) {
 		this.artifactType = artifactType;
+		markProjectDirty();
 	}
 
 	public String getModelClass() {
@@ -98,6 +111,7 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 
 	public void setModelClass(String modelClass) {
 		this.modelClass = modelClass;
+		markProjectDirty();
 	}
 
 	public String getModelClassName() {
@@ -106,6 +120,7 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 
 	public void setModelClassName(String modelClassName) {
 		this.modelClassName = modelClassName;
+		markProjectDirty();
 	}
 
 	public String getArtifactFilterClass() {
@@ -114,6 +129,7 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 
 	public void setArtifactFilterClass(String filterClass) {
 		this.filterClass = filterClass;
+		markProjectDirty();
 	}
 
 	@Override
@@ -171,8 +187,8 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 		return elm;
 	}
 
-	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
-			throws TigerstripeException {
+	public void trigger(PluggablePluginConfig pluginConfig,
+			IPluginRuleExecutor exec) throws TigerstripeException {
 		IAbstractArtifact currentArtifact = null;
 		// TigerstripeRuntime.logInfoMessage("triggering " + getName());
 		Writer writer = null;
@@ -232,13 +248,15 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 			// Phew - got it!
 
 			// IProjectSession session = API.getDefaultProjectSession();
-			IAbstractTigerstripeProject aProject = pluginConfig.getProjectHandle();
+			IAbstractTigerstripeProject aProject = pluginConfig
+					.getProjectHandle();
 			// session
 			// .makeTigerstripeProject(pluginConfig.getProject().getBaseDir()
 			// .toURI(), ITigerstripeProject.class
 			// .getCanonicalName());
 
-			if (aProject != null && aProject instanceof ITigerstripeModelProject) {
+			if (aProject != null
+					&& aProject instanceof ITigerstripeModelProject) {
 				ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 
 				IArtifactManagerSession mgrSession = project
@@ -311,8 +329,8 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 					}
 				}
 
-				VelocityContext defaultContext = getDefaultContext(pluginConfig,
-						exec);
+				VelocityContext defaultContext = getDefaultContext(
+						pluginConfig, exec);
 
 				for (IAbstractArtifact artifact : resultSet) {
 
@@ -333,7 +351,7 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 							model = (IArtifactModel) modelObj;
 							model.setIArtifact(artifact);
 							model.setPluginConfig(pluginConfig);
-							
+
 							localContext.put(getModelClassName(), model);
 							expander
 									.setCurrentModel(model, getModelClassName());
@@ -362,8 +380,8 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 					// the file doesn't exist
 					if (isOverwriteFiles() || !outputFileF.exists()) {
 
-						writer = getDefaultWriter(pluginConfig, targetFile, exec
-								.getConfig());
+						writer = getDefaultWriter(pluginConfig, targetFile,
+								exec.getConfig());
 						template.merge(localContext, writer);
 						writer.close();
 
@@ -390,7 +408,6 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 				}
 			}
 
-		
 		} catch (TigerstripeException e) {
 			TigerstripeException newException;
 			if (currentArtifact != null) {
@@ -437,10 +454,12 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 
 	public void setSuppressEmptyFiles(boolean suppressEmptyFiles) {
 		this.suppressEmptyFiles = suppressEmptyFiles;
+		markProjectDirty();
 	}
 
 	public void setSuppressEmptyFilesStr(String suppressEmptyFilesStr) {
 		this.suppressEmptyFiles = Boolean.parseBoolean(suppressEmptyFilesStr);
+		markProjectDirty();
 	}
 
 	public boolean isOverwriteFiles() {
@@ -453,10 +472,12 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 
 	public void setOverwriteFiles(boolean overwriteFiles) {
 		this.overwriteFiles = overwriteFiles;
+		markProjectDirty();
 	}
 
 	public void setOverwriteFilesStr(String overwriteFilesStr) {
 		this.overwriteFiles = Boolean.parseBoolean(overwriteFilesStr);
+		markProjectDirty();
 	}
 
 	public boolean isIncludeDependencies() {
@@ -469,10 +490,12 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 
 	public void setIncludeDependencies(boolean includeDependencies) {
 		this.includeDependencies = includeDependencies;
+		markProjectDirty();
 	}
 
 	public void setIncludeDependenciesStr(String includeDependencies) {
 		this.includeDependencies = Boolean.parseBoolean(includeDependencies);
+		markProjectDirty();
 	}
 
 }

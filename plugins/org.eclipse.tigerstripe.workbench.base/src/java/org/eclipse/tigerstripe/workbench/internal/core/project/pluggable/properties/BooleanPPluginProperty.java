@@ -25,6 +25,11 @@ public class BooleanPPluginProperty extends BasePPluginProperty implements
 
 	private final static Boolean DEFAULT_BOOLEAN = false;
 
+	public BooleanPPluginProperty( BooleanPPluginProperty other ) {
+		super(other);
+		setDefaultValue(other.getDefaultValue());
+	}
+	
 	public BooleanPPluginProperty() {
 		setDefaultValue(DEFAULT_BOOLEAN);
 	}
@@ -66,6 +71,11 @@ public class BooleanPPluginProperty extends BasePPluginProperty implements
 
 	public String serialize(Object value) {
 		return ((Boolean) value).toString();
+	}
+
+	@Override
+	public Object clone() {
+		return new BooleanPPluginProperty(this);
 	}
 
 }

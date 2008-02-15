@@ -367,8 +367,8 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 						ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE);
 				markPageModified();
 				refreshUponStateChange(
-						ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE, null,
-						resourceName);
+						ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE,
+						null, resourceName);
 			}
 
 			if (Arrays

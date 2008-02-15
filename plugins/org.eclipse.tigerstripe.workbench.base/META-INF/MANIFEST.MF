@@ -15,7 +15,9 @@ Require-Bundle: org.eclipse.ui,
  org.apache.log4j,
  org.eclipse.update.core,
  org.eclipse.tigerstripe.annotations,
- org.eclipse.jdt.launching
+ org.eclipse.jdt.launching,
+ org.eclipse.tigerstripe.metamodel;visibility:=reexport,
+ org.eclipse.emf.transaction
 Eclipse-LazyStart: true
 Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apache.velocity.runtime.resource",
  org.apache.velocity.app;
@@ -300,9 +302,10 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.eclipse.tigerstripe.workbench.internal.core.util;uses:="org.eclipse.tigerstripe.api.utils,org.eclipse.tigerstripe.api.artifacts.model",
  org.eclipse.tigerstripe.workbench.internal.core.util.license,
  org.eclipse.tigerstripe.workbench.internal.core.util.messages,
+ org.eclipse.tigerstripe.workbench.internal.modelManager;x-friends:="org.eclipse.tigerstripe.workbench.base.test",
  org.eclipse.tigerstripe.workbench.internal.tools.compare,
  org.eclipse.tigerstripe.workbench.model,
- org.eclipse.tigerstripe.workbench.model.artifacts,
+ org.eclipse.tigerstripe.workbench.model.deprecated_,
  org.eclipse.tigerstripe.workbench.plugins,
  org.eclipse.tigerstripe.workbench.profile,
  org.eclipse.tigerstripe.workbench.profile.primitiveType,

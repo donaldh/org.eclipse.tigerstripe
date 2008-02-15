@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripePr
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.BaseTemplatePPluginRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime.PluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
@@ -42,8 +43,15 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 public class TigerstripePluginProjectHandle extends
 		AbstractTigerstripeProjectHandle implements ITigerstripePluginProject {
 
-	protected final static String GLOBAL_PROPERTIES_F = "globalProperties";
-	protected final static String PLUGIN_NATURE_F = "pluginNature";
+	public final static String GLOBAL_PROPERTIES_F = "globalProperties";
+	public final static String GLOBAL_RULE_F = "globalRule";
+	public final static String ARTIFACT_RULE_F = "artifactRule";
+	public final static String PLUGIN_NATURE_F = "pluginNature";
+	public final static String CLASSPATH_ENTRY_F = "classpathEntry";
+	public final static String ADDITIONAL_FILE_F = "additionalFile";
+	public final static String DEFAULT_LOG_LEVEL_F = "logLevel";
+	public final static String LOG_ENABLED_F = "logEnabled";
+	public final static String LOG_PATH_F = "logPath";
 
 	private PluggablePluginProject ppProject;
 
@@ -51,10 +59,23 @@ public class TigerstripePluginProjectHandle extends
 	protected void addManagedFields() {
 		super.addManagedFields();
 		managedFields.add(GLOBAL_PROPERTIES_F);
+		managedFields.add(GLOBAL_RULE_F);
+		managedFields.add(ARTIFACT_RULE_F);
+		managedFields.add(PLUGIN_NATURE_F);
+		managedFields.add(CLASSPATH_ENTRY_F);
+		managedFields.add(ADDITIONAL_FILE_F);
+		managedFields.add(DEFAULT_LOG_LEVEL_F);
+		managedFields.add(LOG_ENABLED_F);
+		managedFields.add(LOG_PATH_F);
 	}
 
 	public TigerstripePluginProjectHandle(URI projectURI) {
 		super(projectURI);
+	}
+
+	@Override
+	public void markFieldDirty(String fieldID) throws TigerstripeException {
+		super.markFieldDirty(fieldID);
 	}
 
 	public IPluginProperty[] getGlobalProperties() throws TigerstripeException {
@@ -108,7 +129,7 @@ public class TigerstripePluginProjectHandle extends
 	@Override
 	public void setProjectDetails(IProjectDetails projectDetails)
 			throws WorkingCopyException, TigerstripeException {
-		assertSet(_UNKWOWN_FIELD);
+		assertSet(PROJECT_DETAILS_F);
 		PluggablePluginProject project = getPPProject();
 		project.setProjectDetails((ProjectDetails) projectDetails);
 	}
@@ -166,11 +187,15 @@ public class TigerstripePluginProjectHandle extends
 	// =========================================
 
 	public void addGlobalRule(IRunRule rule) throws TigerstripeException {
+		assertSet(GLOBAL_RULE_F);
 		getPPProject().addGlobalRule(rule);
+		((BaseTemplatePPluginRule)rule).setProject(this);
 	}
 
 	public void addGlobalRules(IRunRule[] rules) throws TigerstripeException {
-		getPPProject().addGlobalRules(rules);
+		for (IRunRule rule : rules) {
+			addGlobalRule(rule);
+		}
 	}
 
 	public IRunRule[] getGlobalRules() throws TigerstripeException {
@@ -178,10 +203,13 @@ public class TigerstripePluginProjectHandle extends
 	}
 
 	public void removeGlobalRule(IRunRule rule) throws TigerstripeException {
+		assertSet(GLOBAL_RULE_F);
 		getPPProject().removeGlobalRule(rule);
+		((BaseTemplatePPluginRule)rule).setProject(null);
 	}
 
 	public void removeGlobalRules(IRunRule[] rules) throws TigerstripeException {
+		assertSet(GLOBAL_RULE_F);
 		getPPProject().removeGlobalRules(rules);
 	}
 
@@ -210,12 +238,16 @@ public class TigerstripePluginProjectHandle extends
 
 	public void addArtifactRule(ITemplateRunRule rule)
 			throws TigerstripeException {
+		assertSet(ARTIFACT_RULE_F);
 		getPPProject().addArtifactRule(rule);
+		((BaseTemplatePPluginRule)rule).setProject(this);
 	}
 
 	public void addArtifactRules(ITemplateRunRule[] rules)
 			throws TigerstripeException {
-		getPPProject().addArtifactRules(rules);
+		for (ITemplateRunRule rule : rules) {
+			addArtifactRule(rule);
+		}
 	}
 
 	public ITemplateRunRule[] getArtifactRules() throws TigerstripeException {
@@ -224,11 +256,14 @@ public class TigerstripePluginProjectHandle extends
 
 	public void removeArtifactRule(ITemplateRunRule rule)
 			throws TigerstripeException {
+		assertSet(ARTIFACT_RULE_F);
 		getPPProject().removeArtifactRule(rule);
+		((BaseTemplatePPluginRule)rule).setProject(null);
 	}
 
 	public void removeArtifactRules(ITemplateRunRule[] rules)
 			throws TigerstripeException {
+		assertSet(ARTIFACT_RULE_F);
 		getPPProject().removeArtifactRules(rules);
 	}
 
@@ -255,6 +290,7 @@ public class TigerstripePluginProjectHandle extends
 
 	public void addClasspathEntry(IPluginClasspathEntry entry)
 			throws TigerstripeException {
+		assertSet(CLASSPATH_ENTRY_F);
 		getPPProject().addClasspathEntry(entry);
 	}
 
@@ -271,11 +307,13 @@ public class TigerstripePluginProjectHandle extends
 
 	public void removeClasspathEntries(IPluginClasspathEntry[] entries)
 			throws TigerstripeException {
+		assertSet(CLASSPATH_ENTRY_F);
 		getPPProject().removeClasspathEntries(entries);
 	}
 
 	public void removeClasspathEntry(IPluginClasspathEntry entry)
 			throws TigerstripeException {
+		assertSet(CLASSPATH_ENTRY_F);
 		getPPProject().removeClasspathEntry(entry);
 	}
 
@@ -298,12 +336,14 @@ public class TigerstripePluginProjectHandle extends
 
 	public void addAdditionalFile(String relativePath, int includeExclude)
 			throws TigerstripeException {
+		assertSet(ADDITIONAL_FILE_F);
 		PluggablePluginProject project = getPPProject();
 		project.addAdditionalFile(relativePath, includeExclude);
 	}
 
 	public void removeAdditionalFile(String relativePath, int includeExclude)
 			throws TigerstripeException {
+		assertSet(ADDITIONAL_FILE_F);
 		PluggablePluginProject project = getPPProject();
 		project.removeAdditionalFile(relativePath, includeExclude);
 	}
@@ -325,16 +365,19 @@ public class TigerstripePluginProjectHandle extends
 
 	public void setDefaultLogLevel(LogLevel defaultLevel)
 			throws TigerstripeException {
+		assertSet(DEFAULT_LOG_LEVEL_F);
 		PluggablePluginProject project = getPPProject();
 		project.setDefaultLogLevel(defaultLevel);
 	}
 
 	public void setLogEnabled(boolean isLogEnabled) throws TigerstripeException {
+		assertSet(LOG_ENABLED_F);
 		PluggablePluginProject project = getPPProject();
 		project.setLogEnabled(isLogEnabled);
 	}
 
 	public void setLogPath(String logPath) throws TigerstripeException {
+		assertSet(LOG_PATH_F);
 		PluggablePluginProject project = getPPProject();
 		project.setLogPath(logPath);
 	}

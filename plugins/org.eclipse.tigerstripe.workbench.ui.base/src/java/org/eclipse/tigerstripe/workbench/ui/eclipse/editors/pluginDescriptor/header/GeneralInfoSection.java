@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -239,18 +240,19 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 			ITigerstripePluginProject handle = getIPluggablePluginProject();
 
 			try {
+				IProjectDetails details = handle.getProjectDetails();
 				if (e.getSource() == nameText) {
-					handle.getProjectDetails().setName(
-							nameText.getText().trim());
+					details.setName(nameText.getText().trim());
+					handle.setProjectDetails(details);
 				} else if (e.getSource() == versionText) {
-					handle.getProjectDetails().setVersion(
-							versionText.getText().trim());
+					details.setVersion(versionText.getText().trim());
+					handle.setProjectDetails(details);
 				} else if (e.getSource() == descriptionText) {
-					handle.getProjectDetails().setDescription(
-							descriptionText.getText().trim());
+					details.setDescription(descriptionText.getText().trim());
+					handle.setProjectDetails(details);
 				} else if (e.getSource() == providerText) {
-					handle.getProjectDetails().setProvider(
-							providerText.getText().trim());
+					details.setProvider(providerText.getText().trim());
+					handle.setProjectDetails(details);
 				}
 			} catch (TigerstripeException ee) {
 				Status status = new Status(

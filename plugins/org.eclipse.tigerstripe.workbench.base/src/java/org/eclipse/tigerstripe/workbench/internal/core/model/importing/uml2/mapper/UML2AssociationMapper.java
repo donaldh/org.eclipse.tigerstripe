@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.anno
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.uml2.uml.NamedElement;
 
 public class UML2AssociationMapper extends UML2BaseMapper {

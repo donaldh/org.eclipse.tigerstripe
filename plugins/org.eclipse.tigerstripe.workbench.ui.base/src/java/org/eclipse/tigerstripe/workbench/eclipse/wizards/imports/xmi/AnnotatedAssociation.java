@@ -13,9 +13,9 @@ package org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.xmi;
 import java.util.Properties;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableAssociationEnd;
-import org.eclipse.tigerstripe.workbench.model.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.workbench.model.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 
 public class AnnotatedAssociation extends AnnotatedElement {
 

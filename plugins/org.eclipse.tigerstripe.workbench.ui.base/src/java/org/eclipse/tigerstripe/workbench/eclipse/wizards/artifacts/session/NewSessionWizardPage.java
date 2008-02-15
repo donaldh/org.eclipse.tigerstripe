@@ -24,7 +24,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefin
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.entity.EntityDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
-import org.eclipse.tigerstripe.workbench.model.artifacts.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 /**
  * @author Eric Dillon
