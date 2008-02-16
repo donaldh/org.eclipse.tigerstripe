@@ -26,7 +26,6 @@ import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.workbench.internal.api.model.ModelManager;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpoint;
 import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
@@ -64,8 +63,6 @@ public abstract class TigerstripeProjectHandle extends
 	private final static String FACET_REFERENCE_F = "facetReference";
 
 	private INameProvider nameProvider;
-
-	private ModelManager modelManager;
 
 	private ArtifactManager manager;
 

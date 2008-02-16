@@ -17,8 +17,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.modelManager.IModelRepository;
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
+import org.eclipse.tigerstripe.workbench.model.IModelRepository;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -76,7 +76,7 @@ public class TestManagedEntityMigration extends TestCase {
 		IModelRepository repo = mMgr.getDefaultRepository();
 
 		// This should go away soon as clients shouldn't be worried about that.
-		repo.refresh();
+		repo.refresh(null);
 
 		org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact nMea = (org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact) repo
 				.getArtifactByFullyQualifiedName("com.mycompany.testON.Mea");
@@ -93,6 +93,10 @@ public class TestManagedEntityMigration extends TestCase {
 		nMea.setPackage("com.mycompany.testNO");
 		repo.store(nMea, true);
 
+		// At this stage, you need to be in the edit domain to make changes to nMea
+		
+		nMea.setAbstract(true);
+		
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 		session.refresh(true, new NullProgressMonitor()); // required
 

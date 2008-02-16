@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
@@ -24,6 +25,8 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -33,16 +36,18 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
+import org.eclipse.tigerstripe.metamodel.IPackage;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.modelManager.ModelManager;
 import org.eclipse.tigerstripe.workbench.internal.modelManager.ModelRepository;
 
 public class PojoModelRepository extends ModelRepository {
 
-	private final static String POJO_EXTENSION = "java";
-	private final static URI BASE_POJO_URI = URI.createURI("pojo:///");
+	public final static String POJO_EXTENSION = "java";
+	public final static URI BASE_POJO_URI = URI.createURI("pojo:///");
 
 	private Map<String, Resource> resourceMap = new HashMap<String, Resource>();
 	private URIConverter converter = new URIConverterImpl();
@@ -50,6 +55,13 @@ public class PojoModelRepository extends ModelRepository {
 	public PojoModelRepository(URI repository, ModelManager manager) {
 		super(repository, manager);
 		converter.getURIMap().put(BASE_POJO_URI, repository);
+
+		getEditingDomain().addResourceSetListener(
+				new PojoModelRepositoryListener(this));
+	}
+
+	public URI normalize(URI uri) {
+		return converter.normalize(uri);
 	}
 
 	private final class AllPojosVisitor implements IResourceVisitor {
@@ -98,39 +110,89 @@ public class PojoModelRepository extends ModelRepository {
 	}
 
 	@Override
-	public IAbstractArtifact store(IAbstractArtifact workingCopy, boolean force)
-			throws TigerstripeException {
-		String fqn = workingCopy.getFullyQualifiedName();
-		Resource targetResource = resourceMap.get(fqn);
-		if (targetResource == null) {
-			targetResource = createPojoResource(workingCopy);
-			resourceMap.put(fqn, targetResource);
-			EObject original = EcoreUtil.copy(workingCopy);
-			targetResource.getContents().add(original);
-		}
+	public IAbstractArtifact store(final IAbstractArtifact artifact,
+			boolean force) throws TigerstripeException {
 
-		try {
-			if (!targetResource.isLoaded())
-				targetResource.load(null);
-			IAbstractArtifact original = (IAbstractArtifact) targetResource
-					.getContents().get(0);
-			applyChanges(original, workingCopy);
+		assert (artifact != null);
 
-			targetResource.save(null);
-		} catch (IOException e) {
-			throw new TigerstripeException("while trying to store: " + e);
-		}
-		return workingCopy;
-	}
+		TransactionalEditingDomain editingDomain = getEditingDomain();
 
-	private Resource createPojoResource(IAbstractArtifact workingCopy)
-			throws TigerstripeException {
-		String pojoPath = workingCopy.getPackage().replace('.', '/');
-		String pojoName = workingCopy.getName() + "." + POJO_EXTENSION;
-		URI resourceURI = URI.createURI("pojo:///" + pojoPath + "/" + pojoName);
-		Resource res = getResourceSet().createResource(
-				converter.normalize(resourceURI));
-		return res;
+		String fqn = artifact.getFullyQualifiedName();
+		final URI uri = PojoUtils.getURIforFQN(fqn, this);
+
+		// If no artifact existed for this URI, the resource would have been
+		// created but would be empty.
+		editingDomain.getCommandStack().execute(new AbstractCommand() {
+
+			@Override
+			public boolean canExecute() {
+				return true;
+			}
+
+			@Override
+			public void execute() {
+				try {
+					Resource targetResource = artifact.eResource();
+					if (targetResource == null) {
+						// Trying to store a working copy
+						targetResource = getResourceSet().getResource(uri,
+								false);
+						if (targetResource == null) {
+							targetResource = getResourceSet().createResource(
+									uri);
+							targetResource.getContents().add(artifact);
+						} else {
+							if (!targetResource.isLoaded())
+								targetResource.load(null);
+							IAbstractArtifact original = (IAbstractArtifact) targetResource
+									.getContents().get(0);
+							applyChanges(original, artifact);
+						}
+					} else {
+						URI oldUri = targetResource.getURI();
+						if (oldUri == uri) {
+							// The artifact hasn't been renamed, no problem
+							IAbstractArtifact original = (IAbstractArtifact) targetResource
+									.getContents().get(0);
+							applyChanges(original, artifact);
+						} else {
+							// the artifact has been renamed. We need to remove
+							// the old resource
+							// and create a new one.
+							targetResource.unload();
+							getResourceSet().getResources().remove(
+									targetResource);
+							IResource[] res = ResourcesPlugin.getWorkspace()
+									.getRoot().findFilesForLocation(
+											new Path(oldUri.toFileString()));
+							IFile file = (IFile) res[0];
+							try {
+								file.delete(true, null);
+							} catch (CoreException e) {
+								BasePlugin.log(e);
+							}
+							targetResource = getResourceSet().createResource(
+									uri);
+							targetResource.getContents().add(artifact);
+						}
+					}
+
+					targetResource.save(null);
+
+				} catch (IOException e) {
+					e.printStackTrace();
+					BasePlugin.log(e); // TODO gracefully handle this
+				}
+			}
+
+			@Override
+			public void redo() {
+				// nothing here
+			}
+
+		});
+
+		return artifact;
 	}
 
 	private void applyChanges(IAbstractArtifact original,
@@ -171,12 +233,8 @@ public class PojoModelRepository extends ModelRepository {
 		return null;
 	}
 
-	@Override
-	public boolean isLocal() {
-		return true;
-	}
-
-	public void refresh() {
+	public void refresh(IPackage rootPackage) {
+		// TODO: implement me!
 		try {
 			loadResourceSet();
 			System.out.println("" + resourceMap);
@@ -184,4 +242,5 @@ public class PojoModelRepository extends ModelRepository {
 			e.printStackTrace();
 		}
 	}
+
 }

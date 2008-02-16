@@ -18,8 +18,8 @@ import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.modelManager.IModelRepository;
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
+import org.eclipse.tigerstripe.workbench.model.IModelRepository;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -102,7 +102,7 @@ public class TestModelManager extends TestCase {
 			System.out.println(art);
 		}
 
-		repo.refresh();
+		repo.refresh(null);
 
 		IManagedEntityArtifact art = (IManagedEntityArtifact) repo
 				.getArtifactByFullyQualifiedName("com.mycompany.Meuh");

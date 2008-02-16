@@ -106,7 +106,6 @@ public abstract class AbstractArtifactWriter {
 		} finally {
 			try {
 				getWriter().flush();
-				getWriter().close();
 			} catch (IOException e) {
 				// ignore
 				throw new TigerstripeException(

@@ -23,6 +23,9 @@ import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
+import org.eclipse.tigerstripe.workbench.model.IModelRepository;
+import org.eclipse.tigerstripe.workbench.model.IModuleRepository;
+import org.eclipse.tigerstripe.workbench.model.IReferencedProjectRepository;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -91,33 +94,24 @@ public class ModelManager implements IModelManager {
 			throws TigerstripeException {
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 		for (IModelRepository repository : repositories.values()) {
-			if (repository.isLocal()) {
+			if (RepositoryUtils.isLocal(repository))
 				result.addAll(repository.getAllArtifacts());
-			} else if (includeDependencies) {
+			else if (includeDependencies)
 				result.addAll(repository.getAllArtifacts());
-			}
 		}
 		return result.toArray(new IAbstractArtifact[result.size()]);
 	}
 
 	@Override
-	public void addRepository(IModelRepository repository)
+	public void setRepositories(IModelRepository[] repositories)
 			throws TigerstripeException {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public Collection<IModelRepository> getRepositories() {
-		// TODO Auto-generated method stub
+	public List<IModelRepository> getRepositories() {
+
 		return null;
-	}
-
-	@Override
-	public void removeRepository(IModelRepository repository)
-			throws TigerstripeException {
-		// TODO Auto-generated method stub
-
 	}
 
 }

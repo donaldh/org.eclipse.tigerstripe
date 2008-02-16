@@ -13,18 +13,27 @@ package org.eclipse.tigerstripe.workbench.internal.modelManager;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.IModelRepository;
 
 public abstract class ModelRepository implements IModelRepository {
 
-	private URI repositoryURI;
-	private ModelManager manager;
-	protected ResourceSet resourceSet = new ResourceSetImpl();
+	private URI repositoryURI = null;
+	private ModelManager manager = null;
+	private TransactionalEditingDomain editingDomain = null;
 
 	public ModelRepository(URI repositoryURI, ModelManager manager) {
 		this.repositoryURI = repositoryURI;
 		this.manager = manager;
+		ResourceSet resourceSet = new ResourceSetImpl();
+		this.editingDomain = TigerstripeTxFactory.INSTANCE
+				.createEditingDomain(resourceSet);
+	}
+
+	public TransactionalEditingDomain getEditingDomain() {
+		return this.editingDomain;
 	}
 
 	protected ModelManager getManager() {
@@ -36,7 +45,7 @@ public abstract class ModelRepository implements IModelRepository {
 	}
 
 	public ResourceSet getResourceSet() {
-		return resourceSet;
+		return editingDomain.getResourceSet();
 	}
 
 	protected abstract void loadResourceSet() throws TigerstripeException;
@@ -44,4 +53,7 @@ public abstract class ModelRepository implements IModelRepository {
 	public abstract IAbstractArtifact store(IAbstractArtifact workingCopy,
 			boolean force) throws TigerstripeException;
 
+	public boolean isReadonly() {
+		return false;
+	}
 }

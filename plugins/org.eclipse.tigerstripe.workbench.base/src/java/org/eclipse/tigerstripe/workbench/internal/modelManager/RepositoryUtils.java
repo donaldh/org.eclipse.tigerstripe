@@ -10,21 +10,20 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.modelManager;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.modelManager.repository.pojo.PojoModelRepository;
 import org.eclipse.tigerstripe.workbench.model.IModelRepository;
+import org.eclipse.tigerstripe.workbench.model.IModuleRepository;
+import org.eclipse.tigerstripe.workbench.model.IReferencedProjectRepository;
 
-public class ModelRepositoryFactory {
+public class RepositoryUtils {
 
-	public static ModelRepositoryFactory INSTANCE = new ModelRepositoryFactory();
-	
-	private ModelRepositoryFactory() {
-
-	}
-
-	public IModelRepository createRepository(URI repositoryURI, ModelManager manager)
-			throws TigerstripeException {
-		return new PojoModelRepository(repositoryURI, manager);
+	/**
+	 * Returns true if the given repository is a local repository, i.e. it is
+	 * not a IModuleRepository or a IReferencedProjectRepository.
+	 * 
+	 * @param repository
+	 * @return
+	 */
+	public static boolean isLocal(IModelRepository repository) {
+		return !(repository instanceof IModuleRepository || repository instanceof IReferencedProjectRepository);
 	}
 }

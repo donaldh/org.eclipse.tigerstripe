@@ -11,21 +11,55 @@
 package org.eclipse.tigerstripe.workbench.model;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.modelManager.IModelRepository;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
+/**
+ * A IModelManager is the holder of the model for a
+ * {@link ITigerstripeModelProject}. There is one single IModelManager per
+ * {@link ITigerstripeModelProject}.
+ * 
+ * A IModelManager provides an logical abstraction and some indexing support for
+ * a number of {@link IModelRepository} which are used in a "classpath fashion"
+ * to resolve any Artifact in the model.
+ * 
+ * Each IModelManager may have multiple local repositories, but will always have
+ * a "defaultRepository" which must be a writeable repository (this corresponds
+ * to the old src/ directory by default). It is the first repository on the list
+ * of repositories for an IModelManager.
+ * 
+ * As IModelRepositories are added/removed to a IModelManager, internal indexes
+ * are updated. These indexes are only there to speed up lookups and queries
+ * that can be run against a IModelManager.
+ * 
+ * @author erdillon
+ * 
+ */
 public interface IModelManager {
 
 	public IModelRepository getDefaultRepository();
 
-	public Collection<IModelRepository> getRepositories();
+	/**
+	 * Returns an unmodifiable list of all the repository in the order they were
+	 * registered
+	 * 
+	 * @return
+	 */
+	public List<IModelRepository> getRepositories();
 
-	public void addRepository(IModelRepository repository)
-			throws TigerstripeException;
-
-	public void removeRepository(IModelRepository repository)
+	/**
+	 * Sets the repositories for this IModelManager
+	 * 
+	 * NOTE: the first repository will be considered the default repository and
+	 * must be a valid writeable IModelRepository
+	 * 
+	 * @param repositories
+	 * @throws TigerstripeException
+	 */
+	public void setRepositories(IModelRepository[] repositories)
 			throws TigerstripeException;
 
 	public IAbstractArtifact[] findAllArtifacts(String fullyQualifiedName)
