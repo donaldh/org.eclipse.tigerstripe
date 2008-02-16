@@ -10,11 +10,17 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.migration;
 
+import java.util.Collection;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
 import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -57,6 +63,7 @@ public class TestArtifactRefactor extends TestCase {
 		nMea.setPackage("com.mycompany.testNO");
 		repo.store(nMea, true);
 
+		URI oldUri = nMea.eResource().getURI();
 		final IManagedEntityArtifact fMea = nMea;
 
 		TransactionalEditingDomain editingDomain = repo.getEditingDomain();
@@ -82,6 +89,20 @@ public class TestArtifactRefactor extends TestCase {
 		});
 
 		URI newURI = nMea.eResource().getURI();
-		System.out.println("new URI=" + newURI);
+
+		// Check that the old POJO was removed from disk
+		IResource oldPojo = ResourcesPlugin.getWorkspace().getRoot()
+				.findMember(oldUri.toPlatformString(true));
+		assertTrue(oldPojo == null);
+
+		// Check the new one is there
+		IResource newPojo = ResourcesPlugin.getWorkspace().getRoot()
+				.findMember(newURI.toPlatformString(true));
+		assertTrue(newPojo instanceof IFile && newPojo.exists());
+
+		Collection<IAbstractArtifact> allArts = repo.getAllArtifacts();
+		assertTrue(allArts.size() == 1);
+		assertTrue("com.moo.newName".equals(allArts.iterator().next()
+				.getFullyQualifiedName()));
 	}
 }
