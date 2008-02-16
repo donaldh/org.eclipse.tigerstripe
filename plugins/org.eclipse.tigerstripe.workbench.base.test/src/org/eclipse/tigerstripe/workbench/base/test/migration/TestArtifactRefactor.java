@@ -12,13 +12,14 @@ package org.eclipse.tigerstripe.workbench.base.test.migration;
 
 import java.util.Collection;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
 import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
@@ -29,8 +30,6 @@ import org.eclipse.tigerstripe.workbench.model.IModelManager;
 import org.eclipse.tigerstripe.workbench.model.IModelRepository;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-
-import junit.framework.TestCase;
 
 public class TestArtifactRefactor extends TestCase {
 
