@@ -397,9 +397,8 @@ public class PostInstallActions {
 					public boolean accept(File pathname) {
 						boolean result = pathname.toString().contains(
 								"org" + File.separator + "eclipse"
-										+ File.separator + "tigerstripe"
-										+ File.separator + "api"
-										+ File.separator + "external");
+										+ File.separator + "tigerstripe")
+								&& !pathname.toString().contains("internal");
 						return result;
 					}
 
