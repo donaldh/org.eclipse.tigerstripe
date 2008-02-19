@@ -17,6 +17,7 @@ import java.util.List;
 import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
@@ -335,12 +336,15 @@ public class Stereotype implements IStereotype {
 					.attributeValue("attribute")));
 			details.setMethodLevel("true"
 					.equals(scope.attributeValue("method")));
-			details.setLiteralLevel("true".equals(scope.attributeValue("label")));
+			details.setLiteralLevel("true"
+					.equals(scope.attributeValue("label")));
 			details.setArtifactLevelTypes(null);
 			ArrayList<String> incls = new ArrayList<String>();
 			for (Iterator<Element> iter = scope
 					.elementIterator("artifactLevelType"); iter.hasNext();) {
-				incls.add(iter.next().getText());
+				incls.add(MigrationHelper
+						.profileMigrateAnnotationArtifactLevelType(iter.next()
+								.getText()));
 			}
 			if (incls.size() != 0) {
 				details.setArtifactLevelTypes(incls.toArray(new String[incls

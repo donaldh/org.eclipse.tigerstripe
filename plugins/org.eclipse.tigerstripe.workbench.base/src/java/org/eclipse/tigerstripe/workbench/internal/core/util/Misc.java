@@ -60,29 +60,6 @@ public class Misc {
 			{ IDependencyArtifact.class.getName(), DependencyArtifact.LABEL },
 			{ IEnumArtifact.class.getName(), EnumArtifact.LABEL } };
 
-	// private final static String[][] artifactImages = {
-	// { IManagedEntityArtifact.class.getName(),
-	// TigerstripePluginImages.ENTITY_ICON},
-	// { IDatatypeArtifact.class.getName(),
-	// TigerstripePluginImages.DATATYPE_ICON},
-	// { IAssociationArtifact.class.getName(),
-	// TigerstripePluginImages.ASSOCIATION_ICON },
-	// { IAssociationClassArtifact.class.getName(),
-	// TigerstripePluginImages.ASSOCIATIONCLASS_ICON },
-	// { IEventArtifact.class.getName(),
-	// TigerstripePluginImages.NOTIFICATION_ICON},
-	// { IExceptionArtifact.class.getName(),
-	// TigerstripePluginImages.EXCEPTION_ICON },
-	// { ISessionArtifact.class.getName(), TigerstripePluginImages.SESSION_ICON
-	// },
-	// { IQueryArtifact.class.getName(), TigerstripePluginImages.QUERY_ICON },
-	// { IUpdateProcedureArtifact.class.getName(),
-	// TigerstripePluginImages.UPDATEPROC_ICON },
-	// { IPrimitiveTypeArtifact.class.getName(),
-	// TigerstripePluginImages.PRIMITIVE_ICON },
-	// { IEnumArtifact.class.getName(), TigerstripePluginImages.ENUM_ICON }
-	// };
-	//	
 	public Misc() {
 		super();
 		// TODO Auto-generated constructor stub
