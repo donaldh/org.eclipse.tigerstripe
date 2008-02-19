@@ -42,11 +42,15 @@ public class StereotypeUpdateCommand extends
 			element.setIsReadonly(artifact.isReadonly());
 
 		ArrayList<String> strs = new ArrayList<String>();
-		for (IStereotypeInstance instance : artifact
-				.getStereotypeInstances()) {
+		for (IStereotypeInstance instance : artifact.getStereotypeInstances()) {
 			String name = instance.getName();
 			if (!element.getStereotypes().contains(name)) {
 				element.getStereotypes().add(name);
+				element.setIsAbstract(artifact.isAbstract());// Bug 219454:
+																// this is a
+																// hack to
+				// force the diagram to go dirty as the stereotype add
+				// doesn't??????
 			}
 		}
 
@@ -68,8 +72,18 @@ public class StereotypeUpdateCommand extends
 		if (forRemoval.size() != 0) {
 			if (forRemoval.size() != element.getStereotypes().size()) {
 				element.getStereotypes().removeAll(forRemoval);
+				element.setIsAbstract(artifact.isAbstract());// Bug 219454:
+																// this is a
+																// hack to
+				// force the diagram to go dirty as the stereotype add
+				// doesn't??????
 			} else {
 				element.resetStereotypes();
+				element.setIsAbstract(artifact.isAbstract());// Bug 219454:
+																// this is a
+																// hack to
+				// force the diagram to go dirty as the stereotype add
+				// doesn't??????
 			}
 		}
 	}

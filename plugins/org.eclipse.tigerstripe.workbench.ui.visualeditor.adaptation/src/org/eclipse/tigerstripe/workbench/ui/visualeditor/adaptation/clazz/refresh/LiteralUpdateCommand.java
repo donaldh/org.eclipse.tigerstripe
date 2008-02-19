@@ -103,6 +103,9 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 						.getStereotypeInstances().size()) {
 					// not even the same number of args, let's redo the list
 					eLiteral.getStereotypes().clear();
+					eLiteral.setName(iLiteral.getName());// Bug 219454: this is a hack to 
+					// force the diagram to go dirty as the stereotype add doesn't??????
+
 					for (IStereotypeInstance stereo : iLiteral
 							.getStereotypeInstances()) {
 						eLiteral.getStereotypes().add(stereo.getName());
@@ -119,6 +122,8 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 						if (!eStereotypeName.equals(iStereotypeName)) {
 							eLiteral.getStereotypes().remove(eStereo);
 							eLiteral.getStereotypes().add(iStereotypeName);
+							eLiteral.setName(iLiteral.getName());// Bug 219454: this is a hack to 
+							// force the diagram to go dirty as the stereotype add doesn't??????
 						}
 					}
 				}

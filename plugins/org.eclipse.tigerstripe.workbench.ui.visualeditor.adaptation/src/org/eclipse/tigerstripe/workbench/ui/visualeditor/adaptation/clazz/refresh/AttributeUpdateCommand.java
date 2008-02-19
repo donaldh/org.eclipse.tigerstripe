@@ -216,6 +216,8 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 							// not even the same number of args, let's redo the
 							// list
 							eAttribute.getStereotypes().clear();
+							eAttribute.setName(field.getName());// Bug 219454: this is a hack to 
+							// force the diagram to go dirty as the stereotype add doesn't??????
 							for (IStereotypeInstance stereo : field
 									.getStereotypeInstances()) {
 								eAttribute.getStereotypes().add(
@@ -237,6 +239,8 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 									eAttribute.getStereotypes().remove(eStereo);
 									eAttribute.getStereotypes().add(
 											iStereotypeName);
+									eAttribute.setName(field.getName());// Bug 219454: this is a hack to 
+									// force the diagram to go dirty as the stereotype add doesn't??????
 								}
 							}
 						}

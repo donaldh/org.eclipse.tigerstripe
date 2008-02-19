@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
@@ -79,7 +81,7 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 			IAbstractArtifact iArtifact) {
 		migrateMultiplicities(eArtifact);
 
-		// go thru attributes in the EMF domain
+		// go thru methods in the EMF domain
 		List<Method> eMethods = eArtifact.getMethods();
 		List<Method> toDelete = new ArrayList<Method>();
 		for (Method eMethod : eMethods) {
@@ -312,9 +314,11 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 		eMethods = eArtifact.getMethods();
 		for (IMethod iMethod : iArtifact.getMethods()) {
 			boolean found = false;
+			Method theMethod = null;
 			for (Method eMethod : eMethods) {
 				if (eMethod.getLabelString().equals(iMethod.getLabelString())) {
 					found = true;
+					theMethod = eMethod;
 					// continue;
 				}
 			}
@@ -366,10 +370,77 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 					for (IStereotypeInstance instance : iMethod
 							.getStereotypeInstances()) {
 						meth.getStereotypes().add(instance.getName());
+						meth.setName(iMethod.getName());// Bug 219454: this is a
+						// hack to
+						// force the diagram to go dirty as the stereotype add
+						// doesn't??????
 					}
 
 				}
 
+			} else {
+				// The method with that signature exists but we need to check
+				// that all attributes are correct
+				if (theMethod.getVisibility() != ClassDiagramUtils
+						.toVisibility(iMethod.getVisibility()))
+					theMethod.setVisibility(ClassDiagramUtils
+							.toVisibility(iMethod.getVisibility()));
+
+				if (theMethod.isIsAbstract() != iMethod.isAbstract())
+					theMethod.setIsAbstract(iMethod.isAbstract());
+
+				if (theMethod.getDefaultValue() != iMethod
+						.getDefaultReturnValue())
+					theMethod.setDefaultValue(iMethod.getDefaultReturnValue());
+
+				if (theMethod.isIsOrdered() != iMethod.isOrdered())
+					theMethod.setIsOrdered(iMethod.isOrdered());
+
+				if (theMethod.isIsUnique() != iMethod.isUnique())
+					theMethod.setIsUnique(iMethod.isUnique());
+
+				IType iMethodType = iMethod.getReturnType();
+				if (theMethod.getTypeMultiplicity() != ClassDiagramUtils
+						.mapTypeMultiplicity(iMethodType.getTypeMultiplicity()))
+					theMethod.setTypeMultiplicity(ClassDiagramUtils
+							.mapTypeMultiplicity(iMethodType
+									.getTypeMultiplicity()));
+
+				if (theMethod.getStereotypes().size() != iMethod
+						.getStereotypeInstances().size()) {
+					// different number of stereotypes.
+					theMethod.getStereotypes().clear();
+					theMethod.setName(iMethod.getName());// Bug 219454: this
+															// is a hack to
+					// force the diagram to go dirty as the stereotype add
+					// doesn't??????
+
+					for (IStereotypeInstance stereo : iMethod
+							.getStereotypeInstances()) {
+						theMethod.getStereotypes().add(stereo.getName());
+					}
+				} else {
+					// same number of stereotypes let's see if they all match
+					List<String> eStereotypes = theMethod.getStereotypes();
+					Iterator<String> eStereo = eStereotypes.iterator();
+					Collection<IStereotypeInstance> iStereotypes = iMethod
+							.getStereotypeInstances();
+					for (IStereotypeInstance iStereo : iStereotypes) {
+						String eStereotypeName = eStereo.next();
+						String iStereotypeName = iStereo.getName();
+
+						if (!eStereotypeName.equals(iStereotypeName)) {
+							theMethod.getStereotypes().remove(eStereo);
+							theMethod.getStereotypes().add(iStereotypeName);
+							theMethod.setName(iMethod.getName());// Bug
+																	// 219454:
+																	// this is a
+																	// hack to
+							// force the diagram to go dirty as the stereotype
+							// add doesn't??????
+						}
+					}
+				}
 			}
 		}
 
