@@ -606,14 +606,14 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		public Object[] getElements(Object inputElement) {
 			IMethod mtd = (IMethod) getMethod();
-			if (mtd != null){
+			if (mtd != null) {
 				Object[] args = new Object[mtd.getArguments().size()];
-				Iterator<IArgument> argIterator  = mtd.getArguments().iterator();
-				for (int i=0;i<mtd.getArguments().size();i++){
+				Iterator<IArgument> argIterator = mtd.getArguments().iterator();
+				for (int i = 0; i < mtd.getArguments().size(); i++) {
 					args[i] = argIterator.next();
 				}
-				return  args;
-			}		
+				return args;
+			}
 			return new IMethod.IArgument[0];
 		}
 
@@ -716,14 +716,15 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		public Object[] getElements(Object inputElement) {
 			IMethod mtd = (IMethod) getMethod();
 			if (mtd != null)
-				if (mtd != null){
+				if (mtd != null) {
 					Object[] excs = new Object[mtd.getExceptions().size()];
-					Iterator<IException> excIterator  = mtd.getExceptions().iterator();
-					for (int i=0;i<mtd.getExceptions().size();i++){
+					Iterator<IException> excIterator = mtd.getExceptions()
+							.iterator();
+					for (int i = 0; i < mtd.getExceptions().size(); i++) {
 						excs[i] = excIterator.next();
 					}
-					return  excs;
-				}		
+					return excs;
+				}
 			return new IMethod.IException[0];
 		}
 
@@ -930,8 +931,9 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		typeText.setText(Misc.removeJavaLangString(getMethod().getReturnType()
 				.getFullyQualifiedName()));
 		if (!getMethod().isVoid()) {
-			multiplicityCombo.select(IModelComponent.EMultiplicity.indexOf(getMethod()
-					.getReturnType().getTypeMultiplicity()));
+			multiplicityCombo
+					.select(IModelComponent.EMultiplicity.indexOf(getMethod()
+							.getReturnType().getTypeMultiplicity()));
 			updateDefaultValueCombo();
 			defaultReturnValue.setEnabled(!isReadOnly);
 			editReturnAnnotations.setEnabled(!isReadOnly);
@@ -1021,14 +1023,10 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	}
 
 	private void setVisibility(EVisibility visibility) {
-		publicButton
-				.setSelection(visibility.equals(EVisibility.PUBLIC));
-		protectedButton
-				.setSelection(visibility.equals(EVisibility.PROTECTED));
-		privateButton
-				.setSelection(visibility.equals(EVisibility.PRIVATE));
-		packageButton
-				.setSelection(visibility.equals(EVisibility.PACKAGE));
+		publicButton.setSelection(visibility.equals(EVisibility.PUBLIC));
+		protectedButton.setSelection(visibility.equals(EVisibility.PROTECTED));
+		privateButton.setSelection(visibility.equals(EVisibility.PRIVATE));
+		packageButton.setSelection(visibility.equals(EVisibility.PACKAGE));
 	}
 
 	private EVisibility getVisibility() {
@@ -1085,8 +1083,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				&& event.getSource() == this.multiplicityCombo) {
 			IType type = getMethod().makeType();
 			type.setFullyQualifiedName(this.typeText.getText().trim());
-			type.setTypeMultiplicity(IModelComponent.EMultiplicity.at(multiplicityCombo
-					.getSelectionIndex()));
+			type.setTypeMultiplicity(IModelComponent.EMultiplicity
+					.at(multiplicityCombo.getSelectionIndex()));
 			getMethod().setReturnType(type);
 			pageModified();
 		} else if (event.getSource() == refByKeyButton) {
@@ -1136,7 +1134,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(master
-					.getIArtifact().getTigerstripeProject(), new IAbstractArtifact[0]);
+					.getIArtifact().getTigerstripeProject(),
+					new IAbstractArtifact[0]);
 			dialog.setTitle("Artifact Type Selection");
 			dialog.setMessage("Enter a filter (* = any number of characters)"
 					+ " or an empty string for no filtering: ");
@@ -1171,7 +1170,18 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	private int uniqueArgCount = 0;
 
 	private String getNewUniqueArg() {
-		return "arg" + uniqueArgCount++;
+		String candidateName = null;
+		boolean duplicate = false;
+		do {
+			duplicate = false;
+			candidateName = "arg" + uniqueArgCount++;
+			for (IArgument arg : getMethod().getArguments()) {
+				if (arg.getName().equals(candidateName)) {
+					duplicate = true;
+				}
+			}
+		} while (duplicate);
+		return candidateName;
 	}
 
 	private void addArgButtonPressed() {
@@ -1257,7 +1267,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		// IJavaElement elem = JavaCore.create(input.getFile());
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(master
-					.getIArtifact().getTigerstripeProject(), ExceptionArtifact.MODEL);
+					.getIArtifact().getTigerstripeProject(),
+					ExceptionArtifact.MODEL);
 			// Fix the text for the Title and Message with the specific Artifact
 			// Type
 			// Bug # 124
@@ -1388,8 +1399,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		IJavaElement elem = JavaCore.create(input.getFile());
 
 		ArgumentEditDialog dialog = new ArgumentEditDialog(master.getSection()
-				.getShell(), selectedArgs[0], Arrays.asList(getMethod()
-				.getArguments()), elem, master.getIArtifact().getTigerstripeProject());
+				.getShell(), selectedArgs[0], getMethod().getArguments(), elem,
+				master.getIArtifact().getTigerstripeProject());
 
 		if (dialog.open() == 0) {
 			pageModified();
@@ -1419,8 +1430,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			} else if (event.getSource() == typeText) {
 				IType type = getMethod().makeType();
 				type.setFullyQualifiedName(typeText.getText().trim());
-				type.setTypeMultiplicity(IModelComponent.EMultiplicity.at(multiplicityCombo
-						.getSelectionIndex()));
+				type.setTypeMultiplicity(IModelComponent.EMultiplicity
+						.at(multiplicityCombo.getSelectionIndex()));
 				getMethod().setReturnType(type);
 				updateDefaultValueCombo();
 			} else if (event.getSource() == commentText) {

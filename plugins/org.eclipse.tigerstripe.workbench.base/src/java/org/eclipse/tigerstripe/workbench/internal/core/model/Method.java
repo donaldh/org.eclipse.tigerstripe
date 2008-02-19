@@ -105,14 +105,14 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		@Override
 		public IStereotypeInstance getStereotypeInstanceByName(String name) {
-			for (IStereotypeInstance inst : methodReturnStereotypes){
-				if (inst.getName().equals(name)){
+			for (IStereotypeInstance inst : methodReturnStereotypes) {
+				if (inst.getName().equals(name)) {
 					return inst;
 				}
 			}
 			return null;
 		}
-		
+
 		@Override
 		public boolean hasStereotypeInstance(String name) {
 			IStereotypeInstance inst = getStereotypeInstanceByName(name);
@@ -121,12 +121,13 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			else
 				return true;
 		}
-		
+
 		public void removeStereotypeInstance(IStereotypeInstance instance) {
 			((Method) theMethod).removeReturnStereotypeInstance(instance);
 		}
 
-		public void removeStereotypeInstances(Collection<IStereotypeInstance> instances) {
+		public void removeStereotypeInstances(
+				Collection<IStereotypeInstance> instances) {
 			((Method) theMethod).removeReturnStereotypeInstances(instances);
 		}
 	}
@@ -263,7 +264,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 	}
 
-	public void removeReturnStereotypeInstances(Collection<IStereotypeInstance> instances) {
+	public void removeReturnStereotypeInstances(
+			Collection<IStereotypeInstance> instances) {
 		for (IStereotypeInstance instance : instances) {
 			removeReturnStereotypeInstance(instance);
 		}
@@ -333,8 +335,9 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			if (typeMultiplicity != null) {
 				// setting proper type multiplicity is present (i.e. otherwise
 				// model is prior to 2.2rc)
-				this.returnType.setTypeMultiplicity(IModelComponent.EMultiplicity
-						.parse(typeMultiplicity));
+				this.returnType
+						.setTypeMultiplicity(IModelComponent.EMultiplicity
+								.parse(typeMultiplicity));
 			}
 		}
 
@@ -347,8 +350,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		JavaParameter[] parameters = method.getParameters();
 		for (int i = 0; i < parameters.length; i++) {
 			Type argType = new Type(parameters[i].getType().getValue(),
-					EMultiplicity.ONE,
-					getArtifactManager());
+					EMultiplicity.ONE, getArtifactManager());
 			Method.Argument arg = new Method.Argument(this, parameters[i]
 					.getName(), argType);
 			this.arguments.add(arg);
@@ -385,7 +387,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 				arg.setUnique(isUnique);
 				if (argMultiplicity != null) {
 					arg.getType().setTypeMultiplicity(
-							IModelComponent.EMultiplicity.parse(argMultiplicity));
+							IModelComponent.EMultiplicity
+									.parse(argMultiplicity));
 				}
 			}
 		}
@@ -602,8 +605,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		public String getSignature() {
 			return type.getFullyQualifiedName()
-					+ (type.getTypeMultiplicity().isArray()? "[]"
-							: "") + " " + getName();
+					+ (type.getTypeMultiplicity().isArray() ? "[]" : "") + " "
+					+ getName();
 		}
 
 		public Argument(Method parentMethod, String name, Type type) {
@@ -650,8 +653,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		@Override
 		public IStereotypeInstance getStereotypeInstanceByName(String name) {
-			for (IStereotypeInstance inst : stereotypeInstances){
-				if (inst.getName().equals(name)){
+			for (IStereotypeInstance inst : stereotypeInstances) {
+				if (inst.getName().equals(name)) {
 					return inst;
 				}
 			}
@@ -666,26 +669,28 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			else
 				return true;
 		}
-		
+
 		public void addStereotypeInstance(IStereotypeInstance instance) {
 			if (!stereotypeInstances.contains(instance)) {
 				this.stereotypeInstances.add(instance);
 			}
 		}
 
-		public void addStereotypeInstances(Collection<IStereotypeInstance> instances) {
+		public void addStereotypeInstances(
+				Collection<IStereotypeInstance> instances) {
 			for (IStereotypeInstance instance : instances) {
 				addStereotypeInstance(instance);
 			}
 		}
-		
+
 		public void removeStereotypeInstance(IStereotypeInstance instance) {
 			if (stereotypeInstances.contains(instance)) {
 				this.stereotypeInstances.remove(instance);
 			}
 		}
 
-		public void removeStereotypeInstances(Collection<IStereotypeInstance> instances) {
+		public void removeStereotypeInstances(
+				Collection<IStereotypeInstance> instances) {
 			for (IStereotypeInstance instance : instances) {
 				removeStereotypeInstance(instance);
 			}
@@ -860,9 +865,10 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			paramBuffer.append(Misc.removeJavaLangString(paramString));
 
 			if (iarg.getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
-				paramBuffer.append("["
-						+ iarg.getType().getTypeMultiplicity().getLabel()
-						+ "]");
+				paramBuffer
+						.append("["
+								+ iarg.getType().getTypeMultiplicity()
+										.getLabel() + "]");
 			}
 
 			if (iarg.getDefaultValue() != null) {
@@ -890,7 +896,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	}
 
 	public void removeArguments(Collection<IArgument> arguments) {
-		arguments.removeAll(arguments);
+		this.arguments.removeAll(arguments);
 	}
 
 	public void setArguments(Collection<IArgument> arguments) {
@@ -937,9 +943,9 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 				+ getName() + "(";
 
 		Iterator<IArgument> argIterator = getArguments().iterator();
-		while (argIterator.hasNext()){
+		while (argIterator.hasNext()) {
 			IArgument arg = argIterator.next();
-			
+
 			result = result + arg.getType().getFullyQualifiedName();
 			if (argIterator.hasNext())
 				result = result + ",";
@@ -1057,8 +1063,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		// check the validity of the method return type
 		boolean isMethodReturnCheck = true;
-		IStatus returnTypeStatus = getReturnType().validate(
-				isMethodReturnCheck);
+		IStatus returnTypeStatus = getReturnType()
+				.validate(isMethodReturnCheck);
 		if (!returnTypeStatus.isOK())
 			result.add(returnTypeStatus);
 

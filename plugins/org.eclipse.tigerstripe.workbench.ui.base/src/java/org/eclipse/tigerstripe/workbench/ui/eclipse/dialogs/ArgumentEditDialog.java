@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -135,12 +136,12 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 	private IJavaElement javaElement;
 
-	private List existingParameters;
+	private Collection<IArgument> existingParameters;
 
 	private ITigerstripeModelProject tsProject;
 
 	public ArgumentEditDialog(Shell parentShell, IArgument argument,
-			List existingArguments, IJavaElement elem,
+			Collection<IArgument> existingArguments, IJavaElement elem,
 			ITigerstripeModelProject tsProject) {
 		super(parentShell);
 
@@ -225,7 +226,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		// Check for valid name
 		String parameterName = this.attributeNameDialogField.getText().trim();
-		if (parameterName.charAt(0) >= '0' && parameterName.charAt(0) <= '9') {
+		if (parameterName.length() == 0 || (parameterName.charAt(0) >= '0' && parameterName.charAt(0) <= '9')) {
 			okEnabled = false;
 			setMessage("Invalid Argument Name.");
 		}
@@ -242,8 +243,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		}
 
 		// Check for duplicates
-		for (Iterator iter = this.existingParameters.iterator(); iter.hasNext();) {
-			IArgument ref = (IArgument) iter.next();
+		for (IArgument ref : this.existingParameters) {
 			if (ref.getName().equals(parameterName) && ref != initialArgument) {
 				okEnabled = false;
 				setMessage("Duplicate parameter name.");
@@ -386,8 +386,8 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		modifierButtons.setSelection(1 // UNIQUE
 				, initialArgument.isUnique());
 
-		multiplicityCombo.selectItem(IModelComponent.EMultiplicity.indexOf(initialArgument
-				.getType().getTypeMultiplicity()));
+		multiplicityCombo.selectItem(IModelComponent.EMultiplicity
+				.indexOf(initialArgument.getType().getTypeMultiplicity()));
 		// attributeDimensionDialogField.setText(String.valueOf(initialArgument
 		// .getIType().getMultiplicity()));
 		getShell().setText("Argument Details");
@@ -554,8 +554,8 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		org.eclipse.tigerstripe.workbench.model.deprecated_.IType type = initialArgument
 				.getType();
 		type.setFullyQualifiedName(attributeClass);
-		type.setTypeMultiplicity(IModelComponent.EMultiplicity.at(multiplicityCombo
-				.getSelectionIndex()));
+		type.setTypeMultiplicity(IModelComponent.EMultiplicity
+				.at(multiplicityCombo.getSelectionIndex()));
 
 		initialArgument.setType(type);
 		initialArgument.setComment(descriptionField.getText());
