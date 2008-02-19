@@ -45,9 +45,9 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		try{
+		try {
 			IAbstractArtifact art = mgrSession
-			.getArtifactByFullyQualifiedName(getArtifactFQN());
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
 			if (art == null)
 				return false;
 
@@ -56,8 +56,7 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 					return true;
 			}
 			return false;
-		}
-		catch (TigerstripeException t){
+		} catch (TigerstripeException t) {
 			return false;
 		}
 	}
@@ -68,10 +67,15 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
+		IMethod toRemove = null;
 		for (IMethod method : art.getMethods()) {
 			if (method.getName().equals(getMethodName())) {
-				art.removeMethods(Collections.singleton(method));
+				toRemove = method;
 			}
+		}
+
+		if (toRemove != null) {
+			art.removeMethods(Collections.singleton(toRemove));
 		}
 		art.doSave(new NullProgressMonitor());
 	}
