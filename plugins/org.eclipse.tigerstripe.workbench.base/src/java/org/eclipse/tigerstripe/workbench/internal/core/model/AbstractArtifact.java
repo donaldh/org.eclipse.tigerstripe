@@ -1004,8 +1004,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @since 2.2-beta
 	 */
 	private void removeFromExtending(IAbstractArtifact artifact) {
-		if (artifact != null && extendingArtifacts.contains(artifact)) {
-			extendingArtifacts.remove(artifact);
+		if (artifact != null && extendingArtifacts.contains(new ComparableArtifact(artifact))) {
+			extendingArtifacts.remove(new ComparableArtifact(artifact));
 		}
 	}
 
@@ -1017,7 +1017,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @since 2.2-beta
 	 */
 	private void addToExtending(IAbstractArtifact artifact) {
-		if (artifact != null && !extendingArtifacts.contains(artifact)) {
+		if (artifact != null && !extendingArtifacts.contains(new ComparableArtifact(artifact))) {
 			extendingArtifacts.add(artifact);
 		}
 	}
