@@ -29,15 +29,14 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-
 public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
-	
-private Text idText;
-	
+
+	private Text idText;
+
 	private Label idLabel;
 
 	private Text idText2;
-	
+
 	private Label idLabel2;
 
 	private boolean silentUpdate;
@@ -68,15 +67,15 @@ private Text idText;
 		}
 
 		public void widgetSelected(SelectionEvent e) {
-			
+
 		}
 
 	}
 
 	public ProjectDefaultsSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
-		super(page, parent, toolkit, Section.TITLE_BAR
-				| Section.TWISTIE | Section.COMPACT);
+		super(page, parent, toolkit, Section.TITLE_BAR | Section.TWISTIE
+				| Section.COMPACT);
 		setTitle("Project Defaults");
 		createContent();
 	}
@@ -136,7 +135,6 @@ private Text idText;
 		idText2.setEnabled(!this.isReadonly());
 		idLabel2.setEnabled(!this.isReadonly());
 
-		
 	}
 
 	private void createPreferenceMsg(Composite parent, FormToolkit toolkit) {
@@ -190,13 +188,17 @@ private Text idText;
 
 			try {
 				if (e.getSource() == idText) {
-					handle.getProjectDetails().getProperties().setProperty(
+					IProjectDetails projectDetails = handle.getProjectDetails();
+					projectDetails.getProperties().setProperty(
 							IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP,
 							idText.getText().trim());
+					handle.setProjectDetails(projectDetails);
 				} else if (e.getSource() == idText2) {
-					handle.getProjectDetails().getProperties().setProperty(
+					IProjectDetails projectDetails = handle.getProjectDetails();
+					projectDetails.getProperties().setProperty(
 							IProjectDetails.COPYRIGHT_NOTICE,
 							idText2.getText().trim());
+					handle.setProjectDetails(projectDetails);
 				}
 			} catch (TigerstripeException ee) {
 				Status status = new Status(
@@ -242,6 +244,5 @@ private Text idText;
 			EclipsePlugin.log(status);
 		}
 	}
-
 
 }

@@ -309,9 +309,12 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			public void widgetSelected(SelectionEvent e) {
 				if (!isSilentUpdate()) {
 					try {
-						getTSProject().getProjectDetails().getProperties().put(
+						IProjectDetails projectDetails = getTSProject()
+								.getProjectDetails();
+						projectDetails.getProperties().put(
 								IProjectDetails.IGNORE_FACETS,
 								Boolean.toString(ignoreFacets.getSelection()));
+						getTSProject().setProjectDetails(projectDetails);
 						markPageModified();
 					} catch (TigerstripeException ee) {
 						EclipsePlugin.log(ee);
@@ -333,10 +336,13 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			public void widgetSelected(SelectionEvent e) {
 				if (!isSilentUpdate()) {
 					try {
-						getTSProject().getProjectDetails().getProperties().put(
+						IProjectDetails projectDetails = getTSProject()
+								.getProjectDetails();
+						projectDetails.getProperties().put(
 								IProjectDetails.GENERATE_MODULES,
 								Boolean.toString(generateContainedModules
 										.getSelection()));
+						getTSProject().setProjectDetails(projectDetails);
 						markPageModified();
 					} catch (TigerstripeException ee) {
 						EclipsePlugin.log(ee);
@@ -358,10 +364,13 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			public void widgetSelected(SelectionEvent e) {
 				if (!isSilentUpdate()) {
 					try {
-						getTSProject().getProjectDetails().getProperties().put(
+						IProjectDetails projectDetails = getTSProject()
+								.getProjectDetails();
+						projectDetails.getProperties().put(
 								IProjectDetails.GENERATE_REFPROJECTS,
 								Boolean.toString(generateRefProjects
 										.getSelection()));
+						getTSProject().setProjectDetails(projectDetails);
 						markPageModified();
 					} catch (TigerstripeException ee) {
 						EclipsePlugin.log(ee);
@@ -383,11 +392,14 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			public void widgetSelected(SelectionEvent e) {
 				if (!isSilentUpdate()) {
 					try {
-						getTSProject().getProjectDetails().getProperties().put(
+						IProjectDetails projectDetails = getTSProject()
+								.getProjectDetails();
+						projectDetails.getProperties().put(
 								IProjectDetails.PROCESS_USECASES,
 								Boolean
 										.toString(processUseCases
 												.getSelection()));
+						getTSProject().setProjectDetails(projectDetails);
 						updateXsltText();
 						markPageModified();
 					} catch (TigerstripeException ee) {
@@ -411,10 +423,13 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			public void widgetSelected(SelectionEvent e) {
 				if (!isSilentUpdate()) {
 					try {
-						getTSProject().getProjectDetails().getProperties().put(
+						IProjectDetails projectDetails = getTSProject()
+								.getProjectDetails();
+						projectDetails.getProperties().put(
 								IProjectDetails.USECASE_USEXSLT,
 								Boolean.toString(useXslt.getSelection()));
 						updateXsltText();
+						getTSProject().setProjectDetails(projectDetails);
 						markPageModified();
 					} catch (TigerstripeException ee) {
 						EclipsePlugin.log(ee);
@@ -434,9 +449,12 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			public void modifyText(ModifyEvent e) {
 				if (!isSilentUpdate()) {
 					try {
-						getTSProject().getProjectDetails().getProperties()
+						IProjectDetails projectDetails = getTSProject()
+								.getProjectDetails();
+						projectDetails.getProperties()
 								.put(IProjectDetails.USECASE_XSL,
 										xsltText.getText());
+						getTSProject().setProjectDetails(projectDetails);
 						updateXsltText();
 						markPageModified();
 					} catch (TigerstripeException ee) {
@@ -505,9 +523,12 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			public void modifyText(ModifyEvent e) {
 				if (!isSilentUpdate()) {
 					try {
-						getTSProject().getProjectDetails().getProperties().put(
+						IProjectDetails projectDetails = getTSProject()
+								.getProjectDetails();
+						projectDetails.getProperties().put(
 								IProjectDetails.USECASE_PROC_EXT,
 								processedUseCaseExt.getText());
+						getTSProject().setProjectDetails(projectDetails);
 						updateXsltText();
 						markPageModified();
 					} catch (TigerstripeException ee) {
