@@ -35,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.NewTSElementWizard;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationCanceledException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.ProjectGenerator;
@@ -140,6 +141,9 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 					e);
 			EclipsePlugin.logErrorStatus(
 					"Tigerstripe Generation Error Detected.", status);
+			PluginRunStatus runStatus = new PluginRunStatus(e.getMessage());
+			runStatus.add(status);
+			result = new PluginRunStatus[] {runStatus};
 		} catch (TigerstripeException e) {
 			Status status = new Status(
 					IStatus.ERROR,
@@ -149,6 +153,9 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 					e);
 			EclipsePlugin.logErrorStatus(
 					"Tigerstripe Generation Error Detected.", status);
+			PluginRunStatus runStatus = new PluginRunStatus(e.getMessage());
+			runStatus.add(status);
+			result = new PluginRunStatus[] {runStatus};
 		}
 		// IStatus[] stats = fPage.runTigerstripe(monitor, segments); // use the
 		// full

@@ -82,6 +82,9 @@ public class ProjectGenerator {
 	private void initializeConfig() throws TigerstripeException {
 		config = new RunConfig();
 		IProjectDetails details = project.getProjectDetails();
+		config.setClearDirectoryBeforeGenerate("true".equalsIgnoreCase(details.getProperty(
+				IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
+				IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT)));
 		config.setIgnoreFacets("true".equalsIgnoreCase(details.getProperty(
 				IProjectDetails.IGNORE_FACETS,
 				IProjectDetails.IGNORE_FACETS_DEFAULT)));
@@ -105,13 +108,29 @@ public class ProjectGenerator {
 				IProjectDetails.USECASE_USEXSLT_DEFAULT));
 	}
 
+	public void deleteDirContents(File dir) throws TigerstripeException{
+		// Delete the contents - including subDiirs
+		for (File f : dir.listFiles()){
+			if (f.isFile()){
+				if (!f.delete()){
+					throw new TigerstripeException("Could not delete file "+f);
+				}
+			} else if (f.isDirectory()){
+				deleteDirContents(f);
+				if (!f.delete()){
+					throw new TigerstripeException("Could not delete directory "+f);
+				}
+			}
+		}
+	}
+	
 	public PluginRunStatus[] run(IProgressMonitor monitor)
 			throws TigerstripeException, GenerationException {
 
 		List<PluginRunStatus> overallResult = new ArrayList<PluginRunStatus>();
 
 		try {
-			monitor.beginTask("Refreshing project", IProgressMonitor.UNKNOWN);
+			monitor.beginTask("Generating project", IProgressMonitor.UNKNOWN);
 			refreshAndSetupForGeneration();
 
 			if (project == null)
@@ -132,6 +151,34 @@ public class ProjectGenerator {
 				overallResult.addAll(Arrays.asList(subResult));
 			}
 
+			// Attempt to clear the directory if requested
+			if (config.isClearDirectoryBeforeGenerate()) {
+				System.out.println("Clear it");
+				String outputPath = "";
+				String outputDir = project.getProjectDetails()
+						.getOutputDirectory();
+				String projectDir = project.getLocation()
+						.toOSString();
+
+				outputPath = projectDir + File.separator + outputDir;
+				
+				// First check if the directory exists - this may be the first time, or the user may have deleted it!
+				File outDir = new File(outputPath);
+				if (outDir.exists()){
+					// See if it is actually a dir
+					if (!outDir.isDirectory()){
+						throw new TigerstripeException("Target directory is not a directory!");
+					}
+					try {
+						deleteDirContents(outDir);
+					} catch (TigerstripeException t){
+						throw new TigerstripeException("Unable to clear target directory ("+outDir+")");
+					}
+				
+				}
+			}
+			
+			
 			// Iterate over all facets unless specified
 			if (config.isIgnoreFacets()) {
 				IFacetReference currentFacet = project.getActiveFacet();

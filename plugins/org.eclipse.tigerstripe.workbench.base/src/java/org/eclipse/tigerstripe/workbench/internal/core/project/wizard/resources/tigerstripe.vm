@@ -31,8 +31,6 @@
 	  <advancedProperty name="modelImport.useTargetProjectAsGuide">true</advancedProperty>
 	  <advancedProperty name="modelImport.db.importViews">true</advancedProperty>
 	  <advancedProperty name="modelImport.db.importTables">true</advancedProperty>
-      <advancedProperty name="generation.messagePayloadSampleDefaultlocation">$details.MessagePayloadSampleDefaultlocation</advancedProperty>
-      <advancedProperty name="generation.messagePayloadSampleAllowNetwork">$details.MessagePayloadSampleAllowNetwork</advancedProperty>
 	  <advancedProperty name="generation.generateReport">$details.GenerateReport</advancedProperty>
 	  <advancedProperty name="generation.logMessages">$details.LogMessages</advancedProperty>
 	  <advancedProperty name="misc.ignoreArtifactElementsWithoutTag">true</advancedProperty>

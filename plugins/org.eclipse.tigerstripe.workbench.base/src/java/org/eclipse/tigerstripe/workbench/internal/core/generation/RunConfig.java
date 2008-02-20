@@ -28,6 +28,9 @@ public class RunConfig implements IRunConfig {
 
 	private IProgressMonitor monitor;
 
+	private boolean clearDirectoryBeforeGenerate = "true".
+			equalsIgnoreCase(IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT);
+	
 	private boolean ignoreFacets = "true"
 			.equalsIgnoreCase(IProjectDetails.IGNORE_FACETS_DEFAULT);
 
@@ -122,6 +125,9 @@ public class RunConfig implements IRunConfig {
 	public RunConfig(ITigerstripeModelProject tsProject) {
 		try {
 			IProjectDetails details = tsProject.getProjectDetails();
+			clearDirectoryBeforeGenerate = "true".equals(details.getProperties().getProperty(
+					IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
+					IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT));
 			ignoreFacets = "true".equals(details.getProperties().getProperty(
 					IProjectDetails.IGNORE_FACETS,
 					IProjectDetails.IGNORE_FACETS_DEFAULT));
@@ -200,6 +206,15 @@ public class RunConfig implements IRunConfig {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setClearDirectoryBeforeGenerate(boolean)
+	 */
+	public void setClearDirectoryBeforeGenerate(boolean clearDirectoryBeforeGenerate) {
+		this.clearDirectoryBeforeGenerate = clearDirectoryBeforeGenerate;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isProcessUseCases()
 	 */
 	public boolean isProcessUseCases() {
@@ -260,6 +275,15 @@ public class RunConfig implements IRunConfig {
 		return ignoreFacets;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#isClearDirectoryBeforeGenerate()
+	 */
+	public boolean isClearDirectoryBeforeGenerate() {
+		return clearDirectoryBeforeGenerate;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

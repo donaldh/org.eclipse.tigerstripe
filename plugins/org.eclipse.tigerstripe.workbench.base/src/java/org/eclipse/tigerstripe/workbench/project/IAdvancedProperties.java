@@ -28,17 +28,6 @@ public interface IAdvancedProperties {
 	// should the messages generated during code generation be logged
 	public final static String PROP_GENERATION_LogMessages = "generation.logMessages";
 
-	// Moved to WSDL page for consistency
-	// public final static String
-	// PROP_GENERATION_GenerateXmlMessagePayloadSample =
-	// "generation.generateXmlMessagePayloadSample";
-
-	// should example creation be able to use Network-based schemas
-	//public final static String PROP_GENERATION_MessagePayloadSampleAllowNetwork = "generation.messagePayloadSampleAllowNetwork";
-
-	// Where to look for schemas
-	//public final static String PROP_GENERATION_MessagePayloadSampleDefaultlocation = "generation.messagePayloadSampleDefaultlocation";
-
 	// Ignore artifact elements that don't have a tigerstripe tag
 	public final static String PROP_MISC_IgnoreArtifactElementsWithoutTag = "misc.ignoreArtifactElementsWithoutTag";
 

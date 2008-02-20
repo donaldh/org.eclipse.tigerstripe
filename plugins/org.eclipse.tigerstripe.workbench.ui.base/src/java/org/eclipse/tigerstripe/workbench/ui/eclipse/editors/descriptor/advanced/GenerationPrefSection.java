@@ -65,6 +65,8 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	private Button generateRefProjects;
 
 	private Button ignoreFacets;
+	
+	private Button clearDirectoryBeforeGenerate;
 
 	private Button processUseCases;
 
@@ -296,6 +298,33 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 
 		});
 
+		clearDirectoryBeforeGenerate = toolkit.createButton(parent,
+				"Clear target directory before  generate", SWT.CHECK);
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gd.horizontalSpan = 8;
+		clearDirectoryBeforeGenerate.setLayoutData(gd);
+		clearDirectoryBeforeGenerate.setEnabled(!this.isReadonly());
+		clearDirectoryBeforeGenerate.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				if (!isSilentUpdate()) {
+					try {
+						IProjectDetails projectDetails = getTSProject()
+							.getProjectDetails();
+						projectDetails.getProperties().put(
+								IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
+								Boolean.toString(clearDirectoryBeforeGenerate.getSelection()));
+						getTSProject().setProjectDetails(projectDetails);
+						markPageModified();
+					} catch (TigerstripeException ee) {
+						EclipsePlugin.log(ee);
+					}
+				}
+			}
+		});
+		
 		ignoreFacets = toolkit.createButton(parent,
 				"Ignore selected Facets for generation", SWT.CHECK);
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
@@ -612,6 +641,11 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			outputDirectory.setText(handle.getProjectDetails()
 					.getProjectOutputDirectory());
 
+			clearDirectoryBeforeGenerate.setSelection("true".equalsIgnoreCase(handle
+					.getProjectDetails().getProperty(
+							IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
+							IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT)));
+			
 			ignoreFacets.setEnabled(handle.getFacetReferences().length != 0);
 			ignoreFacets.setSelection("true".equalsIgnoreCase(handle
 					.getProjectDetails().getProperty(

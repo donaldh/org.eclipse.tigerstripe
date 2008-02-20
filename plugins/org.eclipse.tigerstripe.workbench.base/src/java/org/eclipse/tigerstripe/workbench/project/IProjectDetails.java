@@ -21,17 +21,6 @@ import java.util.Properties;
 public interface IProjectDetails  {
 
 	// These are the properties stored within the project details
-	/*
-	 * the namespace prefix to be used when referencing the common API in
-	 * generated XSDs
-	 */
-	//public final static String OSSJ_COMMON_NAMESPACE_PREFIX = "ossj.common.namespacePrefix";
-
-	/* The target namespace for the OSSJ common schema */
-	//public final static String OSSJ_COMMON_TARGET_NAMESPACE = "ossj.common.targetNamespace";
-
-	/* The OSSJ Common schema location */
-	//public final static String OSSJ_COMMON_SCHEMA_LOCATION = "ossj.common.schemaLocation";
 
 	/* The default artifact package for newly created artifacts */
 	public final static String DEFAULTARTIFACTPACKAGE_PROP = "defaultArtifactPackage";
@@ -39,7 +28,12 @@ public interface IProjectDetails  {
 	/* The copyright notice to put as the header of all generated files */
 	public final static String COPYRIGHT_NOTICE = "copyrightNotice";
 
+	/* whether to clear the directory when generating */
+	public final static String CLEAR_DIRECTORY_BEFORE_GENERATE = "clearDirectoryBeforeGenerate";
+	public final static String CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT = "false";
+	
 	/* whether to ignore the facets if any */
+	
 	public final static String IGNORE_FACETS = "ignoreFacets";
 	public final static String IGNORE_FACETS_DEFAULT = "false";
 
@@ -76,8 +70,6 @@ public interface IProjectDetails  {
 	// ==============================================================
 	/* Mandatory values are checked for existence by the Auditor */
 	public final static String[] MANDATORY_PROPERTIES = { };
-	//		OSSJ_COMMON_NAMESPACE_PREFIX, OSSJ_COMMON_TARGET_NAMESPACE,
-	//		OSSJ_COMMON_SCHEMA_LOCATION };
 
 	public void setName(String name);
 

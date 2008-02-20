@@ -40,6 +40,8 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 	private IFacetReference facetRef;
 
 	private String context;
+	
+	private String message = "";
 
 	public void setContext(String context) {
 		this.context = context;
@@ -53,6 +55,12 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 		this.project = project;
 		this.facetRef = facetRef;
 	}
+	
+	public PluginRunStatus(String message) {
+		super(BasePlugin.getPluginId(), 222, "Plugin Run Status", null);
+		this.message = message;
+	}
+	
 
 	protected ITigerstripeModelProject getProject() {
 		return project;
@@ -88,9 +96,16 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 
 			if (hasError && includeHTML)
 				buf.append("<b>");
-			buf.append("[" + projectType + ": "
-					+ project.getProjectLabel() + ", Plugin: "
+		    buf.append("[" );
+		    buf.append(this.message);
+		    
+			if (project != null) { 
+			    buf.append(projectType + ": " + project.getProjectLabel() );
+			}
+			if (pluginConfig != null){
+					buf.append(", Plugin: "
 					+ pluginConfig.getPluginId());
+			}
 
 			if (facetRef != null && facetRef.canResolve()) {
 				String facetName = facetRef.resolve().getName();
