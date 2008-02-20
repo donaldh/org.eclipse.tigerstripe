@@ -34,10 +34,10 @@ public interface IAdvancedProperties {
 	// "generation.generateXmlMessagePayloadSample";
 
 	// should example creation be able to use Network-based schemas
-	public final static String PROP_GENERATION_MessagePayloadSampleAllowNetwork = "generation.messagePayloadSampleAllowNetwork";
+	//public final static String PROP_GENERATION_MessagePayloadSampleAllowNetwork = "generation.messagePayloadSampleAllowNetwork";
 
 	// Where to look for schemas
-	public final static String PROP_GENERATION_MessagePayloadSampleDefaultlocation = "generation.messagePayloadSampleDefaultlocation";
+	//public final static String PROP_GENERATION_MessagePayloadSampleDefaultlocation = "generation.messagePayloadSampleDefaultlocation";
 
 	// Ignore artifact elements that don't have a tigerstripe tag
 	public final static String PROP_MISC_IgnoreArtifactElementsWithoutTag = "misc.ignoreArtifactElementsWithoutTag";

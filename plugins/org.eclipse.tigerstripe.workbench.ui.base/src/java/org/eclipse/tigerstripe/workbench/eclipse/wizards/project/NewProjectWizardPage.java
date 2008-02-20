@@ -98,10 +98,6 @@ public class NewProjectWizardPage extends WizardPage {
 				.getString(GenerationPreferencePage.P_GENERATEREPORT);
 		result.logMessages = store
 				.getString(GenerationPreferencePage.P_LOGMESSAGES);
-		result.messagePayloadSampleAllowNetwork = store
-				.getString(GenerationPreferencePage.P_MESSAGEPAYLOADSAMPLEALLOWNETWORK);
-		result.messagePayloadSampleDefaultlocation = store
-				.getString(GenerationPreferencePage.P_MESSAGEPAYLOADSAMPLEDEFAULTLOCATION);
 		return result;
 	}
 

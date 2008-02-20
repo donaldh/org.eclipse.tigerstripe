@@ -225,17 +225,6 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 						IAdvancedProperties.PROP_GENERATION_LogMessages,
 						store
 								.getString(IAdvancedProperties.PROP_GENERATION_LogMessages));
-		handle
-				.setAdvancedProperty(
-						IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleAllowNetwork,
-						store
-								.getString(IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleAllowNetwork));
-		handle
-				.setAdvancedProperty(
-						IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleDefaultlocation,
-						store
-								.getString(IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleDefaultlocation));
-
 		refresh();
 		markPageModified();
 	}

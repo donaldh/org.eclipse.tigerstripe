@@ -36,8 +36,6 @@ public class GenerationPreferencePage extends FieldEditorPreferencePage
 	public static final String P_DEFAULTPACKAGE = "p.general.default.artifact.package";
 	public static final String P_GENERATEREPORT = IAdvancedProperties.PROP_GENERATION_GenerateReport;
 	public static final String P_LOGMESSAGES = IAdvancedProperties.PROP_GENERATION_LogMessages;
-	public static final String P_MESSAGEPAYLOADSAMPLEALLOWNETWORK = IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleAllowNetwork;
-	public static final String P_MESSAGEPAYLOADSAMPLEDEFAULTLOCATION = IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleDefaultlocation;
 
 	// public static final String P_DEFAULTINTERFACEPACKAGE =
 	// "p.general.default.interface.package";
@@ -60,16 +58,7 @@ public class GenerationPreferencePage extends FieldEditorPreferencePage
 				"true");
 		store.setDefault(IAdvancedProperties.PROP_GENERATION_LogMessages,
 				"false");
-		// store.setDefault(IAdvancedProperties.PROP_GENERATION_GenerateXmlMessagePayloadSample,
-		// "false");
-		store
-				.setDefault(
-						IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleAllowNetwork,
-						"false");
-		store
-				.setDefault(
-						IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleDefaultlocation,
-						"schemas");
+
 
 	}
 
@@ -110,14 +99,7 @@ public class GenerationPreferencePage extends FieldEditorPreferencePage
 //		addField(new BooleanFieldEditor(
 //				IAdvancedProperties.PROP_GENERATION_LogMessages,
 //				"&Log messages", getFieldEditorParent()));
-		addField(new BooleanFieldEditor(
-				IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleAllowNetwork,
-				"&Allow Internet Access for message payload samples",
-				getFieldEditorParent()));
-		StringFieldEditor schemaPath = new StringFieldEditor(
-				IAdvancedProperties.PROP_GENERATION_MessagePayloadSampleDefaultlocation,
-				"&Schema Path:", getFieldEditorParent());
-		addField(schemaPath);
+
 	}
 
 	public void init(IWorkbench workbench) {

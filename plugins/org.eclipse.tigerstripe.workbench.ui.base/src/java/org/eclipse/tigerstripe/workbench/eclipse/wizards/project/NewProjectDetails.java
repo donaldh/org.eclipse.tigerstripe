@@ -47,9 +47,6 @@ public class NewProjectDetails {
 
 	public String logMessages;
 
-	public String messagePayloadSampleAllowNetwork;
-
-	public String messagePayloadSampleDefaultlocation;
 
 	public String getNature() {
 		return this.nature;
@@ -131,21 +128,4 @@ public class NewProjectDetails {
 		this.logMessages = logMessages;
 	}
 
-	public String getMessagePayloadSampleAllowNetwork() {
-		return messagePayloadSampleAllowNetwork;
-	}
-
-	public void setMessagePayloadSampleAllowNetwork(
-			String messagePayloadSampleAllowNetwork) {
-		this.messagePayloadSampleAllowNetwork = messagePayloadSampleAllowNetwork;
-	}
-
-	public String getMessagePayloadSampleDefaultlocation() {
-		return messagePayloadSampleDefaultlocation;
-	}
-
-	public void setMessagePayloadSampleDefaultlocation(
-			String messagePayloadSampleDefaultlocation) {
-		this.messagePayloadSampleDefaultlocation = messagePayloadSampleDefaultlocation;
-	}
 }
