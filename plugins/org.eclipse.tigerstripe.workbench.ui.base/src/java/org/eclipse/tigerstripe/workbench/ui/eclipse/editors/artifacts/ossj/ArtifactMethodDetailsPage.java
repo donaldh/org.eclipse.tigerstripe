@@ -879,7 +879,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		isVoid.setSelection(getMethod().isVoid());
 
 		typeText.setEnabled(!isReadOnly && !getMethod().isVoid());
-		methodReturnNameText.setText(getMethod().getMethodReturnName());
+		methodReturnNameText.setText(getMethod().getReturnName());
 		methodReturnNameText.setEnabled(!isReadOnly && !getMethod().isVoid());
 
 		boolean refByEnabled = !isReadOnly && !getMethod().isVoid()

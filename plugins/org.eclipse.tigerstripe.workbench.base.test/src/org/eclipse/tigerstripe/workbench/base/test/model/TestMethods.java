@@ -81,7 +81,7 @@ public class TestMethods extends junit.framework.TestCase {
 				.equals(comment));
 		assertTrue("Method default Value changed on save", gotMethod.getDefaultReturnValue()
 				.equals(defaultReturnValue ));
-		assertTrue("Method return name changed on save", gotMethod.getMethodReturnName()
+		assertTrue("Method return name changed on save", gotMethod.getReturnName()
 				.equals(methodReturnName ));
 		assertTrue("Method abstract changed on save", gotMethod.isAbstract());
 		assertTrue("Method optional changed on save", gotMethod.isOptional());		
@@ -126,7 +126,7 @@ public class TestMethods extends junit.framework.TestCase {
 				.equals(comment));
 		assertTrue("Method default Value changed on save", gotNewMethod.getDefaultReturnValue()
 				.equals(defaultReturnValue ));
-		assertTrue("Method return name changed on save", gotNewMethod.getMethodReturnName()
+		assertTrue("Method return name changed on save", gotNewMethod.getReturnName()
 				.equals(methodReturnName ));
 		assertTrue("Method abstract changed on save", !gotNewMethod.isAbstract());
 		assertTrue("Method optional changed on save", !gotNewMethod.isOptional());		

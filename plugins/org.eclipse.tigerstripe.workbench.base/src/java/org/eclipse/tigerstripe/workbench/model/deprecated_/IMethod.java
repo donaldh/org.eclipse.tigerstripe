@@ -390,7 +390,7 @@ public interface IMethod extends IModelComponent {
 	 * 
 	 * @return
 	 */
-	public String getMethodReturnName();
+	public String getReturnName();
 
 	/**
 	 * Returns the return type for this Method. If isVoid() the result of this

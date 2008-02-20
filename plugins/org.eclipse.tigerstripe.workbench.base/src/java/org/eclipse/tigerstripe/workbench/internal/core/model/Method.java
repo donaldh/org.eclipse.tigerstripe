@@ -238,7 +238,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		this.methodReturnName = methodReturnName;
 	}
 
-	public String getMethodReturnName() {
+	public String getReturnName() {
 		return this.methodReturnName;
 	}
 
@@ -1157,7 +1157,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		result.setDefaultReturnValue(getDefaultReturnValue());
 		result.setInstanceMethod(isInstanceMethod());
 		result.setIteratorReturn(isIteratorReturn());
-		result.setMethodReturnName(getMethodReturnName());
+		result.setMethodReturnName(getReturnName());
 		result.setName(getName());
 		result.setOptional(isOptional());
 		result.setOrdered(isOrdered());

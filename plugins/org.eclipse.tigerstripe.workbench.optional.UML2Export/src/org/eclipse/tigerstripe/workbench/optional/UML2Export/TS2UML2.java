@@ -577,7 +577,7 @@ public class TS2UML2 {
 						.getTypeMultiplicity()));
 				result.setDefault(method.getDefaultReturnValue());
 				addReturnTypeStereotype(method, result);
-				result.setName(method.getMethodReturnName());
+				result.setName(method.getReturnName());
 				for (IArgument arg : method.getArguments()) {
 
 					Type argType = getUMLType(arg.getType());
@@ -669,7 +669,7 @@ public class TS2UML2 {
 						.getTypeMultiplicity()));
 				result.setDefault(method.getDefaultReturnValue());
 				addReturnTypeStereotype(method, result);
-				result.setName(method.getMethodReturnName());
+				result.setName(method.getReturnName());
 
 				for (IArgument arg : method.getArguments()) {
 

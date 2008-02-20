@@ -1034,15 +1034,15 @@ public class CompareUtils {
 									.getFullyQualifiedName(), bMethod
 									.getReturnType().getFullyQualifiedName()));
 				}
-				if (!aMethod.getMethodReturnName().equals(
-						bMethod.getMethodReturnName())) {
+				if (!aMethod.getReturnName().equals(
+						bMethod.getReturnName())) {
 					differences.add(new Difference("value", aArtifact
 							.getFullyQualifiedName(), bArtifact
 							.getFullyQualifiedName(),
 							"Artifact:Method:ReturnName",
 							methodName.toString(), aMethod
-									.getMethodReturnName(), bMethod
-									.getMethodReturnName()));
+									.getReturnName(), bMethod
+									.getReturnName()));
 				}
 				if (aMethod.getReturnType().getTypeMultiplicity() != bMethod
 						.getReturnType().getTypeMultiplicity()) {
