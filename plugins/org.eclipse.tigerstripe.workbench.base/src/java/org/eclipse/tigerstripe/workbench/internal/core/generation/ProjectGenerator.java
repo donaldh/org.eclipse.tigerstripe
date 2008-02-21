@@ -466,38 +466,34 @@ public class ProjectGenerator {
 
 				monitor.worked(1);
 			} catch (TigerstripeException e) {
+				String failureMessage = "An error was detected while triggering '"
+					+ ref.getLabel()
+					+ "' plugin. Generation maybe incomplete.";
+				if (!"".equals(e.getMessage())){
+					failureMessage = e.getMessage()+ ". Generation maybe incomplete.";
+				}
+				
 				IStatus error = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(),
-						"An error was detected while triggering '"
-								+ ref.getLabel()
-								+ "' plugin. Generation maybe incomplete.", e);
+						.getPluginId(),	failureMessage, e);
 				pluginResult.add(error);
 				result.add(pluginResult);
 				if (e.getException() != null) {
-					PluginLogger.log(LogLevel.ERROR,
-							"An error was detected while triggering '"
-									+ ref.getLabel()
-									+ "' plugin. Generation maybe incomplete.",
+					PluginLogger.log(LogLevel.ERROR,failureMessage,
 							e.getException());
 				} else {
 					PluginLogger.log(LogLevel.ERROR,
-							"An error was detected while triggering '"
-									+ ref.getLabel()
-									+ "' plugin. Generation maybe incomplete.",
+							failureMessage,
 							e);
 				}
 			} catch (Exception e) {
+				String failureMessage = "An error was detected while triggering '"
+					+ ref.getLabel()
+					+ "' plugin. Generation maybe incomplete.";
 				IStatus error = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(),
-						"An error was detected while triggering '"
-								+ ref.getLabel()
-								+ "' plugin. Generation maybe incomplete.", e);
+						.getPluginId(),failureMessage, e);
 				pluginResult.add(error);
 				result.add(pluginResult);
-				PluginLogger.log(LogLevel.ERROR,
-						"An error was detected while triggering '"
-								+ ref.getLabel()
-								+ "' plugin. Generation maybe incomplete.", e);
+				PluginLogger.log(LogLevel.ERROR,failureMessage, e);
 			} finally {
 				PluginLogger.tearDown();
 			}
