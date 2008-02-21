@@ -250,7 +250,8 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		try {
 			createApplyDefaultsButton(getBody(), getToolkit(), listener);
 			createButtons(getBody(), getToolkit());
-			createGenerationExpandable(getBody(), getToolkit(), listener);
+			//Bug 219765 - moved the buttons in the expandable to the main page
+			//createGenerationExpandable(getBody(), getToolkit(), listener);
 		} catch (TigerstripeException ee) {
 			Status status = new Status(IStatus.WARNING,
 					TigerstripePluginConstants.PLUGIN_ID, 111,
@@ -324,6 +325,24 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 				}
 			}
 		});
+		
+		
+		generateReportButton = toolkit.createButton(parent,
+				"Generate report", SWT.CHECK);
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gd.horizontalSpan = 8;
+		generateReportButton.setLayoutData(gd);
+		generateReportButton.addSelectionListener(new DefaultPageListener());
+
+		logMessagesButton = toolkit.createButton(parent,
+				"Capture standard output/error during generation.", SWT.CHECK);
+		logMessagesButton
+				.setToolTipText("Redirects standard output/error to a 'generation.log' log file during generation");
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gd.horizontalSpan = 8;
+		logMessagesButton.setLayoutData(gd);
+		logMessagesButton.addSelectionListener(new DefaultPageListener());
+		
 		
 		ignoreFacets = toolkit.createButton(parent,
 				"Ignore selected Facets for generation", SWT.CHECK);
@@ -763,7 +782,9 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		innerComposite.setLayoutData(gd);
 		lclSection.setClient(innerComposite);
 
-		generateReportButton = toolkit.createButton(innerComposite,
+		//Bug 219765 - moved the buttons in the expandable to the main page
+		
+		/*generateReportButton = toolkit.createButton(innerComposite,
 				"Generate report", SWT.CHECK);
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gd.horizontalSpan = 8;
@@ -777,7 +798,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gd.horizontalSpan = 8;
 		logMessagesButton.setLayoutData(gd);
-		logMessagesButton.addSelectionListener(listener);
+		logMessagesButton.addSelectionListener(listener);*/
 
 		getToolkit().paintBordersFor(innerComposite);
 
