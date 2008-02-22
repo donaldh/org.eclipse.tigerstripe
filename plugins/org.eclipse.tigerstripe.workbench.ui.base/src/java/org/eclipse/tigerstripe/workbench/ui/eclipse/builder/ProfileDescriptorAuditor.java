@@ -17,6 +17,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -80,7 +82,9 @@ public class ProfileDescriptorAuditor {
 		for (IPrimitiveTypeDef prim: primitiveTypes) {
 			if (!prim.isValidName()) {
 				TigerstripeProjectAuditor.reportError(
-						"Invalid primitive type name '"
+						"Invalid " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IPrimitiveTypeImpl.class.getName())
+								.getLabel() + " name '"
 								+ prim.getName() + "' detected",
 						iresource, 222);
 			} else if (!prim.isRecommendedName()) {
@@ -88,7 +92,9 @@ public class ProfileDescriptorAuditor {
 						.reportWarning(
 								"Type name '"
 										+ prim.getName()
-										+ "' is not recommended as the name of a primitive type",
+										+ "' is not recommended as the name of a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+												IPrimitiveTypeImpl.class.getName())
+												.getLabel(),
 								iresource, 222);
 			}
 		}

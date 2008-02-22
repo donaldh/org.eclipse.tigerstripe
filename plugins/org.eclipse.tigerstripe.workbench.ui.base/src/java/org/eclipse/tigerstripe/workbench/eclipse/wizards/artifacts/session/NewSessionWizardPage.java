@@ -20,6 +20,8 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.entity.EntityDefinitionGenerator;
@@ -39,8 +41,13 @@ public class NewSessionWizardPage extends NewArtifactWizardPage {
 	public NewSessionWizardPage() {
 		super(PAGE_NAME);
 
-		setTitle("Session Artifact");
-		setDescription("Create a new Session Artifact.");
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				ISessionArtifactImpl.class.getName()).getLabel()
+				+ " Artifact");
+		setDescription("Create a new "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel()
+				+ " Artifact.");
 	}
 
 	@Override

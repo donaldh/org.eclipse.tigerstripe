@@ -26,6 +26,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
@@ -262,9 +264,15 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 
 	protected String browseButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getTigerstripeProject(), new IAbstractArtifact[0]);
-		dialog.setTitle("Dependency End Type");
-		dialog.setMessage("Select the type of the Dependency End.");
+				getIArtifact().getTigerstripeProject(),
+				new IAbstractArtifact[0]);
+		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IDependencyArtifactImpl.class.getName()).getLabel()
+				+ " End Type");
+		dialog.setMessage("Select the type of the "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IDependencyArtifactImpl.class.getName()).getLabel()
+				+ " End.");
 		dialog.setIncludePrimitiveTypes(false);
 
 		try {

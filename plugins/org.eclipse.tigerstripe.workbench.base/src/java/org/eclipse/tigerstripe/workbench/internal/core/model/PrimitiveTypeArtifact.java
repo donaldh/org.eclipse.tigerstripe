@@ -14,6 +14,8 @@ import java.io.Writer;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.PrimitiveArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -38,8 +40,6 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 	 */
 	public final static PrimitiveTypeArtifact MODEL = new PrimitiveTypeArtifact(
 			null);
-
-	public final static String LABEL = "Primitive Type Artifact";
 
 	public PrimitiveTypeArtifact(ArtifactManager artifactMgr) {
 		super(artifactMgr);
@@ -83,7 +83,8 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IPrimitiveTypeImpl.class.getName()).getLabel();
 	}
 
 	public String getArtifactType() {
@@ -115,7 +116,9 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 		for (String[] rType : reservedPrimitiveTypes) {
 			String type = rType[0];
 			if (type.equals(getName()))
-				throw new TigerstripeException("Invalid primitive type, '"
+				throw new TigerstripeException("Invalid " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IPrimitiveTypeImpl.class.getName())
+						.getLabel() + "'"
 						+ type + "' is a reserved type.");
 		}
 	}

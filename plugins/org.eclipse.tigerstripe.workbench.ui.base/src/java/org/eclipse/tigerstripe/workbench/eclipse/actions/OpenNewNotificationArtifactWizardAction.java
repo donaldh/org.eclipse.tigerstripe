@@ -11,8 +11,10 @@
 package org.eclipse.tigerstripe.workbench.eclipse.actions;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.notification.NewNotificationWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -25,8 +27,9 @@ public class OpenNewNotificationArtifactWizardAction extends
 
 	@Override
 	protected void initAction() {
-		setText("Notification");
-		setImageDescriptor(TigerstripePluginImages.DESC_NOTIFICATION_NEW_ICON);
+		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IEventArtifactImpl.class.getName()).getLabel());
+		setImageDescriptor(Images.getDescriptor(Images.NOTIFICATION_ICON_NEW));
 	}
 
 	@Override

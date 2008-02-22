@@ -43,12 +43,12 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 
@@ -66,7 +66,7 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 
 	public ModuleExportWizard() {
 		setNeedsProgressMonitor(true);
-		setDefaultPageImageDescriptor(TigerstripePluginImages.DESC_TS_LOGO);
+		setDefaultPageImageDescriptor(Images.getDescriptor(Images.TS_LOGO));
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 	}
 
@@ -84,7 +84,8 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 	@Override
 	public boolean performFinish() {
 
-		final ITigerstripeModelProject tsProject = fPage.getITigerstripeProject();
+		final ITigerstripeModelProject tsProject = fPage
+				.getITigerstripeProject();
 		final IProject project = fPage.getIProject();
 		final String moduleID = fPage.getModuleID();
 		final String jarFile = fPage.getJarFile();
@@ -139,8 +140,9 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 	}
 
 	private void internalPerformFinish(IProgressMonitor monitor,
-			ITigerstripeModelProject tsProject, IProject project, String moduleID,
-			String jarFile) throws InterruptedException, CoreException {
+			ITigerstripeModelProject tsProject, IProject project,
+			String moduleID, String jarFile) throws InterruptedException,
+			CoreException {
 
 		try {
 			monitor.beginTask("Packaging project", 10);
@@ -163,8 +165,7 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 					.getPath()
 					+ File.separator + "/bin";
 			File classesDir = new File(classesDirStr);
-			packager.packageUp(file.toURI(), classesDir, header,
-					monitor);
+			packager.packageUp(file.toURI(), classesDir, header, monitor);
 
 			// Now refresh project
 			// Fixed automatic refresh which was missing - bug # 110

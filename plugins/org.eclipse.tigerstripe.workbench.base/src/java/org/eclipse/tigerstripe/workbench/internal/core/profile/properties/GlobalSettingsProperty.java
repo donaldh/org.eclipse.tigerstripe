@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.profile.properties;
 
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IWorkbenchProfileProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -32,8 +34,12 @@ public class GlobalSettingsProperty extends MultiPropertiesProfileProperty
 	private static String[][] properties = {
 			{ IMPLEMENTSRELATIONSHIP, "'Implements' Relationship", "false",
 					"Meta-model" },
-			{ ENABLE_SESSIONFACADE_ONINSTDIAG, "Enable Session Facade", "true",
-					"Instance Diagrams" }, };
+			{
+					ENABLE_SESSIONFACADE_ONINSTDIAG,
+					"Enable "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									ISessionArtifactImpl.class.getName())
+									.getLabel(), "true", "Instance Diagrams" }, };
 
 	@Override
 	protected String getPropertyLabel() {

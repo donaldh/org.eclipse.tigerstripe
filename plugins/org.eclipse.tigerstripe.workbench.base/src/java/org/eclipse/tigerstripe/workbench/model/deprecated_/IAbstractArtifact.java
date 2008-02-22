@@ -14,6 +14,7 @@ import java.io.Writer;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
@@ -107,8 +108,7 @@ public interface IAbstractArtifact extends IModelComponent {
 
 	public void setExtendedArtifact(IAbstractArtifact artifact);
 
-	public void doSave(IProgressMonitor monitor)
-			throws TigerstripeException;
+	public void doSave(IProgressMonitor monitor) throws TigerstripeException;
 
 	public void doSilentSave(IProgressMonitor monitor)
 			throws TigerstripeException;
@@ -164,7 +164,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return IArtifact[] - an array of all ancestors to this artifact
 	 */
 	public Collection<IAbstractArtifact> getAncestors();
-	
+
 	/**
 	 * Returns an array of all the artifacts that extends this directly.
 	 */
@@ -201,8 +201,6 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @throws TigerstripeException
 	 */
 	public IModelUpdater getUpdater() throws TigerstripeException;
-
-
 
 	/**
 	 * Returns an array of all the field types for this artifact.
@@ -246,9 +244,9 @@ public interface IAbstractArtifact extends IModelComponent {
 	public Collection<IField> getFields(boolean filterFacetExcludedFields);
 
 	/**
-	 * Returns the literals defined for this artifact. This will be limited to the
-	 * literals defined locally in this artifact. If no literal was defined return
-	 * new IField[0].
+	 * Returns the literals defined for this artifact. This will be limited to
+	 * the literals defined locally in this artifact. If no literal was defined
+	 * return new IField[0].
 	 * 
 	 * Note : Some artifact types do not support literals and will always return
 	 * an empty array.
@@ -257,9 +255,10 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @param filterFacetExcludedliterals -
 	 *            if set to true, all literals that are excluded by the active
-	 *            facet will be filtered out. If no facet is active, all literals
-	 *            are returned.
-	 * @return Collection<ILiteral> - a collection of all the literals for this artifact
+	 *            facet will be filtered out. If no facet is active, all
+	 *            literals are returned.
+	 * @return Collection<ILiteral> - a collection of all the literals for this
+	 *         artifact
 	 */
 	public Collection<ILiteral> getLiterals(boolean filterFacetExcludedLiterals);
 
@@ -344,7 +343,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 *            are returned.
 	 * @return IField[] - an array of all the inherited fields for this artifact
 	 */
-	public Collection<IField> getInheritedFields(boolean filterFacetExcludedFields);
+	public Collection<IField> getInheritedFields(
+			boolean filterFacetExcludedFields);
 
 	/**
 	 * Returns the inherited literals for this artifact. Only inherited literals
@@ -356,7 +356,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * Note : Some artifact types do not support literals and will always return
 	 * an empty array.
 	 * 
-	 * @return Collection<ILiteral> - a collection of all the inherited literals for this artifact
+	 * @return Collection<ILiteral> - a collection of all the inherited
+	 *         literals for this artifact
 	 */
 	public Collection<ILiteral> getInheritedLiterals();
 
@@ -370,11 +371,13 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @param filterFacetExcludedLiterals -
 	 *            if set to true, all literals that are excluded by the active
-	 *            facet will be filtered out. If no facet is active, all literals
-	 *            are returned.
-	 * @return Collection<ILiteral> - a collection of all the inherited literals for this artifact
+	 *            facet will be filtered out. If no facet is active, all
+	 *            literals are returned.
+	 * @return Collection<ILiteral> - a collection of all the inherited
+	 *         literals for this artifact
 	 */
-	public Collection<ILiteral> getInheritedLiterals(boolean filterFacetExcludedLiterals);
+	public Collection<ILiteral> getInheritedLiterals(
+			boolean filterFacetExcludedLiterals);
 
 	/**
 	 * Returns the inherited methods for this artifact. Only inherited methods
@@ -406,8 +409,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return IMethod[] - an array of all the inherited methods for this
 	 *         artifact
 	 */
-	public Collection<IMethod> getInheritedMethods(boolean filterFacetExcludedMethods);
-
+	public Collection<IMethod> getInheritedMethods(
+			boolean filterFacetExcludedMethods);
 
 	/**
 	 * Returns the package where this artifact is defined. If this artifact is
@@ -416,7 +419,6 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return String - the package where this artifact was defined.
 	 */
 	public String getPackage();
-
 
 	/**
 	 * Returns an array containing all the artifacts being referenced (through a
@@ -449,4 +451,5 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return true if the artifact is abstract, false otherwise
 	 */
 	public boolean isAbstract();
+
 }

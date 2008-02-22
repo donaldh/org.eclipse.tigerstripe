@@ -26,8 +26,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -40,6 +41,7 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssj
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssjArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.ArtifactSelectorDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.IArtifactLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class OssjSessionQueriesSection extends OssjSessionElementsSection {
@@ -59,7 +61,7 @@ public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof ISessionArtifact) {
 				ISessionArtifact session = (ISessionArtifact) inputElement;
-				Collection<INamedQuery> queries =  session.getNamedQueries();
+				Collection<INamedQuery> queries = session.getNamedQueries();
 				return queries.toArray();
 			}
 			return new Object[0];
@@ -89,8 +91,7 @@ public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 		}
 
 		public Image getImage(Object element) {
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.QUERY_ICON);
+			return Images.get(Images.QUERY_ICON);
 		}
 
 		public String getText(Object element) {
@@ -161,9 +162,11 @@ public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 		ArtifactSelectorDialog elsd = new ArtifactSelectorDialog(getPage()
 				.getManagedForm().getForm().getShell(), labelProvider);
 
-		elsd.setTitle("Named Query Artifacts");
+		elsd.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IQueryArtifactImpl.class.getName()).getLabel() + " Artifacts");
 		elsd
-				.setMessage("Select a set of Named Queries to be exposed through this session.");
+				.setMessage("Select a set of " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IQueryArtifactImpl.class.getName()).getLabel() + "(s) to be exposed through this session.");
 
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
 		Object[] availableEntityOptions = getAvailableQueryOptionsList();

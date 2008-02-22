@@ -51,6 +51,8 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
@@ -91,8 +93,13 @@ public class NewEnumWizardPage extends TSRuntimeBasedWizardPage implements
 	public NewEnumWizardPage() {
 		super(PAGE_NAME);
 
-		setTitle("Enumeration Artifact");
-		setDescription("Create a new Enumeration Artifact.");
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IEnumArtifactImpl.class.getName()).getLabel()
+				+ " Artifact");
+		setDescription("Create a new "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IEnumArtifactImpl.class.getName()).getLabel()
+				+ " Artifact.");
 
 	}
 
@@ -183,10 +190,11 @@ public class NewEnumWizardPage extends TSRuntimeBasedWizardPage implements
 			for (int i = 0; i < refs.length; i++) {
 				// if jvtPlugin
 				if ("ossj-jvt-spec".equals(refs[i].getPluginId())) {
-					if(refs[i].getProperty("defaultInterfacePackage") == null )
-						this.targetPackageDialogField.setText((String) refs[i].getProperty("defaultInterfacePackage"));
-					else 
-						this.targetPackageDialogField.setText( "com.mycompany");
+					if (refs[i].getProperty("defaultInterfacePackage") == null)
+						this.targetPackageDialogField.setText((String) refs[i]
+								.getProperty("defaultInterfacePackage"));
+					else
+						this.targetPackageDialogField.setText("com.mycompany");
 
 				}
 

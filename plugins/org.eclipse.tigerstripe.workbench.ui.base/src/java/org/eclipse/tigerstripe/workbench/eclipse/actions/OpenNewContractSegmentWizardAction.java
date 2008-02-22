@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.eclipse.actions;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.segment.NewContractSegmentWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -38,7 +38,7 @@ public class OpenNewContractSegmentWizardAction extends
 
 	protected void initAction() {
 		setText("Contract Facet");
-		setImageDescriptor(TigerstripePluginImages.DESC_CONTRACTSEGMENT_ICON);
+		setImageDescriptor(Images.getDescriptor(Images.CONTRACTSEGMENT_ICON));
 	}
 
 	@Override

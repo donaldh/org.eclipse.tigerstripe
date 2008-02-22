@@ -36,6 +36,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
@@ -66,8 +68,12 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 	public PrimitiveTypeDefsSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.EXPANDED);
-		setTitle("&Primitive Type Definitions");
-		setDescription("Define the primitive types available within this profile.");
+		setTitle("&" + ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IPrimitiveTypeImpl.class.getName())
+				.getLabel() + " Definitions");
+		setDescription("Define the " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IPrimitiveTypeImpl.class.getName())
+				.getLabel() + " available within this profile.");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -319,13 +325,19 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 		String message = "Do you really want to remove ";
 		if (selectedFields.size() > 1) {
 			message = message + "these " + selectedFields.size()
-					+ " Primitive Type definitions ?";
+					+ " " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IPrimitiveTypeImpl.class.getName())
+							.getLabel() + " definitions ?";
 		} else {
-			message = message + "this Primitive Type definition?";
+			message = message + "this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IPrimitiveTypeImpl.class.getName())
+					.getLabel() + " definition?";
 		}
 
 		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-				"Remove Primitive Type Definition", null, message,
+				"Remove " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IPrimitiveTypeImpl.class.getName())
+						.getLabel() + " Definition", null, message,
 				MessageDialog.QUESTION, new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == Window.OK) {
@@ -359,13 +371,17 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 			MessageDialog
 					.openWarning(
 							getPage().getPartControl().getShell(),
-							"Default Primitive Type was not set. Check log for error info.",
+							"Default " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IPrimitiveTypeImpl.class.getName())
+									.getLabel() + " was not set. Check log for error info.",
 							e.getMessage());
 			return;
 		}
 
 		MessageDialog.openInformation(getPage().getPartControl().getShell(),
-				"Primitive Type",
+				ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IPrimitiveTypeImpl.class.getName())
+						.getLabel(),
 				"This profile must be made active for the changes "
 						+ "to take effect.");
 
@@ -413,7 +429,9 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 
 	@Override
 	protected String getDescription() {
-		return "Primitive Types:";
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IPrimitiveTypeImpl.class.getName())
+				.getLabel() + "(s):";
 	}
 
 }

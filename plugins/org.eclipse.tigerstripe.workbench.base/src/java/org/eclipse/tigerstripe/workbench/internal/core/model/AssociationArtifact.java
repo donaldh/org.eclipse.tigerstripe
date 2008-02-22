@@ -16,6 +16,8 @@ import java.util.Collection;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.AssociationArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -47,8 +49,6 @@ public class AssociationArtifact extends AbstractArtifact implements
 	public final static AssociationArtifact MODEL = new AssociationArtifact(
 			null);
 
-	public final static String LABEL = "Association Artifact";
-
 	public AssociationArtifact(ArtifactManager artifactManager) {
 		super(artifactManager);
 		setIStandardSpecifics(new StandardSpecifics(this));
@@ -63,8 +63,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	protected void buildModel(JavaClass clazz,
-			IProgressMonitor monitor) {
+	protected void buildModel(JavaClass clazz, IProgressMonitor monitor) {
 		super.buildModel(clazz, monitor);
 
 		// Now extract the aEnd and zEnd
@@ -122,7 +121,8 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IAssociationArtifactImpl.class.getName()).getLabel();
 	}
 
 	public String getArtifactType() {

@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.core.profile;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -70,12 +72,16 @@ public class ProfileValidator {
 		Collection<IPrimitiveTypeDef> primitiveTypes = workbenchProfile.getPrimitiveTypeDefs(false);
 		for (IPrimitiveTypeDef type: primitiveTypes) {
 			if (!type.isValidName()) {
-				reportError("Invalid primitive type name '"
+				reportError("Invalid " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IPrimitiveTypeImpl.class.getName())
+						.getLabel() + " name '"
 						+ type.getName() + "' detected");
 			} else if (!type.isRecommendedName()) {
 				reportWarning("Type name '"
 						+ type.getName()
-						+ "' is not recommended as the name of a primitive type");
+						+ "' is not recommended as the name of a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IPrimitiveTypeImpl.class.getName())
+								.getLabel());
 			}
 		}
 	}

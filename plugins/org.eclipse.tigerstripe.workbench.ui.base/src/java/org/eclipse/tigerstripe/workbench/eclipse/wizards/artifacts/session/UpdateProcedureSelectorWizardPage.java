@@ -29,11 +29,14 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactSelectionDialog;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -52,8 +55,7 @@ public class UpdateProcedureSelectorWizardPage extends NewContainerWizardPage {
 
 		public UpdateProcedureListLabelProvider() {
 			super();
-			queryImage = TigerstripePluginImages
-					.get(TigerstripePluginImages.UPDATEPROC_ICON);
+			queryImage = Images.get(Images.UPDATEPROC_ICON);
 		}
 
 		@Override
@@ -133,8 +135,14 @@ public class UpdateProcedureSelectorWizardPage extends NewContainerWizardPage {
 	public UpdateProcedureSelectorWizardPage() {
 		super(PAGE_NAME);
 
-		setTitle("Update Procedure Selection");
-		setDescription("Select Update Procedures to be exposed through this new Session.");
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel()
+				+ " Selection");
+		setDescription("Select "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IUpdateProcedureArtifactImpl.class.getName())
+						.getLabel()
+				+ "(s) to be exposed through this new Session.");
 
 		QueryFieldsAdapter adapter = new QueryFieldsAdapter();
 
@@ -145,7 +153,9 @@ public class UpdateProcedureSelectorWizardPage extends NewContainerWizardPage {
 		queriesDialogField = new ListDialogField(adapter, addButtons,
 				new UpdateProcedureListLabelProvider());
 		queriesDialogField.setDialogFieldListener(adapter);
-		queriesDialogField.setLabelText("Update Procedures");
+		queriesDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IUpdateProcedureArtifactImpl.class.getName())
+				.getLabel());
 		queriesDialogField.setRemoveButtonIndex(REMOVE_BUTTON_IDX);
 
 	}
@@ -315,9 +325,16 @@ public class UpdateProcedureSelectorWizardPage extends NewContainerWizardPage {
 		ArtifactSelectionDialog dialog = new ArtifactSelectionDialog(
 				this.initialJElement, UpdateProcedureArtifact.MODEL);
 
-		dialog.setTitle("Update Procedure Artifacts");
-		dialog
-				.setMessage("Select a set of Update Procedures that will be available through this interface.");
+		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel()
+				+ " Artifacts");
+		dialog.setMessage("Select a set of "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IUpdateProcedureArtifactImpl.class.getName())
+						.getLabel()
+				+ "(s) that will be available through this "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel());
 		AbstractArtifact[] selectedArtifacts = dialog.browseAvailableArtifacts(
 				getShell(), this.queriesDialogField.getElements(),
 				getTSRuntimeContext());

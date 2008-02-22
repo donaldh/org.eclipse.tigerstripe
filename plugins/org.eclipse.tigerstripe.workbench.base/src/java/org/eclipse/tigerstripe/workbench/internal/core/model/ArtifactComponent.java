@@ -18,7 +18,11 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.annotations.IAnnotable;
+import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
+import org.eclipse.tigerstripe.metamodel.IModelComponentMetadata;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -357,6 +361,12 @@ public abstract class ArtifactComponent implements IModelComponent,
 			return new ModelComponentAnnotable(this);
 		}
 		return null;
+	}
+
+	@Override
+	public IModelComponentMetadata getMetadata() {
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(MigrationHelper
+				.artifactMetadataMigrateClassname(this.getClass().getName()));
 	}
 
 }

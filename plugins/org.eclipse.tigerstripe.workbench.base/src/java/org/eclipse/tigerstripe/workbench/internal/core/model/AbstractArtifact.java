@@ -29,9 +29,12 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
@@ -1004,7 +1007,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @since 2.2-beta
 	 */
 	private void removeFromExtending(IAbstractArtifact artifact) {
-		if (artifact != null && extendingArtifacts.contains(new ComparableArtifact(artifact))) {
+		if (artifact != null
+				&& extendingArtifacts
+						.contains(new ComparableArtifact(artifact))) {
 			extendingArtifacts.remove(new ComparableArtifact(artifact));
 		}
 	}
@@ -1017,7 +1022,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @since 2.2-beta
 	 */
 	private void addToExtending(IAbstractArtifact artifact) {
-		if (artifact != null && !extendingArtifacts.contains(new ComparableArtifact(artifact))) {
+		if (artifact != null
+				&& !extendingArtifacts
+						.contains(new ComparableArtifact(artifact))) {
 			extendingArtifacts.add(artifact);
 		}
 	}
@@ -1623,4 +1630,5 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void dispose() {
 		// NON SUPPORTED.
 	}
+
 }

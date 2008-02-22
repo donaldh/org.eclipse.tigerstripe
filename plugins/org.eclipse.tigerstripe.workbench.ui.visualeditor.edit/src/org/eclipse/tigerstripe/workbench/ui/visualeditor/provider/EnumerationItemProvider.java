@@ -24,7 +24,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Enumeration;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 
@@ -93,8 +93,7 @@ public class EnumerationItemProvider extends AbstractArtifactItemProvider
 	public Object getImage(Object object) {
 		Object icon = getIcon(object, false);
 		if (icon == null) // this is necessary for the floating palette
-			icon = TigerstripePluginImages
-					.get(TigerstripePluginImages.ENUM_ICON);
+			icon = Images.get(Images.ENUM_ICON);
 		return overlayImage(object, icon);
 	}
 

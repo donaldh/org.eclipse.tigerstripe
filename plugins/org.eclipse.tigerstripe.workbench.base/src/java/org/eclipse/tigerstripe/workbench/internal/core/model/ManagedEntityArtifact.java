@@ -43,9 +43,6 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.MANAGEDENTITY;
 
-	public final static String LABEL = "Managed Entity Artifact";
-
-
 	public String getArtifactType() {
 		return IManagedEntityArtifact.class.getName();
 	}
@@ -70,7 +67,7 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return getMetadata().getLabel();
 	}
 
 	// public Collection getDerivedEntities() {

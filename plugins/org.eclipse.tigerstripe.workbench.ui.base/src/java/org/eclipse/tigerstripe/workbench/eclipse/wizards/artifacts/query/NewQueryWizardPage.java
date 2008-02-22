@@ -39,6 +39,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactSelectionDialog;
@@ -75,8 +77,13 @@ public class NewQueryWizardPage extends NewArtifactWizardPage {
 	public NewQueryWizardPage() {
 		super(PAGE_NAME);
 
-		setTitle("Named Query Artifact");
-		setDescription("Create a new Named Query Artifact.");
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IQueryArtifactImpl.class.getName()).getLabel()
+				+ " Artifact");
+		setDescription("Create a new "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IQueryArtifactImpl.class.getName()).getLabel()
+				+ " Artifact.");
 
 		EntityFieldsAdapter adapter = new EntityFieldsAdapter();
 

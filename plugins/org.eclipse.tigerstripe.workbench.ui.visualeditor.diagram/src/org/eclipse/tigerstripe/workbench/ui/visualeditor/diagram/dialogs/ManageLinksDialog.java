@@ -42,12 +42,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 public class ManageLinksDialog extends TSMessageDialog {
 
@@ -356,9 +356,9 @@ public class ManageLinksDialog extends TSMessageDialog {
 	private class MyLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 		private Image getImage(boolean isSelected) {
-			String key = isSelected ? TigerstripePluginImages.CHECKED_ICON
-					: TigerstripePluginImages.UNCHECKED_ICON;
-			return TigerstripePluginImages.get(key);
+			String key = isSelected ? Images.CHECKED_ICON
+					: Images.UNCHECKED_ICON;
+			return Images.get(key);
 		}
 
 		public Image getColumnImage(Object element, int columnIndex) {

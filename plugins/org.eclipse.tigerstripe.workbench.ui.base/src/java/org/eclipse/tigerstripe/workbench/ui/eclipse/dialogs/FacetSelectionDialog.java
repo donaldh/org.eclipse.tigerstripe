@@ -21,8 +21,8 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
@@ -56,8 +56,7 @@ public class FacetSelectionDialog extends ElementTreeSelectionDialog {
 				if (curr.isDirectory())
 					return IMG_FOLDER;
 				else
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.CONTRACTSEGMENT_ICON);
+					return Images.get(Images.CONTRACTSEGMENT_ICON);
 			}
 			return null;
 		}

@@ -14,6 +14,8 @@ import java.io.Writer;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.EnumArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -35,8 +37,6 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.ENUM;
-
-	public final static String LABEL = "Enumeration Artifact";
 
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
@@ -63,7 +63,8 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IEnumArtifactImpl.class.getName()).getLabel();
 	}
 
 	@Override

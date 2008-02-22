@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 
 /**
  * @author Eric Dillon
@@ -54,7 +56,8 @@ public class EntityOptionsDialog extends Dialog {
 		layout.numColumns = 1;
 
 		final Group optionsGroupTitle = new Group(container, SWT.NULL);
-		optionsGroupTitle.setText("Managed Entity");
+		optionsGroupTitle.setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IManagedEntityArtifactImpl.class.getName()).getLabel());
 		final GridLayout optionsGridTitleLayout = new GridLayout();
 		optionsGridTitleLayout.numColumns = 2;
 		optionsGroupTitle.setLayout(optionsGridTitleLayout);
@@ -122,6 +125,7 @@ public class EntityOptionsDialog extends Dialog {
 
 	protected void configureSehll(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Managed Entity Options");
+		newShell.setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IManagedEntityArtifactImpl.class.getName()).getLabel() + " Options");
 	}
 }

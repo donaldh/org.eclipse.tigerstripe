@@ -20,9 +20,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -80,8 +80,7 @@ public class TopLevelPreferencePage extends FieldEditorPreferencePage implements
 	 */
 	public void createLocalContent(Composite parent) {
 
-		Image image = TigerstripePluginImages
-				.get(TigerstripePluginImages.SPLASH);
+		Image image = Images.get(Images.SPLASH);
 
 		image.setBackground(new Color(null, 255, 255, 255));
 		imageLabel = new Label(parent, SWT.NULL);
@@ -133,8 +132,8 @@ public class TopLevelPreferencePage extends FieldEditorPreferencePage implements
 		label.setLayoutData(gd);
 		LicensedAccess licensedAccess = null;
 
-			licensedAccess = LicensedAccess.getInstance();
-		
+		licensedAccess = LicensedAccess.getInstance();
+
 	}
 
 	public void init(IWorkbench workbench) {

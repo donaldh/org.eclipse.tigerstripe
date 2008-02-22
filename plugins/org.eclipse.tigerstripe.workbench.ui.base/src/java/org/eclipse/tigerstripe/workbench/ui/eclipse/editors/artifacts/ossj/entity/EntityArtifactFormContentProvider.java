@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.entity;
 
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactFormContentProviderBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.IArtifactFormContentProvider;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssjArtifactFormContentProvider;
@@ -39,10 +41,16 @@ public class EntityArtifactFormContentProvider extends
 			return buf.toString();
 		} else if (IArtifactFormContentProvider.ARTIFACT_CONTENT_DESCRIPTION
 				.equals(textId))
-			return "<form><p>Stewardship of Managed Entity Artifacts is established in the definition of a <b>Session Facade Artifact</b>.</p></form>";
+			return "<form><p>Stewardship of "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IManagedEntityArtifactImpl.class.getName())
+							.getLabel()
+					+ " Artifacts is established in the definition of a <b>Session Facade Artifact</b>.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
-			return "Managed Entity Artifact";
+			return ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IManagedEntityArtifactImpl.class.getName()).getLabel()
+					+ " Artifact";
 		return textId;
 	}
 

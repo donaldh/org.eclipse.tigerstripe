@@ -14,6 +14,8 @@ import java.io.Writer;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.EventArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEventSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -34,8 +36,6 @@ public class EventArtifact extends AbstractArtifact implements IEventArtifact {
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.EVENT;
 
-	public final static String LABEL = "Notification Artifact";
-
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
 	 * manager when extracting the artifacts.
@@ -45,7 +45,6 @@ public class EventArtifact extends AbstractArtifact implements IEventArtifact {
 	public String getArtifactType() {
 		return IEventArtifact.class.getName();
 	}
-
 
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
@@ -62,7 +61,8 @@ public class EventArtifact extends AbstractArtifact implements IEventArtifact {
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IEventArtifactImpl.class.getName()).getLabel();
 	}
 
 	@Override

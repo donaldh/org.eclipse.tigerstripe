@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action;
 
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceCreationWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -27,7 +27,7 @@ public class OpenNewTigerstripeInstanceDiagramWizardAction extends
 	@Override
 	protected void initAction() {
 		setText("new Instance Diagram...");
-		setImageDescriptor(TigerstripePluginImages.DESC_INSTANCEEDITOR_ICON);
+		setImageDescriptor(Images.getDescriptor(Images.INSTANCEEDITOR_ICON));
 	}
 
 	@Override

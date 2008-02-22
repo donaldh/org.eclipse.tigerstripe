@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.updateProcedure;
 
+import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactFormContentProviderBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.IArtifactFormContentProvider;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssjArtifactFormContentProvider;
@@ -29,9 +31,15 @@ public class UpdateProcedureArtifactFormContentProvider extends
 
 			buf.append("<form>");
 			buf
-					.append("<li><a href=\"attributes\">Attributes</a>: The input parameters to this Update Procedure.</li>");
+					.append("<li><a href=\"attributes\">Attributes</a>: The input parameters to this "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IUpdateProcedureArtifactImpl.class
+											.getName()).getLabel() + ".</li>");
 			buf
-					.append("<li><a href=\"constants\">Constants</a>: Contants relevant in the context of this Update Procedure.</li>");
+					.append("<li><a href=\"constants\">Constants</a>: Contants relevant in the context of this "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IUpdateProcedureArtifactImpl.class
+											.getName()).getLabel() + ".</li>");
 			buf.append("</form>");
 
 			return buf.toString();
@@ -40,7 +48,9 @@ public class UpdateProcedureArtifactFormContentProvider extends
 			return "<form><p></p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
-			return "Update Procedure Artifact";
+			return ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IUpdateProcedureArtifactImpl.class.getName()).getLabel()
+					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;
 	}

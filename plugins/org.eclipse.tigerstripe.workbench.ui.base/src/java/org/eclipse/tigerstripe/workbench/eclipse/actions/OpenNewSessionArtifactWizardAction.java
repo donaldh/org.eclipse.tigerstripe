@@ -11,8 +11,10 @@
 package org.eclipse.tigerstripe.workbench.eclipse.actions;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.session.NewSessionWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -25,8 +27,9 @@ public class OpenNewSessionArtifactWizardAction extends
 
 	@Override
 	protected void initAction() {
-		setText("Session Facade");
-		setImageDescriptor(TigerstripePluginImages.DESC_SESSION_NEW_ICON);
+		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				ISessionArtifactImpl.class.getName()).getLabel());
+		setImageDescriptor(Images.getDescriptor(Images.SESSION_ICON_NEW));
 	}
 
 	@Override

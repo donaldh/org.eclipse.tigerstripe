@@ -24,7 +24,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.eclipse.tigerstripe.workbench.ui.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 
@@ -90,8 +90,7 @@ public class LiteralItemProvider extends TypedElementItemProvider implements
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, Images.getInstance().getObject(
-				Images.LITERAL_ICON));
+		return overlayImage(object, Images.get(Images.LITERAL_ICON));
 	}
 
 	/**

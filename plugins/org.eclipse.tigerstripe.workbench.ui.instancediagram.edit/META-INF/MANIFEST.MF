@@ -13,6 +13,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.tigerstripe.workbench.base,
  org.eclipse.tigerstripe.workbench.ui.base,
- org.eclipse.tigerstripe.workbench.ui.resources,
  org.eclipse.tigerstripe.workbench.ui.instancediagram;visibility:=reexport
 Eclipse-LazyStart: true

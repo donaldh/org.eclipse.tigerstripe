@@ -436,7 +436,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 			// Bug # 124
 			dialog = new BrowseForArtifactDialog(getIArtifact()
 					.getTigerstripeProject(), getIArtifact());
-			String name = getIArtifact().getClass().getSimpleName();
+			String name = getIArtifact().getMetadata().getLabel();
 			dialog.setTitle("Super " + name);
 			dialog.setMessage("Select the " + name + " to be extended.");
 
@@ -467,7 +467,8 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 			public Object[] getElements(Object inputElement) {
 				if (inputElement instanceof IAbstractArtifact) {
 					IAbstractArtifact art = (IAbstractArtifact) inputElement;
-					ITigerstripeModelProject tsProject = art.getTigerstripeProject();
+					ITigerstripeModelProject tsProject = art
+							.getTigerstripeProject();
 					if (tsProject != null) {
 						try {
 							IArtifactManagerSession session = tsProject

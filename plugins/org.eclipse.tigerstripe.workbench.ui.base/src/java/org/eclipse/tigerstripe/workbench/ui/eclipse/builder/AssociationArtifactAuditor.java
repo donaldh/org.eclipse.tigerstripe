@@ -12,6 +12,8 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -36,18 +38,22 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		IType aEndType = artifact.getAEnd().getType();
 		boolean aEndDefined = false;
 		if (aEndType == null || aEndType.getFullyQualifiedName().length() == 0) {
-			TigerstripeProjectAuditor.reportError(
-					"Undefined Association end (aEnd) in '"
-							+ artifact.getName() + "'.", getIResource(), 222);
+			TigerstripeProjectAuditor.reportError("Undefined "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName())
+							.getLabel() + " end (aEnd) in '"
+					+ artifact.getName() + "'.", getIResource(), 222);
 		} else
 			aEndDefined = true;
 
 		IType zEndType = artifact.getZEnd().getType();
 		boolean zEndDefined = false;
 		if (zEndType == null || zEndType.getFullyQualifiedName().length() == 0) {
-			TigerstripeProjectAuditor.reportError(
-					"Undefined Association end (zEnd) in '"
-							+ artifact.getName() + "'.", getIResource(), 222);
+			TigerstripeProjectAuditor.reportError("Undefined "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName())
+							.getLabel() + " end (zEnd) in '"
+					+ artifact.getName() + "'.", getIResource(), 222);
 		} else
 			zEndDefined = true;
 
@@ -107,7 +113,13 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 				if (illegalAssoc) {
 					TigerstripeProjectAuditor
 							.reportError(
-									"Illegal Association navigability across projects: '"
+									"Illegal "
+											+ ArtifactMetadataFactory.INSTANCE
+													.getMetadata(
+															IAssociationArtifactImpl.class
+																	.getName())
+													.getLabel()
+											+ " navigability across projects: '"
 											+ artifact.getFullyQualifiedName()
 											+ "'. (Can't navigate from referenced project/Dependency)",
 									getIResource(), 222);

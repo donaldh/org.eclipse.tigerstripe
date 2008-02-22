@@ -16,6 +16,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.AssociationClassArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -38,8 +40,6 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	 */
 	public final static AssociationClassArtifact MODEL = new AssociationClassArtifact(
 			null);
-
-	public final static String LABEL = "Association Class Artifact";
 
 	public AssociationClassArtifact(ArtifactManager artifactManager) {
 		super(artifactManager);
@@ -78,8 +78,7 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	}
 
 	@Override
-	protected void buildModel(JavaClass clazz,
-			IProgressMonitor monitor) {
+	protected void buildModel(JavaClass clazz, IProgressMonitor monitor) {
 		super.buildModel(clazz, monitor);
 	}
 
@@ -90,7 +89,8 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 
 	@Override
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IAssociationClassArtifactImpl.class.getName()).getLabel();
 	}
 
 	@Override
@@ -98,19 +98,16 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 		return IAssociationClassArtifact.class.getName();
 	}
 
-
 	@Override
 	public Collection<IMethod> getMethods() {
 		return Collections.unmodifiableCollection(methods);
-	}	
+	}
 
-	
 	@Override
 	public Collection<IField> getFields() {
 		return Collections.unmodifiableCollection(fields);
 	}
-		
-	
+
 	@Override
 	public Object[] getChildren() {
 		ArrayList<Object> result = new ArrayList<Object>();

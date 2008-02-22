@@ -44,10 +44,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -75,6 +77,7 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.ArgumentEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.MethodReturnDetailsEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -743,8 +746,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	public class ExceptionLabelProvider implements ILabelProvider {
 
 		public Image getImage(Object element) {
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.EXCEPTION_ICON);
+			return Images.get(Images.EXCEPTION_ICON);
 		}
 
 		public String getText(Object element) {
@@ -1191,7 +1193,9 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 			MessageDialog.openWarning(master.getSection().getShell(),
-					"Default Primitive Type For Parameter", e.getMessage());
+					"Default " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IPrimitiveTypeImpl.class.getName())
+							.getLabel() + " For Parameter", e.getMessage());
 			return;
 		}
 		type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
@@ -1272,9 +1276,13 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			// Fix the text for the Title and Message with the specific Artifact
 			// Type
 			// Bug # 124
-			dialog.setTitle("Exception Selection for Method ");
-			dialog.setMessage("Select the Exception for the method "
-					+ getMethod().getName());
+			dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IExceptionArtifactImpl.class.getName()).getLabel()
+					+ " Selection for Method ");
+			dialog.setMessage("Select the "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IExceptionArtifactImpl.class.getName()).getLabel()
+					+ " for the method " + getMethod().getName());
 
 			IAbstractArtifact[] artifacts = dialog.browseAvailableArtifacts(
 					master.getSection().getShell(), Arrays
@@ -1308,13 +1316,19 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		String message = "Do you really want to remove ";
 		if (selectedLabels.length > 1) {
 			message = message + "these " + selectedLabels.length
-					+ " exceptions?";
+					+ " " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IExceptionArtifactImpl.class.getName())
+										.getLabel() + "(s)?";
 		} else {
-			message = message + "this exception?";
+			message = message + "this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IExceptionArtifactImpl.class.getName())
+					.getLabel();
 		}
 
 		MessageDialog msgDialog = new MessageDialog(master.getSection()
-				.getShell(), "Remove Exception", null, message,
+				.getShell(), "Remove " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IExceptionArtifactImpl.class.getName())
+						.getLabel(), null, message,
 				MessageDialog.QUESTION, new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {

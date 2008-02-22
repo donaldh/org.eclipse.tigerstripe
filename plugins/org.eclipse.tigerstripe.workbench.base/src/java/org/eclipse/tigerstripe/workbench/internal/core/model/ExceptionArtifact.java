@@ -14,6 +14,8 @@ import java.io.Writer;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.ExceptionArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjExceptionSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -34,8 +36,6 @@ public class ExceptionArtifact extends AbstractArtifact implements
 
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.EXCEPTION;
-
-	public final static String LABEL = "Exception Artifact";
 
 	public String getArtifactType() {
 		return IExceptionArtifact.class.getName();
@@ -62,7 +62,9 @@ public class ExceptionArtifact extends AbstractArtifact implements
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IExceptionArtifactImpl.class.getName())
+				.getLabel();
 	}
 
 	@Override

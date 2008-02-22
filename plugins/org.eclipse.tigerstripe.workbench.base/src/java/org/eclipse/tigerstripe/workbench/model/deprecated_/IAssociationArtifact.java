@@ -20,8 +20,6 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 public interface IAssociationArtifact extends IModelComponent,
 		IAbstractArtifact , IRelationship{
 
-	public final static String DEFAULT_LABEL = "Association";
-
 	public void setAEnd(IAssociationEnd aEnd);
 
 	public void setZEnd(IAssociationEnd zEnd);

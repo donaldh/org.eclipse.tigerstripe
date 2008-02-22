@@ -29,6 +29,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.enums.LabelRef;
@@ -107,13 +111,18 @@ public class AnnotateFromXMIWizardPage extends WizardPage {
 		entitiesDialogField = new ListDialogField(adapter, addButtons,
 				new AnnotableLabelProvider());
 		entitiesDialogField.setDialogFieldListener(adapter);
-		entitiesDialogField.setLabelText("Managed Entities");
+		entitiesDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IManagedEntityArtifactImpl.class.getName())
+				.getLabel()
+				+ "(s).");
 		entitiesDialogField.setRemoveButtonIndex(REMOVE_BUTTON_IDX);
 
 		datatypesDialogField = new ListDialogField(adapter, addButtons,
 				new AnnotableLabelProvider());
 		datatypesDialogField.setDialogFieldListener(adapter);
-		datatypesDialogField.setLabelText("Datatypes");
+		datatypesDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IDatatypeArtifactImpl.class.getName()).getLabel()
+				+ "(s).");
 		datatypesDialogField.setRemoveButtonIndex(REMOVE_BUTTON_IDX);
 
 		// String[] enumButtons = new String[] { /* 0 */"Remove" //$NON-NLS-1$
@@ -121,7 +130,9 @@ public class AnnotateFromXMIWizardPage extends WizardPage {
 		enumerationsDialogField = new ListDialogField(adapter, addButtons,
 				new AnnotableLabelProvider());
 		enumerationsDialogField.setDialogFieldListener(adapter);
-		enumerationsDialogField.setLabelText("Enumerations");
+		enumerationsDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IEnumArtifactImpl.class.getName()).getLabel()
+				+ "(s).");
 		enumerationsDialogField.setRemoveButtonIndex(REMOVE_BUTTON_IDX);
 	}
 
@@ -458,13 +469,19 @@ public class AnnotateFromXMIWizardPage extends WizardPage {
 
 		if (field == entitiesDialogField) {
 			targetAnnotation = AnnotableElement.AS_ENTITY;
-			message = "Entity Artifacts.";
+			message = ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IManagedEntityArtifactImpl.class.getName()).getLabel()
+					+ " Artifacts.";
 		} else if (field == datatypesDialogField) {
 			targetAnnotation = AnnotableElement.AS_DATATYPE;
-			message = "Datatype Artifacts.";
+			message = ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IDatatypeArtifactImpl.class.getName()).getLabel()
+					+ " Artifacts.";
 		} else if (field == enumerationsDialogField) {
 			targetAnnotation = AnnotableElement.AS_ENUMERATION;
-			message = "Enumeration Artifacts.";
+			message = ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IEnumArtifactImpl.class.getName()).getLabel()
+					+ " Artifacts.";
 		}
 
 		// ElementListSelectionDialog elsd = new ElementListSelectionDialog(

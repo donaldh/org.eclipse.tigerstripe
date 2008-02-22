@@ -17,6 +17,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.DependencyArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -49,8 +52,6 @@ public class DependencyArtifact extends AbstractArtifact implements
 	public final static String ZEND_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.DEPENDENCY + "-zEnd";
 
-	public final static String LABEL = "Dependency Artifact";
-
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
 	 * manager when extracting the artifacts.
@@ -71,8 +72,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	protected void buildModel(JavaClass clazz,
-			IProgressMonitor monitor) {
+	protected void buildModel(JavaClass clazz, IProgressMonitor monitor) {
 		super.buildModel(clazz, monitor);
 
 		// Now extract the aEnd and zEnd
@@ -98,7 +98,8 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IDependencyArtifactImpl.class.getName()).getLabel();
 	}
 
 	public IType makeType() {
@@ -219,7 +220,10 @@ public class DependencyArtifact extends AbstractArtifact implements
 					&& (getType().isPrimitive() || getType()
 							.getFullyQualifiedName().equals("String"))) {
 				result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
-						"Dependency End cannot be a primitive type."));
+						ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IDependencyArtifactImpl.class.getName()).getLabel() + " End cannot be a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IPrimitiveTypeImpl.class.getName())
+										.getLabel() + "."));
 			}
 
 			return result;

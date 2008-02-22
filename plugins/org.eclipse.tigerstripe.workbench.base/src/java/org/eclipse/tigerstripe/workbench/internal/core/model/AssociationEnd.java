@@ -15,6 +15,9 @@ import java.util.Properties;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
@@ -210,7 +213,8 @@ public class AssociationEnd extends ArtifactComponent implements
 		if (!TigerstripeValidationUtils.elementNamePattern.matcher(getName())
 				.matches()) {
 			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
-					+ getName() + "' is not a valid association end name"));
+					+ getName() + "' is not a valid " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName()).getLabel() + " end name"));
 		}
 		// check association end's name to ensure it is not a reserved keyword
 		else if (TigerstripeValidationUtils.keywordList.contains(getName())) {
@@ -220,7 +224,8 @@ public class AssociationEnd extends ArtifactComponent implements
 							BasePlugin.getPluginId(),
 							"'"
 									+ getName()
-									+ "' is a reserved keyword and cannot be used an association end name"));
+									+ "' is a reserved keyword and cannot be used an " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+											IAssociationArtifactImpl.class.getName()).getLabel() + " end name"));
 		}
 
 		// check the validity of the type for this association end
@@ -233,7 +238,10 @@ public class AssociationEnd extends ArtifactComponent implements
 				&& (getType().isPrimitive() || getType()
 						.getFullyQualifiedName().equals("String"))) {
 			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
-					"Association End cannot be a primitive type."));
+					ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName()).getLabel() + " End cannot be a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IPrimitiveTypeImpl.class.getName())
+									.getLabel() + "."));
 		}
 
 		if (result.isOK())

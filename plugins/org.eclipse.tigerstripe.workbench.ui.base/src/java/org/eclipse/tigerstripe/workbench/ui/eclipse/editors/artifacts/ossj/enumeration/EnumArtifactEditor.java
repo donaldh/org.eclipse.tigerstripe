@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.enum
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.OssjArtifactOverviewPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.PartInitException;
 
 /**
@@ -25,6 +26,7 @@ public class EnumArtifactEditor extends ArtifactEditorBase {
 
 	public EnumArtifactEditor() {
 		super();
+		setTitleImage(Images.get(Images.ENUM_ICON));
 	}
 
 	@Override

@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.UpdateProcedureArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjUpdateProcedureSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -33,15 +35,12 @@ public class UpdateProcedureArtifact extends AbstractArtifact implements
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.UPDATEPROC;
 
-	public final static String LABEL = "Update Procedure Artifact";
-
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
 	 * manager when extracting the artifacts.
 	 */
 	public final static UpdateProcedureArtifact MODEL = new UpdateProcedureArtifact(
 			null);
-
 
 	public String getArtifactType() {
 		return IUpdateProcedureArtifact.class.getName();
@@ -58,7 +57,8 @@ public class UpdateProcedureArtifact extends AbstractArtifact implements
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel();
 	}
 
 	@Override

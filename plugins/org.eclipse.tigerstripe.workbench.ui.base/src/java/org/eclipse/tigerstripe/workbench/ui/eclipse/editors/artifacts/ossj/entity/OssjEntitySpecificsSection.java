@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
@@ -214,7 +216,8 @@ public class OssjEntitySpecificsSection extends ArtifactSectionPart {
 			FormToolkit toolkit) {
 		toolkit.createLabel(parent, "");
 		isSessionFactoryMethodsButton = toolkit.createButton(parent,
-				"Factory methods on Session Facade", SWT.CHECK);
+				"Factory methods on " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel(), SWT.CHECK);
 		isSessionFactoryMethodsButton.setEnabled(!isReadonly());
 		isSessionFactoryMethodsButton
 				.setToolTipText("If checked, no factory method will be generated for the attribute types");

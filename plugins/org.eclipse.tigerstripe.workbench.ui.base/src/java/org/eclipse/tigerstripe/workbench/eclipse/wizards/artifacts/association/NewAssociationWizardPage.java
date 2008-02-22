@@ -39,6 +39,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
@@ -91,8 +93,13 @@ public class NewAssociationWizardPage extends NewArtifactWizardPage {
 	public NewAssociationWizardPage() {
 		super(PAGE_NAME);
 
-		setTitle("Association Artifact");
-		setDescription("Create a new Association Artifact.");
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IAssociationArtifactImpl.class.getName()).getLabel()
+				+ " Artifact");
+		setDescription("Create a new "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IAssociationArtifactImpl.class.getName()).getLabel()
+				+ " Artifact.");
 
 		EntityFieldsAdapter adapter = new EntityFieldsAdapter();
 
@@ -330,8 +337,10 @@ public class NewAssociationWizardPage extends NewArtifactWizardPage {
 							SessionFacadeArtifact.MODEL,
 							ExceptionArtifact.MODEL, EventArtifact.MODEL,
 							EnumArtifact.MODEL, AssociationClassArtifact.MODEL });
-			dialog.setTitle("Association End Type");
-			dialog.setMessage("Select the type of the Association End.");
+			dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IAssociationArtifactImpl.class.getName()).getLabel() + " End Type");
+			dialog.setMessage("Select the type of the " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IAssociationArtifactImpl.class.getName()).getLabel() + " End.");
 
 			IAbstractArtifact[] selectedArtifacts = dialog
 					.browseAvailableArtifacts(getShell(), Arrays

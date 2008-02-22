@@ -29,7 +29,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.AbstractArtifactLabelProvider;
-import org.eclipse.tigerstripe.workbench.ui.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
@@ -155,8 +155,7 @@ public class AbstractArtifactItemProvider extends
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, Images.getInstance().getObject(
-				Images.EXTENDSARROW_ICON));
+		return overlayImage(object, Images.get(Images.EXTENDSARROW_ICON));
 	}
 
 	/**

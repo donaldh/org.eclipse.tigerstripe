@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.query;
 
+import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactFormContentProviderBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.IArtifactFormContentProvider;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssjArtifactFormContentProvider;
@@ -29,18 +31,26 @@ public class QueryArtifactFormContentProvider extends
 
 			buf.append("<form>");
 			buf
-					.append("<li><a href=\"attributes\">Attributes</a>: The input parameters to this Query.</li>");
+					.append("<li><a href=\"attributes\">Attributes</a>: The input parameters to this "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IQueryArtifactImpl.class.getName())
+									.getLabel() + ".</li>");
 			buf
-					.append("<li><a href=\"constants\">Constants</a>: Contants relevant in the context of this Query.</li>");
+					.append("<li><a href=\"constants\">Constants</a>: Contants relevant in the context of this "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IQueryArtifactImpl.class.getName())
+									.getLabel() + ".</li>");
 			buf.append("</form>");
 
 			return buf.toString();
 		} else if (IArtifactFormContentProvider.ARTIFACT_CONTENT_DESCRIPTION
 				.equals(textId))
-			return "<form><p>Please specify the type of entities expected in the result set through the 'details' tab.</p></form>";
+			return "<form><p>Please specify the type of artifacts expected in the result set through the 'details' tab.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
-			return "Query Artifact";
+			return ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IQueryArtifactImpl.class.getName()).getLabel()
+					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;
 	}

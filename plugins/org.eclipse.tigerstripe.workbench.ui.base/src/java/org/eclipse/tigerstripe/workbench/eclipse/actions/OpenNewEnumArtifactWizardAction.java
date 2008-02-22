@@ -11,8 +11,10 @@
 package org.eclipse.tigerstripe.workbench.eclipse.actions;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.enums.NewEnumWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -25,8 +27,9 @@ public class OpenNewEnumArtifactWizardAction extends
 
 	@Override
 	protected void initAction() {
-		setText("Enumeration");
-		setImageDescriptor(TigerstripePluginImages.DESC_ENUM_NEW_ICON);
+		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IEnumArtifactImpl.class.getName()).getLabel());
+		setImageDescriptor(Images.getDescriptor(Images.ENUM_ICON_NEW));
 	}
 
 	@Override

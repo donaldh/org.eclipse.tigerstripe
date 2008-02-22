@@ -21,6 +21,8 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.SessionArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjSessionFacadeSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -62,8 +64,6 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.SESSIONFACADE;
 
-	public final static String LABEL = "Session Facade Artifact";
-
 	public String getArtifactType() {
 		return ISessionArtifact.class.getName();
 	}
@@ -86,7 +86,8 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				ISessionArtifactImpl.class.getName()).getLabel();
 	}
 
 	@Override
@@ -440,38 +441,32 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		}
 		return null;
 	}
-/*
- * This is commented out because the new Collection version of getReferencedArtifacts only takes Artifacts and not Strings.
- * We would need to look up the Artifact and add that.
- * Canm add back in if required.
- * 
- * 
-	@Override
-	public Collection<IAbstractArtifact> getReferencedIArtifacts() {
-		Collection<IAbstractArtifact> result = super.getReferencedIArtifacts();
 
-		Collection<IManagedEntityDetails> managedEntityDetails = getManagedEntityDetails();
-		for (IManagedEntityDetails details : managedEntityDetails) {
-			result.add(details.get);
-		}
-
-		Collection<INamedQuery> queries = getNamedQueries();
-		for (INamedQuery query : queries) {
-			result.add(query);
-		}
-
-		Collection<IExposedUpdateProcedure> procs = getExposedUpdateProcedures();
-		for (IExposedUpdateProcedure proc : procs) {
-			result.add(proc);
-		}
-
-		Collection<IEmittedEvent> events = getEmittedEvents();
-		for (IEmittedEvent event : events) {
-			result.add(event);
-		}
-
-		return result;
-	}*/
+	/*
+	 * This is commented out because the new Collection version of
+	 * getReferencedArtifacts only takes Artifacts and not Strings. We would
+	 * need to look up the Artifact and add that. Canm add back in if required.
+	 * 
+	 * 
+	 * @Override public Collection<IAbstractArtifact> getReferencedIArtifacts() {
+	 * Collection<IAbstractArtifact> result = super.getReferencedIArtifacts();
+	 * 
+	 * Collection<IManagedEntityDetails> managedEntityDetails =
+	 * getManagedEntityDetails(); for (IManagedEntityDetails details :
+	 * managedEntityDetails) { result.add(details.get); }
+	 * 
+	 * Collection<INamedQuery> queries = getNamedQueries(); for (INamedQuery
+	 * query : queries) { result.add(query); }
+	 * 
+	 * Collection<IExposedUpdateProcedure> procs =
+	 * getExposedUpdateProcedures(); for (IExposedUpdateProcedure proc : procs) {
+	 * result.add(proc); }
+	 * 
+	 * Collection<IEmittedEvent> events = getEmittedEvents(); for
+	 * (IEmittedEvent event : events) { result.add(event); }
+	 * 
+	 * return result; }
+	 */
 
 	@Override
 	public void addMethod(IMethod method) {
@@ -481,6 +476,5 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 		// artifact
 		method.setInstanceMethod(false);
 	}
-
 
 }

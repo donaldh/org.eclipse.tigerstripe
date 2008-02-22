@@ -13,10 +13,12 @@ package org.eclipse.tigerstripe.workbench.eclipse.actions;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.entity.NewEntityWizard;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -29,8 +31,9 @@ public class OpenNewEntityArtifactWizardAction extends
 
 	@Override
 	protected void initAction() {
-		setText("Entity");
-		setImageDescriptor(TigerstripePluginImages.DESC_ENTITY_NEW_ICON);
+		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IManagedEntityArtifactImpl.class.getName()).getLabel());
+		setImageDescriptor(Images.getDescriptor(Images.ENTITY_ICON_NEW));
 	}
 
 	@Override

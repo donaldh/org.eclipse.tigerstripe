@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
-
 public interface IExceptionArtifact extends IAbstractArtifact {
-
-	public final static String DEFAULT_LABEL = "Exception";
 
 }

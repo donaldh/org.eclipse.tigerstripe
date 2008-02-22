@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.asso
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.OssjArtifactOverviewPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.PartInitException;
 
 /**
@@ -25,6 +26,7 @@ public class AssociationArtifactEditor extends ArtifactEditorBase {
 
 	public AssociationArtifactEditor() {
 		super();
+		setTitleImage(Images.get(Images.ASSOCIATION_ICON));
 	}
 
 	@Override

@@ -26,8 +26,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -40,6 +41,7 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssj
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssjArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.ArtifactSelectorDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.IArtifactLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class OssjSessionUpdateProceduresSection extends
@@ -61,7 +63,8 @@ public class OssjSessionUpdateProceduresSection extends
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof ISessionArtifact) {
 				ISessionArtifact session = (ISessionArtifact) inputElement;
-				Collection<IExposedUpdateProcedure> updates = session.getExposedUpdateProcedures();
+				Collection<IExposedUpdateProcedure> updates = session
+						.getExposedUpdateProcedures();
 				return updates.toArray();
 			}
 			return new Object[0];
@@ -91,8 +94,7 @@ public class OssjSessionUpdateProceduresSection extends
 		}
 
 		public Image getImage(Object element) {
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.UPDATEPROC_ICON);
+			return Images.get(Images.UPDATEPROC_ICON);
 		}
 
 		public String getText(Object element) {
@@ -163,9 +165,11 @@ public class OssjSessionUpdateProceduresSection extends
 		ArtifactSelectorDialog elsd = new ArtifactSelectorDialog(getPage()
 				.getManagedForm().getForm().getShell(), labelProvider);
 
-		elsd.setTitle("Update Procedure Artifacts");
+		elsd.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel() + " Artifacts");
 		elsd
-				.setMessage("Select a set of Update Procedures to be exposed through this session.");
+				.setMessage("Select a set of " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IUpdateProcedureArtifactImpl.class.getName()).getLabel() + " to be exposed through this session.");
 
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
 		Object[] availableEntityOptions = getAvailableQueryOptionsList();

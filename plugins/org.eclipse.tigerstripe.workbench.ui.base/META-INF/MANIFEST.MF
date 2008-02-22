@@ -17,7 +17,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core,
  org.eclipse.jdt.launching,
  org.eclipse.jdt.ui,
- org.eclipse.tigerstripe.workbench.ui.resources,
  org.eclipse.update.core,
  org.eclipse.uml2,
  org.eclipse.uml2.uml,
@@ -42,7 +41,6 @@ Eclipse-LazyStart: true
 Export-Package: org.eclipse.tigerstripe.workbench.eclipse,
  org.eclipse.tigerstripe.workbench.eclipse.actions,
  org.eclipse.tigerstripe.workbench.eclipse.install,
- org.eclipse.tigerstripe.workbench.eclipse.runtime.images,
  org.eclipse.tigerstripe.workbench.eclipse.runtime.messages,
  org.eclipse.tigerstripe.workbench.eclipse.utils,
  org.eclipse.tigerstripe.workbench.eclipse.wizards;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test",
@@ -80,6 +78,7 @@ Export-Package: org.eclipse.tigerstripe.workbench.eclipse,
  org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview,
  org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.actions,
  org.eclipse.tigerstripe.workbench.ui.gmf,
- org.eclipse.tigerstripe.workbench.ui.gmf.synchronization
+ org.eclipse.tigerstripe.workbench.ui.gmf.synchronization,
+ org.eclipse.tigerstripe.workbench.ui.internal.resources;x-friends:="org.eclipse.tigerstripe.workbench.ui.visualeditor.edit,org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram,org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram"
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

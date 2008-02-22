@@ -20,6 +20,8 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
@@ -38,8 +40,13 @@ public class NewUpdateProcedureWizardPage extends NewArtifactWizardPage {
 	public NewUpdateProcedureWizardPage() {
 		super(PAGE_NAME);
 
-		setTitle("Update Procedure Artifact");
-		setDescription("Create a new Update Procedure Artifact.");
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel()
+				+ " Artifact");
+		setDescription("Create a new "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IUpdateProcedureArtifactImpl.class.getName())
+						.getLabel() + " Artifact.");
 
 	}
 

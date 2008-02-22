@@ -13,8 +13,6 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 public interface IEnumArtifact extends IAbstractArtifact {
 
-	public final static String DEFAULT_LABEL = "Enumeration";
-
 	public void setBaseType(IType type);
 
 	/**

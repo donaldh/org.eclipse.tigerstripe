@@ -35,6 +35,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
@@ -254,7 +256,9 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 			MessageDialog.openWarning(getPage().getPartControl().getShell(),
-					"Default Primitive Type For Parameter", e.getMessage());
+					"Default " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IPrimitiveTypeImpl.class.getName())
+							.getLabel() + " For Parameter", e.getMessage());
 			return;
 		}
 

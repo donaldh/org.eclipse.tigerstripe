@@ -36,8 +36,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -52,6 +53,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * This dialog allows to edit the operation overide on a managed entity.
@@ -92,8 +94,7 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 	private class ExceptionLabelProvider extends LabelProvider {
 		@Override
 		public Image getImage(Object element) {
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.EXCEPTION_ICON);
+			return Images.get(Images.EXCEPTION_ICON);
 		}
 	}
 
@@ -141,8 +142,8 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 			OssjEntityMethodFlavor flavor = (OssjEntityMethodFlavor) element;
 			EntityMethodFlavorDetails details = new EntityMethodFlavorDetails(
 					((Method) currentMethod).getContainingArtifact(),
-					((Method) currentMethod).getOssjMethodProperties().getProperty(
-							flavor.getPojoLabel()));
+					((Method) currentMethod).getOssjMethodProperties()
+							.getProperty(flavor.getPojoLabel()));
 
 			boolean hasOverride = getOverride().hasOveride(
 					(IOssjMethod) currentMethod, flavor);
@@ -542,8 +543,8 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 
 		if (selectedFlavor != null) {
 			String property = selectedFlavor.getPojoLabel();
-			String flavorStr = ((Method) currentMethod).getOssjMethodProperties()
-					.getProperty(property);
+			String flavorStr = ((Method) currentMethod)
+					.getOssjMethodProperties().getProperty(property);
 			currentFlavorDetails = new EntityMethodFlavorDetails(
 					((Method) currentMethod).getContainingArtifact(), flavorStr);
 			if (getOverride().hasOveride((IOssjMethod) currentMethod,
@@ -562,9 +563,15 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 
 	private void addExceptionButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				parentSessionArtifact.getTigerstripeProject(), ExceptionArtifact.MODEL);
-		dialog.setMessage("Select Exception Artifacts to add.");
-		dialog.setTitle("Exception Artifact Selector");
+				parentSessionArtifact.getTigerstripeProject(),
+				ExceptionArtifact.MODEL);
+		dialog.setMessage("Select "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IExceptionArtifactImpl.class.getName()).getLabel()
+				+ " Artifacts to add.");
+		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IExceptionArtifactImpl.class.getName()).getLabel()
+				+ " Artifact Selector");
 		try {
 			ArtifactManager mgr = ((ManagedEntityDetails) managedEntity)
 					.getArtifact().getArtifactManager();

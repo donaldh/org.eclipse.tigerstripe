@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.xmi;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElement;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 public class AnnotableLabelProvider extends LabelProvider {
 
@@ -45,16 +45,13 @@ public class AnnotableLabelProvider extends LabelProvider {
 
 		if (AnnotableElement.AS_DATATYPE.equals(annotableElement
 				.getAnnotationType()))
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.DATATYPE_ICON);
+			return Images.get(Images.DATATYPE_ICON);
 		if (AnnotableElement.AS_ENTITY.equals(annotableElement
 				.getAnnotationType()))
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.ENTITY_ICON);
+			return Images.get(Images.ENTITY_ICON);
 		if (AnnotableElement.AS_ENUMERATION.equals(annotableElement
 				.getAnnotationType()))
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.ENUM_ICON);
+			return Images.get(Images.ENUM_ICON);
 
 		return null;
 	}

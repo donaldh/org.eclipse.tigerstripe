@@ -47,7 +47,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -57,6 +56,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchP
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.perspective.TigerstripePerspectiveFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.actions.TSOpenAction;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -97,7 +97,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 		super();
 
 		setNeedsProgressMonitor(true);
-		image = TigerstripePluginImages.DESC_TS_LOGO;
+		image = Images.getDescriptor(Images.TS_LOGO);
 		setWindowTitle("New Tigerstripe Plugin Project");
 	}
 

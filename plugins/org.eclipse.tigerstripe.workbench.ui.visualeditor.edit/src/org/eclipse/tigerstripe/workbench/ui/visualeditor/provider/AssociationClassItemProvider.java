@@ -22,7 +22,7 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.tigerstripe.workbench.ui.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 
@@ -88,8 +88,7 @@ public class AssociationClassItemProvider extends AssociationItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, Images.getInstance().getObject(
-				Images.ASSOCIATIONCLASS_ICON));
+		return overlayImage(object, Images.get(Images.ASSOCIATIONCLASS_ICON));
 	}
 
 	/**

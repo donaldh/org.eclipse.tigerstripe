@@ -13,8 +13,6 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 public interface IManagedEntityArtifact extends IAbstractArtifact {
 
-	public final static String DEFAULT_LABEL = "Entity";
-
 	/**
 	 * This class represents a Managed Entity Primary Key.
 	 * 

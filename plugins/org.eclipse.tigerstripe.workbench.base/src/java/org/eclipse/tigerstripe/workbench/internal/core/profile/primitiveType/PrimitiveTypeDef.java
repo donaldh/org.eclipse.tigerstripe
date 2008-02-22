@@ -12,6 +12,8 @@ package org.eclipse.tigerstripe.workbench.internal.core.profile.primitiveType;
 
 import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
@@ -76,7 +78,9 @@ public class PrimitiveTypeDef implements IPrimitiveTypeDef {
 
 	public void parse(Element element) throws TigerstripeException {
 		if (!"primitiveType".equals(element.getName()))
-			throw new TigerstripeException("Not a primitive type element: "
+			throw new TigerstripeException("Not a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IPrimitiveTypeImpl.class.getName())
+					.getLabel() + " element: "
 					+ element.getName());
 		setName(element.attributeValue("name"));
 		setDescription(element.element("description").getText());

@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.sess
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.OssjArtifactOverviewPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.PartInitException;
 
 /**
@@ -25,6 +26,7 @@ public class SessionArtifactEditor extends ArtifactEditorBase {
 
 	public SessionArtifactEditor() {
 		super();
+		setTitleImage(Images.get(Images.SESSION_ICON));
 	}
 
 	@Override

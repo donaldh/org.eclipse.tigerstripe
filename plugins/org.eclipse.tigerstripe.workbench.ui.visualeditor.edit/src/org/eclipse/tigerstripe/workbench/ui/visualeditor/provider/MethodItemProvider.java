@@ -24,7 +24,7 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-import org.eclipse.tigerstripe.workbench.ui.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
@@ -107,8 +107,7 @@ public class MethodItemProvider extends TypedElementItemProvider implements
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, Images.getInstance().getObject(
-				Images.METHODPUB_ICON));
+		return overlayImage(object, Images.get(Images.METHOD_ICON));
 	}
 
 	/**

@@ -13,6 +13,4 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 public interface IEventArtifact extends IAbstractArtifact {
 
-	public final static String DEFAULT_LABEL = "Notification";
-
 }

@@ -26,8 +26,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -40,6 +41,7 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssj
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssjArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.ArtifactSelectorDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.IArtifactLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class OssjSessionNotificationsSection extends OssjSessionElementsSection {
@@ -90,8 +92,7 @@ public class OssjSessionNotificationsSection extends OssjSessionElementsSection 
 		}
 
 		public Image getImage(Object element) {
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.NOTIFICATION_ICON);
+			return Images.get(Images.NOTIFICATION_ICON);
 		}
 
 		public String getText(Object element) {
@@ -162,9 +163,11 @@ public class OssjSessionNotificationsSection extends OssjSessionElementsSection 
 		ArtifactSelectorDialog elsd = new ArtifactSelectorDialog(getPage()
 				.getManagedForm().getForm().getShell(), labelProvider);
 
-		elsd.setTitle("Notification Artifacts");
+		elsd.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IEventArtifactImpl.class.getName()).getLabel() + " Artifacts");
 		elsd
-				.setMessage("Select a set of Notifications to be emitted through this session.");
+				.setMessage("Select a set of "  +ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IEventArtifactImpl.class.getName()).getLabel() + "(s) to be emitted through this session.");
 
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
 		Object[] availableEntityOptions = getAvailableNotificationsList();

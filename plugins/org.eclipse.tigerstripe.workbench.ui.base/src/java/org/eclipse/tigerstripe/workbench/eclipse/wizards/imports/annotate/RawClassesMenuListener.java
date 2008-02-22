@@ -15,6 +15,16 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.AssociationNode;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.AttributeNode;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.ClassNode;
@@ -102,7 +112,10 @@ public class RawClassesMenuListener implements IMenuListener {
 
 		@Override
 		public String getText() {
-			return "as Managed Entity";
+			return "as "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IManagedEntityArtifactImpl.class.getName())
+							.getLabel();
 		}
 
 		@Override
@@ -123,7 +136,9 @@ public class RawClassesMenuListener implements IMenuListener {
 	private class AsEnumerationAction extends Action {
 		@Override
 		public String getText() {
-			return "as Enumeration";
+			return "as "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IEnumArtifactImpl.class.getName()).getLabel();
 		}
 
 		@Override
@@ -144,7 +159,11 @@ public class RawClassesMenuListener implements IMenuListener {
 	private class AsDatatypeAction extends Action {
 		@Override
 		public String getText() {
-			return "as Datatype";
+			return "as "
+					+ ArtifactMetadataFactory.INSTANCE
+							.getMetadata(
+									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+											.getName()).getLabel();
 		}
 
 		@Override
@@ -165,7 +184,9 @@ public class RawClassesMenuListener implements IMenuListener {
 	private class AsSessionAction extends Action {
 		@Override
 		public String getText() {
-			return "as Session Facade";
+			return "as "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							ISessionArtifactImpl.class.getName()).getLabel();
 		}
 
 		@Override
@@ -186,7 +207,9 @@ public class RawClassesMenuListener implements IMenuListener {
 	private class AsQueryAction extends Action {
 		@Override
 		public String getText() {
-			return "as Named Query";
+			return "as "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IQueryArtifactImpl.class.getName()).getLabel();
 		}
 
 		@Override
@@ -207,7 +230,8 @@ public class RawClassesMenuListener implements IMenuListener {
 	private class AsNotificationAction extends Action {
 		@Override
 		public String getText() {
-			return "as Notification";
+			return "as " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IEventArtifactImpl.class.getName()).getLabel();
 		}
 
 		@Override
@@ -228,7 +252,10 @@ public class RawClassesMenuListener implements IMenuListener {
 	private class AsUpdateProcAction extends Action {
 		@Override
 		public String getText() {
-			return "as Update Procedure";
+			return "as "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IUpdateProcedureArtifactImpl.class.getName())
+							.getLabel();
 		}
 
 		@Override
@@ -249,7 +276,9 @@ public class RawClassesMenuListener implements IMenuListener {
 	private class AsExceptionAction extends Action {
 		@Override
 		public String getText() {
-			return "as Exception";
+			return "as "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IExceptionArtifactImpl.class.getName()).getLabel();
 		}
 
 		@Override
@@ -270,7 +299,9 @@ public class RawClassesMenuListener implements IMenuListener {
 	private class AsDependencyAction extends Action {
 		@Override
 		public String getText() {
-			return "as Dependency";
+			return "as "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IDependencyArtifactImpl.class.getName()).getLabel();
 		}
 
 		@Override
@@ -291,7 +322,10 @@ public class RawClassesMenuListener implements IMenuListener {
 	private class AsAssociationAction extends Action {
 		@Override
 		public String getText() {
-			return "as Association";
+			return "as "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName())
+							.getLabel();
 		}
 
 		@Override

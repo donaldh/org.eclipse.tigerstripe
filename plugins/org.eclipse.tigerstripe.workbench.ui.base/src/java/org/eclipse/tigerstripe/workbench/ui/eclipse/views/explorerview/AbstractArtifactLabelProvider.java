@@ -17,7 +17,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
@@ -35,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArti
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.ColorUtils;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -69,150 +69,64 @@ public class AbstractArtifactLabelProvider implements ILabelProvider,
 
 		if (element instanceof ManagedEntityArtifact) {
 			if (isInActiveFacet)
-				if (transparencySupported)
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.ENTITY_ICON);
-				else
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.ENTITY_ICON_WBG);
-			else if (transparencySupported)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ENTITY_ICON_GS);
+				return Images.get(Images.ENTITY_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ENTITY_ICON_WBG_GS);
+				return Images.get(Images.ENTITY_ICON_GS);
 		} else if (element instanceof DatatypeArtifact) {
 			if (isInActiveFacet)
-				if (transparencySupported)
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.DATATYPE_ICON);
-				else
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.DATATYPE_ICON_WBG);
-			else if (transparencySupported)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.DATATYPE_ICON_GS);
+				return Images.get(Images.DATATYPE_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.DATATYPE_ICON_WBG_GS);
+				return Images.get(Images.DATATYPE_ICON_GS);
 		} else if (element instanceof EventArtifact) {
 			if (isInActiveFacet)
-				if (transparencySupported)
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.NOTIFICATION_ICON);
-				else
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.NOTIFICATION_ICON_WBG);
-			else if (transparencySupported)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.NOTIFICATION_ICON_GS);
+				return Images.get(Images.NOTIFICATION_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.NOTIFICATION_ICON_WBG_GS);
+				return Images.get(Images.NOTIFICATION_ICON_GS);
 		} else if (element instanceof EnumArtifact) {
 			if (isInActiveFacet)
-				if (transparencySupported)
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.ENUM_ICON);
-				else
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.ENUM_ICON_WBG);
-			else if (transparencySupported)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ENUM_ICON_GS);
+				return Images.get(Images.ENUM_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ENUM_ICON_WBG_GS);
+				return Images.get(Images.ENUM_ICON_GS);
 		} else if (element instanceof SessionFacadeArtifact) {
 			if (isInActiveFacet)
-				if (transparencySupported)
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.SESSION_ICON);
-				else
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.SESSION_ICON_WBG);
-			else if (transparencySupported)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.SESSION_ICON_GS);
+				return Images.get(Images.SESSION_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.SESSION_ICON_WBG_GS);
+				return Images.get(Images.SESSION_ICON_GS);
 		} else if (element instanceof QueryArtifact) {
 			if (isInActiveFacet)
-				if (transparencySupported)
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.QUERY_ICON);
-				else
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.QUERY_ICON_WBG);
-			else if (transparencySupported)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.QUERY_ICON_GS);
+				return Images.get(Images.QUERY_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.QUERY_ICON_WBG_GS);
+				return Images.get(Images.QUERY_ICON_GS);
 		} else if (element instanceof ExceptionArtifact) {
 			if (isInActiveFacet)
-				if (transparencySupported)
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.EXCEPTION_ICON);
-				else
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.EXCEPTION_ICON_WBG);
-			else if (transparencySupported)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.EXCEPTION_ICON_GS);
+				return Images.get(Images.EXCEPTION_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.EXCEPTION_ICON_WBG_GS);
+				return Images.get(Images.EXCEPTION_ICON_GS);
 		} else if (element instanceof UpdateProcedureArtifact) {
 			if (isInActiveFacet)
-				if (transparencySupported)
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.UPDATEPROC_ICON);
-				else
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.UPDATEPROC_ICON_WBG);
-			else if (transparencySupported)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.UPDATEPROC_ICON_GS);
+				return Images.get(Images.UPDATEPROC_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.UPDATEPROC_ICON_WBG_GS);
+				return Images.get(Images.UPDATEPROC_ICON_GS);
 		} else if (element instanceof AssociationClassArtifact) {
 			// because AssociationClassArtifact is-a AssociationArtifact
 			// we must check for AssociationClass first... in that order!
 			if (isInActiveFacet)
-				if (transparencySupported)
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.ASSOCIATIONCLASS_ICON);
-				else
-					return TigerstripePluginImages
-							.get(TigerstripePluginImages.ASSOCIATIONCLASS_ICON_WBG);
-			else if (transparencySupported)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ASSOCIATIONCLASS_ICON_GS);
+				return Images.get(Images.ASSOCIATIONCLASS_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ASSOCIATIONCLASS_ICON_WBG_GS);
+				return Images.get(Images.ASSOCIATIONCLASS_ICON_GS);
 		} else if (element instanceof AssociationArtifact) {
 			if (isInActiveFacet)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ASSOCIATION_ICON);
+				return Images.get(Images.ASSOCIATION_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ASSOCIATION_ICON_GS);
+				return Images.get(Images.ASSOCIATION_ICON_GS);
 		} else if (element instanceof DependencyArtifact) {
 			if (isInActiveFacet)
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.DEPENDENCY_ICON);
+				return Images.get(Images.DEPENDENCY_ICON);
 			else
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.DEPENDENCY_ICON_GS);
+				return Images.get(Images.DEPENDENCY_ICON_GS);
 		} else if (element instanceof PrimitiveTypeArtifact)
 			// Bug 947: primite type artifacts are always in facet.
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.PRIMITIVE_ICON);
+			return Images.get(Images.PRIMITIVE_ICON);
 		return null;
 	}
 

@@ -32,7 +32,6 @@ import org.eclipse.jdt.internal.ui.actions.ActionMessages;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.NewTSElementWizard;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -44,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.GenerateResultDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -60,7 +60,7 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 
 	public NewTigerstripeRunWizard() {
 		super();
-		setDefaultPageImageDescriptor(TigerstripePluginImages.DESC_TS_LOGO);
+		setDefaultPageImageDescriptor(Images.getDescriptor(Images.TS_LOGO));
 
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 		setWindowTitle("Generate Tigerstripe Project");

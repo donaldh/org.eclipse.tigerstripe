@@ -32,8 +32,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 public class ContractSegmentSelectionWizardPage extends WizardPage {
 
@@ -120,8 +120,7 @@ public class ContractSegmentSelectionWizardPage extends WizardPage {
 
 			@Override
 			public Image getImage(Object element) {
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.CONTRACTSEGMENT_ICON);
+				return Images.get(Images.CONTRACTSEGMENT_ICON);
 			}
 		};
 		ctv.setLabelProvider(labelProvider);

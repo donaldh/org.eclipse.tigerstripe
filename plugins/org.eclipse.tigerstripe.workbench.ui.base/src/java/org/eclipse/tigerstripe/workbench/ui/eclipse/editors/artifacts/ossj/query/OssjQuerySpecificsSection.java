@@ -25,6 +25,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
@@ -157,7 +159,8 @@ public class OssjQuerySpecificsSection extends ArtifactSectionPart {
 			FormToolkit toolkit) {
 		toolkit.createLabel(parent, "");
 		isSessionFactoryMethodsButton = toolkit.createButton(parent,
-				"Factory methods on Session Facade", SWT.CHECK);
+				"Factory methods on " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel(), SWT.CHECK);
 		isSessionFactoryMethodsButton.setEnabled(!isReadonly());
 		isSessionFactoryMethodsButton
 				.addSelectionListener(new GeneralInfoPageListener());
@@ -221,7 +224,7 @@ public class OssjQuerySpecificsSection extends ArtifactSectionPart {
 				getIArtifact().getTigerstripeProject(), new IAbstractArtifact[] {
 						ManagedEntityArtifact.MODEL, DatatypeArtifact.MODEL });
 		dialog.setTitle("Returned Type");
-		dialog.setMessage("Select the type of the returned Entities.");
+		dialog.setMessage("Select the type of the returned artifacts.");
 
 		IAbstractArtifact[] artifacts = dialog.browseAvailableArtifacts(
 				getSection().getShell(), Arrays.asList(new Object[0]));

@@ -42,7 +42,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
@@ -54,6 +53,7 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.FacetSelectionDialog
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.TigerstripeDescriptorSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
@@ -180,8 +180,7 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 
 		@Override
 		public Image getImage(Object obj) {
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.CONTRACTSEGMENT_ICON);
+			return Images.get(Images.CONTRACTSEGMENT_ICON);
 		}
 
 	}

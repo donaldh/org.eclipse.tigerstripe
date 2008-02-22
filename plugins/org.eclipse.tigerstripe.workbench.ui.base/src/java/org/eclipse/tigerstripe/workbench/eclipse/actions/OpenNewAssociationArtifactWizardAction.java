@@ -11,8 +11,10 @@
 package org.eclipse.tigerstripe.workbench.eclipse.actions;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.association.NewAssociationWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -23,8 +25,9 @@ public class OpenNewAssociationArtifactWizardAction extends
 
 	@Override
 	protected void initAction() {
-		setText("Association");
-		setImageDescriptor(TigerstripePluginImages.DESC_ASSOCIATION_NEW_ICON);
+		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IAssociationArtifactImpl.class.getName()).getLabel());
+		setImageDescriptor(Images.getDescriptor(Images.ASSOCIATION_ICON_NEW));
 	}
 
 	@Override

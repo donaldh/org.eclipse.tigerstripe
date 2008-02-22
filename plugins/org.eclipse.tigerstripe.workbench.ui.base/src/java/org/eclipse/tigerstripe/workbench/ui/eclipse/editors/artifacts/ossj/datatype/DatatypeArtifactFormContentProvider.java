@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.datatype;
 
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactFormContentProviderBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.IArtifactFormContentProvider;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssjArtifactFormContentProvider;
@@ -29,20 +31,45 @@ public class DatatypeArtifactFormContentProvider extends
 
 			buf.append("<form>");
 			buf
-					.append("<li><a href=\"attributes\">Attributes</a>: Containing the detailed information for this Datatype Artifact.</li>");
+					.append("<li><a href=\"attributes\">Attributes</a>: Containing the detailed information for this "
+							+ ArtifactMetadataFactory.INSTANCE
+									.getMetadata(
+											org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+													.getName()).getLabel()
+							+ " Artifact.</li>");
 			buf
-					.append("<li><a href=\"constants\">Constants</a>: Contants related to this Datatype Artifact.</li>");
+					.append("<li><a href=\"constants\">Constants</a>: Contants related to this "
+							+ ArtifactMetadataFactory.INSTANCE
+									.getMetadata(
+											org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+													.getName()).getLabel()
+							+ " Artifact.</li>");
 			buf
-					.append("<li><a href=\"methods\">Methods</a>: Operations that are allowed on this Datatype Artifact.</li>");
+					.append("<li><a href=\"methods\">Methods</a>: Operations that are allowed on this "
+							+ ArtifactMetadataFactory.INSTANCE
+									.getMetadata(
+											org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+													.getName()).getLabel()
+							+ " Artifact.</li>");
 			buf.append("</form>");
 
 			return buf.toString();
 		} else if (IArtifactFormContentProvider.ARTIFACT_CONTENT_DESCRIPTION
 				.equals(textId))
-			return "<form><p>As opposed to Managed Entity Artifacts, Datatype Artifacts don't have a key.</p></form>";
+			return "<form><p>As opposed to "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IManagedEntityArtifactImpl.class.getName())
+							.getLabel()
+					+ " Artifacts, " + ArtifactMetadataFactory.INSTANCE
+							.getMetadata(
+									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+											.getName()).getLabel() + " Artifacts don't have a key.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
-			return "Datatype Artifact";
+			return ArtifactMetadataFactory.INSTANCE
+			.getMetadata(
+					org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+							.getName()).getLabel() + " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;
 	}

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IAbstractArtifactImpl.java,v 1.1 2008/02/14 23:57:59 edillon Exp $
+ * $Id: IAbstractArtifactImpl.java,v 1.2 2008/02/22 20:01:22 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -23,12 +23,14 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
+import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
 import org.eclipse.tigerstripe.metamodel.IField;
 import org.eclipse.tigerstripe.metamodel.ILiteral;
 import org.eclipse.tigerstripe.metamodel.IMethod;
 import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
 
 import org.eclipse.tigerstripe.metamodel.extensions.IStandardSpecifics;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>IAbstract Artifact</b></em>'.

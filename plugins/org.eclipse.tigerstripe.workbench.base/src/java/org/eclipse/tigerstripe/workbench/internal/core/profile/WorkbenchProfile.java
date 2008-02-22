@@ -27,6 +27,8 @@ import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IWorkbenchProfileProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -211,7 +213,9 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 					st.parse(stElm);
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime
-							.logInfoMessage("Error while parsing primitive types: "
+							.logInfoMessage("Error while parsing " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IPrimitiveTypeImpl.class.getName())
+									.getLabel() + "(s): "
 									+ e.getMessage());
 				}
 			}
@@ -230,7 +234,9 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 					setDefaultPrimitiveType(typeDef);
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime
-							.logInfoMessage("Error while parsing primitive types: "
+							.logInfoMessage("Error while parsing " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IPrimitiveTypeImpl.class.getName())
+									.getLabel() + "(s): "
 									+ e.getMessage());
 				}
 			}
@@ -366,7 +372,9 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 	public void addPrimitiveTypeDef(IPrimitiveTypeDef primitiveTypeDef)
 			throws TigerstripeException {
 		if (primitiveTypeDefs.contains(primitiveTypeDef))
-			throw new TigerstripeException("Duplicate Primitive Type '"
+			throw new TigerstripeException("Duplicate " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IPrimitiveTypeImpl.class.getName())
+					.getLabel() + " '"
 					+ primitiveTypeDef.getName() + "' in profile '" + getName()
 					+ "'.");
 		else {
@@ -407,7 +415,9 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		if (primitiveTypeDefs.contains(primitiveTypeDef)) {
 			primitiveTypeDefs.remove(primitiveTypeDef);
 		} else
-			throw new TigerstripeException("Unknown Primitive Type '"
+			throw new TigerstripeException("Unknown " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IPrimitiveTypeImpl.class.getName())
+					.getLabel() + "'"
 					+ primitiveTypeDef.getName() + "' in profile '" + getName()
 					+ "'.");
 	}
@@ -424,7 +434,9 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		this.primitiveTypeDefs.clear();
 		for (IPrimitiveTypeDef primitiveTypeDef : primitiveTypeDefs) {
 			if (this.primitiveTypeDefs.contains(primitiveTypeDef))
-				throw new TigerstripeException("Duplicate Primitive Type '"
+				throw new TigerstripeException("Duplicate " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IPrimitiveTypeImpl.class.getName())
+						.getLabel() + "'"
 						+ primitiveTypeDef.getName() + "' in profile '"
 						+ getName() + "'.");
 			else {
@@ -460,7 +472,9 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		} else
 			throw new TigerstripeException(primitiveTypeDef.getPackageName()
 					+ "." + primitiveTypeDef.getName()
-					+ " has not been defined as a primitive type.");
+					+ " has not been defined as a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IPrimitiveTypeImpl.class.getName())
+							.getLabel() + ".");
 
 	}
 

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.event;
 
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactFormContentProviderBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.IArtifactFormContentProvider;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssjArtifactFormContentProvider;
@@ -29,18 +31,22 @@ public class EventArtifactFormContentProvider extends
 
 			buf.append("<form>");
 			buf
-					.append("<li><a href=\"attributes\">Attributes</a>: Representing the payload for this Event.</li>");
+					.append("<li><a href=\"attributes\">Attributes</a>: Representing the payload for this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IEventArtifactImpl.class.getName()).getLabel() + ".</li>");
 			buf
-					.append("<li><a href=\"constants\">Constants</a>: Constants relevant for this Event.</li>");
+					.append("<li><a href=\"constants\">Constants</a>: Constants relevant for this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IEventArtifactImpl.class.getName()).getLabel() + ".</li>");
 			buf.append("</form>");
 
 			return buf.toString();
 		} else if (IArtifactFormContentProvider.ARTIFACT_CONTENT_DESCRIPTION
 				.equals(textId))
-			return "<form><p>Use the Descriptor to specify which attribute(s) can be used for notification filtering.</p></form>";
+			return "<form><p>Use the Descriptor to specify which attribute(s) can be used for " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IEventArtifactImpl.class.getName()).getLabel() + " filtering.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
-			return "Notification Artifact";
+			return ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IEventArtifactImpl.class.getName()).getLabel() + " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;
 	}

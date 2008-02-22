@@ -41,9 +41,20 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.ImportWithCheckpointWizardPage;
@@ -81,6 +92,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisi
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
@@ -156,7 +168,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 	public ImportFromUML2Wizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		image = TigerstripePluginImages.WIZARD_IMPORT_LOGO;
+		image = Images.getDescriptor(Images.WIZARD_IMPORT_LOGO);
 		setDefaultPageImageDescriptor(image);
 
 		setWindowTitle("Import from UML2");
@@ -585,58 +597,86 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 
 	private void createEntities(Properties pageProperties, List entities,
 			IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Entities.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ "(s).");
 		runGenerator(ENTITY_TEMPLATE, pageProperties, entities, monitor);
 	}
 
 	private void createDatatypes(Properties pageProperties, List datatypes,
 			IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Datatypes.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IDatatypeArtifactImpl.class.getName()).getLabel()
+				+ "(s).");
 		runGenerator(DATATYPE_TEMPLATE, pageProperties, datatypes, monitor);
 	}
 
 	private void createEnumerations(Properties pageProperties, List enums,
 			IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Enumerations.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IEnumArtifactImpl.class.getName()).getLabel() + "(s).");
 		runGenerator(ENUM_TEMPLATE, pageProperties, enums, monitor);
 	}
 
 	private void createExceptions(Properties pageProperties, List exceptions,
 			IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Exceptions.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IExceptionArtifactImpl.class.getName()).getLabel()
+				+ "(s).");
 		runGenerator(EXCEPTION_TEMPLATE, pageProperties, exceptions, monitor);
 	}
 
 	private void createNotifications(Properties pageProperties,
 			List notifications, IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Notifications.");
+		monitor
+				.setTaskName("Creating "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IEventArtifactImpl.class.getName()).getLabel()
+						+ "(s).");
 		runGenerator(NOTIFICATION_TEMPLATE, pageProperties, notifications,
 				monitor);
 	}
 
 	private void createNamedQueries(Properties pageProperties,
 			List namedQueries, IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Named Queries.");
+		monitor
+				.setTaskName("Creating "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IQueryArtifactImpl.class.getName()).getLabel()
+						+ "(s).");
 		runGenerator(NAMEDQUERY_TEMPLATE, pageProperties, namedQueries, monitor);
 	}
 
 	private void createUpdateProcedures(Properties pageProperties,
 			List updateProcedures, IProgressMonitor monitor)
 			throws CoreException {
-		monitor.setTaskName("Creating Update Procedures.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IUpdateProcedureArtifactImpl.class.getName())
+						.getLabel() + "(s).");
 		runGenerator(UPDATEPROC_TEMPLATE, pageProperties, updateProcedures,
 				monitor);
 	}
 
 	private void createSessionFacades(Properties pageProperties,
 			List sessionFacades, IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Session Facades.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel()
+				+ "(s).");
 		runGenerator(SESSION_TEMPLATE, pageProperties, sessionFacades, monitor);
 	}
 
 	private void createAssociations(Properties pageProperties,
 			List associations, IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Associations.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IAssociationArtifactImpl.class.getName()).getLabel()
+				+ "(s).");
 		runGenerator(ASSOCIATION_TEMPLATE, pageProperties, associations,
 				monitor);
 	}
@@ -644,14 +684,20 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 	private void createAssociationClasses(Properties pageProperties,
 			List associationClasses, IProgressMonitor monitor)
 			throws CoreException {
-		monitor.setTaskName("Creating Association Classes.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IAssociationClassArtifactImpl.class.getName())
+						.getLabel() + "(s).");
 		runGenerator(ASSOCIATIONCLASS_TEMPLATE, pageProperties,
 				associationClasses, monitor);
 	}
 
 	private void createDependencies(Properties pageProperties,
 			List dependencies, IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Dependencies.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IDependencyArtifactImpl.class.getName()).getLabel()
+				+ "(s).");
 		runGenerator(DEPENDENCY_TEMPLATE, pageProperties, dependencies, monitor);
 	}
 

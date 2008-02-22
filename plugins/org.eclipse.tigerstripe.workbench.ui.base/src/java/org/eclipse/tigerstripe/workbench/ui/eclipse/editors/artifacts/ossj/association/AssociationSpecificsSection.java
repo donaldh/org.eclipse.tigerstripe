@@ -27,6 +27,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
@@ -689,8 +691,10 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
 				getIArtifact().getTigerstripeProject(), new IAbstractArtifact[0]);
 		dialog.setIncludePrimitiveTypes(false);
-		dialog.setTitle("Association End Type");
-		dialog.setMessage("Select the type of the Association End.");
+		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IAssociationArtifactImpl.class.getName()).getLabel() + " End Type");
+		dialog.setMessage("Select the type of the " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IAssociationArtifactImpl.class.getName()).getLabel() + " End.");
 
 		try {
 			IAbstractArtifact[] artifacts = dialog.browseAvailableArtifacts(

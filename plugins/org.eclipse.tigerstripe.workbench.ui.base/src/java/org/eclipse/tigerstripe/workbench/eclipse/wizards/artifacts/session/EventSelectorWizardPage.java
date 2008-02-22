@@ -28,11 +28,13 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactSelectionDialog;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -51,8 +53,7 @@ public class EventSelectorWizardPage extends NewContainerWizardPage {
 
 		public EventListLabelProvider() {
 			super();
-			eventImage = TigerstripePluginImages
-					.get(TigerstripePluginImages.NOTIFICATION_ICON);
+			eventImage = Images.get(Images.NOTIFICATION_ICON);
 		}
 
 		@Override
@@ -271,9 +272,11 @@ public class EventSelectorWizardPage extends NewContainerWizardPage {
 		ArtifactSelectionDialog dialog = new ArtifactSelectionDialog(
 				this.initialJElement, EventArtifact.MODEL);
 
-		dialog.setTitle("Notification Artifacts");
+		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IEventArtifactImpl.class.getName()).getLabel() + " Artifacts");
 		dialog
-				.setMessage("Select a set of Notifications that will be emitted by this interface.");
+				.setMessage("Select a set of " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IEventArtifactImpl.class.getName()).getLabel() + "(s) that will be emitted by this interface.");
 		AbstractArtifact[] selectedArtifacts = dialog.browseAvailableArtifacts(
 				getShell(), this.eventsDialogField.getElements(),
 				getTSRuntimeContext());

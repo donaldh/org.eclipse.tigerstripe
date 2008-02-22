@@ -16,8 +16,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMet
 
 public interface ISessionArtifact extends IAbstractArtifact{
 
-	public final static String DEFAULT_LABEL = "Session";
-
 	public interface IEntityMethodFlavorDetails  {
 
 		public void setComment(String description);

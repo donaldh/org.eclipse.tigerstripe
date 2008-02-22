@@ -20,6 +20,8 @@ import java.util.Properties;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjFlavorDefaults;
@@ -741,7 +743,9 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		public IStatus validate() {
 
 			MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
-					"Exception validation", null);
+					ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IExceptionArtifactImpl.class.getName()).getLabel()
+							+ " validation", null);
 
 			// check the fully qualified name of the exception to ensure
 			// that it is a valid Java name, do this by checking both the
@@ -756,7 +760,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					&& !TigerstripeValidationUtils.elementNamePattern.matcher(
 							className).matches())
 				result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
-						"'" + getName() + "' is not a legal exception name"));
+						"'"
+								+ getName()
+								+ "' is not a legal "
+								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IExceptionArtifactImpl.class.getName())
+										.getLabel() + " name"));
 			// check class name to ensure it is not a reserved keyword
 			else if (TigerstripeValidationUtils.keywordList.contains(className)) {
 				result
@@ -765,7 +774,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 								BasePlugin.getPluginId(),
 								"'"
 										+ getName()
-										+ "' is a reserved keyword and cannot be used as exception name"));
+										+ "' is a reserved keyword and cannot be used as "
+										+ ArtifactMetadataFactory.INSTANCE
+												.getMetadata(
+														IExceptionArtifactImpl.class
+																.getName())
+												.getLabel() + " name"));
 			}
 
 			// check the IException package to ensure that it is a legal package
@@ -774,8 +788,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			if (!TigerstripeValidationUtils.packageNamePattern.matcher(
 					packageName).matches())
 				result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
-						"'" + packageName
-								+ "' is not a legal exception package name"));
+						"'"
+								+ packageName
+								+ "' is not a legal "
+								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IExceptionArtifactImpl.class.getName())
+										.getLabel() + " package name"));
 			else if (TigerstripeValidationUtils.keywordList
 					.contains(packageName)) {
 				result
@@ -784,7 +802,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 								BasePlugin.getPluginId(),
 								"'"
 										+ packageName
-										+ "' is a reserved keyword and cannot be used as an exception package name"));
+										+ "' is a reserved keyword and cannot be used as an "
+										+ ArtifactMetadataFactory.INSTANCE
+												.getMetadata(
+														IExceptionArtifactImpl.class
+																.getName())
+												.getLabel() + " package name"));
 			}
 
 			return result;

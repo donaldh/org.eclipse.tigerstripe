@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.depe
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.OssjArtifactOverviewPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.PartInitException;
 
 /**
@@ -25,6 +26,7 @@ public class DependencyArtifactEditor extends ArtifactEditorBase {
 
 	public DependencyArtifactEditor() {
 		super();
+		setTitleImage(Images.get(Images.DEPENDENCY_ICON));
 	}
 
 	@Override

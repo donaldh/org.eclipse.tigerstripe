@@ -67,8 +67,7 @@ public class ModuleProjectHandle extends TigerstripeProjectHandle implements
 		return (ModuleArtifactManager) moduleRef.getArtifactManager();
 	}
 
-	public void updateDependenciesContentCache(
-			IProgressMonitor monitor) {
+	public void updateDependenciesContentCache(IProgressMonitor monitor) {
 		getModuleManager().updateDependenciesContentCache(monitor);
 	}
 

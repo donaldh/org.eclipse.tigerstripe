@@ -41,7 +41,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseReference;
@@ -51,6 +50,7 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.UseCaseSelectionDial
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.SegmentEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segment.TigerstripeSegmentSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
@@ -169,8 +169,7 @@ public class UseCaseSection extends TigerstripeSegmentSectionPart implements
 
 		@Override
 		public Image getImage(Object obj) {
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.CONTRACTUSECASE_ICON);
+			return Images.get(Images.CONTRACTUSECASE_ICON);
 		}
 	}
 

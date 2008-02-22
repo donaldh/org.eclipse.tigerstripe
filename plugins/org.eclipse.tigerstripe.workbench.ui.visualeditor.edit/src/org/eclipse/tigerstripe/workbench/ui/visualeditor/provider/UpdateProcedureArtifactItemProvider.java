@@ -21,7 +21,7 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.UpdateProcedureArtifact;
 
 /**
@@ -70,8 +70,7 @@ public class UpdateProcedureArtifactItemProvider extends
 	public Object getImage(Object object) {
 		Object icon = getIcon(object, false);
 		if (icon == null) // this is necessary for the floating palette
-			icon = TigerstripePluginImages
-					.get(TigerstripePluginImages.UPDATEPROC_ICON);
+			icon = Images.get(Images.UPDATEPROC_ICON);
 		return overlayImage(object, icon);
 	}
 

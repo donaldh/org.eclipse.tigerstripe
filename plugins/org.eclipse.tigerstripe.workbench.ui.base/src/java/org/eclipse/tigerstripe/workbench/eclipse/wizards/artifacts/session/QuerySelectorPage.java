@@ -31,6 +31,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.AbstractArtifactLabelProvider;
@@ -61,10 +64,19 @@ public class QuerySelectorPage extends WizardPage {
 	 */
 	public QuerySelectorPage(ISelection selection, ImageDescriptor image,
 			ArtifactManager artifactManager) {
-		super("wizardPage", "Query Selector", image);
-		setTitle("Query Selector");
+		super("wizardPage", ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IQueryArtifactImpl.class.getName()).getLabel()
+				+ " Selector", image);
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IQueryArtifactImpl.class.getName()).getLabel()
+				+ " Selector");
 
-		setDescription("Select one or more Named Queries for this API.");
+		setDescription("Select one or more "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IQueryArtifactImpl.class.getName()).getLabel()
+				+ "(s) for this "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel() + ".");
 	}
 
 	private ArtifactManager getArtifactManager() {
@@ -285,9 +297,8 @@ public class QuerySelectorPage extends WizardPage {
 		this.selectedQueryArtifactsMap = new HashMap();
 		this.availableQueryArtifactsMap = new HashMap();
 
-		Collection queries = getArtifactManager()
-				.getArtifactsByModel(QueryArtifact.MODEL, true,
-						new NullProgressMonitor());
+		Collection queries = getArtifactManager().getArtifactsByModel(
+				QueryArtifact.MODEL, true, new NullProgressMonitor());
 
 		if (queries == null || queries.size() == 0)
 			return;

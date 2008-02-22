@@ -14,6 +14,8 @@ import java.util.HashMap;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
@@ -69,7 +71,13 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 						+ extendedBaseTypeStr);
 				if (!baseTypeStr.equals(extendedBaseTypeStr)) {
 					TigerstripeProjectAuditor.reportError(
-							"Base type of extended Enumeration mismatched. Was expecting '"
+							"Base type of extended "
+									+ ArtifactMetadataFactory.INSTANCE
+											.getMetadata(
+													IEnumArtifactImpl.class
+															.getName())
+											.getLabel()
+									+ " mismatched. Was expecting '"
 									+ extendedBaseTypeStr + "', found='"
 									+ baseTypeStr + "'.", getIResource(), 222);
 				}
@@ -96,7 +104,13 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 											+ literal.getName()
 											+ "' in '"
 											+ artifact.getFullyQualifiedName()
-											+ "' is incompatible with the defined base type for this Enumeration Artifact ( expected='"
+											+ "' is incompatible with the defined base type for this "
+											+ ArtifactMetadataFactory.INSTANCE
+													.getMetadata(
+															IEnumArtifactImpl.class
+																	.getName())
+													.getLabel()
+											+ " Artifact ( expected='"
 											+ baseType.getFullyQualifiedName()
 											+ "', found='" + labelFQN + "').",
 									getIResource(), 222);
@@ -112,11 +126,18 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 					String otherDefName = (String) valueDefinitionMap
 							.get(value);
 					TigerstripeProjectAuditor.reportWarning("The value ("
-							+ value + ") of label '" + name
+							+ value
+							+ ") of label '"
+							+ name
 							+ "' is identical to value of label '"
-							+ otherDefName + "' in '"
+							+ otherDefName
+							+ "' in '"
 							+ artifact.getFullyQualifiedName()
-							+ "' Enumeration Artifact.", getIResource(), 222);
+							+ "' "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IEnumArtifactImpl.class.getName())
+									.getLabel() + " Artifact.", getIResource(),
+							222);
 				} else {
 					valueDefinitionMap.put(value, name);
 				}

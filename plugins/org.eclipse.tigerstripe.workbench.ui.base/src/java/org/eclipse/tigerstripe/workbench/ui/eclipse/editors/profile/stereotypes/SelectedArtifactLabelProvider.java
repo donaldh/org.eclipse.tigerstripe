@@ -13,17 +13,17 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.stereotypes
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.stereotypes.StereotypeDetailsPage.SelectedArtifactType;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 public class SelectedArtifactLabelProvider extends LabelProvider implements
 		ITableLabelProvider {
 
 	private Image getImage(boolean isSelected) {
-		String key = isSelected ? TigerstripePluginImages.CHECKED_ICON
-				: TigerstripePluginImages.UNCHECKED_ICON;
-		return TigerstripePluginImages.get(key);
+		String key = isSelected ? Images.CHECKED_ICON
+				: Images.UNCHECKED_ICON;
+		return Images.get(key);
 	}
 
 	public Image getColumnImage(Object element, int columnIndex) {

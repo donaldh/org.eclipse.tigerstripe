@@ -32,6 +32,8 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
@@ -154,15 +156,18 @@ public class InstanceMapItemSemanticEditPolicy extends
 			} else if (!sessionFacadeInstancesEnabled()
 					&& artifact instanceof ISessionArtifact) {
 				String warningStr = "Your profile does not allow for instantiation "
-						+ "of Session Facade objects; drag-and-drop operation cancelled";
+						+ "of " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+								ISessionArtifactImpl.class.getName()).getLabel() + " objects; drag-and-drop operation cancelled";
 				String[] buttonLabels = new String[] { "OK" };
 				int defButtonIdx = 0;
 				MessageDialog warningDialog = new MessageDialog(shell,
-						"Session Facade detected", (Image) null, warningStr,
+						ArtifactMetadataFactory.INSTANCE.getMetadata(
+								ISessionArtifactImpl.class.getName()).getLabel() + " detected", (Image) null, warningStr,
 						MessageDialog.WARNING, buttonLabels, defButtonIdx);
 				int retIdx = warningDialog.open();
 				throw new OperationCanceledException(
-						"Cannot Instantiate Session Facade");
+						"Cannot Instantiate " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+								ISessionArtifactImpl.class.getName()).getLabel());
 			}
 			ClassInstanceEditDialog ied = new ClassInstanceEditDialog(shell,
 					artifact, mapEditPart);

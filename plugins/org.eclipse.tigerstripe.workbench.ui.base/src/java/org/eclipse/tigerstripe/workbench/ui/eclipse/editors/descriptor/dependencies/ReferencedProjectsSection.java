@@ -39,7 +39,7 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
-import org.eclipse.tigerstripe.workbench.ui.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -94,7 +94,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 
 		@Override
 		public Image getImage(Object obj) {
-			return Images.getInstance().get(Images.TSPROJECT_FOLDER);
+			return Images.get(Images.TSPROJECT_FOLDER);
 		}
 
 	}
@@ -179,7 +179,8 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		// current
 		// project
 		try {
-			for (ITigerstripeModelProject prjRefs : handle.getReferencedProjects()) {
+			for (ITigerstripeModelProject prjRefs : handle
+					.getReferencedProjects()) {
 				filteredOutProjects.add(prjRefs.getProjectLabel());
 			}
 		} catch (TigerstripeException e) {

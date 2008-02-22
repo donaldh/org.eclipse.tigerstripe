@@ -16,10 +16,12 @@ import java.util.Properties;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizard;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -31,10 +33,11 @@ public class NewNotificationWizard extends NewArtifactWizard {
 
 	public NewNotificationWizard() {
 		super();
-		setDefaultPageImageDescriptor(TigerstripePluginImages.DESC_TS_LOGO);
+		setDefaultPageImageDescriptor(Images.getDescriptor(Images.TS_LOGO));
 
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
-		setWindowTitle("New Notification Artifact");
+		setWindowTitle("New " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IEventArtifactImpl.class.getName()).getLabel() + " Artifact");
 	}
 
 	/*

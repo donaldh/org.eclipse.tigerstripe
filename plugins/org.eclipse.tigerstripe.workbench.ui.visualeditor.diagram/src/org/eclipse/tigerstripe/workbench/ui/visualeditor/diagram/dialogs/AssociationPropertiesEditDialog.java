@@ -44,6 +44,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
@@ -174,11 +177,20 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 
 	protected void initDialog() {
 		if (association instanceof AssociationClass) {
-			this.setTitleString("Edit Association Class Properties");
-			getShell().setText("Association Class Property Editor");
+			this.setTitleString("Edit "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationClassArtifactImpl.class.getName())
+							.getLabel() + " Properties");
+			getShell().setText(
+					ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationClassArtifactImpl.class.getName())
+							.getLabel()
+							+ " Property Editor");
 		} else {
-			this.setTitleString("Edit Association Properties");
-			getShell().setText("Association Property Editor");
+			this.setTitleString("Edit " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IAssociationArtifactImpl.class.getName()).getLabel() + " Properties");
+			getShell().setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IAssociationArtifactImpl.class.getName()).getLabel() + " Property Editor");
 		}
 		getShell().setMinimumSize(250, 200);
 		elementNames.clear();
@@ -270,14 +282,11 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 								.getActiveProfile()
 								.getAvailableStereotypeForCapable(iArtifact);
 						// TODO - Not sure why these were sorted ?
-/*						Arrays.sort(availStereotypes,
-								new Comparator<IStereotype>() {
-									public int compare(IStereotype o1,
-											IStereotype o2) {
-										return o1.getName().compareTo(
-												o2.getName());
-									}
-								});*/
+						/*
+						 * Arrays.sort(availStereotypes, new Comparator<IStereotype>() {
+						 * public int compare(IStereotype o1, IStereotype o2) {
+						 * return o1.getName().compareTo( o2.getName()); } });
+						 */
 						Collection<IStereotype> availStereotypeList = availStereotypes;
 						List<IStereotype> selectedStereotypeList = new ArrayList<IStereotype>();
 						for (IStereotype availStereotype : availStereotypeList) {

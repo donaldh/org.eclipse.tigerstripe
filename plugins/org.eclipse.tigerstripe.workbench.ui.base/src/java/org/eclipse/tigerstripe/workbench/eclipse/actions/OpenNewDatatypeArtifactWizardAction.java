@@ -11,8 +11,9 @@
 package org.eclipse.tigerstripe.workbench.eclipse.actions;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.datatype.NewDatatypeWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -25,8 +26,11 @@ public class OpenNewDatatypeArtifactWizardAction extends
 
 	@Override
 	protected void initAction() {
-		setText("Datatype");
-		setImageDescriptor(TigerstripePluginImages.DESC_DATATYPE_NEW_ICON);
+		setText(ArtifactMetadataFactory.INSTANCE
+				.getMetadata(
+						org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+								.getName()).getLabel());
+		setImageDescriptor(Images.getDescriptor(Images.DATATYPE_ICON_NEW));
 	}
 
 	@Override

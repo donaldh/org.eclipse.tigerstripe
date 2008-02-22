@@ -20,7 +20,24 @@ import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeConnectionTool;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
+import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.tigerstripe.metamodel.IModelComponentMetadata;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IFieldImpl;
+import org.eclipse.tigerstripe.metamodel.impl.ILiteralImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IMethodImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
@@ -34,6 +51,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
 
 /**
@@ -67,8 +85,8 @@ public class TigerstripePaletteFactory {
 		 * palette (only those artifacts that should be in the model for a given
 		 * profile)
 		 */
-		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
-				.getActiveProfile();
+		IWorkbenchProfile profile = TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile();
 		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 				.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 		if (prop.getDetailsForType(IManagedEntityArtifact.class.getName())
@@ -140,211 +158,187 @@ public class TigerstripePaletteFactory {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createManagedEntity1CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_entity.gif");
+		smallImage = Images.getDescriptor(Images.ENTITY_ICON);
+		largeImage = Images.getDescriptor(Images.ENTITY_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_entity-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IManagedEntityArtifactImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.ManagedEntityArtifact_1003);
-		ToolEntry result = new NodeToolEntry("Managed Entity",
-				"Create new Managed Entity", smallImage, largeImage,
-				elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createDatatype2CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_datatype.gif");
+		smallImage = Images.getDescriptor(Images.DATATYPE_ICON);
+		largeImage = Images.getDescriptor(Images.DATATYPE_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_datatype-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IDatatypeArtifactImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.DatatypeArtifact_1005);
-		ToolEntry result = new NodeToolEntry("Datatype", "Create new Datatype",
-				smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createEnumeration3CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_enum.gif");
+		smallImage = Images.getDescriptor(Images.ENUM_ICON);
+		largeImage = Images.getDescriptor(Images.ENUM_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_enum-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IEnumArtifactImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.Enumeration_1006);
-		ToolEntry result = new NodeToolEntry("Enumeration",
-				"Create new Enumeration", smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createNotification4CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_notification.gif");
+		smallImage = Images.getDescriptor(Images.NOTIFICATION_ICON);
+		largeImage = Images.getDescriptor(Images.NOTIFICATION_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_notification-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IEventArtifactImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.NotificationArtifact_1004);
-		ToolEntry result = new NodeToolEntry("Notification",
-				"Create new Notification", smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
-	 */
-	private ToolEntry createNamedQuery5CreationTool() {
-		ImageDescriptor smallImage;
-		ImageDescriptor largeImage;
-
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_query.gif");
-
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_query-large.gif");
-
-		final List elementTypes = new ArrayList();
-		elementTypes.add(TigerstripeElementTypes.NamedQueryArtifact_1001);
-		ToolEntry result = new NodeToolEntry("Named Query",
-				"Create new Named Query", smallImage, largeImage, elementTypes);
-
-		return result;
-	}
-
-	/**
-	 * 
+	 * @generated NOT
 	 */
 	private ToolEntry createQuery5CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_query.gif");
+		smallImage = Images.getDescriptor(Images.QUERY_ICON);
+		largeImage = Images.getDescriptor(Images.QUERY_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_query-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IQueryArtifactImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.NamedQueryArtifact_1001);
-		ToolEntry result = new NodeToolEntry("Named Query",
-				"Create new Named Query", smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createUpdateProcedure6CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_updateProc.gif");
+		smallImage = Images.getDescriptor(Images.UPDATEPROC_ICON);
+		largeImage = Images.getDescriptor(Images.UPDATEPROC_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_updateProc-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IUpdateProcedureArtifactImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.UpdateProcedureArtifact_1007);
-		ToolEntry result = new NodeToolEntry("Update Procedure",
-				"Create new Update Procedure", smallImage, largeImage,
-				elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createException7CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_exception.gif");
+		smallImage = Images.getDescriptor(Images.EXCEPTION_ICON);
+		largeImage = Images.getDescriptor(Images.EXCEPTION_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_exception-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IExceptionArtifactImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.ExceptionArtifact_1002);
-		ToolEntry result = new NodeToolEntry("Exception",
-				"Create new Exception", smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createSessionFacade8CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_session.gif");
+		smallImage = Images.getDescriptor(Images.SESSION_ICON);
+		largeImage = Images.getDescriptor(Images.SESSION_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/new_session-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(ISessionArtifactImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.SessionFacadeArtifact_1008);
-		ToolEntry result = new NodeToolEntry("Session Facade",
-				"Create new Session Facade", smallImage, largeImage,
-				elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createAttribute1CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/field_private_obj-small.gif");
+		smallImage = Images.getDescriptor(Images.FIELD_ICON);
+		largeImage = Images.getDescriptor(Images.FIELD_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/field_private_obj-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IFieldImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.Attribute_2001);
 		elementTypes.add(TigerstripeElementTypes.Attribute_2002);
 		elementTypes.add(TigerstripeElementTypes.Attribute_2003);
@@ -352,71 +346,68 @@ public class TigerstripePaletteFactory {
 		elementTypes.add(TigerstripeElementTypes.Attribute_2006);
 		elementTypes.add(TigerstripeElementTypes.Attribute_2009);
 		elementTypes.add(TigerstripeElementTypes.Attribute_2011);
-		ToolEntry result = new NodeToolEntry("Attribute",
-				"Create new Attribute", smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createMethod2CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/methpub_obj-small.gif");
+		smallImage = Images.getDescriptor(Images.METHOD_ICON);
+		largeImage = Images.getDescriptor(Images.METHOD_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/methpub_obj-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IMethodImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.Method_2004);
 		elementTypes.add(TigerstripeElementTypes.Method_2007);
 		elementTypes.add(TigerstripeElementTypes.Method_2010);
 		elementTypes.add(TigerstripeElementTypes.Method_2012);
-		ToolEntry result = new NodeToolEntry("Method", "Create new Method",
-				smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createLiteral3CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/literal-small.gif");
+		smallImage = Images.getDescriptor(Images.LITERAL_ICON);
+		largeImage = Images.getDescriptor(Images.LITERAL_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/literal-large.gif");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(ILiteralImpl.class.getName());
 
-		final List elementTypes = new ArrayList();
+		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.Literal_2008);
-		ToolEntry result = new NodeToolEntry("Literal", "Create new Literal",
-				smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createExtends1CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/ExtendsIcon-small.png");
+		smallImage = Images.getDescriptor(Images.EXTENDSARROW_ICON);
+		largeImage = Images.getDescriptor(Images.EXTENDSARROW_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/ExtendsIcon-large.png");
-
-		final List relationshipTypes = new ArrayList();
+		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
 		relationshipTypes
 				.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 		ToolEntry result = new LinkToolEntry("Extends",
@@ -427,63 +418,60 @@ public class TigerstripePaletteFactory {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createAssociation2CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/AssociationIcon-small.png");
+		smallImage = Images.getDescriptor(Images.ASSOCIATION_ICON);
+		largeImage = Images.getDescriptor(Images.ASSOCIATION_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/AssociationIcon-large.png");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IAssociationArtifactImpl.class.getName());
 
-		final List relationshipTypes = new ArrayList();
+		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
 		relationshipTypes.add(TigerstripeElementTypes.Association_3001);
-		ToolEntry result = new LinkToolEntry("Association",
-				"Create Association Relationship", smallImage, largeImage,
+		ToolEntry result = new LinkToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage,
 				relationshipTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createDependency3CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/AssociationIcon-small.png");
+		smallImage = Images.getDescriptor(Images.DEPENDENCY_ICON);
+		largeImage = Images.getDescriptor(Images.DEPENDENCY_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/AssociationIcon-large.png");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IDependencyArtifactImpl.class.getName());
 
-		final List relationshipTypes = new ArrayList();
+		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
 		relationshipTypes.add(TigerstripeElementTypes.Dependency_3008);
-		ToolEntry result = new LinkToolEntry("Dependency",
-				"Create a new dependency relationship", smallImage, largeImage,
+		ToolEntry result = new LinkToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage,
 				relationshipTypes);
 
 		return result;
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createReference4CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/AssociationIcon-small.png");
+		smallImage = Images.getDescriptor(Images.REFERENCEARROW_ICON);
+		largeImage = Images.getDescriptor(Images.REFERENCEARROW_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/AssociationIcon-large.png");
-
-		final List relationshipTypes = new ArrayList();
+		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
 		relationshipTypes.add(TigerstripeElementTypes.Reference_3009);
 		ToolEntry result = new LinkToolEntry("Reference",
 				"Create a new referency relationship", smallImage, largeImage,
@@ -493,22 +481,22 @@ public class TigerstripePaletteFactory {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private ToolEntry createAssociationClass5CreationTool() {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/AssocClassLinkIcon-small.png");
+		smallImage = Images.getDescriptor(Images.ASSOCIATIONCLASS_ICON);
+		largeImage = Images.getDescriptor(Images.ASSOCIATIONCLASS_ICON);
 
-		largeImage = TigerstripeDiagramEditorPlugin
-				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/AssocClassLinkIcon-large.png");
+		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IAssociationClassArtifactImpl.class.getName());
 
-		final List relationshipTypes = new ArrayList();
+		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
 		relationshipTypes.add(TigerstripeElementTypes.AssociationClass_3010);
-		ToolEntry result = new LinkToolEntry("Association Class",
-				"Create new Association Class", smallImage, largeImage,
+		ToolEntry result = new LinkToolEntry(metadata.getLabel(), "Create new "
+				+ metadata.getLabel(), smallImage, largeImage,
 				relationshipTypes);
 
 		return result;

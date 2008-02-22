@@ -17,6 +17,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbe
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.OssjArtifactOverviewPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.PartInitException;
 
 /**
@@ -29,6 +30,7 @@ public class DatatypeArtifactEditor extends ArtifactEditorBase {
 
 	public DatatypeArtifactEditor() {
 		super();
+		setTitleImage(Images.get(Images.DATATYPE_ICON));
 	}
 
 	@Override

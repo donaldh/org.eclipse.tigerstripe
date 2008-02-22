@@ -29,11 +29,14 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactSelectionDialog;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -52,8 +55,7 @@ public class QuerySelectorWizardPage extends NewContainerWizardPage {
 
 		public QueryListLabelProvider() {
 			super();
-			queryImage = TigerstripePluginImages
-					.get(TigerstripePluginImages.QUERY_ICON);
+			queryImage = Images.get(Images.QUERY_ICON);
 		}
 
 		@Override
@@ -133,8 +135,15 @@ public class QuerySelectorWizardPage extends NewContainerWizardPage {
 	public QuerySelectorWizardPage() {
 		super(PAGE_NAME);
 
-		setTitle("Named Query Selection");
-		setDescription("Select Named Queries to be managed through this new Session.");
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IQueryArtifactImpl.class.getName()).getLabel()
+				+ " Selection");
+		setDescription("Select "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IQueryArtifactImpl.class.getName()).getLabel()
+				+ "(s) to be managed through this new "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel());
 
 		QueryFieldsAdapter adapter = new QueryFieldsAdapter();
 
@@ -145,7 +154,9 @@ public class QuerySelectorWizardPage extends NewContainerWizardPage {
 		queriesDialogField = new ListDialogField(adapter, addButtons,
 				new QueryListLabelProvider());
 		queriesDialogField.setDialogFieldListener(adapter);
-		queriesDialogField.setLabelText("Named Queries");
+		queriesDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IQueryArtifactImpl.class.getName()).getLabel()
+				+ "(s)");
 		queriesDialogField.setRemoveButtonIndex(REMOVE_BUTTON_IDX);
 
 	}
@@ -315,9 +326,12 @@ public class QuerySelectorWizardPage extends NewContainerWizardPage {
 		ArtifactSelectionDialog dialog = new ArtifactSelectionDialog(
 				this.initialJElement, QueryArtifact.MODEL);
 
-		dialog.setTitle("Named Query Artifacts");
+		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IQueryArtifactImpl.class.getName()).getLabel() + " Artifacts");
 		dialog
-				.setMessage("Select a set of Named Queries that will be available through this interface.");
+				.setMessage("Select a set of " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IQueryArtifactImpl.class.getName()).getLabel() + "(s) that will be available through this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+								ISessionArtifactImpl.class.getName()).getLabel());
 		AbstractArtifact[] selectedArtifacts = dialog.browseAvailableArtifacts(
 				getShell(), this.queriesDialogField.getElements(),
 				getTSRuntimeContext());

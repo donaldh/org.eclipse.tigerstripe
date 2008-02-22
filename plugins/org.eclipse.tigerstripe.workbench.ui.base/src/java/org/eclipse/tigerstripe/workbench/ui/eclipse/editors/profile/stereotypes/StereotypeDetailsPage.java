@@ -46,6 +46,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -400,7 +402,10 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		literalLevelButton.setEnabled(ProfileEditor.isEditable());
 		literalLevelButton.addSelectionListener(adapter);
 		literalLevelButton
-				.setToolTipText("Mark this annotation applicable to any Enumeration Literal, regardless of containing Artifact Type");
+				.setToolTipText("Mark this annotation applicable to any "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IEnumArtifactImpl.class.getName()).getLabel()
+						+ " Literal, regardless of containing Artifact Type");
 
 		argumentLevelButton = toolkit.createButton(scopeComp, "Any Argument",
 				SWT.CHECK);

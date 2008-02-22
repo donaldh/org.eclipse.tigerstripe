@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.primitive;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -38,7 +40,9 @@ public class PrimitiveTypesPage extends TigerstripeFormPage {
 
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("Primitive Types Definitions");
+		form.setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IPrimitiveTypeImpl.class.getName())
+				.getLabel() + " Definitions");
 		fillBody(managedForm, toolkit);
 		managedForm.refresh();
 	}

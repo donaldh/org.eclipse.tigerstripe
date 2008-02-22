@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.dependency;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactFormContentProviderBase;
@@ -32,19 +34,31 @@ public class DependencyArtifactFormContentProvider extends
 			StringBuffer buf = new StringBuffer();
 
 			buf.append("<form>");
-			buf
-					.append("<li><a href=\"aEnd\">aEnd</a>: one of the dependency ends.</li>");
-			buf
-					.append("<li><a href=\"zEnd\">zEnd</a>: the other dependency end.</li>");
+			buf.append("<li><a href=\"aEnd\">aEnd</a>: one of the "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IDependencyArtifactImpl.class.getName()).getLabel()
+					+ " ends.</li>");
+			buf.append("<li><a href=\"zEnd\">zEnd</a>: the other "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IDependencyArtifactImpl.class.getName()).getLabel()
+					+ " end.</li>");
 			buf.append("</form>");
 
 			return buf.toString();
 		} else if (IArtifactFormContentProvider.ARTIFACT_CONTENT_DESCRIPTION
 				.equals(textId))
-			return "<form><p>A Dependency Artifact explicitly models a dependency between two Artifacts.</p></form>";
+			return "<form><p>A "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IDependencyArtifactImpl.class.getName()).getLabel()
+					+ " Artifact explicitly models a "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IDependencyArtifactImpl.class.getName()).getLabel()
+					+ " between two Artifacts.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
-			return "Dependency Artifact";
+			return ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IDependencyArtifactImpl.class.getName()).getLabel()
+					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;
 	}

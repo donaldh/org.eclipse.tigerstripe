@@ -32,8 +32,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
@@ -42,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.ArtifactSelectorDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.IArtifactLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -61,8 +63,7 @@ public class EntitySelectorWizardPage extends NewContainerWizardPage {
 
 		public EntityOptionListLabelProvider() {
 			super();
-			managedEntityImage = TigerstripePluginImages
-					.get(TigerstripePluginImages.ENTITY_ICON);
+			managedEntityImage = Images.get(Images.ENTITY_ICON);
 		}
 
 		public String getName(Object element) {
@@ -142,8 +143,13 @@ public class EntitySelectorWizardPage extends NewContainerWizardPage {
 	public EntitySelectorWizardPage() {
 		super(PAGE_NAME);
 
-		setTitle("Managed Entity Selection");
-		setDescription("Select Entities to be managed through this new Session.");
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ " Selection");
+		setDescription("Select "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ ".");
 
 		EntityFieldsAdapter adapter = new EntityFieldsAdapter();
 
@@ -154,7 +160,9 @@ public class EntitySelectorWizardPage extends NewContainerWizardPage {
 		entitiesDialogField = new ListDialogField(adapter, addButtons,
 				new EntityOptionListLabelProvider());
 		entitiesDialogField.setDialogFieldListener(adapter);
-		entitiesDialogField.setLabelText("Managed Entities");
+		entitiesDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
+				.getMetadata(IManagedEntityArtifactImpl.class.getName())
+				.getLabel());
 		entitiesDialogField.setRemoveButtonIndex(1);
 
 	}
@@ -316,9 +324,13 @@ public class EntitySelectorWizardPage extends NewContainerWizardPage {
 		ArtifactSelectorDialog elsd = new ArtifactSelectorDialog(getShell(),
 				new EntityOptionListLabelProvider());
 
-		elsd.setTitle("Managed Entity Artifacts");
-		elsd
-				.setMessage("Select a set of Entities to be managed through this interface.");
+		elsd.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ " Artifacts");
+		elsd.setMessage("Select a set of "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ "(s) to be managed through this interface.");
 		Object[] availableEntityOptions = getAvailableEntityOptionsList();
 		elsd.setElements(availableEntityOptions);
 

@@ -36,9 +36,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -54,6 +56,7 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssj
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.IOssjArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.ArtifactSelectorDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.IArtifactLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
@@ -105,8 +108,7 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 		}
 
 		public Image getImage(Object element) {
-			return TigerstripePluginImages
-					.get(TigerstripePluginImages.ENTITY_ICON);
+			return Images.get(Images.ENTITY_ICON);
 		}
 
 		public String getText(Object element) {
@@ -218,9 +220,13 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 		ArtifactSelectorDialog elsd = new ArtifactSelectorDialog(getPage()
 				.getManagedForm().getForm().getShell(), labelProvider);
 
-		elsd.setTitle("Managed Entity Artifacts");
-		elsd
-				.setMessage("Select a set of Entities to be managed through this session.");
+		elsd.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ " Artifacts");
+		elsd.setMessage("Select a set of "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ "(s) to be managed through this session.");
 
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
 		Object[] availableEntityOptions = getAvailableEntityOptionsList();
@@ -245,8 +251,7 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 		// with
 		// already selected entities.
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-		List selectedOptions = Arrays
-				.asList(session.getManagedEntityDetails());
+		List selectedOptions = Arrays.asList(session.getManagedEntityDetails());
 
 		Collection entities = new ArrayList();
 		IArtifactManagerSession ams = session.getTigerstripeProject()
@@ -305,14 +310,27 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 
 		String message = "Do you really want to remove ";
 		if (selectedLabels.length > 1) {
-			message = message + "these " + selectedLabels.length + " Entities?";
+			message = message
+					+ "these "
+					+ selectedLabels.length
+					+ " "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IManagedEntityArtifactImpl.class.getName())
+							.getLabel() + "(s)?";
 		} else {
-			message = message + "this Entity?";
+			message = message
+					+ "this "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IManagedEntityArtifactImpl.class.getName())
+							.getLabel() + "?";
 		}
 
 		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-				"Remove Entities", null, message, MessageDialog.QUESTION,
-				new String[] { "Yes", "No" }, 1);
+				"Remove "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IManagedEntityArtifactImpl.class.getName())
+								.getLabel() + "(s)", null, message,
+				MessageDialog.QUESTION, new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {
 			getViewer().remove(selectedLabels);

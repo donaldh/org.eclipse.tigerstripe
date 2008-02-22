@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.QueryArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjQuerySpecifics;
@@ -40,8 +42,6 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 	 */
 	public final static QueryArtifact MODEL = new QueryArtifact(null);
 
-	public final static String LABEL = "Query Artifact";
-
 	public String getArtifactType() {
 		return IQueryArtifact.class.getName();
 	}
@@ -57,7 +57,8 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IQueryArtifactImpl.class.getName()).getLabel();
 	}
 
 	@Override

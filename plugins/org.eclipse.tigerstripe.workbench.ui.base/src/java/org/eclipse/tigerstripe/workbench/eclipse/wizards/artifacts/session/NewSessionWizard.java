@@ -19,9 +19,11 @@ import java.io.Writer;
 import java.util.Properties;
 
 import org.eclipse.jdt.internal.ui.JavaPlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -39,10 +41,13 @@ public class NewSessionWizard extends NewArtifactWizard {
 
 	public NewSessionWizard() {
 		super();
-		setDefaultPageImageDescriptor(TigerstripePluginImages.DESC_TS_LOGO);
+		setDefaultPageImageDescriptor(Images.getDescriptor(Images.TS_LOGO));
 
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
-		setWindowTitle("New Session Artifact");
+		setWindowTitle("New "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel()
+				+ " Artifact");
 	}
 
 	/*

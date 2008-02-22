@@ -44,6 +44,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
@@ -116,8 +118,13 @@ public class NewEntityWizardPage extends NewArtifactWizardPage {
 	public NewEntityWizardPage() {
 		super(PAGE_NAME);
 
-		setTitle("Entity Artifact");
-		setDescription("Create a new Entity Artifact.");
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ " Artifact");
+		setDescription("Create a new "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ " Artifact.");
 
 		EntityFieldsAdapter adapter = new EntityFieldsAdapter();
 

@@ -71,7 +71,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -91,6 +90,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.A
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.ClassInstanceEditPart;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.InstanceMapEditPart;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.InstanceDiagramUtils;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.dialogs.SelectionDialog;
 
 public class ClassInstanceEditDialog extends NewTSMessageDialog {
@@ -1118,9 +1118,9 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 			ITableLabelProvider {
 
 		private Image getImage(boolean isSelected) {
-			String key = isSelected ? TigerstripePluginImages.CHECKED_ICON
-					: TigerstripePluginImages.UNCHECKED_ICON;
-			return TigerstripePluginImages.get(key);
+			String key = isSelected ? Images.CHECKED_ICON
+					: Images.UNCHECKED_ICON;
+			return Images.get(key);
 		}
 
 		public Image getColumnImage(Object element, int columnIndex) {

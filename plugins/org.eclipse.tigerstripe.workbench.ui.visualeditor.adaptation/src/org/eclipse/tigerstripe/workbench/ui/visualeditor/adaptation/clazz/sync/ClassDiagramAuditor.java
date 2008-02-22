@@ -21,6 +21,9 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -135,7 +138,9 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		parentStatus.add(artResult);
 
 		MultiStatus assocResult = new MultiStatus(Activator.PLUGIN_ID, 222,
-				"Associations", null);
+				ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IAssociationArtifactImpl.class.getName()).getLabel()
+						+ "(s)", null);
 		List<Association> associations = map.getAssociations();
 		for (Association association : associations) {
 			IStatus status = auditAssociation(association, tsProject);
@@ -144,7 +149,9 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		parentStatus.add(assocResult);
 
 		MultiStatus depResult = new MultiStatus(Activator.PLUGIN_ID, 222,
-				"Dependencies", null);
+				ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IDependencyArtifactImpl.class.getName()).getLabel()
+						+ "(s)", null);
 		List<Dependency> dependencies = map.getDependencies();
 		for (Dependency dependency : dependencies) {
 			IStatus status = auditDependency(dependency, tsProject);
@@ -161,7 +168,10 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 		if (eDependency.getFullyQualifiedName() == null
 				|| eDependency.getFullyQualifiedName().length() == 0) {
-			IStatus status = getErrorStatus("Dependency has no Fully Qualified Name");
+			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
+					.getMetadata(IDependencyArtifactImpl.class.getName())
+					.getLabel()
+					+ " has no Fully Qualified Name");
 			return status;
 		}
 		IAbstractArtifact iArtifact = session
@@ -169,7 +179,10 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 						.getFullyQualifiedName());
 
 		if (iArtifact == null) {
-			IStatus status = getErrorStatus("Dependency '"
+			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
+					.getMetadata(IDependencyArtifactImpl.class.getName())
+					.getLabel()
+					+ " '"
 					+ eDependency.getFullyQualifiedName()
 					+ "' in diagram doesn't exist in model.");
 			return status;
@@ -201,13 +214,19 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 		if ((eAEnd == null && iAEnd != null)
 				|| (eAEnd != null && !eAEnd.equals(iAEnd))) {
-			IStatus status = getErrorStatus("Dependency ends (A) don't match");
+			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
+					.getMetadata(IDependencyArtifactImpl.class.getName())
+					.getLabel()
+					+ " ends (A) don't match");
 			result.add(status);
 		}
 
 		if ((eZEnd == null && iZEnd != null)
 				|| (eZEnd != null && !eZEnd.equals(iZEnd))) {
-			IStatus status = getErrorStatus("Dependency ends (Z) don't match");
+			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
+					.getMetadata(IDependencyArtifactImpl.class.getName())
+					.getLabel()
+					+ " ends (Z) don't match");
 			result.add(status);
 		}
 
@@ -220,7 +239,10 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 		if (eAssociation.getFullyQualifiedName() == null
 				|| eAssociation.getFullyQualifiedName().length() == 0) {
-			IStatus status = getErrorStatus("Association has no Fully Qualified Name");
+			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
+					.getMetadata(IAssociationArtifactImpl.class.getName())
+					.getLabel()
+					+ " has no Fully Qualified Name");
 			return status;
 		}
 		IAbstractArtifact iArtifact = session
@@ -228,7 +250,10 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 						.getFullyQualifiedName());
 
 		if (iArtifact == null) {
-			IStatus status = getErrorStatus("Association '"
+			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
+					.getMetadata(IAssociationArtifactImpl.class.getName())
+					.getLabel()
+					+ " '"
 					+ eAssociation.getFullyQualifiedName()
 					+ "' in diagram doesn't exist in model.");
 			return status;
@@ -260,13 +285,19 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 		if ((eAEnd == null && iAEnd != null)
 				|| (eAEnd != null && !eAEnd.equals(iAEnd))) {
-			IStatus status = getErrorStatus("Association (A) ends don't match");
+			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
+					.getMetadata(IAssociationArtifactImpl.class.getName())
+					.getLabel()
+					+ " (A) ends don't match");
 			result.add(status);
 		}
 
 		if ((eZEnd == null && iZEnd != null)
 				|| (eZEnd != null && !eZEnd.equals(iZEnd))) {
-			IStatus status = getErrorStatus("Association (Z) ends don't match");
+			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
+					.getMetadata(IAssociationArtifactImpl.class.getName())
+					.getLabel()
+					+ " (Z) ends don't match");
 			result.add(status);
 		}
 
@@ -338,8 +369,10 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		}
 
 		// check multiplicities
-		IModelComponent.EMultiplicity iAEndMultiplicity = iAssoc.getAEnd().getMultiplicity();
-		IModelComponent.EMultiplicity iZEndMultiplicity = iAssoc.getZEnd().getMultiplicity();
+		IModelComponent.EMultiplicity iAEndMultiplicity = iAssoc.getAEnd()
+				.getMultiplicity();
+		IModelComponent.EMultiplicity iZEndMultiplicity = iAssoc.getZEnd()
+				.getMultiplicity();
 		AssocMultiplicity eAEndMultiplicity = eAssociation
 				.getAEndMultiplicity();
 		AssocMultiplicity eZEndMultiplicity = eAssociation
@@ -589,7 +622,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 					Iterator<String> eStereo = eStereotypes.iterator();
 					Collection<IStereotypeInstance> iStereotypes = iField
 							.getStereotypeInstances();
-					for (IStereotypeInstance iStereo: iStereotypes) {
+					for (IStereotypeInstance iStereo : iStereotypes) {
 						String eStereotypeName = eStereo.next();
 						String iStereotypeName = iStereo.getName();
 						if (!eStereotypeName.equals(iStereotypeName)) {
@@ -665,8 +698,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				if (eMethod.getType() != null
 						&& !eMethod.getType().equals(targetReturnedType)) {
 					IStatus status = getErrorStatus("Return type in Diagram ("
-							+ eMethod.getType()
-							+ ") doesn't match model: "
+							+ eMethod.getType() + ") doesn't match model: "
 							+ targetReturnedType);
 					methResult.add(status);
 				}
@@ -699,31 +731,36 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				}
 
 				// review multiplicity, swap if necessary
-				// First check if the method has a void return type - in which case, the multiplicity is moot
-				if (!iMethod.isVoid()){
+				// First check if the method has a void return type - in which
+				// case, the multiplicity is moot
+				if (!iMethod.isVoid()) {
 					AssocMultiplicity eMethodMultiplicy = eMethod
-					.getTypeMultiplicity();
+							.getTypeMultiplicity();
 
 					if (iMethod.getReturnType() != null) {
 						IModelComponent.EMultiplicity iMethodMultiplicity = iMethod
-						.getReturnType().getTypeMultiplicity();
+								.getReturnType().getTypeMultiplicity();
 						if (eMethodMultiplicy != ClassDiagramUtils
 								.mapTypeMultiplicity(iMethodMultiplicity)) {
 							methResult
-							.add(getErrorStatus("return multiplicity doesn't match "
-									+iMethodMultiplicity.getLabel()+ " "+eMethodMultiplicy.getLiteral()));
+									.add(getErrorStatus("return multiplicity doesn't match "
+											+ iMethodMultiplicity.getLabel()
+											+ " "
+											+ eMethodMultiplicy.getLiteral()));
 						}
 					}
 				}
 
 				// review arguments
-				if (eMethod.getParameters().size() != iMethod.getArguments().size()) {
+				if (eMethod.getParameters().size() != iMethod.getArguments()
+						.size()) {
 					methResult
 							.add(getErrorStatus("Number of arguments doesn't match"));
 				} else {
 					// same number of args let's see if they all match
 					List<Parameter> parameters = eMethod.getParameters();
-					Iterator<IArgument> argumentIterator = iMethod.getArguments().iterator();
+					Iterator<IArgument> argumentIterator = iMethod
+							.getArguments().iterator();
 					for (int index = 0; index < parameters.size(); index++) {
 						boolean changed = false;
 						Parameter theParam = parameters.get(index);
@@ -740,8 +777,8 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 									+ theArg.getName() + "' doesn't match"));
 						}
 
-						IModelComponent.EMultiplicity iMultiplicity = theArg.getType()
-								.getTypeMultiplicity();
+						IModelComponent.EMultiplicity iMultiplicity = theArg
+								.getType().getTypeMultiplicity();
 						AssocMultiplicity eMultiplicity = theParam
 								.getTypeMultiplicity();
 						if (iMultiplicity != ClassDiagramUtils
@@ -791,7 +828,8 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 							List<String> eStereotypes = theParam
 									.getStereotypes();
 							Iterator<String> eStereo = eStereotypes.iterator();
-							Collection<IStereotypeInstance> iStereotypes = theArg.getStereotypeInstances();
+							Collection<IStereotypeInstance> iStereotypes = theArg
+									.getStereotypeInstances();
 							for (IStereotypeInstance iStereo : iStereotypes) {
 								String eStereotypeName = eStereo.next();
 								String iStereotypeName = iStereo.getName();
@@ -817,7 +855,8 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 					// same number of stereotypes let's see if they all match
 					List<String> eStereotypes = eMethod.getStereotypes();
 					Iterator<String> eStereo = eStereotypes.iterator();
-					Collection<IStereotypeInstance> iStereotypes = iMethod.getStereotypeInstances();
+					Collection<IStereotypeInstance> iStereotypes = iMethod
+							.getStereotypeInstances();
 					for (IStereotypeInstance iStereo : iStereotypes) {
 						String eStereotypeName = eStereo.next();
 						String iStereotypeName = iStereo.getName();

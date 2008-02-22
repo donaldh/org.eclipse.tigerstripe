@@ -11,8 +11,10 @@
 package org.eclipse.tigerstripe.workbench.eclipse.actions;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.updateProcedure.NewUpdateProcedureWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -25,8 +27,9 @@ public class OpenNewUpdateProcedureArtifactWizardAction extends
 
 	@Override
 	protected void initAction() {
-		setText("Update Procedure");
-		setImageDescriptor(TigerstripePluginImages.DESC_UPDATEPROC_NEW_ICON);
+		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel());
+		setImageDescriptor(Images.getDescriptor(Images.UPDATEPROC_ICON_NEW));
 	}
 
 	@Override

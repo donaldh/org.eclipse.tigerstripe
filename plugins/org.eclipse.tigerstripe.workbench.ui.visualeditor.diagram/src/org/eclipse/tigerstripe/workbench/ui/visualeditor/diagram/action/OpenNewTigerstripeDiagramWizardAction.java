@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action;
 
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeCreationWizard;
 
 /**
@@ -27,7 +27,7 @@ public class OpenNewTigerstripeDiagramWizardAction extends
 	@Override
 	protected void initAction() {
 		setText("new Class Diagram...");
-		setImageDescriptor(TigerstripePluginImages.DESC_VISUALEDITOR_ICON);
+		setImageDescriptor(Images.getDescriptor(Images.VISUALEDITOR_ICON));
 	}
 
 	@Override

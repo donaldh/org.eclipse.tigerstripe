@@ -11,8 +11,10 @@
 package org.eclipse.tigerstripe.workbench.eclipse.actions;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.dependency.NewDependencyWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -23,8 +25,9 @@ public class OpenNewDependencyArtifactWizardAction extends
 
 	@Override
 	protected void initAction() {
-		setText("Dependency");
-		setImageDescriptor(TigerstripePluginImages.DESC_DEPENDENCY_NEW_ICON);
+		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IDependencyArtifactImpl.class.getName()).getLabel());
+		setImageDescriptor(Images.getDescriptor(Images.DEPENDENCY_ICON_NEW));
 	}
 
 	@Override

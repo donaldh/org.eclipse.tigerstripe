@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.eclipse.actions;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.useCase.NewUseCaseWizard;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -38,7 +38,7 @@ public class OpenNewContractUseCaseWizardAction extends
 
 	protected void initAction() {
 		setText("Use Case Document");
-		setImageDescriptor(TigerstripePluginImages.DESC_CONTRACTUSECASE_ICON);
+		setImageDescriptor(Images.getDescriptor(Images.CONTRACTUSECASE_ICON));
 	}
 
 	@Override

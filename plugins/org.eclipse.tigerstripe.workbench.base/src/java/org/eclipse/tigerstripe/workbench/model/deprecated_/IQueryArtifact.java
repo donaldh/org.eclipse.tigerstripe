@@ -13,8 +13,6 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 public interface IQueryArtifact extends IAbstractArtifact {
 
-	public final static String DEFAULT_LABEL = "Query";
-
 	/**
 	 * Returns the type of the objects that are to be returned by this query.
 	 * 

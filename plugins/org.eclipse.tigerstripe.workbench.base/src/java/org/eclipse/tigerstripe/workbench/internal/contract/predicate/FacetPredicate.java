@@ -19,6 +19,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
@@ -448,17 +451,15 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 									exc.getFullyQualifiedName());
 					if (isExcludedByAnnotation(excArti)
 							|| primaryPredicate.isExcluded(excArti)) {
-						IStatus error = new Status(
-								IStatus.ERROR,
-								BasePlugin.getPluginId(),
-								"Inconsistent facet: the exception of method "
-										+ artifact.getFullyQualifiedName()
-										+ ":"
-										+ method.getName()
-										+ "(...)"
-										+ " ("
-										+ arti.getFullyQualifiedName()
-										+ ") is explicitly excluded from facet.");
+						IStatus error = new Status(IStatus.ERROR, BasePlugin
+								.getPluginId(), "Inconsistent facet: the "
+								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IExceptionArtifactImpl.class.getName())
+										.getLabel() + " of method "
+								+ artifact.getFullyQualifiedName() + ":"
+								+ method.getName() + "(...)" + " ("
+								+ arti.getFullyQualifiedName()
+								+ ") is explicitly excluded from facet.");
 						errors.add(error);
 					}
 					if (!isExcludedByAnnotation(excArti)

@@ -22,7 +22,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -37,7 +36,7 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripePluginPro
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.ColorUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.AbstractLogicalExplorerNode;
-import org.eclipse.tigerstripe.workbench.ui.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 public class TigerstripeExplorerLabelProviderWrapper extends
 		JavaUILabelProvider {
@@ -135,14 +134,12 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 			try {
 				if (TigerstripeProjectNature.hasNature(iProject)
 						&& iProject.isOpen())
-					return decorateImage(TigerstripePluginImages
-							.get(TigerstripePluginImages.TSPROJECT_FOLDER),
+					return decorateImage(Images.get(Images.TSPROJECT_FOLDER),
 							element);
 				else if (TigerstripePluginProjectNature.hasNature(iProject)
 						&& iProject.isOpen())
-					return decorateImage(TigerstripePluginImages
-							.get(TigerstripePluginImages.PLUGINPROJECT_FOLDER),
-							element);
+					return decorateImage(Images
+							.get(Images.PLUGINPROJECT_FOLDER), element);
 			} catch (CoreException e) {
 				EclipsePlugin.log(e);
 			}
@@ -169,20 +166,15 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 				EclipsePlugin.log(e);
 			}
 		} else if (element instanceof IField)
-			return decorateImage(Images.getInstance().get(
-					Images.FIELDPRIVATE_ICON), element);
+			return decorateImage(Images.get(Images.FIELD_ICON), element);
 		else if (element instanceof IMethod)
-			return decorateImage(Images.getInstance()
-					.get(Images.METHODPUB_ICON), element);
+			return decorateImage(Images.get(Images.METHOD_ICON), element);
 		else if (element instanceof ILiteral)
-			return decorateImage(Images.getInstance().get(Images.LITERAL_ICON),
-					element);
+			return decorateImage(Images.get(Images.LITERAL_ICON), element);
 		else if (element instanceof IAssociationEnd)
-			return decorateImage(Images.getInstance().get(
-					Images.ASSOCIATIONARROW_ICON), element);
+			return decorateImage(Images.get(Images.ASSOCIATION_ICON), element);
 		else if (element instanceof IRelationshipEnd)
-			return decorateImage(Images.getInstance().get(
-					Images.DEPENDENCYARROW_ICON), element);
+			return decorateImage(Images.get(Images.DEPENDENCY_ICON), element);
 		else if (element instanceof AbstractLogicalExplorerNode) {
 			AbstractLogicalExplorerNode node = (AbstractLogicalExplorerNode) element;
 			if (node.getImage() != null)

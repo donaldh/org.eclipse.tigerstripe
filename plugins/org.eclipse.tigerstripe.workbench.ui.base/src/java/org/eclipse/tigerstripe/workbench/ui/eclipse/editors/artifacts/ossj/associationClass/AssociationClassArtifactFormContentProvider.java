@@ -11,6 +11,9 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.associationClass;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactFormContentProviderBase;
@@ -37,10 +40,14 @@ public class AssociationClassArtifactFormContentProvider extends
 			StringBuffer buf = new StringBuffer();
 
 			buf.append("<form>");
-			buf
-					.append("<li><a href=\"aEnd\">aEnd</a>: one of the association ends.</li>");
-			buf
-					.append("<li><a href=\"zEnd\">zEnd</a>: the other association end.</li>");
+			buf.append("<li><a href=\"aEnd\">aEnd</a>: one of the "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationClassArtifactImpl.class.getName())
+							.getLabel() + " ends.</li>");
+			buf.append("<li><a href=\"zEnd\">zEnd</a>: the other "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationClassArtifactImpl.class.getName())
+							.getLabel() + " end.</li>");
 			buf
 					.append("<li><a href=\"attributes\">Attributes</a>: a list of attributes for this Association.</li>");
 			buf.append("</form>");
@@ -48,10 +55,16 @@ public class AssociationClassArtifactFormContentProvider extends
 			return buf.toString();
 		} else if (IArtifactFormContentProvider.ARTIFACT_CONTENT_DESCRIPTION
 				.equals(textId))
-			return "<form><p>An Association Class Artifact explicitly models an association between two Artifacts.</p></form>";
+			return "<form><p>An "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationClassArtifactImpl.class.getName())
+							.getLabel()
+					+ " Artifact explicitly models an association between two Artifacts.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
-			return "Association Class Artifact";
+			return ArtifactMetadataFactory.INSTANCE.getMetadata(
+					IAssociationClassArtifactImpl.class.getName()).getLabel()
+					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;
 	}

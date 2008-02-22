@@ -37,6 +37,9 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
@@ -289,11 +292,18 @@ public class ClassInstanceItemSemanticEditPolicy extends
 			int retVal = ied.open();
 			if (retVal != IDialogConstants.OK_ID)
 				throw new OperationCanceledException(
-						"Association Instance Creation Cancelled");
+						ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IAssociationArtifactImpl.class.getName())
+								.getLabel()
+								+ " Instance Creation Cancelled");
 			IRelationship rel = ied.getSelectedRelationship();
 			if (rel == null)
 				throw new OperationCanceledException(
-						"No relationship type selected; Association Instance Creation Cancelled");
+						"No relationship type selected; "
+								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IAssociationArtifactImpl.class
+												.getName()).getLabel()
+								+ " Instance Creation Cancelled");
 			/*
 			 * check the multiplicity of the selected relationship, if it's
 			 * limited to a single link between the two class types (aEnd and
@@ -362,20 +372,37 @@ public class ClassInstanceItemSemanticEditPolicy extends
 								matchFound = true;
 								// warn the user that this new association class
 								// will replace the existing one
-								String warningStr = "An association class with '"
+								String warningStr = "An "
+										+ ArtifactMetadataFactory.INSTANCE
+												.getMetadata(
+														IAssociationClassArtifactImpl.class
+																.getName())
+												.getLabel()
+										+ " with '"
 										+ relationshipStr
 										+ "' multiplicity already exists between "
 										+ "the class instance "
 										+ assoc.getAEnd().getArtifactName()
 										+ " and the class instance "
 										+ assoc.getZEnd().getArtifactName()
-										+ "; do you want to replace that association class with this one?";
+										+ "; do you want to replace that "
+										+ ArtifactMetadataFactory.INSTANCE
+												.getMetadata(
+														IAssociationClassArtifactImpl.class
+																.getName())
+												.getLabel()
+										+ " class with this one?";
 								String[] buttonLabels = new String[] { "OK",
 										"Cancel" };
 								int defButtonIdx = 1;
 								MessageDialog warningDialog = new MessageDialog(
 										shell,
-										"Association Class replacement warning",
+										ArtifactMetadataFactory.INSTANCE
+												.getMetadata(
+														IAssociationClassArtifactImpl.class
+																.getName())
+												.getLabel()
+												+ " replacement warning",
 										(Image) null, warningStr,
 										MessageDialog.WARNING, buttonLabels,
 										defButtonIdx);
@@ -385,7 +412,12 @@ public class ClassInstanceItemSemanticEditPolicy extends
 								// the new association class
 								if (retIdx == defButtonIdx)
 									throw new OperationCanceledException(
-											"Association Instance Replacement Cancelled");
+											ArtifactMetadataFactory.INSTANCE
+													.getMetadata(
+															IAssociationArtifactImpl.class
+																	.getName())
+													.getLabel()
+													+ " Instance Replacement Cancelled");
 								// if here, then need to delete the existing
 								// association instance from the
 								// instance map (so that it can be replaced with
@@ -452,8 +484,11 @@ public class ClassInstanceItemSemanticEditPolicy extends
 									artifact.getFullyQualifiedName())) {
 						// warn the user that this new association will replace
 						// the existing one
-						String warningStr = "An association with '"
-								+ relationshipStr
+						String warningStr = "An "
+								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IAssociationArtifactImpl.class
+												.getName()).getLabel()
+								+ " with '" + relationshipStr
 								+ "' multiplicity already exists between ";
 						if (matchingLinkExists) {
 							warningStr += "the class instance "
@@ -466,21 +501,32 @@ public class ClassInstanceItemSemanticEditPolicy extends
 									+ " and the class instance "
 									+ instance.getAEnd().getArtifactName();
 						}
-						warningStr += "; do you want to replace that association with this one?";
+						warningStr += "; do you want to replace that "
+								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IAssociationArtifactImpl.class
+												.getName()).getLabel()
+								+ " with this one?";
 						String[] buttonLabels = new String[] { "OK", "Cancel" };
 						int defButtonIdx = 1;
 						MessageDialog warningDialog = new MessageDialog(shell,
-								"Association replacement warning",
-								(Image) null, warningStr,
-								MessageDialog.WARNING, buttonLabels,
-								defButtonIdx);
+								ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IAssociationArtifactImpl.class
+												.getName()).getLabel()
+										+ " replacement warning", (Image) null,
+								warningStr, MessageDialog.WARNING,
+								buttonLabels, defButtonIdx);
 						int retIdx = warningDialog.open();
 						// if they cancel the replacement, throw an
 						// OperationCanceledException to abort adding
 						// the new association
 						if (retIdx == defButtonIdx)
 							throw new OperationCanceledException(
-									"Association Instance Replacement Cancelled");
+									ArtifactMetadataFactory.INSTANCE
+											.getMetadata(
+													IAssociationArtifactImpl.class
+															.getName())
+											.getLabel()
+											+ " Instance Replacement Cancelled");
 						// if here, then need to delete the existing association
 						// instance from the
 						// instance map (so that it can be replaced with the new

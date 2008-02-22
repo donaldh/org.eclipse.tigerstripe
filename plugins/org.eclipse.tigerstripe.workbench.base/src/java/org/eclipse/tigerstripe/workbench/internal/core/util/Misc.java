@@ -42,28 +42,33 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtif
  */
 public class Misc {
 
+	private final static String[] illegalStrings = { " ", ",", ";", ":", "'",
+			"\"", "(", ")", "{", "}", "[", "]", "*", "&", "^", "%", "$", "#",
+			"@", "!", "?", "<", ">", ".", "`", "~", "|", "/", "\\", "+", "=",
+			"-" };
+
 	private final static String[][] artifactLabels = {
 			{ IManagedEntityArtifact.class.getName(),
-					ManagedEntityArtifact.LABEL },
-			{ IDatatypeArtifact.class.getName(), DatatypeArtifact.LABEL },
-			{ IAssociationArtifact.class.getName(), AssociationArtifact.LABEL },
+					ManagedEntityArtifact.MODEL.getLabel() },
+			{ IDatatypeArtifact.class.getName(),
+					DatatypeArtifact.MODEL.getLabel() },
+			{ IAssociationArtifact.class.getName(),
+					AssociationArtifact.MODEL.getLabel() },
 			{ IAssociationClassArtifact.class.getName(),
-					AssociationClassArtifact.LABEL },
-			{ IEventArtifact.class.getName(), EventArtifact.LABEL },
-			{ IExceptionArtifact.class.getName(), ExceptionArtifact.LABEL },
-			{ ISessionArtifact.class.getName(), SessionFacadeArtifact.LABEL },
-			{ IQueryArtifact.class.getName(), QueryArtifact.LABEL },
+					AssociationClassArtifact.MODEL.getLabel() },
+			{ IEventArtifact.class.getName(), EventArtifact.MODEL.getLabel() },
+			{ IExceptionArtifact.class.getName(),
+					ExceptionArtifact.MODEL.getLabel() },
+			{ ISessionArtifact.class.getName(),
+					SessionFacadeArtifact.MODEL.getLabel() },
+			{ IQueryArtifact.class.getName(), QueryArtifact.MODEL.getLabel() },
 			{ IUpdateProcedureArtifact.class.getName(),
-					UpdateProcedureArtifact.LABEL },
+					UpdateProcedureArtifact.MODEL.getLabel() },
 			{ IPrimitiveTypeArtifact.class.getName(),
-					PrimitiveTypeArtifact.LABEL },
-			{ IDependencyArtifact.class.getName(), DependencyArtifact.LABEL },
-			{ IEnumArtifact.class.getName(), EnumArtifact.LABEL } };
-
-	public Misc() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+					PrimitiveTypeArtifact.MODEL.getLabel() },
+			{ IDependencyArtifact.class.getName(),
+					DependencyArtifact.MODEL.getLabel() },
+			{ IEnumArtifact.class.getName(), EnumArtifact.MODEL.getLabel() } };
 
 	/**
 	 * Since 1.1 no reference to java.lang.String anymore but rather to String
@@ -89,14 +94,13 @@ public class Misc {
 		return artifactType;
 	}
 
-	// public static Image artifactTypeddToImage( String artifactType ) {
-	// for( String[] entry : artifactLabels ) {
-	// String type = entry[0];
-	// String image = entry[1];
-	// if ( type.equals(artifactType)) {
-	// return TigerstripePluginImages.get(image);
-	// }
-	// }
-	// return null;
-	// }
+	public static String removeIllegalCharacters(String name) {
+		String result = name;
+		// remove illegal characters
+		for (int i = 0; i < illegalStrings.length; i++) {
+			result = result.replace(illegalStrings[i], "");
+		}
+		return result;
+	}
+
 }

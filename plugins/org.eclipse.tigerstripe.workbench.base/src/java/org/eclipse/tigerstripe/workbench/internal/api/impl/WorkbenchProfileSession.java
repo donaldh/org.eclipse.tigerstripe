@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -123,7 +125,10 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 			throw new TigerstripeException(
 					"Error while trying to save active profile '"
 							+ profile.getName()
-							+ "' -> invalid primitive type names detected: "
+							+ "' -> invalid "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IPrimitiveTypeImpl.class.getName())
+									.getLabel() + " names detected: "
 							+ badTypesList.toString());
 		}
 

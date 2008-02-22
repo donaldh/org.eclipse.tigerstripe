@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.DatatypeArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjDatatypeSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -35,8 +36,6 @@ public class DatatypeArtifact extends AbstractArtifact implements
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.DATATYPE;
 
-	public final static String LABEL = "Datatype Artifact";
-
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
 	 * manager when extracting the artifacts.
@@ -46,7 +45,6 @@ public class DatatypeArtifact extends AbstractArtifact implements
 	public String getArtifactType() {
 		return IDatatypeArtifact.class.getName();
 	}
-
 
 	/**
 	 * Returns the marking tag for this Artifact.
@@ -64,7 +62,10 @@ public class DatatypeArtifact extends AbstractArtifact implements
 	}
 
 	public String getLabel() {
-		return LABEL;
+		return ArtifactMetadataFactory.INSTANCE
+				.getMetadata(
+						org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+								.getName()).getLabel();
 	}
 
 	@Override

@@ -17,11 +17,11 @@ import java.util.Properties;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.enums.LabelRef;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.model.ArtifactAttributeModel;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.model.ArtifactMethodModel;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * An Element as annotated to be turned into a POJO
@@ -136,14 +136,11 @@ public class AnnotatedElement {
 			AnnotatedElement annotatedElement = (AnnotatedElement) element;
 
 			if (DATATYPE.equals(annotatedElement.getType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.DATATYPE_ICON);
+				return Images.get(Images.DATATYPE_ICON);
 			if (ENTITY.equals(annotatedElement.getType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ENTITY_ICON);
+				return Images.get(Images.ENTITY_ICON);
 			if (ENUMERATION.equals(annotatedElement.getType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ENUM_ICON);
+				return Images.get(Images.ENUM_ICON);
 
 			return null;
 		}

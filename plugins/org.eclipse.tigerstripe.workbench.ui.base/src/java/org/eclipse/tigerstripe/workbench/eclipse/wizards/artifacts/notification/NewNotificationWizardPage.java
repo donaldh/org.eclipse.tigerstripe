@@ -20,6 +20,8 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.entity.EntityDefinitionGenerator;
@@ -44,8 +46,10 @@ public class NewNotificationWizardPage extends NewArtifactWizardPage {
 	public NewNotificationWizardPage() {
 		super(PAGE_NAME);
 
-		setTitle("Notification Artifact");
-		setDescription("Create a new Notification Artifact.");
+		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IEventArtifactImpl.class.getName()).getLabel() + " Artifact");
+		setDescription("Create a new " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IEventArtifactImpl.class.getName()).getLabel() + " Artifact.");
 
 	}
 

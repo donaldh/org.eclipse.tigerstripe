@@ -14,6 +14,12 @@ import java.util.Collection;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
@@ -64,26 +70,36 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 
 			IArtifactManagerSession session = artifact.getTigerstripeProject()
 					.getArtifactManagerSession();
-			Collection<IManagedEntityDetails> details = artifact.getManagedEntityDetails();
+			Collection<IManagedEntityDetails> details = artifact
+					.getManagedEntityDetails();
 			if (details.size() == 0
 					&& prop
 							.getPropertyValue(IOssjLegacySettigsProperty.USEMANAGEDENTITIES_ONSESSION)) {
-				TigerstripeProjectAuditor.reportWarning("Session Facade '"
+				TigerstripeProjectAuditor.reportWarning(ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel() + " '"
 						+ artifact.getName()
-						+ "' has no declared managed entity.", getIResource(),
-						222);
+						+ "' has no declared "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IManagedEntityArtifactImpl.class.getName())
+								.getLabel() + ".", getIResource(), 222);
 			}
 
 			for (IManagedEntityDetails detail : details) {
-				
+
 				IAbstractArtifact mArt = session
 						.getArtifactByFullyQualifiedName(detail
 								.getFullyQualifiedName());
 				if (mArt == null) {
-					TigerstripeProjectAuditor.reportError("Entity '"
-							+ detail.getFullyQualifiedName()
-							+ "' referenced in '" + artifact.getName()
-							+ "' cannot be resolved.", getIResource(), 222);
+					TigerstripeProjectAuditor.reportError(
+							ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IManagedEntityArtifactImpl.class.getName())
+									.getLabel()
+									+ " '"
+									+ detail.getFullyQualifiedName()
+									+ "' referenced in '"
+									+ artifact.getName()
+									+ "' cannot be resolved.", getIResource(),
+							222);
 				} else {
 					EntityOveride overide = ((ManagedEntityDetails) detail)
 							.getOveride();
@@ -102,11 +118,15 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 								if (mAExc == null) {
 									TigerstripeProjectAuditor
 											.reportError(
-													"Exception '"
+													ArtifactMetadataFactory.INSTANCE
+															.getMetadata(
+																	IExceptionArtifactImpl.class
+																			.getName())
+															.getLabel()
+															+ "'"
 															+ fqn
 															+ "' defined in override of '"
-															+ detail
-																	.getName()
+															+ detail.getName()
 															+ ":"
 															+ method.getName()
 															+ "("
@@ -138,8 +158,10 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 			if (queries.size() == 0
 					&& prop
 							.getPropertyValue(IOssjLegacySettigsProperty.USENAMEDQUERIES_ONSESSION)) {
-				TigerstripeProjectAuditor.reportWarning("Session Facade '"
-						+ artifact.getName() + "' has no declared Named Query",
+				TigerstripeProjectAuditor.reportWarning(ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel() + " '"
+						+ artifact.getName() + "' has no declared " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IQueryArtifactImpl.class.getName()).getLabel(),
 						getIResource(), 222);
 			}
 
@@ -148,7 +170,8 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 						.getArtifactByFullyQualifiedName(query
 								.getFullyQualifiedName());
 				if (mArt == null) {
-					TigerstripeProjectAuditor.reportError("Query '"
+					TigerstripeProjectAuditor.reportError(ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IQueryArtifactImpl.class.getName()).getLabel() + " '"
 							+ query.getFullyQualifiedName()
 							+ "' referenced in '" + artifact.getName()
 							+ "' cannot be resolved.", getIResource(), 222);
@@ -173,9 +196,11 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 			if (eevents.size() == 0
 					&& prop
 							.getPropertyValue(IOssjLegacySettigsProperty.USEEMITTEDNOTIFICATIONS_ONSESSION)) {
-				TigerstripeProjectAuditor.reportWarning("Session Facade '"
+				TigerstripeProjectAuditor.reportWarning(ArtifactMetadataFactory.INSTANCE.getMetadata(
+						ISessionArtifactImpl.class.getName()).getLabel() + " '"
 						+ artifact.getName()
-						+ "' has no declared Emitted Notification",
+						+ "' has no declared Emitted " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IEventArtifactImpl.class.getName()).getLabel(),
 						getIResource(), 222);
 			}
 
@@ -184,7 +209,8 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 						.getArtifactByFullyQualifiedName(eevent
 								.getFullyQualifiedName());
 				if (mArt == null) {
-					TigerstripeProjectAuditor.reportError("Notification '"
+					TigerstripeProjectAuditor.reportError(ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IEventArtifactImpl.class.getName()).getLabel() + " '"
 							+ eevent.getFullyQualifiedName()
 							+ "' referenced in '" + artifact.getName()
 							+ "' cannot be resolved.", getIResource(), 222);

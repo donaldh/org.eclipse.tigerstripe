@@ -30,7 +30,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.AbstractArtifactLabelProvider;
-import org.eclipse.tigerstripe.workbench.ui.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 public class SearchResultLabelProvider extends LabelProvider {
@@ -54,13 +54,13 @@ public class SearchResultLabelProvider extends LabelProvider {
 		if (element instanceof IAbstractArtifact)
 			return artifactLabelProvider.getImage(element);
 		else if (element instanceof IField)
-			return Images.getInstance().get(Images.FIELDPRIVATE_ICON);
+			return Images.get(Images.FIELD_ICON);
 		else if (element instanceof IMethod)
-			return Images.getInstance().get(Images.METHODPUB_ICON);
+			return Images.get(Images.METHOD_ICON);
 		else if (element instanceof ILiteral)
-			return Images.getInstance().get(Images.LITERAL_ICON);
+			return Images.get(Images.LITERAL_ICON);
 		else if (element instanceof IAssociationEnd)
-			return Images.getInstance().get(Images.ASSOCIATIONARROW_ICON);
+			return Images.get(Images.ASSOCIATION_ICON);
 		else {
 
 			if (element instanceof ModuleArtifactManager)
@@ -71,12 +71,12 @@ public class SearchResultLabelProvider extends LabelProvider {
 			if (element instanceof ArtifactManager) {
 				ArtifactManager mgr = (ArtifactManager) element;
 				if (mgr.getTSProject() instanceof PhantomTigerstripeProject)
-					return Images.getInstance().get(Images.PROFILE_ICON);
+					return Images.get(Images.PROFILE_ICON);
 			}
 
 			if (element instanceof IProject) {
 				if (EclipsePlugin.getITigerstripeProjectFor((IProject) element) instanceof ITigerstripeModelProject)
-					return Images.getInstance().get(Images.TSPROJECT_FOLDER);
+					return Images.get(Images.TSPROJECT_FOLDER);
 			}
 			if (element instanceof IAdaptable) {
 				IAdaptable ad = (IAdaptable) element;
@@ -143,8 +143,8 @@ public class SearchResultLabelProvider extends LabelProvider {
 			ArtifactManager mgr = (ArtifactManager) element;
 			if (mgr.getTSProject() instanceof PhantomTigerstripeProject)
 				return "Active Profile ("
-						+ TigerstripeCore.getWorkbenchProfileSession().getActiveProfile()
-								.getName() + ")";
+						+ TigerstripeCore.getWorkbenchProfileSession()
+								.getActiveProfile().getName() + ")";
 		}
 
 		return workbenchLabelProvider.getText(element);

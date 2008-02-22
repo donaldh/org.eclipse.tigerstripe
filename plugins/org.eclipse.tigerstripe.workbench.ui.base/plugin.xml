@@ -17,43 +17,43 @@
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.entity.EntityArtifactEditor"
             default="false"
-            icon="src/icons/entity.gif"
+            icon="src/icons/archive/entity.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.entityEditor"
             name="Tigerstripe OSS/J Entity Editor"/>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.exception.ExceptionArtifactEditor"
             default="false"
-            icon="src/icons/exception.gif"
+            icon="src/icons/archive/exception.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.exceptionEditor"
             name="Tigerstripe OSS/J Exception Editor"/>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.query.QueryArtifactEditor"
             default="false"
-            icon="src/icons/query.gif"
+            icon="src/icons/archive/query.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.queryEditor"
             name="Tigerstripe OSS/J Query Editor"/>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.event.EventArtifactEditor"
             default="false"
-            icon="src/icons/notification.gif"
+            icon="src/icons/archive/notification.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.eventEditor"
             name="Tigerstripe OSS/J Event Editor"/>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.datatype.DatatypeArtifactEditor"
             default="false"
-            icon="src/icons/datatype.gif"
+            icon="src/icons/archive/datatype.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.datatypeEditor"
             name="Tigerstripe OSS/J Datatype Editor"/>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.session.SessionArtifactEditor"
             default="false"
-            icon="src/icons/session.gif"
+            icon="src/icons/archive/session.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.sessionEditor"
             name="Tigerstripe OSS/J Session Editor"/>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.enumeration.EnumArtifactEditor"
             default="false"
-            icon="src/icons/enum.gif"
+            icon="src/icons/archive/enum.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.enumEditor"
             name="Tigerstripe OSS/J Enum Editor"/>
       <editor
@@ -79,19 +79,19 @@
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.association.AssociationArtifactEditor"
             default="false"
-            icon="src/icons/association.gif"
+            icon="src/icons/archive/association.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.associationEditor"
             name="Tigerstripe UML Association Editor"/>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.dependency.DependencyArtifactEditor"
             default="false"
-            icon="src/icons/dependency.gif"
+            icon="src/icons/archive/dependency.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.dependencyEditor"
             name="Tigerstripe UML Dependency Editor"/>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.associationClass.AssociationClassArtifactEditor"
             default="false"
-            icon="src/icons/association_class.gif"
+            icon="src/icons/archive/association_class.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.associationClassEditor"
             name="Tigerstripe UML Association Class Editor"/>
       <editor
@@ -141,8 +141,8 @@
          <action
                allowLabelUpdate="true"
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewSessionArtifactWizardAction"
-               disabledIcon="src/icons/new_session_gs.gif"
-               icon="src/icons/new_session.gif"
+               disabledIcon="src/icons/archive/new_session_gs.gif"
+               icon="src/icons/archive/new_session.gif"
                id="org.eclipse.tigerstripe.eclipse.newInterfaceAction"
                label="New Interface"
                style="push"
@@ -158,8 +158,8 @@
          </menu>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewSessionArtifactWizardAction"
-               disabledIcon="src/icons/new_session_gs.gif"
-               icon="src/icons/new_session.gif"
+               disabledIcon="src/icons/archive/new_session_gs.gif"
+               icon="src/icons/archive/new_session.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewSessionAction"
                label="Interface"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup2"
@@ -174,16 +174,16 @@
                tooltip="Create new Tigerstripe Project"/>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewExceptionArtifactWizardAction"
-               disabledIcon="src/icons/new_exception_gs.gif"
-               icon="src/icons/new_exception.gif"
+               disabledIcon="src/icons/archive/new_exception_gs.gif"
+               icon="src/icons/archive/new_exception.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openExceptionProjectAction"
                label="Exception"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
                style="push"/> 
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewNotificationArtifactWizardAction"
-               disabledIcon="src/icons/new_notification_gs.gif"
-               icon="src/icons/new_notification.gif"
+               disabledIcon="src/icons/archive/new_notification_gs.gif"
+               icon="src/icons/archive/new_notification.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNotificationProjectAction"
                label="Notification"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
@@ -191,16 +191,16 @@
                tooltip="Create new Tigerstripe Project"/>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewUpdateProcedureArtifactWizardAction"
-               disabledIcon="src/icons/new_updateProc_gs.gif"
-               icon="src/icons/new_updateProc.gif"
+               disabledIcon="src/icons/archive/new_updateProc_gs.gif"
+               icon="src/icons/archive/new_updateProc.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewUpdateProcedureAction"
                label="Update Procedure "
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
                style="push"/>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewQueryArtifactWizardAction"
-               disabledIcon="src/icons/new_query_gs.gif"
-               icon="src/icons/new_query.gif"
+               disabledIcon="src/icons/archive/new_query_gs.gif"
+               icon="src/icons/archive/new_query.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewQueryAction"
                label="Named Query"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
@@ -208,8 +208,8 @@
                tooltip="Create new Tigerstripe Project"/>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewAssociationClassArtifactWizardAction"
-               disabledIcon="src/icons/new_associationClass_gs.gif"
-               icon="src/icons/new_associationClass.gif"
+               disabledIcon="src/icons/archive/new_associationClass_gs.gif"
+               icon="src/icons/archive/new_associationClass.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewAssociationClassAction"
                label="Association Class"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
@@ -217,8 +217,8 @@
                tooltip="Create new Association Class Artifact"/>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewAssociationArtifactWizardAction"
-               disabledIcon="src/icons/new_association_gs.gif"
-               icon="src/icons/new_association.gif"
+               disabledIcon="src/icons/archive/new_association_gs.gif"
+               icon="src/icons/archive/new_association.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewAssociationAction"
                label="Association"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
@@ -226,8 +226,8 @@
                tooltip="Create new Association Artifact"/>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewDependencyArtifactWizardAction"
-               disabledIcon="src/icons/new_dependency_gs.gif"
-               icon="src/icons/new_dependency.gif"
+               disabledIcon="src/icons/archive/new_dependency_gs.gif"
+               icon="src/icons/archive/new_dependency.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewDependencyAction"
                label="Dependency"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
@@ -235,8 +235,8 @@
                tooltip="Create new Dependency Artifact"/>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewEnumArtifactWizardAction"
-               disabledIcon="src/icons/new_enum_gs.gif"
-               icon="src/icons/new_enum.gif"
+               disabledIcon="src/icons/archive/new_enum_gs.gif"
+               icon="src/icons/archive/new_enum.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewEnumAction"
                label="Enumeration"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
@@ -244,8 +244,8 @@
                tooltip="Create new Enumeration Artifact"/>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewDatatypeArtifactWizardAction"
-               disabledIcon="src/icons/new_datatype_gs.gif"
-               icon="src/icons/new_datatype.gif"
+               disabledIcon="src/icons/archive/new_datatype_gs.gif"
+               icon="src/icons/archive/new_datatype.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openDatatypeProjectAction"
                label="Datatype"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
@@ -253,8 +253,8 @@
                tooltip="Create new Tigerstripe Project"/>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewEntityArtifactWizardAction"
-               disabledIcon="src/icons/new_entity_gs.gif"
-               icon="src/icons/new_entity.gif"
+               disabledIcon="src/icons/archive/new_entity_gs.gif"
+               icon="src/icons/archive/new_entity.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewEntityAction"
                label="Entity"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
@@ -262,8 +262,8 @@
                tooltip="Create new Tigerstripe Project"/>
          <action
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.NewArtifactDropDownAction"
-               disabledIcon="src/icons/new_entity_gs.gif"
-               icon="src/icons/new_entity.gif"
+               disabledIcon="src/icons/archive/new_entity_gs.gif"
+               icon="src/icons/archive/new_entity.gif"
                id="org.eclipse.tigerstripe.eclipse.newArtifactAction"
                label="New artifact"
                style="pulldown"
@@ -475,13 +475,13 @@
       <wizard
             category="org.eclipse.tigerstripe.importWizardCategory"
             class="org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.uml2.ImportUML2ProfileWizard"
-            icon="src/icons/importExport.gif.gif"
+            icon="src/icons/archive/importExport.gif.gif"
             id="org.eclipse.tigerstripe.workbench.ui.base.wizard5"
             name="Import UML2 Profile"/>
       <wizard
             category="org.eclipse.tigerstripe.importWizardCategory"
             class="org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.uml2.ImportFromUML2Wizard"
-            icon="src/icons/importExport.gif.gif"
+            icon="src/icons/archive/importExport.gif.gif"
             id="org.eclipse.tigerstripe.workbench.ui.base.wizard6"
             name="Import UML2 Model"/>
    </extension>

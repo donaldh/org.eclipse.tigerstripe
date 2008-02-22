@@ -14,9 +14,12 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -35,8 +38,8 @@ public class NameProviderImpl implements INameProvider {
 
 	private void initialize() throws TigerstripeException {
 		indexMap = new HashMap<Class, Integer>();
-		Collection<Class> supportedArtifacts = project.getArtifactManagerSession()
-				.getSupportedArtifactClasses();
+		Collection<Class> supportedArtifacts = project
+				.getArtifactManagerSession().getSupportedArtifactClasses();
 		for (Class supportedArtifact : supportedArtifacts) {
 			indexMap.put(supportedArtifact, new Integer(0));
 		}
@@ -59,48 +62,39 @@ public class NameProviderImpl implements INameProvider {
 		if (targetCounter == null)
 			throw new TigerstripeException("Artifact type unknown: "
 					+ artifactType.getName());
-		try {
-			Field label = artifactType.getField("DEFAULT_LABEL");
-			String labelStr = (String) label.get(null);
+		String labelStr = Misc
+				.removeIllegalCharacters(ArtifactMetadataFactory.INSTANCE
+						.getMetadata(
+								MigrationHelper
+										.artifactMetadataMigrateClassname(artifactType
+												.getName())).getLabel());
 
-			if (forceIncrement) {
-				targetCounter++;
-				indexMap.put(artifactType, targetCounter);
-			}
+		if (forceIncrement) {
+			targetCounter++;
+			indexMap.put(artifactType, targetCounter);
+		}
 
-			String tentativeFQN = labelStr + targetCounter;
+		String tentativeFQN = labelStr + targetCounter;
+		if (packageName != null && packageName.length() != 0) {
+			tentativeFQN = packageName + "." + tentativeFQN;
+		}
+
+		IArtifactQuery allArts = session.makeQuery(IQueryAllArtifacts.class
+				.getName());
+		allArts.setIncludeDependencies(false);
+
+		Collection<IAbstractArtifact> artifacts = session
+				.queryArtifact(allArts);
+
+		while (existsInModelIgnoreCase(artifacts, tentativeFQN)) {
+			targetCounter++;
+			tentativeFQN = labelStr + targetCounter;
 			if (packageName != null && packageName.length() != 0) {
 				tentativeFQN = packageName + "." + tentativeFQN;
 			}
-
-			IArtifactQuery allArts = session.makeQuery(IQueryAllArtifacts.class
-					.getName());
-			allArts.setIncludeDependencies(false);
-
-			Collection<IAbstractArtifact> artifacts = session
-					.queryArtifact(allArts);
-
-			while (existsInModelIgnoreCase(artifacts, tentativeFQN)) {
-				targetCounter++;
-				tentativeFQN = labelStr + targetCounter;
-				if (packageName != null && packageName.length() != 0) {
-					tentativeFQN = packageName + "." + tentativeFQN;
-				}
-			}
-
-			return labelStr + targetCounter;
-		} catch (NoSuchFieldException e) {
-			// Should never happen!
-			TigerstripeRuntime.logErrorMessage("NoSuchFieldException detected",
-					e);
-		} catch (IllegalAccessException e) {
-			// Should never happen!
-			TigerstripeRuntime.logErrorMessage(
-					"IllegalAccessException detected", e);
 		}
 
-		throw new TigerstripeException("Can't obtain default unique name for "
-				+ artifactType.getName() + " in '" + packageName + "'.");
+		return labelStr + targetCounter;
 	}
 
 	private boolean existsInModelIgnoreCase(

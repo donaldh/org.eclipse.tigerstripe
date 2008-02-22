@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.annotate;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.AssociationEndNode;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.AssociationNode;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.AttributeNode;
@@ -25,7 +24,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.annotate.RawCla
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.annotate.RawClassesTreeContentProvider.OperationNode;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.Annotable;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableElement;
-import org.eclipse.tigerstripe.workbench.ui.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.internal.WorkbenchImages;
 
@@ -80,48 +79,37 @@ public class RawClassesTreeLabelProvider extends LabelProvider {
 			}
 
 			if (AnnotableElement.AS_ENTITY.equals(elm.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ENTITY_ICON);
+				return Images.get(Images.ENTITY_ICON);
 			else if (AnnotableElement.AS_DATATYPE.equals(elm
 					.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.DATATYPE_ICON);
+				return Images.get(Images.DATATYPE_ICON);
 			else if (AnnotableElement.AS_ENUMERATION.equals(elm
 					.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ENUM_ICON);
+				return Images.get(Images.ENUM_ICON);
 			else if (AnnotableElement.AS_ASSOCIATION.equals(elm
 					.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ASSOCIATION_ICON);
+				return Images.get(Images.ASSOCIATION_ICON);
 			else if (AnnotableElement.AS_ASSOCIATIONCLASS.equals(elm
 					.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.ASSOCIATIONCLASS_ICON);
+				return Images.get(Images.ASSOCIATIONCLASS_ICON);
 			else if (AnnotableElement.AS_DEPENDENCY.equals(elm
 					.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.DEPENDENCY_ICON);
+				return Images.get(Images.DEPENDENCY_ICON);
 			else if (AnnotableElement.AS_SESSIONFACADE.equals(elm
 					.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.SESSION_ICON);
+				return Images.get(Images.SESSION_ICON);
 			else if (AnnotableElement.AS_NAMEDQUERY.equals(elm
 					.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.QUERY_ICON);
+				return Images.get(Images.QUERY_ICON);
 			else if (AnnotableElement.AS_NOTIFICATION.equals(elm
 					.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.NOTIFICATION_ICON);
+				return Images.get(Images.NOTIFICATION_ICON);
 			else if (AnnotableElement.AS_EXCEPTION.equals(elm
 					.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.EXCEPTION_ICON);
+				return Images.get(Images.EXCEPTION_ICON);
 			else if (AnnotableElement.AS_UPDATEPROC.equals(elm
 					.getAnnotationType()))
-				return TigerstripePluginImages
-						.get(TigerstripePluginImages.UPDATEPROC_ICON);
+				return Images.get(Images.UPDATEPROC_ICON);
 			else
 				return JavaPluginImages.get(JavaPluginImages.IMG_OBJS_HELP);
 		} else if (node instanceof AttributeNode) {
@@ -151,9 +139,9 @@ public class RawClassesTreeLabelProvider extends LabelProvider {
 				return WorkbenchImages
 						.getImage(ISharedImages.IMG_TOOL_DELETE_DISABLED);
 			else
-				return Images.getInstance().get(Images.ASSOCIATIONARROW_ICON);
+				return Images.get(Images.ASSOCIATION_ICON);
 		} else if (node instanceof DependencyEndNode)
-			return Images.getInstance().get(Images.DEPENDENCYARROW_ICON);
+			return Images.get(Images.DEPENDENCY_ICON);
 
 		return null;
 	}

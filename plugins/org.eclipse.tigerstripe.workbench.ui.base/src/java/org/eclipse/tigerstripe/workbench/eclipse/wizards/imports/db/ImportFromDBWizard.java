@@ -41,9 +41,12 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.imports.ImportWithCheckpointWizardPage;
@@ -81,6 +84,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisi
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
@@ -132,7 +136,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 	public ImportFromDBWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		image = TigerstripePluginImages.WIZARD_IMPORT_LOGO;
+		image = Images.getDescriptor(Images.WIZARD_IMPORT_LOGO);
 		setDefaultPageImageDescriptor(image);
 
 		setWindowTitle("Import from .xmi");
@@ -544,19 +548,27 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 
 	private void createEntities(Properties pageProperties, List entities,
 			IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Entities.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ "(s).");
 		runGenerator(ENTITY_TEMPLATE, pageProperties, entities, monitor);
 	}
 
 	private void createDatatypes(Properties pageProperties, List datatypes,
 			IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Datatypes.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IDatatypeArtifactImpl.class.getName()).getLabel()
+				+ "(s).");
 		runGenerator(DATATYPE_TEMPLATE, pageProperties, datatypes, monitor);
 	}
 
 	private void createEnumerations(Properties pageProperties, List enums,
 			IProgressMonitor monitor) throws CoreException {
-		monitor.setTaskName("Creating Enumerations.");
+		monitor.setTaskName("Creating "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IEnumArtifactImpl.class.getName()).getLabel() + "(s).");
 		runGenerator(ENUM_TEMPLATE, pageProperties, enums, monitor);
 	}
 

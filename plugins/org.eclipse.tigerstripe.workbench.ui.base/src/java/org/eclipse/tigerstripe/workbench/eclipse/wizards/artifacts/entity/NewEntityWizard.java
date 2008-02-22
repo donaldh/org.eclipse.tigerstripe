@@ -14,10 +14,12 @@ import java.io.Writer;
 import java.util.Properties;
 
 import org.eclipse.jdt.internal.ui.JavaPlugin;
-import org.eclipse.tigerstripe.workbench.eclipse.runtime.images.TigerstripePluginImages;
+import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
+import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizard;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Eric Dillon
@@ -29,10 +31,13 @@ public class NewEntityWizard extends NewArtifactWizard {
 
 	public NewEntityWizard() {
 		super();
-		setDefaultPageImageDescriptor(TigerstripePluginImages.DESC_TS_LOGO);
+		setDefaultPageImageDescriptor(Images.getDescriptor(Images.TS_LOGO));
 
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
-		setWindowTitle("New Entity Artifact");
+		setWindowTitle("New "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IManagedEntityArtifactImpl.class.getName()).getLabel()
+				+ " Artifact");
 	}
 
 	/*
@@ -49,7 +54,6 @@ public class NewEntityWizard extends NewArtifactWizard {
 	@Override
 	protected ArtifactDefinitionGenerator getGenerator(
 			Properties pageProperties, Writer writer) {
-		// TODO Auto-generated method stub
 		return new EntityDefinitionGenerator(pageProperties, writer);
 	}
 

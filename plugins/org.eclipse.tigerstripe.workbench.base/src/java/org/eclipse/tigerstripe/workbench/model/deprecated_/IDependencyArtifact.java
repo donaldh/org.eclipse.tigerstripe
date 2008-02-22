@@ -10,15 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
-
 /**
  * 
  * @author Eric Dillon
  * @since 1.2
  */
 public interface IDependencyArtifact extends IAbstractArtifact, IRelationship {
-
-	public final static String DEFAULT_LABEL = "Dependency";
 
 	public void setAEndType(IType aEndType);
 

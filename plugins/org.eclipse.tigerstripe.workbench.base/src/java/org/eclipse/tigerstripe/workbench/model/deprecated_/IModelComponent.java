@@ -12,6 +12,8 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
+import org.eclipse.tigerstripe.metamodel.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 
@@ -30,14 +32,14 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 	public enum EMultiplicity {
 		ONE("1"), ZERO("0"), ZERO_ONE("0..1"), ZERO_STAR("0..*"), ONE_STAR(
 				"1..*"), STAR("*");
-	
+
 		private String label;
 		private static String[] labels;
-	
+
 		EMultiplicity(String label) {
 			this.label = label;
 		}
-	
+
 		/**
 		 * Return the label for an enumeration value.
 		 * 
@@ -46,18 +48,16 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 		public String getLabel() {
 			return label;
 		}
-		
-		// This is a convenience 
+
+		// This is a convenience
 		public boolean isArray() {
-			if (this.equals(ONE) ||
-					this.equals(ZERO) ||
-					this.equals(ZERO_ONE)){
+			if (this.equals(ONE) || this.equals(ZERO) || this.equals(ZERO_ONE)) {
 				return false;
 			} else {
 				return true;
 			}
 		}
-	
+
 		/**
 		 * Given a String label, return an enumeration value. Returns null if no
 		 * enumeration corresponds to the label.
@@ -72,7 +72,7 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 			}
 			return EMultiplicity.ONE;
 		}
-	
+
 		public static int indexOf(EMultiplicity mult) {
 			for (int index = 0; index < values().length; index++) {
 				if (mult == values()[index])
@@ -81,14 +81,14 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 			throw new IllegalArgumentException("Illegal multiplicity literal: "
 					+ mult);
 		}
-	
+
 		public static EMultiplicity at(int index) {
 			if (index >= 0 && index < values().length)
 				return values()[index];
 			throw new IllegalArgumentException("Illegal multiplicity literal: "
 					+ index);
 		}
-	
+
 		public static String[] labels() {
 			if (labels == null) {
 				labels = new String[values().length];
@@ -101,20 +101,22 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 			return labels;
 		}
 	}
+
 	/**
 	 * An enum of the possible values for the visibility of a component.
 	 * 
 	 */
 	public enum EVisibility {
 
-		PUBLIC("public"), PROTECTED("protected"), PRIVATE("private"), PACKAGE("package");
-	
+		PUBLIC("public"), PROTECTED("protected"), PRIVATE("private"), PACKAGE(
+				"package");
+
 		private String label;
 
-	
 		EVisibility(String label) {
 			this.label = label;
 		}
+
 		/**
 		 * Return the label for an enumeration value.
 		 * 
@@ -123,7 +125,7 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 		public String getLabel() {
 			return this.label;
 		}
-		
+
 		public static EVisibility parse(String label) {
 			for (EVisibility val : values()) {
 				if (val.label.equals(label))
@@ -131,7 +133,7 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 			}
 			return EVisibility.PUBLIC;
 		}
-	
+
 		public static int indexOf(EVisibility visibility) {
 			for (int index = 0; index < values().length; index++) {
 				if (visibility == values()[index])
@@ -140,7 +142,7 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 			throw new IllegalArgumentException("Illegal visibility literal: "
 					+ visibility);
 		}
-	
+
 		public static EVisibility at(int index) {
 			if (index >= 0 && index < values().length)
 				return values()[index];
@@ -148,7 +150,6 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 					+ index);
 		}
 	}
-	
 
 	/**
 	 * Sets the name associated with this component
@@ -198,5 +199,12 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 	public boolean isInActiveFacet() throws TigerstripeException;
 
 	public IStatus validate();
-	
+
+	/**
+	 * Returns the metadata about this Artifact type
+	 * 
+	 * @return
+	 */
+	public IModelComponentMetadata getMetadata();
+
 }
