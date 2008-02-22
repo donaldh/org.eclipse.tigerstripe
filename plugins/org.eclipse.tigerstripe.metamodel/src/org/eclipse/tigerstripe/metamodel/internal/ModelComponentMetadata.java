@@ -18,9 +18,9 @@ import org.eclipse.tigerstripe.metamodel.IModelComponentMetadata;
 
 public class ModelComponentMetadata implements IModelComponentMetadata {
 
-	private String artifactIcon = null;
-	private String artifactIcon_gs = null;
-	private String artifactIcon_new = null;
+	private URL artifactIcon_URL = null;
+	private URL artifactIcon_gs_URL = null;
+	private URL artifactIcon_new_URL = null;
 
 	private String artifactLabel = null;
 
@@ -35,9 +35,24 @@ public class ModelComponentMetadata implements IModelComponentMetadata {
 			String artifactIcon, String artifactIcon_gs,
 			String artifactIcon_new, String artifactLabel) {
 		this.specifiedClass = specifiedClass;
-		this.artifactIcon = artifactIcon;
-		this.artifactIcon_gs = artifactIcon_gs;
-		this.artifactIcon_new = artifactIcon_new;
+		try {
+			this.artifactIcon_URL = new URL(baseURL, artifactIcon);
+			this.artifactIcon_gs_URL = new URL(baseURL, artifactIcon_gs);
+			this.artifactIcon_new_URL = new URL(baseURL, artifactIcon_new);
+		} catch (MalformedURLException e) {
+			// ignore here
+		}
+		this.artifactLabel = artifactLabel;
+	}
+
+	@SuppressWarnings("unchecked")
+	/* package */ModelComponentMetadata(Class specifiedClass,
+			URL artifactIconURL, URL artifactIcon_gsURL,
+			URL artifactIcon_newURL, String artifactLabel) {
+		this.specifiedClass = specifiedClass;
+		this.artifactIcon_URL = artifactIconURL;
+		this.artifactIcon_gs_URL = artifactIcon_gsURL;
+		this.artifactIcon_new_URL = artifactIcon_newURL;
 		this.artifactLabel = artifactLabel;
 	}
 
@@ -48,22 +63,12 @@ public class ModelComponentMetadata implements IModelComponentMetadata {
 
 	@Override
 	public URL getGreyedoutIconURL() {
-		try {
-			return new URL(baseURL, artifactIcon_gs);
-		} catch (MalformedURLException e) {
-			// will never happen
-			return baseURL;
-		}
+		return artifactIcon_gs_URL;
 	}
 
 	@Override
 	public URL getIconURL() {
-		try {
-			return new URL(baseURL, artifactIcon);
-		} catch (MalformedURLException e) {
-			// will never happen
-			return baseURL;
-		}
+		return artifactIcon_URL;
 	}
 
 	@Override
@@ -73,12 +78,7 @@ public class ModelComponentMetadata implements IModelComponentMetadata {
 
 	@Override
 	public URL getNewIconURL() {
-		try {
-			return new URL(baseURL, artifactIcon_new);
-		} catch (MalformedURLException e) {
-			// will never happen
-			return baseURL;
-		}
+		return artifactIcon_new_URL;
 	}
 
 }

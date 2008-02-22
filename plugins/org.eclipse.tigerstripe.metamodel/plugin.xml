@@ -5,10 +5,11 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.1 2008/02/14 23:58:01 edillon Exp $
+ $Id: plugin.xml,v 1.2 2008/02/22 22:34:03 edillon Exp $
 -->
 
 <plugin>
+   <extension-point id="customArtifactMetadata" name="Custom Artifact Metadata" schema="schema/customArtifactMetadata.exsd"/>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 

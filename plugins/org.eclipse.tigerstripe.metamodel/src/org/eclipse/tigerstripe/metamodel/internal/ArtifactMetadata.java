@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.metamodel.internal;
 
+import java.net.URL;
+
 import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
 
 public class ArtifactMetadata extends ModelComponentMetadata implements
@@ -26,6 +28,18 @@ public class ArtifactMetadata extends ModelComponentMetadata implements
 			String artifactLabel) {
 		super(specifiedClass, artifactIcon, artifactIcon_gs, artifactIcon_new,
 				artifactLabel);
+		this.hasFields = hasFields;
+		this.hasMethods = hasMethods;
+		this.hasLiterals = hasLiterals;
+	}
+
+	@SuppressWarnings("unchecked")
+	/* package */ArtifactMetadata(Class specifiedClass, boolean hasFields,
+			boolean hasMethods, boolean hasLiterals, URL artifactIconURL,
+			URL artifactIcon_gsURL, URL artifactIcon_newURL,
+			String artifactLabel) {
+		super(specifiedClass, artifactIconURL, artifactIcon_gsURL,
+				artifactIcon_newURL, artifactLabel);
 		this.hasFields = hasFields;
 		this.hasMethods = hasMethods;
 		this.hasLiterals = hasLiterals;

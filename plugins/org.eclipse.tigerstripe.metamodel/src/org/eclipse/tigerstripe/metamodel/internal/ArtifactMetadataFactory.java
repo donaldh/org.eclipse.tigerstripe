@@ -10,8 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.metamodel.internal;
 
+import java.net.URL;
 import java.util.HashMap;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IContributor;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
 import org.eclipse.tigerstripe.metamodel.IAssociationArtifact;
 import org.eclipse.tigerstripe.metamodel.IAssociationClassArtifact;
@@ -42,6 +47,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.osgi.framework.Bundle;
 
 /**
  * A factory for all Artifact Metadata.
@@ -160,9 +166,62 @@ public class ArtifactMetadataFactory {
 	private void populateRegistry() {
 		metadataRegistry = new HashMap<String, IModelComponentMetadata>();
 
+		populateFromExtensionPoint();
+
+		// Complete the registry with the default values for those
+		// keys not redefined in an extension point.
 		for (int index = 0; index < registryKeys.length; index++) {
-			metadataRegistry.put(registryKeys[index],
-					registryDefaultRegistryEntries[index]);
+			if (!metadataRegistry.containsKey(registryKeys[index]))
+				metadataRegistry.put(registryKeys[index],
+						registryDefaultRegistryEntries[index]);
+		}
+	}
+
+	private void populateFromExtensionPoint() {
+
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+
+		IConfigurationElement[] elements = registry
+				.getConfigurationElementsFor("org.eclipse.tigerstripe.metamodel.customArtifactMetadata");
+		for (IConfigurationElement element : elements) {
+			String classname = element.getAttribute("artifactType");
+			String userLabel = element.getAttribute("userLabel");
+			boolean hasFields = Boolean.parseBoolean(element
+					.getAttribute("hasFields"));
+			boolean hasMethods = Boolean.parseBoolean(element
+					.getAttribute("hasMethods"));
+			boolean hasLiterals = Boolean.parseBoolean(element
+					.getAttribute("hasLiterals"));
+			String icon = element.getAttribute("icon");
+			URL iconURL = null;
+			if (icon != null && icon.length() != 0) {
+				IContributor contributor = element.getContributor();
+				String bundleName = contributor.getName();
+				Bundle bundle = Platform.getBundle(bundleName);
+				iconURL = bundle.getEntry(icon);
+			}
+
+			String icon_new = element.getAttribute("icon_new");
+			URL icon_newURL = null;
+			if (icon_new != null && icon_new.length() != 0) {
+				IContributor contributor = element.getContributor();
+				String bundleName = contributor.getName();
+				Bundle bundle = Platform.getBundle(bundleName);
+				icon_newURL = bundle.getEntry(icon_new);
+			}
+
+			String icon_gs = element.getAttribute("icon_gs");
+			URL icon_gsURL = null;
+			if (icon_gs != null && icon_gs.length() != 0) {
+				IContributor contributor = element.getContributor();
+				String bundleName = contributor.getName();
+				Bundle bundle = Platform.getBundle(bundleName);
+				icon_gsURL = bundle.getEntry(icon_gs);
+			}
+
+			metadataRegistry.put(classname, new ArtifactMetadata(null,
+					hasFields, hasMethods, hasLiterals, iconURL, icon_gsURL,
+					icon_newURL, userLabel));
 		}
 	}
 }
