@@ -190,7 +190,7 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 		MultiStatus status = new MultiStatus(
 				TigerstripePluginConstants.PLUGIN_ID, 222,
 				"Diagram audit result (" + targetProject.getName() + ": "
-						+ inError + "/" + allDiagrams.size() + " diagrams )",
+						+ inError + "/" + allDiagrams.size() + " diagrams have errors)",
 				null);
 		for (IStatus st : statuses) {
 			status.add(st);
