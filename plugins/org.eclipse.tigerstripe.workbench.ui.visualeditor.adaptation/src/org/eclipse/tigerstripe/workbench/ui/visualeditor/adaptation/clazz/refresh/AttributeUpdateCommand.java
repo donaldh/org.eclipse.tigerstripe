@@ -211,37 +211,46 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 								eAttribute.setIsUnique(field.isUnique());
 							}
 						}
+						
 						if (eAttribute.getStereotypes().size() != field
 								.getStereotypeInstances().size()) {
-							// not even the same number of args, let's redo the
-							// list
+							// not even the same number of stereotypes, let's redo the list
 							eAttribute.getStereotypes().clear();
 							eAttribute.setName(field.getName());// Bug 219454: this is a hack to 
 							// force the diagram to go dirty as the stereotype add doesn't??????
+
 							for (IStereotypeInstance stereo : field
 									.getStereotypeInstances()) {
-								eAttribute.getStereotypes().add(
-										stereo.getName());
+								eAttribute.getStereotypes().add(stereo.getName());
 							}
 						} else {
-							// same number of stereotypes let's see if they all
-							// match
-							List<String> eStereotypes = eAttribute
-									.getStereotypes();
+							// same number of stereotypes let's see if they all match
+							List<String> eStereotypes = eAttribute.getStereotypes();
 							Iterator<String> eStereo = eStereotypes.iterator();
-							Collection<IStereotypeInstance> iStereotypes = field
-									.getStereotypeInstances();
+							Collection<IStereotypeInstance> iStereotypes = field.getStereotypeInstances();
+							boolean updateNeeded = false;
 							for (IStereotypeInstance iStereo : iStereotypes) {
 								String eStereotypeName = eStereo.next();
 								String iStereotypeName = iStereo.getName();
-
+								
 								if (!eStereotypeName.equals(iStereotypeName)) {
-									eAttribute.getStereotypes().remove(eStereo);
-									eAttribute.getStereotypes().add(
-											iStereotypeName);
-									eAttribute.setName(field.getName());// Bug 219454: this is a hack to 
-									// force the diagram to go dirty as the stereotype add doesn't??????
+									updateNeeded = true;
+									break;
 								}
+
+							}
+							if (updateNeeded){
+								// Bug 215646 - Just redo the whole list as the order is relevant -
+								// You can confuse the diagram
+								eAttribute.getStereotypes().clear();
+								for (IStereotypeInstance stereo : field
+										.getStereotypeInstances()) {
+									eAttribute.getStereotypes().add(stereo.getName());
+								}
+									
+								eAttribute.setName(field.getName());// Bug 219454: this is a hack to 
+								// force the diagram to go dirty as the stereotype add doesn't??????
+								
 							}
 						}
 					}

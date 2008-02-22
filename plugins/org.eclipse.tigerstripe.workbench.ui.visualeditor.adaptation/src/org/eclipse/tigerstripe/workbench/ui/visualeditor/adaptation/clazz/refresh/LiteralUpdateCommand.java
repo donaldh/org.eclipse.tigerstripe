@@ -101,7 +101,7 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 			if (eLiteral != null) {
 				if (eLiteral.getStereotypes().size() != iLiteral
 						.getStereotypeInstances().size()) {
-					// not even the same number of args, let's redo the list
+					// not even the same number of stereotypes, let's redo the list
 					eLiteral.getStereotypes().clear();
 					eLiteral.setName(iLiteral.getName());// Bug 219454: this is a hack to 
 					// force the diagram to go dirty as the stereotype add doesn't??????
@@ -115,16 +115,29 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 					List<String> eStereotypes = eLiteral.getStereotypes();
 					Iterator<String> eStereo = eStereotypes.iterator();
 					Collection<IStereotypeInstance> iStereotypes = iLiteral.getStereotypeInstances();
+					boolean updateNeeded = false;
 					for (IStereotypeInstance iStereo : iStereotypes) {
 						String eStereotypeName = eStereo.next();
 						String iStereotypeName = iStereo.getName();
 						
 						if (!eStereotypeName.equals(iStereotypeName)) {
-							eLiteral.getStereotypes().remove(eStereo);
-							eLiteral.getStereotypes().add(iStereotypeName);
-							eLiteral.setName(iLiteral.getName());// Bug 219454: this is a hack to 
-							// force the diagram to go dirty as the stereotype add doesn't??????
+							updateNeeded = true;
+							break;
 						}
+
+					}
+					if (updateNeeded){
+						// Bug 215646 - Just redo the whole list as the order is relevant -
+						// You can confuse the diagram
+						eLiteral.getStereotypes().clear();
+						for (IStereotypeInstance stereo : iLiteral
+								.getStereotypeInstances()) {
+							eLiteral.getStereotypes().add(stereo.getName());
+						}
+							
+						eLiteral.setName(iLiteral.getName());// Bug 219454: this is a hack to 
+						// force the diagram to go dirty as the stereotype add doesn't??????
+						
 					}
 				}
 			}

@@ -97,213 +97,7 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 				// not found, delete
 				toDelete.add(eMethod);
 			}
-			// else {
-			// // review that everything matches
-			// String typeName =
-			// getFqnForTypeAndIArtifact(targetIMethod.getReturnIType(),
-			// iArtifact);
-			// String targetReturnedType = Misc
-			// .removeJavaLangString(typeName);
-			// if (targetIMethod.isVoid()) {
-			// targetReturnedType = "void";
-			// }
-			//
-			// if (eMethod.getType() != null
-			// && !eMethod.getType().equals(targetReturnedType)) {
-			// eMethod.setType(targetReturnedType);
-			// }
-			//
-			// if ((eMethod.getDefaultValue() == null && targetIMethod
-			// .getDefaultReturnValue() != null)
-			// || (eMethod.getDefaultValue() != null && !eMethod
-			// .getDefaultValue().equals(
-			// targetIMethod.getDefaultReturnValue()))) {
-			// if (targetIMethod.getDefaultReturnValue() == null) {
-			// eMethod.eUnset(VisualeditorPackage.eINSTANCE
-			// .getTypedElement_DefaultValue());
-			// } else {
-			// eMethod.setDefaultValue(targetIMethod
-			// .getDefaultReturnValue());
-			// }
-			// }
-			//
-			// if (eMethod.isIsAbstract() != targetIMethod.isAbstract()) {
-			// eMethod.setIsAbstract(targetIMethod.isAbstract());
-			// }
-			//
-			// if (eMethod.getVisibility() != ClassDiagramUtils
-			// .toVisibility(targetIMethod.getVisibility())) {
-			// eMethod.setVisibility(ClassDiagramUtils
-			// .toVisibility(targetIMethod.getVisibility()));
-			// }
-			//
-			// if (eMethod.isIsOrdered() != targetIMethod.isOrdered()) {
-			// eMethod.setIsOrdered(targetIMethod.isOrdered());
-			// }
-			//
-			// if (eMethod.isIsUnique() != targetIMethod.isUnique()) {
-			// eMethod.setIsUnique(targetIMethod.isUnique());
-			// }
-			//
-			// // review multiplicity, swap if necessary
-			// AssocMultiplicity eMethodMultiplicy = eMethod
-			// .getTypeMultiplicity();
-			//
-			// if (targetIMethod.getReturnIType() != null) {
-			// EMultiplicity iMethodMultiplicity = targetIMethod
-			// .getReturnIType().getTypeMultiplicity();
-			// if (eMethodMultiplicy != ClassDiagramUtils
-			// .mapTypeMultiplicity(iMethodMultiplicity)) {
-			// eMethod.setTypeMultiplicity(ClassDiagramUtils
-			// .mapTypeMultiplicity(iMethodMultiplicity));
-			// }
-			// }
-			//
-			// // review arguments
-			// if (eMethod.getParameters().size() != targetIMethod
-			// .getIArguments().length) {
-			// // not even the same number of args, let's redo the list
-			// eMethod.getParameters().clear();
-			// for (IArgument arg : targetIMethod.getIArguments()) {
-			// Parameter param = VisualeditorFactory.eINSTANCE
-			// .createParameter();
-			// param.setName(arg.getName());
-			// String lclTypeName = getFqnForTypeAndIArtifact(arg.getIType(),
-			// iArtifact);
-			// param.setType(Misc.removeJavaLangString(lclTypeName));
-			// param.setIsOrdered(arg.isOrdered());
-			// param.setIsUnique(arg.isUnique());
-			// param.setDefaultValue(arg.getDefaultValue());
-			//
-			// if (arg.getIType().getTypeMultiplicity() != ClassDiagramUtils
-			// .mapTypeMultiplicity(param
-			// .getTypeMultiplicity())) {
-			// param.setTypeMultiplicity(ClassDiagramUtils
-			// .mapTypeMultiplicity(arg.getIType()
-			// .getTypeMultiplicity()));
-			//
-			// }
-			// eMethod.getParameters().add(param);
-			// }
-			// } else {
-			// // same number of args let's see if they all match
-			// List<Parameter> parameters = eMethod.getParameters();
-			// IArgument[] arguments = targetIMethod.getIArguments();
-			// for (int index = 0; index < arguments.length; index++) {
-			// boolean changed = false;
-			// Parameter theParam = parameters.get(index);
-			// IArgument theArg = arguments[index];
-			// if (!theArg.getName().equals(theParam.getName())) {
-			// theParam.setName(theArg.getName());
-			// changed = true;
-			// }
-			// String lclTypeName = getFqnForTypeAndIArtifact(theArg.getIType(),
-			// iArtifact);
-			// if (!Misc.removeJavaLangString(lclTypeName)
-			// .equals(theParam.getType())) {
-			// theParam.setType(Misc.removeJavaLangString(lclTypeName));
-			// changed = true;
-			// }
-			//
-			// EMultiplicity iMultiplicity = theArg.getIType()
-			// .getTypeMultiplicity();
-			// AssocMultiplicity eMultiplicity = theParam
-			// .getTypeMultiplicity();
-			// if (iMultiplicity != ClassDiagramUtils
-			// .mapTypeMultiplicity(eMultiplicity)) {
-			// theParam.setTypeMultiplicity(ClassDiagramUtils
-			// .mapTypeMultiplicity(iMultiplicity));
-			// changed = true;
-			// }
-			//
-			// if (!theArg.isOrdered() == theParam.isIsOrdered()) {
-			// theParam.setIsOrdered(theArg.isOrdered());
-			// changed = true;
-			// }
-			//
-			// if (!theArg.isUnique() == theParam.isIsUnique()) {
-			// theParam.setIsUnique(theArg.isUnique());
-			// changed = true;
-			// }
-			//
-			// if ((theParam.getDefaultValue() == null && theArg
-			// .getDefaultValue() != null)
-			// || (theParam.getDefaultValue() != null && !theParam
-			// .getDefaultValue().equals(
-			// theArg.getDefaultValue()))) {
-			// if (theArg.getDefaultValue() == null) {
-			// theParam.eUnset(VisualeditorPackage.eINSTANCE
-			// .getTypedElement_DefaultValue());
-			// } else {
-			// theParam.setDefaultValue(theArg
-			// .getDefaultValue());
-			// }
-			// changed = true;
-			// }
-			//						
-			// // review stereotypes
-			// if (theParam.getStereotypes().size() != theArg
-			// .getStereotypeInstances().length) {
-			// // not even the same number of args, let's redo the list
-			// theParam.getStereotypes().clear();
-			// for (IextStereotypeInstance stereo : theArg
-			// .getStereotypeInstances()) {
-			// theParam.getStereotypes().add(stereo.getName());
-			// changed = true;
-			// }
-			// } else {
-			// // same number of stereotypes let's see if they all match
-			// List<String> eStereotypes = theParam.getStereotypes();
-			// IextStereotypeInstance[] iStereotypes = theArg
-			// .getStereotypeInstances();
-			// for (int aindex = 0; aindex < iStereotypes.length; aindex++) {
-			// String eStereotypeName = eStereotypes.get(aindex);
-			// String iStereotypeName = iStereotypes[aindex].getName();
-			// if (!eStereotypeName.equals(iStereotypeName)) {
-			// theParam.getStereotypes().remove(aindex);
-			// theParam.getStereotypes()
-			// .add(aindex, iStereotypeName);
-			// changed = true;
-			// }
-			// }
-			// }
-			//
-			//
-			// if (changed) {
-			// // since we can't listen on Parameter sets at the
-			// // graph
-			// // level, doing remove/add instead
-			// parameters.remove(index);
-			// parameters.add(index, theParam);
-			// // parameters.set(index, theParam);
-			// }
-			// }
-			// }
-			// // review stereotypes
-			// if (eMethod.getStereotypes().size() != targetIMethod
-			// .getStereotypeInstances().length) {
-			// // not even the same number of args, let's redo the list
-			// eMethod.getStereotypes().clear();
-			// for (IextStereotypeInstance stereo : targetIMethod
-			// .getStereotypeInstances()) {
-			// eMethod.getStereotypes().add(stereo.getName());
-			// }
-			// } else {
-			// // same number of stereotypes let's see if they all match
-			// List<String> eStereotypes = eMethod.getStereotypes();
-			// IextStereotypeInstance[] iStereotypes = targetIMethod
-			// .getStereotypeInstances();
-			// for (int index = 0; index < iStereotypes.length; index++) {
-			// String eStereotypeName = eStereotypes.get(index);
-			// String iStereotypeName = iStereotypes[index].getName();
-			// if (!eStereotypeName.equals(iStereotypeName)) {
-			// eMethod.getStereotypes().remove(index);
-			// eMethod.getStereotypes()
-			// .add(index, iStereotypeName);
-			// }
-			// }
-			// }
-			// }
+
 		}
 
 		if (toDelete.size() != 0)
@@ -408,12 +202,10 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 
 				if (theMethod.getStereotypes().size() != iMethod
 						.getStereotypeInstances().size()) {
-					// different number of stereotypes.
+					// not even the same number of stereotypes, let's redo the list
 					theMethod.getStereotypes().clear();
-					theMethod.setName(iMethod.getName());// Bug 219454: this
-															// is a hack to
-					// force the diagram to go dirty as the stereotype add
-					// doesn't??????
+					theMethod.setName(iMethod.getName());// Bug 219454: this is a hack to 
+					// force the diagram to go dirty as the stereotype add doesn't??????
 
 					for (IStereotypeInstance stereo : iMethod
 							.getStereotypeInstances()) {
@@ -423,23 +215,32 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 					// same number of stereotypes let's see if they all match
 					List<String> eStereotypes = theMethod.getStereotypes();
 					Iterator<String> eStereo = eStereotypes.iterator();
-					Collection<IStereotypeInstance> iStereotypes = iMethod
-							.getStereotypeInstances();
+					Collection<IStereotypeInstance> iStereotypes = iMethod.getStereotypeInstances();
+					boolean updateNeeded = false;
 					for (IStereotypeInstance iStereo : iStereotypes) {
 						String eStereotypeName = eStereo.next();
 						String iStereotypeName = iStereo.getName();
-
+						
 						if (!eStereotypeName.equals(iStereotypeName)) {
-							theMethod.getStereotypes().remove(eStereo);
-							theMethod.getStereotypes().add(iStereotypeName);
-							theMethod.setName(iMethod.getName());// Bug
-																	// 219454:
-																	// this is a
-																	// hack to
-							// force the diagram to go dirty as the stereotype
-							// add doesn't??????
+							updateNeeded = true;
+							break;
 						}
+
 					}
+					if (updateNeeded){
+						// Bug 215646 - Just redo the whole list as the order is relevant -
+						// You can confuse the diagram
+						theMethod.getStereotypes().clear();
+						for (IStereotypeInstance stereo : iMethod
+								.getStereotypeInstances()) {
+							theMethod.getStereotypes().add(stereo.getName());
+						}
+							
+						theMethod.setName(iMethod.getName());// Bug 219454: this is a hack to 
+						// force the diagram to go dirty as the stereotype add doesn't??????
+						
+					}
+				
 				}
 			}
 		}

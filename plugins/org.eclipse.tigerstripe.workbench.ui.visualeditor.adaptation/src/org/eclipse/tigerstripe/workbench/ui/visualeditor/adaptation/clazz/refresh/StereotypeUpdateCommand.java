@@ -11,6 +11,9 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -41,49 +44,46 @@ public class StereotypeUpdateCommand extends
 		if (element.isIsReadonly() != artifact.isReadonly())
 			element.setIsReadonly(artifact.isReadonly());
 
-		ArrayList<String> strs = new ArrayList<String>();
-		for (IStereotypeInstance instance : artifact.getStereotypeInstances()) {
-			String name = instance.getName();
-			if (!element.getStereotypes().contains(name)) {
-				element.getStereotypes().add(name);
-				element.setIsAbstract(artifact.isAbstract());// Bug 219454:
-																// this is a
-																// hack to
-				// force the diagram to go dirty as the stereotype add
-				// doesn't??????
-			}
-		}
+		if (element.getStereotypes().size() != artifact
+				.getStereotypeInstances().size()) {
+			// not even the same number of stereotypes, let's redo the list
+			element.getStereotypes().clear();
+			element.setName(artifact.getName());// Bug 219454: this is a hack to 
+			// force the diagram to go dirty as the stereotype add doesn't??????
 
-		ArrayList<String> forRemoval = new ArrayList<String>();
-		for (Object st : element.getStereotypes()) {
-			String stName = (String) st;
-			boolean found = false;
-			for (IStereotypeInstance instance : artifact
+			for (IStereotypeInstance stereo : artifact
 					.getStereotypeInstances()) {
-				if (instance.getName().equals(stName)) {
-					found = true;
+				element.getStereotypes().add(stereo.getName());
+			}
+		} else {
+			// same number of stereotypes let's see if they all match
+			List<String> eStereotypes = element.getStereotypes();
+			Iterator<String> eStereo = eStereotypes.iterator();
+			Collection<IStereotypeInstance> iStereotypes = artifact.getStereotypeInstances();
+			boolean updateNeeded = false;
+			for (IStereotypeInstance iStereo : iStereotypes) {
+				String eStereotypeName = eStereo.next();
+				String iStereotypeName = iStereo.getName();
+				
+				if (!eStereotypeName.equals(iStereotypeName)) {
+					updateNeeded = true;
 					break;
 				}
+
 			}
-			if (!found) {
-				forRemoval.add(stName);
-			}
-		}
-		if (forRemoval.size() != 0) {
-			if (forRemoval.size() != element.getStereotypes().size()) {
-				element.getStereotypes().removeAll(forRemoval);
-				element.setIsAbstract(artifact.isAbstract());// Bug 219454:
-																// this is a
-																// hack to
-				// force the diagram to go dirty as the stereotype add
-				// doesn't??????
-			} else {
-				element.resetStereotypes();
-				element.setIsAbstract(artifact.isAbstract());// Bug 219454:
-																// this is a
-																// hack to
-				// force the diagram to go dirty as the stereotype add
-				// doesn't??????
+			if (updateNeeded){
+				// Bug 215646 - Just redo the whole list as the order is relevant -
+				// You can confuse the diagram during a delete/replace action
+				element.getStereotypes().clear();
+				for (IStereotypeInstance stereo : artifact
+						.getStereotypeInstances()) {
+					element.getStereotypes().add(stereo.getName());
+				}
+					
+				element.setIsAbstract(artifact.isAbstract());// Bug 219454: this is a hack to 
+				// force the diagram to go dirty as the stereotype add doesn't??????
+				// Don't use the name - that forces a close on the editor!
+				
 			}
 		}
 	}
