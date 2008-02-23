@@ -656,7 +656,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 			} else if (type.getFullyQualifiedName().equals("boolean")) {
 				defaultValueText.setItems(new String[] { "true", "false", "" });
 				defaultValueText.setEditable(false);
-				defaultValueText.select(0);
+				defaultValueText.select(2);
 			} else {
 				defaultValueText.setItems(new String[0]);
 				defaultValueText.setEditable(true);
