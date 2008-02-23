@@ -46,7 +46,13 @@ public class OpenNewPackageWizardAction extends AbstractOpenWizardAction {
 
 	@Override
 	protected Wizard createWizard() {
-		return new NewPackageCreationWizard();
+		return new NewPackageCreationWizard() {
+			// Bug 219769, we need to run the performFinish in the UI Thread
+			@Override
+			protected boolean canRunForked() {
+				return false;
+			}
+		};
 	}
 
 	@Override

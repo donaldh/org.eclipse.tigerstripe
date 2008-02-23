@@ -42,7 +42,13 @@ public class OpenNewAnnotationWizardAction extends AbstractOpenWizardAction {
 
 	@Override
 	protected Wizard createWizard() {
-		return new NewAnnotationCreationWizard();
+		return new NewAnnotationCreationWizard() {
+			// Bug 219769, we need to run the performFinish in the UI Thread
+			@Override
+			protected boolean canRunForked() {
+				return false;
+			}
+		};
 	}
 
 	@Override

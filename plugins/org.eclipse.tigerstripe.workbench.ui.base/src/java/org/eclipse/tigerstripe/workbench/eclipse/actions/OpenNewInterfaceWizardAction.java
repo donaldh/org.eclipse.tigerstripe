@@ -51,7 +51,13 @@ public class OpenNewInterfaceWizardAction extends AbstractOpenWizardAction {
 
 	@Override
 	protected Wizard createWizard() {
-		return new NewInterfaceCreationWizard();
+		return new NewInterfaceCreationWizard() {
+			// Bug 219769, we need to run the performFinish in the UI Thread
+			@Override
+			protected boolean canRunForked() {
+				return false;
+			}
+		};
 	}
 
 	@Override

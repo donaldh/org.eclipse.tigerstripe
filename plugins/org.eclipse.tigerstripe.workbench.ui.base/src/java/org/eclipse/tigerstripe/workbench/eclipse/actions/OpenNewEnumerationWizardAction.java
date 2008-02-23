@@ -42,7 +42,13 @@ public class OpenNewEnumerationWizardAction extends AbstractOpenWizardAction {
 
 	@Override
 	protected Wizard createWizard() {
-		return new NewEnumCreationWizard();
+		return new NewEnumCreationWizard() {
+			// Bug 219769, we need to run the performFinish in the UI Thread
+			@Override
+			protected boolean canRunForked() {
+				return false;
+			}
+		};
 	}
 
 	@Override
