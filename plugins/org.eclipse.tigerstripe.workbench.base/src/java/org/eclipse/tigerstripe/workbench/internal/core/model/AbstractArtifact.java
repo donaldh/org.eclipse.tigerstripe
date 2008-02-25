@@ -93,8 +93,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	private IModelUpdater myUpdater;
 
 	// The package this AbstractArtifact lives in
-	private String packageString = "";
-
+	private String _package = "";
+	
+	// The fully qualifiedName for this artifact
+	private String _fullyQualifiedName;
+	
 	/** logger for output */
 	private static Logger log = Logger.getLogger(AbstractArtifact.class);
 
@@ -243,13 +246,18 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
+	
+
+
+	
 	/**
 	 * Set the package name for this AbstractArtifact
 	 * 
 	 * @param packageName
 	 */
 	public void setPackage(String packageName) {
-		this.packageString = packageName;
+		this. _package = packageName;
+		this._fullyQualifiedName = this._package+"."+getName();
 	}
 
 	/**
@@ -268,11 +276,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return
 	 */
 	public String getPackage() {
-		if (this.packageString == null) {
-			packageString = "";
+		if (this._package == null) {
+			this.setPackage("");
 		}
-
-		return this.packageString;
+		return _package;
 	}
 
 	/**
@@ -281,20 +288,21 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return
 	 */
 	public String getFullyQualifiedName() {
-
-		String fullyQualifiedName = getPackage();
-
-		if (!"".equals(getPackage())) {
-			fullyQualifiedName = fullyQualifiedName + ".";
-		}
-		return fullyQualifiedName + getName();
+		return _fullyQualifiedName;
 	}
 
 	public void setFullyQualifiedName(String fqn) {
-		setPackage(Util.packageOf(fqn));
+		this.setPackage(Util.packageOf(fqn));
 		this.setName(Util.nameOf(fqn));
+		this._fullyQualifiedName = fqn;
 	}
 
+	
+	public void setName(String name) {
+		super.setName(name);
+		this._fullyQualifiedName = this._package+"."+getName();
+	}
+	
 	/**
 	 * Returns the correct type of artifact based on the given class
 	 * 
