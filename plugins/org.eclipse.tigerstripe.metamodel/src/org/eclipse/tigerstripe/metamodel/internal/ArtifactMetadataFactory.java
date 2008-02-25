@@ -94,7 +94,7 @@ public class ArtifactMetadataFactory {
 
 	private final static IArtifactMetadata ASSOCIATION_DEFAULT = new ArtifactMetadata(
 			IAssociationArtifact.class, false, false, false,
-			"associationIcon-small.png", "association_gs.gif",
+			"association.gif", "association_gs.gif",
 			"association_new.gif", "Association");
 
 	private final static IArtifactMetadata ASSOCIATIONCLASS_DEFAULT = new ArtifactMetadata(
