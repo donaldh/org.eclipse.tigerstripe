@@ -18,7 +18,7 @@
      *  isOrdered = "$method.isOrdered()"
      *  isUnique = "$method.isUnique()"
      *  typeMultiplicity = "$method.ReturnType.TypeMultiplicity.Label"
-     *  returnName = "$method.MethodReturnName"
+     *  returnName = "$method.ReturnName"
 #if ($method.hasDefaultReturnValue())     *  defaultReturnValue = "$xmlEncode.encode($method.DefaultReturnValue)" 
 #end
 #foreach( $argument in $method.Arguments )

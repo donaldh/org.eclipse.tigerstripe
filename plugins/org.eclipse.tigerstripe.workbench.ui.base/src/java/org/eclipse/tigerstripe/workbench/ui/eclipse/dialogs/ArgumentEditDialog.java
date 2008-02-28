@@ -766,8 +766,8 @@ public class ArgumentEditDialog extends TSMessageDialog {
 				}
 				defaultValueField.setItems(items);
 			} else if (attributeClass.equals("boolean")) {
-				defaultValueField.setItems(new String[] { "true", "false" });
-				defaultValueField.getComboControl(getParentShell()).select(0);
+				defaultValueField.setItems(new String[] { "true", "false", "" });
+				defaultValueField.getComboControl(getParentShell()).select(2);
 			} else {
 				defaultValueField.setItems(new String[0]);
 			}

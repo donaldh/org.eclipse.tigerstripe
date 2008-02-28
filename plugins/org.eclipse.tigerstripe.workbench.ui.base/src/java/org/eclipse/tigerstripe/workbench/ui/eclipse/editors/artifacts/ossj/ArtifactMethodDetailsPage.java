@@ -1193,9 +1193,11 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 			MessageDialog.openWarning(master.getSection().getShell(),
-					"Default " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IPrimitiveTypeImpl.class.getName())
-							.getLabel() + " For Parameter", e.getMessage());
+					"Default "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IPrimitiveTypeImpl.class.getName())
+									.getLabel() + " For Parameter", e
+							.getMessage());
 			return;
 		}
 		type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
@@ -1315,21 +1317,26 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		String message = "Do you really want to remove ";
 		if (selectedLabels.length > 1) {
-			message = message + "these " + selectedLabels.length
-					+ " " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-										IExceptionArtifactImpl.class.getName())
-										.getLabel() + "(s)?";
+			message = message
+					+ "these "
+					+ selectedLabels.length
+					+ " "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IExceptionArtifactImpl.class.getName()).getLabel()
+					+ "(s)?";
 		} else {
-			message = message + "this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IExceptionArtifactImpl.class.getName())
-					.getLabel();
+			message = message
+					+ "this "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IExceptionArtifactImpl.class.getName()).getLabel();
 		}
 
 		MessageDialog msgDialog = new MessageDialog(master.getSection()
-				.getShell(), "Remove " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IExceptionArtifactImpl.class.getName())
-						.getLabel(), null, message,
-				MessageDialog.QUESTION, new String[] { "Yes", "No" }, 1);
+				.getShell(), "Remove "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IExceptionArtifactImpl.class.getName()).getLabel(),
+				null, message, MessageDialog.QUESTION, new String[] { "Yes",
+						"No" }, 1);
 
 		if (msgDialog.open() == 0) {
 			exceptionViewer.remove(selectedLabels);
@@ -1489,9 +1496,10 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				defaultReturnValue.setItems(items);
 				defaultReturnValue.setEditable(false);
 			} else if (type.getFullyQualifiedName().equals("boolean")) {
-				defaultReturnValue.setItems(new String[] { "true", "false" });
+				defaultReturnValue
+						.setItems(new String[] { "true", "false", "" });
 				defaultReturnValue.setEditable(false);
-				defaultReturnValue.select(0);
+				defaultReturnValue.select(2);
 			} else {
 				defaultReturnValue.setItems(new String[0]);
 				defaultReturnValue.setEditable(true);
