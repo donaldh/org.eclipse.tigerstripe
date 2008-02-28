@@ -14,6 +14,10 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.workbench.base.test.generation.TestProjectGenerationBasics;
+import org.eclipse.tigerstripe.workbench.base.test.migration.TestArtifactRefactor;
+import org.eclipse.tigerstripe.workbench.base.test.migration.TestFieldMigration;
+import org.eclipse.tigerstripe.workbench.base.test.migration.TestManagedEntityMigration;
+import org.eclipse.tigerstripe.workbench.base.test.migration.TestModelManager;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestArtifacts;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestFields;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestLiterals;
@@ -33,6 +37,12 @@ public class AllTests {
 		suite.addTestSuite(TestProjectManagement.class);
 		suite.addTestSuite(TestModelProjectLifecycle.class);
 
+		// Metamodel migration test
+		suite.addTestSuite(TestArtifactRefactor.class);
+		suite.addTestSuite(TestFieldMigration.class);
+		suite.addTestSuite(TestManagedEntityMigration.class);
+		suite.addTestSuite(TestModelManager.class);
+
 		// Generation Tests
 		suite.addTestSuite(TestProjectGenerationBasics.class);
 
@@ -47,5 +57,4 @@ public class AllTests {
 		// $JUnit-END$
 		return suite;
 	}
-
 }

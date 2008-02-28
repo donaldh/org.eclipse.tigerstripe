@@ -228,17 +228,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodType" eType="#//extensions/ossj/EMethodType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IMultiplicity">
-    <eOperations name="toEMultiplicity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="EMultiplicity">
-    <eLiterals name="one"/>
-    <eLiterals name="zero" value="1"/>
-    <eLiterals name="zero_one" value="2"/>
-    <eLiterals name="zero_star" value="3"/>
-    <eLiterals name="one_star" value="4"/>
-    <eLiterals name="star" value="5"/>
   </eClassifiers>
   <eSubpackages name="extensions" nsURI="tigerstripe-extensions" nsPrefix="ts-extensions">
     <eClassifiers xsi:type="ecore:EClass" name="IStandardSpecifics" abstract="true"/>

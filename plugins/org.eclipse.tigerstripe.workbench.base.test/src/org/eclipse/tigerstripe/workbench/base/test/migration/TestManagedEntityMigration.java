@@ -87,6 +87,8 @@ public class TestManagedEntityMigration extends TestCase {
 		IModelManager mMgr = project.getModelManager();
 		IModelRepository repo = mMgr.getDefaultRepository();
 
+		repo.refresh(null);
+		
 		org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact nMea = MetamodelFactory.eINSTANCE
 				.createIManagedEntityArtifact();
 		nMea.setName("Mea");

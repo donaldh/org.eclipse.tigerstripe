@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MetamodelPackage.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: MetamodelPackage.java,v 1.2 2008/02/28 18:05:32 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
@@ -2956,17 +2956,6 @@ public interface MetamodelPackage extends EPackage {
 	int OSSJ_ENTITY_METHOD_FLAVOR = 32;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.EMultiplicity <em>EMultiplicity</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.tigerstripe.metamodel.EMultiplicity
-	 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getEMultiplicity()
-	 * @generated
-	 */
-	int EMULTIPLICITY = 33;
-
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact <em>IAbstract Artifact</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4133,16 +4122,6 @@ public interface MetamodelPackage extends EPackage {
 	EEnum getOssjEntityMethodFlavor();
 
 	/**
-	 * Returns the meta object for enum '{@link org.eclipse.tigerstripe.metamodel.EMultiplicity <em>EMultiplicity</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>EMultiplicity</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.EMultiplicity
-	 * @generated
-	 */
-	EEnum getEMultiplicity();
-
-	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -5101,16 +5080,6 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum OSSJ_ENTITY_METHOD_FLAVOR = eINSTANCE.getOssjEntityMethodFlavor();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.EMultiplicity <em>EMultiplicity</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.tigerstripe.metamodel.EMultiplicity
-		 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getEMultiplicity()
-		 * @generated
-		 */
-		EEnum EMULTIPLICITY = eINSTANCE.getEMultiplicity();
 
 	}
 

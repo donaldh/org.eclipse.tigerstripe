@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IMultiplicity.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: IMultiplicity.java,v 1.2 2008/02/28 18:05:32 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
@@ -77,13 +77,5 @@ public interface IMultiplicity extends EObject {
 	 * @generated
 	 */
 	void setUpperBound(int value);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	String toEMultiplicity();
 
 } // IMultiplicity

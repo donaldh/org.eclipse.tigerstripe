@@ -21,7 +21,7 @@ import com.thoughtworks.qdox.model.JavaField;
 
 public class LiteralReader extends ModelComponentReader {
 
-	private final static String MARKING_TAG = AbstractArtifactTag.PREFIX
+	final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.LITERAL;
 
 	private JavaField field = null;
@@ -48,6 +48,13 @@ public class LiteralReader extends ModelComponentReader {
 			return result;
 		}
 
-		throw new TigerstripeException("Not a TS literal.");
+		// Note that fields are also store as POJO attributes, so if this
+		// JavaField
+		// is not a literal it must be a Field or we throw an exception
+		if (getFirstTagByName(FieldReader.MARKING_TAG) == null)
+			throw new TigerstripeException("Illegal JavaField: " + this.field);
+
+		// we're cool it's a field.
+		return null;
 	}
 }

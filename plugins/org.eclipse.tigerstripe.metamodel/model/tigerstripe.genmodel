@@ -42,14 +42,6 @@
       <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/byTemplatesBestEffort"/>
       <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/byAutoNaming"/>
     </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="tigerstripe.ecore#//EMultiplicity">
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//EMultiplicity/one"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//EMultiplicity/zero"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//EMultiplicity/zero_one"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//EMultiplicity/zero_star"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//EMultiplicity/one_star"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//EMultiplicity/star"/>
-    </genEnums>
     <genClasses image="false" ecoreClass="tigerstripe.ecore#//IAbstractArtifact">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IAbstractArtifact/fields"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IAbstractArtifact/methods"/>
@@ -211,7 +203,6 @@
     <genClasses ecoreClass="tigerstripe.ecore#//IMultiplicity">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMultiplicity/lowerBound"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMultiplicity/upperBound"/>
-      <genOperations ecoreOperation="tigerstripe.ecore#//IMultiplicity/toEMultiplicity"/>
     </genClasses>
     <nestedGenPackages prefix="Extensions" basePackage="org.eclipse.tigerstripe.metamodel"
         disposableProviderFactory="true" ecorePackage="tigerstripe.ecore#//extensions">

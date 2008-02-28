@@ -90,7 +90,7 @@ public abstract class AbstractArtifactWriter {
 
 			VelocityContext context = new VelocityContext();
 			context.put("artifact", getArtifact());
-			context.put("utils", new PersistUtils());
+			context.put("utils", new WriterUtils());
 			context.put("runtime", TigerstripeRuntime.getInstance());
 
 			XmlEscape xmlEncode = new XmlEscape();

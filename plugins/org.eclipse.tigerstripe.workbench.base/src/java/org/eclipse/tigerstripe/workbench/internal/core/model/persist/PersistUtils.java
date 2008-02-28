@@ -12,12 +12,15 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.persist;
 
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 
 public class PersistUtils {
 
 	public String getVisibilityAsString(IModelComponent component) {
 		if (component == null)
 			return "public";
+		if (component.getVisibility() == EVisibility.PACKAGE)
+			return "";
 		return component.getVisibility().getLabel();
 	}
 

@@ -16,6 +16,8 @@ import java.util.List;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.internal.core.util.encode.XmlEscape;
 
+import com.thoughtworks.qdox.model.DocletTag;
+
 public class ModelComponentReader {
 	protected static XmlEscape xmlEncode = new XmlEscape();
 
@@ -23,6 +25,21 @@ public class ModelComponentReader {
 
 	protected void resetTags() {
 		tags.clear();
+	}
+
+	protected void extractTags(DocletTag[] docletTags) {
+		for (int i = 0; i < docletTags.length; i++) {
+			Tag tag = new Tag(docletTags[i]);
+			tags.add(tag);
+		}
+	}
+
+	protected Tag getFirstTagByName(String name) {
+		for (Tag tag : tags) {
+			if (tag.getName().equals(name))
+				return tag;
+		}
+		return null;
 	}
 
 	protected List<Tag> getTagsByName(String name) {
@@ -35,6 +52,8 @@ public class ModelComponentReader {
 		return result;
 	}
 
+	
+	
 	protected void readStereotypes() {
 
 	}

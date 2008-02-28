@@ -116,7 +116,8 @@ public abstract class ArtifactReader extends ModelComponentReader {
 			FieldReader fReader = new FieldReader(fields[i]);
 			org.eclipse.tigerstripe.metamodel.IField eField = fReader
 					.readField();
-			artifact.getFields().add(eField);
+			if (eField != null)
+				artifact.getFields().add(eField);
 		}
 	}
 
@@ -127,7 +128,8 @@ public abstract class ArtifactReader extends ModelComponentReader {
 			LiteralReader lReader = new LiteralReader(fields[i]);
 			org.eclipse.tigerstripe.metamodel.ILiteral eLiteral = lReader
 					.readLiteral();
-			artifact.getLiterals().add(eLiteral);
+			if (eLiteral != null)
+				artifact.getLiterals().add(eLiteral);
 		}
 	}
 

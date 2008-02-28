@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MetamodelPackageImpl.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: MetamodelPackageImpl.java,v 1.2 2008/02/28 18:05:32 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -297,13 +297,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * @generated
 	 */
 	private EEnum ossjEntityMethodFlavorEEnum = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum eMultiplicityEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -1367,15 +1360,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getEMultiplicity() {
-		return eMultiplicityEEnum;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public MetamodelFactory getMetamodelFactory() {
 		return (MetamodelFactory)getEFactoryInstance();
 	}
@@ -1537,7 +1521,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		eAggregationEnumEEnum = createEEnum(EAGGREGATION_ENUM);
 		eChangeableEnumEEnum = createEEnum(ECHANGEABLE_ENUM);
 		ossjEntityMethodFlavorEEnum = createEEnum(OSSJ_ENTITY_METHOD_FLAVOR);
-		eMultiplicityEEnum = createEEnum(EMULTIPLICITY);
 	}
 
 	/**
@@ -1787,8 +1770,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		initEAttribute(getIMultiplicity_LowerBound(), ecorePackage.getEInt(), "lowerBound", null, 0, 1, IMultiplicity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIMultiplicity_UpperBound(), ecorePackage.getEInt(), "upperBound", null, 0, 1, IMultiplicity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(iMultiplicityEClass, ecorePackage.getEString(), "toEMultiplicity", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		// Initialize enums and add enum literals
 		initEEnum(eRefByEnumEEnum, ERefByEnum.class, "ERefByEnum");
 		addEEnumLiteral(eRefByEnumEEnum, ERefByEnum.NON_APPLICABLE);
@@ -1824,14 +1805,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BY_TEMPLATE_BEST_EFFORT);
 		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BY_TEMPLATES_BEST_EFFORT);
 		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BY_AUTO_NAMING);
-
-		initEEnum(eMultiplicityEEnum, EMultiplicity.class, "EMultiplicity");
-		addEEnumLiteral(eMultiplicityEEnum, EMultiplicity.ONE);
-		addEEnumLiteral(eMultiplicityEEnum, EMultiplicity.ZERO);
-		addEEnumLiteral(eMultiplicityEEnum, EMultiplicity.ZERO_ONE);
-		addEEnumLiteral(eMultiplicityEEnum, EMultiplicity.ZERO_STAR);
-		addEEnumLiteral(eMultiplicityEEnum, EMultiplicity.ONE_STAR);
-		addEEnumLiteral(eMultiplicityEEnum, EMultiplicity.STAR);
 
 		// Create resource
 		createResource(eNS_URI);

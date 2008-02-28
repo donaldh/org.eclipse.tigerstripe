@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IAbstractArtifact.java,v 1.2 2008/02/22 20:01:22 edillon Exp $
+ * $Id: IAbstractArtifact.java,v 1.3 2008/02/28 18:05:32 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
@@ -13,38 +13,36 @@ import org.eclipse.tigerstripe.metamodel.extensions.IStandardSpecifics;
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>IAbstract Artifact</b></em>'.
  * <!-- end-user-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getFields <em>Fields</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getMethods <em>Methods</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getLiterals <em>Literals</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#isAbstract <em>Abstract</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendedArtifact <em>Extended Artifact</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getImplementedArtifacts <em>Implemented Artifacts</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getStandardSpecifics <em>Standard Specifics</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getFields <em>Fields</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getMethods <em>Methods</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getLiterals <em>Literals</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#isAbstract <em>Abstract</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendedArtifact <em>Extended Artifact</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getImplementedArtifacts <em>Implemented Artifacts</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getStandardSpecifics <em>Standard Specifics</em>}</li>
  * </ul>
  * </p>
- * 
+ *
  * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact()
  * @model abstract="true"
  * @generated
  */
 public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	/**
-	 * Returns the value of the '<em><b>Fields</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.tigerstripe.metamodel.IField}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Fields</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IField}.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of the '<em>Fields</em>' containment reference list
 	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Fields</em>' containment reference
-	 *         list.
+	 * @return the value of the '<em>Fields</em>' containment reference list.
 	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_Fields()
 	 * @model containment="true"
 	 * @generated
@@ -52,18 +50,16 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	EList<IField> getFields();
 
 	/**
-	 * Returns the value of the '<em><b>Methods</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.tigerstripe.metamodel.IMethod}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Methods</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IMethod}.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of the '<em>Methods</em>' containment reference list
 	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Methods</em>' containment reference
-	 *         list.
+	 * @return the value of the '<em>Methods</em>' containment reference list.
 	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_Methods()
 	 * @model containment="true"
 	 * @generated
@@ -71,18 +67,16 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	EList<IMethod> getMethods();
 
 	/**
-	 * Returns the value of the '<em><b>Literals</b></em>' containment
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.tigerstripe.metamodel.ILiteral}. <!-- begin-user-doc
+	 * Returns the value of the '<em><b>Literals</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.ILiteral}.
+	 * <!-- begin-user-doc
 	 * -->
 	 * <p>
 	 * If the meaning of the '<em>Literals</em>' containment reference list
 	 * isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Literals</em>' containment reference
-	 *         list.
+	 * @return the value of the '<em>Literals</em>' containment reference list.
 	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_Literals()
 	 * @model containment="true"
 	 * @generated
@@ -107,25 +101,22 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	boolean isAbstract();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#isAbstract <em>Abstract</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Abstract</em>' attribute.
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#isAbstract <em>Abstract</em>}' attribute.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Abstract</em>' attribute.
 	 * @see #isAbstract()
 	 * @generated
 	 */
 	void setAbstract(boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Extended Artifact</b></em>'
-	 * reference. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Extended Artifact</b></em>' reference.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Extended Artifact</em>' reference isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Extended Artifact</em>' reference.
 	 * @see #setExtendedArtifact(IAbstractArtifact)
 	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_ExtendedArtifact()
@@ -135,12 +126,9 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	IAbstractArtifact getExtendedArtifact();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendedArtifact <em>Extended Artifact</em>}'
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Extended Artifact</em>'
-	 *            reference.
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendedArtifact <em>Extended Artifact</em>}' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Extended Artifact</em>' reference.
 	 * @see #getExtendedArtifact()
 	 * @generated
 	 */
@@ -166,14 +154,13 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	EList<IAbstractArtifact> getImplementedArtifacts();
 
 	/**
-	 * Returns the value of the '<em><b>Standard Specifics</b></em>'
-	 * reference. <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Standard Specifics</b></em>' reference.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Standard Specifics</em>' reference isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Standard Specifics</em>' reference.
 	 * @see #setStandardSpecifics(IStandardSpecifics)
 	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_StandardSpecifics()
@@ -183,12 +170,9 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	IStandardSpecifics getStandardSpecifics();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getStandardSpecifics <em>Standard Specifics</em>}'
-	 * reference. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @param value
-	 *            the new value of the '<em>Standard Specifics</em>'
-	 *            reference.
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getStandardSpecifics <em>Standard Specifics</em>}' reference.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Standard Specifics</em>' reference.
 	 * @see #getStandardSpecifics()
 	 * @generated
 	 */
@@ -196,7 +180,6 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @model kind="operation"
 	 * @generated
 	 */
@@ -204,7 +187,6 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @model kind="operation"
 	 * @generated
 	 */
@@ -212,7 +194,6 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @model kind="operation"
 	 * @generated
 	 */
@@ -220,7 +201,6 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @model kind="operation"
 	 * @generated
 	 */
@@ -228,7 +208,6 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @model kind="operation"
 	 * @generated
 	 */
@@ -236,7 +215,6 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @model kind="operation"
 	 * @generated
 	 */
@@ -244,7 +222,6 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @model
 	 * @generated
 	 */

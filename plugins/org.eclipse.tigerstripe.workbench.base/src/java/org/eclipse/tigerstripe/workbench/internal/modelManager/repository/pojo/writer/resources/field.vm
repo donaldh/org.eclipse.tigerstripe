@@ -16,10 +16,10 @@
      *  isReadOnly = "$field.isReadOnly()"
      *  isOrdered = "$field.isOrdered()"
      *  isUnique = "$field.isUnique()"
-     *  typeMultiplicity = "$field.Type.TypeMultiplicity.Label"
-#if ($field.hasDefaultValue() )     *  defaultValue = "$xmlEncode.encode($field.DefaultValue)" 
+     *  typeMultiplicity = "$utils.getMultiplicityAsString($field.Type.Multiplicity)"
+#if ($field.isSetDefaultValue() )     *  defaultValue = "$xmlEncode.encode($field.DefaultValue)" 
 #end
-#if( $field.RefBy != -1)     *   ref-by = "$field.RefByString"
+#if( $utils.isRefByRelevant($field.RefBy) )     *   ref-by = "$utils.refByToString($field.RefBy)"
 #end
      *
      *## Take care of the stereotypes
@@ -42,6 +42,6 @@
 #if ($field.Type.TypeMultiplicity.isArray())
 #set ($dimensions = "[]")
 #end
-	$utils.getVisibilityAsString( $field ) $field.Type.FullyQualifiedName$dimensions $field.Name;
+	$utils.getVisibilityAsString( $field.Visibility ) $field.Type.FullyQualifiedName$dimensions $field.Name;
 
 #end

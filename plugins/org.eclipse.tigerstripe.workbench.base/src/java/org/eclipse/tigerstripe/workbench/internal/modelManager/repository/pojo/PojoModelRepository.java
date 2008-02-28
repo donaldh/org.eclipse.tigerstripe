@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.modelManager.repository.pojo;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,8 +26,11 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -86,6 +90,7 @@ public class PojoModelRepository extends ModelRepository {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceRoot root = workspace.getRoot();
 		IResource repositoryRes = root.findMember(platformString);
+
 		AllPojosVisitor visitor = new AllPojosVisitor();
 		try {
 			repositoryRes.accept(visitor);
@@ -122,15 +127,19 @@ public class PojoModelRepository extends ModelRepository {
 
 		// If no artifact existed for this URI, the resource would have been
 		// created but would be empty.
-		editingDomain.getCommandStack().execute(new AbstractCommand() {
+
+		Command cmd = new AbstractCommand() {
 
 			@Override
 			public boolean canExecute() {
 				return true;
 			}
 
+			private Collection<IStatus> result = new ArrayList<IStatus>();
+
 			@Override
 			public void execute() {
+
 				try {
 					Resource targetResource = artifact.eResource();
 					if (targetResource == null) {
@@ -182,7 +191,16 @@ public class PojoModelRepository extends ModelRepository {
 				} catch (IOException e) {
 					e.printStackTrace();
 					BasePlugin.log(e); // TODO gracefully handle this
+					IStatus status = new Status(IStatus.ERROR,
+							BasePlugin.PLUGIN_ID, e.getMessage(), e);
+					result.add(status);
 				}
+
+			}
+
+			@Override
+			public Collection getResult() {
+				return result;
 			}
 
 			@Override
@@ -190,8 +208,16 @@ public class PojoModelRepository extends ModelRepository {
 				// nothing here
 			}
 
-		});
+		};
 
+		editingDomain.getCommandStack().execute(cmd);
+
+		if (!cmd.getResult().isEmpty()) {
+			Exception ee = (Exception) ((IStatus) cmd.getResult().iterator()
+					.next()).getException();
+			throw new TigerstripeException("Error during store: "
+					+ ee.getMessage(), ee);
+		}
 		return artifact;
 	}
 
@@ -234,13 +260,28 @@ public class PojoModelRepository extends ModelRepository {
 	}
 
 	public void refresh(IPackage rootPackage) {
-		// TODO: implement me!
+		// TODO: implement me properly!
 		try {
+			getCorrespondingResource(rootPackage).refreshLocal(
+					IResource.DEPTH_INFINITE, null);
 			loadResourceSet();
 			System.out.println("" + resourceMap);
 		} catch (TigerstripeException e) {
 			e.printStackTrace();
+		} catch (CoreException e) {
+			e.printStackTrace();
 		}
 	}
 
+	private IResource getCorrespondingResource(IPackage package_) {
+		if (package_ == null) {
+			String platformString = getRepositoryURI().toPlatformString(true);
+			IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			IWorkspaceRoot root = workspace.getRoot();
+			IResource repositoryRes = root.findMember(platformString);
+			return repositoryRes;
+		}
+
+		throw new UnsupportedOperationException();
+	}
 }
