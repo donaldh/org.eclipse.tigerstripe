@@ -1483,24 +1483,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return getExtends();
 	}
 
-	public Object[] getChildren() {
-		Collection<IField> fields = getFields();
-		Collection<IMethod> methods = getMethods();
-		Collection<ILiteral> literals = getLiterals();
+	public Collection<Object> getChildren() {
 
-		Object[] objects = new Object[fields.size() + methods.size()
-				+ literals.size()];
-		int index = 0;
-		for (IField field : fields) {
-			objects[index++] = field;
-		}
-		for (IMethod method : methods) {
-			objects[index++] = method;
-		}
-		for (ILiteral literal : literals) {
-			objects[index++] = literal;
-		}
-		return objects;
+		Collection<Object> objects = new ArrayList<Object>();
+
+		objects.addAll(getFields());
+		objects.addAll(getMethods());
+		objects.addAll(getLiterals());
+		return Collections.unmodifiableCollection(objects);
 	}
 
 	@Override

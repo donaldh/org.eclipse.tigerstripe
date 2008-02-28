@@ -109,20 +109,14 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	}
 
 	@Override
-	public Object[] getChildren() {
+	public Collection<Object> getChildren() {
 		ArrayList<Object> result = new ArrayList<Object>();
 
-		for (IMethod method : getMethods()) {
-			result.add(method);
-		}
+		result.addAll(getMethods());
+		result.addAll(getFields());
+		result.addAll(getAssociationEnds());
 
-		for (IField field : getFields()) {
-			result.add(field);
-		}
-		result.add(getAEnd());
-		result.add(getZEnd());
-
-		return result.toArray();
+		return result;
 	}
 
 }

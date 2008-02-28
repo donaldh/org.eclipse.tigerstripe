@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -30,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -248,9 +250,11 @@ public class DependencyArtifact extends AbstractArtifact implements
 		return aRelationshipEnd;
 	}
 
-	public IRelationshipEnd[] getRelationshipEnds() {
-		return new IRelationshipEnd[] { getRelationshipAEnd(),
-				getRelationshipZEnd() };
+	public Collection<IRelationshipEnd> getRelationshipEnds() {
+		Collection<IRelationshipEnd>  relationshipEnds = new ArrayList<IRelationshipEnd>();
+		relationshipEnds.add(getRelationshipAEnd());
+		relationshipEnds.add(getRelationshipZEnd());
+		return relationshipEnds;
 	}
 
 	public IRelationshipEnd getRelationshipZEnd() {
@@ -295,11 +299,10 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public Object[] getChildren() {
-		Object[] objects = new Object[2];
+	public Collection<Object> getChildren() {
+		Collection<Object> objects = new ArrayList<Object>();
 
-		objects[0] = getRelationshipAEnd();
-		objects[1] = getRelationshipZEnd();
+		objects.addAll(getRelationshipEnds());
 
 		return objects;
 	}

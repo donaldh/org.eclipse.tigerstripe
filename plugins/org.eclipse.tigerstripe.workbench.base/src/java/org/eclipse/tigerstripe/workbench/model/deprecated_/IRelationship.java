@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
+import java.util.Collection;
+
 
 /**
  * An IRelationshipArtifact is an abstraction of an explicit relationship
@@ -21,7 +23,7 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
  */
 public interface IRelationship {
 
-	public IRelationshipEnd[] getRelationshipEnds();
+	public Collection<IRelationshipEnd> getRelationshipEnds();
 
 	/**
 	 * Returns the first end

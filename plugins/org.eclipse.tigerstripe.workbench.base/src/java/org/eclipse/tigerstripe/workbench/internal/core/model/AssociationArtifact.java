@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -166,9 +167,11 @@ public class AssociationArtifact extends AbstractArtifact implements
 		return getAEnd();
 	}
 
-	public IRelationshipEnd[] getRelationshipEnds() {
-		return new IRelationshipEnd[] { getRelationshipAEnd(),
-				getRelationshipZEnd() };
+	public Collection<IRelationshipEnd> getRelationshipEnds() {
+		Collection<IRelationshipEnd>  relationshipEnds = new ArrayList<IRelationshipEnd>();
+		relationshipEnds.add(getRelationshipAEnd());
+		relationshipEnds.add(getRelationshipZEnd());
+		return relationshipEnds;
 	}
 
 	public IRelationshipEnd getRelationshipZEnd() {
@@ -204,17 +207,17 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public Object[] getChildren() {
-		Object[] objects = new Object[2];
+	public Collection<Object> getChildren() {
+		Collection<Object> objects = new ArrayList<Object>();
 
-		objects[0] = getAEnd();
-		objects[1] = getZEnd();
-
+		objects.addAll(getAssociationEnds());
 		return objects;
 	}
 
-	public IAssociationEnd[] getAssociationEnds() {
-		IAssociationEnd[] result = new IAssociationEnd[] { getAEnd(), getZEnd() };
+	public Collection<IAssociationEnd> getAssociationEnds() {
+		Collection<IAssociationEnd> result = new ArrayList<IAssociationEnd>();
+		result.add(getAEnd());
+		result.add(getZEnd());
 		return result;
 	}
 

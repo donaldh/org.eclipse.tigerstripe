@@ -55,7 +55,7 @@ public class NewTigerstripeExplorerContentProvider extends
 				IAbstractArtifact artifact = TSExplorerUtils
 						.getArtifactFor(parentElement);
 				if (artifact != null) {
-					rawChildren = artifact.getChildren();
+					rawChildren = artifact.getChildren().toArray();
 				}
 			} else if (parentElement instanceof IJavaModel) {
 				rawChildren = getTigerstripeProjects((IJavaModel) parentElement);
