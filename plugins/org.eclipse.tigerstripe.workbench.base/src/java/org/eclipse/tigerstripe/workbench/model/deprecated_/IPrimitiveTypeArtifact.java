@@ -16,8 +16,6 @@ public interface IPrimitiveTypeArtifact extends IAbstractArtifact,
 
 	public final static String RESERVED = "<reserved>";
 
-	public final static String DEFAULT_LABEL = "Primitive";
-
 	public final static String[][] reservedPrimitiveTypes = {
 			{ "int", "Reserved int primitive Type." },
 			{ "char", "Reserved char primitive Type." },

@@ -18,16 +18,29 @@ public interface ISessionArtifact extends IAbstractArtifact{
 
 	public interface IEntityMethodFlavorDetails  {
 
+		/**
+		 * Sets the comment (plain text description) for this FlavorDetails.
+		 * @param description
+		 */
 		public void setComment(String description);
 
 		public void setFlag(String flag);
 
+		/**
+		 * Add an exception to this flavor details.
+		 * @param fqn
+		 */
 		public void addException(String fqn);
 
+		/**
+		 * Renmove an exception form this flavor details.
+		 * @param fqn
+		 */
 		public void removeException(String fqn);
 
 		/**
-		 * 
+		 * Return the comment (plain text description) for this FlavorDetails.
+		 * @return string.
 		 */
 		public String getComment();
 
@@ -50,8 +63,18 @@ public interface ISessionArtifact extends IAbstractArtifact{
 
 	public interface IManagedEntityDetails  {
 
+		/**
+		 * Set the Fully Qualified Name of the  ManagedEntityDetails.
+		 * This should be the fqn of a Managed Entity Artifact in the project. 
+		 * 
+		 * @param fqn
+		 */
 		public void setFullyQualifiedName(String fqn);
 
+		/**
+		 * Clone this ManagedEntityDetails.
+		 * @return
+		 */
 		public IManagedEntityDetails clone();
 
 		/**
@@ -356,6 +379,13 @@ public interface ISessionArtifact extends IAbstractArtifact{
 	}
 
 	public interface INamedQuery  {
+		
+		/**
+		 * Set the Fully Qualified Name of the  Named Query.
+		 * This should be the fqn of a Named Query Artifact in the project. 
+		 * 
+		 * @param fqn
+		 */
 		public void setFullyQualifiedName(String fqn);
 
 		/**
@@ -375,7 +405,12 @@ public interface ISessionArtifact extends IAbstractArtifact{
 	}
 
 	public interface IEmittedEvent  {
-
+		/**
+		 * Set the Fully Qualified Name of the  Emitted Event.
+		 * This should be the fqn of an Event Artifact in the project. 
+		 * 
+		 * @param fqn
+		 */
 		public void setFullyQualifiedName(String fqn);
 
 		/**
@@ -394,6 +429,13 @@ public interface ISessionArtifact extends IAbstractArtifact{
 	}
 
 	public interface IExposedUpdateProcedure  {
+		
+		/**
+		 * Set the Fully Qualified Name of the  Exposed Update Procedure.
+		 * This should be the fqn of a Update Procedure Artifact in the project. 
+		 * 
+		 * @param fqn
+		 */
 		public void setFullyQualifiedName(String fqn);
 
 		/**
@@ -412,7 +454,13 @@ public interface ISessionArtifact extends IAbstractArtifact{
 		public String getName();
 	}
 
-	public IManagedEntityDetails makeManagedEntityDetails();
+	/** 
+	 * Return the managedEntity details that are exposed through this
+	 * session.
+	 * 
+	 * @return collection of managedEntityDetails
+	 */
+	public Collection<IManagedEntityDetails> getManagedEntityDetails();
 
 	/**
 	 * Add/sets IManagedEntityDetails for the target entity If such managed
@@ -422,32 +470,108 @@ public interface ISessionArtifact extends IAbstractArtifact{
 	 */
 	public void addManagedEntityDetails(IManagedEntityDetails details);
 
+	/**
+	 * Remove managedEntityDetails from the session.
+	 * 
+	 * @param details
+	 */
 	public void removeManagedEntityDetails(IManagedEntityDetails[] details);
 
-	public INamedQuery makeNamedQuery();
+	/**
+	 * Factory class for managedEntityDetails.
+	 * 
+	 * @return a blank managedEntityDetails
+	 */
+	public IManagedEntityDetails makeManagedEntityDetails();
 
+	/** 
+	 * Return the nameQueries that are exposed through this
+	 * session.
+	 * 
+	 * @return collection of namedQueries
+	 */
+	public Collection<INamedQuery> getNamedQueries();
+
+	/**
+	 * Add/sets INamedQuery for the target entity If such named
+	 * query already exists, the details are overwritten.
+	 * 
+	 * @param details
+	 */
 	public void addNamedQuery(INamedQuery details);
 
+	/**
+	 * Remove namedQueries from the session.
+	 * 
+	 * @param details
+	 */
 	public void removeNamedQuery(INamedQuery[] details);
 
-	public IExposedUpdateProcedure makeExposedUpdateProcedure();
+	/**
+	 * Factory class for namedQuery.
+	 * 
+	 * @return a blank namedQuery
+	 */
+	public INamedQuery makeNamedQuery();
 
-	public void addExposedUpdateProcedure(IExposedUpdateProcedure details);
-
-	public void removeExposedUpdateProcedure(IExposedUpdateProcedure[] details);
-
-	public IEmittedEvent makeEmittedEvent();
-
-	public void addEmittedEvent(IEmittedEvent details);
-
-	public void removeEmittedEvent(IEmittedEvent[] details);
-
-	public Collection<IEmittedEvent> getEmittedEvents();
-
+	/** 
+	 * Return the updateProcedures that are exposed through this
+	 * session.
+	 * 
+	 * @return collection of updateProcedures
+	 */
 	public Collection<IExposedUpdateProcedure> getExposedUpdateProcedures();
 
-	public Collection<IManagedEntityDetails> getManagedEntityDetails();
+	/**
+	 * Add/sets IExposedUpdateProcedure for the target entity If such update
+	 * procedure already exists, the details are overwritten.
+	 * 
+	 * @param details
+	 */
+	public void addExposedUpdateProcedure(IExposedUpdateProcedure details);
 
-	public Collection<INamedQuery> getNamedQueries();
+	/**
+	 * Remove exposedUpdateProcedures from the session.
+	 * 
+	 * @param details
+	 */
+	public void removeExposedUpdateProcedure(IExposedUpdateProcedure[] details);
+
+	/**
+	 * Factory class for exposedUpdateProcedure.
+	 * 
+	 * @return a blank exposedUpdateProcedure
+	 */
+	public IExposedUpdateProcedure makeExposedUpdateProcedure();
+
+	/** 
+	 * Return the emittedEvents that are exposed through this
+	 * session.
+	 * 
+	 * @return collection of emittedEvents
+	 */
+	public Collection<IEmittedEvent> getEmittedEvents();
+
+	/**
+	 * Add/sets IEmittedEvent for the target entity If such emitted
+	 * event already exists, the details are overwritten.
+	 * 
+	 * @param details
+	 */
+	public void addEmittedEvent(IEmittedEvent details);
+
+	/**
+	 * Remove emittedEvents from the session.
+	 * 
+	 * @param details
+	 */
+	public void removeEmittedEvent(IEmittedEvent[] details);
+
+	/**
+	 * Factory class for emittedEvent.
+	 * 
+	 * @return a blank emittedEvent
+	 */
+	public IEmittedEvent makeEmittedEvent();
 
 }

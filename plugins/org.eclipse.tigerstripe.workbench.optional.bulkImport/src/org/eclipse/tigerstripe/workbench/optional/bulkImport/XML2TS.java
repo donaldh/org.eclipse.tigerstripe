@@ -977,7 +977,7 @@ public class XML2TS {
 					}
 					newMethod.setReturnType(returnType);
 					if (method.hasAttribute("methodReturnName")) {
-						newMethod.setMethodReturnName(method
+						newMethod.setReturnName(method
 								.getAttribute("methodReturnName"));
 					}
 

@@ -17,18 +17,19 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
  */
 public interface IDependencyArtifact extends IAbstractArtifact, IRelationship {
 
-	public void setAEndType(IType aEndType);
-
-	public void setZEndType(IType zEndType);
-
-	public IType makeType();
-
 	/**
 	 * The type of the AEnd for this Dependency.
 	 * 
 	 * @return AEnd type
 	 */
 	public IType getAEndType();
+	
+	/**
+	 * Sets the type of the artifact at the 'A' end of the Dependency.
+	 * 
+	 * @param aEndType
+	 */
+	public void setAEndType(IType aEndType);
 
 	/**
 	 * The type of the ZEnd for this Dependency.
@@ -36,5 +37,22 @@ public interface IDependencyArtifact extends IAbstractArtifact, IRelationship {
 	 * @return ZEnd type
 	 */
 	public IType getZEndType();
+
+	/**
+	 * Sets the type of the artifact at the 'Z' end of the Dependency.
+	 * 
+	 * @param zEndType
+	 */
+	public void setZEndType(IType zEndType);
+
+	/**
+	 * Make a new blank type.
+	 * 
+	 * 
+	 * @return a new IType.
+	 */
+	public IType makeType();
+
+
 
 }

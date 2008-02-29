@@ -16,19 +16,10 @@ import java.util.List;
 
 public interface ILiteral extends IModelComponent {
 
+	/**
+	 * An empty list this is used as a return for Artifact types that do not support Literals.
+	 */
 	public final static List<ILiteral> EMPTY_LIST = new ArrayList<ILiteral>();
-
-	public void setType(IType type);
-
-	public IType makeType();
-
-	public void setValue(String value);
-
-	public IType getType();
-
-	public String getLabelString();
-
-	public ILiteral clone();
 
 	/**
 	 * Returns the IArtifact that is the "container" for the Literal.
@@ -38,10 +29,60 @@ public interface ILiteral extends IModelComponent {
 	public IAbstractArtifact getContainingArtifact();
 
 	/**
+	 * Returns a String that describes the Literak.
+	 * 
+	 * This is the presentation used in the Explorer view.
+	 * 
+	 * The format is : 
+	 * 		name = value
+	 * 
+	 * @return formatted string
+	 */
+	public String getLabelString();
+
+	/**
+	 * Returns the type of this literal.
+	 * 
+	 * @return IType - the type of this literal
+	 */
+	public IType getType();
+
+	/** 
+	 * Sets the type of the literal. 
+	 * 
+	 * The type must be one of String or int.
+	 * 
+	 * @param type
+	 */
+	public void setType(IType type);
+
+	/**
+	 * Make a blank type object.
+	 * 
+	 * @return - a new IType.
+	 */
+	public IType makeType();
+
+	/**
 	 * Returns the value of the literal. The return will be a String irrespetive
 	 * of the "type" of the literal.
 	 * 
 	 * @return String - the value of the literal
 	 */
 	public String getValue();
+
+	/**
+	 * Sets the value of the literal.
+	 * 
+	 * 
+	 * @param value
+	 */
+	public void setValue(String value);
+
+	/**
+	 * Clone the literal.
+	 * 
+	 * @return
+	 */
+	public ILiteral clone();
 }

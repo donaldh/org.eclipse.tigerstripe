@@ -24,29 +24,24 @@ public interface IMethod extends IModelComponent {
 
 	public final static List<IMethod> EMPTY_LIST = new ArrayList<IMethod>();
 
+
 	public interface IArgument extends IStereotypeCapable {
 
-		public void setDefaultValue(String defaultValue);
-
-		public void setComment(String description);
-
-		public void setName(String name);
-
-		public void setOrdered(boolean isOrdered);
-
-		public void setUnique(boolean isUnique);
-
-		public void setType(IType type);
-
 		/**
-		 * valid values are IField.REFBY_VALUE, IField.REFBY_KEY,
-		 * IField.REFBY_KEYRESULT
+		 * Returns the IArtifact that is the "container" for the Argument.
 		 * 
-		 * @param refBy
+		 * This will be the same as the IArtifact that is the container for the Method.
+		 * 
+		 * @return the containing artifact.
 		 */
-		public void setRefBy(int refBy);
-
-		public IArgument clone();
+		public IAbstractArtifact getContainingArtifact();
+		
+		/**
+		 * Returns the IMethod that is the "container" for the argument.
+		 * 
+		 * @return the containing method.
+		 */
+		public IMethod getContainingIMethod();
 
 		/**
 		 * Returns the comment (or plain-english description) associated with
@@ -57,33 +52,11 @@ public interface IMethod extends IModelComponent {
 		public String getComment();
 
 		/**
-		 * Returns the IArtifact that is the "container" for the Method.
+		 * Sets the comment for this argument.
 		 * 
-		 * @return the containing artifact.
+		 * @param description
 		 */
-		public IAbstractArtifact getContainingArtifact();
-
-		/**
-		 * Returns the IMethod that is the "container" for the argument.
-		 * 
-		 * @return the containing method.
-		 */
-		public IMethod getContainingIMethod();
-
-		/**
-		 * returns the default value for this argument if it is defined, null
-		 * otherwise.
-		 * 
-		 * @return
-		 */
-		public String getDefaultValue();
-
-		/**
-		 * Returns the type of this argument.
-		 * 
-		 * @return IType - the type of this argument
-		 */
-		public IType getType();
+		public void setComment(String description);
 
 		/**
 		 * Returns the name associated with this argument.
@@ -93,34 +66,100 @@ public interface IMethod extends IModelComponent {
 		public String getName();
 
 		/**
-		 * Returns an integer value indicating the reference type of the
-		 * argument. Possible values are defined in the static fields of IField.
+		 * Set the name for this argument.
+		 * 
+		 * @param name
+		 */
+		public void setName(String name);
+
+		/**
+		 * Returns true if the return of this argument contains ordered values.  
+		 * @return
+		 */
+		public boolean isOrdered();
+
+		/**
+		 * Sets the ordered attribute for this argument.
+		 * @param isOrdered
+		 */
+		public void setOrdered(boolean isOrdered);
+
+		/**
+		 * Returns true if the argument contains unique values.
+		 * @return
+		 */
+		public boolean isUnique();
+
+		/**
+		 * Sets the unique attribute for this argument.
+		 * @param isUnique
+		 */
+		public void setUnique(boolean isUnique);
+
+		/**
+		 * Returns the type of this argument.
+		 * 
+		 * @return IType - the type of this argument
+		 */
+		public IType getType();
+
+		/**
+		 * Set the type of this argument.
+		 * 
+		 * @param type
+		 */
+		public void setType(IType type);
+
+		/**
+		 * Returns an integer value indicating the reference type of the argument.
+		 * Possible values are defined in the static fields of IField.
 		 * 
 		 * @return int - the integer value corresponding to the refBy
 		 */
 		public int getRefBy();
 
 		/**
-		 * Returns an String value indicating the reference type of the
-		 * argument. Possible values are defined in the refByLabels field of
-		 * IField.
+		 * Set the reference type of the argument.
+		 * Possible values are defined in the static fields of IField.
+		 * 
+		 * @param refBy
+		 */
+		public void setRefBy(int refBy);
+
+
+		/**
+		 * Returns an String value indicating the reference type of the argument.
+		 * Possible values are defined in the refByLabels field of IField.
 		 * 
 		 * @return String - the refBy type
 		 */
 		public String getRefByString();
 
-		public boolean isOrdered();
+		/**
+		 * Returns the default value for this argument if it is defined, null
+		 * otherwise.
+		 * 
+		 * @return
+		 */
+		public String getDefaultValue();
 
-		public boolean isUnique();
+		/**
+		 * Sets the default value fpor this argument.
+		 * 
+		 * @param defaultValue
+		 */
+		public void setDefaultValue(String defaultValue);
+		
+		/**
+		 * Clone this argument.
+		 * @return
+		 */
+		public IArgument clone();
+
+
 	}
 
 	public interface IException {
-
-		public void setFullyQualifiedName(String fqn);
-
-		public IStatus validate();
-
-		public IException clone();
 
 		/**
 		 * Returns the Fully Qualified Name of an exception.
@@ -128,6 +167,13 @@ public interface IMethod extends IModelComponent {
 		 * @return String - the Fully Qualified Name
 		 */
 		public String getFullyQualifiedName();
+		
+		/**
+		 * Sets the Fully Qualified Name of an exception.
+		 * 
+		 * @param fqn
+		 */
+		public void setFullyQualifiedName(String fqn);
 
 		/**
 		 * Returns the name associated with this exception.
@@ -142,6 +188,16 @@ public interface IMethod extends IModelComponent {
 		 * @return String - the package where this exception is defined.
 		 */
 		public String getPackage();
+
+		
+		public IStatus validate();
+
+		/**
+		 * Clone this exception.
+		 * 
+		 * @return
+		 */
+		public IException clone();
 		
 	}
 
@@ -177,7 +233,6 @@ public interface IMethod extends IModelComponent {
 		}
 	}
 
-	// Entity Properties
 	/**
 	 * This enum represents some key "Properties" of a method. It is designed
 	 * specifically for OSS/J usage.
@@ -196,39 +251,152 @@ public interface IMethod extends IModelComponent {
 			return this.pojoLabel;
 		}
 	}
+	
+	/**
+	 * Returns the IArtifact that is the "container" for the Method.
+	 * 
+	 * @return the containing artifact.
+	 */
+	public IAbstractArtifact getContainingArtifact();
 
-	public IException makeException();
+	
+	/**
+	 * Returns a String containing the methodName+profile&returntype. This is
+	 * used for display on class diagrams e.g. but also to uniquely identify a
+	 * method within the context of an artifact.
+	 * 
+	 * The format is:
+	 * 		name(argumentList)::returnTypeName
+	 * 
+	 * @return formatted String
+	 */
+	public String getLabelString();
 
-	public void setExceptions(Collection<IException> exceptions);
+	/**
+	 * Returns an identifier that uniquely identifies this method within the
+	 * scope of its artifact.
+	 * 
+	 * This id is assembled based on the signature of this method.
+	 * 
+	 * There can't be 2 methods with the same signatureId per artifact.
+	 * 
+	 * @return String - a unique identifier for this Method
+	 */
+	public String getMethodId();
 
+	/**
+	 * Returns an array of all of the exceptions for this Method. Returns an
+	 * empty array if no exceptions are defined.
+	 * 
+	 * @return IException[] - An array of all defined exceptions for this Method
+	 */
+	public Collection<IException> getExceptions();
+
+	/**
+	 * Add a single Exception to the method.
+	 * 
+	 * @param exception to add
+	 */
 	public void addException(IException exception);
 
+	/**
+	 * Set the exceptions for the method.
+	 * 
+	 * @param exceptions
+	 */
+	public void setExceptions(Collection<IException> exceptions);
+
+	/**
+	 * Remove exceptions from the method.
+	 * @param exception
+	 */
 	public void removeExceptions(Collection<IException> exception);
+
+	/**
+	 * Make a blank Exception.
+	 * 
+	 * Note this is not added to the method.
+	 * 
+	 * @return a new IException
+	 */
+	public IException makeException();
+
+	/**
+	 * Returns a collection of all of the arguments for this Method. Returns an
+	 * empty collection if no arguments are defined.
+	 * 
+	 * @return Collection<IArgument> - unmodifiable collection of arguments for this Method
+	 */
+	public Collection<IArgument> getArguments();
+	
+	/**
+	 * Add an argument to the method.
+	 * 
+	 * The argument will be added to the end of the argument list.
+	 * 
+	 * @param argument
+	 */
+	public void addArgument(IArgument argument);
+
+	/**
+	 * Set the arguments for the method.
+	 * 
+	 * @param arguments
+	 */
+	public void setArguments(Collection<IArgument> arguments);
+
+	/**
+	 * Remove arguments from the argument list.
+	 * 
+	 * @param arguments
+	 */
+	public void removeArguments(Collection<IArgument> arguments);
+
+	/**
+	 * Make a blank Argument.
+	 * 
+	 * Note the argument is not added to the method.
+	 * 
+	 * @return a new IArgument.
+	 */
+	public IArgument makeArgument();
+
+	/**
+	 * Returns true if the return of this Method is void.
+	 * 
+	 * @return boolean - true if void
+	 */
+	public boolean isVoid();
 
 	/**
 	 * Sets the return type to void
 	 */
 	public void setVoid(boolean isVoid);
 
-	public void setIteratorReturn(boolean iterate);
-
+	
 	/**
-	 * Factory method for IType
+	 * Returns the name of the return for this method.
+	 * 
+	 * This is useful when generating XML for example where a name is required.
 	 * 
 	 * @return
 	 */
-	public IType makeType();
+	public String getReturnName();
 
 	/**
-	 * Returns a String containing the methodName+profile&returntype. This is
-	 * used for display on class diagrams e.g. but also to uniquely identify a
-	 * method within the context of an artifact.
+	 * Sets the name of the return for this method.
 	 * 
 	 * @return
 	 */
-	public String getLabelString();
+	public void setReturnName(String methodReturnName);
 
-	public void setReturnRefBy(int refBy);
+	/**
+	 * Returns the return type for this Method. If isVoid() the result of this
+	 * method is unknown.
+	 * 
+	 * @return IType - the type returned by this Method.
+	 */
+	public IType getReturnType();
 
 	/**
 	 * Sets the return type for this Method.
@@ -237,68 +405,103 @@ public interface IMethod extends IModelComponent {
 	 *            the return type for this method.
 	 */
 	public void setReturnType(IType returnType);
+	
+	/**
+	 * Factory method for IType
+	 * 
+	 * @return a blank IType.
+	 */
+	public IType makeType();
 
-	public IArgument makeArgument();
+	/**
+	 * Returns the default return value for this method is it has been defined,
+	 * null otherwise.
+	 * 
+	 * The string is not checked for its ability to be parsed into an object of the
+	 * appropriate return type for this method.
+	 * 
+	 * @return a string representation.
+	 */
+	public String getDefaultReturnValue();
 
-	public void setArguments(Collection<IArgument> arguments);
+	
+	/** 
+	 * Sets the default return Value for this method.
+	 *  
+	 * @param defaultReturnValue
+	 */
+	public void setDefaultReturnValue(String defaultReturnValue);
 
-	public void addArgument(IArgument argument);
+	/**
+	 * Returns all the stereotype instances for the return type of the method.
+	 * 
+	 * @return the stereotypes applied to the method return
+	 */
+	public Collection<IStereotypeInstance> getReturnStereotypeInstances();
 
-	public void removeArguments(Collection<IArgument> arguments);
+	/** 
+	 * Add a single stereotype to the return type.
+	 * 
+	 * @param instance to add.
+	 */
+	public void addReturnStereotypeInstance(IStereotypeInstance instance);
 
+	/**
+	 * Remove a single Stereotype instance from the method return.
+	 * 
+	 * @param instance to remove
+	 */
+	public void removeReturnStereotypeInstance(IStereotypeInstance instance);
+
+	/**
+	 * Remove  Stereotype instances from the method return.
+	 * 
+	 * @param instances to remove
+	 */
+	public void removeReturnStereotypeInstances(Collection<IStereotypeInstance> instances);
+
+	/**
+	 * Returns a boolean indicating if this Method is optional or mandatory.
+	 * 
+	 * @return boolean - true if optional
+	 */
+	public boolean isOptional();
+
+	/**
+	 * Set the optional attribute of this method.
+	 * 
+	 * @param optional
+	 */
 	public void setOptional(boolean optional);
 
 
 	/**
-	 * Sets the "InstanceMethod" flag.
-	 * 
-	 * This is only applicable to Entity methods. By default an entity method is
-	 * an instanceMethod (i.e. it is exposed on a JVTSession that manages that
-	 * entity type). When not an instanceMethod, the method is instead exposed
-	 * on the managed entity value directly, without any transformation. In that
-	 * case no variation is available (byKey, byTemplates, etc...)
-	 * 
-	 * @param instance
-	 */
-	public void setInstanceMethod(boolean instance);
-
-	/**
-	 * Returns the OSSJ flavor details for this method
-	 * 
-	 * @param flavor -
-	 *            OssjEntityMethodFlavor target flavor
-	 * @return OSSJ flavor details for this method
-	 * @throws TigerstripeException,
-	 *             if method doesn't belong to Managed Entity
-	 */
-	public IEntityMethodFlavorDetails getEntityMethodFlavorDetails(
-			OssjEntityMethodFlavor flavor) throws TigerstripeException;
-
-	/**
-	 * Factory method for OSSJ Entity Details. The returned entity details is
-	 * the default details for the given flavor for a method.
+	 * Returns true if the return of this method contains unique values
+	 * (multiplicity > 1)
 	 * 
 	 * @return
 	 */
-	public IEntityMethodFlavorDetails makeEntityMethodFlavorDetails();
+	public boolean isUnique();
 
 	/**
-	 * Sets the OSSJ Entity flavor details for this method.
-	 * 
-	 * @param flavor -
-	 *            the target flavor
-	 * @param details -
-	 *            the details for this target flavor
-	 * @throws TigerstripeException -
-	 *             if this method doesn't belong to a ManagedEntity
+	 * Sets the unique attribute for this method.
+	 * @param isUnique
 	 */
-	public void setEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor,
-			IEntityMethodFlavorDetails details) throws TigerstripeException;
-
-
-
 	public void setUnique(boolean isUnique);
 
+	/**
+	 * Returns true if the return of this method contains ordered values
+	 * (multiplicity > 1)
+	 * 
+	 * @return
+	 */
+	public boolean isOrdered();
+	
+	/**
+	 * Sets the ordered attribute for this method.
+	 * 
+	 * @param isOrdered
+	 */
 	public void setOrdered(boolean isOrdered);
 
 	/**
@@ -316,89 +519,12 @@ public interface IMethod extends IModelComponent {
 	 */
 	public void setAbstract(boolean isAbstract);
 
-	public void setDefaultReturnValue(String defaultReturnValue);
-
 	/**
-	 * Sets the name of the return for this method.
+	 * Clone this method.
 	 * 
 	 * @return
 	 */
-	public void setMethodReturnName(String methodReturnName);
-
-	/**
-	 * Returns all the stereotype instances for this
-	 * 
-	 * @return
-	 */
-	public Collection<IStereotypeInstance> getReturnStereotypeInstances();
-
-	public void addReturnStereotypeInstance(IStereotypeInstance instance);
-
-	public void removeReturnStereotypeInstance(IStereotypeInstance instance);
-
-	public void removeReturnStereotypeInstances(Collection<IStereotypeInstance> instances);
-
 	public IMethod clone();
-
-	// public Properties getOssjMethodProperties();
-
-	/**
-	 * Returns the IArtifact that is the "container" for the Method.
-	 * 
-	 * @return the containing artifact.
-	 */
-	public IAbstractArtifact getContainingArtifact();
-
-	/**
-	 * Returns the default return value for this method is it has been defined,
-	 * null otherwise
-	 * 
-	 * @return
-	 */
-	public String getDefaultReturnValue();
-
-	/**
-	 * Returns an array of all of the arguments for this Method. Returns an
-	 * empty array if no arguments are defined.
-	 * 
-	 * @return IArgument[] - array of arguments for this Method
-	 */
-	public Collection<IArgument> getArguments();
-
-	/**
-	 * Returns an array of all of the exceptions for this Method. Returns an
-	 * empty array if no exceptions are defined.
-	 * 
-	 * @return IException[] - An array of all defined exceptions for this Method
-	 */
-	public Collection<IException> getExceptions();
-
-	/**
-	 * Returns an identifier that uniquely identifies this method within the
-	 * scope of its artifact.
-	 * 
-	 * This id is assembled based on the signature of this method.
-	 * 
-	 * There can't be 2 methods with the same signatureId per artifact.
-	 * 
-	 * @return String - a unique identifier for this Method
-	 */
-	public String getMethodId();
-
-	/**
-	 * Returns the name of the return for this method.
-	 * 
-	 * @return
-	 */
-	public String getReturnName();
-
-	/**
-	 * Returns the return type for this Method. If isVoid() the result of this
-	 * method is unknown.
-	 * 
-	 * @return IType - the type returned by this Method.
-	 */
-	public IType getReturnType();
 
 	/**
 	 * Returns an integer value indicating the reference type of the return.
@@ -409,12 +535,34 @@ public interface IMethod extends IModelComponent {
 	public int getReturnRefBy();
 
 	/**
+	 * Set the reference type of the return.
+	 * Possible values are defined in the static fields of IField.
+	 * 
+	 * @param refBy
+	 */
+	public void setReturnRefBy(int refBy);
+
+
+	/**
 	 * Returns an String value indicating the reference type of the return.
 	 * Possible values are defined in the refByLabels field of IField.
 	 * 
 	 * @return String - the refBy type
 	 */
 	public String getReturnRefByString();
+
+	/**
+	 * Sets the "InstanceMethod" flag.
+	 * 
+	 * This is only applicable to Entity methods. By default an entity method is
+	 * an instanceMethod (i.e. it is exposed on a JVTSession that manages that
+	 * entity type). When not an instanceMethod, the method is instead exposed
+	 * on the managed entity value directly, without any transformation. In that
+	 * case no variation is available (byKey, byTemplates, etc...)
+	 * 
+	 * @param instance
+	 */
+	public void setInstanceMethod(boolean instance);
 
 	/**
 	 * Returns true if this Method is an instance method.
@@ -427,37 +575,46 @@ public interface IMethod extends IModelComponent {
 	 * Returns a boolean indicating whether the return for this method is an
 	 * iterator or not.
 	 * 
-	 * @return boolean - true if this method return type shoud be an iterator
+	 * @return boolean - true if this method return type should be an iterator
 	 */
 	public boolean isIteratorReturn();
 
 	/**
-	 * Returns a boolean indicating if this Method is optional or mandatory.
-	 * 
-	 * @return boolean - true if optional
+	 * Sets the isIterator attribute of the method.
+	 * @param iterate
 	 */
-	public boolean isOptional();
+	public void setIteratorReturn(boolean iterate);
 
 	/**
-	 * Returns true if the return of this method contains ordered values
-	 * (multiplicity > 1)
+	 * Returns the OSSJ flavor details for this method
+	 * 
+	 * @param flavor -
+	 *            OssjEntityMethodFlavor target flavor
+	 * @return OSSJ flavor details for this method
+	 * @throws TigerstripeException,
+	 *             if method doesn't belong to Managed Entity
+	 */
+	public IEntityMethodFlavorDetails getEntityMethodFlavorDetails(
+			OssjEntityMethodFlavor flavor) throws TigerstripeException;
+
+	/**
+	 * Sets the OSSJ Entity flavor details for this method.
+	 * 
+	 * @param flavor -
+	 *            the target flavor
+	 * @param details -
+	 *            the details for this target flavor
+	 * @throws TigerstripeException -
+	 *             if this method doesn't belong to a ManagedEntity
+	 */
+	public void setEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor,
+			IEntityMethodFlavorDetails details) throws TigerstripeException;
+
+	/**
+	 * Factory method for OSSJ Entity Details. The returned entity details is
+	 * the default details for the given flavor for a method.
 	 * 
 	 * @return
 	 */
-	public boolean isOrdered();
-
-	/**
-	 * Returns true if the return of this method contains unique values
-	 * (multiplicity > 1)
-	 * 
-	 * @return
-	 */
-	public boolean isUnique();
-
-	/**
-	 * Returns true if the return of this Method is void.
-	 * 
-	 * @return boolean - true if void
-	 */
-	public boolean isVoid();
+	public IEntityMethodFlavorDetails makeEntityMethodFlavorDetails();
 }

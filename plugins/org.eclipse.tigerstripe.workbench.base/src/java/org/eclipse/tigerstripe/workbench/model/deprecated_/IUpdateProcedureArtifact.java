@@ -13,6 +13,5 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 public interface IUpdateProcedureArtifact extends IAbstractArtifact {
 
-	public final static String DEFAULT_LABEL = "UpdateProcedure";
 
 }

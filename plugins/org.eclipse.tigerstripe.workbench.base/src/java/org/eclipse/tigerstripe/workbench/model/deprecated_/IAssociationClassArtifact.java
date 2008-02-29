@@ -19,6 +19,5 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
  */
 public interface IAssociationClassArtifact extends IAssociationArtifact {
 
-	public final static String DEFAULT_LABEL = "AssociationClass";
 
 }

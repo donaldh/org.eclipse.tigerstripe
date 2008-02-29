@@ -20,7 +20,17 @@ public interface IQueryArtifact extends IAbstractArtifact {
 	 */
 	public IType getReturnedType();
 
+	/**
+	 * Sets the type of artifacts that are to be returned by this query.
+	 * 
+	 * @param type
+	 */
 	public void setReturnedType(IType type);
 
+	/**
+	 * Factory method for a Type.
+	 * 
+	 * @return
+	 */
 	public IType makeType();
 }

@@ -113,6 +113,17 @@ public interface IAbstractArtifact extends IModelComponent {
 	 */
 	public void setPackage(String packageName);
 
+	// ==================================================
+	
+	/**
+	 * Returns all children for this artifact
+	 * 
+	 * Children are Fields, Methods, Literals, and potentially ends for
+	 * IRelationships
+	 * 
+	 */
+	public Collection<Object> getChildren();
+
 	/**
 	 * Returns the fields defined for this artifact. This will be limited to the
 	 * fields defined locally in this artifact. If no field was defined return
@@ -552,15 +563,6 @@ public interface IAbstractArtifact extends IModelComponent {
 
 	// ==================================================
 	
-	/**
-	 * Returns all children for this artifact
-	 * 
-	 * Children are Fields, Methods, Literals, and potentially ends for
-	 * IRelationships
-	 * 
-	 */
-	public Collection<Object> getChildren();
-
 	/**
 	 * Returns an array of all the field types for this artifact.
 	 * 

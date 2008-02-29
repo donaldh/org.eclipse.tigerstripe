@@ -13,16 +13,16 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 public interface IEnumArtifact extends IAbstractArtifact {
 
-	public void setBaseType(IType type);
-
 	/**
 	 * Static string for int base type.
 	 */
 	public final static String BASETYPE_INT = "int";
+	
 	/**
 	 * Static string for String base type.
 	 */
 	public final static String BASETYPE_STRING = "String";
+	
 	/**
 	 * Array of supported base types.
 	 */
@@ -30,7 +30,15 @@ public interface IEnumArtifact extends IAbstractArtifact {
 			BASETYPE_STRING };
 
 	/**
-	 * Return a string of the base type for this enum.
+	 * Sets the base type of this Enumeration Artifact.
+	 * 
+	 * All Literals in the artifact should be of this type.
+	 * @param type
+	 */
+	public void setBaseType(IType type);
+
+	/**
+	 * Return a string of the base type for this Enumeration Artifact.
 	 * 
 	 * @return String matching one of the defined options.
 	 */

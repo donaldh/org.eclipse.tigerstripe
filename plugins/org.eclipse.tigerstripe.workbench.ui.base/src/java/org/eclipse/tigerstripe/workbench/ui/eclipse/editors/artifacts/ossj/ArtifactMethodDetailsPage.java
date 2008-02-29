@@ -1465,7 +1465,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 							defaultReturnValue.getText().trim());
 				}
 			} else if (event.getSource() == methodReturnNameText) {
-				getMethod().setMethodReturnName(
+				getMethod().setReturnName(
 						methodReturnNameText.getText().trim());
 			}
 			pageModified();

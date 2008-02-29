@@ -34,23 +34,45 @@ public interface IType {
 	@Deprecated
 	public final static int MULTIPLICITY_SINGLE = 0;
 
+	/**
+	 * Returns the fully qualified name (ie. package + name) of this type.
+	 * 
+	 * @return String - the FQN of the type.
+	 */
+	public String getFullyQualifiedName();
+
+	/**
+	 * Sets the fully qualified name (ie. package + name) of this type.
+	 * 
+	 * The string should be '.' separated.
+	 * 
+	 * @param fqn
+	 */
 	public void setFullyQualifiedName(String fqn);
 
 	/**
+	 * Returns the multiplicity for this type.
+	 * 
+	 * @return
+	 * @since 2.2-rc
+	 */
+	public IModelComponent.EMultiplicity getTypeMultiplicity();
+
+	/** 
+	 * Sets the multiplicity for this type.
 	 * 
 	 * @param multiplicity
-	 * @deprecated since 2.2-rc, no use of multiplicity anymore,
-	 *             TypeMultiplicity instead
 	 */
-	@Deprecated
-	public void setMultiplicity(int multiplicity);
-
 	public void setTypeMultiplicity(IModelComponent.EMultiplicity multiplicity);
 
 	public IStatus validate();
 
 	public IStatus validate(boolean isMethodReturnCheck);
 
+	/**
+	 * Clone this type.
+	 * @return
+	 */
 	public IType clone();
 
 	/**
@@ -63,13 +85,6 @@ public interface IType {
 	public String defaultValue();
 
 	/**
-	 * Returns the fully qualified name (ie. package + name) of this type.
-	 * 
-	 * @return String - the FQN of the type.
-	 */
-	public String getFullyQualifiedName();
-
-	/**
 	 * Get the Tigerstripe artifact (of any type).
 	 * 
 	 * @return the Artifact if the FQN of this type matches that of a artifact
@@ -77,17 +92,6 @@ public interface IType {
 	 *         otherwise.
 	 */
 	public IAbstractArtifact getArtifact();
-
-	/**
-	 * Returns an integer value indicating the multiplicity of this type.
-	 * Possible values are defined in the static fields of this class.
-	 * 
-	 * @return int - the integer value corresponding to the multiplicity.
-	 * @deprecated since 2.2-rc, no use of multiplicity anymore,
-	 *             TypeMultiplicity instead
-	 */
-	@Deprecated
-	public int getMultiplicity();
 
 	/**
 	 * Returns the name of this type.
@@ -102,14 +106,6 @@ public interface IType {
 	 * @return String - the package where this artifact was defined.
 	 */
 	public String getPackage();
-
-	/**
-	 * Returns the multiplicity for this type
-	 * 
-	 * @return
-	 * @since 2.2-rc
-	 */
-	public IModelComponent.EMultiplicity getTypeMultiplicity();
 
 	/**
 	 * Test to see of the type represented here is a Tigerstripe artifact (of
@@ -159,4 +155,24 @@ public interface IType {
 	 * @return true if the FQN of the type patches any of those in this list.
 	 */
 	public boolean isPrimitive();
+
+	/**
+	 * Returns an integer value indicating the multiplicity of this type.
+	 * Possible values are defined in the static fields of this class.
+	 * 
+	 * @return int - the integer value corresponding to the multiplicity.
+	 * @deprecated since 2.2-rc, no use of multiplicity anymore,
+	 *             TypeMultiplicity instead
+	 */
+	@Deprecated
+	public int getMultiplicity();
+
+	/**
+	 * 
+	 * @param multiplicity
+	 * @deprecated since 2.2-rc, no use of multiplicity anymore,
+	 *             TypeMultiplicity instead
+	 */
+	@Deprecated
+	public void setMultiplicity(int multiplicity);
 }

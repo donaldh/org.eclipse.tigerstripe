@@ -22,25 +22,20 @@ import java.util.Collection;
 public interface IAssociationArtifact extends IModelComponent,
 		IAbstractArtifact , IRelationship{
 
-	public void setAEnd(IAssociationEnd aEnd);
-
-	public void setZEnd(IAssociationEnd zEnd);
-
-	public IAssociationEnd makeAssociationEnd();
-
 	/**
 	 * Get the 'A' end of this association.
+	 * 
 	 * 
 	 * @return The 'A' end of this association.
 	 */
 	public IAssociationEnd getAEnd();
-
+	
 	/**
-	 * Returns a collection containing all association ends
+	 * Set the 'A' end of the association.
 	 * 
-	 * @return
+	 * @param aEnd
 	 */
-	public Collection<IAssociationEnd> getAssociationEnds();
+	public void setAEnd(IAssociationEnd aEnd);
 
 	/**
 	 * Get the 'Z' end of this association.
@@ -48,4 +43,29 @@ public interface IAssociationArtifact extends IModelComponent,
 	 * @return The 'Z' end of this association.
 	 */
 	public IAssociationEnd getZEnd();
+	
+	/**
+	 * Set the 'Z' end of the association.
+	 * 
+	 * @param zEnd
+	 */
+	public void setZEnd(IAssociationEnd zEnd);
+
+	/**
+	 * Returns a collection containing all association ends.
+	 * 
+	 * @return - an unmodifiable collection of Association Ends 
+	 */
+	public Collection<IAssociationEnd> getAssociationEnds();
+
+	/**
+	 * Make a new blank association end.
+	 * 
+	 * This does not add the field to the Artifact.
+	 * 
+	 * @return a new IAssociationEnd.
+	 */
+	public IAssociationEnd makeAssociationEnd();
+
+
 }

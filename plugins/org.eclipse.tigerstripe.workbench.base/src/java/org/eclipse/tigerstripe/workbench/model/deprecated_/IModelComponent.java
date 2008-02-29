@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 
 /**
- * A component for a Tigerstripe Model
+ * A component for a Tigerstripe Model.
  * 
  * 
  * @author Eric Dillon
@@ -152,15 +152,18 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 	}
 
 	/**
+	 * Returns the name associated with this component.
+	 * 
+	 * @return String - the name of the component
+	 */
+	public String getName();
+
+	/**
 	 * Sets the name associated with this component
 	 * 
 	 * @return
 	 */
 	public void setName(String name);
-
-	public void setComment(String comment);
-
-	public void setVisibility(EVisibility visibility);
 
 	/**
 	 * Returns the comment (or plain-english description) associated with this
@@ -171,11 +174,11 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 	public String getComment();
 
 	/**
-	 * Returns the name associated with this component.
+	 * Set the comment for this component.
 	 * 
-	 * @return String - the name of the component
+	 * @param comment
 	 */
-	public String getName();
+	public void setComment(String comment);
 
 	/**
 	 * Returns an integer value indicating the visibility of this component.
@@ -184,6 +187,14 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 	 * @return int - representing the visbility
 	 */
 	public EVisibility getVisibility();
+
+	/**
+	 * Sets the visibility of this component.
+	 * Possible values are defined in the static fields of this class.
+	 * 
+	 * @param visibility
+	 */
+	public void setVisibility(EVisibility visibility);
 
 	/**
 	 * Returns true if this component is included in the current active facet.

@@ -15,7 +15,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelati
 public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 
 	/**
-	 * An enum of the possible values for the aggregation of an end.
+	 * An enumeration of the possible values for the aggregation of an end.
 	 * 
 	 */
 	public enum EAggregationEnum {
@@ -98,11 +98,54 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 	 */
 	public IAssociationArtifact getContainingAssociation();
 
+	/**
+	 * Returns the navigabilty of the End.
+	 * 
+	 * @return true if navigable.
+	 */
+	public boolean isNavigable();
+
+	/**
+	 * Sets the navigable attribute of the End.
+	 * 
+	 * @param isNavigable
+	 */
 	public void setNavigable(boolean isNavigable);
 
+	/**
+	 * Returns the aggregation type of the end.
+	 * 
+	 * @return enumeration of the aggregation type.
+	 */
+	public EAggregationEnum getAggregation();
+
+	/**
+	 * Sets the aggregation type of the End.
+	 * 
+	 * @param aggregation
+	 */
 	public void setAggregation(EAggregationEnum aggregation);
 
+	/**
+	 * Returns the changeability type of the end.
+	 * 
+	 * @return enumeration of the changeability type.
+	 */
+	public EChangeableEnum getChangeable();
+
+	/** 
+	 * Sets the changeable attribute of the End.
+	 * 
+	 * @param changeable
+	 */
 	public void setChangeable(EChangeableEnum changeable);
+
+	/**
+	 * Returns the multiplicity of the end.
+	 * 
+	 * @return enumeration of the multiplicity type.
+	 */
+	public IModelComponent.EMultiplicity getMultiplicity();
 
 	public void setMultiplicity(IModelComponent.EMultiplicity multiplicity);
 
@@ -114,16 +157,12 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 	 */
 	public IAbstractArtifact getContainingArtifact();
 
-	public boolean isUnique();
-
-	public void setOrdered(boolean isOrdered);
-
 	/**
-	 * Returns the navigabilty of the End.
+	 * Sets the ordered attribute.
 	 * 
-	 * @return true if navigable.
+	 * @param isOrdered
 	 */
-	public boolean isNavigable();
+	public void setOrdered(boolean isOrdered);
 
 	/**
 	 * Returns the ordered attribute of the End.
@@ -132,38 +171,32 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 	 */
 	public boolean isOrdered();
 
+	/**
+	 * Sets the unique attribute of the End.
+	 * @param isUnique
+	 */
+	public void setUnique(boolean isUnique);
+	
+	/**
+	 * Returns the unique attribute of the End.
+	 * 
+	 * @return true if unique.
+	 */
+	public boolean isUnique();
+
+	/**
+	 * Sets the type of the artifact at the End.
+	 * 
+	 * @param type
+	 */
 	public void setType(IType type);
 
 	/**
-	 * Returns the changeability type of the end.
+	 * Make a new blank type.
 	 * 
-	 * @return enumeration of the changeability type.
+	 * 
+	 * @return a new IType.
 	 */
-	public EChangeableEnum getChangeable();
-
-	public void setUnique(boolean isUnique);
-
 	public IType makeType();
-
-	/**
-	 * Returns the type of the end.
-	 * 
-	 * @return IType - the type of the end
-	 */
-	public IType getType();
-
-	/**
-	 * Returns the multiplicity of the end.
-	 * 
-	 * @return enumeration of the multiplicity type.
-	 */
-	public IModelComponent.EMultiplicity getMultiplicity();
-
-	/**
-	 * Returns the aggregation type of the end.
-	 * 
-	 * @return enumeration of the aggregation type.
-	 */
-	public EAggregationEnum getAggregation();
 
 }
