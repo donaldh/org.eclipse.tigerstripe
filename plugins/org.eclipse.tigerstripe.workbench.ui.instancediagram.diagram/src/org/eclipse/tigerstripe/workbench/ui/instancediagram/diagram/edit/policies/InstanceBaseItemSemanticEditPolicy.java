@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.polici
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
@@ -22,6 +23,7 @@ import org.eclipse.gmf.runtime.diagram.ui.commands.CommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.SemanticEditPolicy;
+import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.emf.commands.core.command.CompositeTransactionalCommand;
 import org.eclipse.gmf.runtime.emf.type.core.ElementTypeRegistry;
 import org.eclipse.gmf.runtime.emf.type.core.IEditHelperContext;
@@ -246,6 +248,13 @@ public class InstanceBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 				return element;
 		}
 		return null;
+	}
+
+	@Override
+	public Command getCommand(Request request) {
+		if (RequestConstants.REQ_DUPLICATE.equals(request.getType()))
+			return UnexecutableCommand.INSTANCE;
+		return super.getCommand(request);
 	}
 
 }

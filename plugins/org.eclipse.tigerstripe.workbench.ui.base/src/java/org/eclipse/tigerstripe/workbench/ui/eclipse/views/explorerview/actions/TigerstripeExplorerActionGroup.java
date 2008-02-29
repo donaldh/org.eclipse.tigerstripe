@@ -65,7 +65,7 @@ public class TigerstripeExplorerActionGroup extends CompositeActionGroup {
 
 	private TSRefactorActionGroup fRefactorActionGroup;
 
-	private TSPublishActionGroup fPublishActionGroup;
+//	private TSPublishActionGroup fPublishActionGroup;
 
 	private TSNavigateActionGroup fNavigateActionGroup;
 
@@ -91,7 +91,7 @@ public class TigerstripeExplorerActionGroup extends CompositeActionGroup {
 				// new GenerateBuildPathActionGroup(fPart),
 				// new GenerateActionGroup(fPart),
 				fRefactorActionGroup = new TSRefactorActionGroup(fPart),
-				fPublishActionGroup = new TSPublishActionGroup(fPart),
+//				fPublishActionGroup = new TSPublishActionGroup(fPart),
 				new ImportActionGroup(fPart), new AuditActionGroup(fPart),
 				// new JavaSearchActionGroup(fPart),
 				new ProjectActionGroup(fPart),

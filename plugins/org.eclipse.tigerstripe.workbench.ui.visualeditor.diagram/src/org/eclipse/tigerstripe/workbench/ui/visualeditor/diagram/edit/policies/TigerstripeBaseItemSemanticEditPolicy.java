@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.requests.ReconnectRequest;
@@ -34,6 +35,7 @@ import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.SemanticEditPolicy;
+import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.emf.commands.core.command.CompositeTransactionalCommand;
 import org.eclipse.gmf.runtime.emf.type.core.ElementTypeRegistry;
 import org.eclipse.gmf.runtime.emf.type.core.IEditHelperContext;
@@ -124,8 +126,8 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 	 * @param eObject
 	 */
 	protected static void setDefaults(EObject eObject,
-			CreateElementRequest createRequest, ITigerstripeModelProject tsProject)
-			throws TigerstripeException {
+			CreateElementRequest createRequest,
+			ITigerstripeModelProject tsProject) throws TigerstripeException {
 
 		// We only need defaults values if not a drag-n-drop of an artifact
 		if (Boolean.TRUE.equals(createRequest
@@ -1237,6 +1239,13 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 		semRequest.addParameters(request.getExtendedData());
 
 		return getSemanticCommand(semRequest);
+	}
+
+	@Override
+	public Command getCommand(Request request) {
+		if (RequestConstants.REQ_DUPLICATE.equals(request.getType()))
+			return UnexecutableCommand.INSTANCE;
+		return super.getCommand(request);
 	}
 
 }

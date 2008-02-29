@@ -224,13 +224,13 @@
             <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AttributeEditPart"/>
             <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
             <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
-  			<popupPredefinedItem id="editGroup" remove="true"/>
+  			<popupPredefinedItem id="editMenu" remove="true"/>
          </popupContribution>
          <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
             <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute2EditPart"/>
             <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
             <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
-  			<popupPredefinedItem id="editGroup" remove="true"/>
+  			<popupPredefinedItem id="editMenu" remove="true"/>
          </popupContribution>
          <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
             <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute3EditPart"/>
@@ -464,7 +464,7 @@
             <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart"/>
             <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
             <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
-  			<popupPredefinedItem id="editGroup" remove="true"/>
+            <popupPredefinedItem id="editGroup" remove="true"/>
          </popupContribution>
          <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
             <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationStereotypesEditPart"/>

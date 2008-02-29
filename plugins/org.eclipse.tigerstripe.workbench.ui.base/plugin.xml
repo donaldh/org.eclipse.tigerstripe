@@ -494,7 +494,20 @@
             category="org.eclipse.tigerstripe.exportWizardCategory"
             class="org.eclipse.tigerstripe.workbench.ui.gmf.export.wizards.AllDiagramsExportWizard"
             id="org.eclipse.tigerstripe.workbench.ui.base.gmf.export.allDiagrams"
-            name="All Diagrams..."/>
+            name="All Diagrams">
+         <description>
+            Export all diagrams in a Tigerstripe Model project to pictures.
+         </description>
+      </wizard>
+      <wizard
+            category="org.eclipse.tigerstripe.exportWizardCategory"
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.export.ModuleExportWizard"
+            id="org.eclipse.tigerstripe.workbench.ui.base.moduleExportWizard"
+            name="Tigerstripe Module">
+         <description>
+            Export Tigerstripe model project to read-only module.
+         </description>
+      </wizard>
    </extension>
       <extension
          point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">

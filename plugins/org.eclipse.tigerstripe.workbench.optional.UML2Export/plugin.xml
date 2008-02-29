@@ -9,6 +9,10 @@
             class="org.eclipse.tigerstripe.workbench.optional.UML2Export.ui.wizards.UML2ExportWizard"
             icon="icons/importExport.gif.gif"
             id="org.eclipse.tigerstripe.tools.UML2Export.wizard1"
-            name="UML2 Export"/>
+            name="UML2 Export">
+         <description>
+            Export Tigerstripe Model to UML2 format.
+         </description>
+      </wizard>
    </extension>
 </plugin>
