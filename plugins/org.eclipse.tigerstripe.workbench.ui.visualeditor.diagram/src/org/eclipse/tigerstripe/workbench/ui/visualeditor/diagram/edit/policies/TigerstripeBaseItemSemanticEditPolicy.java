@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,6 +63,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
@@ -69,6 +72,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
@@ -238,6 +242,8 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			tsProject = map.getCorrespondingITigerstripeProject();
 		}
 
+		int index = 0;
+		
 		// compute aEnd name
 		String aEndName = unCapitalize(aEndType.getName());
 		if (tsProject != null) {
@@ -250,12 +256,22 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 				Set<IRelationship> existingZ = new HashSet<IRelationship>();
 				existingZ.addAll(session.getTerminatingRelationshipForFQN(
 						aEndType.getFullyQualifiedName(), true));
+				
+				Collection<IField> fields = new ArrayList<IField>();
+				IAbstractArtifact aArtifact = session.getArtifactByFullyQualifiedName(aEndType.getFullyQualifiedName());
+				if (aArtifact != null){
+					fields.addAll(aArtifact.getFields());
+					fields.addAll(aArtifact.getInheritedFields());
+				}
+				
+				
 				boolean found = false;
-				int index = 0;
+				
 				String tmpName = aEndName;
 				do {
 					found = false;
 					for (IRelationship rel : existingA) {
+						// Check the *remote* End of any existing associations
 						if (tmpName.equals(rel.getRelationshipAEnd().getName())) {
 							found = true;
 							tmpName = aEndName + "_" + index++;
@@ -264,6 +280,7 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 
 					if (!found) {
 						for (IRelationship rel : existingZ) {
+							// Check the *remote* End of any existing associations
 							if (tmpName.equals(rel.getRelationshipZEnd()
 									.getName())) {
 								found = true;
@@ -271,6 +288,17 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 							}
 						}
 					}
+					
+					if (!found) {
+						for (IField field : fields){
+							if (tmpName.equals(field.getName())) {
+								found = true;
+								tmpName = aEndName + "_" + index++;
+							}
+						}
+						
+					}
+					
 
 				} while (found);
 				aEndName = tmpName;
@@ -279,9 +307,13 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			}
 		}
 
+		// compute zEnd name
 		String zEndName = unCapitalize(zEndType.getName());
+		// Check for self association
 		if (zEndType == aEndType) {
-			zEndName = zEndName + "_";
+			zEndName = zEndName + "_" + index++;
+		} else {
+			index = 0;
 		}
 		if (tsProject != null) {
 			try {
@@ -293,8 +325,16 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 				Set<IRelationship> existingZ = new HashSet<IRelationship>();
 				existingZ.addAll(session.getTerminatingRelationshipForFQN(
 						zEndType.getFullyQualifiedName(), true));
+				
+				Collection<IField> fields = new ArrayList<IField>();
+				IAbstractArtifact zArtifact = session.getArtifactByFullyQualifiedName(aEndType.getFullyQualifiedName());
+				if (zArtifact != null){
+					fields.addAll(zArtifact.getFields());
+					fields.addAll(zArtifact.getInheritedFields());
+				}
+				
 				boolean found = false;
-				int index = 0;
+				
 				String tmpName = zEndName;
 				do {
 					found = false;
@@ -313,6 +353,16 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 							}
 						}
 					}
+					
+					if (!found) {
+						for (IField field : fields){
+							if (tmpName.equals(field.getName())) {
+								found = true;
+								tmpName = zEndName + "_" + index++;
+							}
+						}
+					}
+					
 				} while (found);
 				zEndName = tmpName;
 			} catch (TigerstripeException e) {
