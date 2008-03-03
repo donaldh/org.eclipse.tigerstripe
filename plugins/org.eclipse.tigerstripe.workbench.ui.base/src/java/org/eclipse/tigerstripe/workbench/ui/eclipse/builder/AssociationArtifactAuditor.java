@@ -16,9 +16,12 @@ import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class AssociationArtifactAuditor extends AbstractArtifactAuditor
@@ -59,6 +62,9 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 
 		if (aEndDefined && zEndDefined) {
 			checkForOutboundRelationship(); // Bug 925
+			checkStereotypes(artifact.getAEnd(), "artifact '"+getArtifact().getName()+"' endA");
+			checkStereotypes(artifact.getZEnd(), "artifact '"+getArtifact().getName()+"' endZ");
+			
 		}
 	}
 
@@ -127,6 +133,19 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
+		}
+	}
+	
+	
+	private void checkStereotypes(IStereotypeCapable capable, String location){
+		for (IStereotypeInstance instance : capable.getStereotypeInstances()){
+			if (instance instanceof UnresolvedStereotypeInstance){
+				TigerstripeProjectAuditor.reportWarning(
+						"Stereotype '"+instance.getName()+"' on "+location+" not defined in the current profile",
+						TigerstripeProjectAuditor
+								.getIResourceForArtifact(getIProject(),
+										getArtifact()), 222);
+			}
 		}
 	}
 }

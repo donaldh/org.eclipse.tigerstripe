@@ -17,9 +17,15 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class AbstractArtifactAuditor {
@@ -85,8 +91,9 @@ public abstract class AbstractArtifactAuditor {
 	 * @param monitor
 	 */
 	private void checkAttributes(IProgressMonitor monitor) {
-		// Empty for now. The Java Compiler does a lot of checking for us
-		// already.
+		for (IField attribute : getArtifact().getFields()){
+			checkStereotypes(attribute, "attribute '"+ attribute.getName() +"' of artifact '"+getArtifact().getName()+"'");
+		}
 	}
 
 	public void run(IProgressMonitor monitor) {
@@ -97,8 +104,54 @@ public abstract class AbstractArtifactAuditor {
 		//checkInterfacePackage();
 		checkSuperArtifact();
 		checkImplementedArtifacts();
+		checkStereotypes(getArtifact(), "artifact '"+getArtifact().getName()+"'");
 	}
 
+	
+	
+	private void checkStereotypes(IStereotypeCapable capable, String location){
+		for (IStereotypeInstance instance : capable.getStereotypeInstances()){
+			if (instance instanceof UnresolvedStereotypeInstance){
+				TigerstripeProjectAuditor.reportWarning(
+						"Stereotype '"+instance.getName()+"' on "+location+" not defined in the current profile",
+						TigerstripeProjectAuditor
+								.getIResourceForArtifact(getIProject(),
+										getArtifact()), 222);
+			}
+		}
+	}
+	
+	/** 
+	 * Need a separate method to get the return and argument stereos
+	 * 
+	 * @param capable
+	 * @param location
+	 */
+	private void checkMethodStereotypes(IMethod method){
+		for (IStereotypeInstance instance : method.getReturnStereotypeInstances()){
+			if (instance instanceof UnresolvedStereotypeInstance){
+				String location = " return of method '"+ method.getName() +"' of artifact '"+getArtifact().getName()+"'";
+				TigerstripeProjectAuditor.reportWarning(
+						"Stereotype "+instance.getName()+" on "+location+" not defined in the current profile",
+						TigerstripeProjectAuditor
+								.getIResourceForArtifact(getIProject(),
+										getArtifact()), 222);
+			}
+		}
+		for (IArgument argument : method.getArguments()){
+			for (IStereotypeInstance instance : argument.getStereotypeInstances()){
+				if (instance instanceof UnresolvedStereotypeInstance){
+					String location = " argument '"+argument.getName()+ "' of method '"+ method.getName() +"' of artifact '"+getArtifact().getName()+"'";
+					TigerstripeProjectAuditor.reportWarning(
+							"Stereotype '"+instance.getName()+"' on '"+location+"' not defined in the current profile",
+							TigerstripeProjectAuditor
+									.getIResourceForArtifact(getIProject(),
+											getArtifact()), 222);
+				}
+			}
+		}
+	}
+	
 	private void checkImplementedArtifacts() {
 		for (IAbstractArtifact art : getArtifact().getImplementedArtifacts()) {
 			if (getTSProject() != null) {
@@ -124,8 +177,9 @@ public abstract class AbstractArtifactAuditor {
 	}
 
 	private void checkLabels(IProgressMonitor monitor) {
-		// Let the compiler do its job...
-		// Nothing to add for now.
+		for (ILiteral literal : getArtifact().getLiterals()){
+			checkStereotypes(literal, "literal '"+ literal.getName() +"' of artifact '"+getArtifact().getName()+"'");
+		}
 	}
 
 	private void checkMethods(IProgressMonitor monitor) {
@@ -139,6 +193,10 @@ public abstract class AbstractArtifactAuditor {
 						TigerstripeProjectAuditor.getIResourceForArtifact(
 								getIProject(), getArtifact()), 222);
 			}
+			checkStereotypes(method, "method '"+ method.getName() +"' of artifact '"+getArtifact().getName()+"'");
+			// Need separate method to check the Return and Argument steros.
+			// Possible change with new metamodel
+			checkMethodStereotypes(method);
 		}
 	}
 
