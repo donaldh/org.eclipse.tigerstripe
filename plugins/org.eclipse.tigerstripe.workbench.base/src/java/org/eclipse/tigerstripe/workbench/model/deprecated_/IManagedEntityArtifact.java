@@ -13,42 +13,4 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 public interface IManagedEntityArtifact extends IAbstractArtifact {
 
-	/**
-	 * This class represents a Managed Entity Primary Key.
-	 * 
-	 * 
-	 */
-	public interface IPrimaryKey {
-		
-		public void setFullyQualifiedName(String fullyQualifiedName);
-		
-		/**
-		 * Returns the fully qualified name of the key.
-		 * 
-		 * @return String - fully qualified name of this key
-		 */
-		public String getFullyQualifiedName();
-	
-		/**
-		 * Returns the package of the key.
-		 * 
-		 * @return String - package of this key
-		 */
-		public String getPackage();
-	
-		/**
-		 * Returns the name of the key (ie without the package).
-		 * 
-		 * @return String - name of this key.
-		 */
-		public String getName();
-	}
-
-	/**
-	 * Returns the PrimaryKey object for this Managed Entity.
-	 * 
-	 * @return IPrimaryKey - The primaryKey for this Managed Entity
-	 */
-	public IPrimaryKey getPrimaryKey();
-
 }

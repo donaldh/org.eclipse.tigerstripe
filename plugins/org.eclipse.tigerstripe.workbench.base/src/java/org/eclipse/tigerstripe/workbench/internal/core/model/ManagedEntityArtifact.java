@@ -22,7 +22,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.ManagedEntityA
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEntitySpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.tags.PropertiesConstants;
-import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 
@@ -140,53 +139,6 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 		}
 	}
 
-	public PrimaryKey getPrimaryKey() {
-		OssjEntitySpecifics specifics = (OssjEntitySpecifics) getIStandardSpecifics();
-		return new PrimaryKey(specifics.getPrimaryKey());
-	}
-
-	public class PrimaryKey implements IPrimaryKey {
-
-		private String fullyQualifiedName;
-
-		public PrimaryKey(String fullyQualifiedName) {
-			this.fullyQualifiedName = fullyQualifiedName;
-		}
-
-		public String getFullyQualifiedName() {
-			return this.fullyQualifiedName;
-		}
-
-		public void setFullyQualifiedName(String fullyQualifiedName) {
-			this.fullyQualifiedName = fullyQualifiedName;
-		}
-
-		public String getPackage() {
-			return Util.packageOf(this.fullyQualifiedName);
-		}
-
-		public String getName() {
-			return Util.nameOf(this.fullyQualifiedName);
-		}
-	}
-
-	// private void populateDerivedEntities( IProgressMonitor monitor
-	// ) {
-	//
-	// if (getJavaClass() != null) {
-	// JavaClass[] derivedClasses = getJavaClass().getDerivedClasses();
-	//
-	// for (int i = 0; i < derivedClasses.length; i++) {
-	// AbstractArtifact artifact = getArtifactManager()
-	// .getArtifactByFullyQualifiedName(
-	// derivedClasses[i].getFullyQualifiedName(), true, monitor);
-	// if (artifact instanceof ManagedEntityArtifact) {
-	// derivedEntities.add(artifact);
-	// }
-	// }
-	// }
-	// }
-	//
 	public Properties getCreateProperties() {
 		OssjEntitySpecifics specifics = (OssjEntitySpecifics) getIStandardSpecifics();
 		return specifics.getCRUDProperties(IOssjEntitySpecifics.CREATE);
