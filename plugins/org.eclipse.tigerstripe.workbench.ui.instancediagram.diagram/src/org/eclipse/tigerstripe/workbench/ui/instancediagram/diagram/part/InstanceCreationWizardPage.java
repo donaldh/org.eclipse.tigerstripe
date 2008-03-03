@@ -90,6 +90,14 @@ public class InstanceCreationWizardPage extends EditorWizardPage {
 					.append(
 							getDiagramFileCreator().appendExtensionToFileName(
 									fileName));
+			// Bug # 214587
+			// Check for a simple file name
+			String fname = path.removeFileExtension().lastSegment();
+			String regex = "^[a-zA-Z][0-9a-zA-Z _-]*$";
+			if (! fname.matches(regex)){
+				return false;
+			}
+			
 			path = path.removeFileExtension().addFileExtension("owm"); //$NON-NLS-1$
 			if (ResourcesPlugin.getWorkspace().getRoot().exists(path)) {
 				setErrorMessage("Model File already exists: "
