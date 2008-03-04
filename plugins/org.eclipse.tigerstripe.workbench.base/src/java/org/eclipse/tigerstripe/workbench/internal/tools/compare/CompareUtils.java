@@ -475,7 +475,7 @@ public class CompareUtils {
 		if (aArgument instanceof IAbstractArtifact) {
 			object = "";
 		} else {
-			object = aArgument.getContainingIMethod().getName() + ":"
+			object = aArgument.getContainingMethod().getName() + ":"
 					+ aArgument.getName() + ":";
 		}
 
@@ -1445,12 +1445,12 @@ public class CompareUtils {
 		String aComment = a.getComment();
 		String bComment = b.getComment();
 		if (!aComment.equals(bComment)) {
-			differences.add(new Difference("value", a.getContainingIMethod()
+			differences.add(new Difference("value", a.getContainingMethod()
 					.getContainingArtifact().getFullyQualifiedName(), b
-					.getContainingIMethod().getContainingArtifact()
+					.getContainingMethod().getContainingArtifact()
 					.getFullyQualifiedName(),
 					"Artifact:Method:Argument:Comment", a
-							.getContainingIMethod().getName()
+							.getContainingMethod().getName()
 							+ ":" + a.getName(), aComment, bComment));
 		}
 		return differences;

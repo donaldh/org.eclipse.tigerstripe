@@ -637,7 +637,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			setType((Type) type);
 		}
 
-		public IMethod getContainingIMethod() {
+		public IMethod getContainingMethod() {
 			return (IMethod) this.parentMethod;
 		}
 

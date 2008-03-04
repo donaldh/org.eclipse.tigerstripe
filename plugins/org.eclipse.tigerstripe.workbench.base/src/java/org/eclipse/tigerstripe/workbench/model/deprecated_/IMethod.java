@@ -41,7 +41,7 @@ public interface IMethod extends IModelComponent {
 		 * 
 		 * @return the containing method.
 		 */
-		public IMethod getContainingIMethod();
+		public IMethod getContainingMethod();
 
 		/**
 		 * Returns the comment (or plain-english description) associated with
