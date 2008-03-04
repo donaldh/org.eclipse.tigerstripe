@@ -67,7 +67,7 @@ public class TestMethods extends junit.framework.TestCase {
 		method1.setOrdered(true);
 		method1.setUnique(true);
 		method1.setDefaultReturnValue(defaultReturnValue);
-		method1.setMethodReturnName(methodReturnName);
+		method1.setReturnName(methodReturnName);
 		method1.setVoid(false);
 
 		top.doSave(new NullProgressMonitor());
@@ -112,7 +112,7 @@ public class TestMethods extends junit.framework.TestCase {
 		method1.setOrdered(false);
 		method1.setUnique(false);
 		method1.setDefaultReturnValue(defaultReturnValue);
-		method1.setMethodReturnName(methodReturnName);
+		method1.setReturnName(methodReturnName);
 
 
 		top.doSave(new NullProgressMonitor());

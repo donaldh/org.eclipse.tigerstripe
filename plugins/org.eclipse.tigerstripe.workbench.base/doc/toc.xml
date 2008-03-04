@@ -2,6 +2,5 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 
 <toc label="External API">
-	<topic label="Javadoc"  href="doc/index.html"> 
-	</topic>
+	<topic label="Javadoc" href="doc/index.html"></topic>
 </toc>
