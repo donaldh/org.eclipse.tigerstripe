@@ -94,8 +94,8 @@ public class ArtifactMetadataFactory {
 
 	private final static IArtifactMetadata ASSOCIATION_DEFAULT = new ArtifactMetadata(
 			IAssociationArtifact.class, false, false, false,
-			"association.gif", "association_gs.gif",
-			"association_new.gif", "Association");
+			"AssociationIcon-small.png", "AssociationIcon-small_gs.png",
+			"AssociationIcon-small_new.png", "Association");
 
 	private final static IArtifactMetadata ASSOCIATIONCLASS_DEFAULT = new ArtifactMetadata(
 			IAssociationClassArtifact.class, true, true, false,
@@ -103,8 +103,8 @@ public class ArtifactMetadataFactory {
 			"associationClass_new.gif", "Association Class");
 
 	private final static IArtifactMetadata DEPENDENCY_DEFAULT = new ArtifactMetadata(
-			IDependencyArtifact.class, false, false, false, "dependency.gif",
-			"dependency_gs.gif", "dependency_new.gif", "Dependency");
+			IDependencyArtifact.class, false, false, false, "DependencyIcon-small.png",
+			"DependencyIcon-small_gs.png", "DependencyIcon-small_new.png", "Dependency");
 
 	private final static IArtifactMetadata SESSION_DEFAULT = new ArtifactMetadata(
 			ISessionArtifact.class, false, true, true, "session.gif",
