@@ -18,6 +18,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IWorkbenchProfileProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -82,7 +83,9 @@ public class CoreArtifactSettingsProperty extends BaseWorkbenchProfileProperty
 		for (Iterator<Element> iter = rootElem.elementIterator("details"); iter
 				.hasNext();) {
 			Element detailElem = iter.next();
-			String artifactType = detailElem.attributeValue("artifactType");
+			String artifactType = MigrationHelper
+					.profileMigrateCoreArtifactSettingsArtifactType(detailElem
+							.attributeValue("artifactType"));
 			String content = detailElem.getText();
 			if (artifactType != null && artifactType.length() != 0) {
 				ArtifactSettingDetails details = new ArtifactSettingDetails();

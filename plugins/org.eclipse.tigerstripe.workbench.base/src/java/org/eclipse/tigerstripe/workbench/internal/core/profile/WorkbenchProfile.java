@@ -30,6 +30,7 @@ import org.dom4j.io.XMLWriter;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IWorkbenchProfileProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -273,7 +274,7 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 			for (Iterator prIter = propertiesElem.elementIterator("property"); prIter
 					.hasNext();) {
 				Element prElem = (Element) prIter.next();
-				String type = prElem.attributeValue("type");
+				String type = MigrationHelper.profileMigratePropertyType(prElem.attributeValue("type"));
 				String name = prElem.attributeValue("name");
 				String content = prElem.getText();
 				try {

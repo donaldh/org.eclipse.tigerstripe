@@ -40,7 +40,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifa
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.SessionArtifactPersister;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
@@ -65,6 +67,25 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtif
  * 
  */
 public class MigrationHelper {
+
+	public static String profileMigrateCoreArtifactSettingsArtifactType(
+			String artifactType) {
+		return profileMigrateAnnotationArtifactLevelType(artifactType);
+	}
+
+	public static String profileMigratePropertyType(String type) {
+		if ("com.tigerstripesoftware.core.profile.properties.GlobalSettingsProperty"
+				.equals(type))
+			return GlobalSettingsProperty.class.getName();
+		else if ("com.tigerstripesoftware.core.profile.properties.CoreArtifactSettingsProperty"
+				.equals(type))
+			return CoreArtifactSettingsProperty.class.getName();
+		else if ("com.tigerstripesoftware.core.profile.properties.OssjLegacySettingsProperty"
+				.equals(type))
+			return OssjLegacySettingsProperty.class.getName();
+
+		return type;
+	}
 
 	public static String profileMigrateAnnotationArtifactLevelType(String scope) {
 
@@ -102,6 +123,9 @@ public class MigrationHelper {
 		else if ("com.tigerstripesoftware.api.artifacts.model.IDependencyArtifact"
 				.equals(scope))
 			return IDependencyArtifact.class.getName();
+		else if ("com.tigerstripesoftware.api.artifacts.model.IPrimitiveTypeArtifact"
+				.equals(scope))
+			return IPrimitiveTypeArtifact.class.getName();
 
 		return scope;
 	}
