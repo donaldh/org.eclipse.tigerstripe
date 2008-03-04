@@ -33,6 +33,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
@@ -291,8 +292,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		return this.discoverableArtifacts;
 	}
 
-	public void updateDependenciesContentCache(
-			IProgressMonitor monitor) {
+	public void updateDependenciesContentCache(IProgressMonitor monitor) {
 		// This is called by the TigerstripeProject each time the list of
 		// dependencies is changed.
 		this.depContentCache.updateCache(monitor);
@@ -415,8 +415,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 			long endTime = System.currentTimeMillis();
 			TigerstripeRuntime.logTraceMessage(" ["
-					+ getTSProject().getProjectLabel()
-					+ "] Validated (" + (endTime - startTime) + " ms)");
+					+ getTSProject().getProjectLabel() + "] Validated ("
+					+ (endTime - startTime) + " ms)");
 
 		} finally {
 			writeLock.unlock();
@@ -915,8 +915,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		notifyReload();
 	}
 
-	public synchronized void refreshReferences(
-			IProgressMonitor monitor) {
+	public synchronized void refreshReferences(IProgressMonitor monitor) {
 		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			try {
@@ -1034,8 +1033,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		}
 	}
 
-	protected List<String> findAllResourcesFromPath(
-			IProgressMonitor monitor) {
+	protected List<String> findAllResourcesFromPath(IProgressMonitor monitor) {
 
 		long startTime = System.currentTimeMillis();
 		List<String> allResources = new ArrayList<String>();
@@ -1210,7 +1208,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	// ==========================================================================
 	// ==========================================================================
-	private Collection listeners = new ArrayList();
+	private Collection<IArtifactChangeListener> listeners = new ArrayList<IArtifactChangeListener>();
 
 	// A readWrite lock to allow for multiple reads on the listeners but 1 write
 	private ReadWriteLock listenersLock = new ReentrantReadWriteLock();
@@ -1250,10 +1248,13 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			readLock.lock();
 			if (shouldNotify
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_RELOADED) == IArtifactChangeListener.NOTIFY_RELOADED) {
-				for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-					IArtifactChangeListener listener = (IArtifactChangeListener) iter
-							.next();
-					listener.managerReloaded();
+				for (IArtifactChangeListener listener : listeners) {
+					try {
+						listener.managerReloaded();
+					} catch (Exception e) {
+						// finish the loop even if exception raised in handler
+						BasePlugin.log(e);
+					}
 				}
 			}
 		} finally {
@@ -1267,10 +1268,13 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			readLock.lock();
 			if (shouldNotify
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_ADDED) == IArtifactChangeListener.NOTIFY_ADDED) {
-				for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-					IArtifactChangeListener listener = (IArtifactChangeListener) iter
-							.next();
-					listener.artifactAdded(artifact);
+				for (IArtifactChangeListener listener : listeners) {
+					try {
+						listener.artifactAdded(artifact);
+					} catch (Exception e) {
+						// finish the loop even if exception raised in handler
+						BasePlugin.log(e);
+					}
 				}
 			}
 		} finally {
@@ -1328,10 +1332,13 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			readLock.lock();
 			if (shouldNotify
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_CHANGED) == IArtifactChangeListener.NOTIFY_CHANGED) {
-				for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-					IArtifactChangeListener listener = (IArtifactChangeListener) iter
-							.next();
-					listener.artifactChanged(artifact);
+				for (IArtifactChangeListener listener : listeners) {
+					try {
+						listener.artifactChanged(artifact);
+					} catch (Exception e) {
+						// finish the loop even if exception raised in handler
+						BasePlugin.log(e);
+					}
 				}
 			}
 		} finally {
@@ -1345,10 +1352,13 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			readLock.lock();
 			if (shouldNotify
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_REMOVED) == IArtifactChangeListener.NOTIFY_REMOVED) {
-				for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-					IArtifactChangeListener listener = (IArtifactChangeListener) iter
-							.next();
-					listener.artifactRemoved(artifact);
+				for (IArtifactChangeListener listener : listeners) {
+					try {
+						listener.artifactRemoved(artifact);
+					} catch (Exception e) {
+						// finish the loop even if exception raised in handler
+						BasePlugin.log(e);
+					}
 				}
 			}
 		} finally {
@@ -1370,8 +1380,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	public AbstractArtifact extractArtifact(JavaSource source,
 			IProgressMonitor monitor) throws TigerstripeException {
 		AbstractArtifact extracted = null;
-		for (Iterator<IAbstractArtifact> iter = this.discoverableArtifacts.iterator(); iter
-				.hasNext();) {
+		for (Iterator<IAbstractArtifact> iter = this.discoverableArtifacts
+				.iterator(); iter.hasNext();) {
 			AbstractArtifact model = (AbstractArtifact) iter.next();
 
 			JavaClass[] classes = source.getClasses();
@@ -1407,8 +1417,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	private AbstractArtifact extractArtifactModel(JavaSource source)
 			throws TigerstripeException {
-		for (Iterator<IAbstractArtifact> iter = this.discoverableArtifacts.iterator(); iter
-				.hasNext();) {
+		for (Iterator<IAbstractArtifact> iter = this.discoverableArtifacts
+				.iterator(); iter.hasNext();) {
 			AbstractArtifact model = (AbstractArtifact) iter.next();
 
 			JavaClass[] classes = source.getClasses();
@@ -1913,10 +1923,14 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			readLock.lock();
 			if (shouldNotify
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_RENAMED) == IArtifactChangeListener.NOTIFY_RENAMED) {
-				for (Iterator iter = listeners.iterator(); iter.hasNext();) {
-					IArtifactChangeListener listener = (IArtifactChangeListener) iter
-							.next();
-					listener.artifactRenamed(artifact, fromFQN);
+				for (IArtifactChangeListener listener : listeners) {
+					try {
+						listener.artifactRenamed(artifact, fromFQN);
+					} catch (Exception e) {
+						// We need to make sure that all listeners will be
+						// notified even if one handler fails.
+						BasePlugin.log(e);
+					}
 				}
 			}
 		} finally {
@@ -1986,7 +2000,13 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			if (shouldNotify && !isLocked) { // no notification on during
 				// generation
 				for (IActiveFacetChangeListener listener : facetListeners) {
-					listener.facetChanged(oldFacet, activeFacet);
+					try {
+						listener.facetChanged(oldFacet, activeFacet);
+					} catch (Exception e) {
+						// this will ensure we finish the loop in case of
+						// Exception raised in the handler
+						BasePlugin.log(e);
+					}
 				}
 			}
 		} finally {
