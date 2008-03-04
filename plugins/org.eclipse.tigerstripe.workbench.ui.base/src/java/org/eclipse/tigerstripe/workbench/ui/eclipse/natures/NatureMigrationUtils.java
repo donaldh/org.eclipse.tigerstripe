@@ -39,6 +39,11 @@ public class NatureMigrationUtils {
 
 	public static void handleProjectMigration(IProject project)
 			throws CoreException {
+
+		// Bug 221299
+		if ( project == null || !project.isOpen() )
+			return;
+		
 		// Get the description
 		final IProjectDescription description = project.getDescription();
 
