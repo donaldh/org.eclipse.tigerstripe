@@ -296,7 +296,7 @@
                class="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenGenerateInterfaceWizardAction"
                disabledIcon="src/icons/run_tigerstripe_gs.gif"
                icon="src/icons/run_tigerstripe.gif"
-               id="org.eclipse.tigerstripe.eclipse.generateAction"
+               id="org.eclipse.tigerstripe.eclipse.generateAction2"
                label="Generate"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content2"
                style="push"
@@ -562,7 +562,7 @@
                   tooltip="Undeploy this plugin."/>
             <action
                   class="org.eclipse.tigerstripe.workbench.ui.eclipse.actions.PacakgePluginActionDelegate"
-                  id="org.eclipse.tigerstripe.workbench.ui.base.pluginDescriptor.deployAction"
+                  id="org.eclipse.tigerstripe.workbench.ui.base.pluginDescriptor.packageAction"
                   label="Package..."
                   menubarPath="org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginSubMenu/content"
                   tooltip="Package and deploy this Tigerstripe plugin"/>

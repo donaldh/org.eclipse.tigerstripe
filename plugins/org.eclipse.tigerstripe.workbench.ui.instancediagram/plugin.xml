@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.1 2007/12/21 15:08:57 edillon Exp $
+ $Id: plugin.xml,v 1.2 2008/03/04 21:03:33 edillon Exp $
 -->
 
 <plugin>
@@ -13,6 +13,13 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
        uri = "org.eclipse.tigerstripe.workbench.ui.instancediagram" 
+       class = "org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramPackage"
+       genModel = "model/tigerstripe.genmodel" /> 
+  </extension>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "com.tigerstripesoftware.workbench.ui.instancediagram" 
        class = "org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramPackage"
        genModel = "model/tigerstripe.genmodel" /> 
   </extension>

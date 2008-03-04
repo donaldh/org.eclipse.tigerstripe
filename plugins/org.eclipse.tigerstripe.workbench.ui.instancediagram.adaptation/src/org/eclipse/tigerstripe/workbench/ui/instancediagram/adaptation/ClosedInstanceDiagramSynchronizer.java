@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 public class ClosedInstanceDiagramSynchronizer extends
 		ClosedDiagramSynchronizerBase implements IClosedDiagramSynchronizer {
 
-	private static final String DIAGRAM_EXT = "wod";
+	public static final String DIAGRAM_EXT = "wod";
 
 	private InstanceMap map;
 

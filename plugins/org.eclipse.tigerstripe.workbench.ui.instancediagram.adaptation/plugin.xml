@@ -13,5 +13,12 @@
             name="instanceDiagramModelFileContentReader"
             readerClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers.InstanceDiagramModelFileContentReader"/>
    </extension>
+   <extension
+         point="org.eclipse.tigerstripe.workbench.ui.base.diagramAuditor">
+      <diagramAuditor
+            auditorClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.InstanceDiagramAuditor"
+            name="Instance Diagram Auditor">
+      </diagramAuditor>
+   </extension>
 
 </plugin>

@@ -198,7 +198,7 @@
       </objectContribution>
       <objectContribution
             adaptable="false"
-            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.objectContribution1"
+            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.objectContribution1b"
             objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ClassDiagramShapeNodeEditPart">
          <menu
                id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.artifactHideShow"
