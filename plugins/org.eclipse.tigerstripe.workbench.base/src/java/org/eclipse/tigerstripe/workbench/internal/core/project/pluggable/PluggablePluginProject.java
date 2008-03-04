@@ -26,6 +26,7 @@ import org.apache.tools.ant.util.ReaderInputStream;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
@@ -160,7 +161,8 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 	}
 
 	public IPluginProperty[] getGlobalProperties() {
-		return globalProperties.toArray(new IPluginProperty[globalProperties.size()]);
+		return globalProperties.toArray(new IPluginProperty[globalProperties
+				.size()]);
 	}
 
 	public void setGlobalProperties(IPluginProperty[] properties) {
@@ -200,8 +202,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 				+ propertyType);
 	}
 
-	public void addAdditionalFile(String relativePath, int includeExclude)
-			 {
+	public void addAdditionalFile(String relativePath, int includeExclude) {
 		switch (includeExclude) {
 		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
 			if (!additionalFilesInclude.contains(relativePath)) {
@@ -533,15 +534,9 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		for (int index = 0; index < properties.getLength(); index++) {
 			Element property = (Element) properties.item(index);
 			String name = property.getAttribute("name");
-			String typeStr = property.getAttribute("type");
+			String typeStr = MigrationHelper.pluginMigrateProperty(property
+					.getAttribute("type"));
 			String tipToolText = property.getAttribute("tipToolText");
-
-			// Migration from old namespace:
-			if (typeStr
-					.startsWith("com.tigerstripesoftware.api.plugins.pluggable")) {
-				typeStr = "org.eclipse.tigerstripe.workbench.plugins."
-						+ typeStr.substring(typeStr.lastIndexOf(".") + 1);
-			}
 
 			try {
 				@SuppressWarnings("unchecked")
@@ -576,19 +571,13 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		for (int index = 0; index < rules.getLength(); index++) {
 			Element rule = (Element) rules.item(index);
 			String name = rule.getAttribute("name");
-			String typeStr = rule.getAttribute("type");
+			String typeStr = MigrationHelper.pluginMigrateRuleType(rule.getAttribute("type"));
 			String description = rule.getAttribute("description");
 			String enabled = "true";
 			if (rule.hasAttribute("enabled")) {
 				enabled = rule.getAttribute("enabled");
 			}
 
-			// Migration from old namespace:
-			if (typeStr
-					.startsWith("com.tigerstripesoftware.api.plugins.pluggable")) {
-				typeStr = "org.eclipse.tigerstripe.workbench.plugins."
-						+ typeStr.substring(typeStr.lastIndexOf(".") + 1);
-			}
 			try {
 				Class type = Class.forName(typeStr);
 				IRunRule prop = makeRule(type);
@@ -634,14 +623,8 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		for (int index = 0; index < rules.getLength(); index++) {
 			Element rule = (Element) rules.item(index);
 			String name = rule.getAttribute("name");
-			String typeStr = rule.getAttribute("type");
+			String typeStr = MigrationHelper.pluginMigrateRuleType(rule.getAttribute("type"));
 
-			// Migration from old namespace:
-			if (typeStr
-					.startsWith("com.tigerstripesoftware.api.plugins.pluggable")) {
-				typeStr = "org.eclipse.tigerstripe.workbench.plugins."
-						+ typeStr.substring(typeStr.lastIndexOf(".") + 1);
-			}
 			String description = rule.getAttribute("description");
 			String enabled = "true";
 			if (rule.hasAttribute("enabled")) {
@@ -708,8 +691,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		return superValid & isValid;
 	}
 
-	public void addGlobalProperties(IPluginProperty[] properties)
-			 {
+	public void addGlobalProperties(IPluginProperty[] properties) {
 		for (IPluginProperty property : properties) {
 			addGlobalProperty(property);
 		}
@@ -794,8 +776,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		return SUPPORTED_ARTIFACTRULES_LABELS;
 	}
 
-	public void addClasspathEntry(IPluginClasspathEntry entry)
-			 {
+	public void addClasspathEntry(IPluginClasspathEntry entry) {
 		if (!classpathEntries.contains(entry)) {
 			classpathEntries.add(entry);
 		}

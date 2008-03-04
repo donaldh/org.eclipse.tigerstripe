@@ -58,6 +58,12 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifac
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
+import org.eclipse.tigerstripe.workbench.plugins.ISimpleTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 
 /**
  * This helper contains all the hardcoded values that may be found in XML files
@@ -179,5 +185,32 @@ public class MigrationHelper {
 			return ILiteralImpl.class.getName();
 
 		return classname;
+	}
+
+	public static String pluginMigrateRuleType(String ruleType) {
+		if ( "com.tigerstripesoftware.api.plugins.pluggable.ISimpleTemplateRunRule".equals(ruleType)) {
+			return ISimpleTemplateRunRule.class.getName();
+		} else if ( "com.tigerstripesoftware.api.plugins.pluggable.IArtifactBasedTemplateRunRule".equals(ruleType)) {
+			return IArtifactBasedTemplateRunRule.class.getName();
+		} else if ( "com.tigerstripesoftware.api.plugins.pluggable.ICopyRule".equals(ruleType)) {
+			return ICopyRule.class.getName();
+		}
+		return ruleType;
+	}
+
+	public static String pluginMigrateProperty(String propertyType) {
+		if ("com.tigerstripesoftware.api.plugins.pluggable.IStringPPluginProperty"
+				.equals(propertyType))
+			return IStringPluginProperty.class.getName();
+		else if ("com.tigerstripesoftware.api.plugins.pluggable.IBooleanPPluginProperty"
+				.equals(propertyType))
+			return IBooleanPluginProperty.class.getName();
+		else if ("com.tigerstripesoftware.api.plugins.pluggable.IBooleanPPluginProperty"
+				.equals(propertyType))
+			return IBooleanPluginProperty.class.getName();
+		else if ("com.tigerstripesoftware.api.plugins.pluggable.ITablePPluginProperty"
+				.equals(propertyType))
+			return ITablePluginProperty.class.getName();
+		return propertyType;
 	}
 }
