@@ -30,8 +30,8 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 	 * 
 	 */
 	public enum EMultiplicity {
-		ONE("1"), ZERO("0"), ZERO_ONE("0..1"), ZERO_STAR("0..*"), ONE_STAR(
-				"1..*"), STAR("*");
+		ZERO("0"), ZERO_ONE("0..1"), ZERO_STAR("0..*"), STAR("*"), ONE("1"), ONE_STAR(
+				"1..*");
 
 		private String label;
 		private static String[] labels;
@@ -80,6 +80,15 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 			}
 			throw new IllegalArgumentException("Illegal multiplicity literal: "
 					+ mult);
+		}
+
+		public static int indexOf(String multLiteral) {
+			for (int index = 0; index < values().length; index++) {
+				if (values()[index].label.equals(multLiteral))
+					return index;
+			}
+			throw new IllegalArgumentException("Illegal multiplicity literal: "
+					+ multLiteral);
 		}
 
 		public static EMultiplicity at(int index) {
@@ -189,8 +198,8 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 	public EVisibility getVisibility();
 
 	/**
-	 * Sets the visibility of this component.
-	 * Possible values are defined in the static fields of this class.
+	 * Sets the visibility of this component. Possible values are defined in the
+	 * static fields of this class.
 	 * 
 	 * @param visibility
 	 */
