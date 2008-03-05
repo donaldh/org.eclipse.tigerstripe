@@ -171,7 +171,8 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 		mulStrs = new String[IModelComponent.EMultiplicity.values().length];
 		i = 0;
-		for (IModelComponent.EMultiplicity val : IModelComponent.EMultiplicity.values()) {
+		for (IModelComponent.EMultiplicity val : IModelComponent.EMultiplicity
+				.values()) {
 			mulStrs[i++] = val.getLabel();
 		}
 
@@ -256,7 +257,8 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		aEndMultiplicityCombo.setItems(mulStrs);
 		aEndMultiplicityCombo.setEnabled(!getIArtifact().isReadonly());
 		aEndMultiplicityCombo.addSelectionListener(listener);
-		aEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
+		aEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
+				.values().length);
 		toolkit.adapt(this.aEndMultiplicityCombo, true, true);
 		toolkit.createLabel(body, "    ");
 
@@ -388,7 +390,8 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		zEndMultiplicityCombo.setEnabled(!getIArtifact().isReadonly());
 		zEndMultiplicityCombo.addSelectionListener(listener);
 		zEndMultiplicityCombo.setItems(mulStrs);
-		zEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
+		zEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
+				.values().length);
 		toolkit.adapt(this.zEndMultiplicityCombo, true, true);
 		toolkit.createLabel(body, "    ");
 
@@ -595,28 +598,44 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 				int i = aEndAggregationCombo.getSelectionIndex();
 				if (i != -1) {
 					String label = aggrStrs[i];
-					aEnd.setAggregation(EAggregationEnum.parse(label));
+					EAggregationEnum ag = EAggregationEnum.parse(label);
+					aEnd.setAggregation(ag);
+					if (ag != EAggregationEnum.NONE
+							&& zEnd.getAggregation() != EAggregationEnum.NONE) {
+						zEnd.setAggregation(EAggregationEnum.NONE);
+						zEndAggregationCombo.select(indexIn(aggrStrs, zEnd
+								.getAggregation().getLabel()));
+					}
 					markPageModified();
 				}
 			} else if (e.getSource() == zEndAggregationCombo) {
 				int i = zEndAggregationCombo.getSelectionIndex();
 				if (i != -1) {
 					String label = aggrStrs[i];
-					zEnd.setAggregation(EAggregationEnum.parse(label));
+					EAggregationEnum ag = EAggregationEnum.parse(label);
+					zEnd.setAggregation(ag);
+					if (ag != EAggregationEnum.NONE
+							&& aEnd.getAggregation() != EAggregationEnum.NONE) {
+						aEnd.setAggregation(EAggregationEnum.NONE);
+						aEndAggregationCombo.select(indexIn(aggrStrs, aEnd
+								.getAggregation().getLabel()));
+					}
 					markPageModified();
 				}
 			} else if (e.getSource() == aEndMultiplicityCombo) {
 				int i = aEndMultiplicityCombo.getSelectionIndex();
 				if (i != -1) {
 					String label = mulStrs[i];
-					aEnd.setMultiplicity(IModelComponent.EMultiplicity.parse(label));
+					aEnd.setMultiplicity(IModelComponent.EMultiplicity
+							.parse(label));
 					markPageModified();
 				}
 			} else if (e.getSource() == zEndMultiplicityCombo) {
 				int i = zEndMultiplicityCombo.getSelectionIndex();
 				if (i != -1) {
 					String label = mulStrs[i];
-					zEnd.setMultiplicity(IModelComponent.EMultiplicity.parse(label));
+					zEnd.setMultiplicity(IModelComponent.EMultiplicity
+							.parse(label));
 					markPageModified();
 				}
 			} else if (e.getSource() == aEndChangeableCombo) {
@@ -634,10 +653,20 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 					markPageModified();
 				}
 			} else if (e.getSource() == aEndIsNavigableButton) {
-				aEnd.setNavigable(aEndIsNavigableButton.getSelection());
+				boolean sel = aEndIsNavigableButton.getSelection();
+				aEnd.setNavigable(sel);
+				if (sel == false && !zEnd.isNavigable()) {
+					zEndIsNavigableButton.setSelection(true);
+					zEnd.setNavigable(true);
+				}
 				markPageModified();
 			} else if (e.getSource() == zEndIsNavigableButton) {
-				zEnd.setNavigable(zEndIsNavigableButton.getSelection());
+				boolean sel = zEndIsNavigableButton.getSelection();
+				zEnd.setNavigable(sel);
+				if (sel == false && !aEnd.isNavigable()) {
+					aEndIsNavigableButton.setSelection(true);
+					aEnd.setNavigable(true);
+				}
 				markPageModified();
 			} else if (e.getSource() == aEndIsOrderedButton) {
 				aEnd.setOrdered(aEndIsOrderedButton.getSelection());
@@ -691,12 +720,16 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 	protected String browseButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getTigerstripeProject(), new IAbstractArtifact[0]);
+				getIArtifact().getTigerstripeProject(),
+				new IAbstractArtifact[0]);
 		dialog.setIncludePrimitiveTypes(false);
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IAssociationArtifactImpl.class.getName()).getLabel() + " End Type");
-		dialog.setMessage("Select the type of the " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IAssociationArtifactImpl.class.getName()).getLabel() + " End.");
+				IAssociationArtifactImpl.class.getName()).getLabel()
+				+ " End Type");
+		dialog.setMessage("Select the type of the "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IAssociationArtifactImpl.class.getName()).getLabel()
+				+ " End.");
 
 		try {
 			IAbstractArtifact[] artifacts = dialog.browseAvailableArtifacts(
@@ -747,25 +780,19 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 	}
 
 	private void setAEndVisibility(EVisibility visibility) {
-		aEndPublicButton
-				.setSelection(visibility.equals(EVisibility.PUBLIC));
-		aEndProtectedButton
-				.setSelection(visibility.equals(EVisibility.PROTECTED));
-		aEndPrivateButton
-				.setSelection(visibility.equals(EVisibility.PRIVATE));
-		aEndPackageButton
-				.setSelection(visibility.equals(EVisibility.PACKAGE));
+		aEndPublicButton.setSelection(visibility.equals(EVisibility.PUBLIC));
+		aEndProtectedButton.setSelection(visibility
+				.equals(EVisibility.PROTECTED));
+		aEndPrivateButton.setSelection(visibility.equals(EVisibility.PRIVATE));
+		aEndPackageButton.setSelection(visibility.equals(EVisibility.PACKAGE));
 	}
 
 	private void setZEndVisibility(EVisibility visibility) {
-		zEndPublicButton
-				.setSelection(visibility.equals(EVisibility.PUBLIC));
-		zEndProtectedButton
-				.setSelection(visibility.equals(EVisibility.PROTECTED));
-		zEndPrivateButton
-				.setSelection(visibility.equals(EVisibility.PRIVATE));
-		zEndPackageButton
-				.setSelection(visibility.equals(EVisibility.PACKAGE));
+		zEndPublicButton.setSelection(visibility.equals(EVisibility.PUBLIC));
+		zEndProtectedButton.setSelection(visibility
+				.equals(EVisibility.PROTECTED));
+		zEndPrivateButton.setSelection(visibility.equals(EVisibility.PRIVATE));
+		zEndPackageButton.setSelection(visibility.equals(EVisibility.PACKAGE));
 	}
 
 }

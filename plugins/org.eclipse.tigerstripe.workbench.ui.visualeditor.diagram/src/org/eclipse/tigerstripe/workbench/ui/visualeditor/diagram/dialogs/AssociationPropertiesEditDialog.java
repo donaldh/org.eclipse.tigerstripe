@@ -58,6 +58,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidatio
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -187,10 +188,15 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 							.getLabel()
 							+ " Property Editor");
 		} else {
-			this.setTitleString("Edit " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IAssociationArtifactImpl.class.getName()).getLabel() + " Properties");
-			getShell().setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IAssociationArtifactImpl.class.getName()).getLabel() + " Property Editor");
+			this.setTitleString("Edit "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName())
+							.getLabel() + " Properties");
+			getShell().setText(
+					ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName())
+							.getLabel()
+							+ " Property Editor");
 		}
 		getShell().setMinimumSize(250, 200);
 		elementNames.clear();
@@ -376,8 +382,10 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		for (String multLabel : multLabels) {
 			aEndMultiplicityCombo.add(multLabel);
 		}
-		aEndMultiplicityCombo.select(IModelComponent.EMultiplicity.indexOf(aEndMult.getLiteral()));
-		aEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
+		aEndMultiplicityCombo.select(IModelComponent.EMultiplicity
+				.indexOf(aEndMult.getLiteral()));
+		aEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
+				.values().length);
 		Label aEndMultiplicityFiller = new Label(aEndBox, SWT.NULL);
 		this.setFillLayout(aEndMultiplicityFiller, 2, 1);
 		// add the control used to select the visibility
@@ -415,6 +423,30 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 			aEndAggregationCombo.add(aggregationStrVal);
 		}
 		aEndAggregationCombo.select(aEndAggregation.getValue());
+		aEndAggregationCombo.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				EAggregationEnum ag = EAggregationEnum
+						.parse(aEndAggregationCombo
+								.getItem(aEndAggregationCombo
+										.getSelectionIndex()));
+				EAggregationEnum oag = EAggregationEnum
+						.parse(aEndAggregationCombo
+								.getItem(zEndAggregationCombo
+										.getSelectionIndex()));
+
+				if (ag != EAggregationEnum.NONE && oag != EAggregationEnum.NONE) {
+					zEndAggregationCombo.select(0);
+				}
+			}
+
+		});
+
 		Label aEndAggregationFiller = new Label(aEndBox, SWT.NULL);
 		this.setFillLayout(aEndAggregationFiller, 2, 1);
 		// add the controls to chose if the end is navigable, ordered, and/or
@@ -423,6 +455,22 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		aEndIsNavigableButton = new Button(aEndBox, SWT.CHECK);
 		aEndIsNavigableButton.setText("isNavigable");
 		aEndIsNavigableButton.setSelection(aEndIsNavigable);
+		aEndIsNavigableButton.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean sel = aEndIsNavigableButton.getSelection();
+				if (!sel && !zEndIsNavigableButton.getSelection()) {
+					zEndIsNavigableButton.setSelection(true);
+				}
+			}
+
+		});
+
 		boolean aEndIsOrdered = association.isAEndIsOrdered();
 		aEndIsOrderedButton = new Button(aEndBox, SWT.CHECK);
 		aEndIsOrderedButton.setText("isOrdered");
@@ -464,8 +512,10 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		for (String multLabel : multLabels) {
 			zEndMultiplicityCombo.add(multLabel);
 		}
-		zEndMultiplicityCombo.select(IModelComponent.EMultiplicity.indexOf(zEndMult.getLiteral()));
-		zEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
+		zEndMultiplicityCombo.select(IModelComponent.EMultiplicity
+				.indexOf(zEndMult.getLiteral()));
+		zEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
+				.values().length);
 		Label zEndMultiplicityFiller = new Label(zEndBox, SWT.NULL);
 		this.setFillLayout(zEndMultiplicityFiller, 2, 1);
 		// add the control used to select the visibility
@@ -488,6 +538,29 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 			zEndAggregationCombo.add(aggregationStrVal);
 		}
 		zEndAggregationCombo.select(zEndAggregation.getValue());
+		zEndAggregationCombo.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				EAggregationEnum ag = EAggregationEnum
+						.parse(zEndAggregationCombo
+								.getItem(zEndAggregationCombo
+										.getSelectionIndex()));
+				EAggregationEnum oag = EAggregationEnum
+						.parse(aEndAggregationCombo
+								.getItem(aEndAggregationCombo
+										.getSelectionIndex()));
+
+				if (ag != EAggregationEnum.NONE && oag != EAggregationEnum.NONE) {
+					aEndAggregationCombo.select(0);
+				}
+			}
+
+		});
 		Label zEndAggregationFiller = new Label(zEndBox, SWT.NULL);
 		this.setFillLayout(zEndAggregationFiller, 2, 1);
 		// add the controls to chose if the end is navigable, ordered, and/or
@@ -496,6 +569,21 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		zEndIsNavigableButton = new Button(zEndBox, SWT.CHECK);
 		zEndIsNavigableButton.setText("isNavigable");
 		zEndIsNavigableButton.setSelection(zEndIsNavigable);
+		zEndIsNavigableButton.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean sel = zEndIsNavigableButton.getSelection();
+				if (!sel && !aEndIsNavigableButton.getSelection()) {
+					aEndIsNavigableButton.setSelection(true);
+				}
+			}
+
+		});
 		boolean zEndIsOrdered = association.isZEndIsOrdered();
 		zEndIsOrderedButton = new Button(zEndBox, SWT.CHECK);
 		zEndIsOrderedButton.setText("isOrdered");

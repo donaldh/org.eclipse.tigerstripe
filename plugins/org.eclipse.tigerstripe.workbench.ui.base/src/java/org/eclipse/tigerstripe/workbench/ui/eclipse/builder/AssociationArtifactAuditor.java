@@ -20,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Unreso
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -62,9 +63,40 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 
 		if (aEndDefined && zEndDefined) {
 			checkForOutboundRelationship(); // Bug 925
-			checkStereotypes(artifact.getAEnd(), "artifact '"+getArtifact().getName()+"' endA");
-			checkStereotypes(artifact.getZEnd(), "artifact '"+getArtifact().getName()+"' endZ");
-			
+			checkStereotypes(artifact.getAEnd(), "artifact '"
+					+ getArtifact().getName() + "' endA");
+			checkStereotypes(artifact.getZEnd(), "artifact '"
+					+ getArtifact().getName() + "' endZ");
+
+			checkNavigability(); // Bug 221458
+			checkAggregation(); // Bug 221458
+		}
+	}
+
+	/**
+	 * Check that at least one end is navigable
+	 */
+	protected void checkNavigability() {
+		IAssociationArtifact artifact = (IAssociationArtifact) getArtifact();
+		if (!artifact.getAEnd().isNavigable()
+				&& !artifact.getZEnd().isNavigable()) {
+			TigerstripeProjectAuditor.reportError("At least one "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName())
+							.getLabel() + " End must be navigable in '"
+					+ artifact.getName() + "'.", getIResource(), 222);
+		}
+	}
+
+	/**
+	 * Check that at least one end is navigable
+	 */
+	protected void checkAggregation() {
+		IAssociationArtifact artifact = (IAssociationArtifact) getArtifact();
+		if (artifact.getAEnd().getAggregation() != EAggregationEnum.NONE
+				&& artifact.getZEnd().getAggregation() != EAggregationEnum.NONE ) {
+			TigerstripeProjectAuditor.reportError("Inconsistent Aggregation/Composition in '"
+					+ artifact.getName() + "'.", getIResource(), 222);
 		}
 	}
 
@@ -135,16 +167,15 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 			EclipsePlugin.log(e);
 		}
 	}
-	
-	
-	private void checkStereotypes(IStereotypeCapable capable, String location){
-		for (IStereotypeInstance instance : capable.getStereotypeInstances()){
-			if (instance instanceof UnresolvedStereotypeInstance){
-				TigerstripeProjectAuditor.reportWarning(
-						"Stereotype '"+instance.getName()+"' on "+location+" not defined in the current profile",
-						TigerstripeProjectAuditor
-								.getIResourceForArtifact(getIProject(),
-										getArtifact()), 222);
+
+	private void checkStereotypes(IStereotypeCapable capable, String location) {
+		for (IStereotypeInstance instance : capable.getStereotypeInstances()) {
+			if (instance instanceof UnresolvedStereotypeInstance) {
+				TigerstripeProjectAuditor.reportWarning("Stereotype '"
+						+ instance.getName() + "' on " + location
+						+ " not defined in the current profile",
+						TigerstripeProjectAuditor.getIResourceForArtifact(
+								getIProject(), getArtifact()), 222);
 			}
 		}
 	}
