@@ -26,6 +26,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -231,7 +232,37 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 			}
 		};
 
-		viewer.setSorter(nameSorter);
+		viewer.setSorter(valueSorter);
+
+		valueColumn.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Empty
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				viewer.setSorter(valueSorter);
+				viewer.refresh(true);
+			}
+
+		});
+
+		nameColumn.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// Empty
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				viewer.setSorter(nameSorter);
+				viewer.refresh(true);
+			}
+
+		});
 
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
@@ -281,10 +312,10 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 
 	private String getInitialLiteralValue(IType type) {
 		if ("int".equals(type.getFullyQualifiedName()))
-			return String.valueOf(newFieldCount);
+			return String.valueOf(findNewLiteralValue());
 		else if ("String".equals(Misc.removeJavaLangString(type
 				.getFullyQualifiedName())))
-			return "\"" + String.valueOf(newFieldCount) + "\"";
+			return "\"" + String.valueOf(findNewLiteralValue()) + "\"";
 		return "0";
 	}
 
@@ -328,17 +359,35 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 	 * Finds a new field name
 	 */
 	private String findNewFieldName() {
-		String result = "literal" + newFieldCount++;
+		String result = "literal" + newFieldCount;
 
 		// make sure we're not creating a duplicate
 		TableItem[] items = viewer.getTable().getItems();
 		for (int i = 0; i < items.length; i++) {
 			String name = ((ILiteral) items[i].getData()).getName();
-			if (result.equals(name))
+			if (result.equals(name)) {
+				newFieldCount++;
 				return findNewFieldName();
+			}
 		}
 		return result;
-
+	}
+	
+	private int newLiteralValue;
+	
+	private String findNewLiteralValue() {
+		String result = String.valueOf(newLiteralValue);
+		
+		// make sure we're not creating a duplicate
+		TableItem[] items = viewer.getTable().getItems();
+		for (int i = 0; i < items.length; i++) {
+			String value = ((ILiteral) items[i].getData()).getValue();
+			if (result.equals(value)) {
+				newLiteralValue++;
+				return findNewLiteralValue();
+			}
+		}
+		return result;
 	}
 
 	/**
