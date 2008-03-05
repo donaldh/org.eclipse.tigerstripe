@@ -45,9 +45,9 @@ public class LiteralRemoveRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		try{
+		try {
 			IAbstractArtifact art = mgrSession
-			.getArtifactByFullyQualifiedName(getArtifactFQN());
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
 			if (art == null)
 				return false;
 
@@ -56,8 +56,7 @@ public class LiteralRemoveRequest extends BaseModelChangeRequest implements
 					return true;
 			}
 			return false;
-		}
-		catch (TigerstripeException t){
+		} catch (TigerstripeException t) {
 			return false;
 		}
 	}
@@ -68,11 +67,14 @@ public class LiteralRemoveRequest extends BaseModelChangeRequest implements
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
+		ILiteral toRemove = null;
 		for (ILiteral literal : art.getLiterals()) {
 			if (literal.getName().equals(getLiteralName())) {
-				art.removeLiterals(Collections.singleton(literal));
+				toRemove = literal;
 			}
 		}
+		if (toRemove != null)
+			art.removeLiterals(Collections.singleton(toRemove));
 		art.doSave(new NullProgressMonitor());
 	}
 }
