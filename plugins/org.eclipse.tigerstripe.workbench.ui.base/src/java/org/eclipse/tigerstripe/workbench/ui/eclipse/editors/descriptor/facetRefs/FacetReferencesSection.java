@@ -14,9 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -44,6 +41,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -248,7 +246,8 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 
 		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
 				SWT.PUSH);
-		removeAttributeButton.setLayoutData(new TableWrapData());
+		TableWrapData td1 = new TableWrapData( TableWrapData.FILL);
+		removeAttributeButton.setLayoutData(td1);
 		removeAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				removeButtonSelected(event);
@@ -379,13 +378,7 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 					try {
 						String relative = Util.getRelativePath(file, input
 								.getFile().getProject().getLocation().toFile());
-
-						IPath path = new Path(relative);
-						IResource res = input.getFile().getParent().findMember(
-								path);
-
 						ITigerstripeModelProject handle = getTSProject();
-
 						IFacetReference dep = handle
 								.makeFacetReference(relative);
 						handle.addFacetReference(dep);
@@ -403,6 +396,14 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 	}
 
 	protected void markPageModified() {
+		
+		// Bug 221514
+		// This is a hack as there is no way to mark the WorkingCopy dirty :-(
+		try {
+			((TigerstripeProjectHandle) getTSProject()).setForceDirty();
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
 		DescriptorEditor editor = (DescriptorEditor) getPage().getEditor();
 		editor.pageModified();
 	}

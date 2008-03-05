@@ -540,4 +540,7 @@ public abstract class TigerstripeProjectHandle extends
 		return new RunConfig(this);
 	}
 
+	public void setForceDirty() throws TigerstripeException {
+		assertSet(FACET_REFERENCE_F);
+	}
 }
