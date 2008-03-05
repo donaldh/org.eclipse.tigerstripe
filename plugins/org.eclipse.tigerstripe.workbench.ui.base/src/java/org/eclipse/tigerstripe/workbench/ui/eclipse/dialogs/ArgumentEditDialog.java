@@ -226,7 +226,8 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		// Check for valid name
 		String parameterName = this.attributeNameDialogField.getText().trim();
-		if (parameterName.length() == 0 || (parameterName.charAt(0) >= '0' && parameterName.charAt(0) <= '9')) {
+		if (parameterName.length() == 0
+				|| (parameterName.charAt(0) >= '0' && parameterName.charAt(0) <= '9')) {
 			okEnabled = false;
 			setMessage("Invalid Argument Name.");
 		}
@@ -429,6 +430,9 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		// LayoutUtil.setWidthHint(text, convertWidthInCharsToPixels(2));
 
 		multiplicityCombo.doFillIntoGrid(composite, nColumns - 1);
+		multiplicityCombo.getComboControl(composite).setVisibleItemCount(
+				IModelComponent.EMultiplicity.values().length);
+
 		DialogField.createEmptySpace(composite);
 
 		descriptionField.doFillIntoGrid(composite, nColumns - 1);
@@ -766,7 +770,8 @@ public class ArgumentEditDialog extends TSMessageDialog {
 				}
 				defaultValueField.setItems(items);
 			} else if (attributeClass.equals("boolean")) {
-				defaultValueField.setItems(new String[] { "true", "false", "" });
+				defaultValueField
+						.setItems(new String[] { "true", "false", "" });
 				defaultValueField.getComboControl(getParentShell()).select(2);
 			} else {
 				defaultValueField.setItems(new String[0]);

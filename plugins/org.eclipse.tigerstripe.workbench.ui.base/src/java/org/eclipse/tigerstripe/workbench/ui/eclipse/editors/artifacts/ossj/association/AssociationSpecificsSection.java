@@ -256,6 +256,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		aEndMultiplicityCombo.setItems(mulStrs);
 		aEndMultiplicityCombo.setEnabled(!getIArtifact().isReadonly());
 		aEndMultiplicityCombo.addSelectionListener(listener);
+		aEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
 		toolkit.adapt(this.aEndMultiplicityCombo, true, true);
 		toolkit.createLabel(body, "    ");
 
@@ -387,6 +388,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		zEndMultiplicityCombo.setEnabled(!getIArtifact().isReadonly());
 		zEndMultiplicityCombo.addSelectionListener(listener);
 		zEndMultiplicityCombo.setItems(mulStrs);
+		zEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
 		toolkit.adapt(this.zEndMultiplicityCombo, true, true);
 		toolkit.createLabel(body, "    ");
 

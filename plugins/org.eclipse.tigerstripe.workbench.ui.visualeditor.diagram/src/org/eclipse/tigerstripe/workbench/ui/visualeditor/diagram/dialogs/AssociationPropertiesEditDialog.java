@@ -376,7 +376,8 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		for (String multLabel : multLabels) {
 			aEndMultiplicityCombo.add(multLabel);
 		}
-		aEndMultiplicityCombo.select(aEndMult.getValue());
+		aEndMultiplicityCombo.select(IModelComponent.EMultiplicity.indexOf(aEndMult.getLiteral()));
+		aEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
 		Label aEndMultiplicityFiller = new Label(aEndBox, SWT.NULL);
 		this.setFillLayout(aEndMultiplicityFiller, 2, 1);
 		// add the control used to select the visibility
@@ -463,7 +464,8 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		for (String multLabel : multLabels) {
 			zEndMultiplicityCombo.add(multLabel);
 		}
-		zEndMultiplicityCombo.select(zEndMult.getValue());
+		zEndMultiplicityCombo.select(IModelComponent.EMultiplicity.indexOf(zEndMult.getLiteral()));
+		zEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
 		Label zEndMultiplicityFiller = new Label(zEndBox, SWT.NULL);
 		this.setFillLayout(zEndMultiplicityFiller, 2, 1);
 		// add the control used to select the visibility

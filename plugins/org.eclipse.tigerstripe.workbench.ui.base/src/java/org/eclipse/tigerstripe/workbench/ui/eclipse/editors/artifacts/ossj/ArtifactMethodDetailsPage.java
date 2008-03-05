@@ -402,6 +402,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		toolkit.adapt(this.multiplicityCombo, true, true);
 		multiplicityCombo.setItems(IModelComponent.EMultiplicity.labels());
 		multiplicityCombo.addSelectionListener(adapter);
+		multiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
 		label = toolkit.createLabel(sectionClient, "");
 
 		if (prop

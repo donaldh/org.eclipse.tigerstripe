@@ -254,11 +254,13 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 				| SWT.READ_ONLY | SWT.BORDER);
 		multiplicityCombo.setEnabled(!isReadOnly);
 		toolkit.adapt(this.multiplicityCombo, true, true);
+		
 		for (IModelComponent.EMultiplicity multVal : IModelComponent.EMultiplicity.values()) {
 			multiplicityCombo.add(multVal.getLabel());
 		}
 		multiplicityCombo.addModifyListener(adapter);
 		multiplicityCombo.addSelectionListener(adapter);
+		multiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
 
 		label = toolkit.createLabel(sectionClient, "");
 
