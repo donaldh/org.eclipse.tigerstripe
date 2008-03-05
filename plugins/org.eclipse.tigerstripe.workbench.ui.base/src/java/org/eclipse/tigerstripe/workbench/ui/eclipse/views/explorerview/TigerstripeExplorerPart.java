@@ -152,8 +152,6 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 	private Menu fContextMenu;
 
-	private FilterUpdater fFilterUpdater;
-
 	// ====================
 	private Clipboard clipboard;
 
@@ -418,20 +416,6 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		fillActionBars();
 
 		updateTitle();
-
-		fFilterUpdater = new FilterUpdater(treeViewer);
-		ResourcesPlugin.getWorkspace()
-				.addResourceChangeListener(fFilterUpdater);
-
-		// Syncing the package explorer has to be done here. It can't be done
-		// when restoring the link state since the package explorers input isn't
-		// set yet.
-		// if (isLinkingEnabled()) {
-		// IEditorPart editor= getViewSite().getPage().getActiveEditor();
-		// if (editor != null) {
-		// editorActivated(editor);
-		// }
-		// }
 	}
 
 	private void initFrameActions() {
