@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
@@ -193,13 +194,13 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 			if (project == null && projectLabel != null) {
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IResource res = workspace.getRoot().findMember(projectLabel);
-				TigerstripeCore.findProject(res.getFullPath());
+				TigerstripeCore.findProject(res.getLocation());
 			} else {
 				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 				File file = project.getBaseDir();
 				IPath path = new Path(file.getAbsolutePath());
 				IContainer container = root.getContainerForLocation(path);
-				aProject = TigerstripeCore.findProject(container.getFullPath());
+				aProject = TigerstripeCore.findProject(container.getLocation());
 			}
 			if (aProject instanceof ITigerstripeModelProject)
 				return (ITigerstripeModelProject) aProject;
@@ -225,6 +226,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 			File file = new File(csURI);
 			computedTStamp = file.lastModified();
 		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
 			TigerstripeRuntime.logErrorMessage(
 					"Couldn't determine computedTStamp for FacetPredicate: "
 							+ e.getMessage(), e);
