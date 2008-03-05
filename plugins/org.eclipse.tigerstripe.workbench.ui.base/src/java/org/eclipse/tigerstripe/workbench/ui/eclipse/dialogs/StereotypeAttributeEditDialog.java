@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -594,6 +595,7 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 				return entries.toArray();
 			}
 		});
+		entryListViewer.setSorter(new ViewerSorter());
 		entryListViewer.setInput(entries);
 
 		entryListViewer.setColumnProperties(new String[] { "LABEL" });
@@ -653,10 +655,11 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 			if (value == null)
 				return;
 
-			int index = viewer.getTable().getSelectionIndex();
-			Entry ent = entries.get(index);
-			ent.label = (String) value;
-			viewer.refresh(true);
+			Entry theEntry = (Entry) viewer.getTable().getSelection()[0].getData();
+			if (theEntry != null) {
+				theEntry.label = (String) value;
+				viewer.refresh(true);
+			}
 		}
 	}
 
