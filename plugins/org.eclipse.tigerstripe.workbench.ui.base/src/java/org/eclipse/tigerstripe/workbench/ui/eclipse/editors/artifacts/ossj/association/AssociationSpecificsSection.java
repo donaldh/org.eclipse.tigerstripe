@@ -12,6 +12,8 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.asso
 
 import java.util.Arrays;
 
+import org.eclipse.jface.viewers.ColumnLayoutData;
+import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.KeyEvent;
@@ -26,6 +28,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
@@ -45,9 +48,11 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.BrowseForArtifactDia
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.ArtifactSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.StereotypeSectionManager;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class AssociationSpecificsSection extends ArtifactSectionPart {
 
@@ -114,6 +119,16 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 	private Button aEndPackageButton;
 
+	private Button aAddAnno;
+
+	private Button aEditAnno;
+
+	private Button aRemoveAnno;
+
+	private Table aAnnTable;
+
+	private StereotypeSectionManager aAnnotationManager;
+
 	private Button zEndPublicButton;
 
 	private Button zEndProtectedButton;
@@ -142,10 +157,20 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 	private Button zEndIsUniqueButton;
 
+	private Button zAddAnno;
+
+	private Button zEditAnno;
+
+	private Button zRemoveAnno;
+
+	private Table zAnnTable;
+
+	private StereotypeSectionManager zAnnotationManager;
+
 	public AssociationSpecificsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit) {
 		super(page, parent, toolkit, null, null, ExpandableComposite.TITLE_BAR
-				| ExpandableComposite.TWISTIE | ExpandableComposite.COMPACT);
+				| ExpandableComposite.EXPANDED);
 		setTitle("&Details");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
@@ -200,7 +225,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		GridData sgd = new GridData(GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL);
 		sgd.horizontalSpan = 7;
-		sgd.heightHint = 5;
+		sgd.heightHint = 8;
 
 		GridData gd = new GridData();
 		gd.horizontalSpan = 7;
@@ -335,6 +360,41 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		toolkit.adapt(this.aEndAggregationCombo, true, true);
 		toolkit.paintBordersFor(aEndAggregationCombo);
 
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "Annotations:");
+
+		aAnnTable = toolkit.createTable(body, SWT.BORDER);
+		GridData aGd1 = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+		aGd1.verticalSpan = 3;
+		aGd1.widthHint = 200;
+		aGd1.heightHint = 40;
+		aAnnTable.setLayoutData(aGd1);
+
+		aAddAnno = toolkit.createButton(body, "Add", SWT.PUSH);
+		aAddAnno.setEnabled(!getIArtifact().isReadonly());
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+
+		aEditAnno = toolkit.createButton(body, "Edit", SWT.PUSH);
+		aEditAnno.setEnabled(!getIArtifact().isReadonly());
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+
+		aRemoveAnno = toolkit.createButton(body, "Remove", SWT.PUSH);
+		aRemoveAnno.setEnabled(!getIArtifact().isReadonly());
+
+		aAnnotationManager = new StereotypeSectionManager(aAddAnno, aEditAnno,
+				aRemoveAnno, aAnnTable, ((IAssociationArtifact) getIArtifact())
+						.getAEnd(), getSection().getShell(),
+				(ArtifactEditorBase) getPage().getEditor());
+		aAnnotationManager.delegate();
+
 		Composite separator = toolkit.createComposite(body);
 		separator.setLayoutData(sgd);
 
@@ -465,6 +525,41 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		zEndAggregationCombo.addSelectionListener(listener);
 		zEndAggregationCombo.setItems(aggrStrs);
 		toolkit.adapt(this.zEndAggregationCombo, true, true);
+
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "Annotations:");
+
+		zAnnTable = toolkit.createTable(body, SWT.BORDER);
+		aGd1 = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+		aGd1.verticalSpan = 3;
+		aGd1.widthHint = 200;
+		aGd1.heightHint = 40;
+		zAnnTable.setLayoutData(aGd1);
+
+		zAddAnno = toolkit.createButton(body, "Add", SWT.PUSH);
+		zAddAnno.setEnabled(!getIArtifact().isReadonly());
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+
+		zEditAnno = toolkit.createButton(body, "Edit", SWT.PUSH);
+		zEditAnno.setEnabled(!getIArtifact().isReadonly());
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+		toolkit.createLabel(body, "    ");
+
+		zRemoveAnno = toolkit.createButton(body, "Remove", SWT.PUSH);
+		zRemoveAnno.setEnabled(!getIArtifact().isReadonly());
+
+		zAnnotationManager = new StereotypeSectionManager(zAddAnno, zEditAnno,
+				zRemoveAnno, zAnnTable, ((IAssociationArtifact) getIArtifact())
+						.getZEnd(), getSection().getShell(),
+				(ArtifactEditorBase) getPage().getEditor());
+		zAnnotationManager.delegate();
 
 		updateForm();
 

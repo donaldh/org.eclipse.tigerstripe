@@ -123,6 +123,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 	private Button literalLevelButton;
 
 	private Button argumentLevelButton;
+	
+	private Button associationEndLevelButton;
 
 	class RequiresContentProvider implements IStructuredContentProvider {
 
@@ -286,6 +288,9 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		} else if (e.getSource() == argumentLevelButton) {
 			details.setArgumentLevel(argumentLevelButton.getSelection());
 			pageModified();
+		} else if (e.getSource() == associationEndLevelButton) {
+			details.setAssociationEndLevel(associationEndLevelButton.getSelection());
+			pageModified();
 		}
 	}
 
@@ -383,21 +388,21 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		layout.numColumns = 5;
 		scopeComp.setLayout(layout);
 
-		methodLevelButton = toolkit.createButton(scopeComp, "Any Method",
+		methodLevelButton = toolkit.createButton(scopeComp, "Method",
 				SWT.CHECK);
 		methodLevelButton.setEnabled(ProfileEditor.isEditable());
 		methodLevelButton.addSelectionListener(adapter);
 		methodLevelButton
 				.setToolTipText("Mark this annotation applicable to any Artifact Method, regardless of containing Artifact Type");
 
-		attributeLevelButton = toolkit.createButton(scopeComp, "Any Attribute",
+		attributeLevelButton = toolkit.createButton(scopeComp, "Attribute",
 				SWT.CHECK);
 		attributeLevelButton.setEnabled(ProfileEditor.isEditable());
 		attributeLevelButton.addSelectionListener(adapter);
 		attributeLevelButton
 				.setToolTipText("Mark this annotation applicable to any Artifact Attribute, regardless of containing Artifact Type");
 
-		literalLevelButton = toolkit.createButton(scopeComp, "Any Literal",
+		literalLevelButton = toolkit.createButton(scopeComp, "Literal",
 				SWT.CHECK);
 		literalLevelButton.setEnabled(ProfileEditor.isEditable());
 		literalLevelButton.addSelectionListener(adapter);
@@ -407,12 +412,19 @@ public class StereotypeDetailsPage implements IDetailsPage {
 								IEnumArtifactImpl.class.getName()).getLabel()
 						+ " Literal, regardless of containing Artifact Type");
 
-		argumentLevelButton = toolkit.createButton(scopeComp, "Any Argument",
+		argumentLevelButton = toolkit.createButton(scopeComp, "Argument",
 				SWT.CHECK);
 		argumentLevelButton.setEnabled(ProfileEditor.isEditable());
 		argumentLevelButton.addSelectionListener(adapter);
 		argumentLevelButton
 				.setToolTipText("Mark this annotation applicable to any Method Argument, regardless of containing Artifact Type");
+
+		associationEndLevelButton = toolkit.createButton(scopeComp, "Assoc. End",
+				SWT.CHECK);
+		associationEndLevelButton.setEnabled(ProfileEditor.isEditable());
+		associationEndLevelButton.addSelectionListener(adapter);
+		associationEndLevelButton
+				.setToolTipText("Mark this annotation applicable to any Association End.");
 
 		createArtifactTypeTable(scopeComp, toolkit);
 
@@ -430,7 +442,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 				| SWT.HIDE_SELECTION);
 		table.setEnabled(ProfileEditor.isEditable());
 		gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 4;
+		gd.horizontalSpan = 5;
 		table.setLayoutData(gd);
 
 		table.setLinesVisible(true);
@@ -971,6 +983,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 				.isLiteralLevel());
 		argumentLevelButton.setSelection(st.getStereotypeScopeDetails()
 				.isArgumentLevel());
+		associationEndLevelButton.setSelection(st.getStereotypeScopeDetails()
+				.isAssociationEndLevel());
 
 		attributesViewer.setInput(st);
 		attributesViewer.refresh(true);

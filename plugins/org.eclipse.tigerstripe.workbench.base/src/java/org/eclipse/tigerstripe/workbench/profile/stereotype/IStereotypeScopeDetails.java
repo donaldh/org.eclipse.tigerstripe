@@ -28,6 +28,8 @@ package org.eclipse.tigerstripe.workbench.profile.stereotype;
  * artifact label</li>
  * <li><b>Method Argument Level</b>: when the stereotype can be applied on a
  * method argument</li>
+ * <li><b>Association End Level</b>: when the stereotype can be applied on a
+ * Association End</li>
  * </ul>
  * 
  * @author Eric Dillon
@@ -42,6 +44,8 @@ public interface IStereotypeScopeDetails {
 	public void setLiteralLevel(boolean isLiteralLevel);
 
 	public void setArgumentLevel(boolean isArgumentLevel);
+	
+	public void setAssociationEndLevel( boolean isAssociationEndLevel);
 
 	public void setArtifactLevelTypes(String[] types);
 
@@ -84,4 +88,11 @@ public interface IStereotypeScopeDetails {
 	 * @return true if applicable at method level
 	 */
 	public boolean isMethodLevel();
+	
+	/**
+	 * Return true if the stereotype can be applied at association End level.
+	 * 
+	 * @return true if applicable at association End level
+	 */
+	public boolean isAssociationEndLevel();
 }

@@ -41,6 +41,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.Global
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
@@ -213,11 +214,10 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 				try {
 					st.parse(stElm);
 				} catch (TigerstripeException e) {
-					TigerstripeRuntime
-							.logInfoMessage("Error while parsing " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					TigerstripeRuntime.logInfoMessage("Error while parsing "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
-									.getLabel() + "(s): "
-									+ e.getMessage());
+									.getLabel() + "(s): " + e.getMessage());
 				}
 			}
 		}
@@ -234,11 +234,10 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 					typeDef.parse(ptElm);
 					setDefaultPrimitiveType(typeDef);
 				} catch (TigerstripeException e) {
-					TigerstripeRuntime
-							.logInfoMessage("Error while parsing " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+					TigerstripeRuntime.logInfoMessage("Error while parsing "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
-									.getLabel() + "(s): "
-									+ e.getMessage());
+									.getLabel() + "(s): " + e.getMessage());
 				}
 			}
 		}
@@ -274,7 +273,8 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 			for (Iterator prIter = propertiesElem.elementIterator("property"); prIter
 					.hasNext();) {
 				Element prElem = (Element) prIter.next();
-				String type = MigrationHelper.profileMigratePropertyType(prElem.attributeValue("type"));
+				String type = MigrationHelper.profileMigratePropertyType(prElem
+						.attributeValue("type"));
 				String name = prElem.attributeValue("name");
 				String content = prElem.getText();
 				try {
@@ -373,17 +373,18 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 	public void addPrimitiveTypeDef(IPrimitiveTypeDef primitiveTypeDef)
 			throws TigerstripeException {
 		if (primitiveTypeDefs.contains(primitiveTypeDef))
-			throw new TigerstripeException("Duplicate " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IPrimitiveTypeImpl.class.getName())
-					.getLabel() + " '"
-					+ primitiveTypeDef.getName() + "' in profile '" + getName()
-					+ "'.");
+			throw new TigerstripeException("Duplicate "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IPrimitiveTypeImpl.class.getName()).getLabel()
+					+ " '" + primitiveTypeDef.getName() + "' in profile '"
+					+ getName() + "'.");
 		else {
 			primitiveTypeDefs.add(primitiveTypeDef);
 		}
 	}
 
-	public Collection<IPrimitiveTypeDef> getPrimitiveTypeDefs(boolean includeReservedTypes) {
+	public Collection<IPrimitiveTypeDef> getPrimitiveTypeDefs(
+			boolean includeReservedTypes) {
 		if (!includeReservedTypes)
 			return Collections.unmodifiableCollection(primitiveTypeDefs);
 		else {
@@ -416,29 +417,31 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		if (primitiveTypeDefs.contains(primitiveTypeDef)) {
 			primitiveTypeDefs.remove(primitiveTypeDef);
 		} else
-			throw new TigerstripeException("Unknown " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IPrimitiveTypeImpl.class.getName())
-					.getLabel() + "'"
-					+ primitiveTypeDef.getName() + "' in profile '" + getName()
-					+ "'.");
+			throw new TigerstripeException("Unknown "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IPrimitiveTypeImpl.class.getName()).getLabel()
+					+ "'" + primitiveTypeDef.getName() + "' in profile '"
+					+ getName() + "'.");
 	}
 
-	public void removePrimitiveTypeDefs(Collection<IPrimitiveTypeDef> primitiveTypeDefs)
+	public void removePrimitiveTypeDefs(
+			Collection<IPrimitiveTypeDef> primitiveTypeDefs)
 			throws TigerstripeException {
 		for (IPrimitiveTypeDef primitiveTypeDef : primitiveTypeDefs) {
 			removePrimitiveTypeDef(primitiveTypeDef);
 		}
 	}
 
-	public void setPrimitiveTypeDefs(Collection<IPrimitiveTypeDef> primitiveTypeDefs)
+	public void setPrimitiveTypeDefs(
+			Collection<IPrimitiveTypeDef> primitiveTypeDefs)
 			throws TigerstripeException {
 		this.primitiveTypeDefs.clear();
 		for (IPrimitiveTypeDef primitiveTypeDef : primitiveTypeDefs) {
 			if (this.primitiveTypeDefs.contains(primitiveTypeDef))
-				throw new TigerstripeException("Duplicate " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IPrimitiveTypeImpl.class.getName())
-						.getLabel() + "'"
-						+ primitiveTypeDef.getName() + "' in profile '"
+				throw new TigerstripeException("Duplicate "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IPrimitiveTypeImpl.class.getName()).getLabel()
+						+ "'" + primitiveTypeDef.getName() + "' in profile '"
 						+ getName() + "'.");
 			else {
 				this.primitiveTypeDefs.add(primitiveTypeDef);
@@ -472,10 +475,12 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 			defaultPrimitiveType = primitiveTypeDef;
 		} else
 			throw new TigerstripeException(primitiveTypeDef.getPackageName()
-					+ "." + primitiveTypeDef.getName()
-					+ " has not been defined as a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IPrimitiveTypeImpl.class.getName())
-							.getLabel() + ".");
+					+ "."
+					+ primitiveTypeDef.getName()
+					+ " has not been defined as a "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IPrimitiveTypeImpl.class.getName()).getLabel()
+					+ ".");
 
 	}
 
@@ -533,7 +538,6 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		return null;
 	}
 
-
 	public Collection<IStereotype> getAvailableStereotypeForCapable(
 			IStereotypeCapable capable) {
 		ArrayList<IStereotype> result = new ArrayList<IStereotype>();
@@ -551,6 +555,9 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 				result.add(stereotype);
 			} else if ((capable instanceof IArgument || capable instanceof ReturnTypeWrapper)
 					&& details.isArgumentLevel()) {
+				result.add(stereotype);
+			} else if (capable instanceof IAssociationEnd
+					&& details.isAssociationEndLevel()) {
 				result.add(stereotype);
 			} else if (capable instanceof IAbstractArtifact) {
 
