@@ -254,13 +254,15 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 				| SWT.READ_ONLY | SWT.BORDER);
 		multiplicityCombo.setEnabled(!isReadOnly);
 		toolkit.adapt(this.multiplicityCombo, true, true);
-		
-		for (IModelComponent.EMultiplicity multVal : IModelComponent.EMultiplicity.values()) {
+
+		for (IModelComponent.EMultiplicity multVal : IModelComponent.EMultiplicity
+				.values()) {
 			multiplicityCombo.add(multVal.getLabel());
 		}
 		multiplicityCombo.addModifyListener(adapter);
 		multiplicityCombo.addSelectionListener(adapter);
-		multiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
+		multiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
+				.values().length);
 
 		label = toolkit.createLabel(sectionClient, "");
 
@@ -298,10 +300,18 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		gLayout.numColumns = 4;
 		opComposite.setLayout(gLayout);
 		opComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		optionalButton = toolkit.createButton(opComposite, "Optional",
-				SWT.CHECK);
-		optionalButton.setEnabled(!isReadOnly);
-		optionalButton.addSelectionListener(adapter);
+
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
+						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+
+		if (prop.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_ISOPTIONAL)) {
+			optionalButton = toolkit.createButton(opComposite, "Optional",
+					SWT.CHECK);
+			optionalButton.setEnabled(!isReadOnly);
+			optionalButton.addSelectionListener(adapter);
+		}
+
 		readonlyButton = toolkit.createButton(opComposite, "Readonly",
 				SWT.CHECK);
 		readonlyButton.setEnabled(!isReadOnly);
@@ -314,10 +324,6 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		uniqueButton.addSelectionListener(adapter);
 
 		label = toolkit.createLabel(sectionClient, "");
-
-		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 		if (prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEREFBY_MODIFIERS)) {
@@ -334,10 +340,8 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 			refByKeyButton = toolkit.createButton(refComposite,
 					IField.refByLabels[IField.REFBY_KEY], SWT.RADIO);
 			refByKeyButton.addSelectionListener(adapter);
-			refByKeyResultButton = toolkit
-					.createButton(refComposite,
-							IField.refByLabels[IField.REFBY_KEYRESULT],
-							SWT.RADIO);
+			refByKeyResultButton = toolkit.createButton(refComposite,
+					IField.refByLabels[IField.REFBY_KEYRESULT], SWT.RADIO);
 			refByKeyResultButton.addSelectionListener(adapter);
 			label = toolkit.createLabel(sectionClient, "");
 			label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -459,8 +463,10 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		if (field.getType() != null) {
 			typeText.setText(Misc.removeJavaLangString(field.getType()
 					.getFullyQualifiedName()));
-			IModelComponent.EMultiplicity mult = field.getType().getTypeMultiplicity();
-			multiplicityCombo.select(IModelComponent.EMultiplicity.indexOf(mult));
+			IModelComponent.EMultiplicity mult = field.getType()
+					.getTypeMultiplicity();
+			multiplicityCombo.select(IModelComponent.EMultiplicity
+					.indexOf(mult));
 			updateDefaultValueCombo();
 		}
 
@@ -468,7 +474,8 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		commentText.setText(getField().getComment() != null ? getField()
 				.getComment() : "");
 
-		optionalButton.setSelection(getField().isOptional());
+		if (optionalButton != null)
+			optionalButton.setSelection(getField().isOptional());
 		readonlyButton.setSelection(getField().isReadOnly());
 		orderedButton.setSelection(getField().isOrdered());
 		uniqueButton.setSelection(getField().isUnique());
@@ -527,14 +534,10 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 	}
 
 	private void setVisibility(EVisibility visibility) {
-		publicButton
-				.setSelection(visibility.equals(EVisibility.PUBLIC));
-		protectedButton
-				.setSelection(visibility.equals(EVisibility.PROTECTED));
-		privateButton
-				.setSelection(visibility.equals(EVisibility.PRIVATE));
-		packageButton
-				.setSelection(visibility.equals(EVisibility.PACKAGE));
+		publicButton.setSelection(visibility.equals(EVisibility.PUBLIC));
+		protectedButton.setSelection(visibility.equals(EVisibility.PROTECTED));
+		privateButton.setSelection(visibility.equals(EVisibility.PRIVATE));
+		packageButton.setSelection(visibility.equals(EVisibility.PACKAGE));
 	}
 
 	private EVisibility getVisibility() {
@@ -588,8 +591,8 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 			pageModified();
 		} else if (e.getSource() == multiplicityCombo) {
 			IType type = getField().getType();
-			IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity.values()[multiplicityCombo
-					.getSelectionIndex()];
+			IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity
+					.values()[multiplicityCombo.getSelectionIndex()];
 			type.setTypeMultiplicity(mult);
 			pageModified();
 		} else if (e.getSource() == typeBrowseButton) {
@@ -675,7 +678,8 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(master
-					.getIArtifact().getTigerstripeProject(), new IAbstractArtifact[0]);
+					.getIArtifact().getTigerstripeProject(),
+					new IAbstractArtifact[0]);
 			dialog.setTitle("Artifact Type Selection");
 			dialog.setMessage("Enter a filter (* = any number of characters)"
 					+ " or an empty string for no filtering: ");

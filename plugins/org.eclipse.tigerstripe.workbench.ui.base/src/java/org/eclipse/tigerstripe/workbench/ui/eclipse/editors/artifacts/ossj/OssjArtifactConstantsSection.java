@@ -61,6 +61,9 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		IFormPart {
 
+	private static final int INT_TYPE = 0;
+	private static final int STRING_TYPE = 1;
+
 	protected DetailsPart detailsPart;
 
 	public OssjArtifactConstantsSection(TigerstripeFormPage page,
@@ -312,10 +315,10 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 
 	private String getInitialLiteralValue(IType type) {
 		if ("int".equals(type.getFullyQualifiedName()))
-			return String.valueOf(findNewLiteralValue());
+			return findNewLiteralValue(INT_TYPE);
 		else if ("String".equals(Misc.removeJavaLangString(type
 				.getFullyQualifiedName())))
-			return "\"" + String.valueOf(findNewLiteralValue()) + "\"";
+			return findNewLiteralValue(STRING_TYPE);
 		return "0";
 	}
 
@@ -372,19 +375,22 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		}
 		return result;
 	}
-	
+
 	private int newLiteralValue;
-	
-	private String findNewLiteralValue() {
+
+	private String findNewLiteralValue(int type) {
 		String result = String.valueOf(newLiteralValue);
-		
+
+		if (type == STRING_TYPE)
+			result = "\"" + result + "\"";
+
 		// make sure we're not creating a duplicate
 		TableItem[] items = viewer.getTable().getItems();
 		for (int i = 0; i < items.length; i++) {
 			String value = ((ILiteral) items[i].getData()).getValue();
 			if (result.equals(value)) {
 				newLiteralValue++;
-				return findNewLiteralValue();
+				return findNewLiteralValue(type);
 			}
 		}
 		return result;

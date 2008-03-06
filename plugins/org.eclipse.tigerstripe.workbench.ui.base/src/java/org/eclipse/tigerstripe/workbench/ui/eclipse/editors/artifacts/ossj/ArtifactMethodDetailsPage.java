@@ -352,10 +352,12 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		uniqueButton.setEnabled(!isReadOnly);
 		uniqueButton.addSelectionListener(adapter);
 
-		optionalButton = toolkit.createButton(optComposite, "Optional",
-				SWT.CHECK);
-		optionalButton.setEnabled(!isReadOnly);
-		optionalButton.addSelectionListener(adapter);
+		if (prop.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_ISOPTIONAL)) {
+			optionalButton = toolkit.createButton(optComposite, "Optional",
+					SWT.CHECK);
+			optionalButton.setEnabled(!isReadOnly);
+			optionalButton.addSelectionListener(adapter);
+		}
 
 		if (prop
 				.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_INSTANCEMETHOD)) {
@@ -402,7 +404,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		toolkit.adapt(this.multiplicityCombo, true, true);
 		multiplicityCombo.setItems(IModelComponent.EMultiplicity.labels());
 		multiplicityCombo.addSelectionListener(adapter);
-		multiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity.values().length);
+		multiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
+				.values().length);
 		label = toolkit.createLabel(sectionClient, "");
 
 		if (prop
@@ -874,7 +877,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		removeExceptionButton.setEnabled(!isReadOnly
 				&& !getMethod().isInstanceMethod());
 
-		optionalButton.setSelection(getMethod().isOptional());
+		if (optionalButton != null)
+			optionalButton.setSelection(getMethod().isOptional());
 		abstractButton.setSelection(getMethod().isAbstract());
 		orderedButton.setSelection(getMethod().isOrdered());
 		uniqueButton.setSelection(getMethod().isUnique());
@@ -1466,8 +1470,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 							defaultReturnValue.getText().trim());
 				}
 			} else if (event.getSource() == methodReturnNameText) {
-				getMethod().setReturnName(
-						methodReturnNameText.getText().trim());
+				getMethod()
+						.setReturnName(methodReturnNameText.getText().trim());
 			}
 			pageModified();
 		}

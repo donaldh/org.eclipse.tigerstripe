@@ -44,7 +44,8 @@ public class OssjLegacySettingsProperty extends MultiPropertiesProfileProperty
 					"true", "" },
 			{ ENABLE_INSTANCEMETHOD, "Enable OSS/J Instance Methods", "true",
 					"" },
-
+			{ ENABLE_ISOPTIONAL, "Enable OSS/J 'isOptional' modifier", "true",
+					"" },
 			{
 					USEMANAGEDENTITIES_ONSESSION,
 					"Managed Entities can be explicitly referenced on a "

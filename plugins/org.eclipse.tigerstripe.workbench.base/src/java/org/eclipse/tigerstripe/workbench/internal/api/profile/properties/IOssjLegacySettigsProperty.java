@@ -18,6 +18,7 @@ public interface IOssjLegacySettigsProperty extends IWorkbenchProfileProperty {
 	public final static String DISPLAY_OSSJSPECIFICS = "displayOssjSpecifics";
 	public final static String USEREFBY_MODIFIERS = "useRefbyModifiers";
 	public final static String ENABLE_INSTANCEMETHOD = "enableInstanceMethods";
+	public final static String ENABLE_ISOPTIONAL = "enableIsOptional";
 
 	public final static String USEMANAGEDENTITIES_ONSESSION = "useManagedEntitiesOnSession";
 	public final static String USEEMITTEDNOTIFICATIONS_ONSESSION = "useEmittedNotificationsOnSession";
