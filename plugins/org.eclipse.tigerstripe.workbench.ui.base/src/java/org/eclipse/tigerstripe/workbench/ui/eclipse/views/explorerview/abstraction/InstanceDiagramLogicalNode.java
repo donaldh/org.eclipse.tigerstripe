@@ -25,6 +25,11 @@ public class InstanceDiagramLogicalNode extends AbstractGMFDiagramNode {
 		return MODEL_EXT;
 	}
 
+	@Override
+	protected String getDiagramExtension() {
+		return DIAG_EXT;
+	}
+
 	public final static InstanceDiagramLogicalNode MODEL = new InstanceDiagramLogicalNode(
 			null);
 

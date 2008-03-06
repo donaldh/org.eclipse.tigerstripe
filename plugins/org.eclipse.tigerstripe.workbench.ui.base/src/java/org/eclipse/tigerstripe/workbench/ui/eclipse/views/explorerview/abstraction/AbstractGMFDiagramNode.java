@@ -22,6 +22,7 @@ import java.util.List;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -71,6 +72,8 @@ public abstract class AbstractGMFDiagramNode extends
 
 	protected abstract String getModelExtension();
 
+	protected abstract String getDiagramExtension();
+
 	protected void tryResolveModelFile() {
 		if (getModelFile() == null) {
 			IFile diagFile = getDiagramFile();
@@ -83,6 +86,32 @@ public abstract class AbstractGMFDiagramNode extends
 					setModelFile((IFile) res);
 				}
 			}
+		}
+	}
+
+	@Override
+	public void performCopy(String newName, IContainer targetLocation,
+			IProgressMonitor monitor) throws CoreException,
+			TigerstripeException {
+		if (!closeCorrespondingDiagram()) {
+			// Create both Resources
+			IPath newModelPath = targetLocation.getFullPath().append(newName)
+					.addFileExtension(getModelExtension());
+			IFile newModelFile = ResourcesPlugin.getWorkspace().getRoot().getFile(newModelPath);
+
+			IPath newDiagramPath = targetLocation.getFullPath().append(newName)
+					.addFileExtension(getDiagramExtension());
+			IFile newDiagramFile = ResourcesPlugin.getWorkspace().getRoot().getFile(newDiagramPath);
+
+			// fill in the content of the model file. Untouched.
+			tryResolveModelFile();
+			IFile oldModelFile = getModelFile();
+			newModelFile.create(oldModelFile.getContents(), true, monitor);
+
+			// fill in the content of the diagram file and make sure the
+			// references are updated properly.
+			newDiagramFile.create(getUpdatedContentsForDiagramFile(newName),
+					true, monitor);
 		}
 	}
 
@@ -186,41 +215,7 @@ public abstract class AbstractGMFDiagramNode extends
 
 			// need to rename both files and change the corresponding reference
 			IResource[] ress = getUnderlyingResources();
-			IFile diagFile = getDiagramFile();
-			IFile modelFile = getModelFile();
-			String diagNamePattern = diagFile.getName();
-			String newDiagNamePattern = newName + "."
-					+ diagFile.getFileExtension();
-			String modelNamePattern = modelFile.getName();
-			String newModelNamePattern = newName + "."
-					+ modelFile.getFileExtension();
-
-			// change ref in diagram file
-			IFile diagramFile = (IFile) getKeyResource();
-			InputStream contentStream = diagramFile.getContents();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					contentStream));
-			String line;
-			StringBuffer sb = new StringBuffer();
-			try {
-				while ((line = reader.readLine()) != null) {
-					line = line.replaceAll(diagNamePattern, newDiagNamePattern);
-					line = line.replaceAll(modelNamePattern,
-							newModelNamePattern);
-					sb.append(line + "\n");
-				}
-			} catch (IOException e) {
-				EclipsePlugin.log(e);
-			} finally {
-				if (reader != null) {
-					try {
-						reader.close();
-					} catch (IOException e) {
-						// ignore
-					}
-				}
-			}
-			diagramFile.setContents(new StringBufferInputStream(sb.toString()),
+			diagramFile.setContents(getUpdatedContentsForDiagramFile(newName),
 					true, true, monitor);
 
 			// rename both now
@@ -232,6 +227,45 @@ public abstract class AbstractGMFDiagramNode extends
 				res.move(destPath, true, monitor);
 			}
 		}
+	}
+
+	protected InputStream getUpdatedContentsForDiagramFile(String newName)
+			throws CoreException {
+
+		IFile diagFile = getDiagramFile();
+
+		IFile modelFile = getModelFile();
+		String diagNamePattern = diagFile.getName();
+		String newDiagNamePattern = newName + "." + diagFile.getFileExtension();
+		String modelNamePattern = modelFile.getName();
+		String newModelNamePattern = newName + "."
+				+ modelFile.getFileExtension();
+
+		// change ref in diagram file
+		IFile diagramFile = (IFile) getKeyResource();
+		InputStream contentStream = diagramFile.getContents();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				contentStream));
+		String line;
+		StringBuffer sb = new StringBuffer();
+		try {
+			while ((line = reader.readLine()) != null) {
+				line = line.replaceAll(diagNamePattern, newDiagNamePattern);
+				line = line.replaceAll(modelNamePattern, newModelNamePattern);
+				sb.append(line + "\n");
+			}
+		} catch (IOException e) {
+			EclipsePlugin.log(e);
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					// ignore
+				}
+			}
+		}
+		return new StringBufferInputStream(sb.toString());
 	}
 
 	@Override

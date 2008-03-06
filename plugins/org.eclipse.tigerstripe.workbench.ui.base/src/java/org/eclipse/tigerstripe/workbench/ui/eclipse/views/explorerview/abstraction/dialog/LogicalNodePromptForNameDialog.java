@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.NewTSMessageDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 
-public class LogicalNodeRenameDialog extends NewTSMessageDialog {
+public class LogicalNodePromptForNameDialog extends NewTSMessageDialog {
 
 	private AbstractLogicalExplorerNode node;
 
@@ -36,11 +36,18 @@ public class LogicalNodeRenameDialog extends NewTSMessageDialog {
 
 	protected String newName;
 
-	public LogicalNodeRenameDialog(Shell parent,
-			AbstractLogicalExplorerNode node) {
-		super(parent, "Rename Element", "Enter new name for this element.");
+	protected String initialName;
+
+	public LogicalNodePromptForNameDialog(Shell parent,
+			AbstractLogicalExplorerNode node, String title, String caption) {
+		super(parent, title, caption);
 		this.node = node;
+		initialName = node.getText();
 		setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
+	}
+
+	public void setInitialName(String initialName) {
+		this.initialName = initialName;
 	}
 
 	public String getNewName() {
@@ -78,8 +85,8 @@ public class LogicalNodeRenameDialog extends NewTSMessageDialog {
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL);
 		newNameText.setLayoutData(gd);
-		newNameText.setText(node.getText());
-		newName = node.getText();
+		newNameText.setText(initialName);
+		newName = newNameText.getText().trim();
 		newNameText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				handleModifyText();

@@ -132,6 +132,14 @@ public abstract class AbstractLogicalExplorerNode extends ResourceMapping {
 			IProgressMonitor monitor) throws CoreException,
 			TigerstripeException;
 
+	/**
+	 * This method is called to perform the actual copy action
+	 * 
+	 */
+	public abstract void performCopy(String newName, IContainer targetLocation,
+			IProgressMonitor monitor) throws CoreException,
+			TigerstripeException;
+
 	@Override
 	public Object getModelObject() {
 		return getKeyResource();

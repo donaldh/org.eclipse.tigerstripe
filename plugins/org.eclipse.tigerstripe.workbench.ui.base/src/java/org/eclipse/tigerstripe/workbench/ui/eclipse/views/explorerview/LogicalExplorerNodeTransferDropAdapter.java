@@ -32,6 +32,7 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.AbstractLogicalExplorerNode;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.action.LogicalNodeCopyAction;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.action.LogicalNodeMoveAction;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 
@@ -84,17 +85,18 @@ public class LogicalExplorerNodeTransferDropAdapter extends
 
 	private void handleDropCopy(final Object target, DropTargetEvent event)
 			throws InvocationTargetException, InterruptedException {
-		// IJavaElement[] javaElements= ReorgUtils.getJavaElements(fElements);
-		// IResource[] resources= ReorgUtils.getResources(fElements);
-		// ReorgCopyStarter starter= null;
-		// if (target instanceof IResource)
-		// starter= ReorgCopyStarter.create(javaElements, resources,
-		// (IResource)target);
-		// else if (target instanceof IJavaElement)
-		// starter= ReorgCopyStarter.create(javaElements, resources,
-		// (IJavaElement)target);
-		// if (starter != null)
-		// starter.run(getShell());
+		AbstractLogicalExplorerNode[] nodes = getNodes();
+		LogicalNodeCopyAction action = new LogicalNodeCopyAction("copy",
+				getShell());
+		if (target instanceof IContainer)
+			action.runBatch(nodes, (IContainer) target);
+		else if (target instanceof IAdaptable) {
+			IResource res = (IResource) ((IAdaptable) target)
+					.getAdapter(IResource.class);
+			if (res instanceof IContainer) {
+				action.runBatch(nodes, (IContainer) res);
+			}
+		}
 	}
 
 	private AbstractLogicalExplorerNode[] getNodes() {
@@ -167,7 +169,7 @@ public class LogicalExplorerNodeTransferDropAdapter extends
 		if ((target instanceof IContainer || target instanceof IJavaProject
 				|| target instanceof IPackageFragment || target instanceof IPackageFragmentRoot)
 				&& validateProjectReference(target, event))
-			return DND.DROP_MOVE;
+			return DND.DROP_COPY;
 		else
 			return DND.DROP_NONE;
 	}

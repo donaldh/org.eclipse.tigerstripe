@@ -24,6 +24,11 @@ public class ClassDiagramLogicalNode extends AbstractGMFDiagramNode {
 	protected String getModelExtension() {
 		return MODEL_EXT;
 	}
+	
+	@Override
+	protected String getDiagramExtension() {
+		return DIAG_EXT;
+	}
 
 	public final static ClassDiagramLogicalNode MODEL = new ClassDiagramLogicalNode(
 			null);

@@ -17,7 +17,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.AbstractLogicalExplorerNode;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.dialog.LogicalNodeRenameDialog;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.dialog.LogicalNodePromptForNameDialog;
 
 public class LogicalNodeRenameAction extends AbstractLogicalNodeAction {
 
@@ -40,8 +40,8 @@ public class LogicalNodeRenameAction extends AbstractLogicalNodeAction {
 			public void run() {
 				AbstractLogicalExplorerNode[] nodes = getSelectedNodes();
 				if (nodes.length != 0) {
-					LogicalNodeRenameDialog dialog = new LogicalNodeRenameDialog(
-							getShell(), nodes[0]);
+					LogicalNodePromptForNameDialog dialog = new LogicalNodePromptForNameDialog(
+							getShell(), nodes[0], "Rename Element", "Enter new name for this element.");
 					shouldPerformRename = dialog.open() == Window.OK;
 					if (shouldPerformRename) {
 						newName = dialog.getNewName();
