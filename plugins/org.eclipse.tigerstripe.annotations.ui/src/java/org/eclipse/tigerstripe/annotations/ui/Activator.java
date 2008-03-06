@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotations.ui;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -50,6 +53,10 @@ public class Activator extends AbstractUIPlugin {
 		super.stop(context);
 	}
 
+	public static String getPluginId() {
+		return PLUGIN_ID;
+	}
+
 	/**
 	 * Returns the shared instance
 	 * 
@@ -57,6 +64,37 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+
+	public static void log(Throwable e) {
+		if (e.getCause() == null) {
+			IStatus status = new Status(IStatus.ERROR, getPluginId(),
+					IStatus.ERROR, "Internal Error", e); //$NON-NLS-1$
+			log(status);
+			return;
+		} else {
+			MultiStatus mStatus = new MultiStatus(getPluginId(), IStatus.ERROR,
+					"Internal Error", e);
+			Throwable ee = e.getCause();
+
+			while (ee != null) {
+				IStatus subStatus = new Status(IStatus.ERROR, getPluginId(),
+						IStatus.ERROR, "Internal Error", ee); //$NON-NLS-1$
+				mStatus.add(subStatus);
+				if (e.getCause() instanceof Exception) {
+					ee = ee.getCause();
+				} else {
+					break;
+				}
+			}
+			log(mStatus);
+			return;
+		}
+	}
+
+	public static void log(IStatus status) {
+		// add the status message to the "Problems" view
+		getDefault().getLog().log(status);
 	}
 
 }

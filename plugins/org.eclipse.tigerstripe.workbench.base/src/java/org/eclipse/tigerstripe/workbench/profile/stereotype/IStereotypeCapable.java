@@ -53,7 +53,6 @@ public interface IStereotypeCapable {
 
 	public void removeStereotypeInstances(Collection<IStereotypeInstance> instances);
 
-
-
+	public Object getAnnotation( String schemeID, String annotationSpecificationID );
 
 }

@@ -8,7 +8,7 @@
  * Contributors:
  *    Cisco Systems, Inc. - Initial Version
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.core.model;
+package org.eclipse.tigerstripe.workbench.internal.annotations;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
@@ -63,72 +63,82 @@ public class ModelComponentAnnotable implements IAnnotable {
 	@Override
 	public String getURI() throws AnnotationCoreException {
 
-		if (component instanceof IField) {
-			StringBuffer buf = getArtifactURI(((IField) component)
-					.getContainingArtifact());
-			buf.append("#");
-			buf.append(component.getName());
-			return buf.toString();
-		} else if (component instanceof ILiteral) {
-			StringBuffer buf = getArtifactURI(((ILiteral) component)
-					.getContainingArtifact());
-			buf.append("#");
-			buf.append(component.getName());
-			return buf.toString();
-		} else if (component instanceof IArgument) {
-			// FIXME: currently IArgument is not an IModelComponent
+		try {
+			if (component instanceof IField) {
+				StringBuffer buf = getArtifactURI(((IField) component)
+						.getContainingArtifact());
+				buf.append("#");
+				buf.append(component.getName());
+				return buf.toString();
+			} else if (component instanceof ILiteral) {
+				StringBuffer buf = getArtifactURI(((ILiteral) component)
+						.getContainingArtifact());
+				buf.append("#");
+				buf.append(component.getName());
+				return buf.toString();
+			} else if (component instanceof IArgument) {
+				// FIXME: currently IArgument is not an IModelComponent
 
-		} else if (component instanceof IMethod) {
-			IMethod m = (IMethod) component;
-			IAbstractArtifact art = m.getContainingArtifact();
-			StringBuffer URI = getArtifactURI(art);
+			} else if (component instanceof IMethod) {
+				IMethod m = (IMethod) component;
+				IAbstractArtifact art = m.getContainingArtifact();
+				StringBuffer URI = getArtifactURI(art);
 
-			URI.append(m.getName());
-			URI.append("(");
-			boolean first = true;
-			for (IArgument arg : m.getArguments()) {
-				if (!first) {
-					URI.append(",");
+				URI.append(m.getName());
+				URI.append("(");
+				boolean first = true;
+				for (IArgument arg : m.getArguments()) {
+					if (!first) {
+						URI.append(",");
+					}
+					URI.append(arg.getName());
 				}
-				URI.append(arg.getName());
+				URI.append(")");
+				return URI.toString();
+			} else if (component instanceof IAssociationEnd) {
+				IAssociationEnd end = (IAssociationEnd) component;
+				IAssociationArtifact assoc = end.getContainingAssociation();
+				StringBuffer URI = getArtifactURI(assoc);
+				if (assoc.getAEnd() == end) {
+					URI.append(";aEnd");
+				} else {
+					URI.append(";zEnd");
+				}
+				return URI.toString();
+			} else if (component instanceof IAbstractArtifact) {
+				return getArtifactURI((IAbstractArtifact) component).toString();
 			}
-			URI.append(")");
-			return URI.toString();
-		} else if (component instanceof IAssociationEnd) {
-			IAssociationEnd end = (IAssociationEnd) component;
-			IAssociationArtifact assoc = end.getContainingAssociation();
-			StringBuffer URI = getArtifactURI(assoc);
-			if (assoc.getAEnd() == end) {
-				URI.append(";aEnd");
-			} else {
-				URI.append(";zEnd");
-			}
-			return URI.toString();
-		} else if (component instanceof IAbstractArtifact) {
-			return getArtifactURI((IAbstractArtifact) component).toString();
+		} catch (TigerstripeException e) {
+			throw new AnnotationCoreException(
+					"Error while trying to determine URI (" + component + "):"
+							+ e.getLocalizedMessage());
 		}
 		throw new AnnotationCoreException("Can't determine URI for:"
 				+ component);
 	}
 
-	protected StringBuffer getArtifactURI(IAbstractArtifact artifact) {
+	protected StringBuffer getArtifactURI(IAbstractArtifact artifact)
+			throws TigerstripeException {
+		return getURIFor(artifact.getFullyQualifiedName());
+	}
+
+	public StringBuffer getURIFor(String fqn) throws TigerstripeException {
 		StringBuffer URI = new StringBuffer("tigerstripe://");
 
-		if (artifact.getTigerstripeProject() instanceof ITigerstripeModelProject) {
+		if (getProject() instanceof ITigerstripeModelProject) {
 			try {
-				URI.append(artifact.getTigerstripeProject().getProjectDetails()
-						.getName());
+				URI.append(getProject().getProjectDetails().getName());
 				URI.append("/");
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
-		} else if (artifact.getTigerstripeProject() instanceof ITigerstripeModuleProject) {
+		} else if (getProject() instanceof ITigerstripeModuleProject) {
 			// ITigerstripeModuleProject mProject = (ITigerstripeModuleProject)
 			// artifact
 			// .getTigerstripeProject();
 
 		}
-		URI.append(artifact.getFullyQualifiedName());
+		URI.append(fqn);
 
 		return URI;
 	}

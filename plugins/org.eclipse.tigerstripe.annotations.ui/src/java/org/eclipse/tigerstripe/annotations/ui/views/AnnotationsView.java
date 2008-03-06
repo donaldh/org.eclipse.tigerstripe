@@ -25,6 +25,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -42,6 +43,7 @@ import org.eclipse.tigerstripe.annotations.AnnotationStore;
 import org.eclipse.tigerstripe.annotations.IAnnotable;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
 import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
+import org.eclipse.tigerstripe.annotations.ui.Activator;
 import org.eclipse.tigerstripe.annotations.ui.internal.AnnotationFormManager;
 import org.eclipse.tigerstripe.annotations.ui.internal.AnnotationSchemeComparator;
 import org.eclipse.tigerstripe.annotations.ui.internal.DefaultAnnotable;
@@ -63,6 +65,10 @@ public class AnnotationsView extends ViewPart {
 
 	// The current annotatble.
 	private IAnnotable currentAnnotable;
+
+	private String currentURI;
+
+	private boolean isDirty = false;
 
 	// private IResource resource;
 
@@ -98,6 +104,37 @@ public class AnnotationsView extends ViewPart {
 	}
 
 	public AnnotationsView() {
+	}
+
+	public void markModified() {
+		setDirty(true);
+		updateButtonState();
+	}
+
+	protected void setDirty(boolean isDirty) {
+		this.isDirty = isDirty;
+	}
+
+	protected boolean isDirty() {
+		return this.isDirty;
+	}
+
+	protected String getCurrentURI() throws AnnotationCoreException {
+		if (currentAnnotable == null)
+			throw new AnnotationCoreException("No current annotable");
+		return this.currentURI;
+	}
+
+	protected void setCurrentAnnotable(IAnnotable annotable)
+			throws AnnotationCoreException {
+		this.currentAnnotable = annotable;
+		currentURI = null;
+		if (annotable != null)
+			currentURI = annotable.getURI();
+	}
+
+	protected IAnnotable getCurrentAnnotable() {
+		return this.currentAnnotable;
 	}
 
 	@Override
@@ -204,7 +241,7 @@ public class AnnotationsView extends ViewPart {
 		formComposite.setLayout(new StackLayout());
 
 		hookPageSelection();
-
+		updateButtonState();
 	}
 
 	private void pageSelectionChanged(IWorkbenchPart part, ISelection selection) {
@@ -224,45 +261,53 @@ public class AnnotationsView extends ViewPart {
 
 		IAdaptable adaptable = (IAdaptable) element;
 
-		// First try to adapt as a IAnnotable
-		currentAnnotable = (IAnnotable) adaptable.getAdapter(IAnnotable.class);
-		if (currentAnnotable == null) {
-			// Try then to default to IResource and build a fake annotable
-			IResource res = (IResource) adaptable.getAdapter(IResource.class);
-			if (res != null) {
-				currentAnnotable = new DefaultAnnotable(res);
-			}
-		}
-
-		if (currentAnnotable == null) {
-			schemeComboViewer.setInput(new String[] {});
-			schemeComboViewer.getCombo().setEnabled(false);
-			((StackLayout) formComposite.getLayout()).topControl = null;
-			formComposite.getParent().layout(true, true);
-		} else {
-
-			try {
-				int index = 0;
-				IAnnotationScheme[] schemes = AnnotationSchemeRegistry.eINSTANCE
-						.getDefinedSchemes(currentAnnotable.getURI());
-				Arrays.sort(schemes, new AnnotationSchemeComparator());
-				schemeComboViewer.getCombo().setEnabled(true);
-				schemeComboViewer.setInput(schemes);
-
-				// get selected scheme for a particular URI
-				String schemeUserId = schemeForUriMap.get(getSchemeTypeURI());
-				if (schemeUserId != null) {
-					index = getSchemeIndexFromCombo(schemeUserId);
+		try {
+			// First try to adapt as a IAnnotable
+			setCurrentAnnotable((IAnnotable) adaptable
+					.getAdapter(IAnnotable.class));
+			if (getCurrentAnnotable() == null) {
+				// Try then to default to IResource and build a fake annotable
+				IResource res = (IResource) adaptable
+						.getAdapter(IResource.class);
+				if (res != null) {
+					setCurrentAnnotable(new DefaultAnnotable(res));
 				}
-
-				schemeComboViewer.getCombo().select(index);
-				schemeComboViewer
-						.setSelection(schemeComboViewer.getSelection());
-			} catch (AnnotationCoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+
+			if (getCurrentAnnotable() == null) {
+				schemeComboViewer.setInput(new String[] {});
+				schemeComboViewer.getCombo().setEnabled(false);
+				((StackLayout) formComposite.getLayout()).topControl = null;
+				formComposite.getParent().layout(true, true);
+			} else {
+
+				try {
+					int index = 0;
+					IAnnotationScheme[] schemes = AnnotationSchemeRegistry.eINSTANCE
+							.getDefinedSchemes(getCurrentURI());
+					Arrays.sort(schemes, new AnnotationSchemeComparator());
+					schemeComboViewer.getCombo().setEnabled(true);
+					schemeComboViewer.setInput(schemes);
+
+					// get selected scheme for a particular URI
+					String schemeUserId = schemeForUriMap
+							.get(getSchemeTypeURI());
+					if (schemeUserId != null) {
+						index = getSchemeIndexFromCombo(schemeUserId);
+					}
+
+					schemeComboViewer.getCombo().select(index);
+					schemeComboViewer.setSelection(schemeComboViewer
+							.getSelection());
+				} catch (AnnotationCoreException e) {
+					Activator.log(e);
+				}
+			}
+		} catch (AnnotationCoreException e) {
+			Activator.log(e);
 		}
+		setDirty(false);
+		updateButtonState();
 	}
 
 	private int getSchemeIndexFromCombo(String schemeUserId) {
@@ -295,7 +340,7 @@ public class AnnotationsView extends ViewPart {
 			schemeForUriMap.put(getSchemeTypeURI(), scheme
 					.getNamespaceUserLabel());
 
-			form = scheme.selectForm(currentAnnotable.getURI());
+			form = scheme.selectForm(getCurrentURI());
 			if (form == null) {
 				((StackLayout) formComposite.getLayout()).topControl = null;
 				formComposite.getParent().layout(true, true);
@@ -304,17 +349,16 @@ public class AnnotationsView extends ViewPart {
 			composite = (Composite) formCompositeMap.get(form.getID());
 			if (composite == null) {
 				composite = AnnotationFormManager.createFormComposite(
-						formComposite, form);
+						formComposite, form, this);
 				formCompositeMap.put(form.getID(), composite);
 			}
 
 			AnnotationFormManager.clearFormCompositeData(composite);
 			AnnotationStore store = currentAnnotable.getStore(scheme);
 			AnnotationFormManager.setFormCompositeData(composite, store,
-					currentAnnotable.getURI(), false);
+					getCurrentURI(), false);
 		} catch (AnnotationCoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Activator.log(e);
 		}
 
 		formComposite.setData(form);
@@ -336,19 +380,20 @@ public class AnnotationsView extends ViewPart {
 
 			if (event.getSource() == apply) {
 				AnnotationFormManager.writeFormCompositeData(composite, store,
-						currentAnnotable.getURI());
+						getCurrentURI());
+				setDirty(false);
 			} else if (event.getSource() == defaults) {
 				AnnotationFormManager.setFormCompositeData(composite, store,
-						currentAnnotable.getURI(), true);
-				AnnotationFormManager.writeFormCompositeData(composite, store,
-						currentAnnotable.getURI());
+						getCurrentURI(), true);
+				setDirty(true);
 			} else if (event.getSource() == cancel) {
 				AnnotationFormManager.setFormCompositeData(composite, store,
-						currentAnnotable.getURI(), false);
+						getCurrentURI(), false);
+				setDirty(false);
 			}
+			updateButtonState();
 		} catch (AnnotationCoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Activator.log(e);
 		}
 	}
 
@@ -356,7 +401,7 @@ public class AnnotationsView extends ViewPart {
 	// now...)
 	private String getSchemeTypeURI() throws AnnotationCoreException {
 
-		String uri = currentAnnotable.getURI();
+		String uri = getCurrentURI();
 		String type = uri.substring(0, uri.indexOf(':'));
 
 		// now see if .java file (i.e. ManagedEntity)
@@ -376,6 +421,14 @@ public class AnnotationsView extends ViewPart {
 			}
 		};
 		getSite().getPage().addSelectionListener(pageSelectionListener);
+	}
+
+	protected void updateButtonState() {
+		if (apply != null)
+			apply.setEnabled(isDirty());
+
+		if (cancel != null)
+			cancel.setEnabled(isDirty());
 	}
 
 }

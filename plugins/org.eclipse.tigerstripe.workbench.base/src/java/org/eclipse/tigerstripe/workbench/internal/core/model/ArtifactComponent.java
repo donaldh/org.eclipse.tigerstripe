@@ -17,12 +17,19 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
+import org.eclipse.tigerstripe.annotations.AnnotationSchemeRegistry;
+import org.eclipse.tigerstripe.annotations.AnnotationStore;
 import org.eclipse.tigerstripe.annotations.IAnnotable;
+import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
+import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
 import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
 import org.eclipse.tigerstripe.metamodel.IModelComponentMetadata;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
+import org.eclipse.tigerstripe.workbench.internal.annotations.ModelComponentAnnotable;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -369,4 +376,23 @@ public abstract class ArtifactComponent implements IModelComponent,
 				.artifactMetadataMigrateClassname(this.getClass().getName()));
 	}
 
+	@Override
+	public Object getAnnotation(String schemeID,
+			String annotationSpecificationID) {
+		ModelComponentAnnotable annotable = new ModelComponentAnnotable(this);
+		AnnotationSchemeRegistry registry = AnnotationSchemeRegistry.eINSTANCE;
+		try {
+			IAnnotationScheme scheme = registry
+					.getAnnotationSchemeByID(schemeID);
+			IAnnotationSpecification spec = scheme
+					.findAnnotationSpecification(annotationSpecificationID);
+			if (scheme != null) {
+				AnnotationStore store = annotable.getStore(scheme);
+				return store.getAnnotation(spec, annotable.getURI());
+			}
+		} catch (AnnotationCoreException e) {
+			BasePlugin.log(e);
+		}
+		return null;
+	}
 }

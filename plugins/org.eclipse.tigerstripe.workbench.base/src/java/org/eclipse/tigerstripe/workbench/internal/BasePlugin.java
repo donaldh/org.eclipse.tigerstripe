@@ -23,10 +23,10 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.annotations.AnnotableAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AnnotableAdapterFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.osgi.framework.BundleContext;
 

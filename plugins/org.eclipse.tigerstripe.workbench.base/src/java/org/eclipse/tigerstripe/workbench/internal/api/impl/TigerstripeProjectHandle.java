@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
+import org.eclipse.tigerstripe.workbench.internal.annotations.ModelChangeHandler;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
@@ -128,6 +129,10 @@ public abstract class TigerstripeProjectHandle extends
 				manager = new ArtifactManager(getTSProject());
 			}
 			setArtifactManagerSession(new ArtifactManagerSessionImpl(manager));
+			
+			// Add listener for annotation framework
+			ModelChangeHandler handler = new ModelChangeHandler();
+			getArtifactManagerSession().addArtifactChangeListener(handler);
 		}
 
 		return artifactMgrSession;

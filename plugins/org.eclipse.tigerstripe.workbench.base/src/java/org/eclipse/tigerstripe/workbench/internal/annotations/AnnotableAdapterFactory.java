@@ -8,7 +8,7 @@
  * Contributors:
  *    Cisco Systems, Inc. - Initial Version
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.core.model;
+package org.eclipse.tigerstripe.workbench.internal.annotations;
 
 import java.io.StringReader;
 

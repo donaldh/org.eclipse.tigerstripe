@@ -20,10 +20,16 @@ import java.util.Properties;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
+import org.eclipse.tigerstripe.annotations.AnnotationSchemeRegistry;
+import org.eclipse.tigerstripe.annotations.AnnotationStore;
+import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
+import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
 import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.annotations.ModelComponentAnnotable;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -132,6 +138,15 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 				Collection<IStereotypeInstance> instances) {
 			((Method) theMethod).removeReturnStereotypeInstances(instances);
 		}
+
+		@Override
+		public Object getAnnotation(String schemeID,
+				String annotationSpecificationID) {
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method return"));
+			return null;
+		}
+
 	}
 
 	public String getDefaultReturnValue() {
@@ -715,6 +730,15 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 			return result;
 		}
+
+		@Override
+		public Object getAnnotation(String schemeID,
+				String annotationSpecificationID) {
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method Arguments"));
+			return null;
+		}
+
 	}
 
 	public class Exception implements IException {

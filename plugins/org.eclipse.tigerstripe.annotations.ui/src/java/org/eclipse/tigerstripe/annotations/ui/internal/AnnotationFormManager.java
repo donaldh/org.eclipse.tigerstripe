@@ -12,10 +12,17 @@ package org.eclipse.tigerstripe.annotations.ui.internal;
 
 import java.util.Arrays;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -30,16 +37,26 @@ import org.eclipse.tigerstripe.annotations.AnnotationStore;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
 import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.IAnnotationSpecificationLiteral;
+import org.eclipse.tigerstripe.annotations.IBigStringAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.IBooleanAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.IEnumerationAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.IStringAnnotationSpecification;
+import org.eclipse.tigerstripe.annotations.ui.Activator;
+import org.eclipse.tigerstripe.annotations.ui.views.AnnotationsView;
+import org.eclipse.ui.themes.ColorUtil;
 
 public class AnnotationFormManager {
 
 	private static final String ANNOTATION_SPEC = "ANNOTATION_SPEC";
 
+	private static Font ERROR_FONT = new Font(null, "arial", 8, SWT.BOLD);
+	private static Font REGULAR_FOND = new Font(null, "arial", 8, SWT.None);
+
+	private static Color ERROR_COLOR = new Color(null, 232, 123, 20);
+	private static Color REGULAR_COLOR = new Color(null, 0, 0, 0);
+
 	public static Composite createFormComposite(Composite parent,
-			IAnnotationForm form) {
+			IAnnotationForm form, final AnnotationsView view) {
 
 		GridData gridData;
 
@@ -50,7 +67,46 @@ public class AnnotationFormManager {
 		Arrays.sort(specifications, new AnnotationSpecificationComparator());
 		for (IAnnotationSpecification spec : specifications) {
 
-			if (spec instanceof IStringAnnotationSpecification) {
+			if (spec instanceof IBigStringAnnotationSpecification) {
+
+				Label label = new Label(composite, SWT.LEFT);
+				label.setText(spec.getUserLabel());
+				Text text = new Text(composite, SWT.WRAP | SWT.MULTI
+						| SWT.V_SCROLL | SWT.BORDER);
+				gridData = new GridData();
+				gridData.horizontalAlignment = GridData.FILL;
+				gridData.grabExcessHorizontalSpace = true;
+				gridData.heightHint = 50;
+				text.setLayoutData(gridData);
+				text.setData(ANNOTATION_SPEC, spec);
+				final Text fText = text;
+				final IAnnotationSpecification fSpec = spec;
+				final Label fLabel = label;
+				text.addModifyListener(new ModifyListener() {
+
+					@Override
+					public void modifyText(ModifyEvent e) {
+						view.markModified();
+						try {
+							IStatus status = fSpec.validateValue(fText
+									.getText().trim());
+							if (status.isOK()) {
+								fLabel.setForeground(REGULAR_COLOR);
+								fLabel.setFont(REGULAR_FOND);
+								fText.setToolTipText("");
+							} else {
+								fLabel.setForeground(ERROR_COLOR);
+								fLabel.setFont(ERROR_FONT);
+								fText.setToolTipText(status.getMessage());
+							}
+						} catch (AnnotationCoreException ee) {
+							Activator.log(ee);
+						}
+					}
+
+				});
+
+			} else if (spec instanceof IStringAnnotationSpecification) {
 
 				Label label = new Label(composite, SWT.LEFT);
 				label.setText(spec.getUserLabel());
@@ -60,6 +116,14 @@ public class AnnotationFormManager {
 				gridData.grabExcessHorizontalSpace = true;
 				text.setLayoutData(gridData);
 				text.setData(ANNOTATION_SPEC, spec);
+				text.addModifyListener(new ModifyListener() {
+
+					@Override
+					public void modifyText(ModifyEvent e) {
+						view.markModified();
+					}
+
+				});
 
 			} else if (spec instanceof IBooleanAnnotationSpecification) {
 
@@ -70,6 +134,19 @@ public class AnnotationFormManager {
 				checkbox.setLayoutData(gridData);
 				checkbox.setData(ANNOTATION_SPEC, spec);
 				checkbox.setText(spec.getUserLabel());
+				checkbox.addSelectionListener(new SelectionListener() {
+
+					@Override
+					public void widgetDefaultSelected(SelectionEvent e) {
+						widgetSelected(e);
+					}
+
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						view.markModified();
+					}
+
+				});
 
 			} else if (spec instanceof IEnumerationAnnotationSpecification) {
 
@@ -114,6 +191,20 @@ public class AnnotationFormManager {
 						new AnnotationSpecificationLiteralComparator());
 				comboViewer.add(literals);
 				comboViewer.getCombo().setData(ANNOTATION_SPEC, spec);
+				comboViewer.getCombo().addSelectionListener(
+						new SelectionListener() {
+
+							@Override
+							public void widgetDefaultSelected(SelectionEvent e) {
+								widgetSelected(e);
+							}
+
+							@Override
+							public void widgetSelected(SelectionEvent e) {
+								view.markModified();
+							}
+
+						});
 
 			}
 
@@ -170,8 +261,7 @@ public class AnnotationFormManager {
 
 				}
 			} catch (AnnotationCoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Activator.log(e);
 			}
 		}
 	}
@@ -206,8 +296,7 @@ public class AnnotationFormManager {
 			}
 			store.store();
 		} catch (AnnotationCoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Activator.log(e);
 		}
 
 	}
