@@ -49,6 +49,14 @@ public abstract class AnnotationStore {
 
 	// =============================================================
 
+	/**
+	 * Updates the store after a URI change (resource renamed/moved e.g.)
+	 */
+	public abstract void uriChanged(String oldURI, String newURI)
+			throws AnnotationCoreException;
+
+	public abstract void uriRemoved(String URI) throws AnnotationCoreException;
+
 	public abstract void setAnnotation(IAnnotationSpecification specification,
 			String URI, Object Value) throws AnnotationCoreException;
 
@@ -56,8 +64,9 @@ public abstract class AnnotationStore {
 			IAnnotationSpecification specification, String URI)
 			throws AnnotationCoreException;
 
-	public abstract Object getAnnotation(IAnnotationSpecification specification,
-			String URI) throws AnnotationCoreException;
+	public abstract Object getAnnotation(
+			IAnnotationSpecification specification, String URI)
+			throws AnnotationCoreException;
 
 	/**
 	 * Return true if this store is dirty, i.e. it was modified locally and

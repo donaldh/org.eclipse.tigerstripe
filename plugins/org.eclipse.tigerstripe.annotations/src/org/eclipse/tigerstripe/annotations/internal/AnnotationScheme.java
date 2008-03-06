@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.annotations.Activator;
 import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
 import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
+import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
 import org.eclipse.tigerstripe.annotations.ISelector;
 
 public class AnnotationScheme implements IAnnotationScheme {
@@ -145,4 +146,18 @@ public class AnnotationScheme implements IAnnotationScheme {
 		return false;
 	}
 
+	@Override
+	public IAnnotationSpecification findAnnotationSpecification(
+			String annotationSpecificationID) throws AnnotationCoreException {
+		for (IAnnotationForm form : getDefinedForms()) {
+			for (IAnnotationSpecification spec : form.getSpecifications()) {
+				if (spec.getID().equals(annotationSpecificationID)) {
+					return spec;
+				}
+			}
+		}
+		throw new AnnotationCoreException(
+				"Undefined annotation specification: "
+						+ annotationSpecificationID);
+	}
 }

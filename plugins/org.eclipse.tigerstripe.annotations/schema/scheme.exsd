@@ -137,6 +137,54 @@
       </complexType>
    </element>
 
+   <element name="bigStringAnnotationSpecification">
+      <annotation>
+         <appInfo>
+            <meta.element labelAttribute="userLabel"/>
+         </appInfo>
+      </annotation>
+      <complexType>
+         <attribute name="ID" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="userLabel" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="validator" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.annotations.IValidator"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="defaultValue" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="index" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
    <element name="booleanAnnotationSpecification">
       <annotation>
          <appInfo>
@@ -248,6 +296,7 @@
                <element ref="stringAnnotationSpecification"/>
                <element ref="booleanAnnotationSpecification"/>
                <element ref="enumerationAnnotationSpecification"/>
+               <element ref="bigStringAnnotationSpecification"/>
             </choice>
          </sequence>
          <attribute name="ID" type="string" use="required">

@@ -53,7 +53,7 @@ import org.eclipse.tigerstripe.annotations.internal.context.ContextPackage;
 public class DefaultAnnotationStoreFactory implements IResourceChangeListener,
 		IAnnotationStoreFactory {
 
-	private final static String FOLDER = "annotations";
+	private final static String FOLDER = ".annotations";
 
 	private Map<IFile, EMFAnnotationStore> storeCache = new HashMap<IFile, EMFAnnotationStore>();
 

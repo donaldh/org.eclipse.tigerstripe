@@ -10,24 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotations;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
+/**
+ * 
+ * @author erdillon
+ * 
+ */
+public interface IBigStringAnnotationSpecification extends
+		IStringAnnotationSpecification {
 
-public interface IValidator {
-
-	// A default validator for convenience.
-	public final static IValidator DEFAULT = new IValidator() {
-
-		public void setContext(Object context) {
-		}
-
-		public IStatus validateValue(String value)
-				throws AnnotationCoreException {
-			return Status.OK_STATUS;
-		}
-	};
-
-	public void setContext(Object context);
-
-	public IStatus validateValue(String value) throws AnnotationCoreException;
 }

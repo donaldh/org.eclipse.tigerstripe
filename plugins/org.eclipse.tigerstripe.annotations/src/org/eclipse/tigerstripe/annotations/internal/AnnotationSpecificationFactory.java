@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.annotations.internal;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
-import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
 import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
 
 /**
@@ -26,12 +25,14 @@ public class AnnotationSpecificationFactory {
 
 	private static String[] annotationSpecKeys = {
 			"stringAnnotationSpecification", "booleanAnnotationSpecification",
-			"enumerationAnnotationSpecification" };
+			"enumerationAnnotationSpecification",
+			"bigStringAnnotationSpecification" };
 
 	private static Class[] annotationSpecImpls = {
 			StringAnnotationSpecification.class,
 			BooleanAnnotationSpecification.class,
-			EnumerationAnnotationSpecification.class };
+			EnumerationAnnotationSpecification.class,
+			BigStringAnnotationSpecification.class };
 
 	/**
 	 * 

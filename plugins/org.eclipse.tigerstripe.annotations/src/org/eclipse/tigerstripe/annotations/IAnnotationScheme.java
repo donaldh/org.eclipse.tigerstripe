@@ -62,4 +62,7 @@ public interface IAnnotationScheme {
 	 * @return
 	 */
 	public ISelector getSelector();
+
+	public IAnnotationSpecification findAnnotationSpecification(
+			String annotationSpecificationID) throws AnnotationCoreException;
 }

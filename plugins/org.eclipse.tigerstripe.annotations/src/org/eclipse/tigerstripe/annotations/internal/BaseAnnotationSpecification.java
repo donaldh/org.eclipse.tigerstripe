@@ -10,9 +10,17 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotations.internal;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.SpecialAction;
+
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.tigerstripe.annotations.Activator;
+import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
 import org.eclipse.tigerstripe.annotations.IAnnotationForm;
 import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
+import org.eclipse.tigerstripe.annotations.ISelector;
+import org.eclipse.tigerstripe.annotations.IValidator;
 import org.eclipse.tigerstripe.annotations.internal.context.Annotation;
 import org.eclipse.tigerstripe.annotations.internal.context.ContextFactory;
 
@@ -30,6 +38,8 @@ public abstract class BaseAnnotationSpecification implements
 	private String userLabel;
 	private String defaultValue;
 	private int index = UNDEF_INDEX;
+
+	private IValidator validator = IValidator.DEFAULT;
 
 	private void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
@@ -69,6 +79,21 @@ public abstract class BaseAnnotationSpecification implements
 		String indexField = element.getAttribute("index");
 		if (indexField != null && indexField.length() != 0)
 			this.index = Integer.parseInt(indexField);
+
+		// Extract Validator
+		try {
+			Object obj = element.createExecutableExtension("validator");
+			if (obj instanceof IValidator) {
+				validator = (IValidator) obj;
+				validator.setContext(this);
+			}
+		} catch (CoreException e) {
+			// this means no definition of selector... ignore.
+			if (e.getCause() != null) {
+				Activator.log(e.getCause());
+			}
+		}
+
 	}
 
 	public boolean equals(Object other) {
@@ -87,4 +112,10 @@ public abstract class BaseAnnotationSpecification implements
 		return ann;
 	}
 
+	public IStatus validateValue(String value) throws AnnotationCoreException {
+		if (validator != null) {
+			return validator.validateValue(value);
+		}
+		throw new AnnotationCoreException("No validator defined for " + getID());
+	}
 }

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotations;
 
+import org.eclipse.core.runtime.IStatus;
+
 /**
  * Top-Level interface for all annotation specifications
  * 
@@ -35,15 +37,15 @@ public interface IAnnotationSpecification {
 	public IAnnotationForm getParentForm();
 
 	/**
-	 * The user label for this Annotation Specification. This labels is the one to
-	 * appear in the GUI and be presented to the user in the Annotation View.
+	 * The user label for this Annotation Specification. This labels is the one
+	 * to appear in the GUI and be presented to the user in the Annotation View.
 	 * 
 	 * @return
 	 */
 	public String getUserLabel();
-	
+
 	/**
-	 * Returns the default value for this Annotation Specification. 
+	 * Returns the default value for this Annotation Specification.
 	 * 
 	 * @return
 	 */
@@ -56,5 +58,7 @@ public interface IAnnotationSpecification {
 	 * @return
 	 */
 	public int getIndex();
-	
+
+	public IStatus validateValue(String value) throws AnnotationCoreException;
+
 }

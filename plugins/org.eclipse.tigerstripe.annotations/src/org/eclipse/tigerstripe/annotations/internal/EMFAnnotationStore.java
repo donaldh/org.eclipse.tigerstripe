@@ -130,6 +130,26 @@ public class EMFAnnotationStore extends AnnotationStore {
 		return null;
 	}
 
+	@Override
+	public void uriChanged(String oldURI, String newURI)
+			throws AnnotationCoreException {
+		for (Annotation ann : getAnnotationContext().getAnnotations()) {
+			if (ann.getUri().equals(oldURI)) {
+				ann.setUri(newURI);
+				setDirty(true);
+			}
+		}
+
+		if (isDirty())
+			store();
+	}
+
+	@Override
+	public void uriRemoved(String URI) throws AnnotationCoreException {
+		// TODO Auto-generated method stub
+
+	}
+
 	/**
 	 * This callback is used when the factory detects that the underlying store
 	 * file was removed In this case, the store is marked as dirty.
