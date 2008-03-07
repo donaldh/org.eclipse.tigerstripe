@@ -17,8 +17,11 @@ import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
@@ -137,7 +140,11 @@ public class AssociationClassEditPart extends ConnectionNodeEditPart implements
 		AssociationClassClassEditPart assocClassClassEditPart = this
 				.getAssociatedEditPart();
 		if (assocClassClassEditPart != null && assocClassConnection == null) {
-			Edge edge = NotationFactory.eINSTANCE.createEdge();
+			EdgeImpl edge = (EdgeImpl) NotationFactory.eINSTANCE.createEdge();
+			edge.basicSetSource((View)getModel(), null);
+			edge.basicSetTarget((View) assocClassClassEditPart.getModel(), null);
+			edge.eSetResource((Resource.Internal) getDiagramView().eResource(), null);
+			
 			assocClassConnectionEditPart = new AssociationClassConnectionEditPart(
 					edge, this);
 			assocClassConnection = (PolylineConnectionEx) assocClassConnectionEditPart
