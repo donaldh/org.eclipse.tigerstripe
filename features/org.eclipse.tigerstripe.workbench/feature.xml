@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.tigerstripe.workbench"
       label="Tigerstripe Workbench Feature"
-      version="0.2.3.qualifier"
+      version="0.3.0.qualifier"
       plugin="org.eclipse.tigerstripe.workbench.branding">
 
    <description>
@@ -104,6 +104,7 @@ This Agreement is governed by the laws of the State of New York and the intellec
    <url>
       <update label="Tigerstripe Update Site" url="http://www.eclipse.org/tigerstripe/updates"/>
       <discovery label="Tigerstripe Eclipse Project" url="http://www.eclipse.org/tigerstripe"/>
+      <discovery label="Tigerstripe Wiki" url="http://wiki.eclipse.org/Tigerstripe"/>
    </url>
 
    <requires>
