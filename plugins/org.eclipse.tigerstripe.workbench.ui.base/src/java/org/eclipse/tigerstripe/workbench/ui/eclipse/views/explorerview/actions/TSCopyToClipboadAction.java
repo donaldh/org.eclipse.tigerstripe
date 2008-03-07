@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
+import org.eclipse.jdt.internal.ui.refactoring.reorg.CopyToClipboardAction;
 import org.eclipse.jdt.internal.ui.refactoring.reorg.ReorgMessages;
 import org.eclipse.jdt.ui.actions.SelectionDispatchAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -35,14 +36,14 @@ import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ResourceTransfer;
 
-public class TSCopyToClipboadAction extends SelectionDispatchAction {
+public class TSCopyToClipboadAction extends CopyToClipboardAction {
 
 	private final Clipboard theClipboard;
 	private SelectionDispatchAction fPasteAction;// may be null
 
 	public TSCopyToClipboadAction(IWorkbenchSite site, Clipboard clipboard,
 			SelectionDispatchAction pasteAction) {
-		super(site);
+		super(site, clipboard);
 		setText(ReorgMessages.CopyToClipboardAction_0);
 		setDescription(ReorgMessages.CopyToClipboardAction_1);
 		Assert.isNotNull(clipboard);
@@ -74,6 +75,8 @@ public class TSCopyToClipboadAction extends SelectionDispatchAction {
 	 */
 	@Override
 	public void selectionChanged(IStructuredSelection selection) {
+		super.selectionChanged(selection);
+
 		int numberOfAbstractLogicalExplorerNodes = 0;
 		for (Object obj : selection.toArray()) {
 			if (obj instanceof AbstractLogicalExplorerNode) {
@@ -81,8 +84,7 @@ public class TSCopyToClipboadAction extends SelectionDispatchAction {
 			}
 		}
 		if (numberOfAbstractLogicalExplorerNodes == 0)
-			super.selectionChanged(selection); // no Abstract logical node,
-		// delegate
+			; // no Abstract logical node, delegate
 		else if (numberOfAbstractLogicalExplorerNodes == selection.toArray().length) {
 			setEnabled(true); // only abstractlogical nodes selected
 		} else

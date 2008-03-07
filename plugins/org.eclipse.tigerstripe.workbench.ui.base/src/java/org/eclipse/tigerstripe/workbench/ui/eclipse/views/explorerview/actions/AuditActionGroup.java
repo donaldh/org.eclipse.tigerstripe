@@ -18,6 +18,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.eclipse.actions.OpenGenerateInterfaceWizardAction;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchSite;
@@ -41,7 +42,7 @@ public class AuditActionGroup extends ActionGroup {
 	private IWorkbenchSite fSite;
 
 	private BuildAction fBuildAction;
-
+	private OpenGenerateInterfaceWizardAction fGenerateAction;
 	private RefreshAction fRefreshAction;
 
 	/**
@@ -63,11 +64,15 @@ public class AuditActionGroup extends ActionGroup {
 		fBuildAction
 				.setActionDefinitionId("org.eclipse.ui.project.buildProject"); //$NON-NLS-1$
 
+		fGenerateAction = new OpenGenerateInterfaceWizardAction();
+		fGenerateAction.setText("Generate...");
+
 		fRefreshAction = new RefreshAction(fSite);
 		fRefreshAction.setActionDefinitionId("org.eclipse.ui.file.refresh"); //$NON-NLS-1$
 
 		provider.addSelectionChangedListener(fBuildAction);
 		provider.addSelectionChangedListener(fRefreshAction);
+		provider.addSelectionChangedListener(fGenerateAction);
 	}
 
 	/**
@@ -97,6 +102,7 @@ public class AuditActionGroup extends ActionGroup {
 		ISelection selection = getContext().getSelection();
 
 		appendToGroup(menu, fBuildAction);
+		appendToGroup(menu, fGenerateAction);
 		appendToGroup(menu, fRefreshAction);
 		super.fillContextMenu(menu);
 	}

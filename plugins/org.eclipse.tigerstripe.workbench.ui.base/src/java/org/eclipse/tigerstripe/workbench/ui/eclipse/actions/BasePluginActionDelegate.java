@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.actions;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -54,6 +55,14 @@ public class BasePluginActionDelegate {
 			tsProject = EclipsePlugin.getITigerstripeProjectFor(proj);
 			if (tsProject instanceof ITigerstripePluginProject)
 				return (ITigerstripePluginProject) tsProject;
+		} else if ( obj instanceof IAdaptable ) {
+			IResource res = (IResource) ((IAdaptable) obj).getAdapter(IResource.class);
+			if ( res != null ) {
+				IProject proj = res.getProject();
+				tsProject = EclipsePlugin.getITigerstripeProjectFor(proj);
+				if (tsProject instanceof ITigerstripePluginProject)
+					return (ITigerstripePluginProject) tsProject;
+			}
 		}
 		return null;
 	}

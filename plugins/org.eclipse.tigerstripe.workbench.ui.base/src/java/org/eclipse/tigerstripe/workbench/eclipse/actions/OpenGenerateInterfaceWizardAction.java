@@ -16,6 +16,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
@@ -31,7 +33,8 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
-public class OpenGenerateInterfaceWizardAction extends AbstractOpenWizardAction {
+public class OpenGenerateInterfaceWizardAction extends AbstractOpenWizardAction
+		implements ISelectionChangedListener {
 
 	/**
 	 * Generic default constructor
@@ -128,4 +131,14 @@ public class OpenGenerateInterfaceWizardAction extends AbstractOpenWizardAction 
 		}
 		return false;
 	}
+
+	@Override
+	public void selectionChanged(SelectionChangedEvent event) {
+		IAbstractTigerstripeProject aProject = EclipsePlugin
+				.getTSProjectInFocus();
+		setEnabled(aProject instanceof ITigerstripeModelProject
+				&& aProject.exists()
+				&& EclipsePlugin.getProjectInFocus().isOpen());
+	}
+
 }

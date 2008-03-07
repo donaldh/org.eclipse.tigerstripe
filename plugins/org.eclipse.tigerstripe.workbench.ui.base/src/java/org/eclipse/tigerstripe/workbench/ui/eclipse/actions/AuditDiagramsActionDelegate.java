@@ -38,6 +38,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.DiagramAuditorFactory;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.IDiagramAuditor;
@@ -190,8 +191,8 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 		MultiStatus status = new MultiStatus(
 				TigerstripePluginConstants.PLUGIN_ID, 222,
 				"Diagram audit result (" + targetProject.getName() + ": "
-						+ inError + "/" + allDiagrams.size() + " diagrams have errors)",
-				null);
+						+ inError + "/" + allDiagrams.size()
+						+ " diagrams have errors)", null);
 		for (IStatus st : statuses) {
 			status.add(st);
 		}
@@ -210,9 +211,11 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
 			if (ssel.getFirstElement() instanceof IResource) {
 				IResource res = (IResource) ssel.getFirstElement();
-				targetProject = res.getProject();
-				auditType = ALL_DIAGRAMS;
-				action.setText("Audit all diagrams");
+				if ((EclipsePlugin.getITigerstripeProjectFor(res.getProject()) instanceof ITigerstripeModelProject)) {
+					targetProject = res.getProject();
+					auditType = ALL_DIAGRAMS;
+					action.setText("Audit all diagrams");
+				}
 			} else if (ssel.getFirstElement() instanceof IJavaElement) {
 				IJavaElement jElem = (IJavaElement) ssel.getFirstElement();
 				try {
@@ -225,8 +228,10 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 					action.setEnabled(false);
 					return;
 				}
-				auditType = ALL_DIAGRAMS;
-				action.setText("Audit all diagrams");
+				if ((EclipsePlugin.getITigerstripeProjectFor(targetProject) instanceof ITigerstripeModelProject)) {
+					auditType = ALL_DIAGRAMS;
+					action.setText("Audit all diagrams");
+				}
 			} else if (ssel.getFirstElement() instanceof DiagramEditPart) {
 				auditType = THIS_DIAGRAM;
 				action.setText("Audit this diagram");
