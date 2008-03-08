@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tigerstripe Workbench Base Plug-in
+Bundle-Name: Tigerstripe Workbench Base Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.base;singleton:=true
 Bundle-Version: 0.3.0.qualifier
 Bundle-Localization: plugin

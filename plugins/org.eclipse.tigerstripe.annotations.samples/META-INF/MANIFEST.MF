@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Annotation Samples Plug-in
+Bundle-Name: Annotation Samples Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.annotations.samples;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: org.eclipse.tigerstripe.annotations.samples.Activator
