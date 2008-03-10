@@ -11,16 +11,32 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.draw2d.AutomaticRouter;
+import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.ConnectionLayer;
+import org.eclipse.draw2d.ConnectionRouter;
 import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.FreeformLayer;
+import org.eclipse.draw2d.Layer;
 import org.eclipse.draw2d.LayeredPane;
+import org.eclipse.draw2d.StackLayout;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.draw2d.geometry.PrecisionRectangle;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.editparts.ScalableRootEditPart;
+import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramRootEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramGraphicalViewer;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.document.StorageDiagramDocumentProvider;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
+import org.eclipse.gmf.runtime.draw2d.ui.internal.figures.ConnectionLayerEx;
+import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.FanRouter;
+import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.ObliqueRouter;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.GMFEditorHandler;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditPartFactory;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassConnectionEditPart.AssocClassLinkPolylineConnectionEx;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.ide.IGotoMarker;
 
@@ -94,6 +110,39 @@ public class TigerstripeDiagramEditor extends FileDiagramEditor implements
 		scalableLayers.addLayerAfter(scaledFeedbackLayer,
 				LayerConstants.SCALED_FEEDBACK_LAYER,
 				DiagramRootEditPart.DECORATION_UNPRINTABLE_LAYER);
+		printableLayers.removeLayer(LayerConstants.CONNECTION_LAYER);
+		printableLayers.addLayerBefore(new MyConnectionLayerEx(),
+				LayerConstants.CONNECTION_LAYER, printableLayers
+						.getLayer(LayerConstants.PRIMARY_LAYER));
+	}
+
+	public class MyConnectionLayerEx extends ConnectionLayerEx {
+
+		private ConnectionRouter obliqueRouter = null;
+
+		@Override
+		public ConnectionRouter getObliqueRouter() {
+			if (obliqueRouter == null) {
+				AutomaticRouter router = new FanRouter();
+				router.setNextRouter(new MyObliqueRouter());
+				obliqueRouter = router;
+			}
+
+			return obliqueRouter;
+		}
+
+	}
+
+	public class MyObliqueRouter extends ObliqueRouter {
+
+		@Override
+		protected boolean checkShapesIntersect(Connection conn,
+				PointList newLine) {
+			if (conn instanceof AssocClassLinkPolylineConnectionEx)
+				return false;
+			else
+				return super.checkShapesIntersect(conn, newLine);
+		}
 	}
 
 	private GMFEditorHandler handler;

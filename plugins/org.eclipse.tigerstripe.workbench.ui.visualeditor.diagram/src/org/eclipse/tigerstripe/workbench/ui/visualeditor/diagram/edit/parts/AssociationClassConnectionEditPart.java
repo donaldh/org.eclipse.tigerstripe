@@ -10,21 +10,34 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts;
 
+import java.util.List;
+
 import org.eclipse.draw2d.AbstractConnectionAnchor;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.Connection;
+import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.ConnectionRouter;
+import org.eclipse.draw2d.FanRouter;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.ShortestPathConnectionRouter;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.PolylineConnectionEx;
+import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.ObliqueRouter;
+import org.eclipse.gmf.runtime.gef.ui.figures.SlidableAnchor;
 import org.eclipse.gmf.runtime.notation.Bendpoints;
 import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
+import org.eclipse.gmf.runtime.notation.Routing;
+import org.eclipse.gmf.runtime.notation.RoutingStyle;
+import org.eclipse.gmf.runtime.notation.Style;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.impl.EdgeImpl;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
@@ -72,35 +85,40 @@ public class AssociationClassConnectionEditPart extends ConnectionNodeEditPart {
 		if (assocClassClassEditPart == null)
 			return null;
 		// now create the connection from the assocClass to the assocClassClass
-		assocClassConnection = new PolylineConnectionEx();
-		Bendpoints bendpoints = edgeImpl.getBendpoints();
-		EdgeAnchor sourceAnchor = new EdgeAnchor(assocClassEditPart.getFigure());
-		ChopboxAnchor targetAnchor = new ChopboxAnchor(assocClassClassEditPart
-				.getFigure());
-		assocClassConnection.setSourceAnchor(sourceAnchor);
-		assocClassConnection.setTargetAnchor(targetAnchor);
+		assocClassConnection = new AssocClassLinkPolylineConnectionEx();
+
+		// set the source and target for this edit part
+		((Edge) assocClassView)
+				.createBendpoints(NotationPackage.Literals.RELATIVE_BENDPOINTS);
+		this.setSource(assocClassEditPart);
+		this.setTarget(assocClassClassEditPart);
+
 		assocClassConnection
 				.setLineStyle(org.eclipse.draw2d.Graphics.LINE_DASH);
 		assocClassConnection
 				.setBackgroundColor(org.eclipse.draw2d.ColorConstants.black);
 		// add some bendpoints to the Edge (i.e. to the view the corresponds to
 		// this edit part)
-		((Edge) assocClassView)
-				.createBendpoints(NotationPackage.Literals.RELATIVE_BENDPOINTS);
+
 		// need to add this routing style to avoid a null pointer exception from
-		// calling
-		// setEnabled(true) so that the connection can be selected...
-		((Edge) assocClassView).createStyle(NotationPackage.eINSTANCE
-				.getRoutingStyle());
-		// set the source and target for this edit part
-		this.setSource(assocClassEditPart);
-		this.setTarget(assocClassClassEditPart);
+		// calling setEnabled(true) so that the connection can be selected...
+		RoutingStyle routingStyleClass = (RoutingStyle) ((Edge) assocClassView)
+				.createStyle(NotationPackage.eINSTANCE.getRoutingStyle());
+		routingStyleClass.setAvoidObstructions(false);
+		routingStyleClass.setClosestDistance(true);
+
 		// and add it to the map
 		mapEditPart.addAssocClassConnection(this);
+
 		return assocClassConnection;
 	}
 
-	private class EdgeAnchor extends AbstractConnectionAnchor {
+	public class AssocClassLinkPolylineConnectionEx extends
+			PolylineConnectionEx {
+
+	}
+
+	private class EdgeAnchor extends SlidableAnchor {
 
 		public EdgeAnchor(IFigure owner) {
 			super(owner);
