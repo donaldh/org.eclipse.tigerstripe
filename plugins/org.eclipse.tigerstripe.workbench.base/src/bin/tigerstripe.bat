@@ -7,6 +7,7 @@
 @REM  
 @REM   Contributors:
 @REM      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+@REM      J. Strawn (Cisco Systems, Inc.) - modify to run via headless Eclipse
 @REM *******************************************************************************/
 
 @REM ----------------------------------------------------------------------------
@@ -15,8 +16,7 @@
 @REM Required ENV vars:
 @REM JAVA_HOME - location of a JDK home dir
 @REM TIGERSTRIPE_HOME - location of Tigerstripe install home dir
-@REM
-@REM TIGERSTRIPE_OPTS - parameters passed to the Java VM when running Tigerstripe
+@REM TIGERSTRIPE_OPTS - parameters passed to the eclipse command line
 @REM ----------------------------------------------------------------------------
 
 @echo off
@@ -97,22 +97,16 @@ goto Win9xApp
 
 @REM Reaching here means variables are defined and arguments have been captured
 :endInit
-if "%TIGERSTRIPE_OPTS%"=="" SET TIGERSTRIPE_OPTS="-Xmx512m"
-SET TIGERSTRIPE_JAVA_EXE="%JAVA_HOME%\bin\java.exe"
-set TIGERSTRIPE_CLASSPATH=""
-FOR %%C in (%TIGERSTRIPE_HOME%\lib\*.jar) DO set TIGERSTRIPE_CLASSPATH=!TIGERSTRIPE_CLASSPATH!;%%~fC
-FOR %%C in (%TIGERSTRIPE_HOME%\lib\*.zip) DO set TIGERSTRIPE_CLASSPATH=!TIGERSTRIPE_CLASSPATH!;%%~fC
+if "%TIGERSTRIPE_OPTS%"=="" SET TIGERSTRIPE_OPTS=-vmargs -Xmx512m
+SET TIGERSTRIPE_ECLIPSE_EXE="%TIGERSTRIPE_HOME%\..\eclipsec.exe"
+SET TIGERSTRIPE_HEADLESS_APP=org.eclipse.tigerstripe.workbench.headless.tigerstripe
 
-SET TIGERSTRIPE_MAIN_CLASS="org.eclipse.tigerstripe.core.cli.App"
-if not "%TIGERSTRIPE_HOME_LOCAL%" == "" goto StartMHL
+@REM echo %TIGERSTRIPE_OPTS%
+@REM cho %TIGERSTRIPE_ECLIPSE_EXE% -nosplash %TIGERSTRIPE_OPTS% -application %TIGERSTRIPE_HEADLESS_APP%
 
 @REM Start TIGERSTRIPE without TIGERSTRIPE_HOME_LOCAL override
-%TIGERSTRIPE_JAVA_EXE% "-Dtigerstripe.home=%TIGERSTRIPE_HOME%" "-Dtools.jar=%JAVA_HOME%\lib\tools.jar" -Djava.endorsed.dirs= %TIGERSTRIPE_OPTS% -classpath %TIGERSTRIPE_CLASSPATH% %TIGERSTRIPE_MAIN_CLASS% %TIGERSTRIPE_CMD_LINE_ARGS%
+%TIGERSTRIPE_ECLIPSE_EXE% -nosplash -application %TIGERSTRIPE_HEADLESS_APP% %TIGERSTRIPE_OPTS%
 goto :end
-
-@REM Start TIGERSTRIPE with TIGERSTRIPE_HOME_LOCAL override
-:StartMHL
-%TIGERSTRIPE_JAVA_EXE% "-Dtigerstripe.home=%TIGERSTRIPE_HOME%" "-Dtigerstripe.home.local=%TIGERSTRIPE_HOME_LOCAL%" "-Dtools.jar=%JAVA_HOME%\lib\tools.jar" %TIGERSTRIPE_OPTS% -classpath %TIGERSTRIPE_CLASSPATH% %TIGERSTRIPE_MAIN_CLASS% %TIGERSTRIPE_CMD_LINE_ARGS%
 
 :end
 @REM set local scope for the variables with windows NT shell
@@ -121,12 +115,20 @@ if "%OS%"=="Windows_NT" goto endNT
 @REM For old DOS remove the set variables from ENV - we assume they were not set
 @REM before we started - at least we don't leave any baggage around
 set TIGERSTRIPE_JAVA_EXE=
-set TIGERSTRIPE_CLASSPATH=
-set TIGERSTRIPE_MAIN_CLASS=
+set TIGERSTRIPE_HEADLESS_APP=
 set TIGERSTRIPE_CMD_LINE_ARGS=
 goto postExec
 
 :endNT
 @endlocal
+
+
+
+
+
+
+
+
+
 
 
