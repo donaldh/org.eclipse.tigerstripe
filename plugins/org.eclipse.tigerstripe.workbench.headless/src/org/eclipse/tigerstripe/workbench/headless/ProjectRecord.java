@@ -1,3 +1,25 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2008 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *     Red Hat, Inc - extensive changes to allow importing of Archive Files
+ *     Philippe Ombredanne (pombredanne@nexb.com)
+ *     		- Bug 101180 [Import/Export] Import Existing Project into Workspace default widget is back button , should be text field
+ *     Martin Oberhuber (martin.oberhuber@windriver.com)
+ *     		- Bug 187318[Wizards] "Import Existing Project" loops forever with cyclic symbolic links
+ *     Remy Chi Jian Suen  (remy.suen@gmail.com)
+ *     		- Bug 210568 [Import/Export] [Import/Export] - Refresh button does not update list of projects
+ *     
+ * Note:
+ *     This class was originally defined in the org.eclipse.ui.internal.wizards.datatransfer.WizardProjectsImportPage class
+ *     
+ *******************************************************************************/
+
 package org.eclipse.tigerstripe.workbench.headless;
 
 import java.io.File;
