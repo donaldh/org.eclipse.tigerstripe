@@ -31,7 +31,6 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart;
@@ -52,7 +51,28 @@ import org.eclipse.ui.PlatformUI;
 public class TSRemoveFromDiagramAction extends AbstractDeleteFromAction
 		implements IObjectActionDelegate {
 
-	protected EditPart mySelectedElement;
+	protected boolean isEnabled;
+
+	/**
+	 * Returns true if the given part can be delete from the diagram without
+	 * causing inconsistencies with the model
+	 * 
+	 * @param part
+	 * @return
+	 */
+	public static boolean canBeDeletedFromDiagram(Object part) {
+		return (part instanceof ManagedEntityArtifactEditPart
+				|| part instanceof DatatypeArtifactEditPart
+				|| part instanceof EnumerationEditPart
+				|| part instanceof ExceptionArtifactEditPart
+				|| part instanceof SessionFacadeArtifactEditPart
+				|| part instanceof NamedQueryArtifactEditPart
+				|| part instanceof NotificationArtifactEditPart
+				|| part instanceof UpdateProcedureArtifactEditPart
+				|| part instanceof AssociationEditPart
+				|| part instanceof AssociationClassEditPart
+				|| part instanceof AssociationClassClassEditPart || part instanceof DependencyEditPart);
+	}
 
 	public TSRemoveFromDiagramAction() {
 		super(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
@@ -63,33 +83,13 @@ public class TSRemoveFromDiagramAction extends AbstractDeleteFromAction
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		mySelectedElement = null;
-		if (selection instanceof IStructuredSelection) {
-			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-			if (structuredSelection.size() == 1) {
-				if (structuredSelection.getFirstElement() instanceof ManagedEntityArtifactEditPart
-						|| structuredSelection.getFirstElement() instanceof DatatypeArtifactEditPart
-						|| structuredSelection.getFirstElement() instanceof EnumerationEditPart
-						|| structuredSelection.getFirstElement() instanceof ExceptionArtifactEditPart
-						|| structuredSelection.getFirstElement() instanceof SessionFacadeArtifactEditPart
-						|| structuredSelection.getFirstElement() instanceof NamedQueryArtifactEditPart
-						|| structuredSelection.getFirstElement() instanceof NotificationArtifactEditPart
-						|| structuredSelection.getFirstElement() instanceof UpdateProcedureArtifactEditPart
-						|| structuredSelection.getFirstElement() instanceof AssociationEditPart
-						|| structuredSelection.getFirstElement() instanceof AssociationClassEditPart
-						|| structuredSelection.getFirstElement() instanceof AssociationClassClassEditPart
-						|| structuredSelection.getFirstElement() instanceof DependencyEditPart) {
-					mySelectedElement = (EditPart) structuredSelection
-							.getFirstElement();
-				}
-			}
-		}
-		action.setEnabled(isEnabled());
+		isEnabled = calculateEnabled();
+		action.setEnabled(isEnabled);
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return mySelectedElement != null;
+		return isEnabled;
 	}
 
 	public void run(IAction action) {
@@ -111,13 +111,19 @@ public class TSRemoveFromDiagramAction extends AbstractDeleteFromAction
 	 */
 	@Override
 	protected boolean calculateEnabled() {
+		@SuppressWarnings("unchecked")
 		List operationSet = getOperationSet();
 		if (operationSet.isEmpty())
 			return false;
 		Request request = getTargetRequest();
+		@SuppressWarnings("unchecked")
 		Iterator editParts = operationSet.iterator();
 		while (editParts.hasNext()) {
 			EditPart editPart = (EditPart) editParts.next();
+
+			if (!canBeDeletedFromDiagram(editPart))
+				return false;
+
 			// disable on diagram links
 			if (editPart instanceof IGraphicalEditPart) {
 				IGraphicalEditPart gEditPart = (IGraphicalEditPart) editPart;
@@ -167,31 +173,19 @@ public class TSRemoveFromDiagramAction extends AbstractDeleteFromAction
 	 */
 	@Override
 	protected Command getCommand(Request request) {
-		List operationSet = getOperationSet();
-		Iterator editParts = operationSet.iterator();
 		CompositeTransactionalCommand command = new CompositeTransactionalCommand(
 				getEditingDomain(), getCommandLabel());
-		while (editParts.hasNext()) {
-			EditPart editPart = (EditPart) editParts.next();
-			// disable on diagram links
-			if (editPart instanceof IGraphicalEditPart) {
-				IGraphicalEditPart gEditPart = (IGraphicalEditPart) editPart;
-				View view = (View) gEditPart.getModel();
-				// Don't delete diagram from model only if it is the top most
-				// diagram
-				EObject container = view.eContainer();
-				EObject element = ViewUtil.resolveSemanticElement(view);
-				if ((element instanceof Diagram)
-						|| (view instanceof Diagram && (container == null || !(container instanceof View))))
-					return null;
-			}
-			Command curCommand = editPart.getCommand(request);
+
+		@SuppressWarnings("unchecked")
+		List<EditPart> selectedParts = getSelectedObjects();
+		for (EditPart selectedPart : selectedParts) {
+			Command curCommand = selectedPart.getCommand(request);
 			if (curCommand != null) {
 				command.compose(new CommandProxy(curCommand));
 			}
 		}
 
-		if ((command.isEmpty()) || (command.size() != operationSet.size()))
+		if ((command.isEmpty()))
 			return UnexecutableCommand.INSTANCE;
 		return new ICommandProxy(command);
 	}
