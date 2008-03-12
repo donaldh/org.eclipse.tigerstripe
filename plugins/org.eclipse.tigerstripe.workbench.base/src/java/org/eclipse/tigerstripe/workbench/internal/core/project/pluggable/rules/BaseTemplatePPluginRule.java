@@ -46,6 +46,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -178,47 +179,47 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		ArtifactManager artifactMgr = session.getArtifactManager();
 
 		// Let's put what we'll need in the context and get going
-		Collection entities = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> entities = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(ManagedEntityArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
-		Collection datatypes = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> datatypes = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(DatatypeArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
-		Collection events = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> events = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(EventArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
-		Collection enums = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> enums = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(EnumArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
-		Collection exceptions = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> exceptions = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(ExceptionArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
-		Collection queries = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> queries = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(QueryArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
-		Collection sessions = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> sessions = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(SessionFacadeArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
-		Collection updateProcedures = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> updateProcedures = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(UpdateProcedureArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
-		Collection associations = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> associations = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(AssociationArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
-		Collection dependencies = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> dependencies = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(DependencyArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
-		Collection associationClasses = ArtifactFilter.filter(artifactMgr
+		Collection<IAbstractArtifact> associationClasses = ArtifactFilter.filter(artifactMgr
 				.getArtifactsByModel(AssociationClassArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
 
@@ -226,49 +227,49 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		// below
 		// since the facet is now propagated to all dependencies/referenced
 		// projects
-		Collection allEntities = artifactMgr.getArtifactsByModel(
+		Collection<IAbstractArtifact> allEntities = artifactMgr.getArtifactsByModel(
 				ManagedEntityArtifact.MODEL, true, false,
 				new NullProgressMonitor());
 
-		Collection allDatatypes = artifactMgr.getArtifactsByModel(
+		Collection<IAbstractArtifact> allDatatypes = artifactMgr.getArtifactsByModel(
 				DatatypeArtifact.MODEL, true, false, new NullProgressMonitor());
 
-		Collection allEvents = artifactMgr.getArtifactsByModel(
+		Collection<IAbstractArtifact> allEvents = artifactMgr.getArtifactsByModel(
 				EventArtifact.MODEL, true, false, new NullProgressMonitor());
 
-		Collection allEnums = artifactMgr.getArtifactsByModel(
+		Collection<IAbstractArtifact> allEnums = artifactMgr.getArtifactsByModel(
 				EnumArtifact.MODEL, true, false, new NullProgressMonitor());
 
-		Collection allExceptions = artifactMgr
+		Collection<IAbstractArtifact> allExceptions = artifactMgr
 				.getArtifactsByModel(ExceptionArtifact.MODEL, true, false,
 						new NullProgressMonitor());
 
-		Collection allQueries = artifactMgr.getArtifactsByModel(
+		Collection<IAbstractArtifact> allQueries = artifactMgr.getArtifactsByModel(
 				QueryArtifact.MODEL, true, false, new NullProgressMonitor());
 
-		Collection allSessions = artifactMgr.getArtifactsByModel(
+		Collection<IAbstractArtifact> allSessions = artifactMgr.getArtifactsByModel(
 				SessionFacadeArtifact.MODEL, true, false,
 				new NullProgressMonitor());
 
-		Collection allUpdateProcedures = artifactMgr.getArtifactsByModel(
+		Collection<IAbstractArtifact> allUpdateProcedures = artifactMgr.getArtifactsByModel(
 				UpdateProcedureArtifact.MODEL, true, false,
 				new NullProgressMonitor());
 
-		Collection allAssociations = artifactMgr.getArtifactsByModel(
+		Collection<IAbstractArtifact> allAssociations = artifactMgr.getArtifactsByModel(
 				AssociationArtifact.MODEL, true, false,
 				new NullProgressMonitor());
 
-		Collection allDependencies = artifactMgr.getArtifactsByModel(
+		Collection<IAbstractArtifact> allDependencies = artifactMgr.getArtifactsByModel(
 				DependencyArtifact.MODEL, true, false,
 				new NullProgressMonitor());
 
-		Collection allAssociationClasses = artifactMgr.getArtifactsByModel(
+		Collection<IAbstractArtifact> allAssociationClasses = artifactMgr.getArtifactsByModel(
 				AssociationClassArtifact.MODEL, true, false,
 				new NullProgressMonitor());
 
-		Collection artifacts = artifactMgr.getAllArtifacts(false,
+		Collection<IAbstractArtifact> artifacts = artifactMgr.getAllArtifacts(false,
 				new NullProgressMonitor());
-		Collection allArtifacts = artifactMgr.getAllArtifacts(true, false,
+		Collection<IAbstractArtifact> allArtifacts = artifactMgr.getAllArtifacts(true, false,
 				new NullProgressMonitor());
 
 		defaultVContext.put("artifacts", artifacts);

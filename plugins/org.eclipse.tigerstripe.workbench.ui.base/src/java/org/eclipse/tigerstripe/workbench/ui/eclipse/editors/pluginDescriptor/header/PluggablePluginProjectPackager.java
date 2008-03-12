@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.batch.Main;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -101,7 +102,8 @@ public class PluggablePluginProjectPackager {
 
 		} catch (IOException e) {
 			throw new TigerstripeException("Error while packaging up '"
-					+ project.getProjectDetails().getName() + "':" + e.getMessage(), e);
+					+ project.getProjectDetails().getName() + "':"
+					+ e.getMessage(), e);
 		} finally {
 			if (zipper != null) {
 				try {
@@ -184,8 +186,8 @@ public class PluggablePluginProjectPackager {
 
 		// Assemble proper command line for compile
 
-		// First compile with 1.5 code by default for now
-		compilerArgs.add("-1.5");
+		// First compile with 1.6 code by default for now
+		compilerArgs.add("-1.6");
 
 		// then look at the classpath
 		compilerArgs.add("-d");
@@ -221,6 +223,8 @@ public class PluggablePluginProjectPackager {
 			String runtimeRoot = TigerstripeRuntime
 					.getProperty(TigerstripeRuntime.EXTERNAL_API_ARCHIVE);
 			classpath += runtimeRoot + ";";
+			String equinoxJar = JavaCore.getClasspathVariable(ITigerstripeConstants.EQUINOX_COMMON).toOSString();
+			classpath += equinoxJar + ";";
 
 			if (classpath.length() != 0) {
 				compilerArgs.add("-classpath");

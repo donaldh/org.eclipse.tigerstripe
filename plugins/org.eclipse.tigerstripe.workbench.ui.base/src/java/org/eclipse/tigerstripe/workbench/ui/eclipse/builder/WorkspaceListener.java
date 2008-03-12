@@ -58,7 +58,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.NatureMigrationUtils;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.ProjectMigrationUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.GeneralPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.DiagramSynchronizationManager;
@@ -109,7 +109,7 @@ public class WorkspaceListener implements IElementChangedListener,
 
 				IProject iProject = (IProject) res;
 				try {
-					NatureMigrationUtils.handleProjectMigration(iProject);
+					ProjectMigrationUtils.handleProjectMigration(iProject);
 				} catch (CoreException e) {
 					EclipsePlugin.log(e);
 				}

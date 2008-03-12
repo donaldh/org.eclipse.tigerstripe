@@ -599,7 +599,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		}
 	}
 
-	public Collection getAllArtifacts(boolean includeDependencies,
+	public Collection<IAbstractArtifact> getAllArtifacts(boolean includeDependencies,
 			IProgressMonitor monitor) {
 		return getAllArtifacts(includeDependencies, shouldOverridePredicate(),
 				monitor);

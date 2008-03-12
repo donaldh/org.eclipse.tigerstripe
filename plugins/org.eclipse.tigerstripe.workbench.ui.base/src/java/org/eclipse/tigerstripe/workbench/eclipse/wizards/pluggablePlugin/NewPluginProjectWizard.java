@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.eclipse.wizards.pluggablePlugin;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -33,7 +32,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -48,9 +46,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
@@ -161,16 +157,6 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 				display.asyncExec(new Runnable() {
 					public void run() {
 						try {
-							ProjectSessionImpl session = TigerstripeProjectFactory.INSTANCE
-									.getProjectSession();
-							String desc = projectDetails.projectDirectory
-									+ File.separator
-									+ projectDetails.projectName;
-							File file = new File(desc);
-							// IPluggablePluginProject project =
-							// (IPluggablePluginProject) session
-							// .makeTigerstripeProject(file.toURI(), null);
-
 							IWorkspace workspace = ResourcesPlugin
 									.getWorkspace();
 							IWorkspaceRoot root = workspace.getRoot();
@@ -307,7 +293,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 		IProjectDescription description;
 		try {
 			description = projectHandle.getDescription();
-			List newIds = new ArrayList();
+			List<String> newIds = new ArrayList<String>();
 			newIds.addAll(Arrays.asList(description.getNatureIds()));
 			int tsNatureIndex = newIds
 					.indexOf(TigerstripePluginConstants.PLUGINPROJECT_NATURE_ID);
@@ -326,9 +312,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 			projectHandle.setDescription(description, null);
 
 		} catch (CoreException e) {
-			// TODO proper exception handling
 			TigerstripeRuntime.logErrorMessage("CoreException detected", e);
-			IStatus[] statuses = e.getStatus().getChildren();
 		}
 	}
 
@@ -353,6 +337,8 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 					JavaCore.newSourceEntry(projectHandle.getFolder("src")
 							.getFullPath()),
 					JavaRuntime.getDefaultJREContainerEntry(),
+					JavaCore.newVariableEntry(new Path(
+							ITigerstripeConstants.EQUINOX_COMMON), null, null),
 					JavaCore.newVariableEntry(new Path(
 							ITigerstripeConstants.EXTERNALAPI_LIB), null, null) };
 

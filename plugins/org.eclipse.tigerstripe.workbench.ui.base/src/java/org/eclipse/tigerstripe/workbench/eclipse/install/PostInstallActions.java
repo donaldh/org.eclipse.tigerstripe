@@ -439,6 +439,13 @@ public class PostInstallActions {
 			JavaCore.setClasspathVariable(
 					ITigerstripeConstants.INTERNALAPI_LIB, internalPath, null);
 
+			// Add org.eclipse.equinox.common as a variable that can be
+			// referenced
+			// from Tigerstripe Plugin projects.
+			IPath equinoxPath = findEquinoxCommonJarPath(context);
+			JavaCore.setClasspathVariable(ITigerstripeConstants.EQUINOX_COMMON,
+					equinoxPath, null);
+
 		} catch (JavaModelException e) {
 			EclipsePlugin.log(e);
 		}
@@ -526,6 +533,15 @@ public class PostInstallActions {
 							baseBundle.getLocation().indexOf("@") + 1,
 							baseBundle.getLocation().length());
 		return "unknown_location_for_org.eclipse.tigerstripe.workbench.base";
+	}
+
+	private IPath findEquinoxCommonJarPath(BundleContext context) {
+		Bundle b = Platform.getBundle("org.eclipse.equinox.common");
+		String location = b.getLocation();
+		int iFile = location.indexOf("file:");
+		String file = installLocation.getURL().getPath()
+				+ location.substring(iFile + 5, location.length() - 1);
+		return new Path(file);
 	}
 
 	private String findWorkbenchFeatureVersion(BundleContext context) {

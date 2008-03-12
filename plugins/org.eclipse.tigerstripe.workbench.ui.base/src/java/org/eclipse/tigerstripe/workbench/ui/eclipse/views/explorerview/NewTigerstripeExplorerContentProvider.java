@@ -32,7 +32,7 @@ import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.NatureMigrationUtils;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.ProjectMigrationUtils;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.LogicalExplorerNodeFactory;
@@ -140,10 +140,12 @@ public class NewTigerstripeExplorerContentProvider extends
 			try {
 
 				// Since 1.2 the nature has changed name @see #295
-				NatureMigrationUtils.handleProjectMigration(projects[i]);
+				ProjectMigrationUtils.handleProjectMigration(projects[i]);
 
 				if (TigerstripePluginProjectNature.hasNature(projects[i])) {
 					result.add(jm.getJavaProject(projects[i].getName()));
+
+					ProjectMigrationUtils.handlePluginProjectMigration(projects[i]);
 
 					if (TSExplorerUtils.getProjectHandleFor(projects[i]) != null) {
 

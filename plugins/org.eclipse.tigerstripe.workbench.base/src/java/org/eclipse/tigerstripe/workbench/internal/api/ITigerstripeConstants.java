@@ -39,6 +39,8 @@ public interface ITigerstripeConstants {
 	public final static String EXTERNALAPI_LIB = "Tigerstripe External API";
 
 	public final static String INTERNALAPI_LIB = "Tigerstripe Internal API";
+	
+	public final static String EQUINOX_COMMON = "Equinox Common";
 
 	// TODO remove these 2 defs @see #299
 	public final static String LEGACYCOREOSSJ_LIB = "Legacy Core Artifacts";
