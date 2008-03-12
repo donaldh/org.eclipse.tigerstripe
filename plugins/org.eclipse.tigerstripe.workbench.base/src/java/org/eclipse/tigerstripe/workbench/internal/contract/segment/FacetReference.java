@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.contract.segment;
 
 import java.io.File;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
@@ -39,6 +40,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 public class FacetReference implements IFacetReference, IArtifactChangeListener {
 
@@ -213,8 +218,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 
 	protected IFacetPredicate facetPredicate;
 
-	public IFacetPredicate computeFacetPredicate(
-			IProgressMonitor monitor) {
+	public IFacetPredicate computeFacetPredicate(IProgressMonitor monitor) {
 		facetPredicate = new FacetPredicate(this, getTSProject());
 
 		// Bug 921: this is a bit of a hack for now to keep track of the state
@@ -336,8 +340,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 					FacetPredicate resolvedPred = (FacetPredicate) getFacetPredicate();
 					resolvedPred.addTempExclude(rel.getRelationshipZEnd()
 							.getType().getFullyQualifiedName());
-					activeMgr.setActiveFacet(this,
-							new NullProgressMonitor());
+					activeMgr.setActiveFacet(this, new NullProgressMonitor());
 				}
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
@@ -357,5 +360,88 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 			primaryPredicate = new FacetPredicate(this, getContainingProject());
 		}
 		return primaryPredicate;
+	}
+
+	public static FacetReference decode(Node facetElement,
+			TigerstripeProject project) throws TigerstripeException {
+		NamedNodeMap namedAttributes = facetElement.getAttributes();
+		Node uriNode = namedAttributes.getNamedItem("uri");
+		Node relPath = namedAttributes.getNamedItem("relPath");
+		Node genDir = namedAttributes.getNamedItem("genDir");
+		Node projectLabel = namedAttributes.getNamedItem("project");
+		String uriStr = null;
+		String genDirStr = null;
+		String relPathStr = null;
+		String projectLabelStr = null;
+		if (uriNode != null)
+			uriStr = uriNode.getNodeValue();
+
+		if (genDir != null) {
+			genDirStr = genDir.getNodeValue();
+		}
+
+		if (relPath != null) {
+			relPathStr = relPath.getNodeValue();
+		}
+
+		if (projectLabel != null) {
+			projectLabelStr = projectLabel.getNodeValue();
+		}
+
+		try {
+			FacetReference ref = null;
+			if (uriStr != null) {
+				URI uri = new URI(uriStr);
+				ref = new FacetReference(uri, project.getTSProject());
+			} else if (relPathStr != null) {
+
+				if (projectLabelStr != null) {
+					ref = new FacetReference(relPathStr, projectLabelStr,
+							project.getTSProject());
+				} else {
+					ref = new FacetReference(relPathStr, project);
+				}
+			}
+			if (ref != null) {
+				ref.setGenerationDir(genDirStr);
+				return ref;
+			}
+		} catch (URISyntaxException e) {
+			throw new TigerstripeException(
+					"Error while trying to parse facet reference: "
+							+ e.getLocalizedMessage() + " ("
+							+ facetElement.toString() + ")", e);
+		}
+		throw new TigerstripeException("Can't parse facet Reference: "
+				+ facetElement.toString());
+	}
+
+	public static Element encode(IFacetReference ref, Document document,
+			TigerstripeProject project) {
+		Element refElm = document.createElement(TigerstripeProject.FACET_TAG);
+		if (ref.isAbsolute()) {
+			try {
+				refElm.setAttribute("uri", ref.getURI().toASCIIString());
+			} catch (TigerstripeException e) {
+				TigerstripeRuntime.logErrorMessage(
+						"TigerstripeException detected", e);
+			}
+		} else {
+			try {
+				refElm.setAttribute("relPath", ref.getProjectRelativePath());
+				if (ref.getContainingProject() != null
+						&& !ref.getContainingProject().getProjectDetails()
+								.getName().equals(project.getProjectLabel())) {
+					refElm.setAttribute("project", ref.getContainingProject()
+							.getProjectDetails().getName());
+				}
+			} catch (TigerstripeException e) {
+				TigerstripeRuntime.logErrorMessage(
+						"TigerstripeException detected", e);
+			}
+		}
+		refElm.setAttribute("genDir", ref.getGenerationDir());
+
+		return refElm;
 	}
 }

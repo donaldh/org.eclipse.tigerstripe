@@ -17,7 +17,6 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,7 +38,6 @@ import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.ReaderInputStream;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -362,33 +360,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		Element facetReferencesElement = document
 				.createElement("facetReferences");
 		for (IFacetReference ref : facetReferences) {
-			Element refElm = document.createElement(FACET_TAG);
-			if (ref.isAbsolute()) {
-				try {
-					refElm.setAttribute("uri", ref.getURI().toASCIIString());
-				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
-				}
-			} else {
-				try {
-					refElm
-							.setAttribute("relPath", ref
-									.getProjectRelativePath());
-					if (ref.getContainingProject() != null
-							&& !ref.getContainingProject().getProjectDetails()
-									.getName().equals(getProjectLabel())) {
-						refElm.setAttribute("project", ref
-								.getContainingProject().getProjectDetails()
-								.getName());
-					}
-				} catch (TigerstripeException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"TigerstripeException detected", e);
-				}
-			}
-			refElm.setAttribute("genDir", ref.getGenerationDir());
-			facetReferencesElement.appendChild(refElm);
+			Element refElm = FacetReference.encode(ref, document, this);
+			if (refElm != null)
+				facetReferencesElement.appendChild(refElm);
 		}
 		return facetReferencesElement;
 	}
@@ -562,59 +536,21 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			throws TigerstripeException {
 		this.facetReferences = new ArrayList<IFacetReference>();
 
-		NodeList facetRefNode = document.getElementsByTagName(FACET_TAG);
+		NodeList referencesNode = document
+				.getElementsByTagName("facetReferences");
+		if (referencesNode == null || referencesNode.getLength() == 0)
+			return;
+		NodeList facetRefNode = ((Element) referencesNode.item(0))
+				.getElementsByTagName(FACET_TAG);
 		for (int i = 0; i < facetRefNode.getLength(); i++) {
 			Node node = facetRefNode.item(i);
-			NamedNodeMap namedAttributes = node.getAttributes();
-			Node uriNode = namedAttributes.getNamedItem("uri");
-			Node relPath = namedAttributes.getNamedItem("relPath");
-			Node genDir = namedAttributes.getNamedItem("genDir");
-			Node projectLabel = namedAttributes.getNamedItem("project");
-			String uriStr = null;
-			String genDirStr = null;
-			String relPathStr = null;
-			String projectLabelStr = null;
-			if (uriNode != null)
-				uriStr = uriNode.getNodeValue();
-
-			if (genDir != null) {
-				genDirStr = genDir.getNodeValue();
-			}
-
-			if (relPath != null) {
-				relPathStr = relPath.getNodeValue();
-			}
-
-			if (projectLabel != null) {
-				projectLabelStr = projectLabel.getNodeValue();
-			}
-
-			try {
-				FacetReference ref = null;
-				if (uriStr != null) {
-					URI uri = new URI(uriStr);
-					ref = new FacetReference(uri, this.getTSProject());
-				} else if (relPathStr != null) {
-
-					if (projectLabelStr != null) {
-						ref = new FacetReference(relPathStr, projectLabelStr,
-								this.getTSProject());
-					} else {
-						ref = new FacetReference(relPathStr, this);
-					}
-				}
-				if (ref != null) {
-					ref.setGenerationDir(genDirStr);
-					facetReferences.add(ref);
-				}
-			} catch (URISyntaxException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"URISyntaxException detected", e);
-			}
+			IFacetReference ref = FacetReference.decode(node, this);
+			if (ref != null)
+				facetReferences.add(ref);
 		}
 	}
 
-	private ITigerstripeModelProject getTSProject() {
+	public ITigerstripeModelProject getTSProject() {
 		if (getBaseDir() != null) {
 			try {
 				return (ITigerstripeModelProject) TigerstripeCore

@@ -82,9 +82,12 @@ public class ProjectGenerator {
 	private void initializeConfig() throws TigerstripeException {
 		config = new RunConfig();
 		IProjectDetails details = project.getProjectDetails();
-		config.setClearDirectoryBeforeGenerate("true".equalsIgnoreCase(details.getProperty(
-				IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
-				IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT)));
+		config
+				.setClearDirectoryBeforeGenerate("true"
+						.equalsIgnoreCase(details
+								.getProperty(
+										IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
+										IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT)));
 		config.setIgnoreFacets("true".equalsIgnoreCase(details.getProperty(
 				IProjectDetails.IGNORE_FACETS,
 				IProjectDetails.IGNORE_FACETS_DEFAULT)));
@@ -108,22 +111,23 @@ public class ProjectGenerator {
 				IProjectDetails.USECASE_USEXSLT_DEFAULT));
 	}
 
-	public void deleteDirContents(File dir) throws TigerstripeException{
+	public void deleteDirContents(File dir) throws TigerstripeException {
 		// Delete the contents - including subDiirs
-		for (File f : dir.listFiles()){
-			if (f.isFile()){
-				if (!f.delete()){
-					throw new TigerstripeException("Could not delete file "+f);
+		for (File f : dir.listFiles()) {
+			if (f.isFile()) {
+				if (!f.delete()) {
+					throw new TigerstripeException("Could not delete file " + f);
 				}
-			} else if (f.isDirectory()){
+			} else if (f.isDirectory()) {
 				deleteDirContents(f);
-				if (!f.delete()){
-					throw new TigerstripeException("Could not delete directory "+f);
+				if (!f.delete()) {
+					throw new TigerstripeException(
+							"Could not delete directory " + f);
 				}
 			}
 		}
 	}
-	
+
 	public PluginRunStatus[] run(IProgressMonitor monitor)
 			throws TigerstripeException, GenerationException {
 
@@ -153,32 +157,32 @@ public class ProjectGenerator {
 
 			// Attempt to clear the directory if requested
 			if (config.isClearDirectoryBeforeGenerate()) {
-				System.out.println("Clear it");
 				String outputPath = "";
 				String outputDir = project.getProjectDetails()
 						.getOutputDirectory();
-				String projectDir = project.getLocation()
-						.toOSString();
+				String projectDir = project.getLocation().toOSString();
 
 				outputPath = projectDir + File.separator + outputDir;
-				
-				// First check if the directory exists - this may be the first time, or the user may have deleted it!
+
+				// First check if the directory exists - this may be the first
+				// time, or the user may have deleted it!
 				File outDir = new File(outputPath);
-				if (outDir.exists()){
+				if (outDir.exists()) {
 					// See if it is actually a dir
-					if (!outDir.isDirectory()){
-						throw new TigerstripeException("Target directory is not a directory!");
+					if (!outDir.isDirectory()) {
+						throw new TigerstripeException(
+								"Target directory is not a directory!");
 					}
 					try {
 						deleteDirContents(outDir);
-					} catch (TigerstripeException t){
-						throw new TigerstripeException("Unable to clear target directory ("+outDir+")");
+					} catch (TigerstripeException t) {
+						throw new TigerstripeException(
+								"Unable to clear target directory (" + outDir
+										+ ")");
 					}
-				
 				}
 			}
-			
-			
+
 			// Iterate over all facets unless specified
 			if (config.isIgnoreFacets()) {
 				IFacetReference currentFacet = project.getActiveFacet();
@@ -189,7 +193,7 @@ public class ProjectGenerator {
 					project.resetActiveFacet();
 					monitor.done();
 				}
-				PluginRunStatus[] subResult = internalRun(monitor);
+				PluginRunStatus[] subResult = internalRun(monitor, config);
 				overallResult.addAll(Arrays.asList(subResult));
 
 				// Use case processing
@@ -221,7 +225,7 @@ public class ProjectGenerator {
 					overallResult.add(res);
 				}
 
-				PluginRunStatus[] subResult = internalRun(monitor);
+				PluginRunStatus[] subResult = internalRun(monitor, config);
 				overallResult.addAll(Arrays.asList(subResult));
 
 				// Use case processing
@@ -232,7 +236,7 @@ public class ProjectGenerator {
 
 				if (project.getFacetReferences().length == 0) {
 					// no Facet defined simply run plugins.
-					PluginRunStatus[] subResult = internalRun(monitor);
+					PluginRunStatus[] subResult = internalRun(monitor, config);
 					overallResult.addAll(Arrays.asList(subResult));
 
 					// Use case processing
@@ -247,7 +251,7 @@ public class ProjectGenerator {
 						IFacetReference mergedFacet = new MultiFacetReference(
 								project.getFacetReferences(), project);
 						project.setActiveFacet(mergedFacet, monitor);
-						facetResult = internalRun(monitor);
+						facetResult = internalRun(monitor, config);
 						overallResult.addAll(Arrays.asList(facetResult));
 
 						// Use case processing
@@ -286,7 +290,7 @@ public class ProjectGenerator {
 								monitor.done();
 							}
 
-							facetResult = internalRun(monitor);
+							facetResult = internalRun(monitor, config);
 							overallResult.addAll(Arrays.asList(facetResult));
 
 							// Use case processing
@@ -328,8 +332,8 @@ public class ProjectGenerator {
 	 * @throws TigerstripeException
 	 * @throws GenerationException
 	 */
-	private PluginRunStatus[] internalRun(IProgressMonitor monitor)
-			throws TigerstripeException, GenerationException,
+	private PluginRunStatus[] internalRun(IProgressMonitor monitor,
+			RunConfig config) throws TigerstripeException, GenerationException,
 			GenerationCanceledException {
 
 		boolean logMessages = false;
@@ -347,6 +351,8 @@ public class ProjectGenerator {
 		// allocate List that is used to hold the results from running
 		// each of the plugins
 		List<PluginRunStatus> result = new ArrayList<PluginRunStatus>();
+		IFacetReference facetToRestore = null;
+		boolean shouldRestoreFacet = false;
 
 		try {
 			Collection<PluginReport> reports = new ArrayList<PluginReport>();
@@ -364,6 +370,14 @@ public class ProjectGenerator {
 
 			// First run all validation plugins if any
 			for (IPluginConfig iRef : plugins) {
+				if (shouldRestoreFacet) {
+					if (facetToRestore != null)
+						project.setActiveFacet(facetToRestore, monitor);
+					else
+						project.resetActiveFacet();
+					shouldRestoreFacet = false;
+				}
+
 				PluginConfig ref = (PluginConfig) iRef;
 				if (isFirstRef) {
 					isFirstRef = false;
@@ -373,7 +387,33 @@ public class ProjectGenerator {
 				}
 
 				ref.resolve();
+
 				if (ref.getPluginNature() == EPluggablePluginNature.Validation) {
+
+					// Check for PluginConfig level facet
+					if (ref.getFacetReference() != null
+							&& !config.isIgnoreFacets()
+							&& !config.isUseCurrentFacet()
+							&& !config.isUseProjectFacets()) {
+						IFacetReference facetRef = ref.getFacetReference();
+						if (facetRef.canResolve()) {
+							facetToRestore = project.getActiveFacet();
+							project.setActiveFacet(facetRef, monitor);
+							shouldRestoreFacet = true;
+						} else {
+							PluginRunStatus res = new PluginRunStatus(ref,
+									project, config, project.getActiveFacet());
+							IStatus error = new Status(IStatus.ERROR,
+									BasePlugin.getPluginId(), "Invalid facet '"
+											+ facetRef.getProjectRelativePath()
+											+ "' for plugin '"
+											+ iRef.getPluginId() + "'.");
+							res.add(error);
+							result.add(res);
+							continue;
+						}
+					}
+
 					ref.resetFailState();
 					internalPluginLoop(ref, result, reports, monitor);
 					if (ref.validationFailed()) {
@@ -398,6 +438,14 @@ public class ProjectGenerator {
 
 			if (!validationFailed) {
 				for (IPluginConfig iRef : plugins) {
+					if (shouldRestoreFacet) {
+						if (facetToRestore != null)
+							project.setActiveFacet(facetToRestore, monitor);
+						else
+							project.resetActiveFacet();
+						shouldRestoreFacet = false;
+					}
+
 					PluginConfig ref = (PluginConfig) iRef;
 					if (isFirstRef) {
 						isFirstRef = false;
@@ -407,12 +455,40 @@ public class ProjectGenerator {
 					}
 
 					if (ref.getPluginNature() == EPluggablePluginNature.Generic) {
+						// Check for PluginConfig level facet
+						if (ref.getFacetReference() != null
+								&& !config.isIgnoreFacets()
+								&& !config.isUseCurrentFacet()
+								&& !config.isUseProjectFacets()) {
+							IFacetReference facetRef = ref.getFacetReference();
+							if (facetRef.canResolve()) {
+								facetToRestore = project.getActiveFacet();
+								project.setActiveFacet(facetRef, monitor);
+								shouldRestoreFacet = true;
+							} else {
+								PluginRunStatus res = new PluginRunStatus(ref,
+										project, config, project
+												.getActiveFacet());
+								IStatus error = new Status(
+										IStatus.ERROR,
+										BasePlugin.getPluginId(),
+										"Invalid facet '"
+												+ facetRef
+														.getProjectRelativePath()
+												+ "' for plugin '"
+												+ iRef.getPluginId() + "'.");
+								res.add(error);
+								result.add(res);
+								continue;
+							}
+						}
 						internalPluginLoop(ref, result, reports, monitor);
 					}
 				}
 			}
 
 			generateRunReport(reports, monitor);
+
 		} finally {
 			// ((ArtifactManagerSessionImpl)
 			// project.getArtifactManagerSession())
@@ -425,6 +501,13 @@ public class ProjectGenerator {
 				stderrAppender.close();
 				System.setErr(stdErrStreamRef);
 				System.setOut(stdOutStreamRef);
+			}
+
+			if (shouldRestoreFacet) {
+				if (facetToRestore != null)
+					project.setActiveFacet(facetToRestore, monitor);
+				else
+					project.resetActiveFacet();
 			}
 		}
 
@@ -467,33 +550,32 @@ public class ProjectGenerator {
 				monitor.worked(1);
 			} catch (TigerstripeException e) {
 				String failureMessage = "An error was detected while triggering '"
-					+ ref.getLabel()
-					+ "' plugin. Generation maybe incomplete.";
-				if (!"".equals(e.getMessage())){
-					failureMessage = e.getMessage()+ ". Generation maybe incomplete.";
+						+ ref.getLabel()
+						+ "' plugin. Generation maybe incomplete.";
+				if (!"".equals(e.getMessage())) {
+					failureMessage = e.getMessage()
+							+ ". Generation maybe incomplete.";
 				}
-				
+
 				IStatus error = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(),	failureMessage, e);
+						.getPluginId(), failureMessage, e);
 				pluginResult.add(error);
 				result.add(pluginResult);
 				if (e.getException() != null) {
-					PluginLogger.log(LogLevel.ERROR,failureMessage,
-							e.getException());
+					PluginLogger.log(LogLevel.ERROR, failureMessage, e
+							.getException());
 				} else {
-					PluginLogger.log(LogLevel.ERROR,
-							failureMessage,
-							e);
+					PluginLogger.log(LogLevel.ERROR, failureMessage, e);
 				}
 			} catch (Exception e) {
 				String failureMessage = "An error was detected while triggering '"
-					+ ref.getLabel()
-					+ "' plugin. Generation maybe incomplete.";
+						+ ref.getLabel()
+						+ "' plugin. Generation maybe incomplete.";
 				IStatus error = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(),failureMessage, e);
+						.getPluginId(), failureMessage, e);
 				pluginResult.add(error);
 				result.add(pluginResult);
-				PluginLogger.log(LogLevel.ERROR,failureMessage, e);
+				PluginLogger.log(LogLevel.ERROR, failureMessage, e);
 			} finally {
 				PluginLogger.tearDown();
 			}
@@ -630,10 +712,11 @@ public class ProjectGenerator {
 		project.getArtifactManagerSession().generationComplete();
 	}
 
-	private PluginRunStatus[] generateRefProjects(
-			IProgressMonitor monitor) throws TigerstripeException {
+	private PluginRunStatus[] generateRefProjects(IProgressMonitor monitor)
+			throws TigerstripeException {
 		PluginRunStatus[] result = new PluginRunStatus[0];
-		ITigerstripeModelProject[] refProjects = project.getReferencedProjects();
+		ITigerstripeModelProject[] refProjects = project
+				.getReferencedProjects();
 
 		monitor.beginTask("Generating Referenced Projects", refProjects.length);
 		for (ITigerstripeModelProject refProject : refProjects) {
@@ -655,8 +738,8 @@ public class ProjectGenerator {
 		return result;
 	}
 
-	private PluginRunStatus[] generateModules(
-			IProgressMonitor monitor) throws TigerstripeException {
+	private PluginRunStatus[] generateModules(IProgressMonitor monitor)
+			throws TigerstripeException {
 		String corePath = TigerstripeRuntime
 				.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
 		PluginRunStatus[] result = new PluginRunStatus[0];

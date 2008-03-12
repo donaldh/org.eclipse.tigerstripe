@@ -10,14 +10,19 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -26,24 +31,29 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginPropertyListener;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.FacetSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins.renderer.BasePropertyRenderer;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptor.plugins.renderer.PropertyRendererFactory;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -70,6 +80,12 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	private Button generate;
 
 	private boolean silentUpdate;
+
+	private Label facetReferenceLabel = null;
+	private Text facetReferenceText = null;
+	private Button browseForFacetReferenceButton = null;
+	private Label facetOutputDirLabel = null;
+	private Text facetOutputDirText = null;
 
 	/**
 	 * An adapter that will listen for changes on the form
@@ -172,6 +188,8 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 		buildLoggingDetails(parent, toolkit);
 
+		buildFacetDetails(parent, toolkit);
+
 		// Build dynamically the content now based on the global properties
 		// found in the metadata
 		buildGlobalProperties(parent, toolkit);
@@ -179,6 +197,124 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		initGlobalProperties();
 
 		toolkit.paintBordersFor(parent);
+	}
+
+	protected void buildFacetDetails(Composite parent, FormToolkit toolkit) {
+		facetReferenceLabel = toolkit.createLabel(parent, "Use Facet:");
+		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gd.horizontalIndent = 5;
+		facetReferenceLabel.setLayoutData(gd);
+
+		facetReferenceText = toolkit.createText(parent, "");
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
+				| GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+		facetReferenceText.setLayoutData(gd);
+		facetReferenceText
+				.setToolTipText("The facet to use as scope for this plugin.");
+		facetReferenceText.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				if (!isSilentUpdate()) {
+					String relativePath = facetReferenceText.getText().trim();
+					IPluginConfig config = getPluginConfig();
+					if ("".equals(relativePath)) {
+						config.setFacetReference(null);
+					} else {
+						try {
+							ITigerstripeModelProject handle = getTSProject();
+							IFacetReference dep = handle
+									.makeFacetReference(relativePath);
+							dep.setGenerationDir(facetOutputDirText.getText()
+									.trim());
+							config.setFacetReference(dep);
+						} catch (TigerstripeException ee) {
+							EclipsePlugin.log(ee);
+						}
+					}
+					try {
+						getTSProject().addPluginConfig(config);
+						markPageModified();
+					} catch (TigerstripeException ee) {
+						EclipsePlugin.log(ee);
+					}
+
+					markPageModified();
+				}
+			}
+		});
+
+		browseForFacetReferenceButton = toolkit.createButton(parent, "Browse",
+				SWT.PUSH);
+		browseForFacetReferenceButton
+				.addSelectionListener(new SelectionListener() {
+
+					@Override
+					public void widgetDefaultSelected(SelectionEvent e) {
+						widgetSelected(e);
+					}
+
+					@Override
+					public void widgetSelected(SelectionEvent e) {
+						IFacetReference ref = browseForFacetButtonSelected(e);
+						if (ref != null) {
+							String dir = facetOutputDirText.getText().trim();
+							facetReferenceText.setText(ref
+									.getProjectRelativePath());
+							if (!"".equals(dir)) {
+								ref.setGenerationDir(dir);
+							}
+
+							IPluginConfig config = getPluginConfig();
+							config.setFacetReference(ref);
+							try {
+								getTSProject().addPluginConfig(config);
+								markPageModified();
+							} catch (TigerstripeException ee) {
+								EclipsePlugin.log(ee);
+							}
+
+							markPageModified();
+							updateForm();
+						}
+					}
+				});
+
+		facetOutputDirLabel = toolkit.createLabel(parent, "Output dir");
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gd.horizontalIndent = 10;
+		facetOutputDirLabel.setLayoutData(gd);
+
+		facetOutputDirText = toolkit.createText(parent, "");
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
+				| GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+		facetOutputDirText.setLayoutData(gd);
+		facetOutputDirText
+				.setToolTipText("The facet to use as scope for this plugin.");
+		facetOutputDirText.addModifyListener(new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				if (!isSilentUpdate()) {
+					String dir = facetOutputDirText.getText().trim();
+					if ("".equals(dir)) {
+						dir = null;
+					}
+					IPluginConfig config = getPluginConfig();
+					IFacetReference ref = config.getFacetReference();
+					ref.setGenerationDir(dir);
+					config.setFacetReference(ref);
+					try {
+						getTSProject().addPluginConfig(config);
+						markPageModified();
+					} catch (TigerstripeException ee) {
+						EclipsePlugin.log(ee);
+					}
+				}
+			}
+
+		});
+		toolkit.createLabel(parent, "");
+
 	}
 
 	protected void buildLoggingDetails(Composite parent, FormToolkit toolkit) {
@@ -413,7 +549,23 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		boolean isEnabled = generate.getSelection();
 		applyDefaultButton.setEnabled(isEnabled && !this.isReadonly());
 
+		facetOutputDirText.setEnabled(isEnabled
+				&& getPluginConfig().getFacetReference() != null);
+		facetOutputDirLabel.setEnabled(isEnabled
+				&& getPluginConfig().getFacetReference() != null);
+
+		facetReferenceLabel.setEnabled(isEnabled);
+		facetReferenceText.setEnabled(isEnabled);
+		browseForFacetReferenceButton.setEnabled(isEnabled);
+
 		if (ref != null) {
+			if (ref.getFacetReference() != null) {
+				IFacetReference fRef = ref.getFacetReference();
+				facetReferenceText.setText(fRef.getProjectRelativePath());
+				if (!"".equals(fRef.getGenerationDir())) {
+					facetOutputDirText.setText(fRef.getGenerationDir());
+				}
+			}
 			if (ref.isLoggingDisabled()) {
 				loggingLevelCombo.setEnabled(isEnabled && !this.isReadonly());
 				loggingLevelLabel.setEnabled(isEnabled && !this.isReadonly());
@@ -474,4 +626,40 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 			markPageModified();
 		}
 	}
+
+	protected IFacetReference browseForFacetButtonSelected(SelectionEvent event) {
+		if (getPage().getEditorInput() instanceof IFileEditorInput) {
+			IFileEditorInput input = (IFileEditorInput) getPage()
+					.getEditorInput();
+			FacetSelectionDialog dialog = new FacetSelectionDialog(getSection()
+					.getShell(), false, false);
+			dialog
+					.setInput(input.getFile().getProject().getLocation()
+							.toFile());
+			dialog.setDoubleClickSelects(true);
+			dialog.setTitle("Select Facet");
+
+			if (dialog.open() == Window.OK) {
+				Object[] toAdd = dialog.getResult();
+				for (int i = 0; i < toAdd.length; i++) {
+					File file = (File) toAdd[i];
+
+					try {
+						String relative = Util.getRelativePath(file, input
+								.getFile().getProject().getLocation().toFile());
+						ITigerstripeModelProject handle = getTSProject();
+						IFacetReference dep = handle
+								.makeFacetReference(relative);
+						return dep;
+					} catch (TigerstripeException e) {
+						EclipsePlugin.log(e);
+					} catch (IOException e) {
+						EclipsePlugin.log(e);
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 }

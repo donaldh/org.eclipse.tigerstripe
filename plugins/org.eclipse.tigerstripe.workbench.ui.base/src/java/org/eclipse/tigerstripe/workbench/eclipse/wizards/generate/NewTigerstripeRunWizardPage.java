@@ -96,6 +96,8 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 	private Button mergeFacetsButton;
 
+	private Button usePluginConfigFacetsButton;
+
 	/**
 	 * Creates a new <code>NewPackageWizardPage</code>
 	 */
@@ -408,7 +410,10 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
+				runConfig.setUsePluginConfigFacets(usePluginConfigFacetsButton
+						.getSelection());
 				runConfig.setUseCurrentFacet(useCurrentFacet.getSelection());
+				runConfig.setUseProjectFacets(useSelectedFacets.getSelection());
 				updatePage();
 			}
 		});
@@ -423,7 +428,10 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
+				runConfig.setUsePluginConfigFacets(usePluginConfigFacetsButton
+						.getSelection());
 				runConfig.setUseCurrentFacet(useCurrentFacet.getSelection());
+				runConfig.setUseProjectFacets(useSelectedFacets.getSelection());
 				updatePage();
 			}
 		});
@@ -479,10 +487,33 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			}
 		});
 
+		usePluginConfigFacetsButton = new Button(facetGroup, SWT.RADIO);
+		usePluginConfigFacetsButton.setText("Use &'per plugin&' facets.");
+		gd = new GridData();
+		gd.horizontalIndent = INDENT;
+		usePluginConfigFacetsButton.setLayoutData(gd);
+		usePluginConfigFacetsButton
+				.addSelectionListener(new SelectionListener() {
+					public void widgetDefaultSelected(SelectionEvent e) {
+					}
+
+					public void widgetSelected(SelectionEvent e) {
+						runConfig
+								.setUsePluginConfigFacets(usePluginConfigFacetsButton
+										.getSelection());
+						runConfig.setUseCurrentFacet(useCurrentFacet
+								.getSelection());
+						runConfig.setUseProjectFacets(useSelectedFacets
+								.getSelection());
+						updatePage();
+					}
+				});
+
 		facetControlsInitialized = true;
 	}
 
-	protected ITigerstripeModelProject getTSProject() throws TigerstripeException {
+	protected ITigerstripeModelProject getTSProject()
+			throws TigerstripeException {
 		ITigerstripeModelProject handle = null;
 		if (getTSRuntimeContext() != null) {
 			handle = getTSRuntimeContext().getProjectHandle();
@@ -492,7 +523,6 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		throw new TigerstripeException("Invalid project");
 	}
 
-	
 	/**
 	 * Perform any required update based on the runtime context
 	 * 
@@ -569,8 +599,9 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 						if (refs[i].isEnabled()
 								&& refs[i].getCategory() == IPluginConfig.GENERATE_CATEGORY) {
 							for (int j = 0; j < buttonNames.length; j++) {
-								if (buttonNames[j].equals(((PluginConfig) refs[i])
-										.getLabel())) {
+								if (buttonNames[j]
+										.equals(((PluginConfig) refs[i])
+												.getLabel())) {
 									profileSelectionButtons[j]
 											.setSelection(refs[i].isEnabled());
 								}
@@ -627,12 +658,23 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 	protected void updateFacetsControls() {
 
 		int n = 0;
+		int pluginFacets = 0;
+		try {
+			IPluginConfig[] configs = getTSProject().getPluginConfigs();
+			for (IPluginConfig config : configs) {
+				if (config.getFacetReference() != null)
+					pluginFacets++;
+			}
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+
 		if (facetControlsInitialized) {
 			try {
 				n = getTSProject().getFacetReferences().length;
 				IFacetReference activeFacet = getTSProject().getActiveFacet();
 
-				if (activeFacet == null && n == 0) {
+				if (activeFacet == null && n == 0 && pluginFacets == 0) {
 					// no facet whatsoever
 					useCurrentFacet.setEnabled(false);
 					useCurrentFacet.setSelection(false);
@@ -642,6 +684,9 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 					ignoreFacets.setSelection(false);
 					mergeFacetsButton.setEnabled(false);
 					mergeFacetsButton.setSelection(false);
+					selectedFacetsTableViewer.getTable().setEnabled(false);
+					usePluginConfigFacetsButton.setEnabled(false);
+					usePluginConfigFacetsButton.setSelection(false);
 					return;
 				}
 
@@ -661,27 +706,48 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 			if (n != 0) {
 				useSelectedFacets.setEnabled(!runConfig.isIgnoreFacets());
-				useSelectedFacets.setSelection(!runConfig.isUseCurrentFacet());
+				useSelectedFacets.setSelection(runConfig.isUseProjectFacets());
 				mergeFacetsButton.setEnabled(!runConfig.isIgnoreFacets());
 				mergeFacetsButton.setSelection(runConfig.isMergeFacets());
+				selectedFacetsTableViewer.getTable().setEnabled(
+						!runConfig.isIgnoreFacets());
 			} else {
 				useSelectedFacets.setEnabled(false);
 				useSelectedFacets.setSelection(false);
 				mergeFacetsButton.setEnabled(false);
 				mergeFacetsButton.setSelection(false);
+				selectedFacetsTableViewer.getTable().setEnabled(false);
 			}
 
-			if (!runConfig.isIgnoreFacets()) {
-				if (runConfig.isUseCurrentFacet()) {
-					selectedFacetsTable.setEnabled(false);
-					mergeFacetsButton.setEnabled(false);
-				} else {
-					selectedFacetsTable.setEnabled(true);
-					mergeFacetsButton.setEnabled(true);
-				}
+			if (pluginFacets != 0) {
+				usePluginConfigFacetsButton.setEnabled(!runConfig
+						.isIgnoreFacets());
+				usePluginConfigFacetsButton.setSelection(runConfig
+						.isUsePluginConfigFacets());
 			} else {
+				usePluginConfigFacetsButton.setEnabled(false);
+				usePluginConfigFacetsButton.setSelection(false);
+			}
+
+			if (runConfig.isIgnoreFacets()) {
+//				if (runConfig.isUseCurrentFacet()) {
+//					selectedFacetsTable.setEnabled(false);
+//					mergeFacetsButton.setEnabled(false);
+//					usePluginConfigFacetsButton.setEnabled(false);
+//				} else if (runConfig.isUsePluginConfigFacets()) {
+//					selectedFacetsTable.setEnabled(false);
+//					mergeFacetsButton.setEnabled(false);
+//					usePluginConfigFacetsButton.setEnabled(true);
+//				} else {
+//					selectedFacetsTable.setEnabled(true);
+//					mergeFacetsButton.setEnabled(true);
+//					usePluginConfigFacetsButton.setEnabled(false);
+//				}
+//			} else {
+				useCurrentFacet.setEnabled(false);
 				selectedFacetsTable.setEnabled(false);
 				mergeFacetsButton.setEnabled(false);
+				usePluginConfigFacetsButton.setEnabled(false);
 			}
 		}
 	}

@@ -13,6 +13,11 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
+import org.apache.tools.ant.filters.BaseParamFilterReader;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
@@ -47,10 +52,10 @@ public class PluginConfigFactory {
 		return instance;
 	}
 
-	public PluginConfig createPluginConfig(PluginConfig model, TigerstripeProject project)
-			throws UnknownPluginException {
-		return createPluginConfigInternal(model.getPluginId(), model.getGroupId(),
-				model.getVersion(), project);
+	public PluginConfig createPluginConfig(PluginConfig model,
+			TigerstripeProject project) throws UnknownPluginException {
+		return createPluginConfigInternal(model.getPluginId(), model
+				.getGroupId(), model.getVersion(), project);
 	}
 
 	/**
@@ -59,8 +64,8 @@ public class PluginConfigFactory {
 	 * @param element
 	 * @return
 	 */
-	public PluginConfig createPluginConfig(Element element, TigerstripeProject project)
-			throws UnknownPluginException {
+	public PluginConfig createPluginConfig(Element element,
+			TigerstripeProject project) throws UnknownPluginException {
 
 		String groupId = null;
 		String pluginId = null;
@@ -90,8 +95,8 @@ public class PluginConfigFactory {
 			version = VERSION_1_3;
 		}
 
-		PluginConfig pluginConfig = createPluginConfigInternal(pluginId, groupId,
-				version, project);
+		PluginConfig pluginConfig = createPluginConfigInternal(pluginId,
+				groupId, version, project);
 
 		if (enabledNode == null || enabledNode.getNodeValue().length() == 0) {
 			enabled = true; // by default it's enabled if the attribute is
@@ -119,23 +124,36 @@ public class PluginConfigFactory {
 		Properties properties = loadProperties(element);
 		pluginConfig.setProperties(properties);
 
-		pluginConfig.extractSpecificXMLContent(element);
+		// Extract potential facet reference
+		NodeList facetRefs = element.getElementsByTagName("facetReference");
+		if (facetRefs != null && facetRefs.getLength() == 1) {
+			// only one facet for now
+			Element facetElement = (Element) facetRefs.item(0);
+			try {
+				IFacetReference ref = FacetReference.decode(facetElement,
+						project);
+				if (ref != null)
+					pluginConfig.setFacetReference(ref);
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
 
 		return pluginConfig;
 	}
 
-	private PluginConfig createPluginConfigInternal(String pluginId, String groupId,
-			String version, TigerstripeProject project)
+	private PluginConfig createPluginConfigInternal(String pluginId,
+			String groupId, String version, TigerstripeProject project)
 			throws UnknownPluginException {
 
 		PluginConfig pluginConfig = null;
-		
-			PluggablePluginConfig ref = new PluggablePluginConfig(project);
-			ref.setGroupId(groupId);
-			ref.setPluginId(pluginId);
-			ref.setVersion(version);
-			pluginConfig = ref;
-		
+
+		PluggablePluginConfig ref = new PluggablePluginConfig(project);
+		ref.setGroupId(groupId);
+		ref.setPluginId(pluginId);
+		ref.setVersion(version);
+		pluginConfig = ref;
+
 		return pluginConfig;
 	}
 

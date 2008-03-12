@@ -321,6 +321,14 @@ public abstract class BaseTemplatePPluginRule extends BasePPluginRule implements
 		String outputPath = "";
 		String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
 				.getOutputDirectory();
+
+		if (pluginConfig.getProjectHandle().getActiveFacet() != null) {
+			String relDir = pluginConfig.getProjectHandle().getActiveFacet()
+					.getGenerationDir();
+			if (relDir != null && !"".equals(relDir)) {
+				outputDir = outputDir + File.separator + relDir;
+			}
+		}
 		String projectDir = pluginConfig.getProjectHandle().getLocation()
 				.toOSString();
 

@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.project;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 
@@ -114,7 +115,7 @@ public interface IPluginConfig {
 	public String getGroupId();
 
 	public String getPluginId();
-	
+
 	public ITigerstripeModelProject getProjectHandle();
 
 	/**
@@ -128,4 +129,21 @@ public interface IPluginConfig {
 	public String getVersion();
 
 	public boolean isEnabled();
+
+	/**
+	 * Returns the facet reference defined for this plugin config or null if no
+	 * facet was defined for this plugin config.
+	 * 
+	 * @return
+	 */
+	public IFacetReference getFacetReference();
+
+	/**
+	 * Sets the facet reference to use for this plugin config.
+	 * 
+	 * @param facetReference
+	 */
+	public void setFacetReference(IFacetReference facetReference);
+	
+	
 }

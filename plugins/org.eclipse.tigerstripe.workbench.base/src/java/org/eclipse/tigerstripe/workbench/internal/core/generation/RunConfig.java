@@ -14,7 +14,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -28,9 +30,9 @@ public class RunConfig implements IRunConfig {
 
 	private IProgressMonitor monitor;
 
-	private boolean clearDirectoryBeforeGenerate = "true".
-			equalsIgnoreCase(IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT);
-	
+	private boolean clearDirectoryBeforeGenerate = "true"
+			.equalsIgnoreCase(IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT);
+
 	private boolean ignoreFacets = "true"
 			.equalsIgnoreCase(IProjectDetails.IGNORE_FACETS_DEFAULT);
 
@@ -38,6 +40,10 @@ public class RunConfig implements IRunConfig {
 			.equalsIgnoreCase(IProjectDetails.GENERATE_MODULES_DEFAULT);
 
 	private boolean useCurrentFacet = false;
+
+	private boolean useProjectFacets = false;
+
+	private boolean usePluginConfigFacets = false;
 
 	private boolean mergeFacets = false;
 
@@ -125,9 +131,12 @@ public class RunConfig implements IRunConfig {
 	public RunConfig(ITigerstripeModelProject tsProject) {
 		try {
 			IProjectDetails details = tsProject.getProjectDetails();
-			clearDirectoryBeforeGenerate = "true".equals(details.getProperties().getProperty(
-					IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
-					IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT));
+			clearDirectoryBeforeGenerate = "true"
+					.equals(details
+							.getProperties()
+							.getProperty(
+									IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
+									IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT));
 			ignoreFacets = "true".equals(details.getProperties().getProperty(
 					IProjectDetails.IGNORE_FACETS,
 					IProjectDetails.IGNORE_FACETS_DEFAULT));
@@ -152,10 +161,42 @@ public class RunConfig implements IRunConfig {
 			processUseCaseExtension = details.getProperties().getProperty(
 					IProjectDetails.USECASE_PROC_EXT,
 					IProjectDetails.USECASE_PROC_EXT_DEFAULT);
+
+			if (!ignoreFacets) {
+				// By default use project level facets although pluginConfig
+				// facets have precedence.
+				if (tsProject.getFacetReferences() != null
+						&& tsProject.getFacetReferences().length != 0) {
+					useProjectFacets = true;
+				}
+
+				try {
+					// but if there are any plugin facet defined, they would
+					// have precedence
+					IPluginConfig[] configs = tsProject.getPluginConfigs();
+					for (IPluginConfig config : configs) {
+						if (config.getFacetReference() != null) {
+							usePluginConfigFacets = true;
+							useProjectFacets = false;
+							break;
+						}
+					}
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
+				}
+			}
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
 		}
+	}
+
+	public boolean isUsePluginConfigFacets() {
+		return usePluginConfigFacets;
+	}
+
+	public void setUsePluginConfigFacets(boolean usePluginConfigFacets) {
+		this.usePluginConfigFacets = usePluginConfigFacets;
 	}
 
 	/*
@@ -208,10 +249,11 @@ public class RunConfig implements IRunConfig {
 	 * 
 	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setClearDirectoryBeforeGenerate(boolean)
 	 */
-	public void setClearDirectoryBeforeGenerate(boolean clearDirectoryBeforeGenerate) {
+	public void setClearDirectoryBeforeGenerate(
+			boolean clearDirectoryBeforeGenerate) {
 		this.clearDirectoryBeforeGenerate = clearDirectoryBeforeGenerate;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -283,7 +325,7 @@ public class RunConfig implements IRunConfig {
 	public boolean isClearDirectoryBeforeGenerate() {
 		return clearDirectoryBeforeGenerate;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -301,4 +343,13 @@ public class RunConfig implements IRunConfig {
 	public void setGenerateRefProjects(boolean generateRefProjects) {
 		this.generateReferencedProjects = generateRefProjects;
 	}
+
+	public boolean isUseProjectFacets() {
+		return useProjectFacets;
+	}
+
+	public void setUseProjectFacets(boolean useProjectFacets) {
+		this.useProjectFacets = useProjectFacets;
+	}
+
 }

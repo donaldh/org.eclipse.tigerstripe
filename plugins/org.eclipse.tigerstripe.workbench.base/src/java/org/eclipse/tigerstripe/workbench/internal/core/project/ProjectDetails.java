@@ -110,21 +110,21 @@ public class ProjectDetails implements IProjectDetails {
 			return result;
 		}
 
-		try {
-			IAbstractTigerstripeProject aProject = TigerstripeCore
-					.findProject(parentProject.getBaseDir().toURI());
-			if (aProject instanceof ITigerstripeModelProject) {
-				ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
-				if (project.getActiveFacet() != null) {
-					result = result + File.separator
-							+ project.getActiveFacet().getGenerationDir();
-				}
-			}
-		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-					e);
-
-		}
+//		try {
+//			IAbstractTigerstripeProject aProject = TigerstripeCore
+//					.findProject(parentProject.getBaseDir().toURI());
+//			if (aProject instanceof ITigerstripeModelProject) {
+//				ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
+//				if (project.getActiveFacet() != null) {
+//					result = result + File.separator
+//							+ project.getActiveFacet().getGenerationDir();
+//				}
+//			}
+//		} catch (TigerstripeException e) {
+//			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
+//					e);
+//
+//		}
 		return result;
 	}
 

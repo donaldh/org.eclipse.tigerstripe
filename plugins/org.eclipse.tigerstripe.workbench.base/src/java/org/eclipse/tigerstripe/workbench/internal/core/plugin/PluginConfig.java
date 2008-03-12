@@ -14,7 +14,9 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
+import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
@@ -31,8 +33,9 @@ import org.w3c.dom.Element;
 /**
  * @author Eric Dillon
  * 
- * A PluginConfig is a reference to a plugin that conditions what is triggered for
- * a run of Tigerstripe. PluginConfigs are captured by the ant TigerstripeTask.
+ * A PluginConfig is a reference to a plugin that conditions what is triggered
+ * for a run of Tigerstripe. PluginConfigs are captured by the ant
+ * TigerstripeTask.
  * 
  * A plugin is identified by 3 attributes - groupId: the organization that built
  * the plugin - pluginId: an identifier for that plugin, it is unique within the
@@ -69,6 +72,8 @@ public abstract class PluginConfig implements IPluginConfig {
 
 	private Throwable failThrowable = null;
 
+	private IFacetReference facetReference;
+
 	public PluginConfig(TigerstripeProject project) {
 		this.properties = new Properties();
 		this.project = project;
@@ -97,8 +102,6 @@ public abstract class PluginConfig implements IPluginConfig {
 				&& this.version.equals(housing.getVersion());
 		return result;
 	}
-
-
 
 	public void setProperties(Properties properties) {
 		if (properties != null) {
@@ -271,18 +274,14 @@ public abstract class PluginConfig implements IPluginConfig {
 			plugin.appendChild(property);
 		}
 
-		// This is a hook for any plugin specific XML content
-		appendSpecificXMLContent(plugin, document);
+		// Deal with potential facet Reference
+		if (getFacetReference() != null) {
+			Element facetElement = FacetReference.encode(getFacetReference(),
+					document, getProject());
+			plugin.appendChild(facetElement);
+		}
 
 		return plugin;
-	}
-
-	protected void appendSpecificXMLContent(Element plugin, Document document) {
-		// To be overriden by child classes
-	}
-
-	protected void extractSpecificXMLContent(Element plugin) {
-		// To be overriden by child classes
 	}
 
 	protected IPluginProperty getPropertyDef(String property)
@@ -293,8 +292,8 @@ public abstract class PluginConfig implements IPluginConfig {
 
 		if (housing instanceof PluggableHousing) {
 			PluggableHousing pHousing = (PluggableHousing) housing;
-			IPluginProperty[] propDefs = pHousing.getBody()
-					.getPProject().getGlobalProperties();
+			IPluginProperty[] propDefs = pHousing.getBody().getPProject()
+					.getGlobalProperties();
 			for (IPluginProperty propDef : propDefs) {
 				if (propDef.getName().equals(property))
 					return propDef;
@@ -430,5 +429,13 @@ public abstract class PluginConfig implements IPluginConfig {
 		markAsFailed = false;
 		failMessage = "";
 		failThrowable = null;
+	}
+
+	public IFacetReference getFacetReference() {
+		return this.facetReference;
+	}
+
+	public void setFacetReference(IFacetReference facetReference) {
+		this.facetReference = facetReference;
 	}
 }
