@@ -108,7 +108,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		public void widgetDefaultSelected(SelectionEvent e) {
 			// TODO Auto-generated method stub
-
 		}
 
 		public void widgetSelected(SelectionEvent e) {
@@ -1070,6 +1069,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		if (event.getSource() == isVoid) {
 			getMethod().setVoid(isVoid.getSelection());
 			pageModified();
+			refreshViewerForMethodLabel();
 		} else if (event.getSource() == abstractButton) {
 			getMethod().setAbstract(abstractButton.getSelection());
 			pageModified();
@@ -1094,6 +1094,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 					.at(multiplicityCombo.getSelectionIndex()));
 			getMethod().setReturnType(type);
 			pageModified();
+			refreshViewerForMethodLabel();
 		} else if (event.getSource() == refByKeyButton) {
 			getMethod().setReturnRefBy(IField.REFBY_KEY);
 			pageModified();
@@ -1205,7 +1206,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 							.getMessage());
 			return;
 		}
-		type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
+		type.setTypeMultiplicity(EMultiplicity.ONE);
 
 		IArgument newArg = getMethod().makeArgument();
 		newArg.setName(getNewUniqueArg());
@@ -1215,14 +1216,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		argViewer.add(newArg);
 		argViewer.setSelection(new StructuredSelection(newArg), true);
 		pageModified();
-
-		// Refresh the viewer for the method label (which will update the method
-		// profile)
-		if (master != null) {
-			TableViewer viewer = master.getViewer();
-			viewer.refresh(getMethod());
-		}
-
+		refreshViewerForMethodLabel();
 		updateForm();
 	}
 
@@ -1259,13 +1253,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			argViewer.remove(selectedLabels);
 			getMethod().removeArguments(Arrays.asList(selectedLabels));
 			this.pageModified();
-
-			// Refresh the viewer for the method label (which will update the
-			// method profile)
-			if (master != null) {
-				TableViewer viewer = master.getViewer();
-				viewer.refresh(getMethod());
-			}
+			refreshViewerForMethodLabel();
 		}
 		updateForm();
 	}
@@ -1370,14 +1358,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		}
 		method.setArguments(Arrays.asList(newArgs));
 		pageModified();
-
-		// Refresh the viewer for the method label (which will update the method
-		// profile)
-		if (master != null) {
-			TableViewer viewer = master.getViewer();
-			viewer.refresh(getMethod());
-		}
-
+		refreshViewerForMethodLabel();
 		updateForm();
 	}
 
@@ -1401,14 +1382,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		}
 		method.setArguments(Arrays.asList(newArgs));
 		pageModified();
-
-		// Refresh the viewer for the method label (which will update the method
-		// profile)
-		if (master != null) {
-			TableViewer viewer = master.getViewer();
-			viewer.refresh(getMethod());
-		}
-
+		refreshViewerForMethodLabel();
 		updateForm();
 	}
 
@@ -1430,14 +1404,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 		if (dialog.open() == 0) {
 			pageModified();
-
-			// Refresh the viewer for the method label (which will update the
-			// method profile)
-			if (master != null) {
-				TableViewer viewer = master.getViewer();
-				viewer.refresh(getMethod());
-			}
-
+			refreshViewerForMethodLabel();
 			updateForm();
 		}
 	}
@@ -1449,10 +1416,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 			if (event.getSource() == nameText) {
 				getMethod().setName(nameText.getText().trim());
-				if (master != null) {
-					TableViewer viewer = master.getViewer();
-					viewer.refresh(getMethod());
-				}
+				refreshViewerForMethodLabel();
 			} else if (event.getSource() == typeText) {
 				IType type = getMethod().makeType();
 				type.setFullyQualifiedName(typeText.getText().trim());
@@ -1474,6 +1438,18 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 						.setReturnName(methodReturnNameText.getText().trim());
 			}
 			pageModified();
+			refreshViewerForMethodLabel();
+		}
+	}
+
+	/*
+	 * Refresh the viewer for the method label (which will update the
+     * method profile)
+	 */
+	private void refreshViewerForMethodLabel() {
+		if (master != null) {
+			TableViewer viewer = master.getViewer();
+			viewer.refresh(getMethod());
 		}
 	}
 
