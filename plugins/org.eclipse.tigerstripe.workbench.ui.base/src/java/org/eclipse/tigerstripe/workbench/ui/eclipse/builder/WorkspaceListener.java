@@ -115,7 +115,8 @@ public class WorkspaceListener implements IElementChangedListener,
 				}
 				IAbstractTigerstripeProject tsProject = EclipsePlugin
 						.getITigerstripeProjectFor(iProject);
-				if (tsProject instanceof ITigerstripeModelProject) {
+				if (tsProject instanceof ITigerstripeModelProject
+						&& tsProject.exists()) {
 					DiagramSynchronizationManager.getInstance()
 							.addTSProjectToWatch(
 									(ITigerstripeModelProject) tsProject);
@@ -211,7 +212,8 @@ public class WorkspaceListener implements IElementChangedListener,
 		}
 	}
 
-	protected ITigerstripeModelProject getCorrespondingTSProject(IResource resource) {
+	protected ITigerstripeModelProject getCorrespondingTSProject(
+			IResource resource) {
 		IProject project = resource.getProject();
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getITigerstripeProjectFor(project);
