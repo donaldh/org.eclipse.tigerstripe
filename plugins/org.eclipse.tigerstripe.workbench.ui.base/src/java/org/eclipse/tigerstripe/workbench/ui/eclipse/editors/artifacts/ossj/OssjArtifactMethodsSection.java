@@ -60,9 +60,9 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 	public OssjArtifactMethodsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
 			IOssjArtifactFormLabelProvider labelProvider,
-			IOssjArtifactFormContentProvider contentProvider) {
+			IOssjArtifactFormContentProvider contentProvider, int style) {
 		super(page, parent, toolkit, labelProvider, contentProvider,
-				ExpandableComposite.TWISTIE | ExpandableComposite.COMPACT);
+				ExpandableComposite.TWISTIE | style);
 		setTitle("Methods");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;

@@ -14,8 +14,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.IArtifactFormContentProvider;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.associationClass.AssociationClassArtifactEditor;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.datatype.DatatypeArtifactEditor;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.entity.EntityArtifactEditor;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.enumeration.EnumArtifactEditor;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.exception.ExceptionArtifactEditor;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.session.SessionArtifactEditor;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
@@ -74,8 +81,6 @@ public class OssjArtifactOverviewPage extends TigerstripeFormPage {
 		layout.horizontalSpacing = 10;
 		body.setLayout(layout);
 
-		// Annoyance 14 - removed welcome section (js)
-
 		TigerstripeSectionPart part = new OssjArtifactGeneralInfoSection(this,
 				body, toolkit, labelProvider, contentProvider);
 		managedForm.addPart(part);
@@ -91,13 +96,13 @@ public class OssjArtifactOverviewPage extends TigerstripeFormPage {
 
 		if (contentProvider.hasAttributes()) {
 			part = new OssjArtifactAttributesSection(this, body, toolkit,
-					labelProvider, contentProvider);
+					labelProvider, contentProvider, getAttributesStyle());
 			managedForm.addPart(part);
 		}
 
 		if (contentProvider.hasConstants()) {
 			part = new OssjArtifactConstantsSection(this, body, toolkit,
-					labelProvider, contentProvider);
+					labelProvider, contentProvider, getConstantsStyle());
 
 			// see bug #77
 			// See #90 no need to set up setForcedType anymore. So #77 is kinda
@@ -108,8 +113,33 @@ public class OssjArtifactOverviewPage extends TigerstripeFormPage {
 
 		if (contentProvider.hasMethods()) {
 			part = new OssjArtifactMethodsSection(this, body, toolkit,
-					labelProvider, contentProvider);
+					labelProvider, contentProvider, getMethodsStyle());
 			managedForm.addPart(part);
 		}
+	}
+
+	private int getAttributesStyle() {
+		if (getEditor() instanceof EntityArtifactEditor
+				|| getEditor() instanceof DatatypeArtifactEditor
+				|| getEditor() instanceof ExceptionArtifactEditor
+				|| getEditor() instanceof AssociationClassArtifactEditor) {
+			return ExpandableComposite.EXPANDED;
+		}
+		return ExpandableComposite.COMPACT;
+	}
+	
+	private int getMethodsStyle() {
+
+		if (getEditor() instanceof SessionArtifactEditor) {
+			return ExpandableComposite.EXPANDED;
+		}
+		return ExpandableComposite.COMPACT;
+	}
+	
+	private int getConstantsStyle() {
+		if (getEditor() instanceof EnumArtifactEditor) {
+			return ExpandableComposite.EXPANDED;
+		}
+		return ExpandableComposite.COMPACT;
 	}
 }

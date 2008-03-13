@@ -179,7 +179,8 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 	private void createAnnotations(Composite parent, FormToolkit toolkit) {
 		ExpandableComposite exComposite = toolkit.createExpandableComposite(
-				parent, ExpandableComposite.TREE_NODE);
+				parent, ExpandableComposite.TREE_NODE
+						| ExpandableComposite.EXPANDED);
 		exComposite.setText("Annotations");
 		TableWrapLayout layout = new TableWrapLayout();
 		layout.numColumns = 1;

@@ -67,9 +67,9 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 	public OssjArtifactAttributesSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
 			IOssjArtifactFormLabelProvider labelProvider,
-			IOssjArtifactFormContentProvider contentProvider) {
+			IOssjArtifactFormContentProvider contentProvider, int style) {
 		super(page, parent, toolkit, labelProvider, contentProvider,
-				ExpandableComposite.TWISTIE | ExpandableComposite.COMPACT);
+				ExpandableComposite.TWISTIE | style);
 		setTitle("&Attributes");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
@@ -256,9 +256,11 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 			MessageDialog.openWarning(getPage().getPartControl().getShell(),
-					"Default " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IPrimitiveTypeImpl.class.getName())
-							.getLabel() + " For Parameter", e.getMessage());
+					"Default "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IPrimitiveTypeImpl.class.getName())
+									.getLabel() + " For Parameter", e
+							.getMessage());
 			return;
 		}
 
