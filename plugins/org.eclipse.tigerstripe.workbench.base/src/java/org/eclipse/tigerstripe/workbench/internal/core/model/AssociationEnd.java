@@ -208,16 +208,8 @@ public class AssociationEnd extends ArtifactComponent implements
 		MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
 				"AssociationEnd Validation", null);
 
-		// check association end's name to ensure that it is a valid fieldname
-		// in Java
-		if (!TigerstripeValidationUtils.elementNamePattern.matcher(getName())
-				.matches()) {
-			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
-					+ getName() + "' is not a valid " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName()).getLabel() + " end name"));
-		}
 		// check association end's name to ensure it is not a reserved keyword
-		else if (TigerstripeValidationUtils.keywordList.contains(getName())) {
+		if (TigerstripeValidationUtils.keywordList.contains(getName())) {
 			result
 					.add(new Status(
 							IStatus.ERROR,
