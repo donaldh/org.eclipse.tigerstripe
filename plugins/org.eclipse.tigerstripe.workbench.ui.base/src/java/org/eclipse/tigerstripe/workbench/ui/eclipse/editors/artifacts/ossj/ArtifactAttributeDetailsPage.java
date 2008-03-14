@@ -451,6 +451,15 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 			if (refByValueButton != null)
 				refByValueButton.setEnabled(false);
 		}
+		if (!getField().getType().getTypeMultiplicity().isArray()) {
+			orderedButton.setEnabled(false);
+			orderedButton.setSelection(false);
+			uniqueButton.setEnabled(false);
+			uniqueButton.setSelection(false);
+		} else {
+			orderedButton.setEnabled(true);
+			uniqueButton.setEnabled(true);
+		}
 		setSilentUpdate(false);
 	}
 

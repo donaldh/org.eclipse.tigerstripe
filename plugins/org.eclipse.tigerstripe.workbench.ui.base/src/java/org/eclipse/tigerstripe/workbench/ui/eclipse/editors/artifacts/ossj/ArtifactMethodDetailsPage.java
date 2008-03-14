@@ -879,6 +879,12 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		if (optionalButton != null)
 			optionalButton.setSelection(getMethod().isOptional());
 		abstractButton.setSelection(getMethod().isAbstract());
+
+		if (getMethod().isVoid()
+				|| !getMethod().getReturnType().getTypeMultiplicity().isArray()) {
+			getMethod().setOrdered(false);
+			getMethod().setUnique(false);
+		}
 		orderedButton.setSelection(getMethod().isOrdered());
 		uniqueButton.setSelection(getMethod().isUnique());
 
@@ -947,6 +953,13 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			multiplicityLabel.setEnabled(!isReadOnly);
 			returnLabel.setEnabled(!isReadOnly);
 			returnValueLabel.setEnabled(!isReadOnly);
+			if (!getMethod().getReturnType().getTypeMultiplicity().isArray()) {
+				orderedButton.setEnabled(false);
+				uniqueButton.setEnabled(false);
+			} else {
+				orderedButton.setEnabled(true);
+				uniqueButton.setEnabled(true);
+			}
 		} else {
 			defaultReturnValue.clearSelection();
 			defaultReturnValue.setText("");
@@ -956,6 +969,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			multiplicityLabel.setEnabled(false);
 			returnLabel.setEnabled(false);
 			returnValueLabel.setEnabled(false);
+			orderedButton.setEnabled(false);
+			uniqueButton.setEnabled(false);
 		}
 
 		// Enablement of Iterator result button
@@ -1443,8 +1458,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	}
 
 	/*
-	 * Refresh the viewer for the method label (which will update the
-     * method profile)
+	 * Refresh the viewer for the method label (which will update the method
+	 * profile)
 	 */
 	private void refreshViewerForMethodLabel() {
 		if (master != null) {
