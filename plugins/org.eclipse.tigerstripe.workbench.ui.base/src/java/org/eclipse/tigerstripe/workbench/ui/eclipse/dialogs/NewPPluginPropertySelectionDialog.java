@@ -28,9 +28,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.GeneratorProjectHandle;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
 /**
@@ -45,7 +45,7 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 
 	private ComboDialogField propertyTypeCombo;
 
-	private ITigerstripePluginProject ppProject;
+	private ITigerstripeGeneratorProject ppProject;
 
 	private IPluginProperty result;
 
@@ -73,7 +73,7 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 	}
 
 	public NewPPluginPropertySelectionDialog(Shell parentShell,
-			String initialPropertyName, ITigerstripePluginProject ppProject) {
+			String initialPropertyName, ITigerstripeGeneratorProject ppProject) {
 		super(parentShell);
 
 		this.ppProject = ppProject;
@@ -86,7 +86,7 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 		propertyNameField.setText(initialPropertyName);
 
 		propertyTypeCombo = new ComboDialogField(SWT.READ_ONLY);
-		String[] labels = ((TigerstripePluginProjectHandle) ppProject)
+		String[] labels = ((GeneratorProjectHandle) ppProject)
 				.getSupportedPluginPropertyLabels();
 		propertyTypeCombo.setItems(labels);
 		propertyTypeCombo.setLabelText("Property Type:");
@@ -216,13 +216,13 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 	protected void okPressed() {
 		super.okPressed();
 
-		Class[] supportedTypes = ppProject.getSupportedPluginProperties();
+		Class<IPluginProperty>[] supportedTypes = ppProject
+				.getSupportedProperties();
 		try {
 			result = ppProject.makeProperty(supportedTypes[propertyTypeCombo
 					.getSelectionIndex()]);
 
 			result.setName(propertyNameField.getText().trim());
-			result.setProject(ppProject);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}

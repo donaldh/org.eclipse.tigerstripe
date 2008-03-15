@@ -55,6 +55,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -265,7 +266,8 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		ArrayList<String> labels = new ArrayList<String>();
 		for (Iterator it = housings.iterator(); it.hasNext();) {
 			PluginHousing housing = (PluginHousing) it.next();
-			if (housing.getCategory() == IPluginConfig.GENERATE_CATEGORY) {
+			if (housing.getCategory() == IPluginConfig.GENERATE_CATEGORY
+					&& housing.getPluginNature() != EPluggablePluginNature.M0 ) {
 				labels.add(housing.getLabel());
 				// TigerstripeRuntime.logInfoMessage("adding label " +
 				// housing.getLabel());
@@ -597,7 +599,8 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 					for (int i = 0; i < refs.length; i++) {
 						// oneAtleastIsEnabled = oneAtleastIsEnabled
 						if (refs[i].isEnabled()
-								&& refs[i].getCategory() == IPluginConfig.GENERATE_CATEGORY) {
+								&& refs[i].getCategory() == IPluginConfig.GENERATE_CATEGORY
+								&& refs[i].getPluginNature() != EPluggablePluginNature.M0) {
 							for (int j = 0; j < buttonNames.length; j++) {
 								if (buttonNames[j]
 										.equals(((PluginConfig) refs[i])
@@ -730,20 +733,20 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			}
 
 			if (runConfig.isIgnoreFacets()) {
-//				if (runConfig.isUseCurrentFacet()) {
-//					selectedFacetsTable.setEnabled(false);
-//					mergeFacetsButton.setEnabled(false);
-//					usePluginConfigFacetsButton.setEnabled(false);
-//				} else if (runConfig.isUsePluginConfigFacets()) {
-//					selectedFacetsTable.setEnabled(false);
-//					mergeFacetsButton.setEnabled(false);
-//					usePluginConfigFacetsButton.setEnabled(true);
-//				} else {
-//					selectedFacetsTable.setEnabled(true);
-//					mergeFacetsButton.setEnabled(true);
-//					usePluginConfigFacetsButton.setEnabled(false);
-//				}
-//			} else {
+				// if (runConfig.isUseCurrentFacet()) {
+				// selectedFacetsTable.setEnabled(false);
+				// mergeFacetsButton.setEnabled(false);
+				// usePluginConfigFacetsButton.setEnabled(false);
+				// } else if (runConfig.isUsePluginConfigFacets()) {
+				// selectedFacetsTable.setEnabled(false);
+				// mergeFacetsButton.setEnabled(false);
+				// usePluginConfigFacetsButton.setEnabled(true);
+				// } else {
+				// selectedFacetsTable.setEnabled(true);
+				// mergeFacetsButton.setEnabled(true);
+				// usePluginConfigFacetsButton.setEnabled(false);
+				// }
+				// } else {
 				useCurrentFacet.setEnabled(false);
 				selectedFacetsTable.setEnabled(false);
 				mergeFacetsButton.setEnabled(false);

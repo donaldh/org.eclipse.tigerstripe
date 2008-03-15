@@ -21,24 +21,23 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorEditor;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.FileEditorInput;
 
-public class GeneralInfoSection extends PluginDescriptorSectionPart {
+public class GeneralInfoSection extends GeneratorDescriptorSectionPart {
 
 	/**
 	 * An adapter that will listen for changes on the form
@@ -62,7 +61,6 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 
 	}
 
-	private String[] supportedNatures;
 	private boolean silentUpdate;
 
 	private Text idText;
@@ -107,7 +105,7 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 	private void createID(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "ID: ", SWT.WRAP);
+		toolkit.createLabel(parent, "ID: ", SWT.WRAP);
 		FileEditorInput input = (FileEditorInput) getPage().getEditorInput();
 		idText = toolkit.createText(parent, input.getFile().getProject()
 				.getName());
@@ -120,32 +118,32 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 	private void createName(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Name: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Name: ", SWT.WRAP);
 		nameText = toolkit.createText(parent, "");
 		nameText
 				.setToolTipText("The name of the plugin as presented to the user once deployed.");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		nameText.setLayoutData(td);
 		nameText.addModifyListener(new GeneralInfoPageListener());
-		nameText.setEnabled(PluginDescriptorEditor.isEditable());
+		nameText.setEnabled(GeneratorDescriptorEditor.isEditable());
 	}
 
 	private void createVersion(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Version: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Version: ", SWT.WRAP);
 		versionText = toolkit.createText(parent, "");
 		versionText.setToolTipText("The version of this plugin");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		versionText.setLayoutData(td);
 		versionText.addModifyListener(new GeneralInfoPageListener());
-		versionText.setEnabled(PluginDescriptorEditor.isEditable());
+		versionText.setEnabled(GeneratorDescriptorEditor.isEditable());
 	}
 
 	private void createDescription(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Description: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Description: ", SWT.WRAP);
 		descriptionText = toolkit.createText(parent, "", SWT.WRAP | SWT.MULTI
 				| SWT.V_SCROLL);
 		descriptionText
@@ -154,41 +152,42 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 		td.grabVertical = true;
 		td.heightHint = 70;
 		descriptionText.setLayoutData(td);
-		if (PluginDescriptorEditor.isEditable())
+		if (GeneratorDescriptorEditor.isEditable())
 			descriptionText.addModifyListener(new GeneralInfoPageListener());
-		descriptionText.setEnabled(PluginDescriptorEditor.isEditable());
+		descriptionText.setEnabled(GeneratorDescriptorEditor.isEditable());
 	}
 
 	private void createProvider(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Provider: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Provider: ", SWT.WRAP);
 		providerText = toolkit.createText(parent, "");
 		providerText
 				.setToolTipText("The name of the provider or owner of this plugin.");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		providerText.setLayoutData(td);
 		providerText.addModifyListener(new GeneralInfoPageListener());
-		providerText.setEnabled(PluginDescriptorEditor.isEditable());
+		providerText.setEnabled(GeneratorDescriptorEditor.isEditable());
+	}
+
+	protected String[] getSupportedNature() {
+		return new String[] { EPluggablePluginNature.Generic.name(),
+				EPluggablePluginNature.Validation.name(),
+				EPluggablePluginNature.M0.name() };
 	}
 
 	private void createNature(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Nature: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Nature: ", SWT.WRAP);
 
-		supportedNatures = new String[EPluggablePluginNature.values().length];
-		int i = 0;
-		for (EPluggablePluginNature nature : EPluggablePluginNature.values()) {
-			supportedNatures[i++] = nature.name();
-		}
 		pluginNature = new CCombo(parent, SWT.READ_ONLY | SWT.BORDER);
-		pluginNature.setEnabled(PluginDescriptorEditor.isEditable());
+		pluginNature.setEnabled(GeneratorDescriptorEditor.isEditable());
 		toolkit.adapt(pluginNature, true, true);
-		pluginNature.setItems(supportedNatures);
+		pluginNature.setItems(getSupportedNature());
 		pluginNature
 				.setToolTipText("Choose a 'generic' plugin for simple generation,\n or 'validation' to allow this plugin to cancel generation if validation fails");
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			pluginNature.addSelectionListener(new SelectionListener() {
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
@@ -197,9 +196,10 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 					if (!isSilentUpdate()) {
 						int natIdx = pluginNature.getSelectionIndex();
 						try {
-							getIPluggablePluginProject().setPluginNature(
-									EPluggablePluginNature
-											.valueOf(supportedNatures[natIdx]));
+							getIPluggablePluginProject()
+									.setPluginNature(
+											EPluggablePluginNature
+													.valueOf(getSupportedNature()[natIdx]));
 							markPageModified();
 						} catch (TigerstripeException ee) {
 							EclipsePlugin.log(ee);
@@ -237,7 +237,7 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 			// when updating the form, the changes to all fields should be
 			// ignored so that the form is not marked as dirty.
 
-			ITigerstripePluginProject handle = getIPluggablePluginProject();
+			ITigerstripeGeneratorProject handle = getIPluggablePluginProject();
 
 			try {
 				IProjectDetails details = handle.getProjectDetails();
@@ -268,7 +268,7 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 	}
 
 	protected void markPageModified() {
-		PluginDescriptorEditor editor = (PluginDescriptorEditor) getPage()
+		GeneratorDescriptorEditor editor = (GeneratorDescriptorEditor) getPage()
 				.getEditor();
 		editor.pageModified();
 	}
@@ -279,7 +279,7 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 	}
 
 	protected void updateForm() {
-		ITigerstripePluginProject handle = getIPluggablePluginProject();
+		ITigerstripeGeneratorProject handle = getIPluggablePluginProject();
 
 		try {
 			setSilentUpdate(true);
@@ -291,7 +291,7 @@ public class GeneralInfoSection extends PluginDescriptorSectionPart {
 			providerText.setText(handle.getProjectDetails().getProvider());
 
 			int idx = 0;
-			for (String s : supportedNatures) {
+			for (String s : getSupportedNature()) {
 				if (s.equals(handle.getPluginNature().name())) {
 					break;
 				}

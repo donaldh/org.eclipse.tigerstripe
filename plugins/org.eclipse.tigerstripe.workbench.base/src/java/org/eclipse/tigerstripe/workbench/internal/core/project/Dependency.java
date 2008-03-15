@@ -16,6 +16,8 @@ import java.io.IOException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ModuleProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
@@ -35,7 +37,8 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * @author Eric Dillon
  * 
  */
-public class Dependency implements IDependency {
+public class Dependency extends AbstractContainedObject implements IDependency,
+		IContainedObject {
 
 	private boolean validated = false;
 
@@ -57,6 +60,7 @@ public class Dependency implements IDependency {
 	}
 
 	private void setProject(TigerstripeProject project) {
+		markDirty();
 		this.project = project;
 	}
 
@@ -91,7 +95,8 @@ public class Dependency implements IDependency {
 	 *            the project that contains the module
 	 */
 	public ITigerstripeModuleProject makeModuleProject(
-			ITigerstripeModelProject containingProject) throws TigerstripeException {
+			ITigerstripeModelProject containingProject)
+			throws TigerstripeException {
 		ITigerstripeModuleProject result = new ModuleProjectHandle(
 				containingProject.getLocation().toFile().toURI(), this);
 		return result;
@@ -99,6 +104,7 @@ public class Dependency implements IDependency {
 
 	// =============================================================
 	public void setPath(String path) {
+		markDirty();
 		this.path = path;
 	}
 
@@ -185,8 +191,7 @@ public class Dependency implements IDependency {
 				new NullProgressMonitor());
 	}
 
-	public ArtifactManager getArtifactManager(
-			IProgressMonitor monitor) {
+	public ArtifactManager getArtifactManager(IProgressMonitor monitor) {
 		if (isValid(monitor)) {
 			if (moduleRef.getArtifactManager().getTSProject() == null)
 				((ModuleArtifactManager) moduleRef.getArtifactManager())

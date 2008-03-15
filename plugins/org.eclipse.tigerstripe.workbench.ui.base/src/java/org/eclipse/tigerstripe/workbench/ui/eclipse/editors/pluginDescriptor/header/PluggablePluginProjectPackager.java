@@ -28,10 +28,9 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.batch.Main;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
@@ -45,10 +44,10 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
  */
 public class PluggablePluginProjectPackager {
 
-	private PluggablePluginProject project;
+	private GeneratorProjectDescriptor descriptor;
 
-	public PluggablePluginProjectPackager(PluggablePluginProject project) {
-		this.project = project;
+	public PluggablePluginProjectPackager(GeneratorProjectDescriptor descriptor) {
+		this.descriptor = descriptor;
 	}
 
 	public void packageUpProject(IProgressMonitor monitor, String path)
@@ -65,12 +64,12 @@ public class PluggablePluginProjectPackager {
 
 			// Package up the descriptor
 			monitor.subTask("Creating .zip file");
-			File descriptor = project.getFullPath();
-			zipper.write(descriptor, ITigerstripeConstants.PLUGIN_DESCRIPTOR);
+			File descriptorFile = descriptor.getFullPath();
+			zipper.write(descriptorFile, descriptor.getFilename());
 			monitor.worked(1);
 
 			// the templates dir
-			String projectDir = project.getBaseDir().getAbsolutePath();
+			String projectDir = descriptor.getBaseDir().getAbsolutePath();
 			String templatesDir = projectDir + File.separator + "templates";
 			File templateDirFile = new File(templatesDir);
 			File[] templateFiles = templateDirFile.listFiles();
@@ -86,7 +85,7 @@ public class PluggablePluginProjectPackager {
 
 			// package up user-jars
 			String baseDir = projectDir + File.separator;
-			for (IPluginClasspathEntry entry : project.getClasspathEntries()) {
+			for (IPluginClasspathEntry entry : descriptor.getClasspathEntries()) {
 				String entryPath = baseDir + entry.getRelativePath();
 				File entryFile = new File(entryPath);
 				if (entryFile.exists()) {
@@ -102,7 +101,7 @@ public class PluggablePluginProjectPackager {
 
 		} catch (IOException e) {
 			throw new TigerstripeException("Error while packaging up '"
-					+ project.getProjectDetails().getName() + "':"
+					+ descriptor.getProjectDetails().getName() + "':"
 					+ e.getMessage(), e);
 		} finally {
 			if (zipper != null) {
@@ -117,12 +116,12 @@ public class PluggablePluginProjectPackager {
 
 	protected File[] computeAdditionalFiles() {
 		List<File> result = new ArrayList<File>();
-		String projectDir = project.getBaseDir().getAbsolutePath();
+		String projectDir = descriptor.getBaseDir().getAbsolutePath();
 		String baseDir = projectDir + File.separator;
 
-		List<String> includePaths = project
+		List<String> includePaths = descriptor
 				.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE);
-		List<String> excludePaths = project
+		List<String> excludePaths = descriptor
 				.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE);
 		for (String path : includePaths) {
 			String entryPath = baseDir + path;
@@ -172,7 +171,7 @@ public class PluggablePluginProjectPackager {
 	}
 
 	protected void compileProject() throws TigerstripeException {
-		String projectDir = project.getBaseDir().getAbsolutePath();
+		String projectDir = descriptor.getBaseDir().getAbsolutePath();
 
 		List<String> compilerArgs = new ArrayList<String>();
 
@@ -195,8 +194,8 @@ public class PluggablePluginProjectPackager {
 		compilerArgs.add(outputDir);
 		int unitsNumber = 0;
 
-		IJavaProject jProject = EclipsePlugin.getIJavaProject(project
-				.getHandle());
+		IJavaProject jProject = (IJavaProject) descriptor
+				.getAdapter(IJavaProject.class);
 		try {
 			// Add all the libraries on the classpath
 			// The user may have added all kinds of JARs onto the classpath,
@@ -214,8 +213,8 @@ public class PluggablePluginProjectPackager {
 			}
 
 			// All the runtime classpath entries of the project
-			for (IPluginClasspathEntry entry : project.getClasspathEntries()) {
-				classpath += project.getBaseDir() + File.separator
+			for (IPluginClasspathEntry entry : descriptor.getClasspathEntries()) {
+				classpath += descriptor.getBaseDir() + File.separator
 						+ entry.getRelativePath() + ";";
 			}
 
@@ -223,7 +222,8 @@ public class PluggablePluginProjectPackager {
 			String runtimeRoot = TigerstripeRuntime
 					.getProperty(TigerstripeRuntime.EXTERNAL_API_ARCHIVE);
 			classpath += runtimeRoot + ";";
-			String equinoxJar = JavaCore.getClasspathVariable(ITigerstripeConstants.EQUINOX_COMMON).toOSString();
+			String equinoxJar = JavaCore.getClasspathVariable(
+					ITigerstripeConstants.EQUINOX_COMMON).toOSString();
 			classpath += equinoxJar + ";";
 
 			if (classpath.length() != 0) {

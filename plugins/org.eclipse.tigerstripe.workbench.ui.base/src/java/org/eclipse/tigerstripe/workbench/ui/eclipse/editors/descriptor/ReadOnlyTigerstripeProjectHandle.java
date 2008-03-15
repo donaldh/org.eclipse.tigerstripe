@@ -46,4 +46,8 @@ public class ReadOnlyTigerstripeProjectHandle extends TigerstripeProjectHandle {
 		throw new TigerstripeException("Operation not supported.");
 	}
 
+	@Override
+	public boolean isDirty() {
+		return false;
+	}
 }

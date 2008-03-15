@@ -337,4 +337,7 @@
       </eClassifiers>
     </eSubpackages>
   </eSubpackages>
+  <eSubpackages name="instance" nsURI="tigerstripe-instance" nsPrefix="ts-instance">
+    <eClassifiers xsi:type="ecore:EClass" name="ArtifactInstance" abstract="true"/>
+  </eSubpackages>
 </ecore:EPackage>

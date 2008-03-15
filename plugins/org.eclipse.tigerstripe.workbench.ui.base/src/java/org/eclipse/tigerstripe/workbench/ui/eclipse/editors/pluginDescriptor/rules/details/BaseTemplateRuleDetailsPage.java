@@ -226,7 +226,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 								.getRelativePath(
 										file,
 										((TigerstripePluginProjectHandle) getPPProject())
-												.getPPProject().getBaseDir());
+												.getDescriptor().getBaseDir());
 
 						IPath path = new Path(relative);
 						IResource res = baseFile.getParent().findMember(path);
@@ -592,7 +592,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 				try {
 					String relative = Util.getRelativePath(file,
 							((TigerstripePluginProjectHandle) getPPProject())
-									.getPPProject().getBaseDir());
+									.getDescriptor().getBaseDir());
 
 					IPath path = new Path(relative);
 					IResource res = baseFile.getParent().findMember(path);

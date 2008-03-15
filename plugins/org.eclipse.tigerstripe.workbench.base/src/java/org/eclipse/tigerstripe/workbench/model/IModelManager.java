@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;

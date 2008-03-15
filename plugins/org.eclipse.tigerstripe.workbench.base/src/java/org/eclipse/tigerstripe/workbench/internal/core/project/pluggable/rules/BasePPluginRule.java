@@ -10,12 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules;
 
+import org.eclipse.tigerstripe.workbench.internal.BaseContainerObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainerObject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-public abstract class BasePPluginRule implements IRunRule {
+public abstract class BasePPluginRule extends BaseContainerObject implements
+		IContainedObject, IContainerObject, IRunRule {
 
 	private boolean enabled = true;
 
@@ -23,13 +27,52 @@ public abstract class BasePPluginRule implements IRunRule {
 
 	private String description = "";
 
+	// =====================================================================
+	// IContainedObject
+	private boolean isLocalDirty = false;
+	private IContainerObject container = null;
+
+	@Override
+	public void setContainer(IContainerObject container) {
+		isLocalDirty = false;
+		this.container = container;
+	}
+
+	@Override
+	public void clearDirty() {
+		isLocalDirty = false;
+	}
+
+	@Override
+	public boolean isDirty() {
+		return isLocalDirty;
+	}
+
+	/**
+	 * Marks this object as dirty and notify the container if any
+	 * 
+	 */
+	protected void markDirty() {
+		isLocalDirty = true;
+		if (container != null) {
+			container.notifyDirty(this);
+		}
+	}
+	
+	public IContainerObject getContainer() {
+		return container;
+	}
+
+	// =====================================================================
+	// =====================================================================
+	
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
+		markDirty();
 		this.name = name;
-		markProjectDirty();
 	}
 
 	public String getDescription() {
@@ -37,8 +80,8 @@ public abstract class BasePPluginRule implements IRunRule {
 	}
 
 	public void setDescription(String description) {
+		markDirty();
 		this.description = description;
-		markProjectDirty();
 	}
 
 	public abstract String getLabel();
@@ -47,16 +90,8 @@ public abstract class BasePPluginRule implements IRunRule {
 
 	public abstract void buildBodyFromNode(Node node);
 
-	public abstract void markProjectDirty();
-
-	private ITigerstripePluginProject project;
-
-	public void setProject(ITigerstripePluginProject project) {
-		this.project = project;
-	}
-
-	public ITigerstripePluginProject getProject() {
-		return this.project;
+	public GeneratorProjectDescriptor getContainingDescriptor() {
+		return (GeneratorProjectDescriptor) getContainer();
 	}
 
 	public boolean isEnabled() {
@@ -64,8 +99,8 @@ public abstract class BasePPluginRule implements IRunRule {
 	}
 
 	public void setEnabled(boolean enabled) {
+		markDirty();
 		this.enabled = enabled;
-		markProjectDirty();
 	}
 
 	public String isEnabledStr() {
@@ -73,7 +108,7 @@ public abstract class BasePPluginRule implements IRunRule {
 	}
 
 	public void setEnabledStr(String enabledStr) {
-		this.enabled = Boolean.parseBoolean(enabledStr);
+		setEnabled(Boolean.parseBoolean(enabledStr));
 	}
 
 	@Override

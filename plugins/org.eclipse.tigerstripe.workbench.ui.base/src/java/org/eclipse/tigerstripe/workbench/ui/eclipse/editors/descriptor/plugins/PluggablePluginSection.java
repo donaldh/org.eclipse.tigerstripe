@@ -39,7 +39,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.plugins.IPluggablePluginPropertyListener;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
@@ -375,7 +375,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	 * @param toolkit
 	 */
 	protected void buildGlobalProperties(Composite parent, FormToolkit toolkit) {
-		PluggablePluginProject pProject = housing.getBody().getPProject();
+		GeneratorProjectDescriptor pProject = housing.getBody().getPProject();
 		PropertyRendererFactory factory = new PropertyRendererFactory(parent,
 				toolkit, getITigerstripeProject(), this);
 
@@ -419,7 +419,8 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 			Properties properties = ((PluginConfig) ref).getProperties();
 			String[] definedProps = ref.getDefinedProperties();
 			Properties usableProps = new Properties();
-			PluggablePluginProject pProject = housing.getBody().getPProject();
+			GeneratorProjectDescriptor pProject = housing.getBody()
+					.getPProject();
 			// TigerstripeRuntime.logInfoMessage(definedProps.length);
 			for (int i = 0; i < definedProps.length; i++) {
 				// TigerstripeRuntime.logInfoMessage(definedProps[i]);

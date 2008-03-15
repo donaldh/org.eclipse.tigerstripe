@@ -16,7 +16,6 @@ import java.util.Collection;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -30,8 +29,6 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplore
 
 public class ProfileDescriptorAuditor {
 
-	private IProgressMonitor monitor = new NullProgressMonitor();
-
 	private IProject project;
 
 	public ProfileDescriptorAuditor(IProject project) {
@@ -43,7 +40,6 @@ public class ProfileDescriptorAuditor {
 		if (resources == null || resources.length == 0)
 			return;
 
-		this.monitor = monitor;
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TSExplorerUtils
 				.getProjectHandleFor(project);
 		if (tsProject != null) {

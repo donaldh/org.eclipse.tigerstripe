@@ -8,7 +8,7 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor;
+package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
@@ -25,16 +25,17 @@ import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 
-public class PluginDescriptorErrorPage extends TigerstripeFormPage {
+public class GeneratorDescriptorErrorPage extends TigerstripeFormPage {
 
 	private IManagedForm managedForm = null;
 
-	public PluginDescriptorErrorPage(FormEditor editor, String id, String title) {
+	public GeneratorDescriptorErrorPage(FormEditor editor, String id,
+			String title) {
 		super(editor, id, title);
 		// TODO Auto-generated constructor stub
 	}
 
-	public PluginDescriptorErrorPage(String id, String title) {
+	public GeneratorDescriptorErrorPage(String id, String title) {
 		super(id, title);
 		// TODO Auto-generated constructor stub
 	}
@@ -46,7 +47,7 @@ public class PluginDescriptorErrorPage extends TigerstripeFormPage {
 		}
 	}
 
-	private Image getSWTImage(final int imageID) {
+	protected Image getSWTImage(final int imageID) {
 		Shell shell = Display.getCurrent().getActiveShell();
 		final Display display;
 		if (shell == null) {
@@ -98,9 +99,9 @@ public class PluginDescriptorErrorPage extends TigerstripeFormPage {
 
 		Color panelBg = textPanel.getBackground();
 		managedForm.getForm().getBody().setBackground(panelBg);
-		PluginDescriptorErrorPage pluginDescriptorErrPage = (PluginDescriptorErrorPage) managedForm
+		GeneratorDescriptorErrorPage pluginDescriptorErrPage = (GeneratorDescriptorErrorPage) managedForm
 				.getContainer();
-		PluginDescriptorEditor plugDescEditor = (PluginDescriptorEditor) pluginDescriptorErrPage
+		GeneratorDescriptorEditor plugDescEditor = (GeneratorDescriptorEditor) pluginDescriptorErrPage
 				.getEditor();
 		CTabFolder folder = plugDescEditor.getPageFolder();
 		folder.setEnabled(false);

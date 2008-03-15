@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 
 /**
  * @author Eric Dillon
@@ -55,6 +56,10 @@ public class PluginHousing {
 		return body.getCategory();
 	}
 
+	public EPluggablePluginNature getPluginNature() {
+		return this.body.getPluginNature();
+	}
+	
 	public PluginHousing(PluginBody body) {
 		this.body = body;
 	}

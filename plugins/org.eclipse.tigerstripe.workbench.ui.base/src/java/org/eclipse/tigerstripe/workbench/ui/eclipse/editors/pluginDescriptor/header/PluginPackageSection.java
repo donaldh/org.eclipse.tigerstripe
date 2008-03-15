@@ -21,12 +21,12 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.GeneratorProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -38,7 +38,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class PluginPackageSection extends PluginDescriptorSectionPart {
+public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 
 	public PluginPackageSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
@@ -106,7 +106,7 @@ public class PluginPackageSection extends PluginDescriptorSectionPart {
 						dialog.setFilterExtensions(new String[] { "*.zip" });
 						final String path = dialog.open();
 						if (path != null) {
-							final ITigerstripePluginProject projectHandle = getIPluggablePluginProject();
+							final ITigerstripeGeneratorProject projectHandle = getIPluggablePluginProject();
 							IRunnableWithProgress op = new IRunnableWithProgress() {
 								public void run(IProgressMonitor monitor) {
 									try {
@@ -118,8 +118,8 @@ public class PluginPackageSection extends PluginDescriptorSectionPart {
 										}
 
 										PluggablePluginProjectPackager packager = new PluggablePluginProjectPackager(
-												((TigerstripePluginProjectHandle) projectHandle)
-														.getPPProject());
+												((GeneratorProjectHandle) projectHandle)
+														.getDescriptor());
 										packager.packageUpProject(monitor,
 												lPath);
 

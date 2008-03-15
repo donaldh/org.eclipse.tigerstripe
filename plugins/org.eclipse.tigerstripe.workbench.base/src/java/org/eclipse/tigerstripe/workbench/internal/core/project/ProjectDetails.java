@@ -13,12 +13,11 @@ package org.eclipse.tigerstripe.workbench.internal.core.project;
 import java.io.File;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.BaseContainerObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainerObject;
+import org.eclipse.tigerstripe.workbench.internal.core.util.ContainedProperties;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -26,7 +25,8 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * The project details for a Tigerstripe project
  * 
  */
-public class ProjectDetails implements IProjectDetails {
+public class ProjectDetails extends BaseContainerObject implements
+		IContainedObject, IContainerObject, IProjectDetails {
 
 	private String description = "";
 
@@ -36,23 +36,65 @@ public class ProjectDetails implements IProjectDetails {
 
 	private String provider = "";
 
-	private Properties properties = new Properties();
+	private ContainedProperties properties = null;
 
 	private String outputDirectory = "";
 
-	private String nature = "";
-
 	private AbstractTigerstripeProject parentProject;
 
+	// ===========================================================================
+	// ===========================================================================
+	// Containment Handling
+	private boolean isLocalDirty = false;
+	private IContainerObject container = null;
+
+	@Override
+	public void setContainer(IContainerObject container) {
+		isLocalDirty = false;
+		this.container = container;
+	}
+
+	@Override
+	public void clearDirty() {
+		isLocalDirty = false;
+	}
+
+	@Override
+	public boolean isDirty() {
+		return isLocalDirty;
+	}
+
+	@Override
+	public IContainerObject getContainer() {
+		return this.container;
+	}
+	
+	/**
+	 * Marks this object as dirty and notify the container if any
+	 * 
+	 */
+	protected void markDirty() {
+		isLocalDirty = true;
+		if (container != null) {
+			container.notifyDirty(this);
+		}
+	}
+
+	// ===========================================================================
+	// ===========================================================================
+
+	
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
+		markDirty();
 		this.name = name;
 	}
 
 	public String getDescription() {
+		markDirty();
 		return this.description;
 	}
 
@@ -61,6 +103,7 @@ public class ProjectDetails implements IProjectDetails {
 	}
 
 	public void setVersion(String version) {
+		markDirty();
 		this.version = version;
 	}
 
@@ -69,26 +112,12 @@ public class ProjectDetails implements IProjectDetails {
 	}
 
 	public ProjectDetails(AbstractTigerstripeProject parentProject) {
-		this.properties = new Properties();
-		setParentProject(parentProject);
+		this.properties = new ContainedProperties();
+		this.parentProject = parentProject;
 	}
 
 	public void setParentProject(AbstractTigerstripeProject parentProject) {
 		this.parentProject = parentProject;
-	}
-
-	public String getNature() {
-		return this.nature;
-	}
-
-	/**
-	 * Sets the nature of the project
-	 * 
-	 * @see org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig
-	 *      for valid project natures
-	 */
-	public void setNature(String nature) {
-		this.nature = nature;
 	}
 
 	/**
@@ -105,26 +134,10 @@ public class ProjectDetails implements IProjectDetails {
 
 		if (parentProject.getBaseDir() == null) {
 			// parent.getBaseDir()==null when this is a module.
-			result = result + File.separator
-					+ parentProject.getProjectLabel();
+			result = result + File.separator + parentProject.getProjectLabel();
 			return result;
 		}
 
-//		try {
-//			IAbstractTigerstripeProject aProject = TigerstripeCore
-//					.findProject(parentProject.getBaseDir().toURI());
-//			if (aProject instanceof ITigerstripeModelProject) {
-//				ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
-//				if (project.getActiveFacet() != null) {
-//					result = result + File.separator
-//							+ project.getActiveFacet().getGenerationDir();
-//				}
-//			}
-//		} catch (TigerstripeException e) {
-//			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-//					e);
-//
-//		}
 		return result;
 	}
 
@@ -133,6 +146,7 @@ public class ProjectDetails implements IProjectDetails {
 	}
 
 	public void setProjectOutputDirectory(String outputDirectory) {
+		markDirty();
 		this.outputDirectory = outputDirectory;
 	}
 
@@ -141,7 +155,9 @@ public class ProjectDetails implements IProjectDetails {
 	}
 
 	public void setProperties(Properties properties) {
-		this.properties = properties;
+		markDirty();
+		this.properties = new ContainedProperties(properties);
+		this.properties.setContainer(this);
 	}
 
 	public String getProperty(String name, String defaultValue) {
@@ -157,6 +173,7 @@ public class ProjectDetails implements IProjectDetails {
 	}
 
 	public void setProvider(String provider) {
+		markDirty();
 		this.provider = provider;
 	}
 
@@ -165,7 +182,6 @@ public class ProjectDetails implements IProjectDetails {
 		ProjectDetails clone = new ProjectDetails(parentProject);
 		clone.setDescription(getDescription());
 		clone.setName(getName());
-		clone.setNature(getNature());
 		clone.setProjectOutputDirectory(getOutputDirectory());
 		clone.setProperties((Properties) getProperties().clone());
 		clone.setProvider(getProvider());

@@ -51,12 +51,15 @@ public class PartAdapterFactory implements IAdapterFactory {
 		if (adaptableObject instanceof TigerstripeShapeNodeEditPart) {
 			TigerstripeShapeNodeEditPart part = (TigerstripeShapeNodeEditPart) adaptableObject;
 			Node node = (Node) part.getModel();
-			AbstractArtifact art = (AbstractArtifact) node.getElement();
-			try {
-				return art.getCorrespondingIArtifact().getAdapter(
-						IAnnotable.class);
-			} catch (TigerstripeException e) {
-				EclipsePlugin.log(e);
+
+			if (node.getElement() instanceof AbstractArtifact) {
+				AbstractArtifact art = (AbstractArtifact) node.getElement();
+				try {
+					return art.getCorrespondingIArtifact().getAdapter(
+							IAnnotable.class);
+				} catch (TigerstripeException e) {
+					EclipsePlugin.log(e);
+				}
 			}
 		} else if (adaptableObject instanceof ITextAwareEditPart) {
 			ITextAwareEditPart tPart = (ITextAwareEditPart) adaptableObject;

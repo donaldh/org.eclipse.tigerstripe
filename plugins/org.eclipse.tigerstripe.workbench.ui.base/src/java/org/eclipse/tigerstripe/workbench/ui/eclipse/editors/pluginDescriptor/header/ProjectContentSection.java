@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.he
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.properties.PluginDescriptorPropertiesPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.PluginDescriptorRulesPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.runtime.RuntimePage;
@@ -24,7 +24,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class ProjectContentSection extends PluginDescriptorSectionPart {
+public class ProjectContentSection extends GeneratorDescriptorSectionPart {
 
 	public ProjectContentSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {

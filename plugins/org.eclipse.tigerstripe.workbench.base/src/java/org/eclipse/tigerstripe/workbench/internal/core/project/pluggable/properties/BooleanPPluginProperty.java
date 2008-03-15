@@ -25,11 +25,11 @@ public class BooleanPPluginProperty extends BasePPluginProperty implements
 
 	private final static Boolean DEFAULT_BOOLEAN = false;
 
-	public BooleanPPluginProperty( BooleanPPluginProperty other ) {
+	public BooleanPPluginProperty(BooleanPPluginProperty other) {
 		super(other);
 		setDefaultValue(other.getDefaultValue());
 	}
-	
+
 	public BooleanPPluginProperty() {
 		setDefaultValue(DEFAULT_BOOLEAN);
 	}
@@ -49,6 +49,8 @@ public class BooleanPPluginProperty extends BasePPluginProperty implements
 	}
 
 	public void setDefaultBoolean(Boolean value) {
+		markDirty(); // not really needed as setDefaultValue does it do.
+		// Doesn't hurt
 		setDefaultValue(value);
 	}
 

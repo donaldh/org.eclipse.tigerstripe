@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 import java.io.File;
 import java.net.URI;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -27,29 +26,18 @@ import org.eclipse.tigerstripe.workbench.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
-import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
 public abstract class AbstractTigerstripeProjectHandle extends
 		WorkingCopyManager implements IAbstractTigerstripeProject, IWorkingCopy {
 
-	protected final static String PROJECT_DETAILS_F = "projectDetails";
-
 	public String getProjectLabel() {
 		return getLocation().lastSegment();
-	}
-
-	@Override
-	protected void addManagedFields() {
-		managedFields.add(PROJECT_DETAILS_F);
 	}
 
 	// we keep track of a TStamp on the hanlde when we create it to know
 	// when the handle is invalid because the underlying URI actually changed
 	private long handleTStamp;
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(App.class);
 
 	protected URI projectContainerURI;
 

@@ -10,15 +10,15 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-public abstract class BasePPluginProperty implements IPluginProperty {
+public abstract class BasePPluginProperty extends AbstractContainedObject
+		implements IPluginProperty, IContainedObject {
 
 	private String name = "";
 	private String tipToolText = "";
@@ -32,15 +32,15 @@ public abstract class BasePPluginProperty implements IPluginProperty {
 		setProject(other.getProject());
 	}
 
-	private ITigerstripePluginProject project;
+	private ITigerstripeGeneratorProject project;
 
 	private Object defaultValue;
 
-	public void setProject(ITigerstripePluginProject project) {
+	public void setProject(ITigerstripeGeneratorProject project) {
 		this.project = project;
 	}
 
-	public ITigerstripePluginProject getProject() {
+	public ITigerstripeGeneratorProject getProject() {
 		return this.project;
 	}
 
@@ -48,19 +48,9 @@ public abstract class BasePPluginProperty implements IPluginProperty {
 		return this.name;
 	}
 
-	public void markProjectDirty() {
-		try {
-			if (getProject() != null)
-				((TigerstripePluginProjectHandle) getProject())
-						.markFieldDirty(TigerstripePluginProjectHandle.GLOBAL_PROPERTIES_F);
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-		}
-	}
-
 	public void setName(String name) {
 		this.name = name;
-		markProjectDirty();
+		markDirty();
 	}
 
 	public Object getDefaultValue() {
@@ -69,7 +59,7 @@ public abstract class BasePPluginProperty implements IPluginProperty {
 
 	public void setDefaultValue(Object value) {
 		this.defaultValue = value;
-		markProjectDirty();
+		markDirty();
 	}
 
 	@Override
@@ -91,7 +81,7 @@ public abstract class BasePPluginProperty implements IPluginProperty {
 
 	public void setTipToolText(String text) {
 		tipToolText = text;
-		markProjectDirty();
+		markDirty();
 	}
 
 	public abstract Object clone();

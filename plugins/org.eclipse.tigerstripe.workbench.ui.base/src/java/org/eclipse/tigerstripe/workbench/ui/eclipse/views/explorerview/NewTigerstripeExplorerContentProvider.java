@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaModel;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
@@ -33,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.ProjectMigrationUtils;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripeM0GeneratorNature;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.abstraction.LogicalExplorerNodeFactory;
@@ -133,7 +135,7 @@ public class NewTigerstripeExplorerContentProvider extends
 	 */
 	protected Object[] getTigerstripeProjects(IJavaModel jm)
 			throws JavaModelException {
-		List result = new ArrayList();
+		List<IJavaProject> result = new ArrayList<IJavaProject>();
 		IProject[] projects = EclipsePlugin.getWorkspace().getRoot()
 				.getProjects();
 		for (int i = 0; i < projects.length; i++) {
@@ -145,11 +147,15 @@ public class NewTigerstripeExplorerContentProvider extends
 				if (TigerstripePluginProjectNature.hasNature(projects[i])) {
 					result.add(jm.getJavaProject(projects[i].getName()));
 
-					ProjectMigrationUtils.handlePluginProjectMigration(projects[i]);
+					ProjectMigrationUtils
+							.handlePluginProjectMigration(projects[i]);
 
 					if (TSExplorerUtils.getProjectHandleFor(projects[i]) != null) {
 
 					}
+				} else if (TigerstripeM0GeneratorNature.hasNature(projects[i])) {
+					result.add(jm.getJavaProject(projects[i].getName()));
+					
 				} else if (TigerstripeProjectNature.hasNature(projects[i])) {
 					result.add(jm.getJavaProject(projects[i].getName()));
 

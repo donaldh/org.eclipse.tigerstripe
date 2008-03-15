@@ -30,22 +30,27 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.tools.ant.filters.StringInputStream;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BaseContainerObject;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.IContainerObject;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
+import org.eclipse.tigerstripe.workbench.internal.core.util.ContainedProperties;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -60,7 +65,8 @@ import org.w3c.dom.NodeList;
  * 
  * This conditions a run of Tigerstripe.
  */
-public abstract class AbstractTigerstripeProject {
+public abstract class AbstractTigerstripeProject extends BaseContainerObject
+		implements IContainerObject, IAdaptable {
 
 	public static final String OUTPUT_DIRECTORY_TAG = "outputDirectory";
 
@@ -90,6 +96,8 @@ public abstract class AbstractTigerstripeProject {
 
 	private long loadTStamp = -1;
 
+	private boolean isLocalDirty = false;
+
 	/**
 	 * The details of the projects
 	 */
@@ -98,7 +106,7 @@ public abstract class AbstractTigerstripeProject {
 	/**
 	 * Advanced properties for this project
 	 */
-	private Properties advancedProperties = new Properties();
+	private ContainedProperties advancedProperties;
 
 	// ==========================================
 	// ==========================================
@@ -109,7 +117,23 @@ public abstract class AbstractTigerstripeProject {
 	protected AbstractTigerstripeProject(File baseDir, String filename) {
 		this.filename = filename;
 		this.baseDir = baseDir;
+		advancedProperties = new ContainedProperties();
+		advancedProperties.setContainer(this);
 		this.projectDetails = new ProjectDetails(this);
+		this.projectDetails.setContainer(this);
+	}
+
+	protected void setDirty() {
+		this.isLocalDirty = true;
+	}
+
+	public boolean isDirty() {
+		return isLocalDirty || isContainedDirty();
+	}
+
+	public void clearDirty() {
+		isLocalDirty = false;
+		clearDirtyOnContained();
 	}
 
 	// ==========================================
@@ -125,6 +149,8 @@ public abstract class AbstractTigerstripeProject {
 	public void setProjectDetails(ProjectDetails projectDetails) {
 		this.projectDetails = projectDetails;
 		projectDetails.setParentProject(this);
+		this.projectDetails.setContainer(this);
+		setDirty();
 	}
 
 	public File getBaseDir() {
@@ -172,6 +198,7 @@ public abstract class AbstractTigerstripeProject {
 
 			StreamResult result = new StreamResult(writer);
 			transformer.transform(source, result);
+
 		} catch (TransformerConfigurationException tce) {
 			throw new TigerstripeException("Transformer Factory error"
 					+ tce.getMessage(), tce);
@@ -206,11 +233,6 @@ public abstract class AbstractTigerstripeProject {
 				.getProjectOutputDirectory()));
 		projectDetails.appendChild(outputDir);
 
-		// Nature
-		Element nature = document.createElement(NATURE_TAG);
-		nature.appendChild(document.createTextNode(details.getNature()));
-		projectDetails.appendChild(nature);
-
 		// version
 		Element version = document.createElement(VERSION_TAG);
 		version.appendChild(document.createTextNode(details.getVersion()));
@@ -229,7 +251,7 @@ public abstract class AbstractTigerstripeProject {
 
 		// All Properties
 		Properties prop = details.getProperties();
-		for (Iterator iter = prop.keySet().iterator(); iter.hasNext();) {
+		for (Iterator<Object> iter = prop.keySet().iterator(); iter.hasNext();) {
 			String propertyName = (String) iter.next();
 			String propertyValue = prop.getProperty(propertyName);
 
@@ -244,7 +266,7 @@ public abstract class AbstractTigerstripeProject {
 	protected Element buildAdvancedElement(Document document) {
 		Element advancedElm = document.createElement(ADVANCED_TAG);
 
-		for (Iterator iter = advancedProperties.keySet().iterator(); iter
+		for (Iterator<Object> iter = advancedProperties.keySet().iterator(); iter
 				.hasNext();) {
 
 			Element propElm = document.createElement(ADVANCEDPROPS_TAG);
@@ -262,18 +284,6 @@ public abstract class AbstractTigerstripeProject {
 	protected void loadProjectDetails(Document document)
 			throws TigerstripeException {
 		projectDetails = new ProjectDetails(this);
-
-		// Extract the project nature
-		NodeList natures = document.getElementsByTagName(NATURE_TAG);
-		if (natures.getLength() != 0) {
-			NodeList nodes = natures.item(0).getChildNodes();
-			if (nodes != null && nodes.getLength() != 0) {
-				projectDetails.setNature(nodes.item(0).getNodeValue());
-			}
-		}
-		if (projectDetails.getNature() == null) {
-			projectDetails.setNature(PluginBody.UNKNOWN_NATURE);
-		}
 
 		// Extract the project description
 		NodeList descriptions = document.getElementsByTagName(DESCRIPTION_TAG);
@@ -336,6 +346,9 @@ public abstract class AbstractTigerstripeProject {
 
 			projectDetails.setProperties(loadProperties(projects.item(0)));
 		}
+
+		// Do it last to preserve the state (not dirty)
+		projectDetails.setContainer(this);
 	}
 
 	private Properties loadProperties(Node node) {
@@ -352,8 +365,6 @@ public abstract class AbstractTigerstripeProject {
 
 				if (name != null && !"".equals(name.getNodeValue())
 						&& value != null) {
-					String truc = value.getNodeValue();
-					String trac = name.getNodeValue();
 					result.setProperty(name.getNodeValue(), value
 							.getNodeValue());
 				}
@@ -370,7 +381,7 @@ public abstract class AbstractTigerstripeProject {
 
 	protected void loadAdvancedProperties(Document document)
 			throws TigerstripeException {
-		this.advancedProperties = new Properties();
+		advancedProperties.clear();
 
 		NodeList advPropertyNodes = document
 				.getElementsByTagName(ADVANCEDPROPS_TAG);
@@ -381,9 +392,12 @@ public abstract class AbstractTigerstripeProject {
 			String name = node.getAttribute("name");
 			if (name != null && !"".equals(name) && valueNode != null) {
 				String value = valueNode.getNodeValue();
-				advancedProperties.setProperty(name, value);
+				setAdvancedProperty(name, value);
 			}
 		}
+
+		// To that last to preserve the "clean = non-dirty" state.
+		advancedProperties.clearDirty();
 	}
 
 	public String getProjectLabel() {
@@ -403,6 +417,7 @@ public abstract class AbstractTigerstripeProject {
 	}
 
 	public void setAdvancedProperty(String prop, String value) {
+		setDirty();
 		this.advancedProperties.setProperty(prop, value);
 	}
 
@@ -440,6 +455,7 @@ public abstract class AbstractTigerstripeProject {
 				parse(reader);
 				notLoaded = false;
 				loadTStamp = theFile.lastModified();
+				clearDirty();
 			} catch (FileNotFoundException e) {
 				throw new TigerstripeException(
 						"Tigerstripe descriptor not found ("
@@ -472,6 +488,9 @@ public abstract class AbstractTigerstripeProject {
 		try {
 			theFile.setContents(new StringInputStream(writer.toString()),
 					IResource.FORCE | IResource.KEEP_HISTORY, monitor);
+			loadTStamp = theFile.getLocalTimeStamp();
+			// Make sure we clear our dirty state
+			clearDirty();
 		} catch (CoreException e) {
 			BasePlugin.log(e);
 		} finally {
@@ -483,16 +502,27 @@ public abstract class AbstractTigerstripeProject {
 				}
 			}
 		}
-		//		
-		// File theFile = getFullPath();
-		// Writer writer = null;
-		// try {
-		// writer = new FileWriter(theFile);
-		// write(writer);
-		// } catch (IOException e) {
-		// throw new TigerstripeException("Tigerstripe descriptor not found ("
-		// + theFile.getAbsolutePath() + ").", e);
-		// } finally {
-		// }
+
 	}
+
+	@Override
+	public Object getAdapter(Class adapter) {
+		if (IAbstractTigerstripeProject.class == adapter) {
+			try {
+				return TigerstripeCore.findProject(getBaseDir().toURI());
+			} catch (TigerstripeException e) {
+				return null;
+			}
+		} else if (IProject.class == adapter) {
+			return ResourcesPlugin.getWorkspace().getRoot().getProject(
+					getProjectLabel());
+		} else if (IJavaProject.class == adapter) {
+			IProject iProj = ResourcesPlugin.getWorkspace().getRoot()
+					.getProject(getProjectLabel());
+			if (iProj != null)
+				return JavaCore.create(iProj);
+		}
+		return null;
+	}
+
 }

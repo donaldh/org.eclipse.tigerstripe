@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.GeneratorProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.header.PluggablePluginProjectPackager;
@@ -48,8 +49,8 @@ public class PacakgePluginActionDelegate extends BasePluginActionDelegate
 						}
 
 						PluggablePluginProjectPackager packager = new PluggablePluginProjectPackager(
-								((TigerstripePluginProjectHandle) projectHandle)
-										.getPPProject());
+								((GeneratorProjectHandle) projectHandle)
+										.getDescriptor());
 						packager.packageUpProject(monitor, lPath);
 
 						monitor.done();

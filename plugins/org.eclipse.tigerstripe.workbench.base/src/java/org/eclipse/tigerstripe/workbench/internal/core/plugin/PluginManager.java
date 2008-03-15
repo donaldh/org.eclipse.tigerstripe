@@ -17,7 +17,6 @@ import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipFile;
 
@@ -28,7 +27,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbe
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFileUnzipper;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 
@@ -55,7 +53,8 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 
 	private PluginManager() {
 		this.housings = new ArrayList<PluginHousing>();
-		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(this);
+		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(
+				this);
 	}
 
 	/**
@@ -72,8 +71,7 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 	public PluginHousing resolveReference(PluginConfig ref)
 			throws UnknownPluginException {
 
-		for (Iterator iter = this.housings.iterator(); iter.hasNext();) {
-			PluginHousing housing = (PluginHousing) iter.next();
+		for (PluginHousing housing : housings) {
 			if (housing.matchRef(ref))
 				return housing;
 		}
@@ -95,7 +93,7 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 	 * Returns the available housings
 	 * 
 	 */
-	public List getRegisteredHousings() {
+	public List<PluginHousing> getRegisteredHousings() {
 		return this.housings;
 	}
 
@@ -104,15 +102,13 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 	 * 
 	 */
 	public void load() {
-		housings = new ArrayList();
+		housings = new ArrayList<PluginHousing>();
 
-			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-					.getWorkbenchProfileSession().getActiveProfile()
-					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+		TigerstripeCore.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
-
-			// This will load the actual pluggable plugins
-			loadPluggableHousings();
+		// This will load the actual pluggable plugins
+		loadPluggableHousings();
 
 	}
 

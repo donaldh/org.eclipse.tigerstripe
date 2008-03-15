@@ -12,6 +12,9 @@ package org.eclipse.tigerstripe.workbench.plugins;
 
 import java.util.List;
 
+import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
+
 public interface ITablePluginProperty extends IPluginProperty {
 
 	public class ColumnDef {
@@ -36,7 +39,7 @@ public interface ITablePluginProperty extends IPluginProperty {
 		}
 	}
 
-	public class TablePropertyRow {
+	public class TablePropertyRow extends AbstractContainedObject implements IContainedObject {
 
 		private ITablePluginProperty parentProperty;
 
@@ -49,6 +52,7 @@ public interface ITablePluginProperty extends IPluginProperty {
 		}
 
 		public void setValue(String columnName, String value) {
+			markDirty();
 			int index = indexOf(columnName);
 			if (index != -1)
 				values[index] = value;
@@ -87,6 +91,7 @@ public interface ITablePluginProperty extends IPluginProperty {
 			for (int i = 0; i < values.length; i++) {
 				values[i] = parentProperty.getColumnDefs().get(i).defaultColumnValue;
 			}
+			markDirty();
 		}
 	}
 

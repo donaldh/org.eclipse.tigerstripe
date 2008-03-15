@@ -30,8 +30,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -42,7 +42,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public abstract class RulesSectionPart extends PluginDescriptorSectionPart {
+public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 
 	public RulesSectionPart(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit, int style) {

@@ -14,11 +14,15 @@ import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePackager;
 
 public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
+
+	// TODO: this should be removed and merged back into
+	// TigerstripeProjectHandle?
 
 	/**
 	 * 
@@ -42,4 +46,13 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 		return copy;
 	}
 
+	@Override
+	public boolean isDirty() {
+		try {
+			return getTSProject().isDirty();
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+		return false;
+	}
 }

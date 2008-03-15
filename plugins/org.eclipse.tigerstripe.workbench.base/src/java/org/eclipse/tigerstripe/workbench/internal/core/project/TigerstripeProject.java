@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.ReaderInputStream;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -103,7 +104,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	/**
 	 * A set of ArtifactRepositories
 	 */
-	private Collection artifactRepositories = new ArrayList();
+	private Collection<ArtifactRepository> artifactRepositories = new ArrayList<ArtifactRepository>();
 
 	/**
 	 * A set of dependencies
@@ -128,28 +129,66 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	// ==========================================
-	public Collection<IPluginConfig> getPluginConfigs() {
-		return this.pluginConfigs;
+
+	public IPluginConfig[] getPluginConfigs() {
+		return this.pluginConfigs.toArray(new IPluginConfig[this.pluginConfigs
+				.size()]);
 	}
 
 	public void setPluginConfigs(Collection<IPluginConfig> pluginConfigs) {
-		this.pluginConfigs = pluginConfigs;
+		setDirty();
+		pluginConfigs.clear();
+		for (IPluginConfig config : pluginConfigs) {
+			pluginConfigs.add(config);
+			if (config instanceof IContainedObject) {
+				IContainedObject obj = (IContainedObject) config;
+				obj.setContainer(this);
+			}
+		}
 	}
 
-	public Collection getArtifactRepositories() {
+	public void addPluginConfig(IPluginConfig pluginConfig) {
+		setDirty();
+		if (!this.pluginConfigs.contains(pluginConfig)) {
+			this.pluginConfigs.add(pluginConfig);
+			((IContainedObject) pluginConfig).setContainer(this);
+		}
+	}
+
+	public void removePluginConfig(IPluginConfig pluginConfig) {
+		setDirty();
+		if (this.pluginConfigs.contains(pluginConfig)) {
+			this.pluginConfigs.remove(pluginConfig);
+			((IContainedObject) pluginConfig).setContainer(null);
+		}
+	}
+
+	public Collection<ArtifactRepository> getArtifactRepositories() {
 		return this.artifactRepositories;
 	}
 
-	public void setArtifactRepositories(Collection artifactRepositories) {
-		this.artifactRepositories = artifactRepositories;
+	public void setArtifactRepositories(
+			Collection<ArtifactRepository> artifactRepositories) {
+		setDirty();
+		this.artifactRepositories.clear();
+		for (ArtifactRepository repo : artifactRepositories) {
+			this.artifactRepositories.add(repo);
+			repo.setContainer(this);
+		}
 	}
 
-	public Collection<IDependency> getDependencies() {
-		return this.dependencies;
+	public IDependency[] getDependencies() {
+		return this.dependencies.toArray(new IDependency[this.dependencies
+				.size()]);
 	}
 
-	public void setDependencies(Collection dependencies) {
-		this.dependencies = dependencies;
+	public void setDependencies(Collection<IDependency> dependencies) {
+		setDirty();
+		this.dependencies.clear();
+		for (IDependency dep : dependencies) {
+			this.dependencies.add(dep);
+			((Dependency) dep).setContainer(this);
+		}
 	}
 
 	// =============================================
@@ -294,9 +333,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		if (artifactRepositories == null || artifactRepositories.isEmpty())
 			return null;
 
-		Iterator iter = artifactRepositories.iterator();
+		Iterator<ArtifactRepository> iter = artifactRepositories.iterator();
 
-		ArtifactRepository repo = (ArtifactRepository) iter.next();
+		ArtifactRepository repo = iter.next();
 		if (repo.getIncludes() != null && repo.getIncludes().length != 0) {
 			String includeRaw = repo.getIncludes()[0];
 			String include = includeRaw.substring(0, includeRaw.indexOf("**"));
@@ -315,8 +354,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			artifactRepositories.add(repo);
 		}
 
-		for (Iterator iter = artifactRepositories.iterator(); iter.hasNext();) {
-			ArtifactRepository repo = (ArtifactRepository) iter.next();
+		for (Iterator<ArtifactRepository> iter = artifactRepositories
+				.iterator(); iter.hasNext();) {
+			ArtifactRepository repo = iter.next();
 			Element repository = document.createElement(REPOSITORY_TAG);
 
 			// the baseDir
@@ -346,8 +386,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	private Element buildPluginsElement(Document document) {
 		Element plugins = document.createElement("plugins");
 
-		for (Iterator iter = getPluginConfigs().iterator(); iter.hasNext();) {
-			PluginConfig ref = (PluginConfig) iter.next();
+		for (IPluginConfig iPluginConfig : getPluginConfigs()) {
+			PluginConfig ref = (PluginConfig) iPluginConfig;
 			Element plugin = ref.buildPluginElement(document);
 
 			plugins.appendChild(plugin);
@@ -372,9 +412,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		String corePath = TigerstripeRuntime
 				.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
 
-		for (Iterator iter = getDependencies().iterator(); iter.hasNext();) {
-
-			Dependency dep = (Dependency) iter.next();
+		for (IDependency dependency : getDependencies()) {
+			Dependency dep = (Dependency) dependency;
 			if (!dep.getPath().equals(corePath)) {
 				Element depElm = document.createElement(DEPENDENCY_TAG);
 
@@ -410,7 +449,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	private void loadRepositories(Document document)
 			throws TigerstripeException {
-		this.artifactRepositories = new ArrayList();
+		this.artifactRepositories = new ArrayList<ArtifactRepository>();
 
 		NodeList repositories = document.getElementsByTagName(REPOSITORY_TAG);
 		if (repositories.getLength() == 0)
@@ -443,8 +482,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 			// Get the Includes and excludes
 			NodeList children = node.getChildNodes();
-			ArrayList includes = new ArrayList();
-			ArrayList excludes = new ArrayList();
+			ArrayList<String> includes = new ArrayList<String>();
+			ArrayList<String> excludes = new ArrayList<String>();
 			for (int j = 0; j < children.getLength(); j++) {
 				if ("includes".equals(children.item(j).getNodeName())) {
 					includes.add(children.item(j).getFirstChild()
@@ -458,13 +497,14 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			repository.setIncludes(includes);
 			repository.setExcludes(excludes);
 			artifactRepositories.add(repository);
+			repository.setContainer(this);
 		}
 	}
 
 	private void loadPluginConfigs(Document document)
 			throws TigerstripeException {
 
-		this.pluginConfigs = new ArrayList();
+		this.pluginConfigs = new ArrayList<IPluginConfig>();
 		NodeList plugins = document
 				.getElementsByTagName(PluginConfig.PLUGIN_REFERENCE_TAG);
 
@@ -478,6 +518,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 				ref.resolve();
 
 				this.pluginConfigs.add(ref);
+				ref.setContainer(this);
 			} catch (UnknownPluginException e) {
 				log.info(e);
 			}
@@ -485,8 +526,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	public PluginConfig findPluginConfig(PluginConfig model) {
-		for (Iterator iter = getPluginConfigs().iterator(); iter.hasNext();) {
-			PluginConfig ref = (PluginConfig) iter.next();
+		for (IPluginConfig iPluginConfig : getPluginConfigs()) {
+			PluginConfig ref = (PluginConfig) iPluginConfig;
 			if (model.getPluginId().equals(ref.getPluginId())
 					&& model.getGroupId().equals(ref.getGroupId()))
 				return ref;
@@ -511,11 +552,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		// handle default Dep
 		if (getBaseDir() != null
 				&& !getProjectDetails().getName().equals("Phantom Project")) { // don't
-			// do
-			// that
-			// on
-			// TS
-			// Modules
+			// do that on TS Modules
 			addDependency(TigerstripeRuntime.getCoreOssjArchive());
 		}
 
@@ -546,7 +583,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			Node node = facetRefNode.item(i);
 			IFacetReference ref = FacetReference.decode(node, this);
 			if (ref != null)
-				facetReferences.add(ref);
+				addFacetReference(ref);
 		}
 	}
 
@@ -704,14 +741,18 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	public void addDependency(IDependency dependency) {
 		if (!this.dependencies.contains(dependency)) {
+			setDirty();
 			this.dependencies.add(dependency);
+			((Dependency) dependency).setContainer(this);
 			dependencyAdded(dependency);
 		}
 	}
 
 	public void removeDependency(IDependency dependency) {
 		if (this.dependencies.contains(dependency)) {
+			setDirty();
 			this.dependencies.remove(dependency);
+			((Dependency) dependency).setContainer(null);
 			dependencyRemoved(dependency);
 		}
 	}
@@ -730,7 +771,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	// ============================================================
 	// For listeners
-	private Collection projectChangeListener = new ArrayList();
+	private Collection<IProjectChangeListener> projectChangeListener = new ArrayList<IProjectChangeListener>();
 
 	public void addProjectChangeListener(IProjectChangeListener listener) {
 		projectChangeListener.add(listener);
@@ -741,7 +782,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	private void dependencyRemoved(IDependency dependency) {
-		for (Iterator iter = projectChangeListener.iterator(); iter.hasNext();) {
+		for (Iterator<IProjectChangeListener> iter = projectChangeListener
+				.iterator(); iter.hasNext();) {
 			IProjectChangeListener listener = (IProjectChangeListener) iter
 					.next();
 			listener.dependencyRemoved(dependency);
@@ -749,7 +791,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	private void dependencyAdded(IDependency dependency) {
-		for (Iterator iter = projectChangeListener.iterator(); iter.hasNext();) {
+		for (Iterator<IProjectChangeListener> iter = projectChangeListener
+				.iterator(); iter.hasNext();) {
 			IProjectChangeListener listener = (IProjectChangeListener) iter
 					.next();
 			listener.dependencyAdded(dependency);
@@ -758,11 +801,13 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	public void addReferencedProject(ITigerstripeModelProject project)
 			throws TigerstripeException {
+		setDirty();
 		referencedProjects.add(project);
 	}
 
 	public void removeReferencedProject(ITigerstripeModelProject project)
 			throws TigerstripeException {
+		setDirty();
 		referencedProjects.remove(project);
 	}
 
@@ -787,7 +832,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	public boolean hasReference(ITigerstripeModelProject project) {
 
-		for (Iterator iter = referencedProjects.iterator(); iter.hasNext();) {
+		for (Iterator<ITigerstripeModelProject> iter = referencedProjects
+				.iterator(); iter.hasNext();) {
 			ITigerstripeModelProject prj = (ITigerstripeModelProject) iter
 					.next();
 			if (project.getLocation().equals(prj.getLocation()))
@@ -819,17 +865,16 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public boolean hasSameDependencies(TigerstripeProject other,
 			boolean ignoreOrder) {
 
-		Collection<IDependency> otherDeps = other.getDependencies();
-		if (getDependencies().size() != otherDeps.size())
+		IDependency[] otherDeps = other.getDependencies();
+		if (getDependencies().length != otherDeps.length)
 			return false;
 
-		if (otherDeps.size() == 0)
+		if (otherDeps.length == 0)
 			return true;
 
 		int index = 0;
-		for (Iterator oIter = otherDeps.iterator(); oIter.hasNext();) {
+		for (IDependency dep : otherDeps) {
 			boolean matched = false;
-			IDependency dep = (IDependency) oIter.next();
 
 			if (dep.isValid()) {
 				if (ignoreOrder) {
@@ -916,20 +961,25 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	public void addFacetReference(IFacetReference facetRef)
 			throws TigerstripeException {
-		if (!facetReferences.contains(facetRef))
+		if (!facetReferences.contains(facetRef)) {
+			setDirty();
 			facetReferences.add(facetRef);
+			((FacetReference) facetRef).setContainer(this);
+		}
 	}
 
 	public void removeFacetReference(IFacetReference facetRef)
 			throws TigerstripeException {
 		if (facetReferences.contains(facetRef)) {
+			setDirty();
 			facetReferences.remove(facetRef);
+			((FacetReference) facetRef).setContainer(null);
 		}
 	}
 
-	public List<IFacetReference> getFacetReferences()
-			throws TigerstripeException {
-		return facetReferences;
+	public IFacetReference[] getFacetReferences() throws TigerstripeException {
+		return facetReferences.toArray(new IFacetReference[facetReferences
+				.size()]);
 	}
 
 	public ITigerstripeModelProject[] getIReferencedProjects()

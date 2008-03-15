@@ -74,12 +74,13 @@ public class ModuleArtifactManager extends ArtifactManager {
 		updateDependenciesContentCache(monitor);
 	}
 
-	protected Collection getTemporaryDependencies() {
-		return temporaryDependencies;
+	protected IDependency[] getTemporaryDependencies() {
+		return temporaryDependencies
+				.toArray(new IDependency[temporaryDependencies.size()]);
 	}
 
 	@Override
-	public synchronized Collection getProjectDependencies() {
+	public synchronized IDependency[] getProjectDependencies() {
 		return getTemporaryDependencies();
 	}
 

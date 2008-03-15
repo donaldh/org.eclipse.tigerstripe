@@ -20,13 +20,15 @@ import java.util.Map;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.M0GeneratorProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
 public class ProjectSessionImpl {
@@ -41,7 +43,8 @@ public class ProjectSessionImpl {
 
 	public String[] getSupportedTigerstripeProjects() {
 		return new String[] { TigerstripeOssjProjectHandle.class.getName(),
-				ITigerstripePluginProject.class.getName() };
+				ITigerstripePluginProject.class.getName(),
+				ITigerstripeM0GeneratorProject.class.getName() };
 	}
 
 	public IAbstractTigerstripeProject makeTigerstripeProject(URI projectURI)
@@ -105,6 +108,9 @@ public class ProjectSessionImpl {
 			if (projectType.equals(ITigerstripePluginProject.class.getName())) {
 				// TODO select the right type
 				result = new TigerstripePluginProjectHandle(projectURI);
+			} else if (projectType.equals(ITigerstripeM0GeneratorProject.class
+					.getName())) {
+				result = new M0GeneratorProjectHandle(projectURI);
 			} else {
 				result = new TigerstripeOssjProjectHandle(projectURI);
 			}
@@ -143,6 +149,9 @@ public class ProjectSessionImpl {
 					return TigerstripeOssjProjectHandle.class.getName();
 				else if (file.endsWith(ITigerstripeConstants.PLUGIN_DESCRIPTOR))
 					return ITigerstripePluginProject.class.getName();
+				else if (file
+						.endsWith(ITigerstripeConstants.M0_GENERATOR_DESCRIPTOR))
+					return ITigerstripeM0GeneratorProject.class.getName();
 			}
 		}
 		return "";
@@ -206,10 +215,10 @@ public class ProjectSessionImpl {
 					&& workingCopy instanceof ITigerstripePluginProject) {
 				TigerstripePluginProjectHandle handle = (TigerstripePluginProjectHandle) result;
 				TigerstripePluginProjectHandle workingHandle = (TigerstripePluginProjectHandle) workingCopy;
-				PluggablePluginProject project = handle.getPPProject();
+				GeneratorProjectDescriptor project = handle.getDescriptor();
 
 				StringReader reader = new StringReader(workingHandle
-						.getPPProject().asText());
+						.getDescriptor().asText());
 				project.parse(reader);
 			}
 		}

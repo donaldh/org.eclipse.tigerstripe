@@ -88,8 +88,6 @@ public class WorkspaceListener implements IElementChangedListener,
 	}
 
 	public void resourceChanged(IResourceChangeEvent event) {
-		IResourceDelta delta = event.getDelta();
-
 		// Get the list of removed resources
 		Collection<IResource> removedResources = new HashSet<IResource>();
 		Collection<IResource> changedResources = new HashSet<IResource>();
@@ -225,8 +223,8 @@ public class WorkspaceListener implements IElementChangedListener,
 	}
 
 	public static void buildResourcesLists(IResourceDelta delta,
-			Collection itemsToRemove, Collection itemsChanged,
-			Collection itemsAdded) {
+			Collection<IResource> itemsToRemove, Collection<IResource> itemsChanged,
+			Collection<IResource> itemsAdded) {
 		if (delta == null) // occurs when deleting project
 			return;
 

@@ -69,7 +69,6 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.contract.useCase,
    org.eclipse.tigerstripe.api.project",
  org.eclipse.tigerstripe.workbench.internal.api.contract.useCase;uses:="org.eclipse.tigerstripe.api.versioning,org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.workbench.internal.api.examples,
  org.eclipse.tigerstripe.workbench.internal.api.impl;
   uses:="org.eclipse.tigerstripe.api.artifacts.updater,
    org.eclipse.tigerstripe.api.utils,

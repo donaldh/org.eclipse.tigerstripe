@@ -10,10 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal;
 
-import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Vector;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -41,34 +39,7 @@ public abstract class WorkingCopyManager implements IWorkingCopy {
 	private Set<IOriginalChangeListener> listeners = new HashSet<IOriginalChangeListener>();
 	private Set<IWorkingCopy> copies = new HashSet<IWorkingCopy>();
 
-	private BitSet fieldDirtyStatus = new BitSet(0);
-	protected Vector<String> managedFields = new Vector<String>();
-
 	protected WorkingCopyManager() {
-		addManagedFields();
-		resetDirtyFields();
-	}
-
-	/**
-	 * Returns true if the given field is dirty.
-	 * 
-	 * If the field is not a managed field, a TigerstripeException is thrown If
-	 * this is not a working copy this method always returns true;
-	 * 
-	 * @param fieldName
-	 * @return
-	 * @throws TigerstripeException
-	 */
-	public boolean fieldIsDirty(String fieldName) throws TigerstripeException {
-		if (!isWorkingCopy())
-			return true;
-
-		int index = managedFields.indexOf(fieldName);
-		if (index == -1)
-			throw new TigerstripeException("Field: " + fieldName
-					+ " is not managed.");
-
-		return fieldDirtyStatus.get(index);
 	}
 
 	public WorkingCopyManager getOriginal() {
@@ -92,8 +63,6 @@ public abstract class WorkingCopyManager implements IWorkingCopy {
 
 	protected abstract void doCommit(IProgressMonitor monitor)
 			throws TigerstripeException;
-
-	protected abstract void addManagedFields();
 
 	public IWorkingCopy makeWorkingCopy(IProgressMonitor monitor)
 			throws TigerstripeException {
@@ -140,8 +109,6 @@ public abstract class WorkingCopyManager implements IWorkingCopy {
 		OriginalChangeEvent event = new OriginalChangeEvent(
 				OriginalChangeEvent.ORIGINAL_CHANGED);
 		notifyListeners(event);
-
-		resetDirtyFields();
 	}
 
 	private void dispose(IWorkingCopy copy) {
@@ -173,15 +140,7 @@ public abstract class WorkingCopyManager implements IWorkingCopy {
 		}
 	}
 
-	public void assertSet(String fieldID) throws WorkingCopyException,
-			TigerstripeException {
-
-		int index = managedFields.indexOf(fieldID);
-
-		if (index == -1)
-			throw new TigerstripeException("Field: " + fieldID
-					+ " is not managed.");
-
+	public void assertSet() throws WorkingCopyException, TigerstripeException {
 		if (!isWorkingCopy()) {
 			throw new WorkingCopyException(
 					"Please get a workingCopy to perform set");
@@ -189,23 +148,8 @@ public abstract class WorkingCopyManager implements IWorkingCopy {
 			throw new WorkingCopyException(
 					"This working copy was already disposed.");
 		}
-
-		markFieldDirty(fieldID);
 	}
 
-	protected void markFieldDirty(String fieldID) throws TigerstripeException {
-		int index = managedFields.indexOf(fieldID);
-		if (index == -1)
-			throw new TigerstripeException("Field '" + fieldID
-					+ "' not managed.");
-		fieldDirtyStatus.set(index);
-	}
+	public abstract boolean isDirty();
 
-	public boolean isDirty() {
-		return !fieldDirtyStatus.isEmpty();
-	}
-
-	private void resetDirtyFields() {
-		fieldDirtyStatus = new BitSet(managedFields.size());
-	}
 }

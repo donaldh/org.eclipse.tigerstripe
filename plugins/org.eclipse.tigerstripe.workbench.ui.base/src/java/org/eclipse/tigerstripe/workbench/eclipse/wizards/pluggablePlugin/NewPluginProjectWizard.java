@@ -94,7 +94,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 
 		setNeedsProgressMonitor(true);
 		image = Images.getDescriptor(Images.TS_LOGO);
-		setWindowTitle("New Tigerstripe Plugin Project");
+		setWindowTitle("New Tigerstripe M1-Level Generation Plugin Project");
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 		if (LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.CREATE_EDIT) {
 			NewPluggablePluginErrorPage errorPage = new NewPluggablePluginErrorPage(
 					"errorPage1");
-			errorPage.setTitle("New Tigerstripe Plugin Project");
+			errorPage.setTitle("New Tigerstripe M1-Level Generation Plugin Project");
 			errorPage.setTitle("New Plugin Project Error");
 			addPage(errorPage);
 		} else {

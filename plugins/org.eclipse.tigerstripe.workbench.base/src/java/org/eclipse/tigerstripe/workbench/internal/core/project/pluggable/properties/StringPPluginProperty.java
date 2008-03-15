@@ -49,6 +49,8 @@ public class StringPPluginProperty extends BasePPluginProperty implements
 	}
 
 	public void setDefaultString(String value) {
+		markDirty(); // not really needed as setDefaultValue does it do.
+		// Doesn't hurt
 		setDefaultValue(value);
 	}
 

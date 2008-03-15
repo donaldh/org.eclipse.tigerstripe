@@ -10,9 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable;
 
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.BaseTemplatePPluginRule;
-
-import com.sun.corba.se.spi.ior.MakeImmutable;
+import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 
 /**
  * A velocity context definition as it appears in a Pluggable Plugin project
@@ -20,20 +19,10 @@ import com.sun.corba.se.spi.ior.MakeImmutable;
  * @author Eric Dillon
  * 
  */
-public class VelocityContextDefinition {
+public class VelocityContextDefinition extends AbstractContainedObject implements IContainedObject {
 
 	private String name;
 	private String className;
-	private BaseTemplatePPluginRule containingRule;
-
-	public void setContainingRule(BaseTemplatePPluginRule rule) {
-		this.containingRule = rule;
-	}
-
-	private void markDirty() {
-		if (containingRule != null)
-			containingRule.markProjectDirty();
-	}
 
 	public String getName() {
 		return name;

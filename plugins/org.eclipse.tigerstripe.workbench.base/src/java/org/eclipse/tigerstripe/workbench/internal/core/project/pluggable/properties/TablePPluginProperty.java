@@ -83,7 +83,7 @@ public class TablePPluginProperty extends BasePPluginProperty implements
 			org.dom4j.Document document = saxReader.read(reader);
 
 			org.dom4j.Element root = document.getRootElement();
-			Iterator<org.dom4j.Element> iter = root.elementIterator("row");
+			@SuppressWarnings("unchecked") Iterator<org.dom4j.Element> iter = root.elementIterator("row");
 			for (; iter.hasNext();) {
 				org.dom4j.Element rowElm = iter.next();
 				TablePropertyRow row = new TablePropertyRow(this);
@@ -95,6 +95,7 @@ public class TablePPluginProperty extends BasePPluginProperty implements
 					row.setValue(columnName, value);
 				}
 				rows.add(row);
+				System.err.println("TablePPluginProperty should implement IContainerObject");
 			}
 
 		} catch (DocumentException e) {
@@ -114,7 +115,7 @@ public class TablePPluginProperty extends BasePPluginProperty implements
 
 	public String serialize(Object value) {
 		if (value instanceof List) {
-			List<TablePropertyRow> entries = (List<TablePropertyRow>) value;
+			@SuppressWarnings("unchecked") List<TablePropertyRow> entries = (List<TablePropertyRow>) value;
 			org.dom4j.Document document = DocumentFactory.getInstance()
 					.createDocument();
 			org.dom4j.Element rootElem = DocumentFactory.getInstance()

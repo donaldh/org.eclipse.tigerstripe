@@ -8,7 +8,7 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor;
+package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -19,24 +19,24 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeSectionPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.FileEditorInput;
 
-public abstract class PluginDescriptorSectionPart extends
+public abstract class GeneratorDescriptorSectionPart extends
 		TigerstripeSectionPart {
 
-	public PluginDescriptorSectionPart(TigerstripeFormPage page,
+	public GeneratorDescriptorSectionPart(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit, int style) {
 		super(page, parent, toolkit, style);
 	}
 
-	public ITigerstripePluginProject getIPluggablePluginProject() {
-		PluginDescriptorEditor editor = (PluginDescriptorEditor) getPage()
+	public ITigerstripeGeneratorProject getIPluggablePluginProject() {
+		GeneratorDescriptorEditor editor = (GeneratorDescriptorEditor) getPage()
 				.getEditor();
-		return editor.getIPluggablePluginProject();
+		return editor.getProjectHandle();
 	}
 
 	protected boolean projectHasErrors() {

@@ -12,14 +12,17 @@ package org.eclipse.tigerstripe.workbench;
 
 public class WorkingCopyException extends TigerstripeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3021551580990014449L;
+
 	public WorkingCopyException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	public WorkingCopyException(String message, Exception e) {
 		super(message, e);
-		// TODO Auto-generated constructor stub
 	}
 
 }

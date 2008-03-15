@@ -26,6 +26,8 @@ public interface ITigerstripeConstants {
 	 * Tigerstripe Plugin descriptor
 	 */
 	public final static String PLUGIN_DESCRIPTOR = "ts-plugin.xml";
+	
+	public final static String M0_GENERATOR_DESCRIPTOR = "m0-generator.xml";
 
 	public final static String PHANTOMSRC_ECLIPSECLASSPATH_VARIABLE = "TIGERSTRIPE_ARTIFACT_BASE";
 

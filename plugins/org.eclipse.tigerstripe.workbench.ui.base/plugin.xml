@@ -70,6 +70,13 @@
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptorEditor"
             name="Tigerstripe Plugin Descriptor Editor"/>
       <editor
+            class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.m0Descriptor.M0DescriptorEditor"
+            default="true"
+            filenames="m0-generator.xml"
+            icon="src/icons/plugin.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.m0DescriptorEditor"
+            name="Tigerstripe M0-Level Generator Descriptor Editor"/>
+      <editor
             class="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.profile.ProfileEditor"
             default="true"
             extensions="wbp"
@@ -347,6 +354,14 @@
             project="true"/>
       <wizard
             category="org.eclipse.tigerstripe.eclipse"
+            class="org.eclipse.tigerstripe.workbench.eclipse.wizards.m0Generator.NewM0GeneratorProjectWizard"
+            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            icon="src/icons/plugin.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.wizards.newM0GeneratorWizard"
+            name="Tigerstripe M0-Level Generator Project"
+            project="true"/>
+      <wizard
+            category="org.eclipse.tigerstripe.eclipse"
             class="org.eclipse.tigerstripe.workbench.eclipse.wizards.profile.NewWorkbenchProfileWizard"
             finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
             icon="src/icons/profile.gif"
@@ -359,13 +374,6 @@
             icon="src/icons/segment.gif"
             id="org.eclipse.tigerstripe.eclipse.wizards.NewSegmentWizard"
             name="Contract Facet"/>
-      <wizard
-            category="org.eclipse.tigerstripe.eclipse"
-            class="org.eclipse.tigerstripe.workbench.eclipse.wizards.useCase.NewUseCaseWizard"
-            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
-            icon="src/icons/useCase.gif"
-            id="org.eclipse.tigerstripe.eclipse.wizards.NewUseCaseWizard"
-            name="Contract Use Case Document"/>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -644,6 +652,16 @@
                label="Tigerstripe result"
                searchResultClass="org.eclipse.tigerstripe.workbench.ui.eclipse.search.TigerstripeSearchResult">
          </viewPage>
+      </extension>
+      <extension
+            id="m0GeneratorProject"
+            name="Tigerstripe M0-Level Generator"
+            point="org.eclipse.core.resources.natures">
+         <runtime>
+            <run
+                  class="org.eclipse.tigerstripe.workbench.ui.eclipse.natures.TigerstripeM0GeneratorNature">
+            </run>
+         </runtime>
       </extension>
    
 </plugin>

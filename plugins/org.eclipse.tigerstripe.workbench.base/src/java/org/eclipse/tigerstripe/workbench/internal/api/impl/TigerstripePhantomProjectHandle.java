@@ -67,4 +67,8 @@ public class TigerstripePhantomProjectHandle extends TigerstripeProjectHandle
 		throw new TigerstripeException("Operation not supported.");
 	}
 
+	@Override
+	public boolean isDirty() {
+		return false;
+	}
 }

@@ -1,25 +1,16 @@
 /*******************************************************************************
- * Copyright (c) 2007 Cisco Systems, Inc.
+ * Copyright (c) 2008 Cisco Systems, Inc.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+ *    Cisco Systems, Inc. - Initial Version
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.examples;
+package org.eclipse.tigerstripe.workbench.project;
 
-public class RunExample {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		CreateArtifact ca = new CreateArtifact();
-		ca.body();
-	}
+public interface ITigerstripeM0GeneratorProject extends
+		ITigerstripeGeneratorProject {
 
 }

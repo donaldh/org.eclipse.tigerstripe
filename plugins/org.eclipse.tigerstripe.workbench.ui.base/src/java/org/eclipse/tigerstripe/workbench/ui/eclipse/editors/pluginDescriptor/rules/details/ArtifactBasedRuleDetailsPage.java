@@ -303,8 +303,6 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		Label l = form.getToolkit()
 				.createLabel(sectionClient, "Artifact Type:");
 
-		ITigerstripePluginProject project = getPPProject();
-
 		IArtifactMetadataSession session = InternalTigerstripeCore
 				.getDefaultArtifactMetadataSession();
 		String[] baseSupportedArtifacts = session

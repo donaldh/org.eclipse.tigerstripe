@@ -41,7 +41,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -246,7 +245,7 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 
 		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
 				SWT.PUSH);
-		TableWrapData td1 = new TableWrapData( TableWrapData.FILL);
+		TableWrapData td1 = new TableWrapData(TableWrapData.FILL);
 		removeAttributeButton.setLayoutData(td1);
 		removeAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
@@ -396,14 +395,6 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 	}
 
 	protected void markPageModified() {
-		
-		// Bug 221514
-		// This is a hack as there is no way to mark the WorkingCopy dirty :-(
-		try {
-			((TigerstripeProjectHandle) getTSProject()).setForceDirty();
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
-		}
 		DescriptorEditor editor = (DescriptorEditor) getPage().getEditor();
 		editor.pageModified();
 	}

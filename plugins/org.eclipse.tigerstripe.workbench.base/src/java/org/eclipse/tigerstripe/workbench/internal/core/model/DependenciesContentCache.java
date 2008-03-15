@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -21,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.PredicateFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
 
 /**
  * This implements a cache for all the dependencies attached to an Artifact
@@ -45,7 +45,7 @@ public class DependenciesContentCache {
 
 	private List<IAbstractArtifact> allArtifacts;
 
-	private HashMap artifactsByFqn;
+	private HashMap<String, IAbstractArtifact> artifactsByFqn;
 
 	// bug 928: need to filter result being aware of potential active facet
 	private ArtifactFilter artifactFilter = new ArtifactNoFilter();
@@ -69,9 +69,9 @@ public class DependenciesContentCache {
 	}
 
 	private void cleanCache() {
-		artifactsByModel = new HashMap();
-		allArtifacts = new ArrayList();
-		artifactsByFqn = new HashMap();
+		artifactsByModel = new HashMap<IAbstractArtifact, List<IAbstractArtifact>>();
+		allArtifacts = new ArrayList<IAbstractArtifact>();
+		artifactsByFqn = new HashMap<String, IAbstractArtifact>();
 		allKnownArtifactsByFqn = new HashMap<String, List<IAbstractArtifact>>();
 	}
 
@@ -87,15 +87,13 @@ public class DependenciesContentCache {
 	}
 
 	private void updateArtifactsByModel(IProgressMonitor monitor) {
-		Collection registeredArtifacts = manager.getRegisteredArtifacts();
+		Collection<IAbstractArtifact> registeredArtifacts = manager
+				.getRegisteredArtifacts();
 		monitor.beginTask("Cache update - Pass 1", registeredArtifacts.size());
-		for (Iterator iterModel = registeredArtifacts.iterator(); iterModel
-				.hasNext();) {
-			IAbstractArtifact model = (IAbstractArtifact) iterModel.next();
+		for (IAbstractArtifact model : registeredArtifacts) {
 			List<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
-			for (Iterator iter = manager.getProjectDependencies().iterator(); iter
-					.hasNext();) {
-				Dependency dep = (Dependency) iter.next();
+			for (IDependency dependency : manager.getProjectDependencies()) {
+				Dependency dep = (Dependency) dependency;
 				if (dep != null && dep.getArtifactManager(monitor) != null)
 					list.addAll(dep.getArtifactManager(monitor)
 							.getArtifactsByModel((AbstractArtifact) model,
@@ -110,9 +108,8 @@ public class DependenciesContentCache {
 
 	private void updateAllArtifacts(IProgressMonitor monitor) {
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-		for (Iterator iter = manager.getProjectDependencies().iterator(); iter
-				.hasNext();) {
-			Dependency dep = (Dependency) iter.next();
+		for (IDependency dependency : manager.getProjectDependencies()) {
+			Dependency dep = (Dependency) dependency;
 			if (dep != null && dep.getArtifactManager(monitor) != null)
 				result.addAll(dep.getArtifactManager(monitor).getAllArtifacts(
 						true, monitor));
@@ -124,19 +121,16 @@ public class DependenciesContentCache {
 	// TODO: really this could be replaced now with by extracting the first item
 	// in the allKnownArtifactsByFqn...
 	private void updateArtifactsByFqn(IProgressMonitor monitor) {
-		artifactsByFqn = new HashMap();
-		for (Iterator iter = allArtifacts.iterator(); iter.hasNext();) {
-			AbstractArtifact artifact = (AbstractArtifact) iter.next();
+		artifactsByFqn = new HashMap<String, IAbstractArtifact>();
+		for (IAbstractArtifact artifact : allArtifacts) {
 			String fqn = artifact.getFullyQualifiedName();
 			artifactsByFqn.put(fqn, artifact);
 		}
 	}
 
-	private void updateAllKnownArtifactsByFqn(
-			IProgressMonitor monitor) {
-		allKnownArtifactsByFqn = new HashMap();
-		for (Iterator iter = allArtifacts.iterator(); iter.hasNext();) {
-			IAbstractArtifact artifact = (IAbstractArtifact) iter.next();
+	private void updateAllKnownArtifactsByFqn(IProgressMonitor monitor) {
+		allKnownArtifactsByFqn = new HashMap<String, List<IAbstractArtifact>>();
+		for (IAbstractArtifact artifact : allArtifacts) {
 			String fqn = artifact.getFullyQualifiedName();
 			if (allKnownArtifactsByFqn.containsKey(fqn)) {
 				ArrayList<IAbstractArtifact> list = (ArrayList<IAbstractArtifact>) allKnownArtifactsByFqn

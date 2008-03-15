@@ -23,58 +23,34 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.tools.ant.util.ReaderInputStream;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
-import org.eclipse.tigerstripe.workbench.internal.core.project.AbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.BooleanPPluginProperty;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.StringPPluginProperty;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.TablePPluginProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedPPluginRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.BasePPluginRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime.PluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
-import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
 import org.eclipse.tigerstripe.workbench.plugins.ISimpleTemplateRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-public class PluggablePluginProject extends AbstractTigerstripeProject {
+public class PluggablePluginProject extends GeneratorProjectDescriptor {
 
 	public static final String DEFAULT_FILENAME = ITigerstripeConstants.PLUGIN_DESCRIPTOR;
-
-	@SuppressWarnings("unchecked")
-	private final static Class[] SUPPORTED_PROPERTIES = {
-			IStringPluginProperty.class, IBooleanPluginProperty.class,
-			ITablePluginProperty.class };
-
-	private final static String[] SUPPORTED_PROPERTIES_LABELS = {
-			StringPPluginProperty.LABEL, BooleanPPluginProperty.LABEL,
-			TablePPluginProperty.LABEL };
-
-	@SuppressWarnings("unchecked")
-	private final static Class[] PROPERTIES_IMPL = {
-			StringPPluginProperty.class, BooleanPPluginProperty.class,
-			TablePPluginProperty.class };
 
 	@SuppressWarnings("unchecked")
 	private final static Class[] SUPPORTED_RULES = {
@@ -100,209 +76,19 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 	// This defines the compatibility level for the project descriptor;
 	public static final String COMPATIBILITY_LEVEL = "1.2";
 
-	public static final String LOGGER = "logger";
-
-	public static final String PLUGIN_NATURE = "pluginNature";
-
-	public static final String GLOBAL_PROPERTIES = "globalProperties";
-
 	public static final String GLOBAL_RULES = "globalRules";
 
 	public static final String ARTIFACT_RULES = "artifactRules";
-
-	public static final String CLASSPATH_ENTRIES = "classpathEntries";
-
-	public static final String ADDITIONAL_FILES = "additionalFiles";
-
-	private List<IPluginProperty> globalProperties;
-
-	private List<IPluginClasspathEntry> classpathEntries;
 
 	private List<IRunRule> globalRules;
 
 	private List<ITemplateRunRule> artifactRules;
 
-	private List<String> additionalFilesInclude;
-
-	private List<String> additionalFilesExclude;
-
-	private EPluggablePluginNature nature;
-
-	private boolean isLogEnabled = false;
-
-	private String logPath = null;
-
-	private int maxRoll = 9;
-
-	private PluginLog.LogLevel defaultLogLevel = PluginLog.LogLevel.ERROR;
-
 	public PluggablePluginProject(File baseDir) {
 		super(baseDir, ITigerstripeConstants.PLUGIN_DESCRIPTOR);
-		globalProperties = new ArrayList<IPluginProperty>();
 		globalRules = new ArrayList<IRunRule>();
 		artifactRules = new ArrayList<ITemplateRunRule>();
-		classpathEntries = new ArrayList<IPluginClasspathEntry>();
-		additionalFilesInclude = new ArrayList<String>();
-		additionalFilesExclude = new ArrayList<String>();
-		nature = EPluggablePluginNature.Generic;
-	}
-
-	public EPluggablePluginNature getPluginNature() {
-		return this.nature;
-	}
-
-	public void setPluginNature(EPluggablePluginNature nature) {
-		this.nature = nature;
-	}
-
-	public IPluginClasspathEntry[] getClasspathEntries() {
-		return this.classpathEntries
-				.toArray(new IPluginClasspathEntry[classpathEntries.size()]);
-	}
-
-	public IPluginProperty[] getGlobalProperties() {
-		return globalProperties.toArray(new IPluginProperty[globalProperties
-				.size()]);
-	}
-
-	public void setGlobalProperties(IPluginProperty[] properties) {
-		this.globalProperties.clear();
-		this.globalProperties.addAll(Arrays.asList(properties));
-	}
-
-	public <T extends IPluginProperty> Class<T>[] getSupportedPluginProperties() {
-		return SUPPORTED_PROPERTIES;
-	}
-
-	public String[] getSupportedPluginPropertyLabels() {
-		return SUPPORTED_PROPERTIES_LABELS;
-	}
-
-	@SuppressWarnings("unchecked")
-	public IPluginProperty makeProperty(Class propertyType)
-			throws TigerstripeException {
-		for (int index = 0; index < SUPPORTED_PROPERTIES.length; index++) {
-			Class type = SUPPORTED_PROPERTIES[index];
-			if (type == propertyType) {
-				Class targetImpl = PROPERTIES_IMPL[index];
-				try {
-					IPluginProperty result = (IPluginProperty) targetImpl
-							.newInstance();
-					return result;
-				} catch (IllegalAccessException e) {
-					throw new TigerstripeException("Couldn't instantiate "
-							+ propertyType + ": " + e.getMessage(), e);
-				} catch (InstantiationException e) {
-					throw new TigerstripeException("Couldn't instantiate "
-							+ propertyType + ": " + e.getMessage(), e);
-				}
-			}
-		}
-		throw new TigerstripeException("Un-supported property type "
-				+ propertyType);
-	}
-
-	public void addAdditionalFile(String relativePath, int includeExclude) {
-		switch (includeExclude) {
-		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
-			if (!additionalFilesInclude.contains(relativePath)) {
-				additionalFilesInclude.add(relativePath);
-			}
-			break;
-		case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
-			if (!additionalFilesExclude.contains(relativePath)) {
-				additionalFilesExclude.add(relativePath);
-			}
-		}
-	}
-
-	public void removeAdditionalFile(String relativePath, int includeExclude) {
-		switch (includeExclude) {
-		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
-			if (additionalFilesInclude.contains(relativePath)) {
-				additionalFilesInclude.remove(relativePath);
-			}
-			break;
-		case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
-			if (additionalFilesExclude.contains(relativePath)) {
-				additionalFilesExclude.remove(relativePath);
-			}
-		}
-	}
-
-	public List<String> getAdditionalFiles(int includeExclude) {
-		switch (includeExclude) {
-		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
-			return additionalFilesInclude;
-		case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
-			return additionalFilesExclude;
-		default:
-			return additionalFilesInclude;
-		}
-	}
-
-	protected Element buildAdditionalFilesElement(Document document) {
-		Element additionalFilesElement = document
-				.createElement(ADDITIONAL_FILES);
-
-		for (String entry : getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE)) {
-			Element propElm = document.createElement("includeEntry");
-			propElm.setAttribute("relativePath", entry);
-			additionalFilesElement.appendChild(propElm);
-		}
-
-		for (String entry : getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE)) {
-			Element propElm = document.createElement("excludeEntry");
-			propElm.setAttribute("relativePath", entry);
-			additionalFilesElement.appendChild(propElm);
-		}
-		return additionalFilesElement;
-
-	}
-
-	protected Element buildClasspathEntriesElement(Document document) {
-		Element classpathEntriesProperties = document
-				.createElement(CLASSPATH_ENTRIES);
-
-		for (IPluginClasspathEntry entry : getClasspathEntries()) {
-			Element propElm = document.createElement("entry");
-			propElm.setAttribute("relativePath", entry.getRelativePath());
-			classpathEntriesProperties.appendChild(propElm);
-		}
-
-		return classpathEntriesProperties;
-	}
-
-	protected Element buildLoggerElement(Document document) {
-		Element logger = document.createElement(LOGGER);
-		logger.setAttribute("isEnabled", Boolean.toString(isLogEnabled()));
-		logger.setAttribute("defautLevel", String.valueOf(getDefaultLogLevel()
-				.toInt()));
-		logger.setAttribute("logPath", getLogPath());
-		logger.setAttribute("maxRoll", String.valueOf(maxRoll));
-		return logger;
-	}
-
-	protected Element buildNatureElement(Document document) {
-		Element natureElm = document.createElement(PLUGIN_NATURE);
-		natureElm.setAttribute("type", getPluginNature().name());
-		return natureElm;
-	}
-
-	protected Element buildGlobalPropertiesElement(Document document) {
-		Element globalProperties = document.createElement(GLOBAL_PROPERTIES);
-
-		for (IPluginProperty prop : getGlobalProperties()) {
-			Element propElm = document.createElement("property");
-			propElm.setAttribute("name", prop.getName());
-			propElm.setAttribute("type", prop.getType());
-			propElm.setAttribute("tipToolText", prop.getTipToolText());
-
-			propElm.appendChild(prop.getBodyAsNode(document));
-			globalProperties.appendChild(propElm);
-		}
-
-		return globalProperties;
+		setPluginNature(EPluggablePluginNature.Generic);
 	}
 
 	protected Element buildGlobalRulesElement(Document document) {
@@ -313,7 +99,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 			propElm.setAttribute("name", rule.getName());
 			propElm.setAttribute("type", rule.getType());
 			propElm.setAttribute("description", rule.getDescription());
-			propElm.setAttribute("enabled", rule.isEnabledStr());
+			propElm.setAttribute("enabled", String.valueOf(rule.isEnabled()));
 
 			if (rule instanceof ITemplateRunRule) {
 				ITemplateRunRule tRule = (ITemplateRunRule) rule;
@@ -325,7 +111,8 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 					propElm.appendChild(ctx);
 				}
 			}
-			propElm.appendChild(rule.getBodyAsNode(document));
+			propElm.appendChild(((BasePPluginRule) rule)
+					.getBodyAsNode(document));
 			globalProperties.appendChild(propElm);
 		}
 
@@ -340,7 +127,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 			propElm.setAttribute("name", rule.getName());
 			propElm.setAttribute("type", rule.getType());
 			propElm.setAttribute("description", rule.getDescription());
-			propElm.setAttribute("enabled", rule.isEnabledStr());
+			propElm.setAttribute("enabled", String.valueOf(rule.isEnabled()));
 
 			for (VelocityContextDefinition def : rule
 					.getVelocityContextDefinitions()) {
@@ -350,7 +137,8 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 				propElm.appendChild(ctx);
 			}
 
-			propElm.appendChild(rule.getBodyAsNode(document));
+			propElm.appendChild(((BasePPluginRule) rule)
+					.getBodyAsNode(document));
 			artifactRules.appendChild(propElm);
 		}
 
@@ -449,118 +237,10 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		}
 	}
 
-	protected void loadAdditionalFiles(Document document) {
-		additionalFilesInclude = new ArrayList<String>();
-		additionalFilesExclude = new ArrayList<String>();
-
-		NodeList entryProps = document.getElementsByTagName(ADDITIONAL_FILES);
-		if (entryProps.getLength() != 1)
-			return;
-
-		Element entriesRoot = (Element) entryProps.item(0);
-		NodeList entries = entriesRoot.getElementsByTagName("includeEntry");
-		for (int index = 0; index < entries.getLength(); index++) {
-			Element entry = (Element) entries.item(index);
-			String relPath = entry.getAttribute("relativePath");
-			if (relPath != null && relPath.length() != 0) {
-				additionalFilesInclude.add(relPath);
-			}
-		}
-		entries = entriesRoot.getElementsByTagName("excludeEntry");
-		for (int index = 0; index < entries.getLength(); index++) {
-			Element entry = (Element) entries.item(index);
-			String relPath = entry.getAttribute("relativePath");
-			if (relPath != null && relPath.length() != 0) {
-				additionalFilesExclude.add(relPath);
-			}
-		}
-	}
-
-	protected void loadClasspathEntries(Document document) {
-		classpathEntries = new ArrayList<IPluginClasspathEntry>();
-
-		NodeList entryProps = document.getElementsByTagName(CLASSPATH_ENTRIES);
-		if (entryProps.getLength() != 1)
-			return;
-
-		Element entriesRoot = (Element) entryProps.item(0);
-		NodeList entries = entriesRoot.getElementsByTagName("entry");
-		for (int index = 0; index < entries.getLength(); index++) {
-			Element entry = (Element) entries.item(index);
-			String relPath = entry.getAttribute("relativePath");
-			if (relPath != null && relPath.length() != 0) {
-				IPluginClasspathEntry anEntry = makeClasspathEntry();
-				anEntry.setRelativePath(relPath);
-				classpathEntries.add(anEntry);
-			}
-		}
-	}
-
-	protected void loadLogger(Document document) {
-
-		NodeList loggerList = document.getElementsByTagName(LOGGER);
-		if (loggerList.getLength() != 1)
-			return;
-
-		Element logger = (Element) loggerList.item(0);
-		isLogEnabled = "true"
-				.equalsIgnoreCase(logger.getAttribute("isEnabled"));
-		defaultLogLevel = PluginLog.LogLevel.fromInt(Integer.valueOf(logger
-				.getAttribute("defautLevel")));
-		logPath = logger.getAttribute("logPath");
-		maxRoll = Integer.valueOf(logger.getAttribute("maxRoll"));
-	}
-
-	protected void loadPluginNature(Document document) {
-		NodeList natureList = document.getElementsByTagName(PLUGIN_NATURE);
-		if (natureList.getLength() != 1)
-			return;
-
-		Element nature = (Element) natureList.item(0);
-		this.nature = EPluggablePluginNature.valueOf(nature
-				.getAttribute("type"));
-	}
-
-	protected void loadGlobalProperties(Document document) {
-
-		globalProperties = new ArrayList<IPluginProperty>();
-
-		NodeList globalProps = document.getElementsByTagName(GLOBAL_PROPERTIES);
-		if (globalProps.getLength() != 1)
-			return;
-
-		Element globals = (Element) globalProps.item(0);
-		NodeList properties = globals.getElementsByTagName("property");
-		for (int index = 0; index < properties.getLength(); index++) {
-			Element property = (Element) properties.item(index);
-			String name = property.getAttribute("name");
-			String typeStr = MigrationHelper.pluginMigrateProperty(property
-					.getAttribute("type"));
-			String tipToolText = property.getAttribute("tipToolText");
-
-			try {
-				@SuppressWarnings("unchecked")
-				Class type = PluggablePluginProject.class.getClassLoader()
-						.loadClass(typeStr);
-
-				IPluginProperty prop = makeProperty(type);
-				prop.setName(name);
-				prop.setProject(getHandle());
-				prop.setTipToolText(tipToolText);
-				prop.buildBodyFromNode(property);
-				globalProperties.add(prop);
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			} catch (ClassNotFoundException e) {
-				BasePlugin.log(e);
-			}
-		}
-	}
-
 	@SuppressWarnings("unchecked")
 	protected void loadGlobalRules(Document document) {
 
-		globalRules = new ArrayList<IRunRule>();
+		globalRules.clear();
 
 		NodeList globalProps = document.getElementsByTagName(GLOBAL_RULES);
 		if (globalProps.getLength() != 1)
@@ -571,7 +251,8 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		for (int index = 0; index < rules.getLength(); index++) {
 			Element rule = (Element) rules.item(index);
 			String name = rule.getAttribute("name");
-			String typeStr = MigrationHelper.pluginMigrateRuleType(rule.getAttribute("type"));
+			String typeStr = MigrationHelper.pluginMigrateRuleType(rule
+					.getAttribute("type"));
 			String description = rule.getAttribute("description");
 			String enabled = "true";
 			if (rule.hasAttribute("enabled")) {
@@ -580,14 +261,13 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 			try {
 				Class type = Class.forName(typeStr);
-				IRunRule prop = makeRule(type);
-				prop.setName(name);
-				prop.setProject(getHandle());
-				prop.setDescription(description);
-				prop.setEnabledStr(enabled);
+				IRunRule iRule = makeRule(type);
+				iRule.setName(name);
+				iRule.setDescription(description);
+				iRule.setEnabled(Boolean.parseBoolean(enabled));
 
-				if (prop instanceof ITemplateRunRule) {
-					ITemplateRunRule tRunRule = (ITemplateRunRule) prop;
+				if (iRule instanceof ITemplateRunRule) {
+					ITemplateRunRule tRunRule = (ITemplateRunRule) iRule;
 					NodeList contextEntries = rule
 							.getElementsByTagName("contextEntry");
 					for (int i = 0; i < contextEntries.getLength(); i++) {
@@ -599,8 +279,9 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 					}
 				}
 
-				prop.buildBodyFromNode(rule);
-				globalRules.add(prop);
+				((BasePPluginRule) iRule).buildBodyFromNode(rule);
+				addGlobalRule(iRule);
+
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			} catch (ClassNotFoundException e) {
@@ -623,7 +304,8 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		for (int index = 0; index < rules.getLength(); index++) {
 			Element rule = (Element) rules.item(index);
 			String name = rule.getAttribute("name");
-			String typeStr = MigrationHelper.pluginMigrateRuleType(rule.getAttribute("type"));
+			String typeStr = MigrationHelper.pluginMigrateRuleType(rule
+					.getAttribute("type"));
 
 			String description = rule.getAttribute("description");
 			String enabled = "true";
@@ -632,13 +314,12 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 			}
 			try {
 				Class type = Class.forName(typeStr);
-				IRunRule rProp = makeRule(type);
-				if (rProp instanceof ITemplateRunRule) {
-					ITemplateRunRule prop = (ITemplateRunRule) rProp;
-					prop.setName(name);
-					prop.setProject(getHandle());
-					prop.setDescription(description);
-					prop.setEnabledStr(enabled);
+				IRunRule iRule = makeRule(type);
+				if (iRule instanceof ITemplateRunRule) {
+					ITemplateRunRule iTplRule = (ITemplateRunRule) iRule;
+					iTplRule.setName(name);
+					iTplRule.setDescription(description);
+					iTplRule.setEnabled(Boolean.parseBoolean(enabled));
 
 					NodeList contextEntries = rule
 							.getElementsByTagName("contextEntry");
@@ -647,26 +328,17 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 						VelocityContextDefinition def = new VelocityContextDefinition();
 						def.setClassname(entry.getAttribute("classname"));
 						def.setName(entry.getAttribute("entry"));
-						prop.addVelocityContextDefinition(def);
+						iTplRule.addVelocityContextDefinition(def);
 					}
 
-					prop.buildBodyFromNode(rule);
-					artifactRules.add(prop);
+					((BasePPluginRule) iTplRule).buildBodyFromNode(rule);
+					addArtifactRule(iTplRule);
 				}
 			} catch (TigerstripeException e) {
-				// just ignore for now
+				BasePlugin.log(e);
 			} catch (ClassNotFoundException e) {
 				BasePlugin.log(e);
 			}
-		}
-	}
-
-	public ITigerstripePluginProject getHandle() {
-		try {
-			return (ITigerstripePluginProject) TigerstripeCore
-					.findProject(getBaseDir().toURI());
-		} catch (Exception e) {
-			return null; // should never happen
 		}
 	}
 
@@ -697,46 +369,45 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		}
 	}
 
-	/**
-	 * 
-	 * @param property
-	 */
-	public void addGlobalProperty(IPluginProperty property) {
-		if (!globalProperties.contains(property)) {
-			globalProperties.add(property);
-		}
-	}
-
-	public void removeGlobalProperties(IPluginProperty[] properties) {
-		globalProperties.removeAll(Arrays.asList(properties));
-	}
-
-	public void removeGlobalProperty(IPluginProperty property) {
-		globalProperties.remove(property);
-	}
-
 	public void addGlobalRules(IRunRule[] rules) {
 		globalRules.addAll(Arrays.asList(rules));
 	}
 
 	public void addGlobalRule(IRunRule rule) {
 		if (!globalRules.contains(rule)) {
+			setDirty();
 			globalRules.add(rule);
+			if (rule instanceof IContainedObject) {
+				IContainedObject obj = (IContainedObject) rule;
+				obj.setContainer(this);
+			} else {
+				throw new IllegalArgumentException("Rule of type "
+						+ rule.getClass().getName()
+						+ " must implement IContainedObject.");
+			}
 		}
 	}
 
 	public void removeGlobalRules(IRunRule[] rules) {
-		globalRules.removeAll(Arrays.asList(rules));
+		for (IRunRule rule : rules) {
+			removeGlobalRule(rule);
+		}
 	}
 
 	public void removeGlobalRule(IRunRule rule) {
+		setDirty();
 		globalRules.remove(rule);
+		if (rule instanceof IContainedObject) {
+			IContainedObject obj = (IContainedObject) rule;
+			obj.setContainer(null);
+		}
 	}
 
 	public IRunRule[] getGlobalRules() {
 		return this.globalRules.toArray(new IRunRule[globalRules.size()]);
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends IRunRule> Class<T>[] getSupportedPluginRules() {
 		return SUPPORTED_RULES;
 	}
@@ -746,21 +417,39 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 	}
 
 	public void addArtifactRules(ITemplateRunRule[] rules) {
-		artifactRules.addAll(Arrays.asList(rules));
+		for (ITemplateRunRule rule : rules) {
+			addArtifactRule(rule);
+		}
 	}
 
 	public void addArtifactRule(ITemplateRunRule rule) {
 		if (!artifactRules.contains(rule)) {
+			setDirty();
 			artifactRules.add(rule);
+			if (rule instanceof IContainedObject) {
+				IContainedObject obj = (IContainedObject) rule;
+				obj.setContainer(this);
+			} else {
+				throw new IllegalArgumentException("Rule of type "
+						+ rule.getClass().getName()
+						+ " must implement IContainedObject.");
+			}
 		}
 	}
 
 	public void removeArtifactRules(ITemplateRunRule[] rules) {
-		artifactRules.removeAll(Arrays.asList(rules));
+		for (ITemplateRunRule rule : rules) {
+			removeArtifactRule(rule);
+		}
 	}
 
 	public void removeArtifactRule(ITemplateRunRule rule) {
+		setDirty();
 		artifactRules.remove(rule);
+		if (rule instanceof IContainedObject) {
+			IContainedObject obj = (IContainedObject) rule;
+			obj.setContainer(null);
+		}
 	}
 
 	public ITemplateRunRule[] getArtifactRules() {
@@ -768,32 +457,13 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 				.size()]);
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends IArtifactBasedTemplateRunRule> Class<T>[] getSupportedPluginArtifactRules() {
 		return SUPPORTED_ARTIFACTRULES;
 	}
 
 	public String[] getSupportedPluginArtifactRuleLabels() {
 		return SUPPORTED_ARTIFACTRULES_LABELS;
-	}
-
-	public void addClasspathEntry(IPluginClasspathEntry entry) {
-		if (!classpathEntries.contains(entry)) {
-			classpathEntries.add(entry);
-		}
-	}
-
-	public void removeClasspathEntry(IPluginClasspathEntry entry) {
-		classpathEntries.remove(entry);
-	}
-
-	public void removeClasspathEntries(IPluginClasspathEntry[] entries) {
-		for (IPluginClasspathEntry entry : entries) {
-			removeClasspathEntry(entry);
-		}
-	}
-
-	public IPluginClasspathEntry makeClasspathEntry() {
-		return new PluginClasspathEntry();
 	}
 
 	public <T extends IRunRule> IRunRule makeRule(Class<T> ruleType)
@@ -821,6 +491,7 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 
 		// then look thru list of Artifact Rules
 		for (int index = 0; index < SUPPORTED_ARTIFACTRULES.length; index++) {
+			@SuppressWarnings("unchecked")
 			Class type = SUPPORTED_ARTIFACTRULES[index];
 			if (type == ruleType) {
 				@SuppressWarnings("unchecked")
@@ -841,30 +512,4 @@ public class PluggablePluginProject extends AbstractTigerstripeProject {
 		throw new TigerstripeException("Un-supported rule type " + ruleType);
 	}
 
-	public boolean isLogEnabled() {
-		return isLogEnabled;
-	}
-
-	public void setLogEnabled(boolean isLogEnabled) {
-		this.isLogEnabled = isLogEnabled;
-	}
-
-	public String getLogPath() {
-		if (logPath == null) {
-			logPath = getProjectLabel() + ".log";
-		}
-		return logPath;
-	}
-
-	public void setLogPath(String logPath) {
-		this.logPath = logPath;
-	}
-
-	public PluginLog.LogLevel getDefaultLogLevel() {
-		return this.defaultLogLevel;
-	}
-
-	public void setDefaultLogLevel(PluginLog.LogLevel defaultLogLevel) {
-		this.defaultLogLevel = defaultLogLevel;
-	}
 }

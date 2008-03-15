@@ -8,7 +8,7 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor;
+package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -25,19 +25,19 @@ import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.texteditor.ChainedPreferenceStore;
 import org.eclipse.ui.texteditor.DefaultRangeIndicator;
 
-public class PluginDescriptorSourcePage extends TextEditor implements
+public class GeneratorDescriptorSourcePage extends TextEditor implements
 		IFormPage, IGotoMarker {
 
 	private String id;
-	private PluginDescriptorEditor editor;
+	private GeneratorDescriptorEditor editor;
 	private Control control;
 	private int index;
 
 	/**
 	 * 
 	 */
-	public PluginDescriptorSourcePage(PluginDescriptorEditor editor, String id,
-			String title) {
+	public GeneratorDescriptorSourcePage(GeneratorDescriptorEditor editor,
+			String id, String title) {
 		this.id = id;
 		initialize(editor);
 		IPreferenceStore[] stores = new IPreferenceStore[2];
@@ -53,7 +53,7 @@ public class PluginDescriptorSourcePage extends TextEditor implements
 	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.FormEditor)
 	 */
 	public void initialize(FormEditor editor) {
-		this.editor = (PluginDescriptorEditor) editor;
+		this.editor = (GeneratorDescriptorEditor) editor;
 	}
 
 	public FormEditor getEditor() {
@@ -116,5 +116,11 @@ public class PluginDescriptorSourcePage extends TextEditor implements
 	protected void setEditable(boolean isEditable) {
 		this.getSourceViewer().setEditable(isEditable);
 	}
+
+	@Override
+	public void firePropertyChange(int property) {
+		super.firePropertyChange(property);
+	}
+
 
 }

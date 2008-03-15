@@ -121,7 +121,6 @@ public class TablePropertyDetailsPage extends BasePropertyDetailsPage {
 		int index = columnDefListViewer.getTable().getSelectionIndex();
 		ColumnDef current = getColumnDefs().remove(index);
 		getColumnDefs().add(index - 1, current);
-		updateProperty();
 		updateForm();
 	}
 
@@ -129,25 +128,13 @@ public class TablePropertyDetailsPage extends BasePropertyDetailsPage {
 		int index = columnDefListViewer.getTable().getSelectionIndex();
 		ColumnDef current = getColumnDefs().remove(index);
 		getColumnDefs().add(index + 1, current);
-		updateProperty();
 		updateForm();
-	}
-
-	/**
-	 * Takes care of pushing the locally modified property back into the project
-	 * descriptor.
-	 * 
-	 */
-	private void updateProperty() {
-		IPluginProperty property = getIPluggablePluginProperty();
-		((BasePPluginProperty) property).markProjectDirty();
 	}
 
 	private void addColumnDefSelected() {
 		ColumnDef newEntry = new ColumnDef();
 		newEntry.columnName = findNewEntryName();
 		getColumnDefs().add(newEntry);
-		updateProperty();
 		columnDefListViewer.add(newEntry);
 		columnDefListViewer.setInput(getColumnDefs());
 		columnDefListViewer.refresh(true);
@@ -178,7 +165,6 @@ public class TablePropertyDetailsPage extends BasePropertyDetailsPage {
 			for (ColumnDef ent : selectedFields) {
 				getColumnDefs().remove(ent);
 			}
-			updateProperty();
 			columnDefListViewer.remove(selectedFields);
 			columnDefListViewer.setInput(getColumnDefs());
 			columnDefListViewer.refresh(true);
@@ -317,7 +303,6 @@ public class TablePropertyDetailsPage extends BasePropertyDetailsPage {
 			int index = viewer.getTable().getSelectionIndex();
 			ColumnDef ent = getColumnDefs().get(index);
 			ent.columnName = (String) value;
-			updateProperty();
 			viewer.refresh(true);
 		}
 	}

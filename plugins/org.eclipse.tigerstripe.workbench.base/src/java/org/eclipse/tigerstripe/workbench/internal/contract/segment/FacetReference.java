@@ -25,7 +25,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
@@ -45,7 +47,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class FacetReference implements IFacetReference, IArtifactChangeListener {
+public class FacetReference extends AbstractContainedObject implements
+		IFacetReference, IArtifactChangeListener, IContainedObject {
 
 	private URI facetURI;
 
@@ -168,6 +171,7 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 	}
 
 	public void setGenerationDir(String outputRelativeDir) {
+		markDirty();
 		this.generationDir = outputRelativeDir;
 	}
 
@@ -427,17 +431,12 @@ public class FacetReference implements IFacetReference, IArtifactChangeListener 
 						"TigerstripeException detected", e);
 			}
 		} else {
-			try {
-				refElm.setAttribute("relPath", ref.getProjectRelativePath());
-				if (ref.getContainingProject() != null
-						&& !ref.getContainingProject().getProjectDetails()
-								.getName().equals(project.getProjectLabel())) {
-					refElm.setAttribute("project", ref.getContainingProject()
-							.getProjectDetails().getName());
-				}
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"TigerstripeException detected", e);
+			refElm.setAttribute("relPath", ref.getProjectRelativePath());
+			if (ref.getContainingProject() != null
+					&& !ref.getContainingProject().getProjectLabel().equals(
+							project.getProjectLabel())) {
+				refElm.setAttribute("project", ref.getContainingProject()
+						.getProjectLabel());
 			}
 		}
 		refElm.setAttribute("genDir", ref.getGenerationDir());

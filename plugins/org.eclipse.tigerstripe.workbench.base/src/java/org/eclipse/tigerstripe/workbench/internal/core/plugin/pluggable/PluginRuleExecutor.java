@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedPPluginRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
@@ -67,7 +68,7 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 		int counter = 0;
 		// take care of the global rules first
 		IProgressMonitor monitor = config.getMonitor();
-		IRunRule[] globalRules = plugin.getPProject().getGlobalRules();
+		IRunRule[] globalRules = ((PluggablePluginProject)plugin.getPProject()).getGlobalRules();
 
 		monitor.beginTask("Running global rules", globalRules.length);
 		for (IRunRule rule : globalRules) {
@@ -95,7 +96,7 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 		long startTime2 = System.currentTimeMillis();
 		counter = 0;
 		// Then trigger all artifact-based rules
-		ITemplateRunRule[] artifactRules = plugin.getPProject()
+		ITemplateRunRule[] artifactRules = ((PluggablePluginProject)plugin.getPProject())
 				.getArtifactRules();
 
 		monitor.beginTask("Running artifact rules", artifactRules.length);

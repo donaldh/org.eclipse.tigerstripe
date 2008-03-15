@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.project;
 
 import java.io.File;
-import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 
@@ -34,8 +33,7 @@ public interface IProjectDescriptor {
 	 */
 	public String getProjectLabel();
 
-	public IProjectDetails getIProjectDetails()
-			throws TigerstripeException;
+	public IProjectDetails getIProjectDetails() throws TigerstripeException;
 
 	/**
 	 * Base directory for the project
@@ -49,7 +47,12 @@ public interface IProjectDescriptor {
 	 * 
 	 * @return
 	 */
-	public Collection<IPluginConfig> getPluginConfigs()
+	public IPluginConfig[] getPluginConfigs() throws TigerstripeException;
+
+	public void addPluginConfig(IPluginConfig pluginConfig)
+			throws TigerstripeException;
+
+	public void removePluginConfig(IPluginConfig pluginConfig)
 			throws TigerstripeException;
 
 	// ==========================================

@@ -12,11 +12,12 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.pr
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
-public abstract class PropertiesSectionPart extends PluginDescriptorSectionPart {
+public abstract class PropertiesSectionPart extends
+		GeneratorDescriptorSectionPart {
 
 	public PropertiesSectionPart(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit, int style) {

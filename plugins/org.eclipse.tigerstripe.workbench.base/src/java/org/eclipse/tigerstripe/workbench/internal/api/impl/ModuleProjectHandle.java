@@ -86,4 +86,8 @@ public class ModuleProjectHandle extends TigerstripeProjectHandle implements
 		throw new TigerstripeException("Operation not supported.");
 	}
 
+	@Override
+	public boolean isDirty() {
+		return false;
+	}
 }

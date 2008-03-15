@@ -12,9 +12,6 @@ package org.eclipse.tigerstripe.workbench.plugins;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 /**
  * Top level run rule for PluggablePlugins.
@@ -36,23 +33,10 @@ public interface IRunRule {
 
 	public String getType();
 
-	public abstract Node getBodyAsNode(Document document);
-
-	public abstract void buildBodyFromNode(Node node);
-
-	public void setProject(ITigerstripePluginProject project);
-
-	public ITigerstripePluginProject getProject();
-
-	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
-			throws TigerstripeException;
+	public void trigger(PluggablePluginConfig pluginConfig,
+			IPluginRuleExecutor exec) throws TigerstripeException;
 
 	public boolean isEnabled();
 
 	public void setEnabled(boolean enabled);
-
-	public String isEnabledStr();
-
-	public void setEnabledStr(String enabledStr);
-
 }

@@ -44,7 +44,7 @@ public class WelcomeSection extends TigerstripeSectionPart {
 		getToolkit().paintBordersFor(getBody());
 	}
 
-	private void createWelcomeMsg(Composite parent, FormToolkit toolkit) {
+	protected void createWelcomeMsg(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
 		String data = "<form><p><b>Tigerstripe Workbench Plugin Editor.</b></p></form>";

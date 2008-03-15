@@ -22,9 +22,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.PluginDeploymentHelper;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -37,7 +37,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class PluginDebugSection extends PluginDescriptorSectionPart {
+public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 
 	public PluginDebugSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
@@ -109,7 +109,7 @@ public class PluginDebugSection extends PluginDescriptorSectionPart {
 								return;
 							}
 
-							ITigerstripePluginProject projectHandle = getIPluggablePluginProject();
+							ITigerstripeGeneratorProject projectHandle = getIPluggablePluginProject();
 							final PluginDeploymentHelper helper = new PluginDeploymentHelper(
 									projectHandle);
 							if (MessageDialog
@@ -203,7 +203,7 @@ public class PluginDebugSection extends PluginDescriptorSectionPart {
 								"Undeploy Plugin Error", errMessage);
 					} else {
 						try {
-							ITigerstripePluginProject projectHandle = getIPluggablePluginProject();
+							ITigerstripeGeneratorProject projectHandle = getIPluggablePluginProject();
 
 							final PluginDeploymentHelper helper = new PluginDeploymentHelper(
 									projectHandle);

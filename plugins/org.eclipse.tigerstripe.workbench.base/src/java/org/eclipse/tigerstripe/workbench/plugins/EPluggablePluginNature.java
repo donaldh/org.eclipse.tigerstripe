@@ -25,8 +25,8 @@ package org.eclipse.tigerstripe.workbench.plugins;
 public enum EPluggablePluginNature {
 
 	Generic, // Generic plugin nature (this is the default from 2.2.4 on)
-	Validation
+	Validation,
 	// A plugin expected to pass/fail that needs to be run before any other
 	// plugin
-
+	M0
 }

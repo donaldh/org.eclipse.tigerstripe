@@ -243,7 +243,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			IArtifactManagerSession session = proj.getArtifactManagerSession();
 			IAbstractArtifact art = session.getArtifactByFullyQualifiedName(
 					fqn, true);
-			ITigerstripeModelProject targetProject = art.getTigerstripeProject();
+			ITigerstripeModelProject targetProject = art
+					.getTigerstripeProject();
 			if (targetProject != null) {
 				IJavaProject jProject = EclipsePlugin
 						.getIJavaProject(targetProject);
@@ -432,7 +433,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		String extension = IWorkbenchProfile.FILE_EXTENSION;
 		ProfileDescriptorAuditor auditor = new ProfileDescriptorAuditor(
 				getProject());
-		IResourceDelta delta = getDelta(getProject());
 		List<IResource> wbps = null;
 
 		// if ( delta.getKind() != IResourceDelta.NO_CHANGE ) {
@@ -650,11 +650,11 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					.getName());
 			query.setIncludeDependencies(false); // check only local
 			// artifacts!
-			Collection artifacts = session.queryArtifact(query);
+			Collection<IAbstractArtifact> artifacts = session
+					.queryArtifact(query);
 
 			monitor.beginTask("Auditing Artifacts", artifacts.size());
-			for (Iterator iter = artifacts.iterator(); iter.hasNext();) {
-				IAbstractArtifact artifact = (IAbstractArtifact) iter.next();
+			for (IAbstractArtifact artifact : artifacts) {
 				monitor.subTask(artifact.getFullyQualifiedName());
 				IArtifactAuditor auditor = ArtifactAuditorFactory.getInstance()
 						.newArtifactAuditor(getProject(), artifact);
@@ -788,7 +788,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		// Associate Builder with Project
 		ICommand newCmd = description.newCommand();
 		newCmd.setBuilderName(BUILDER_ID);
-		List newCmds = new ArrayList();
+		List<ICommand> newCmds = new ArrayList<ICommand>();
 		newCmds.addAll(Arrays.asList(cmds));
 		newCmds.add(newCmd);
 		description.setBuildSpec((ICommand[]) newCmds
@@ -827,7 +827,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			return;
 
 		// Remove builder from project
-		List newCmds = new ArrayList();
+		List<ICommand> newCmds = new ArrayList<ICommand>();
 		newCmds.addAll(Arrays.asList(cmds));
 		newCmds.remove(index);
 		description.setBuildSpec((ICommand[]) newCmds
@@ -842,7 +842,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	public static IResource getIResourceForArtifact(IProject project,
 			IAbstractArtifact artifact) {
-		String fqn = artifact.getFullyQualifiedName();
 		AbstractArtifact art = (AbstractArtifact) artifact;
 		try {
 			String realPath = art.getArtifactPath();

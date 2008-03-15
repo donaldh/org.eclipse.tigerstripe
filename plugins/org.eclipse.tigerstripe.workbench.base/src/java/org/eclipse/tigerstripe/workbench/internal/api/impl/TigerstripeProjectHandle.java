@@ -13,9 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URI;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -52,20 +50,11 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 public abstract class TigerstripeProjectHandle extends
 		AbstractTigerstripeProjectHandle implements ITigerstripeModelProject {
 
-	// Fields managed by WorkingCopyManager
-	private final static String DEPENDENCIES_F = "dependencies";
-
-	private final static String REFERENCES_F = "referencedProjects";
-
-	private final static String PLUGIN_CONFIGS_F = "pluginConfigs";
-
-	private final static String ADVANCED_PROPERTY_F = "advancedProperty";
-
-	private final static String FACET_REFERENCE_F = "facetReference";
-
 	private INameProvider nameProvider;
 
 	private ArtifactManager manager;
+
+	private boolean dependenciesCacheNeedsRefresh = false;
 
 	public final static String DESCRIPTOR_FILENAME = ITigerstripeConstants.PROJECT_DESCRIPTOR;
 
@@ -85,19 +74,9 @@ public abstract class TigerstripeProjectHandle extends
 	}
 
 	@Override
-	protected void addManagedFields() {
-		super.addManagedFields();
-		managedFields.add(DEPENDENCIES_F);
-		managedFields.add(REFERENCES_F);
-		managedFields.add(PLUGIN_CONFIGS_F);
-		managedFields.add(ADVANCED_PROPERTY_F);
-		managedFields.add(FACET_REFERENCE_F);
-	}
-
-	@Override
 	public void setProjectDetails(IProjectDetails projectDetails)
 			throws WorkingCopyException, TigerstripeException {
-		assertSet(PROJECT_DETAILS_F);
+		assertSet();
 		getTSProject().setProjectDetails((ProjectDetails) projectDetails);
 	}
 
@@ -129,7 +108,7 @@ public abstract class TigerstripeProjectHandle extends
 				manager = new ArtifactManager(getTSProject());
 			}
 			setArtifactManagerSession(new ArtifactManagerSessionImpl(manager));
-			
+
 			// Add listener for annotation framework
 			ModelChangeHandler handler = new ModelChangeHandler();
 			getArtifactManagerSession().addArtifactChangeListener(handler);
@@ -205,52 +184,22 @@ public abstract class TigerstripeProjectHandle extends
 	}
 
 	public IPluginConfig[] getPluginConfigs() throws TigerstripeException {
-
-		TigerstripeProject project = getTSProject();
-		Collection<IPluginConfig> ref = project.getPluginConfigs();
-
-		IPluginConfig[] result = new IPluginConfig[ref.size()];
-		result = (IPluginConfig[]) ref.toArray(new IPluginConfig[ref.size()]);
-
-		// Since 2.1 added reference to ProjectHandle
-		for (IPluginConfig pRef : result) {
-			pRef.setProjectHandle(this);
-		}
-
-		return result;
+		return getTSProject().getPluginConfigs();
 	}
 
 	public void addPluginConfig(IPluginConfig ref) throws TigerstripeException {
-		assertSet(PLUGIN_CONFIGS_F);
-		TigerstripeProject project = getTSProject();
-		Collection<IPluginConfig> refs = project.getPluginConfigs();
-
-		// If ref already exists for the given pluginId, replace it
-		for (Iterator<IPluginConfig> iter = refs.iterator(); iter.hasNext();) {
-			IPluginConfig config = iter.next();
-			if (config.getPluginId().equals(ref.getPluginId())) {
-				iter.remove();
-			}
-		}
-		refs.add(ref);
+		assertSet();
+		getTSProject().addPluginConfig(ref);
 	}
 
 	public void removePluginConfig(IPluginConfig ref)
 			throws TigerstripeException {
-		assertSet(PLUGIN_CONFIGS_F);
-		TigerstripeProject project = getTSProject();
-		Collection<IPluginConfig> refs = project.getPluginConfigs();
-		refs.remove(ref);
+		assertSet();
+		getTSProject().removePluginConfig(ref);
 	}
 
 	public IProjectDetails getProjectDetails() throws TigerstripeException {
-		TigerstripeProject project = getTSProject();
-		try {
-			return (IProjectDetails) project.getProjectDetails().clone();
-		} catch (CloneNotSupportedException e) {
-			// ignore
-			return null;
-		}
+		return getTSProject().getIProjectDetails();
 	}
 
 	@Override
@@ -266,42 +215,38 @@ public abstract class TigerstripeProjectHandle extends
 	}
 
 	public IDependency[] getDependencies() throws TigerstripeException {
-		TigerstripeProject project = getTSProject();
-		Collection<IDependency> deps = project.getDependencies();
-
-		IDependency[] result = new IDependency[deps.size()];
-		return (IDependency[]) deps.toArray(result);
+		return getTSProject().getDependencies();
 	}
 
 	public void addDependency(IDependency dependency, IProgressMonitor monitor)
 			throws WorkingCopyException, TigerstripeException {
-		assertSet(DEPENDENCIES_F);
-		TigerstripeProject project = getTSProject();
-		project.addDependency(dependency);
+		assertSet();
+		dependenciesCacheNeedsRefresh = true;
+		getTSProject().addDependency(dependency);
 	}
 
 	public void addDependencies(IDependency[] dependencies,
 			IProgressMonitor monitor) throws WorkingCopyException,
 			TigerstripeException {
-		assertSet(DEPENDENCIES_F);
-		TigerstripeProject project = getTSProject();
-		project.addDependencies(dependencies);
+		assertSet();
+		dependenciesCacheNeedsRefresh = true;
+		getTSProject().addDependencies(dependencies);
 	}
 
 	public void removeDependency(IDependency dependency,
 			IProgressMonitor monitor) throws WorkingCopyException,
 			TigerstripeException {
-		assertSet(DEPENDENCIES_F);
-		TigerstripeProject project = getTSProject();
-		project.removeDependency(dependency);
+		assertSet();
+		dependenciesCacheNeedsRefresh = true;
+		getTSProject().removeDependency(dependency);
 	}
 
 	public void removeDependencies(IDependency[] dependencies,
 			IProgressMonitor monitor) throws WorkingCopyException,
 			TigerstripeException {
-		assertSet(DEPENDENCIES_F);
-		TigerstripeProject project = getTSProject();
-		project.removeDependencies(dependencies);
+		assertSet();
+		dependenciesCacheNeedsRefresh = true;
+		getTSProject().removeDependencies(dependencies);
 	}
 
 	public void addProjectChangeListener(IProjectChangeListener listener) {
@@ -326,7 +271,7 @@ public abstract class TigerstripeProjectHandle extends
 		if (dep == null || !dep.isValid())
 			throw new TigerstripeException("Invalid dependency");
 		TigerstripeProject project = getTSProject();
-		return project.getDependencies().contains(dep);
+		return Arrays.asList(project.getDependencies()).contains(dep);
 	}
 
 	// Shipped core dependencies don't exist anymore @see #299
@@ -345,13 +290,15 @@ public abstract class TigerstripeProjectHandle extends
 	//
 	public void addReferencedProject(ITigerstripeModelProject project)
 			throws WorkingCopyException, TigerstripeException {
-		assertSet(REFERENCES_F);
+		assertSet();
+		dependenciesCacheNeedsRefresh = true;
 		getTSProject().addReferencedProject(project);
 	}
 
 	public void addReferencedProjects(ITigerstripeModelProject[] projects)
 			throws WorkingCopyException, TigerstripeException {
-		assertSet(REFERENCES_F);
+		assertSet();
+		dependenciesCacheNeedsRefresh = true;
 		getTSProject().addReferencedProjects(projects);
 	}
 
@@ -362,13 +309,15 @@ public abstract class TigerstripeProjectHandle extends
 
 	public void removeReferencedProject(ITigerstripeModelProject project)
 			throws WorkingCopyException, TigerstripeException {
-		assertSet(REFERENCES_F);
+		assertSet();
+		dependenciesCacheNeedsRefresh = true;
 		getTSProject().removeReferencedProject(project);
 	}
 
 	public void removeReferencedProjects(ITigerstripeModelProject[] projects)
 			throws WorkingCopyException, TigerstripeException {
-		assertSet(REFERENCES_F);
+		assertSet();
+		dependenciesCacheNeedsRefresh = true;
 		getTSProject().removeReferencedProjects(projects);
 	}
 
@@ -379,26 +328,22 @@ public abstract class TigerstripeProjectHandle extends
 
 	public String getAdvancedProperty(String property)
 			throws TigerstripeException {
-		TigerstripeProject project = getTSProject();
-		return project.getAdvancedProperty(property);
+		return getTSProject().getAdvancedProperty(property);
 	}
 
 	public String getAdvancedProperty(String property, String defaultValue)
 			throws TigerstripeException {
-		TigerstripeProject project = getTSProject();
-		return project.getAdvancedProperty(property, defaultValue);
+		return getTSProject().getAdvancedProperty(property, defaultValue);
 	}
 
 	public void setAdvancedProperty(String property, String value)
 			throws TigerstripeException {
-		assertSet(ADVANCED_PROPERTY_F);
-		TigerstripeProject project = getTSProject();
-		project.setAdvancedProperty(property, value);
+		assertSet();
+		getTSProject().setAdvancedProperty(property, value);
 	}
 
 	public boolean requiresDescriptorUpgrade() throws TigerstripeException {
-		TigerstripeProject project = getTSProject();
-		return project.requiresDescriptorUpgrade();
+		return getTSProject().requiresDescriptorUpgrade();
 	}
 
 	/**
@@ -423,6 +368,7 @@ public abstract class TigerstripeProjectHandle extends
 			TigerstripeProject project = getTSProject();
 			if (project != null) {
 				project.doSave(null);
+				project.clearDirty();
 				return;
 			}
 		} catch (TigerstripeException e) {
@@ -465,36 +411,18 @@ public abstract class TigerstripeProjectHandle extends
 
 	public void addFacetReference(IFacetReference facetRef)
 			throws TigerstripeException {
-		assertSet(FACET_REFERENCE_F);
-		TigerstripeProject project = getTSProject();
-		if (project != null) {
-			project.addFacetReference(facetRef);
-			return;
-		}
-		throw new TigerstripeException(
-				"Invalid project, cannot add facet reference.");
+		assertSet();
+		getTSProject().addFacetReference(facetRef);
 	}
 
 	public void removeFacetReference(IFacetReference facetRef)
 			throws TigerstripeException {
-		assertSet(FACET_REFERENCE_F);
-		TigerstripeProject project = getTSProject();
-		if (project != null) {
-			project.removeFacetReference(facetRef);
-			return;
-		}
-		throw new TigerstripeException(
-				"Invalid project, cannot remove facet reference.");
+		assertSet();
+		getTSProject().removeFacetReference(facetRef);
 	}
 
 	public IFacetReference[] getFacetReferences() throws TigerstripeException {
-		TigerstripeProject project = getTSProject();
-		if (project != null) {
-			List<IFacetReference> refs = project.getFacetReferences();
-			return refs.toArray(new IFacetReference[refs.size()]);
-		}
-		throw new TigerstripeException(
-				"Invalid project, cannot remove facet reference.");
+		return getTSProject().getFacetReferences();
 	}
 
 	public IFacetReference getActiveFacet() throws TigerstripeException {
@@ -525,10 +453,11 @@ public abstract class TigerstripeProjectHandle extends
 		original.getTSProject().reload(true); // this will force a reload.
 
 		// Rebuild the cache if dependencies were added
-		if (fieldIsDirty(DEPENDENCIES_F) || fieldIsDirty(REFERENCES_F)) {
+		if (dependenciesCacheNeedsRefresh) {
 			((ArtifactManagerSessionImpl) original.getArtifactManagerSession())
 					.getArtifactManager().updateDependenciesContentCache(
 							monitor);
+			dependenciesCacheNeedsRefresh = false;
 		}
 	}
 
@@ -545,7 +474,4 @@ public abstract class TigerstripeProjectHandle extends
 		return new RunConfig(this);
 	}
 
-	public void setForceDirty() throws TigerstripeException {
-		assertSet(FACET_REFERENCE_F);
-	}
 }

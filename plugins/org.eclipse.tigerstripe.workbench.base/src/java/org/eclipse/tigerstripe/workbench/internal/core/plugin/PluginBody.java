@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 
 /**
@@ -87,4 +88,5 @@ public interface PluginBody {
 	 */
 	public String getLogPath();
 
+	public EPluggablePluginNature getPluginNature();
 }

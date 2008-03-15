@@ -43,7 +43,7 @@ public class TestPluginProjectBasics extends TestCase {
 
 	public <T extends IPluginProperty> void testSupportedPluginProperties()
 			throws TigerstripeException {
-		Class<T> supported[] = project.getSupportedPluginProperties();
+		Class<T> supported[] = project.getSupportedProperties();
 
 		assertTrue(supported.length != 0);
 

@@ -87,7 +87,7 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 	protected void addButtonSelected(SelectionEvent event) {
 
 		try {
-			ITigerstripePluginProject pProject = getIPluggablePluginProject();
+			ITigerstripePluginProject pProject = (ITigerstripePluginProject) getIPluggablePluginProject();
 			NewPPluginRuleSelectionDialog dialog = new NewPPluginRuleSelectionDialog(
 					getBody().getShell(), findNewRuleName(), pProject, pProject
 							.getSupportedPluginArtifactRules(), pProject
@@ -139,7 +139,7 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 
 		if (msgDialog.open() == 0) {
 			try {
-				getIPluggablePluginProject()
+				((ITigerstripePluginProject) getIPluggablePluginProject())
 						.removeArtifactRules(selectedFields);
 				getViewer().remove(selectedFields);
 				markPageModified();
@@ -159,4 +159,6 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 	protected String getDescription() {
 		return "Artifact template rules:";
 	}
+	
+	
 }

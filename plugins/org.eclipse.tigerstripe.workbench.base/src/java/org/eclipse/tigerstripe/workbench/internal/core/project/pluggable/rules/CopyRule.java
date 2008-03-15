@@ -14,8 +14,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
@@ -42,16 +40,6 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 
 	private RuleReport report;
 
-	public void markProjectDirty() {
-		try {
-			if (getProject() != null)
-				((TigerstripePluginProjectHandle) getProject())
-						.markFieldDirty(TigerstripePluginProjectHandle.GLOBAL_RULE_F);
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-		}
-	}
-
 	public int getCopyFrom() {
 		return copyFrom;
 	}
@@ -65,14 +53,17 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 	}
 
 	public void setCopyFrom(int from) {
+		markDirty();
 		copyFrom = from;
 	}
 
 	public void setFilesetMatch(String filesetMatch) {
+		markDirty();
 		this.filesetMatch = filesetMatch;
 	}
 
 	public void setToDirectory(String toDirectory) {
+		markDirty();
 		this.toDirectory = toDirectory;
 	}
 

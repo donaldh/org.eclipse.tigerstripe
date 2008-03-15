@@ -30,7 +30,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -70,6 +72,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtif
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
@@ -121,9 +124,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	private IArtifactManagerSession phantomArtifactMgrSession = null;
 
 	private DependenciesContentCache depContentCache;
-
-	/** logger for output */
-	private Logger log = Logger.getLogger(ArtifactManager.class);
 
 	/** A Reentrant Read/Write lock for this */
 	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
@@ -599,8 +599,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		}
 	}
 
-	public Collection<IAbstractArtifact> getAllArtifacts(boolean includeDependencies,
-			IProgressMonitor monitor) {
+	public Collection<IAbstractArtifact> getAllArtifacts(
+			boolean includeDependencies, IProgressMonitor monitor) {
 		return getAllArtifacts(includeDependencies, shouldOverridePredicate(),
 				monitor);
 	}
@@ -1055,7 +1055,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	private void parsePojos(List<PojoState> pojos) {
-		long startTime = System.currentTimeMillis();
 		JavaDocBuilder builder = new JavaDocBuilder();
 
 		int addedResourceCount = 0;
@@ -1063,8 +1062,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			// TigerstripeRuntime.logInfoMessage("Parsing " +
 			// pojo.getFilename());
 			try {
-				log.debug("adding resource: " + pojo.getFilename());
-
 				JavaSource source = null;
 				try {
 					source = builder.addSource(new FileReader(pojo
@@ -1073,10 +1070,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 					source.setURL(uri.toURL());
 					pojo.setJavaSource(source);
 				} catch (ParseException e) {
-					TigerstripeRuntime.logErrorMessage("File "
-							+ pojo.getFilename() + ": Parse exception.", e);
-					log.error("File " + pojo.getFilename()
-							+ ": Parse exception.");
+					BasePlugin.log(e);
 					continue;
 				} catch (MalformedURLException e) {
 					// should not happen
@@ -1088,18 +1082,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				}
 
 			} catch (FileNotFoundException e) {
-				log.error("File " + pojo.getFilename() + " not found.");
+				BasePlugin.log(e);
 			}
 		}
-		log.debug("Added " + addedResourceCount + " resources.");
-		TigerstripeRuntime.logTraceMessage(" ["
-				+ getTSProject().getProjectLabel() + "] parsed "
-				+ addedResourceCount + " in "
-				+ (System.currentTimeMillis() - startTime) + " ms");
-		// System.err.println(" ["
-		// + getTSProject().getProjectLabel() + "] parsed "
-		// + addedResourceCount + " in "
-		// + (System.currentTimeMillis() - startTime) + " ms");
 	}
 
 	// /**
@@ -1399,12 +1384,12 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 							matched = model;
 						} else {
-							// this class has already been matched
-							// it seems to contain multiple markingtags
-							// that's illegal!
-							log.error("Class "
-									+ classes[j].getFullyQualifiedName()
-									+ " contains multiple markingTags");
+							BasePlugin
+									.log(new Status(IStatus.WARNING, BasePlugin
+											.getPluginId(), "Class "
+											+ classes[j]
+													.getFullyQualifiedName()
+											+ " contains multiple markingTags"));
 						}
 
 					}
@@ -1430,14 +1415,13 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 						if (matched == null)
 							return model;
 						else {
-							// this class has already been matched
-							// it seems to contain multiple markingtags
-							// that's illegal!
-							log.error("Class "
-									+ classes[j].getFullyQualifiedName()
-									+ " contains multiple markingTags");
+							BasePlugin
+									.log(new Status(IStatus.WARNING, BasePlugin
+											.getPluginId(), "Class "
+											+ classes[j]
+													.getFullyQualifiedName()
+											+ " contains multiple markingTags"));
 						}
-
 					}
 				}
 			}
@@ -1688,7 +1672,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		return result;
 	}
 
-	public synchronized Collection getProjectDependencies() {
+	public synchronized IDependency[] getProjectDependencies() {
 		return getTSProject().getDependencies();
 	}
 

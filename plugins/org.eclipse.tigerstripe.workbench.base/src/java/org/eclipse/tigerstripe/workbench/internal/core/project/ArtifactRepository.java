@@ -14,22 +14,25 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
+
 /**
  * @author Eric Dillon
  * 
  * The definition of a repository containing a set of artifacts to consider for
  * input to a project.
  */
-public class ArtifactRepository {
+public class ArtifactRepository extends AbstractContainedObject implements IContainedObject{
 
 	private File baseDirectory;
-	private Collection includes;
-	private Collection excludes;
+	private Collection<String> includes;
+	private Collection<String> excludes;
 
 	public ArtifactRepository(File baseDirectory) {
 		this.baseDirectory = baseDirectory;
-		this.includes = new ArrayList();
-		this.excludes = new ArrayList();
+		this.includes = new ArrayList<String>();
+		this.excludes = new ArrayList<String>();
 	}
 
 	public File getBaseDirectory() {
@@ -42,12 +45,20 @@ public class ArtifactRepository {
 		return result;
 	}
 
-	public void setIncludes(Collection includes) {
-		this.includes = includes;
+	public void setIncludes(Collection<String> includes) {
+		markDirty();
+		this.includes.clear();
+		for(String include : includes ) {
+			this.includes.add(include);
+		}
 	}
 
-	public void setExcludes(Collection excludes) {
-		this.excludes = excludes;
+	public void setExcludes(Collection<String> excludes) {
+		markDirty();
+		this.excludes.clear();
+		for( String exclude : excludes ) {
+			this.excludes.add(exclude);
+		}
 	}
 
 	public String[] getExcludes() {
@@ -57,6 +68,7 @@ public class ArtifactRepository {
 	}
 
 	public void setBaseDirectory(File baseDirectory) {
+		markDirty();
 		this.baseDirectory = baseDirectory;
 	}
 

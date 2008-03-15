@@ -40,10 +40,10 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.propert
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.StringPPluginProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.TablePPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.NewPPluginPropertySelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.properties.details.BooleanPropertyDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.properties.details.StringPropertyDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.properties.details.TablePropertyDetailsPage;
@@ -128,8 +128,8 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	class MasterContentProvider implements IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof ITigerstripePluginProject) {
-				ITigerstripePluginProject pPlugin = (ITigerstripePluginProject) inputElement;
+			if (inputElement instanceof ITigerstripeGeneratorProject) {
+				ITigerstripeGeneratorProject pPlugin = (ITigerstripeGeneratorProject) inputElement;
 				try {
 					return pPlugin.getGlobalProperties();
 				} catch (TigerstripeException e) {
@@ -192,9 +192,9 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
-		addAttributeButton.setEnabled(PluginDescriptorEditor.isEditable());
+		addAttributeButton.setEnabled(GeneratorDescriptorEditor.isEditable());
 		addAttributeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			addAttributeButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
 					addButtonSelected(event);
@@ -207,9 +207,9 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 		}
 
 		upButton = toolkit.createButton(sectionClient, "Up", SWT.PUSH);
-		upButton.setEnabled(PluginDescriptorEditor.isEditable());
+		upButton.setEnabled(GeneratorDescriptorEditor.isEditable());
 		upButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			upButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
 					upArgButtonPressed();
@@ -222,9 +222,9 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 		}
 
 		downButton = toolkit.createButton(sectionClient, "Down", SWT.PUSH);
-		downButton.setEnabled(PluginDescriptorEditor.isEditable());
+		downButton.setEnabled(GeneratorDescriptorEditor.isEditable());
 		downButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			downButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
 					downArgButtonPressed();
@@ -239,7 +239,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
 				SWT.PUSH);
 		removeAttributeButton.setLayoutData(new TableWrapData());
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			removeAttributeButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
 					removeButtonSelected(event);
@@ -287,7 +287,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	 */
 	protected void addButtonSelected(SelectionEvent event) {
 
-		ITigerstripePluginProject pProject = getIPluggablePluginProject();
+		ITigerstripeGeneratorProject pProject = getIPluggablePluginProject();
 		NewPPluginPropertySelectionDialog dialog = new NewPPluginPropertySelectionDialog(
 				getBody().getShell(), findNewPropertyName(), pProject);
 
@@ -307,7 +307,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	}
 
 	public void markPageModified() {
-		PluginDescriptorEditor editor = (PluginDescriptorEditor) getPage()
+		GeneratorDescriptorEditor editor = (GeneratorDescriptorEditor) getPage()
 				.getEditor();
 		editor.pageModified();
 	}
@@ -374,7 +374,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	protected void updateMaster() {
 
 		// Updates the state of the Remove Button
-		if (PluginDescriptorEditor.isEditable()
+		if (GeneratorDescriptorEditor.isEditable()
 				&& viewer.getSelection() != null
 				&& !viewer.getSelection().isEmpty()) {
 			removeAttributeButton.setEnabled(true);
@@ -382,10 +382,10 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 			removeAttributeButton.setEnabled(false);
 		}
 
-		upButton.setEnabled(PluginDescriptorEditor.isEditable()
+		upButton.setEnabled(GeneratorDescriptorEditor.isEditable()
 				&& viewer.getTable().getSelectionCount() == 1
 				&& viewer.getTable().getSelectionIndex() > 0);
-		downButton.setEnabled(PluginDescriptorEditor.isEditable()
+		downButton.setEnabled(GeneratorDescriptorEditor.isEditable()
 				&& viewer.getTable().getSelectionCount() == 1
 				&& viewer.getTable().getSelectionIndex() < viewer.getTable()
 						.getItems().length - 1);
@@ -456,7 +456,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	}
 
 	private void upArgButtonPressed() {
-		ITigerstripePluginProject pProject = getIPluggablePluginProject();
+		ITigerstripeGeneratorProject pProject = getIPluggablePluginProject();
 		TableItem[] selectedItems = this.viewer.getTable().getSelection();
 		IPluginProperty[] selectedArgs = new IPluginProperty[selectedItems.length];
 		for (int i = 0; i < selectedItems.length; i++) {
@@ -482,7 +482,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 	}
 
 	private void downArgButtonPressed() {
-		ITigerstripePluginProject pProject = getIPluggablePluginProject();
+		ITigerstripeGeneratorProject pProject = getIPluggablePluginProject();
 		TableItem[] selectedItems = this.viewer.getTable().getSelection();
 		IPluginProperty[] selectedArgs = new IPluginProperty[selectedItems.length];
 		for (int i = 0; i < selectedItems.length; i++) {

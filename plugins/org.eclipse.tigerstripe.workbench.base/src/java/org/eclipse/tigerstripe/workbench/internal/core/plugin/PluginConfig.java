@@ -14,6 +14,9 @@ import java.util.Iterator;
 import java.util.Properties;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BaseContainerObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainerObject;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
@@ -21,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.util.ContainedProperties;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
@@ -46,7 +50,8 @@ import org.w3c.dom.Element;
  * code)
  * 
  */
-public abstract class PluginConfig implements IPluginConfig {
+public abstract class PluginConfig extends BaseContainerObject implements
+		IPluginConfig, IContainedObject, IContainerObject {
 
 	public static final String PLUGIN_REFERENCE_TAG = "plugin";
 
@@ -56,7 +61,7 @@ public abstract class PluginConfig implements IPluginConfig {
 
 	private String version = "1.3";
 
-	private Properties properties;
+	private ContainedProperties properties;
 
 	private PluginHousing housing;
 
@@ -75,9 +80,50 @@ public abstract class PluginConfig implements IPluginConfig {
 	private IFacetReference facetReference;
 
 	public PluginConfig(TigerstripeProject project) {
-		this.properties = new Properties();
+		this.properties = new ContainedProperties();
+		this.properties.setContainer(this);
 		this.project = project;
 	}
+
+	// ======================================================================
+	// ======================================================================
+	private boolean isLocalDirty = false;
+	private IContainerObject container = null;
+
+	@Override
+	public void setContainer(IContainerObject container) {
+		isLocalDirty = false;
+		this.container = container;
+	}
+
+	@Override
+	public void clearDirty() {
+		isLocalDirty = false;
+	}
+
+	@Override
+	public boolean isDirty() {
+		return isLocalDirty;
+	}
+
+	/**
+	 * Marks this object as dirty and notify the container if any
+	 * 
+	 */
+	protected void markDirty() {
+		isLocalDirty = true;
+		if (container != null) {
+			container.notifyDirty(this);
+		}
+	}
+
+	@Override
+	public IContainerObject getContainer() {
+		return this.container;
+	}
+	
+	// ======================================================================
+	// ======================================================================
 
 	public Object getProperty(String property) {
 		String rawProperty = this.properties.getProperty(property);
@@ -105,7 +151,9 @@ public abstract class PluginConfig implements IPluginConfig {
 
 	public void setProperties(Properties properties) {
 		if (properties != null) {
-			this.properties = properties;
+			markDirty();
+			this.properties = new ContainedProperties(properties);
+			this.properties.setContainer(this);
 		}
 	}
 
@@ -118,6 +166,7 @@ public abstract class PluginConfig implements IPluginConfig {
 	public abstract String getGroupId();
 
 	public void setVersion(String version) {
+		markDirty();
 		this.version = version;
 	}
 
@@ -136,6 +185,7 @@ public abstract class PluginConfig implements IPluginConfig {
 	}
 
 	public void setEnabled(boolean enabled) {
+		markDirty();
 		this.enabled = enabled;
 	}
 
@@ -264,7 +314,7 @@ public abstract class PluginConfig implements IPluginConfig {
 		plugin.setAttribute("disableLogging", String.valueOf(disableLogging));
 
 		Properties prop = getProperties();
-		for (Iterator iterProp = prop.keySet().iterator(); iterProp.hasNext();) {
+		for (Iterator<Object> iterProp = prop.keySet().iterator(); iterProp.hasNext();) {
 			String propertyName = (String) iterProp.next();
 			String propertyValue = prop.getProperty(propertyName);
 
@@ -334,6 +384,7 @@ public abstract class PluginConfig implements IPluginConfig {
 	}
 
 	public void setLogLevel(PluginLog.LogLevel logLevel) {
+		markDirty();
 		this.logLevel = logLevel;
 	}
 
@@ -378,6 +429,7 @@ public abstract class PluginConfig implements IPluginConfig {
 	}
 
 	public void setDisableLogging(boolean disable) {
+		markDirty();
 		this.disableLogging = disable;
 	}
 
@@ -436,6 +488,15 @@ public abstract class PluginConfig implements IPluginConfig {
 	}
 
 	public void setFacetReference(IFacetReference facetReference) {
+		markDirty();
 		this.facetReference = facetReference;
+	}
+	
+	public boolean equals( Object other ) {
+		if ( other instanceof IPluginConfig ) {
+			IPluginConfig otherConfig = (IPluginConfig) other;
+			return otherConfig.getPluginId().equals(getPluginId());
+		}
+		return false;
 	}
 }

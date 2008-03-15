@@ -19,8 +19,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginVelocityLog;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
@@ -40,7 +38,7 @@ import org.w3c.dom.NodeList;
  * @author Eric Dillon
  * @since 1.2
  */
-public class SimplePPluginRule extends BaseTemplatePPluginRule implements
+public class SimplePPluginRule extends M1LevelRule implements
 		ISimpleTemplateRunRule {
 
 	private final static String REPORTTEMPLATE = "ISimpleTemplateRunRule.vm";
@@ -60,16 +58,6 @@ public class SimplePPluginRule extends BaseTemplatePPluginRule implements
 
 	public String getType() {
 		return ISimpleTemplateRunRule.class.getCanonicalName();
-	}
-
-	public void markProjectDirty() {
-		try {
-			if (getProject() != null)
-				((TigerstripePluginProjectHandle) getProject())
-						.markFieldDirty(TigerstripePluginProjectHandle.GLOBAL_RULE_F);
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-		}
 	}
 
 	@Override
@@ -197,11 +185,12 @@ public class SimplePPluginRule extends BaseTemplatePPluginRule implements
 	}
 
 	public void setSuppressEmptyFiles(boolean suppressEmptyFiles) {
+		markDirty();
 		this.suppressEmptyFiles = suppressEmptyFiles;
 	}
 
 	public void setSuppressEmptyFilesStr(String suppressEmptyFilesStr) {
-		this.suppressEmptyFiles = Boolean.parseBoolean(suppressEmptyFilesStr);
+		setSuppressEmptyFiles(Boolean.parseBoolean(suppressEmptyFilesStr));
 	}
 
 	public boolean isOverwriteFiles() {
@@ -213,11 +202,12 @@ public class SimplePPluginRule extends BaseTemplatePPluginRule implements
 	}
 
 	public void setOverwriteFiles(boolean overwriteFiles) {
+		markDirty();
 		this.overwriteFiles = overwriteFiles;
 	}
 
 	public void setOverwriteFilesStr(String overwriteFilesStr) {
-		this.overwriteFiles = Boolean.parseBoolean(overwriteFilesStr);
+		setOverwriteFiles(Boolean.parseBoolean(overwriteFilesStr));
 	}
 
 }

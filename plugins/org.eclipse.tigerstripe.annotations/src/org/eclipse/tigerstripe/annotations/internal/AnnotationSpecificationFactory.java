@@ -28,6 +28,7 @@ public class AnnotationSpecificationFactory {
 			"enumerationAnnotationSpecification",
 			"bigStringAnnotationSpecification" };
 
+	@SuppressWarnings("unchecked")
 	private static Class[] annotationSpecImpls = {
 			StringAnnotationSpecification.class,
 			BooleanAnnotationSpecification.class,
@@ -48,6 +49,7 @@ public class AnnotationSpecificationFactory {
 		String elementName = element.getName();
 		for (int i = 0; i < annotationSpecKeys.length; i++) {
 			if (elementName.equals(annotationSpecKeys[i])) {
+				@SuppressWarnings("unchecked")
 				Class<BaseAnnotationSpecification> impl = annotationSpecImpls[i];
 				try {
 					result = impl.newInstance();

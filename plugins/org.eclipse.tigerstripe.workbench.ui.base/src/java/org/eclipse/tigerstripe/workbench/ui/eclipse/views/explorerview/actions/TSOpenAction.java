@@ -93,6 +93,8 @@ public class TSOpenAction extends OpenAction {
 
 	public final static String PLUGIN_DESCRIPTOR_EDITOR = "org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptorEditor";
 
+	public final static String M0_DESCRIPTOR_EDITOR = "org.eclipse.tigerstripe.workbench.ui.eclipse.editors.m0DescriptorEditor";
+
 	public final static String DEPENDENCY_EDITOR = "org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.dependencyEditor";
 
 	public TSOpenAction(IWorkbenchSite site) {

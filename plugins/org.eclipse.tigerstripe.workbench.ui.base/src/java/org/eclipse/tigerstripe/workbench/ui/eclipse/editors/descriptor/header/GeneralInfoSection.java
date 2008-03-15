@@ -191,9 +191,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 
 			try {
 				if (e.getSource() == nameText) {
-					IProjectDetails details = handle.getProjectDetails();
-					details.setName(nameText.getText().trim());
-					handle.setProjectDetails(details);
+					handle.getProjectDetails().setName(nameText.getText().trim());
 				} else if (e.getSource() == versionText) {
 					IProjectDetails details = handle.getProjectDetails();
 					details.setVersion(versionText.getText().trim());

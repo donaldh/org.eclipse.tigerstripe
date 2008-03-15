@@ -24,8 +24,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.M0ProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
@@ -45,7 +48,7 @@ public class PluggablePlugin extends BasePlugin {
 
 	private String zippedFile;
 
-	private PluggablePluginProject ppProject = null;
+	private GeneratorProjectDescriptor descriptor = null;
 
 	private String[] definedProperties = null;
 
@@ -66,6 +69,10 @@ public class PluggablePlugin extends BasePlugin {
 		loadProject();
 	}
 
+	public EPluggablePluginNature getPluginNature() {
+		return descriptor.getPluginNature();
+	}
+	
 	/**
 	 * Deletes all traces of this plugin on disk so it won't be reloaded
 	 * 
@@ -73,12 +80,12 @@ public class PluggablePlugin extends BasePlugin {
 	public void dispose() {
 		File unzippedFile = new File(path);
 		if (unzippedFile.exists()) {
-			boolean result = Util.deleteDir(unzippedFile);
+			Util.deleteDir(unzippedFile);
 		}
 
 		File zfile = new File(zippedFile);
 		if (zfile.exists()) {
-			boolean result = zfile.delete();
+			zfile.delete();
 		}
 	}
 
@@ -97,8 +104,7 @@ public class PluggablePlugin extends BasePlugin {
 		for (int i = 0; i < definedProps.length; i++) {
 			if (properties.getProperty(definedProps[i]) == null
 					|| properties.getProperty(definedProps[i]).length() == 0) {
-				for (IPluginProperty property : ppProject
-						.getGlobalProperties()) {
+				for (IPluginProperty property : descriptor.getGlobalProperties()) {
 					if (property.getName().equals(definedProps[i])) {
 						usableProps.setProperty(definedProps[i], property
 								.getDefaultValue().toString());
@@ -132,24 +138,24 @@ public class PluggablePlugin extends BasePlugin {
 	}
 
 	public String getDescription() {
-		return ppProject.getProjectDetails().getDescription();
+		return descriptor.getProjectDetails().getDescription();
 	}
 
-	public PluggablePluginProject getPProject() {
-		return ppProject;
+	public GeneratorProjectDescriptor getPProject() {
+		return descriptor;
 	}
 
 	public String getPluginId() {
-		return ppProject.getProjectDetails().getName() + "("
-				+ ppProject.getProjectDetails().getVersion() + ")";
+		return descriptor.getProjectDetails().getName() + "("
+				+ descriptor.getProjectDetails().getVersion() + ")";
 	}
 
 	public String getGroupId() {
-		return ppProject.getProjectDetails().getProvider();
+		return descriptor.getProjectDetails().getProvider();
 	}
 
 	public String getVersion() {
-		return ppProject.getProjectDetails().getVersion();
+		return descriptor.getProjectDetails().getVersion();
 	}
 
 	public PluginReport getReport() {
@@ -164,7 +170,7 @@ public class PluggablePlugin extends BasePlugin {
 	public String[] getDefinedProperties() {
 		if (definedProperties == null) {
 			ArrayList<String> result = new ArrayList<String>();
-			IPluginProperty[] props = ppProject.getGlobalProperties();
+			IPluginProperty[] props = descriptor.getGlobalProperties();
 			for (IPluginProperty prop : props) {
 				result.add(prop.getName());
 			}
@@ -180,21 +186,24 @@ public class PluggablePlugin extends BasePlugin {
 	}
 
 	public boolean isValid() {
-		if (ppProject == null) {
+		if (descriptor == null) {
 			loadProject();
 		}
-		return ppProject != null && ppProject.isValid();
+		return descriptor != null && descriptor.isValid();
 	}
 
 	protected void loadProject() {
-		ppProject = new PluggablePluginProject(new File(path));
+		descriptor = new PluggablePluginProject(new File(path));
+		if (!descriptor.getFullPath().exists()) {
+			descriptor = new M0ProjectDescriptor(new File(path));
+		}
 		try {
-			ppProject.reload(true);
-			if (!ppProject.isValid()) {
-				ppProject = null;
+			descriptor.reload(true);
+			if (!descriptor.isValid()) {
+				descriptor = null;
 			}
 		} catch (TigerstripeException e) {
-			ppProject = null;
+			descriptor = null;
 		}
 	}
 
@@ -228,6 +237,7 @@ public class PluggablePlugin extends BasePlugin {
 	 * @return
 	 * @throws TigerstripeException
 	 */
+	@SuppressWarnings("unchecked")
 	protected Class getClass(String classname) throws TigerstripeException {
 		try {
 			Class cl = getClassloader().loadClass(classname);
@@ -238,6 +248,7 @@ public class PluggablePlugin extends BasePlugin {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object getInstance(String classname) throws TigerstripeException {
 		try {
 			Class clazz = getClass(classname);
@@ -287,17 +298,17 @@ public class PluggablePlugin extends BasePlugin {
 
 	@Override
 	public LogLevel getDefaultLogLevel() {
-		return ppProject.getDefaultLogLevel();
+		return descriptor.getDefaultLogLevel();
 	}
 
 	@Override
 	public String getLogPath() {
-		return ppProject.getLogPath();
+		return descriptor.getLogPath();
 	}
 
 	@Override
 	public boolean isLogEnabled() {
-		return ppProject.isLogEnabled();
+		return descriptor.isLogEnabled();
 	}
 
 }

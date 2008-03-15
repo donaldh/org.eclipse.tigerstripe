@@ -103,6 +103,10 @@ public class PluginsControlDialog extends Dialog {
 		providerColumn.setText("Provider");
 		providerColumn.setWidth(150);
 
+		TableColumn natureColumn = new TableColumn(pluginListTable, SWT.NULL);
+		natureColumn.setText("Nature");
+		natureColumn.setWidth(20);
+
 		populateTable();
 
 		pluginListTable.pack();
@@ -137,7 +141,7 @@ public class PluginsControlDialog extends Dialog {
 		for (PluggableHousing housing : pluggableHousings) {
 			TableItem item = new TableItem(pluginListTable, SWT.NULL);
 			item.setText(new String[] { housing.getPluginId(),
-					housing.getVersion(), housing.getGroupId() });
+					housing.getVersion(), housing.getGroupId(), housing.getPluginNature().name() });
 		}
 	}
 

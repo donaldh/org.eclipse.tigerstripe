@@ -26,16 +26,16 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public class PluginLogSection extends PluginDescriptorSectionPart {
+public class PluginLogSection extends GeneratorDescriptorSectionPart {
 
 	private boolean silentUpdate;
 
@@ -83,7 +83,7 @@ public class PluginLogSection extends PluginDescriptorSectionPart {
 					// when updating the form, the changes to all fields should
 					// be
 					// ignored so that the form is not marked as dirty.
-					ITigerstripePluginProject handle = getIPluggablePluginProject();
+					ITigerstripeGeneratorProject handle = getIPluggablePluginProject();
 					try {
 						handle.setLogEnabled(logEnabledButton.getSelection());
 						markPageModified();
@@ -132,7 +132,7 @@ public class PluginLogSection extends PluginDescriptorSectionPart {
 					// when updating the form, the changes to all fields should
 					// be
 					// ignored so that the form is not marked as dirty.
-					ITigerstripePluginProject handle = getIPluggablePluginProject();
+					ITigerstripeGeneratorProject handle = getIPluggablePluginProject();
 					try {
 						handle
 								.setDefaultLogLevel(PluginLog.LogLevel
@@ -180,7 +180,7 @@ public class PluginLogSection extends PluginDescriptorSectionPart {
 		if (!isSilentUpdate()) {
 			// when updating the form, the changes to all fields should be
 			// ignored so that the form is not marked as dirty.
-			ITigerstripePluginProject handle = getIPluggablePluginProject();
+			ITigerstripeGeneratorProject handle = getIPluggablePluginProject();
 			try {
 				if (e.getSource() == logPathText) {
 					handle.setLogPath(logPathText.getText().trim());
@@ -204,7 +204,7 @@ public class PluginLogSection extends PluginDescriptorSectionPart {
 	}
 
 	protected void updateForm() {
-		ITigerstripePluginProject handle = getIPluggablePluginProject();
+		ITigerstripeGeneratorProject handle = getIPluggablePluginProject();
 
 		try {
 			setSilentUpdate(true);

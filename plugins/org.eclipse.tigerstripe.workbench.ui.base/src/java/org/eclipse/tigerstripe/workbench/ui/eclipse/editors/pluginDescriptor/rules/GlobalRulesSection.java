@@ -84,7 +84,7 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 	protected void addButtonSelected(SelectionEvent event) {
 
 		try {
-			ITigerstripePluginProject pProject = getIPluggablePluginProject();
+			ITigerstripePluginProject pProject = (ITigerstripePluginProject) getIPluggablePluginProject();
 
 			NewPPluginRuleSelectionDialog dialog = new NewPPluginRuleSelectionDialog(
 					getBody().getShell(), findNewRuleName(), pProject, pProject
@@ -138,7 +138,8 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 
 		if (msgDialog.open() == 0) {
 			try {
-				getIPluggablePluginProject().removeGlobalRules(selectedFields);
+				((ITigerstripePluginProject) getIPluggablePluginProject())
+						.removeGlobalRules(selectedFields);
 				getViewer().remove(selectedFields);
 				markPageModified();
 			} catch (TigerstripeException e) {

@@ -219,7 +219,6 @@ public class NewPPluginRuleSelectionDialog extends TSMessageDialog {
 					.getSelectionIndex()]);
 
 			result.setName(ruleNameField.getText().trim());
-			result.setProject(ppProject);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}

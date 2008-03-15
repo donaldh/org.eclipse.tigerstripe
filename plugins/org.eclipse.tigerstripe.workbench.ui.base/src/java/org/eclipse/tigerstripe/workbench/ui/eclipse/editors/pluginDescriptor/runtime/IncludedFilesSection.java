@@ -42,10 +42,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.DefaultContentProvider;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -54,7 +55,7 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.part.FileEditorInput;
 
-public class IncludedFilesSection extends PluginDescriptorSectionPart implements
+public class IncludedFilesSection extends GeneratorDescriptorSectionPart implements
 		IResourceChangeListener, IResourceDeltaVisitor {
 
 	protected CheckboxTreeViewer fTreeViewer;
@@ -262,7 +263,7 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 	protected void initializeCheckState() throws TigerstripeException {
 
 		uncheckAll();
-		final ITigerstripePluginProject project = getIPluggablePluginProject();
+		final ITigerstripeGeneratorProject project = getIPluggablePluginProject();
 		final List<String> excludes = Arrays
 				.asList(project
 						.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE));
@@ -360,7 +361,7 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 	protected void handleCheck(String resourceName, IResource resource,
 			boolean wasTopParentChecked) {
 
-		ITigerstripePluginProject project = getIPluggablePluginProject();
+		ITigerstripeGeneratorProject project = getIPluggablePluginProject();
 		try {
 			if (!wasTopParentChecked) {
 				project.addAdditionalFile(resourceName,
@@ -407,7 +408,7 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 	protected void handleUncheck(String resourceName, IResource resource) {
 
 		try {
-			ITigerstripePluginProject project = getIPluggablePluginProject();
+			ITigerstripeGeneratorProject project = getIPluggablePluginProject();
 			List<String> excludes = Arrays
 					.asList(project
 							.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE));
@@ -575,7 +576,7 @@ public class IncludedFilesSection extends PluginDescriptorSectionPart implements
 
 		try {
 			List<String> entries = null;
-			ITigerstripePluginProject project = getIPluggablePluginProject();
+			ITigerstripeGeneratorProject project = getIPluggablePluginProject();
 			List<String> excludes = Arrays
 					.asList(project
 							.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE));

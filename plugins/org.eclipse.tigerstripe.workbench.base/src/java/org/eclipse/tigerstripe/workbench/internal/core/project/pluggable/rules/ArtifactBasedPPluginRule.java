@@ -61,7 +61,7 @@ import org.w3c.dom.NodeList;
  * @author Eric Dillon
  * @since 1.2
  */
-public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
+public class ArtifactBasedPPluginRule extends M1LevelRule implements
 		IArtifactBasedTemplateRunRule {
 
 	private final static String REPORTTEMPLATE = "IArtifactBasedTemplateRunRule.vm";
@@ -90,19 +90,9 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 		return artifactType;
 	}
 
-	public void markProjectDirty() {
-		try {
-			if (getProject() != null)
-				((TigerstripePluginProjectHandle) getProject())
-						.markFieldDirty(TigerstripePluginProjectHandle.ARTIFACT_RULE_F);
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-		}
-	}
-
 	public void setArtifactType(String artifactType) {
+		markDirty();
 		this.artifactType = artifactType;
-		markProjectDirty();
 	}
 
 	public String getModelClass() {
@@ -110,8 +100,8 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 	}
 
 	public void setModelClass(String modelClass) {
+		markDirty();
 		this.modelClass = modelClass;
-		markProjectDirty();
 	}
 
 	public String getModelClassName() {
@@ -119,8 +109,8 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 	}
 
 	public void setModelClassName(String modelClassName) {
+		markDirty();
 		this.modelClassName = modelClassName;
-		markProjectDirty();
 	}
 
 	public String getArtifactFilterClass() {
@@ -128,8 +118,8 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 	}
 
 	public void setArtifactFilterClass(String filterClass) {
+		markDirty();
 		this.filterClass = filterClass;
-		markProjectDirty();
 	}
 
 	@Override
@@ -453,13 +443,13 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 	}
 
 	public void setSuppressEmptyFiles(boolean suppressEmptyFiles) {
+		markDirty();
 		this.suppressEmptyFiles = suppressEmptyFiles;
-		markProjectDirty();
 	}
 
 	public void setSuppressEmptyFilesStr(String suppressEmptyFilesStr) {
+		markDirty();
 		this.suppressEmptyFiles = Boolean.parseBoolean(suppressEmptyFilesStr);
-		markProjectDirty();
 	}
 
 	public boolean isOverwriteFiles() {
@@ -471,13 +461,13 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 	}
 
 	public void setOverwriteFiles(boolean overwriteFiles) {
+		markDirty();
 		this.overwriteFiles = overwriteFiles;
-		markProjectDirty();
 	}
 
 	public void setOverwriteFilesStr(String overwriteFilesStr) {
+		markDirty();
 		this.overwriteFiles = Boolean.parseBoolean(overwriteFilesStr);
-		markProjectDirty();
 	}
 
 	public boolean isIncludeDependencies() {
@@ -489,13 +479,13 @@ public class ArtifactBasedPPluginRule extends BaseTemplatePPluginRule implements
 	}
 
 	public void setIncludeDependencies(boolean includeDependencies) {
+		markDirty();
 		this.includeDependencies = includeDependencies;
-		markProjectDirty();
 	}
 
 	public void setIncludeDependenciesStr(String includeDependencies) {
+		markDirty();
 		this.includeDependencies = Boolean.parseBoolean(includeDependencies);
-		markProjectDirty();
 	}
 
 }

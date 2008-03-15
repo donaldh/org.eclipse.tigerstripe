@@ -27,7 +27,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.RulesSectionPart;
 import org.eclipse.ui.forms.IDetailsPage;
@@ -80,9 +81,9 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 		return master;
 	}
 
-	protected ITigerstripePluginProject getPPProject() {
-		return ((PluginDescriptorEditor) getMaster().getPage().getEditor())
-				.getIPluggablePluginProject();
+	protected ITigerstripeGeneratorProject getPPProject() {
+		return ((GeneratorDescriptorEditor) getMaster().getPage().getEditor())
+				.getProjectHandle();
 	}
 
 	public BaseRuleDetailsPage(RulesSectionPart master) {

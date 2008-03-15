@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime;
 
+import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
+import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
 /**
@@ -19,11 +22,13 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
  * @author Eric Dillon
  * 
  */
-public class PluginClasspathEntry implements IPluginClasspathEntry {
+public class PluginClasspathEntry extends AbstractContainedObject implements
+		IPluginClasspathEntry, IContainedObject {
 
 	private String relativePath;
 
 	public void setRelativePath(String relativePath) {
+		markDirty();
 		this.relativePath = relativePath;
 	}
 
@@ -34,9 +39,6 @@ public class PluginClasspathEntry implements IPluginClasspathEntry {
 	 */
 	public String getRelativePath() {
 		return this.relativePath;
-	}
-
-	public void setProject(ITigerstripePluginProject project) {
 	}
 
 	public boolean isPresent() {
