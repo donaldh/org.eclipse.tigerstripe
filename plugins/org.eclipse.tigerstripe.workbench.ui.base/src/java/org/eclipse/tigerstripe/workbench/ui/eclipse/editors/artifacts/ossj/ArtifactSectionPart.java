@@ -36,7 +36,6 @@ public abstract class ArtifactSectionPart extends TigerstripeSectionPart {
 			FormToolkit toolkit, IOssjArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider, int style) {
 
-		// Annoyance 14 - Removed Description (js)
 		super(page, parent, toolkit,
 				style != ExpandableComposite.NO_TITLE ? style
 						| ExpandableComposite.TITLE_BAR
