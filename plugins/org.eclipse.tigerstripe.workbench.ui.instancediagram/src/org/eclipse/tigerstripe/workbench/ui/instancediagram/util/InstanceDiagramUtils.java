@@ -156,7 +156,7 @@ public class InstanceDiagramUtils {
 			String fqn = artifact.getFullyQualifiedName();
 			try {
 				List<IRelationship> relList = artifactMgrSession
-						.getOriginatingRelationshipForFQN(fqn, false);
+						.getOriginatingRelationshipForFQN(fqn, true);
 				if (relList != null && relList.size() > 0)
 					relationshipSet.addAll(relList);
 			} catch (TigerstripeException e) {
@@ -175,7 +175,7 @@ public class InstanceDiagramUtils {
 			String fqn = artifact.getFullyQualifiedName();
 			try {
 				List<IRelationship> relList = artifactMgrSession
-						.getTerminatingRelationshipForFQN(fqn, false);
+						.getTerminatingRelationshipForFQN(fqn, true);
 				if (relList != null && relList.size() > 0)
 					targetRelationshipSet.addAll(relList);
 			} catch (TigerstripeException e) {
