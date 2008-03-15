@@ -135,7 +135,7 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 			Composite parent, FormToolkit toolkit,
 			IOssjArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
-		super(page, parent, toolkit, labelProvider, contentProvider, 0);
+		super(page, parent, toolkit, labelProvider, contentProvider, SWT.NONE);
 
 		setTitle("General Information");
 		createContent();
@@ -250,9 +250,6 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 		label = toolkit.createLabel(parent, "", SWT.WRAP);
 	}
 
-	// Annoyance 13 - add name to package name and change the label
-	// to designate a fully qualified name of the Artifact. Also,
-	// enable to allow copy/paste (js)
 	private void createQualifiedName(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 

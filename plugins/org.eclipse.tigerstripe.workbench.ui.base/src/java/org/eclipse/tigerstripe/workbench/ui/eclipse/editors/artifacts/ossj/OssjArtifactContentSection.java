@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.IArtifactFormContentProvider;
@@ -28,7 +29,7 @@ public class OssjArtifactContentSection extends ArtifactSectionPart {
 			Composite parent, FormToolkit toolkit,
 			IOssjArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
-		super(page, parent, toolkit, labelProvider, contentProvider, 0);
+		super(page, parent, toolkit, labelProvider, contentProvider, SWT.NONE);
 		setTitle("Details");
 		createContent();
 	}
