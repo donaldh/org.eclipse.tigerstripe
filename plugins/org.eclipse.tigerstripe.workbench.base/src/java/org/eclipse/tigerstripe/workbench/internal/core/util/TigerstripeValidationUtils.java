@@ -22,7 +22,7 @@ public final class TigerstripeValidationUtils {
 	public static final Pattern allUppercase = compilePattern("^[A-Z_][A-Z0-9_]*$");
 	public static final Pattern literalNamePattern = compilePattern("^[A-Za-z_][A-Za-z0-9_]*$");
 	public static final Pattern packageNamePattern = compilePattern("^[A-Za-z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*$");
-	public static final List keywordList = buildKeywordList();
+	public static final List<String> keywordList = buildKeywordList();
 
 	private TigerstripeValidationUtils() {
 	}
@@ -31,7 +31,7 @@ public final class TigerstripeValidationUtils {
 		return Pattern.compile(pattern);
 	}
 
-	private static List buildKeywordList() {
+	private static List<String> buildKeywordList() {
 		String[] strArray = new String[] { "abstract", "continue", "for",
 				"new", "switch", "assert", "default", "goto", "package",
 				"synchronized", "boolean", "do", "if", "private", "this",

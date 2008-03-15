@@ -17,6 +17,7 @@ import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
@@ -46,7 +47,7 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationArtifactImpl.class.getName())
 							.getLabel() + " end (aEnd) in '"
-					+ artifact.getName() + "'.", getIResource(), 222);
+					+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
 		} else
 			aEndDefined = true;
 
@@ -57,7 +58,7 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationArtifactImpl.class.getName())
 							.getLabel() + " end (zEnd) in '"
-					+ artifact.getName() + "'.", getIResource(), 222);
+					+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
 		} else
 			zEndDefined = true;
 
@@ -68,8 +69,32 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 			checkStereotypes(artifact.getZEnd(), "artifact '"
 					+ getArtifact().getName() + "' endZ");
 
+			checkEndNames(); // Bug 222614
 			checkNavigability(); // Bug 221458
 			checkAggregation(); // Bug 221458
+		}
+	}
+
+	protected void checkEndNames() {
+		IAssociationArtifact artifact = (IAssociationArtifact) getArtifact();
+		String aEndName = artifact.getAEnd().getName();
+		String zEndName = artifact.getZEnd().getName();
+
+		if (!TigerstripeValidationUtils.elementNamePattern.matcher(aEndName)
+				.matches()) {
+			TigerstripeProjectAuditor.reportWarning("Discouraged "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName())
+							.getLabel() + " AEnd name '" + aEndName + "' in '"
+					+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
+		}
+		if (!TigerstripeValidationUtils.elementNamePattern.matcher(zEndName)
+				.matches()) {
+			TigerstripeProjectAuditor.reportWarning("Discouraged "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName())
+							.getLabel() + " ZEnd name '" + zEndName + "' in '"
+					+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
 		}
 	}
 
@@ -84,7 +109,7 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationArtifactImpl.class.getName())
 							.getLabel() + " End must be navigable in '"
-					+ artifact.getName() + "'.", getIResource(), 222);
+					+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
 		}
 	}
 
@@ -94,9 +119,10 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 	protected void checkAggregation() {
 		IAssociationArtifact artifact = (IAssociationArtifact) getArtifact();
 		if (artifact.getAEnd().getAggregation() != EAggregationEnum.NONE
-				&& artifact.getZEnd().getAggregation() != EAggregationEnum.NONE ) {
-			TigerstripeProjectAuditor.reportError("Inconsistent Aggregation/Composition in '"
-					+ artifact.getName() + "'.", getIResource(), 222);
+				&& artifact.getZEnd().getAggregation() != EAggregationEnum.NONE) {
+			TigerstripeProjectAuditor.reportError(
+					"Inconsistent Aggregation/Composition in '"
+							+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
 		}
 	}
 
