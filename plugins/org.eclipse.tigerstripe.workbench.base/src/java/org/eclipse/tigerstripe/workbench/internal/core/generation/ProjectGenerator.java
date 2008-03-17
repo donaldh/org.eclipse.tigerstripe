@@ -81,6 +81,7 @@ public class ProjectGenerator {
 
 	private void initializeConfig() throws TigerstripeException {
 		config = new RunConfig();
+		config.setProjectHandle(project);
 		IProjectDetails details = project.getProjectDetails();
 		config
 				.setClearDirectoryBeforeGenerate("true"
@@ -132,7 +133,12 @@ public class ProjectGenerator {
 			throws TigerstripeException, GenerationException {
 
 		List<PluginRunStatus> overallResult = new ArrayList<PluginRunStatus>();
-
+		
+		// Temporary fix for Bug 222939
+		for( IPluginConfig pConf : project.getPluginConfigs() ) {
+			pConf.setProjectHandle(project);
+		}
+		
 		try {
 			monitor.beginTask("Generating project", IProgressMonitor.UNKNOWN);
 			refreshAndSetupForGeneration();
