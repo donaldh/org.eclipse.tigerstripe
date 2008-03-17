@@ -81,7 +81,6 @@ public class ProjectGenerator {
 
 	private void initializeConfig() throws TigerstripeException {
 		config = new RunConfig();
-		config.setProjectHandle(project);
 		IProjectDetails details = project.getProjectDetails();
 		config
 				.setClearDirectoryBeforeGenerate("true"
