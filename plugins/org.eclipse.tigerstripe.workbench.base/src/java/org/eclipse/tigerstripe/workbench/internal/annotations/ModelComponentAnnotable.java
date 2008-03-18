@@ -84,6 +84,7 @@ public class ModelComponentAnnotable implements IAnnotable {
 				IAbstractArtifact art = m.getContainingArtifact();
 				StringBuffer URI = getArtifactURI(art);
 
+				URI.append("#");
 				URI.append(m.getName());
 				URI.append("(");
 				boolean first = true;
