@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
@@ -31,7 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 
 /**
@@ -89,12 +89,12 @@ public class PluggablePlugin extends BasePlugin {
 		}
 	}
 
-	public void trigger(PluginConfig pluginConfig, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, M1RunConfig config)
 			throws TigerstripeException {
 		this.report = new PluggablePluginReport(pluginConfig);
 		this.report.setTemplate(TEMPLATE_PREFIX + "/" + REPORTTEMPLATE);
 
-		// Update the ref with any missing properties, and
+		// Update the pluginConfig with any missing properties, and
 		// remove any that are not valid.
 
 		Properties properties = pluginConfig.getProperties();
@@ -217,7 +217,7 @@ public class PluggablePlugin extends BasePlugin {
 	 * @throws TigerstripeException
 	 */
 	public VelocityContext getLocalVelocityContext(
-			VelocityContext parentContext, ITemplateRunRule rule)
+			VelocityContext parentContext, ITemplateBasedRule rule)
 			throws TigerstripeException {
 		VelocityContext result = new VelocityContext(parentContext);
 

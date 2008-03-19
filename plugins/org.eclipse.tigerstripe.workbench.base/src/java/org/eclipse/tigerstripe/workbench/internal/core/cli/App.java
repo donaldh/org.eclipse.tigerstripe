@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.cli;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.BreakIterator;
 import java.util.Date;
@@ -25,16 +24,7 @@ import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
-import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
-import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeLogProgressMonitor;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -154,77 +144,77 @@ public class App {
 	}
 
 	public void doMain(String[] args, Date fullStart) {
-		initializeMain(args);
-
-		checkDebugFlag();
-		displayHelp();
-		displayVersion();
-
+//		initializeMain(args);
+//
+//		checkDebugFlag();
+//		displayHelp();
+//		displayVersion();
+//
 		int returnCode = RC_OK;
-
-		if (!getCli().hasOption(CONSOLE_BANNER)) {
-			printConsoleTigerstripeHeader();
-		}
-
-		// Bug 916 - first check that we have a Java Compiler (i.e. that this is
-		// running
-		// within a JDK, not a JRE
-		if (!TigerstripeRuntime.hasJavaCompiler()) {
-			TigerstripeRuntime
-					.logErrorMessage("A JDK is required to run headless. You are running a JRE, please install a JDK.");
-			log
-					.error("A JDK is required to run headless. You are running a JRE, please install a JDK.");
-			returnCode = NO_JDK_ERROR;
-		} else {
-
-			File baseDir = new File(".");
-			try {
-				ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
-						.findProject(baseDir.toURI());
-
-				if (getCli().hasOption(PACKAGE)) {
-					log.info("  Packaging project: "
-							+ project.getLocation().toOSString());
-
-					String targetFile = getCli().getOptionValue(PACKAGE);
-					String moduleID = project.getProjectLabel() + "-"
-							+ project.getProjectDetails().getVersion();
-					if (getCli().hasOption(MODULEID)) {
-						moduleID = getCli().getOptionValue(MODULEID);
-					}
-
-					IModulePackager packager = ((TigerstripeOssjProjectHandle) project)
-							.getPackager();
-					File file = new File(targetFile);
-
-					IModuleHeader header = packager.makeHeader();
-					header.setModuleID(moduleID);
-
-					String classesDirStr = project.getLocation().append("bin")
-							.toOSString();
-					File classesDir = new File(classesDirStr);
-					packager.packageUp(file.toURI(), classesDir, header,
-							new TigerstripeLogProgressMonitor());
-
-					log.info("  Successfully packaged.");
-				} else {
-					log.info("  Generating project: "
-							+ project.getLocation().toOSString());
-					IRunConfig config = project.makeDefaultRunConfig();
-					PluginRunStatus[] status = project.generate(config, null);
-					if (status.length == 0)
-						log.info("  Successfully completed.");
-					else {
-						System.err.print(status[0].getMessage());
-						returnCode = RC_INIT_ERROR;
-					}
-				}
-
-			} catch (TigerstripeException e) {
-				log.error(e.getLocalizedMessage());
-				returnCode = RC_INIT_ERROR;
-			}
-		}
+//
+//		if (!getCli().hasOption(CONSOLE_BANNER)) {
+//			printConsoleTigerstripeHeader();
+//		}
+//
+//		// Bug 916 - first check that we have a Java Compiler (i.e. that this is
+//		// running
+//		// within a JDK, not a JRE
+//		if (!TigerstripeRuntime.hasJavaCompiler()) {
+//			TigerstripeRuntime
+//					.logErrorMessage("A JDK is required to run headless. You are running a JRE, please install a JDK.");
+//			log
+//					.error("A JDK is required to run headless. You are running a JRE, please install a JDK.");
+//			returnCode = NO_JDK_ERROR;
+//		} else {
+//
+//			File baseDir = new File(".");
+//			try {
+//				ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+//						.findProject(baseDir.toURI());
+//
+//				if (getCli().hasOption(PACKAGE)) {
+//					log.info("  Packaging project: "
+//							+ project.getLocation().toOSString());
+//
+//					String targetFile = getCli().getOptionValue(PACKAGE);
+//					String moduleID = project.getProjectLabel() + "-"
+//							+ project.getProjectDetails().getVersion();
+//					if (getCli().hasOption(MODULEID)) {
+//						moduleID = getCli().getOptionValue(MODULEID);
+//					}
+//
+//					IModulePackager packager = ((TigerstripeOssjProjectHandle) project)
+//							.getPackager();
+//					File file = new File(targetFile);
+//
+//					IModuleHeader header = packager.makeHeader();
+//					header.setModuleID(moduleID);
+//
+//					String classesDirStr = project.getLocation().append("bin")
+//							.toOSString();
+//					File classesDir = new File(classesDirStr);
+//					packager.packageUp(file.toURI(), classesDir, header,
+//							new TigerstripeLogProgressMonitor());
+//
+//					log.info("  Successfully packaged.");
+//				} else {
+//					log.info("  Generating project: "
+//							+ project.getLocation().toOSString());
+//					IM1RunConfig config = project.makeDefaultRunConfig();
+//					PluginRunStatus[] status = project.generate(config, null);
+//					if (status.length == 0)
+//						log.info("  Successfully completed.");
+//					else {
+//						System.err.print(status[0].getMessage());
+//						returnCode = RC_INIT_ERROR;
+//					}
+//				}
+//
+//			} catch (TigerstripeException e) {
+//				log.error(e.getLocalizedMessage());
+//				returnCode = RC_INIT_ERROR;
+//			}
+//		}
 
 		if (returnCode != RC_OK) {
 			exit(returnCode);

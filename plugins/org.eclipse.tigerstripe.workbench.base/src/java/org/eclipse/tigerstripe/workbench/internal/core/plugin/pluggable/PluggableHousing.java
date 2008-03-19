@@ -39,15 +39,12 @@ public class PluggableHousing extends PluginHousing {
 			TigerstripeProjectHandle project) throws TigerstripeException {
 
 		PluggablePluginConfig result = new PluggablePluginConfig(project
-				.getTSProject());
+				.getTSProject(), getPluginId(), getGroupId());
 		result.setVersion(getVersion());
 		result.setEnabled(true);
-		result.setGroupId(getGroupId());
-		result.setPluginId(getPluginId());
 
 		// Create the global properties with their default values
-		IPluginProperty[] props = getBody().getPProject()
-				.getGlobalProperties();
+		IPluginProperty[] props = getBody().getPProject().getGlobalProperties();
 		Properties properties = result.getProperties();
 		for (IPluginProperty prop : props) {
 			properties.setProperty(prop.getName(), prop.serialize(prop

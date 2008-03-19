@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 
@@ -34,7 +34,7 @@ public interface PluginBody {
 	 * @param pluginConfig
 	 * @throws TigerstripeException
 	 */
-	public void trigger(PluginConfig pluginConfig, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, M1RunConfig config)
 			throws TigerstripeException;
 
 	public String getLabel();

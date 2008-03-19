@@ -101,4 +101,6 @@ public interface IFacetReference {
 	 * @return
 	 */
 	public ITigerstripeModelProject getContainingProject();
+	
+	public IFacetReference clone();
 }

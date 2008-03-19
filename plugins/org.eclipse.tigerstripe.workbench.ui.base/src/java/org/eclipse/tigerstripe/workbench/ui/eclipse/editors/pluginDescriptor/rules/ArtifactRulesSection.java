@@ -20,9 +20,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedPPluginRule;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -46,7 +46,7 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 				try {
 					return pPlugin.getArtifactRules();
 				} catch (TigerstripeException e) {
-					return new ITemplateRunRule[0];
+					return new ITemplateBasedRule[0];
 				}
 			}
 			return new Object[0];
@@ -79,7 +79,7 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(ArtifactBasedPPluginRule.class,
+		detailsPart.registerPage(ArtifactBasedRule.class,
 				new ArtifactBasedRuleDetailsPage(this));
 	}
 
@@ -95,10 +95,10 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 							.getArtifactRules());
 
 			if (dialog.open() == Window.OK) {
-				IRunRule newRule = dialog.getNewPPluginRule();
-				if (newRule instanceof ITemplateRunRule) {
+				IRule newRule = dialog.getNewPPluginRule();
+				if (newRule instanceof ITemplateBasedRule) {
 					try {
-						pProject.addArtifactRule((ITemplateRunRule) newRule);
+						pProject.addArtifactRule((ITemplateBasedRule) newRule);
 						getViewer().add(newRule);
 						getViewer().setSelection(
 								new StructuredSelection(newRule), true);
@@ -120,10 +120,10 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 	@Override
 	protected void removeButtonSelected(SelectionEvent event) {
 		TableItem[] selectedItems = getViewer().getTable().getSelection();
-		ITemplateRunRule[] selectedFields = new ITemplateRunRule[selectedItems.length];
+		ITemplateBasedRule[] selectedFields = new ITemplateBasedRule[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (ITemplateRunRule) selectedItems[i].getData();
+			selectedFields[i] = (ITemplateBasedRule) selectedItems[i].getData();
 		}
 
 		String message = "Do you really want to remove ";

@@ -48,7 +48,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
 /**
@@ -102,7 +102,7 @@ public class VelocityContextDefinitionEditDialog extends TSMessageDialog {
 	public VelocityContextDefinitionEditDialog(Shell parentShell,
 			VelocityContextDefinition initialDef,
 			List<VelocityContextDefinition> existingDefs,
-			IJavaProject javaProject, ITemplateRunRule rule) {
+			IJavaProject javaProject, ITemplateBasedRule rule) {
 		super(parentShell);
 
 		this.initialDef = initialDef;

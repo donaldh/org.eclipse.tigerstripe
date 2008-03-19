@@ -25,8 +25,9 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
+import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -130,9 +131,10 @@ public class Tigerstripe implements IApplication {
 		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
 				.findProject(projectFile.toURI());
 
-		IRunConfig config = project.makeDefaultRunConfig();
+		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
+				project, RunConfig.M1);
 		PluginRunStatus[] status = project.generate(config, null);
-
+		
 		// TODO - handle this!
 		if (status.length != 0) {
 			for (PluginRunStatus pluginRunStatus : status) {

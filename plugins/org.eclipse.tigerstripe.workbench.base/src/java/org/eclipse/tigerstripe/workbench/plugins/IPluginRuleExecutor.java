@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 
 public interface IPluginRuleExecutor {
@@ -22,5 +22,5 @@ public interface IPluginRuleExecutor {
 	 * 
 	 * @return
 	 */
-	public RunConfig getConfig();
+	public M1RunConfig getConfig();
 }

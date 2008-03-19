@@ -17,10 +17,9 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
+import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -66,36 +65,36 @@ public class TigerstripeTask extends Task {
 	private void executeMain() throws BuildException {
 		// Added code to generate through Ant script - bug # 83
 		int returnCode = RC_OK;
-		if (!TigerstripeRuntime.hasJavaCompiler()) {
-			TigerstripeRuntime
-					.logErrorMessage("A JDK is required to run headless. You are running a JRE, please install a JDK.");
-			log
-					.error("A JDK is required to run headless. You are running a JRE, please install a JDK.");
-			returnCode = NO_JDK_ERROR;
-		} else {
-
-			try {
-				ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
-						.findProject(baseDir.toURI());
-				log.info("  Generating project: "
-						+ project.getLocation().toOSString());
-				TigerstripeRuntime.logInfoMessage("Generating Project : "
-						+ project.getLocation().toOSString());
-
-				IRunConfig config = project.makeDefaultRunConfig();
-				PluginRunStatus[] status = project.generate(config, null);
-				if (status.length == 0)
-					log.info("  Successfully completed.");
-				else {
-					System.out.print(status[0].getMessage());
-					returnCode = RC_INIT_ERROR;
-				}
-
-			} catch (TigerstripeException e) {
-				log.error(e.getLocalizedMessage());
-				returnCode = RC_INIT_ERROR;
-			}
-		}
+//		if (!TigerstripeRuntime.hasJavaCompiler()) {
+//			TigerstripeRuntime
+//					.logErrorMessage("A JDK is required to run headless. You are running a JRE, please install a JDK.");
+//			log
+//					.error("A JDK is required to run headless. You are running a JRE, please install a JDK.");
+//			returnCode = NO_JDK_ERROR;
+//		} else {
+//
+//			try {
+//				ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+//						.findProject(baseDir.toURI());
+//				log.info("  Generating project: "
+//						+ project.getLocation().toOSString());
+//				TigerstripeRuntime.logInfoMessage("Generating Project : "
+//						+ project.getLocation().toOSString());
+//
+//				IM1RunConfig config = project.makeDefaultRunConfig();
+//				PluginRunStatus[] status = project.generate(config, null);
+//				if (status.length == 0)
+//					log.info("  Successfully completed.");
+//				else {
+//					System.out.print(status[0].getMessage());
+//					returnCode = RC_INIT_ERROR;
+//				}
+//
+//			} catch (TigerstripeException e) {
+//				log.error(e.getLocalizedMessage());
+//				returnCode = RC_INIT_ERROR;
+//			}
+//		}
 		if (returnCode != RC_OK) {
 			exit(returnCode);
 		}

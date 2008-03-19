@@ -24,7 +24,7 @@ public class UseCaseProcessingResult extends PluginRunStatus {
 	private IUseCaseReference useCaseRef;
 
 	public UseCaseProcessingResult(IUseCaseReference useCaseRef,
-			ITigerstripeModelProject project, RunConfig config,
+			ITigerstripeModelProject project, M1RunConfig config,
 			IFacetReference facetRef) {
 		super(null, project, config, facetRef);
 		this.useCaseRef = useCaseRef;

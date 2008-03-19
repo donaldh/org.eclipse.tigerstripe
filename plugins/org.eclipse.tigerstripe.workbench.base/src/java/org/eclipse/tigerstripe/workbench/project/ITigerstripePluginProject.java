@@ -13,11 +13,11 @@ package org.eclipse.tigerstripe.workbench.project;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 
 /**
@@ -34,36 +34,36 @@ public interface ITigerstripePluginProject extends ITigerstripeGeneratorProject 
 	 * Global rules are run once per generation cycle
 	 * 
 	 */
-	public <T extends IRunRule> IRunRule makeRule(Class<T> ruleType)
+	public <T extends IRule> IRule makeRule(Class<T> ruleType)
 			throws TigerstripeException;
 
-	public IRunRule[] getGlobalRules() throws TigerstripeException;
+	public IRule[] getGlobalRules() throws TigerstripeException;
 
-	public void addGlobalRule(IRunRule rule) throws TigerstripeException;
+	public void addGlobalRule(IRule rule) throws TigerstripeException;
 
-	public void removeGlobalRule(IRunRule rule) throws TigerstripeException;
+	public void removeGlobalRule(IRule rule) throws TigerstripeException;
 
-	public void removeGlobalRules(IRunRule[] rules) throws TigerstripeException;
+	public void removeGlobalRules(IRule[] rules) throws TigerstripeException;
 
-	public void addGlobalRules(IRunRule[] rules) throws TigerstripeException;
+	public void addGlobalRules(IRule[] rules) throws TigerstripeException;
 
-	public <T extends IRunRule> Class<T>[] getSupportedPluginRules();
+	public <T extends IRule> Class<T>[] getSupportedPluginRules();
 
-	public ITemplateRunRule[] getArtifactRules() throws TigerstripeException;
+	public ITemplateBasedRule[] getArtifactRules() throws TigerstripeException;
 
-	public void addArtifactRule(ITemplateRunRule rule)
+	public void addArtifactRule(ITemplateBasedRule rule)
 			throws TigerstripeException;
 
-	public void removeArtifactRule(ITemplateRunRule rule)
+	public void removeArtifactRule(ITemplateBasedRule rule)
 			throws TigerstripeException;
 
-	public void removeArtifactRules(ITemplateRunRule[] rules)
+	public void removeArtifactRules(ITemplateBasedRule[] rules)
 			throws TigerstripeException;
 
-	public void addArtifactRules(ITemplateRunRule[] rules)
+	public void addArtifactRules(ITemplateBasedRule[] rules)
 			throws TigerstripeException;
 
-	public <T extends IArtifactBasedTemplateRunRule> Class<T>[] getSupportedPluginArtifactRules();
+	public <T extends IArtifactBasedTemplateRule> Class<T>[] getSupportedPluginArtifactRules();
 
 	public String[] getSupportedPluginArtifactRuleLabels();
 

@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.plugins;
 
 
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 

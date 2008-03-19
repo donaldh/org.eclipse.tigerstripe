@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.generation;
 
-public interface IRunConfig {
+public interface IM1RunConfig {
 	public abstract boolean useUseCaseXSL();
 
 	public abstract void setUseUseCaseXSL(boolean useUseCaseXSL);

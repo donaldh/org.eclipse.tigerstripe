@@ -21,8 +21,8 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
 public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
@@ -31,7 +31,7 @@ public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
 		super(pProject, project);
 	}
 
-	public void audit(IRunRule rule, IProgressMonitor monitor) {
+	public void audit(IRule rule, IProgressMonitor monitor) {
 
 		if (!rule.isEnabled())
 			return;
@@ -56,9 +56,9 @@ public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
 								+ "'", projectDescriptor, 222);
 			}
 
-			if (rule instanceof ITemplateRunRule) {
+			if (rule instanceof ITemplateBasedRule) {
 				// check template is defined and found
-				String template = ((ITemplateRunRule) rule).getTemplate();
+				String template = ((ITemplateBasedRule) rule).getTemplate();
 				if (template == null || template.trim().length() == 0) {
 					PluggablePluginProjectAuditor.reportError(
 							"No Template specified for global rule '"
@@ -82,7 +82,7 @@ public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
 				}
 
 				// Check an output file is defined
-				String output = ((ITemplateRunRule) rule).getOutputFile();
+				String output = ((ITemplateBasedRule) rule).getOutputFile();
 				if (output == null || output.trim().length() == 0) {
 					PluggablePluginProjectAuditor.reportError(
 							"No specified output filename for global rule '"
@@ -93,7 +93,7 @@ public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
 							projectDescriptor, 222);
 				}
 
-				checkVelocityContextDefinitions(((ITemplateRunRule) rule));
+				checkVelocityContextDefinitions(((ITemplateBasedRule) rule));
 			} else if (rule instanceof ICopyRule) {
 				ICopyRule cRule = (ICopyRule) rule;
 				if (cRule.getFilesetMatch() == null
@@ -123,7 +123,7 @@ public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
 		}
 	}
 
-	protected void checkVelocityContextDefinitions(ITemplateRunRule rule) {
+	protected void checkVelocityContextDefinitions(ITemplateBasedRule rule) {
 		try {
 			VelocityContextDefinition[] defs = rule
 					.getVelocityContextDefinitions();

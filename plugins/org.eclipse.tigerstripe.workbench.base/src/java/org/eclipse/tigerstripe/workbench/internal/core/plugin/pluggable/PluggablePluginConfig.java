@@ -14,6 +14,8 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.util.ContainedProperties;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 
 public class PluggablePluginConfig extends PluginConfig {
 
@@ -21,8 +23,11 @@ public class PluggablePluginConfig extends PluginConfig {
 
 	private String groupId;
 
-	public PluggablePluginConfig(TigerstripeProject project) {
+	public PluggablePluginConfig(TigerstripeProject project, String pluginId,
+			String groupId) {
 		super(project);
+		this.pluginId = pluginId;
+		this.groupId = groupId;
 	}
 
 	@Override
@@ -33,14 +38,6 @@ public class PluggablePluginConfig extends PluginConfig {
 	@Override
 	public String getGroupId() {
 		return groupId;
-	}
-
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
-	}
-
-	public void setPluginId(String pluginId) {
-		this.pluginId = pluginId;
 	}
 
 	@Override
@@ -59,4 +56,19 @@ public class PluggablePluginConfig extends PluginConfig {
 		}
 	}
 
+	public IPluginConfig clone() {
+		PluggablePluginConfig config = new PluggablePluginConfig(getProject(),
+				pluginId, groupId);
+
+		config.setEnabled(isEnabled());
+		config.setVersion(getVersion());
+		config.setProperties(new ContainedProperties(getProperties()));
+		config.setLogLevel(getLogLevel());
+		config.setDisableLogging(isLoggingDisabled());
+		if (getFacetReference() != null)
+			config.setFacetReference(getFacetReference().clone());
+		config.setProjectHandle(getProjectHandle());
+
+		return config;
+	}
 }

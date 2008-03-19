@@ -23,7 +23,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
@@ -44,7 +44,7 @@ public class ReportRunner {
 	 * 
 	 */
 	public void generateReport(ReportModel model, ArtifactManager artifactMgr,
-			Collection<PluginReport> reports, RunConfig config)
+			Collection<PluginReport> reports, M1RunConfig config)
 			throws TigerstripeException {
 
 		TigerstripeProject project = model.getProject();

@@ -15,14 +15,12 @@ import java.util.ArrayList;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedPPluginRule;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 
 /**
  * For each run of a PluggablePlugin, a PluginRuleExecutor is instantiated. It
@@ -41,10 +39,10 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 
 	private ArrayList<RuleReport> reports;
 
-	private RunConfig config;
+	private M1RunConfig config;
 
 	public PluginRuleExecutor(PluggablePlugin plugin,
-			PluggablePluginConfig pluginConfig, RunConfig config) {
+			PluggablePluginConfig pluginConfig, M1RunConfig config) {
 		this.plugin = plugin;
 		this.pluginConfig = pluginConfig;
 		this.config = config;
@@ -54,7 +52,7 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 		return this.plugin;
 	}
 
-	public RunConfig getConfig() {
+	public M1RunConfig getConfig() {
 		return this.config;
 	}
 
@@ -68,23 +66,17 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 		int counter = 0;
 		// take care of the global rules first
 		IProgressMonitor monitor = config.getMonitor();
-		IRunRule[] globalRules = ((PluggablePluginProject)plugin.getPProject()).getGlobalRules();
+		IRule[] globalRules = ((PluggablePluginProject) plugin.getPProject())
+				.getGlobalRules();
 
 		monitor.beginTask("Running global rules", globalRules.length);
-		for (IRunRule rule : globalRules) {
+		for (IRule rule : globalRules) {
 			monitor.subTask(rule.getName());
 			if (rule.isEnabled()) {
 				counter++;
-				rule.trigger(pluginConfig, this);
-				if (rule instanceof SimplePPluginRule) {
-					SimplePPluginRule aRule = (SimplePPluginRule) rule;
-					RuleReport subReport = aRule.getReport();
-					this.reports.add(subReport);
-				} else if (rule instanceof CopyRule) {
-					CopyRule cRule = (CopyRule) rule;
-					RuleReport subReport = cRule.getReport();
-					this.reports.add(subReport);
-				}
+				((Rule) rule).trigger(pluginConfig, this);
+				RuleReport subReport = ((Rule) rule).getReport();
+				this.reports.add(subReport);
 			}
 			monitor.worked(1);
 		}
@@ -96,20 +88,17 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 		long startTime2 = System.currentTimeMillis();
 		counter = 0;
 		// Then trigger all artifact-based rules
-		ITemplateRunRule[] artifactRules = ((PluggablePluginProject)plugin.getPProject())
-				.getArtifactRules();
+		ITemplateBasedRule[] artifactRules = ((PluggablePluginProject) plugin
+				.getPProject()).getArtifactRules();
 
 		monitor.beginTask("Running artifact rules", artifactRules.length);
-		for (ITemplateRunRule rule : artifactRules) {
+		for (ITemplateBasedRule rule : artifactRules) {
 			monitor.subTask(rule.getName());
 			if (rule.isEnabled()) {
 				counter++;
-				rule.trigger(pluginConfig, this);
-				if (rule instanceof ArtifactBasedPPluginRule) {
-					ArtifactBasedPPluginRule aRule = (ArtifactBasedPPluginRule) rule;
-					RuleReport subReport = aRule.getReport();
-					this.reports.add(subReport);
-				}
+				((Rule) rule).trigger(pluginConfig, this);
+				RuleReport subReport = ((Rule) rule).getReport();
+				this.reports.add(subReport);
 			}
 			monitor.worked(1);
 		}

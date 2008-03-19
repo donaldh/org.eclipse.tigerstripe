@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class CopyRule extends BasePPluginRule implements ICopyRule {
+public class CopyRule extends Rule implements ICopyRule {
 
 	private final static String REPORTTEMPLATE = "ICopyRule.vm";
 
@@ -37,8 +37,6 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 	private String filesetMatch = "";
 
 	private String toDirectory = "";
-
-	private RuleReport report;
 
 	public int getCopyFrom() {
 		return copyFrom;
@@ -67,10 +65,6 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 		this.toDirectory = toDirectory;
 	}
 
-	public RuleReport getReport() {
-		return report;
-	}
-
 	@Override
 	public void buildBodyFromNode(Node node) {
 		Element elm = (Element) node;
@@ -93,6 +87,11 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 	}
 
 	@Override
+	protected String getReportTemplatePath() {
+		return PluggablePlugin.TEMPLATE_PREFIX + "/" + REPORTTEMPLATE;
+	}
+
+	@Override
 	public String getLabel() {
 		return LABEL;
 	}
@@ -101,22 +100,23 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 		return ICopyRule.class.getCanonicalName();
 	}
 
+	protected void initializeReport(PluggablePluginConfig pluginConfig) {
+		super.initializeReport(pluginConfig);
+		getReport().setFilesetMatch(filesetMatch);
+		getReport().setCopyFrom(getCopyFrom());
+
+	}
+
 	public void trigger(PluggablePluginConfig pluginConfig,
 			IPluginRuleExecutor exec) throws TigerstripeException {
 
-		this.report = new RuleReport(pluginConfig);
-		this.report.setTemplate(PluggablePlugin.TEMPLATE_PREFIX + "/"
-				+ REPORTTEMPLATE);
-		this.report.setName(getName());
-		this.report.setType(getLabel());
-		this.report.setEnabled(isEnabled());
-		this.report.setFilesetMatch(filesetMatch);
-		this.report.setCopyFrom(getCopyFrom());
+		initializeReport(pluginConfig);
 
 		Expander expander = new Expander(pluginConfig);
 		String expandedToDir = expander.expandVar(getToDirectory(),
 				pluginConfig.getProject());
-		this.report.setToDirectory(expandedToDir);
+
+		getReport().setToDirectory(expandedToDir);
 
 		// Get target absolute directory (Created it if needed)
 		String outputPath = "";
@@ -174,7 +174,7 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 				throw new TigerstripeException("Cannot find '"
 						+ getFilesetMatch() + "' for copy in " + src);
 			} else if (srcFile.isFile()) {
-				this.report.getCopiedFiles().add(srcFile.getAbsolutePath());
+				getReport().getCopiedFiles().add(srcFile.getAbsolutePath());
 				try {
 					FileUtils.copy(srcFile.getAbsolutePath(), outputDirectory
 							.getAbsolutePath(), true);
@@ -185,7 +185,7 @@ public class CopyRule extends BasePPluginRule implements ICopyRule {
 									+ e.getMessage(), e);
 				}
 			} else if (srcFile.isDirectory()) {
-				this.report.getCopiedFiles().add(srcFile.getAbsolutePath());
+				getReport().getCopiedFiles().add(srcFile.getAbsolutePath());
 				File newTarget = new File(outputDirectory.getAbsolutePath()
 						+ File.separator + srcFile.getName());
 				try {

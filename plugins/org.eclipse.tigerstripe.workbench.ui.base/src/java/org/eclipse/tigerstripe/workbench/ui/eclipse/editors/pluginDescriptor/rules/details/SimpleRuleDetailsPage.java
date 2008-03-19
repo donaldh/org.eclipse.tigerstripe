@@ -19,7 +19,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.GlobalRulesSection;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -55,12 +55,12 @@ public class SimpleRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 	protected void handleSimpleWidgetSelected(SelectionEvent e) {
 		if (!isSilentUpdate()) {
 			if (e.getSource() == suppressEmptyFilesButton) {
-				SimplePPluginRule rule = (SimplePPluginRule) getITemplateRunRule();
+				GlobalTemplateRule rule = (GlobalTemplateRule) getITemplateRunRule();
 				rule.setSuppressEmptyFiles(suppressEmptyFilesButton
 						.getSelection());
 				pageModified();
 			} else if (e.getSource() == overwriteFilesButton) {
-				SimplePPluginRule rule = (SimplePPluginRule) getITemplateRunRule();
+				GlobalTemplateRule rule = (GlobalTemplateRule) getITemplateRunRule();
 				rule.setOverwriteFiles(overwriteFilesButton.getSelection());
 				pageModified();
 			}
@@ -127,7 +127,7 @@ public class SimpleRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 	protected void updateForm() {
 		super.updateForm();
 		setSilentUpdate(true);
-		SimplePPluginRule rule = (SimplePPluginRule) getITemplateRunRule();
+		GlobalTemplateRule rule = (GlobalTemplateRule) getITemplateRunRule();
 		suppressEmptyFilesButton.setSelection(rule.isSuppressEmptyFiles());
 		overwriteFilesButton.setSelection(rule.isOverwriteFiles());
 		setSilentUpdate(false);

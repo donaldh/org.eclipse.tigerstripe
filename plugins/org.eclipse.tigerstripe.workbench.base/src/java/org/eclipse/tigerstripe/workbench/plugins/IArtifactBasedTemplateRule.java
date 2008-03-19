@@ -22,7 +22,7 @@ package org.eclipse.tigerstripe.workbench.plugins;
  * @author Eric Dillon
  * @since 1.2
  */
-public interface IArtifactBasedTemplateRunRule extends ITemplateRunRule {
+public interface IArtifactBasedTemplateRule extends ITemplateBasedRule {
 
 	/**
 	 * Returns the Fully Qualified Name of the Model to instantiate
@@ -61,13 +61,5 @@ public interface IArtifactBasedTemplateRunRule extends ITemplateRunRule {
 	public String getArtifactType();
 
 	public void setArtifactType(String artifactType);
-
-	public boolean isSuppressEmptyFiles();
-
-	public void setSuppressEmptyFiles(boolean suppress);
-
-	public boolean isOverwriteFiles();
-
-	public void setOverwriteFiles(boolean overwriteFiles);
 
 }

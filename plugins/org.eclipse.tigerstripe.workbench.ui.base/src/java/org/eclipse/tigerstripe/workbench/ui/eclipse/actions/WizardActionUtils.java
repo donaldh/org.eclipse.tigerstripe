@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
@@ -49,7 +49,7 @@ public class WizardActionUtils {
 	 * @throws TigerstripeException
 	 */
 	public static IStatus[] triggerGenerate(ITigerstripeModelProject handle,
-			IProgressMonitor monitor, RunConfig config)
+			IProgressMonitor monitor, M1RunConfig config)
 			throws TigerstripeException, InterruptedException {
 		if (monitor == null) {
 			monitor = new NullProgressMonitor();

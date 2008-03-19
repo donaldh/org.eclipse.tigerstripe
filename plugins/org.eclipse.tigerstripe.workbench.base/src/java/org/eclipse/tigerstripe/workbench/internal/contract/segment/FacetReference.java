@@ -78,6 +78,14 @@ public class FacetReference extends AbstractContainedObject implements
 	// The active mgr when this ref is active or null otherwise
 	private ArtifactManager activeMgr;
 
+	public FacetReference(FacetReference ref) {
+		projectLabel = ref.projectLabel;
+		projectRelativePath = ref.projectRelativePath;
+		facetURI = ref.facetURI;
+		contextProject = ref.contextProject;
+		tsProject = ref.tsProject;
+	}
+
 	public FacetReference(URI facetURI, ITigerstripeModelProject tsProject) {
 		this.facetURI = facetURI;
 		this.project = null;
@@ -442,5 +450,9 @@ public class FacetReference extends AbstractContainedObject implements
 		refElm.setAttribute("genDir", ref.getGenerationDir());
 
 		return refElm;
+	}
+
+	public IFacetReference clone() {
+		return new FacetReference(this);
 	}
 }

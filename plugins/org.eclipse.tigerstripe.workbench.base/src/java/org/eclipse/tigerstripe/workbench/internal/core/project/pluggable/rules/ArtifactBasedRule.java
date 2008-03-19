@@ -19,13 +19,11 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryArtifactsByType;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginVelocityLog;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
@@ -38,10 +36,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactNoFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
@@ -61,18 +58,12 @@ import org.w3c.dom.NodeList;
  * @author Eric Dillon
  * @since 1.2
  */
-public class ArtifactBasedPPluginRule extends M1LevelRule implements
-		IArtifactBasedTemplateRunRule {
+public class ArtifactBasedRule extends TemplateBasedRule implements
+		IArtifactBasedTemplateRule {
 
 	private final static String REPORTTEMPLATE = "IArtifactBasedTemplateRunRule.vm";
 
 	public final static String ANY_ARTIFACT_LABEL = "Any Artifact";
-
-	private RuleReport report;
-
-	private boolean suppressEmptyFiles = true;
-
-	private boolean overwriteFiles = true;
 
 	private boolean includeDependencies = false;
 
@@ -128,7 +119,7 @@ public class ArtifactBasedPPluginRule extends M1LevelRule implements
 	}
 
 	public String getType() {
-		return IArtifactBasedTemplateRunRule.class.getCanonicalName();
+		return IArtifactBasedTemplateRule.class.getCanonicalName();
 	}
 
 	@Override
@@ -177,21 +168,24 @@ public class ArtifactBasedPPluginRule extends M1LevelRule implements
 		return elm;
 	}
 
+	@Override
+	protected String getReportTemplatePath() {
+		return PluggablePlugin.TEMPLATE_PREFIX + "/" + REPORTTEMPLATE;
+	}
+
+	@Override
+	protected void initializeReport(PluggablePluginConfig pluginConfig) {
+		super.initializeReport(pluginConfig);
+		getReport().setIncludeDependencies(isIncludeDependencies());
+	}
+
 	public void trigger(PluggablePluginConfig pluginConfig,
 			IPluginRuleExecutor exec) throws TigerstripeException {
 		IAbstractArtifact currentArtifact = null;
 		// TigerstripeRuntime.logInfoMessage("triggering " + getName());
 		Writer writer = null;
 		try {
-			this.report = new RuleReport(pluginConfig);
-			this.report.setTemplate(PluggablePlugin.TEMPLATE_PREFIX + "/"
-					+ REPORTTEMPLATE);
-			this.report.setName(getName());
-			this.report.setType(getLabel());
-			this.report.setEnabled(isEnabled());
-			this.report.setOverwriteFiles(isOverwriteFiles());
-			this.report.setSuppressEmptyFiles(isSuppressEmptyFiles());
-			this.report.setIncludeDependencies(isIncludeDependencies());
+			initializeReport(pluginConfig);
 
 			VelocityEngine engine = setClasspathLoaderForVelocity();
 			Template template = engine.getTemplate(getTemplate());
@@ -214,7 +208,7 @@ public class ArtifactBasedPPluginRule extends M1LevelRule implements
 			for (int i = 0; i < baseSupportedArtifacts.length; i++) {
 				supportedArtifacts[i] = baseSupportedArtifacts[i];
 			}
-			supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedPPluginRule.ANY_ARTIFACT_LABEL;
+			supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedRule.ANY_ARTIFACT_LABEL;
 
 			int index = -1;
 			for (int i = 0; i < supportedArtifacts.length; i++) {
@@ -229,12 +223,12 @@ public class ArtifactBasedPPluginRule extends M1LevelRule implements
 			if (index < baseSupportedArtifactLabels.length) {
 				artifactLabel = baseSupportedArtifactLabels[index];
 			} else if (index == baseSupportedArtifactLabels.length) {
-				artifactLabel = ArtifactBasedPPluginRule.ANY_ARTIFACT_LABEL;
+				artifactLabel = ArtifactBasedRule.ANY_ARTIFACT_LABEL;
 			} else {
 				artifactLabel = "Something else";
 			}
 
-			this.report.setArtifactType(artifactLabel);
+			getReport().setArtifactType(artifactLabel);
 			// Phew - got it!
 
 			// IProjectSession session = API.getDefaultProjectSession();
@@ -375,23 +369,23 @@ public class ArtifactBasedPPluginRule extends M1LevelRule implements
 						template.merge(localContext, writer);
 						writer.close();
 
-						Collection<String> artifacts = this.report
+						Collection<String> artifacts = getReport()
 								.getMatchedArtifacts();
 						artifacts.add(artifact.getFullyQualifiedName());
 
 						Long fred = outputFileF.length();
 						if (fred.intValue() == 0 && isSuppressEmptyFiles()) {
 							outputFileF.delete();
-							Collection<String> files = this.report
+							Collection<String> files = getReport()
 									.getSuppressedFiles();
 							files.add(targetFile);
 						} else {
-							Collection<String> files = this.report
+							Collection<String> files = getReport()
 									.getGeneratedFiles();
 							files.add(targetFile);
 						}
 					} else {
-						Collection<String> files = this.report
+						Collection<String> files = getReport()
 								.getPreservedFiles();
 						files.add(targetFile);
 					}
@@ -428,46 +422,6 @@ public class ArtifactBasedPPluginRule extends M1LevelRule implements
 				}
 			}
 		}
-	}
-
-	public RuleReport getReport() {
-		return report;
-	}
-
-	public boolean isSuppressEmptyFiles() {
-		return suppressEmptyFiles;
-	}
-
-	public String isSuppressEmptyFilesStr() {
-		return Boolean.toString(suppressEmptyFiles);
-	}
-
-	public void setSuppressEmptyFiles(boolean suppressEmptyFiles) {
-		markDirty();
-		this.suppressEmptyFiles = suppressEmptyFiles;
-	}
-
-	public void setSuppressEmptyFilesStr(String suppressEmptyFilesStr) {
-		markDirty();
-		this.suppressEmptyFiles = Boolean.parseBoolean(suppressEmptyFilesStr);
-	}
-
-	public boolean isOverwriteFiles() {
-		return overwriteFiles;
-	}
-
-	public String isOverwriteFilesStr() {
-		return Boolean.toString(overwriteFiles);
-	}
-
-	public void setOverwriteFiles(boolean overwriteFiles) {
-		markDirty();
-		this.overwriteFiles = overwriteFiles;
-	}
-
-	public void setOverwriteFilesStr(String overwriteFilesStr) {
-		markDirty();
-		this.overwriteFiles = Boolean.parseBoolean(overwriteFilesStr);
 	}
 
 	public boolean isIncludeDependencies() {

@@ -26,7 +26,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -42,7 +42,7 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 
 	protected RulesSectionPart master;
 
-	private IRunRule rule;
+	private IRule rule;
 
 	private boolean silentUpdate = false;
 
@@ -161,17 +161,17 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 	}
 
 	// ============================================================
-	private void setIRunRule(IRunRule rule) {
+	private void setIRunRule(IRule rule) {
 		this.rule = rule;
 	}
 
-	protected IRunRule getIRunRule() {
+	protected IRule getIRunRule() {
 		return rule;
 	}
 
 	protected void updateForm() {
 		setSilentUpdate(true);
-		IRunRule rule = getIRunRule();
+		IRule rule = getIRunRule();
 		nameText.setText(rule.getName());
 		descriptionText.setText(rule.getDescription());
 		enabledButton.setSelection(getIRunRule().isEnabled());
@@ -221,7 +221,7 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 			master = (RulesSectionPart) part;
 			Table fieldsTable = master.getViewer().getTable();
 
-			IRunRule selected = (IRunRule) fieldsTable.getSelection()[0]
+			IRule selected = (IRule) fieldsTable.getSelection()[0]
 					.getData();
 			setIRunRule(selected);
 			updateForm();
@@ -230,7 +230,7 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 
 	public void handleModifyText(ModifyEvent e) {
 		if (!isSilentUpdate()) {
-			IRunRule rule = getIRunRule();
+			IRule rule = getIRunRule();
 			if (e.getSource() == nameText) {
 				rule.setName(nameText.getText().trim());
 				if (master != null) {

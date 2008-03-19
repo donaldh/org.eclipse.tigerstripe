@@ -56,19 +56,15 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * @author Eric Dillon
  * 
  */
-public class ProjectGenerator {
+public class M1Generator {
 
 	private ITigerstripeModelProject project = null;
 
-	private RunConfig config = null;
+	private M1RunConfig config = null;
 
 	private UseCaseProcessor processor = null;
 
-	public ProjectGenerator(ITigerstripeModelProject project) {
-		this(project, null);
-	}
-
-	public ProjectGenerator(ITigerstripeModelProject project, RunConfig config) {
+	public M1Generator(ITigerstripeModelProject project, M1RunConfig config) {
 		this.project = project;
 		this.config = config;
 		this.processor = new UseCaseProcessor(project, config);
@@ -80,7 +76,7 @@ public class ProjectGenerator {
 	}
 
 	private void initializeConfig() throws TigerstripeException {
-		config = new RunConfig();
+		config = new M1RunConfig();
 		IProjectDetails details = project.getProjectDetails();
 		config
 				.setClearDirectoryBeforeGenerate("true"
@@ -132,12 +128,7 @@ public class ProjectGenerator {
 			throws TigerstripeException, GenerationException {
 
 		List<PluginRunStatus> overallResult = new ArrayList<PluginRunStatus>();
-		
-		// Temporary fix for Bug 222939
-		for( IPluginConfig pConf : project.getPluginConfigs() ) {
-			pConf.setProjectHandle(project);
-		}
-		
+
 		try {
 			monitor.beginTask("Generating project", IProgressMonitor.UNKNOWN);
 			refreshAndSetupForGeneration();
@@ -338,8 +329,8 @@ public class ProjectGenerator {
 	 * @throws GenerationException
 	 */
 	private PluginRunStatus[] internalRun(IProgressMonitor monitor,
-			RunConfig config) throws TigerstripeException, GenerationException,
-			GenerationCanceledException {
+			M1RunConfig config) throws TigerstripeException,
+			GenerationException, GenerationCanceledException {
 
 		boolean logMessages = false;
 		if ("true"
@@ -364,17 +355,18 @@ public class ProjectGenerator {
 
 			monitor.worked(3);
 			monitor.setTaskName("Refreshing project");
-			// project.getArtifactManagerSession().refresh(false);
-			// ((ArtifactManagerSessionImpl)
-			// project.getArtifactManagerSession())
-			// .setLockForGeneration(true);
 
-			IPluginConfig[] plugins = project.getPluginConfigs();
+			IPluginConfig[] plugins = config.getPluginConfigs();
 			boolean isFirstRef = true;
 			boolean validationFailed = false;
 
 			// First run all validation plugins if any
 			for (IPluginConfig iRef : plugins) {
+				
+				// we're using clones of the actual pluginConfigs, so we need to make
+				// sure the handle is set before we attempt generation
+				iRef.setProjectHandle(project);
+				
 				if (shouldRestoreFacet) {
 					if (facetToRestore != null)
 						project.setActiveFacet(facetToRestore, monitor);
@@ -726,12 +718,12 @@ public class ProjectGenerator {
 		monitor.beginTask("Generating Referenced Projects", refProjects.length);
 		for (ITigerstripeModelProject refProject : refProjects) {
 
-			RunConfig refConfig = new RunConfig(refProject);
+			M1RunConfig refConfig = new M1RunConfig(refProject);
 			String absDir = project.getLocation().toOSString() + File.separator
 					+ project.getProjectDetails().getOutputDirectory()
 					+ File.separator + refProject.getProjectLabel();
 			refConfig.setAbsoluteOutputDir(absDir);
-			ProjectGenerator gen = new ProjectGenerator(refProject, refConfig);
+			M1Generator gen = new M1Generator(refProject, refConfig);
 			result = gen.run();
 			for (PluginRunStatus res : result) {
 				res.setContext("Referenced Project");
@@ -775,11 +767,11 @@ public class ProjectGenerator {
 			// added
 			// deps are taken into
 			// account
-			RunConfig myConfig = new RunConfig();
+			M1RunConfig myConfig = new M1RunConfig();
 			myConfig.setGenerateModules(false);
 			myConfig.setUseCurrentFacet(false);
 			myConfig.setIgnoreFacets(true);
-			ProjectGenerator gen = new ProjectGenerator(modProj, myConfig);
+			M1Generator gen = new M1Generator(modProj, myConfig);
 			result = gen.run(monitor);
 
 			for (PluginRunStatus res : result) {

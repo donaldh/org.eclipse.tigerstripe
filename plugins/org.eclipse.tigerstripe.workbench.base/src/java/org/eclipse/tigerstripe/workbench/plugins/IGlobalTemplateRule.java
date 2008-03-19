@@ -16,14 +16,6 @@ package org.eclipse.tigerstripe.workbench.plugins;
  * @author Eric Dillon
  * @since 1.2
  */
-public interface ISimpleTemplateRunRule extends ITemplateRunRule {
-
-	public boolean isSuppressEmptyFiles();
-
-	public void setSuppressEmptyFiles(boolean suppress);
-
-	public boolean isOverwriteFiles();
-
-	public void setOverwriteFiles(boolean overwriteFiles);
+public interface IGlobalTemplateRule extends ITemplateBasedRule {
 
 }

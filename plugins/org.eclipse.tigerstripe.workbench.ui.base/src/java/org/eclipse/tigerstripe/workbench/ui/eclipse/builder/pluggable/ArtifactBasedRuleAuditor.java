@@ -23,10 +23,10 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
 public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
@@ -36,10 +36,10 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 		super(pProject, project);
 	}
 
-	public void audit(ITemplateRunRule rule, IProgressMonitor monitor) {
+	public void audit(ITemplateBasedRule rule, IProgressMonitor monitor) {
 		super.audit(rule, monitor);
 
-		IArtifactBasedTemplateRunRule aRule = (IArtifactBasedTemplateRunRule) rule;
+		IArtifactBasedTemplateRule aRule = (IArtifactBasedTemplateRule) rule;
 
 		if (aRule.isEnabled()) {
 			checkArtifactType(aRule);
@@ -48,7 +48,7 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 		}
 	}
 
-	protected void checkArtifactType(IArtifactBasedTemplateRunRule aRule) {
+	protected void checkArtifactType(IArtifactBasedTemplateRule aRule) {
 		String artifactType = aRule.getArtifactType();
 		if (artifactType == null || artifactType.length() == 0) {
 			PluggablePluginProjectAuditor.reportError(
@@ -59,7 +59,7 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 		}
 	}
 
-	protected void checkArtifactFilterClass(IArtifactBasedTemplateRunRule aRule) {
+	protected void checkArtifactFilterClass(IArtifactBasedTemplateRule aRule) {
 		String artifactFilterClass = aRule.getArtifactFilterClass();
 		if (artifactFilterClass != null
 				&& artifactFilterClass.trim().length() != 0) {
@@ -127,7 +127,7 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 
 	}
 
-	protected void checkArtifactModelClass(IArtifactBasedTemplateRunRule aRule) {
+	protected void checkArtifactModelClass(IArtifactBasedTemplateRule aRule) {
 		String artifactModelClass = aRule.getModelClass();
 		if (artifactModelClass != null
 				&& artifactModelClass.trim().length() != 0) {

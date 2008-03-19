@@ -31,17 +31,17 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedPPluginRule;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.BasePPluginRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.ISimpleTemplateRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -54,22 +54,22 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 
 	@SuppressWarnings("unchecked")
 	private final static Class[] SUPPORTED_RULES = {
-			ISimpleTemplateRunRule.class, ICopyRule.class };
+			IGlobalTemplateRule.class, ICopyRule.class };
 
 	private final static String[] SUPPORTED_RULES_LABELS = {
-			SimplePPluginRule.LABEL, CopyRule.LABEL };
+			GlobalTemplateRule.LABEL, CopyRule.LABEL };
 
 	@SuppressWarnings("unchecked")
-	private final static Class[] RULES_IMPL = { SimplePPluginRule.class,
+	private final static Class[] RULES_IMPL = { GlobalTemplateRule.class,
 			CopyRule.class };
 
 	@SuppressWarnings("unchecked")
-	private final static Class[] SUPPORTED_ARTIFACTRULES = { IArtifactBasedTemplateRunRule.class, };
+	private final static Class[] SUPPORTED_ARTIFACTRULES = { IArtifactBasedTemplateRule.class, };
 
-	private final static String[] SUPPORTED_ARTIFACTRULES_LABELS = { ArtifactBasedPPluginRule.LABEL };
+	private final static String[] SUPPORTED_ARTIFACTRULES_LABELS = { ArtifactBasedRule.LABEL };
 
 	@SuppressWarnings("unchecked")
-	private final static Class[] ARTIFACTRULES_IMPL = { ArtifactBasedPPluginRule.class };
+	private final static Class[] ARTIFACTRULES_IMPL = { ArtifactBasedRule.class };
 
 	public static final String ROOT_TAG = "ts_plugin";
 
@@ -80,29 +80,29 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 
 	public static final String ARTIFACT_RULES = "artifactRules";
 
-	private List<IRunRule> globalRules;
+	private List<IRule> globalRules;
 
-	private List<ITemplateRunRule> artifactRules;
+	private List<ITemplateBasedRule> artifactRules;
 
 	public PluggablePluginProject(File baseDir) {
 		super(baseDir, ITigerstripeConstants.PLUGIN_DESCRIPTOR);
-		globalRules = new ArrayList<IRunRule>();
-		artifactRules = new ArrayList<ITemplateRunRule>();
+		globalRules = new ArrayList<IRule>();
+		artifactRules = new ArrayList<ITemplateBasedRule>();
 		setPluginNature(EPluggablePluginNature.Generic);
 	}
 
 	protected Element buildGlobalRulesElement(Document document) {
 		Element globalProperties = document.createElement(GLOBAL_RULES);
 
-		for (IRunRule rule : getGlobalRules()) {
+		for (IRule rule : getGlobalRules()) {
 			Element propElm = document.createElement("rule");
 			propElm.setAttribute("name", rule.getName());
 			propElm.setAttribute("type", rule.getType());
 			propElm.setAttribute("description", rule.getDescription());
 			propElm.setAttribute("enabled", String.valueOf(rule.isEnabled()));
 
-			if (rule instanceof ITemplateRunRule) {
-				ITemplateRunRule tRule = (ITemplateRunRule) rule;
+			if (rule instanceof ITemplateBasedRule) {
+				ITemplateBasedRule tRule = (ITemplateBasedRule) rule;
 				for (VelocityContextDefinition def : tRule
 						.getVelocityContextDefinitions()) {
 					Element ctx = document.createElement("contextEntry");
@@ -111,7 +111,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 					propElm.appendChild(ctx);
 				}
 			}
-			propElm.appendChild(((BasePPluginRule) rule)
+			propElm.appendChild(((Rule) rule)
 					.getBodyAsNode(document));
 			globalProperties.appendChild(propElm);
 		}
@@ -122,7 +122,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 	protected Element buildArtifactRulesElement(Document document) {
 		Element artifactRules = document.createElement(ARTIFACT_RULES);
 
-		for (ITemplateRunRule rule : getArtifactRules()) {
+		for (ITemplateBasedRule rule : getArtifactRules()) {
 			Element propElm = document.createElement("rule");
 			propElm.setAttribute("name", rule.getName());
 			propElm.setAttribute("type", rule.getType());
@@ -137,7 +137,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 				propElm.appendChild(ctx);
 			}
 
-			propElm.appendChild(((BasePPluginRule) rule)
+			propElm.appendChild(((Rule) rule)
 					.getBodyAsNode(document));
 			artifactRules.appendChild(propElm);
 		}
@@ -261,13 +261,13 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 
 			try {
 				Class type = Class.forName(typeStr);
-				IRunRule iRule = makeRule(type);
+				IRule iRule = makeRule(type);
 				iRule.setName(name);
 				iRule.setDescription(description);
 				iRule.setEnabled(Boolean.parseBoolean(enabled));
 
-				if (iRule instanceof ITemplateRunRule) {
-					ITemplateRunRule tRunRule = (ITemplateRunRule) iRule;
+				if (iRule instanceof ITemplateBasedRule) {
+					ITemplateBasedRule tRunRule = (ITemplateBasedRule) iRule;
 					NodeList contextEntries = rule
 							.getElementsByTagName("contextEntry");
 					for (int i = 0; i < contextEntries.getLength(); i++) {
@@ -279,7 +279,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 					}
 				}
 
-				((BasePPluginRule) iRule).buildBodyFromNode(rule);
+				((Rule) iRule).buildBodyFromNode(rule);
 				addGlobalRule(iRule);
 
 			} catch (TigerstripeException e) {
@@ -293,7 +293,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 	@SuppressWarnings("unchecked")
 	protected void loadArtifactRules(Document document) {
 
-		artifactRules = new ArrayList<ITemplateRunRule>();
+		artifactRules = new ArrayList<ITemplateBasedRule>();
 
 		NodeList globalProps = document.getElementsByTagName(ARTIFACT_RULES);
 		if (globalProps.getLength() != 1)
@@ -314,9 +314,9 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 			}
 			try {
 				Class type = Class.forName(typeStr);
-				IRunRule iRule = makeRule(type);
-				if (iRule instanceof ITemplateRunRule) {
-					ITemplateRunRule iTplRule = (ITemplateRunRule) iRule;
+				IRule iRule = makeRule(type);
+				if (iRule instanceof ITemplateBasedRule) {
+					ITemplateBasedRule iTplRule = (ITemplateBasedRule) iRule;
 					iTplRule.setName(name);
 					iTplRule.setDescription(description);
 					iTplRule.setEnabled(Boolean.parseBoolean(enabled));
@@ -331,7 +331,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 						iTplRule.addVelocityContextDefinition(def);
 					}
 
-					((BasePPluginRule) iTplRule).buildBodyFromNode(rule);
+					((Rule) iTplRule).buildBodyFromNode(rule);
 					addArtifactRule(iTplRule);
 				}
 			} catch (TigerstripeException e) {
@@ -369,11 +369,11 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		}
 	}
 
-	public void addGlobalRules(IRunRule[] rules) {
+	public void addGlobalRules(IRule[] rules) {
 		globalRules.addAll(Arrays.asList(rules));
 	}
 
-	public void addGlobalRule(IRunRule rule) {
+	public void addGlobalRule(IRule rule) {
 		if (!globalRules.contains(rule)) {
 			setDirty();
 			globalRules.add(rule);
@@ -388,13 +388,13 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		}
 	}
 
-	public void removeGlobalRules(IRunRule[] rules) {
-		for (IRunRule rule : rules) {
+	public void removeGlobalRules(IRule[] rules) {
+		for (IRule rule : rules) {
 			removeGlobalRule(rule);
 		}
 	}
 
-	public void removeGlobalRule(IRunRule rule) {
+	public void removeGlobalRule(IRule rule) {
 		setDirty();
 		globalRules.remove(rule);
 		if (rule instanceof IContainedObject) {
@@ -403,12 +403,12 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		}
 	}
 
-	public IRunRule[] getGlobalRules() {
-		return this.globalRules.toArray(new IRunRule[globalRules.size()]);
+	public IRule[] getGlobalRules() {
+		return this.globalRules.toArray(new IRule[globalRules.size()]);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends IRunRule> Class<T>[] getSupportedPluginRules() {
+	public <T extends IRule> Class<T>[] getSupportedPluginRules() {
 		return SUPPORTED_RULES;
 	}
 
@@ -416,13 +416,13 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		return SUPPORTED_RULES_LABELS;
 	}
 
-	public void addArtifactRules(ITemplateRunRule[] rules) {
-		for (ITemplateRunRule rule : rules) {
+	public void addArtifactRules(ITemplateBasedRule[] rules) {
+		for (ITemplateBasedRule rule : rules) {
 			addArtifactRule(rule);
 		}
 	}
 
-	public void addArtifactRule(ITemplateRunRule rule) {
+	public void addArtifactRule(ITemplateBasedRule rule) {
 		if (!artifactRules.contains(rule)) {
 			setDirty();
 			artifactRules.add(rule);
@@ -437,13 +437,13 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		}
 	}
 
-	public void removeArtifactRules(ITemplateRunRule[] rules) {
-		for (ITemplateRunRule rule : rules) {
+	public void removeArtifactRules(ITemplateBasedRule[] rules) {
+		for (ITemplateBasedRule rule : rules) {
 			removeArtifactRule(rule);
 		}
 	}
 
-	public void removeArtifactRule(ITemplateRunRule rule) {
+	public void removeArtifactRule(ITemplateBasedRule rule) {
 		setDirty();
 		artifactRules.remove(rule);
 		if (rule instanceof IContainedObject) {
@@ -452,13 +452,13 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		}
 	}
 
-	public ITemplateRunRule[] getArtifactRules() {
-		return this.artifactRules.toArray(new ITemplateRunRule[artifactRules
+	public ITemplateBasedRule[] getArtifactRules() {
+		return this.artifactRules.toArray(new ITemplateBasedRule[artifactRules
 				.size()]);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends IArtifactBasedTemplateRunRule> Class<T>[] getSupportedPluginArtifactRules() {
+	public <T extends IArtifactBasedTemplateRule> Class<T>[] getSupportedPluginArtifactRules() {
 		return SUPPORTED_ARTIFACTRULES;
 	}
 
@@ -466,7 +466,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		return SUPPORTED_ARTIFACTRULES_LABELS;
 	}
 
-	public <T extends IRunRule> IRunRule makeRule(Class<T> ruleType)
+	public <T extends IRule> IRule makeRule(Class<T> ruleType)
 			throws TigerstripeException {
 
 		// First look thru list of Global Rules
@@ -477,7 +477,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 				@SuppressWarnings("unchecked")
 				Class targetImpl = RULES_IMPL[index];
 				try {
-					IRunRule result = (IRunRule) targetImpl.newInstance();
+					IRule result = (IRule) targetImpl.newInstance();
 					return result;
 				} catch (IllegalAccessException e) {
 					throw new TigerstripeException("Couldn't instantiate "
@@ -497,7 +497,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 				@SuppressWarnings("unchecked")
 				Class targetImpl = ARTIFACTRULES_IMPL[index];
 				try {
-					ITemplateRunRule result = (ITemplateRunRule) targetImpl
+					ITemplateBasedRule result = (ITemplateBasedRule) targetImpl
 							.newInstance();
 					return result;
 				} catch (IllegalAccessException e) {

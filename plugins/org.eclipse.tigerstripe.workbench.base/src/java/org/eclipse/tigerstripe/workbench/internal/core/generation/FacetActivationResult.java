@@ -19,7 +19,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class FacetActivationResult extends PluginRunStatus {
 
-	public FacetActivationResult(ITigerstripeModelProject project, RunConfig config,
+	public FacetActivationResult(ITigerstripeModelProject project, M1RunConfig config,
 			IFacetReference facetRef) {
 		super(null, project, config, facetRef);
 	}

@@ -148,9 +148,8 @@ public class PluginConfigFactory {
 
 		PluginConfig pluginConfig = null;
 
-		PluggablePluginConfig ref = new PluggablePluginConfig(project);
-		ref.setGroupId(groupId);
-		ref.setPluginId(pluginId);
+		PluggablePluginConfig ref = new PluggablePluginConfig(project,
+				pluginId, groupId);
 		ref.setVersion(version);
 		pluginConfig = ref;
 

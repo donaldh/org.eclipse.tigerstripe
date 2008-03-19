@@ -52,7 +52,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.Tigerstripe
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.VMFileSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.VelocityContextDefinitionEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -90,8 +90,8 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 			IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof ITemplateRunRule) {
-				ITemplateRunRule rule = (ITemplateRunRule) inputElement;
+			if (inputElement instanceof ITemplateBasedRule) {
+				ITemplateBasedRule rule = (ITemplateBasedRule) inputElement;
 				return rule.getVelocityContextDefinitions();
 			}
 			return new Object[0];
@@ -125,8 +125,8 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 
 	class macroContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof ITemplateRunRule) {
-				ITemplateRunRule rule = (ITemplateRunRule) inputElement;
+			if (inputElement instanceof ITemplateBasedRule) {
+				ITemplateBasedRule rule = (ITemplateBasedRule) inputElement;
 				return rule.getMacroLibraries();
 			}
 			return new Object[0];
@@ -299,7 +299,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 
 	protected void createContextDefinitions(Composite parent) {
 
-		ITemplateRunRule rule = getITemplateRunRule();
+		ITemplateBasedRule rule = getITemplateRunRule();
 		FormToolkit toolkit = form.getToolkit();
 		Composite sectionClient = toolkit.createComposite(parent);
 		TableWrapLayout twlayout = new TableWrapLayout();
@@ -399,7 +399,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 	}
 
 	protected void createMacros(Composite parent) {
-		ITemplateRunRule rule = getITemplateRunRule();
+		ITemplateBasedRule rule = getITemplateRunRule();
 		FormToolkit toolkit = form.getToolkit();
 		Composite sectionClient = toolkit.createComposite(parent);
 		TableWrapLayout twlayout = new TableWrapLayout();
@@ -507,7 +507,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		def.setName(findNewEntryName());
 		def.setClassname("");
 
-		ITemplateRunRule rule = getITemplateRunRule();
+		ITemplateBasedRule rule = getITemplateRunRule();
 
 		IJavaProject jProj = EclipsePlugin.getIJavaProject(getPPProject());
 		VelocityContextDefinitionEditDialog dialog = new VelocityContextDefinitionEditDialog(
@@ -520,13 +520,13 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		}
 	}
 
-	protected ITemplateRunRule getITemplateRunRule() {
-		return (ITemplateRunRule) getIRunRule();
+	protected ITemplateBasedRule getITemplateRunRule() {
+		return (ITemplateBasedRule) getIRunRule();
 	}
 
 	protected void removeButtonSelected(SelectionEvent event) {
 
-		ITemplateRunRule rule = getITemplateRunRule();
+		ITemplateBasedRule rule = getITemplateRunRule();
 
 		TableItem[] selectedItems = viewer.getTable().getSelection();
 		VelocityContextDefinition[] selectedLabels = new VelocityContextDefinition[selectedItems.length];
@@ -556,7 +556,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 	}
 
 	protected void doubleClicked(DoubleClickEvent event) {
-		ITemplateRunRule rule = getITemplateRunRule();
+		ITemplateBasedRule rule = getITemplateRunRule();
 		TableItem[] selectedItems = viewer.getTable().getSelection();
 
 		if (selectedItems.length != 0) {
@@ -574,7 +574,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 	}
 
 	protected void macroAddButtonSelected(SelectionEvent event) {
-		ITemplateRunRule rule = getITemplateRunRule();
+		ITemplateBasedRule rule = getITemplateRunRule();
 		VMFileSelectionDialog dialog = new VMFileSelectionDialog(null, false,
 				false);
 		IFile baseFile = ((FileEditorInput) getMaster().getPage()
@@ -613,7 +613,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 	}
 
 	protected void macroRemoveButtonSelected(SelectionEvent event) {
-		ITemplateRunRule rule = getITemplateRunRule();
+		ITemplateBasedRule rule = getITemplateRunRule();
 		TableItem[] selectedItems = macroViewer.getTable().getSelection();
 		String[] selectedLabels = new String[selectedItems.length];
 
@@ -643,7 +643,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 	@Override
 	protected void updateForm() {
 		setSilentUpdate(true);
-		ITemplateRunRule rule = getITemplateRunRule();
+		ITemplateBasedRule rule = getITemplateRunRule();
 		templateText.setText(getITemplateRunRule().getTemplate());
 		outputFile.setText(getITemplateRunRule().getOutputFile());
 		viewer.setInput(rule);

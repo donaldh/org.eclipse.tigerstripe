@@ -10,16 +10,14 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 
 /**
- * Top level run rule for PluggablePlugins.
+ * Top level rule interface for Generators
  * 
  * @author erdillon
  * 
  */
-public interface IRunRule {
+public interface IRule {
 
 	public String getName();
 
@@ -32,9 +30,6 @@ public interface IRunRule {
 	public String getLabel();
 
 	public String getType();
-
-	public void trigger(PluggablePluginConfig pluginConfig,
-			IPluginRuleExecutor exec) throws TigerstripeException;
 
 	public boolean isEnabled();
 

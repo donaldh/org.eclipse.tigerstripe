@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
@@ -46,11 +46,11 @@ public class NewPPluginRuleSelectionDialog extends TSMessageDialog {
 
 	private ITigerstripePluginProject ppProject;
 
-	private IRunRule result;
+	private IRule result;
 
 	private Class[] supportedRules;
 
-	private IRunRule[] existingRules;
+	private IRule[] existingRules;
 
 	private class PropertySelectionAdapter implements IStringButtonAdapter,
 			IDialogFieldListener, IListAdapter {
@@ -78,7 +78,7 @@ public class NewPPluginRuleSelectionDialog extends TSMessageDialog {
 	public NewPPluginRuleSelectionDialog(Shell parentShell,
 			String initialRuleName, ITigerstripePluginProject ppProject,
 			Class[] supportedRules, String[] supportedRuleLabels,
-			IRunRule[] existingRules) {
+			IRule[] existingRules) {
 		super(parentShell);
 
 		this.ppProject = ppProject;
@@ -125,7 +125,7 @@ public class NewPPluginRuleSelectionDialog extends TSMessageDialog {
 		}
 
 		// Check for duplicates
-		for (IRunRule rule : existingRules) {
+		for (IRule rule : existingRules) {
 			if (rule.getName().equals(parameterName)) {
 				okEnabled = false;
 				setMessage("Duplicate rule");
@@ -224,7 +224,7 @@ public class NewPPluginRuleSelectionDialog extends TSMessageDialog {
 		}
 	}
 
-	public IRunRule getNewPPluginRule() {
+	public IRule getNewPPluginRule() {
 		return result;
 	}
 }

@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -122,7 +122,7 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 	class MasterLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
-			IRunRule rule = (IRunRule) obj;
+			IRule rule = (IRule) obj;
 			return rule.getName();
 		}
 
@@ -249,7 +249,7 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 		// make sure we're not creating a duplicate
 		TableItem[] items = viewer.getTable().getItems();
 		for (int i = 0; i < items.length; i++) {
-			String name = ((IRunRule) items[i].getData()).getName();
+			String name = ((IRule) items[i].getData()).getName();
 			if (result.equals(name))
 				return findNewRuleName();
 		}

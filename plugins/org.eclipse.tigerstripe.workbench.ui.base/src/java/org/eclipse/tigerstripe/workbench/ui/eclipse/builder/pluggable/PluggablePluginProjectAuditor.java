@@ -31,8 +31,8 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
@@ -148,17 +148,17 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 				return;
 
 			// First audit rules
-			IRunRule[] rules = pProject.getGlobalRules();
+			IRule[] rules = pProject.getGlobalRules();
 			GlobalRuleAuditor glRulesAuditor = new GlobalRuleAuditor(pProject,
 					getProject());
-			for (IRunRule rule : rules) {
+			for (IRule rule : rules) {
 				glRulesAuditor.audit(rule, monitor);
 			}
 
-			ITemplateRunRule[] aRules = pProject.getArtifactRules();
+			ITemplateBasedRule[] aRules = pProject.getArtifactRules();
 			ArtifactBasedRuleAuditor aRulesAuditor = new ArtifactBasedRuleAuditor(
 					pProject, getProject());
-			for (ITemplateRunRule rule : aRules) {
+			for (ITemplateBasedRule rule : aRules) {
 				aRulesAuditor.audit(rule, monitor);
 			}
 

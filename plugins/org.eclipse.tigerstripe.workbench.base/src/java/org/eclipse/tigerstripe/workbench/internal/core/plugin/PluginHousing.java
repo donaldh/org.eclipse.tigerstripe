@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
 import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 
@@ -34,7 +34,7 @@ public class PluginHousing {
 	 * 
 	 * @param pluginConfig
 	 */
-	public void trigger(PluginConfig pluginConfig, RunConfig config)
+	public void trigger(PluginConfig pluginConfig, M1RunConfig config)
 			throws TigerstripeException {
 		body.trigger(pluginConfig, config);
 	}

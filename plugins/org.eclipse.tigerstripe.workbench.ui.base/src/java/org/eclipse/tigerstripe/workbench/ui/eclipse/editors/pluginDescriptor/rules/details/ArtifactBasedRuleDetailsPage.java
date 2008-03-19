@@ -34,7 +34,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedPPluginRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.ArtifactRulesSection;
@@ -87,16 +87,16 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 			} else if (e.getSource() == filterClassBrowseButton) {
 				filterClassBrowseButtonPressed(e);
 			} else if (e.getSource() == suppressEmptyFilesButton) {
-				ArtifactBasedPPluginRule rule = (ArtifactBasedPPluginRule) getITemplateRunRule();
+				ArtifactBasedRule rule = (ArtifactBasedRule) getITemplateRunRule();
 				rule.setSuppressEmptyFiles(suppressEmptyFilesButton
 						.getSelection());
 				pageModified();
 			} else if (e.getSource() == overwriteFilesButton) {
-				ArtifactBasedPPluginRule rule = (ArtifactBasedPPluginRule) getITemplateRunRule();
+				ArtifactBasedRule rule = (ArtifactBasedRule) getITemplateRunRule();
 				rule.setOverwriteFiles(overwriteFilesButton.getSelection());
 				pageModified();
 			} else if (e.getSource() == triggerOnDependenciesAndReferencesButton) {
-				ArtifactBasedPPluginRule rule = (ArtifactBasedPPluginRule) getITemplateRunRule();
+				ArtifactBasedRule rule = (ArtifactBasedRule) getITemplateRunRule();
 				rule
 						.setIncludeDependencies(triggerOnDependenciesAndReferencesButton
 								.getSelection());
@@ -107,7 +107,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 	protected void handleArtifactRuleModifyText(ModifyEvent e) {
 		if (!isSilentUpdate()) {
-			ArtifactBasedPPluginRule rule = (ArtifactBasedPPluginRule) getITemplateRunRule();
+			ArtifactBasedRule rule = (ArtifactBasedRule) getITemplateRunRule();
 			if (e.getSource() == modelClassText) {
 				rule.setModelClass(modelClassText.getText().trim());
 				pageModified();
@@ -160,7 +160,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 	protected void artifactTypeComboChanged(SelectionEvent e) {
 		if (e.getSource() == artifactTypeCombo) {
-			ArtifactBasedPPluginRule rule = (ArtifactBasedPPluginRule) getITemplateRunRule();
+			ArtifactBasedRule rule = (ArtifactBasedRule) getITemplateRunRule();
 			int index = artifactTypeCombo.getSelectionIndex();
 
 			IArtifactMetadataSession session = InternalTigerstripeCore
@@ -171,7 +171,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 			for (int i = 0; i < baseSupportedArtifacts.length; i++) {
 				supportedArtifacts[i] = baseSupportedArtifacts[i];
 			}
-			supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedPPluginRule.ANY_ARTIFACT_LABEL;
+			supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedRule.ANY_ARTIFACT_LABEL;
 
 			rule.setArtifactType(supportedArtifacts[index]);
 			pageModified();
@@ -191,7 +191,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 	protected void updateForm() {
 		super.updateForm();
 		setSilentUpdate(true);
-		ArtifactBasedPPluginRule rule = (ArtifactBasedPPluginRule) getITemplateRunRule();
+		ArtifactBasedRule rule = (ArtifactBasedRule) getITemplateRunRule();
 		modelClassText.setText(rule.getModelClass());
 		modelClassNameText.setText(rule.getModelClassName());
 		filterClassText.setText(rule.getArtifactFilterClass());
@@ -207,7 +207,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		for (int i = 0; i < baseSupportedArtifacts.length; i++) {
 			supportedArtifacts[i] = baseSupportedArtifacts[i];
 		}
-		supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedPPluginRule.ANY_ARTIFACT_LABEL;
+		supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedRule.ANY_ARTIFACT_LABEL;
 
 		int index = -1;
 		for (int i = 0; i < supportedArtifacts.length; i++) {
@@ -311,7 +311,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		for (int i = 0; i < baseSupportedArtifacts.length; i++) {
 			supportedArtifacts[i] = baseSupportedArtifacts[i];
 		}
-		supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedPPluginRule.ANY_ARTIFACT_LABEL;
+		supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedRule.ANY_ARTIFACT_LABEL;
 		artifactTypeCombo = new CCombo(sectionClient, SWT.READ_ONLY);
 		artifactTypeCombo.setEnabled(PluginDescriptorEditor.isEditable());
 		form.getToolkit().adapt(artifactTypeCombo, true, true);

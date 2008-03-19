@@ -20,7 +20,7 @@ package org.eclipse.tigerstripe.workbench.plugins;
  * @author erdillon
  * @since 2.2.2.1
  */
-public interface ICopyRule extends IRunRule {
+public interface ICopyRule extends IRule {
 
 	public final static int FROM_PLUGIN = 0;
 	public final static int FROM_PROJECT = 1;

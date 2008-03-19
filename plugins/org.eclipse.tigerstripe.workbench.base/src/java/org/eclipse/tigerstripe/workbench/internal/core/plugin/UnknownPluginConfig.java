@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 
 public class UnknownPluginConfig extends PluginConfig {
 
@@ -19,17 +20,11 @@ public class UnknownPluginConfig extends PluginConfig {
 
 	public UnknownPluginConfig(TigerstripeProject project) {
 		super(project);
-		// TODO Auto-generated constructor stub
 	}
-
 
 	@Override
 	public String getGroupId() {
 		return groupId;
-	}
-
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
 	}
 
 	@Override
@@ -37,8 +32,10 @@ public class UnknownPluginConfig extends PluginConfig {
 		return pluginId;
 	}
 
-	public void setPluginId(String pluginId) {
-		this.pluginId = pluginId;
+	public IPluginConfig clone() {
+		UnknownPluginConfig result = new UnknownPluginConfig(getProject());
+		result.groupId = groupId;
+		result.pluginId = pluginId;
+		return result;
 	}
-
 }

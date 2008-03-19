@@ -15,7 +15,7 @@ import java.net.URI;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
-import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
+import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
@@ -40,9 +40,7 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 	public IArtifactManagerSession getArtifactManagerSession()
 			throws TigerstripeException;
 
-	public IRunConfig makeDefaultRunConfig();
-
-	public PluginRunStatus[] generate(IRunConfig config,
+	public PluginRunStatus[] generate(IM1RunConfig config,
 			IProgressMonitor monitor) throws TigerstripeException;
 
 	public IDependency[] getDependencies() throws TigerstripeException;

@@ -22,9 +22,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.SimplePPluginRule;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateRunRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
@@ -62,7 +62,7 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 				try {
 					return pPlugin.getGlobalRules();
 				} catch (TigerstripeException e) {
-					return new ITemplateRunRule[0];
+					return new ITemplateBasedRule[0];
 				}
 			}
 			return new Object[0];
@@ -94,7 +94,7 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 							.getGlobalRules());
 
 			if (dialog.open() == Window.OK) {
-				IRunRule newRule = dialog.getNewPPluginRule();
+				IRule newRule = dialog.getNewPPluginRule();
 				if (newRule != null) {
 					try {
 						pProject.addGlobalRule(newRule);
@@ -119,10 +119,10 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 	@Override
 	protected void removeButtonSelected(SelectionEvent event) {
 		TableItem[] selectedItems = getViewer().getTable().getSelection();
-		IRunRule[] selectedFields = new IRunRule[selectedItems.length];
+		IRule[] selectedFields = new IRule[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (IRunRule) selectedItems[i].getData();
+			selectedFields[i] = (IRule) selectedItems[i].getData();
 		}
 
 		String message = "Do you really want to remove ";
@@ -151,7 +151,7 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(SimplePPluginRule.class,
+		detailsPart.registerPage(GlobalTemplateRule.class,
 				new SimpleRuleDetailsPage(this));
 		detailsPart.registerPage(CopyRule.class, new CopyRuleDetailsPage(this));
 	}

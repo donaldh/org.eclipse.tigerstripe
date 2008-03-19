@@ -20,7 +20,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginBody;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
@@ -47,7 +47,7 @@ public abstract class BasePlugin implements PluginBody {
 	 *             if the file cannot be written
 	 */
 	protected void setDefaultDestination(PluginConfig ref, File file,
-			RunConfig config) throws IOException {
+			M1RunConfig config) throws IOException {
 
 		String baseDir = ref.getProjectHandle().getLocation().toOSString();
 

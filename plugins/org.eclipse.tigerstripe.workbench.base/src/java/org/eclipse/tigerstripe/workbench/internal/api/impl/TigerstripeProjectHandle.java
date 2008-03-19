@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
-import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
+import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.annotations.ModelChangeHandler;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -32,8 +32,8 @@ import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReferenc
 import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.ProjectGenerator;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1Generator;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractImportCheckpointHelper;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
@@ -462,16 +462,11 @@ public abstract class TigerstripeProjectHandle extends
 	}
 
 	@Override
-	public PluginRunStatus[] generate(IRunConfig config,
+	public PluginRunStatus[] generate(IM1RunConfig config,
 			IProgressMonitor monitor) throws TigerstripeException {
-		ProjectGenerator generator = new ProjectGenerator(this,
-				(RunConfig) config);
+		M1Generator generator = new M1Generator(this,
+				(M1RunConfig) config);
 		return generator.run();
-	}
-
-	@Override
-	public RunConfig makeDefaultRunConfig() {
-		return new RunConfig(this);
 	}
 
 }

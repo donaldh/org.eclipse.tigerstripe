@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl;
@@ -58,10 +60,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifac
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
-import org.eclipse.tigerstripe.workbench.plugins.ISimpleTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 
@@ -79,6 +81,22 @@ public class MigrationHelper {
 		return profileMigrateAnnotationArtifactLevelType(artifactType);
 	}
 
+	/**
+	 * This method is useful to check that all the types going thru here are
+	 * found, if not it means we have missed a migration case.
+	 * 
+	 * @param type
+	 */
+	private static void assertDefined(String type) {
+		// This is just in place to ensure we are migrating everything
+		try {
+			Class theClass = MigrationHelper.class.forName(type);
+		} catch (ClassNotFoundException e) {
+			BasePlugin.log(new Status(IStatus.WARNING, BasePlugin.PLUGIN_ID,
+					"Couldn't migrate profile property type: " + type, e));
+		}
+	}
+
 	public static String profileMigratePropertyType(String type) {
 		if ("com.tigerstripesoftware.core.profile.properties.GlobalSettingsProperty"
 				.equals(type))
@@ -90,6 +108,7 @@ public class MigrationHelper {
 				.equals(type))
 			return OssjLegacySettingsProperty.class.getName();
 
+		assertDefined(type);
 		return type;
 	}
 
@@ -133,6 +152,7 @@ public class MigrationHelper {
 				.equals(scope))
 			return IPrimitiveTypeArtifact.class.getName();
 
+		assertDefined(scope);
 		return scope;
 	}
 
@@ -184,17 +204,20 @@ public class MigrationHelper {
 				|| ILiteral.class.getName().equals(classname))
 			return ILiteralImpl.class.getName();
 
+		assertDefined(classname);
 		return classname;
 	}
 
 	public static String pluginMigrateRuleType(String ruleType) {
-		if ( "com.tigerstripesoftware.api.plugins.pluggable.ISimpleTemplateRunRule".equals(ruleType)) {
-			return ISimpleTemplateRunRule.class.getName();
-		} else if ( "com.tigerstripesoftware.api.plugins.pluggable.IArtifactBasedTemplateRunRule".equals(ruleType)) {
-			return IArtifactBasedTemplateRunRule.class.getName();
-		} else if ( "com.tigerstripesoftware.api.plugins.pluggable.ICopyRule".equals(ruleType)) {
+		if (ruleType.endsWith("ISimpleTemplateRunRule")) {
+			return IGlobalTemplateRule.class.getName();
+		} else if (ruleType.endsWith("IArtifactBasedTemplateRunRule")) {
+			return IArtifactBasedTemplateRule.class.getName();
+		} else if (ruleType.endsWith("ICopyRule")) {
 			return ICopyRule.class.getName();
 		}
+
+		assertDefined(ruleType);
 		return ruleType;
 	}
 
@@ -211,6 +234,8 @@ public class MigrationHelper {
 		else if ("com.tigerstripesoftware.api.plugins.pluggable.ITablePPluginProperty"
 				.equals(propertyType))
 			return ITablePluginProperty.class.getName();
+
+		assertDefined(propertyType);
 		return propertyType;
 	}
 }

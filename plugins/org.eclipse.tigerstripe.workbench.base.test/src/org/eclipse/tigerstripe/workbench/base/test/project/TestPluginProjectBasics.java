@@ -16,9 +16,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
 
@@ -75,26 +75,26 @@ public class TestPluginProjectBasics extends TestCase {
 		}
 	}
 
-	public <T extends IRunRule> void testSupportedGlobalRules()
+	public <T extends IRule> void testSupportedGlobalRules()
 			throws TigerstripeException {
 		Class<T> supported[] = project.getSupportedPluginRules();
 
 		assertTrue(supported.length != 0);
 
 		for (Class<T> propertyType : supported) {
-			IRunRule property = project.makeRule(propertyType);
+			IRule property = project.makeRule(propertyType);
 			assertNotNull(property);
 		}
 	}
 
-	public <T extends IArtifactBasedTemplateRunRule> void testSupportedArtifactBasedRules()
+	public <T extends IArtifactBasedTemplateRule> void testSupportedArtifactBasedRules()
 			throws TigerstripeException {
 		Class<T> supported[] = project.getSupportedPluginArtifactRules();
 
 		assertTrue(supported.length != 0);
 
 		for (Class<T> propertyType : supported) {
-			IRunRule property = project.makeRule(propertyType);
+			IRule property = project.makeRule(propertyType);
 			assertNotNull(property);
 		}
 	}

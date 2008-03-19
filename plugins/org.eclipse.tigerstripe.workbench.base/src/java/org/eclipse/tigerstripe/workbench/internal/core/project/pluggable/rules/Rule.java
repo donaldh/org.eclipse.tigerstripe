@@ -10,22 +10,28 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BaseContainerObject;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.IContainerObject;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
-import org.eclipse.tigerstripe.workbench.plugins.IRunRule;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-public abstract class BasePPluginRule extends BaseContainerObject implements
-		IContainedObject, IContainerObject, IRunRule {
+public abstract class Rule extends BaseContainerObject implements
+		IContainedObject, IContainerObject, IRule {
 
 	private boolean enabled = true;
 
 	private String name = "";
 
 	private String description = "";
+
+	private RuleReport report;
 
 	// =====================================================================
 	// IContainedObject
@@ -48,6 +54,16 @@ public abstract class BasePPluginRule extends BaseContainerObject implements
 		return isLocalDirty;
 	}
 
+	protected abstract String getReportTemplatePath();
+
+	protected void initializeReport(PluggablePluginConfig pluginConfig) {
+		this.report = new RuleReport(pluginConfig);
+		this.report.setTemplate(getReportTemplatePath());
+		this.report.setName(getName());
+		this.report.setType(getLabel());
+		this.report.setEnabled(isEnabled());
+	}
+
 	/**
 	 * Marks this object as dirty and notify the container if any
 	 * 
@@ -58,14 +74,14 @@ public abstract class BasePPluginRule extends BaseContainerObject implements
 			container.notifyDirty(this);
 		}
 	}
-	
+
 	public IContainerObject getContainer() {
 		return container;
 	}
 
 	// =====================================================================
 	// =====================================================================
-	
+
 	public String getName() {
 		return name;
 	}
@@ -113,12 +129,19 @@ public abstract class BasePPluginRule extends BaseContainerObject implements
 
 	@Override
 	public boolean equals(Object arg0) {
-		if (arg0 instanceof IRunRule) {
-			IRunRule other = (IRunRule) arg0;
+		if (arg0 instanceof IRule) {
+			IRule other = (IRule) arg0;
 			if (other.getName() != null)
 				return other.getName().equals(getName());
 		}
 		return false;
+	}
+
+	public abstract void trigger(PluggablePluginConfig pluginConfig,
+			IPluginRuleExecutor exec) throws TigerstripeException;
+
+	public RuleReport getReport() {
+		return report;
 	}
 
 }

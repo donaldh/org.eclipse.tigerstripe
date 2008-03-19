@@ -135,7 +135,7 @@ public class RegexpSetPredicate implements Predicate {
 	 * internal methods
 	 */
 	private boolean containsPattern(String patternStr) {
-		Set keySet = patternsByString.keySet();
+		Set<String> keySet = patternsByString.keySet();
 		if (keySet != null && keySet.contains(patternStr))
 			return true;
 		return false;

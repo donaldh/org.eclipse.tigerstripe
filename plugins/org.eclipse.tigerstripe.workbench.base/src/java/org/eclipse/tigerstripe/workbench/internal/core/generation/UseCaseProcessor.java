@@ -49,7 +49,7 @@ public class UseCaseProcessor {
 
 	private ITigerstripeModelProject project;
 
-	private RunConfig config = null;
+	private M1RunConfig config = null;
 
 	private DiagramRenderer renderer;
 
@@ -57,7 +57,7 @@ public class UseCaseProcessor {
 		this(project, null);
 	}
 
-	public UseCaseProcessor(ITigerstripeModelProject project, RunConfig config) {
+	public UseCaseProcessor(ITigerstripeModelProject project, M1RunConfig config) {
 		this.project = project;
 		this.config = config;
 		this.renderer = new DiagramRenderer(project);

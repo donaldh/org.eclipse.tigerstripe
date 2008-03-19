@@ -51,6 +51,8 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.TSRuntimeBasedWizardPage;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1Generator;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
@@ -83,7 +85,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 	private List<PluginHousing> housings;
 
-	private RunConfig runConfig;
+	private M1RunConfig runConfig;
 
 	private boolean facetControlsInitialized = false;
 
@@ -152,12 +154,13 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 	private void initRunConfigFromContext() {
 		if (runConfig == null) {
 			try {
-				runConfig = new RunConfig(getTSProject());
+				runConfig = (M1RunConfig) RunConfig.newGenerationConfig(
+						getTSProject(), RunConfig.M1);
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			} finally {
 				if (runConfig == null) {
-					runConfig = new RunConfig();
+					runConfig = new M1RunConfig();
 				}
 			}
 		}
@@ -267,7 +270,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		for (Iterator it = housings.iterator(); it.hasNext();) {
 			PluginHousing housing = (PluginHousing) it.next();
 			if (housing.getCategory() == IPluginConfig.GENERATE_CATEGORY
-					&& housing.getPluginNature() != EPluggablePluginNature.M0 ) {
+					&& housing.getPluginNature() != EPluggablePluginNature.M0) {
 				labels.add(housing.getLabel());
 				// TigerstripeRuntime.logInfoMessage("adding label " +
 				// housing.getLabel());
@@ -776,7 +779,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		return result;
 	}
 
-	public RunConfig getRunConfig() {
+	public M1RunConfig getRunConfig() {
 		return this.runConfig;
 	}
 }

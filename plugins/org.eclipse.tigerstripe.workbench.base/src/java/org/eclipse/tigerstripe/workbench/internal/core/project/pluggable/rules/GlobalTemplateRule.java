@@ -24,9 +24,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
-import org.eclipse.tigerstripe.workbench.plugins.ISimpleTemplateRunRule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -38,18 +37,12 @@ import org.w3c.dom.NodeList;
  * @author Eric Dillon
  * @since 1.2
  */
-public class SimplePPluginRule extends M1LevelRule implements
-		ISimpleTemplateRunRule {
+public class GlobalTemplateRule extends TemplateBasedRule implements
+		IGlobalTemplateRule {
 
 	private final static String REPORTTEMPLATE = "ISimpleTemplateRunRule.vm";
 
-	private RuleReport report;
-
-	private boolean suppressEmptyFiles = true;
-
-	private boolean overwriteFiles = true;
-
-	public final static String LABEL = "Simple Run Rule";
+	public final static String LABEL = "Global Template Rule";
 
 	@Override
 	public String getLabel() {
@@ -57,7 +50,7 @@ public class SimplePPluginRule extends M1LevelRule implements
 	}
 
 	public String getType() {
-		return ISimpleTemplateRunRule.class.getCanonicalName();
+		return IGlobalTemplateRule.class.getCanonicalName();
 	}
 
 	@Override
@@ -98,18 +91,16 @@ public class SimplePPluginRule extends M1LevelRule implements
 		return elm;
 	}
 
+	@Override
+	protected String getReportTemplatePath() {
+		return PluggablePlugin.TEMPLATE_PREFIX + "/" + REPORTTEMPLATE;
+	}
+
 	public void trigger(PluggablePluginConfig pluginConfig,
 			IPluginRuleExecutor exec) throws TigerstripeException {
 		Writer writer = null;
 		try {
-			this.report = new RuleReport(pluginConfig);
-			this.report.setTemplate(PluggablePlugin.TEMPLATE_PREFIX + "/"
-					+ REPORTTEMPLATE);
-			this.report.setName(getName());
-			this.report.setType(getLabel());
-			this.report.setEnabled(isEnabled());
-			this.report.setOverwriteFiles(isOverwriteFiles());
-			this.report.setSuppressEmptyFiles(isSuppressEmptyFiles());
+			initializeReport(pluginConfig);
 
 			VelocityEngine engine = setClasspathLoaderForVelocity();
 			Template template = engine.getTemplate(getTemplate());
@@ -126,7 +117,6 @@ public class SimplePPluginRule extends M1LevelRule implements
 				writer = getDefaultWriter(pluginConfig, targetFile, exec
 						.getConfig());
 
-				// TODO add referenced user-java objects into the context
 				VelocityContext defaultContext = getDefaultContext(
 						pluginConfig, exec);
 				VelocityContext localContext = exec.getPlugin()
@@ -144,14 +134,14 @@ public class SimplePPluginRule extends M1LevelRule implements
 				Long fred = outputFileF.length();
 				if (fred.intValue() == 0 && isSuppressEmptyFiles()) {
 					outputFileF.delete();
-					Collection<String> files = this.report.getSuppressedFiles();
+					Collection<String> files = getReport().getSuppressedFiles();
 					files.add(targetFile);
 				} else {
-					Collection<String> files = this.report.getGeneratedFiles();
+					Collection<String> files = getReport().getGeneratedFiles();
 					files.add(targetFile);
 				}
 			} else {
-				Collection<String> files = this.report.getPreservedFiles();
+				Collection<String> files = getReport().getPreservedFiles();
 				files.add(targetFile);
 			}
 
@@ -170,44 +160,6 @@ public class SimplePPluginRule extends M1LevelRule implements
 				}
 			}
 		}
-	}
-
-	public RuleReport getReport() {
-		return report;
-	}
-
-	public boolean isSuppressEmptyFiles() {
-		return suppressEmptyFiles;
-	}
-
-	public String isSuppressEmptyFilesStr() {
-		return Boolean.toString(suppressEmptyFiles);
-	}
-
-	public void setSuppressEmptyFiles(boolean suppressEmptyFiles) {
-		markDirty();
-		this.suppressEmptyFiles = suppressEmptyFiles;
-	}
-
-	public void setSuppressEmptyFilesStr(String suppressEmptyFilesStr) {
-		setSuppressEmptyFiles(Boolean.parseBoolean(suppressEmptyFilesStr));
-	}
-
-	public boolean isOverwriteFiles() {
-		return overwriteFiles;
-	}
-
-	public String isOverwriteFilesStr() {
-		return Boolean.toString(overwriteFiles);
-	}
-
-	public void setOverwriteFiles(boolean overwriteFiles) {
-		markDirty();
-		this.overwriteFiles = overwriteFiles;
-	}
-
-	public void setOverwriteFilesStr(String overwriteFilesStr) {
-		setOverwriteFiles(Boolean.parseBoolean(overwriteFilesStr));
 	}
 
 }

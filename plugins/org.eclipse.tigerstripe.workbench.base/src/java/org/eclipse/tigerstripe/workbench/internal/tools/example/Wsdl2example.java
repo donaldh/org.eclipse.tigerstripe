@@ -28,7 +28,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -48,7 +48,7 @@ public class Wsdl2example extends Example {
 	private String wsdlPath;
 
 	public void generateExample(String wsdlName, PluginConfig pluginConfig,
-			RunConfig config) throws IOException, ParserConfigurationException,
+			M1RunConfig config) throws IOException, ParserConfigurationException,
 			org.xml.sax.SAXException, TigerstripeException {
 		try {
 

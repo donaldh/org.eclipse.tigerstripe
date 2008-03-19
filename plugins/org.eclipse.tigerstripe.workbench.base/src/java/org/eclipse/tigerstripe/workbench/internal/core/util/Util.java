@@ -104,8 +104,8 @@ public class Util {
 				+ "984mvcxbsfgqoykj30487df556").getParentFile();
 		File origFile = file;
 		File origRelativeTo = relativeTo;
-		ArrayList filePathStack = new ArrayList();
-		ArrayList relativeToPathStack = new ArrayList();
+		ArrayList<File> filePathStack = new ArrayList<File>();
+		ArrayList<File> relativeToPathStack = new ArrayList<File>();
 		// build the path stack info to compare it afterwards
 		file = file.getCanonicalFile();
 		while (file != null) {

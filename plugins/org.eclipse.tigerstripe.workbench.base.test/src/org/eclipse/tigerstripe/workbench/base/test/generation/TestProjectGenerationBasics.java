@@ -13,8 +13,9 @@ package org.eclipse.tigerstripe.workbench.base.test.generation;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.generation.IRunConfig;
+import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -29,7 +30,8 @@ public class TestProjectGenerationBasics extends TestCase {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
 		projectDetails.setName("TestProjectGenerationBasics");
 		project = (ITigerstripeModelProject) TigerstripeCore.createProject(
-				projectDetails, null, ITigerstripeModelProject.class, null, null);
+				projectDetails, null, ITigerstripeModelProject.class, null,
+				null);
 	}
 
 	@Override
@@ -39,12 +41,14 @@ public class TestProjectGenerationBasics extends TestCase {
 	}
 
 	public void testGetRunConfig() throws TigerstripeException {
-		IRunConfig config = project.makeDefaultRunConfig();
+		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
+				project, RunConfig.M1);
 		assertNotNull(config);
 	}
 
 	public void testEmptyGenerate() throws TigerstripeException {
-		IRunConfig config = project.makeDefaultRunConfig();
+		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
+				project, RunConfig.M1);
 		PluginRunStatus[] status = project.generate(config, null);
 
 		assertTrue(status.length == 0);
