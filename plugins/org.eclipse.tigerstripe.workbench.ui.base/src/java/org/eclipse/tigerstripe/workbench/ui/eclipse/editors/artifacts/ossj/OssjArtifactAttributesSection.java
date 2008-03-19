@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
@@ -35,8 +36,11 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
@@ -155,11 +159,19 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 
 	// ====================================================================
 	private TableViewer viewer;
+	
+	TableColumn nameColumn;
+	
+	private ViewerSorter nameSorter;
 
 	private Button addAttributeButton;
 
 	private Button removeAttributeButton;
 
+	private Button upAttributeButton;
+
+	private Button downAttributeButton;
+	
 	public TableViewer getViewer() {
 		return this.viewer;
 	}
@@ -177,6 +189,10 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		sectionClient.setLayout(layout);
 
 		Table t = toolkit.createTable(sectionClient, SWT.NULL);
+
+		t.setHeaderVisible(true);
+		t.setLinesVisible(true);
+
 		FormData fd = new FormData();
 		fd.top = new FormAttachment(0, 5);
 		fd.bottom = new FormAttachment(100, -150);
@@ -185,6 +201,40 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		fd.width = 100;
 		t.setLayoutData(fd);
 
+
+		// Make a header for the table
+		nameColumn = new TableColumn(t, SWT.NULL);
+		nameColumn.setText("Name");
+		nameColumn.setWidth(250);		
+	
+		nameColumn.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				// determine new sort column and direction
+				TableColumn sortColumn = viewer.getTable().getSortColumn();
+				TableColumn currentColumn = (TableColumn) e.widget;
+				int dir = viewer.getTable().getSortDirection();
+				
+				if (sortColumn == currentColumn) {
+					dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
+				} else {
+					viewer.getTable().setSortColumn(currentColumn);
+					dir = SWT.UP;
+				}
+
+				viewer.getTable().setSortDirection(dir);
+				viewer.setSorter(new Sorter(dir));
+				TableItem[] allItems = viewer.getTable().getItems();
+				IField[] newFields = new IField[allItems.length];
+				for (int i = 0; i < newFields.length; i++) {
+					newFields[i] = (IField) allItems[i].getData();
+				}
+				getIArtifact().setFields(Arrays.asList(newFields));
+				refresh();
+				updateMaster();
+				markPageModified();
+			}
+		});
+		
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
 		addAttributeButton.setEnabled(!getIArtifact().isReadonly());
@@ -202,14 +252,53 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 				// empty
 			}
 		});
-		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
+		
+
+		upAttributeButton = toolkit.createButton(sectionClient, "Up",
 				SWT.PUSH);
-		removeAttributeButton.setEnabled(!getIArtifact().isReadonly());
+		upAttributeButton.setEnabled(!getIArtifact().isReadonly());
 		fd = new FormData();
 		fd.top = new FormAttachment(addAttributeButton, 5);
 		fd.left = new FormAttachment(t, 5);
 		fd.right = new FormAttachment(100, -5);
+		upAttributeButton.setLayoutData(fd);
+		upAttributeButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent event) {
+				upButtonSelected(event);
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// empty
+			}
+		});
+		
+		downAttributeButton = toolkit.createButton(sectionClient, "Down",
+				SWT.PUSH);
+		downAttributeButton.setEnabled(!getIArtifact().isReadonly());
+		fd = new FormData();
+		fd.top = new FormAttachment(upAttributeButton, 5);
+		fd.left = new FormAttachment(t, 5);
+		fd.right = new FormAttachment(100, -5);
+		downAttributeButton.setLayoutData(fd);
+		downAttributeButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent event) {
+				downButtonSelected(event);
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// empty
+			}
+		});
+		
+		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
+				SWT.PUSH);
+		removeAttributeButton.setEnabled(!getIArtifact().isReadonly());
+		fd = new FormData();
+		fd.top = new FormAttachment(downAttributeButton, 5);
+		fd.left = new FormAttachment(t, 5);
+		fd.right = new FormAttachment(100, -5);
 		removeAttributeButton.setLayoutData(fd);
+
 		removeAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				removeButtonSelected(event);
@@ -219,6 +308,10 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 				// empty
 			}
 		});
+
+		
+		// This label keeps the "List" part shorter than the "Details" part to the RHS
+
 		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
 		fd = new FormData();
 		fd.top = new FormAttachment(removeAttributeButton, 5);
@@ -283,10 +376,41 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		newField.setRefBy(IField.REFBY_VALUE);
 		newField.setVisibility(EVisibility.PUBLIC);
 
-		getIArtifact().addField(newField);
-		viewer.add(newField);
+		//getIArtifact().addField(newField);
+		
+		// Add the item after the current selection (if there is one, and its not the last thing in the table.)
+		if (viewer.getTable().getSelectionCount() == 0 || 
+				viewer.getTable().getSelectionIndex() == viewer.getTable().getItemCount()){
+			viewer.add(newField);
+			TableItem[] allItems = this.viewer.getTable().getItems();
+			IField[] newFields = new IField[allItems.length];
+			for (int i = 0; i < newFields.length; i++) {
+				newFields[i] = (IField) allItems[i].getData();
+			}
+			getIArtifact().setFields(Arrays.asList(newFields));
+			
+		} else {
+			int position = viewer.getTable().getSelectionIndex();
+			TableItem[] allItems = this.viewer.getTable().getItems();
+			
+			IField[] allFields = new IField[allItems.length];
+			IField[] newFields = new IField[allItems.length+1];
+			for (int i = 0; i <= position; i++) {
+				newFields[i] = (IField) allItems[i].getData();
+			}
+			newFields[position+1] = newField;
+			
+			for (int i = position+2; i < newFields.length; i++) {
+				newFields[i] = (IField) allItems[i-1].getData();
+			}
+			getIArtifact().setFields(Arrays.asList(newFields));
+		}
+		
+		refresh();
+
 		viewer.setSelection(new StructuredSelection(newField), true);
 		markPageModified();
+		updateMaster();
 	}
 
 	protected void markPageModified() {
@@ -353,19 +477,105 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 		updateMaster();
 	}
 
+	
+	/**
+	 * Triggered when the up button is pushed
+	 * 
+	 */
+	protected void upButtonSelected(SelectionEvent event) {
+		
+		// If you go up/down then the sort order ion the viewer has to be removed!
+		viewer.setSorter(null);
+		
+		TableItem[] selectedItems = viewer.getTable().getSelection();
+		IField[] selectedFields = new IField[selectedItems.length];
+		
+		for (int i = 0; i < selectedItems.length; i++) {
+			selectedFields[i] = (IField) selectedItems[i].getData();
+		}
+		TableItem[] allItems = this.viewer.getTable().getItems();
+		
+		IField[] allFields = new IField[allItems.length];
+		IField[] newFields = new IField[allItems.length];
+		
+		for (int i = 0; i < allFields.length; i++) {
+			newFields[i] = (IField) allItems[i].getData();
+			if (allItems[i].getData().equals(selectedFields[0]) && i != 0) {
+				newFields[i] = newFields[i - 1];
+				newFields[i - 1] = (IField) allItems[i].getData();
+			}
+		}
+		
+		// TODO - This should be wrapped in case of error?
+		selIndex = selIndex -1;
+		getIArtifact().setFields(Arrays.asList(newFields));
+		markPageModified();
+		refresh();
+		updateMaster();
+	}
+	
+	/**
+	 * Triggered when the down button is pushed
+	 * 
+	 */
+	protected void downButtonSelected(SelectionEvent event) {
+		// If you go up/down then the sort order ion the viewer has to be removed!
+		viewer.setSorter(null);
+		
+		TableItem[] selectedItems = viewer.getTable().getSelection();
+		IField[] selectedFields = new IField[selectedItems.length];
+		
+		for (int i = 0; i < selectedItems.length; i++) {
+			selectedFields[i] = (IField) selectedItems[i].getData();
+		}
+		TableItem[] allItems = this.viewer.getTable().getItems();
+		
+		IField[] allFields = new IField[allItems.length];
+		IField[] newFields = new IField[allItems.length];
+		
+		for (int i = allFields.length - 1; i > -1; i--) {
+			newFields[i] = (IField) allItems[i].getData();
+			if (allItems[i].getData().equals(selectedFields[0])
+					&& i != allFields.length - 1) {
+				newFields[i] = newFields[i + 1];
+				newFields[i + 1] = (IField) allItems[i].getData();
+			}
+		}
+		
+		// TODO - This should be wrapped in case of error?
+		selIndex = selIndex +1;
+		getIArtifact().setFields(Arrays.asList(newFields));
+		markPageModified();
+		refresh();
+		updateMaster();
+	}
+	
+	
 	/**
 	 * Updates the current state of the master
 	 * 
 	 */
 	public void updateMaster() {
 
-		// Updates the state of the Remove Button
+		// Updates the state of the Up/Down/Remove Buttons
 		if (viewer.getSelection() != null && !viewer.getSelection().isEmpty()
 				&& !getIArtifact().isReadonly()) {
 			removeAttributeButton.setEnabled(true);
 		} else {
 			removeAttributeButton.setEnabled(false);
+
 		}
+		
+		upAttributeButton.setEnabled( 
+				   viewer.getTable().getSelectionIndex() > 0
+				&& viewer.getTable().getSelectionCount() == 1
+				&& !getIArtifact().isReadonly());
+
+		downAttributeButton.setEnabled( 
+				   (viewer.getTable().getSelectionIndex() < viewer.getTable().getItems().length - 1)
+				&& viewer.getTable().getSelectionCount() == 1
+				&& !getIArtifact().isReadonly());
+		
 	}
 
 	protected void registerPages(DetailsPart detailsPart) {
@@ -439,4 +649,5 @@ public class OssjArtifactAttributesSection extends ArtifactSectionPart
 	public DetailsPart getDetailsPart() {
 		return detailsPart;
 	}
+
 }

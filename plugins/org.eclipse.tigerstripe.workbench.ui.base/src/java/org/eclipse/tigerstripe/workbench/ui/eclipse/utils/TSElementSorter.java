@@ -80,7 +80,9 @@ public class TSElementSorter extends JavaElementSorter {
 		 */
 		if ((e1 instanceof IModelComponent && e2 instanceof IModelComponent)
 				|| (e1 instanceof DependencyArtifact.DependencyEnd && e2 instanceof DependencyArtifact.DependencyEnd))
-			return getElementName(e1).compareTo(getElementName(e2));
+			//return getElementName(e1).compareTo(getElementName(e2));
+			// Bug 222018 etc - make the order selectable by the user.
+			return 0;
 
 		// otherwise pass the comparison off to the superclass for handling
 		return super.compare(viewer, e1, e2);
