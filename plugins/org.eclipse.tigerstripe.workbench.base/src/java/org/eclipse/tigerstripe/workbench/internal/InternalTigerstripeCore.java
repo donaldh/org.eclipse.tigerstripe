@@ -12,9 +12,14 @@ package org.eclipse.tigerstripe.workbench.internal;
 
 import java.util.HashMap;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.IContractSession;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactMetadataSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ContractSession;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.DefaultProjectLocator;
@@ -22,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.DiagramRenderingSessi
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IAPIFacility;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * The Internal Tigerstripe Core contains additional entry point in the
@@ -129,6 +135,29 @@ public class InternalTigerstripeCore extends TigerstripeCore {
 			contractSession = new ContractSession();
 		}
 		return contractSession;
+	}
+
+	/**
+	 * Create new model facet as the given facetFile The target file needs to be
+	 * within a {@link ITigerstripeModelProject}.
+	 * 
+	 * @param facetFile
+	 * @return
+	 * @throws CoreException
+	 *             if the file already exists, or can't be written
+	 * @throws TigerstripeException
+	 *             if
+	 */
+	public static IContractSegment createModelFacet(IFile facetFile,
+			IProgressMonitor monitor) throws CoreException,
+			TigerstripeException {
+		IContractSession session = getIContractSession();
+		IContractSegment modelFacet = session.makeIContractSegment(facetFile
+				.getLocationURI());
+		modelFacet.doSave();
+
+		facetFile.refreshLocal(IResource.DEPTH_ZERO, monitor);
+		return modelFacet;
 	}
 
 }
