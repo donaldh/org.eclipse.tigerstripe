@@ -228,7 +228,7 @@ public class M1Generator {
 				if (config.isProcessUseCases()) {
 					overallResult.addAll(Arrays.asList(processor.run()));
 				}
-			} else {
+			} else if (config.isUseProjectFacets()) {
 
 				if (project.getFacetReferences().length == 0) {
 					// no Facet defined simply run plugins.
@@ -310,6 +310,31 @@ public class M1Generator {
 						monitor.done();
 					}
 				}
+			} else if (config.isUsePluginConfigFacets()) {
+				IFacetReference currentFacet = project.getActiveFacet();
+
+				if (currentFacet != null) {
+					monitor.beginTask("Resetting facets",
+							IProgressMonitor.UNKNOWN);
+					project.resetActiveFacet();
+					monitor.done();
+				}
+				PluginRunStatus[] subResult = internalRun(monitor, config);
+				overallResult.addAll(Arrays.asList(subResult));
+
+				// Use case processing
+				if (config.isProcessUseCases()) {
+					overallResult.addAll(Arrays.asList(processor.run()));
+				}
+
+				if (currentFacet != null) {
+					monitor.beginTask("Reverting to active facet ("
+							+ currentFacet.resolve().getName() + ")",
+							IProgressMonitor.UNKNOWN);
+					project.setActiveFacet(currentFacet, monitor);
+					monitor.done();
+				}
+
 			}
 
 			return overallResult.toArray(new PluginRunStatus[overallResult
@@ -362,11 +387,12 @@ public class M1Generator {
 
 			// First run all validation plugins if any
 			for (IPluginConfig iRef : plugins) {
-				
-				// we're using clones of the actual pluginConfigs, so we need to make
+
+				// we're using clones of the actual pluginConfigs, so we need to
+				// make
 				// sure the handle is set before we attempt generation
 				iRef.setProjectHandle(project);
-				
+
 				if (shouldRestoreFacet) {
 					if (facetToRestore != null)
 						project.setActiveFacet(facetToRestore, monitor);

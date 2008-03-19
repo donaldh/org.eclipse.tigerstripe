@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
@@ -39,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -85,10 +87,10 @@ public class FacetReference extends AbstractContainedObject implements
 		contextProject = ref.contextProject;
 		tsProject = ref.tsProject;
 		generationDir = ref.generationDir;
-		
+
 		// Bug 222275 (one part of)
 		project = ref.project;
-		
+
 	}
 
 	public FacetReference(URI facetURI, ITigerstripeModelProject tsProject) {
@@ -155,7 +157,7 @@ public class FacetReference extends AbstractContainedObject implements
 		if (getURI() != null) {
 			File target = new File(getURI());
 			if (target.exists() && target.canRead()) {
-				if (target.lastModified() != resolvedTStamp) {
+				if (target.lastModified() > resolvedTStamp) {
 					resolvedSegment = InternalTigerstripeCore
 							.getIContractSession().makeIContractSegment(
 									getURI());
@@ -245,7 +247,7 @@ public class FacetReference extends AbstractContainedObject implements
 			facetPredicate.resolve(monitor);
 			URI csURI = getURI();
 			File file = new File(csURI);
-			computedTStamp = file.lastModified();
+			computedTStamp = System.currentTimeMillis();
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 			TigerstripeRuntime.logErrorMessage(
@@ -263,7 +265,7 @@ public class FacetReference extends AbstractContainedObject implements
 				URI csURI = getURI();
 				File file = new File(csURI);
 				long tStamp = file.lastModified();
-				return computedTStamp != tStamp;
+				return resolvedTStamp < tStamp;
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
 						"Couldn't determine whether facet has changed or not: "
@@ -274,7 +276,7 @@ public class FacetReference extends AbstractContainedObject implements
 	}
 
 	public IFacetPredicate getFacetPredicate() {
-		if (facetPredicate == null || hasFacetChanged())
+		if (facetPredicate == null || hasFacetChanged() || modelHasChanged())
 			return computeFacetPredicate(new NullProgressMonitor());
 
 		return facetPredicate;
@@ -358,6 +360,7 @@ public class FacetReference extends AbstractContainedObject implements
 					resolvedPred.addTempExclude(rel.getRelationshipZEnd()
 							.getType().getFullyQualifiedName());
 					activeMgr.setActiveFacet(this, new NullProgressMonitor());
+					this.computedTStamp = System.currentTimeMillis();
 				}
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
@@ -459,5 +462,27 @@ public class FacetReference extends AbstractContainedObject implements
 
 	public IFacetReference clone() {
 		return new FacetReference(this);
+	}
+
+	/**
+	 * Returns true if the model was changed since the last time this facet was
+	 * evaluated. If it can't be determined the return will be true
+	 * 
+	 * @return
+	 */
+	protected boolean modelHasChanged() {
+		try {
+			if (getTSProject() instanceof TigerstripeOssjProjectHandle) {
+				IArtifactManagerSession session = ((TigerstripeOssjProjectHandle) getTSProject())
+						.getArtifactManagerSession();
+				return session.getLocalTimeStamp() > computedTStamp;
+			}
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+		// couldn't figure out if the model changed, so to be safe let's say
+		// it did
+		// so the facet will be reevaluated.
+		return true;
 	}
 }

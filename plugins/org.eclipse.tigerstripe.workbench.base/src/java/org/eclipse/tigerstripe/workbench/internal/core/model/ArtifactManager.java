@@ -28,7 +28,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -114,6 +113,8 @@ import com.thoughtworks.qdox.parser.ParseException;
 public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	private final static int DEFAULT_BROADCASTMASK = IArtifactChangeListener.NOTIFY_ALL;
+
+	private long localTimeStamp = 0;
 
 	private int broadcastMask = DEFAULT_BROADCASTMASK;
 
@@ -891,6 +892,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				extractFromPojos(changedPojos, monitor);
 				validateArtifacts(monitor);
 
+				updateLocalTimeStamp();
+				
 				long endTime = System.currentTimeMillis();
 				TigerstripeRuntime.logTraceMessage("Refreshed ("
 						+ (endTime - startTime) + " ms)"
@@ -931,6 +934,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	public synchronized void updateCaches(IProgressMonitor monitor) {
 		updateDependenciesContentCache(monitor);
 		relationshipCache.updateCache(monitor);
+		updateLocalTimeStamp();
 	}
 
 	private class PojoState {
@@ -1306,6 +1310,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				pojoStateMap.put(fullPath, state);
 			}
 			state.setLastModified((new File(fullPath)).lastModified());
+			updateLocalTimeStamp();
 		}
 	}
 
@@ -2140,6 +2145,14 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public void setBroadcastMask(int broadcastMask) {
 		this.broadcastMask = broadcastMask;
+	}
+
+	private void updateLocalTimeStamp() {
+		this.localTimeStamp = System.currentTimeMillis();
+	}
+
+	public long getLocalTimeStamp() {
+		return this.localTimeStamp;
 	}
 
 }

@@ -74,7 +74,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	private ArtifactManager artifactManager;
 
 	private IModelUpdater modelUpdater;
-
+	
 	// =======================================================================
 
 	protected ArtifactManagerSessionImpl(ArtifactManager artifactManager) {
@@ -84,16 +84,11 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 	public Collection<Class> getSupportedArtifactClasses() {
 		Class[] potentials = { IManagedEntityArtifact.class,
-				IDatatypeArtifact.class, 
-				IEventArtifact.class,
-				IQueryArtifact.class, 
-				IExceptionArtifact.class,
-				ISessionArtifact.class, 
-				IEnumArtifact.class,
-				IUpdateProcedureArtifact.class, 
-				IAssociationArtifact.class,
-				IAssociationClassArtifact.class, 
-				IPrimitiveTypeArtifact.class,
+				IDatatypeArtifact.class, IEventArtifact.class,
+				IQueryArtifact.class, IExceptionArtifact.class,
+				ISessionArtifact.class, IEnumArtifact.class,
+				IUpdateProcedureArtifact.class, IAssociationArtifact.class,
+				IAssociationClassArtifact.class, IPrimitiveTypeArtifact.class,
 				IDependencyArtifact.class };
 
 		ArrayList<Class> result = new ArrayList<Class>();
@@ -114,7 +109,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public Collection<String> getSupportedArtifacts() {
 		Collection<Class> classes = getSupportedArtifactClasses();
 		Collection<String> classNames = new ArrayList<String>();
-		for (Class clazz: classes) {
+		for (Class clazz : classes) {
 			classNames.add(clazz.getName());
 		}
 		return classNames;
@@ -132,7 +127,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public ArtifactManager getArtifactManager() {
 		return this.artifactManager;
 	}
-
+	
 	public Collection queryArtifact(IArtifactQuery query)
 			throws IllegalArgumentException, TigerstripeException {
 		if (!(query instanceof ArtifactQueryBase))
@@ -147,14 +142,13 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public String[] getSupportedQueries() {
 		return new String[] { IQueryAllArtifacts.class.getName(),
 
-				IQueryArtifactsByType.class.getName(),
+		IQueryArtifactsByType.class.getName(),
 				IQueryRelationshipsByArtifact.class.getName() };
 	}
 
 	protected IArtifactQuery[] getQueryImplementations() {
 		return new IArtifactQuery[] { new QueryAllArtifacts(),
-				new QueryArtifactsByType(),
-				new QueryRelationshipsByArtifact() };
+				new QueryArtifactsByType(), new QueryRelationshipsByArtifact() };
 	}
 
 	public IArtifactQuery makeQuery(String queryType)
@@ -203,8 +197,6 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 	public IAbstractArtifact makeArtifact(String type)
 			throws IllegalArgumentException {
-	
-			
 
 		if (IManagedEntityArtifact.class.getName().equals(type))
 			return new ManagedEntityArtifact(getArtifactManager());
@@ -230,7 +222,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			return new PrimitiveTypeArtifact(getArtifactManager());
 		else if (IDependencyArtifact.class.getName().equals(type))
 			return new DependencyArtifact(getArtifactManager());
-		else 
+		else
 			throw new IllegalArgumentException("Unknown artifact type: " + type);
 	}
 
@@ -259,8 +251,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 	public void addArtifact(IAbstractArtifact artifact)
 			throws TigerstripeException {
-		artifactManager.addArtifact(artifact,
-				new NullProgressMonitor()); // FIXME
+		artifactManager.addArtifact(artifact, new NullProgressMonitor()); // FIXME
 	}
 
 	public void removeArtifact(IAbstractArtifact artifact)
@@ -268,8 +259,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		artifactManager.removeArtifact(artifact);
 	}
 
-	public void refresh(IProgressMonitor monitor)
-			throws TigerstripeException {
+	public void refresh(IProgressMonitor monitor) throws TigerstripeException {
 		refresh(false, monitor);
 	}
 
@@ -298,8 +288,8 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		refreshAll(false, monitor);
 	}
 
-	public void refreshAll(boolean forceReload,
-			IProgressMonitor monitor) throws TigerstripeException {
+	public void refreshAll(boolean forceReload, IProgressMonitor monitor)
+			throws TigerstripeException {
 		refreshReferences(monitor);
 		refresh(forceReload, monitor);
 	}
@@ -386,11 +376,9 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
 			String fqn) {
 		return getArtifactManager().getAllKnownArtifactsByFullyQualifiedName(
-				fqn, new NullProgressMonitor()); 
+				fqn, new NullProgressMonitor());
 		// FIXME
 	}
-
-
 
 	public void addArtifactChangeListener(IArtifactChangeListener listener) {
 		getArtifactManager().addArtifactManagerListener(listener);
@@ -507,8 +495,8 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		getArtifactManager().resetActiveFacet();
 	}
 
-	public void setActiveFacet(IFacetReference facet,
-			IProgressMonitor monitor) throws TigerstripeException {
+	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
+			throws TigerstripeException {
 		getArtifactManager().setActiveFacet(facet, monitor);
 		((FacetReference) facet).startListeningToManager(getArtifactManager());
 	}
@@ -561,6 +549,11 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 	public void setBroadcastMask(int broadcastMask) throws TigerstripeException {
 		getArtifactManager().setBroadcastMask(broadcastMask);
+	}
+
+	@Override
+	public long getLocalTimeStamp() throws TigerstripeException {
+		return getArtifactManager().getLocalTimeStamp();
 	}
 
 }

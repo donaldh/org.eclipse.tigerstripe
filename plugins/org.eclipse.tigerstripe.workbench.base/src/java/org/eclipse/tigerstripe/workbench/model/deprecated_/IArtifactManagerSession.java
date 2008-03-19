@@ -128,8 +128,7 @@ public interface IArtifactManagerSession {
 	 * 
 	 * @throws TigerstripeException
 	 */
-	public void refresh(IProgressMonitor monitor)
-			throws TigerstripeException;
+	public void refresh(IProgressMonitor monitor) throws TigerstripeException;
 
 	/**
 	 * Refreshes the session by re-reading all artifacts
@@ -157,8 +156,8 @@ public interface IArtifactManagerSession {
 	/**
 	 * Refreshes everything about this session (local artifacts & references)
 	 */
-	public void refreshAll(boolean forceReload,
-			IProgressMonitor monitor) throws TigerstripeException;
+	public void refreshAll(boolean forceReload, IProgressMonitor monitor)
+			throws TigerstripeException;
 
 	/**
 	 * Makes a new Artifact of type "model" based on the providing artifact,
@@ -184,8 +183,8 @@ public interface IArtifactManagerSession {
 
 	// =================================================================
 	// Facet Management
-	public void setActiveFacet(IFacetReference facet,
-			IProgressMonitor monitor) throws TigerstripeException;
+	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
+			throws TigerstripeException;
 
 	public void resetActiveFacet() throws TigerstripeException;
 
@@ -265,4 +264,12 @@ public interface IArtifactManagerSession {
 	 */
 	public Collection<IAbstractArtifact> queryArtifact(IArtifactQuery query)
 			throws IllegalArgumentException, TigerstripeException;
+
+	/**
+	 * Returns the last time of modification on the model, whatever the change
+	 * is
+	 * 
+	 * @return
+	 */
+	public long getLocalTimeStamp() throws TigerstripeException;
 }
