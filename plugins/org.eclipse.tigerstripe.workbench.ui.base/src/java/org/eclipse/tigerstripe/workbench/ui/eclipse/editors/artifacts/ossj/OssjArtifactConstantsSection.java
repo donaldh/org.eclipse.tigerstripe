@@ -26,14 +26,17 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -56,7 +59,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		IFormPart {
@@ -113,7 +115,7 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
 		// createToolBarActions(managedForm);
-		sashForm.setWeights(new int[] { 30, 70 });
+		sashForm.setWeights(new int[] { 35, 65 });
 		form.updateToolBar();
 
 		getSection().setClient(body);
@@ -181,25 +183,25 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 				ExpandableComposite.NO_TITLE);
 
 		Composite sectionClient = toolkit.createComposite(section);
-		TableWrapLayout twlayout = new TableWrapLayout();
-		twlayout.numColumns = 2;
-		sectionClient.setLayout(twlayout);
+		FormLayout layout = new FormLayout();
+		sectionClient.setLayout(layout);
 
 		Table t = toolkit.createTable(sectionClient, SWT.SINGLE
 				| SWT.FULL_SELECTION);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 2;
-		td.heightHint = 140;
-		t.setLayoutData(td);
+		FormData fd = new FormData();
+		fd.top = new FormAttachment(0, 5);
+		fd.bottom = new FormAttachment(100, -150);
+		fd.left = new FormAttachment(0, 10);
+		fd.right = new FormAttachment(80);
+		fd.width = 100;
+		t.setLayoutData(fd);
 
 		TableColumn nameColumn = new TableColumn(t, SWT.NULL);
 		nameColumn.setText("Name");
-		nameColumn.pack();
 		nameColumn.setWidth(80);
 
 		TableColumn valueColumn = new TableColumn(t, SWT.NULL);
 		valueColumn.setText("Value");
-		valueColumn.pack();
 		valueColumn.setWidth(80);
 
 		t.setHeaderVisible(true);
@@ -270,7 +272,11 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
 		addAttributeButton.setEnabled(!isReadonly());
-		addAttributeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		fd = new FormData();
+		fd.top = new FormAttachment(0, 5);
+		fd.left = new FormAttachment(t, 5);
+		fd.right = new FormAttachment(100, -5);
+		addAttributeButton.setLayoutData(fd);
 		addAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				addButtonSelected(event);
@@ -282,7 +288,11 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 		});
 		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
 				SWT.PUSH);
-		removeAttributeButton.setLayoutData(new TableWrapData());
+		fd = new FormData();
+		fd.top = new FormAttachment(addAttributeButton, 5);
+		fd.left = new FormAttachment(t, 5);
+		fd.right = new FormAttachment(100, -5);
+		removeAttributeButton.setLayoutData(fd);
 		removeAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				removeButtonSelected(event);
@@ -293,11 +303,13 @@ public class OssjArtifactConstantsSection extends ArtifactSectionPart implements
 			}
 		});
 
-		org.eclipse.swt.widgets.Label l = toolkit.createLabel(sectionClient,
-				"", SWT.NULL);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.heightHint = 40;
-		l.setLayoutData(td);
+		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
+		fd = new FormData();
+		fd.top = new FormAttachment(removeAttributeButton, 5);
+		fd.left = new FormAttachment(t, 5);
+		fd.right = new FormAttachment(100, -5);
+		fd.height = 255;
+		l.setLayoutData(fd);
 
 		toolkit.paintBordersFor(sectionClient);
 		section.setClient(sectionClient);

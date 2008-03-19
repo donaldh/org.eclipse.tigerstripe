@@ -206,7 +206,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				| GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gd.horizontalSpan = 2;
 		innerComposite.setLayoutData(gd);
-		// exComposite.setClient(innerComposite);
 
 		annTable = toolkit.createTable(innerComposite, SWT.BORDER);
 		annTable.setEnabled(!isReadOnly);

@@ -116,29 +116,17 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 	}
 
 	private void createAnnotations(Composite parent, FormToolkit toolkit) {
-		ExpandableComposite exComposite = toolkit.createExpandableComposite(
-				parent, ExpandableComposite.TREE_NODE);
-		exComposite.setText("Annotations");
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 1;
-		exComposite.setLayout(layout);
+		
+		Label label = toolkit.createLabel(parent, "Annotations");
+		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		
+		Composite innerComposite = toolkit.createComposite(parent);
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.heightHint = 100;
-		exComposite.setLayoutData(td);
-		exComposite.addExpansionListener(new ExpansionAdapter() {
-			@Override
-			public void expansionStateChanged(ExpansionEvent e) {
-				form.reflow(true);
-			}
-		});
-		Composite innerComposite = toolkit.createComposite(exComposite);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		innerComposite.setLayoutData(td);
-		layout = new TableWrapLayout();
+		TableWrapLayout layout = new TableWrapLayout();
 		layout.numColumns = 2;
 		innerComposite.setLayout(layout);
-		exComposite.setClient(innerComposite);
-
+		
 		annTable = toolkit.createTable(innerComposite, SWT.BORDER);
 		annTable.setEnabled(!isReadOnly);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
