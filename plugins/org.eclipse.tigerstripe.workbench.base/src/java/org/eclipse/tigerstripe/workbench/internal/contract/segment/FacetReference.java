@@ -84,6 +84,7 @@ public class FacetReference extends AbstractContainedObject implements
 		facetURI = ref.facetURI;
 		contextProject = ref.contextProject;
 		tsProject = ref.tsProject;
+		generationDir = ref.generationDir;
 		
 		// Bug 222275 (one part of)
 		project = ref.project;

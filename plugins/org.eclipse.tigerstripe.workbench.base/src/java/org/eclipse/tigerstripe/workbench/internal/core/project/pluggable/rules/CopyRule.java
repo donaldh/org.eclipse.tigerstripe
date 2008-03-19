@@ -17,7 +17,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
@@ -123,6 +122,13 @@ public class CopyRule extends Rule implements ICopyRule {
 		File outputDirectory = null;
 		String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
 				.getOutputDirectory();
+		if (pluginConfig.getProjectHandle().getActiveFacet() != null) {
+			String relDir = pluginConfig.getProjectHandle().getActiveFacet()
+					.getGenerationDir();
+			if (relDir != null && !"".equals(relDir)) {
+				outputDir = outputDir + File.separator + relDir;
+			}
+		}
 		String projectDir = pluginConfig.getProjectHandle().getLocation()
 				.toOSString();
 
