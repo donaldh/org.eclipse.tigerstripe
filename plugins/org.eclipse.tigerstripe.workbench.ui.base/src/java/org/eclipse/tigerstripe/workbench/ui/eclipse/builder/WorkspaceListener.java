@@ -49,6 +49,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContract
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactDeleteRequest;
+import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -152,7 +153,7 @@ public class WorkspaceListener implements IElementChangedListener,
 	private void checkActiveFacetChanged(Collection<IResource> changedResources) {
 		for (IResource res : changedResources) {
 			if (IContractSegment.FILE_EXTENSION.equals(res.getFileExtension())) {
-				ITigerstripeModelProject tsProject = getCorrespondingTSProject(res);
+				final ITigerstripeModelProject tsProject = getCorrespondingTSProject(res);
 				try {
 					if (tsProject.getActiveFacet() != null) {
 						final IFacetReference ref = tsProject.getActiveFacet();
@@ -162,7 +163,17 @@ public class WorkspaceListener implements IElementChangedListener,
 								public void run(IProgressMonitor monitor) {
 									// compute the facet predicate while in the
 									// feedback thread
-									ref.computeFacetPredicate(monitor);
+									if (((FacetReference) ref)
+											.needsToBeEvaluated()) {
+										try {
+											tsProject.resetActiveFacet();
+											ref.computeFacetPredicate(monitor);
+											tsProject.setActiveFacet(ref,
+													monitor);
+										} catch (TigerstripeException e) {
+											EclipsePlugin.log(e);
+										}
+									}
 								}
 							};
 							IWorkbench wb = PlatformUI.getWorkbench();
@@ -223,8 +234,8 @@ public class WorkspaceListener implements IElementChangedListener,
 	}
 
 	public static void buildResourcesLists(IResourceDelta delta,
-			Collection<IResource> itemsToRemove, Collection<IResource> itemsChanged,
-			Collection<IResource> itemsAdded) {
+			Collection<IResource> itemsToRemove,
+			Collection<IResource> itemsChanged, Collection<IResource> itemsAdded) {
 		if (delta == null) // occurs when deleting project
 			return;
 

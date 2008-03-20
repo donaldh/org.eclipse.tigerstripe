@@ -893,7 +893,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				validateArtifacts(monitor);
 
 				updateLocalTimeStamp();
-				
+
 				long endTime = System.currentTimeMillis();
 				TigerstripeRuntime.logTraceMessage("Refreshed ("
 						+ (endTime - startTime) + " ms)"
@@ -1829,11 +1829,17 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies) throws TigerstripeException {
+		return getOriginatingRelationshipForFQN(fqn,
+				includeProjectDependencies, false);
+	}
+
+	public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
+			boolean includeProjectDependencies, boolean ignoreFacets)
+			throws TigerstripeException {
 
 		List<IRelationship> result = new ArrayList<IRelationship>();
-		result
-				.addAll(relationshipCache
-						.getRelationshipsOriginatingFromFQN(fqn));
+		result.addAll(relationshipCache.getRelationshipsOriginatingFromFQN(fqn,
+				ignoreFacets));
 
 		if (includeProjectDependencies) {
 			for (ITigerstripeModelProject project : getTSProject()
@@ -1841,7 +1847,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				ArtifactManager mgr = ((ArtifactManagerSessionImpl) project
 						.getArtifactManagerSession()).getArtifactManager();
 				result.addAll(mgr.getRelationshipCache()
-						.getRelationshipsOriginatingFromFQN(fqn));
+						.getRelationshipsOriginatingFromFQN(fqn, ignoreFacets));
 			}
 		}
 
@@ -1863,8 +1869,16 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies) throws TigerstripeException {
+		return getTerminatingRelationshipForFQN(fqn,
+				includeProjectDependencies, false);
+	}
+
+	public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
+			boolean includeProjectDependencies, boolean ignoreFacet)
+			throws TigerstripeException {
 		List<IRelationship> result = new ArrayList<IRelationship>();
-		result.addAll(relationshipCache.getRelationshipsTerminatingInFQN(fqn));
+		result.addAll(relationshipCache.getRelationshipsTerminatingInFQN(fqn,
+				ignoreFacet));
 
 		if (includeProjectDependencies) {
 
@@ -1873,7 +1887,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				ArtifactManager mgr = ((ArtifactManagerSessionImpl) project
 						.getArtifactManagerSession()).getArtifactManager();
 				result.addAll(mgr.getRelationshipCache()
-						.getRelationshipsTerminatingInFQN(fqn));
+						.getRelationshipsTerminatingInFQN(fqn, ignoreFacet));
 			}
 		}
 

@@ -207,6 +207,15 @@ public class M1Generator {
 			} else if (config.isUseCurrentFacet()) {
 
 				IFacetReference facetRef = project.getActiveFacet();
+
+				// Bug 217825
+				// In this case we need to reset the active
+				if (facetRef.needsToBeEvaluated()) {
+					project.resetActiveFacet();
+					facetRef.computeFacetPredicate(monitor);
+					project.setActiveFacet(facetRef, monitor);
+				}
+
 				if (facetRef.getFacetPredicate() != null
 						&& !facetRef.getFacetPredicate().isConsistent()) {
 					IStatus facetInconsistencies = facetRef.getFacetPredicate()

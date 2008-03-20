@@ -102,5 +102,7 @@ public interface IFacetReference {
 	 */
 	public ITigerstripeModelProject getContainingProject();
 	
+	public boolean needsToBeEvaluated();
+	
 	public IFacetReference clone();
 }

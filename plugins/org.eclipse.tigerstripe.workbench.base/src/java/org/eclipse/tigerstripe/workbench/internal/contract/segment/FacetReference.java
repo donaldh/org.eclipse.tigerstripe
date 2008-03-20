@@ -245,8 +245,6 @@ public class FacetReference extends AbstractContainedObject implements
 		// whether we need to re-compute the facet predicate or not
 		try {
 			facetPredicate.resolve(monitor);
-			URI csURI = getURI();
-			File file = new File(csURI);
 			computedTStamp = System.currentTimeMillis();
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
@@ -276,10 +274,14 @@ public class FacetReference extends AbstractContainedObject implements
 	}
 
 	public IFacetPredicate getFacetPredicate() {
-		if (facetPredicate == null || hasFacetChanged() || modelHasChanged())
+		if (needsToBeEvaluated())
 			return computeFacetPredicate(new NullProgressMonitor());
 
 		return facetPredicate;
+	}
+
+	public boolean needsToBeEvaluated() {
+		return facetPredicate == null || hasFacetChanged() || modelHasChanged();
 	}
 
 	@Override
@@ -298,30 +300,30 @@ public class FacetReference extends AbstractContainedObject implements
 	}
 
 	public void artifactAdded(IAbstractArtifact artifact) {
-		// need to determine if this artifact should be in or out of the scope
+		handleNeedToReevaluate();
 	}
 
 	public void artifactChanged(IAbstractArtifact artifact) {
-
+		handleNeedToReevaluate();
 	}
 
 	public void artifactRemoved(IAbstractArtifact artifact) {
-		// need to determine if
-		// - Other artifacts need to be removed from the facet as a result of
-		// this removal
+		handleNeedToReevaluate();
 		if (artifact instanceof IRelationship) {
 			handleRelationshipRemoved(artifact);
 		}
 	}
 
 	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
-		// TODO Auto-generated method stub
-
+		handleNeedToReevaluate();
 	}
 
 	public void managerReloaded() {
-		// TODO Auto-generated method stub
+		handleNeedToReevaluate();
+	}
 
+	private void handleNeedToReevaluate() {
+		// TODO
 	}
 
 	// Artifact Mgr listener

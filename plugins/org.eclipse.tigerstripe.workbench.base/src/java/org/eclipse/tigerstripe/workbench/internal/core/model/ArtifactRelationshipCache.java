@@ -140,6 +140,17 @@ public class ArtifactRelationshipCache {
 				fullyQualifiedName, ORIGINATING), relationshipFilter);
 	}
 
+	public List<IRelationship> getRelationshipsOriginatingFromFQN(
+			String fullyQualifiedName, boolean ignoreFacets)
+			throws TigerstripeException {
+		if (ignoreFacets)
+			return RelationshipFilter.filter(internalGetRelationshipsForFQN(
+					fullyQualifiedName, ORIGINATING),
+					RelationshipNoFilter.INSTANCE);
+		else
+			return getRelationshipsOriginatingFromFQN(fullyQualifiedName);
+	}
+
 	/**
 	 * Returns all IRelationships originating from the given FQN
 	 * 
@@ -152,6 +163,18 @@ public class ArtifactRelationshipCache {
 			String fullyQualifiedName) throws TigerstripeException {
 		return RelationshipFilter.filter(internalGetRelationshipsForFQN(
 				fullyQualifiedName, TERMINATING), relationshipFilter);
+	}
+
+	public List<IRelationship> getRelationshipsTerminatingInFQN(
+			String fullyQualifiedName, boolean ignoreFacet)
+			throws TigerstripeException {
+		if (ignoreFacet) {
+			return RelationshipFilter.filter(internalGetRelationshipsForFQN(
+					fullyQualifiedName, TERMINATING),
+					RelationshipNoFilter.INSTANCE);
+		} else {
+			return getRelationshipsTerminatingInFQN(fullyQualifiedName);
+		}
 	}
 
 	/**

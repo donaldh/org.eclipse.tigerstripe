@@ -20,6 +20,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
  */
 public class RelationshipNoFilter extends RelationshipFilter {
 
+	public static RelationshipNoFilter INSTANCE = new RelationshipNoFilter();
+
 	public RelationshipNoFilter() {
 		super();
 		// TODO Auto-generated constructor stub

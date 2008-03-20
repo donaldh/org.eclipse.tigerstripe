@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -29,8 +28,10 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPre
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.contract.ContractUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 import org.eclipse.tigerstripe.workbench.internal.core.util.RegExpFQNSetPred;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -56,7 +57,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.INam
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
 /**
  * A predicate that's smart enough to take into account properties of the scope
@@ -174,12 +174,12 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		// Then make sure we have all the inherited artifacts for all of
 		// that!
 
-		IQueryAllArtifacts query = (IQueryAllArtifacts) tsProject
-				.getArtifactManagerSession().makeQuery(
-						IQueryAllArtifacts.class.getName());
-		query.setIncludeDependencies(true);
-		Collection<IAbstractArtifact> artifacts = tsProject
-				.getArtifactManagerSession().queryArtifact(query);
+		// Here we need to bypass the IArtifactManagerSession to ensure we are
+		// not going to
+		// hit an active facet
+		Collection<IAbstractArtifact> artifacts = ((ArtifactManagerSessionImpl) tsProject
+				.getArtifactManagerSession()).getArtifactManager()
+				.getAllArtifacts(true, true, monitor);
 
 		// First get all the base artifacts that have been identified
 		// through the scope and their inherited parents
@@ -445,10 +445,11 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 				// finally the exceptions
 				for (IException exc : method.getExceptions()) {
-					IAbstractArtifact excArti = tsProject
-							.getArtifactManagerSession()
+					IAbstractArtifact excArti = ((ArtifactManagerSessionImpl) tsProject
+							.getArtifactManagerSession()).getArtifactManager()
 							.getArtifactByFullyQualifiedName(
-									exc.getFullyQualifiedName());
+									exc.getFullyQualifiedName(), true, true,
+									new NullProgressMonitor());
 					if (isExcludedByAnnotation(excArti)
 							|| primaryPredicate.isExcluded(excArti)) {
 						IStatus error = new Status(IStatus.ERROR, BasePlugin
@@ -505,6 +506,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 
+		ArtifactManager mgr = ((ArtifactManagerSessionImpl) session)
+				.getArtifactManager();
+
 		if (isExcludedByAnnotation(artifact)) {
 			TigerstripeRuntime.logTraceMessage("Excluding "
 					+ artifact.getFullyQualifiedName() + " by annotation.");
@@ -517,8 +521,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			// Emitted events
 			for (IEmittedEvent emittedEvent : sessionArt.getEmittedEvents()) {
 				String fqn = emittedEvent.getFullyQualifiedName();
-				IAbstractArtifact arti = session
-						.getArtifactByFullyQualifiedName(fqn);
+				IAbstractArtifact arti = mgr.getArtifactByFullyQualifiedName(
+						fqn, true, true, new NullProgressMonitor());
 				if (arti != null && !primaryPredicate.isExcluded(arti)
 						&& !isExcludedByAnnotation(arti)) {
 					result.add(arti);
@@ -531,8 +535,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			// Named queries
 			for (INamedQuery namedQuery : sessionArt.getNamedQueries()) {
 				String fqn = namedQuery.getFullyQualifiedName();
-				IAbstractArtifact arti = session
-						.getArtifactByFullyQualifiedName(fqn);
+				IAbstractArtifact arti = mgr.getArtifactByFullyQualifiedName(
+						fqn, true, true, new NullProgressMonitor());
 				if (arti != null && !primaryPredicate.isExcluded(arti)
 						&& !isExcludedByAnnotation(arti)) {
 					result.add(arti);
@@ -546,8 +550,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			for (IExposedUpdateProcedure updateProc : sessionArt
 					.getExposedUpdateProcedures()) {
 				String fqn = updateProc.getFullyQualifiedName();
-				IAbstractArtifact arti = session
-						.getArtifactByFullyQualifiedName(fqn);
+				IAbstractArtifact arti = mgr.getArtifactByFullyQualifiedName(
+						fqn, true, true, new NullProgressMonitor());
 				if (arti != null && !primaryPredicate.isExcluded(arti)
 						&& !isExcludedByAnnotation(arti)) {
 					result.add(arti);
@@ -561,8 +565,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			for (IManagedEntityDetails managedEntity : sessionArt
 					.getManagedEntityDetails()) {
 				String fqn = managedEntity.getFullyQualifiedName();
-				IAbstractArtifact arti = session
-						.getArtifactByFullyQualifiedName(fqn);
+				IAbstractArtifact arti = mgr.getArtifactByFullyQualifiedName(
+						fqn, true, true, new NullProgressMonitor());
 				if (arti != null && !primaryPredicate.isExcluded(arti)
 						&& !isExcludedByAnnotation(arti)) {
 					result.add(arti);
@@ -587,20 +591,23 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		IArtifactManagerSession session = tsProject.getArtifactManagerSession();
 
+		ArtifactManager mgr = ((ArtifactManagerSessionImpl) session)
+				.getArtifactManager();
+
 		Set<IRelationship> nextRelSet = new HashSet<IRelationship>();
 		if (!(artifact instanceof IRelationship)) {
 
 			if (ignoreNavigability) {
 				// in this case just add everything, we don't care
-				nextRelSet.addAll(session.getOriginatingRelationshipForFQN(
-						artifact.getFullyQualifiedName(), true));
-				nextRelSet.addAll(session.getTerminatingRelationshipForFQN(
-						artifact.getFullyQualifiedName(), true));
+				nextRelSet.addAll(mgr.getOriginatingRelationshipForFQN(artifact
+						.getFullyQualifiedName(), true, true));
+				nextRelSet.addAll(mgr.getTerminatingRelationshipForFQN(artifact
+						.getFullyQualifiedName(), true, true));
 			} else {
 				// need to go thru the results 1 by 1
-				Collection<IRelationship> originating = session
+				Collection<IRelationship> originating = mgr
 						.getOriginatingRelationshipForFQN(artifact
-								.getFullyQualifiedName(), true);
+								.getFullyQualifiedName(), true, true);
 				for (IRelationship rel : originating) {
 					if (rel instanceof IAssociationArtifact) {
 						IAssociationArtifact assoc = (IAssociationArtifact) rel;
@@ -610,9 +617,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 					}
 				}
 
-				Collection<IRelationship> terminating = session
+				Collection<IRelationship> terminating = mgr
 						.getTerminatingRelationshipForFQN(artifact
-								.getFullyQualifiedName(), true);
+								.getFullyQualifiedName(), true, true);
 				for (IRelationship rel : terminating) {
 					if (rel instanceof IAssociationArtifact) {
 						IAssociationArtifact assoc = (IAssociationArtifact) rel;
