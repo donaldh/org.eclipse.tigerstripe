@@ -43,7 +43,6 @@ public class Tigerstripe implements IApplication {
 
 	private Map<String, String> pluginArgs;
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public Object start(IApplicationContext context) throws Exception {
 
@@ -134,7 +133,7 @@ public class Tigerstripe implements IApplication {
 		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
 				project, RunConfig.M1);
 		PluginRunStatus[] status = project.generate(config, null);
-		
+
 		// TODO - handle this!
 		if (status.length != 0) {
 			for (PluginRunStatus pluginRunStatus : status) {
@@ -147,7 +146,6 @@ public class Tigerstripe implements IApplication {
 
 		IWorkspaceRunnable op = new IWorkspaceRunnable() {
 
-			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 
 				ProjectRecord projectRecord;
@@ -190,7 +188,6 @@ public class Tigerstripe implements IApplication {
 		return true;
 	}
 
-	@Override
 	public void stop() {
 		System.out.println("Stopping");
 	}
