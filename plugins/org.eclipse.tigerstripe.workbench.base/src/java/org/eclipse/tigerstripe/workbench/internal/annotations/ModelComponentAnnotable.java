@@ -43,7 +43,6 @@ public class ModelComponentAnnotable implements IAnnotable {
 		this.component = component;
 	}
 
-	@Override
 	public AnnotationStore getStore(IAnnotationScheme scheme)
 			throws AnnotationCoreException {
 		try {
@@ -60,7 +59,6 @@ public class ModelComponentAnnotable implements IAnnotable {
 		}
 	}
 
-	@Override
 	public String getURI() throws AnnotationCoreException {
 
 		try {

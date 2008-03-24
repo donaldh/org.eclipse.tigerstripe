@@ -159,7 +159,6 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 
 	// ==============================================
 	// Resource change listener.
-	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
 		IResource res = event.getResource();
 		if (res instanceof IProject) {

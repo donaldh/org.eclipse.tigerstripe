@@ -32,7 +32,6 @@ public class RenamePojoCommand extends PojoRepositoryCommand {
 		super(artifact, repository, "RenamePojoCommand");
 	}
 
-	@Override
 	public void execute() {
 		Resource resource = getArtifact().eResource();
 		ResourceSet rSet = resource.getResourceSet();
@@ -68,7 +67,6 @@ public class RenamePojoCommand extends PojoRepositoryCommand {
 
 	}
 
-	@Override
 	public void redo() {
 		// TODO Auto-generated method stub
 

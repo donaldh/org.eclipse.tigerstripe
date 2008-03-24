@@ -53,7 +53,6 @@ public class ModelManager implements IModelManager {
 
 	// ===================================
 
-	@Override
 	public IModelRepository getDefaultRepository() {
 		// FIXME: simply returning the first repository for now.
 		return repositories.values().iterator().next();
@@ -80,7 +79,6 @@ public class ModelManager implements IModelManager {
 		monitor.done();
 	}
 
-	@Override
 	public IAbstractArtifact[] findAllArtifacts(String fullyQualifiedName)
 			throws TigerstripeException {
 
@@ -89,7 +87,6 @@ public class ModelManager implements IModelManager {
 		return null;
 	}
 
-	@Override
 	public IAbstractArtifact[] getAllArtifacts(boolean includeDependencies)
 			throws TigerstripeException {
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
@@ -102,13 +99,11 @@ public class ModelManager implements IModelManager {
 		return result.toArray(new IAbstractArtifact[result.size()]);
 	}
 
-	@Override
 	public void setRepositories(IModelRepository[] repositories)
 			throws TigerstripeException {
 
 	}
 
-	@Override
 	public List<IModelRepository> getRepositories() {
 
 		return null;

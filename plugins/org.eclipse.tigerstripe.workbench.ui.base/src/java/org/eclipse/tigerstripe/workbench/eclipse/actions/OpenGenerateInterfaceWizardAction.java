@@ -132,7 +132,6 @@ public class OpenGenerateInterfaceWizardAction extends AbstractOpenWizardAction
 		return false;
 	}
 
-	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		IAbstractTigerstripeProject aProject = EclipsePlugin
 				.getTSProjectInFocus();

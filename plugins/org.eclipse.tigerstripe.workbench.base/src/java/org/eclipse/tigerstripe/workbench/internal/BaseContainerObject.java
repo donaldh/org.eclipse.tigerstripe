@@ -17,7 +17,6 @@ public class BaseContainerObject implements IContainerObject {
 
 	private Set<IContainedObject> dirtyContained = new HashSet<IContainedObject>();
 
-	@Override
 	public void clearDirtyOnContained() {
 		for (IContainedObject obj : dirtyContained) {
 			obj.clearDirty();
@@ -28,19 +27,18 @@ public class BaseContainerObject implements IContainerObject {
 		dirtyContained.clear();
 	}
 
-	@Override
 	public boolean isContainedDirty() {
 		return !dirtyContained.isEmpty();
 	}
 
-	@Override
 	public void notifyDirty(IContainedObject contained) {
 		dirtyContained.add(contained);
-		
+
 		// If this is itself contained, make sure to propagate one level up too.
-		if ( this instanceof IContainedObject ) {
-			IContainerObject parentContainer = ((IContainedObject) this).getContainer();
-			if ( parentContainer != null )
+		if (this instanceof IContainedObject) {
+			IContainerObject parentContainer = ((IContainedObject) this)
+					.getContainer();
+			if (parentContainer != null)
 				parentContainer.notifyDirty((IContainedObject) this);
 		}
 	}

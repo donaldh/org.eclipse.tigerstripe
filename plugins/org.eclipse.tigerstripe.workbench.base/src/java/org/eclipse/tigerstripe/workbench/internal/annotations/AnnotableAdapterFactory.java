@@ -30,7 +30,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class AnnotableAdapterFactory implements IAdapterFactory {
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adapterType == IAnnotable.class) {
@@ -39,7 +38,6 @@ public class AnnotableAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public Class[] getAdapterList() {
 		return new Class[] { IAnnotable.class };

@@ -61,22 +61,18 @@ public class ModelComponentMetadata implements IModelComponentMetadata {
 		return this.specifiedClass;
 	}
 
-	@Override
 	public URL getGreyedoutIconURL() {
 		return artifactIcon_gs_URL;
 	}
 
-	@Override
 	public URL getIconURL() {
 		return artifactIcon_URL;
 	}
 
-	@Override
 	public String getLabel() {
 		return artifactLabel;
 	}
 
-	@Override
 	public URL getNewIconURL() {
 		return artifactIcon_new_URL;
 	}

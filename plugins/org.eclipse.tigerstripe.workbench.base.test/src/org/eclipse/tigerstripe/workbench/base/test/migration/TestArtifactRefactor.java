@@ -73,13 +73,11 @@ public class TestArtifactRefactor extends TestCase {
 				return true;
 			}
 
-			@Override
 			public void execute() {
 				fMea.setName("newName");
 				fMea.setPackage("com.moo");
 			}
 
-			@Override
 			public void redo() {
 				// TODO Auto-generated method stub
 

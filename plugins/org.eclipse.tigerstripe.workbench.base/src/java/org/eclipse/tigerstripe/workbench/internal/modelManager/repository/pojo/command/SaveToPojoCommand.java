@@ -30,7 +30,6 @@ public class SaveToPojoCommand extends PojoRepositoryCommand {
 		super(artifact, repository, "SaveToPojoCommand");
 	}
 
-	@Override
 	public void execute() {
 		Resource eResource = getArtifact().eResource();
 		if (eResource != null) {
@@ -42,7 +41,6 @@ public class SaveToPojoCommand extends PojoRepositoryCommand {
 		}
 	}
 
-	@Override
 	public void redo() {
 		// TODO Auto-generated method stub
 

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IModelComponentImpl.java,v 1.3 2008/02/28 18:05:31 edillon Exp $
+ * $Id: IModelComponentImpl.java,v 1.4 2008/03/24 17:55:47 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -256,7 +256,6 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 		return result.toString();
 	}
 
-	@Override
 	public IModelComponentMetadata getMetadata() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(this.getClass()
 				.getName());

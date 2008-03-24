@@ -121,7 +121,6 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return Collections.unmodifiableCollection(stereotypeInstances);
 	}
 
-	@Override
 	public IStereotypeInstance getStereotypeInstanceByName(String name) {
 		for (IStereotypeInstance inst : stereotypeInstances) {
 			if (inst.getName().equals(name)) {
@@ -131,7 +130,6 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return null;
 	}
 
-	@Override
 	public boolean hasStereotypeInstance(String name) {
 		IStereotypeInstance inst = getStereotypeInstanceByName(name);
 		if (inst == null)
@@ -361,7 +359,6 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return result;
 	}
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
 		if (adapter == IAnnotable.class) {
@@ -370,13 +367,11 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return null;
 	}
 
-	@Override
 	public IModelComponentMetadata getMetadata() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(MigrationHelper
 				.artifactMetadataMigrateClassname(this.getClass().getName()));
 	}
 
-	@Override
 	public Object getAnnotation(String schemeID,
 			String annotationSpecificationID) {
 		ModelComponentAnnotable annotable = new ModelComponentAnnotable(this);

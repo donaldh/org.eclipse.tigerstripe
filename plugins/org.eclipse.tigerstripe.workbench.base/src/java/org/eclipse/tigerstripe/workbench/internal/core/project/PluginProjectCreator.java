@@ -42,14 +42,12 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 public class PluginProjectCreator extends BaseProjectCreator implements
 		IProjectCreator {
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public IWorkspaceRunnable getRunnable(final IProjectDetails projectDetails,
 			final IPath path, final Map properties) throws TigerstripeException {
 
 		IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
 
-			@Override
 			public void run(IProgressMonitor monitor) throws CoreException {
 
 				// Creates a base Eclipse project

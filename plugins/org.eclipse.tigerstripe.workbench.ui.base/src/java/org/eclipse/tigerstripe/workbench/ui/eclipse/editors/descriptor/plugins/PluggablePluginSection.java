@@ -212,7 +212,6 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		facetReferenceText
 				.setToolTipText("The facet to use as scope for this plugin.");
 		facetReferenceText.addModifyListener(new ModifyListener() {
-			@Override
 			public void modifyText(ModifyEvent e) {
 				if (!isSilentUpdate()) {
 					String relativePath = facetReferenceText.getText().trim();
@@ -248,12 +247,10 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		browseForFacetReferenceButton
 				.addSelectionListener(new SelectionListener() {
 
-					@Override
 					public void widgetDefaultSelected(SelectionEvent e) {
 						widgetSelected(e);
 					}
 
-					@Override
 					public void widgetSelected(SelectionEvent e) {
 						IFacetReference ref = browseForFacetButtonSelected(e);
 						if (ref != null) {
@@ -292,7 +289,6 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 				.setToolTipText("The facet to use as scope for this plugin.");
 		facetOutputDirText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				if (!isSilentUpdate()) {
 					String dir = facetOutputDirText.getText().trim();

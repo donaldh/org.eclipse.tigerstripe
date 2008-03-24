@@ -25,12 +25,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 public class ModelChangeHandler implements IArtifactChangeListener {
 
-	@Override
 	public void artifactAdded(IAbstractArtifact artifact) {
 		// nothing to do
 	}
 
-	@Override
 	public void artifactChanged(IAbstractArtifact artifact) {
 		// I guess we should figure out if there is any URI contained in this
 		// artifact that should be cleaned up.
@@ -38,7 +36,6 @@ public class ModelChangeHandler implements IArtifactChangeListener {
 		// This will need to wait until EMF port.
 	}
 
-	@Override
 	public void artifactRemoved(IAbstractArtifact artifact) {
 		// Remove the corresponding URI entry from store
 		ModelComponentAnnotable annotable = new ModelComponentAnnotable(
@@ -56,7 +53,6 @@ public class ModelChangeHandler implements IArtifactChangeListener {
 		}
 	}
 
-	@Override
 	public void artifactRenamed(final IAbstractArtifact artifact,
 			final String fromFQN) {
 
@@ -90,7 +86,6 @@ public class ModelChangeHandler implements IArtifactChangeListener {
 		renameJob.schedule();
 	}
 
-	@Override
 	public void managerReloaded() {
 		// TODO Auto-generated method stub
 

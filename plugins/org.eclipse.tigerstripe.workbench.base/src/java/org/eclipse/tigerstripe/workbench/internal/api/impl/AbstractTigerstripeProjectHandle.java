@@ -67,7 +67,6 @@ public abstract class AbstractTigerstripeProjectHandle extends
 		return this.projectContainerURI;
 	}
 
-	@Override
 	public IPath getLocation() {
 		Path path = new Path(new File(getURI()).getAbsolutePath());
 		return path;

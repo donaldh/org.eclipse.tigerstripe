@@ -73,7 +73,6 @@ public abstract class TigerstripeProjectHandle extends
 		super(projectContainerURI);
 	}
 
-	@Override
 	public void setProjectDetails(IProjectDetails projectDetails)
 			throws WorkingCopyException, TigerstripeException {
 		assertSet();
@@ -94,7 +93,6 @@ public abstract class TigerstripeProjectHandle extends
 		throw new TigerstripeException("Invalid project handle.");
 	}
 
-	@Override
 	public IModelManager getModelManager() throws TigerstripeException {
 		org.eclipse.tigerstripe.workbench.internal.modelManager.ModelManager manager = new org.eclipse.tigerstripe.workbench.internal.modelManager.ModelManager(
 				this);
@@ -461,11 +459,9 @@ public abstract class TigerstripeProjectHandle extends
 		}
 	}
 
-	@Override
 	public PluginRunStatus[] generate(IM1RunConfig config,
 			IProgressMonitor monitor) throws TigerstripeException {
-		M1Generator generator = new M1Generator(this,
-				(M1RunConfig) config);
+		M1Generator generator = new M1Generator(this, (M1RunConfig) config);
 		return generator.run();
 	}
 

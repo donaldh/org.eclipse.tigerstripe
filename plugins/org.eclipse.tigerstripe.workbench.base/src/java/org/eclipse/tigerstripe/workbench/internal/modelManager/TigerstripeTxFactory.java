@@ -16,19 +16,16 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain.Factory;
 
 public class TigerstripeTxFactory implements Factory {
 
-	@Override
 	public TransactionalEditingDomain createEditingDomain() {
 		return TransactionalEditingDomain.Factory.INSTANCE
 				.createEditingDomain();
 	}
 
-	@Override
 	public TransactionalEditingDomain createEditingDomain(ResourceSet rset) {
 		return TransactionalEditingDomain.Factory.INSTANCE
 				.createEditingDomain(rset);
 	}
 
-	@Override
 	public TransactionalEditingDomain getEditingDomain(ResourceSet rset) {
 		return TransactionalEditingDomain.Factory.INSTANCE
 				.getEditingDomain(rset);

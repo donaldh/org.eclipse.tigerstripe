@@ -45,17 +45,14 @@ public class ArtifactMetadata extends ModelComponentMetadata implements
 		this.hasLiterals = hasLiterals;
 	}
 
-	@Override
 	public boolean hasFields() {
 		return hasFields;
 	}
 
-	@Override
 	public boolean hasLiterals() {
 		return hasLiterals;
 	}
 
-	@Override
 	public boolean hasMethods() {
 		return hasMethods;
 	}

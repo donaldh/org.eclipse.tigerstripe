@@ -248,12 +248,10 @@ public class NewTigerstripeM0RunWizardPage extends TSRuntimeBasedWizardPage {
 			final int thisIndex = index;
 			pluginSelectionButtons[index]
 					.addSelectionListener(new SelectionListener() {
-						@Override
 						public void widgetDefaultSelected(SelectionEvent e) {
 							widgetSelected(e);
 						}
 
-						@Override
 						public void widgetSelected(SelectionEvent e) {
 							runConfig.getPluginConfigs()[thisIndex]
 									.setEnabled(pluginSelectionButtons[thisIndex]
@@ -287,7 +285,6 @@ public class NewTigerstripeM0RunWizardPage extends TSRuntimeBasedWizardPage {
 		outputDirText.setLayoutData(gd);
 		outputDirText.addModifyListener(new ModifyListener() {
 
-			@Override
 			public void modifyText(ModifyEvent e) {
 				runConfig
 						.setOutputPath(new Path(outputDirText.getText().trim()));

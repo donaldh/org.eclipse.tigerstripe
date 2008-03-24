@@ -138,7 +138,6 @@ public abstract class GeneratorProjectHandle extends
 		return descriptor.getProjectDetails();
 	}
 
-	@Override
 	public void setProjectDetails(IProjectDetails projectDetails)
 			throws WorkingCopyException, TigerstripeException {
 		assertSet();
@@ -185,7 +184,7 @@ public abstract class GeneratorProjectHandle extends
 		GeneratorProjectDescriptor descriptor = getDescriptor();
 		if (descriptor != null) {
 			descriptor.doSave(null);
-			
+
 			GeneratorProjectHandle original = (GeneratorProjectHandle) getOriginal();
 			original.getDescriptor().reload(true); // this will force a reload.
 

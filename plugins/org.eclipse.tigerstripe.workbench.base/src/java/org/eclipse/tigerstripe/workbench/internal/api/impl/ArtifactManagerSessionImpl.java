@@ -551,7 +551,6 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		getArtifactManager().setBroadcastMask(broadcastMask);
 	}
 
-	@Override
 	public long getLocalTimeStamp() throws TigerstripeException {
 		return getArtifactManager().getLocalTimeStamp();
 	}

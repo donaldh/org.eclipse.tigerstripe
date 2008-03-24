@@ -26,13 +26,11 @@ public class DefaultAnnotable implements IAnnotable {
 		this.resource = resource;
 	}
 
-	@Override
 	public AnnotationStore getStore( IAnnotationScheme scheme ) throws AnnotationCoreException {
 		return AnnotationStore.getDefaultFactory().getAnnotationStore(
 				resource.getProject(), scheme);
 	}
 
-	@Override
 	public String getURI() throws AnnotationCoreException {
 		IAdaptable adaptable = (IAdaptable) resource;
 		if (adaptable.getAdapter(IProject.class) != null) {

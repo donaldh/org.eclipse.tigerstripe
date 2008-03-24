@@ -146,7 +146,6 @@ public class AnnotationScheme implements IAnnotationScheme {
 		return false;
 	}
 
-	@Override
 	public IAnnotationSpecification findAnnotationSpecification(
 			String annotationSpecificationID) throws AnnotationCoreException {
 		for (IAnnotationForm form : getDefinedForms()) {

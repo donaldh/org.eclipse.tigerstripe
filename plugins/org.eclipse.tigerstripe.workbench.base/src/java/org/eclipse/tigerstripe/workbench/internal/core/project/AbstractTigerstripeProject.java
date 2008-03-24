@@ -505,7 +505,6 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 	}
 
-	@Override
 	public Object getAdapter(Class adapter) {
 		if (IAbstractTigerstripeProject.class == adapter) {
 			try {

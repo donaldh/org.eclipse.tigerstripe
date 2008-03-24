@@ -72,7 +72,6 @@ public class PojoModelRepository extends ModelRepository {
 
 		private List<IResource> allMembers = new ArrayList<IResource>();
 
-		@Override
 		public boolean visit(IResource resource) throws CoreException {
 			if (resource instanceof IFolder)
 				return true;
@@ -137,7 +136,6 @@ public class PojoModelRepository extends ModelRepository {
 
 			private Collection<IStatus> result = new ArrayList<IStatus>();
 
-			@Override
 			public void execute() {
 
 				try {
@@ -203,7 +201,6 @@ public class PojoModelRepository extends ModelRepository {
 				return result;
 			}
 
-			@Override
 			public void redo() {
 				// nothing here
 			}
@@ -234,7 +231,6 @@ public class PojoModelRepository extends ModelRepository {
 
 	}
 
-	@Override
 	public Collection<IAbstractArtifact> getAllArtifacts() {
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 		for (Resource resource : getResourceSet().getResources()) {
@@ -245,7 +241,6 @@ public class PojoModelRepository extends ModelRepository {
 		return result;
 	}
 
-	@Override
 	public IAbstractArtifact getArtifactByFullyQualifiedName(
 			String fullyQualifiedName) {
 

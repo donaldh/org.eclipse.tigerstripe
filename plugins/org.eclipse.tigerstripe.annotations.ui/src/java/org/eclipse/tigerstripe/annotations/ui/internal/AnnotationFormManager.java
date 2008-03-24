@@ -84,7 +84,6 @@ public class AnnotationFormManager {
 				final Label fLabel = label;
 				text.addModifyListener(new ModifyListener() {
 
-					@Override
 					public void modifyText(ModifyEvent e) {
 						view.markModified();
 						try {
@@ -118,7 +117,6 @@ public class AnnotationFormManager {
 				text.setData(ANNOTATION_SPEC, spec);
 				text.addModifyListener(new ModifyListener() {
 
-					@Override
 					public void modifyText(ModifyEvent e) {
 						view.markModified();
 					}
@@ -136,12 +134,10 @@ public class AnnotationFormManager {
 				checkbox.setText(spec.getUserLabel());
 				checkbox.addSelectionListener(new SelectionListener() {
 
-					@Override
 					public void widgetDefaultSelected(SelectionEvent e) {
 						widgetSelected(e);
 					}
 
-					@Override
 					public void widgetSelected(SelectionEvent e) {
 						view.markModified();
 					}
@@ -194,12 +190,10 @@ public class AnnotationFormManager {
 				comboViewer.getCombo().addSelectionListener(
 						new SelectionListener() {
 
-							@Override
 							public void widgetDefaultSelected(SelectionEvent e) {
 								widgetSelected(e);
 							}
 
-							@Override
 							public void widgetSelected(SelectionEvent e) {
 								view.markModified();
 							}

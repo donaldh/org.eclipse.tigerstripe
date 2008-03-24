@@ -37,7 +37,7 @@ public class PojoResourceImpl extends ResourceImpl implements Resource {
 					reader, new NullProgressMonitor());
 			getContents().add(artifact);
 		} catch (TigerstripeException e) {
-			throw new IOException(e);
+			throw new IOException(e.getMessage());
 		} finally {
 			reader.close();
 		}
@@ -55,7 +55,7 @@ public class PojoResourceImpl extends ResourceImpl implements Resource {
 			artWriter.setWriter(writer);
 			artWriter.applyTemplate();
 		} catch (TigerstripeException e) {
-			throw new IOException(e);
+			throw new IOException(e.getMessage());
 		} finally {
 			writer.close();
 		}

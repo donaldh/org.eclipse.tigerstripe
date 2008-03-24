@@ -23,18 +23,15 @@ public class ContainedProperties extends Properties implements IContainedObject 
 	private boolean isLocalDirty = false;
 	private IContainerObject container = null;
 
-	@Override
 	public void setContainer(IContainerObject container) {
 		isLocalDirty = false;
 		this.container = container;
 	}
 
-	@Override
 	public void clearDirty() {
 		isLocalDirty = false;
 	}
 
-	@Override
 	public boolean isDirty() {
 		return isLocalDirty;
 	}
@@ -50,7 +47,6 @@ public class ContainedProperties extends Properties implements IContainedObject 
 		}
 	}
 
-	@Override
 	public IContainerObject getContainer() {
 		return this.container;
 	}

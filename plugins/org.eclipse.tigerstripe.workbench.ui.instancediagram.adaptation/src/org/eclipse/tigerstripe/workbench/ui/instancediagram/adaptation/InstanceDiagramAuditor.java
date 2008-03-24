@@ -37,7 +37,6 @@ public class InstanceDiagramAuditor implements IDiagramAuditor {
 
 	private InstanceDiagramMapHelper helper;
 
-	@Override
 	public IStatus auditDiagram(Diagram diagram, IProgressMonitor monitor)
 			throws TigerstripeException {
 		monitor.subTask(diagram.getName());
@@ -63,7 +62,6 @@ public class InstanceDiagramAuditor implements IDiagramAuditor {
 		}
 	}
 
-	@Override
 	public IStatus auditDiagram(DiagramHandle handle, IProgressMonitor monitor)
 			throws TigerstripeException {
 		monitor.subTask(handle.getDiagramResource().getName());
@@ -162,7 +160,6 @@ public class InstanceDiagramAuditor implements IDiagramAuditor {
 		}
 	}
 
-	@Override
 	public String getSupportedFileExtension() {
 		return ClosedInstanceDiagramSynchronizer.DIAGRAM_EXT;
 	}
