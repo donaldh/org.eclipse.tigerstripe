@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
 import org.eclipse.core.runtime.IAdapterFactory;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.tigerstripe.annotations.IAnnotable;
@@ -32,7 +31,6 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Tige
 
 public class PartAdapterFactory implements IAdapterFactory {
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adapterType == IAnnotable.class) {
@@ -41,7 +39,6 @@ public class PartAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public Class[] getAdapterList() {
 		return new Class[] { IAnnotable.class };

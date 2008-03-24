@@ -425,11 +425,9 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		aEndAggregationCombo.select(aEndAggregation.getValue());
 		aEndAggregationCombo.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				EAggregationEnum ag = EAggregationEnum
 						.parse(aEndAggregationCombo
@@ -457,11 +455,9 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		aEndIsNavigableButton.setSelection(aEndIsNavigable);
 		aEndIsNavigableButton.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean sel = aEndIsNavigableButton.getSelection();
 				if (!sel && !zEndIsNavigableButton.getSelection()) {
@@ -540,11 +536,9 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		zEndAggregationCombo.select(zEndAggregation.getValue());
 		zEndAggregationCombo.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				EAggregationEnum ag = EAggregationEnum
 						.parse(zEndAggregationCombo
@@ -571,11 +565,9 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		zEndIsNavigableButton.setSelection(zEndIsNavigable);
 		zEndIsNavigableButton.addSelectionListener(new SelectionListener() {
 
-			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
-			@Override
 			public void widgetSelected(SelectionEvent e) {
 				boolean sel = zEndIsNavigableButton.getSelection();
 				if (!sel && !aEndIsNavigableButton.getSelection()) {
