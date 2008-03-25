@@ -344,6 +344,10 @@ public class M1Generator {
 					monitor.done();
 				}
 
+			} else {
+				// this is the case where there is no Facet whatsoever 
+				PluginRunStatus[] subResult = internalRun(monitor, config);
+				overallResult.addAll(Arrays.asList(subResult));
 			}
 
 			return overallResult.toArray(new PluginRunStatus[overallResult
