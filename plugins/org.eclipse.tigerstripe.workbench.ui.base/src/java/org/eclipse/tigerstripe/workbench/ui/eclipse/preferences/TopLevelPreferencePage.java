@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.TigerstripeRuntimeDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
@@ -80,36 +81,20 @@ public class TopLevelPreferencePage extends FieldEditorPreferencePage implements
 	 */
 	public void createLocalContent(Composite parent) {
 
-		Image image = Images.get(Images.SPLASH);
-
-		image.setBackground(new Color(null, 255, 255, 255));
-		imageLabel = new Label(parent, SWT.NULL);
-		imageLabel.setImage(image);
-		GridData gdImage = new GridData();
-		gdImage.horizontalSpan = 3;
-		gdImage.grabExcessHorizontalSpace = true;
-		gdImage.minimumWidth = 400;
-		imageLabel.setLayoutData(gdImage);
-
 		GridData gd = new GridData();
 		gd.horizontalSpan = 3;
 		gd.grabExcessHorizontalSpace = true;
 		gd.minimumWidth = 400;
 		Label label = new Label(parent, SWT.NULL);
-		label.setText(TigerstripeRuntime
-				.getProperty(TigerstripeRuntime.PRODUCT_NAME));
+		
+		label.setText(TigerstripeRuntimeDetails.INSTANCE.getBaseBundleValue("Bundle-Name"));
 		label.setAlignment(SWT.LEFT);
 		label.setLayoutData(gd);
 
 		label = new Label(parent, SWT.NULL);
 		label
 				.setText("  version "
-						+ TigerstripeRuntime
-								.getProperty(TigerstripeRuntime.TIGERSTRIPE_FEATURE_VERSION));
-		label.setLayoutData(gd);
-
-		label = new Label(parent, SWT.NULL);
-		label.setText("  (c) 2005, 2006 no copyright");
+						+ TigerstripeRuntimeDetails.INSTANCE.getBaseBundleValue("Bundle-Version"));
 		label.setLayoutData(gd);
 
 		label = new Label(parent, SWT.NULL);
