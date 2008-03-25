@@ -68,7 +68,7 @@ public class NewProjectWizardHelper {
 			
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
-			IPath path = workspace.getRoot().getProject(projectName).getFullPath();
+			IPath path = workspace.getRoot().getProject(projectName).getLocation();
 			IAbstractTigerstripeProject project = TigerstripeCore.findProject(path);
 			if (project != null && project.exists())
 				return;
