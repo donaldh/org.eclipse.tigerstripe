@@ -97,11 +97,13 @@ public abstract class AbstractGMFDiagramNode extends
 			// Create both Resources
 			IPath newModelPath = targetLocation.getFullPath().append(newName)
 					.addFileExtension(getModelExtension());
-			IFile newModelFile = ResourcesPlugin.getWorkspace().getRoot().getFile(newModelPath);
+			IFile newModelFile = ResourcesPlugin.getWorkspace().getRoot()
+					.getFile(newModelPath);
 
 			IPath newDiagramPath = targetLocation.getFullPath().append(newName)
 					.addFileExtension(getDiagramExtension());
-			IFile newDiagramFile = ResourcesPlugin.getWorkspace().getRoot().getFile(newDiagramPath);
+			IFile newDiagramFile = ResourcesPlugin.getWorkspace().getRoot()
+					.getFile(newDiagramPath);
 
 			// fill in the content of the model file. Untouched.
 			tryResolveModelFile();
@@ -112,6 +114,50 @@ public abstract class AbstractGMFDiagramNode extends
 			// references are updated properly.
 			newDiagramFile.create(getUpdatedContentsForDiagramFile(newName),
 					true, monitor);
+
+			// Now need to potentially update the base package for the new
+			// diagram
+			updatePackage(newModelFile);
+		}
+	}
+
+	/**
+	 * Updates the base package for the given model file if it is hosted in a
+	 * "package" within the workspace.
+	 * 
+	 * @param modelFile
+	 */
+	private void updatePackage(IResource modelFile) {
+		IContainer targetContainer = modelFile.getParent();
+		Object obj = JavaCore.create(targetContainer);
+		if (obj instanceof IPackageFragment) {
+			IPackageFragment frag = (IPackageFragment) obj;
+			if (frag != null) {
+				ResourceSet set = new ResourceSetImpl();
+				Resource model = set.createResource(URI.createURI(modelFile
+						.getLocationURI().toString()));
+				try {
+					model.load(new HashMap<Object, Object>());
+					EObject map = model.getContents().get(0);
+					int basePackageAttributeIndex = -1;
+					String mapType = map.eClass().getName();
+					// "3" can be found in VisualEditorPackageImpl
+					// or 2 in InstanceDiagramPackageImpl
+					if ("Map".equals(mapType))
+						basePackageAttributeIndex = 3;
+					else if ("InstanceMap".equals(mapType))
+						basePackageAttributeIndex = 2;
+					if (basePackageAttributeIndex != -1) {
+						EAttribute attr = (EAttribute) map.eClass()
+								.getEStructuralFeatures().get(
+										basePackageAttributeIndex);
+						map.eSet(attr, frag.getElementName());
+						model.save(new HashMap<Object, Object>());
+					}
+				} catch (IOException e) {
+					EclipsePlugin.log(e);
+				}
+			}
 		}
 	}
 
@@ -121,43 +167,12 @@ public abstract class AbstractGMFDiagramNode extends
 		if (!closeCorrespondingDiagram()) {
 			IResource[] ress = getUnderlyingResources();
 			for (IResource res : ress) {
-				// Bug 937: looking if the basepackage needs to be updated
-				if (res.equals(getModelFile())) {
-					Object obj = JavaCore.create(targetContainer);
-					if (obj instanceof IPackageFragment) {
-						IPackageFragment frag = (IPackageFragment) obj;
-						if (frag != null) {
-							ResourceSet set = new ResourceSetImpl();
-							Resource model = set
-									.createResource(URI.createURI(res
-											.getLocationURI().toString()));
-							try {
-								model.load(new HashMap());
-								EObject map = model.getContents().get(0);
-								int basePackageAttributeIndex = -1;
-								String mapType = map.eClass().getName();
-								// "3" can be found in VisualEditorPackageImpl
-								// or 2 in InstanceDiagramPackageImpl
-								if ("Map".equals(mapType))
-									basePackageAttributeIndex = 3;
-								else if ("InstanceMap".equals(mapType))
-									basePackageAttributeIndex = 2;
-								if (basePackageAttributeIndex != -1) {
-									EAttribute attr = (EAttribute) map.eClass()
-											.getEStructuralFeatures().get(
-													basePackageAttributeIndex);
-									map.eSet(attr, frag.getElementName());
-									model.save(new HashMap());
-								}
-							} catch (IOException e) {
-								EclipsePlugin.log(e);
-							}
-						}
-					}
-				}
+				IPath newPath = targetContainer.getFullPath().append(
+						res.getName());
+				res.move(newPath, true, monitor);
 
-				res.move(targetContainer.getFullPath().append(res.getName()),
-						true, monitor);
+				IResource newRes = targetContainer.findMember(res.getName());
+				updatePackage(newRes);
 
 			}
 		}
