@@ -37,11 +37,14 @@ public class LogicalNodePromptForNameDialog extends NewTSMessageDialog {
 	protected String newName;
 
 	protected String initialName;
+	
+	protected IContainer targetContainer;
 
 	public LogicalNodePromptForNameDialog(Shell parent,
-			AbstractLogicalExplorerNode node, String title, String caption) {
+			AbstractLogicalExplorerNode node, String title, String caption, IContainer targetContainer) {
 		super(parent, title, caption);
 		this.node = node;
+		this.targetContainer = targetContainer;
 		initialName = node.getText();
 		setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
 	}
@@ -106,8 +109,7 @@ public class LogicalNodePromptForNameDialog extends NewTSMessageDialog {
 	 */
 	protected void validateNewName() {
 		IResource res = node.getKeyResource();
-		IContainer parent = res.getParent();
-		if (parent.findMember(getNewName() + "." + res.getFileExtension()) != null) {
+		if (targetContainer.findMember(getNewName() + "." + res.getFileExtension()) != null) {
 			setErrorMessage("Duplicate element name");
 			Button okButton = this.getButton(IDialogConstants.OK_ID);
 			if (okButton == null)

@@ -41,7 +41,9 @@ public class LogicalNodeRenameAction extends AbstractLogicalNodeAction {
 				AbstractLogicalExplorerNode[] nodes = getSelectedNodes();
 				if (nodes.length != 0) {
 					LogicalNodePromptForNameDialog dialog = new LogicalNodePromptForNameDialog(
-							getShell(), nodes[0], "Rename Element", "Enter new name for this element.");
+							getShell(), nodes[0], "Rename Element",
+							"Enter new name for this element.", nodes[0]
+									.getKeyResource().getParent());
 					shouldPerformRename = dialog.open() == Window.OK;
 					if (shouldPerformRename) {
 						newName = dialog.getNewName();

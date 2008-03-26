@@ -233,7 +233,7 @@ public class LogicalNodeCopyAction extends AbstractLogicalNodeAction {
 	}
 
 	private void internalBatchRun(AbstractLogicalExplorerNode[] nodes,
-			IContainer targetContainer, IProgressMonitor monitor)
+			final IContainer targetContainer, IProgressMonitor monitor)
 			throws TigerstripeException {
 		for (AbstractLogicalExplorerNode node : nodes) {
 			final AbstractLogicalExplorerNode fNode = node;
@@ -242,7 +242,11 @@ public class LogicalNodeCopyAction extends AbstractLogicalNodeAction {
 			IResource keyRes = node.getKeyResource();
 			IPath tentativePath = targetContainer.getProjectRelativePath()
 					.append(keyRes.getName());
-			if (tentativePath.equals(keyRes.getProjectRelativePath())) {
+			IResource tentativeResource = targetContainer.findMember(keyRes
+					.getName());
+			if (tentativePath.equals(keyRes.getProjectRelativePath())
+					|| (tentativeResource != null && tentativeResource.exists())) {
+
 				// In this we need to duplicate the diagram, so we need to
 				// prompt
 				// for a new name
@@ -250,7 +254,7 @@ public class LogicalNodeCopyAction extends AbstractLogicalNodeAction {
 					public void run() {
 						LogicalNodePromptForNameDialog dialog = new LogicalNodePromptForNameDialog(
 								getShell(), fNode, "Duplicate Element",
-								"Enter new name for this element.");
+								"Enter new name for this element.", targetContainer);
 						dialog.setInitialName("CopyOf" + fNode.getText());
 						shouldPerformCopy = dialog.open() == Window.OK;
 						if (shouldPerformCopy) {
