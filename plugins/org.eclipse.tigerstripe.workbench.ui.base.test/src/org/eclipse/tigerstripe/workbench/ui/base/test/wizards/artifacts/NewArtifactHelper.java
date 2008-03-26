@@ -43,7 +43,7 @@ public class NewArtifactHelper {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public final IAbstractArtifact createArtifactWithWizard(String packageName,
+	public static final IAbstractArtifact createArtifactWithWizard(String packageName,
 			String name, Class artifactType, IProject project) throws Exception {
 		NewArtifactWizardPage page = null;
 		if (artifactType == IManagedEntityArtifact.class) {

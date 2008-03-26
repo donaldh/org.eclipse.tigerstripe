@@ -289,7 +289,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 		}
 	}
 
-	private void addJavaNature(IProject projectHandle) {
+	protected void addJavaNature(IProject projectHandle) {
 		IProjectDescription description;
 		try {
 			description = projectHandle.getDescription();
@@ -316,7 +316,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 		}
 	}
 
-	private void createProjectContent(
+	protected void createProjectContent(
 			NewPluginProjectWizardPage.NewProjectDetails projectDetails,
 			IProject projectHandle, IProgressMonitor monitor) {
 

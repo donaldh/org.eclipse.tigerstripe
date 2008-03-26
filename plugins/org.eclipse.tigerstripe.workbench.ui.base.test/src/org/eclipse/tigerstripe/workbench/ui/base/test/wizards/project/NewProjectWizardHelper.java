@@ -93,7 +93,7 @@ public class NewProjectWizardHelper {
 	public static IAbstractTigerstripeProject getProject(String projectName)
 			throws TigerstripeException {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IPath path = workspace.getRoot().getProject(projectName).getFullPath();
+		IPath path = workspace.getRoot().getProject(projectName).getLocation();
 		IAbstractTigerstripeProject project = TigerstripeCore.findProject(path);
 			if (project != null && project.exists())
 				return (IAbstractTigerstripeProject) project;

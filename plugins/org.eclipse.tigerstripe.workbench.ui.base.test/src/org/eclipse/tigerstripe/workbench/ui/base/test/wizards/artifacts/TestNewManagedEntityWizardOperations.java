@@ -29,9 +29,9 @@ import org.eclipse.ui.PlatformUI;
  */
 public class TestNewManagedEntityWizardOperations extends TestCase{
 
-	private final static String ENTITY1 = "Entity1";
+	private static String ENTITY1 = "Entity1";
 
-	private final static String PROJECT = "EntityTestProject";
+	private static String PROJECT = "EntityTestProject";
 
 
 	public  final void setUp() throws Exception {
@@ -43,6 +43,14 @@ public class TestNewManagedEntityWizardOperations extends TestCase{
 		NewProjectWizardHelper.removeProject(PROJECT);
 	}
 
+	public static void setProjectName(String name){
+		PROJECT = name;
+	}
+	
+	public static void setEntityName(String name){
+		ENTITY1 = name;
+	}
+	
 	private IProject getProject() throws Exception {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = root.getProject(PROJECT);

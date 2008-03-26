@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test;
 
 import org.eclipse.tigerstripe.workbench.ui.base.test.wizards.artifacts.TestNewManagedEntityWizardOperations;
+import org.eclipse.tigerstripe.workbench.ui.base.test.wizards.generator.TestNewGeneratorProjectWizardOperations;
 import org.eclipse.tigerstripe.workbench.ui.base.test.wizards.project.TestNewProjectWizardOperations;
 
 import junit.framework.Test;
@@ -25,6 +26,9 @@ public class AllUITests {
 		suite.addTestSuite(TestNewProjectWizardOperations.class);
 		
 		suite.addTestSuite(TestNewManagedEntityWizardOperations.class);
+		
+		suite.addTestSuite(TestNewGeneratorProjectWizardOperations.class);
+		
 		return suite;
 	}
 }
