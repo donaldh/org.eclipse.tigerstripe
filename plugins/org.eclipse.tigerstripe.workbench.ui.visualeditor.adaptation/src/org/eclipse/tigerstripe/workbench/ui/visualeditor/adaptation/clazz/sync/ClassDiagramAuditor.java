@@ -15,12 +15,19 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
@@ -109,6 +116,41 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		}
 	}
 
+	/**
+	 * Check that the base package set in the diagram corresponds to the
+	 * location of the diagram
+	 * 
+	 * @param parentStatus
+	 * @param map
+	 * @param session
+	 * @param monitor
+	 */
+	private void auditBasePackage(MultiStatus parentStatus, Map map,
+			IArtifactManagerSession session, IProgressMonitor monitor) {
+		String basePackage = map.getBasePackage();
+		if (basePackage == null)
+			basePackage = "";
+		Resource resource = map.eResource(); // this is model resource
+		URI resourceURI = resource.getURI();
+
+		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(
+				resourceURI.toPlatformString(true));
+		if (res != null) {
+			IContainer container = res.getParent();
+			Object obj = JavaCore.create(container);
+			if (obj instanceof IPackageFragment) {
+				IPackageFragment pack = (IPackageFragment) obj;
+				String locatedPackage = pack.getElementName();
+				if (!basePackage.equals(locatedPackage)) {
+					IStatus s = getErrorStatus("Invalid base package '"
+							+ basePackage + "' (located in '" + locatedPackage
+							+ "').");
+					parentStatus.add(s);
+				}
+			}
+		}
+	}
+
 	protected boolean hideExtends(AbstractArtifact eArtifact) {
 		NamedElementPropertiesHelper helper = new NamedElementPropertiesHelper(
 				eArtifact);
@@ -126,11 +168,15 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 	private IStatus auditModel(MultiStatus parentStatus, Map map,
 			IProgressMonitor monitor) throws TigerstripeException {
 
+
+		ITigerstripeModelProject tsProject = map
+				.getCorrespondingITigerstripeProject();
+		auditBasePackage(parentStatus, map, tsProject
+				.getArtifactManagerSession(), monitor);
+
 		MultiStatus artResult = new MultiStatus(Activator.PLUGIN_ID, 222,
 				"Artifacts", null);
 		List<AbstractArtifact> artifacts = map.getArtifacts();
-		ITigerstripeModelProject tsProject = map
-				.getCorrespondingITigerstripeProject();
 		for (AbstractArtifact artifact : artifacts) {
 			IStatus status = auditArtifact(artifact, tsProject);
 			artResult.add(status);

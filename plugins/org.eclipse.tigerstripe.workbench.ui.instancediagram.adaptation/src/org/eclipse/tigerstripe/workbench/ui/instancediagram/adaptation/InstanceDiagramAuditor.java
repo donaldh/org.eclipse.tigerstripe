@@ -13,13 +13,20 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -36,7 +43,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers.I
 public class InstanceDiagramAuditor implements IDiagramAuditor {
 
 	private InstanceDiagramMapHelper helper;
-
+	
 	public IStatus auditDiagram(Diagram diagram, IProgressMonitor monitor)
 			throws TigerstripeException {
 		monitor.subTask(diagram.getName());
@@ -98,6 +105,8 @@ public class InstanceDiagramAuditor implements IDiagramAuditor {
 		ITigerstripeModelProject tsProject = map
 				.getCorrespondingITigerstripeProject();
 
+		auditBasePackage(instanceResult, map, tsProject.getArtifactManagerSession(), monitor);
+		
 		auditClassInstances(instanceResult, map, tsProject
 				.getArtifactManagerSession(), monitor);
 		auditAssociationInstances(instanceResult, map, tsProject
@@ -106,6 +115,38 @@ public class InstanceDiagramAuditor implements IDiagramAuditor {
 		return instanceResult;
 	}
 
+	/**
+	 * 	Check that the base package set in the diagram corresponds to the location of the diagram
+	 * 
+	 * @param parentStatus
+	 * @param map
+	 * @param session
+	 * @param monitor
+	 */
+	private void auditBasePackage( MultiStatus parentStatus, InstanceMap map,
+			IArtifactManagerSession session, IProgressMonitor monitor ) {
+		String basePackage = map.getBasePackage();
+		if ( basePackage == null )
+			basePackage = "";
+		Resource resource = map.eResource(); // this is model resource
+		URI resourceURI = resource.getURI();
+		
+		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(resourceURI.toPlatformString(true));
+		if ( res != null ) {
+			IContainer container = res.getParent();
+			Object obj = JavaCore.create(container);
+			if ( obj instanceof IPackageFragment ) {
+				IPackageFragment pack = (IPackageFragment) obj;
+				String locatedPackage = pack.getElementName();
+				if ( !basePackage.equals(locatedPackage)) {
+					IStatus s = getErrorStatus("Invalid base package '"
+							+ basePackage + "' (located in '" + locatedPackage + "').");
+					parentStatus.add(s);
+				}
+			}
+		}
+	}
+	
 	private void auditClassInstances(MultiStatus parentStatus, InstanceMap map,
 			IArtifactManagerSession session, IProgressMonitor monitor) {
 		EList<ClassInstance> instances = map.getClassInstances();
