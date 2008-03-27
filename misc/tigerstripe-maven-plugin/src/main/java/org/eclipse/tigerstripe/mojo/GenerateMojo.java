@@ -27,48 +27,35 @@ public class GenerateMojo extends AbstractMojo {
 
 	private static final String DELIMITER = "=";
 	
-	private static final String PROFILE_KEY = "profile";
-	
 	private static final String PROJECT_KEY = "project";
 	
 	/**
-	 * @parameter expression="${eclipse.install}"
+	 * @parameter expression="${workspace}"
 	 * @required
 	 */
-	public String eclipseInstall;
+	public String workspace;
 	
 	/**
-	 * @parameter expression="${eclipse.workspace}"
+	 * @parameter expression="${tsProject}"
 	 * @required
 	 */
-	public String eclipseWorkspace;
-	
-	/**
-	 * @parameter expression="${tigerstripe.profile}"
-	 * @required
-	 */
-	public String tigerstripeProfile;
-	
-	/**
-	 * @parameter
-	 * @required
-	 */
-	public String tigerstripeProject;
+	public String tsProject;
 	
 	public void execute() throws MojoExecutionException {
 		
+		getLog().debug("param workspace: " + workspace);
+		getLog().debug("param tsProject: " + tsProject);
+		
 		Commandline cl = new Commandline();
-		cl.setExecutable(eclipseInstall + File.separator + "eclipsec.exe");
+		cl.setExecutable(System.getenv("ECLIPSE_HOME") + File.separator + "eclipsec.exe");
 		cl.createArg(true).setValue("-nosplash");
 		cl.createArg().setValue("-data");
-		cl.createArg().setValue(eclipseWorkspace);
+		cl.createArg().setValue(workspace);
 		cl.createArg().setValue("-application");
 		cl.createArg().setValue("org.eclipse.tigerstripe.workbench.headless.tigerstripe");
 		
-		// plug-in parameters (as key/value pairs)
-		cl.createArg().setValue(PROFILE_KEY + DELIMITER + tigerstripeProfile);
-		cl.createArg().setValue(PROJECT_KEY + DELIMITER + tigerstripeProject);
-		
+		// add plug-in parameters as key/value pairs
+		cl.createArg().setValue(PROJECT_KEY + DELIMITER + tsProject);
 		
 		StreamConsumer consumer = new StreamConsumer() {
 			public void consumeLine(String line) {
