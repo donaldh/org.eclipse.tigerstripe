@@ -113,7 +113,7 @@ public abstract class BaseDiagramPartAction {
 	/**
 	 * 
 	 */
-	private boolean isEnabled() {
+	protected boolean isEnabled() {
 		return mySelectedElement != null;
 	}
 

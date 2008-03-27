@@ -76,6 +76,13 @@
                path="additions">
             <separator name="group1"/>
          </menu>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.LocalGenerationAction"
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.localGeneration"
+               label="Generate..."
+               menubarPath="additions"
+               tooltip="Trigger an M0-Level Generator Plugin in the context of this Diagram">
+         </action>
       </objectContribution>
   </extension>
 
