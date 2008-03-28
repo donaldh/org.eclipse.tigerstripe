@@ -43,4 +43,12 @@ public interface IAbstractTigerstripeProject extends IAdaptable, IWorkingCopy {
 
 	public void delete(boolean force, IProgressMonitor monitor)
 			throws TigerstripeException;
+
+	/**
+	 * Returns true if the project has any ERROR level marker (i.e. if any error
+	 * appears for this project in the ProblemsView)
+	 * 
+	 * @return true if the project contains ERROR markers, false otherwise.
+	 */
+	public boolean containsErrors();
 }

@@ -17,6 +17,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
@@ -29,6 +30,17 @@ import org.eclipse.ui.PlatformUI;
 
 public class DeployPluginActionDelegate extends BasePluginActionDelegate
 		implements IObjectActionDelegate {
+
+	@Override
+	public void selectionChanged(IAction action, ISelection selection) {
+		super.selectionChanged(action, selection);
+
+		// Bug 224655
+		// Check project is not in Error
+		if (action.isEnabled()) {
+			action.setEnabled(!getPPProject().containsErrors());
+		}
+	}
 
 	public void run(IAction action) {
 
@@ -87,8 +99,7 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 					MessageDialog
 							.openError(
 									targetPart.getSite().getShell(),
-									projectHandle.getProjectLabel()
-											+ " Plugin",
+									projectHandle.getProjectLabel() + " Plugin",
 									"Plugin '"
 											+ projectHandle.getProjectDetails()
 													.getName()

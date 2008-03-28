@@ -219,6 +219,21 @@ public class ArtifactBasedRule extends TemplateBasedRule implements
 				}
 			}
 
+			// Bug 224655
+			if (index == -1) {
+				// This means the plugin was deployed with an incorrect artifact
+				// type
+				// or the current profile disabled the corresponding artifact
+				if (artifactType == null || artifactType.length() == 0) {
+					throw new TigerstripeException("Rule '" + getName()
+							+ "' is incomplete: no artifact type.");
+				} else {
+					throw new TigerstripeException("Rule '" + getName()
+							+ "' can't be run because '" + artifactType
+							+ "' is disabled in active profile.");
+				}
+			}
+
 			String[] baseSupportedArtifactLabels = metaSession
 					.getSupportedArtifactTypeLabels();
 			String artifactLabel;

@@ -14,7 +14,9 @@ import java.io.File;
 import java.net.URI;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -24,6 +26,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -148,6 +151,23 @@ public abstract class AbstractTigerstripeProjectHandle extends
 								+ e.getMessage(), e);
 			}
 		}
+	}
+
+	public boolean containsErrors() {
+		IProject project = (IProject) this.getAdapter(IProject.class);
+		try {
+			IMarker[] markers = project.findMarkers(IMarker.PROBLEM, true,
+					IResource.DEPTH_INFINITE);
+			for (int i = 0; i < markers.length; i++) {
+				if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(
+						IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
+					return true;
+				}
+			}
+		} catch (CoreException e) {
+			BasePlugin.log(e);
+		}
+		return false;
 	}
 
 }
