@@ -8,21 +8,9 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics;
+package org.eclipse.tigerstripe.workbench.model.deprecated_.ossj;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjUpdateProcedureSpecifics;
 
-public class OssjUpdateProcedureSpecifics extends OssjArtifactSpecifics
-		implements IOssjUpdateProcedureSpecifics {
-
-	public OssjUpdateProcedureSpecifics(AbstractArtifact artifact) {
-		super(artifact);
-	}
-
-	@Override
-	public void build() {
-		super.build();
-	}
+public interface IOssjSessionSpecifics extends IOssjArtifactSpecifics {
 
 }

@@ -188,7 +188,7 @@ public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 		// with
 		// already selected entities.
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-		List selectedOptions = Arrays.asList(session.getNamedQueries());
+		Collection<INamedQuery> selectedOptions = session.getNamedQueries();
 
 		Collection queries = new ArrayList();
 		IArtifactManagerSession ams = session.getTigerstripeProject()

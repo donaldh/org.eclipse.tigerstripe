@@ -13,8 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics;
 import java.util.Properties;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEntitySpecifics;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
@@ -22,6 +20,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.internal.core.model.tags.PropertiesConstants;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEntitySpecifics;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjFlavorDefaults;
 
 public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 		IOssjEntitySpecifics {

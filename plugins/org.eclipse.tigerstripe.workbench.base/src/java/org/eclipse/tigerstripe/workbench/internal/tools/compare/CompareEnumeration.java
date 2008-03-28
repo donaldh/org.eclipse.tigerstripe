@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.internal.tools.compare;
 
 import java.util.ArrayList;
 
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEnumSpecifics;
 
 public class CompareEnumeration {
 

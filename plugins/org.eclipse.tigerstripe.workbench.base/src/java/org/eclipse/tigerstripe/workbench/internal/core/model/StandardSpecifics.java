@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IStandardSpecifics;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IStandardSpecifics;
 
 public class StandardSpecifics implements IStandardSpecifics {
 

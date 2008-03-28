@@ -14,13 +14,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjSessionSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifactTag;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjSessionSpecifics;
 
 public class OssjSessionFacadeSpecifics extends OssjArtifactSpecifics implements
 		IOssjSessionSpecifics {

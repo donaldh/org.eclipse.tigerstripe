@@ -8,28 +8,22 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
+package org.eclipse.tigerstripe.workbench.model.deprecated_.ossj;
 
+import java.util.Properties;
 
-public interface IOssjDatatypeSpecifics extends IOssjArtifactSpecifics {
+public interface IOssjArtifactSpecifics extends IStandardSpecifics {
 
-	public void setSingleExtensionType(boolean single);
+	public void setInterfaceProperties(Properties interfaceProperties);
 
-	public void setSessionFactoryMethods(boolean sessionBased);
+	public void mergeInterfaceProperties(Properties interfaceProperties);
+
+	public void applyDefaults();
 
 	/**
-	 * Whether methods are session factory methods.
+	 * Returns the interface properties for an OSSJ Artifact
 	 * 
 	 * @return
 	 */
-	public boolean isSessionFactoryMethods();
-
-	/**
-	 * Whether this datatype can only be extended with a single stream of
-	 * datatypes.
-	 * 
-	 * @return
-	 */
-	public boolean isSingleExtensionType();
-
+	public Properties getInterfaceProperties();
 }

@@ -8,32 +8,21 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
+package org.eclipse.tigerstripe.workbench.model.deprecated_.ossj;
 
 
-public interface IOssjEventSpecifics extends IOssjArtifactSpecifics {
-
-	public void setEventDescriptorEntries(IEventDescriptorEntry[] entries);
-
-	public void setCustomEventDescriptorEntries(IEventDescriptorEntry[] entries);
+public interface IOssjDatatypeSpecifics extends IOssjArtifactSpecifics {
 
 	public void setSingleExtensionType(boolean single);
 
-	/**
-	 * Returns an array of IEventDescriptorEntry that are those specified
-	 * directly by the user.
-	 * 
-	 * @return
-	 */
-	public IEventDescriptorEntry[] getCustomEventDescriptorEntries();
+	public void setSessionFactoryMethods(boolean sessionBased);
 
 	/**
-	 * Returns an array of IEventDescriptorEntry that are those specified in
-	 * the tree view of the editor - ie based on the attributes of the event.
+	 * Whether methods are session factory methods.
 	 * 
 	 * @return
 	 */
-	public IEventDescriptorEntry[] getEventDescriptorEntries();
+	public boolean isSessionFactoryMethods();
 
 	/**
 	 * Whether this datatype can only be extended with a single stream of

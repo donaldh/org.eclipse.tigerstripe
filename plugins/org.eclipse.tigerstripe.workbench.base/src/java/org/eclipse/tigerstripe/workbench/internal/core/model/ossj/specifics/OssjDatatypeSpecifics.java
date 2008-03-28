@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics;
 
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjDatatypeSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjDatatypeSpecifics;
 
 public class OssjDatatypeSpecifics extends OssjArtifactSpecifics implements
 		IOssjDatatypeSpecifics {

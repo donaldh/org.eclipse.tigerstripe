@@ -49,10 +49,10 @@ import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.eclipse.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.eclipse.wizards.artifacts.NewArtifactWizardPage;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.MethodPropertiesDialog;
 
 /**

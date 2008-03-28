@@ -8,9 +8,27 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
+package org.eclipse.tigerstripe.workbench.model.deprecated_.ossj;
 
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 
-public interface IOssjExceptionSpecifics extends IOssjArtifactSpecifics {
+public interface IOssjEnumSpecifics extends IOssjArtifactSpecifics {
 
+	public void setBaseIType(IType type);
+
+	public void setExtensible(boolean extensible);
+
+	/**
+	 * Return the basetype for this Enumeration
+	 * 
+	 * @return
+	 */
+	public IType getBaseIType();
+
+	/**
+	 * Whether this enumeration can be extended.
+	 * 
+	 * @return
+	 */
+	public boolean getExtensible();
 }

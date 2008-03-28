@@ -58,7 +58,7 @@ public class LocalGenerationAction extends BaseDiagramPartAction implements
 		return null;
 	}
 
-	@Override
+	
 	public void run(IAction action) {
 		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
 		Wizard wizard = new NewTigerstripeM0RunWizard();

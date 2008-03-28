@@ -8,27 +8,38 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
+package org.eclipse.tigerstripe.workbench.model.deprecated_.ossj;
 
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 
-public interface IOssjEnumSpecifics extends IOssjArtifactSpecifics {
+public interface IOssjQuerySpecifics extends IOssjArtifactSpecifics {
 
-	public void setBaseIType(IType type);
+	public void setReturnedEntityIType(IType type);
 
-	public void setExtensible(boolean extensible);
+	public void setSingleExtensionType(boolean single);
+
+	public void setSessionFactoryMethods(boolean sessionBased);
 
 	/**
-	 * Return the basetype for this Enumeration
+	 * The returned type for this Query Artifact
 	 * 
 	 * @return
 	 */
-	public IType getBaseIType();
+	public IType getReturnedEntityIType();
 
 	/**
-	 * Whether this enumeration can be extended.
+	 * Whether methods are session factory methods.
 	 * 
 	 * @return
 	 */
-	public boolean getExtensible();
+	public boolean isSessionFactoryMethods();
+
+	/**
+	 * Whether this datatype can only be extended with a single stream of
+	 * datatypes.
+	 * 
+	 * @return
+	 */
+	public boolean isSingleExtensionType();
+
 }

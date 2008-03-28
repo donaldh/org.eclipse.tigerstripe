@@ -8,28 +8,9 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj;
+package org.eclipse.tigerstripe.workbench.model.deprecated_.ossj;
 
 
-public interface IEventDescriptorEntry  {
-
-	public void setLabel(String label);
-
-	public void setPrimitiveType(String type);
-
-	/**
-	 * Returns the label for the Entry.
-	 * 
-	 * @return String - the Label of the Entry
-	 */
-	public String getLabel();
-
-	/**
-	 * Returns a String of the name of the primitive type of the Entry.
-	 * 
-	 * 
-	 * @return String - the name of teh primitive type
-	 */
-	public String getPrimitiveType();
+public interface IStandardSpecifics  {
 
 }

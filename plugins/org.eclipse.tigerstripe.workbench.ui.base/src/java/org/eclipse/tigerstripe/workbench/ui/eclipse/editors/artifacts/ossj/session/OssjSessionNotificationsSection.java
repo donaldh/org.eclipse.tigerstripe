@@ -190,7 +190,7 @@ public class OssjSessionNotificationsSection extends OssjSessionElementsSection 
 		// with
 		// already selected entities.
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-		List selectedOptions = Arrays.asList(session.getEmittedEvents());
+		Collection<IEmittedEvent> selectedOptions = session.getEmittedEvents();
 
 		Collection queries = new ArrayList();
 		IArtifactManagerSession ams = session.getTigerstripeProject()

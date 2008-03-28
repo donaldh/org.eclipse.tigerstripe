@@ -192,8 +192,8 @@ public class OssjSessionUpdateProceduresSection extends
 		// with
 		// already selected entities.
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-		List selectedOptions = Arrays.asList(session
-				.getExposedUpdateProcedures());
+		Collection<IExposedUpdateProcedure> selectedOptions = session
+				.getExposedUpdateProcedures();
 
 		Collection procs = new ArrayList();
 		IArtifactManagerSession ams = session.getTigerstripeProject()

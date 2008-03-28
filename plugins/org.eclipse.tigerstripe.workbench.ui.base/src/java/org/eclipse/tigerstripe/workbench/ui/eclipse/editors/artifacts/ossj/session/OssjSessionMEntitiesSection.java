@@ -251,7 +251,7 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 		// with
 		// already selected entities.
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-		List selectedOptions = Arrays.asList(session.getManagedEntityDetails());
+		Collection<IManagedEntityDetails> selectedOptions = session.getManagedEntityDetails();
 
 		Collection entities = new ArrayList();
 		IArtifactManagerSession ams = session.getTigerstripeProject()

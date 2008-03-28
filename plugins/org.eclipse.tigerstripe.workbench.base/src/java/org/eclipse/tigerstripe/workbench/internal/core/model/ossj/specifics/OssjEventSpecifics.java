@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IEventDescriptorEntry;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.ossj.IOssjEventSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifactTag;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IEventDescriptorEntry;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEventSpecifics;
 
 public class OssjEventSpecifics extends OssjArtifactSpecifics implements
 		IOssjEventSpecifics {
