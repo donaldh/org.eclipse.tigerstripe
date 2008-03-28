@@ -73,11 +73,16 @@ public final class TSExplorerMessages extends NLS {
 	public static String PackageExplorer_title;
 	public static String PackageExplorer_toolTip;
 	public static String PackageExplorer_toolTip2;
+	public static String PackageExplorer_toolTip3;
 	public static String PackageExplorer_openWith;
 	public static String PackageExplorer_element_not_present;
 	public static String PackageExplorer_filteredDialog_title;
 	public static String PackageExplorer_notFound;
 	public static String PackageExplorer_removeFilters;
+	public static String LibraryContainer_name;
+	public static String LayoutActionGroup_show_libraries_in_group;
+	public static String PackageExplorerPart_removeFiltersSpecific;
+	public static String PackageExplorerPart_notFoundSepcific;
 	public static String SelectionTransferDropAdapter_error_title;
 	public static String SelectionTransferDropAdapter_error_message;
 	public static String SelectionTransferDropAdapter_dialog_title;
