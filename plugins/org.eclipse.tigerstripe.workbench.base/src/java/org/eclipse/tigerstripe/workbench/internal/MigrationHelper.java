@@ -82,6 +82,16 @@ public class MigrationHelper {
 	}
 
 	/**
+	 * This method migrates the artifactType in Artifact based rules
+	 * 
+	 * @param artifactType
+	 * @return
+	 */
+	public static String pluginMigrateArtifactType(String artifactType) {
+		return profileMigrateAnnotationArtifactLevelType(artifactType);
+	}
+
+	/**
 	 * This method is useful to check that all the types going thru here are
 	 * found, if not it means we have missed a migration case.
 	 * 

@@ -20,6 +20,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
@@ -133,7 +134,8 @@ public class ArtifactBasedRule extends TemplateBasedRule implements
 			setModelClass(body.getAttribute("modelClass"));
 			setModelClassName(body.getAttribute("modelClassName"));
 			setArtifactFilterClass(body.getAttribute("artifactFilterClass"));
-			setArtifactType(body.getAttribute("artifactType"));
+			setArtifactType(MigrationHelper.pluginMigrateArtifactType(body
+					.getAttribute("artifactType")));
 			setSuppressEmptyFilesStr(body.getAttribute("suppressFiles"));
 			setOverwriteFilesStr(body.getAttribute("overwriteFiles"));
 			setIncludeDependenciesStr(body.getAttribute("includeDependencies"));
