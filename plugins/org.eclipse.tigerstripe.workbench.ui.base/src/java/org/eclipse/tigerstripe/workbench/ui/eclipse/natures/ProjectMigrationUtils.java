@@ -94,7 +94,7 @@ public class ProjectMigrationUtils {
 						}
 					};
 
-					projectMigrate.setRule(project);
+					projectMigrate.setRule(project.getWorkspace().getRoot());
 					projectMigrate.schedule();
 				}
 			} catch (JavaModelException e) {
