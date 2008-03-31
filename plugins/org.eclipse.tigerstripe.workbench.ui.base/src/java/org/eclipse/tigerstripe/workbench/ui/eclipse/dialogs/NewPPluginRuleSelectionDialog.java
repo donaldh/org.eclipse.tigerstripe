@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
 
 /**
@@ -44,7 +44,7 @@ public class NewPPluginRuleSelectionDialog extends TSMessageDialog {
 
 	private ComboDialogField ruleTypeCombo;
 
-	private ITigerstripePluginProject ppProject;
+	private ITigerstripeGeneratorProject ppProject;
 
 	private IRule result;
 
@@ -76,7 +76,7 @@ public class NewPPluginRuleSelectionDialog extends TSMessageDialog {
 	}
 
 	public NewPPluginRuleSelectionDialog(Shell parentShell,
-			String initialRuleName, ITigerstripePluginProject ppProject,
+			String initialRuleName, ITigerstripeGeneratorProject ppProject,
 			Class[] supportedRules, String[] supportedRuleLabels,
 			IRule[] existingRules) {
 		super(parentShell);

@@ -20,7 +20,7 @@ package org.eclipse.tigerstripe.workbench.plugins;
  * and placed in the velocity context.
  * 
  * @author Eric Dillon
- * @since 1.2
+ * @since 0.3
  */
 public interface IArtifactBasedTemplateRule extends ITemplateBasedRule {
 

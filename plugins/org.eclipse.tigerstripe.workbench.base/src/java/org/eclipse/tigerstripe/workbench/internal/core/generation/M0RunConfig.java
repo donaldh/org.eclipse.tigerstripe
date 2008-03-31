@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  */
 public class M0RunConfig extends RunConfig {
 
+	
 	/**
 	 * Use M0Generator.defaultRunConfig(ITigerstripeModelProject project) as a
 	 * factory to get all the defaults from a given project

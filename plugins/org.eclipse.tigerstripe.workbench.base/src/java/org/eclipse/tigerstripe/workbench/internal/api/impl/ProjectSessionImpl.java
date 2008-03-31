@@ -29,7 +29,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.Generat
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public class ProjectSessionImpl {
 
@@ -43,7 +43,7 @@ public class ProjectSessionImpl {
 
 	public String[] getSupportedTigerstripeProjects() {
 		return new String[] { TigerstripeOssjProjectHandle.class.getName(),
-				ITigerstripePluginProject.class.getName(),
+				ITigerstripeM1GeneratorProject.class.getName(),
 				ITigerstripeM0GeneratorProject.class.getName() };
 	}
 
@@ -105,7 +105,7 @@ public class ProjectSessionImpl {
 		} else if (projectType == null) {
 			IAbstractTigerstripeProject result = null;
 			projectType = findProjectType(projectURI);
-			if (projectType.equals(ITigerstripePluginProject.class.getName())) {
+			if (projectType.equals(ITigerstripeM1GeneratorProject.class.getName())) {
 				// TODO select the right type
 				result = new TigerstripePluginProjectHandle(projectURI);
 			} else if (projectType.equals(ITigerstripeM0GeneratorProject.class
@@ -118,7 +118,7 @@ public class ProjectSessionImpl {
 			return result;
 		} else {
 			IAbstractTigerstripeProject result = null;
-			if (ITigerstripePluginProject.class.getName().equals(projectType)) {
+			if (ITigerstripeM1GeneratorProject.class.getName().equals(projectType)) {
 				result = new TigerstripePluginProjectHandle(projectURI);
 			} else {
 				result = new TigerstripeOssjProjectHandle(projectURI);
@@ -148,7 +148,7 @@ public class ProjectSessionImpl {
 				if (file.endsWith(ITigerstripeConstants.PROJECT_DESCRIPTOR))
 					return TigerstripeOssjProjectHandle.class.getName();
 				else if (file.endsWith(ITigerstripeConstants.PLUGIN_DESCRIPTOR))
-					return ITigerstripePluginProject.class.getName();
+					return ITigerstripeM1GeneratorProject.class.getName();
 				else if (file
 						.endsWith(ITigerstripeConstants.M0_GENERATOR_DESCRIPTOR))
 					return ITigerstripeM0GeneratorProject.class.getName();
@@ -211,8 +211,8 @@ public class ProjectSessionImpl {
 					// part of
 					// REFRESHALL
 				}
-			} else if (result instanceof ITigerstripePluginProject
-					&& workingCopy instanceof ITigerstripePluginProject) {
+			} else if (result instanceof ITigerstripeM1GeneratorProject
+					&& workingCopy instanceof ITigerstripeM1GeneratorProject) {
 				TigerstripePluginProjectHandle handle = (TigerstripePluginProjectHandle) result;
 				TigerstripePluginProjectHandle workingHandle = (TigerstripePluginProjectHandle) workingCopy;
 				GeneratorProjectDescriptor project = handle.getDescriptor();

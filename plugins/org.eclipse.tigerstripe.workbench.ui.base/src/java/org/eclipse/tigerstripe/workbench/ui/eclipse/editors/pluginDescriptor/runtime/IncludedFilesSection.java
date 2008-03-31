@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -266,10 +266,10 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 		final ITigerstripeGeneratorProject project = getIPluggablePluginProject();
 		final List<String> excludes = Arrays
 				.asList(project
-						.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE));
+						.getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE));
 		final List<String> includes = Arrays
 				.asList(project
-						.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE));
+						.getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE));
 
 		fTreeViewer.getTree().getDisplay().asyncExec(new Runnable() {
 
@@ -365,22 +365,22 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 		try {
 			if (!wasTopParentChecked) {
 				project.addAdditionalFile(resourceName,
-						ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE);
+						ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE);
 				markPageModified();
 				refreshUponStateChange(
-						ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE,
+						ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE,
 						null, resourceName);
 			}
 
 			if (Arrays
 					.asList(
 							project
-									.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE))
+									.getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE))
 					.contains(resourceName)) {
 				project.removeAdditionalFile(resourceName,
-						ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE);
+						ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE);
 				refreshUponStateChange(
-						ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE,
+						ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE,
 						resourceName, null);
 				markPageModified();
 			}
@@ -411,19 +411,19 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 			ITigerstripeGeneratorProject project = getIPluggablePluginProject();
 			List<String> excludes = Arrays
 					.asList(project
-							.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE));
+							.getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE));
 			List<String> includes = Arrays
 					.asList(project
-							.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE));
+							.getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE));
 
 			if (fTreeViewer.getChecked(resource.getParent())) {
 				if (!excludes.contains(resourceName)
 						&& (includes != null ? !includes.contains(resourceName)
 								: true)) {
 					project.addAdditionalFile(resourceName,
-							ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE);
+							ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE);
 					refreshUponStateChange(
-							ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE,
+							ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE,
 							null, resourceName);
 					markPageModified();
 				}
@@ -431,9 +431,9 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 			if (includes != null) {
 				if (includes.contains(resourceName)) {
 					project.removeAdditionalFile(resourceName,
-							ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE);
+							ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE);
 					refreshUponStateChange(
-							ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE,
+							ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE,
 							resourceName, null);
 					markPageModified();
 				}
@@ -512,9 +512,9 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 		String parentFolder = getResourceFolderName(folder
 				.getProjectRelativePath().toString());
 
-		removeChildren(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE,
+		removeChildren(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE,
 				parentFolder);
-		removeChildren(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE,
+		removeChildren(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE,
 				parentFolder);
 	}
 
@@ -579,16 +579,16 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 			ITigerstripeGeneratorProject project = getIPluggablePluginProject();
 			List<String> excludes = Arrays
 					.asList(project
-							.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE));
+							.getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE));
 			List<String> includes = Arrays
 					.asList(project
-							.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE));
+							.getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE));
 
 			switch (includeExclude) {
-			case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
+			case ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE:
 				entries = includes;
 				break;
-			case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
+			case ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE:
 				entries = excludes;
 			}
 			if (entries != null) {

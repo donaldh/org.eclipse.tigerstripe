@@ -11,44 +11,19 @@
 package org.eclipse.tigerstripe.workbench.project;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.WorkingCopyException;
-import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
-import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
-import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
-import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 
 /**
- * A Pluggable plugin project
+ * A M1 (Class-based) Generator Project
  * 
  * @author Eric Dillon
- * @since 1.2
+ * @since 0.3
  */
-public interface ITigerstripePluginProject extends ITigerstripeGeneratorProject {
+public interface ITigerstripeM1GeneratorProject extends ITigerstripeGeneratorProject {
 
 	// ==================================================
 	// Rules-related definitions
-	/**
-	 * Global rules are run once per generation cycle
-	 * 
-	 */
-	public <T extends IRule> IRule makeRule(Class<T> ruleType)
-			throws TigerstripeException;
-
-	public IRule[] getGlobalRules() throws TigerstripeException;
-
-	public void addGlobalRule(IRule rule) throws TigerstripeException;
-
-	public void removeGlobalRule(IRule rule) throws TigerstripeException;
-
-	public void removeGlobalRules(IRule[] rules) throws TigerstripeException;
-
-	public void addGlobalRules(IRule[] rules) throws TigerstripeException;
-
-	public <T extends IRule> Class<T>[] getSupportedPluginRules();
-
 	public ITemplateBasedRule[] getArtifactRules() throws TigerstripeException;
 
 	public void addArtifactRule(ITemplateBasedRule rule)

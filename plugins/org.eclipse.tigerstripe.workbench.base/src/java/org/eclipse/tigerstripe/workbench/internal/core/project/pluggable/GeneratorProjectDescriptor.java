@@ -20,19 +20,23 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.project.AbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.BooleanPPluginProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.StringPPluginProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.TablePPluginProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime.PluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -60,6 +64,8 @@ public abstract class GeneratorProjectDescriptor extends
 	public static final String CLASSPATH_ENTRIES = "classpathEntries";
 	public static final String ADDITIONAL_FILES = "additionalFiles";
 
+	public static final String GLOBAL_RULES = "globalRules";
+
 	// The nature of this generator
 	private EPluggablePluginNature pluginNature;
 
@@ -79,6 +85,8 @@ public abstract class GeneratorProjectDescriptor extends
 	private List<String> additionalFilesInclude;
 	private List<String> additionalFilesExclude;
 
+	private List<IRule> globalRules;
+
 	protected GeneratorProjectDescriptor(IContainer projectContainer,
 			String descriptorFilename) {
 		super(projectContainer.getLocation().toFile(), descriptorFilename);
@@ -86,6 +94,7 @@ public abstract class GeneratorProjectDescriptor extends
 		classpathEntries = new ArrayList<IPluginClasspathEntry>();
 		additionalFilesInclude = new ArrayList<String>();
 		additionalFilesExclude = new ArrayList<String>();
+		globalRules = new ArrayList<IRule>();
 	}
 
 	/**
@@ -99,6 +108,7 @@ public abstract class GeneratorProjectDescriptor extends
 		classpathEntries = new ArrayList<IPluginClasspathEntry>();
 		additionalFilesInclude = new ArrayList<String>();
 		additionalFilesExclude = new ArrayList<String>();
+		globalRules = new ArrayList<IRule>();
 	}
 
 	public String[] getSupportedPluginPropertyLabels() {
@@ -201,6 +211,12 @@ public abstract class GeneratorProjectDescriptor extends
 		}
 	}
 
+	public void addGlobalProperties(IPluginProperty[] properties) {
+		for (IPluginProperty property : properties) {
+			addGlobalProperty(property);
+		}
+	}
+
 	public void removeGlobalProperty(IPluginProperty property) {
 		setDirty();
 		globalProperties.remove(property);
@@ -232,6 +248,82 @@ public abstract class GeneratorProjectDescriptor extends
 		}
 		throw new TigerstripeException("Un-supported property type "
 				+ propertyType);
+	}
+
+	public void addGlobalRules(IRule[] rules) {
+		globalRules.addAll(Arrays.asList(rules));
+	}
+
+	public void addGlobalRule(IRule rule) {
+		if (!globalRules.contains(rule)) {
+			setDirty();
+			globalRules.add(rule);
+			if (rule instanceof IContainedObject) {
+				IContainedObject obj = (IContainedObject) rule;
+				obj.setContainer(this);
+			} else {
+				throw new IllegalArgumentException("Rule of type "
+						+ rule.getClass().getName()
+						+ " must implement IContainedObject.");
+			}
+		}
+	}
+
+	public void removeGlobalRules(IRule[] rules) {
+		for (IRule rule : rules) {
+			removeGlobalRule(rule);
+		}
+	}
+
+	public void removeGlobalRule(IRule rule) {
+		setDirty();
+		globalRules.remove(rule);
+		if (rule instanceof IContainedObject) {
+			IContainedObject obj = (IContainedObject) rule;
+			obj.setContainer(null);
+		}
+	}
+
+	public IRule[] getGlobalRules() {
+		return this.globalRules.toArray(new IRule[globalRules.size()]);
+	}
+
+	protected void clearGlobalRules() {
+		globalRules.clear();
+	}
+
+	@SuppressWarnings("unchecked")
+	public abstract <T extends IRule> Class<T>[] getSupportedGlobalRules();
+
+	@SuppressWarnings("unchecked")
+	protected abstract <T extends IRule> Class<T>[] getSupportedGlobalRulesImpl();
+
+	public abstract String[] getSupportedPluginRuleLabels();
+
+	public <T extends IRule> IRule makeRule(Class<T> ruleType)
+			throws TigerstripeException {
+
+		// First look thru list of Global Rules
+		for (int index = 0; index < getSupportedGlobalRules().length; index++) {
+			@SuppressWarnings("unchecked")
+			Class type = getSupportedGlobalRules()[index];
+			if (type == ruleType) {
+				@SuppressWarnings("unchecked")
+				Class targetImpl = getSupportedGlobalRulesImpl()[index];
+				try {
+					IRule result = (IRule) targetImpl.newInstance();
+					return result;
+				} catch (IllegalAccessException e) {
+					throw new TigerstripeException("Couldn't instantiate "
+							+ ruleType + ": " + e.getMessage(), e);
+				} catch (InstantiationException e) {
+					throw new TigerstripeException("Couldn't instantiate "
+							+ ruleType + ": " + e.getMessage(), e);
+				}
+			}
+		}
+
+		return null;
 	}
 
 	public IPluginClasspathEntry[] getClasspathEntries() {
@@ -277,9 +369,9 @@ public abstract class GeneratorProjectDescriptor extends
 
 	public List<String> getAdditionalFiles(int includeExclude) {
 		switch (includeExclude) {
-		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
+		case ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE:
 			return additionalFilesInclude;
-		case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
+		case ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE:
 			return additionalFilesExclude;
 		default:
 			return additionalFilesInclude;
@@ -289,12 +381,12 @@ public abstract class GeneratorProjectDescriptor extends
 	public void addAdditionalFile(String relativePath, int includeExclude) {
 		setDirty();
 		switch (includeExclude) {
-		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
+		case ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE:
 			if (!additionalFilesInclude.contains(relativePath)) {
 				additionalFilesInclude.add(relativePath);
 			}
 			break;
-		case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
+		case ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE:
 			if (!additionalFilesExclude.contains(relativePath)) {
 				additionalFilesExclude.add(relativePath);
 			}
@@ -304,12 +396,12 @@ public abstract class GeneratorProjectDescriptor extends
 	public void removeAdditionalFile(String relativePath, int includeExclude) {
 		setDirty();
 		switch (includeExclude) {
-		case ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE:
+		case ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE:
 			if (additionalFilesInclude.contains(relativePath)) {
 				additionalFilesInclude.remove(relativePath);
 			}
 			break;
-		case ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE:
+		case ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE:
 			if (additionalFilesExclude.contains(relativePath)) {
 				additionalFilesExclude.remove(relativePath);
 			}
@@ -366,19 +458,46 @@ public abstract class GeneratorProjectDescriptor extends
 		Element additionalFilesElement = document
 				.createElement(ADDITIONAL_FILES);
 
-		for (String entry : getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE)) {
+		for (String entry : getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE)) {
 			Element propElm = document.createElement("includeEntry");
 			propElm.setAttribute("relativePath", entry);
 			additionalFilesElement.appendChild(propElm);
 		}
 
-		for (String entry : getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE)) {
+		for (String entry : getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE)) {
 			Element propElm = document.createElement("excludeEntry");
 			propElm.setAttribute("relativePath", entry);
 			additionalFilesElement.appendChild(propElm);
 		}
 		return additionalFilesElement;
 
+	}
+
+	protected Element buildGlobalRulesElement(Document document) {
+		Element globalProperties = document.createElement(GLOBAL_RULES);
+
+		for (IRule rule : getGlobalRules()) {
+			Element propElm = document.createElement("rule");
+			propElm.setAttribute("name", rule.getName());
+			propElm.setAttribute("type", rule.getType());
+			propElm.setAttribute("description", rule.getDescription());
+			propElm.setAttribute("enabled", String.valueOf(rule.isEnabled()));
+
+			if (rule instanceof ITemplateBasedRule) {
+				ITemplateBasedRule tRule = (ITemplateBasedRule) rule;
+				for (VelocityContextDefinition def : tRule
+						.getVelocityContextDefinitions()) {
+					Element ctx = document.createElement("contextEntry");
+					ctx.setAttribute("entry", def.getName());
+					ctx.setAttribute("classname", def.getClassname());
+					propElm.appendChild(ctx);
+				}
+			}
+			propElm.appendChild(((Rule) rule).getBodyAsNode(document));
+			globalProperties.appendChild(propElm);
+		}
+
+		return globalProperties;
 	}
 
 	protected void loadPluginNature(Document document) {
@@ -509,6 +628,59 @@ public abstract class GeneratorProjectDescriptor extends
 			String relPath = entry.getAttribute("relativePath");
 			if (relPath != null && relPath.length() != 0) {
 				additionalFilesExclude.add(relPath);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected void loadGlobalRules(Document document) {
+
+		clearGlobalRules();
+
+		NodeList globalProps = document.getElementsByTagName(GLOBAL_RULES);
+		if (globalProps.getLength() != 1)
+			return;
+
+		Element globals = (Element) globalProps.item(0);
+		NodeList rules = globals.getElementsByTagName("rule");
+		for (int index = 0; index < rules.getLength(); index++) {
+			Element rule = (Element) rules.item(index);
+			String name = rule.getAttribute("name");
+			String typeStr = MigrationHelper.pluginMigrateRuleType(rule
+					.getAttribute("type"));
+			String description = rule.getAttribute("description");
+			String enabled = "true";
+			if (rule.hasAttribute("enabled")) {
+				enabled = rule.getAttribute("enabled");
+			}
+
+			try {
+				Class type = Class.forName(typeStr);
+				IRule iRule = makeRule(type);
+				iRule.setName(name);
+				iRule.setDescription(description);
+				iRule.setEnabled(Boolean.parseBoolean(enabled));
+
+				if (iRule instanceof ITemplateBasedRule) {
+					ITemplateBasedRule tRunRule = (ITemplateBasedRule) iRule;
+					NodeList contextEntries = rule
+							.getElementsByTagName("contextEntry");
+					for (int i = 0; i < contextEntries.getLength(); i++) {
+						Element entry = (Element) contextEntries.item(i);
+						VelocityContextDefinition def = new VelocityContextDefinition();
+						def.setClassname(entry.getAttribute("classname"));
+						def.setName(entry.getAttribute("entry"));
+						tRunRule.addVelocityContextDefinition(def);
+					}
+				}
+
+				((Rule) iRule).buildBodyFromNode(rule);
+				addGlobalRule(iRule);
+
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			} catch (ClassNotFoundException e) {
+				BasePlugin.log(e);
 			}
 		}
 	}

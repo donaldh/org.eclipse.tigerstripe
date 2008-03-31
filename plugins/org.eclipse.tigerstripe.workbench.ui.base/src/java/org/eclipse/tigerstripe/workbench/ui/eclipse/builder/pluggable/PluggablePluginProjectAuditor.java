@@ -33,7 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 
@@ -131,7 +131,7 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 
 		monitor.beginTask("Audit Tigerstripe Project", 8);
 
-		ITigerstripePluginProject pProject = (ITigerstripePluginProject) TSExplorerUtils
+		ITigerstripeM1GeneratorProject pProject = (ITigerstripeM1GeneratorProject) TSExplorerUtils
 				.getProjectHandleFor(getProject());
 
 		IResource projectDescriptor = getProject().findMember(

@@ -46,7 +46,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -120,8 +120,8 @@ public class ClasspathEntrySection extends GeneratorDescriptorSectionPart
 	class MasterContentProvider implements IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof ITigerstripePluginProject) {
-				ITigerstripePluginProject project = (ITigerstripePluginProject) inputElement;
+			if (inputElement instanceof ITigerstripeM1GeneratorProject) {
+				ITigerstripeM1GeneratorProject project = (ITigerstripeM1GeneratorProject) inputElement;
 				try {
 					return project.getClasspathEntries();
 				} catch (TigerstripeException e) {

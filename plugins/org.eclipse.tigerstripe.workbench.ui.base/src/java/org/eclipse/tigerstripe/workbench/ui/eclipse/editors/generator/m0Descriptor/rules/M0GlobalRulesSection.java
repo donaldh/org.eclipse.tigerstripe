@@ -8,7 +8,7 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules;
+package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.m0Descriptor.rules;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -20,13 +20,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.M0GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.details.ArtifactBasedRuleDetailsPage;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.RulesSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.details.SimpleRuleDetailsPage;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -37,14 +38,27 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author Eric Dillon
  * 
  */
-public class ArtifactRulesSection extends RulesSectionPart implements IFormPart {
+public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart {
+
+	public M0GlobalRulesSection(TigerstripeFormPage page, Composite parent,
+			FormToolkit toolkit) {
+		super(page, parent, toolkit, ExpandableComposite.TWISTIE);
+		setTitle("&Global Rules");
+		setDescription("Define the rules to be run once only per generation with this plugin.");
+		getSection().marginWidth = 10;
+		getSection().marginHeight = 5;
+		getSection().clientVerticalSpacing = 4;
+
+		createContent();
+		updateMaster();
+	}
 
 	class MasterContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof ITigerstripeM1GeneratorProject) {
-				ITigerstripeM1GeneratorProject pPlugin = (ITigerstripeM1GeneratorProject) inputElement;
+			if (inputElement instanceof ITigerstripeGeneratorProject) {
+				ITigerstripeGeneratorProject pPlugin = (ITigerstripeGeneratorProject) inputElement;
 				try {
-					return pPlugin.getArtifactRules();
+					return pPlugin.getGlobalRules();
 				} catch (TigerstripeException e) {
 					return new ITemplateBasedRule[0];
 				}
@@ -64,41 +78,23 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 		return new MasterContentProvider();
 	}
 
-	public ArtifactRulesSection(TigerstripeFormPage page, Composite parent,
-			FormToolkit toolkit) {
-		super(page, parent, toolkit, ExpandableComposite.TWISTIE);
-		setTitle("&Artifact Rules");
-		setDescription("Define the rules to be run while iterating over instances of a specific Artifact type.");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
-
-		createContent();
-		updateMaster();
-	}
-
-	@Override
-	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(ArtifactBasedRule.class,
-				new ArtifactBasedRuleDetailsPage(this));
-	}
-
 	@Override
 	protected void addButtonSelected(SelectionEvent event) {
 
 		try {
-			ITigerstripeM1GeneratorProject pProject = (ITigerstripeM1GeneratorProject) getIPluggablePluginProject();
+			ITigerstripeGeneratorProject pProject = getIPluggablePluginProject();
+
 			NewPPluginRuleSelectionDialog dialog = new NewPPluginRuleSelectionDialog(
 					getBody().getShell(), findNewRuleName(), pProject, pProject
-							.getSupportedPluginArtifactRules(), pProject
-							.getSupportedPluginArtifactRuleLabels(), pProject
-							.getArtifactRules());
+							.getSupportedGlobalRules(), pProject
+							.getSupportedGlobalRuleLabels(), pProject
+							.getGlobalRules());
 
 			if (dialog.open() == Window.OK) {
 				IRule newRule = dialog.getNewPPluginRule();
-				if (newRule instanceof ITemplateBasedRule) {
+				if (newRule != null) {
 					try {
-						pProject.addArtifactRule((ITemplateBasedRule) newRule);
+						pProject.addGlobalRule(newRule);
 						getViewer().add(newRule);
 						getViewer().setSelection(
 								new StructuredSelection(newRule), true);
@@ -120,10 +116,10 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 	@Override
 	protected void removeButtonSelected(SelectionEvent event) {
 		TableItem[] selectedItems = getViewer().getTable().getSelection();
-		ITemplateBasedRule[] selectedFields = new ITemplateBasedRule[selectedItems.length];
+		IRule[] selectedFields = new IRule[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (ITemplateBasedRule) selectedItems[i].getData();
+			selectedFields[i] = (IRule) selectedItems[i].getData();
 		}
 
 		String message = "Do you really want to remove ";
@@ -139,8 +135,7 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 
 		if (msgDialog.open() == 0) {
 			try {
-				((ITigerstripeM1GeneratorProject) getIPluggablePluginProject())
-						.removeArtifactRules(selectedFields);
+				getIPluggablePluginProject().removeGlobalRules(selectedFields);
 				getViewer().remove(selectedFields);
 				markPageModified();
 			} catch (TigerstripeException e) {
@@ -151,14 +146,18 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 	}
 
 	@Override
+	protected void registerPages(DetailsPart detailsPart) {
+		 detailsPart.registerPage(M0GlobalTemplateRule.class,
+				new SimpleRuleDetailsPage(this));
+	}
+
+	@Override
 	protected String getTooltipText() {
-		return "Define/Edit artifact template rules for this plugin.";
+		return "Define/Edit global M0 template rules for this plugin.";
 	}
 
 	@Override
 	protected String getDescription() {
-		return "Artifact template rules:";
+		return "Global M0 template rules:";
 	}
-	
-	
 }

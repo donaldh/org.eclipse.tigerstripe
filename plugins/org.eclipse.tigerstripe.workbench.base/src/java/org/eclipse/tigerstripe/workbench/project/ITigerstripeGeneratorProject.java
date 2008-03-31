@@ -15,6 +15,7 @@ import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 
 public interface ITigerstripeGeneratorProject extends
@@ -38,6 +39,27 @@ public interface ITigerstripeGeneratorProject extends
 			throws WorkingCopyException, TigerstripeException;
 
 	public <T extends IPluginProperty> Class<T>[] getSupportedProperties();
+
+	public IRule[] getGlobalRules() throws TigerstripeException;
+
+	public void addGlobalRule(IRule rule) throws TigerstripeException;
+
+	public void removeGlobalRule(IRule rule) throws TigerstripeException;
+
+	public void removeGlobalRules(IRule[] rules) throws TigerstripeException;
+
+	public void addGlobalRules(IRule[] rules) throws TigerstripeException;
+
+	public <T extends IRule> Class<T>[] getSupportedGlobalRules();
+
+	public String[] getSupportedGlobalRuleLabels();
+	
+	/**
+	 * Global rules are run once per generation cycle
+	 * 
+	 */
+	public <T extends IRule> IRule makeRule(Class<T> ruleType)
+			throws TigerstripeException;
 
 	/**
 	 * Factory method for Plugin properties

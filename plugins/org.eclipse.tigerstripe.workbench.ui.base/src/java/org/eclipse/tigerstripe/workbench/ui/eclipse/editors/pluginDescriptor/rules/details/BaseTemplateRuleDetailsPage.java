@@ -48,7 +48,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.GeneratorProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -222,11 +222,9 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 					File file = (File) toAdd[i];
 
 					try {
-						String relative = Util
-								.getRelativePath(
-										file,
-										((TigerstripePluginProjectHandle) getPPProject())
-												.getDescriptor().getBaseDir());
+						String relative = Util.getRelativePath(file,
+								((GeneratorProjectHandle) getPPProject())
+										.getDescriptor().getBaseDir());
 
 						IPath path = new Path(relative);
 						IResource res = baseFile.getParent().findMember(path);
@@ -591,7 +589,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 
 				try {
 					String relative = Util.getRelativePath(file,
-							((TigerstripePluginProjectHandle) getPPProject())
+							((GeneratorProjectHandle) getPPProject())
 									.getDescriptor().getBaseDir());
 
 					IPath path = new Path(relative);

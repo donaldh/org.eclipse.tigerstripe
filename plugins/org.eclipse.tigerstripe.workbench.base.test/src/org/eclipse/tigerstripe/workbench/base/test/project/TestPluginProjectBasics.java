@@ -20,18 +20,18 @@ import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public class TestPluginProjectBasics extends TestCase {
 
-	private ITigerstripePluginProject project;
+	private ITigerstripeM1GeneratorProject project;
 
 	@Override
 	protected void setUp() throws Exception {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
 		projectDetails.setName("TestPluginProjectBasics");
-		project = (ITigerstripePluginProject) TigerstripeCore.createProject(
-				projectDetails, null, ITigerstripePluginProject.class, null,
+		project = (ITigerstripeM1GeneratorProject) TigerstripeCore.createProject(
+				projectDetails, null, ITigerstripeM1GeneratorProject.class, null,
 				null);
 	}
 
@@ -57,7 +57,7 @@ public class TestPluginProjectBasics extends TestCase {
 				project.addGlobalProperty(property);
 				fail("addGlobalProperty on original shouldn't be allowed.");
 			} catch (WorkingCopyException e) {
-				ITigerstripePluginProject copy = (ITigerstripePluginProject) project
+				ITigerstripeM1GeneratorProject copy = (ITigerstripeM1GeneratorProject) project
 						.makeWorkingCopy(null);
 				copy.addGlobalProperty(property);
 			}
@@ -68,7 +68,7 @@ public class TestPluginProjectBasics extends TestCase {
 				project.removeGlobalProperty(property);
 				fail("addGlobalProperty on original shouldn't be allowed.");
 			} catch (WorkingCopyException e) {
-				ITigerstripePluginProject copy = (ITigerstripePluginProject) project
+				ITigerstripeM1GeneratorProject copy = (ITigerstripeM1GeneratorProject) project
 						.makeWorkingCopy(null);
 				copy.removeGlobalProperty(property);
 			}
@@ -77,7 +77,7 @@ public class TestPluginProjectBasics extends TestCase {
 
 	public <T extends IRule> void testSupportedGlobalRules()
 			throws TigerstripeException {
-		Class<T> supported[] = project.getSupportedPluginRules();
+		Class<T> supported[] = project.getSupportedGlobalRules();
 
 		assertTrue(supported.length != 0);
 
@@ -104,7 +104,7 @@ public class TestPluginProjectBasics extends TestCase {
 			project.setPluginNature(EPluggablePluginNature.Generic);
 			fail("setPluginNature should fail on original.");
 		} catch (WorkingCopyException e) {
-			ITigerstripePluginProject copy = (ITigerstripePluginProject) project
+			ITigerstripeM1GeneratorProject copy = (ITigerstripeM1GeneratorProject) project
 					.makeWorkingCopy(null);
 			copy.setPluginNature(EPluggablePluginNature.Generic);
 			copy.commit(null);

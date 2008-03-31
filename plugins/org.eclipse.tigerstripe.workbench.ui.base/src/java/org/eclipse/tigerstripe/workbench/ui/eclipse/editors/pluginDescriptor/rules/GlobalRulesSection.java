@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.C
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.details.CopyRuleDetailsPage;
@@ -57,8 +57,8 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 
 	class MasterContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof ITigerstripePluginProject) {
-				ITigerstripePluginProject pPlugin = (ITigerstripePluginProject) inputElement;
+			if (inputElement instanceof ITigerstripeM1GeneratorProject) {
+				ITigerstripeM1GeneratorProject pPlugin = (ITigerstripeM1GeneratorProject) inputElement;
 				try {
 					return pPlugin.getGlobalRules();
 				} catch (TigerstripeException e) {
@@ -84,13 +84,13 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 	protected void addButtonSelected(SelectionEvent event) {
 
 		try {
-			ITigerstripePluginProject pProject = (ITigerstripePluginProject) getIPluggablePluginProject();
+			ITigerstripeM1GeneratorProject pProject = (ITigerstripeM1GeneratorProject) getIPluggablePluginProject();
 
 			NewPPluginRuleSelectionDialog dialog = new NewPPluginRuleSelectionDialog(
 					getBody().getShell(), findNewRuleName(), pProject, pProject
-							.getSupportedPluginRules(),
+							.getSupportedGlobalRules(),
 					((TigerstripePluginProjectHandle) pProject)
-							.getSupportedPluginRuleLabels(), pProject
+							.getSupportedGlobalRuleLabels(), pProject
 							.getGlobalRules());
 
 			if (dialog.open() == Window.OK) {
@@ -138,7 +138,7 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 
 		if (msgDialog.open() == 0) {
 			try {
-				((ITigerstripePluginProject) getIPluggablePluginProject())
+				((ITigerstripeM1GeneratorProject) getIPluggablePluginProject())
 						.removeGlobalRules(selectedFields);
 				getViewer().remove(selectedFields);
 				markPageModified();

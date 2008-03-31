@@ -33,7 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 /**
  * Whenever a Plugin Project needs to be deployed/packaged up, the operation is
@@ -120,9 +120,9 @@ public class PluggablePluginProjectPackager {
 		String baseDir = projectDir + File.separator;
 
 		List<String> includePaths = descriptor
-				.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_INCLUDE);
+				.getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE);
 		List<String> excludePaths = descriptor
-				.getAdditionalFiles(ITigerstripePluginProject.ADDITIONAL_FILE_EXCLUDE);
+				.getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE);
 		for (String path : includePaths) {
 			String entryPath = baseDir + path;
 			File target = new File(entryPath);

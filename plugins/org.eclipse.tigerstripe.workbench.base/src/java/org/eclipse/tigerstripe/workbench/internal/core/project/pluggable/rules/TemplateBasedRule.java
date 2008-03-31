@@ -27,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactNoFilter;
@@ -42,11 +43,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.util.VelocityContextUtil;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -330,7 +331,7 @@ public abstract class TemplateBasedRule extends Rule implements
 	}
 
 	protected File getOutputFile(PluggablePluginConfig pluginConfig,
-			String outputFile, M1RunConfig config) throws TigerstripeException {
+			String outputFile, RunConfig config) throws TigerstripeException {
 		String outputPath = "";
 		String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
 				.getOutputDirectory();
@@ -359,7 +360,7 @@ public abstract class TemplateBasedRule extends Rule implements
 	}
 
 	protected Writer getDefaultWriter(PluggablePluginConfig pluginConfig,
-			String outputFile, M1RunConfig config) throws TigerstripeException {
+			String outputFile, RunConfig config) throws TigerstripeException {
 
 		try {
 			File outputFileF = getOutputFile(pluginConfig, outputFile, config);

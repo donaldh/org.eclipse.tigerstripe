@@ -22,7 +22,7 @@ import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 
@@ -54,7 +54,7 @@ public class PluginLogger {
 	 * 
 	 * @param pluginConfig
 	 */
-	public static void setUpForRun(PluginConfig pluginConfig, M1RunConfig config)
+	public static void setUpForRun(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 		PluginLogger.pluginConfig = pluginConfig;
 
@@ -65,7 +65,7 @@ public class PluginLogger {
 		}
 	}
 
-	private static void initLogger(PluginConfig pluginConfig, M1RunConfig config)
+	private static void initLogger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 
 		try {

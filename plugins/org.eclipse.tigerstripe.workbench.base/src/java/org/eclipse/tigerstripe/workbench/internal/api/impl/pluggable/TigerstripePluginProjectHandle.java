@@ -22,10 +22,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
-import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 /**
  * 
@@ -33,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
  * @since 1.2
  */
 public class TigerstripePluginProjectHandle extends GeneratorProjectHandle
-		implements ITigerstripePluginProject {
+		implements ITigerstripeM1GeneratorProject {
 
 	private PluggablePluginProject descriptor;
 
@@ -65,57 +64,6 @@ public class TigerstripePluginProjectHandle extends GeneratorProjectHandle
 			throws WorkingCopyException, TigerstripeException {
 		assertSet();
 		getDescriptor().setProjectDetails((ProjectDetails) projectDetails);
-	}
-
-	// =========================================
-
-	public void addGlobalRule(IRule rule) throws TigerstripeException {
-		assertSet();
-		((PluggablePluginProject) getDescriptor()).addGlobalRule(rule);
-	}
-
-	public void addGlobalRules(IRule[] rules) throws TigerstripeException {
-		for (IRule rule : rules) {
-			addGlobalRule(rule);
-		}
-	}
-
-	public IRule[] getGlobalRules() throws TigerstripeException {
-		return ((PluggablePluginProject) getDescriptor()).getGlobalRules();
-	}
-
-	public void removeGlobalRule(IRule rule) throws TigerstripeException {
-		assertSet();
-		((PluggablePluginProject) getDescriptor()).removeGlobalRule(rule);
-	}
-
-	public void removeGlobalRules(IRule[] rules) throws TigerstripeException {
-		assertSet();
-		((PluggablePluginProject) getDescriptor()).removeGlobalRules(rules);
-	}
-
-	@SuppressWarnings("unchecked")
-	public <T extends IRule> Class<T>[] getSupportedPluginRules() {
-		try {
-			return ((PluggablePluginProject) getDescriptor())
-					.getSupportedPluginRules();
-		} catch (TigerstripeException e) {
-			return new Class[0];
-		}
-	}
-
-	public String[] getSupportedPluginRuleLabels() {
-		try {
-			return ((PluggablePluginProject) getDescriptor())
-					.getSupportedPluginRuleLabels();
-		} catch (TigerstripeException e) {
-			return new String[0];
-		}
-	}
-
-	public <T extends IRule> IRule makeRule(Class<T> ruleType)
-			throws TigerstripeException {
-		return ((PluggablePluginProject) getDescriptor()).makeRule(ruleType);
 	}
 
 	// =========================================

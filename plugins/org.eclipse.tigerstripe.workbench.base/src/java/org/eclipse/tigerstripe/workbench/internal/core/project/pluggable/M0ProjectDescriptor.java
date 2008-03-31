@@ -24,7 +24,10 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.M0GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -41,6 +44,14 @@ public class M0ProjectDescriptor extends GeneratorProjectDescriptor {
 
 	private final static String ROOT_TAG = "m0-generator";
 
+	@SuppressWarnings("unchecked")
+	private final static Class[] SUPPORTED_RULES = { IGlobalTemplateRule.class };
+
+	private final static String[] SUPPORTED_RULES_LABELS = { M0GlobalTemplateRule.LABEL };
+
+	@SuppressWarnings("unchecked")
+	private final static Class[] RULES_IMPL = { M0GlobalTemplateRule.class };
+
 	public M0ProjectDescriptor(File baseDir) {
 		super(baseDir, ITigerstripeConstants.M0_GENERATOR_DESCRIPTOR);
 		setPluginNature(EPluggablePluginNature.M0);
@@ -50,6 +61,23 @@ public class M0ProjectDescriptor extends GeneratorProjectDescriptor {
 	public boolean requiresDescriptorUpgrade() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends IRule> Class<T>[] getSupportedGlobalRules() {
+		return SUPPORTED_RULES;
+	}
+
+	@Override
+	public String[] getSupportedPluginRuleLabels() {
+		return SUPPORTED_RULES_LABELS;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	protected <T extends IRule> Class<T>[] getSupportedGlobalRulesImpl() {
+		return RULES_IMPL;
 	}
 
 	@Override
@@ -69,7 +97,7 @@ public class M0ProjectDescriptor extends GeneratorProjectDescriptor {
 			root.appendChild(buildNatureElement(document));
 			root.appendChild(buildLoggerElement(document));
 			root.appendChild(buildGlobalPropertiesElement(document));
-			// root.appendChild(buildGlobalRulesElement(document));
+			 root.appendChild(buildGlobalRulesElement(document));
 			// root.appendChild(buildArtifactRulesElement(document));
 			root.appendChild(buildClasspathEntriesElement(document));
 			root.appendChild(buildAdditionalFilesElement(document));
@@ -108,7 +136,7 @@ public class M0ProjectDescriptor extends GeneratorProjectDescriptor {
 			loadPluginNature(document);
 			loadLogger(document);
 			loadGlobalProperties(document);
-			// loadGlobalRules(document);
+			loadGlobalRules(document);
 			// loadArtifactRules(document);
 			loadClasspathEntries(document);
 			loadAdditionalFiles(document);

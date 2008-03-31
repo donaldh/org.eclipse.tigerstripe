@@ -21,7 +21,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.utils.PluginDeploymentHelper;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbench;
@@ -36,7 +36,7 @@ public class UnDeployPluginActionDelegate extends BasePluginActionDelegate
 			return;
 		IRunnableWithProgress op = null;
 		try {
-			ITigerstripePluginProject projectHandle = getPPProject();
+			ITigerstripeM1GeneratorProject projectHandle = getPPProject();
 			final PluginDeploymentHelper helper = new PluginDeploymentHelper(
 					projectHandle);
 			op = new IRunnableWithProgress() {
@@ -93,7 +93,7 @@ public class UnDeployPluginActionDelegate extends BasePluginActionDelegate
 	protected void checkEnabled(IAction action, IStructuredSelection selection) {
 		super.checkEnabled(action, selection);
 		if (action.isEnabled()) {
-			ITigerstripePluginProject ppProject = getPPProject();
+			ITigerstripeM1GeneratorProject ppProject = getPPProject();
 			if (ppProject != null) {
 				try {
 					PluginDeploymentHelper helper = new PluginDeploymentHelper(

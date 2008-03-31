@@ -28,8 +28,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  */
 public class M1RunConfig extends RunConfig implements IM1RunConfig {
 
-	private IProgressMonitor monitor;
-
 	private boolean clearDirectoryBeforeGenerate = "true"
 			.equalsIgnoreCase(IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT);
 
@@ -52,8 +50,6 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 
 	private boolean generateReferencedProjects = "true"
 			.equalsIgnoreCase(IProjectDetails.GENERATE_REFPROJECTS_DEFAULT);
-
-	private String absoluteOutputDir = null;
 
 	private String processUseCaseExtension = "html";
 
@@ -117,16 +113,6 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	 */
 	public void setProcessedUseCaseExtension(String processUseCaseExtension) {
 		this.processUseCaseExtension = processUseCaseExtension;
-	}
-
-	public void setMonitor(IProgressMonitor monitor) {
-		this.monitor = monitor;
-	}
-
-	public IProgressMonitor getMonitor() {
-		if (monitor == null)
-			monitor = new NullProgressMonitor();
-		return monitor;
 	}
 
 	/* package */M1RunConfig(ITigerstripeModelProject tsProject) {
@@ -199,24 +185,6 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 
 	public void setUsePluginConfigFacets(boolean usePluginConfigFacets) {
 		this.usePluginConfigFacets = usePluginConfigFacets;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setAbsoluteOutputDir(java.lang.String)
-	 */
-	public void setAbsoluteOutputDir(String absoluteOutputDir) {
-		this.absoluteOutputDir = absoluteOutputDir;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#getAbsoluteOutputDir()
-	 */
-	public String getAbsoluteOutputDir() {
-		return this.absoluteOutputDir;
 	}
 
 	/*

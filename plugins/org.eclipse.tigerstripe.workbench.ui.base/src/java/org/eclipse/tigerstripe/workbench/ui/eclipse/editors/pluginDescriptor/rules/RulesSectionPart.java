@@ -30,8 +30,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorSectionPart;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -104,7 +104,7 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 	protected void updateMaster() {
 
 		// Updates the state of the Remove Button
-		if (PluginDescriptorEditor.isEditable()
+		if (GeneratorDescriptorEditor.isEditable()
 				&& viewer.getSelection() != null
 				&& !viewer.getSelection().isEmpty()) {
 			removeAttributeButton.setEnabled(true);
@@ -167,9 +167,9 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
-		addAttributeButton.setEnabled(PluginDescriptorEditor.isEditable());
+		addAttributeButton.setEnabled(GeneratorDescriptorEditor.isEditable());
 		addAttributeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			addAttributeButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
 					addButtonSelected(event);
@@ -182,9 +182,10 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 		}
 		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
 				SWT.PUSH);
-		removeAttributeButton.setEnabled(PluginDescriptorEditor.isEditable());
+		removeAttributeButton
+				.setEnabled(GeneratorDescriptorEditor.isEditable());
 		removeAttributeButton.setLayoutData(new TableWrapData());
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			removeAttributeButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
 					removeButtonSelected(event);
@@ -233,7 +234,7 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 	protected abstract void addButtonSelected(SelectionEvent event);
 
 	public void markPageModified() {
-		PluginDescriptorEditor editor = (PluginDescriptorEditor) getPage()
+		GeneratorDescriptorEditor editor = (GeneratorDescriptorEditor) getPage()
 				.getEditor();
 		editor.pageModified();
 	}

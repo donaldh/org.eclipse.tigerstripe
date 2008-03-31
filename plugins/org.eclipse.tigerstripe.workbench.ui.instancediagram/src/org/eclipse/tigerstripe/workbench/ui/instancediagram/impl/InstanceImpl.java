@@ -271,4 +271,25 @@ public class InstanceImpl extends NamedElementImpl implements Instance {
 		return null;
 	}
 
+	/**
+	 * This is preliminary until the metamodel is complete
+	 * 
+	 * @preliminary
+	 * @return
+	 */
+	public String getInstanceName() {
+		return this.artifactName;
+	}
+
+	/**
+	 * This is preliminary until the metamodel is complete
+	 * 
+	 * @preliminary
+	 * 
+	 * @return
+	 * @throws TigerstripeException
+	 */
+	public IAbstractArtifact getArtifact() throws TigerstripeException {
+		return getCorrespondingIArtifact();
+	}
 } // InstanceImpl

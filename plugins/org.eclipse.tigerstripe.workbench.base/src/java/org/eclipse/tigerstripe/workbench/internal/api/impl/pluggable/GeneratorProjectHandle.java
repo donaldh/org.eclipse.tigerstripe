@@ -19,7 +19,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
@@ -27,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
@@ -129,6 +129,55 @@ public abstract class GeneratorProjectHandle extends
 			throws TigerstripeException {
 		assertSet();
 		getDescriptor().setGlobalProperties(properties);
+	}
+
+	// =========================================
+
+	public void addGlobalRule(IRule rule) throws TigerstripeException {
+		assertSet();
+		getDescriptor().addGlobalRule(rule);
+	}
+
+	public void addGlobalRules(IRule[] rules) throws TigerstripeException {
+		for (IRule rule : rules) {
+			addGlobalRule(rule);
+		}
+	}
+
+	public IRule[] getGlobalRules() throws TigerstripeException {
+		return getDescriptor().getGlobalRules();
+	}
+
+	public void removeGlobalRule(IRule rule) throws TigerstripeException {
+		assertSet();
+		getDescriptor().removeGlobalRule(rule);
+	}
+
+	public void removeGlobalRules(IRule[] rules) throws TigerstripeException {
+		assertSet();
+		getDescriptor().removeGlobalRules(rules);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends IRule> Class<T>[] getSupportedGlobalRules() {
+		try {
+			return getDescriptor().getSupportedGlobalRules();
+		} catch (TigerstripeException e) {
+			return new Class[0];
+		}
+	}
+
+	public String[] getSupportedGlobalRuleLabels() {
+		try {
+			return getDescriptor().getSupportedPluginRuleLabels();
+		} catch (TigerstripeException e) {
+			return new String[0];
+		}
+	}
+
+	public <T extends IRule> IRule makeRule(Class<T> ruleType)
+			throws TigerstripeException {
+		return getDescriptor().makeRule(ruleType);
 	}
 
 	protected abstract String getDescriptorFilename();

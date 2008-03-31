@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.GlobalRulesSection;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.rules.RulesSectionPart;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
@@ -31,7 +32,7 @@ public class SimpleRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 	private Button overwriteFilesButton;
 
-	public SimpleRuleDetailsPage(GlobalRulesSection master) {
+	public SimpleRuleDetailsPage(RulesSectionPart master) {
 		super(master);
 	}
 

@@ -10,11 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
@@ -58,14 +60,28 @@ public class LocalGenerationAction extends BaseDiagramPartAction implements
 		return null;
 	}
 
-	
+	/**
+	 * Returns a list containing all instances in this diagram
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	protected List<Object> getInstanceContext() {
+		List<Object> result = new ArrayList<Object>();
+		result.addAll(getMap().getClassInstances());
+		result.addAll(getMap().getAssociationInstances());
+		return result;
+	}
+
 	public void run(IAction action) {
 		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
-		Wizard wizard = new NewTigerstripeM0RunWizard();
+		NewTigerstripeM0RunWizard wizard = new NewTigerstripeM0RunWizard();
 		if (wizard instanceof IWorkbenchWizard) {
 			((IWorkbenchWizard) wizard).init(getWorkbench(),
 					getCurrentSelection());
 		}
+
+		wizard.setInstanceContext(getInstanceContext());
 
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 

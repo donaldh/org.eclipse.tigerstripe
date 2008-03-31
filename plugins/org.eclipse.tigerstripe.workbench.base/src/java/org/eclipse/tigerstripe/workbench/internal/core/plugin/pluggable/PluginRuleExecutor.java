@@ -16,9 +16,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
-import org.eclipse.tigerstripe.workbench.plugins.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 
@@ -39,10 +41,10 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 
 	private ArrayList<RuleReport> reports;
 
-	private M1RunConfig config;
+	private RunConfig config;
 
 	public PluginRuleExecutor(PluggablePlugin plugin,
-			PluggablePluginConfig pluginConfig, M1RunConfig config) {
+			PluggablePluginConfig pluginConfig, RunConfig config) {
 		this.plugin = plugin;
 		this.pluginConfig = pluginConfig;
 		this.config = config;
@@ -52,7 +54,7 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 		return this.plugin;
 	}
 
-	public M1RunConfig getConfig() {
+	public RunConfig getConfig() {
 		return this.config;
 	}
 
@@ -66,8 +68,8 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 		int counter = 0;
 		// take care of the global rules first
 		IProgressMonitor monitor = config.getMonitor();
-		IRule[] globalRules = ((PluggablePluginProject) plugin.getPProject())
-				.getGlobalRules();
+		IRule[] globalRules = ((GeneratorProjectDescriptor) plugin
+				.getPProject()).getGlobalRules();
 
 		monitor.beginTask("Running global rules", globalRules.length);
 		for (IRule rule : globalRules) {
@@ -85,27 +87,29 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 				+ "/" + globalRules.length + ") in "
 				+ (System.currentTimeMillis() - startTime));
 
-		long startTime2 = System.currentTimeMillis();
-		counter = 0;
-		// Then trigger all artifact-based rules
-		ITemplateBasedRule[] artifactRules = ((PluggablePluginProject) plugin
-				.getPProject()).getArtifactRules();
+		if (config instanceof M1RunConfig) {
+			long startTime2 = System.currentTimeMillis();
+			counter = 0;
+			// Then trigger all artifact-based rules
+			ITemplateBasedRule[] artifactRules = ((PluggablePluginProject) plugin
+					.getPProject()).getArtifactRules();
 
-		monitor.beginTask("Running artifact rules", artifactRules.length);
-		for (ITemplateBasedRule rule : artifactRules) {
-			monitor.subTask(rule.getName());
-			if (rule.isEnabled()) {
-				counter++;
-				((Rule) rule).trigger(pluginConfig, this);
-				RuleReport subReport = ((Rule) rule).getReport();
-				this.reports.add(subReport);
+			monitor.beginTask("Running artifact rules", artifactRules.length);
+			for (ITemplateBasedRule rule : artifactRules) {
+				monitor.subTask(rule.getName());
+				if (rule.isEnabled()) {
+					counter++;
+					((Rule) rule).trigger(pluginConfig, this);
+					RuleReport subReport = ((Rule) rule).getReport();
+					this.reports.add(subReport);
+				}
+				monitor.worked(1);
 			}
-			monitor.worked(1);
+			monitor.done();
+			TigerstripeRuntime.logTraceMessage("     Ran artifact rules ("
+					+ counter + "/" + artifactRules.length + ") in "
+					+ (System.currentTimeMillis() - startTime2));
 		}
-		monitor.done();
-		TigerstripeRuntime.logTraceMessage("     Ran artifact rules ("
-				+ counter + "/" + artifactRules.length + ") in "
-				+ (System.currentTimeMillis() - startTime2));
 	}
 
 	public ArrayList<RuleReport> getReports() {

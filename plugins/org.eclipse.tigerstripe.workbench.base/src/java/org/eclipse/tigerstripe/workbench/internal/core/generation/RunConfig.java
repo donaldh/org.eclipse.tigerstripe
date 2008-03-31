@@ -10,8 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
-import org.apache.velocity.VelocityContext;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
@@ -30,6 +31,8 @@ public abstract class RunConfig {
 
 	// The target project
 	private ITigerstripeModelProject targetProject;
+	private IProgressMonitor monitor;
+
 
 	// Project relative output path
 	private IPath outputPath;
@@ -40,6 +43,9 @@ public abstract class RunConfig {
 	protected RunConfig(ITigerstripeModelProject project) {
 		targetProject = project;
 	}
+
+	@Deprecated
+	private String absoluteOutputDir = null;
 
 	/**
 	 * Factory method for all generation Configs
@@ -92,6 +98,34 @@ public abstract class RunConfig {
 
 	public ITigerstripeModelProject getTargetProject() {
 		return targetProject;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#setAbsoluteOutputDir(java.lang.String)
+	 */
+	public void setAbsoluteOutputDir(String absoluteOutputDir) {
+		this.absoluteOutputDir = absoluteOutputDir;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.workbench.generation.IRunConfig#getAbsoluteOutputDir()
+	 */
+	public String getAbsoluteOutputDir() {
+		return this.absoluteOutputDir;
+	}
+
+	public void setMonitor(IProgressMonitor monitor) {
+		this.monitor = monitor;
+	}
+
+	public IProgressMonitor getMonitor() {
+		if (monitor == null)
+			monitor = new NullProgressMonitor();
+		return monitor;
 	}
 
 }

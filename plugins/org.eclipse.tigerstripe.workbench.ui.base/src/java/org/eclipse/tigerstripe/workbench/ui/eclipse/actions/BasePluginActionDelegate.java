@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class BasePluginActionDelegate {
@@ -44,7 +44,7 @@ public class BasePluginActionDelegate {
 		return targetPart.getSite().getShell();
 	}
 
-	protected ITigerstripePluginProject getPPProject() {
+	protected ITigerstripeM1GeneratorProject getPPProject() {
 		if (selection == null)
 			return null;
 		IAbstractTigerstripeProject tsProject = null;
@@ -53,15 +53,15 @@ public class BasePluginActionDelegate {
 			IResource res = (IResource) obj;
 			IProject proj = res.getProject();
 			tsProject = EclipsePlugin.getITigerstripeProjectFor(proj);
-			if (tsProject instanceof ITigerstripePluginProject)
-				return (ITigerstripePluginProject) tsProject;
+			if (tsProject instanceof ITigerstripeM1GeneratorProject)
+				return (ITigerstripeM1GeneratorProject) tsProject;
 		} else if ( obj instanceof IAdaptable ) {
 			IResource res = (IResource) ((IAdaptable) obj).getAdapter(IResource.class);
 			if ( res != null ) {
 				IProject proj = res.getProject();
 				tsProject = EclipsePlugin.getITigerstripeProjectFor(proj);
-				if (tsProject instanceof ITigerstripePluginProject)
-					return (ITigerstripePluginProject) tsProject;
+				if (tsProject instanceof ITigerstripeM1GeneratorProject)
+					return (ITigerstripeM1GeneratorProject) tsProject;
 			}
 		}
 		return null;
@@ -82,7 +82,7 @@ public class BasePluginActionDelegate {
 				&& LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.DEPLOY_UNDEPLOY) {
 			action.setEnabled(false);
 		} else {
-			ITigerstripePluginProject ppProject = getPPProject();
+			ITigerstripeM1GeneratorProject ppProject = getPPProject();
 			action.setEnabled(ppProject != null);
 		}
 	}

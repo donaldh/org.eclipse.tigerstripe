@@ -23,11 +23,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.Velocity
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
 
-	public GlobalRuleAuditor(ITigerstripePluginProject pProject, IProject project) {
+	public GlobalRuleAuditor(ITigerstripeM1GeneratorProject pProject, IProject project) {
 		super(pProject, project);
 	}
 

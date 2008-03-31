@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactNoFilter;
@@ -244,7 +245,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 		return this.housing.getLabel();
 	}
 
-	public void trigger(M1RunConfig config) throws TigerstripeException {
+	public void trigger(RunConfig config) throws TigerstripeException {
 		if (this.housing != null && isEnabled()) {
 			this.housing.trigger(this, config);
 		}

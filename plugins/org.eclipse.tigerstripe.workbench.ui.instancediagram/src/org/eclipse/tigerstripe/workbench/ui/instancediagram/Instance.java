@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Instance</b></em>'.
  * <!-- end-user-doc -->
@@ -91,4 +94,21 @@ public interface Instance extends NamedElement {
 	 */
 	String getFullyQualifiedName();
 
+	/**
+	 * This is preliminary until the metamodel is complete
+	 * 
+	 * @preliminary
+	 * 
+	 * @return
+	 * @throws TigerstripeException
+	 */
+	public IAbstractArtifact getArtifact() throws TigerstripeException;
+
+	/**
+	 * This is preliminary until the metamodel is complete
+	 * 
+	 * @preliminary
+	 * @return
+	 */
+	public String getInstanceName();
 } // Instance

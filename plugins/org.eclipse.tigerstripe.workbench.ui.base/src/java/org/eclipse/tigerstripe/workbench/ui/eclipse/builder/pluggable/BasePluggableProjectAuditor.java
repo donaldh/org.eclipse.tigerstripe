@@ -13,15 +13,15 @@ package org.eclipse.tigerstripe.workbench.ui.eclipse.builder.pluggable;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripePluginProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public abstract class BasePluggableProjectAuditor {
 
-	private ITigerstripePluginProject pProject;
+	private ITigerstripeM1GeneratorProject pProject;
 	private IProject project;
 	protected IResource projectDescriptor;
 
-	protected ITigerstripePluginProject getPProject() {
+	protected ITigerstripeM1GeneratorProject getPProject() {
 		return pProject;
 	}
 
@@ -29,7 +29,7 @@ public abstract class BasePluggableProjectAuditor {
 		return project;
 	}
 
-	public BasePluggableProjectAuditor(ITigerstripePluginProject pProject,
+	public BasePluggableProjectAuditor(ITigerstripeM1GeneratorProject pProject,
 			IProject project) {
 		this.project = project;
 		this.pProject = pProject;

@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -32,15 +31,14 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedRule;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
-import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
-import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -53,8 +51,8 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 	public static final String DEFAULT_FILENAME = ITigerstripeConstants.PLUGIN_DESCRIPTOR;
 
 	@SuppressWarnings("unchecked")
-	private final static Class[] SUPPORTED_RULES = {
-			IGlobalTemplateRule.class, ICopyRule.class };
+	private final static Class[] SUPPORTED_RULES = { IGlobalTemplateRule.class,
+			ICopyRule.class };
 
 	private final static String[] SUPPORTED_RULES_LABELS = {
 			GlobalTemplateRule.LABEL, CopyRule.LABEL };
@@ -76,47 +74,14 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 	// This defines the compatibility level for the project descriptor;
 	public static final String COMPATIBILITY_LEVEL = "1.2";
 
-	public static final String GLOBAL_RULES = "globalRules";
-
 	public static final String ARTIFACT_RULES = "artifactRules";
-
-	private List<IRule> globalRules;
 
 	private List<ITemplateBasedRule> artifactRules;
 
 	public PluggablePluginProject(File baseDir) {
 		super(baseDir, ITigerstripeConstants.PLUGIN_DESCRIPTOR);
-		globalRules = new ArrayList<IRule>();
 		artifactRules = new ArrayList<ITemplateBasedRule>();
 		setPluginNature(EPluggablePluginNature.Generic);
-	}
-
-	protected Element buildGlobalRulesElement(Document document) {
-		Element globalProperties = document.createElement(GLOBAL_RULES);
-
-		for (IRule rule : getGlobalRules()) {
-			Element propElm = document.createElement("rule");
-			propElm.setAttribute("name", rule.getName());
-			propElm.setAttribute("type", rule.getType());
-			propElm.setAttribute("description", rule.getDescription());
-			propElm.setAttribute("enabled", String.valueOf(rule.isEnabled()));
-
-			if (rule instanceof ITemplateBasedRule) {
-				ITemplateBasedRule tRule = (ITemplateBasedRule) rule;
-				for (VelocityContextDefinition def : tRule
-						.getVelocityContextDefinitions()) {
-					Element ctx = document.createElement("contextEntry");
-					ctx.setAttribute("entry", def.getName());
-					ctx.setAttribute("classname", def.getClassname());
-					propElm.appendChild(ctx);
-				}
-			}
-			propElm.appendChild(((Rule) rule)
-					.getBodyAsNode(document));
-			globalProperties.appendChild(propElm);
-		}
-
-		return globalProperties;
 	}
 
 	protected Element buildArtifactRulesElement(Document document) {
@@ -137,8 +102,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 				propElm.appendChild(ctx);
 			}
 
-			propElm.appendChild(((Rule) rule)
-					.getBodyAsNode(document));
+			propElm.appendChild(((Rule) rule).getBodyAsNode(document));
 			artifactRules.appendChild(propElm);
 		}
 
@@ -236,60 +200,6 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 			throw new TigerstripeException(Messages.UNKNOWN_ERROR, ioe);
 		}
 	}
-
-	@SuppressWarnings("unchecked")
-	protected void loadGlobalRules(Document document) {
-
-		globalRules.clear();
-
-		NodeList globalProps = document.getElementsByTagName(GLOBAL_RULES);
-		if (globalProps.getLength() != 1)
-			return;
-
-		Element globals = (Element) globalProps.item(0);
-		NodeList rules = globals.getElementsByTagName("rule");
-		for (int index = 0; index < rules.getLength(); index++) {
-			Element rule = (Element) rules.item(index);
-			String name = rule.getAttribute("name");
-			String typeStr = MigrationHelper.pluginMigrateRuleType(rule
-					.getAttribute("type"));
-			String description = rule.getAttribute("description");
-			String enabled = "true";
-			if (rule.hasAttribute("enabled")) {
-				enabled = rule.getAttribute("enabled");
-			}
-
-			try {
-				Class type = Class.forName(typeStr);
-				IRule iRule = makeRule(type);
-				iRule.setName(name);
-				iRule.setDescription(description);
-				iRule.setEnabled(Boolean.parseBoolean(enabled));
-
-				if (iRule instanceof ITemplateBasedRule) {
-					ITemplateBasedRule tRunRule = (ITemplateBasedRule) iRule;
-					NodeList contextEntries = rule
-							.getElementsByTagName("contextEntry");
-					for (int i = 0; i < contextEntries.getLength(); i++) {
-						Element entry = (Element) contextEntries.item(i);
-						VelocityContextDefinition def = new VelocityContextDefinition();
-						def.setClassname(entry.getAttribute("classname"));
-						def.setName(entry.getAttribute("entry"));
-						tRunRule.addVelocityContextDefinition(def);
-					}
-				}
-
-				((Rule) iRule).buildBodyFromNode(rule);
-				addGlobalRule(iRule);
-
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			} catch (ClassNotFoundException e) {
-				BasePlugin.log(e);
-			}
-		}
-	}
-
 	@SuppressWarnings("unchecked")
 	protected void loadArtifactRules(Document document) {
 
@@ -363,52 +273,8 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		return superValid & isValid;
 	}
 
-	public void addGlobalProperties(IPluginProperty[] properties) {
-		for (IPluginProperty property : properties) {
-			addGlobalProperty(property);
-		}
-	}
-
-	public void addGlobalRules(IRule[] rules) {
-		globalRules.addAll(Arrays.asList(rules));
-	}
-
-	public void addGlobalRule(IRule rule) {
-		if (!globalRules.contains(rule)) {
-			setDirty();
-			globalRules.add(rule);
-			if (rule instanceof IContainedObject) {
-				IContainedObject obj = (IContainedObject) rule;
-				obj.setContainer(this);
-			} else {
-				throw new IllegalArgumentException("Rule of type "
-						+ rule.getClass().getName()
-						+ " must implement IContainedObject.");
-			}
-		}
-	}
-
-	public void removeGlobalRules(IRule[] rules) {
-		for (IRule rule : rules) {
-			removeGlobalRule(rule);
-		}
-	}
-
-	public void removeGlobalRule(IRule rule) {
-		setDirty();
-		globalRules.remove(rule);
-		if (rule instanceof IContainedObject) {
-			IContainedObject obj = (IContainedObject) rule;
-			obj.setContainer(null);
-		}
-	}
-
-	public IRule[] getGlobalRules() {
-		return this.globalRules.toArray(new IRule[globalRules.size()]);
-	}
-
 	@SuppressWarnings("unchecked")
-	public <T extends IRule> Class<T>[] getSupportedPluginRules() {
+	public <T extends IRule> Class<T>[] getSupportedGlobalRules() {
 		return SUPPORTED_RULES;
 	}
 
@@ -466,46 +332,36 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		return SUPPORTED_ARTIFACTRULES_LABELS;
 	}
 
+	@Override
+	protected <T extends IRule> Class<T>[] getSupportedGlobalRulesImpl() {
+		return RULES_IMPL;
+	}
+
+	@Override
 	public <T extends IRule> IRule makeRule(Class<T> ruleType)
 			throws TigerstripeException {
 
-		// First look thru list of Global Rules
-		for (int index = 0; index < SUPPORTED_RULES.length; index++) {
-			@SuppressWarnings("unchecked")
-			Class type = SUPPORTED_RULES[index];
-			if (type == ruleType) {
+		IRule result = super.makeRule(ruleType);
+		if (result != null)
+			return result;
+		else {
+			// then look thru list of Artifact Rules
+			for (int index = 0; index < SUPPORTED_ARTIFACTRULES.length; index++) {
 				@SuppressWarnings("unchecked")
-				Class targetImpl = RULES_IMPL[index];
-				try {
-					IRule result = (IRule) targetImpl.newInstance();
-					return result;
-				} catch (IllegalAccessException e) {
-					throw new TigerstripeException("Couldn't instantiate "
-							+ ruleType + ": " + e.getMessage(), e);
-				} catch (InstantiationException e) {
-					throw new TigerstripeException("Couldn't instantiate "
-							+ ruleType + ": " + e.getMessage(), e);
-				}
-			}
-		}
-
-		// then look thru list of Artifact Rules
-		for (int index = 0; index < SUPPORTED_ARTIFACTRULES.length; index++) {
-			@SuppressWarnings("unchecked")
-			Class type = SUPPORTED_ARTIFACTRULES[index];
-			if (type == ruleType) {
-				@SuppressWarnings("unchecked")
-				Class targetImpl = ARTIFACTRULES_IMPL[index];
-				try {
-					ITemplateBasedRule result = (ITemplateBasedRule) targetImpl
-							.newInstance();
-					return result;
-				} catch (IllegalAccessException e) {
-					throw new TigerstripeException("Couldn't instantiate "
-							+ ruleType + ": " + e.getMessage(), e);
-				} catch (InstantiationException e) {
-					throw new TigerstripeException("Couldn't instantiate "
-							+ ruleType + ": " + e.getMessage(), e);
+				Class type = SUPPORTED_ARTIFACTRULES[index];
+				if (type == ruleType) {
+					@SuppressWarnings("unchecked")
+					Class targetImpl = ARTIFACTRULES_IMPL[index];
+					try {
+						result = (IRule) targetImpl.newInstance();
+						return result;
+					} catch (IllegalAccessException e) {
+						throw new TigerstripeException("Couldn't instantiate "
+								+ ruleType + ": " + e.getMessage(), e);
+					} catch (InstantiationException e) {
+						throw new TigerstripeException("Couldn't instantiate "
+								+ ruleType + ": " + e.getMessage(), e);
+					}
 				}
 			}
 		}

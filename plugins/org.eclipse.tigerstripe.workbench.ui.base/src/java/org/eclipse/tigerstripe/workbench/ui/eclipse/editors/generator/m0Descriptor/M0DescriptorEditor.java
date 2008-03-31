@@ -16,6 +16,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchP
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.GeneratorDescriptorErrorPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.m0Descriptor.header.M0OverviewPage;
+import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.generator.m0Descriptor.rules.M0DescriptorRulesPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.properties.PluginDescriptorPropertiesPage;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptor.runtime.RuntimePage;
 import org.eclipse.ui.PartInitException;
@@ -49,6 +50,11 @@ public class M0DescriptorEditor extends GeneratorDescriptorEditor {
 						this);
 				addPage(propertiesPage);
 				addModelPage(propertiesPage);
+
+				M0DescriptorRulesPage rulesPage = new M0DescriptorRulesPage(
+						this);
+				addPage(rulesPage);
+				addModelPage(rulesPage);
 
 				RuntimePage runtimePage = new RuntimePage(this);
 				addPage(runtimePage);

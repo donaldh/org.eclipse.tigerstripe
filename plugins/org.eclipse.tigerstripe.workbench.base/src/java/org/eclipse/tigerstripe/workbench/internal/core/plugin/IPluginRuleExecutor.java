@@ -8,9 +8,9 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.plugins;
+package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
-import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 
 public interface IPluginRuleExecutor {
@@ -22,5 +22,5 @@ public interface IPluginRuleExecutor {
 	 * 
 	 * @return
 	 */
-	public M1RunConfig getConfig();
+	public RunConfig getConfig();
 }

@@ -37,9 +37,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationCanc
 import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M0Generator;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M0RunConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.M1Generator;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.dialogs.GenerateResultDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
@@ -56,6 +53,8 @@ public class NewTigerstripeM0RunWizard extends NewTSElementWizard {
 	private NewTigerstripeM0RunWizardPage fPage;
 
 	private PluginRunStatus[] result;
+
+	private List<Object> instanceList;
 
 	public NewTigerstripeM0RunWizard() {
 		super();
@@ -74,14 +73,8 @@ public class NewTigerstripeM0RunWizard extends NewTSElementWizard {
 		fPage.init(getSelection());
 	}
 
-	private ITigerstripeModelProject getTSProject() throws TigerstripeException {
-		IAbstractTigerstripeProject result = EclipsePlugin
-				.getITigerstripeProjectFor(fPage.getIProject());
-
-		if (result instanceof ITigerstripeModelProject)
-			return (ITigerstripeModelProject) result;
-
-		throw new TigerstripeException("Invalid project");
+	public void setInstanceContext(List<Object> instanceList) {
+		this.instanceList = instanceList;
 	}
 
 	/*
@@ -95,6 +88,7 @@ public class NewTigerstripeM0RunWizard extends NewTSElementWizard {
 
 		try {
 			M0RunConfig config = fPage.getM0RunConfig();
+			config.setInstanceMap(this.instanceList);
 			M0Generator generator = new M0Generator(config);
 			result = generator.run(monitor);
 

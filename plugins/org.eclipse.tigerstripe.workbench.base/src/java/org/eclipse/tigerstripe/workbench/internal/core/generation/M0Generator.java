@@ -11,12 +11,19 @@
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
+import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -36,9 +43,14 @@ public class M0Generator {
 			throws TigerstripeException, GenerationException {
 		List<PluginRunStatus> result = new ArrayList<PluginRunStatus>();
 		monitor.beginTask("Generating.", config.getPluginConfigs().length);
+
+		Collection<PluginReport> reports = new ArrayList<PluginReport>();
+
 		for (IPluginConfig pConfig : config.getPluginConfigs()) {
 			monitor.subTask(pConfig.getPluginId());
 			if (pConfig.isEnabled()) {
+				// this is the case where there is no Facet whatsoever
+				internalPluginLoop(pConfig, result, reports, monitor);
 			}
 			monitor.worked(1);
 		}
@@ -46,4 +58,61 @@ public class M0Generator {
 		return result.toArray(new PluginRunStatus[result.size()]);
 	}
 
+	private void internalPluginLoop(IPluginConfig ref,
+			List<PluginRunStatus> result, Collection<PluginReport> reports,
+			IProgressMonitor monitor) throws TigerstripeException {
+		
+		PluginConfig pRef = (PluginConfig) ref;
+		ITigerstripeModelProject project = config.getTargetProject();
+		PluginLogger.setUpForRun( pRef, config);
+
+		PluginRunStatus pluginResult = new PluginRunStatus( pRef, project,
+				config, project.getActiveFacet());
+		try {
+			monitor.worked(1);
+			monitor.setTaskName("Running: " + pRef.getLabel());
+			pRef.resolve(); // Bug #741. Need to resolve the ref in
+			// case the underlying body changed.
+			// TODO Capture the list of generated stuff
+			config.setMonitor(monitor);
+			pRef.trigger(config);
+			if (!ref.validationFailed()) {
+				result.add(pluginResult);
+			}
+			PluginReport rep = pRef.getReport();
+			if (rep != null)
+				reports.add(rep);
+
+			monitor.worked(1);
+		} catch (TigerstripeException e) {
+			String failureMessage = "An error was detected while triggering '"
+					+ pRef.getLabel() + "' plugin. Generation maybe incomplete.";
+			if (!"".equals(e.getMessage())) {
+				failureMessage = e.getMessage()
+						+ ". Generation maybe incomplete.";
+			}
+
+			IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(),
+					failureMessage, e);
+			pluginResult.add(error);
+			result.add(pluginResult);
+			if (e.getException() != null) {
+				PluginLogger.log(LogLevel.ERROR, failureMessage, e
+						.getException());
+			} else {
+				PluginLogger.log(LogLevel.ERROR, failureMessage, e);
+			}
+		} catch (Exception e) {
+			String failureMessage = "An error was detected while triggering '"
+					+ pRef.getLabel() + "' plugin. Generation maybe incomplete.";
+			IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(),
+					failureMessage, e);
+			pluginResult.add(error);
+			result.add(pluginResult);
+			PluginLogger.log(LogLevel.ERROR, failureMessage, e);
+		} finally {
+			PluginLogger.tearDown();
+		}
+
+	}
 }

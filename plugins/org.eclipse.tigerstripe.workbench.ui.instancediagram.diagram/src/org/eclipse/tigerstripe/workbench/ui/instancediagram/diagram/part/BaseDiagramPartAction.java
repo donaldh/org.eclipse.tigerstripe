@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.InstanceMapEditPart;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.TigerstripeEditableEntityEditPart;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -59,9 +60,15 @@ public abstract class BaseDiagramPartAction {
 	}
 
 	protected InstanceMap getMap() {
-		if (mySelectedElement != null && mySelectedElement.getParent() != null)
-			return (InstanceMap) ((View) mySelectedElement.getParent()
-					.getModel()).getElement();
+		if (mySelectedElement != null && mySelectedElement.getParent() != null) {
+			if (mySelectedElement instanceof InstanceMapEditPart) {
+				InstanceMapEditPart part = (InstanceMapEditPart) mySelectedElement;
+				Diagram obj = (Diagram) part.getModel();
+				return (InstanceMap) obj.getElement();
+			} else
+				return (InstanceMap) ((View) mySelectedElement.getParent()
+						.getModel()).getElement();
+		}
 		return null;
 	}
 

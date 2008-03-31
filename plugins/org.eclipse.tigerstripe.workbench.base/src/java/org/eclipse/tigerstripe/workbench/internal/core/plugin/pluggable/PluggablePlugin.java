@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.BasePlugin;
@@ -72,7 +72,7 @@ public class PluggablePlugin extends BasePlugin {
 	public EPluggablePluginNature getPluginNature() {
 		return descriptor.getPluginNature();
 	}
-	
+
 	/**
 	 * Deletes all traces of this plugin on disk so it won't be reloaded
 	 * 
@@ -89,7 +89,7 @@ public class PluggablePlugin extends BasePlugin {
 		}
 	}
 
-	public void trigger(PluginConfig pluginConfig, M1RunConfig config)
+	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 		this.report = new PluggablePluginReport(pluginConfig);
 		this.report.setTemplate(TEMPLATE_PREFIX + "/" + REPORTTEMPLATE);
@@ -104,7 +104,8 @@ public class PluggablePlugin extends BasePlugin {
 		for (int i = 0; i < definedProps.length; i++) {
 			if (properties.getProperty(definedProps[i]) == null
 					|| properties.getProperty(definedProps[i]).length() == 0) {
-				for (IPluginProperty property : descriptor.getGlobalProperties()) {
+				for (IPluginProperty property : descriptor
+						.getGlobalProperties()) {
 					if (property.getName().equals(definedProps[i])) {
 						usableProps.setProperty(definedProps[i], property
 								.getDefaultValue().toString());
