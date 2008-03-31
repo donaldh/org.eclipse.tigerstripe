@@ -153,9 +153,12 @@ public class CopyRule extends Rule implements ICopyRule {
 					.getAbsolutePath();
 		}
 
-		if (getFilesetMatch().indexOf("*") != -1) {
+		String expandedFromDir = expander.expandVar(getFilesetMatch(),
+				pluginConfig.getProject());
+		
+		if (expandedFromDir.indexOf("*") != -1) {
 			// there is a wildcard in there...
-			String newFileset = srcPrefix + File.separator + getFilesetMatch();
+			String newFileset = srcPrefix + File.separator + expandedFromDir;
 			int index = newFileset.indexOf("*");
 			String srcDirStr = newFileset.substring(0, index - 1);
 			String includes = newFileset.substring(index);
@@ -169,7 +172,7 @@ public class CopyRule extends Rule implements ICopyRule {
 			}
 		} else {
 			File srcFile = new File(srcPrefix + File.separator
-					+ getFilesetMatch());
+					+ expandedFromDir);
 			if (!srcFile.exists()) {
 				String src = "project '"
 						+ pluginConfig.getProjectHandle().getProjectDetails()
@@ -178,7 +181,7 @@ public class CopyRule extends Rule implements ICopyRule {
 					src = "deployed plugin.";
 				}
 				throw new TigerstripeException("Cannot find '"
-						+ getFilesetMatch() + "' for copy in " + src);
+						+ expandedFromDir + "' for copy in " + src);
 			} else if (srcFile.isFile()) {
 				getReport().getCopiedFiles().add(srcFile.getAbsolutePath());
 				try {
