@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<!--  																		-->
+<!--  Copyright (c) 2008 Cisco Systems, Inc.								-->
+<!--  All rights reserved. This program and the accompanying materials		-->
+<!--  are made available under the terms of the Eclipse Public License v1.0	-->
+<!--  which accompanies this distribution, and is available at				-->
+<!--  http://www.eclipse.org/legal/epl-v10.html								-->
+<!-- 																		-->
+<!--  Contributors:															-->
+<!--     Cisco Systems, Inc. - erdillon										-->
+<!-- 																		-->
+<project name="Run update site optimization steps">
+
+	<target name="pack200" if="pack200">
+		<property name="packtmp" value="${buildDirectory}/packtmp" />
+		<mkdir dir="${packtmp}" />
+		<move file="${buildDirectory}/${buildLabel}/${archiveName}" tofile="${packtmp}/${archiveName}" />
+
+		<java jar="${equinox.launcher.jar}" fork="true" failonerror="true" maxmemory="128m" dir="${buildDirectory}">
+			<arg line="-application org.eclipse.update.core.siteOptimizer" />
+			<arg line="-jarProcessor -processAll -outputDir ${buildLabel} -pack -repack ${packtmp}/${archiveName}" />
+		</java>
+
+		<delete dir="${packtmp}" />
+	</target>
+
+	<target name="unpackUpdateJarsAndRepack">
+		<property name="tmpsite" value="${buildDirectory}/tmpsite" />
+		<mkdir dir="${tmpsite}/new/eclipse/features" />
+		<mkdir dir="${tmpsite}/new/eclipse/plugins" />
+		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+			<arg line="-q ${archiveName} -d ${tmpsite}" />
+		</exec>
+		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse" />
+		<!-- copy root files -->
+		<copy todir="${tmpsite}/new/eclipse">
+			<fileset dir="${tmpsite}/eclipse">
+				<include name="*" />
+			</fileset>
+		</copy>
+		<zip destfile="${buildDirectory}/${buildLabel}/${archiveName}" basedir="${tmpsite}/new" />
+		<delete dir="${tmpsite}" />
+	</target>
+
+	<!-- The bundle contains all the required runtime plugins + the ts plugins -->
+	<target name="packageBundle">
+		<property name="tmpBundle" value="${buildDirectory}/tmpBundle" />
+		<unzip src="${buildDirectory}/${buildLabel}/${archiveName}" dest="${tmpBundle}" />
+
+		<ant antfile="${scripts}/install.xml" target="install-emf-sdo" inheritall="true">
+			<property name="destination" value="${tmpBundle}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-emf-transaction" inheritall="true">
+			<property name="destination" value="${tmpBundle}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-emf-query" inheritall="true">
+			<property name="destination" value="${tmpBundle}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-emf-validation" inheritall="true">
+			<property name="destination" value="${tmpBundle}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-ocl" inheritall="true">
+			<property name="destination" value="${tmpBundle}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-uml2" inheritall="true">
+			<property name="destination" value="${tmpBundle}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-gef" inheritall="true">
+			<property name="destination" value="${tmpBundle}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-gmf" inheritall="true">
+			<property name="destination" value="${tmpBundle}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-orbit" inheritall="true">
+			<property name="destination" value="${tmpBundle}" />
+		</ant>
+
+		<zip destfile="${buildDirectory}/${buildLabel}/bundle-${archiveName}" basedir="${tmpBundle}" />
+		<delete dir="${tmpBundle}" />
+	</target>
+
+	<!-- The bundle contains all the required runtime plugins + the ts plugins + the SDK + subclipse + veloedit -->
+	<target name="packageDistrib">
+		<property name="tmpDistrib" value="${buildDirectory}/tmpDistrib" />
+		<unzip src="${buildDirectory}/${buildLabel}/${archiveName}" dest="${tmpDistrib}" />
+
+		<ant antfile="${scripts}/install.xml" target="install-eclipse-sdk-internal" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-emf-sdo" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-emf-transaction" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-emf-query" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-emf-validation" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-ocl" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-uml2" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-gef" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-gmf" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-orbit" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+
+		<ant antfile="${scripts}/install.xml" target="install-subclipse" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+		<ant antfile="${scripts}/install.xml" target="install-veloedit" inheritall="true">
+			<property name="destination" value="${tmpDistrib}" />
+		</ant>
+
+		<zip destfile="${buildDirectory}/${buildLabel}/distrib-${archiveName}" basedir="${tmpDistrib}" />
+		<delete dir="${tmpDistrib}" />
+	</target>
+
+</project>

@@ -1,0 +1,180 @@
+<?xml version="1.0"?>
+<!--  																		-->
+<!--  Copyright (c) 2008 Cisco Systems, Inc.								-->
+<!--  All rights reserved. This program and the accompanying materials		-->
+<!--  are made available under the terms of the Eclipse Public License v1.0	-->
+<!--  which accompanies this distribution, and is available at				-->
+<!--  http://www.eclipse.org/legal/epl-v10.html								-->
+<!-- 																		-->
+<!--  Contributors:															-->
+<!--     Cisco Systems, Inc. - erdillon										-->
+<!-- 																		-->
+<!-- Bootstraping for build environment										-->
+<!-- This will download the pde.build env if necessary 						-->
+<project name="bootstrap" default="all" >
+	<property file="local.properties"/>
+	<property file="bootstrap.properties" />
+
+	<target name="init">
+		<mkdir dir="${build.root}" />
+		<mkdir dir="${local.repository}" />
+		<mkdir dir="${local.eclipse.repository}" />
+		<mkdir dir="${local.eclipse.sdk.repository}" />
+		<mkdir dir="${local.eclipse.dependencies.repository}" />
+	</target>
+
+	<target name="checkout_pde.build" depends="init" unless="pde.build_present">
+		<echo message="Downloading org.eclipse.pde.build" />
+		<cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/eclipse" package="${pde.build.package}" dest="pde">
+		</cvs>
+	</target>
+
+	<target name="get_pde.build" depends="init">
+		<available file="${basedir}/${build.root}/${pde.build.package}" property="pde.build_present" />
+		<antcall target="checkout_pde.build" />
+	</target>
+
+	<target name="get_eclipse.sdk" depends="init">
+		<available file="${eclipse.archive.name}" property="local.eclipse.sdk.archive_present" />
+		<antcall target="download_eclipse.sdk.archive" />
+	</target>
+
+	<target name="download_eclipse.sdk.archive" depends="init" unless="local.eclipse.sdk.archive_present">
+		<get src="${eclipseBaseURL}.${archiveType}${mirror}" dest="${local.eclipse.sdk.repository}/${eclipseArchiveName}.${archiveType}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- EMF SDO Runtime  				-->
+	<target name="get_emf.runtime">
+		<available file="${local.eclipse.dependencies.repository}/$(emfArchiveName}" property="emf.runtime_present" />
+		<antcall target="download_emf.runtime" />
+	</target>
+
+	<target name="download_emf.runtime" depends="init" unless="emf.runtime_present">
+		<get src="${emfURL}${mirror}" dest="${local.eclipse.dependencies.repository}/${emfArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- EMF Transaction Runtime  				-->
+	<target name="get_emfTransaction.runtime">
+		<available file="${local.eclipse.dependencies.repository}/$(emfTransactionArchiveName}" property="emfTransaction.runtime_present" />
+		<antcall target="download_emfTransaction.runtime" />
+	</target>
+
+	<target name="download_emfTransaction.runtime" depends="init" unless="emfTransaction.runtime_present">
+		<get src="${emfTransactionURL}${mirror}" dest="${local.eclipse.dependencies.repository}/${emfTransactionArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- EMF Query Runtime  				-->
+	<target name="get_emfQuery.runtime">
+		<available file="${local.eclipse.dependencies.repository}/$(emfQueryArchiveName}" property="emfQuery.runtime_present" />
+		<antcall target="download_emfQuery.runtime" />
+	</target>
+
+	<target name="download_emfQuery.runtime" depends="init" unless="emfQuery.runtime_present">
+		<get src="${emfQueryURL}${mirror}" dest="${local.eclipse.dependencies.repository}/${emfQueryArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- EMF Validation Runtime  				-->
+	<target name="get_emfValidation.runtime">
+		<available file="${local.eclipse.dependencies.repository}/$(emfValidationArchiveName}" property="emfValidation.runtime_present" />
+		<antcall target="download_emfValidation.runtime" />
+	</target>
+
+	<target name="download_emfValidation.runtime" depends="init" unless="emfValidation.runtime_present">
+		<get src="${emfValidationURL}${mirror}" dest="${local.eclipse.dependencies.repository}/${emfValidationArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- MDT OCL Runtime  						-->
+	<target name="get_mdtOCL.runtime">
+		<available file="${local.eclipse.dependencies.repository}/$(mdtOCLArchiveName}" property="mdtOCL.runtime_present" />
+		<antcall target="download_mdtOCL.runtime" />
+	</target>
+
+	<target name="download_mdtOCL.runtime" depends="init" unless="mdtOCL.runtime_present">
+		<get src="${mdtOCLURL}${mirror}" dest="${local.eclipse.dependencies.repository}/${mdtOCLArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- MDT UML2 Runtime  						-->
+	<target name="get_mdtUML2.runtime">
+		<available file="${local.eclipse.dependencies.repository}/$(mdtUML2ArchiveName}" property="mdtUML2.runtime_present" />
+		<antcall target="download_mdtUML2.runtime" />
+	</target>
+
+	<target name="download_mdtUML2.runtime" depends="init" unless="mdtUML2.runtime_present">
+		<get src="${mdtUML2URL}${mirror}" dest="${local.eclipse.dependencies.repository}/${mdtUML2ArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- GEF Runtime  				-->
+	<target name="get_gef.runtime">
+		<available file="${local.eclipse.sdk.repository}/$(gefArchiveName}.zip" property="gef.runtime_present" />
+		<antcall target="download_gef.runtime" />
+	</target>
+
+	<target name="download_gef.runtime" depends="init" unless="gef.runtime_present">
+		<get src="${gefURL}${mirror}" dest="${local.eclipse.dependencies.repository}/${gefArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- GMF Runtime  				-->
+	<target name="get_gmf.runtime">
+		<available file="${local.eclipse.sdk.repository}/$(gmfArchiveName}.zip" property="gmf.runtime_present" />
+		<antcall target="download_gmf.runtime" />
+	</target>
+
+	<target name="download_gmf.runtime" depends="init" unless="gmf.runtime_present">
+		<get src="${gmfURL}${mirror}" dest="${local.eclipse.dependencies.repository}/${gmfArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- Orbit 				-->
+	<target name="get_orbit">
+		<available file="${local.eclipse.sdk.repository}/$(orbitArchiveName}.zip" property="orbit_present" />
+		<antcall target="download_orbit" />
+	</target>
+
+	<target name="download_orbit" depends="init" unless="orbit_present">
+		<get src="${orbitURL}${mirror}" dest="${local.eclipse.dependencies.repository}/${orbitArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- Subsclipse - For convenience	-->
+	<target name="get_subclipse">
+		<available file="${local.eclipse.sdk.repository}/$(subclipseArchiveName}.zip" property="subclipse_present" />
+		<antcall target="download_subclipse" />
+	</target>
+
+	<target name="download_subclipse" depends="init" unless="subclipse_present">
+		<get src="${subclipseURL}" dest="${local.eclipse.dependencies.repository}/${subclipseArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- VeloEdit - For Convenience 	-->
+	<target name="get_veloedit">
+		<available file="${local.eclipse.sdk.repository}/$(veloeditArchiveName}.zip" property="veloedit_present" />
+		<antcall target="download_veloedit" />
+	</target>
+
+	<target name="download_veloedit" depends="init" unless="veloedit_present">
+		<get src="${veloeditURL}" dest="${local.eclipse.dependencies.repository}/${veloeditArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	
+	<target name="get_dependencies" depends="init">
+		<antcall target="get_gef.runtime" />
+		<antcall target="get_gmf.runtime" />
+		<antcall target="get_emf.runtime" />
+		<antcall target="get_emfTransaction.runtime" />
+		<antcall target="get_emfQuery.runtime" />
+		<antcall target="get_emfValidation.runtime" />
+		<antcall target="get_mdtOCL.runtime" />
+		<antcall target="get_mdtUML2.runtime" />
+		<antcall target="get_orbit" />
+		<antcall target="get_subclipse"/>
+		<antcall target="get_veloedit"/>
+	</target>
+
+	<target name="all">
+		<antcall target="get_pde.build" />
+		<antcall target="get_eclipse.sdk" />
+		<antcall target="get_dependencies" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${basedir}/${build.root}" />
+	</target>
+</project>

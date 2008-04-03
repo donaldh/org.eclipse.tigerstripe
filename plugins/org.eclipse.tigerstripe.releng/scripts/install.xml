@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<!--  																		-->
+<!--  Copyright (c) 2008 Cisco Systems, Inc.								-->
+<!--  All rights reserved. This program and the accompanying materials		-->
+<!--  are made available under the terms of the Eclipse Public License v1.0	-->
+<!--  which accompanies this distribution, and is available at				-->
+<!--  http://www.eclipse.org/legal/epl-v10.html								-->
+<!-- 																		-->
+<!--  Contributors:															-->
+<!--     Cisco Systems, Inc. - erdillon										-->
+<!-- 																		-->
+<!-- Installs the target Eclipse SDK + required plugins to build against it -->
+
+<project name="Install target Eclipse SDK">
+
+	<property file="../bootstrap.properties" />
+	<property file="../build.properties" />
+
+	<!-- All the details for each required plugin -->
+	<target name="install-emf-sdo" if="target.emf.sdo">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.emf.sdo}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.emf.sdo}.zip</concat>
+	</target>
+
+	<target name="install-emf-transaction" if="target.emf.transaction">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.emf.transaction}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.emf.transaction}.zip</concat>
+	</target>
+
+	<target name="install-emf-query" if="target.emf.query">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.emf.query}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.emf.query}.zip</concat>
+	</target>
+
+	<target name="install-emf-validation" if="target.emf.validation">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.emf.validation}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.emf.validation}.zip</concat>
+	</target>
+
+	<target name="install-ocl" if="target.ocl">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.ocl}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.ocl}.zip</concat>
+	</target>
+
+	<target name="install-uml2" if="target.uml2">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.uml2}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.uml2}.zip</concat>
+	</target>
+
+	<target name="install-gef" if="target.gef">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.gef}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.gef}.zip</concat>
+	</target>
+
+	<target name="install-gmf" if="target.gmf">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.gmf}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.gmf}.zip</concat>
+	</target>
+
+	<target name="install-orbit" if="target.orbit">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.orbit}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.orbit}.zip</concat>
+	</target>
+
+	<target name="install-subclipse" if="target.subclipse">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.subclipse}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.subclipse}.zip</concat>
+	</target>
+
+	<target name="install-veloedit" if="target.veloedit">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.veloedit}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.veloedit}.zip</concat>
+	</target>
+
+	<target name="install-eclipse-sdk-internal" if="target.eclipse.sdk">
+		<unzip dest="${destination}" src="${local.eclipse.sdk.repository}/${target.eclipse.sdk}.zip">
+		</unzip>
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.eclipse.sdk}.zip</concat>
+	</target>
+
+	<target name="install-eclipse-test-internal" if="target.eclipse.test">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.eclipse.test}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.eclipse.test}.zip</concat>
+	</target>
+
+	<target name="install-ant-optional-internal" if="target.ant.optional">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.ant.optional}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.ant.optional}.zip</concat>
+	</target>
+
+	<!-- Main Targets -->
+	<target name="install-eclipse-sdk" if="target.eclipse.sdk">
+		<property name="destination" value="${buildDirectory}" />
+		<antcall target="install-eclipse-sdk-internal" />
+	</target>
+
+	<target name="install-eclipse-test">
+		<property name="destination" value="${buildDirectory}" />
+		<antcall target="install-eclipse-test-internal" />
+	</target>
+
+	<target name="install-ant-optional">
+		<property name="destination" value="${buildDirectory}" />
+		<antcall target="install-ant-optional-internal" />
+	</target>
+
+	<target name="install-required-plugins">
+		<property name="destination" value="${buildDirectory}" />
+		<property name="dependencies.file" value="${buildDirectory}/${buildLabel}/plugin-dependencies.txt" />
+		<delete file="${dependencies.file}" failonerror="false" quiet="true" />
+		<!-- EMF SDO -->
+		<antcall target="install-emf-sdo" />
+		<!-- EMF Transaction -->
+		<antcall target="install-emf-transaction" />
+		<!-- EMF Query -->
+		<antcall target="install-emf-query" />
+		<!-- EMF Validation -->
+		<antcall target="install-emf-validation" />
+		<!-- OCL -->
+		<antcall target="install-ocl" />
+		<!-- UML2 -->
+		<antcall target="install-uml2" />
+		<!-- GEF -->
+		<antcall target="install-gef" />
+		<!-- GMF -->
+		<antcall target="install-gmf" />
+		<!-- Orbit -->
+		<antcall target="install-orbit" />
+	</target>
+
+</project>
