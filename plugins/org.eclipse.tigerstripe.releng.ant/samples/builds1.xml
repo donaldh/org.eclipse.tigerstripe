@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<schema:Build xmlns:schema="http://www.eclipse.org/tigerstripe/schemas/BuildsSchema" name="myBuild" type="M">
+  <component name="myCompn">
+    <bundle name="moo" downloadLink="http://lnk"/>
+  </component>
+</schema:Build>
