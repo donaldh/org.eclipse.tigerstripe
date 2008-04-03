@@ -15,4 +15,14 @@
       <bundle name="moo" downloadLink="http://lnk"/>
     </component>
   </build>
+  <build name="myBuild" type="M">
+    <component name="myCompn">
+      <bundle name="moo" downloadLink="http://lnk"/>
+    </component>
+  </build>
+  <build name="myBuild" type="M">
+    <component name="myCompn">
+      <bundle name="moo" downloadLink="http://lnk"/>
+    </component>
+  </build>
 </schema:Builds>
