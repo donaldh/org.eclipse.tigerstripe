@@ -19,5 +19,5 @@ export	ANT_HOME=/auto/tigerstripe/java/apache-ant-1.7.0
 export	JAVA_HOME=/auto/tigerstripe/java/jdk1.6.0_10
 export	PATH=${JAVA_HOME}/bin:${PATH}:${ANT_HOME}/bin
 
-${JAVA_HOME}/java -Xmx1024m -cp pde/org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar \
+${JAVA_HOME}/bin/java -Xmx1024m -cp pde/org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar \
 	org.eclipse.core.launcher.Main -application org.eclipse.ant.core.antRunner "$@"
