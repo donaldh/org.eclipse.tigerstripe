@@ -425,6 +425,10 @@ public class XML2TS {
 
 		NodeList artifactNodes = doc.getElementsByTagNameNS(namespace,
 				"artifact");
+		String myText = "Found "+artifactNodes.getLength()+ " artifact modes "+namespace;
+		addMessage(messages, myText, 0);
+		out.println("Error : " + myText);
+		
 		for (int an = 0; an < artifactNodes.getLength(); an++) {
 			Element artifactElement = (Element) artifactNodes.item(an);
 			String artifactName = artifactElement.getAttribute("name");
@@ -690,15 +694,11 @@ public class XML2TS {
 			type
 					.setFullyQualifiedName(element
 							.getAttribute("returnedTypeName"));
-			try {
-				type.setTypeMultiplicity(EMultiplicity.valueOf(element
-						.getAttribute("returnedTypeMultiplicity")));
-			} catch (java.lang.NumberFormatException e) {
+
 				type
 						.setTypeMultiplicity(IModelComponent.EMultiplicity
 								.parse(element
 										.getAttribute("returnedTypeMultiplicity")));
-			}
 			queryArt.setReturnedType((IType) type);
 			Properties props = specs.getInterfaceProperties();
 			props.setProperty("package", element
@@ -847,18 +847,13 @@ public class XML2TS {
 			newField.setName(field.getAttribute("name"));
 			type.setFullyQualifiedName(field.getAttribute("type"));
 			// Need to support new and old versions
-			try {
-				type.setTypeMultiplicity(EMultiplicity.valueOf(field
-						.getAttribute("typeMultiplicity")));
-			} catch (java.lang.NumberFormatException e) {
-				type.setTypeMultiplicity(IModelComponent.EMultiplicity
+			type.setTypeMultiplicity(IModelComponent.EMultiplicity
 						.parse(field.getAttribute("typeMultiplicity")));
-			}
 			this.out.println(type.getTypeMultiplicity().getLabel());
 			// end
 			newField.setType(type);
-			newField.setVisibility(EVisibility.at(Integer.valueOf(field
-					.getAttribute("visibility"))));
+			newField.setVisibility(EVisibility.parse(field
+					.getAttribute("visibility")));
 			newField.setOptional(Boolean.parseBoolean(field
 					.getAttribute("optional")));
 			newField.setReadOnly(Boolean.parseBoolean(field
@@ -902,8 +897,8 @@ public class XML2TS {
 			newLiteral.setValue(literal.getAttribute("value"));
 			type.setFullyQualifiedName(literal.getAttribute("type"));
 			newLiteral.setType(type);
-			newLiteral.setVisibility(EVisibility.at(Integer.valueOf(literal
-					.getAttribute("visibility"))));
+			newLiteral.setVisibility(EVisibility.parse(literal
+					.getAttribute("visibility")));
 			newLiteral.setComment(getComment(literal));
 
 			for (IStereotypeInstance st : getStereotypes(literal, out, messages)) {
@@ -923,8 +918,8 @@ public class XML2TS {
 			IMethod newMethod = artifact.makeMethod();
 
 			newMethod.setName(method.getAttribute("name"));
-			newMethod.setVisibility(EVisibility.at(Integer.valueOf(method
-					.getAttribute("visibility"))));
+			newMethod.setVisibility(EVisibility.parse(method
+					.getAttribute("visibility")));
 			newMethod.setOptional(Boolean.parseBoolean(method
 					.getAttribute("optional")));
 			newMethod.setInstanceMethod(Boolean.parseBoolean(method
@@ -964,17 +959,11 @@ public class XML2TS {
 					IType returnType = newMethod.makeType();
 					returnType.setFullyQualifiedName(method
 							.getAttribute("returnType"));
-					try {
-						returnType
-								.setTypeMultiplicity(EMultiplicity
-										.valueOf(method
-												.getAttribute("returnTypeMultiplicity")));
-					} catch (java.lang.NumberFormatException e) {
+
 						returnType
 								.setTypeMultiplicity(IModelComponent.EMultiplicity
 										.parse(method
 												.getAttribute("returnTypeMultiplicity")));
-					}
 					newMethod.setReturnType(returnType);
 					if (method.hasAttribute("methodReturnName")) {
 						newMethod.setReturnName(method
@@ -1006,13 +995,10 @@ public class XML2TS {
 						.getAttribute("refBy")));
 				IType argType = newMethod.makeType();
 				argType.setFullyQualifiedName(argument.getAttribute("type"));
-				try {
-					argType.setTypeMultiplicity(EMultiplicity.valueOf(argument
-							.getAttribute("typeMultiplicity")));
-				} catch (java.lang.NumberFormatException e) {
+
 					argType.setTypeMultiplicity(IModelComponent.EMultiplicity
 							.parse(argument.getAttribute("typeMultiplicity")));
-				}
+
 				newArgument.setType(argType);
 				newArgument.setComment(getComment(argument));
 				if (argument.hasAttribute("ordered")) {
