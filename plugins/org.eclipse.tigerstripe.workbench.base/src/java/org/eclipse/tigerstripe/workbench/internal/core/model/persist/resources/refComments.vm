@@ -11,10 +11,10 @@
 *#
 
 #if ( $refComment.Label != "" )
-    /**
-     * $xmlEncode.encode($refComment.Content)
-     * @tigerstripe.refComment
-     *  
+ /**
+ * $xmlEncode.encode($refComment.Content)
+ * @tigerstripe.refComment
+ *  
 	 */
 	 public static String $refComment.Label = "$refComment.Label";
 #end

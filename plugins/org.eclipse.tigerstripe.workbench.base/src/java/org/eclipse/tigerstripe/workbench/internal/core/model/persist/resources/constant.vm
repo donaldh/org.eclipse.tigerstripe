@@ -14,15 +14,23 @@
      * @tigerstripe.label
      *  value = '$literal.Value'
      *  
-     *## Take care of the stereotypes
+     *
+## Take care of the stereotypes
 #foreach( $stereotype in $literal.getStereotypeInstances() )
      * @tigerstripe.stereotype st.name = "$stereotype.Name"
+#if ($stereotype.getCharacterizingStereotype())
 #foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
- #if ( $stAttr.isArray() )
- *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
+#if ( $stAttr.isArray() )
+     *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
 	#else
- *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
- #end
+     *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
+#end
+#else
+## This is an Unresolved stereotype - so just use what we found
+#foreach( $stAttr in $stereotype.Attributes )
+     *     $stAttr = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
 #end
 #end
      * 

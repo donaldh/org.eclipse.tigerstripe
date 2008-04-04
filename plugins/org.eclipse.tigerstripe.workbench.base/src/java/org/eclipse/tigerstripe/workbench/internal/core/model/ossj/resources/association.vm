@@ -31,7 +31,7 @@ public abstract class $artifact.Name
 #parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm")
 
 	/**
-     * $!artifact.AEnd.Comment
+ * $!artifact.AEnd.Comment
 	 *	@tigerstripe.association-aEnd
 	 *    aggregation = "$artifact.AEnd.Aggregation.Label"
 	 *    changeable = "$artifact.AEnd.Changeable.Label"
@@ -40,23 +40,31 @@ public abstract class $artifact.Name
 	 *    isUnique = "$artifact.AEnd.isUnique()"
 	 *    isNavigable = "$artifact.AEnd.isNavigable()"
 	 *
-     *## Take care of the stereotypes
-     #foreach( $stereotype in $artifact.AEnd.getStereotypeInstances() )
-     * @tigerstripe.stereotype st.name = "$stereotype.Name"
-     #foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
-     #if ( $stAttr.isArray() )
-     *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
-     #else
-     *     $stAttr.Name = "$stereotype.getAttributeValue($stAttr)"
-     #end
-	 #end
-	 #end
+ *
+## Take care of the stereotypes
+#foreach( $stereotype in $artifact.AEnd.getStereotypeInstances() )
+ * @tigerstripe.stereotype st.name = "$stereotype.Name"
+#if ($stereotype.getCharacterizingStereotype())
+#foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
+#if ( $stAttr.isArray() )
+ *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
+	#else
+ *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
+#end
+#else
+ ## This is an Unresolved stereotype - so just use what we found
+#foreach( $stAttr in $stereotype.Attributes )
+ *     $stAttr = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
+#end
+#end
      * 
 	 */	
 	$utils.getVisibilityAsString( $artifact.AEnd ) $artifact.AEnd.Type.FullyQualifiedName $artifact.AEnd.Name = null;
 	
 	/**
-     * $!artifact.ZEnd.Comment
+ * $!artifact.ZEnd.Comment
 	 *	@tigerstripe.association-zEnd
 	 *    aggregation = "$artifact.ZEnd.Aggregation.Label"
 	 *    changeable = "$artifact.ZEnd.Changeable.Label"
@@ -65,18 +73,26 @@ public abstract class $artifact.Name
 	 *    isUnique = "$artifact.ZEnd.isUnique()"
 	 *    isNavigable = "$artifact.ZEnd.isNavigable()"
 	 *
-     *## Take care of the stereotypes
-     #foreach( $stereotype in $artifact.ZEnd.getStereotypeInstances() )
-     * @tigerstripe.stereotype st.name = "$stereotype.Name"
-     #foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
-     #if ( $stAttr.isArray() )
-     *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
-     #else
-     *     $stAttr.Name = "$stereotype.getAttributeValue($stAttr)"
-     #end
-     #end
-     #end
-     * 
+ *
+## Take care of the stereotypes
+#foreach( $stereotype in $artifact.ZEnd.getStereotypeInstances() )
+ * @tigerstripe.stereotype st.name = "$stereotype.Name"
+#if ($stereotype.getCharacterizingStereotype())
+#foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
+#if ( $stAttr.isArray() )
+ *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
+	#else
+ *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
+#end
+#else
+ ## This is an Unresolved stereotype - so just use what we found
+#foreach( $stAttr in $stereotype.Attributes )
+ *     $stAttr = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
+#end
+#end
+ * 
 	 */	
 	$utils.getVisibilityAsString( $artifact.ZEnd ) $artifact.ZEnd.Type.FullyQualifiedName $artifact.ZEnd.Name = null;
 	

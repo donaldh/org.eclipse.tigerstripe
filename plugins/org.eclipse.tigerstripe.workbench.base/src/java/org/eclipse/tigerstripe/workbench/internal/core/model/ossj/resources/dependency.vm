@@ -32,13 +32,13 @@ public abstract class $artifact.Name
 
 	/**
 	 *	@tigerstripe.dependency-aEnd
-     * 
+ * 
 	 */	
 	public $artifact.AEndType.FullyQualifiedName _aEnd = null;
 	
 	/**
 	 *	@tigerstripe.dependency-zEnd
-     * 
+ * 
 	 */	
 	public $artifact.ZEndType.FullyQualifiedName _zEnd = null;
 	

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -106,4 +108,19 @@ public class UnresolvedStereotypeInstance implements IStereotypeInstance {
 		return new UnresolvedStereotypeInstance(label);
 	}
 
+	/**
+	 * Use this to get the set of attributes that we found (as we cannot use the CharacterizingStereotype).
+	 * Skip over the one that has the name of the stereotype
+	 * 
+	 * @return
+	 */
+	public Collection<String> getAttributes(){
+		Collection<String>  attrs = new ArrayList<String>();
+		for (String key : fakeAttributeMap.keySet()){
+			if (!key.equals("st.name")){
+				attrs.add(key);
+			}
+		}
+		return attrs;
+	}
 }

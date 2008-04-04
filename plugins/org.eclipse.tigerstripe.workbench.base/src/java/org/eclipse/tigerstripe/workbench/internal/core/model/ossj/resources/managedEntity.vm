@@ -26,20 +26,24 @@
  * @tigerstripe.property ts.id="ossj.entity.create"
 #foreach( $key in $artifact.getCreateProperties().keySet())
  *   $key = "$artifact.getCreateProperties().getProperty($key)"
-#end *
+#end
+ *
  * @tigerstripe.property ts.id="ossj.entity.get"
 #foreach( $key in $artifact.getGetProperties().keySet())
  *   $key = "$artifact.getGetProperties().getProperty($key)"
-#end *
+#end
+ *
  * @tigerstripe.property ts.id="ossj.entity.set"
 #foreach( $key in $artifact.getSetProperties().keySet())
  *   $key = "$artifact.getSetProperties().getProperty($key)"
-#end *
+#end
+ *
  * @tigerstripe.property ts.id="ossj.entity.remove"
 #foreach( $key in $artifact.getRemoveProperties().keySet())
  *   $key = "$artifact.getRemoveProperties().getProperty($key)"
-#end *
- *## Take care of the stereotypes
+#end
+ *
+## Take care of the stereotypes
 #parse("org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/artifactLevelStereotype.vm")
  * 
 #foreach( $tag in $artifact.NonTigerstripeTags )

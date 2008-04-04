@@ -14,7 +14,7 @@
      * @tigerstripe.method 
      *  iteratorReturn = "$method.isIteratorReturn()"
      *  isOptional = "$method.isOptional()"
-	 *  isAbstract = "$method.isAbstract()"
+	     *  isAbstract = "$method.isAbstract()"
      *  isOrdered = "$method.isOrdered()"
      *  isUnique = "$method.isUnique()"
      *  typeMultiplicity = "$method.ReturnType.TypeMultiplicity.Label"
@@ -23,7 +23,7 @@
 #end
 #foreach( $argument in $method.Arguments )
      *   @tigerstripe.method-arg 
-	 *     name="$argument.Name" 
+	     *     name="$argument.Name" 
      *     isOrdered = "$argument.isOrdered()"
      *     isUnique = "$argument.isUnique()"
      *     typeMultiplicity = "$argument.Type.TypeMultiplicity.Label"
@@ -32,15 +32,22 @@
 	 *     ref-by = "$argument.RefByString" 
 #if ($argument.RefCommentId != "")	 *   refComment="$argument.RefCommentId" 
 #end
- ## Take care of the arguement stereotypes (since 2.2.1)
+## Take care of the arguement stereotypes (since 2.2.1)
 #foreach( $stereotype in $argument.getStereotypeInstances() )
      *   @tigerstripe.arg-stereotype st.name = "$stereotype.Name" st.arg.name = "$argument.Name"
+#if ($stereotype.getCharacterizingStereotype())
 #foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
- #if ( $stAttr.isArray() )
- *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
+#if ( $stAttr.isArray() )
+     *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
 	#else
- *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
- #end
+     *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
+#end
+#else
+## This is an Unresolved stereotype - so just use what we found
+#foreach( $stAttr in $stereotype.Attributes )
+     *     $stAttr = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
 #end
 #end
      
@@ -49,30 +56,45 @@
 ## Take care of the stereotypes
 #foreach( $stereotype in $method.getStereotypeInstances() )
      * @tigerstripe.stereotype st.name = "$stereotype.Name"
+#if ($stereotype.getCharacterizingStereotype())
 #foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
- #if ( $stAttr.isArray() )
- *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
+#if ( $stAttr.isArray() )
+     *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
 	#else
- *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
- #end
+     *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
+#end
+#else
+## This is an Unresolved stereotype - so just use what we found
+#foreach( $stAttr in $stereotype.Attributes )
+     *     $stAttr = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
 #end
 #end
 ## Take care of the stereotypes on the return (since 2.2.1)
 #foreach( $stereotype in $method.getReturnStereotypeInstances() )
      * @tigerstripe.ret-stereotype st.name = "$stereotype.Name"
+#if ($stereotype.getCharacterizingStereotype())
 #foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
- #if ( $stAttr.isArray() )
- *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
+#if ( $stAttr.isArray() )
+     *	   $stAttr.Name = "$stereotype.getStringifiedAttributeValues($stAttr)"	
 	#else
- *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
- #end
+     *     $stAttr.Name = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
+#end
+#else
+## This is an Unresolved stereotype - so just use what we found
+#foreach( $stAttr in $stereotype.Attributes )
+     *     $stAttr = "$xmlEncode.encode($stereotype.getAttributeValue($stAttr))"
+#end
 #end
 #end
      * 
      * @tigerstripe.property ts.id = "ossj.method"
 #foreach( $key in $method.getOssjMethodProperties().keySet() )
      *   $key = "$method.getOssjMethodProperties().getProperty( $key )"
-#end *
+#end
+     *
 #foreach( $tag in $method.NonTigerstripeTags )
      * $tag
 #end
