@@ -23,17 +23,17 @@
 
 	<target name="init">
 		<tstamp />
+		<touch file="${user.home}/.cvspass" />
 		<property name="date" value="${DSTAMP}" />
 		<property name="time" value="${TSTAMP}" />
 		<property name="timestamp" value="${date}${time}" />
 		<property name="buildType" value="N" />
-		<property name="buildId" value="${buildType}${date}_incubation" />
-		<property name="component" value="base" />
+		<property name="buildId" value="${buildType}${timestamp}_incubation" />
+		<property name="component" value="everything" />
 		<property name="mapsCheckoutTag" value="HEAD" />
 
-		<!--this naming convention used by php scripts on download server-->
-		<property name="buildLabel" value="${buildType}-${buildId}-${timestamp}" />
-		<property name="userLabel" value="${buildType}-${component}_incubation-${timestamp}" />
+		<!-- For Nightly/Integration builds, the buildLabel is set to the buildId -->
+		<property name="buildLabel" value="${buildId}" />
 		<property name="buildComment" value="${component} Build" />
 	</target>
 
@@ -44,7 +44,7 @@
 			<property name="templates" value="${basedir}/templates" />
 			<property name="buildRoot" value="${build.root}/builds" />
 			<property name="builder" value="${basedir}/components/${component}" />
-			<property name="buildDirectory" value="${build.root}/builds/base/${userLabel}" />
+			<property name="buildDirectory" value="${build.root}/builds/everything/${buildLabel}" />
 		</ant>
 		<!-- Removing auto-deployment of stable builds - better do deploy them manually
 		<ant antfile="deploy.xml" target="deploy.updates.callisto" />		

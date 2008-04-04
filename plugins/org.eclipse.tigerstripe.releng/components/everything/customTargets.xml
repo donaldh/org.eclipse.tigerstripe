@@ -10,11 +10,10 @@
 <!--     Cisco Systems, Inc. - erdillon										-->
 <!-- 																		-->
 <!-- 	Build script for All Tigerstripe Features in one go					-->
-<project name="Build specific targets and properties" default="noDefault">
+<project name="Build Everything for Tigerstripe Release" default="noDefault">
 
 	<!-- Local target definitions -->
 	<property file="${builder}/target.properties" />
-
 
 	<!-- ===================================================================== -->
 	<!-- Run a given ${target} on all elements being built -->
@@ -22,17 +21,17 @@
 	<!-- ===================================================================== -->
 	<target name="allElements">
 		<ant antfile="${genericTargets}" target="${target}">
-			<property name="archiveName" value="Tigerstripe-base-${userLabel}_${buildType}${date}.zip" />
+			<property name="archiveName" value="tigerstripe-base-${buildLabel}.zip" />
 			<property name="type" value="feature" />
 			<property name="id" value="org.eclipse.tigerstripe.base" />
 		</ant>
 		<ant antfile="${genericTargets}" target="${target}">
-			<property name="archiveName" value="Tigerstripe-workbench-${userLabel}_${buildType}${date}.zip" />
+			<property name="archiveName" value="tigerstripe-workbench-${buildLabel}.zip" />
 			<property name="type" value="feature" />
 			<property name="id" value="org.eclipse.tigerstripe.workbench" />
 		</ant>
 		<ant antfile="${genericTargets}" target="${target}">
-			<property name="archiveName" value="Tigerstripe-base-test-${userLabel}_${buildType}${date}.zip" />
+			<property name="archiveName" value="tigerstripe-base-test-${buildLabel}.zip" />
 			<property name="type" value="feature" />
 			<property name="id" value="org.eclipse.tigerstripe.base.test_feature" />
 		</ant>
@@ -49,6 +48,9 @@
 		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
 	</target>
 	<target name="assemble.org.eclipse.tigerstripe.base.test_feature">
+		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
+	</target>
+	<target name="assemble.org.eclipse.tigerstripe.workbench">
 		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
 	</target>
 
@@ -126,7 +128,6 @@
 		<replace dir="${buildDirectory}/plugins" value="${buildId}" token="@buildId@">
 			<include name="**/about.mappings" />
 		</replace>
-		<unzip dest="${buildDirectory}" src="${local.eclipse.sdk.repository}/../../tmp/plugins.zip" />
 	</target>
 
 	<!-- ===================================================================== -->
@@ -195,7 +196,7 @@
 	<!-- ===================================================================== -->
 	<target name="test">
 		<property file="${buildDirectory}/finalPluginsVersions.properties" />
-		<property name="test-archive" value="Tigerstripe-base-test-${userLabel}_${buildType}${date}.zip" />
+		<property name="test-archive" value="Tigerstripe-base-test-${buildLabel}_${buildType}${date}.zip" />
 		<unzip dest="${baseLocation}/.." src="${buildDirectory}/${buildLabel}/${test-archive}" />
 		<ant antfile="${scripts}/install.xml" target="install-eclipse-test" inheritall="true" />
 		<ant antfile="${scripts}/install.xml" target="install-ant-optional" inheritall="true" />
@@ -217,14 +218,14 @@
 	<!-- ===================================================================== -->
 	<target name="publish">
 		<!-- Publishing zip archive containing packed jars for update site -->
-		<copy file="${buildDirectory}/${buildLabel}/${archiveName}" todir="${artifacts.updates}/${userLabel}" />
+		<copy file="${buildDirectory}/${buildLabel}/${archiveName}" todir="${artifacts.updates}/${buildLabel}" />
 		<!-- Unpacking jars to produce downloadable zips -->
 		<ant antfile="${scripts}/package.xml" target="unpackUpdateJarsAndRepack" />
 		<ant antfile="${scripts}/package.xml" target="packageBundle" />
 		<ant antfile="${scripts}/package.xml" target="packageDistrib" />
 
 		<!-- Publishing downloadable bits -->
-		<move file="${buildDirectory}/${buildLabel}" tofile="${artifacts.drops}/${userLabel}" />
+		<move file="${buildDirectory}/${buildLabel}" tofile="${artifacts.drops}/${buildLabel}" />
 
 		<ant antfile="${scripts}/updateInternalWebsite.xml" target="upload-drop-details" />
 		<ant antfile="${scripts}/updateInternalWebsite.xml" target="upload-internalSite" />
