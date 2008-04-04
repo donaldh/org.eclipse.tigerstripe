@@ -92,6 +92,10 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 
 		migrateMultiplicities(eArtifact);
 
+		if (! ClassDiagramUtils.checkFieldOrder(eArtifact, iArtifact.getFields())){
+			eArtifact.getAttributes().clear();
+		}
+		
 		// Then recreate either an attribute or a reference in the eArtifact
 		// for what we have in the iArtifact
 		for (IField field : iArtifact.getFields()) {
@@ -100,6 +104,12 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 
 			IType type = field.getType();
 			if (type != null) {
+				/*
+				 *  I think what happens is that Eclipse's JDT would try to be smart and add an 
+				 *  "import" statment in our POJO, but QDox gives us the local Type, not after 
+				 *  parsing thru the import. (or at least used too, and the "resolution" thru 
+				 *  import was EXTREMELY cpu intensive so I did that instead)
+				 */
 				String typeStr = type.getFullyQualifiedName();
 				if (!type.isPrimitive() && !typeStr.equals("String")) {
 					String packageStr = getPackagePart(typeStr);

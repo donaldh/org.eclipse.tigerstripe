@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.utils;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -23,8 +25,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
@@ -34,6 +39,8 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.ChangeableEnum;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Reference;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.TypeMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Visibility;
@@ -125,7 +132,94 @@ public class ClassDiagramUtils {
 		}
 		return null;
 	}
+	
+	public static boolean checkFieldOrder(AbstractArtifact eArtifact, Collection<IField> fields){
+		// Look to see of the diagram attributes are in the same order
+		// as the fields - remeber that we can skip over the references!
+		boolean isOK = true;
+		Iterator<Attribute> attributeIterator =  eArtifact.getAttributes().iterator();
+		for (IField field : fields){
+			// if this is not a reference....
+			IType type = field.getType();
+			if (type != null) {
+				String typeStr = type.getFullyQualifiedName();
+				if (!type.isPrimitive() && !typeStr.equals("String")) {
+					String packageStr = type.getPackage();
+					if (packageStr.length() == 0) {
+						packageStr = field.getContainingArtifact().getPackage();
+						typeStr = packageStr + "." + typeStr;
+					}
+				}
+				if (!ClassDiagramUtils
+						.shouldPopulateAttribute(
+								typeStr,
+								((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) field.getContainingArtifact())
+								.getArtifactManager())) {
 
+					if (attributeIterator.hasNext()){
+						Attribute att = attributeIterator.next();
+						// if the name of the attribute is different form the name of the field.
+						// then this is bad..
+						if (! att.getName().equals(field.getName())){
+							isOK = false;
+						}
+					} else {
+						// Must be a different number of attrs! 
+						isOK = false;
+					}
+				}
+			} else {
+				// I don't like null types, so say this is a bad one!
+				isOK = false;
+			}
+
+		}
+		return isOK;
+		
+	}
+
+	public static boolean checkMethodOrder(AbstractArtifact eArtifact, Collection<IMethod> methods){
+		// Look to see of the diagram methods are in the same order
+		// as the methods 
+		boolean isOK = true;
+		Iterator<Method> methodIterator =  eArtifact.getMethods().iterator();
+		for (IMethod method : methods){	
+			if (methodIterator.hasNext()){
+				Method meth = methodIterator.next();
+				// if the name of the method is different form the name of the IMethod.
+				// then this is bad..
+				if (! meth.getLabelString().equals(method.getLabelString())){
+					isOK = false;
+				}
+			} else {
+				// Must be a different number of methods! 
+				isOK = false;
+			}
+		}
+		return isOK;	
+	}
+	
+	public static boolean checkLiteralOrder(AbstractArtifact eArtifact, Collection<ILiteral> literals){
+		// Look to see of the diagram literals are in the same order
+		// as the literals 
+		boolean isOK = true;
+		Iterator<Literal> literalIterator =  eArtifact.getLiterals().iterator();
+		for (ILiteral literal : literals){	
+			if (literalIterator.hasNext()){
+				Literal lit = literalIterator.next();
+				// if the name of the method is different form the name of the IMethod.
+				// then this is bad..
+				if (! lit.getName().equals(literal.getName())){
+					isOK = false;
+				}
+			} else {
+				// Must be a different number of literals! 
+				isOK = false;
+			}
+		}
+		return isOK;	
+	}
+	
 	public static int lookForFieldAsAttribute(AbstractArtifact eArtifact,
 			IField field) {
 		List<Attribute> attributes = eArtifact.getAttributes();

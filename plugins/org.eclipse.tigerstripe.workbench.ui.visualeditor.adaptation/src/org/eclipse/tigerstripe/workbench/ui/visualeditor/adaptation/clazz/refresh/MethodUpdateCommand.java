@@ -81,6 +81,10 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 			IAbstractArtifact iArtifact) {
 		migrateMultiplicities(eArtifact);
 
+		if (! ClassDiagramUtils.checkMethodOrder(eArtifact, iArtifact.getMethods())){
+			eArtifact.getMethods().clear();
+		}
+		
 		// go thru methods in the EMF domain
 		List<Method> eMethods = eArtifact.getMethods();
 		List<Method> toDelete = new ArrayList<Method>();

@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorFactory;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.utils.ClassDiagramUtils;
 
 public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 
@@ -34,6 +35,11 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 	@Override
 	public void updateEArtifact(AbstractArtifact eArtifact,
 			IAbstractArtifact iArtifact) {
+		
+		if (! ClassDiagramUtils.checkLiteralOrder(eArtifact, iArtifact.getLiterals())){
+			eArtifact.getLiterals().clear();
+		}
+		
 		// go thru attributes in the EMF domain
 		List<Literal> eLiterals = eArtifact.getLiterals();
 		List<Literal> toDelete = new ArrayList<Literal>();
