@@ -31,6 +31,7 @@
 		<property name="buildId" value="${buildType}${timestamp}_incubation" />
 		<property name="component" value="everything" />
 		<property name="mapsCheckoutTag" value="HEAD" />
+		<property name="stream" value="0.3.0" />
 
 		<!-- For Nightly/Integration builds, the buildLabel is set to the buildId -->
 		<property name="buildLabel" value="${buildId}" />
@@ -41,6 +42,8 @@
 		<echo message="Building Tigerstripe feature for Europa..." />
 		<ant antfile="build.xml" dir="${pde.build}/scripts">
 			<property name="scripts" value="${basedir}/scripts" />
+			<property name="libs" value="${basedir}/lib" />
+			<property name="stream" value="${stream}" />
 			<property name="templates" value="${basedir}/templates" />
 			<property name="buildRoot" value="${build.root}/builds" />
 			<property name="builder" value="${basedir}/components/${component}" />

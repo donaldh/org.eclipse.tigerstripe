@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+	targetNamespace="http://www.eclipse.org/tigerstripe/schemas/BuildsSchema"
+	elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:tb="http://www.eclipse.org/tigerstripe/schemas/BuildsSchema">
+
+
+	<annotation>
+		<documentation>
+			Builds descriptor for Tigerstripe builds.
+		</documentation>
+	</annotation>
+
+	<complexType name="build">
+        <annotation>
+        	<documentation>
+        		A download site hosts a number of builds. Each build is
+        		uniquely identified with a triplet {stream, type,
+        		tstamp}. Builds are made of: - components that are in
+        		turn made of downloadable bundles to users. -
+        		dependencies that were used for that build - details
+        		that contain various details about the build.
+        	</documentation>
+        </annotation>
+        <complexContent>
+			<extension base="tb:downloadSiteElement">
+				<sequence>
+					<element name="component" type="tb:component" maxOccurs="unbounded" minOccurs="0"></element>
+					<element name="dependency" type="tb:dependency" maxOccurs="unbounded" minOccurs="0"></element>
+				</sequence>
+				<attribute name="stream" type="string"></attribute>
+
+
+				<attribute name="type" type="tb:buildType"></attribute>
+
+				<attribute name="tstamp" type="tb:tStamp"></attribute>
+
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="buildType">
+		<annotation>
+			<documentation>
+				The build type based on Eclipse terms.
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="R"></enumeration>
+			<enumeration value="M"></enumeration>
+			<enumeration value="I"></enumeration>
+			<enumeration value="N"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="tStamp">
+		<restriction base="string">
+			<pattern value="\d{12}"></pattern>
+		</restriction>
+	</simpleType>
+
+	<complexType name="component">
+		<complexContent>
+			<extension base="tb:downloadSiteElement">
+
+				<sequence>
+					<element name="bundle" type="tb:bundle" maxOccurs="unbounded" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="downloadSiteElement">
+        <annotation>
+        	<documentation>
+        		This is the top level class for download sites elements.
+        		Each element is expected to have at least these
+        		characteristics.
+        	</documentation>
+        </annotation>
+        <sequence>
+			<element name="description" type="string"></element>
+		</sequence>
+		<attribute name="name" type="string"></attribute>
+		<attribute name="summary" type="string"></attribute>
+	</complexType>
+
+	<complexType name="bundle">
+		<complexContent>
+			<extension base="tb:downloadSiteElement">
+				<attribute name="link" type="string"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="dependency">
+		<complexContent>
+			<extension base="tb:bundle"></extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="downloadSite">
+        <annotation>
+        	<documentation>
+        		A download site is the top level descriptor that list
+        		all the builds available through this download site
+        		hosting components available for download.
+        	</documentation>
+        </annotation>
+        <complexContent>
+			<extension base="tb:downloadSiteElement">
+				<sequence maxOccurs="unbounded" minOccurs="0">
+					<element name="build" type="tb:build"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

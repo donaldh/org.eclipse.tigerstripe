@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="MacRoman"?>
+<jardesc>
+<jar path="/Users/erdillon/Documents/workspace/releng/org.eclipse.tigerstripe.releng/lib/releng-ant.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/org.eclipse.tigerstripe.releng/releng-ant.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+<storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+<selectedProjects/>
+<manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+<sealing sealJar="false">
+<packagesToSeal/>
+<packagesToUnSeal/>
+</sealing>
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<javaElement handleIdentifier="=org.eclipse.tigerstripe.releng/src"/>
+</selectedElements>
+</jardesc>

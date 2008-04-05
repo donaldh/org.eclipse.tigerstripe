@@ -14,22 +14,55 @@
 
 	<!-- Local target definitions -->
 	<property file="${builder}/target.properties" />
+	<property name="buildDescriptor" value="${buildDirectory}/${buildLabel}/build-details.xml" />
+
+	<path id="downloadsite.ant.path">
+		<fileset dir="${libs}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<taskdef classname="org.eclipse.tigerstripe.releng.downloadsite.ant.NewBuild" name="dsite.newBuild" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef classname="org.eclipse.tigerstripe.releng.downloadsite.ant.MergeBuild" name="dsite.mergeBuild" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddComponent" name="dsite.addComponent" classpathref="downloadsite.ant.path">
+	</taskdef>
 
 	<!-- ===================================================================== -->
 	<!-- Run a given ${target} on all elements being built -->
 	<!-- Add on <ant> task for each top level element being built. -->
 	<!-- ===================================================================== -->
 	<target name="allElements">
+
+		<!-- create the initial build descriptor, we'll complete it as we go -->
+		<dsite.newBuild file="${buildDescriptor}">
+			<build name="${buildLabel}" type="${buildType}" tStamp="${timestamp}" stream="${stream}">
+			</build>
+		</dsite.newBuild>
+
 		<ant antfile="${genericTargets}" target="${target}">
 			<property name="archiveName" value="tigerstripe-base-${buildLabel}.zip" />
 			<property name="type" value="feature" />
 			<property name="id" value="org.eclipse.tigerstripe.base" />
 		</ant>
+		<dsite.addComponent file="${buildDescriptor}">
+			<component name="Tigerstripe Base">
+				<bundle name="tigerstripe-base-${buildLabel}.zip" link="${downloadPrefix}/tigerstripe-base-${buildLabel}.zip" />
+			</component>
+		</dsite.addComponent>
+
 		<ant antfile="${genericTargets}" target="${target}">
 			<property name="archiveName" value="tigerstripe-workbench-${buildLabel}.zip" />
 			<property name="type" value="feature" />
 			<property name="id" value="org.eclipse.tigerstripe.workbench" />
 		</ant>
+		<dsite.addComponent file="${buildDescriptor}">
+			<component name="Tigerstripe Workbench">
+				<bundle name="tigerstripe-workbench-${buildLabel}.zip" link="${downloadPrefix}/tigerstripe-workbench-${buildLabel}.zip" />
+			</component>
+		</dsite.addComponent>
+
 		<ant antfile="${genericTargets}" target="${target}">
 			<property name="archiveName" value="tigerstripe-base-test-${buildLabel}.zip" />
 			<property name="type" value="feature" />
@@ -99,6 +132,8 @@
 		<mkdir dir="${buildDirectory}" />
 		<mkdir dir="${artifacts.drops}" />
 		<mkdir dir="${artifacts.updates}" />
+
+
 		<antcall target="cleanBase" />
 	</target>
 
@@ -149,7 +184,6 @@
 	<target name="preProcess">
 		<ant antfile="javadoc.xml" dir="${buildDirectory}/plugins/org.eclipse.tigerstripe.workbench.base/">
 		</ant>
-		<echo file="${buildDirectory}/buildComment.txt" message="$buildComment" />
 	</target>
 
 	<!-- ===================================================================== -->
@@ -188,6 +222,7 @@
 	<target name="postBuild">
 		<ant antfile="${scripts}/package.xml" target="pack200" />
 		<antcall target="gatherLogs" />
+
 		<!--		<antcall target="test" /> -->
 	</target>
 
