@@ -106,7 +106,7 @@
 
 	<target name="install-required-plugins">
 		<property name="destination" value="${buildDirectory}" />
-		<property name="dependencies.file" value="${buildDirectory}/${buildLabel}/plugin-dependencies.txt" />
+		<property name="dependencies.file" value="${buildDirectory}/${buildLabel}/plugin-dependencies-${buildId}.txt" />
 		<delete file="${dependencies.file}" failonerror="false" quiet="true" />
 		<!-- EMF SDO -->
 		<antcall target="install-emf-sdo" />

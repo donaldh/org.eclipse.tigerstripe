@@ -29,17 +29,16 @@
 		<property name="timestamp" value="${date}${time}" />
 		<property name="buildType" value="N" />
 		<property name="buildId" value="${buildType}${timestamp}_incubation" />
-		<property name="component" value="everything" />
+		<property name="component" value="workbench-only" />
 		<property name="mapsCheckoutTag" value="HEAD" />
 		<property name="stream" value="0.3.0" />
 
 		<!-- For Nightly/Integration builds, the buildLabel is set to the buildId -->
 		<property name="buildLabel" value="${buildId}" />
-		<property name="buildComment" value="${component} Build" />
 	</target>
 
 	<target name="main" depends="init">
-		<echo message="Building Tigerstripe feature for Europa..." />
+		<echo message="Building Workbench for Europa..." />
 		<ant antfile="build.xml" dir="${pde.build}/scripts">
 			<property name="scripts" value="${basedir}/scripts" />
 			<property name="libs" value="${basedir}/lib" />
@@ -57,12 +56,9 @@
 			<property name="buildRoot" value="${build.root}/builds" />
 			<property name="builder" value="${basedir}/components/${component}" />
 			<property name="buildDirectory" value="${build.root}/builds/everything/${buildLabel}" />
-			<property name="artifactsDirectory" value="${build.root}/builds/everything/${buildLabel}/${buildId}"/>
+			<property name="artifactsDirectory" value="${build.root}/builds/everything/${buildLabel}/${buildId}" />
 			<property name="downloads.site.details" value="${basedir}/localDownloads.properties" />
 		</ant>
-		<!-- Removing auto-deployment of stable builds - better do deploy them manually
-		<ant antfile="deploy.xml" target="deploy.updates.callisto" />		
-		-->
 	</target>
 
 </project>

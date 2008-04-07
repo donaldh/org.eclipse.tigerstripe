@@ -60,20 +60,6 @@
 		
 		<ant antfile="${genericTargets}" target="${target}">
 			<property name="archiveName"
-				value="tigerstripe-base-${buildLabel}.zip" />
-			<property name="type" value="feature" />
-			<property name="id" value="org.eclipse.tigerstripe.base" />
-		</ant>
-		<dsite.addComponent file="${buildDescriptor}">
-			<component name="Tigerstripe Base"
-				summary="Model manager, Generation Engine, no UI">
-				<bundle name="tigerstripe-base-${buildLabel}.zip"
-					link="@download.prefix@/tigerstripe-base-${buildLabel}.zip" />
-			</component>
-		</dsite.addComponent>
-
-		<ant antfile="${genericTargets}" target="${target}">
-			<property name="archiveName"
 				value="tigerstripe-workbench-${buildLabel}.zip" />
 			<property name="type" value="feature" />
 			<property name="id"
@@ -88,13 +74,6 @@
 			</component>
 		</dsite.addComponent>
 
-		<ant antfile="${genericTargets}" target="${target}">
-			<property name="archiveName"
-				value="tigerstripe-base-test-${buildLabel}.zip" />
-			<property name="type" value="feature" />
-			<property name="id"
-				value="org.eclipse.tigerstripe.base.test_feature" />
-		</ant>
 	</target>
 
 	<!-- ===================================================================== -->
@@ -102,14 +81,8 @@
 	<!-- These generally call the generated assemble scripts (named in -->
 	<!-- ${assembleScriptName}) but may also add pre and post processing -->
 	<!-- Add one target for each root element and each configuration -->
-	<!-- ===================================================================== -->
 
-	<target name="assemble.org.eclipse.tigerstripe.base">
-		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
-	</target>
-	<target name="assemble.org.eclipse.tigerstripe.base.test_feature">
-		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
-	</target>
+	<!-- ===================================================================== -->
 	<target name="assemble.org.eclipse.tigerstripe.workbench">
 		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
 	</target>

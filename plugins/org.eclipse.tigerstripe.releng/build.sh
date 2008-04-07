@@ -19,5 +19,11 @@ export	ANT_HOME=/usr/share/ant
 export	JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home
 export	PATH=${JAVA_HOME}/bin:${PATH}:${ANT_HOME}/bin
 
-${JAVA_HOME}/bin/java -Xmx1024m -cp pde/org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar \
+## Base classpath for Eclipse Launcher
+export CLASSPATH=pde/org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar
+
+## Adding jSch to classpath to enable "scp" task in Ant.
+export CLASSPATH=${CLASSPATH}:lib/jsch-0.1.37.jar
+
+${JAVA_HOME}/bin/java -Xmx1024m -cp ${CLASSPATH} \
 	org.eclipse.core.launcher.Main -application org.eclipse.ant.core.antRunner "$@"

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--  																		-->
+<!--  Copyright (c) 2008 Cisco Systems, Inc.								-->
+<!--  All rights reserved. This program and the accompanying materials		-->
+<!--  are made available under the terms of the Eclipse Public License v1.0	-->
+<!--  which accompanies this distribution, and is available at				-->
+<!--  http://www.eclipse.org/legal/epl-v10.html								-->
+<!-- 																		-->
+<!--  Contributors:															-->
+<!--     Cisco Systems, Inc. - erdillon										-->
+<!-- 																		-->
+<!-- Deploys a build to either downloads site or Updates site				-->
+
+<!--  This bit allows to include the taskdefs conveniently -->
+
+<project name="Deploy build">
+
+	<!-- Include task defs for Releng Ant extensions -->
+	<path id="downloadsite.ant.path">
+		<fileset dir="${libs}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<taskdef classname="org.eclipse.tigerstripe.releng.downloadsite.ant.NewBuild" name="dsite.newBuild" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef classname="org.eclipse.tigerstripe.releng.downloadsite.ant.MergeBuild" name="dsite.mergeBuild" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddComponent" name="dsite.addComponent" classpathref="downloadsite.ant.path">
+	</taskdef>
+
+	<taskdef classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddDependency" name="dsite.addDependency" classpathref="downloadsite.ant.path">
+	</taskdef>
+
+	<property file="../bootstrap.properties" />
+	<property file="../build.properties" />
+	<property file="../local.properties" />
+
+	<property file="${downloads.site.details}" />
+
+	<property name="download.site" value="${download.site.username}:${download.site.password}@${download.site.host}:${download.site.directory}" />
+
+	<!--  Deploys a build to specified downloads website -->
+	<target name="deploy.downloads">
+		<antcall target="upload.build.content" />
+		<antcall target="upload.build.descriptor" />
+	</target>
+
+	<!-- Uploads the build content, i.e. all the .zip files found in the ${artifactsDirectory} -->
+	<target name="upload.build.content">
+		<echo message="Uploading build ${buildLabel} to ${download.site.label}" />
+		<echo message="From ${artifactsDirectory}" />
+		<scp todir="${download.site}">
+			<fileset dir="${artifactsDirectory}">
+				<include name="*.zip" />
+				<exclude name="*-test-*.zip" />
+				<include name="plugin-dependencies*"/>
+			</fileset>
+		</scp>
+		<echo message="Done" />
+	</target>
+
+	<!-- Downloads any existing downloads.xml descriptor, patches it with the current build and uploads it back up -->
+	<target name="upload.build.descriptor">
+		<echo message="Downloading existing build descriptor (download.xml) from ${download.site.label}" />
+		<scp file="${download.site}/downloads.xml" todir="${artifactsDirectory}" />
+		<!-- update the download prefix in the build-details.xml -->
+		<replace file="${artifactsDirectory}/build-details.xml">
+			<replacefilter token="@download.prefix@" value="${download.site.prefix}" />
+		</replace>
+		<dsite.mergeBuild downloadsFile="${artifactsDirectory}/downloads.xml" newBuildFile="${artifactsDirectory}/build-details.xml" />
+		<scp file="${artifactsDirectory}/downloads.xml" todir="${download.site}" />
+	</target>
+</project>

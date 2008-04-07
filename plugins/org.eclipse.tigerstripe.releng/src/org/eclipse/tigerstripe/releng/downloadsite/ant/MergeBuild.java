@@ -12,7 +12,9 @@ package org.eclipse.tigerstripe.releng.downloadsite.ant;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.eclipse.emf.common.util.EList;
@@ -26,7 +28,8 @@ import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSite;
 /**
  * This task allows to merge a new build into a downloads.xml descriptor
  * 
- * Ultimately, a build is uniquely identified a {stream, buildType, tStamp} pair.
+ * Ultimately, a build is uniquely identified a {stream, buildType, tStamp}
+ * pair.
  * 
  * <tigerstripe.mergeBuilds downloadsFile="build.xml">
  * </tigerstripe.updateBuilds>
@@ -36,32 +39,40 @@ import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSite;
  */
 public class MergeBuild extends BaseTask {
 
-	private String buidslFile = null;
+	private String downloadsFile = null;
 	private String newBuildFile = null;
+	private int retainNumber = 5;
 
 	/**
 	 * A setter for the buildsFile attribute
 	 * 
 	 * @param buildsFile
 	 */
-	public void setBuildsFile(String buildsFile) {
-		this.buidslFile = buildsFile;
+	public void setDownloadsFile(String downloadsFile) {
+		this.downloadsFile = downloadsFile;
 	}
 
 	public void setNewBuildFile(String newBuildFile) {
 		this.newBuildFile = newBuildFile;
 	}
 
+	public void setRetain(String retainNumber) {
+		this.retainNumber = Integer.parseInt(retainNumber);
+		if (this.retainNumber < 1)
+			this.retainNumber = 1;
+	}
+
 	@Override
 	public void execute() throws BuildException {
 		super.execute();
 
-		System.out.println("Writing to " + buidslFile);
+		System.out.println("Writing to " + downloadsFile);
 		DownloadSite builds = null;
 		Build newBuild = null;
 
 		// Load existing builds.xml descriptor
-		Resource buildsRes = new XMLResourceImpl(URI.createFileURI(buidslFile));
+		Resource buildsRes = new XMLResourceImpl(URI
+				.createFileURI(downloadsFile));
 		try {
 			buildsRes.load(new HashMap<Object, Object>());
 			EList<EObject> content = buildsRes.getContents();
@@ -81,7 +92,9 @@ public class MergeBuild extends BaseTask {
 			throw new BuildException(e);
 		}
 
-		builds.getBuild().add(newBuild);
+		builds.getBuild().add(0, newBuild);
+
+		trimList(builds.getBuild(), newBuild);
 
 		try {
 			buildsRes.save(new HashMap<Object, Object>());
@@ -90,4 +103,22 @@ public class MergeBuild extends BaseTask {
 		}
 	}
 
+	/**
+	 * Trims the number of builds shown for the given kind of build
+	 */
+	protected void trimList(List<Build> buildList, Build newBuild) {
+		List<Build> subList = new ArrayList<Build>();
+
+		// Builds a sublist for the given build type
+		for (Build build : buildList) {
+			if (build.getType() == newBuild.getType()) {
+				subList.add(build);
+			}
+		}
+
+		while (subList.size() > this.retainNumber) {
+			Build removed = subList.remove(subList.size() - 1);
+			buildList.remove(removed);
+		}
+	}
 }
