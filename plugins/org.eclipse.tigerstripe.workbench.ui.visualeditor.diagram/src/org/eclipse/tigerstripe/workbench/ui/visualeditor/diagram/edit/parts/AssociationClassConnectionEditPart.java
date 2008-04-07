@@ -97,15 +97,6 @@ public class AssociationClassConnectionEditPart extends ConnectionNodeEditPart {
 				.setLineStyle(org.eclipse.draw2d.Graphics.LINE_DASH);
 		assocClassConnection
 				.setBackgroundColor(org.eclipse.draw2d.ColorConstants.black);
-		// add some bendpoints to the Edge (i.e. to the view the corresponds to
-		// this edit part)
-
-		// need to add this routing style to avoid a null pointer exception from
-		// calling setEnabled(true) so that the connection can be selected...
-		RoutingStyle routingStyleClass = (RoutingStyle) ((Edge) assocClassView)
-				.createStyle(NotationPackage.eINSTANCE.getRoutingStyle());
-		routingStyleClass.setAvoidObstructions(false);
-		routingStyleClass.setClosestDistance(true);
 
 		// and add it to the map
 		mapEditPart.addAssocClassConnection(this);
@@ -115,22 +106,6 @@ public class AssociationClassConnectionEditPart extends ConnectionNodeEditPart {
 
 	public class AssocClassLinkPolylineConnectionEx extends
 			PolylineConnectionEx {
-
-	}
-
-	private class EdgeAnchor extends SlidableAnchor {
-
-		public EdgeAnchor(IFigure owner) {
-			super(owner);
-		}
-
-		public Point getLocation(Point reference) {
-			PolylineConnection connection = (PolylineConnection) getOwner();
-			PointList pointList = connection.getPoints();
-			Point p = pointList.getMidpoint();
-			getOwner().translateToAbsolute(p);
-			return p;
-		}
 
 	}
 
