@@ -188,7 +188,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 
 					if (eAttribute != null) {
 						if (state != ClassDiagramUtils.ATTR_ALREADY_EXISTS_ASIS) {
-							if (!eAttribute.getField().equals(field)){
+							if (eAttribute.getField() == null || !eAttribute.getField().equals(field)){
 								eAttribute.setField(field);
 							}
 							if (eAttribute.getTypeMultiplicity() != ClassDiagramUtils

@@ -182,7 +182,7 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 				// The method with that signature exists but we need to check
 				// that all attributes are correct
 				
-				if (!theMethod.getMethod().equals(iMethod)){
+				if (theMethod.getMethod() == null || !theMethod.getMethod().equals(iMethod)){
 					theMethod.setMethod(iMethod);
 				}
 				if (theMethod.getVisibility() != ClassDiagramUtils
