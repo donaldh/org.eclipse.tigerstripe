@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DownloadSiteSwitch.java,v 1.1 2008/04/05 14:00:37 edillon Exp $
+ * $Id: DownloadSiteSwitch.java,v 1.2 2008/04/08 22:22:16 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema.util;
 
@@ -116,6 +116,14 @@ public class DownloadSiteSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case DownloadSitePackage.DETAIL: {
+				Detail detail = (Detail)theEObject;
+				T result = caseDetail(detail);
+				if (result == null) result = caseBundle(detail);
+				if (result == null) result = caseDownloadSiteElement(detail);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case DownloadSitePackage.DOWNLOAD_SITE: {
 				DownloadSite downloadSite = (DownloadSite)theEObject;
 				T result = caseDownloadSite(downloadSite);
@@ -190,6 +198,21 @@ public class DownloadSiteSwitch<T> {
 	 * @generated
 	 */
 	public T caseDependency(Dependency object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Detail</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Detail</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDetail(Detail object) {
 		return null;
 	}
 

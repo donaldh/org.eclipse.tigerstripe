@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BuildImpl.java,v 1.1 2008/04/05 14:00:36 edillon Exp $
+ * $Id: BuildImpl.java,v 1.2 2008/04/08 22:22:16 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema.impl;
 
@@ -25,6 +25,7 @@ import org.eclipse.tigerstripe.releng.downloadsite.schema.Build;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.BuildType;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.Component;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.Dependency;
+import org.eclipse.tigerstripe.releng.downloadsite.schema.Detail;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSitePackage;
 
 /**
@@ -36,6 +37,7 @@ import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSitePackage;
  * <ul>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.BuildImpl#getComponent <em>Component</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.BuildImpl#getDependency <em>Dependency</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.BuildImpl#getDetail <em>Detail</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.BuildImpl#getStream <em>Stream</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.BuildImpl#getTstamp <em>Tstamp</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.BuildImpl#getType <em>Type</em>}</li>
@@ -64,6 +66,16 @@ public class BuildImpl extends DownloadSiteElementImpl implements Build {
 	 * @ordered
 	 */
 	protected EList<Dependency> dependency;
+
+	/**
+	 * The cached value of the '{@link #getDetail() <em>Detail</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDetail()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Detail> detail;
 
 	/**
 	 * The default value of the '{@link #getStream() <em>Stream</em>}' attribute.
@@ -182,6 +194,18 @@ public class BuildImpl extends DownloadSiteElementImpl implements Build {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Detail> getDetail() {
+		if (detail == null) {
+			detail = new EObjectContainmentEList<Detail>(Detail.class, this, DownloadSitePackage.BUILD__DETAIL);
+		}
+		return detail;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getStream() {
 		return stream;
 	}
@@ -277,6 +301,8 @@ public class BuildImpl extends DownloadSiteElementImpl implements Build {
 				return ((InternalEList<?>)getComponent()).basicRemove(otherEnd, msgs);
 			case DownloadSitePackage.BUILD__DEPENDENCY:
 				return ((InternalEList<?>)getDependency()).basicRemove(otherEnd, msgs);
+			case DownloadSitePackage.BUILD__DETAIL:
+				return ((InternalEList<?>)getDetail()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -293,6 +319,8 @@ public class BuildImpl extends DownloadSiteElementImpl implements Build {
 				return getComponent();
 			case DownloadSitePackage.BUILD__DEPENDENCY:
 				return getDependency();
+			case DownloadSitePackage.BUILD__DETAIL:
+				return getDetail();
 			case DownloadSitePackage.BUILD__STREAM:
 				return getStream();
 			case DownloadSitePackage.BUILD__TSTAMP:
@@ -319,6 +347,10 @@ public class BuildImpl extends DownloadSiteElementImpl implements Build {
 			case DownloadSitePackage.BUILD__DEPENDENCY:
 				getDependency().clear();
 				getDependency().addAll((Collection<? extends Dependency>)newValue);
+				return;
+			case DownloadSitePackage.BUILD__DETAIL:
+				getDetail().clear();
+				getDetail().addAll((Collection<? extends Detail>)newValue);
 				return;
 			case DownloadSitePackage.BUILD__STREAM:
 				setStream((String)newValue);
@@ -347,6 +379,9 @@ public class BuildImpl extends DownloadSiteElementImpl implements Build {
 			case DownloadSitePackage.BUILD__DEPENDENCY:
 				getDependency().clear();
 				return;
+			case DownloadSitePackage.BUILD__DETAIL:
+				getDetail().clear();
+				return;
 			case DownloadSitePackage.BUILD__STREAM:
 				setStream(STREAM_EDEFAULT);
 				return;
@@ -372,6 +407,8 @@ public class BuildImpl extends DownloadSiteElementImpl implements Build {
 				return component != null && !component.isEmpty();
 			case DownloadSitePackage.BUILD__DEPENDENCY:
 				return dependency != null && !dependency.isEmpty();
+			case DownloadSitePackage.BUILD__DETAIL:
+				return detail != null && !detail.isEmpty();
 			case DownloadSitePackage.BUILD__STREAM:
 				return STREAM_EDEFAULT == null ? stream != null : !STREAM_EDEFAULT.equals(stream);
 			case DownloadSitePackage.BUILD__TSTAMP:

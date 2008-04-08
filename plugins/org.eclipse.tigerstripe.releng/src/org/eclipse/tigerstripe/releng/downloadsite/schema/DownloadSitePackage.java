@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DownloadSitePackage.java,v 1.1 2008/04/05 14:00:36 edillon Exp $
+ * $Id: DownloadSitePackage.java,v 1.2 2008/04/08 22:22:15 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema;
 
@@ -74,7 +74,7 @@ public interface DownloadSitePackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DownloadSitePackageImpl#getDownloadSiteElement()
 	 * @generated
 	 */
-	int DOWNLOAD_SITE_ELEMENT = 5;
+	int DOWNLOAD_SITE_ELEMENT = 6;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -168,13 +168,22 @@ public interface DownloadSitePackage extends EPackage {
 	int BUILD__DEPENDENCY = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Detail</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUILD__DETAIL = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
 	 * The feature id for the '<em><b>Stream</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BUILD__STREAM = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 2;
+	int BUILD__STREAM = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Tstamp</b></em>' attribute.
@@ -183,7 +192,7 @@ public interface DownloadSitePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILD__TSTAMP = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 3;
+	int BUILD__TSTAMP = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -192,7 +201,7 @@ public interface DownloadSitePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILD__TYPE = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 4;
+	int BUILD__TYPE = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Build</em>' class.
@@ -201,7 +210,7 @@ public interface DownloadSitePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int BUILD_FEATURE_COUNT = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 5;
+	int BUILD_FEATURE_COUNT = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.BundleImpl <em>Bundle</em>}' class.
@@ -250,13 +259,22 @@ public interface DownloadSitePackage extends EPackage {
 	int BUNDLE__LINK = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Size</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int BUNDLE__SIZE = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Bundle</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int BUNDLE_FEATURE_COUNT = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 1;
+	int BUNDLE_FEATURE_COUNT = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.ComponentImpl <em>Component</em>}' class.
@@ -360,6 +378,15 @@ public interface DownloadSitePackage extends EPackage {
 	int DEPENDENCY__LINK = BUNDLE__LINK;
 
 	/**
+	 * The feature id for the '<em><b>Size</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPENDENCY__SIZE = BUNDLE__SIZE;
+
+	/**
 	 * The number of structural features of the '<em>Dependency</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -369,6 +396,70 @@ public interface DownloadSitePackage extends EPackage {
 	int DEPENDENCY_FEATURE_COUNT = BUNDLE_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DetailImpl <em>Detail</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DetailImpl
+	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DownloadSitePackageImpl#getDetail()
+	 * @generated
+	 */
+	int DETAIL = 4;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL__DESCRIPTION = BUNDLE__DESCRIPTION;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL__NAME = BUNDLE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Summary</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL__SUMMARY = BUNDLE__SUMMARY;
+
+	/**
+	 * The feature id for the '<em><b>Link</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL__LINK = BUNDLE__LINK;
+
+	/**
+	 * The feature id for the '<em><b>Size</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL__SIZE = BUNDLE__SIZE;
+
+	/**
+	 * The number of structural features of the '<em>Detail</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DETAIL_FEATURE_COUNT = BUNDLE_FEATURE_COUNT + 0;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DownloadSiteImpl <em>Download Site</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -376,7 +467,7 @@ public interface DownloadSitePackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DownloadSitePackageImpl#getDownloadSite()
 	 * @generated
 	 */
-	int DOWNLOAD_SITE = 4;
+	int DOWNLOAD_SITE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Description</b></em>' attribute.
@@ -440,7 +531,7 @@ public interface DownloadSitePackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DownloadSitePackageImpl#getBuildType()
 	 * @generated
 	 */
-	int BUILD_TYPE = 6;
+	int BUILD_TYPE = 7;
 
 	/**
 	 * The meta object id for the '<em>Build Type Object</em>' data type.
@@ -450,7 +541,7 @@ public interface DownloadSitePackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DownloadSitePackageImpl#getBuildTypeObject()
 	 * @generated
 	 */
-	int BUILD_TYPE_OBJECT = 7;
+	int BUILD_TYPE_OBJECT = 8;
 
 	/**
 	 * The meta object id for the '<em>TStamp</em>' data type.
@@ -460,7 +551,7 @@ public interface DownloadSitePackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DownloadSitePackageImpl#getTStamp()
 	 * @generated
 	 */
-	int TSTAMP = 8;
+	int TSTAMP = 9;
 
 
 	/**
@@ -494,6 +585,17 @@ public interface DownloadSitePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getBuild_Dependency();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Build#getDetail <em>Detail</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Detail</em>'.
+	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.Build#getDetail()
+	 * @see #getBuild()
+	 * @generated
+	 */
+	EReference getBuild_Detail();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Build#getStream <em>Stream</em>}'.
@@ -550,6 +652,17 @@ public interface DownloadSitePackage extends EPackage {
 	EAttribute getBundle_Link();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Bundle#getSize <em>Size</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Size</em>'.
+	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.Bundle#getSize()
+	 * @see #getBundle()
+	 * @generated
+	 */
+	EAttribute getBundle_Size();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Component <em>Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -579,6 +692,16 @@ public interface DownloadSitePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getDependency();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Detail <em>Detail</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Detail</em>'.
+	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.Detail
+	 * @generated
+	 */
+	EClass getDetail();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSite <em>Download Site</em>}'.
@@ -738,6 +861,14 @@ public interface DownloadSitePackage extends EPackage {
 		EReference BUILD__DEPENDENCY = eINSTANCE.getBuild_Dependency();
 
 		/**
+		 * The meta object literal for the '<em><b>Detail</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference BUILD__DETAIL = eINSTANCE.getBuild_Detail();
+
+		/**
 		 * The meta object literal for the '<em><b>Stream</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -780,6 +911,14 @@ public interface DownloadSitePackage extends EPackage {
 		EAttribute BUNDLE__LINK = eINSTANCE.getBundle_Link();
 
 		/**
+		 * The meta object literal for the '<em><b>Size</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute BUNDLE__SIZE = eINSTANCE.getBundle_Size();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.ComponentImpl <em>Component</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -806,6 +945,16 @@ public interface DownloadSitePackage extends EPackage {
 		 * @generated
 		 */
 		EClass DEPENDENCY = eINSTANCE.getDependency();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DetailImpl <em>Detail</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DetailImpl
+		 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DownloadSitePackageImpl#getDetail()
+		 * @generated
+		 */
+		EClass DETAIL = eINSTANCE.getDetail();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DownloadSiteImpl <em>Download Site</em>}' class.

@@ -18,17 +18,20 @@
     <genClasses ecoreClass="downloadSiteSchema.ecore#//Build">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference downloadSiteSchema.ecore#//Build/component"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference downloadSiteSchema.ecore#//Build/dependency"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference downloadSiteSchema.ecore#//Build/detail"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute downloadSiteSchema.ecore#//Build/stream"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute downloadSiteSchema.ecore#//Build/tstamp"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute downloadSiteSchema.ecore#//Build/type"/>
     </genClasses>
     <genClasses ecoreClass="downloadSiteSchema.ecore#//Bundle">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute downloadSiteSchema.ecore#//Bundle/link"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute downloadSiteSchema.ecore#//Bundle/size"/>
     </genClasses>
     <genClasses ecoreClass="downloadSiteSchema.ecore#//Component">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference downloadSiteSchema.ecore#//Component/bundle"/>
     </genClasses>
     <genClasses ecoreClass="downloadSiteSchema.ecore#//Dependency"/>
+    <genClasses ecoreClass="downloadSiteSchema.ecore#//Detail"/>
     <genClasses ecoreClass="downloadSiteSchema.ecore#//DownloadSite">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute downloadSiteSchema.ecore#//DownloadSite/group"/>
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference downloadSiteSchema.ecore#//DownloadSite/build"/>

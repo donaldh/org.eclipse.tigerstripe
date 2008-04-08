@@ -42,7 +42,14 @@
 		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddDependency"
 		name="dsite.addDependency" classpathref="downloadsite.ant.path">
 	</taskdef>
-	
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddDetail"
+		name="dsite.addDetail" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.UpdateNotesDetails"
+		name="dsite.addReleaseNotes" classpathref="downloadsite.ant.path">
+	</taskdef>
 
 	<!-- Run a given ${target} on all elements being built -->
 	<!-- Add on <ant> task for each top level element being built. -->
@@ -53,11 +60,13 @@
 		<dsite.newBuild file="${buildDescriptor}">
 			<build name="${buildLabel}" type="${buildType}"
 				tStamp="${timestamp}" stream="${stream}">
-				<dependency name="Required Plugins" link="@download.prefix@/plugin-dependencies-${buildId}.txt"/>
-				<dependency name="Eclipse 3.3.x" link="http://www.eclipse.org/downloads"/>
+				<dependency name="Required Plugins"
+					link="@download.prefix@/plugin-dependencies-${buildId}.txt" />
+				<dependency name="Eclipse 3.3.x"
+					link="http://www.eclipse.org/downloads" />
 			</build>
 		</dsite.newBuild>
-		
+
 		<ant antfile="${genericTargets}" target="${target}">
 			<property name="archiveName"
 				value="tigerstripe-base-${buildLabel}.zip" />

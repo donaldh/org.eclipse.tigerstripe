@@ -42,38 +42,24 @@
 		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddDependency"
 		name="dsite.addDependency" classpathref="downloadsite.ant.path">
 	</taskdef>
-	
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddDetail"
+		name="dsite.addDetail" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.UpdateNotesDetails"
+		name="dsite.addReleaseNotes" classpathref="downloadsite.ant.path">
+	</taskdef>
 
 	<!-- Run a given ${target} on all elements being built -->
 	<!-- Add on <ant> task for each top level element being built. -->
 	<!-- ===================================================================== -->
 	<target name="allElements">
-
-		<!-- create the initial build descriptor, we'll complete it as we go -->
-		<dsite.newBuild file="${buildDescriptor}">
-			<build name="${buildLabel}" type="${buildType}"
-				tStamp="${timestamp}" stream="${stream}">
-				<dependency name="Required Plugins" link="@download.prefix@/plugin-dependencies-${buildId}.txt"/>
-				<dependency name="Eclipse 3.3.x" link="http://www.eclipse.org/downloads"/>
-			</build>
-		</dsite.newBuild>
-		
 		<ant antfile="${genericTargets}" target="${target}">
-			<property name="archiveName"
-				value="tigerstripe-workbench-${buildLabel}.zip" />
 			<property name="type" value="feature" />
 			<property name="id"
 				value="org.eclipse.tigerstripe.workbench" />
 		</ant>
-		<dsite.addComponent file="${buildDescriptor}">
-			<component name="Tigerstripe Workbench"
-				summary="The end-user workbench">
-				<bundle name="tigerstripe-workbench-${buildLabel}.zip"
-					summary="Workbench Plugins only"
-					link="@download.prefix@/tigerstripe-workbench-${buildLabel}.zip" />
-			</component>
-		</dsite.addComponent>
-
 	</target>
 
 	<!-- ===================================================================== -->
@@ -84,7 +70,33 @@
 
 	<!-- ===================================================================== -->
 	<target name="assemble.org.eclipse.tigerstripe.workbench">
+		<property name="archiveName"
+			value="tigerstripe-workbench-${buildLabel}.zip" />
 		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
+		<ant antfile="${scripts}/package.xml" target="packageBundle">
+		</ant>
+		<!-- create the initial build descriptor, we'll complete it as we go -->
+		<dsite.newBuild file="${buildDescriptor}">
+			<build name="${buildLabel}" type="${buildType}"
+				tStamp="${timestamp}" stream="${stream}">
+				<dependency name="Required Plugins"
+					link="@download.prefix@/plugin-dependencies-${buildId}.txt" />
+				<dependency name="Eclipse 3.3.x"
+					link="http://www.eclipse.org/downloads" />
+			</build>
+		</dsite.newBuild>
+		<dsite.addComponent file="${buildDescriptor}">
+			<component name="Tigerstripe Workbench"
+				summary="The end-user workbench">
+				<bundle name="tigerstripe-workbench-${buildLabel}.zip"
+					summary="Workbench Plugins only" size="18M"
+					link="@download.prefix@/tigerstripe-workbench-${buildLabel}.zip" />
+				<bundle
+					name="bundle-tigerstripe-workbench-${buildLabel}.zip" size="80M"
+					summary="Workbench Plugins + Required Plugins"
+					link="@download.prefix@/bundle-tigerstripe-workbench-${buildLabel}.zip" />
+			</component>
+		</dsite.addComponent>
 	</target>
 
 	<!-- ===================================================================== -->
@@ -223,7 +235,6 @@
 	<target name="postBuild">
 		<ant antfile="${scripts}/package.xml" target="pack200" />
 		<antcall target="gatherLogs" />
-
 		<!--		<antcall target="test" /> -->
 	</target>
 

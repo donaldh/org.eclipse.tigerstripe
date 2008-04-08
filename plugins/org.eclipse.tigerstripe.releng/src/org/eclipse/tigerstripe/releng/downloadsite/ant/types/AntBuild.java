@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.releng.downloadsite.ant.types;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.Build;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.Component;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.Dependency;
+import org.eclipse.tigerstripe.releng.downloadsite.schema.Detail;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSiteFactory;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.impl.BuildImpl;
 
@@ -37,6 +38,12 @@ public class AntBuild extends BuildImpl implements Build {
 	public Dependency createDependency() {
 		Dependency result = DownloadSiteFactory.eINSTANCE.createDependency();
 		getDependency().add(result);
+		return result;
+	}
+
+	public Detail createDetail() {
+		Detail result = DownloadSiteFactory.eINSTANCE.createDetail();
+		getDetail().add(result);
 		return result;
 	}
 }

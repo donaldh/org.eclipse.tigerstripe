@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Build.java,v 1.1 2008/04/05 14:00:36 edillon Exp $
+ * $Id: Build.java,v 1.2 2008/04/08 22:22:15 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema;
 
@@ -29,6 +29,7 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Build#getComponent <em>Component</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Build#getDependency <em>Dependency</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Build#getDetail <em>Detail</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Build#getStream <em>Stream</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Build#getTstamp <em>Tstamp</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Build#getType <em>Type</em>}</li>
@@ -73,6 +74,23 @@ public interface Build extends DownloadSiteElement {
 	 * @generated
 	 */
 	EList<Dependency> getDependency();
+
+	/**
+	 * Returns the value of the '<em><b>Detail</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.tigerstripe.releng.downloadsite.schema.Detail}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Detail</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Detail</em>' containment reference list.
+	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSitePackage#getBuild_Detail()
+	 * @model containment="true"
+	 *        extendedMetaData="kind='element' name='detail' namespace='##targetNamespace'"
+	 * @generated
+	 */
+	EList<Detail> getDetail();
 
 	/**
 	 * Returns the value of the '<em><b>Stream</b></em>' attribute.

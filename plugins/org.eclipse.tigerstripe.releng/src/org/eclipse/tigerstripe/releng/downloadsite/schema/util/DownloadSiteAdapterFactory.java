@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DownloadSiteAdapterFactory.java,v 1.1 2008/04/05 14:00:37 edillon Exp $
+ * $Id: DownloadSiteAdapterFactory.java,v 1.2 2008/04/08 22:22:16 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema.util;
 
@@ -88,6 +88,10 @@ public class DownloadSiteAdapterFactory extends AdapterFactoryImpl {
 				return createDependencyAdapter();
 			}
 			@Override
+			public Adapter caseDetail(Detail object) {
+				return createDetailAdapter();
+			}
+			@Override
 			public Adapter caseDownloadSite(DownloadSite object) {
 				return createDownloadSiteAdapter();
 			}
@@ -168,6 +172,20 @@ public class DownloadSiteAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDependencyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Detail <em>Detail</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.Detail
+	 * @generated
+	 */
+	public Adapter createDetailAdapter() {
 		return null;
 	}
 

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DownloadSiteFactory.java,v 1.1 2008/04/05 14:00:36 edillon Exp $
+ * $Id: DownloadSiteFactory.java,v 1.2 2008/04/08 22:22:15 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema;
 
@@ -60,6 +60,15 @@ public interface DownloadSiteFactory extends EFactory {
 	 * @generated
 	 */
 	Dependency createDependency();
+
+	/**
+	 * Returns a new object of class '<em>Detail</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Detail</em>'.
+	 * @generated
+	 */
+	Detail createDetail();
 
 	/**
 	 * Returns a new object of class '<em>Download Site</em>'.

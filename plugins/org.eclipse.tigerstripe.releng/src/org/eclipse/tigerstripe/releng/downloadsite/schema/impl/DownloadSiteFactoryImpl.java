@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DownloadSiteFactoryImpl.java,v 1.1 2008/04/05 14:00:36 edillon Exp $
+ * $Id: DownloadSiteFactoryImpl.java,v 1.2 2008/04/08 22:22:16 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema.impl;
 
@@ -68,6 +68,7 @@ public class DownloadSiteFactoryImpl extends EFactoryImpl implements DownloadSit
 			case DownloadSitePackage.BUNDLE: return createBundle();
 			case DownloadSitePackage.COMPONENT: return createComponent();
 			case DownloadSitePackage.DEPENDENCY: return createDependency();
+			case DownloadSitePackage.DETAIL: return createDetail();
 			case DownloadSitePackage.DOWNLOAD_SITE: return createDownloadSite();
 			case DownloadSitePackage.DOWNLOAD_SITE_ELEMENT: return createDownloadSiteElement();
 			default:
@@ -151,6 +152,16 @@ public class DownloadSiteFactoryImpl extends EFactoryImpl implements DownloadSit
 	public Dependency createDependency() {
 		DependencyImpl dependency = new DependencyImpl();
 		return dependency;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Detail createDetail() {
+		DetailImpl detail = new DetailImpl();
+		return detail;
 	}
 
 	/**

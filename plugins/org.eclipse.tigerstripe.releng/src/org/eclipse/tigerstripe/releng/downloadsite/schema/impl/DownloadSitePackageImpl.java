@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DownloadSitePackageImpl.java,v 1.1 2008/04/05 14:00:36 edillon Exp $
+ * $Id: DownloadSitePackageImpl.java,v 1.2 2008/04/08 22:22:16 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema.impl;
 
@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.releng.downloadsite.schema.BuildType;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.Bundle;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.Component;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.Dependency;
+import org.eclipse.tigerstripe.releng.downloadsite.schema.Detail;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSite;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSiteElement;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSiteFactory;
@@ -64,6 +65,13 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 	 * @generated
 	 */
 	private EClass dependencyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass detailEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -212,8 +220,8 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBuild_Stream() {
-		return (EAttribute)buildEClass.getEStructuralFeatures().get(2);
+	public EReference getBuild_Detail() {
+		return (EReference)buildEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -221,7 +229,7 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBuild_Tstamp() {
+	public EAttribute getBuild_Stream() {
 		return (EAttribute)buildEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -230,8 +238,17 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getBuild_Type() {
+	public EAttribute getBuild_Tstamp() {
 		return (EAttribute)buildEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBuild_Type() {
+		return (EAttribute)buildEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -250,6 +267,15 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 	 */
 	public EAttribute getBundle_Link() {
 		return (EAttribute)bundleEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getBundle_Size() {
+		return (EAttribute)bundleEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -277,6 +303,15 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 	 */
 	public EClass getDependency() {
 		return dependencyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDetail() {
+		return detailEClass;
 	}
 
 	/**
@@ -400,17 +435,21 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 		buildEClass = createEClass(BUILD);
 		createEReference(buildEClass, BUILD__COMPONENT);
 		createEReference(buildEClass, BUILD__DEPENDENCY);
+		createEReference(buildEClass, BUILD__DETAIL);
 		createEAttribute(buildEClass, BUILD__STREAM);
 		createEAttribute(buildEClass, BUILD__TSTAMP);
 		createEAttribute(buildEClass, BUILD__TYPE);
 
 		bundleEClass = createEClass(BUNDLE);
 		createEAttribute(bundleEClass, BUNDLE__LINK);
+		createEAttribute(bundleEClass, BUNDLE__SIZE);
 
 		componentEClass = createEClass(COMPONENT);
 		createEReference(componentEClass, COMPONENT__BUNDLE);
 
 		dependencyEClass = createEClass(DEPENDENCY);
+
+		detailEClass = createEClass(DETAIL);
 
 		downloadSiteEClass = createEClass(DOWNLOAD_SITE);
 		createEAttribute(downloadSiteEClass, DOWNLOAD_SITE__GROUP);
@@ -464,23 +503,28 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 		bundleEClass.getESuperTypes().add(this.getDownloadSiteElement());
 		componentEClass.getESuperTypes().add(this.getDownloadSiteElement());
 		dependencyEClass.getESuperTypes().add(this.getBundle());
+		detailEClass.getESuperTypes().add(this.getBundle());
 		downloadSiteEClass.getESuperTypes().add(this.getDownloadSiteElement());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(buildEClass, Build.class, "Build", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getBuild_Component(), this.getComponent(), null, "component", null, 0, -1, Build.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getBuild_Dependency(), this.getDependency(), null, "dependency", null, 0, -1, Build.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getBuild_Detail(), this.getDetail(), null, "detail", null, 0, -1, Build.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBuild_Stream(), theXMLTypePackage.getString(), "stream", null, 0, 1, Build.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBuild_Tstamp(), this.getTStamp(), "tstamp", null, 0, 1, Build.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getBuild_Type(), this.getBuildType(), "type", "R", 0, 1, Build.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(bundleEClass, Bundle.class, "Bundle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getBundle_Link(), theXMLTypePackage.getString(), "link", null, 0, 1, Bundle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getBundle_Size(), theXMLTypePackage.getString(), "size", null, 0, 1, Bundle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponent_Bundle(), this.getBundle(), null, "bundle", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dependencyEClass, Dependency.class, "Dependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(detailEClass, Detail.class, "Detail", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(downloadSiteEClass, DownloadSite.class, "DownloadSite", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDownloadSite_Group(), ecorePackage.getEFeatureMapEntry(), "group", null, 0, -1, DownloadSite.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -542,6 +586,14 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 			 "namespace", "##targetNamespace"
 		   });		
 		addAnnotation
+		  (getBuild_Detail(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "detail",
+			 "namespace", "##targetNamespace"
+		   });		
+		addAnnotation
 		  (getBuild_Stream(), 
 		   source, 
 		   new String[] {
@@ -590,6 +642,13 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 			 "name", "link"
 		   });		
 		addAnnotation
+		  (getBundle_Size(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "size"
+		   });		
+		addAnnotation
 		  (componentEClass, 
 		   source, 
 		   new String[] {
@@ -609,6 +668,13 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 		   source, 
 		   new String[] {
 			 "name", "dependency",
+			 "kind", "elementOnly"
+		   });		
+		addAnnotation
+		  (detailEClass, 
+		   source, 
+		   new String[] {
+			 "name", "detail",
 			 "kind", "elementOnly"
 		   });			
 		addAnnotation

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: BundleImpl.java,v 1.1 2008/04/05 14:00:36 edillon Exp $
+ * $Id: BundleImpl.java,v 1.2 2008/04/08 22:22:16 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema.impl;
 
@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSitePackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.BundleImpl#getLink <em>Link</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.BundleImpl#getSize <em>Size</em>}</li>
  * </ul>
  * </p>
  *
@@ -48,6 +49,26 @@ public class BundleImpl extends DownloadSiteElementImpl implements Bundle {
 	 * @ordered
 	 */
 	protected String link = LINK_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSize() <em>Size</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSize()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SIZE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getSize() <em>Size</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSize()
+	 * @generated
+	 * @ordered
+	 */
+	protected String size = SIZE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -94,11 +115,34 @@ public class BundleImpl extends DownloadSiteElementImpl implements Bundle {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getSize() {
+		return size;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSize(String newSize) {
+		String oldSize = size;
+		size = newSize;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DownloadSitePackage.BUNDLE__SIZE, oldSize, size));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case DownloadSitePackage.BUNDLE__LINK:
 				return getLink();
+			case DownloadSitePackage.BUNDLE__SIZE:
+				return getSize();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -113,6 +157,9 @@ public class BundleImpl extends DownloadSiteElementImpl implements Bundle {
 		switch (featureID) {
 			case DownloadSitePackage.BUNDLE__LINK:
 				setLink((String)newValue);
+				return;
+			case DownloadSitePackage.BUNDLE__SIZE:
+				setSize((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -129,6 +176,9 @@ public class BundleImpl extends DownloadSiteElementImpl implements Bundle {
 			case DownloadSitePackage.BUNDLE__LINK:
 				setLink(LINK_EDEFAULT);
 				return;
+			case DownloadSitePackage.BUNDLE__SIZE:
+				setSize(SIZE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -143,6 +193,8 @@ public class BundleImpl extends DownloadSiteElementImpl implements Bundle {
 		switch (featureID) {
 			case DownloadSitePackage.BUNDLE__LINK:
 				return LINK_EDEFAULT == null ? link != null : !LINK_EDEFAULT.equals(link);
+			case DownloadSitePackage.BUNDLE__SIZE:
+				return SIZE_EDEFAULT == null ? size != null : !SIZE_EDEFAULT.equals(size);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -159,6 +211,8 @@ public class BundleImpl extends DownloadSiteElementImpl implements Bundle {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (link: ");
 		result.append(link);
+		result.append(", size: ");
+		result.append(size);
 		result.append(')');
 		return result.toString();
 	}

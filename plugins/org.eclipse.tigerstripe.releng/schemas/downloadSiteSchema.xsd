@@ -25,8 +25,13 @@
         <complexContent>
 			<extension base="tb:downloadSiteElement">
 				<sequence>
-					<element name="component" type="tb:component" maxOccurs="unbounded" minOccurs="0"></element>
-					<element name="dependency" type="tb:dependency" maxOccurs="unbounded" minOccurs="0"></element>
+					<element name="component" type="tb:component"
+						maxOccurs="unbounded" minOccurs="0">
+					</element>
+					<element name="dependency" type="tb:dependency"
+						maxOccurs="unbounded" minOccurs="0">
+					</element>
+					<element name="detail" type="tb:detail" maxOccurs="unbounded" minOccurs="0"></element>
 				</sequence>
 				<attribute name="stream" type="string"></attribute>
 
@@ -89,6 +94,7 @@
 		<complexContent>
 			<extension base="tb:downloadSiteElement">
 				<attribute name="link" type="string"></attribute>
+				<attribute name="size" type="string"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -113,6 +119,12 @@
 					<element name="build" type="tb:build"></element>
 				</sequence>
 			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="detail">
+		<complexContent>
+			<extension base="tb:bundle"></extension>
 		</complexContent>
 	</complexType>
 </schema>

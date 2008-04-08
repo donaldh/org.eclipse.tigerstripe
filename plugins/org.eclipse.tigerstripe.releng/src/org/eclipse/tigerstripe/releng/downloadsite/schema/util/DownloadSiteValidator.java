@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DownloadSiteValidator.java,v 1.1 2008/04/05 14:00:36 edillon Exp $
+ * $Id: DownloadSiteValidator.java,v 1.2 2008/04/08 22:22:16 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema.util;
 
@@ -108,6 +108,8 @@ public class DownloadSiteValidator extends EObjectValidator {
 				return validateComponent((Component)value, diagnostics, context);
 			case DownloadSitePackage.DEPENDENCY:
 				return validateDependency((Dependency)value, diagnostics, context);
+			case DownloadSitePackage.DETAIL:
+				return validateDetail((Detail)value, diagnostics, context);
 			case DownloadSitePackage.DOWNLOAD_SITE:
 				return validateDownloadSite((DownloadSite)value, diagnostics, context);
 			case DownloadSitePackage.DOWNLOAD_SITE_ELEMENT:
@@ -157,6 +159,15 @@ public class DownloadSiteValidator extends EObjectValidator {
 	 */
 	public boolean validateDependency(Dependency dependency, DiagnosticChain diagnostics, Map<Object, Object> context) {
 		return validate_EveryDefaultConstraint(dependency, diagnostics, context);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean validateDetail(Detail detail, DiagnosticChain diagnostics, Map<Object, Object> context) {
+		return validate_EveryDefaultConstraint(detail, diagnostics, context);
 	}
 
 	/**

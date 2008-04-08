@@ -16,3 +16,9 @@
 
 <taskdef classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddDependency" name="dsite.addDependency" classpathref="downloadsite.ant.path">
 </taskdef>
+
+<taskdef classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddDetail" name="dsite.addDetail" classpathref="downloadsite.ant.path">
+</taskdef>
+
+<taskdef classname="org.eclipse.tigerstripe.releng.downloadsite.ant.UpdateNotesDetails" name="dsite.addReleaseNotes" classpathref="downloadsite.ant.path">
+</taskdef>

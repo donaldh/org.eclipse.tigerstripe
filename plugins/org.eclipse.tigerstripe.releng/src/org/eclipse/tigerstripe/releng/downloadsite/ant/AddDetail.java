@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.apache.tools.ant.BuildException;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.Build;
-import org.eclipse.tigerstripe.releng.downloadsite.schema.Dependency;
+import org.eclipse.tigerstripe.releng.downloadsite.schema.Detail;
 import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSiteFactory;
 
 /**
@@ -26,18 +26,18 @@ import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSiteFactory;
  * @author erdillon
  * 
  */
-public class AddDependency extends BaseTask {
+public class AddDetail extends BaseTask {
 
 	private String file;
-	private List<Dependency> dependencies = new ArrayList<Dependency>();
+	private List<Detail> details = new ArrayList<Detail>();
 
 	public void setFile(String file) {
 		this.file = file;
 	}
 
-	public Dependency createDependency() {
-		Dependency result = DownloadSiteFactory.eINSTANCE.createDependency();
-		this.dependencies.add(result);
+	public Detail createDetail() {
+		Detail result = DownloadSiteFactory.eINSTANCE.createDetail();
+		this.details.add(result);
 		return result;
 	}
 
@@ -52,7 +52,7 @@ public class AddDependency extends BaseTask {
 			throw new BuildException(e);
 		}
 
-		build.getDependency().addAll(dependencies);
+		build.getDetail().addAll(details);
 
 		try {
 			DownloadSiteHelper.save(build);
