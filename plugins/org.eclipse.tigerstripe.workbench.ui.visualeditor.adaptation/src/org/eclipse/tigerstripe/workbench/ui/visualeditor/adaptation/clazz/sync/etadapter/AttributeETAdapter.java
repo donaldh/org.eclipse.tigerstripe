@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
@@ -85,7 +86,7 @@ public class AttributeETAdapter extends BaseETAdapter implements ETAdapter {
 								.getType(), attribute.getMultiplicity()
 								.getLiteral(), ((AbstractArtifact) attribute
 								.eContainer()).getFullyQualifiedName(),
-								getModelUpdater());
+								getModelUpdater(), attribute.getField());
 					}
 				} else if (!arg0.getOldStringValue().equals(
 						arg0.getNewStringValue())) {
@@ -142,7 +143,7 @@ public class AttributeETAdapter extends BaseETAdapter implements ETAdapter {
 								.getMultiplicity().getLiteral(),
 								((AbstractArtifact) attribute.eContainer())
 										.getFullyQualifiedName(),
-								getModelUpdater());
+								getModelUpdater(), attribute.getField());
 					}
 				} else if (!arg0.getOldStringValue().equals(
 						arg0.getNewStringValue())) {
@@ -248,7 +249,7 @@ public class AttributeETAdapter extends BaseETAdapter implements ETAdapter {
 
 	public static void createAttribute(String attributeName,
 			String attributeType, String attributeMultiplicity,
-			String parentArtifactFQN, IModelUpdater modelUpdater) {
+			String parentArtifactFQN, IModelUpdater modelUpdater, IField field) {
 		try {
 			// Yes! Create the attribute
 			IAttributeCreateRequest request = (IAttributeCreateRequest) modelUpdater
@@ -258,6 +259,7 @@ public class AttributeETAdapter extends BaseETAdapter implements ETAdapter {
 			request.setAttributeName(attributeName);
 			request.setAttributeType(attributeType);
 			request.setAttributeMultiplicity(attributeMultiplicity);
+			request.setField(field);
 			modelUpdater.handleChangeRequest(request);
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",

@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.jface.text.link.ILinkedModeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -68,6 +69,10 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 						|| !eLiteral.getValue().equals(targetValue)) {
 					eLiteral.setValue(targetValue);
 				}
+				if (eLiteral.getLiteral() == null 
+						|| !eLiteral.getLiteral().equals(targetLabel)){
+					eLiteral.setLiteral(targetLabel);
+				}
 			}
 		}
 
@@ -100,6 +105,7 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 					eLiteral.setName(iLiteral.getName());
 					eLiteral.setType(typeStr);
 					eLiteral.setValue(iLiteral.getValue());
+					eLiteral.setLiteral(iLiteral);
 					eArtifact.getLiterals().add(eLiteral);
 				}
 			}

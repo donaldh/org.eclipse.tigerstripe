@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Parameter;
@@ -301,5 +302,17 @@ public class MethodImpl extends TypedElementImpl implements Method {
 		}
 		return true;
 	}
+	
+	private IMethod method;
+
+	public IMethod getMethod() {
+		return method;
+	}
+
+	public void setMethod(IMethod method) {
+		this.method = method;
+	}
+	
+	
 
 } // MethodImpl

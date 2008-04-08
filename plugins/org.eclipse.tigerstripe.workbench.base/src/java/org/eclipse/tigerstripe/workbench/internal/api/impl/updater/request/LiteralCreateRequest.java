@@ -24,6 +24,7 @@ public class LiteralCreateRequest extends BaseArtifactElementRequest implements
 	private String literalName;
 	private String literalValue;
 	private String literalType;
+	private ILiteral literal;
 
 	public void setLiteralType(String type) {
 		this.literalType = type;
@@ -74,13 +75,27 @@ public class LiteralCreateRequest extends BaseArtifactElementRequest implements
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		ILiteral literal = art.makeLiteral();
+		ILiteral literal;
+		if (this.getLiteral()== null){
+			literal = art.makeLiteral();
+	
 		literal.setName(getLiteralName());
 		literal.setValue(getLiteralValue());
 		IType type = literal.makeType();
 		type.setFullyQualifiedName(getLiteralType());
 		literal.setType(type);
+	} else {
+		literal = this.getLiteral();
+	}
 		art.addLiteral(literal);
 		art.doSave(new NullProgressMonitor());
+	}
+
+	public void setLiteral(ILiteral literal) {
+		this.literal = literal;
+	}
+
+	public ILiteral getLiteral() {
+		return this.literal;
 	}
 }

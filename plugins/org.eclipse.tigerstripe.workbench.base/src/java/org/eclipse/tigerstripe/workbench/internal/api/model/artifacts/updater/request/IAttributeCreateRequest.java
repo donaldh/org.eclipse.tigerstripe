@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request;
 
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 
 /**
  * Artifact creation request
@@ -29,4 +30,6 @@ public interface IAttributeCreateRequest extends IModelChangeRequest {
 	public void setAttributeType(String type);
 
 	public void setAttributeMultiplicity(String multiplicity);
+	
+	public void setField(IField field);
 }

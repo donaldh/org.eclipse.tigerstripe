@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
@@ -84,7 +85,7 @@ public class MethodETAdapter extends BaseETAdapter implements ETAdapter {
 								method.getType(), "FIXME",
 								((AbstractArtifact) method.eContainer())
 										.getFullyQualifiedName(),
-								getModelUpdater());
+								getModelUpdater(), method.getMethod());
 					}
 				} else if (!arg0.getOldStringValue().equals(
 						arg0.getNewStringValue())) {
@@ -144,7 +145,7 @@ public class MethodETAdapter extends BaseETAdapter implements ETAdapter {
 								arg0.getNewStringValue(), "FIXME",
 								((AbstractArtifact) method.eContainer())
 										.getFullyQualifiedName(),
-								getModelUpdater());
+								getModelUpdater(), method.getMethod());
 					}
 				} else if (!arg0.getOldStringValue().equals(
 						arg0.getNewStringValue())) {
@@ -330,7 +331,7 @@ public class MethodETAdapter extends BaseETAdapter implements ETAdapter {
 
 	public static void createMethod(String methodName, String methodType,
 			String methodMultiplicity, String parentArtifactFQN,
-			IModelUpdater modelUpdater) {
+			IModelUpdater modelUpdater, IMethod method) {
 		try {
 			// Yes! Create the attribute
 			IMethodCreateRequest request = (IMethodCreateRequest) modelUpdater
@@ -340,6 +341,8 @@ public class MethodETAdapter extends BaseETAdapter implements ETAdapter {
 			request.setMethodName(methodName);
 			request.setMethodType(methodType);
 			request.setMethodMultiplicity(methodMultiplicity);
+			
+			request.setMethod(method);
 
 			modelUpdater.handleChangeRequest(request);
 		} catch (TigerstripeException e) {

@@ -161,6 +161,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 						eAttribute.setDefaultValue(field.getDefaultValue());
 						eAttribute.setIsOrdered(field.isOrdered());
 						eAttribute.setIsUnique(field.isUnique());
+						eAttribute.setField(field);
 						try {
 							TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
 									.getArtifactManager().getTSProject();
@@ -182,9 +183,14 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 						}
 
 					}
-					// other parameters assocated with the attribute
+					// other parameters associated with the attribute
+
+
 					if (eAttribute != null) {
 						if (state != ClassDiagramUtils.ATTR_ALREADY_EXISTS_ASIS) {
+							if (!eAttribute.getField().equals(field)){
+								eAttribute.setField(field);
+							}
 							if (eAttribute.getTypeMultiplicity() != ClassDiagramUtils
 									.mapTypeMultiplicity(type
 											.getTypeMultiplicity())) {

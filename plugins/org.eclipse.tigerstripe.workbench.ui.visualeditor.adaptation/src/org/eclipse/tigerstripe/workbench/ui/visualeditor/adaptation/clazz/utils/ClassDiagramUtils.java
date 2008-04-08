@@ -234,7 +234,8 @@ public class ClassDiagramUtils {
 								.getDefaultValue() == null) || (attribute
 								.getDefaultValue() != null && attribute
 								.getDefaultValue().equals(
-										field.getDefaultValue()))))
+										field.getDefaultValue())))
+						&& attribute.getField() == field)
 					return ATTR_ALREADY_EXISTS_ASIS;
 				else
 					return ATTR_NEEDS_TYPE_UPDATE;

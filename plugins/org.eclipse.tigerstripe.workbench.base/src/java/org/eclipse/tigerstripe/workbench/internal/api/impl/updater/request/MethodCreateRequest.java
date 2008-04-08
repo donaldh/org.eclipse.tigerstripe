@@ -25,6 +25,7 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 	private String methodName;
 	private String methodType;
 	private String methodMultiplicity;
+	private IMethod method;
 
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
@@ -71,7 +72,10 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		IMethod method = art.makeMethod();
+		IMethod method;
+		if (this.getMethod()== null){
+			method = art.makeMethod();
+		
 		method.setName(getMethodName());
 		IType type = method.makeType();
 		type.setFullyQualifiedName(getMethodType());
@@ -80,8 +84,18 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 		else
 			type.setTypeMultiplicity(IModelComponent.EMultiplicity.ZERO_ONE);
 		method.setReturnType(type);
-
+		} else {
+			method = this.getMethod();
+		}
 		art.addMethod(method);
 		art.doSave(new NullProgressMonitor());
+	}
+
+	public IMethod getMethod() {
+		return method;
+	}
+
+	public void setMethod(IMethod method) {
+		this.method = method;
 	}
 }

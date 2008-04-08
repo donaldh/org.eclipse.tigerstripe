@@ -133,6 +133,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 								.getStereotypeInstances()) {
 							attr.getStereotypes().add(instance.getName());
 						}
+						attr.setField(field);
 					} else {
 						// So this is really a reference
 						AbstractArtifact targetArt = helper
@@ -209,7 +210,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 						.getStereotypeInstances()) {
 					meth.getStereotypes().add(instance.getName());
 				}
-
+				meth.setMethod(method);
 				eArtifact.getMethods().add(meth);
 
 			}

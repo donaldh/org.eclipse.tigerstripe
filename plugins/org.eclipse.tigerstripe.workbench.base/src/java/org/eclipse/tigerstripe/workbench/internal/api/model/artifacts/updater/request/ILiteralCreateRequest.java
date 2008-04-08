@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request;
 
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 
 /**
  * Literal creation request
@@ -29,5 +30,7 @@ public interface ILiteralCreateRequest extends IModelChangeRequest {
 	public void setLiteralValue(String value);
 
 	public void setLiteralType(String type);
+	
+	public void setLiteral(ILiteral literal);
 
 }

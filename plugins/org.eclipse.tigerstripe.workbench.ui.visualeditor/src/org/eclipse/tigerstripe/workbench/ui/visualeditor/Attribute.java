@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor;
 
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Attribute</b></em>'.
  * <!-- end-user-doc -->
@@ -20,4 +22,9 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor;
  * @generated
  */
 public interface Attribute extends TypedElement {
+	
+	public void setField(IField field);
+	
+	public IField getField();
+	
 } // Attribute

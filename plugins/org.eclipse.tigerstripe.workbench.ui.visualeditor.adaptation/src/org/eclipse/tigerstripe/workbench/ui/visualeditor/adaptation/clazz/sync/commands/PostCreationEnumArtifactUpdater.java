@@ -57,6 +57,7 @@ public class PostCreationEnumArtifactUpdater extends
 						.getStereotypeInstances()) {
 					lit.getStereotypes().add(instance.getName());
 				}
+				lit.setLiteral(literal);
 				enume.getLiterals().add(lit);
 			}
 		} finally {

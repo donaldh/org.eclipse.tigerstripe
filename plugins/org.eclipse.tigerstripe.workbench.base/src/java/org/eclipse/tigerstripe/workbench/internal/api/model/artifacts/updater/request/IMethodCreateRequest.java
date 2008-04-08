@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request;
 
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 
 /**
  * Artifact creation request
@@ -29,4 +30,6 @@ public interface IMethodCreateRequest extends IModelChangeRequest {
 	public void setMethodType(String type);
 
 	public void setMethodMultiplicity(String multiplicity);
+	
+	public void setMethod(IMethod method);
 }

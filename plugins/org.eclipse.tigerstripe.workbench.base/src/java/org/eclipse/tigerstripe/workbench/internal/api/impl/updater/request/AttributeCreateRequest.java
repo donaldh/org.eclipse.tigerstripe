@@ -25,6 +25,7 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 	private String attributeName;
 	private String attributeType;
 	private String attributeMultiplicity;
+	private IField field;
 
 	public void setAttributeName(String attributeName) {
 		this.attributeName = attributeName;
@@ -71,20 +72,35 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		IField field = art.makeField();
-		field.setName(getAttributeName());
-		IType type = field.makeType();
-		type.setFullyQualifiedName(getAttributeType());
+		IField field;
+		if (getField() == null){
+			field = art.makeField();
+			field.setName(getAttributeName());
+			IType type = field.makeType();
+			type.setFullyQualifiedName(getAttributeType());
 
-		if (IModelComponent.EMultiplicity.parse(attributeMultiplicity) != null)
-			type
-					.setTypeMultiplicity(IModelComponent.EMultiplicity
-							.parse(attributeMultiplicity));
-		else
-			type.setTypeMultiplicity(IModelComponent.EMultiplicity.ZERO_ONE);
-		field.setType(type);
+			if (IModelComponent.EMultiplicity.parse(attributeMultiplicity) != null)
+				type
+				.setTypeMultiplicity(IModelComponent.EMultiplicity
+						.parse(attributeMultiplicity));
+			else
+				type.setTypeMultiplicity(IModelComponent.EMultiplicity.ZERO_ONE);
+			field.setType(type);
+
+		} else {
+			field = getField();
+		}
 
 		art.addField(field);
 		art.doSave(new NullProgressMonitor());
+	}
+
+	public void setField(IField field) {
+		this.field = field;
+		
+	}
+
+	public IField getField() {
+		return this.field;
 	}
 }

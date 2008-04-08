@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 
@@ -42,4 +43,17 @@ public class AttributeImpl extends TypedElementImpl implements Attribute {
 		return VisualeditorPackage.Literals.ATTRIBUTE;
 	}
 
+	private IField field;
+	
+	public IField getField() {
+		return this.field;
+	}
+
+	public void setField(IField field) {
+		this.field = field;
+		
+	}
+
+	
+	
 } // AttributeImpl

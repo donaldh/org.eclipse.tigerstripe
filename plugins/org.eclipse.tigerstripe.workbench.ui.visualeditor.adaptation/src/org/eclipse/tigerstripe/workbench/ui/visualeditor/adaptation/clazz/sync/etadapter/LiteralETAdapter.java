@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Enumeration;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
@@ -85,7 +86,7 @@ public class LiteralETAdapter extends BaseETAdapter implements ETAdapter {
 								((AbstractArtifact) literal.eContainer())
 										.getFullyQualifiedName(),
 								getModelUpdater(), (AbstractArtifact) literal
-										.eContainer());
+										.eContainer(), literal.getLiteral());
 					}
 				} else if (!arg0.getOldStringValue().equals(
 						arg0.getNewStringValue())) {
@@ -117,7 +118,7 @@ public class LiteralETAdapter extends BaseETAdapter implements ETAdapter {
 								((AbstractArtifact) literal.eContainer())
 										.getFullyQualifiedName(),
 								getModelUpdater(), (AbstractArtifact) literal
-										.eContainer());
+										.eContainer(), literal.getLiteral());
 					}
 				} else if (!arg0.getOldStringValue().equals(
 						arg0.getNewStringValue())) {
@@ -142,7 +143,7 @@ public class LiteralETAdapter extends BaseETAdapter implements ETAdapter {
 
 	public static void createLiteral(String literalName, String literalValue,
 			String attributeMultiplicity, String parentArtifactFQN,
-			IModelUpdater modelUpdater, AbstractArtifact artifact) {
+			IModelUpdater modelUpdater, AbstractArtifact artifact, ILiteral literal) {
 		try {
 			// Yes! Create the attribute
 			ILiteralCreateRequest request = (ILiteralCreateRequest) modelUpdater
@@ -160,6 +161,8 @@ public class LiteralETAdapter extends BaseETAdapter implements ETAdapter {
 				type = "int";
 			}
 			request.setLiteralType(type);
+			
+			request.setLiteral(literal);
 			modelUpdater.handleChangeRequest(request);
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",

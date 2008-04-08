@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor;
 
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Literal</b></em>'.
  * <!-- end-user-doc -->
@@ -53,5 +55,9 @@ public interface Literal extends TypedElement {
 	 * @generated
 	 */
 	void setValue(String value);
+	
+	public void setLiteral(ILiteral literal);
+	
+	public ILiteral getLiteral();
 
 } // Literal

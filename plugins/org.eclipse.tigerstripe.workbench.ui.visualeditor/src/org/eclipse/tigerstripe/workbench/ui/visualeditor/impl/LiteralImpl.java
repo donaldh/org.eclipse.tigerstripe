@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 
@@ -165,5 +166,17 @@ public class LiteralImpl extends TypedElementImpl implements Literal {
 		result.append(')');
 		return result.toString();
 	}
+	
+	private ILiteral literal;
+
+	public ILiteral getLiteral() {
+		return this.literal;
+	}
+
+	public void setLiteral(ILiteral literal) {
+		this.literal = literal;
+	}
+	
+	
 
 } // LiteralImpl

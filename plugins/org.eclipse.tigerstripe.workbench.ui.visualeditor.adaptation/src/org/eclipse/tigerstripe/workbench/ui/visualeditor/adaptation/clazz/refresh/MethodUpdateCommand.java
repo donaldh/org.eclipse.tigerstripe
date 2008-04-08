@@ -139,6 +139,8 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 					meth.setDefaultValue(iMethod.getDefaultReturnValue());
 					meth.setIsOrdered(iMethod.isOrdered());
 					meth.setIsUnique(iMethod.isUnique());
+					
+					meth.setMethod(iMethod);
 
 					if (iMethod.isVoid()) {
 						meth.setType("void");
@@ -179,6 +181,10 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 			} else {
 				// The method with that signature exists but we need to check
 				// that all attributes are correct
+				
+				if (!theMethod.getMethod().equals(iMethod)){
+					theMethod.setMethod(iMethod);
+				}
 				if (theMethod.getVisibility() != ClassDiagramUtils
 						.toVisibility(iMethod.getVisibility()))
 					theMethod.setVisibility(ClassDiagramUtils

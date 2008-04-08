@@ -302,7 +302,8 @@ public abstract class QualifiedNamedElementETAdapter extends BaseETAdapter
 			if (attr.getName() != null && attr.getType() != null) {
 				AttributeETAdapter.createAttribute(attr.getName(), attr
 						.getType(), attr.getTypeMultiplicity().getLiteral(),
-						element.getFullyQualifiedName(), getModelUpdater());
+						element.getFullyQualifiedName(), getModelUpdater()
+						, attr.getField());
 			}
 		} else if (arg0.getNewValue() instanceof Reference) {
 			// When first creating a reference, the zEnd is not set.
@@ -323,16 +324,16 @@ public abstract class QualifiedNamedElementETAdapter extends BaseETAdapter
 				MethodETAdapter.createMethod(meth.getName(), meth.getType(),
 						meth.getTypeMultiplicity().getLiteral(),
 						((QualifiedNamedElement) arg0.getNotifier())
-								.getFullyQualifiedName(), getModelUpdater());
+								.getFullyQualifiedName(), getModelUpdater(), meth.getMethod());
 			}
 		} else if (arg0.getNewValue() instanceof Literal) {
-			Literal meth = (Literal) arg0.getNewValue();
-			if (meth.getName() != null) {
-				LiteralETAdapter.createLiteral(meth.getName(), meth.getValue(),
-						meth.getTypeMultiplicity().getLiteral(),
+			Literal lit = (Literal) arg0.getNewValue();
+			if (lit.getName() != null) {
+				LiteralETAdapter.createLiteral(lit.getName(), lit.getValue(),
+						lit.getTypeMultiplicity().getLiteral(),
 						((QualifiedNamedElement) arg0.getNotifier())
 								.getFullyQualifiedName(), getModelUpdater(),
-						(AbstractArtifact) arg0.getNotifier());
+						(AbstractArtifact) arg0.getNotifier(), lit.getLiteral());
 			}
 		}
 	}

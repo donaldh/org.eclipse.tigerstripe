@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Method</b></em>'.
@@ -95,4 +96,8 @@ public interface Method extends TypedElement {
 	 * @since Bug 997
 	 */
 	public boolean sameSignature(Method other);
+	
+	public void setMethod(IMethod method);
+	
+	public IMethod getMethod();
 } // Method
