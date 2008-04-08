@@ -148,10 +148,10 @@ public class UML2ExportWizard extends Wizard implements INewWizard {
 							.getTigerstripeName(), out, messages, monitor,
 					primitiveTypeMap, typesModel);
 
-			TS2UML2 ts2uml = new TS2UML2();
+			TS2UML2 ts2uml = new TS2UML2(out, messages, monitor);
 			ts2uml.loadTigerstripeToUML(this.firstPage.getExportDir(),
 					this.firstPage.getTigerstripeName(), this.firstPage
-							.getTigerstripeName(), out, messages, monitor,
+							.getTigerstripeName(), 
 					primitiveTypeMap, profile, typesModel);
 
 			out.close();
