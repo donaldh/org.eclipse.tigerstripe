@@ -6,8 +6,8 @@ import org.eclipse.uml2.uml.Model;
 public class Utilities {
 
 
-	public static String mapName(String name, Model modelToUse) {
-		return modelToUse.getName() + "::" + name.replace(".", "::");
+	public static String mapName(String name, String  modelName) {
+		return modelName + "::" + name.replace(".", "::");
 	}
 
 	// There doesn't always have to be an upper and lower bound......

@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.optional.UML2Export.ProfileAnnotations2UML2;
 import org.eclipse.tigerstripe.workbench.optional.UML2Export.ProfileTypes2UML2;
-import org.eclipse.tigerstripe.workbench.optional.UML2Export.TS2UML2;
+import org.eclipse.tigerstripe.workbench.optional.UML2Export.TS2UML;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.MessageListDialog;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -148,7 +148,7 @@ public class UML2ExportWizard extends Wizard implements INewWizard {
 							.getTigerstripeName(), out, messages, monitor,
 					primitiveTypeMap, typesModel);
 
-			TS2UML2 ts2uml = new TS2UML2(out, messages, monitor);
+			TS2UML ts2uml = new TS2UML(out, messages, monitor);
 			ts2uml.loadTigerstripeToUML(this.firstPage.getExportDir(),
 					this.firstPage.getTigerstripeName(), this.firstPage
 							.getTigerstripeName(), 

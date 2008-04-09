@@ -40,14 +40,12 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -63,10 +61,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IMan
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.INamedQuery;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
-import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Class;
@@ -74,11 +72,8 @@ import org.eclipse.uml2.uml.Comment;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
-import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Interface;
-import org.eclipse.uml2.uml.LiteralInteger;
-import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
@@ -93,7 +88,7 @@ import org.eclipse.uml2.uml.VisibilityKind;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.uml2.uml.util.UMLUtil;
 
-public class TS2UML2 {
+public class TS2UML {
 
 	boolean mapUnknownTypes = true;
 
@@ -108,7 +103,7 @@ public class TS2UML2 {
 
 	private ITigerstripeModelProject tsProject;
 
-	private Model model;
+	private Model projectModel;
 	private Model typesModel;
 	private Model unknownTypeModel;
 
@@ -117,9 +112,10 @@ public class TS2UML2 {
 	private Map<String, Type> unknownTypeMap;
 	private Profile tsProfile;
 	private Maker maker;
+	private String msgText;
 
 	/** constructor */
-	public TS2UML2(PrintWriter out, MessageList messages,
+	public TS2UML(PrintWriter out, MessageList messages,
 			IProgressMonitor monitor) {
 		this.out = out;
 		this.messages = messages;
@@ -137,7 +133,7 @@ public class TS2UML2 {
 		unknownTypeModel = UMLFactory.eINSTANCE.createModel();
 		unknownTypeModel.setName("UnknownTypes");
 		unknownTypeMap = new HashMap<String, Type>();
-		maker = new Maker(typeMap,this.out, this.messages, typesModel, unknownTypeModel, unknownTypeMap);
+		
 		
 		try {
 			this.umlMetamodel = (Model) UMLUtilities
@@ -168,20 +164,55 @@ public class TS2UML2 {
 		}
 
 		String modelName = tsProject.getProjectLabel();
-		this.model = UMLFactory.eINSTANCE.createModel();
-		model.setName(modelName);
-		model.applyProfile(tsProfile);
+		
+		
+		
+		Collection<Model> models = new ArrayList<Model>();
+		
+		for (IDependency dependency : tsProject.getDependencies()){
+			out.println("Creating Dependency model: "+dependency.getIProjectDetails().getName());
+			Model depModel = UMLFactory.eINSTANCE.createModel();
+			depModel.setName(dependency.getIProjectDetails().getName());
+			depModel.applyProfile(tsProfile);
+			models.add(depModel);
+		}
+		
+		for (ITigerstripeModelProject refProject : tsProject.getReferencedProjects()){
+			out.println("Creating Referenced Project model: "+refProject.getProjectDetails().getName());
+			Model refModel = UMLFactory.eINSTANCE.createModel();
+			refModel.setName(refProject.getProjectDetails().getName());
+			refModel.applyProfile(tsProfile);
+			models.add(refModel);
+		}
+		
+		
+		projectModel = UMLFactory.eINSTANCE.createModel();
+		projectModel.setName(modelName);
+		projectModel.applyProfile(tsProfile);
+		models.add(projectModel);
+		
+		
+		maker = new Maker(typeMap,this.out, this.messages, typesModel, unknownTypeModel, unknownTypeMap, models);
+		
+		projectToUML();
+		saveUnknowns(exportDir, tSProjectName);
+		saveModels( models, exportDir);
 
 		
 
+		
+	}
+	
+	private void projectToUML() throws TigerstripeException{
+
 		// Iterate over the Project, creating classes per artifact.
 		// This will create packages as necessary
-
 		IArtifactQuery myQuery = mgrSession.makeQuery(IQueryAllArtifacts.class
 				.getName());
-		myQuery.setIncludeDependencies(false);
+		myQuery.setIncludeDependencies(true);
 		Collection<IAbstractArtifact> projectArtifacts = mgrSession
-				.queryArtifact(myQuery);
+		.queryArtifact(myQuery);
+		
 
 		monitor.beginTask("Creating UML Classes :", projectArtifacts.size());
 		String msgText = "Found " + projectArtifacts.size()
@@ -189,10 +220,10 @@ public class TS2UML2 {
 		addMessage(msgText, 2);
 		out.println(msgText);
 		for (IAbstractArtifact artifact : projectArtifacts) {
-			this.out.println("Processing " + artifact.getFullyQualifiedName());
+			this.out.println("================================================\nProcessing " + artifact.getFullyQualifiedName());
 			monitor.setTaskName("Creating UML Classes : " + artifact.getName());
-			String packageName = artifact.getPackage();
-			Package modelPackage = maker.makeOrFindPackage(packageName, this.model);
+			
+			Package modelPackage = maker.makeOrFindPackage(artifact);
 
 			// NB Not all artifact types map to classes.
 			// Associations are UML Associations
@@ -204,17 +235,17 @@ public class TS2UML2 {
 					|| artifact instanceof IEventArtifact
 					|| artifact instanceof IUpdateProcedureArtifact
 					|| artifact instanceof IExceptionArtifact) {
-				Class clazz = maker.makeOrFindClass(artifact, this.model);
-				this.out.println("Class : " + clazz.getQualifiedName());
+				Class clazz = maker.makeOrFindClass(artifact);
+				this.out.println("    Class : " + clazz.getQualifiedName());
 
 			} else if (artifact instanceof ISessionArtifact) {
-				Interface intf = maker.makeOrFindInterface(artifact, this.model);
+				Interface intf = maker.makeOrFindInterface(artifact);
 			}
 
 			if (artifact instanceof IEnumArtifact) {
-				Enumeration enumer = maker.makeOrFindEnum(artifact,this.model);
+				Enumeration enumer = maker.makeOrFindEnum(artifact);
 				if (enumer != null) {
-					this.out.println("Enum : " + enumer.getQualifiedName());
+					this.out.println("    Enum : " + enumer.getQualifiedName());
 					Stereotype eS = enumer.getApplicableStereotype(tsProfile
 							.getQualifiedName()
 							+ "::tigerstripe_enumeration");
@@ -234,7 +265,7 @@ public class TS2UML2 {
 			if (artifact instanceof IAssociationClassArtifact) {
 				this.out.println("Relationships to AssociationClass "
 						+ artifact.getFullyQualifiedName());
-				AssociationClass associationClass = maker.makeOrFindAssociationClass(artifact, this.model);
+				AssociationClass associationClass = maker.makeOrFindAssociationClass(artifact);
 				if (associationClass != null) {
 					Stereotype aS = associationClass
 							.getApplicableStereotype(tsProfile
@@ -244,7 +275,7 @@ public class TS2UML2 {
 					addComponentStereotype(artifact, associationClass);
 
 					String className = artifact.getFullyQualifiedName();
-					String umlClassName = Utilities.mapName(className, this.model);
+					String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
 					addAttributes(artifact, ((StructuredClassifier) typeMap
 							.get(umlClassName)));
 					addOperations(artifact, ((Class) typeMap.get(umlClassName)));
@@ -253,7 +284,7 @@ public class TS2UML2 {
 				this.out.println("Realtionship to Association  "
 						+ artifact.getFullyQualifiedName());
 
-				Association association = maker.makeOrFindAssociation(artifact, this.model);
+				Association association = maker.makeOrFindAssociation(artifact);
 				if (association != null) {
 					Stereotype aS = association
 							.getApplicableStereotype(tsProfile
@@ -263,7 +294,7 @@ public class TS2UML2 {
 					addComponentStereotype(artifact, association);
 				}
 			} else if (artifact instanceof IDependencyArtifact) {
-				Dependency dep = maker.makeDependency(artifact, this.model);
+				Dependency dep = maker.makeDependency(artifact);
 				if (dep != null) {
 					Stereotype depS = dep.getApplicableStereotype(tsProfile
 							.getQualifiedName()
@@ -274,7 +305,7 @@ public class TS2UML2 {
 			} else if (artifact instanceof ISessionArtifact) {
 				this.out.println("Interface Settings  "
 						+ artifact.getFullyQualifiedName());
-				Interface intf = maker.makeOrFindInterface(artifact, this.model);
+				Interface intf = maker.makeOrFindInterface(artifact);
 				Stereotype iS = intf.getApplicableStereotype(tsProfile
 						.getQualifiedName()
 						+ "::tigerstripe_session");
@@ -282,34 +313,45 @@ public class TS2UML2 {
 				ArrayList emitList = new ArrayList();
 				for (IEmittedEvent emitted : ((ISessionArtifact) artifact)
 						.getEmittedEvents()) {
-					emitList.add(Utilities.mapName(emitted.getFullyQualifiedName(),this.model));
+					IAbstractArtifact eventArtifact = mgrSession.getArtifactByFullyQualifiedName(emitted.getFullyQualifiedName(),true);
+					if ( eventArtifact != null){
+						emitList.add(Utilities.mapName(emitted.getFullyQualifiedName(), eventArtifact.getProjectDescriptor().getIProjectDetails().getName()));
+					}
 				}
 				intf.setValue(iS, "emits", emitList);
 
 				ArrayList manageList = new ArrayList();
 				for (IManagedEntityDetails details : ((ISessionArtifact) artifact)
 						.getManagedEntityDetails()) {
-					manageList.add(Utilities.mapName(details.getFullyQualifiedName(), this.model));
+					IAbstractArtifact detailsArtifact = mgrSession.getArtifactByFullyQualifiedName(details.getFullyQualifiedName(),true);
+					if ( detailsArtifact != null){
+						manageList.add(Utilities.mapName(details.getFullyQualifiedName(), detailsArtifact.getProjectDescriptor().getIProjectDetails().getName()));
+					}
 				}
 				intf.setValue(iS, "manages", manageList);
 
 				ArrayList supportList = new ArrayList();
 				for (INamedQuery query : ((ISessionArtifact) artifact)
 						.getNamedQueries()) {
-					supportList.add(Utilities.mapName(query.getFullyQualifiedName(), this.model));
+					IAbstractArtifact queryArtifact = mgrSession.getArtifactByFullyQualifiedName(query.getFullyQualifiedName(),true);
+					if ( queryArtifact != null){
+						supportList.add(Utilities.mapName(query.getFullyQualifiedName(), queryArtifact.getProjectDescriptor().getIProjectDetails().getName()));
+					}
 				}
 				intf.setValue(iS, "supports", supportList);
 
 				ArrayList exposesList = new ArrayList();
 				for (IExposedUpdateProcedure proc : ((ISessionArtifact) artifact)
 						.getExposedUpdateProcedures()) {
-					exposesList.add(Utilities.mapName(proc.getFullyQualifiedName(), this.model));
+					IAbstractArtifact procArtifact = mgrSession.getArtifactByFullyQualifiedName(proc.getFullyQualifiedName(),true);
+					if ( procArtifact != null){
+					exposesList.add(Utilities.mapName(proc.getFullyQualifiedName(), procArtifact.getProjectDescriptor().getIProjectDetails().getName()));
+					}
 				}
 				intf.setValue(iS, "exposes", exposesList);
+				
 				String className = artifact.getFullyQualifiedName();
-				String umlClassName = Utilities.mapName(className, this.model);
-				// TODO
-
+				String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
 				addOperations(artifact, ((Interface) typeMap.get(umlClassName)));
 
 				addComponentStereotype(artifact, intf);
@@ -327,8 +369,8 @@ public class TS2UML2 {
 
 			out.println("Artifact Attributes etc "
 					+ artifact.getFullyQualifiedName());
-			String packageName = artifact.getPackage();
-			Package modelPackage = maker.makeOrFindPackage(packageName, this.model);
+
+			Package modelPackage = maker.makeOrFindPackage(artifact);
 
 			if (artifact instanceof IManagedEntityArtifact
 					|| artifact instanceof IDatatypeArtifact
@@ -336,10 +378,10 @@ public class TS2UML2 {
 					|| artifact instanceof IEventArtifact
 					|| artifact instanceof IUpdateProcedureArtifact
 					|| artifact instanceof IExceptionArtifact) {
-				Class clazz = maker.makeOrFindClass(artifact, this.model);
+				Class clazz = maker.makeOrFindClass(artifact);
 				out.println("Class : " + clazz.getQualifiedName());
 				String className = artifact.getFullyQualifiedName();
-				String umlClassName = Utilities.mapName(className, this.model);
+				String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName() );
 				addAttributes(artifact, ((StructuredClassifier) typeMap
 						.get(umlClassName)));
 				addOperations(artifact, ((Class) typeMap.get(umlClassName)));
@@ -360,7 +402,7 @@ public class TS2UML2 {
 							+ "::tigerstripe_query");
 					clazz.applyStereotype(qS);
 					IType rType = ((IQueryArtifact) artifact).getReturnedType();
-					Type type = maker.getUMLType(rType, this.model);
+					Type type = maker.getUMLType(rType);
 					if (type != null) {
 						String retTypeString = type.getQualifiedName();
 						clazz.setValue(qS, "returnedtype", retTypeString);
@@ -390,6 +432,8 @@ public class TS2UML2 {
 			}
 
 			monitor.worked(1);
+			out.println("Artifact Attributes end "
+					+ artifact.getFullyQualifiedName());
 		}
 
 		monitor.done();
@@ -402,9 +446,9 @@ public class TS2UML2 {
 			if (artifact instanceof IManagedEntityArtifact) {
 				IManagedEntityArtifact entity = (IManagedEntityArtifact) artifact;
 				// Do the implements
-				Class clazz = maker.makeOrFindClass(entity, this.model);
+				Class clazz = maker.makeOrFindClass(entity);
 				for (IAbstractArtifact impl : entity.getImplementedArtifacts()) {
-					Interface implClazz = maker.makeOrFindInterface(impl, this.model);
+					Interface implClazz = maker.makeOrFindInterface(impl);
 					clazz.createInterfaceRealization("implements", implClazz);
 					this.out.println("Created implementation "
 							+ implClazz.getQualifiedName());
@@ -412,10 +456,10 @@ public class TS2UML2 {
 			} else if (artifact instanceof IAssociationClassArtifact) {
 				IAssociationClassArtifact assocClass = (IAssociationClassArtifact) artifact;
 				// Do the implements
-				Class clazz = maker.makeOrFindClass(assocClass, this.model);
+				Class clazz = maker.makeOrFindClass(assocClass);
 				for (IAbstractArtifact impl : assocClass
 						.getImplementedArtifacts()) {
-					Interface implClazz = maker.makeOrFindInterface(impl, this.model);
+					Interface implClazz = maker.makeOrFindInterface(impl);
 					clazz.createInterfaceRealization("implements", implClazz);
 					this.out.println("Created implementation "
 							+ implClazz.getQualifiedName());
@@ -438,47 +482,47 @@ public class TS2UML2 {
 						|| artifact instanceof ISessionArtifact
 						|| artifact instanceof IExceptionArtifact) {
 					// this.out.println ("General case!");
-					Class clazz = maker.makeOrFindClass(artifact, this.model);
+					Class clazz = maker.makeOrFindClass(artifact);
 					Class extendClazz = maker.makeOrFindClass(artifact
-							.getExtendedArtifact(), this.model);
+							.getExtendedArtifact());
 					Generalization gen = clazz
 							.createGeneralization(extendClazz);
 				} else if (artifact instanceof IEnumArtifact) {
 					// this.out.println ("Enum case!");
-					Enumeration enumer = maker.makeOrFindEnum(artifact,this.model);
+					Enumeration enumer = maker.makeOrFindEnum(artifact);
 					Enumeration extendEnumer = maker.makeOrFindEnum(artifact
-							.getExtendedArtifact(),this.model);
+							.getExtendedArtifact());
 					Generalization gen = enumer
 							.createGeneralization(extendEnumer);
 				} else if (artifact instanceof IAssociationClassArtifact) {
 					// this.out.println ("Assoc Class case!");
 					// Note that AssocClass can extend MEntity or AssocClass
-					AssociationClass association = maker.makeOrFindAssociationClass(artifact, this.model);
+					AssociationClass association = maker.makeOrFindAssociationClass(artifact);
 					if (artifact.getExtendedArtifact() instanceof IManagedEntityArtifact) {
 						Class extendsClass = maker.makeOrFindClass(artifact
-								.getExtendedArtifact(), this.model);
+								.getExtendedArtifact());
 						Generalization gen = association
 								.createGeneralization(extendsClass);
 					} else {
 						AssociationClass extendsAssociation = maker.makeOrFindAssociationClass(artifact
-								.getExtendedArtifact(), this.model);
+								.getExtendedArtifact());
 						Generalization gen = association
 								.createGeneralization(extendsAssociation);
 					}
 				} else if (artifact instanceof IAssociationArtifact) {
 					// this.out.println ("Assoc case!");
-					Association association = maker.makeOrFindAssociation(artifact,this.model);
+					Association association = maker.makeOrFindAssociation(artifact);
 					Association extendsAssociation = maker.makeOrFindAssociation(artifact
-							.getExtendedArtifact(), this.model);
+							.getExtendedArtifact());
 					Generalization gen = association
 							.createGeneralization(extendsAssociation);
 				} else if (artifact instanceof IDependencyArtifact) {
 					// Can't generalize Dependencies...
 				} else if (artifact instanceof ISessionArtifact) {
 					this.out.println("Session case!");
-					Interface intf = maker.makeOrFindInterface(artifact, this.model);
+					Interface intf = maker.makeOrFindInterface(artifact);
 					Interface extendIntf = maker.makeOrFindInterface(artifact
-							.getExtendedArtifact(), this.model);
+							.getExtendedArtifact());
 					Generalization gen = intf.createGeneralization(extendIntf);
 				}
 
@@ -488,6 +532,10 @@ public class TS2UML2 {
 		this.out.println("Finished Generalizations");
 		monitor.done();
 
+	}
+	
+	private void saveUnknowns(File exportDir, String exportFilename){
+		
 		if (unknownTypeMap.size() > 0) {
 			URI fileUri = URI.createFileURI(exportDir.getAbsolutePath());
 			msgText = "Unknown types output to : " + fileUri.toFileString();
@@ -498,14 +546,20 @@ public class TS2UML2 {
 					.appendFileExtension(UMLResource.FILE_EXTENSION));
 		}
 
-		URI fileUri = URI.createFileURI(exportDir.getAbsolutePath());
-		msgText = "Model output to : " + fileUri.toFileString();
-		addMessage(msgText, 2);
+	}
+	
+	private void saveModels(Collection<Model> models,File exportDir){
+		for (Model model : models){
+			URI fileUri = URI.createFileURI(exportDir.getAbsolutePath());
+			msgText = "Model output to : " + (fileUri.appendSegment(model.getName()).appendFileExtension(
+					UMLResource.FILE_EXTENSION)).toFileString();
+			addMessage(msgText, 2);
 
-		save(model, fileUri.appendSegment(exportFilename).appendFileExtension(
-				UMLResource.FILE_EXTENSION));
+			save(model, fileUri.appendSegment(model.getName()).appendFileExtension(
+					UMLResource.FILE_EXTENSION));
+		}
 		monitor.done();
-
+		out.println("UML2 export complete");
 	}
 
 	/**
@@ -530,7 +584,7 @@ public class TS2UML2 {
 		}
 		try {
 			resource.save(null);
-			out.println("UML2 export complete");
+			out.println("Resource "+resource.getURI() +" saved");
 		} catch (IOException ioe) {
 			TigerstripeRuntime.logInfoMessage("UML2 export failed to save.");
 			out.println(ioe.getMessage());
@@ -572,7 +626,7 @@ public class TS2UML2 {
 
 			Comment comment = operation.createOwnedComment();
 			comment.setBody(method.getComment());
-			Type type = maker.getUMLType(method.getReturnType(), this.model);
+			Type type = maker.getUMLType(method.getReturnType());
 			if (type != null) {
 				Parameter result = operation.createReturnResult("return", type);
 				result.setLower(1); // Returns are mandatory
@@ -583,7 +637,7 @@ public class TS2UML2 {
 				result.setName(method.getReturnName());
 				for (IArgument arg : method.getArguments()) {
 
-					Type argType = maker.getUMLType(arg.getType(), this.model);
+					Type argType = maker.getUMLType(arg.getType());
 					if (argType != null) {
 						Parameter param = operation.createOwnedParameter(arg
 								.getName(), argType);
@@ -664,7 +718,7 @@ public class TS2UML2 {
 
 			Comment comment = operation.createOwnedComment();
 			comment.setBody(method.getComment());
-			Type type = maker.getUMLType(method.getReturnType(), this.model);
+			Type type = maker.getUMLType(method.getReturnType());
 			if (type != null) {
 				Parameter result = operation.createReturnResult("return", type);
 				result.setLower(1); // Returns are mandatory
@@ -676,7 +730,7 @@ public class TS2UML2 {
 
 				for (IArgument arg : method.getArguments()) {
 
-					Type argType = maker.getUMLType(arg.getType(), this.model);
+					Type argType = maker.getUMLType(arg.getType());
 					if (argType != null) {
 						Parameter param = operation.createOwnedParameter(arg
 								.getName(), argType);
@@ -728,7 +782,7 @@ public class TS2UML2 {
 			StructuredClassifier classifier) {
 		for (IField field : artifact.getFields()) {
 			Property attribute;
-			Type type = maker.getUMLType(field.getType(),this.model);
+			Type type = maker.getUMLType(field.getType());
 			if (type != null) {
 				int lowerBound = Utilities.getLowerBound(field.getType()
 						.getTypeMultiplicity());
