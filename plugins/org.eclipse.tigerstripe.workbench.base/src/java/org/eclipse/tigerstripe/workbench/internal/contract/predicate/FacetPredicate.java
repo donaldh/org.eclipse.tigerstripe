@@ -202,6 +202,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		Set<IAbstractArtifact> scope = new HashSet<IAbstractArtifact>();
 		monitor.beginTask("Walking relationships", IProgressMonitor.UNKNOWN);
 		for (IAbstractArtifact artifact : baseArtifacts) {
+			//System.out.println("================================");
 			addRelatedArtifacts(scope, artifact, false, monitor);
 		}
 		monitor.done();
@@ -231,6 +232,16 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			IAbstractArtifact artifact, boolean ignoreParent,
 			IProgressMonitor monitor) throws TigerstripeException {
 
+		
+		if (artifact != null){
+			monitor.setTaskName(artifact.getFullyQualifiedName());
+		}
+		else
+		{ 
+			TigerstripeRuntime.logTraceMessage("Stopped addRelated Artifacts due to null artifact");
+			return;
+		}
+		
 		// First of all ignore all that is excluded
 		if (primaryPredicate.isExcluded(artifact)
 				|| isExcludedByAnnotation(artifact)) {
@@ -239,18 +250,58 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			return;
 		}
 
+		
+		// Before adding this association, we need to check if the ends "exist" / are in scope
+		if (artifact instanceof IAssociationArtifact) {
+			// If this is an association
+			// look at the ends
+			IAssociationArtifact assoc = (IAssociationArtifact) artifact;
+			
+
+				addRelatedArtifacts(scope, (IAbstractArtifact) assoc.getAEnd()
+						.getType().getArtifact(), false, monitor);
+
+				addRelatedArtifacts(scope, (IAbstractArtifact) assoc.getZEnd()
+						.getType().getArtifact(), false, monitor);
+				if (scope.contains(assoc.getAEnd().getType().getArtifact()) &&
+						scope.contains(assoc.getZEnd().getType().getArtifact()) ){
+					// The ends are both ok..
+					// os carry on
+				} else {
+					IStatus warn = new Status(IStatus.WARNING, BasePlugin
+							.getPluginId(),
+							"Excluding "
+									+ artifact.getFullyQualifiedName() +
+									" because one or more ends are out of scope.");
+					errors.add(warn);
+					return;
+				}
+		} 
+		
+		
+		
+		
 		// stop condition for recursion: if the artifact is already in the scope
 		// we stop, or else we add it and explore
 		if (scope.contains(artifact))
+		{
+			//System.out.println("Already in scope "+artifact.getName());
 			return; // already explored
+			
+		}
 		else {
+			//System.out.println("Adding to scope "+artifact.getName());
 			scope.add(artifact);
 		}
 
-		if (artifact != null)
-			monitor.setTaskName(artifact.getFullyQualifiedName());
+
 
 		// let explore from this artifact on now
+		if (artifact instanceof IDependencyArtifact) {
+			//
+			TigerstripeRuntime.logTraceMessage("Doing nothing with dependency: "
+					+ artifact.getFullyQualifiedName());
+		}
 
 		// If this is a Datatype, we add its subtypes and their related
 		// artifacts
@@ -260,31 +311,21 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			for (IAbstractArtifact subType : subTypes) {
 				if (!scope.contains(subType)) {
 					addRelatedArtifacts(scope, subType, true, monitor);
+					
 					// note that in this case we don't need to worry about the
 					// parent
 					// since we're exploring downward.
 				}
 			}
 		}
-
-		// Then handle various cases
-		if (artifact instanceof IAssociationArtifact) {
-			// If this is an association
-			// look at the ends
-			IAssociationArtifact assoc = (IAssociationArtifact) artifact;
-			addRelatedArtifacts(scope, (IAbstractArtifact) assoc.getAEnd()
-					.getType().getArtifact(), false, monitor);
-			addRelatedArtifacts(scope, (IAbstractArtifact) assoc.getZEnd()
-					.getType().getArtifact(), false, monitor);
-
-			if (!(artifact instanceof IAssociationClassArtifact))
+		
+		if (artifact instanceof IAssociationArtifact && !(artifact instanceof IAssociationClassArtifact)) {
+			// don't look at parents of associations
 				return;
-		} else if (artifact instanceof IDependencyArtifact) {
-			//
-			System.out.println("doing nothing with dependency: "
-					+ artifact.getFullyQualifiedName());
 		}
+		
 
+		
 		// Take care of the parent first
 		if (!ignoreParent && artifact.getExtendedArtifact() != null) {
 			IAbstractArtifact parent = artifact.getExtendedArtifact();
@@ -319,6 +360,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 									+ ") is explicitly excluded from facet.");
 					errors.add(error);
 				}
+
 				addRelatedArtifacts(scope, arti, false, monitor);
 			}
 		}
@@ -328,6 +370,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		for (IRelationship rel : assocs) {
 			IAbstractArtifact arti = (IAbstractArtifact) rel;
 			if (!arti.isAbstract() && !primaryPredicate.isExcluded(arti))
+				
 				addRelatedArtifacts(scope, arti, false, monitor);
 		}
 
