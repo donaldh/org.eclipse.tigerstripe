@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site
       mirrorsURL="http://www.eclipse.org/downloads/download.php?file=/technology/tigerstripe/update-site/site.xml&amp;amp;format=xml">
-   <description url="http://download.eclipse.org/technology/tigerstripe/update-site">
-      Tigerstripe Project - Update Site
+   <description url="http://download.eclipse.org/technology/tigerstripe/update-site/site-interim.xml">
+      Tigerstripe Project - Interim Update Site
    </description>
    <category-def name="org.eclipse.tigerstripe.workbench.base-feature" label="Workbench Base">
       <description>

@@ -1,8 +1,10 @@
 <html>
 <head>
-<title>Tigerstripe Update Site</title>
+<title>Tigerstripe Interim Update Site</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style>@import url("web/site.css");</style>
+<style>
+@import url("web/site.css");
+</style>
 <script type="text/javascript">
 	var returnval = 0;
 	var stylesheet, xmlFile, cache, doc;
@@ -13,8 +15,8 @@
 			xmlFile = document.implementation.createDocument("", "", null);
 			stylesheet = document.implementation.createDocument("", "", null);
 			if (xmlFile.load){
-				xmlFile.load("site.xml");
-				stylesheet.load("web/site.xsl");
+				xmlFile.load("site-interim.xml");
+				stylesheet.load("web/site-interim.xsl");
 			} else {
 				alert("Document could not be loaded by browser.");
 			}
@@ -25,10 +27,10 @@
 		else if (window.ActiveXObject) {
 			xmlFile = new ActiveXObject("msxml2.DOMDocument.3.0");
 			xmlFile.async = false;
-			xmlFile.load("site.xml");
+			xmlFile.load("site-interim.xml");
 			stylesheet = new ActiveXObject("msxml2.FreeThreadedDOMDocument.3.0");
 			stylesheet.async = false;
-			stylesheet.load("web/site.xsl");
+			stylesheet.load("web/site-interim.xsl");
 			cache = new ActiveXObject("msxml2.XSLTemplate.3.0");
 			cache.stylesheet = stylesheet;
 			transformData();
@@ -54,7 +56,9 @@
 </script>
 </head>
 <body onload="init();">
-<!--[insert static HTML here]-->
+<p><strong>This site contains interim versions that may be un-stable. Please
+use the <a href="index.html">official Tigerstripe Update Site</a> for
+stable releases.</strong></p>
 <div id="data"><!-- this is where the transformed data goes --></div>
 </body>
 </html>
