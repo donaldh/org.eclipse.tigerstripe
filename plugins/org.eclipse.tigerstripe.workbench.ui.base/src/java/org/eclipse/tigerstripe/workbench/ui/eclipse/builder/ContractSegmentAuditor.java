@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 
 import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -24,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
+import org.eclipse.tigerstripe.workbench.internal.contract.ContractUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -174,10 +177,12 @@ public class ContractSegmentAuditor {
 					 * 
 					 * Use a very large sledgehammer..
 					 */
-					
+					Pattern p = Pattern.compile(ContractUtils
+							.mapFromUserPattern(pattern.pattern));
 					boolean foundOne = false;
 					for (IAbstractArtifact art : allartifacts){
-						if (art.getFullyQualifiedName().matches(pattern.pattern)){
+						Matcher m = p.matcher(art.getFullyQualifiedName());
+						if (m.matches()){
 							foundOne = true;
 							break;
 						}
@@ -211,10 +216,12 @@ public class ContractSegmentAuditor {
 					 * 
 					 * Use a very large sledgehammer..
 					 */
-					
+					Pattern p = Pattern.compile(ContractUtils
+							.mapFromUserPattern(pattern.pattern));
 					boolean foundOne = false;
 					for (IAbstractArtifact art : allartifacts){
-						if (art.getFullyQualifiedName().matches(pattern.pattern)){
+						Matcher m = p.matcher(art.getFullyQualifiedName());
+						if (m.matches()){
 							foundOne = true;
 							break;
 						}
