@@ -48,7 +48,7 @@
 			<property name="buildDirectory" value="${build.root}/builds/workbench-only/${buildLabel}" />
 		</ant>
 
-		<echo message="Deploying on localDownloads site" />
+		<echo message="Deploying ..." />
 		<ant antfile="${basedir}/scripts/deploy.xml" target="deploy.downloads" inheritall="true">
 			<property name="scripts" value="${basedir}/scripts" />
 			<property name="libs" value="${basedir}/lib" />
@@ -57,7 +57,7 @@
 			<property name="builder" value="${basedir}/components/${component}" />
 			<property name="buildDirectory" value="${build.root}/builds/workbench-onl/${buildLabel}" />
 			<property name="artifactsDirectory" value="${build.root}/builds/workbench-only/${buildLabel}/${buildId}" />
-			<property name="downloads.site.details" value="${basedir}/localDownloads.properties" />
+			<property name="downloads.site.details" value="${basedir}/eclipseDownloads.properties" />
 		</ant>
 	</target>
 

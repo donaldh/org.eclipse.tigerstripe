@@ -72,19 +72,14 @@
 	<target name="assemble.org.eclipse.tigerstripe.workbench">
 		<property name="archiveName"
 			value="tigerstripe-workbench-${buildLabel}.zip" />
+		<echo message=" MESSAGE ===> ${assembleScriptName}" />
 		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
-		<ant antfile="${scripts}/package.xml" target="packageBundle">
-		</ant>
-		<!-- create the initial build descriptor, we'll complete it as we go -->
-		<dsite.newBuild file="${buildDescriptor}">
-			<build name="${buildLabel}" type="${buildType}"
-				tStamp="${timestamp}" stream="${stream}">
-				<dependency name="Required Plugins"
-					link="@download.prefix@/plugin-dependencies-${buildId}.txt" />
-				<dependency name="Eclipse 3.3.x"
-					link="http://www.eclipse.org/downloads" />
-			</build>
-		</dsite.newBuild>
+
+		<!-- build the .zip files -->
+		<ant antfile="${scripts}/package.xml"
+			target="unpackUpdateJarsAndRepack" />
+		<ant antfile="${scripts}/package.xml" target="packageBundle" />
+
 		<dsite.addComponent file="${buildDescriptor}">
 			<component name="Tigerstripe Workbench"
 				summary="The end-user workbench">
@@ -212,7 +207,18 @@
 	<!-- ===================================================================== -->
 	<!-- Steps to do before running assemble. -->
 	<!-- ===================================================================== -->
-	<target name="preAssemble"></target>
+	<target name="preAssemble">
+		<!-- create the initial build descriptor, we'll complete it as we go -->
+		<dsite.newBuild file="${buildDescriptor}">
+			<build name="${buildLabel}" type="${buildType}"
+				tStamp="${timestamp}" stream="${stream}">
+				<dependency name="Required Plugins"
+					link="@download.prefix.direct@/plugin-dependencies-${buildId}.txt" />
+				<dependency name="Eclipse 3.3.x"
+					link="http://www.eclipse.org/downloads" />
+			</build>
+		</dsite.newBuild>
+	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do after  running assemble. -->
@@ -235,7 +241,6 @@
 	<target name="postBuild">
 		<ant antfile="${scripts}/package.xml" target="pack200" />
 		<antcall target="gatherLogs" />
-		<!--		<antcall target="test" /> -->
 	</target>
 
 	<!-- ===================================================================== -->
@@ -303,3 +308,5 @@
 	</target>
 
 </project>
+
+
