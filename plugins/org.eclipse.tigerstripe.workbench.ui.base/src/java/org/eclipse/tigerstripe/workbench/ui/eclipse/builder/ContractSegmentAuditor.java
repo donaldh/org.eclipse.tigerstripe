@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.builder;
 
+import java.util.Collection;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -25,6 +27,8 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseR
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
+import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.TSExplorerUtils;
 
 public class ContractSegmentAuditor {
@@ -149,6 +153,8 @@ public class ContractSegmentAuditor {
 		try {
 			IArtifactManagerSession session = tsProject
 					.getArtifactManagerSession();
+			IArtifactQuery query = session.makeQuery(IQueryAllArtifacts.class.getName());
+			Collection<IAbstractArtifact> allartifacts = session.queryArtifact(query);
 			for (ScopePattern pattern : scope
 					.getPatterns(ISegmentScope.INCLUDES)) {
 				if (pattern.isFQN()) {
@@ -161,6 +167,28 @@ public class ContractSegmentAuditor {
 								+ facet.getName() + "' cannot be resolved.",
 								res, 222);
 					}
+				} else {
+					// Its a package pattern - or at least it should be
+					/* It should match "something" in the project
+					 * We don't manage packages explicitly
+					 * 
+					 * Use a very large sledgehammer..
+					 */
+					
+					boolean foundOne = false;
+					for (IAbstractArtifact art : allartifacts){
+						if (art.getFullyQualifiedName().matches(pattern.pattern)){
+							foundOne = true;
+							break;
+						}
+					}
+					if (! foundOne){
+						TigerstripeProjectAuditor.reportError("Pattern '"
+								+ pattern.pattern + "' in 'includes' scope of '"
+								+ facet.getName() + "' does not match any artifacts.",
+								res, 222);
+					}
+					
 				}
 			}
 
@@ -176,6 +204,28 @@ public class ContractSegmentAuditor {
 								+ facet.getName() + "' cannot be resolved.",
 								res, 222);
 					}
+				} else {
+					// Its a package pattern - or at least it should be
+					/* It should match "something" in the project
+					 * We don't manage packages explicitly
+					 * 
+					 * Use a very large sledgehammer..
+					 */
+					
+					boolean foundOne = false;
+					for (IAbstractArtifact art : allartifacts){
+						if (art.getFullyQualifiedName().matches(pattern.pattern)){
+							foundOne = true;
+							break;
+						}
+					}
+					if (! foundOne){
+						TigerstripeProjectAuditor.reportError("Pattern '"
+								+ pattern.pattern + "' in 'excludes' scope of '"
+								+ facet.getName() + "' does not match any artifacts.",
+								res, 222);
+					}
+					
 				}
 			}
 
