@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.tigerstripe.workbench"
-      label="Tigerstripe Workbench Feature (Incubation)"
+      label="End-User Workbench (Incubation)"
       version="0.3.0.qualifier"
+      provider-name="Eclipse.org"
       plugin="org.eclipse.tigerstripe.workbench.branding">
 
    <description>
