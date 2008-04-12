@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--  																		-->
+<!--  Copyright (c) 2008 Cisco Systems, Inc.								-->
+<!--  All rights reserved. This program and the accompanying materials		-->
+<!--  are made available under the terms of the Eclipse Public License v1.0	-->
+<!--  which accompanies this distribution, and is available at				-->
+<!--  http://www.eclipse.org/legal/epl-v10.html								-->
+<!-- 																		-->
+<!--  Contributors:															-->
+<!--     Cisco Systems, Inc. - erdillon										-->
+<!-- 																		-->
+<project name="Create update site local image">
+
+	<property file="${update.site.details}" />
+
+	<target name="create-local-image">
+		<exec executable="unzip" dir="${buildDirectory}/${buildLabel}">
+			<arg line="-q ${archiveName} -d ${local.site.image}" />
+		</exec>
+		<move file="${local.site.image}/eclipse/features" todir="${local.site.image}">
+		</move>
+		<move file="${local.site.image}/eclipse/plugins" todir="${local.site.image}">
+		</move>
+		<delete dir="${local.site.image}/eclipse" />
+	</target>
+
+</project>

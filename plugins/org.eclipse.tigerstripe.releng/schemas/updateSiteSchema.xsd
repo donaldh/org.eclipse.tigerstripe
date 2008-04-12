@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.eclipse.org/updateSiteSchema/" xmlns:tns="http://www.eclipse.org/updateSiteSchema/" xmlns="http://www.w3.org/2001/XMLSchema">
+    <complexType name="site">
+    	<sequence>
+    		<element name="description" type="tns:siteDescription"></element>
+    		<sequence>
+    			<element name="category-def" type="tns:category-def"
+    				maxOccurs="unbounded" minOccurs="1">
+    			</element>
+    		</sequence>
+    		<sequence>
+    			<element name="feature" type="tns:feature" maxOccurs="unbounded" minOccurs="0"></element>
+    		</sequence>
+    	</sequence>
+    	<attribute name="mirrorsURL" type="string"></attribute>
+    </complexType>
+
+    <complexType name="siteDescription">
+    	<complexContent>
+    		<extension base="tns:description">
+    			<attribute name="url" type="string"></attribute>
+
+    		</extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="category-def">
+    	<sequence>
+    		<element name="description" type="tns:description"></element>
+    	</sequence>
+    	<attribute name="name" type="string"></attribute>
+    	<attribute name="label" type="string"></attribute>
+    </complexType>
+    
+    <complexType name="description"></complexType>
+
+    <complexType name="feature">
+    	<sequence>
+    		<element name="category" type="tns:category"></element>
+    	</sequence>
+    	<attribute name="url" type="string"></attribute>
+    	<attribute name="id" type="string"></attribute>
+    	<attribute name="version" type="string"></attribute>
+    </complexType>
+
+    <complexType name="category">
+    	<attribute name="name" type="string"></attribute>
+    </complexType>
+</schema>

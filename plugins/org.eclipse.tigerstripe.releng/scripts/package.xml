@@ -9,7 +9,7 @@
 <!--  Contributors:															-->
 <!--     Cisco Systems, Inc. - erdillon										-->
 <!-- 																		-->
-<project name="Run update site optimization steps">
+<project name="Various packaging targets">
 
 	<target name="pack200" if="pack200">
 		<property name="packtmp" value="${buildDirectory}/packtmp" />
@@ -32,6 +32,7 @@
 			<arg line="-q ${archiveName} -d ${tmpsite}" />
 		</exec>
 		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse" />
+		
 		<!-- copy root files -->
 		<copy todir="${tmpsite}/new/eclipse">
 			<fileset dir="${tmpsite}/eclipse">

@@ -122,7 +122,7 @@ public class UpdateNotesDetails extends BaseTask {
 	protected Detail computeReleaseNotes(Build newBuild, DownloadSite site) {
 		Detail result = DownloadSiteFactory.eINSTANCE.createDetail();
 		result.setName("Release Notes");
-		result.setSummary("Summary of fixed bugzillas.");
+		result.setSummary("Summary of bugs fixed bugzillas.");
 
 		String stream = newBuild.getStream();
 		BuildType type = newBuild.getType();
@@ -141,11 +141,14 @@ public class UpdateNotesDetails extends BaseTask {
 			}
 		}
 
+		String prev = "Unknown";
 		if (previousBuild != null) {
 			fromTStamp = previousBuild.getTstamp();
+			prev = previousBuild.getName();
 		}
 
-		result.setLink(php + "?from=" + fromTStamp + "?to=" + toTStamp + "?build=" + newBuild.getName());
+		result.setLink(php + "?from=" + fromTStamp + "&to=" + toTStamp
+				+ "&build=" + newBuild.getName() + "&since=" + prev);
 		return result;
 	}
 }

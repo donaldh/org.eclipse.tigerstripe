@@ -46,6 +46,7 @@
 			<property name="buildRoot" value="${build.root}/builds" />
 			<property name="builder" value="${basedir}/components/${component}" />
 			<property name="buildDirectory" value="${build.root}/builds/workbench-only/${buildLabel}" />
+			<property name="update.site.details" value="${basedir}/eclipseUpdate-interim.properties" />
 		</ant>
 
 		<echo message="Deploying ..." />
@@ -58,6 +59,7 @@
 			<property name="buildDirectory" value="${build.root}/builds/workbench-onl/${buildLabel}" />
 			<property name="artifactsDirectory" value="${build.root}/builds/workbench-only/${buildLabel}/${buildId}" />
 			<property name="downloads.site.details" value="${basedir}/eclipseDownloads.properties" />
+			<property name="update.site.details" value="${basedir}/eclipseUpdate-interim.properties" />
 		</ant>
 	</target>
 
