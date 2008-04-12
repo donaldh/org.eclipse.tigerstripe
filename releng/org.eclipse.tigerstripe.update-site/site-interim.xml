@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site
-      mirrorsURL="http://www.eclipse.org/downloads/download.php?file=/technology/tigerstripe/update-site/site.xml&amp;amp;format=xml">
+      mirrorsURL="http://www.eclipse.org/downloads/download.php?file=/technology/tigerstripe/update-site/site.xml">
    <description url="http://download.eclipse.org/technology/tigerstripe/update-site/site-interim.xml">
       Tigerstripe Project - Interim Update Site
    </description>
-   <category-def name="org.eclipse.tigerstripe.workbench.base-feature" label="Workbench Base">
+   <category-def name="Workbench Base" label="Workbench Base">
       <description>
          The base feature for Tigerstripe. It contains the Model Manager, the generation engine and the headless environment, but no UI. This is suitable to install headless Tigerstripe build servers, or to build your own components on top of Tigerstripes.
       </description>
    </category-def>
-   <category-def name="org.eclipse.tigerstripe.workbench" label="End-User Workbench">
+   <category-def name="End-User Workbench" label="End-User Workbench">
       <description>
          This is the End-User Workbench Feature, including the complete MDD environment including support for modeling, diagrams, content generation, import/export, etc.
       </description>
    </category-def>
-   <category-def name="org.eclipse.tigerstripe.workbench.annotations-feature" label="Generic Annotations">
+   <category-def name="Generic Annotations" label="Generic Annotations">
       <description>
          The Generic Annotation Feature, including UI and basic integration for workspace Resources and JDT.
       </description>
