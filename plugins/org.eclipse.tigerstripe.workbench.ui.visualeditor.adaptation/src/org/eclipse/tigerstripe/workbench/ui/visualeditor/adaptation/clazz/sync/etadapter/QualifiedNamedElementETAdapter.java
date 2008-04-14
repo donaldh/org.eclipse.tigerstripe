@@ -187,7 +187,7 @@ public abstract class QualifiedNamedElementETAdapter extends BaseETAdapter
 	protected void handleSetName(String oldValue, String newValue,
 			QualifiedNamedElement element) {
 		if (oldValue != null && element.getPackage() != null
-				&& newValue != null && newValue.length() != 0) {
+				&& newValue != null && newValue.length() != 0 && !oldValue.equals(newValue)) {
 			// This is a rename of the artifact within its package
 			try {
 				IArtifactRenameRequest request = (IArtifactRenameRequest) getModelUpdater()

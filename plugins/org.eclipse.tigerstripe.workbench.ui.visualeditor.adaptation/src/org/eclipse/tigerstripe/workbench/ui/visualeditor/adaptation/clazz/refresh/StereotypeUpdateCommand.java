@@ -48,7 +48,8 @@ public class StereotypeUpdateCommand extends
 				.getStereotypeInstances().size()) {
 			// not even the same number of stereotypes, let's redo the list
 			element.getStereotypes().clear();
-			element.setName(artifact.getName());// Bug 219454: this is a hack to 
+			element.setName(element.getName());
+			element.setIsAbstract(element.isIsAbstract()); // this is to 
 			// force the diagram to go dirty as the stereotype add doesn't??????
 
 			for (IStereotypeInstance stereo : artifact
