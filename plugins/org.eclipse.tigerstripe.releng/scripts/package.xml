@@ -32,13 +32,21 @@
 			<arg line="-q ${archiveName} -d ${tmpsite}" />
 		</exec>
 		<unpackUpdateJars site="${tmpsite}/eclipse" output="${tmpsite}/new/eclipse" />
-		
+
 		<!-- copy root files -->
 		<copy todir="${tmpsite}/new/eclipse">
 			<fileset dir="${tmpsite}/eclipse">
 				<include name="*" />
 			</fileset>
 		</copy>
+
+		<!-- Copy legal notices -->
+		<copy todir="${tmpsite}/new/eclipse">
+			<fileset dir="${legal}">
+				<include name="*" />
+			</fileset>
+		</copy>
+
 		<zip destfile="${buildDirectory}/${buildLabel}/${archiveName}" basedir="${tmpsite}/new" />
 		<delete dir="${tmpsite}" />
 	</target>
