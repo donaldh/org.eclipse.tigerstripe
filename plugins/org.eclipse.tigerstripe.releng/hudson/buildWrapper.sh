@@ -23,7 +23,7 @@ export	PATH=${JAVA_HOME}/bin:${PATH}:${ANT_HOME}/bin
 ## NO CHANGE NEEDED BELOW THIS LINE
 ## It relies on the Environment variables set by Hudson to extract timestamp, etc.
 ##
-cd $WORKSPACE/releng/org.eclipse.tigerstripe.releng/
+cd $WORKSPACE/org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.releng/
 
 export	TSDATE=`echo $BUILD_ID | sed "s/[_-]//g" | awk '{ print substr($1, 0, 8)}'`
 export	TSTIME=`echo $BUILD_ID | sed "s/[_-]//g" | awk '{ print substr($1, 9, 4)}'`
