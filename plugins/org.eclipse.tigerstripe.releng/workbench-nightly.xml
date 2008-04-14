@@ -41,6 +41,7 @@
 		<echo message="Building Workbench for Europa..." />
 		<ant antfile="build.xml" dir="${pde.build}/scripts">
 			<property name="scripts" value="${basedir}/scripts" />
+			<property name="legal" value="${basedir}/legal" />
 			<property name="libs" value="${basedir}/lib" />
 			<property name="stream" value="${stream}" />
 			<property name="buildRoot" value="${build.root}/builds" />
@@ -52,6 +53,7 @@
 		<echo message="Deploying ..." />
 		<ant antfile="${basedir}/scripts/deploy.xml" target="deploy.downloads" inheritall="true">
 			<property name="scripts" value="${basedir}/scripts" />
+			<property name="legal" value="${basedir}/legal" />
 			<property name="libs" value="${basedir}/lib" />
 			<property name="stream" value="${stream}" />
 			<property name="buildRoot" value="${build.root}/builds" />
