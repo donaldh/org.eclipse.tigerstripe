@@ -371,11 +371,12 @@ public class M1Generator {
 			GenerationException, GenerationCanceledException {
 
 		boolean logMessages = false;
-		if ("true"
-				.equalsIgnoreCase(project
-						.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_LogMessages))) {
-			logMessages = true;
-		}
+		// Bug 219762
+//		if ("true"
+//				.equalsIgnoreCase(project
+//						.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_LogMessages))) {
+//			logMessages = true;
+//		}
 		// variables used in process of hijacking stdout/stderr...
 		PrintStream stdErrStreamRef = null;
 		FileAppender stderrAppender = null;

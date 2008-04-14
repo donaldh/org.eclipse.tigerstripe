@@ -338,6 +338,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 				"Capture standard output/error during generation.", SWT.CHECK);
 		logMessagesButton
 				.setToolTipText("Redirects standard output/error to a 'generation.log' log file during generation");
+		logMessagesButton.setEnabled(false); // Bug 219762
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gd.horizontalSpan = 8;
 		logMessagesButton.setLayoutData(gd);
