@@ -39,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportModel;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportRunner;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
@@ -345,7 +346,7 @@ public class M1Generator {
 				}
 
 			} else {
-				// this is the case where there is no Facet whatsoever 
+				// this is the case where there is no Facet whatsoever
 				PluginRunStatus[] subResult = internalRun(monitor, config);
 				overallResult.addAll(Arrays.asList(subResult));
 			}
@@ -402,6 +403,25 @@ public class M1Generator {
 			// First run all validation plugins if any
 			for (IPluginConfig iRef : plugins) {
 
+				PluginConfig ref = (PluginConfig) iRef;
+				try {
+					ref.resolve();
+				} catch (UnknownPluginException e) {
+					// Bug 219954
+					// this means the tigerstripe.xml descriptor is referencing
+					// a plugin that is not deployed.
+					PluginRunStatus res = new PluginRunStatus(ref, project,
+							config, project.getActiveFacet());
+					Status status = new Status(IStatus.WARNING,
+							BasePlugin.PLUGIN_ID, "While generating project '"
+									+ config.getTargetProject()
+											.getProjectLabel()
+									+ "', couldn't resolve generator plugin '"
+									+ ref.getPluginId() + "' (not deployed).");
+					res.add(status);
+					result.add(res);
+					continue;
+				}
 				// we're using clones of the actual pluginConfigs, so we need to
 				// make
 				// sure the handle is set before we attempt generation
@@ -415,15 +435,12 @@ public class M1Generator {
 					shouldRestoreFacet = false;
 				}
 
-				PluginConfig ref = (PluginConfig) iRef;
 				if (isFirstRef) {
 					isFirstRef = false;
 					changedStdOutStdErr = hijackOutput(ref, logMessages,
 							stdErrStreamRef, stderrAppender, stdOutStreamRef,
 							stdoutAppender);
 				}
-
-				ref.resolve();
 
 				if (ref.getPluginNature() == EPluggablePluginNature.Validation) {
 
@@ -475,6 +492,21 @@ public class M1Generator {
 
 			if (!validationFailed) {
 				for (IPluginConfig iRef : plugins) {
+
+					PluginConfig ref = (PluginConfig) iRef;
+					try {
+						ref.resolve();
+					} catch (UnknownPluginException e) {
+						// Bug 219954
+						// this means the tigerstripe.xml descriptor is
+						// referencing
+						// a plugin that is not deployed.
+						// We've already raised a warning during the validation
+						// loop.
+						// Simply ignore here.
+						continue;
+					}
+
 					if (shouldRestoreFacet) {
 						if (facetToRestore != null)
 							project.setActiveFacet(facetToRestore, monitor);
@@ -483,7 +515,6 @@ public class M1Generator {
 						shouldRestoreFacet = false;
 					}
 
-					PluginConfig ref = (PluginConfig) iRef;
 					if (isFirstRef) {
 						isFirstRef = false;
 						changedStdOutStdErr = hijackOutput(ref, logMessages,

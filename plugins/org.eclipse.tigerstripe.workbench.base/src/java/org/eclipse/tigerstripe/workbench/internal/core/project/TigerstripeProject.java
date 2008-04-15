@@ -510,18 +510,20 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 		for (int i = 0; i < plugins.getLength(); i++) {
 			Node node = plugins.item(i);
+			PluginConfig ref = PluginConfigFactory.getInstance()
+					.createPluginConfig((Element) node, this);
+
+			// Bug 219954: when loading the descriptor, make sure we keep all
+			// plugin configs even if they don't resolve. So that if the
+			// corresponding plugin is deployed later on it will be picked up.
 			try {
-				PluginConfig ref = PluginConfigFactory.getInstance()
-						.createPluginConfig((Element) node, this);
-
-				// need to make sure it can be resolved
 				ref.resolve();
-
-				this.pluginConfigs.add(ref);
-				ref.setContainer(this);
 			} catch (UnknownPluginException e) {
 				log.info(e);
 			}
+
+			this.pluginConfigs.add(ref);
+			ref.setContainer(this);
 		}
 	}
 

@@ -572,11 +572,13 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 		}
 
-		if (message != null) {
-			setErrorMessage(message);
-			status.setError(message);
-		} else {
-			setErrorMessage(null);
+		if (getErrorMessage() == null) {
+			if (message != null) {
+				setErrorMessage(message);
+				status.setError(message);
+			} else {
+				setErrorMessage(null);
+			}
 		}
 
 		setPageComplete(getErrorMessage() == null);
@@ -610,6 +612,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 												.getLabel())) {
 									profileSelectionButtons[j]
 											.setSelection(refs[i].isEnabled());
+									oneAtleastIsEnabled = true;
 								}
 							}
 						}
