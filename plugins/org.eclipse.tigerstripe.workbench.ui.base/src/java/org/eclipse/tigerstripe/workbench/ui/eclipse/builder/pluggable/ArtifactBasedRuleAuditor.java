@@ -29,7 +29,7 @@ import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
-public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
+public class ArtifactBasedRuleAuditor extends BasePluggableProjectAuditor {
 
 	public ArtifactBasedRuleAuditor(ITigerstripeM1GeneratorProject pProject,
 			IProject project) {
@@ -52,7 +52,7 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 		String artifactType = aRule.getArtifactType();
 		if (artifactType == null || artifactType.length() == 0) {
 			PluggablePluginProjectAuditor.reportError(
-					"Artifact Type undefined in artifact rule '"
+					"Artifact Type undefined in "+aRule.getLabel()+" '"
 							+ aRule.getName() + "' in project '"
 							+ getPProject().getProjectLabel() + "'",
 					projectDescriptor, 222);
@@ -70,7 +70,7 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 					PluggablePluginProjectAuditor.reportError(
 							"Classname undefined for artifact filter ("
 									+ artifactFilterClass
-									+ ") in artifact rule '"
+									+ ") in "+aRule.getLabel()+" '"
 									+ aRule.getName()
 									+ "' in project '"
 									+ getPProject().getProjectDetails()
@@ -83,7 +83,7 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 						PluggablePluginProjectAuditor.reportError(
 								"The artifact filter ("
 										+ artifactFilterClass
-										+ ") in artifact rule '"
+										+ ") in "+aRule.getLabel()+" '"
 										+ aRule.getName()
 										+ "' is not a Java class in project '"
 										+ getPProject().getProjectDetails()
@@ -107,7 +107,7 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 							PluggablePluginProjectAuditor.reportError(
 									"The artifact filter ("
 											+ artifactFilterClass
-											+ ") in artifact rule '"
+											+ ") in "+aRule.getLabel()+" '"
 											+ aRule.getName()
 											+ "' must implement '"
 											+ IArtifactFilter.class.getName()
@@ -138,7 +138,7 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 					PluggablePluginProjectAuditor.reportError(
 							"Classname undefined for model ("
 									+ artifactModelClass
-									+ ") in artifact rule '"
+									+ ") in "+aRule.getLabel()+" '"
 									+ aRule.getName()
 									+ "' in project '"
 									+ getPProject().getProjectDetails()
@@ -149,7 +149,7 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 					// IArtifactModel
 					if (!type.isClass()) {
 						PluggablePluginProjectAuditor.reportError("The model ("
-								+ artifactModelClass + ") in artifact rule '"
+								+ artifactModelClass + ") in "+aRule.getLabel()+" '"
 								+ aRule.getName()
 								+ "' is not a Java class in project '"
 								+ getPProject().getProjectLabel() + "'",
@@ -175,7 +175,7 @@ public class ArtifactBasedRuleAuditor extends GlobalRuleAuditor {
 							PluggablePluginProjectAuditor.reportError(
 									"The artifact model ("
 											+ artifactModelClass
-											+ ") in artifact rule '"
+											+ ") in "+aRule.getLabel()+" '"
 											+ aRule.getName()
 											+ "' must implement '"
 											+ IArtifactModel.class.getName()
