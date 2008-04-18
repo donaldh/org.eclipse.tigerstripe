@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.headless;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -28,7 +28,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.osgi.framework.Constants;
@@ -37,23 +36,24 @@ public class Tigerstripe implements IApplication {
 
 	private static final String DELIMITER = "=";
 
-	private static final String ARG_PROFILE = "profile";
+	private static final String GENERATION_PROJECT_ARG = "GENERATION_PROJECT";
+	
+	private static final String IMPORT_PROJECT_ARG = "PROJECT_IMPORT";
 
-	private static final String ARG_PROJECT = "project";
-
-	private Map<String, String> pluginArgs;
+	private List<String> projects;
+	
+	private String generationProject;
 
 	@SuppressWarnings("unchecked")
 	public Object start(IApplicationContext context) throws Exception {
 
 		printTigerstipeVersionInfo();
 		setPluginParams(context);
-
 		try {
-			activateTigerstripeProfile();
+			printProfile();
+			initializeWorkspace();
 			generateTigerstripeOutput();
 		} catch (TigerstripeException e) {
-			// TODO - better way to handle this??
 			e.printStackTrace();
 			return new Integer(1);
 		}
@@ -61,7 +61,6 @@ public class Tigerstripe implements IApplication {
 	}
 
 	private void printTigerstipeVersionInfo() {
-
 		System.out.println(TigerstripeCore.getRuntimeDetails()
 				.getBaseBundleValue(Constants.BUNDLE_NAME)
 				+ " (v"
@@ -69,103 +68,54 @@ public class Tigerstripe implements IApplication {
 						Constants.BUNDLE_VERSION) + ")");
 	}
 
-	private void setPluginParams(IApplicationContext context) {
-
+	private void setPluginParams(IApplicationContext context) throws TigerstripeException {
+		projects = new ArrayList<String>();
 		String[] split = new String[2];
-		pluginArgs = new HashMap<String, String>();
-		String[] cmdLineArgs = (String[]) context.getArguments().get(
-				IApplicationContext.APPLICATION_ARGS);
+		String[] cmdLineArgs = (String[]) context.getArguments().get(IApplicationContext.APPLICATION_ARGS);
 		for (String arg : cmdLineArgs) {
 			split = arg.split(DELIMITER);
-			pluginArgs.put(split[0], split[1]);
-			System.out.println(split[0]);
+			if(split[0].equals(IMPORT_PROJECT_ARG)) {
+				projects.add(split[1]);
+			}
+			if(split[0].equals(GENERATION_PROJECT_ARG)) {
+				generationProject = split[1];
+			}
+		}
+		if (projects.size() == 0) {
+			throw new TigerstripeException("Must have (at least) one project defined.");
+		}
+		if (generationProject == null) {
+			throw new TigerstripeException("Must have the generation project defined.");
 		}
 	}
 
-	private void activateTigerstripeProfile() throws TigerstripeException {
-
-		IWorkbenchProfile activeProfile;
-		IWorkbenchProfileSession profileSession = TigerstripeCore
-				.getWorkbenchProfileSession();
-
-		if (pluginArgs.get(ARG_PROFILE) == null) {
-			printProfile();
-			return;
-		}
-
-		try {
-			activeProfile = profileSession.getWorkbenchProfileFor(pluginArgs
-					.get(ARG_PROFILE));
-			profileSession.saveAsActiveProfile(activeProfile);
-			profileSession.reloadActiveProfile();
-		} catch (TigerstripeException e) {
-			profileSession.rollbackActiveProfile();
-			throw e;
-		}
-		printProfile();
+	private void initializeWorkspace() throws TigerstripeException {
+		for (String project : projects) {
+			importProjectToWorkspace(project);
+			System.out.println("Imported " + project + " into workspace.");
+			System.out.println("Generation project: " + generationProject);
+		}	
 	}
-
+	
 	private void printProfile() {
-		IWorkbenchProfileSession profileSession = TigerstripeCore
-				.getWorkbenchProfileSession();
-
+		IWorkbenchProfileSession profileSession = TigerstripeCore.getWorkbenchProfileSession();
 		System.out.println("Active Profile: "
 				+ profileSession.getActiveProfile().getName() + " "
 				+ profileSession.getActiveProfile().getVersion());
 	}
 
-	private void generateTigerstripeOutput() throws TigerstripeException {
-
-		File projectFile;
-		if (pluginArgs.get(ARG_PROJECT) != null) {
-			importProjectToWorkspace();
-			projectFile = new File(pluginArgs.get(ARG_PROJECT));
-		} else {
-			importProjectToWorkspace();
-			projectFile = new File("");
-		}
-
-		System.out.println(projectFile.getAbsolutePath());
-
-		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
-				.findProject(projectFile.toURI());
-
-		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
-				project, RunConfig.M1);
-		PluginRunStatus[] status = project.generate(config, null);
-
-		// TODO - handle this!
-		if (status.length != 0) {
-			for (PluginRunStatus pluginRunStatus : status) {
-				pluginRunStatus.getMessage();
-			}
-		}
-	}
-
-	private boolean importProjectToWorkspace() {
+	private boolean importProjectToWorkspace(final String project) {
 
 		IWorkspaceRunnable op = new IWorkspaceRunnable() {
 
 			public void run(IProgressMonitor monitor) throws CoreException {
 
 				ProjectRecord projectRecord;
-				if (pluginArgs.get(ARG_PROJECT) != null) {
-					projectRecord = new ProjectRecord(new File(pluginArgs
-							.get(ARG_PROJECT)
-							+ File.separator + ".project"));
-				} else {
-					File workingDir = new File("");
-					projectRecord = new ProjectRecord(new File(workingDir
-							.getAbsolutePath()
-							+ File.separator + ".project"));
-
-				}
+				projectRecord = new ProjectRecord(new File(project + File.separator + ".project"));
 
 				String projectName = projectRecord.getProjectName();
 				final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-				final IProject project = workspace.getRoot().getProject(
-						projectName);
-
+				final IProject project = workspace.getRoot().getProject(projectName);
 				if (!project.exists()) {
 					try {
 						project.create(projectRecord.description, null);
@@ -188,6 +138,21 @@ public class Tigerstripe implements IApplication {
 		return true;
 	}
 
+	private void generateTigerstripeOutput() throws TigerstripeException {
+
+		File projectFile = new File(generationProject);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+				.findProject(projectFile.toURI());
+		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(project, RunConfig.M1);
+		PluginRunStatus[] status = project.generate(config, null);
+
+		if (status.length != 0) {
+			for (PluginRunStatus pluginRunStatus : status) {
+				System.out.println(pluginRunStatus.getMessage());
+			}
+		}
+	}
+	
 	public void stop() {
 		System.out.println("Stopping");
 	}

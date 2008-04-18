@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.mojo;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -27,7 +28,9 @@ public class GenerateMojo extends AbstractMojo {
 
 	private static final String DELIMITER = "=";
 	
-	private static final String PROJECT_KEY = "project";
+	private static final String IMPORT_PROJECT_ARG = "PROJECT_IMPORT";
+
+	private static final String GENERATION_PROJECT_ARG = "GENERATION_PROJECT";
 	
 	/**
 	 * @parameter expression="${workspace}"
@@ -36,15 +39,23 @@ public class GenerateMojo extends AbstractMojo {
 	public String workspace;
 	
 	/**
-	 * @parameter expression="${tsProject}"
+	 * @parameter expression="${projects}"
 	 * @required
 	 */
-	public String tsProject;
+	public ArrayList<String> projects;
+	
+	/**
+	 * @parameter expression="${generationProject}"
+	 * @required
+	 */
+	public String generationProject;
 	
 	public void execute() throws MojoExecutionException {
 		
-		getLog().debug("param workspace: " + workspace);
-		getLog().debug("param tsProject: " + tsProject);
+		getLog().debug("Workspace: " + workspace);
+		for (String project : projects) {
+			getLog().info("Projects: " + project);
+		}
 		
 		Commandline cl = new Commandline();
 		cl.setExecutable(System.getenv("ECLIPSE_HOME") + File.separator + "eclipsec.exe");
@@ -55,7 +66,10 @@ public class GenerateMojo extends AbstractMojo {
 		cl.createArg().setValue("org.eclipse.tigerstripe.workbench.headless.tigerstripe");
 		
 		// add plug-in parameters as key/value pairs
-		cl.createArg().setValue(PROJECT_KEY + DELIMITER + tsProject);
+		for (String project : projects) {
+			cl.createArg().setValue(IMPORT_PROJECT_ARG + DELIMITER + project);
+		}
+		cl.createArg().setValue(GENERATION_PROJECT_ARG + DELIMITER + generationProject);
 		
 		StreamConsumer consumer = new StreamConsumer() {
 			public void consumeLine(String line) {
