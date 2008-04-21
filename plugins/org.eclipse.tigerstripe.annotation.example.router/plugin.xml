@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.tigerstripe.annotation.core.router">
+      <router
+            class="org.eclipse.tigerstripe.annotation.example.router.ResourceRouter"/>
+   </extension>
+</plugin>

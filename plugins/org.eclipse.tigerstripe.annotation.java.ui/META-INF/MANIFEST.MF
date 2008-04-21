@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tigerstripe Annotation Java UI Plug-in
+Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.java.ui;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.tigerstripe.annotation.java.ui.JavaAnnotationUIPlugin
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.tigerstripe.annotation.ui,
+ org.eclipse.jdt.ui,
+ org.eclipse.ui.editors,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core,
+ org.eclipse.ltk.core.refactoring,
+ org.eclipse.jdt.core.manipulation,
+ org.eclipse.tigerstripe.annotation.java,
+ org.eclipse.emf.ecore,
+ org.eclipse.jface.text
+Eclipse-LazyStart: true

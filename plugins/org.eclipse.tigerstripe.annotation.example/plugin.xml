@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.1 2008/04/21 23:21:10 edillon Exp $
+-->
+
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http:///org/eclipse/tigerstripe/annotation/example.ecore" 
+       class = "org.eclipse.tigerstripe.annotation.example.ExamplePackage"
+       genModel = "model/example.genmodel" /> 
+  </extension>
+  
+  <extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
+     <definition
+           id="org.eclipse.tigerstripe.annotation.example.text"
+           name="Text Annotation"
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/example.ecore"
+           description="Annotation with one text field"
+           eclass="TextAnnotation">
+     </definition>
+  </extension>
+  
+  <extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
+     <definition
+           id="org.eclipse.tigerstripe.annotation.example.int"
+           name="Integer Annotation"
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/example.ecore"
+           description="Annotation with one integer field"
+           eclass="IntegerAnnotation">
+     </definition>
+  </extension>
+  
+  <extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
+     <definition
+           id="org.eclipse.tigerstripe.annotation.example.check"
+           name="Check Annotation"
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/example.ecore"
+           description="Annotation with one boolean field"
+           eclass="CheckAnnotation">
+     </definition>
+  </extension>
+	
+	<extension
+	      point="org.eclipse.tigerstripe.annotation.ui.annotationTypeImages">
+	    <annotationTypeImage
+	          icon="icons/text.gif"
+	          typeID="org.eclipse.tigerstripe.annotation.example.text"/>
+	    <annotationTypeImage
+	          icon="icons/int.gif"
+	          typeID="org.eclipse.tigerstripe.annotation.example.int"/>
+	    <annotationTypeImage
+	          icon="icons/check.gif"
+	          typeID="org.eclipse.tigerstripe.annotation.example.check"/>
+	</extension>
+
+</plugin>

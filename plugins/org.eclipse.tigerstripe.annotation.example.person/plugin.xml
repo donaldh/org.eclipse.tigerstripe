@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.1 2008/04/21 23:22:31 edillon Exp $
+-->
+
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http:///org/eclipse/tigerstripe/annotation/example/person.ecore" 
+       class = "org.eclipse.tigerstripe.annotation.example.person.PersonPackage"
+       genModel = "model/person.genmodel" /> 
+  </extension>
+  
+  <extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
+     <definition
+           id="org.eclipse.tigerstripe.annotation.example.person"
+           name="Person"
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/example/person.ecore"
+           description="Personal information, like a full name, e-mail address, telephone number and so on"
+           eclass="Person">
+     </definition>
+  </extension>
+	
+	<extension
+			point="org.eclipse.tigerstripe.annotation.ui.annotationTypeImages">
+		<annotationTypeImage
+			icon="icons/person.gif"
+			typeID="org.eclipse.tigerstripe.annotation.example.person"/>
+	</extension>
+
+</plugin>

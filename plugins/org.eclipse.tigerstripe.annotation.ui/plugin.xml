@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+	<extension-point id="workbenchAnnotationProvider" name="workbenchAnnotationProvider" schema="schema/workbenchAnnotationProvider.exsd"/>
+	<extension-point id="annotationTypeImages" name="annotationTypeImages" schema="schema/annotationTypeImages.exsd"/>
+	
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.tigerstripe.annotation"
+            name="Annotation Framework"/>
+      <view
+            category="org.eclipse.tigerstripe.annotation"
+            class="org.eclipse.tigerstripe.annotation.ui.internal.view.property.PropertySheet"
+            icon="icons/annotation.gif"
+            id="org.eclipse.tigerstripe.annotation.view.property"
+            name="Annotation Property View"/>
+      <view
+            category="org.eclipse.tigerstripe.annotation"
+            class="org.eclipse.tigerstripe.annotation.ui.internal.view.AnnotationsView"
+            icon="icons/annotations.gif"
+            id="org.eclipse.tigerstripe.annotation.view.annotations"
+            name="Annotations View"/>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="org.eclipse.tigerstripe.annotation.ui.resource.contribution"
+            nameFilter="*"
+            objectClass="org.eclipse.tigerstripe.annotation.core.IAnnotable">
+         <menu
+               label="Annotations"
+               path="additions"
+               id="org.eclipse.tigerstripe.annotation.ui.mainmenu">
+            <separator
+                  name="group1">
+            </separator>
+         </menu>
+         <action
+               class="org.eclipse.tigerstripe.annotation.ui.internal.actions.CreateAnnotationAction"
+               enablesFor="1"
+               id="org.eclipse.tigerstripe.annotation.ui.resource.actions.create"
+               label="Create"
+               menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/group1"
+               style="push"
+               tooltip="Add Annotation">
+         </action>
+         <action
+               class="org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotationAction"
+               enablesFor="1"
+               id="org.eclipse.tigerstripe.annotation.ui.resource.actions.remove"
+               label="Remove"
+               menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/group1"
+               style="push"
+               tooltip="Remove Annotation">
+         </action>
+      </objectContribution>
+   </extension>
+
+     <extension
+         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            typeMapper="org.eclipse.tigerstripe.annotation.ui.internal.view.property.AnnotationElementTypeMapper"
+            contributorId="org.eclipse.tigerstripe.annotation.ui.properties"
+            labelProvider="org.eclipse.tigerstripe.annotation.ui.internal.view.property.CommonLabelProvider">
+         <propertyCategory
+               category="Properties">
+         </propertyCategory>
+      </propertyContributor>
+   </extension>
+ 
+	<extension 
+    		point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+		<propertyTabs 
+				contributorId="org.eclipse.tigerstripe.annotation.ui.properties">   
+			<propertyTab
+				category="Properties"
+				id="property.tab.PropertiesPropertySection"
+				label="Properties"/>           
+		</propertyTabs>
+	</extension>
+ 
+	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+		<propertySections contributorId="org.eclipse.tigerstripe.annotation.ui.properties">
+			<propertySection
+				class="org.eclipse.tigerstripe.annotation.ui.internal.view.property.PropertiesSection"
+				filter="org.eclipse.tigerstripe.annotation.ui.internal.view.property.AnnotationFilter"
+				id="property.section.PropertiesPropertySection"
+				tab="property.tab.PropertiesPropertySection">
+			</propertySection>            
+		</propertySections>
+	</extension>
+
+</plugin>

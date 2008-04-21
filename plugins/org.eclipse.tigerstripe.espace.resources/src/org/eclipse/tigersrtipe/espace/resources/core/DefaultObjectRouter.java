@@ -1,0 +1,39 @@
+/******************************************************************************* 
+ * Copyright (c) 2008 xored software, Inc.  
+ * 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at 
+ * http://www.eclipse.org/legal/epl-v10.html  
+ * 
+ * Contributors: 
+ *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
+ *******************************************************************************/
+package org.eclipse.tigersrtipe.espace.resources.core;
+
+import java.io.File;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+
+/**
+ * @author Yuri Strot
+ *
+ */
+public class DefaultObjectRouter implements EObjectRouter {
+	
+	private URI uri;
+	
+	public DefaultObjectRouter(File file) {
+		uri = URI.createFileURI(file.getAbsolutePath());
+	}
+	
+	public URI getUri() {
+		return uri;
+	}
+
+	public URI route(EObject object) {
+		return getUri();
+    }
+
+}
