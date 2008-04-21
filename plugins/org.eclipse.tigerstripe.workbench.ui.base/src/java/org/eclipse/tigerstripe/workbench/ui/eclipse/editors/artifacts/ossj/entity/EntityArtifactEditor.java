@@ -10,7 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.entity;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.OssjArtifactOverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
@@ -42,11 +46,18 @@ public class EntityArtifactEditor extends ArtifactEditorBase {
 			index = addPage(page);
 			addModelPage(page);
 
-			specPage = new OssjEntitySpecificsPage(this,
-					new EntityArtifactLabelProvider(),
-					new EntityArtifactFormContentProvider());
-			addPage(specPage);
-			addModelPage(specPage);
+			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
+			.getWorkbenchProfileSession().getActiveProfile().getProperty(
+					IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+
+			if (prop
+					.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
+				specPage = new OssjEntitySpecificsPage(this,
+						new EntityArtifactLabelProvider(),
+						new EntityArtifactFormContentProvider());
+				addPage(specPage);
+				addModelPage(specPage);
+			}
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);
 		}

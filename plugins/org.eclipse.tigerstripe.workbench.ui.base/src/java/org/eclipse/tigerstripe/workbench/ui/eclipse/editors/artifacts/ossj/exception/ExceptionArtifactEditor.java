@@ -10,7 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.exception;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.OssjArtifactOverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
@@ -39,12 +43,18 @@ public class ExceptionArtifactEditor extends ArtifactEditorBase {
 					new ExceptionArtifactFormContentProvider());
 			index = addPage(page);
 			addModelPage(page);
+			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
+			.getWorkbenchProfileSession().getActiveProfile().getProperty(
+					IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
-			OssjExceptionSpecificsPage specPage = new OssjExceptionSpecificsPage(
-					this, new ExceptionArtifactLabelProvider(),
-					new ExceptionArtifactFormContentProvider());
-			addPage(specPage);
-			addModelPage(specPage);
+			if (prop
+					.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
+				OssjExceptionSpecificsPage specPage = new OssjExceptionSpecificsPage(
+						this, new ExceptionArtifactLabelProvider(),
+						new ExceptionArtifactFormContentProvider());
+				addPage(specPage);
+				addModelPage(specPage);
+			}
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);
 		}

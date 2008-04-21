@@ -126,8 +126,9 @@ public class OssjEntitySpecificsSection extends ArtifactSectionPart {
 			createInterfaceName(getBody(), getToolkit());
 			createSingleExtensionTypeButton(getBody(), getToolkit());
 			createSessionBasedFactoriesButton(getBody(), getToolkit());
+			createPrimaryKeyName(getBody(), getToolkit());
 		}
-		createPrimaryKeyName(getBody(), getToolkit());
+		
 
 		getSection().setClient(getBody());
 		getToolkit().paintBordersFor(getBody());

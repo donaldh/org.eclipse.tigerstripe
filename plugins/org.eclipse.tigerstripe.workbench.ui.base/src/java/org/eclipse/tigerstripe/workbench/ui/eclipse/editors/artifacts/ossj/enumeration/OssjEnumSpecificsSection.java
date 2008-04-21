@@ -22,6 +22,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
@@ -100,9 +104,16 @@ public class OssjEnumSpecificsSection extends ArtifactSectionPart {
 
 		Composite body = getBody();
 		body.setLayout(layout);
-		createInterfaceName(getBody(), getToolkit());
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
+		.getWorkbenchProfileSession().getActiveProfile().getProperty(
+				IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+
+		if (prop
+				.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
+			createInterfaceName(getBody(), getToolkit());
+			createExtensibleControl(getBody(), getToolkit());
+		}
 		createBaseTypeControl(getBody(), getToolkit());
-		createExtensibleControl(getBody(), getToolkit());
 
 		getSection().setClient(getBody());
 		getToolkit().paintBordersFor(getBody());

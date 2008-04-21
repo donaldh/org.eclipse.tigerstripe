@@ -10,7 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.session;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.eclipse.editors.artifacts.ossj.OssjArtifactOverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
@@ -40,11 +44,22 @@ public class SessionArtifactEditor extends ArtifactEditorBase {
 			index = addPage(page);
 			addModelPage(page);
 
+			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
+			.getWorkbenchProfileSession().getActiveProfile().getProperty(
+					IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+			
+			if (prop.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS) || 
+					prop.getPropertyValue(IOssjLegacySettigsProperty.USEMANAGEDENTITIES_ONSESSION) ||
+					prop.getPropertyValue(IOssjLegacySettigsProperty.USENAMEDQUERIES_ONSESSION) ||
+					prop.getPropertyValue(IOssjLegacySettigsProperty.USEEXPOSEDPROCEDURES_ONSESSION) || 
+					prop.getPropertyValue(IOssjLegacySettigsProperty.USEEMITTEDNOTIFICATIONS_ONSESSION)) {
+
 			OssjSessionSpecificsPage specPage = new OssjSessionSpecificsPage(
 					this, new SessionArtifactLabelProvider(),
 					new SessionArtifactFormContentProvider());
 			addPage(specPage);
 			addModelPage(specPage);
+			}
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);
 		}
