@@ -31,7 +31,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.TSMessageDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.elements.TSMessageDialog;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 
 public class AddRelatedArtifactsDialog extends TSMessageDialog {

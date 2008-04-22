@@ -51,8 +51,8 @@ import org.eclipse.tigerstripe.workbench.optional.bulkImport.DiffFixer;
 import org.eclipse.tigerstripe.workbench.optional.bulkImport.ImportBundle;
 import org.eclipse.tigerstripe.workbench.optional.bulkImport.XML2TS;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.TigerstripeProjectAuditor;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.MessageListDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.builder.TigerstripeProjectAuditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
 /**

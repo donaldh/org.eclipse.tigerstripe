@@ -32,13 +32,13 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.builder.IDiagramAuditor;
-import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.DiagramHandle;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Variable;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers.InstanceDiagramMapHelper;
+import org.eclipse.tigerstripe.workbench.ui.internal.builder.IDiagramAuditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramHandle;
 
 public class InstanceDiagramAuditor implements IDiagramAuditor {
 

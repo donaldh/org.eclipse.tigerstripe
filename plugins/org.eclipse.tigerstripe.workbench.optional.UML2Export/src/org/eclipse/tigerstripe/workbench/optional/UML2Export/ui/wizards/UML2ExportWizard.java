@@ -27,7 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList
 import org.eclipse.tigerstripe.workbench.optional.UML2Export.ProfileAnnotations2UML2;
 import org.eclipse.tigerstripe.workbench.optional.UML2Export.ProfileTypes2UML2;
 import org.eclipse.tigerstripe.workbench.optional.UML2Export.TS2UML;
-import org.eclipse.tigerstripe.workbench.ui.eclipse.elements.MessageListDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.uml2.uml.Model;

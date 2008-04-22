@@ -13,11 +13,11 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditDomain;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.ClosedDiagramSynchronizerBase;
-import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.IClosedDiagramSynchronizer;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.ClosedDiagramSynchronizerBase;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.IClosedDiagramSynchronizer;
 
 public class ClosedInstanceDiagramSynchronizer extends
 		ClosedDiagramSynchronizerBase implements IClosedDiagramSynchronizer {

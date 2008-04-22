@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action;
 
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewArtifactWizardAction;
+import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeCreationWizard;
 

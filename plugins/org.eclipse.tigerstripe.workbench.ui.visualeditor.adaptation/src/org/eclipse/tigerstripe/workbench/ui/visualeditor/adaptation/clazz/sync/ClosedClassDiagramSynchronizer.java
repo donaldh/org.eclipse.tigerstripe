@@ -13,10 +13,10 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditDomain;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.eclipse.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.ClosedDiagramSynchronizerBase;
-import org.eclipse.tigerstripe.workbench.ui.gmf.synchronization.IClosedDiagramSynchronizer;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.ClosedDiagramSynchronizerBase;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.IClosedDiagramSynchronizer;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 
 /**
