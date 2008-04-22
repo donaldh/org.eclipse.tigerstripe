@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.tigerstripe.annotation.core.validators">
+      <validator
+            class="org.eclipse.tigerstripe.annotation.example.person.validators.PersonValidator"
+            typeID="org.eclipse.tigerstripe.annotation.example.person">
+      </validator>
+   </extension>
+   
+   <extension
+         point="org.eclipse.emf.validation.constraintProviders">
+      <constraintProvider cache="true">
+         <package namespaceUri="http:///org/eclipse/tigerstripe/annotation/example/person.ecore"/>
+         <constraints categories="org.eclipse.tigerstripe.annotation.core.validation.category">
+            <constraint
+                  lang="Java"
+                  class="org.eclipse.tigerstripe.annotation.example.person.validators.PersonValidator"
+                  severity="ERROR"
+                  mode="Live"
+                  name="Valid Person Age"
+                  id="org.eclipse.tigerstripe.annotation.example.person.validAge"
+                  statusCode="1">
+               <description>
+                  Person age should be non-negative number and non greater than 100 years
+               </description>
+               <message>
+                  Person age can't be {0}
+               </message>
+               <target class="Person">
+                  <event name="Set">
+                     <feature name="age"/>
+                  </event>
+                  <event name="Unset">
+                     <feature name="age"/>
+                  </event>
+               </target>
+            </constraint>
+         </constraints>
+      </constraintProvider>
+   </extension>
+
+</plugin>
