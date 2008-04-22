@@ -34,17 +34,17 @@ public class OssjLegacySettingsProperty extends MultiPropertiesProfileProperty
 	// value, SectionTitle
 	private static String[][] properties = {
 			{ USEATTRIBUTES_ASREFERENCE,
-					"Artifact Attributes can be used as references", "true",
+					"Artifact Attributes can be used as references", "false",
 					"References" },
 			{ DISPLAY_OSSJSPECIFICS, "Display OSS/J Specifics for Artifacts",
-					"true", "" },
+					"false", "" },
 			{
 					USEREFBY_MODIFIERS,
 					"References can be by \"Key\", \"Value\" or by \"KeyResult\"",
-					"true", "" },
-			{ ENABLE_INSTANCEMETHOD, "Enable OSS/J Instance Methods", "true",
+					"false", "" },
+			{ ENABLE_INSTANCEMETHOD, "Enable OSS/J Instance Methods", "false",
 					"" },
-			{ ENABLE_ISOPTIONAL, "Enable OSS/J 'isOptional' modifier", "true",
+			{ ENABLE_ISOPTIONAL, "Enable OSS/J 'isOptional' modifier", "false",
 					"" },
 			{
 					USEMANAGEDENTITIES_ONSESSION,
@@ -52,7 +52,7 @@ public class OssjLegacySettingsProperty extends MultiPropertiesProfileProperty
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())
 									.getLabel(),
-					"true",
+					"false",
 					ArtifactMetadataFactory.INSTANCE.getMetadata(
 							ISessionArtifactImpl.class.getName()).getLabel()
 							+ " Properties" },
@@ -61,19 +61,19 @@ public class OssjLegacySettingsProperty extends MultiPropertiesProfileProperty
 					"Emitted Notifications can be explicitly referenced on a "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())
-									.getLabel(), "true", "" },
+									.getLabel(), "false", "" },
 			{
 					USEEXPOSEDPROCEDURES_ONSESSION,
 					"Update Procedures can be explicitly referenced on a "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())
-									.getLabel(), "true", "" },
+									.getLabel(), "false", "" },
 			{
 					USENAMEDQUERIES_ONSESSION,
 					"Named Queries can be explicitly referenced on a "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())
-									.getLabel(), "true", "" },
+									.getLabel(), "false", "" },
 
 	/*
 	 * { ENABLE_JVT_PLUGIN, "Enable the legacy OSS/J Plugin for JVT Profile

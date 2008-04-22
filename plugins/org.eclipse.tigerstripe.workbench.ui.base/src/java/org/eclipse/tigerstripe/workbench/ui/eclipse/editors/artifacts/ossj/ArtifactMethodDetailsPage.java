@@ -866,14 +866,20 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 					&& master.getContentProvider().enabledInstanceMethods());
 
 		// If the instanceButton is selected we shouldn't allow for exceptions
-		// to
-		// be set here. (RC comment)
-		exceptionViewer.getTable().setEnabled(
-				!isReadOnly && !getMethod().isInstanceMethod());
-		addExceptionButton.setEnabled(!isReadOnly
-				&& !getMethod().isInstanceMethod());
-		removeExceptionButton.setEnabled(!isReadOnly
-				&& !getMethod().isInstanceMethod());
+		// to be set here. (RC comment)
+		// Except that we need it if the instance methods are not allowed!
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
+		.getWorkbenchProfileSession().getActiveProfile().getProperty(
+				IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+
+		boolean enabled = prop
+				.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_INSTANCEMETHOD);
+				
+		boolean exceptionsAllowed = !isReadOnly && (!getMethod().isInstanceMethod() || 
+				!enabled  );
+		exceptionViewer.getTable().setEnabled( exceptionsAllowed );
+		addExceptionButton.setEnabled(exceptionsAllowed );
+		removeExceptionButton.setEnabled(exceptionsAllowed );
 
 		if (optionalButton != null)
 			optionalButton.setSelection(getMethod().isOptional());
