@@ -70,7 +70,7 @@
 	<!-- Downloads any existing downloads.xml descriptor, patches it with the current build and uploads it back up -->
 	<target name="upload.build.descriptor">
 		<echo message="Downloading existing build descriptor (download.xml) from ${download.site.label}" />
-		<scp file="${download.site}/downloads.xml" todir="${artifactsDirectory}" />
+		<scp file="${download.site}/downloads.xml" todir="${artifactsDirectory}" password="${download.site.password}" />
 		<!-- update the download prefix in the build-details.xml -->
 		<replace file="${artifactsDirectory}/build-details.xml">
 			<replacefilter token="@download.prefix@" value="${download.site.prefix}" />
@@ -79,7 +79,7 @@
 
 		<dsite.addReleaseNotes php="/tigerstripe/includes/releaseNotes.php" downloadsFile="${artifactsDirectory}/downloads.xml" newBuildFile="${artifactsDirectory}/build-details.xml" />
 		<dsite.mergeBuild downloadsFile="${artifactsDirectory}/downloads.xml" newBuildFile="${artifactsDirectory}/build-details.xml" />
-		<scp todir="${download.site}">
+		<scp todir="${download.site}" password="${download.site.password}">
 			<fileset dir="${artifactsDirectory}">
 				<include name="downloads.xml" />
 			</fileset>
@@ -88,7 +88,7 @@
 
 	<target name="upload.updateSite.content">
 		<echo message="Uploading Update Site Content for ${buildLabel} to ${update.site.label}" />
-		<scp todir="${update.site}">
+		<scp todir="${update.site}" password="${update.site.password}">
 			<fileset dir="${artifactsDirectory}/update-site">
 				<include name="**/*.jar" />
 				<include name="*.xml" />

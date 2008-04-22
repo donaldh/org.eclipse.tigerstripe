@@ -248,7 +248,7 @@
 
 		<!--  and pull down the Update Site descriptor -->
 		<mkdir dir="${local.site.image}" />
-		<scp file="${remote.site.descriptor}"
+		<scp file="${remote.site.descriptor}" password="${update.site.password}"
 			todir="${local.site.image}" />
 	</target>
 

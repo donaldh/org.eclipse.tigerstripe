@@ -22,10 +22,9 @@
 	</target>
 
 	<target name="init">
-		<tstamp />
 		<touch file="${user.home}/.cvspass" />
-		<property name="date" value="${DSTAMP}" />
-		<property name="time" value="${TSTAMP}" />
+		<property name="date" value="${env.TSDATE}" />
+		<property name="time" value="${env.TSTIME}" />
 		<property name="timestamp" value="${date}${time}" />
 		<property name="buildType" value="N" />
 		<property name="buildId" value="${buildType}${timestamp}_incubation" />
@@ -46,7 +45,7 @@
 			<property name="stream" value="${stream}" />
 			<property name="buildRoot" value="${build.root}/builds" />
 			<property name="builder" value="${basedir}/components/${component}" />
-			<property name="buildDirectory" value="${build.root}/builds/workbench-only/${buildLabel}" />
+			<property name="buildDirectory" value="${env.WORKSPACE}/../builds/workbench-only/${env.BUILD_ID}" />
 			<property name="update.site.details" value="${basedir}/eclipseUpdate-interim.properties" />
 		</ant>
 
@@ -58,8 +57,8 @@
 			<property name="stream" value="${stream}" />
 			<property name="buildRoot" value="${build.root}/builds" />
 			<property name="builder" value="${basedir}/components/${component}" />
-			<property name="buildDirectory" value="${build.root}/builds/workbench-onl/${buildLabel}" />
-			<property name="artifactsDirectory" value="${build.root}/builds/workbench-only/${buildLabel}/${buildId}" />
+			<property name="buildDirectory" value="${env.WORKSPACE}/../builds/workbench-only/${env.BUILD_ID}" />
+			<property name="artifactsDirectory" value="${env.WORKSPACE}/../builds/workbench-only/${env.BUILD_ID}/${buildId}" />
 			<property name="downloads.site.details" value="${basedir}/eclipseDownloads.properties" />
 			<property name="update.site.details" value="${basedir}/eclipseUpdate-interim.properties" />
 		</ant>

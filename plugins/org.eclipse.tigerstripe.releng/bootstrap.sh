@@ -15,8 +15,8 @@
 ####
 ## YOU NEED TO ADJUST THESE TO YOUR LOCAL SETTINGS
 ##
-export	ANT_HOME=/usr/share/ant
-export	JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.5/Home
+export	ANT_HOME=/auto/tigerstripe/java/apache-ant-1.7.0/
+export	JAVA_HOME=/auto/tigerstripe/java/jdk1.6.0_10/
 export	PATH=${JAVA_HOME}/bin:${PATH}:${ANT_HOME}/bin
 
 ${ANT_HOME}/bin/ant -f ./bootstrap.xml
