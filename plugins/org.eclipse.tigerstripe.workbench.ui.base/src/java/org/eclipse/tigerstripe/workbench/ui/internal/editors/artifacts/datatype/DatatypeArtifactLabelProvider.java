@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.datatype;
 
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider;
 
 public class DatatypeArtifactLabelProvider implements
-		IOssjArtifactFormLabelProvider {
+IArtifactFormLabelProvider {
 
 }

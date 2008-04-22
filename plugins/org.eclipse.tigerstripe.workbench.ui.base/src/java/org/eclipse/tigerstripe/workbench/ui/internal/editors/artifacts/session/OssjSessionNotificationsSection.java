@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.session;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -37,13 +36,13 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEmittedEvent;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormContentProvider;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.ArtifactSelectorDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.IArtifactLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-
+@Deprecated
 public class OssjSessionNotificationsSection extends OssjSessionElementsSection {
 
 	public class NotificationsContentProvider implements
@@ -129,7 +128,7 @@ public class OssjSessionNotificationsSection extends OssjSessionElementsSection 
 
 	public OssjSessionNotificationsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
-			IOssjArtifactFormLabelProvider labelProvider,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(page, parent, toolkit, labelProvider, contentProvider);
 		this.contentProvider = new NotificationsContentProvider();

@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.updateProcedure;
 
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider;
 
 public class UpdateProcedureArtifactLabelProvider implements
-		IOssjArtifactFormLabelProvider {
+IArtifactFormLabelProvider {
 
 }

@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.session;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +36,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
@@ -52,15 +50,15 @@ import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.ManagedEntityOverideDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormContentProvider;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.ArtifactSelectorDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.IArtifactLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-
+@Deprecated
 public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 
 	public class MEntitiesContentProvider implements IStructuredContentProvider {
@@ -146,7 +144,7 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 
 	public OssjSessionMEntitiesSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
-			IOssjArtifactFormLabelProvider labelProvider,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(page, parent, toolkit, labelProvider, contentProvider);
 		this.contentProvider = new MEntitiesContentProvider();

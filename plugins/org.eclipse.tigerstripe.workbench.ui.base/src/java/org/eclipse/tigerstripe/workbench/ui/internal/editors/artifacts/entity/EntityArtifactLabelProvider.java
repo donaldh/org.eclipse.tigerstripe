@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.entity;
 
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider;
 
 public class EntityArtifactLabelProvider implements
-		IOssjArtifactFormLabelProvider {
+IArtifactFormLabelProvider {
 
 }

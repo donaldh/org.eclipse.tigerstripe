@@ -48,10 +48,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjArtifactAttributesSection;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjArtifactConstantsSection;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjArtifactMethodsSection;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjArtifactOverviewPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactAttributesSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantsSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodsSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactOverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ReadOnlyArtifactEditorInput;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.association.AssociationSpecificsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.dependency.DependencySpecificsSection;
@@ -313,17 +313,17 @@ public class TSOpenAction extends OpenAction {
 					artEditor.setActivePage("ossj.entity.overview", artEditor);
 					// now, get the active page and loop through the parts of
 					// that page
-					OssjArtifactOverviewPage selectedPage = (OssjArtifactOverviewPage) artEditor
+					ArtifactOverviewPage selectedPage = (ArtifactOverviewPage) artEditor
 							.getSelectedPage();
 					IFormPart[] formParts = selectedPage.getManagedForm()
 							.getParts();
 					for (int j = 0; j < formParts.length; j++) {
 						if (objects[i] instanceof IField
-								&& formParts[j] instanceof OssjArtifactAttributesSection) {
+								&& formParts[j] instanceof ArtifactAttributesSection) {
 							// if we are working with a field and we've found
 							// the Attributes section, then we are in
 							// the right place
-							OssjArtifactAttributesSection attributesSection = (OssjArtifactAttributesSection) formParts[j];
+							ArtifactAttributesSection attributesSection = (ArtifactAttributesSection) formParts[j];
 							// set the section so that it is expanded
 							attributesSection.getSection().setExpanded(true);
 							// determine where the section is and scroll so that
@@ -355,11 +355,11 @@ public class TSOpenAction extends OpenAction {
 							attributesSection.updateMaster();
 							break;
 						} else if (objects[i] instanceof IMethod
-								&& formParts[j] instanceof OssjArtifactMethodsSection) {
+								&& formParts[j] instanceof ArtifactMethodsSection) {
 							// else if we are working with a method and we've
 							// found the Methods section, then we are in
 							// the right place
-							OssjArtifactMethodsSection methodsSection = (OssjArtifactMethodsSection) formParts[j];
+							ArtifactMethodsSection methodsSection = (ArtifactMethodsSection) formParts[j];
 							// set the section so that it is expanded
 							methodsSection.getSection().setExpanded(true);
 							// determine where the section is and scroll so that
@@ -392,11 +392,11 @@ public class TSOpenAction extends OpenAction {
 							methodsSection.updateMaster();
 							break;
 						} else if (objects[i] instanceof ILiteral
-								&& formParts[j] instanceof OssjArtifactConstantsSection) {
+								&& formParts[j] instanceof ArtifactConstantsSection) {
 							// else if we are working with a label and we've
 							// found the Constants section, then we are in
 							// the right place
-							OssjArtifactConstantsSection constantsSection = (OssjArtifactConstantsSection) formParts[j];
+							ArtifactConstantsSection constantsSection = (ArtifactConstantsSection) formParts[j];
 							// set the section so that it is expanded
 							constantsSection.getSection().setExpanded(true);
 							// determine where the section is and scroll so that

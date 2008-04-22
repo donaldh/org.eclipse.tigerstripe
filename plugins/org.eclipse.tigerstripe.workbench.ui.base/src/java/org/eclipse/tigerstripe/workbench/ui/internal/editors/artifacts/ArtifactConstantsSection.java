@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,13 +42,17 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Literal;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
@@ -58,18 +63,21 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
+public class ArtifactConstantsSection extends ArtifactSectionPart implements
 		IFormPart {
+
+	private static final int INT_TYPE = 0;
+	private static final int STRING_TYPE = 1;
 
 	protected DetailsPart detailsPart;
 
-	public OssjArtifactMethodsSection(TigerstripeFormPage page,
+	public ArtifactConstantsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
-			IOssjArtifactFormLabelProvider labelProvider,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider, int style) {
 		super(page, parent, toolkit, labelProvider, contentProvider,
 				ExpandableComposite.TWISTIE | style);
-		setTitle("Methods");
+		setTitle("Constants");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -105,7 +113,7 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
-		sashForm.setToolTipText("Define/Edit methods for this Artifact.");
+		sashForm.setToolTipText("Define/Edit constants for this Artifact.");
 		sashForm.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
@@ -122,7 +130,7 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof IAbstractArtifact) {
 				IAbstractArtifact artifact = (IAbstractArtifact) inputElement;
-				return artifact.getMethods().toArray();
+				return artifact.getLiterals().toArray();
 			}
 			return new Object[0];
 		}
@@ -139,8 +147,13 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 	class MasterLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
-			IMethod method = (IMethod) obj;
-			return method.getLabelString();
+			ILiteral literal = (ILiteral) obj;
+			switch (index) {
+			case 1:
+				return literal.getValue();
+			default:
+				return literal.getName();
+			}
 		}
 
 		public Image getColumnImage(Object obj, int index) {
@@ -150,11 +163,15 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 
 	// ====================================================================
 	private TableViewer viewer;
-	TableColumn nameColumn;
+
 	private Button addAttributeButton;
 	private Button upAttributeButton;
 	private Button downAttributeButton;
 	private Button removeAttributeButton;
+
+	private ViewerSorter nameSorter;
+
+	private ViewerSorter valueSorter;
 
 	public TableViewer getViewer() {
 		return this.viewer;
@@ -164,6 +181,7 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 			Composite parent) {
 
 		FormToolkit toolkit = getToolkit();
+		final IFormPart part = this;
 
 		Section section = toolkit.createSection(parent,
 				ExpandableComposite.NO_TITLE);
@@ -172,7 +190,8 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		FormLayout layout = new FormLayout();
 		sectionClient.setLayout(layout);
 
-		Table t = toolkit.createTable(sectionClient, SWT.NULL);
+		Table t = toolkit.createTable(sectionClient, SWT.SINGLE
+				| SWT.FULL_SELECTION);
 		FormData fd = new FormData();
 		fd.top = new FormAttachment(0, 5);
 		fd.bottom = new FormAttachment(100, -150);
@@ -181,14 +200,33 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		fd.width = 100;
 		t.setLayoutData(fd);
 
+		TableColumn nameColumn = new TableColumn(t, SWT.NULL);
+		nameColumn.setText("Name");
+		nameColumn.setWidth(180);
+
+		TableColumn valueColumn = new TableColumn(t, SWT.NULL);
+		valueColumn.setText("Value");
+		valueColumn.setWidth(70);
+
 		t.setHeaderVisible(true);
 		t.setLinesVisible(true);
+
+		viewer = new TableViewer(t);
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				selIndex = viewer.getTable().getSelectionIndex();
+				managedForm.fireSelectionChanged(part, event.getSelection());
+				viewerSelectionChanged(event);
+			}
+		});
+
+		viewer.setContentProvider(new MasterContentProvider());
+		viewer.setLabelProvider(new MasterLabelProvider());
+		viewer.setInput(((ArtifactEditorBase) getPage().getEditor())
+				.getIArtifact());
+
 		
-		// Make a header for the table
-		nameColumn = new TableColumn(t, SWT.NULL);
-		nameColumn.setText("Name");
-		nameColumn.setWidth(250);		
-	
+		
 		nameColumn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				// determine new sort column and direction
@@ -205,18 +243,51 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 
 				viewer.getTable().setSortDirection(dir);
 				viewer.setSorter(new Sorter(dir));
+				
 				TableItem[] allItems = viewer.getTable().getItems();
-				IMethod[] newFields = new IMethod[allItems.length];
+				ILiteral[] newFields = new ILiteral[allItems.length];
 				for (int i = 0; i < newFields.length; i++) {
-					newFields[i] = (IMethod) allItems[i].getData();
+					newFields[i] = (ILiteral) allItems[i].getData();
 				}
-				getIArtifact().setMethods(Arrays.asList(newFields));
+				getIArtifact().setLiterals(Arrays.asList(newFields));
+				
+				
 				refresh();
 				updateMaster();
 				markPageModified();
 			}
 		});
 		
+		valueColumn.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e) {
+				// determine new sort column and direction
+				TableColumn sortColumn = viewer.getTable().getSortColumn();
+				TableColumn currentColumn = (TableColumn) e.widget;
+				int dir = viewer.getTable().getSortDirection();
+				
+				if (sortColumn == currentColumn) {
+					dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
+				} else {
+					viewer.getTable().setSortColumn(currentColumn);
+					dir = SWT.UP;
+				}
+
+				viewer.getTable().setSortDirection(dir);
+				viewer.setSorter(new Sorter(dir,"value"));
+				
+				TableItem[] allItems = viewer.getTable().getItems();
+				ILiteral[] newFields = new ILiteral[allItems.length];
+				for (int i = 0; i < newFields.length; i++) {
+					newFields[i] = (ILiteral) allItems[i].getData();
+				}
+				getIArtifact().setLiterals(Arrays.asList(newFields));
+				
+				refresh();
+				updateMaster();
+				markPageModified();
+			}
+		});
+
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
 		addAttributeButton.setEnabled(!isReadonly());
@@ -294,22 +365,8 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		fd.top = new FormAttachment(removeAttributeButton, 5);
 		fd.left = new FormAttachment(t, 5);
 		fd.right = new FormAttachment(100, -5);
-		fd.height = 250;
+		fd.height = 255;
 		l.setLayoutData(fd);
-
-		final IFormPart part = this;
-		viewer = new TableViewer(t);
-		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			public void selectionChanged(SelectionChangedEvent event) {
-				selIndex = viewer.getTable().getSelectionIndex();
-				managedForm.fireSelectionChanged(part, event.getSelection());
-				viewerSelectionChanged(event);
-			}
-		});
-		viewer.setContentProvider(new MasterContentProvider());
-		viewer.setLabelProvider(new MasterLabelProvider());
-		viewer.setInput(((ArtifactEditorBase) getPage().getEditor())
-				.getIArtifact());
 
 		toolkit.paintBordersFor(sectionClient);
 		section.setClient(sectionClient);
@@ -321,7 +378,17 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 	 * 
 	 */
 	protected void viewerSelectionChanged(SelectionChangedEvent event) {
+		selIndex = viewer.getTable().getSelectionIndex();
 		updateMaster();
+	}
+
+	private String getInitialLiteralValue(IType type) {
+		if ("int".equals(type.getFullyQualifiedName()))
+			return findNewLiteralValue(INT_TYPE);
+		else if ("String".equals(Misc.removeJavaLangString(type
+				.getFullyQualifiedName())))
+			return findNewLiteralValue(STRING_TYPE);
+		return "0";
 	}
 
 	/**
@@ -330,69 +397,100 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 	 */
 	protected void addButtonSelected(SelectionEvent event) {
 		IAbstractArtifact artifact = getIArtifact();
-		IMethod newMethod = artifact.makeMethod();
+		ILiteral newLiteral = artifact.makeLiteral();
 
-		String newMethodName = findNewMethodName();
-		newMethod.setName(newMethodName);
-		newMethod.setVoid(true);
-		IType type = newMethod.makeType();
-		type.setFullyQualifiedName("void");
-		type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
-		newMethod.setReturnType(type);
-		newMethod.setVoid(true);
-		newMethod.setVisibility(EVisibility.PUBLIC);
+		String newLabelName = findNewFieldName();
+		newLiteral.setName(newLabelName);
+		IType defaultType = newLiteral.makeType();
+
+		// See bug #77, #90
+		if (getForcedBaseType() != null) {
+			defaultType.setFullyQualifiedName(getForcedBaseType());
+		} else {
+			defaultType.setFullyQualifiedName("String");
+		}
+		defaultType.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
+		newLiteral.setType(defaultType);
+		newLiteral.setVisibility(EVisibility.PUBLIC);
+		newLiteral.setValue(getInitialLiteralValue(defaultType));
 
 		// Add the item after the current selection (if there is one, and its not the last thing in the table.)
 		if (viewer.getTable().getSelectionCount() == 0 || 
 				viewer.getTable().getSelectionIndex() == viewer.getTable().getItemCount()){
-			viewer.add(newMethod);
+			viewer.add(newLiteral);
 			TableItem[] allItems = this.viewer.getTable().getItems();
-			IMethod[] newFields = new IMethod[allItems.length];
+			ILiteral[] newFields = new ILiteral[allItems.length];
 			for (int i = 0; i < newFields.length; i++) {
-				newFields[i] = (IMethod) allItems[i].getData();
+				newFields[i] = (ILiteral) allItems[i].getData();
 			}
-			getIArtifact().setMethods(Arrays.asList(newFields));
+			getIArtifact().setLiterals(Arrays.asList(newFields));
 			
 		} else {
 			int position = viewer.getTable().getSelectionIndex();
 			TableItem[] allItems = this.viewer.getTable().getItems();
 			
-			IMethod[] allFields = new IMethod[allItems.length];
-			IMethod[] newFields = new IMethod[allItems.length+1];
+			ILiteral[] allFields = new ILiteral[allItems.length];
+			ILiteral[] newFields = new ILiteral[allItems.length+1];
 			for (int i = 0; i <= position; i++) {
-				newFields[i] = (IMethod) allItems[i].getData();
+				newFields[i] = (ILiteral) allItems[i].getData();
 			}
-			newFields[position+1] = newMethod;
+			newFields[position+1] = newLiteral;
 			
 			for (int i = position+2; i < newFields.length; i++) {
-				newFields[i] = (IMethod) allItems[i-1].getData();
+				newFields[i] = (ILiteral) allItems[i-1].getData();
 			}
-			getIArtifact().setMethods(Arrays.asList(newFields));
+			getIArtifact().setLiterals(Arrays.asList(newFields));
 		}
 		
 		refresh();
 
-		viewer.setSelection(new StructuredSelection(newMethod), true);
+		viewer.setSelection(new StructuredSelection(newLiteral), true);
 		markPageModified();
 		updateMaster();
 	}
 
-	private int newMethodCount;
+	protected void markPageModified() {
+		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
+		editor.pageModified();
+	}
+
+	private int newFieldCount;
 
 	/**
 	 * Finds a new field name
 	 */
-	private String findNewMethodName() {
-		String result = "method" + newMethodCount++;
+	private String findNewFieldName() {
+		String result = "literal" + newFieldCount;
 
 		// make sure we're not creating a duplicate
 		TableItem[] items = viewer.getTable().getItems();
 		for (int i = 0; i < items.length; i++) {
-			String name = ((IMethod) items[i].getData()).getName();
-			if (result.equals(name))
-				return findNewMethodName();
+			String name = ((ILiteral) items[i].getData()).getName();
+			if (result.equals(name)) {
+				newFieldCount++;
+				return findNewFieldName();
+			}
 		}
+		return result;
+	}
 
+	private int newLiteralValue;
+
+	private String findNewLiteralValue(int type) {
+		String result = String.valueOf(newLiteralValue);
+
+		if (type == STRING_TYPE)
+			result = "\"" + result + "\"";
+
+		// make sure we're not creating a duplicate
+		TableItem[] items = viewer.getTable().getItems();
+		for (int i = 0; i < items.length; i++) {
+			String value = ((ILiteral) items[i].getData()).getValue();
+			if (result.equals(value)) {
+				newLiteralValue++;
+				return findNewLiteralValue(type);
+			}
+		}
 		return result;
 	}
 
@@ -402,33 +500,32 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 	 */
 	protected void removeButtonSelected(SelectionEvent event) {
 		TableItem[] selectedItems = viewer.getTable().getSelection();
-		IMethod[] selectedMethods = new IMethod[selectedItems.length];
+		ILiteral[] selectedLabels = new ILiteral[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedMethods[i] = (IMethod) selectedItems[i].getData();
+			selectedLabels[i] = (ILiteral) selectedItems[i].getData();
 		}
 
 		String message = "Do you really want to remove ";
-		if (selectedMethods.length > 1) {
-			message = message + "these " + selectedMethods.length + " methods?";
+		if (selectedLabels.length > 1) {
+			message = message + "these " + selectedLabels.length
+					+ " constants?";
 		} else {
-			message = message + "this method?";
+			message = message + "this constant?";
 		}
 
 		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-				"Remove method", null, message, MessageDialog.QUESTION,
+				"Remove Constant", null, message, MessageDialog.QUESTION,
 				new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {
-			// remove now
-			viewer.remove(selectedMethods);
-			getIArtifact().removeMethods(Arrays.asList(selectedMethods));
+			viewer.remove(selectedLabels);
+			getIArtifact().removeLiterals(Arrays.asList(selectedLabels));
 			markPageModified();
 		}
 		updateMaster();
 	}
 
-	
 	/**
 	 * Triggered when the up button is pushed
 	 * 
@@ -439,27 +536,27 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		viewer.setSorter(null);
 		
 		TableItem[] selectedItems = viewer.getTable().getSelection();
-		IMethod[] selectedFields = new IMethod[selectedItems.length];
+		ILiteral[] selectedFields = new ILiteral[selectedItems.length];
 		
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (IMethod) selectedItems[i].getData();
+			selectedFields[i] = (ILiteral) selectedItems[i].getData();
 		}
 		TableItem[] allItems = this.viewer.getTable().getItems();
 		
-		IMethod[] allFields = new IMethod[allItems.length];
-		IMethod[] newFields = new IMethod[allItems.length];
+		ILiteral[] allFields = new ILiteral[allItems.length];
+		ILiteral[] newFields = new ILiteral[allItems.length];
 		
 		for (int i = 0; i < allFields.length; i++) {
-			newFields[i] = (IMethod) allItems[i].getData();
+			newFields[i] = (ILiteral) allItems[i].getData();
 			if (allItems[i].getData().equals(selectedFields[0]) && i != 0) {
 				newFields[i] = newFields[i - 1];
-				newFields[i - 1] = (IMethod) allItems[i].getData();
+				newFields[i - 1] = (ILiteral) allItems[i].getData();
 			}
 		}
 		
 		// TODO - This should be wrapped in case of error?
 		selIndex = selIndex -1;
-		getIArtifact().setMethods(Arrays.asList(newFields));
+		getIArtifact().setLiterals(Arrays.asList(newFields));
 		markPageModified();
 		refresh();
 		updateMaster();
@@ -475,39 +572,34 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		viewer.setSorter(null);
 		
 		TableItem[] selectedItems = viewer.getTable().getSelection();
-		IMethod[] selectedFields = new IMethod[selectedItems.length];
+		ILiteral[] selectedFields = new ILiteral[selectedItems.length];
 		
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (IMethod) selectedItems[i].getData();
+			selectedFields[i] = (ILiteral) selectedItems[i].getData();
 		}
 		TableItem[] allItems = this.viewer.getTable().getItems();
 		
-		IMethod[] allFields = new IMethod[allItems.length];
-		IMethod[] newFields = new IMethod[allItems.length];
+		ILiteral[] allFields = new ILiteral[allItems.length];
+		ILiteral[] newFields = new ILiteral[allItems.length];
 		
 		for (int i = allFields.length - 1; i > -1; i--) {
-			newFields[i] = (IMethod) allItems[i].getData();
+			newFields[i] = (ILiteral) allItems[i].getData();
 			if (allItems[i].getData().equals(selectedFields[0])
 					&& i != allFields.length - 1) {
 				newFields[i] = newFields[i + 1];
-				newFields[i + 1] = (IMethod) allItems[i].getData();
+				newFields[i + 1] = (ILiteral) allItems[i].getData();
 			}
 		}
 		
 		// TODO - This should be wrapped in case of error?
 		selIndex = selIndex +1;
-		getIArtifact().setMethods(Arrays.asList(newFields));
+		getIArtifact().setLiterals(Arrays.asList(newFields));
 		markPageModified();
 		refresh();
 		updateMaster();
 	}
 	
 	
-	protected void markPageModified() {
-		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
-		editor.pageModified();
-	}
-
 	/**
 	 * Updates the current state of the master
 	 * 
@@ -523,9 +615,9 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 	}
 
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(Method.class, // TODO remove the dependency on
+		detailsPart.registerPage(Literal.class, // TODO remove the dependency on
 				// Core and use API instead
-				new ArtifactMethodDetailsPage(getIArtifact().isReadonly()));
+				new ArtifactConstantDetailsPage(getIArtifact().isReadonly()));
 	}
 
 	protected void createToolBarActions(IManagedForm managedForm) {
@@ -581,8 +673,7 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 	public void refresh() {
 		viewer.setInput(((ArtifactEditorBase) getPage().getEditor())
 				.getIArtifact());
-		viewer.refresh(true);
-
+		viewer.refresh();
 		if (selIndex != -1) {
 			Object refreshedMethod = viewer.getTable().getItem(selIndex)
 					.getData();
@@ -591,8 +682,22 @@ public class OssjArtifactMethodsSection extends ArtifactSectionPart implements
 		updateMaster();
 	}
 
+	// ======
+	// See bug #90, handle Enumerations slightly differently
+	public String getForcedBaseType() {
+		IAbstractArtifact artifact = ((ArtifactEditorBase) getPage()
+				.getEditor()).getIArtifact();
+		if (artifact instanceof IEnumArtifact) {
+			IEnumArtifact enumArtifact = (IEnumArtifact) artifact;
+			IOssjEnumSpecifics specs = (IOssjEnumSpecifics) enumArtifact
+					.getIStandardSpecifics();
+			if (specs.getBaseIType() != null)
+				return specs.getBaseIType().getFullyQualifiedName();
+		}
+		return null;
+	}
+
 	public DetailsPart getDetailsPart() {
 		return detailsPart;
 	}
-
 }

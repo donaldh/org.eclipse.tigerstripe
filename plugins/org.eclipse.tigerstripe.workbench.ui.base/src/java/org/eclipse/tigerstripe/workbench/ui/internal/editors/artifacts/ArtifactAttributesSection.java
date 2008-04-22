@@ -64,14 +64,14 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public class OssjArtifactAttributesSection extends ArtifactSectionPart
+public class ArtifactAttributesSection extends ArtifactSectionPart
 		implements IFormPart {
 
 	protected DetailsPart detailsPart;
 
-	public OssjArtifactAttributesSection(TigerstripeFormPage page,
+	public ArtifactAttributesSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
-			IOssjArtifactFormLabelProvider labelProvider,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider, int style) {
 		super(page, parent, toolkit, labelProvider, contentProvider,
 				ExpandableComposite.TWISTIE | style);

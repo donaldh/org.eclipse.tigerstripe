@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.query;
 
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider;
 
 public class QueryArtifactLabelProvider implements
-		IOssjArtifactFormLabelProvider {
+IArtifactFormLabelProvider {
 
 }

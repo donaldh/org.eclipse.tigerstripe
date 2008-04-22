@@ -132,7 +132,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 	private IManagedForm form;
 
-	private OssjArtifactMethodsSection master;
+	private ArtifactMethodsSection master;
 
 	private IMethod method;
 
@@ -825,8 +825,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	}
 
 	public void selectionChanged(IFormPart part, ISelection selection) {
-		if (part instanceof OssjArtifactMethodsSection) {
-			master = (OssjArtifactMethodsSection) part;
+		if (part instanceof ArtifactMethodsSection) {
+			master = (ArtifactMethodsSection) part;
 			Table methodsTable = master.getViewer().getTable();
 
 			IMethod selected = (IMethod) methodsTable.getSelection()[0]

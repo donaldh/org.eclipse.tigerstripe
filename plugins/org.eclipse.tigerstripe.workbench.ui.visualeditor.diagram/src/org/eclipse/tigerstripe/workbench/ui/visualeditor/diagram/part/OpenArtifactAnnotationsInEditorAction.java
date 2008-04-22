@@ -39,11 +39,11 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactA
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodDetailsPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjArtifactAttributesSection;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjArtifactConstantsSection;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjArtifactGeneralInfoSection;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjArtifactMethodsSection;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjArtifactOverviewPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactAttributesSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantsSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactGeneralInfoSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodsSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactOverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
@@ -92,19 +92,19 @@ public class OpenArtifactAnnotationsInEditorAction extends
 					artEditor.setActivePage("ossj.entity.overview", artEditor);
 					// now, get the active page and loop through the parts of
 					// that page
-					OssjArtifactOverviewPage selectedPage = (OssjArtifactOverviewPage) artEditor
+					ArtifactOverviewPage selectedPage = (ArtifactOverviewPage) artEditor
 							.getSelectedPage();
 					IFormPart[] formParts = selectedPage.getManagedForm()
 							.getParts();
 					for (int j = 0; j < formParts.length; j++) {
 						if (mySelectedElement instanceof TigerstripeAttributeEditPart
-								&& formParts[j] instanceof OssjArtifactAttributesSection) {
+								&& formParts[j] instanceof ArtifactAttributesSection) {
 							Attribute thisAttribute = (Attribute) ((View) mySelectedElement
 									.getModel()).getElement();
 							// if we are working with a field and we've found
 							// the Attributes section, then we are in
 							// the right place
-							OssjArtifactAttributesSection attributesSection = (OssjArtifactAttributesSection) formParts[j];
+							ArtifactAttributesSection attributesSection = (ArtifactAttributesSection) formParts[j];
 							// set the section so that it is expanded
 							attributesSection.getSection().setExpanded(true);
 							// then select the appropriate row in the table (and
@@ -159,13 +159,13 @@ public class OpenArtifactAnnotationsInEditorAction extends
 							attributesSection.updateMaster();
 							break;
 						} else if (mySelectedElement instanceof TigerstripeMethodEditPart
-								&& formParts[j] instanceof OssjArtifactMethodsSection) {
+								&& formParts[j] instanceof ArtifactMethodsSection) {
 							Method thisMethod = (Method) ((View) mySelectedElement
 									.getModel()).getElement();
 							// else if we are working with a method and we've
 							// found the Methods section, then we are in
 							// the right place
-							OssjArtifactMethodsSection methodsSection = (OssjArtifactMethodsSection) formParts[j];
+							ArtifactMethodsSection methodsSection = (ArtifactMethodsSection) formParts[j];
 							// set the section so that it is expanded
 							methodsSection.getSection().setExpanded(true);
 							// then select the appropriate row in the table (and
@@ -222,13 +222,13 @@ public class OpenArtifactAnnotationsInEditorAction extends
 							methodsSection.updateMaster();
 							break;
 						} else if (mySelectedElement instanceof TigerstripeLiteralEditPart
-								&& formParts[j] instanceof OssjArtifactConstantsSection) {
+								&& formParts[j] instanceof ArtifactConstantsSection) {
 							Literal thisLiteral = (Literal) ((View) mySelectedElement
 									.getModel()).getElement();
 							// else if we are working with a label and we've
 							// found the Constants section, then we are in
 							// the right place
-							OssjArtifactConstantsSection constantsSection = (OssjArtifactConstantsSection) formParts[j];
+							ArtifactConstantsSection constantsSection = (ArtifactConstantsSection) formParts[j];
 							// set the section so that it is expanded
 							constantsSection.getSection().setExpanded(true);
 							// then select the appropriate row in the table (and
@@ -291,13 +291,13 @@ public class OpenArtifactAnnotationsInEditorAction extends
 					artEditor.setActivePage("ossj.entity.overview", artEditor);
 					// now, get the active page and loop through the parts of
 					// that page
-					OssjArtifactOverviewPage selectedPage = (OssjArtifactOverviewPage) artEditor
+					ArtifactOverviewPage selectedPage = (ArtifactOverviewPage) artEditor
 							.getSelectedPage();
 					IFormPart[] formParts = selectedPage.getManagedForm()
 							.getParts();
 					for (IFormPart formPart : formParts) {
-						if (formPart instanceof OssjArtifactGeneralInfoSection) {
-							OssjArtifactGeneralInfoSection genInfoSection = (OssjArtifactGeneralInfoSection) formPart;
+						if (formPart instanceof ArtifactGeneralInfoSection) {
+							ArtifactGeneralInfoSection genInfoSection = (ArtifactGeneralInfoSection) formPart;
 							Table annTable = genInfoSection.getAnnTable();
 							ExpandableComposite expComp = (ExpandableComposite) annTable
 									.getParent().getParent();

@@ -14,18 +14,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormContentProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormContentProvider;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjSpecificsBaseSection;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-
+@Deprecated
 public class OssjExceptionSpecificsPage extends TigerstripeFormPage {
 
-	private IOssjArtifactFormLabelProvider labelProvider;
+	private IArtifactFormLabelProvider labelProvider;
 
 	private IOssjArtifactFormContentProvider contentProvider;
 
@@ -34,7 +34,7 @@ public class OssjExceptionSpecificsPage extends TigerstripeFormPage {
 	public static final String PAGE_ID = "ossj.entity.ossj"; //$NON-NLS-1$
 
 	public OssjExceptionSpecificsPage(FormEditor editor,
-			IOssjArtifactFormLabelProvider labelProvider,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(editor, PAGE_ID, "Details");
 		this.labelProvider = labelProvider;

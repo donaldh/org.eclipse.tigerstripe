@@ -36,7 +36,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-
+@Deprecated
 public class OssjMethodOptionsSection extends ArtifactSectionPart {
 
 	private final static int COLUMN_WIDTH = 90;
@@ -208,7 +208,7 @@ public class OssjMethodOptionsSection extends ArtifactSectionPart {
 	private final String[] options = { "true", "Optional", "false" };
 
 	public OssjMethodOptionsSection(TigerstripeFormPage page, Composite parent,
-			FormToolkit toolkit, IOssjArtifactFormLabelProvider labelProvider,
+			FormToolkit toolkit, IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(page, parent, toolkit, labelProvider, contentProvider,
 				ExpandableComposite.TWISTIE);

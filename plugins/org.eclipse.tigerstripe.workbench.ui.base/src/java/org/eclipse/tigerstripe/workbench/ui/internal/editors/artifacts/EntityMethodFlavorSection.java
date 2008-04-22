@@ -192,7 +192,7 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 
 	public EntityMethodFlavorSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
-			IOssjArtifactFormLabelProvider labelProvider,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(page, parent, toolkit, labelProvider, contentProvider, 0);
 

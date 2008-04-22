@@ -18,18 +18,18 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLe
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormContentProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormContentProvider;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjSpecificsBaseSection;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-
+@Deprecated
 public class OssjSessionSpecificsPage extends TigerstripeFormPage {
 
-	private IOssjArtifactFormLabelProvider labelProvider;
+	private IArtifactFormLabelProvider labelProvider;
 
 	private IOssjArtifactFormContentProvider contentProvider;
 
@@ -38,7 +38,7 @@ public class OssjSessionSpecificsPage extends TigerstripeFormPage {
 	public static final String PAGE_ID = "ossj.entity.ossj"; //$NON-NLS-1$
 
 	public OssjSessionSpecificsPage(FormEditor editor,
-			IOssjArtifactFormLabelProvider labelProvider,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(editor, PAGE_ID, "Details");
 		this.labelProvider = labelProvider;

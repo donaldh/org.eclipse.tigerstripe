@@ -16,7 +16,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbe
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.OssjArtifactOverviewPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactOverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.PartInitException;
 
@@ -42,7 +42,7 @@ public class EventArtifactEditor extends ArtifactEditorBase {
 		super.addPages();
 		int index = -1;
 		try {
-			OssjArtifactOverviewPage page = new OssjArtifactOverviewPage(this,
+			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
 					new EventArtifactLabelProvider(),
 					new EventArtifactFormContentProvider());
 			index = addPage(page);

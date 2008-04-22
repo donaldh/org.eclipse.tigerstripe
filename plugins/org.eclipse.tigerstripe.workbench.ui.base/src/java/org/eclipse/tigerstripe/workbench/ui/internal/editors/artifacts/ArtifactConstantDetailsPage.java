@@ -80,7 +80,7 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 
 	private IManagedForm form;
 
-	private OssjArtifactConstantsSection master;
+	private ArtifactConstantsSection master;
 
 	private ILiteral literal;
 
@@ -302,8 +302,8 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 
 	public void selectionChanged(IFormPart part, ISelection selection) {
 
-		if (part instanceof OssjArtifactConstantsSection) {
-			master = (OssjArtifactConstantsSection) part;
+		if (part instanceof ArtifactConstantsSection) {
+			master = (ArtifactConstantsSection) part;
 
 			Table labelsTable = master.getViewer().getTable();
 

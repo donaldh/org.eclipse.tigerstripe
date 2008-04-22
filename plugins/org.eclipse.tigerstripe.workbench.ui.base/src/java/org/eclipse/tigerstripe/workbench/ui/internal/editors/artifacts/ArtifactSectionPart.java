@@ -27,12 +27,12 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public abstract class ArtifactSectionPart extends TigerstripeSectionPart {
 
-	private IOssjArtifactFormLabelProvider labelProvider;
+	private IArtifactFormLabelProvider labelProvider;
 
 	private IOssjArtifactFormContentProvider contentProvider;
 
 	public ArtifactSectionPart(TigerstripeFormPage page, Composite parent,
-			FormToolkit toolkit, IOssjArtifactFormLabelProvider labelProvider,
+			FormToolkit toolkit, IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider, int style) {
 
 		super(page, parent, toolkit,
@@ -62,11 +62,11 @@ public abstract class ArtifactSectionPart extends TigerstripeSectionPart {
 		this.contentProvider = contentProvider;
 	}
 
-	protected IOssjArtifactFormLabelProvider getLabelProvider() {
+	protected IArtifactFormLabelProvider getLabelProvider() {
 		return labelProvider;
 	}
 
-	protected void setLabelProvider(IOssjArtifactFormLabelProvider labelProvider) {
+	protected void setLabelProvider(IArtifactFormLabelProvider labelProvider) {
 		this.labelProvider = labelProvider;
 	}
 

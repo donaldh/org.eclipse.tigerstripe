@@ -22,11 +22,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class OssjArtifactContentSection extends ArtifactSectionPart {
+public class ArtifactContentSection extends ArtifactSectionPart {
 
-	public OssjArtifactContentSection(TigerstripeFormPage page,
+	public ArtifactContentSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
-			IOssjArtifactFormLabelProvider labelProvider,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(page, parent, toolkit, labelProvider, contentProvider, SWT.NONE);
 		setTitle("Details");
@@ -68,8 +68,8 @@ public class OssjArtifactContentSection extends ArtifactSectionPart {
 				if ("attributes".equals(e.getHref())) {
 					IFormPart[] ifp = getManagedForm().getParts();
 					for (IFormPart i : ifp) {
-						if (i instanceof OssjArtifactAttributesSection) {
-							OssjArtifactAttributesSection oaas = (OssjArtifactAttributesSection) i;
+						if (i instanceof ArtifactAttributesSection) {
+							ArtifactAttributesSection oaas = (ArtifactAttributesSection) i;
 							oaas.getSection().setExpanded(true);
 							oaas.getSection().forceFocus();
 						}
@@ -77,8 +77,8 @@ public class OssjArtifactContentSection extends ArtifactSectionPart {
 				} else if ("methods".equals(e.getHref())) {
 					IFormPart[] ifp = getManagedForm().getParts();
 					for (IFormPart i : ifp) {
-						if (i instanceof OssjArtifactMethodsSection) {
-							OssjArtifactMethodsSection oamd = (OssjArtifactMethodsSection) i;
+						if (i instanceof ArtifactMethodsSection) {
+							ArtifactMethodsSection oamd = (ArtifactMethodsSection) i;
 							oamd.getSection().setExpanded(true);
 							oamd.getSection().forceFocus();
 						}
@@ -86,8 +86,8 @@ public class OssjArtifactContentSection extends ArtifactSectionPart {
 				} else if ("constants".equals(e.getHref())) {
 					IFormPart[] ifp = getManagedForm().getParts();
 					for (IFormPart i : ifp) {
-						if (i instanceof OssjArtifactConstantsSection) {
-							OssjArtifactConstantsSection oacd = (OssjArtifactConstantsSection) i;
+						if (i instanceof ArtifactConstantsSection) {
+							ArtifactConstantsSection oacd = (ArtifactConstantsSection) i;
 							oacd.getSection().setExpanded(true);
 							oacd.getSection().forceFocus();
 						}

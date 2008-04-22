@@ -59,7 +59,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
+public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 	/**
 	 * An adapter that will listen for changes on the form
@@ -130,9 +130,9 @@ public class OssjArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 	private Table annTable;
 
-	public OssjArtifactGeneralInfoSection(TigerstripeFormPage page,
+	public ArtifactGeneralInfoSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
-			IOssjArtifactFormLabelProvider labelProvider,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(page, parent, toolkit, labelProvider, contentProvider, SWT.NONE);
 

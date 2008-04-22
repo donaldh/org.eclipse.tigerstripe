@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-
+@Deprecated
 public class OssjSpecificsBaseSection extends ArtifactSectionPart {
 
 	/**
@@ -53,7 +53,7 @@ public class OssjSpecificsBaseSection extends ArtifactSectionPart {
 	private Text interfaceText;
 
 	public OssjSpecificsBaseSection(TigerstripeFormPage page, Composite parent,
-			FormToolkit toolkit, IOssjArtifactFormLabelProvider labelProvider,
+			FormToolkit toolkit, IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(page, parent, toolkit, labelProvider, contentProvider, 0);
 

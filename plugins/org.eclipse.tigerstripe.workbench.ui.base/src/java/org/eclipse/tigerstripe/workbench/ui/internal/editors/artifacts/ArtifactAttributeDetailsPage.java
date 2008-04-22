@@ -92,7 +92,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 
 	private IManagedForm form;
 
-	private OssjArtifactAttributesSection master;
+	private ArtifactAttributesSection master;
 
 	private IField field;
 
@@ -410,8 +410,8 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 	}
 
 	public void selectionChanged(IFormPart part, ISelection selection) {
-		if (part instanceof OssjArtifactAttributesSection) {
-			master = (OssjArtifactAttributesSection) part;
+		if (part instanceof ArtifactAttributesSection) {
+			master = (ArtifactAttributesSection) part;
 			Table fieldsTable = master.getViewer().getTable();
 
 			IField selected = (IField) fieldsTable.getSelection()[0].getData();

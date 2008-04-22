@@ -48,14 +48,14 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEventSpecif
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormContentProvider;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormLabelProvider;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-
+@Deprecated
 public class OssjEventDescriptorSection extends ArtifactSectionPart {
 
 	private EventDescriptorContentProvider contentProvider;
@@ -292,7 +292,7 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 
 	public OssjEventDescriptorSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
-			IOssjArtifactFormLabelProvider labelProvider,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(page, parent, toolkit, labelProvider, contentProvider, 0);
 

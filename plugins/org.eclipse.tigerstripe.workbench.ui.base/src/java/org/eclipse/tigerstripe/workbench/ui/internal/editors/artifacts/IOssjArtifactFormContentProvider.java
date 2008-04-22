@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
-
+@Deprecated
 public interface IOssjArtifactFormContentProvider extends
 		IArtifactFormContentProvider {
 

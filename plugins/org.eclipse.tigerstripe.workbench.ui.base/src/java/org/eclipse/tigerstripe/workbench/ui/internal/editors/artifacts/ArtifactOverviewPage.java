@@ -26,9 +26,9 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class OssjArtifactOverviewPage extends TigerstripeFormPage {
+public class ArtifactOverviewPage extends TigerstripeFormPage {
 
-	private IOssjArtifactFormLabelProvider labelProvider;
+	private IArtifactFormLabelProvider labelProvider;
 
 	private IOssjArtifactFormContentProvider contentProvider;
 
@@ -36,15 +36,15 @@ public class OssjArtifactOverviewPage extends TigerstripeFormPage {
 
 	public static final String PAGE_ID = "ossj.entity.overview"; //$NON-NLS-1$
 
-	public OssjArtifactOverviewPage(FormEditor editor,
-			IOssjArtifactFormLabelProvider labelProvider,
+	public ArtifactOverviewPage(FormEditor editor,
+			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(editor, PAGE_ID, "Overview");
 		this.labelProvider = labelProvider;
 		this.contentProvider = contentProvider;
 	}
 
-	public OssjArtifactOverviewPage() {
+	public ArtifactOverviewPage() {
 		super(PAGE_ID, "Overview");
 	}
 
@@ -80,11 +80,11 @@ public class OssjArtifactOverviewPage extends TigerstripeFormPage {
 		layout.horizontalSpacing = 10;
 		body.setLayout(layout);
 
-		TigerstripeSectionPart part = new OssjArtifactGeneralInfoSection(this,
+		TigerstripeSectionPart part = new ArtifactGeneralInfoSection(this,
 				body, toolkit, labelProvider, contentProvider);
 		managedForm.addPart(part);
 
-		part = new OssjArtifactContentSection(this, body, toolkit,
+		part = new ArtifactContentSection(this, body, toolkit,
 				labelProvider, contentProvider);
 		managedForm.addPart(part);
 
@@ -94,13 +94,13 @@ public class OssjArtifactOverviewPage extends TigerstripeFormPage {
 		}
 
 		if (contentProvider.hasAttributes()) {
-			part = new OssjArtifactAttributesSection(this, body, toolkit,
+			part = new ArtifactAttributesSection(this, body, toolkit,
 					labelProvider, contentProvider, getAttributesStyle());
 			managedForm.addPart(part);
 		}
 
 		if (contentProvider.hasConstants()) {
-			part = new OssjArtifactConstantsSection(this, body, toolkit,
+			part = new ArtifactConstantsSection(this, body, toolkit,
 					labelProvider, contentProvider, getConstantsStyle());
 
 			// see bug #77
@@ -111,7 +111,7 @@ public class OssjArtifactOverviewPage extends TigerstripeFormPage {
 		}
 
 		if (contentProvider.hasMethods()) {
-			part = new OssjArtifactMethodsSection(this, body, toolkit,
+			part = new ArtifactMethodsSection(this, body, toolkit,
 					labelProvider, contentProvider, getMethodsStyle());
 			managedForm.addPart(part);
 		}
