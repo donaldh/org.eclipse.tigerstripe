@@ -8,20 +8,18 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.core.model.ossj;
+package org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts;
 
 import java.io.Writer;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 
-public class AssociationClassArtifactPersister extends
-		AbstractArtifactPersister {
+public class EventArtifactPersister extends AbstractArtifactPersister {
 
-	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/associationClass.vm";
+	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/notification.vm";
 
-	public AssociationClassArtifactPersister(AbstractArtifact artifact,
-			Writer writer) {
+	public EventArtifactPersister(AbstractArtifact artifact, Writer writer) {
 		super(artifact, TEMPLATE, writer);
 	}
 }

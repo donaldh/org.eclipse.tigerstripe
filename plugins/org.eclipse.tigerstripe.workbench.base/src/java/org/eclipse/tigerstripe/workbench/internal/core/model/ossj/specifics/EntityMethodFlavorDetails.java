@@ -25,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEnt
  * @author Eric Dillon
  * 
  */
+@Deprecated
 public class EntityMethodFlavorDetails implements IEntityMethodFlavorDetails {
 
 	public final static String FLAVOR_TRUE = "true";

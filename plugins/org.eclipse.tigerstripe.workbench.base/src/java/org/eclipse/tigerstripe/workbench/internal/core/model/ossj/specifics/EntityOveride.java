@@ -42,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjMethod;
  * @author Eric Dillon
  * 
  */
+@Deprecated
 public class EntityOveride {
 
 	public class FlavorOveride {

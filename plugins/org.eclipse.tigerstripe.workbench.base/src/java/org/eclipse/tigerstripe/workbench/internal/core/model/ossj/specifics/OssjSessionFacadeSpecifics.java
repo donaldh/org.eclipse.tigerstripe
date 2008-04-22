@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifa
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjSessionSpecifics;
-
+@Deprecated
 public class OssjSessionFacadeSpecifics extends OssjArtifactSpecifics implements
 		IOssjSessionSpecifics {
 

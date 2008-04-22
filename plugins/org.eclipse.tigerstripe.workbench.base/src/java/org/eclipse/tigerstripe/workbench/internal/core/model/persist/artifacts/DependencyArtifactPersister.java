@@ -8,7 +8,7 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.core.model.ossj;
+package org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts;
 
 import java.io.Writer;
 
@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArt
 
 public class DependencyArtifactPersister extends AbstractArtifactPersister {
 
-	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/dependency.vm";
+	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/dependency.vm";
 
 	public DependencyArtifactPersister(AbstractArtifact artifact, Writer writer) {
 		super(artifact, TEMPLATE, writer);

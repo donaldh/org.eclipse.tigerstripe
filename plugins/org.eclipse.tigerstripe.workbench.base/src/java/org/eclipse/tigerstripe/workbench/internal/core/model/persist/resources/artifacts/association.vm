@@ -13,12 +13,11 @@
 /**
  * $xmlEncode.encode($artifact.Comment)
  *
- * @tigerstripe.associationClass
+ * @tigerstripe.association
  *		isAbstract = "$artifact.isAbstract()"
- *		implements = "$artifact.getImplementedArtifactsAsStr()"
  *
  *## Take care of the stereotypes
-#parse("org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/artifactLevelStereotype.vm")
+#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm")
  * 
 #foreach( $tag in $artifact.NonTigerstripeTags )
  * $tag
@@ -28,6 +27,8 @@ public abstract class $artifact.Name
 #if( $artifact.hasExtends() )
   extends $artifact.Extends.FullyQualifiedName
 #end {
+
+#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm")
 
 	/**
  * $!artifact.AEnd.Comment
@@ -39,9 +40,10 @@ public abstract class $artifact.Name
 	 *    isUnique = "$artifact.AEnd.isUnique()"
 	 *    isNavigable = "$artifact.AEnd.isNavigable()"
 	 *
-	## Take care of the stereotypes
+ *
+## Take care of the stereotypes
 #foreach( $stereotype in $artifact.AEnd.getStereotypeInstances() )
-  * @tigerstripe.stereotype st.name = "$stereotype.Name"
+ * @tigerstripe.stereotype st.name = "$stereotype.Name"
 #if ($stereotype.getCharacterizingStereotype())
 #foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
 #if ( $stAttr.isArray() )
@@ -57,7 +59,7 @@ public abstract class $artifact.Name
 #end
 #end
 #end
- * 
+     * 
 	 */	
 	$utils.getVisibilityAsString( $artifact.AEnd ) $artifact.AEnd.Type.FullyQualifiedName $artifact.AEnd.Name = null;
 	
@@ -74,7 +76,7 @@ public abstract class $artifact.Name
  *
 ## Take care of the stereotypes
 #foreach( $stereotype in $artifact.ZEnd.getStereotypeInstances() )
-  * @tigerstripe.stereotype st.name = "$stereotype.Name"
+ * @tigerstripe.stereotype st.name = "$stereotype.Name"
 #if ($stereotype.getCharacterizingStereotype())
 #foreach( $stAttr in $stereotype.getCharacterizingStereotype().getAttributes() ) 
 #if ( $stAttr.isArray() )
@@ -94,9 +96,4 @@ public abstract class $artifact.Name
 	 */	
 	$utils.getVisibilityAsString( $artifact.ZEnd ) $artifact.ZEnd.Type.FullyQualifiedName $artifact.ZEnd.Name = null;
 	
-#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm")
-
-#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm")
-	
-#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm")
 }

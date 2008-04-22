@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMet
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEntitySpecifics;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjFlavorDefaults;
-
+@Deprecated
 public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 		IOssjEntitySpecifics {
 

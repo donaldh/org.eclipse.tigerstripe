@@ -1,5 +1,5 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics;
-
+@Deprecated
 public class OssjTags {
 	
 	//private final static String TEMPLATE = "valueInterface.vm";

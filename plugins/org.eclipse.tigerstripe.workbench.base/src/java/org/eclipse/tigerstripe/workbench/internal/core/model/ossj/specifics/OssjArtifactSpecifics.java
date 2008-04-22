@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjArtifactSpe
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
+@Deprecated
 public abstract class OssjArtifactSpecifics extends StandardSpecifics implements
 		IOssjArtifactSpecifics {
 

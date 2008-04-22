@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntr
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IEventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEventSpecifics;
-
+@Deprecated
 public class OssjEventSpecifics extends OssjArtifactSpecifics implements
 		IOssjEventSpecifics {
 

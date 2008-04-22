@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjExceptionSpecifics;
-
+@Deprecated
 public class OssjExceptionSpecifics extends OssjArtifactSpecifics implements
 		IOssjExceptionSpecifics {
 

@@ -13,13 +13,14 @@
 /**
  * $xmlEncode.encode($artifact.Comment)
  *
- * @tigerstripe.exception
+ * @tigerstripe.enum
  *		isAbstract = "$artifact.isAbstract()"
- *		implements = "$artifact.getImplementedArtifactsAsStr()"
+ *      base-type="$artifact.IStandardSpecifics.BaseIType.FullyQualifiedName"
+ *      extensible="$artifact.IStandardSpecifics.Extensible"
  * @tigerstripe.interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
  *      generate = "true"
  *## Take care of the stereotypes
-#parse("org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/artifactLevelStereotype.vm")
+#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm")
  * 
 #foreach( $tag in $artifact.NonTigerstripeTags )
  * $tag
@@ -28,15 +29,8 @@
 public abstract class $artifact.Name
 #if( $artifact.hasExtends() )
   extends $artifact.Extends.FullyQualifiedName
-#else
-  extends java.lang.Exception
 #end {
-	
-	// not important since this class will never be serialized.
-	private static final long serialVersionUID = -1L;
-
 #parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm")
 
-#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm")
-
+#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm")
 }

@@ -19,7 +19,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjQuerySpecifics;
-
+@Deprecated
 public class OssjQuerySpecifics extends OssjArtifactSpecifics implements
 		IOssjQuerySpecifics {
 

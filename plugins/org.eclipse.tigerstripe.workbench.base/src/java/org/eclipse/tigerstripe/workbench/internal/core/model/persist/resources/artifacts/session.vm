@@ -45,7 +45,7 @@
  *
 #end
  *## Take care of the stereotypes
-#parse("org/eclipse/tigerstripe/workbench/internal/core/model/ossj/resources/artifactLevelStereotype.vm")
+#parse("org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm")
  * 
 #foreach( $tag in $artifact.NonTigerstripeTags )
  * $tag
