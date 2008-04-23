@@ -18,7 +18,7 @@ plugin@org.eclipse.tigerstripe.annotation.resource.ui.refactoring=v200804211632,
 
 !==========================================
 ! Annotation - JavaElement Integration
-plugin@org.eclipse.tigerstripe.annotation.java=v200804211632,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.java.
+plugin@org.eclipse.tigerstripe.annotation.java=v200804211632,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.java
 plugin@org.eclipse.tigerstripe.annotation.java.ui=v200804211632,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.java.ui
 plugin@org.eclipse.tigerstripe.annotation.java.ui.refactoring=v200804211632,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.java.ui.refactoring
 
