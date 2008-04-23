@@ -170,8 +170,8 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 
 			propertyElem.addCDATA(prop.serializeToString());
 		}
-
-		OutputFormat format = OutputFormat.createPrettyPrint();
+		
+		OutputFormat format = new OutputFormat("  ", true);
 		StringWriter sWriter = new StringWriter();
 		XMLWriter xWriter = new XMLWriter(sWriter, format);
 		try {
