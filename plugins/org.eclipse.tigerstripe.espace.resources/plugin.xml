@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.1 2008/04/21 23:30:28 edillon Exp $
+ $Id: plugin.xml,v 1.2 2008/04/24 17:24:41 jworrell Exp $
 -->
 
 <plugin>
@@ -13,7 +13,7 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
        uri = "http:///org/eclipse/espace/resources.ecore" 
-       class = "org.eclipse.tigersrtipe.espace.resources.ResourcesPackage"
+       class = "org.eclipse.tigerstripe.espace.resources.ResourcesPackage"
        genModel = "model/resources.genmodel" /> 
   </extension>
 
