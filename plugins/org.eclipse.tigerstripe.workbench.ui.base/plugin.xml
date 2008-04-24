@@ -520,7 +520,7 @@
       <extension
          point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">
       <contribution
-            actionClass="org.eclipse.tigerstripe.workbench.eclipse.actions.OpenNewContractSegmentWizardAction"
+            actionClass="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewContractSegmentWizardAction"
             name="Open Contract Facet Action"/>
    </extension>
       <extension
