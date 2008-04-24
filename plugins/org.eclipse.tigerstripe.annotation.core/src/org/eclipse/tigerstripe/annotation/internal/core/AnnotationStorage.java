@@ -20,9 +20,9 @@ import java.util.Map;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.tigersrtipe.espace.resources.core.EMFDatabase;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
+import org.eclipse.tigerstripe.espace.resources.core.EMFDatabase;
 
 /**
  * This class provide mechanism for loading, saving and caching <code>Annotation</code> objects.

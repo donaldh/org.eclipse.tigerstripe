@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationAdapterFactory.java,v 1.1 2008/04/21 23:20:23 edillon Exp $
+ * $Id: AnnotationAdapterFactory.java,v 1.2 2008/04/24 17:35:03 jworrell Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.util;
 
@@ -121,13 +121,13 @@ public class AnnotationAdapterFactory extends AdapterFactoryImpl {
     }
 
     /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.tigersrtipe.espace.resources.ResourceList <em>Resource List</em>}'.
+     * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.espace.resources.ResourceList <em>Resource List</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
      * @return the new adapter.
-     * @see org.eclipse.tigersrtipe.espace.resources.ResourceList
+     * @see org.eclipse.tigerstripe.espace.resources.ResourceList
      * @generated
      */
     public Adapter createResourceListAdapter() {

@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationPackage.java,v 1.1 2008/04/21 23:20:22 edillon Exp $
+ * $Id: AnnotationPackage.java,v 1.2 2008/04/24 17:35:03 jworrell Exp $
  */
 package org.eclipse.tigerstripe.annotation.core;
 
@@ -180,21 +180,21 @@ public interface AnnotationPackage extends EPackage {
     EReference getAnnotation_Content();
 
     /**
-     * Returns the meta object for class '{@link org.eclipse.tigersrtipe.espace.resources.ResourceList <em>Resource List</em>}'.
+     * Returns the meta object for class '{@link org.eclipse.tigerstripe.espace.resources.ResourceList <em>Resource List</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for class '<em>Resource List</em>'.
-     * @see org.eclipse.tigersrtipe.espace.resources.ResourceList
+     * @see org.eclipse.tigerstripe.espace.resources.ResourceList
      * @generated
      */
     EClass getResourceList();
 
     /**
-     * Returns the meta object for the attribute list '{@link org.eclipse.tigersrtipe.espace.resources.ResourceList#getResourceUris <em>Resource Uris</em>}'.
+     * Returns the meta object for the attribute list '{@link org.eclipse.tigerstripe.espace.resources.ResourceList#getResourceUris <em>Resource Uris</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @return the meta object for the attribute list '<em>Resource Uris</em>'.
-     * @see org.eclipse.tigersrtipe.espace.resources.ResourceList#getResourceUris()
+     * @see org.eclipse.tigerstripe.espace.resources.ResourceList#getResourceUris()
      * @see #getResourceList()
      * @generated
      */
