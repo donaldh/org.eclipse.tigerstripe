@@ -127,7 +127,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 	private Table aAnnTable;
 
-	private StereotypeSectionManager aAnnotationManager;
+	private StereotypeSectionManager aStereotypeManager;
 
 	private Button zEndPublicButton;
 
@@ -165,7 +165,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 	private Table zAnnTable;
 
-	private StereotypeSectionManager zAnnotationManager;
+	private StereotypeSectionManager zStereotypeManager;
 
 	public AssociationSpecificsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit) {
@@ -361,7 +361,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		toolkit.paintBordersFor(aEndAggregationCombo);
 
 		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "Annotations:");
+		toolkit.createLabel(body, "Stereotypes:");
 
 		aAnnTable = toolkit.createTable(body, SWT.BORDER);
 		GridData aGd1 = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
@@ -389,11 +389,11 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		aRemoveAnno = toolkit.createButton(body, "Remove", SWT.PUSH);
 		aRemoveAnno.setEnabled(!getIArtifact().isReadonly());
 
-		aAnnotationManager = new StereotypeSectionManager(aAddAnno, aEditAnno,
+		aStereotypeManager = new StereotypeSectionManager(aAddAnno, aEditAnno,
 				aRemoveAnno, aAnnTable, ((IAssociationArtifact) getIArtifact())
 						.getAEnd(), getSection().getShell(),
 				(ArtifactEditorBase) getPage().getEditor());
-		aAnnotationManager.delegate();
+		aStereotypeManager.delegate();
 
 		Composite separator = toolkit.createComposite(body);
 		separator.setLayoutData(sgd);
@@ -527,7 +527,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		toolkit.adapt(this.zEndAggregationCombo, true, true);
 
 		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "Annotations:");
+		toolkit.createLabel(body, "Stereotypes:");
 
 		zAnnTable = toolkit.createTable(body, SWT.BORDER);
 		aGd1 = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
@@ -555,11 +555,11 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		zRemoveAnno = toolkit.createButton(body, "Remove", SWT.PUSH);
 		zRemoveAnno.setEnabled(!getIArtifact().isReadonly());
 
-		zAnnotationManager = new StereotypeSectionManager(zAddAnno, zEditAnno,
+		zStereotypeManager = new StereotypeSectionManager(zAddAnno, zEditAnno,
 				zRemoveAnno, zAnnTable, ((IAssociationArtifact) getIArtifact())
 						.getZEnd(), getSection().getShell(),
 				(ArtifactEditorBase) getPage().getEditor());
-		zAnnotationManager.delegate();
+		zStereotypeManager.delegate();
 
 		updateForm();
 

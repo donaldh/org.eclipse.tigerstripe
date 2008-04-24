@@ -24,11 +24,11 @@ public class StereotypesPage extends TigerstripeFormPage {
 	private IManagedForm managedForm;
 
 	public StereotypesPage(FormEditor editor) {
-		super(editor, PAGE_ID, "Annotations");
+		super(editor, PAGE_ID, "Stereotypes");
 	}
 
 	public StereotypesPage() {
-		super(PAGE_ID, "Annotations");
+		super(PAGE_ID, "Stereotypes");
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class StereotypesPage extends TigerstripeFormPage {
 
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("Annotation Definitions");
+		form.setText("Stereotype Definitions");
 		fillBody(managedForm, toolkit);
 		managedForm.refresh();
 	}

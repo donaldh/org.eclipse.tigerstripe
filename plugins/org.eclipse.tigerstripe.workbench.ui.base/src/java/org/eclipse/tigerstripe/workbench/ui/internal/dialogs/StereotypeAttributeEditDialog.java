@@ -171,7 +171,7 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 	}
 
 	protected void setDefaultMessage() {
-		setMessage("Edit Annotation Attribute");
+		setMessage("Edit Stereotype Attribute");
 	}
 
 	protected boolean validateParam() {
@@ -429,7 +429,7 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 			entryListViewer.setInput(entries);
 		}
 
-		getShell().setText("Annotation Attribute Edit");
+		getShell().setText("Stereotype Attribute Edit");
 		validateParam();
 	}
 

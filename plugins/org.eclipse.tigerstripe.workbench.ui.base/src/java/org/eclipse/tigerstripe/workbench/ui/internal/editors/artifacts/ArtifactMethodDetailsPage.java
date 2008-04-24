@@ -158,7 +158,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 	private Text methodReturnNameText;
 
-	private Button editReturnAnnotations;
+	private Button editReturnStereotypes;
 
 	private boolean isReadOnly = false;
 
@@ -188,9 +188,9 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		form.getToolkit().paintBordersFor(parent);
 	}
 
-	private void createAnnotations(Composite parent, FormToolkit toolkit) {
+	private void createStereotypes(Composite parent, FormToolkit toolkit) {
 
-		Label label = toolkit.createLabel(parent, "Annotations");
+		Label label = toolkit.createLabel(parent, "Stereotypes");
 		label.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING));
 
@@ -457,9 +457,9 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		label = toolkit.createLabel(sectionClient, "");
 
 		toolkit.createLabel(sectionClient, "");
-		editReturnAnnotations = new Button(sectionClient, SWT.PUSH);
-		editReturnAnnotations.setText("Return Annotations");
-		editReturnAnnotations.addSelectionListener(new SelectionListener() {
+		editReturnStereotypes = new Button(sectionClient, SWT.PUSH);
+		editReturnStereotypes.setText("Return Stereotypes");
+		editReturnStereotypes.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
@@ -472,7 +472,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		});
 		toolkit.createLabel(sectionClient, "");
 
-		createAnnotations(sectionClient, toolkit);
+		createStereotypes(sectionClient, toolkit);
 
 		createArgumentsTable(sectionClient);
 		createExceptionTable(sectionClient);
@@ -952,7 +952,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 							.getReturnType().getTypeMultiplicity()));
 			updateDefaultValueCombo();
 			defaultReturnValue.setEnabled(!isReadOnly);
-			editReturnAnnotations.setEnabled(!isReadOnly);
+			editReturnStereotypes.setEnabled(!isReadOnly);
 			typeLabel.setEnabled(!isReadOnly);
 			multiplicityLabel.setEnabled(!isReadOnly);
 			returnLabel.setEnabled(!isReadOnly);
@@ -968,7 +968,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			defaultReturnValue.clearSelection();
 			defaultReturnValue.setText("");
 			defaultReturnValue.setEnabled(false);
-			editReturnAnnotations.setEnabled(false);
+			editReturnStereotypes.setEnabled(false);
 			typeLabel.setEnabled(false);
 			multiplicityLabel.setEnabled(false);
 			returnLabel.setEnabled(false);

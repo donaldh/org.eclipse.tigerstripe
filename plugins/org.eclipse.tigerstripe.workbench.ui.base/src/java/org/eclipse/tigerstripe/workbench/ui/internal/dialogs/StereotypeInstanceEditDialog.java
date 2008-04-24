@@ -72,7 +72,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 	}
 
 	protected void setDefaultMessage() {
-		setMessage("Edit the details of this annotation");
+		setMessage("Edit the details of this stereotype");
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 		createMessageArea(composite, nColumns);
 		createAttributesControls(composite, nColumns);
-		getShell().setText("Annotation Details");
+		getShell().setText("Stereotype Details");
 
 		setDefaultMessage();
 		return area;

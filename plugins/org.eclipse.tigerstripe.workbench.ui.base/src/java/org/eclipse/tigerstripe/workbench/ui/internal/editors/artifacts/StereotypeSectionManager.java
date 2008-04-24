@@ -286,13 +286,13 @@ public class StereotypeSectionManager {
 		String message = "Do you really want to remove ";
 		if (selectedLabels.size()> 1) {
 			message = message + "these " + selectedLabels.size()
-					+ " annotations?";
+					+ " stereotypes?";
 		} else {
-			message = message + "this annotation?";
+			message = message + "this stereotype?";
 		}
 
 		MessageDialog msgDialog = new MessageDialog(this.shell,
-				"Remove Annotation", null, message, MessageDialog.QUESTION,
+				"Remove Stereotype", null, message, MessageDialog.QUESTION,
 				new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {
@@ -314,8 +314,8 @@ public class StereotypeSectionManager {
 			MessageDialog
 					.openInformation(
 							shell,
-							"Undefined Annotation",
-							"The annotation '"
+							"Undefined Stereotype",
+							"The Stereotype '"
 									+ instance.getName()
 									+ "' is not defined in the active profile.\n\nPlease active the correct profile to edit its details.");
 			return;

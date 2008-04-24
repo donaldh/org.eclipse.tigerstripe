@@ -83,11 +83,11 @@ public class StereotypeSelectionDialog extends TSMessageDialog {
 		defNameDialogField = new StringButtonDialogField(adapter);
 		defNameDialogField.setDialogFieldListener(adapter);
 		defNameDialogField.setButtonLabel("Browse");
-		defNameDialogField.setLabelText("Annotation Name:"); //$NON-NLS-1$
+		defNameDialogField.setLabelText("Stereotype Name:"); //$NON-NLS-1$
 	}
 
 	protected void setDefaultMessage() {
-		setMessage("Select Annotation Name");
+		setMessage("Select Stereotype Name");
 	}
 
 	protected boolean validateParam() {
@@ -98,7 +98,7 @@ public class StereotypeSelectionDialog extends TSMessageDialog {
 		for (String existing : this.existingStereotypeNames) {
 			if (existing.equals(defNameDialogField.getText())) {
 				okEnabled = false;
-				setMessage("Duplicate Annotation Selection.");
+				setMessage("Duplicate Stereotype Selection.");
 			}
 		}
 
@@ -138,10 +138,10 @@ public class StereotypeSelectionDialog extends TSMessageDialog {
 				&& initialStereotypeName.length() != 0) {
 			defNameDialogField.setText(initialStereotypeName);
 		} else {
-			defNameDialogField.setText("anAnnotation");
+			defNameDialogField.setText("aStereotype");
 		}
 
-		getShell().setText("Annotation Name Selection");
+		getShell().setText("Stereotype Name Selection");
 		validateParam();
 	}
 

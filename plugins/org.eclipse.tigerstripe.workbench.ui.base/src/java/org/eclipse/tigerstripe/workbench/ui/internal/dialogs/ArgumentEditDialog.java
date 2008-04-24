@@ -309,7 +309,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		createRefByControl(composite, nColumns);
 		createDefaultValueControl(composite, nColumns);
 		createCommentControl(composite, nColumns);
-		createAnnotationsControls(composite, nColumns);
+		createStereotypesControls(composite, nColumns);
 
 		initDialog();
 
@@ -477,9 +477,9 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 	}
 
-	private void createAnnotationsControls(Composite composite, int nColumns) {
+	private void createStereotypesControls(Composite composite, int nColumns) {
 		Group innerComposite = new Group(composite, SWT.BOLD);
-		innerComposite.setText("Annotations");
+		innerComposite.setText("Stereotypes");
 		GridData gd = new GridData(GridData.FILL_BOTH
 				| GridData.GRAB_HORIZONTAL);
 		gd.horizontalSpan = nColumns;

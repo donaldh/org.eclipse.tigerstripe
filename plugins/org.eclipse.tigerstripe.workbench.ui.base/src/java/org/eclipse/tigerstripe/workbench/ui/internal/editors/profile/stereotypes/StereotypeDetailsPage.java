@@ -312,7 +312,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 				ExpandableComposite.NO_TITLE);
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		section.setDescription("Annotations details:");
+		section.setDescription("Stereotype details:");
 
 		Composite sectionClient = toolkit.createComposite(section);
 
@@ -326,7 +326,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		nameText.setEnabled(ProfileEditor.isEditable());
 		nameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		nameText.addModifyListener(adapter);
-		nameText.setToolTipText("Name of the annotation, as seen by end-user.");
+		nameText.setToolTipText("Name of the stereotype, as seen by end-user.");
 
 		label = toolkit.createLabel(sectionClient, "");
 		label.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL));
@@ -336,7 +336,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		versionText.setEnabled(ProfileEditor.isEditable());
 		versionText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		versionText.addModifyListener(adapter);
-		versionText.setToolTipText("Version of this annotation definition.");
+		versionText.setToolTipText("Version of this stereotype definition.");
 
 		label = toolkit.createLabel(sectionClient, "");
 		label.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL));
@@ -350,35 +350,10 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		descriptionText.setLayoutData(gd);
 		descriptionText.addModifyListener(adapter);
 		descriptionText
-				.setToolTipText("Meaning for this annotation, presented as tooltip to the end-user.");
+				.setToolTipText("Meaning for this stereotype, presented as tooltip to the end-user.");
 
 		label = toolkit.createLabel(sectionClient, "");
 		label.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL));
-
-		// label = toolkit.createLabel(sectionClient, "");
-		// visibilityButton = toolkit.createButton(sectionClient,
-		// "Annotation is visible", SWT.CHECK);
-		// visibilityButton.setEnabled(ProfileEditor.isEditable());
-		// visibilityButton.addSelectionListener(adapter);
-		// gd = new GridData(GridData.FILL_HORIZONTAL
-		// | GridData.HORIZONTAL_ALIGN_BEGINNING);
-		// gd.horizontalSpan = 2;
-		// visibilityButton.setLayoutData(gd);
-		// visibilityButton
-		// .setToolTipText("Only visible annotations are selectable by the
-		// end-user.");
-		//
-		// label = toolkit.createLabel(sectionClient, "Parent: ");
-		// parentText = toolkit.createText(sectionClient, "");
-		// parentText.setEnabled(ProfileEditor.isEditable());
-		// parentText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		// parentText.addModifyListener(adapter);
-		// parentText
-		// .setToolTipText("Name of the parent annotation. All attributes are
-		// inherited.");
-		//
-		// label = toolkit.createLabel(sectionClient, "");
-		// label.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL));
 
 		label = toolkit.createLabel(sectionClient, "Scope:");
 		Composite scopeComp = toolkit.createComposite(sectionClient, SWT.NULL);
@@ -393,21 +368,21 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		methodLevelButton.setEnabled(ProfileEditor.isEditable());
 		methodLevelButton.addSelectionListener(adapter);
 		methodLevelButton
-				.setToolTipText("Mark this annotation applicable to any Artifact Method, regardless of containing Artifact Type");
+				.setToolTipText("Mark this stereotype applicable to any Artifact Method, regardless of containing Artifact Type");
 
 		attributeLevelButton = toolkit.createButton(scopeComp, "Attribute",
 				SWT.CHECK);
 		attributeLevelButton.setEnabled(ProfileEditor.isEditable());
 		attributeLevelButton.addSelectionListener(adapter);
 		attributeLevelButton
-				.setToolTipText("Mark this annotation applicable to any Artifact Attribute, regardless of containing Artifact Type");
+				.setToolTipText("Mark this stereotype applicable to any Artifact Attribute, regardless of containing Artifact Type");
 
 		literalLevelButton = toolkit.createButton(scopeComp, "Literal",
 				SWT.CHECK);
 		literalLevelButton.setEnabled(ProfileEditor.isEditable());
 		literalLevelButton.addSelectionListener(adapter);
 		literalLevelButton
-				.setToolTipText("Mark this annotation applicable to any "
+				.setToolTipText("Mark this stereotype applicable to any "
 						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 								IEnumArtifactImpl.class.getName()).getLabel()
 						+ " Literal, regardless of containing Artifact Type");
@@ -417,14 +392,14 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		argumentLevelButton.setEnabled(ProfileEditor.isEditable());
 		argumentLevelButton.addSelectionListener(adapter);
 		argumentLevelButton
-				.setToolTipText("Mark this annotation applicable to any Method Argument, regardless of containing Artifact Type");
+				.setToolTipText("Mark this stereotype applicable to any Method Argument, regardless of containing Artifact Type");
 
 		associationEndLevelButton = toolkit.createButton(scopeComp, "Assoc. End",
 				SWT.CHECK);
 		associationEndLevelButton.setEnabled(ProfileEditor.isEditable());
 		associationEndLevelButton.addSelectionListener(adapter);
 		associationEndLevelButton
-				.setToolTipText("Mark this annotation applicable to any Association End.");
+				.setToolTipText("Mark this stereotype applicable to any Association End.");
 
 		createArtifactTypeTable(scopeComp, toolkit);
 
@@ -627,141 +602,11 @@ public class StereotypeDetailsPage implements IDetailsPage {
 	}
 
 	protected void createRequiresDefinitions(Composite parent) {
-		// FormToolkit toolkit = form.getToolkit();
-		// Composite sectionClient = toolkit.createComposite(parent);
-		// TableWrapLayout twlayout = new TableWrapLayout();
-		// twlayout.numColumns = 2;
-		// sectionClient.setLayout(twlayout);
-		// TableWrapData twd = new TableWrapData(TableWrapData.FILL_GRAB);
-		// sectionClient.setLayoutData(twd);
-		//
-		// Label l = toolkit.createLabel(sectionClient, "Required
-		// Annotations:");
-		// toolkit.createLabel(sectionClient, "");
-		//
-		// Table t = toolkit.createTable(sectionClient, SWT.NULL);
-		// t.setEnabled(ProfileEditor.isEditable());
-		// TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		// td.rowspan = 2;
-		// td.heightHint = 140;
-		// t.setLayoutData(td);
-		//
-		// requiresViewer = new TableViewer(t);
-		// requiresViewer.setContentProvider(new RequiresContentProvider());
-		// requiresViewer.setLabelProvider(new ReqsExcLabelProvider());
-		//
-		// requiresViewer.setInput(stereotype);
-		//
-		// ViewerSorter nameSorter = new ViewerSorter() {
-		// public int compare(Viewer viewer, Object label1, Object label2) {
-		// return ((String) label1).compareToIgnoreCase(((String) label2));
-		// }
-		// };
-		// requiresViewer.setSorter(nameSorter);
-		//
-		// addReqButton = toolkit.createButton(sectionClient, "Add", SWT.PUSH);
-		// addReqButton.setEnabled(ProfileEditor.isEditable());
-		// addReqButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		// if (ProfileEditor.isEditable()) {
-		// addReqButton.addSelectionListener(new SelectionListener() {
-		// public void widgetSelected(SelectionEvent event) {
-		// addReqButtonSelected(event);
-		// }
-		//
-		// public void widgetDefaultSelected(SelectionEvent event) {
-		// // empty
-		// }
-		// });
-		// }
-		// removeReqButton = toolkit.createButton(sectionClient, "Remove",
-		// SWT.PUSH);
-		// removeReqButton.setEnabled(ProfileEditor.isEditable());
-		// removeReqButton.setLayoutData(new TableWrapData());
-		// removeReqButton.addSelectionListener(new SelectionListener() {
-		// public void widgetSelected(SelectionEvent event) {
-		// removeReqButtonSelected(event);
-		// }
-		//
-		// public void widgetDefaultSelected(SelectionEvent event) {
-		// // empty
-		// }
-		// });
-		//
-		// l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		// td = new TableWrapData(TableWrapData.FILL_GRAB);
-		// td.heightHint = 40;
-		// l.setLayoutData(td);
-		//
-		// toolkit.paintBordersFor(sectionClient);
+
 	}
 
 	protected void createExcludesDefinitions(Composite parent) {
-		// FormToolkit toolkit = form.getToolkit();
-		// Composite sectionClient = toolkit.createComposite(parent);
-		// TableWrapLayout twlayout = new TableWrapLayout();
-		// twlayout.numColumns = 2;
-		// sectionClient.setLayout(twlayout);
-		// TableWrapData twd = new TableWrapData(TableWrapData.FILL_GRAB);
-		// sectionClient.setLayoutData(twd);
-		//
-		// Label l = toolkit.createLabel(sectionClient, "Excluded
-		// Annotations:");
-		// toolkit.createLabel(sectionClient, "");
-		//
-		// Table t = toolkit.createTable(sectionClient, SWT.NULL);
-		// t.setEnabled(ProfileEditor.isEditable());
-		// TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		// td.rowspan = 2;
-		// td.heightHint = 140;
-		// t.setLayoutData(td);
-		//
-		// excludesViewer = new TableViewer(t);
-		// excludesViewer.setContentProvider(new ExcludesContentProvider());
-		// excludesViewer.setLabelProvider(new ReqsExcLabelProvider());
-		//
-		// excludesViewer.setInput(stereotype);
-		//
-		// ViewerSorter nameSorter = new ViewerSorter() {
-		// public int compare(Viewer viewer, Object label1, Object label2) {
-		// return ((String) label1).compareToIgnoreCase(((String) label2));
-		// }
-		// };
-		// excludesViewer.setSorter(nameSorter);
-		//
-		// addExcButton = toolkit.createButton(sectionClient, "Add", SWT.PUSH);
-		// addExcButton.setEnabled(ProfileEditor.isEditable());
-		// addExcButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		// if (ProfileEditor.isEditable()) {
-		// addExcButton.addSelectionListener(new SelectionListener() {
-		// public void widgetSelected(SelectionEvent event) {
-		// addExcButtonSelected(event);
-		// }
-		//
-		// public void widgetDefaultSelected(SelectionEvent event) {
-		// // empty
-		// }
-		// });
-		// }
-		// removeExcButton = toolkit.createButton(sectionClient, "Remove",
-		// SWT.PUSH);
-		// removeExcButton.setEnabled(ProfileEditor.isEditable());
-		// removeExcButton.setLayoutData(new TableWrapData());
-		// removeExcButton.addSelectionListener(new SelectionListener() {
-		// public void widgetSelected(SelectionEvent event) {
-		// removeExcButtonSelected(event);
-		// }
-		//
-		// public void widgetDefaultSelected(SelectionEvent event) {
-		// // empty
-		// }
-		// });
-		//
-		// l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		// td = new TableWrapData(TableWrapData.FILL_GRAB);
-		// td.heightHint = 40;
-		// l.setLayoutData(td);
-		//
-		// toolkit.paintBordersFor(sectionClient);
+		
 	}
 
 	protected void addAttrButtonSelected(SelectionEvent event) {
@@ -840,34 +685,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 	}
 
 	protected void removeReqButtonSelected(SelectionEvent event) {
-		// TableItem[] selectedItems = requiresViewer.getTable().getSelection();
-		// String[] selectedLabels = new String[selectedItems.length];
-		//
-		// for (int i = 0; i < selectedItems.length; i++) {
-		// selectedLabels[i] = (String) selectedItems[i].getData();
-		// }
-		//
-		// String message = "Do you really want to remove ";
-		// if (selectedLabels.length > 1) {
-		// message = message + "these " + selectedLabels.length
-		// + " required annotations?";
-		// } else {
-		// message = message + "this required annotation?";
-		// }
-		//
-		// MessageDialog msgDialog = new MessageDialog(master.getSection()
-		// .getShell(), "Remove Required Annotation", null, message,
-		// MessageDialog.QUESTION, new String[] { "Yes", "No" }, 1);
-		//
-		// if (msgDialog.open() == 0) {
-		// try {
-		// stereotype.removeFromRequiresList(selectedLabels);
-		// requiresViewer.remove(selectedLabels);
-		// master.markPageModified();
-		// } catch (TigerstripeException e) {
-		// EclipsePlugin.log(e);
-		// }
-		// }
+
 	}
 
 	protected void addExcButtonSelected(SelectionEvent event) {
@@ -886,34 +704,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 	}
 
 	protected void removeExcButtonSelected(SelectionEvent event) {
-		// TableItem[] selectedItems = excludesViewer.getTable().getSelection();
-		// String[] selectedLabels = new String[selectedItems.length];
-		//
-		// for (int i = 0; i < selectedItems.length; i++) {
-		// selectedLabels[i] = (String) selectedItems[i].getData();
-		// }
-		//
-		// String message = "Do you really want to remove ";
-		// if (selectedLabels.length > 1) {
-		// message = message + "these " + selectedLabels.length
-		// + " excluded annotations?";
-		// } else {
-		// message = message + "this excluded annotation?";
-		// }
-		//
-		// MessageDialog msgDialog = new MessageDialog(master.getSection()
-		// .getShell(), "Remove Excluded Annotation", null, message,
-		// MessageDialog.QUESTION, new String[] { "Yes", "No" }, 1);
-		//
-		// if (msgDialog.open() == 0) {
-		// try {
-		// stereotype.removeFromExcludesList(selectedLabels);
-		// excludesViewer.remove(selectedLabels);
-		// master.markPageModified();
-		// } catch (TigerstripeException e) {
-		// EclipsePlugin.log(e);
-		// }
-		// }
+
 	}
 
 	// ===================================================================

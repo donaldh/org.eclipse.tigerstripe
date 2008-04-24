@@ -169,18 +169,18 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 		createIsAbstractButton(getBody(), getToolkit());
 
-		createAnnotations(getBody(), getToolkit());
+		createStereotypes(getBody(), getToolkit());
 
 		updateForm();
 		getSection().setClient(getBody());
 		getToolkit().paintBordersFor(getBody());
 	}
 
-	private void createAnnotations(Composite parent, FormToolkit toolkit) {
+	private void createStereotypes(Composite parent, FormToolkit toolkit) {
 		ExpandableComposite exComposite = toolkit.createExpandableComposite(
 				parent, ExpandableComposite.TREE_NODE
 						| ExpandableComposite.EXPANDED);
-		exComposite.setText("Annotations");
+		exComposite.setText("Stereotypes");
 		TableWrapLayout layout = new TableWrapLayout();
 		layout.numColumns = 1;
 		exComposite.setLayout(layout);

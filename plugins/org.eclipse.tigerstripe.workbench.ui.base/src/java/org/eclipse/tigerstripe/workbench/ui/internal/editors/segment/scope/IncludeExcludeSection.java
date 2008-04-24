@@ -35,7 +35,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeStereotypePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
@@ -75,15 +75,15 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
 	private TableViewer excludesViewer;
 
-	private Table annotationExcludesTable;
+	private Table stereotypeExcludesTable;
 
-	private TableViewer annotationExcludesViewer;
+	private TableViewer stereotypeExcludesViewer;
 
-	private Button addAnnotationExcludesButton;
+	private Button addStereotypeExcludesButton;
 
-	private Button sortAnnotationExcludesButton;
+	private Button sortStereotypeExcludesButton;
 
-	private Button removeAnnotationExcludesButton;
+	private Button removeStereotypeExcludesButton;
 
 	private class PatternLabelProvider extends LabelProvider {
 		@Override
@@ -91,15 +91,15 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			if (element instanceof ISegmentScope.ScopePattern) {
 				ISegmentScope.ScopePattern pattern = (ISegmentScope.ScopePattern) element;
 				return pattern.pattern;
-			} else if (element instanceof ISegmentScope.ScopeAnnotationPattern) {
-				ISegmentScope.ScopeAnnotationPattern pattern = (ISegmentScope.ScopeAnnotationPattern) element;
-				return pattern.annotationName;
+			} else if (element instanceof ISegmentScope.ScopeStereotypePattern) {
+				ISegmentScope.ScopeStereotypePattern pattern = (ISegmentScope.ScopeStereotypePattern) element;
+				return pattern.stereotypeName;
 			}
 			return "<unknown>";
 		}
 	}
 
-	private class AnnotationPatternContentProvider implements
+	private class StereotypePatternContentProvider implements
 			IStructuredContentProvider {
 
 		private int targetType = ISegmentScope.INCLUDES;
@@ -110,7 +110,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		 *            needs to be either {@link ISegmentScope#INCLUDES} or
 		 *            {@link ISegmentScope#EXCLUDES}
 		 */
-		public AnnotationPatternContentProvider(int type) {
+		public StereotypePatternContentProvider(int type) {
 			if (type == ISegmentScope.INCLUDES
 					|| type == ISegmentScope.EXCLUDES) {
 				targetType = type;
@@ -120,11 +120,11 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof ISegmentScope) {
 				ISegmentScope scope = (ISegmentScope) inputElement;
-				ScopeAnnotationPattern[] patterns = scope
-						.getAnnotationPatterns(targetType);
+				ScopeStereotypePattern[] patterns = scope
+						.getStereotypePatterns(targetType);
 				return patterns;
 			} else
-				return new ScopeAnnotationPattern[0];
+				return new ScopeStereotypePattern[0];
 		}
 
 		public void dispose() {
@@ -460,19 +460,19 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		td.colspan = 2;
 		l.setLayoutData(td);
 
-		// annotation excludes table
-		l = getToolkit().createLabel(getBody(), "Annotation-based Exclusions");
+		// Stereotype excludes table
+		l = getToolkit().createLabel(getBody(), "Stereotype-based Exclusions");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
 		l.setLayoutData(td);
-		annotationExcludesTable = getToolkit().createTable(getBody(),
+		stereotypeExcludesTable = getToolkit().createTable(getBody(),
 				SWT.BORDER | SWT.FLAT);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.rowspan = 3;
 		td.heightHint = 100;
-		annotationExcludesTable.setEnabled(!this.isReadonly());
-		annotationExcludesTable.setLayoutData(td);
-		annotationExcludesTable.addSelectionListener(new SelectionListener() {
+		stereotypeExcludesTable.setEnabled(!this.isReadonly());
+		stereotypeExcludesTable.setLayoutData(td);
+		stereotypeExcludesTable.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 
@@ -481,67 +481,67 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			}
 		});
 
-		annotationExcludesViewer = new TableViewer(annotationExcludesTable);
+		stereotypeExcludesViewer = new TableViewer(stereotypeExcludesTable);
 		try {
-			annotationExcludesViewer.setLabelProvider(labelProvider);
-			annotationExcludesViewer
-					.setContentProvider(new AnnotationPatternContentProvider(
+			stereotypeExcludesViewer.setLabelProvider(labelProvider);
+			stereotypeExcludesViewer
+					.setContentProvider(new StereotypePatternContentProvider(
 							ISegmentScope.EXCLUDES));
-			annotationExcludesViewer.setSorter(new PatternViewSorter());
-			annotationExcludesViewer.setInput(getScope());
+			stereotypeExcludesViewer.setSorter(new PatternViewSorter());
+			stereotypeExcludesViewer.setInput(getScope());
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
 
-		addAnnotationExcludesButton = getToolkit().createButton(getBody(),
+		addStereotypeExcludesButton = getToolkit().createButton(getBody(),
 				"Add", SWT.PUSH);
 		td = new TableWrapData(TableWrapData.LEFT);
 		// td.maxWidth = 75;
-		addAnnotationExcludesButton.setEnabled(!this.isReadonly());
-		addAnnotationExcludesButton.setLayoutData(td);
-		addAnnotationExcludesButton
+		addStereotypeExcludesButton.setEnabled(!this.isReadonly());
+		addStereotypeExcludesButton.setLayoutData(td);
+		addStereotypeExcludesButton
 				.addSelectionListener(new SelectionListener() {
 					public void widgetDefaultSelected(SelectionEvent e) {
 						// empty
 					}
 
 					public void widgetSelected(SelectionEvent e) {
-						addAnnotationPatternSelected(ISegmentScope.EXCLUDES);
+						addStereotypePatternSelected(ISegmentScope.EXCLUDES);
 					}
 				});
 
-		sortAnnotationExcludesButton = getToolkit().createButton(getBody(),
+		sortStereotypeExcludesButton = getToolkit().createButton(getBody(),
 				"Sort", SWT.PUSH);
 		td = new TableWrapData(TableWrapData.LEFT);
 		// td.maxWidth = 75;
-		sortAnnotationExcludesButton.setEnabled(!this.isReadonly());
-		sortAnnotationExcludesButton.setLayoutData(td);
-		sortAnnotationExcludesButton
+		sortStereotypeExcludesButton.setEnabled(!this.isReadonly());
+		sortStereotypeExcludesButton.setLayoutData(td);
+		sortStereotypeExcludesButton
 				.addSelectionListener(new SelectionListener() {
 					public void widgetDefaultSelected(SelectionEvent e) {
 						// empty
 					}
 
 					public void widgetSelected(SelectionEvent e) {
-						sortButtonSelected(annotationExcludesViewer);
+						sortButtonSelected(stereotypeExcludesViewer);
 					}
 
 				});
 
-		removeAnnotationExcludesButton = getToolkit().createButton(getBody(),
+		removeStereotypeExcludesButton = getToolkit().createButton(getBody(),
 				"Remove", SWT.PUSH);
 		td = new TableWrapData(TableWrapData.LEFT);
 		td.maxWidth = 75;
-		removeAnnotationExcludesButton.setLayoutData(td);
-		removeAnnotationExcludesButton.setEnabled(!this.isReadonly());
-		removeAnnotationExcludesButton
+		removeStereotypeExcludesButton.setLayoutData(td);
+		removeStereotypeExcludesButton.setEnabled(!this.isReadonly());
+		removeStereotypeExcludesButton
 				.addSelectionListener(new SelectionListener() {
 					public void widgetDefaultSelected(SelectionEvent e) {
 						// empty
 					}
 
 					public void widgetSelected(SelectionEvent e) {
-						removeAnnotationPatternSelected(ISegmentScope.EXCLUDES);
+						removeStereotypePatternSelected(ISegmentScope.EXCLUDES);
 					}
 				});
 
@@ -595,14 +595,14 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		updateSortButtonsState();
 	}
 
-	private void addAnnotationPatternSelected(int type) {
+	private void addStereotypePatternSelected(int type) {
 
 		IWorkbenchProfile activeProfile = TigerstripeCore.getWorkbenchProfileSession()
 				.getActiveProfile();
-		TableItem[] items = annotationExcludesTable.getItems();
+		TableItem[] items = stereotypeExcludesTable.getItems();
 		Collection<IStereotypeInstance> existingStereotypes = new ArrayList<IStereotypeInstance>();
 		for (int i = 0; i < items.length; i++) {
-			String stereoLabel = ((ScopeAnnotationPattern) items[i].getData()).annotationName;
+			String stereoLabel = ((ScopeStereotypePattern) items[i].getData()).stereotypeName;
 			IStereotype stereotype = activeProfile
 					.getStereotypeByName(stereoLabel);
 			if (stereotype == null) {
@@ -621,14 +621,14 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 					.browseAvailableStereotypes(getBody().getShell());
 			if (selected.length != 0) {
 				for (IStereotype stereo : selected) {
-					ISegmentScope.ScopeAnnotationPattern pattern = new ISegmentScope.ScopeAnnotationPattern();
+					ISegmentScope.ScopeStereotypePattern pattern = new ISegmentScope.ScopeStereotypePattern();
 					pattern.type = ISegmentScope.EXCLUDES;
-					pattern.annotationName = stereo.getName();
-					getScope().addAnnotationPattern(pattern);
+					pattern.stereotypeName = stereo.getName();
+					getScope().addStereotypePattern(pattern);
 				}
 				markPageModified();
 				try {
-					refreshViewerAfterAdd(annotationExcludesViewer);
+					refreshViewerAfterAdd(stereotypeExcludesViewer);
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 				}
@@ -710,28 +710,28 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		}
 	}
 
-	private void removeAnnotationPatternSelected(int type) {
+	private void removeStereotypePatternSelected(int type) {
 		Table targetTable = null;
 		if (type == ISegmentScope.INCLUDES) {
 			// targetTable = includesTable;// not supported for now
 		} else {
-			targetTable = annotationExcludesTable;
+			targetTable = stereotypeExcludesTable;
 		}
 		int[] indices = targetTable.getSelectionIndices();
 
 		String msg = "Do you really want to remove ";
 		if (indices.length > 1) {
-			msg += "these annotations?";
+			msg += "these stereotypes?";
 		} else {
-			msg += "this annotation?";
+			msg += "this stereotype?";
 		}
 		if (MessageDialog.openConfirm(getSection().getShell(),
-				"Remove Scope Annotation-based Exclusion", msg)) {
+				"Remove Scope Stereotype-based Exclusion", msg)) {
 			for (int index : indices) {
-				ScopeAnnotationPattern pat = (ScopeAnnotationPattern) targetTable
+				ScopeStereotypePattern pat = (ScopeStereotypePattern) targetTable
 						.getItem(index).getData();
 				try {
-					getScope().removeAnnotationPattern(pat);
+					getScope().removeStereotypePattern(pat);
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 				}
@@ -740,7 +740,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			markPageModified();
 			if (type == ISegmentScope.EXCLUDES)
 				try {
-					refreshViewerAfterRemove(annotationExcludesViewer);
+					refreshViewerAfterRemove(stereotypeExcludesViewer);
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 				}
@@ -774,14 +774,14 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		removeIncludesButton.setEnabled(indices.length != 0);
 		indices = excludesTable.getSelectionIndices();
 		removeExcludesButton.setEnabled(indices.length != 0);
-		indices = annotationExcludesTable.getSelectionIndices();
-		removeAnnotationExcludesButton.setEnabled(indices.length != 0);
+		indices = stereotypeExcludesTable.getSelectionIndices();
+		removeStereotypeExcludesButton.setEnabled(indices.length != 0);
 	}
 
 	private void updateSortButtonsState() {
 		sortIncludesButton.setEnabled(includesTable.getItemCount() > 1);
 		sortExcludesButton.setEnabled(excludesTable.getItemCount() > 1);
-		sortAnnotationExcludesButton.setEnabled(annotationExcludesTable
+		sortStereotypeExcludesButton.setEnabled(stereotypeExcludesTable
 				.getItemCount() > 1);
 	}
 
@@ -792,8 +792,8 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 		indices = excludesTable.getSelectionIndices();
 		excludesViewer.refresh(true);
 
-		indices = annotationExcludesTable.getSelectionIndices();
-		annotationExcludesViewer.refresh(true);
+		indices = stereotypeExcludesTable.getSelectionIndices();
+		stereotypeExcludesViewer.refresh(true);
 
 		updateRemoveButtonsState();
 		updateSortButtonsState();

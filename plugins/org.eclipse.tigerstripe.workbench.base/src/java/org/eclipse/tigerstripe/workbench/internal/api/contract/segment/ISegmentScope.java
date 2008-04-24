@@ -68,24 +68,24 @@ public interface ISegmentScope {
 		}
 	}
 
-	public class ScopeAnnotationPattern {
+	public class ScopeStereotypePattern {
 
 		public int type = INCLUDES;
 
-		public String annotationName;
+		public String stereotypeName;
 
-		public ScopeAnnotationPattern() {
+		public ScopeStereotypePattern() {
 
 		}
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj instanceof ScopeAnnotationPattern) {
-				ScopeAnnotationPattern other = (ScopeAnnotationPattern) obj;
-				if (other.annotationName == null)
+			if (obj instanceof ScopeStereotypePattern) {
+				ScopeStereotypePattern other = (ScopeStereotypePattern) obj;
+				if (other.stereotypeName == null)
 					return false;
 				return other.type == type
-						&& other.annotationName.equals(annotationName);
+						&& other.stereotypeName.equals(stereotypeName);
 			}
 			return false;
 		}
@@ -105,7 +105,7 @@ public interface ISegmentScope {
 	 */
 	public ScopePattern[] getPatterns();
 
-	public ScopeAnnotationPattern[] getAnnotationPatterns();
+	public ScopeStereotypePattern[] getStereotypePatterns();
 
 	/**
 	 * Returns all the ScopePatterns of the specified type
@@ -119,10 +119,10 @@ public interface ISegmentScope {
 
 	public void removePattern(ScopePattern pattern);
 
-	public ScopeAnnotationPattern[] getAnnotationPatterns(int type);
+	public ScopeStereotypePattern[] getStereotypePatterns(int type);
 
-	public void addAnnotationPattern(ScopeAnnotationPattern pattern);
+	public void addStereotypePattern(ScopeStereotypePattern pattern);
 
-	public void removeAnnotationPattern(ScopeAnnotationPattern pattern);
+	public void removeStereotypePattern(ScopeStereotypePattern pattern);
 
 }

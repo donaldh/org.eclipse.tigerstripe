@@ -27,7 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContract
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeStereotypePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.contract.ContractUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -138,9 +138,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		for (IStereotypeInstance stereo : stereos) {
 			String name = stereo.getName();
-			for (ScopeAnnotationPattern pattern : facet.getCombinedScope()
-					.getAnnotationPatterns(ISegmentScope.EXCLUDES)) {
-				if (name.equals(pattern.annotationName))
+			for (ScopeStereotypePattern pattern : facet.getCombinedScope()
+					.getStereotypePatterns(ISegmentScope.EXCLUDES)) {
+				if (name.equals(pattern.stereotypeName))
 					return true;
 			}
 		}
@@ -165,7 +165,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		resolvedPredicate = new RegExpFQNSetPred();
 
 		if (primaryPredicate.isEmptyPredicate()
-				&& combinedScope.getAnnotationPatterns(ISegmentScope.EXCLUDES).length == 0)
+				&& combinedScope.getStereotypePatterns(ISegmentScope.EXCLUDES).length == 0)
 			return;
 
 		// We do that in 2 passes. First get all the

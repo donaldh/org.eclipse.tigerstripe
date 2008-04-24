@@ -72,7 +72,7 @@ public class MethodReturnDetailsEditDialog extends TSMessageDialog {
 
 		createMessageArea(composite, nColumns);
 
-		createAnnotationsControls(composite, nColumns);
+		createStereotypesControls(composite, nColumns);
 
 		getShell().setText("Method Return details");
 		getShell().setMinimumSize(new Point(300, 250));
@@ -92,9 +92,9 @@ public class MethodReturnDetailsEditDialog extends TSMessageDialog {
 		return convertWidthInCharsToPixels(40);
 	}
 
-	private void createAnnotationsControls(Composite composite, int nColumns) {
+	private void createStereotypesControls(Composite composite, int nColumns) {
 		Group innerComposite = new Group(composite, SWT.BOLD);
-		innerComposite.setText("Annotations");
+		innerComposite.setText("Stereotypes");
 		GridData gd = new GridData(GridData.FILL_BOTH
 				| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		gd.horizontalSpan = nColumns;

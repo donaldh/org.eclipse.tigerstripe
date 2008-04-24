@@ -110,13 +110,13 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 		parent.setLayoutData(td);
 
 		createFieldInfo(parent);
-		createAnnotations(parent, form.getToolkit());
+		createStereotypes(parent, form.getToolkit());
 		form.getToolkit().paintBordersFor(parent);
 	}
 
-	private void createAnnotations(Composite parent, FormToolkit toolkit) {
+	private void createStereotypes(Composite parent, FormToolkit toolkit) {
 		
-		Label label = toolkit.createLabel(parent, "Annotations");
+		Label label = toolkit.createLabel(parent, "Stereotypes");
 		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		
 		Composite innerComposite = toolkit.createComposite(parent);

@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeStereotypePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
@@ -100,10 +100,10 @@ public class ContractSegment extends VersionAwareElement implements
 					throw new TigerstripeException(
 							"Circular facet reference detected. Ignoring.");
 				ISegmentScope refScope = ref.resolve().getCombinedScope();
-				ScopeAnnotationPattern[] annPatterns = refScope
-						.getAnnotationPatterns();
-				for (ScopeAnnotationPattern annPattern : annPatterns) {
-					scope.addAnnotationPattern(annPattern);
+				ScopeStereotypePattern[] annPatterns = refScope
+						.getStereotypePatterns();
+				for (ScopeStereotypePattern annPattern : annPatterns) {
+					scope.addStereotypePattern(annPattern);
 				}
 
 				ScopePattern[] scopePatterns = refScope.getPatterns();
@@ -113,9 +113,9 @@ public class ContractSegment extends VersionAwareElement implements
 			}
 
 			ISegmentScope origScope = getISegmentScope();
-			for (ScopeAnnotationPattern annPattern : origScope
-					.getAnnotationPatterns()) {
-				scope.addAnnotationPattern(annPattern);
+			for (ScopeStereotypePattern annPattern : origScope
+					.getStereotypePatterns()) {
+				scope.addStereotypePattern(annPattern);
 			}
 			for (ScopePattern scopePattern : origScope.getPatterns()) {
 				scope.addPattern(scopePattern);
@@ -323,12 +323,12 @@ public class ContractSegment extends VersionAwareElement implements
 			patternElement.addAttribute("type", String.valueOf(pattern.type));
 			patternElement.addText(pattern.pattern);
 		}
-		for (ScopeAnnotationPattern pattern : getISegmentScope()
-				.getAnnotationPatterns()) {
+		for (ScopeStereotypePattern pattern : getISegmentScope()
+				.getStereotypePatterns()) {
 			Element patternElement = scopeElement
 					.addElement("annotationPattern");
 			patternElement.addAttribute("type", String.valueOf(pattern.type));
-			patternElement.addText(pattern.annotationName);
+			patternElement.addText(pattern.stereotypeName);
 		}
 	}
 
@@ -347,10 +347,10 @@ public class ContractSegment extends VersionAwareElement implements
 					pat.pattern = pattern;
 					scope.addPattern(pat);
 				} else if ("annotationPattern".equals(patternElement.getName())) {
-					ScopeAnnotationPattern pat = new ScopeAnnotationPattern();
+					ScopeStereotypePattern pat = new ScopeStereotypePattern();
 					pat.type = type;
-					pat.annotationName = pattern;
-					scope.addAnnotationPattern(pat);
+					pat.stereotypeName = pattern;
+					scope.addStereotypePattern(pat);
 				}
 			}
 		}

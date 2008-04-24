@@ -291,7 +291,7 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 	 * Finds a new field name
 	 */
 	protected String findNewStereotypeName() {
-		String result = "anAnnotation" + newFieldCount++;
+		String result = "aStereotype" + newFieldCount++;
 
 		// make sure we're not creating a duplicate
 		TableItem[] items = viewer.getTable().getItems();
@@ -318,13 +318,13 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 		String message = "Do you really want to remove ";
 		if (selectedFields.size() > 1) {
 			message = message + "these " + selectedFields.size()
-					+ " annotations?";
+					+ " stereotypes?";
 		} else {
-			message = message + "this annotation?";
+			message = message + "this stereotype?";
 		}
 
 		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-				"Remove Annotation", null, message, MessageDialog.QUESTION,
+				"Remove Stereotype", null, message, MessageDialog.QUESTION,
 				new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {
@@ -362,10 +362,10 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 					.getProfile());
 			viewer.refresh();
 			if (viewerSel != -1) {
-				Object refreshedAnnotation = viewer.getTable().getItem(
+				Object refreshedStereotype = viewer.getTable().getItem(
 						viewerSel).getData();
 				viewer.setSelection(
-						new StructuredSelection(refreshedAnnotation), true);
+						new StructuredSelection(refreshedStereotype), true);
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);

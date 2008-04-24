@@ -107,7 +107,7 @@ public class ProfileDescriptorAuditor {
 
 				if (duplicateStereotypeNameList.contains(stereotype.getName())) {
 					TigerstripeProjectAuditor.reportError(
-							"Duplicate Annotation Name '"
+							"Duplicate Stereotype Name '"
 									+ stereotype.getName() + "' in "
 									+ iResource.getFullPath().toOSString(),
 							iResource, 222);
@@ -126,7 +126,7 @@ public class ProfileDescriptorAuditor {
 			IWorkbenchProfile profile, IResource iResource) {
 		String name = stereotype.getName();
 		if (!isValidName(name)) {
-			TigerstripeProjectAuditor.reportError("Invalid Annotation Name '"
+			TigerstripeProjectAuditor.reportError("Invalid Stereotype Name '"
 					+ stereotype.getName() + "' in "
 					+ iResource.getFullPath().toOSString(), iResource, 222);
 		}
@@ -135,7 +135,7 @@ public class ProfileDescriptorAuditor {
 			if (!isValidName(attr.getName())) {
 				TigerstripeProjectAuditor.reportError(
 						"Invalid attribute name '" + attr.getName()
-								+ "' in Annotation '" + stereotype.getName()
+								+ "' in Stereotype '" + stereotype.getName()
 								+ "' in "
 								+ iResource.getFullPath().toOSString(),
 						iResource, 222);

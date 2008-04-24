@@ -65,7 +65,7 @@ public class ProfileContentSection extends TigerstripeSectionPart {
 		// buf.append("<li><a href=\"repositories\">Artifact Repositories</a>:
 		// containing all artifacts used to model the OSS/J Interface.</li>");
 		buf
-				.append("<li><a href=\"stereotypes\">Annotations</a>: allowing to annotate a model with additional information for generation purpose.</li>");
+				.append("<li><a href=\"stereotypes\">Stereotypes</a>: allowing to define stereotypes for application to a model with additional information for generation purpose.</li>");
 		buf
 				.append("<li><a href=\"primitiveTypes\">Primitive Types</a>: allowing to define specific primitive types to cover specific modeling needs.</li>");
 		// buf.append("<li><a href=\"properties\">Properties Definitions</a>:

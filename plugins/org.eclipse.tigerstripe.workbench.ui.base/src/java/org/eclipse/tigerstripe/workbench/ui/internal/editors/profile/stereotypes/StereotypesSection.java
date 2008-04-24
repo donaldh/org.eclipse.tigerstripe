@@ -38,8 +38,8 @@ public class StereotypesSection extends BaseStereotypeSectionPart implements
 	public StereotypesSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.EXPANDED);
-		setTitle("&Annotation Definitions");
-		setDescription("Define the annotations available within this profile.");
+		setTitle("&Stereotype Definitions");
+		setDescription("Define the stereotypes available within this profile.");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -103,11 +103,11 @@ public class StereotypesSection extends BaseStereotypeSectionPart implements
 
 	@Override
 	protected String getTooltipText() {
-		return "Define/Edit annotations for this profile.";
+		return "Define/Edit stereotypes for this profile.";
 	}
 
 	@Override
 	protected String getDescription() {
-		return "Annotations:";
+		return "Stereotypes:";
 	}
 }

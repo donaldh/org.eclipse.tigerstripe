@@ -19,9 +19,9 @@ public class SegmentScope implements ISegmentScope {
 
 	private List<ScopePattern> patterns = new ArrayList<ScopePattern>();
 
-	private List<ScopeAnnotationPattern> annotationPatterns = new ArrayList<ScopeAnnotationPattern>();
+	private List<ScopeStereotypePattern> annotationPatterns = new ArrayList<ScopeStereotypePattern>();
 
-	public void addAnnotationPattern(ScopeAnnotationPattern pattern) {
+	public void addStereotypePattern(ScopeStereotypePattern pattern) {
 		if (!annotationPatterns.contains(pattern)) {
 			annotationPatterns.add(pattern);
 		}
@@ -33,23 +33,23 @@ public class SegmentScope implements ISegmentScope {
 		}
 	}
 
-	public ScopeAnnotationPattern[] getAnnotationPatterns() {
+	public ScopeStereotypePattern[] getStereotypePatterns() {
 		return annotationPatterns
-				.toArray(new ScopeAnnotationPattern[annotationPatterns.size()]);
+				.toArray(new ScopeStereotypePattern[annotationPatterns.size()]);
 	}
 
 	public ScopePattern[] getPatterns() {
 		return patterns.toArray(new ScopePattern[patterns.size()]);
 	}
 
-	public ScopeAnnotationPattern[] getAnnotationPatterns(int type) {
-		List<ScopeAnnotationPattern> subList = new ArrayList<ScopeAnnotationPattern>();
-		for (ScopeAnnotationPattern pattern : annotationPatterns) {
+	public ScopeStereotypePattern[] getStereotypePatterns(int type) {
+		List<ScopeStereotypePattern> subList = new ArrayList<ScopeStereotypePattern>();
+		for (ScopeStereotypePattern pattern : annotationPatterns) {
 			if (pattern.type == type) {
 				subList.add(pattern);
 			}
 		}
-		return subList.toArray(new ScopeAnnotationPattern[subList.size()]);
+		return subList.toArray(new ScopeStereotypePattern[subList.size()]);
 	}
 
 	public ScopePattern[] getPatterns(int type) {
@@ -78,7 +78,7 @@ public class SegmentScope implements ISegmentScope {
 		}
 	}
 
-	public void removeAnnotationPattern(ScopeAnnotationPattern pattern) {
+	public void removeStereotypePattern(ScopeStereotypePattern pattern) {
 		if (annotationPatterns.contains(pattern)) {
 			annotationPatterns.remove(pattern);
 		}

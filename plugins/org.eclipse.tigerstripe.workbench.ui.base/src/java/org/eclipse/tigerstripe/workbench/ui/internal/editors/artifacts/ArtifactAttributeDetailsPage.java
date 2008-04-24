@@ -132,9 +132,9 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		form.getToolkit().paintBordersFor(parent);
 	}
 
-	private void createAnnotations(final Composite parent, FormToolkit toolkit) {
+	private void createStereotypes(final Composite parent, FormToolkit toolkit) {
 
-		Label label = toolkit.createLabel(parent, "Annotations:");
+		Label label = toolkit.createLabel(parent, "Stereotypes:");
 		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 
 		Composite innerComposite = toolkit.createComposite(parent);
@@ -357,7 +357,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 
 		toolkit.createLabel(sectionClient, "");
 
-		createAnnotations(sectionClient, form.getToolkit());
+		createStereotypes(sectionClient, form.getToolkit());
 
 		section.setClient(sectionClient);
 		toolkit.paintBordersFor(sectionClient);
