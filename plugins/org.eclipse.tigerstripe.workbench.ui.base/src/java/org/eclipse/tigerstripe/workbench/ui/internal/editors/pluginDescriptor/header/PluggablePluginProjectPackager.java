@@ -185,8 +185,8 @@ public class PluggablePluginProjectPackager {
 
 		// Assemble proper command line for compile
 
-		// First compile with 1.6 code by default for now
-		compilerArgs.add("-1.6");
+		// First compile with 1.5 code by default for now
+		compilerArgs.add("-1.5");
 
 		// then look at the classpath
 		compilerArgs.add("-d");
