@@ -2,7 +2,7 @@
 <m0-generator>
 <project name="MO Instance XML Plugin">
 <outputDirectory/>
-<version>0.2</version>
+<version>0.3M1</version>
 <description>Convert M0 instance diagram to XML representation</description>
 <provider>Cisco</provider>
 </project>
@@ -15,7 +15,9 @@
 <body outputFile="instances.xml" overwriteFiles="true" suppressFiles="true" template="templates\xml.vm"/>
 </rule>
 </globalRules>
-<classpathEntries/>
+<classpathEntries>
+<entry relativePath="commons-lang-2.2.jar"/>
+</classpathEntries>
 <additionalFiles/>
 <advanced/>
 </m0-generator>
