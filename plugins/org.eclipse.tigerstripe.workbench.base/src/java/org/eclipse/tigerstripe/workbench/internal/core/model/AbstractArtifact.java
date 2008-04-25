@@ -94,10 +94,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	// The package this AbstractArtifact lives in
 	private String _package = "";
-	
+
 	// The fully qualifiedName for this artifact
 	private String _fullyQualifiedName;
-	
+
 	/** logger for output */
 	private static Logger log = Logger.getLogger(AbstractArtifact.class);
 
@@ -246,18 +246,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
-	
-
-
-	
 	/**
 	 * Set the package name for this AbstractArtifact
 	 * 
 	 * @param packageName
 	 */
 	public void setPackage(String packageName) {
-		this. _package = packageName;
-		this._fullyQualifiedName = this._package+"."+getName();
+		this._package = packageName;
+		this._fullyQualifiedName = this._package + "." + getName();
 	}
 
 	/**
@@ -297,12 +293,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		this._fullyQualifiedName = fqn;
 	}
 
-	
 	public void setName(String name) {
 		super.setName(name);
-		this._fullyQualifiedName = this._package+"."+getName();
+		this._fullyQualifiedName = this._package + "." + getName();
 	}
-	
+
 	/**
 	 * Returns the correct type of artifact based on the given class
 	 * 
@@ -1337,6 +1332,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	/**
 	 * Returns a Handle for the project if it exists. Please note that for
 	 * Artifacts living in a module, this will return NULL;
+	 * 
+	 * @deprecated use getProject() instead
 	 */
 	public ITigerstripeModelProject getTigerstripeProject() {
 		TigerstripeProjectHandle handle = null;
@@ -1627,6 +1624,22 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	public void dispose() {
 		// NON SUPPORTED.
+	}
+
+	public ITigerstripeModelProject getProject() throws TigerstripeException {
+		TigerstripeProjectHandle handle = null;
+
+		if (getTSProject() == null || getTSProject().getBaseDir() == null)
+			return null;
+
+		try {
+			handle = (TigerstripeProjectHandle) TigerstripeCore
+					.findProject(getTSProject().getBaseDir().toURI());
+		} catch (TigerstripeException e) {
+			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
+					e);
+		}
+		return handle;
 	}
 
 }

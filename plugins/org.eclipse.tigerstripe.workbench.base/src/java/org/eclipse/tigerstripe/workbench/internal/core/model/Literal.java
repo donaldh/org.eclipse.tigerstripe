@@ -25,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidatio
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
@@ -217,4 +218,13 @@ public class Literal extends ArtifactComponent implements ILiteral {
 		}
 		return result;
 	}
+	
+	@Override
+	public ITigerstripeModelProject getProject() throws TigerstripeException {
+		if (getContainingArtifact() != null)
+			return getContainingArtifact().getProject();
+
+		return null;
+	}
+
 }

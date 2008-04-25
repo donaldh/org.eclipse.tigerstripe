@@ -43,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjFlavorDefau
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaMethod;
@@ -1248,6 +1249,14 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public ITigerstripeModelProject getProject() throws TigerstripeException {
+		if (getContainingArtifact() != null)
+			return getContainingArtifact().getProject();
+
+		return null;
 	}
 
 }

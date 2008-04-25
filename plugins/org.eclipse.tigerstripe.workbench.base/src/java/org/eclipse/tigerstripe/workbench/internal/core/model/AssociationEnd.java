@@ -27,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
@@ -132,11 +133,10 @@ public class AssociationEnd extends ArtifactComponent implements
 		com.thoughtworks.qdox.model.Type type = field.getType();
 		// the *type* at the end should have a fixed multiplicity of one.
 		// Note this is different from the multiplicity of the end.
-		
+
 		this.type = new Type(type.getValue(), EMultiplicity.ONE,
 				getArtifactManager());
 		setName(field.getName());
-		
 
 		// Extract value of Label
 		Properties props = null;
@@ -159,11 +159,9 @@ public class AssociationEnd extends ArtifactComponent implements
 				EAggregationEnum.NONE.getLabel()));
 		changeable = EChangeableEnum.parse(props.getProperty("changeable",
 				EChangeableEnum.NONE.getLabel()));
-		multiplicity = IModelComponent.EMultiplicity.parse(props.getProperty("multiplicity",
-				IModelComponent.EMultiplicity.ONE.getLabel()));
+		multiplicity = IModelComponent.EMultiplicity.parse(props.getProperty(
+				"multiplicity", IModelComponent.EMultiplicity.ONE.getLabel()));
 
-
-		
 		// Extract all the stereotypes
 		extractStereotypes();
 	}
@@ -210,14 +208,12 @@ public class AssociationEnd extends ArtifactComponent implements
 
 		// check association end's name to ensure it is not a reserved keyword
 		if (TigerstripeValidationUtils.keywordList.contains(getName())) {
-			result
-					.add(new Status(
-							IStatus.ERROR,
-							BasePlugin.getPluginId(),
-							"'"
-									+ getName()
-									+ "' is a reserved keyword and cannot be used an " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-											IAssociationArtifactImpl.class.getName()).getLabel() + " end name"));
+			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
+					+ getName()
+					+ "' is a reserved keyword and cannot be used an "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName())
+							.getLabel() + " end name"));
 		}
 
 		// check the validity of the type for this association end
@@ -231,7 +227,10 @@ public class AssociationEnd extends ArtifactComponent implements
 						.getFullyQualifiedName().equals("String"))) {
 			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 					ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName()).getLabel() + " End cannot be a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IAssociationArtifactImpl.class.getName())
+							.getLabel()
+							+ " End cannot be a "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
 									.getLabel() + "."));
 		}
@@ -257,5 +256,13 @@ public class AssociationEnd extends ArtifactComponent implements
 			return getContainingAssociation().isInActiveFacet();
 		else
 			return true;
+	}
+
+	@Override
+	public ITigerstripeModelProject getProject() throws TigerstripeException {
+		if (getContainingArtifact() != null)
+			return getContainingArtifact().getProject();
+
+		return null;
 	}
 }

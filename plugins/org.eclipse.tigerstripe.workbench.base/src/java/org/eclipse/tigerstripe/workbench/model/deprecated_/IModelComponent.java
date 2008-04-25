@@ -16,6 +16,7 @@ import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
 import org.eclipse.tigerstripe.metamodel.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * A component for a Tigerstripe Model.
@@ -227,4 +228,12 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 	 */
 	public IModelComponentMetadata getMetadata();
 
+	/**
+	 * Returns the project that this Model Component belongs to.
+	 * 
+	 * @throws TigerstripeException if the project is invalid (descriptor missing, etc..)
+	 * @return the project this component belongs to, null if the component has
+	 *         not been stored in a Model Project
+	 */
+	public ITigerstripeModelProject getProject() throws TigerstripeException;
 }

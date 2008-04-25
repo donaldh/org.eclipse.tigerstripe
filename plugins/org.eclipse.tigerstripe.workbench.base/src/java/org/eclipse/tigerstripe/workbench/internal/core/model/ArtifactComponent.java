@@ -39,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
@@ -390,4 +391,11 @@ public abstract class ArtifactComponent implements IModelComponent,
 		}
 		return null;
 	}
+
+	public ITigerstripeModelProject getProject() throws TigerstripeException {
+		if ( getParentArtifact() != null ) 
+			return getParentArtifact().getProject();
+		return null;
+	}
+	
 }
