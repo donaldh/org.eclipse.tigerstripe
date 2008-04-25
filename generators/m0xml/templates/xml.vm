@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InstanceMap xmlns="http://tigerstripe.eclipse.org/instances" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tigerstripe.eclipse.org/instances
+..\..\main\xsd\instances.xsd">
+
+#foreach( $cInstance in $classInstances )
+#set($type=$xmlUtils.getArtifactType($cInstance.Artifact))
+  <$type artifactName="$cInstance.InstanceName" class="$cInstance.Artifact.FullyQualifiedName" name="$cInstance.Artifact.name">
+#foreach( $variable in $cInstance.Variables )
+    <Variable name="$variable.Name" type="$variable.type" >
+#set($values = $xmlUtils.splitValues($variable.type,$variable.value))
+#foreach($value in $values) 
+        <Value>$value</Value>
+#end
+    </Variable>
+#end
+  </$type> 
+
+#end 
+#foreach( $association in $associationInstances )
+    <Association name="$association.Name" class="$association.Artifact.FullyQualifiedName">
+      <aEnd navigable="$association.aEndIsNavigable" name="$association.AEndName" artifactName="$association.AEnd.artifactName" />
+      <zEnd navigable="$association.zEndIsNavigable" name="$association.ZEndName" artifactName="$association.ZEnd.artifactName" />
+    </Association>
+
+#end
+</InstanceMap>
