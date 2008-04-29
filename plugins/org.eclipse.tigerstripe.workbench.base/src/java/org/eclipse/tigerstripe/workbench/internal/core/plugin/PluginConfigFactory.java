@@ -18,7 +18,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
-import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
@@ -39,9 +38,6 @@ public class PluginConfigFactory {
 
 	private final static String VERSION_DEV = "dev";
 	public final static String VERSION_1_3 = "1.3";
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(App.class);
 
 	private static PluginConfigFactory instance;
 

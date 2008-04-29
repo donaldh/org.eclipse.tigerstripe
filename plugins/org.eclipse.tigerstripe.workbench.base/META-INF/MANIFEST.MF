@@ -147,7 +147,6 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.core.versioning",
  org.eclipse.tigerstripe.workbench.internal.core;uses:="org.eclipse.tigerstripe.api.external.plugins,org.apache.log4j,org.eclipse.tigerstripe.api.project",
- org.eclipse.tigerstripe.workbench.internal.core.cli;uses:="org.apache.commons.cli",
  org.eclipse.tigerstripe.workbench.internal.core.generation;
   uses:="org.eclipse.tigerstripe.api.utils,
    org.eclipse.tigerstripe.api.contract.segment,

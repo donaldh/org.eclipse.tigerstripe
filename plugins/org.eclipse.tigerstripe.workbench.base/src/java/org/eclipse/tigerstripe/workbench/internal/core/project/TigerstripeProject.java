@@ -46,7 +46,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisito
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
@@ -75,9 +74,6 @@ import org.xml.sax.SAXParseException;
  */
 public class TigerstripeProject extends AbstractTigerstripeProject implements
 		IProjectDescriptor {
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(App.class);
 
 	// This defines the compatibility level for the project descriptor;
 	public static final String COMPATIBILITY_LEVEL = "1.1";
@@ -519,7 +515,6 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			try {
 				ref.resolve();
 			} catch (UnknownPluginException e) {
-				log.info(e);
 			}
 
 			this.pluginConfigs.add(ref);

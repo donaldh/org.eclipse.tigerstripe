@@ -31,7 +31,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisito
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.cli.App;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1Generator;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -61,9 +60,6 @@ public abstract class TigerstripeProjectHandle extends
 	public String getDescriptorFilename() {
 		return DESCRIPTOR_FILENAME;
 	}
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(App.class);
 
 	protected ArtifactManagerSessionImpl artifactMgrSession;
 
@@ -126,9 +122,7 @@ public abstract class TigerstripeProjectHandle extends
 	public TigerstripeProject getTSProject() throws TigerstripeException {
 		if (tsProject == null) {
 			// try and create a project for the URI
-			log.debug("URI =" + this.projectContainerURI.toString());
 			File baseDir = new File(this.projectContainerURI);
-			log.debug("baseDir " + baseDir.toString());
 			if (baseDir.isDirectory()) {
 				tsProject = new TigerstripeProject(baseDir);
 			} else
