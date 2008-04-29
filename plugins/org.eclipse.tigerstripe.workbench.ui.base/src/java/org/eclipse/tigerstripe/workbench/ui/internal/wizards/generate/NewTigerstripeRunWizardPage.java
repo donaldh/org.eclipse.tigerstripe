@@ -158,10 +158,6 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 						getTSProject(), RunConfig.M1);
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
-			} finally {
-				if (runConfig == null) {
-					runConfig = new M1RunConfig();
-				}
 			}
 		}
 	}
