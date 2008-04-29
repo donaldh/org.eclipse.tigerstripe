@@ -101,8 +101,6 @@ public class PostInstallActions {
 				setupTigerstripeVariables(context);
 				createPropertiesFileForHeadlessRun(context);
 
-				createDirectoriesForHeadlessRun(context);
-
 				createTigerstripeEclipseLibrary(context);
 
 				// Bug 634: we need to make sure the Phantom Project path exists
@@ -156,110 +154,6 @@ public class PostInstallActions {
 
 			store.putValue("workbenchFeatureVersion", currentFeatureVersion);
 		}
-	}
-
-	/**
-	 * Copies the bin/ and lib/ directories into the runtime root to be
-	 * referenced during headless runs
-	 * 
-	 * @param context
-	 */
-	private void createDirectoriesForHeadlessRun(BundleContext context)
-			throws TigerstripeException {
-
-		File binDir = new File(tigerstripeRuntimeDir + File.separator + "bin");
-		binDir.mkdirs();
-		if (!binDir.exists()) {
-			EclipsePlugin.logErrorMessage("Couldn't create "
-					+ binDir.getAbsolutePath());
-		}
-
-		File libDir = new File(tigerstripeRuntimeDir + File.separator + "lib");
-		libDir.mkdirs();
-		if (!libDir.exists()) {
-			EclipsePlugin.logErrorMessage("Couldn't create "
-					+ libDir.getAbsolutePath());
-		}
-
-		// Copy files from install root (bin)
-		File srcBin = new File(this.baseBundleRoot + "/src/bin");
-		File[] srcBinFiles = srcBin.listFiles();
-		for (File srcBinFile : srcBinFiles) {
-
-			String binDirPath = binDir.getAbsolutePath();
-			if (!(new File(binDirPath + "/" + srcBinFile.getName())).exists()) {
-				try {
-					if (srcBinFile.isDirectory())
-						FileUtils.copyDir(srcBinFile.getAbsolutePath(), binDir
-								.getAbsolutePath(), true);
-					else {
-						FileUtils.copy(srcBinFile.getAbsolutePath(), binDir
-								.getAbsolutePath(), true);
-					}
-				} catch (IOException e) {
-					throw new TigerstripeException(
-							"Error while copying bin dir for headless run: "
-									+ e.getMessage(), e);
-				}
-			}
-		}
-
-		// Copy files from install root (Lib)
-		File srcLib = new File(this.baseBundleRoot + "/lib");
-		File[] srcLibFiles = srcLib.listFiles();
-		for (File srcLibFile : srcLibFiles) {
-			String libDirPath = libDir.getAbsolutePath();
-			if (!(new File(libDirPath + "/" + srcLibFile.getName())).exists()) {
-				try {
-					if (srcLibFile.isFile())
-						FileUtils.copy(srcLibFile.getAbsolutePath(), libDir
-								.getAbsolutePath(), true);
-					else {
-						FileUtils.copyDir(srcLibFile.getAbsolutePath(), libDir
-								.getAbsolutePath(), true);
-					}
-				} catch (IOException e) {
-					throw new TigerstripeException(
-							"Error while copying lib dir for headless run: "
-									+ e.getMessage(), e);
-				}
-			}
-		}
-
-		// The Core .jar
-		File rootDir = new File(this.baseBundleRoot);
-		File[] rootFiles = rootDir.listFiles();
-		for (File rootFile : rootFiles) {
-			if (rootFile.getName().startsWith("ts-headless")) {
-				String libDirPath = libDir.getAbsolutePath();
-				if (!(new File(libDirPath + "/" + rootFile.getName())).exists()) {
-					try {
-						FileUtils.copy(rootFile.getAbsolutePath(), libDir
-								.getAbsolutePath(), true);
-					} catch (IOException e) {
-						throw new TigerstripeException(
-								"Error while copying core .jar for headless run: "
-										+ e.getMessage(), e);
-					}
-				}
-			}
-		}
-
-		// finally the External API jar
-		String externalAPIJarPath = JavaCore.getClasspathVariable(
-				ITigerstripeConstants.EXTERNALAPI_LIB).toOSString();
-		File externalAPIJar = new File(externalAPIJarPath);
-		if (!(new File(libDir + "/" + externalAPIJar.getName())).exists()) {
-			try {
-				FileUtils.copy(externalAPIJar.getAbsolutePath(), libDir
-						.getAbsolutePath(), true);
-			} catch (IOException e) {
-				throw new TigerstripeException(
-						"Error while copying external API .jar for headless run: "
-								+ e.getMessage(), e);
-			}
-		}
-
 	}
 
 	/**
