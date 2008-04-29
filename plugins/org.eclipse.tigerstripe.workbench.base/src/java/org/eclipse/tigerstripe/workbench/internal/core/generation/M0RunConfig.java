@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -21,17 +22,23 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  */
 public class M0RunConfig extends RunConfig {
 
-	
 	/**
 	 * Use M0Generator.defaultRunConfig(ITigerstripeModelProject project) as a
 	 * factory to get all the defaults from a given project
 	 */
 	/* package */M0RunConfig() {
-		super(null); // making the compiler happy
+		this(null); // making the compiler happy
 	}
 
 	/* package */M0RunConfig(ITigerstripeModelProject project) {
 		super(project);
+		if (project != null) {
+			try {
+				initializeFromProject();
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
 	}
 
 	// FIXME: once the metamodel is ready this will be a proper EMF object

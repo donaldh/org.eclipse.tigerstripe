@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -57,8 +55,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 
 	private boolean useUseCaseXSL = false;
 
-	/* package */public M1RunConfig() {
-		super(null); // making the compiler happy
+	/* package */ M1RunConfig() {
+		this(null); // making the compiler happy
 	}
 
 	/*
@@ -117,65 +115,13 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 
 	/* package */M1RunConfig(ITigerstripeModelProject tsProject) {
 		super(tsProject);
-		try {
-			IProjectDetails details = tsProject.getProjectDetails();
-			clearDirectoryBeforeGenerate = "true"
-					.equals(details
-							.getProperties()
-							.getProperty(
-									IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
-									IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT));
-			ignoreFacets = "true".equals(details.getProperties().getProperty(
-					IProjectDetails.IGNORE_FACETS,
-					IProjectDetails.IGNORE_FACETS_DEFAULT));
-			generateModules = "true".equals(details.getProperties()
-					.getProperty(IProjectDetails.GENERATE_MODULES,
-							IProjectDetails.GENERATE_MODULES_DEFAULT));
-			mergeFacets = "true".equals(details.getProperties().getProperty(
-					IProjectDetails.MERGE_FACETS,
-					IProjectDetails.MERGE_FACETS_DEFAULT));
-			generateReferencedProjects = "true".equals(details.getProperties()
-					.getProperty(IProjectDetails.GENERATE_REFPROJECTS,
-							IProjectDetails.GENERATE_REFPROJECTS_DEFAULT));
-			processUseCases = "true".equals(details.getProperties()
-					.getProperty(IProjectDetails.PROCESS_USECASES,
-							IProjectDetails.PROCESS_USECASES_DEFAULT));
-			useUseCaseXSL = "true".equals(details.getProperties().getProperty(
-					IProjectDetails.USECASE_USEXSLT,
-					IProjectDetails.USECASE_USEXSLT_DEFAULT));
-			useCaseXsl = details.getProperties().getProperty(
-					IProjectDetails.USECASE_XSL,
-					IProjectDetails.USECASE_XSL_DEFAULT);
-			processUseCaseExtension = details.getProperties().getProperty(
-					IProjectDetails.USECASE_PROC_EXT,
-					IProjectDetails.USECASE_PROC_EXT_DEFAULT);
-
-			if (!ignoreFacets) {
-				// By default use project level facets although pluginConfig
-				// facets have precedence.
-				if (tsProject.getFacetReferences() != null
-						&& tsProject.getFacetReferences().length != 0) {
-					useProjectFacets = true;
-				}
-
-				try {
-					// but if there are any plugin facet defined, they would
-					// have precedence
-					IPluginConfig[] configs = tsProject.getPluginConfigs();
-					for (IPluginConfig config : configs) {
-						if (config.getFacetReference() != null) {
-							usePluginConfigFacets = true;
-							useProjectFacets = false;
-							break;
-						}
-					}
-				} catch (TigerstripeException e) {
-					BasePlugin.log(e);
-				}
+		if (tsProject != null) {
+			try {
+				initializeFromProject();
+			} catch (TigerstripeException e) {
+				TigerstripeRuntime.logErrorMessage(
+						"TigerstripeException detected", e);
 			}
-		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-					e);
 		}
 	}
 
@@ -325,12 +271,11 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	@Override
 	protected void initializeFromProject() throws TigerstripeException {
 		super.initializeFromProject();
-		
+
 		// Clone all the M1-Level Plugin Configs
 		setPluginConfigs(M1GenerationUtils.m1PluginConfigs(getTargetProject(),
 				false, true));
 
-		
 		IProjectDetails details = getTargetProject().getProjectDetails();
 		clearDirectoryBeforeGenerate = "true"
 				.equals(details
