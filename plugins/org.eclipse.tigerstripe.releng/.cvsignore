@@ -3,3 +3,5 @@ plugin.properties
 build.properties
 plugin.xml
 site.xml
+eclipse-login.properties
+

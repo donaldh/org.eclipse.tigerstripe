@@ -1,0 +1,365 @@
+<?xml version="1.0"?>
+<!--  																		-->
+<!--  Copyright (c) 2008 Cisco Systems, Inc.								-->
+<!--  All rights reserved. This program and the accompanying materials		-->
+<!--  are made available under the terms of the Eclipse Public License v1.0	-->
+<!--  which accompanies this distribution, and is available at				-->
+<!--  http://www.eclipse.org/legal/epl-v10.html								-->
+<!-- 																		-->
+<!--  Contributors:															-->
+<!--     Cisco Systems, Inc. - erdillon										-->
+<!-- 																		-->
+<!-- 	Build script for All Tigerstripe Features in one go					-->
+
+<!--  This bit allows to include the taskdefs conveniently -->
+<project name="Build Everything for Tigerstripe Release">
+
+	<!-- Local target definitions -->
+	<property file="${builder}/target.properties" />
+	<property name="buildDescriptor"
+		value="${buildDirectory}/${buildLabel}/build-details.xml" />
+	<property file="${update.site.details}" />
+
+	<!-- Include task defs for Releng Ant extensions -->
+	<path id="downloadsite.ant.path">
+		<fileset dir="${libs}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.NewBuild"
+		name="dsite.newBuild" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.MergeBuild"
+		name="dsite.mergeBuild" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddComponent"
+		name="dsite.addComponent" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddDependency"
+		name="dsite.addDependency" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.AddDetail"
+		name="dsite.addDetail" classpathref="downloadsite.ant.path">
+	</taskdef>
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.downloadsite.ant.UpdateNotesDetails"
+		name="dsite.addReleaseNotes" classpathref="downloadsite.ant.path">
+	</taskdef>
+
+	<taskdef
+		classname="org.eclipse.tigerstripe.releng.updatesite.ant.AddFeature"
+		name="usite.addFeature" classpathref="downloadsite.ant.path">
+	</taskdef>
+
+	<!-- Run a given ${target} on all elements being built -->
+	<!-- Add on <ant> task for each top level element being built. -->
+	<!-- ===================================================================== -->
+	<target name="allElements">
+		<ant antfile="${genericTargets}" target="${target}">
+			<property name="type" value="feature" />
+			<property name="id"
+				value="org.eclipse.tigerstripe.workbench" />
+		</ant>
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Targets to assemble the built elements for particular configurations  -->
+	<!-- These generally call the generated assemble scripts (named in -->
+	<!-- ${assembleScriptName}) but may also add pre and post processing -->
+	<!-- Add one target for each root element and each configuration -->
+
+	<!-- ===================================================================== -->
+	<target name="assemble.org.eclipse.tigerstripe.workbench">
+		<property name="archiveName"
+			value="tigerstripe-workbench-${buildLabel}.zip" />
+		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
+
+		<!-- Building the update site local image -->
+		<ant antfile="${scripts}/update-site.xml"
+			target="create-local-image" />
+
+		<!-- build the .zip files -->
+		<ant antfile="${scripts}/package.xml"
+			target="unpackUpdateJarsAndRepack" />
+		<ant antfile="${scripts}/package.xml" target="packageBundle" />
+		<antcall target="createChecksums">
+			<param name="archiveName" value="${archiveName}" />
+		</antcall>
+		<antcall target="createChecksums">
+			<param name="archiveName" value="bundle-${archiveName}" />
+		</antcall>
+
+		<dsite.addComponent file="${buildDescriptor}">
+			<component name="Tigerstripe Workbench"
+				summary="The end-user workbench">
+				<bundle name="tigerstripe-workbench-${buildLabel}.zip"
+					summary="Workbench Plugins only" size="18M"
+					link="@download.prefix@/tigerstripe-workbench-${buildLabel}.zip" />
+				<bundle
+					name="bundle-tigerstripe-workbench-${buildLabel}.zip" size="80M"
+					summary="Workbench Plugins + Required Plugins"
+					link="@download.prefix@/bundle-tigerstripe-workbench-${buildLabel}.zip" />
+			</component>
+		</dsite.addComponent>
+
+		<property
+			file="${buildDirectory}/finalFeaturesVersions.properties" />
+
+		<usite.addFeature sitefile="${local.site.descriptor}">
+			<feature
+				url="features/org.eclipse.tigerstripe.workbench_${org.eclipse.tigerstripe.workbench}.jar"
+				id="org.eclipse.tigerstripe.workbench"
+				version="${org.eclipse.tigerstripe.workbench}">
+				<category name="End-User Workbench" />
+			</feature>
+		</usite.addFeature>
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Check out map files from correct repository -->
+	<!-- Replace values for mapsCheckoutTag as desired. -->
+	<!-- ===================================================================== -->
+	<target name="getMapFiles" depends="checkLocalMaps"
+		unless="skipMaps">
+		<echo message="${mapsRepo}" />
+		<cvs cvsRoot="${mapsRepo}" package="${mapsRoot}"
+			dest="${buildDirectory}/maps" tag="${mapsCheckoutTag}" />
+	</target>
+
+	<target name="checkLocalMaps">
+		<available property="skipMaps" file="${buildDirectory}/maps" />
+	</target>
+
+	<target name="tagMapFiles" if="tagMaps">
+		<cvs dest="${buildDirectory}/maps/${mapsRoot}"
+			command="tag ${mapsTagTag}" />
+	</target>
+
+	<!-- ===================================================================== -->
+
+	<target name="clean" unless="noclean">
+		<antcall target="allElements">
+			<param name="target" value="cleanElement" />
+		</antcall>
+	</target>
+
+	<target name="gatherLogs">
+		<mkdir dir="${buildDirectory}/${buildLabel}/compilelogs" />
+		<antcall target="allElements">
+			<param name="target" value="gatherLogs" />
+		</antcall>
+		<unzip dest="${buildDirectory}/${buildLabel}/compilelogs"
+			overwrite="true">
+			<fileset dir="${buildDirectory}/features">
+				<include name="**/*.log.zip" />
+			</fileset>
+		</unzip>
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before setup -->
+	<!-- ===================================================================== -->
+	<target name="preSetup">
+		<echo message="Creating directories" />
+		<mkdir dir="${buildDirectory}" />
+		<mkdir dir="${artifacts.drops}" />
+		<mkdir dir="${artifacts.updates}" />
+
+
+		<antcall target="cleanBase" />
+	</target>
+
+	<target name="cleanBase" if="cleanBase">
+		<delete dir="${baseLocation}" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after setup but before starting the build proper -->
+	<!-- ===================================================================== -->
+	<target name="postSetup">
+		<echo message="Installing target SDK for build" />
+		<ant antfile="${scripts}/install.xml"
+			target="install-eclipse-sdk" inheritall="true" />
+		<ant antfile="${scripts}/install.xml"
+			target="install-required-plugins" inheritall="true" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before fetching the build elements -->
+	<!-- ===================================================================== -->
+	<target name="preFetch"></target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after fetching the build elements -->
+	<!-- ===================================================================== -->
+	<target name="postFetch">
+		<replace dir="${buildDirectory}/plugins" value="${buildId}"
+			token="@buildId@">
+			<include name="**/about.mappings" />
+		</replace>
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before generating the build scripts. -->
+	<!-- ===================================================================== -->
+	<target name="preGenerate"></target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after generating the build scripts. -->
+	<!-- ===================================================================== -->
+	<target name="postGenerate">
+		<antcall target="clean" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before running the build.xmls for the elements being built. -->
+	<!-- ===================================================================== -->
+	<target name="preProcess">
+		<ant antfile="javadoc.xml"
+			dir="${buildDirectory}/plugins/org.eclipse.tigerstripe.workbench.base/">
+		</ant>
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after running the build.xmls for the elements being built. -->
+	<!-- ===================================================================== -->
+	<target name="postProcess"></target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before running assemble. -->
+	<!-- ===================================================================== -->
+	<target name="preAssemble">
+		<!-- create the initial build descriptor, we'll complete it as we go -->
+		<dsite.newBuild file="${buildDescriptor}">
+			<build name="${buildLabel}" type="${buildType}"
+				tStamp="${timestamp}" stream="${stream}">
+				<dependency name="Required Plugins"
+					link="@download.prefix.direct@/plugin-dependencies-${buildId}.txt" />
+				<dependency name="Eclipse 3.3.x"
+					link="http://www.eclipse.org/downloads" />
+			</build>
+		</dsite.newBuild>
+
+		<!--  and pull down the Update Site descriptor -->
+		<mkdir dir="${local.site.image}" />
+		<scp file="${remote.site.descriptor}"
+			todir="${local.site.image}" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after  running assemble. -->
+	<!-- ===================================================================== -->
+	<target name="postAssemble"></target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do before running package. -->
+	<!-- ===================================================================== -->
+	<target name="prePackage"></target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after  running package. -->
+	<!-- ===================================================================== -->
+	<target name="postPackage"></target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do after the build is done. -->
+	<!-- ===================================================================== -->
+	<target name="postBuild">
+		<!--  		<ant antfile="${scripts}/package.xml" target="pack200" />-->
+		<antcall target="gatherLogs" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do to test the build results -->
+	<!-- ===================================================================== -->
+	<target name="test">
+		<property
+			file="${buildDirectory}/finalPluginsVersions.properties" />
+		<property name="test-archive"
+			value="Tigerstripe-base-test-${buildLabel}_${buildType}${date}.zip" />
+		<unzip dest="${baseLocation}/.."
+			src="${buildDirectory}/${buildLabel}/${test-archive}" />
+		<ant antfile="${scripts}/install.xml"
+			target="install-eclipse-test" inheritall="true" />
+		<ant antfile="${scripts}/install.xml"
+			target="install-ant-optional" inheritall="true" />
+		<unjar
+			src="${baseLocation}/plugins/org.eclipse.tigerstripe.workbench.base.test_${org.eclipse.tigerstripe.workbench.base.test}.jar"
+			dest="${baseLocation}/plugins/org.eclipse.tigerstripe.workbench.base.test_${org.eclipse.tigerstripe.workbench.base.test}" />
+		<delete
+			file="${baseLocation}/plugins/org.eclipse.tigerstripe.workbench.base.test_${org.eclipse.tigerstripe.workbench.base.test}.jar" />
+
+		<ant
+			antfile="${baseLocation}/plugins/org.eclipse.tigerstripe.workbench.base.test_${org.eclipse.tigerstripe.workbench.base.test}/test.xml"
+			target="run" dir="${baseLocation}">
+			<property name="os" value="${baseos}" />
+			<property name="ws" value="${basews}" />
+			<property name="arch" value="${basearch}" />
+			<property name="eclipse-home" value="${baseLocation}" />
+			<property name="report"
+				value="org.eclipse.tigerstripe.base.test.all" />
+		</ant>
+
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Steps to do to publish the build results -->
+	<!-- ===================================================================== -->
+	<target name="publish">
+		<!-- Publishing zip archive containing packed jars for update site -->
+		<copy file="${buildDirectory}/${buildLabel}/${archiveName}"
+			todir="${artifacts.updates}/${buildLabel}" />
+
+		<!-- Building the  -->
+
+		<!-- Unpacking jars to produce downloadable zips -->
+		<ant antfile="${scripts}/package.xml"
+			target="unpackUpdateJarsAndRepack" />
+		<ant antfile="${scripts}/package.xml" target="packageBundle" />
+		<ant antfile="${scripts}/package.xml" target="packageDistrib" />
+
+		<!-- Publishing downloadable bits -->
+		<move file="${buildDirectory}/${buildLabel}"
+			tofile="${artifacts.drops}/${buildLabel}" />
+
+		<ant antfile="${scripts}/updateInternalWebsite.xml"
+			target="upload-drop-details" />
+		<ant antfile="${scripts}/updateInternalWebsite.xml"
+			target="upload-internalSite" />
+	</target>
+
+	<target name="createChecksums">
+		<!-- This createChecksums task creates two files, for use in two contexts.
+			a. an x.md5 file, that has the name of the file in the contents.
+			This is good for some "third party" executables, like md5summ, that
+			expects the name in the file.
+			b. since ant does not deal well with md5 files with anything in them
+			other than the checksum, we provide same thing in a file with
+			an md5antformat extension, that has only the checksum.
+		-->
+		<mkdir dir="${buildDirectory}/${buildLabel}/checksum" />
+		<checksum file="${buildDirectory}/${buildLabel}/${archiveName}"
+			property="md5" />
+		<echo message="${md5} *${archiveName}"
+			file="${buildDirectory}/${buildLabel}/checksum/${archiveName}.md5" />
+		<echo message="${md5}"
+			file="${buildDirectory}/${buildLabel}/checksum/${archiveName}.md5antformat" />
+	</target>
+
+	<!-- ===================================================================== -->
+	<!-- Default target                                                        -->
+	<!-- ===================================================================== -->
+	<target name="noDefault">
+		<echo
+			message="You must specify a target when invoking this file" />
+	</target>
+
+</project>
+
+
