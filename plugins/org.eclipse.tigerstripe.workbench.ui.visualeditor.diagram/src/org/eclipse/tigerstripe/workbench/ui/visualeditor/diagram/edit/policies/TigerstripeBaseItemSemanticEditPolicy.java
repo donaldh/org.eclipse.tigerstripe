@@ -243,7 +243,7 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 		}
 
 		int index = 0;
-		
+
 		// compute aEnd name
 		String aEndName = unCapitalize(aEndType.getName());
 		if (tsProject != null) {
@@ -256,17 +256,18 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 				Set<IRelationship> existingZ = new HashSet<IRelationship>();
 				existingZ.addAll(session.getTerminatingRelationshipForFQN(
 						aEndType.getFullyQualifiedName(), true));
-				
+
 				Collection<IField> fields = new ArrayList<IField>();
-				IAbstractArtifact aArtifact = session.getArtifactByFullyQualifiedName(aEndType.getFullyQualifiedName());
-				if (aArtifact != null){
+				IAbstractArtifact aArtifact = session
+						.getArtifactByFullyQualifiedName(aEndType
+								.getFullyQualifiedName());
+				if (aArtifact != null) {
 					fields.addAll(aArtifact.getFields());
 					fields.addAll(aArtifact.getInheritedFields());
 				}
-				
-				
+
 				boolean found = false;
-				
+
 				String tmpName = aEndName;
 				do {
 					found = false;
@@ -280,7 +281,8 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 
 					if (!found) {
 						for (IRelationship rel : existingZ) {
-							// Check the *remote* End of any existing associations
+							// Check the *remote* End of any existing
+							// associations
 							if (tmpName.equals(rel.getRelationshipZEnd()
 									.getName())) {
 								found = true;
@@ -288,17 +290,16 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 							}
 						}
 					}
-					
+
 					if (!found) {
-						for (IField field : fields){
+						for (IField field : fields) {
 							if (tmpName.equals(field.getName())) {
 								found = true;
 								tmpName = aEndName + "_" + index++;
 							}
 						}
-						
+
 					}
-					
 
 				} while (found);
 				aEndName = tmpName;
@@ -325,16 +326,18 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 				Set<IRelationship> existingZ = new HashSet<IRelationship>();
 				existingZ.addAll(session.getTerminatingRelationshipForFQN(
 						zEndType.getFullyQualifiedName(), true));
-				
+
 				Collection<IField> fields = new ArrayList<IField>();
-				IAbstractArtifact zArtifact = session.getArtifactByFullyQualifiedName(aEndType.getFullyQualifiedName());
-				if (zArtifact != null){
+				IAbstractArtifact zArtifact = session
+						.getArtifactByFullyQualifiedName(aEndType
+								.getFullyQualifiedName());
+				if (zArtifact != null) {
 					fields.addAll(zArtifact.getFields());
 					fields.addAll(zArtifact.getInheritedFields());
 				}
-				
+
 				boolean found = false;
-				
+
 				String tmpName = zEndName;
 				do {
 					found = false;
@@ -353,16 +356,16 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 							}
 						}
 					}
-					
+
 					if (!found) {
-						for (IField field : fields){
+						for (IField field : fields) {
 							if (tmpName.equals(field.getName())) {
 								found = true;
 								tmpName = zEndName + "_" + index++;
 							}
 						}
 					}
-					
+
 				} while (found);
 				zEndName = tmpName;
 			} catch (TigerstripeException e) {
@@ -574,8 +577,8 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 
 		if (affectedFiles.get(0) instanceof IResource) {
 			IResource res = (IResource) affectedFiles.get(0);
-			IAbstractTigerstripeProject tsProject = EclipsePlugin
-					.getITigerstripeProjectFor(res.getProject());
+			IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) res
+					.getProject().getAdapter(IAbstractTigerstripeProject.class);
 			if (tsProject instanceof ITigerstripeModelProject)
 				return (ITigerstripeModelProject) tsProject;
 		}

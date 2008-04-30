@@ -24,7 +24,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
@@ -191,7 +190,8 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 
 			try {
 				if (e.getSource() == nameText) {
-					handle.getProjectDetails().setName(nameText.getText().trim());
+					handle.getProjectDetails().setName(
+							nameText.getText().trim());
 				} else if (e.getSource() == versionText) {
 					IProjectDetails details = handle.getProjectDetails();
 					details.setVersion(versionText.getText().trim());
@@ -204,7 +204,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 			} catch (TigerstripeException ee) {
 				Status status = new Status(
 						IStatus.ERROR,
-						TigerstripePluginConstants.PLUGIN_ID,
+						EclipsePlugin.getPluginId(),
 						222,
 						"Error refreshing form OssjDefaultForm on Tigerstripe descriptor",
 						ee);
@@ -239,7 +239,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 		} catch (TigerstripeException e) {
 			Status status = new Status(
 					IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID,
+					EclipsePlugin.getPluginId(),
 					222,
 					"Error refreshing form OssjDefaultForm on Tigerstripe descriptor",
 					e);

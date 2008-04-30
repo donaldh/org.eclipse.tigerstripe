@@ -28,7 +28,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.facetRefs.FacetReferencesPage;
@@ -139,8 +138,6 @@ public class SegmentEditor extends TigerstripeFormEditor {
 			// addPage(rulesPage);
 			// addModelPage(rulesPage);
 
-
-
 			// AdvancedConfigurationPage advPage = new
 			// AdvancedConfigurationPage( this );
 			// addPage( advPage );
@@ -170,9 +167,8 @@ public class SegmentEditor extends TigerstripeFormEditor {
 			try {
 				updateModelFromTextEditor();
 			} catch (TigerstripeException ee) {
-				Status status = new Status(IStatus.WARNING,
-						TigerstripePluginConstants.PLUGIN_ID, 111,
-						"Unexpected Exception", ee);
+				Status status = new Status(IStatus.WARNING, EclipsePlugin
+						.getPluginId(), 111, "Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}
 		}
@@ -190,9 +186,8 @@ public class SegmentEditor extends TigerstripeFormEditor {
 				try {
 					updateModelFromTextEditor();
 				} catch (TigerstripeException ee) {
-					Status status = new Status(IStatus.WARNING,
-							TigerstripePluginConstants.PLUGIN_ID, 111,
-							"Unexpected Exception", ee);
+					Status status = new Status(IStatus.WARNING, EclipsePlugin
+							.getPluginId(), 111, "Unexpected Exception", ee);
 					EclipsePlugin.log(status);
 				}
 			}
@@ -238,8 +233,8 @@ public class SegmentEditor extends TigerstripeFormEditor {
 			sourcePage.getDocumentProvider().getDocument(getEditorInput()).set(
 					handle.asText());
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
+			Status status = new Status(IStatus.ERROR, EclipsePlugin
+					.getPluginId(), 222,
 					"Error refreshing source page for Tigerstripe descriptor",
 					e);
 			EclipsePlugin.log(status);
@@ -255,8 +250,8 @@ public class SegmentEditor extends TigerstripeFormEditor {
 			handle.parse(reader);
 			refreshModelPages();
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
+			Status status = new Status(IStatus.ERROR, EclipsePlugin
+					.getPluginId(), 222,
 					"Error refreshing model pages for Tigerstripe descriptor",
 					e);
 			EclipsePlugin.log(status);

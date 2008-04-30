@@ -24,6 +24,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -116,6 +118,17 @@ public abstract class AbstractTigerstripeProjectHandle extends
 		if (adapter == IProject.class) {
 			try {
 				return getIProject(this);
+			} catch (TigerstripeException e) {
+				return null;
+			}
+		} else if (adapter == IJavaProject.class) {
+			try {
+				IProject project = getIProject(this);
+				
+				// Note that this will be null for the PhantomProject
+				if (project != null) {
+					return JavaCore.create(project);
+				}
 			} catch (TigerstripeException e) {
 				return null;
 			}

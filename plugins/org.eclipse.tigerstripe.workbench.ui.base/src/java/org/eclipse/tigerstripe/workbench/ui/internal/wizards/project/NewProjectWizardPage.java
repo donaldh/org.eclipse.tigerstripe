@@ -42,8 +42,8 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GeneralPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GenerationPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.NewProjectHelper;
@@ -397,7 +397,7 @@ public class NewProjectWizardPage extends WizardPage {
 							getProjectHandle(), monitor);
 					// Add the proper natures
 					NewProjectHelper.addTSandJavaNature(getProjectHandle(),
-							TigerstripePluginConstants.PROJECT_NATURE_ID);
+							BuilderConstants.PROJECT_NATURE_ID);
 					NewProjectDetails details = getProjectNewProjectDetails();
 					details.reqModules = requiredModules;
 					NewProjectHelper.createProjectContent(

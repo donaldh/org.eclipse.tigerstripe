@@ -43,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorHelper;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -198,7 +199,7 @@ public class ProfileDetailsDialog extends Dialog {
 							monitor.beginTask("Resetting profile...", 10);
 
 							monitor.subTask("Closing all editors");
-							EclipsePlugin.closeAllEditors(true, true, false,
+							EditorHelper.closeAllEditors(true, true, false,
 									false, true);
 							monitor.worked(2);
 
@@ -328,7 +329,7 @@ public class ProfileDetailsDialog extends Dialog {
 												10);
 
 										monitor.subTask("Closing all editors");
-										EclipsePlugin.closeAllEditors(true,
+										EditorHelper.closeAllEditors(true,
 												true, false, false, true);
 										monitor.worked(2);
 

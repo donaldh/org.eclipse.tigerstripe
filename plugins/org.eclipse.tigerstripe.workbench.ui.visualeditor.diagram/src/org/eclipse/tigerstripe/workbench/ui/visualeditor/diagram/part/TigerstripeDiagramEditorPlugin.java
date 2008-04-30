@@ -32,7 +32,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.ui.internal.install.PostInstallActions;
+import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.provider.VisualeditorItemProviderAdapterFactory;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

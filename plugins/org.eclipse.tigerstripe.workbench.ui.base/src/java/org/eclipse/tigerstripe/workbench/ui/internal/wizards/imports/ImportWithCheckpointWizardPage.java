@@ -57,7 +57,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpoint;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.TSRuntimeBasedWizardPage;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 
@@ -209,10 +208,8 @@ public class ImportWithCheckpointWizardPage extends TSRuntimeBasedWizardPage {
 									"The reference project '"
 											+ ref.getProjectLabel()
 											+ "' does not contain a valid checkpoint.\n Please make sure the reference project was an import of the same type.\n",
-									new Status(
-											IStatus.ERROR,
-											TigerstripePluginConstants.PLUGIN_ID,
-											222, msg, null));
+									new Status(IStatus.ERROR, EclipsePlugin
+											.getPluginId(), 222, msg, null));
 					return false;
 				}
 				return true;
@@ -240,9 +237,9 @@ public class ImportWithCheckpointWizardPage extends TSRuntimeBasedWizardPage {
 	 */
 	public ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		if (getPackageFragmentRoot() != null)
-			return (ITigerstripeModelProject) EclipsePlugin
-					.getITigerstripeProjectFor(getPackageFragmentRoot()
-							.getJavaProject().getProject());
+			return (ITigerstripeModelProject) getPackageFragmentRoot()
+					.getJavaProject().getProject().getAdapter(
+							ITigerstripeModelProject.class);
 		else
 			return null;
 	}
@@ -256,9 +253,8 @@ public class ImportWithCheckpointWizardPage extends TSRuntimeBasedWizardPage {
 	public ITigerstripeModelProject getReferenceTSProject()
 			throws TigerstripeException {
 		if (refWorkspaceRoot != null)
-			return (ITigerstripeModelProject) EclipsePlugin
-					.getITigerstripeProjectFor(refWorkspaceRoot
-							.getJavaProject().getProject());
+			return (ITigerstripeModelProject) refWorkspaceRoot.getJavaProject()
+					.getProject().getAdapter(ITigerstripeModelProject.class);
 		else
 			return null;
 	}

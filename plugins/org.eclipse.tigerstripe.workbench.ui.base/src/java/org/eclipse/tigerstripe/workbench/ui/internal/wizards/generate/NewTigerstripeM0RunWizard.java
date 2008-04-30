@@ -36,7 +36,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationExce
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M0Generator;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M0RunConfig;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.GenerateResultDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.NewTSElementWizard;
@@ -97,7 +96,7 @@ public class NewTigerstripeM0RunWizard extends NewTSElementWizard {
 		} catch (GenerationException e) {
 			Status status = new Status(
 					IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID,
+					EclipsePlugin.getPluginId(),
 					222,
 					"An error was detected while generating a Tigerstripe project. Generation maybe incomplete.",
 					e);
@@ -109,7 +108,7 @@ public class NewTigerstripeM0RunWizard extends NewTSElementWizard {
 		} catch (TigerstripeException e) {
 			Status status = new Status(
 					IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID,
+					EclipsePlugin.getPluginId(),
 					222,
 					"An error was detected while generating a Tigerstripe project. Generation maybe incomplete.",
 					e);

@@ -23,7 +23,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.SegmentEditor;
@@ -180,7 +179,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 			} catch (TigerstripeException ee) {
 				Status status = new Status(
 						IStatus.ERROR,
-						TigerstripePluginConstants.PLUGIN_ID,
+						EclipsePlugin.getPluginId(),
 						222,
 						"Error refreshing form OssjDefaultForm on Tigerstripe descriptor",
 						ee);
@@ -219,7 +218,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 		} catch (TigerstripeException e) {
 			Status status = new Status(
 					IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID,
+					EclipsePlugin.getPluginId(),
 					222,
 					"Error refreshing form OssjDefaultForm on Tigerstripe descriptor",
 					e);

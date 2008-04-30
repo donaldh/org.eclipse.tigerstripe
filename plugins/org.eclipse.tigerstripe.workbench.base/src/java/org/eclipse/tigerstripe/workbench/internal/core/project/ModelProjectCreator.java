@@ -30,10 +30,10 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 
 public class ModelProjectCreator extends BaseProjectCreator implements
@@ -52,7 +52,7 @@ public class ModelProjectCreator extends BaseProjectCreator implements
 				createBaseProject(projectDetails, location, monitor);
 
 				// Add the Appropriate Natures
-				addTSandJavaNature(TigerstripeCore.MODELPROJECT_NATURE_ID);
+				addTSandJavaNature(BuilderConstants.PROJECT_NATURE_ID);
 
 				// And create the content and descriptor
 				try {

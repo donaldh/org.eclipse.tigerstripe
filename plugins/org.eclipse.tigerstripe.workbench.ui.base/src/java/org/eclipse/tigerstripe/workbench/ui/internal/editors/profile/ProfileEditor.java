@@ -33,7 +33,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAcce
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchProfileRole;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.artifacts.ArtifactsPage;
@@ -88,7 +87,8 @@ public class ProfileEditor extends TigerstripeFormEditor {
 			if (getEditorInput() instanceof FileEditorInput) {
 				IFile file = ((FileEditorInput) getEditorInput()).getFile();
 				try {
-					profile = (WorkbenchProfile) TigerstripeCore.getWorkbenchProfileSession()
+					profile = (WorkbenchProfile) TigerstripeCore
+							.getWorkbenchProfileSession()
 							.getWorkbenchProfileFor(
 									file.getLocation().toOSString());
 				} catch (TigerstripeException e) {
@@ -155,7 +155,6 @@ public class ProfileEditor extends TigerstripeFormEditor {
 				// addPage(rulesPage);
 				// addModelPage(rulesPage);
 
-				
 				// addPage( pubPage );
 				// addModelPage( pubPage );
 
@@ -188,9 +187,8 @@ public class ProfileEditor extends TigerstripeFormEditor {
 			try {
 				updateModelFromTextEditor();
 			} catch (TigerstripeException ee) {
-				Status status = new Status(IStatus.WARNING,
-						TigerstripePluginConstants.PLUGIN_ID, 111,
-						"Unexpected Exception", ee);
+				Status status = new Status(IStatus.WARNING, EclipsePlugin
+						.getPluginId(), 111, "Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}
 		}
@@ -209,9 +207,8 @@ public class ProfileEditor extends TigerstripeFormEditor {
 				try {
 					updateModelFromTextEditor();
 				} catch (TigerstripeException ee) {
-					Status status = new Status(IStatus.WARNING,
-							TigerstripePluginConstants.PLUGIN_ID, 111,
-							"Unexpected Exception", ee);
+					Status status = new Status(IStatus.WARNING, EclipsePlugin
+							.getPluginId(), 111, "Unexpected Exception", ee);
 					EclipsePlugin.log(status);
 				}
 			}
@@ -275,8 +272,8 @@ public class ProfileEditor extends TigerstripeFormEditor {
 			sourcePage.getDocumentProvider().getDocument(getEditorInput()).set(
 					handle.asText());
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
+			Status status = new Status(IStatus.ERROR, EclipsePlugin
+					.getPluginId(), 222,
 					"Error refreshing source page for Tigerstripe descriptor",
 					e);
 			EclipsePlugin.log(status);
@@ -292,8 +289,8 @@ public class ProfileEditor extends TigerstripeFormEditor {
 			handle.parse(reader);
 			refreshModelPages();
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
+			Status status = new Status(IStatus.ERROR, EclipsePlugin
+					.getPluginId(), 222,
 					"Error refreshing model pages for Tigerstripe descriptor",
 					e);
 			EclipsePlugin.log(status);

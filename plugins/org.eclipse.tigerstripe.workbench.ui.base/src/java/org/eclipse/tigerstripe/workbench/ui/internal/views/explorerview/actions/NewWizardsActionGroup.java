@@ -31,6 +31,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
@@ -63,8 +65,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageWizar
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewQueryArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewSessionArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewUpdateProcedureArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.natures.TigerstripePluginProjectNature;
-import org.eclipse.tigerstripe.workbench.ui.internal.natures.TigerstripeProjectNature;
 import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.actions.NewProjectAction;

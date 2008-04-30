@@ -29,7 +29,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.ui.actions.SelectionListenerAction;
 
@@ -156,9 +156,9 @@ public abstract class AbstractLogicalNodeAction extends SelectionListenerAction 
 										internalRun(monitor);
 									} catch (TigerstripeException ee) {
 										Status status = new Status(
-												IStatus.ERROR,
-												TigerstripePluginConstants.PLUGIN_ID,
-												222, ee.getLocalizedMessage(),
+												IStatus.ERROR, EclipsePlugin
+														.getPluginId(), 222, ee
+														.getLocalizedMessage(),
 												ee);
 										throw new CoreException(status);
 									}

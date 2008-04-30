@@ -35,7 +35,6 @@ import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReferenc
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.SchedulingUtils;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
@@ -90,14 +89,11 @@ public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 								try {
 									monitor.beginTask("Applying Facet",
 											IProgressMonitor.UNKNOWN);
-									targetProject
-											.setActiveFacet(ref, monitor);
+									targetProject.setActiveFacet(ref, monitor);
 									monitor.done();
 								} catch (TigerstripeException e) {
-									IStatus status = new Status(
-											IStatus.ERROR,
-											TigerstripePluginConstants.PLUGIN_ID,
-											222,
+									IStatus status = new Status(IStatus.ERROR,
+											EclipsePlugin.getPluginId(), 222,
 											"An exception was detected while trying to activate facet: "
 													+ e.getMessage(), e);
 									EclipsePlugin.log(status);
@@ -107,12 +103,12 @@ public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 						});
 						if (!fPred.isConsistent()) {
 							MultiStatus status = new MultiStatus(
-									TigerstripePluginConstants.PLUGIN_ID,
+									EclipsePlugin.getPluginId(),
 									222,
 									"Inconsistent Facet: while resolving the facet scope, Inconsistencies were detected in the resulting model.",
 									null);
-							for (IStatus error : fPred
-									.getInconsistencies().getChildren()) {
+							for (IStatus error : fPred.getInconsistencies()
+									.getChildren()) {
 								status.add(error);
 							}
 							return status;
@@ -122,8 +118,8 @@ public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 
 				};
 
-				IProject iTargetProject = EclipsePlugin
-						.getIProject(targetProject);
+				IProject iTargetProject = (IProject) targetProject
+						.getAdapter(IProject.class);
 				if (iTargetProject != null) {
 					List<IResource> projects = new ArrayList<IResource>();
 					projects.add(iTargetProject);
@@ -174,8 +170,8 @@ public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 		if (selection.getFirstElement() instanceof IFile) {
 			IFile targetResource = (IFile) selection.getFirstElement();
 			iProject = targetResource.getProject();
-			IAbstractTigerstripeProject tsProject = EclipsePlugin
-					.getITigerstripeProjectFor(iProject);
+			IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) iProject
+					.getAdapter(IAbstractTigerstripeProject.class);
 			if (tsProject instanceof ITigerstripeModelProject) {
 				targetProject = (ITigerstripeModelProject) tsProject;
 				if (IContractSegment.FILE_EXTENSION.equals(targetResource

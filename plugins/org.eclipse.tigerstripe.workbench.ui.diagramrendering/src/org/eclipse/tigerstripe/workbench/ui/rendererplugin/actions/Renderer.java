@@ -116,9 +116,9 @@ public class Renderer implements IDiagramRenderer {
 				.getFileForLocation(imagePath);
 		IProject diagramProject = diagramFile.getProject();
 		ITigerstripeModelProject tmpTsProject = null;
-		if (EclipsePlugin.getITigerstripeProjectFor(diagramProject) instanceof ITigerstripeModelProject) {
-			tmpTsProject = (ITigerstripeModelProject) EclipsePlugin
-					.getITigerstripeProjectFor(diagramProject);
+		if (diagramProject.getAdapter(ITigerstripeModelProject.class) instanceof ITigerstripeModelProject) {
+			tmpTsProject = (ITigerstripeModelProject) diagramProject
+					.getAdapter(ITigerstripeModelProject.class);
 		} else
 			throw new TigerstripeException("Diagram not in Tigerstripe project");
 		final ITigerstripeModelProject tsProject = tmpTsProject;

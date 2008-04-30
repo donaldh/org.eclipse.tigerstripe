@@ -27,7 +27,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -217,8 +216,8 @@ public class PluginLogSection extends GeneratorDescriptorSectionPart {
 
 			setSilentUpdate(false);
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
+			Status status = new Status(IStatus.ERROR, EclipsePlugin
+					.getPluginId(), 222,
 					"Error refreshing Logger details on plugin descriptor", e);
 			EclipsePlugin.log(status);
 		}

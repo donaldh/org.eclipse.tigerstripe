@@ -130,7 +130,8 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 	}
 
 	private String chooseType(String dialogTitle, String dialogMessage) {
-		IJavaProject jProject = EclipsePlugin.getIJavaProject(getPPProject());
+		IJavaProject jProject = (IJavaProject) getPPProject().getAdapter(
+				IJavaProject.class);
 		try {
 			IPackageFragmentRoot[] roots = jProject
 					.getAllPackageFragmentRoots();

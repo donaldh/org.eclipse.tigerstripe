@@ -18,7 +18,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -26,7 +25,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.AttributeRef;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -90,68 +88,44 @@ public class WizardUtils {
 				IField field = (IField) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) field
 						.getContainingArtifact();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null)
-						selectedElement = obj;
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
-				}
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null)
+					selectedElement = obj;
 			} else if (selectedElement instanceof IMethod) {
 				IMethod meth = (IMethod) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) meth
 						.getContainingArtifact();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null)
-						selectedElement = obj;
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
-				}
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null)
+					selectedElement = obj;
 			} else if (selectedElement instanceof ILiteral) {
 				ILiteral la = (ILiteral) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) la
 						.getContainingArtifact();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null)
-						selectedElement = obj;
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
-				}
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null)
+					selectedElement = obj;
 			} else if (selectedElement instanceof AssociationEnd) {
 				AssociationEnd la = (AssociationEnd) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) la
 						.getContainingArtifact();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null)
-						selectedElement = obj;
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
-				}
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null)
+					selectedElement = obj;
 			} else if (selectedElement instanceof DependencyEnd) {
 				DependencyEnd la = (DependencyEnd) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) la
 						.getContainingRelationship();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null)
-						selectedElement = obj;
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
-				}
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null)
+					selectedElement = obj;
 			} else if (selectedElement instanceof DependencyEnd) {
 				DependencyEnd la = (DependencyEnd) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) la
 						.getContainingRelationship();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null) {
-						selectedElement = obj;
-					}
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null) {
+					selectedElement = obj;
 				}
 			}
 

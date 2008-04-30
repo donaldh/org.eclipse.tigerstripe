@@ -23,13 +23,10 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TestProjectManagement extends TestCase {
-
-	public void testFindProject() {
-		fail("Not yet implemented");
-	}
 
 	public void testCreateModelProject() throws TigerstripeException,
 			CoreException {
@@ -68,7 +65,7 @@ public class TestProjectManagement extends TestCase {
 
 		IResource proj = workspace.getRoot().findMember(
 				"testRemoveModelProject");
-		assertNotNull(project);
+		assertNotNull(proj);
 		proj.delete(true, new NullProgressMonitor());
 
 		IAbstractTigerstripeProject tsProject = TigerstripeCore
@@ -86,6 +83,28 @@ public class TestProjectManagement extends TestCase {
 		Collection<Class> supportedTypes = TigerstripeCore
 				.getSupportedProjectTypes();
 		assertTrue(supportedTypes.size() != 0);
+	}
+
+	public void testCreateM1GeneratorProject() throws TigerstripeException,
+			CoreException {
+		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
+		projectDetails.setName("testCreateM1GeneratorProject");
+
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IAbstractTigerstripeProject project = TigerstripeCore.createProject(
+				projectDetails, null, ITigerstripeM1GeneratorProject.class,
+				null, new NullProgressMonitor());
+		assertNotNull(project);
+
+		IResource proj = workspace.getRoot().findMember(
+				"testCreateM1GeneratorProject");
+		assertNotNull(proj);
+
+		ITigerstripeM1GeneratorProject m1Proj = (ITigerstripeM1GeneratorProject) proj
+				.getAdapter(ITigerstripeM1GeneratorProject.class);
+		assertNotNull(m1Proj);
+
+		proj.delete(true, new NullProgressMonitor());
 	}
 
 }

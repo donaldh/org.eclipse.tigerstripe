@@ -33,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
+import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -41,8 +42,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.WorkspaceListener;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractArtifactExtendsEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractArtifactImplementsEditPart;
@@ -248,9 +247,9 @@ public class TSRemoveFromModelAction extends BaseDiagramPartAction implements
 						} else if (component instanceof ILiteral) {
 							ILiteral literal = (ILiteral) component;
 							ILiteralRemoveRequest aReq = (ILiteralRemoveRequest) updater
-									.getRequestFactory()
-									.makeRequest(
-											ILiteralRemoveRequest.class.getName());
+									.getRequestFactory().makeRequest(
+											ILiteralRemoveRequest.class
+													.getName());
 							aReq.setArtifactFQN(literal.getContainingArtifact()
 									.getFullyQualifiedName());
 							aReq.setLiteralName(literal.getName());
@@ -273,8 +272,8 @@ public class TSRemoveFromModelAction extends BaseDiagramPartAction implements
 							// corresponding
 							// POJO when an artifact is removed from the Art
 							// Mgr.
-							IResource res = TSExplorerUtils
-									.getIResourceForArtifact(((IAbstractArtifact) component));
+							IResource res = (IResource) ((IAbstractArtifact) component)
+									.getAdapter(IResource.class);
 							if (res != null) {
 								try {
 									res.delete(true, new NullProgressMonitor());

@@ -65,14 +65,14 @@ public class OpenModuleExportWizardAction extends AbstractOpenWizardAction {
 			locallyDisabled = true;
 		} else if (ssel != null && ssel.getFirstElement() instanceof IResource) {
 			IResource res = (IResource) ssel.getFirstElement();
-			if (!(EclipsePlugin.getITigerstripeProjectFor(res.getProject()) instanceof ITigerstripeModelProject))
+			if (!(res.getProject().getAdapter(ITigerstripeModelProject.class) instanceof ITigerstripeModelProject))
 				locallyDisabled = true;
 		} else if (ssel != null
 				&& ssel.getFirstElement() instanceof IJavaElement) {
 			IJavaElement elm = (IJavaElement) ssel.getFirstElement();
 			if (elm.getResource() != null
-					&& !(EclipsePlugin.getITigerstripeProjectFor(elm
-							.getResource().getProject()) instanceof ITigerstripeModelProject))
+					&& !(elm.getResource().getProject().getAdapter(
+							ITigerstripeModelProject.class) instanceof ITigerstripeModelProject))
 				locallyDisabled = true;
 		}
 		if (locallyDisabled)

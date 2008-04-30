@@ -21,7 +21,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAcce
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class BasePluginActionDelegate {
@@ -52,14 +51,17 @@ public class BasePluginActionDelegate {
 		if (obj instanceof IResource) {
 			IResource res = (IResource) obj;
 			IProject proj = res.getProject();
-			tsProject = EclipsePlugin.getITigerstripeProjectFor(proj);
+			tsProject = (IAbstractTigerstripeProject) proj
+					.getAdapter(IAbstractTigerstripeProject.class);
 			if (tsProject instanceof ITigerstripeM1GeneratorProject)
 				return (ITigerstripeM1GeneratorProject) tsProject;
-		} else if ( obj instanceof IAdaptable ) {
-			IResource res = (IResource) ((IAdaptable) obj).getAdapter(IResource.class);
-			if ( res != null ) {
+		} else if (obj instanceof IAdaptable) {
+			IResource res = (IResource) ((IAdaptable) obj)
+					.getAdapter(IResource.class);
+			if (res != null) {
 				IProject proj = res.getProject();
-				tsProject = EclipsePlugin.getITigerstripeProjectFor(proj);
+				tsProject = (IAbstractTigerstripeProject) proj
+						.getAdapter(IAbstractTigerstripeProject.class);
 				if (tsProject instanceof ITigerstripeM1GeneratorProject)
 					return (ITigerstripeM1GeneratorProject) tsProject;
 			}

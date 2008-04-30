@@ -34,7 +34,6 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -46,7 +45,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchP
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorHelper;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEditor;
@@ -126,7 +125,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createID(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "ID: ", SWT.WRAP);
+		toolkit.createLabel(parent, "ID: ", SWT.WRAP);
 		FileEditorInput input = (FileEditorInput) getPage().getEditorInput();
 		idText = toolkit.createText(parent, input.getFile().getName());
 		idText.setEnabled(false);
@@ -138,7 +137,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createName(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Name: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Name: ", SWT.WRAP);
 		nameText = toolkit.createText(parent, "");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		nameText.setLayoutData(td);
@@ -149,7 +148,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createVersion(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Version: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Version: ", SWT.WRAP);
 		versionText = toolkit.createText(parent, "");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		versionText.setLayoutData(td);
@@ -160,7 +159,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createDescription(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Description: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Description: ", SWT.WRAP);
 		descriptionText = toolkit.createText(parent, "", SWT.WRAP | SWT.MULTI
 				| SWT.V_SCROLL);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -281,8 +280,8 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 										"Deploying new Active Profile", 10);
 
 								monitor.subTask("Closing all editors");
-								EclipsePlugin.closeAllEditors(true, true,
-										false, false, true);
+								EditorHelper.closeAllEditors(true, true, false,
+										false, true);
 								monitor.worked(2);
 
 								IWorkbenchProfileSession session = TigerstripeCore
@@ -413,7 +412,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 							monitor.beginTask("Rolling back...", 10);
 
 							monitor.subTask("Closing all editors");
-							EclipsePlugin.closeAllEditors(true, true, false,
+							EditorHelper.closeAllEditors(true, true, false,
 									false, true);
 							monitor.worked(2);
 
@@ -487,7 +486,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 							monitor.beginTask("Resetting profile...", 10);
 
 							monitor.subTask("Closing all editors");
-							EclipsePlugin.closeAllEditors(true, true, false,
+							EditorHelper.closeAllEditors(true, true, false,
 									false, true);
 							monitor.worked(2);
 
@@ -574,8 +573,8 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					.getEditorInput();
 
 			try {
-				WorkbenchProfile handle = (WorkbenchProfile) TigerstripeCore.getWorkbenchProfileSession()
-						.getWorkbenchProfileFor(
+				WorkbenchProfile handle = (WorkbenchProfile) TigerstripeCore
+						.getWorkbenchProfileSession().getWorkbenchProfileFor(
 								input.getFile().getLocation().toOSString());
 
 				if (e.getSource() == nameText) {
@@ -588,7 +587,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 			} catch (TigerstripeException ee) {
 				Status status = new Status(
 						IStatus.ERROR,
-						TigerstripePluginConstants.PLUGIN_ID,
+						EclipsePlugin.getPluginId(),
 						222,
 						"Error refreshing form OssjDefaultForm on Tigerstripe descriptor",
 						ee);
@@ -627,7 +626,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 		} catch (TigerstripeException e) {
 			Status status = new Status(
 					IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID,
+					EclipsePlugin.getPluginId(),
 					222,
 					"Error refreshing form OssjDefaultForm on Tigerstripe descriptor",
 					e);

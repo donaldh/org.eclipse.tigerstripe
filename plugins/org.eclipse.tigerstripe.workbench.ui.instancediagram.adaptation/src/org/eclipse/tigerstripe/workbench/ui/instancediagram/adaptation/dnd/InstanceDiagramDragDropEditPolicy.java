@@ -42,7 +42,6 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.commands.PostCreationModelUpdateCommand;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers.InstanceDiagramMapHelper;
@@ -166,8 +165,8 @@ public class InstanceDiagramDragDropEditPolicy extends
 		IResource res = (IResource) domain.getEditorPart().getEditorInput()
 				.getAdapter(IResource.class);
 
-		ITigerstripeModelProject project = (ITigerstripeModelProject) EclipsePlugin
-				.getITigerstripeProjectFor(res.getProject());
+		ITigerstripeModelProject project = (ITigerstripeModelProject) res
+				.getProject().getAdapter(ITigerstripeModelProject.class);
 
 		PostCreationModelUpdateCommand postCreateCommand = new PostCreationModelUpdateCommand(
 				editingDomain, viewDescriptors, dropRequest.getObjects(),

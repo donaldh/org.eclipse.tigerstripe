@@ -15,4 +15,116 @@
 <toc file="doc/apiToc.xml" primary="true">
       </toc>
 </extension>
+   <extension
+         id="tigerstripeProject"
+         name="Tigerstripe Project"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run class="org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature"/>
+      </runtime>
+      <builder id="org.eclipse.tigerstripe.workbench.base.tigerstripeProjectAuditor"/>
+   </extension>
+   <extension
+         id="tigerstripeProjectAuditor"
+         name="Tigerstripe Project Auditor"
+         point="org.eclipse.core.resources.builders">
+      <builder hasNature="true">
+         <run class="org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor"/>
+      </builder>
+   </extension>
+   <extension
+         id="auditmarker"
+         name="Tigerstripe Audit Marker"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="true"/>
+   </extension>
+   <extension
+         id="tigerstripePluginProject"
+         name="Tigerstripe Plugin Project"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run class="org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature"/>
+      </runtime>
+      <builder id="org.eclipse.tigerstripe.workbench.base.pluggablePluginProjectAuditor"/>
+   </extension>
+   <extension
+         id="pluggablePluginProjectAuditor"
+         name="Tigerstripe Plugin Auditor"
+         point="org.eclipse.core.resources.builders">
+      <builder hasNature="true">
+         <run class="org.eclipse.tigerstripe.workbench.internal.builder.generator.PluggablePluginProjectAuditor"/>
+      </builder>
+   </extension>
+   <extension
+         name="Tigerstripe Adapter Factories"
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.core.resources.IAdaptable"
+            class="org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeResourceAdapterFactory">
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.core.resources.IResource"
+            class="org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeResourceAdapterFactory">
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.core.resources.IJavaElement"
+            class="org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeJavaAdapterFactory">
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject">
+         </adapter>
+         <adapter
+                type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+          </adapter>
+      </factory>
+   </extension>
+
 </plugin>

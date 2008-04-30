@@ -53,22 +53,17 @@ public class TestModelProjectLifecycle extends TestCase {
 						null, new NullProgressMonitor());
 		assertNotNull(project);
 
-		IProjectDetails details = project.getProjectDetails();
-		details.setName("changed");
-
-		// make sure we actually got a working object for that field
-		assertTrue(project.getProjectDetails().getName().equals(
-				"testSetOnOriginal"));
-
+		assertTrue(!project.isWorkingCopy());
+		
 		try {
-			project.setProjectDetails(details);
+			project.getProjectDetails().setName("changed");
 			fail("Shouldn't allow to set project details on original.");
 		} catch (WorkingCopyException e) {
 			// let's try on a working copy now
 			ITigerstripeModelProject workingCopy = (ITigerstripeModelProject) project
 					.makeWorkingCopy(null);
 			try {
-				workingCopy.setProjectDetails(details);
+				workingCopy.getProjectDetails().setName("NowChanged");
 			} catch (WorkingCopyException ee) {
 				fail("Set on working copy shouldn't fail.");
 			}
@@ -76,7 +71,7 @@ public class TestModelProjectLifecycle extends TestCase {
 			workingCopy.commit(null);
 
 			IProjectDetails finalDetails = project.getProjectDetails();
-			assertTrue(finalDetails.getName().equals("changed"));
+			assertTrue(finalDetails.getName().equals("NowChanged"));
 		}
 	}
 

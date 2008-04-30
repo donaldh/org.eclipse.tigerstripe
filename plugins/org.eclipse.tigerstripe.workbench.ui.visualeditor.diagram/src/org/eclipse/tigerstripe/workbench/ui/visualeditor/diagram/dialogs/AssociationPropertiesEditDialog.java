@@ -61,7 +61,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggr
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.NewTSMessageDialog;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
@@ -147,8 +146,8 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 				.getEditDomain();
 		IResource res = (IResource) domain.getEditorPart().getEditorInput()
 				.getAdapter(IResource.class);
-		IAbstractTigerstripeProject aProject = EclipsePlugin
-				.getITigerstripeProjectFor(res.getProject());
+		IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) res
+				.getProject().getAdapter(IAbstractTigerstripeProject.class);
 		if (!(aProject instanceof ITigerstripeModelProject))
 			throw new RuntimeException("non-Tigerstripe Project found");
 		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;

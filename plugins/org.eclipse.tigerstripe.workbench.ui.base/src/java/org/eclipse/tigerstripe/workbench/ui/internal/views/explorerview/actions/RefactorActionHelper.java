@@ -28,10 +28,10 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -104,7 +104,8 @@ public class RefactorActionHelper {
 		// Figure out the list of projects to refresh
 		for (ArtifactUnitPair pair : selectedArtifacts) {
 			if (!pair.unit.exists()) {
-				ITigerstripeModelProject prj = pair.artifact.getTigerstripeProject();
+				ITigerstripeModelProject prj = pair.artifact
+						.getTigerstripeProject();
 				if (prj != null) {
 					projectsToRefresh.add(prj);
 				}
@@ -118,8 +119,8 @@ public class RefactorActionHelper {
 				if (project != null) {
 					project.getArtifactManagerSession().refresh(true, monitor);
 
-					IJavaProject jProject = EclipsePlugin
-							.getIJavaProject(project);
+					IJavaProject jProject = (IJavaProject) project
+							.getAdapter(IJavaProject.class);
 					final IProject iProject = jProject.getProject();
 
 					new Job("Tigerstripe Project Audit") {

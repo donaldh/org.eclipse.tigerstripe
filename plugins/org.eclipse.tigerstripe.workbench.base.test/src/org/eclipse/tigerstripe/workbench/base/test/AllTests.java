@@ -13,6 +13,9 @@ package org.eclipse.tigerstripe.workbench.base.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicM1ProjectAuditor;
+import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicModelProjectAuditor;
+import org.eclipse.tigerstripe.workbench.base.test.generation.TestM1Generation;
 import org.eclipse.tigerstripe.workbench.base.test.generation.TestProjectGenerationBasics;
 import org.eclipse.tigerstripe.workbench.base.test.migration.TestArtifactRefactor;
 import org.eclipse.tigerstripe.workbench.base.test.migration.TestFieldMigration;
@@ -22,8 +25,11 @@ import org.eclipse.tigerstripe.workbench.base.test.model.TestArtifacts;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestFields;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestLiterals;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestMethods;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectContents;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestModelProjectLifecycle;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectBasics;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestProjectManagement;
+import org.eclipse.tigerstripe.workbench.base.test.startup.TestStartup;
 
 public class AllTests {
 
@@ -31,11 +37,21 @@ public class AllTests {
 		TestSuite suite = new TestSuite(
 				"Test for org.eclipse.tigerstripe.workbench.base.test");
 		// $JUnit-BEGIN$
+
+		// Startup Tests
+		suite.addTestSuite(TestStartup.class);
+
 		suite.addTestSuite(TestTigerstripeCore.class);
 
 		// Basic project operations
 		suite.addTestSuite(TestProjectManagement.class);
 		suite.addTestSuite(TestModelProjectLifecycle.class);
+		suite.addTestSuite(TestM1ProjectBasics.class);
+		suite.addTestSuite(TestM1ProjectContents.class);
+
+		// Builder tests
+		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
+		suite.addTestSuite(TestBasicModelProjectAuditor.class);
 
 		// Metamodel migration test
 		suite.addTestSuite(TestArtifactRefactor.class);
@@ -45,6 +61,7 @@ public class AllTests {
 
 		// Generation Tests
 		suite.addTestSuite(TestProjectGenerationBasics.class);
+		suite.addTestSuite(TestM1Generation.class);
 
 		// Model operations
 		// suite.addTestSuite(TestModelManager.class); // None of these are

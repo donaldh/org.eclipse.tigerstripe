@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -41,28 +40,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 public class TSExplorerUtils {
-
-	public static IResource getIResourceForArtifact(IAbstractArtifact artifact)
-			throws TigerstripeException {
-		AbstractArtifact art = (AbstractArtifact) artifact;
-		String artifactPath = art.getArtifactPath();
-
-		if (artifactPath == null)
-			throw new TigerstripeException("Unknown path for "
-					+ artifact.getFullyQualifiedName()); // this happens for
-		// artifacts in
-		// modules.
-
-		IJavaProject jProject = EclipsePlugin.getIJavaProject(artifact
-				.getTigerstripeProject());
-		if (jProject == null)
-			// This will happen when considering artifact from Phantom Project
-			throw new TigerstripeException("Unknown path for "
-					+ artifact.getFullyQualifiedName());
-		IProject iProject = jProject.getProject();
-
-		return iProject.findMember(artifactPath);
-	}
 
 	public static IAbstractArtifact getArtifactModelFor(Object element) {
 		IAbstractArtifact art = getArtifactFor(element);
@@ -175,8 +152,8 @@ public class TSExplorerUtils {
 			IJavaProject jProject = rootJar.getJavaProject();
 			if (jProject != null) {
 				IProject project = jProject.getProject();
-				IAbstractTigerstripeProject atsProject = EclipsePlugin
-						.getITigerstripeProjectFor(project);
+				IAbstractTigerstripeProject atsProject = (IAbstractTigerstripeProject) project
+						.getAdapter(IAbstractTigerstripeProject.class);
 				if (atsProject instanceof ITigerstripeModelProject) {
 					ITigerstripeModelProject tsProject = (ITigerstripeModelProject) atsProject;
 					try {
@@ -204,34 +181,4 @@ public class TSExplorerUtils {
 			return getIPackageFragmentRootFor(classFile.getParent());
 	}
 
-	public static IAbstractTigerstripeProject getProjectHandleFor(Object element) {
-
-		IProject project = null;
-
-		if (element instanceof IProject) {
-			project = (IProject) element;
-			if (!project.exists() || !project.isOpen())
-				return null;
-		} else if (element instanceof IAdaptable) {
-			IFile file = (IFile) ((IAdaptable) element).getAdapter(IFile.class);
-			if (file != null) {
-				project = file.getProject();
-				if (!project.exists() || !project.isOpen())
-					return null;
-			}
-		}
-
-		if (project != null) {
-			try {
-				IAbstractTigerstripeProject tsProject = TigerstripeCore
-						.findProject(project.getLocation().toFile().toURI());
-
-				return tsProject;
-
-			} catch (TigerstripeException e) {
-				EclipsePlugin.log(e);
-			}
-		}
-		return null;
-	}
 }

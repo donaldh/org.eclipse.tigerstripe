@@ -34,13 +34,12 @@ import org.eclipse.core.runtime.jobs.MultiRule;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
+import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.TigerstripeProjectAuditor;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.ClassDiagramLogicalNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.InstanceDiagramLogicalNode;
 import org.eclipse.ui.IEditorPart;
@@ -149,7 +148,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		} catch (TigerstripeException e) {
 			IStatus status = new Status(
 					IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID,
+					EclipsePlugin.getPluginId(),
 					222,
 					"An error occured while trying to register ProjectDiagramSynchronizer. Diagrams may not be synchronized properly for project: "
 							+ getProject().getProjectLabel(), e);
@@ -210,9 +209,8 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 						return Status.OK_STATUS;
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
-						return new Status(IStatus.ERROR,
-								TigerstripePluginConstants.PLUGIN_ID, 222, e
-										.getMessage(), e);
+						return new Status(IStatus.ERROR, EclipsePlugin
+								.getPluginId(), 222, e.getMessage(), e);
 					}
 				}
 			};
@@ -246,9 +244,8 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 						return Status.OK_STATUS;
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
-						return new Status(IStatus.ERROR,
-								TigerstripePluginConstants.PLUGIN_ID, 222, e
-										.getMessage(), e);
+						return new Status(IStatus.ERROR, EclipsePlugin
+								.getPluginId(), 222, e.getMessage(), e);
 					}
 				}
 			};
@@ -282,9 +279,8 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 						return Status.OK_STATUS;
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
-						return new Status(IStatus.ERROR,
-								TigerstripePluginConstants.PLUGIN_ID, 222, e
-										.getMessage(), e);
+						return new Status(IStatus.ERROR, EclipsePlugin
+								.getPluginId(), 222, e.getMessage(), e);
 					}
 				}
 			};
@@ -341,7 +337,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 
 	private List<IResource> getAllModelFiles() throws TigerstripeException {
 		List<IResource> allResources = new ArrayList<IResource>();
-		IProject iProject = EclipsePlugin.getIProject(getProject());
+		IProject iProject = (IProject) getProject().getAdapter(IProject.class);
 		for (String extension : modelFileExtensions) {
 			allResources.addAll(TigerstripeProjectAuditor.findAll(iProject,
 					extension));
@@ -353,7 +349,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 			throws TigerstripeException {
 		// For now, find all diagrams and remove those that are open
 		List<IResource> allResources = new ArrayList<IResource>();
-		IProject iProject = EclipsePlugin.getIProject(getProject());
+		IProject iProject = (IProject) getProject().getAdapter(IProject.class);
 		for (String extension : diagramFileExtensions) {
 			allResources.addAll(TigerstripeProjectAuditor.findAll(iProject,
 					extension));
@@ -403,22 +399,20 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	}
 
 	public void resourceChanged(IResourceChangeEvent event) {
-		try {
-			EclipsePlugin.getIProject(getProject());
-		} catch (TigerstripeException e) {
+		if (getProject().getAdapter(IProject.class) == null) {
+			return;
 			// this means the project has been deleted and the hash is being
 			// updated. This avoids problem with the race condition between
 			// the time this is notified and this has removed itself from
 			// the list of ResourceChange listeners.
-			return;
 		}
 
 		// Get the list of removed resources
 		Collection<IResource> removedResources = new HashSet<IResource>();
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
-		WorkspaceListener.buildResourcesLists(event.getDelta(),
-				removedResources, changedResources, addedResources);
+		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
+				changedResources, addedResources);
 
 		try {
 			checkForAddedDiagrams(addedResources);
@@ -431,7 +425,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 
 	private void checkForAddedDiagrams(Collection<IResource> addedResources)
 			throws TigerstripeException {
-		IProject proj = EclipsePlugin.getIProject(getProject());
+		IProject proj = (IProject) getProject().getAdapter(IProject.class);
 		for (IResource resource : addedResources) {
 			for (String ext : diagramFileExtensions) {
 				if (ext.equals(resource.getFileExtension())

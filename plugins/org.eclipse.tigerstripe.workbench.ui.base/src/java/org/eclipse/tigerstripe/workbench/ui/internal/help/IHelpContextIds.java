@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.help;
 
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 /**
  * All the context IDs to be referenced in Tigerstripe Workbench
@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 public interface IHelpContextIds {
 
 	// Generic artifact editing
-	public final static String ARTIFACT_ATTRIBUTE_EDIT_HELP_ID = TigerstripePluginConstants.PLUGIN_ID
+	public final static String ARTIFACT_ATTRIBUTE_EDIT_HELP_ID = EclipsePlugin
+			.getPluginId()
 			+ "ARTIFACT_ATTRIBUTE_EDIT_HELP_ID";
 }

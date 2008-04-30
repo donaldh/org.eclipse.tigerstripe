@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactSectionPart;
@@ -36,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArti
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
+
 @Deprecated
 public abstract class OssjSessionElementsSection extends ArtifactSectionPart {
 
@@ -104,9 +104,8 @@ public abstract class OssjSessionElementsSection extends ArtifactSectionPart {
 				try {
 					addButtonSelected(event);
 				} catch (TigerstripeException e) {
-					Status status = new Status(IStatus.WARNING,
-							TigerstripePluginConstants.PLUGIN_ID, 111,
-							"Unexpected exception.", e);
+					Status status = new Status(IStatus.WARNING, EclipsePlugin
+							.getPluginId(), 111, "Unexpected exception.", e);
 					EclipsePlugin.log(status);
 				}
 			}

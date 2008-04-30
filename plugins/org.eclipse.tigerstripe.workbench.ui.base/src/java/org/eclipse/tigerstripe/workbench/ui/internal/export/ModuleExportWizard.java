@@ -47,7 +47,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
@@ -93,9 +92,9 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 		if (project == null) {
 			TigerstripeException e = new TigerstripeException(
 					"Invalid project for Export.");
-			Status status = new Status(IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
-					"Cannot export to Tigerstripe module", e);
+			Status status = new Status(IStatus.ERROR, EclipsePlugin
+					.getPluginId(), 222, "Cannot export to Tigerstripe module",
+					e);
 			EclipsePlugin.log(status);
 			return false;
 		} else {

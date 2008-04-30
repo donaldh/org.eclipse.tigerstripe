@@ -42,6 +42,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.M0ProjectDescriptor;
@@ -49,7 +50,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAcce
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.perspective.TigerstripePerspectiveFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
@@ -293,9 +293,9 @@ public class NewM0GeneratorProjectWizard extends Wizard implements INewWizard {
 			List<String> newIds = new ArrayList<String>();
 			newIds.addAll(Arrays.asList(description.getNatureIds()));
 			int tsNatureIndex = newIds
-					.indexOf(TigerstripePluginConstants.M0Generator_NATURE_ID);
+					.indexOf(BuilderConstants.M0Generator_NATURE_ID);
 			if (tsNatureIndex == -1) {
-				newIds.add(TigerstripePluginConstants.M0Generator_NATURE_ID);
+				newIds.add(BuilderConstants.M0Generator_NATURE_ID);
 			}
 
 			int index = newIds.indexOf(JavaCore.NATURE_ID);

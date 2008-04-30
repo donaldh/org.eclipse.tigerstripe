@@ -23,6 +23,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -32,8 +34,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelati
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.natures.TigerstripePluginProjectNature;
-import org.eclipse.tigerstripe.workbench.ui.internal.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
@@ -63,8 +63,8 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 			IProject iProject = jProject.getProject();
 			try {
 				if (TigerstripeProjectNature.hasNature(iProject)) {
-					IAbstractTigerstripeProject aProject = EclipsePlugin
-							.getITigerstripeProjectFor(iProject);
+					IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) iProject
+							.getAdapter(IAbstractTigerstripeProject.class);
 					if (aProject instanceof ITigerstripeModelProject) {
 						ITigerstripeModelProject tsProject = (ITigerstripeModelProject) aProject;
 						try {
@@ -192,8 +192,8 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 			IProject iProject = jProject.getProject();
 			try {
 				if (TigerstripeProjectNature.hasNature(iProject)) {
-					IAbstractTigerstripeProject aProject = EclipsePlugin
-							.getITigerstripeProjectFor(iProject);
+					IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) iProject
+							.getAdapter(IAbstractTigerstripeProject.class);
 					if (aProject instanceof ITigerstripeModelProject) {
 						ITigerstripeModelProject tsProject = (ITigerstripeModelProject) aProject;
 						try {
@@ -248,8 +248,8 @@ public class TigerstripeExplorerLabelProviderWrapper extends
 						.getFileExtension())) {
 			IResource res = (IResource) element;
 			IProject project = res.getProject();
-			IAbstractTigerstripeProject aProject = EclipsePlugin
-					.getITigerstripeProjectFor(project);
+			IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) project
+					.getAdapter(IAbstractTigerstripeProject.class);
 			if (aProject instanceof ITigerstripeModelProject) {
 				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) aProject;
 				try {

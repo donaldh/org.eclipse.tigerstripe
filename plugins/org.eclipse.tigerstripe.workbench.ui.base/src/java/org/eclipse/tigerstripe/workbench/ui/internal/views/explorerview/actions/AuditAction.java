@@ -27,7 +27,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListe
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -66,8 +65,8 @@ public class AuditAction extends BuildAction {
 					IResource res = (IResource) ((IAdaptable) ssel
 							.getFirstElement()).getAdapter(IResource.class);
 					if (res != null) {
-						if (!(EclipsePlugin.getITigerstripeProjectFor(res
-								.getProject()) instanceof ITigerstripeModelProject))
+						if (!(res.getProject().getAdapter(
+								ITigerstripeModelProject.class) instanceof ITigerstripeModelProject))
 							return false;
 					}
 				}
@@ -85,15 +84,18 @@ public class AuditAction extends BuildAction {
 			IProject project = resource.getProject();
 			if (project != null) {
 				try {
-					final IAbstractTigerstripeProject tsProject = TSExplorerUtils
-							.getProjectHandleFor(project);
+					final IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) project
+							.getAdapter(IAbstractTigerstripeProject.class);
 					if (tsProject instanceof ITigerstripeModelProject) {
 						IRunnableWithProgress op = new IRunnableWithProgress() {
 							public void run(IProgressMonitor monitor) {
 								try {
-									monitor.beginTask("Refreshing project:"
-											+ ((ITigerstripeModelProject) tsProject)
-													.getProjectLabel(), 5);
+									monitor
+											.beginTask(
+													"Refreshing project:"
+															+ ((ITigerstripeModelProject) tsProject)
+																	.getProjectLabel(),
+													5);
 
 									((ITigerstripeModelProject) tsProject)
 											.getArtifactManagerSession()

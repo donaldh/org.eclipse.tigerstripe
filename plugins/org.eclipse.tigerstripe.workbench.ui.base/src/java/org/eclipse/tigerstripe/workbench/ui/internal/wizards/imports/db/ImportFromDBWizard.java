@@ -47,6 +47,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpointDetails;
+import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
@@ -77,7 +78,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IStandardSpecifi
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.ArtifactDefinitionGenerator;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.NewArtifactWizardPage;
@@ -210,8 +210,8 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 	 */
 	protected boolean finishCheckpointedImport() {
 		final AnnotableElement[] annotables = secondPage.getRawClasses();
-		final ITigerstripeModelProject targetProject = (ITigerstripeModelProject) EclipsePlugin
-				.getITigerstripeProjectFor(initialPage.getIProject());
+		final ITigerstripeModelProject targetProject = (ITigerstripeModelProject) initialPage
+				.getIProject().getAdapter(ITigerstripeModelProject.class);
 		checkpointHelper = new XmiImportCheckpointHelper(targetProject);
 
 		try {
@@ -492,8 +492,8 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 	 */
 	public boolean finishNewImport() {
 
-		final ITigerstripeModelProject targetProject = (ITigerstripeModelProject) EclipsePlugin
-				.getITigerstripeProjectFor(initialPage.getIProject());
+		final ITigerstripeModelProject targetProject = (ITigerstripeModelProject) initialPage
+				.getIProject().getAdapter(ITigerstripeModelProject.class);
 
 		checkpointHelper = new DBImportCheckpointHelper(targetProject);
 

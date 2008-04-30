@@ -41,7 +41,6 @@ import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.XSLFileSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
@@ -65,7 +64,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	private Button generateRefProjects;
 
 	private Button ignoreFacets;
-	
+
 	private Button clearDirectoryBeforeGenerate;
 
 	private Button processUseCases;
@@ -141,7 +140,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 				} catch (TigerstripeException ee) {
 					Status status = new Status(
 							IStatus.ERROR,
-							TigerstripePluginConstants.PLUGIN_ID,
+							EclipsePlugin.getPluginId(),
 							222,
 							"Error while applying default Advanced Preferences on Project",
 							ee);
@@ -155,14 +154,11 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 						String.valueOf(generateReportButton.getSelection()));
 				markPageModified();
 			} catch (TigerstripeException ee) {
-				Status status = new Status(
-						IStatus.ERROR,
-						TigerstripePluginConstants.PLUGIN_ID,
-						222,
-						"Error while setting "
-								+ IAdvancedProperties.PROP_GENERATION_GenerateReport
-								+ " advanced property on Project "
-								+ handle.getProjectLabel(), ee);
+				Status status = new Status(IStatus.ERROR, EclipsePlugin
+						.getPluginId(), 222, "Error while setting "
+						+ IAdvancedProperties.PROP_GENERATION_GenerateReport
+						+ " advanced property on Project "
+						+ handle.getProjectLabel(), ee);
 				EclipsePlugin.log(status);
 			}
 
@@ -173,14 +169,11 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 								.valueOf(logMessagesButton.getSelection()));
 				markPageModified();
 			} catch (TigerstripeException ee) {
-				Status status = new Status(
-						IStatus.ERROR,
-						TigerstripePluginConstants.PLUGIN_ID,
-						222,
-						"Error while setting "
-								+ IAdvancedProperties.PROP_GENERATION_LogMessages
-								+ " advanced property on Project "
-								+ handle.getProjectLabel(), ee);
+				Status status = new Status(IStatus.ERROR, EclipsePlugin
+						.getPluginId(), 222, "Error while setting "
+						+ IAdvancedProperties.PROP_GENERATION_LogMessages
+						+ " advanced property on Project "
+						+ handle.getProjectLabel(), ee);
 				EclipsePlugin.log(status);
 			}
 
@@ -195,7 +188,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			} catch (TigerstripeException ee) {
 				Status status = new Status(
 						IStatus.ERROR,
-						TigerstripePluginConstants.PLUGIN_ID,
+						EclipsePlugin.getPluginId(),
 						222,
 						"Error while setting "
 								+ IAdvancedProperties.PROP_MISC_IgnoreArtifactElementsWithoutTag
@@ -250,12 +243,11 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		try {
 			createApplyDefaultsButton(getBody(), getToolkit(), listener);
 			createButtons(getBody(), getToolkit());
-			//Bug 219765 - moved the buttons in the expandable to the main page
-			//createGenerationExpandable(getBody(), getToolkit(), listener);
+			// Bug 219765 - moved the buttons in the expandable to the main page
+			// createGenerationExpandable(getBody(), getToolkit(), listener);
 		} catch (TigerstripeException ee) {
-			Status status = new Status(IStatus.WARNING,
-					TigerstripePluginConstants.PLUGIN_ID, 111,
-					"Unexpected Exception", ee);
+			Status status = new Status(IStatus.WARNING, EclipsePlugin
+					.getPluginId(), 111, "Unexpected Exception", ee);
 			EclipsePlugin.log(status);
 		}
 		createPreferenceLinkMsg(getBody(), getToolkit());
@@ -305,30 +297,35 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		gd.horizontalSpan = 8;
 		clearDirectoryBeforeGenerate.setLayoutData(gd);
 		clearDirectoryBeforeGenerate.setEnabled(!this.isReadonly());
-		clearDirectoryBeforeGenerate.addSelectionListener(new SelectionListener() {
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-
-			public void widgetSelected(SelectionEvent e) {
-				if (!isSilentUpdate()) {
-					try {
-						IProjectDetails projectDetails = getTSProject()
-							.getProjectDetails();
-						projectDetails.getProperties().put(
-								IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
-								Boolean.toString(clearDirectoryBeforeGenerate.getSelection()));
-						getTSProject().setProjectDetails(projectDetails);
-						markPageModified();
-					} catch (TigerstripeException ee) {
-						EclipsePlugin.log(ee);
+		clearDirectoryBeforeGenerate
+				.addSelectionListener(new SelectionListener() {
+					public void widgetDefaultSelected(SelectionEvent e) {
 					}
-				}
-			}
-		});
-		
-		
-		generateReportButton = toolkit.createButton(parent,
-				"Generate report", SWT.CHECK);
+
+					public void widgetSelected(SelectionEvent e) {
+						if (!isSilentUpdate()) {
+							try {
+								IProjectDetails projectDetails = getTSProject()
+										.getProjectDetails();
+								projectDetails
+										.getProperties()
+										.put(
+												IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
+												Boolean
+														.toString(clearDirectoryBeforeGenerate
+																.getSelection()));
+								getTSProject()
+										.setProjectDetails(projectDetails);
+								markPageModified();
+							} catch (TigerstripeException ee) {
+								EclipsePlugin.log(ee);
+							}
+						}
+					}
+				});
+
+		generateReportButton = toolkit.createButton(parent, "Generate report",
+				SWT.CHECK);
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gd.horizontalSpan = 8;
 		generateReportButton.setLayoutData(gd);
@@ -343,8 +340,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		gd.horizontalSpan = 8;
 		logMessagesButton.setLayoutData(gd);
 		logMessagesButton.addSelectionListener(new DefaultPageListener());
-		
-		
+
 		ignoreFacets = toolkit.createButton(parent,
 				"Ignore selected Facets for generation", SWT.CHECK);
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
@@ -661,11 +657,14 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 			outputDirectory.setText(handle.getProjectDetails()
 					.getProjectOutputDirectory());
 
-			clearDirectoryBeforeGenerate.setSelection("true".equalsIgnoreCase(handle
-					.getProjectDetails().getProperty(
-							IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
-							IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT)));
-			
+			clearDirectoryBeforeGenerate
+					.setSelection("true"
+							.equalsIgnoreCase(handle
+									.getProjectDetails()
+									.getProperty(
+											IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
+											IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT)));
+
 			ignoreFacets.setEnabled(handle.getFacetReferences().length != 0);
 			ignoreFacets.setSelection("true".equalsIgnoreCase(handle
 					.getProjectDetails().getProperty(
@@ -783,23 +782,23 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		innerComposite.setLayoutData(gd);
 		lclSection.setClient(innerComposite);
 
-		//Bug 219765 - moved the buttons in the expandable to the main page
-		
-		/*generateReportButton = toolkit.createButton(innerComposite,
-				"Generate report", SWT.CHECK);
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		gd.horizontalSpan = 8;
-		generateReportButton.setLayoutData(gd);
-		generateReportButton.addSelectionListener(listener);
+		// Bug 219765 - moved the buttons in the expandable to the main page
 
-		logMessagesButton = toolkit.createButton(innerComposite,
-				"Capture standard output/error during generation.", SWT.CHECK);
-		logMessagesButton
-				.setToolTipText("Redirects standard output/error to a 'generation.log' log file during generation");
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		gd.horizontalSpan = 8;
-		logMessagesButton.setLayoutData(gd);
-		logMessagesButton.addSelectionListener(listener);*/
+		/*
+		 * generateReportButton = toolkit.createButton(innerComposite, "Generate
+		 * report", SWT.CHECK); gd = new
+		 * GridData(GridData.HORIZONTAL_ALIGN_BEGINNING); gd.horizontalSpan = 8;
+		 * generateReportButton.setLayoutData(gd);
+		 * generateReportButton.addSelectionListener(listener);
+		 * 
+		 * logMessagesButton = toolkit.createButton(innerComposite, "Capture
+		 * standard output/error during generation.", SWT.CHECK);
+		 * logMessagesButton .setToolTipText("Redirects standard output/error to
+		 * a 'generation.log' log file during generation"); gd = new
+		 * GridData(GridData.HORIZONTAL_ALIGN_BEGINNING); gd.horizontalSpan = 8;
+		 * logMessagesButton.setLayoutData(gd);
+		 * logMessagesButton.addSelectionListener(listener);
+		 */
 
 		getToolkit().paintBordersFor(innerComposite);
 

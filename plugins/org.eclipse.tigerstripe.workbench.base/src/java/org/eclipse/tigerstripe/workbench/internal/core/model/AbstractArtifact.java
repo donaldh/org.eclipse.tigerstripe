@@ -25,10 +25,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -1642,4 +1645,41 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return handle;
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public Object getAdapter(Class adapter) {
+		if (adapter == IResource.class) {
+			try {
+				return getIResource();
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
+
+		return super.getAdapter(adapter);
+	}
+
+	/**
+	 * Returns the IResource that this Artifact is saved in
+	 * 
+	 * This relies on the fact that each artifact is a pojo. This will need to
+	 * be updated as we migrate to EMF.
+	 * 
+	 * @return
+	 */
+	private IResource getIResource() throws TigerstripeException {
+		String artifactPath = getArtifactPath();
+
+		if (artifactPath == null)
+			throw new TigerstripeException("Unknown path for "
+					+ getFullyQualifiedName()); // this happens for
+		// artifacts in modules.
+
+		IProject iProject = (IProject) getProject().getAdapter(IProject.class);
+		if (iProject == null)
+			// This will happen when considering artifact from Phantom Project
+			throw new TigerstripeException("Unknown path for "
+					+ getFullyQualifiedName());
+		return iProject.findMember(artifactPath);
+	}
 }

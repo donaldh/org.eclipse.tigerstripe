@@ -46,7 +46,6 @@ import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.FacetSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
@@ -123,9 +122,8 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		try {
 			createID(getBody(), getToolkit());
 		} catch (TigerstripeException ee) {
-			Status status = new Status(IStatus.WARNING,
-					TigerstripePluginConstants.PLUGIN_ID, 111,
-					"Unexpected Exception", ee);
+			Status status = new Status(IStatus.WARNING, EclipsePlugin
+					.getPluginId(), 111, "Unexpected Exception", ee);
 			EclipsePlugin.log(status);
 		}
 

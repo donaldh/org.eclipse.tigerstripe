@@ -27,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAcce
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.PluginsControlDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorHelper;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -79,7 +80,7 @@ public class UnRegisterPluggableHousingAction extends Action {
 									+ targetHousing.getLabel(), 5);
 
 							monitor.subTask("Closing all editors");
-							EclipsePlugin.closeAllEditors(true, true, false,
+							EditorHelper.closeAllEditors(true, true, false,
 									false, false);
 							monitor.worked(2);
 

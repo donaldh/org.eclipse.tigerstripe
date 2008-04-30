@@ -29,7 +29,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.useCase.body.UseCaseBodyDocumentProvider;
@@ -133,7 +132,6 @@ public class UseCaseEditor extends TigerstripeFormEditor {
 			// addPage(rulesPage);
 			// addModelPage(rulesPage);
 
-
 			// AdvancedConfigurationPage advPage = new
 			// AdvancedConfigurationPage( this );
 			// addPage( advPage );
@@ -171,9 +169,8 @@ public class UseCaseEditor extends TigerstripeFormEditor {
 					getEditorInput()).get();
 			getUseCase().setBody(text);
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.WARNING,
-					TigerstripePluginConstants.PLUGIN_ID, 111,
-					"Unexpected Exception", e);
+			Status status = new Status(IStatus.WARNING, EclipsePlugin
+					.getPluginId(), 111, "Unexpected Exception", e);
 			EclipsePlugin.log(status);
 		}
 
@@ -183,9 +180,8 @@ public class UseCaseEditor extends TigerstripeFormEditor {
 			try {
 				updateModelFromTextEditor();
 			} catch (TigerstripeException ee) {
-				Status status = new Status(IStatus.WARNING,
-						TigerstripePluginConstants.PLUGIN_ID, 111,
-						"Unexpected Exception", ee);
+				Status status = new Status(IStatus.WARNING, EclipsePlugin
+						.getPluginId(), 111, "Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}
 		}
@@ -217,9 +213,8 @@ public class UseCaseEditor extends TigerstripeFormEditor {
 								getEditorInput()).set(handle.getBody());
 					}
 				} catch (TigerstripeException ee) {
-					Status status = new Status(IStatus.WARNING,
-							TigerstripePluginConstants.PLUGIN_ID, 111,
-							"Unexpected Exception", ee);
+					Status status = new Status(IStatus.WARNING, EclipsePlugin
+							.getPluginId(), 111, "Unexpected Exception", ee);
 					EclipsePlugin.log(status);
 				}
 
@@ -266,8 +261,8 @@ public class UseCaseEditor extends TigerstripeFormEditor {
 			sourcePage.getDocumentProvider().getDocument(getEditorInput()).set(
 					handle.asText());
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
+			Status status = new Status(IStatus.ERROR, EclipsePlugin
+					.getPluginId(), 222,
 					"Error refreshing source page for Tigerstripe use case", e);
 			EclipsePlugin.log(status);
 		}
@@ -282,8 +277,8 @@ public class UseCaseEditor extends TigerstripeFormEditor {
 			handle.parse(reader);
 			refreshModelPages();
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
+			Status status = new Status(IStatus.ERROR, EclipsePlugin
+					.getPluginId(), 222,
 					"Error refreshing model pages for Tigerstripe use case", e);
 			EclipsePlugin.log(status);
 		}

@@ -85,8 +85,8 @@ public class NameAwareTextDirectEditManager extends TextDirectEditManager {
 		IResource res = (IResource) domain.getEditorPart().getEditorInput()
 				.getAdapter(IResource.class);
 
-		IAbstractTigerstripeProject aProject = EclipsePlugin
-				.getITigerstripeProjectFor(res.getProject());
+		IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) res
+				.getProject().getAdapter(IAbstractTigerstripeProject.class);
 
 		if (aProject instanceof ITigerstripeModelProject) {
 			ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;

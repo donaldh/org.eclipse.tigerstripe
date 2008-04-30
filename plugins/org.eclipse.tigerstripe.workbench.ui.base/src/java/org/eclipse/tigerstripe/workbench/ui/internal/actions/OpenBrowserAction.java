@@ -24,7 +24,6 @@ import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 
 /**
  * Opens a URL in the default browser
@@ -54,15 +53,14 @@ public class OpenBrowserAction extends Action {
 			if (href.startsWith("mailto:")) {
 				if (!mailtoFailed) {
 					mailtoFailed = true;
-					Status status = new Status(IStatus.ERROR,
-							TigerstripePluginConstants.PLUGIN_ID, 222,
+					Status status = new Status(IStatus.ERROR, EclipsePlugin
+							.getPluginId(), 222,
 							"mailto protocol not supported", e);
 					EclipsePlugin.log(status);
 				}
 			} else {
-				Status status = new Status(IStatus.ERROR,
-						TigerstripePluginConstants.PLUGIN_ID, 222,
-						"Invalid URL spec: " + href, e);
+				Status status = new Status(IStatus.ERROR, EclipsePlugin
+						.getPluginId(), 222, "Invalid URL spec: " + href, e);
 				EclipsePlugin.log(status);
 			}
 		}

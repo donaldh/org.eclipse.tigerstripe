@@ -37,12 +37,11 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.builder.DiagramAuditorFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.builder.IDiagramAuditor;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramHandle;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
@@ -129,8 +128,7 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 			EclipsePlugin.log(e);
 		}
 
-		MultiStatus status = new MultiStatus(
-				TigerstripePluginConstants.PLUGIN_ID, 222,
+		MultiStatus status = new MultiStatus(EclipsePlugin.getPluginId(), 222,
 				"Open Diagram audit result", null);
 		status.add(subStatus);
 
@@ -188,8 +186,7 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 		}
 		monitor.done();
 
-		MultiStatus status = new MultiStatus(
-				TigerstripePluginConstants.PLUGIN_ID, 222,
+		MultiStatus status = new MultiStatus(EclipsePlugin.getPluginId(), 222,
 				"Diagram audit result (" + targetProject.getName() + ": "
 						+ inError + "/" + allDiagrams.size()
 						+ " diagrams have errors)", null);
@@ -211,7 +208,8 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
 			if (ssel.getFirstElement() instanceof IResource) {
 				IResource res = (IResource) ssel.getFirstElement();
-				if ((EclipsePlugin.getITigerstripeProjectFor(res.getProject()) instanceof ITigerstripeModelProject)) {
+				if ((res.getProject()
+						.getAdapter(ITigerstripeModelProject.class)) instanceof ITigerstripeModelProject) {
 					targetProject = res.getProject();
 					auditType = ALL_DIAGRAMS;
 					action.setText("Audit all diagrams");
@@ -228,7 +226,7 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 					action.setEnabled(false);
 					return;
 				}
-				if ((EclipsePlugin.getITigerstripeProjectFor(targetProject) instanceof ITigerstripeModelProject)) {
+				if ((targetProject.getAdapter(ITigerstripeModelProject.class) instanceof ITigerstripeModelProject)) {
 					auditType = ALL_DIAGRAMS;
 					action.setText("Audit all diagrams");
 				}

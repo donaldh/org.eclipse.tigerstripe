@@ -86,8 +86,8 @@ public class OpenGenerateInterfaceWizardAction extends AbstractOpenWizardAction
 		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
 
 		if (project != null) {
-			IAbstractTigerstripeProject tsProject = EclipsePlugin
-					.getITigerstripeProjectFor(project);
+			IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) project
+					.getAdapter(IAbstractTigerstripeProject.class);
 			if (!(tsProject instanceof ITigerstripeModelProject)) {
 				MessageBox dialog = new MessageBox(shell, SWT.ICON_ERROR);
 				dialog.setText("Generate Tigerstripe Project");

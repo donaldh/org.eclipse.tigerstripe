@@ -30,14 +30,12 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAcce
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.header.OverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.properties.PluginDescriptorPropertiesPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.PluginDescriptorRulesPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.runtime.RuntimePage;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -145,9 +143,8 @@ public abstract class GeneratorDescriptorEditor extends TigerstripeFormEditor {
 			try {
 				updateModelFromTextEditor();
 			} catch (TigerstripeException ee) {
-				Status status = new Status(IStatus.WARNING,
-						TigerstripePluginConstants.PLUGIN_ID, 111,
-						"Unexpected Exception", ee);
+				Status status = new Status(IStatus.WARNING, EclipsePlugin
+						.getPluginId(), 111, "Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}
 		}
@@ -179,9 +176,8 @@ public abstract class GeneratorDescriptorEditor extends TigerstripeFormEditor {
 				try {
 					updateModelFromTextEditor();
 				} catch (TigerstripeException ee) {
-					Status status = new Status(IStatus.WARNING,
-							TigerstripePluginConstants.PLUGIN_ID, 111,
-							"Unexpected Exception", ee);
+					Status status = new Status(IStatus.WARNING, EclipsePlugin
+							.getPluginId(), 111, "Unexpected Exception", ee);
 					EclipsePlugin.log(status);
 				}
 			}
@@ -231,8 +227,8 @@ public abstract class GeneratorDescriptorEditor extends TigerstripeFormEditor {
 						.set(descriptor.asText());
 			}
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
+			Status status = new Status(IStatus.ERROR, EclipsePlugin
+					.getPluginId(), 222,
 					"Error refreshing source page for Tigerstripe descriptor",
 					e);
 			EclipsePlugin.log(status);
@@ -248,8 +244,8 @@ public abstract class GeneratorDescriptorEditor extends TigerstripeFormEditor {
 			ITigerstripeGeneratorProject handle = null;
 			if (input instanceof IFileEditorInput) {
 				IFileEditorInput fileInput = (IFileEditorInput) input;
-				handle = (ITigerstripeGeneratorProject) TSExplorerUtils
-						.getProjectHandleFor(fileInput.getFile());
+				handle = (ITigerstripeGeneratorProject) fileInput.getFile()
+						.getAdapter(ITigerstripeGeneratorProject.class);
 				if (handle != null) {
 					// Create a working Copy where we substitute a new object
 					// for the underlying plugin project
@@ -282,7 +278,7 @@ public abstract class GeneratorDescriptorEditor extends TigerstripeFormEditor {
 			} catch (TigerstripeException e) {
 				Status status = new Status(
 						IStatus.ERROR,
-						TigerstripePluginConstants.PLUGIN_ID,
+						EclipsePlugin.getPluginId(),
 						222,
 						"Error refreshing model pages for Tigerstripe descriptor",
 						e);

@@ -34,7 +34,6 @@ import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 
 ;
 
@@ -87,7 +86,7 @@ public class WizardActionUtils {
 					} catch (TigerstripeException e) {
 						Status status = new Status(
 								IStatus.ERROR,
-								TigerstripePluginConstants.PLUGIN_ID,
+								EclipsePlugin.getPluginId(),
 								222,
 								"An error was detected while triggering '"
 										+ ref.getLabel()
@@ -100,7 +99,7 @@ public class WizardActionUtils {
 					} catch (Exception e) {
 						Status status = new Status(
 								IStatus.ERROR,
-								TigerstripePluginConstants.PLUGIN_ID,
+								EclipsePlugin.getPluginId(),
 								222,
 								"An unknown error was detected while triggering '"
 										+ ref.getLabel()
@@ -141,7 +140,7 @@ public class WizardActionUtils {
 		} catch (TigerstripeException e) {
 			Status status = new Status(
 					IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID,
+					EclipsePlugin.getPluginId(),
 					222,
 					"An error was detected while generating a Tigerstripe project. Generation maybe incomplete.",
 					e);

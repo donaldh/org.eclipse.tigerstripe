@@ -161,13 +161,14 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 	private TigerstripeExplorerLabelProviderWrapper labelProviderWrapper;
 
+	private ActiveFacetManager activeFacetManager = null;
+
 	private ISelectionChangedListener fPostSelectionListener;
 
 	public TigerstripeExplorerPart() {
 		this.contentProvider = new NewTigerstripeExplorerContentProvider(true);
-		// first, use reflection to create an instance of a PackageExplorerLabel
-		// provider...
-		PackageExplorerLabelProvider labelProvider = getPackageExplorerLabelProviderInstance();
+		PackageExplorerLabelProvider labelProvider = new PackageExplorerLabelProvider(
+				this.contentProvider);
 		// then, pass that instance into the constructor for the
 		// TigerstripeExplorerLabelProviderWrapper
 		// class (creating an instance of the wrapper class that can be used
@@ -178,51 +179,14 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 				AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS
 						| JavaElementImageProvider.SMALL_ICONS, labelProvider);
 
+		this.activeFacetManager = new ActiveFacetManager(this);
+
 		fPostSelectionListener = new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				handlePostSelectionChanged(event);
 			}
 		};
 
-	}
-
-	private PackageExplorerLabelProvider getPackageExplorerLabelProviderInstance() {
-		try {
-			Constructor[] constructors = PackageExplorerLabelProvider.class
-					.getConstructors();
-			for (Constructor constructor : constructors) {
-				Class[] parameterTypes = constructor.getParameterTypes();
-				if (parameterTypes.length == 1
-						&& parameterTypes[0] == PackageExplorerContentProvider.class) {
-					// is an Eclipse v3.3 constructor, so set up the Object[]
-					// appropriately
-					// and create an instance...
-					Object[] argList = new Object[] { this.contentProvider };
-					return (PackageExplorerLabelProvider) constructor
-							.newInstance(argList);
-				} else if (parameterTypes.length == 3
-						&& parameterTypes[2] == PackageExplorerContentProvider.class) {
-					// is an Eclipse v3.2 constructor, so set up the Object[]
-					// appropriately
-					// and create an instance...
-					Object[] argList = new Object[] {
-							AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS
-									| JavaElementLabels.P_COMPRESSED,
-							AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS
-									| JavaElementImageProvider.SMALL_ICONS,
-							this.contentProvider };
-					return (PackageExplorerLabelProvider) constructor
-							.newInstance(argList);
-				}
-			}
-		} catch (InstantiationException e) {
-			EclipsePlugin.log(e);
-		} catch (InvocationTargetException e) {
-			EclipsePlugin.log(e);
-		} catch (IllegalAccessException e) {
-			EclipsePlugin.log(e);
-		}
-		return null;
 	}
 
 	/**
@@ -516,9 +480,8 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		return this.treeViewer;
 	}
 
-	// ED: made it public instead of package level so TigerstripeProjectAuditor
-	// can call this
-	// upon facet change
+	// ED: made it public instead of package level so ActiveFacetManager can
+	// call upon active facet Change
 	public void projectStateChanged(Object root) {
 		Control ctrl = treeViewer.getControl();
 		if (ctrl != null && !ctrl.isDisposed()) {
@@ -650,12 +613,10 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 	}
 
 	public void revealArtifact(IAbstractArtifact artifact) {
-		try {
-			IResource res = TSExplorerUtils.getIResourceForArtifact(artifact);
+		IResource res = (IResource) artifact.getAdapter(IResource.class);
+		if (res != null) {
 			StructuredSelection ssel = new StructuredSelection(res);
 			selectReveal(ssel);
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
 		}
 	}
 }

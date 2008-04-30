@@ -40,8 +40,8 @@ public class DiagramEditorHelper {
 	public ITigerstripeModelProject getCorrespondingTigerstripeProject() {
 
 		IResource res = getIResource();
-		IAbstractTigerstripeProject project = EclipsePlugin
-				.getITigerstripeProjectFor(res.getProject());
+		IAbstractTigerstripeProject project = (IAbstractTigerstripeProject) res
+				.getProject().getAdapter(IAbstractTigerstripeProject.class);
 		if (project instanceof ITigerstripeModelProject)
 			return (ITigerstripeModelProject) project;
 		return null;

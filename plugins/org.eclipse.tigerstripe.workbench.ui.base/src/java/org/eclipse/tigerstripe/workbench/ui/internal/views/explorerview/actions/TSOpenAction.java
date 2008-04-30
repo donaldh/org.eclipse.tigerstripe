@@ -26,7 +26,6 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
@@ -47,9 +46,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactAttributesSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantsSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactOverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ReadOnlyArtifactEditorInput;
@@ -110,8 +109,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, ENTITY_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), ENTITY_EDITOR);
 				}
@@ -121,8 +120,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, EXCEPTION_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), EXCEPTION_EDITOR);
 				}
@@ -132,8 +131,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, QUERY_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), QUERY_EDITOR);
 				}
@@ -143,8 +142,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, EVENT_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), EVENT_EDITOR);
 				}
@@ -154,8 +153,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, DATATYPE_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), DATATYPE_EDITOR);
 				}
@@ -165,8 +164,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, SESSION_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), SESSION_EDITOR);
 				}
@@ -176,8 +175,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, ENUM_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), ENUM_EDITOR);
 				}
@@ -187,8 +186,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, UPDATEPROC_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), UPDATEPROC_EDITOR);
 				}
@@ -200,8 +199,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, ASSOCIATIONCLASS_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), ASSOCIATIONCLASS_EDITOR);
 				}
@@ -211,8 +210,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, ASSOCIATION_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), ASSOCIATION_EDITOR);
 				}
@@ -222,8 +221,8 @@ public class TSOpenAction extends OpenAction {
 							null, (IAbstractArtifact) element);
 					return page.openEditor(input, DEPENDENCY_EDITOR);
 				} else {
-					IResource iResource = TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+							.getAdapter(IResource.class);
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), DEPENDENCY_EDITOR);
 				}
@@ -248,8 +247,6 @@ public class TSOpenAction extends OpenAction {
 						.getKeyResource()), node.getEditor());
 			}
 		} catch (PartInitException e) {
-			EclipsePlugin.logErrorMessage("Failed to open the Editor.");
-		} catch (TigerstripeException e) {
 			EclipsePlugin.logErrorMessage("Failed to open the Editor.");
 		}
 		return null;
@@ -414,7 +411,8 @@ public class TSOpenAction extends OpenAction {
 							ILiteral thisLabel = (ILiteral) objects[i];
 							for (int row = 0; row < table.getItemCount(); row++) {
 								TableItem tableItem = table.getItem(row);
-								ILiteral rowLabel = (ILiteral) tableItem.getData();
+								ILiteral rowLabel = (ILiteral) tableItem
+										.getData();
 								if (thisLabel.getName().equals(
 										rowLabel.getName())) {
 									table.select(row);

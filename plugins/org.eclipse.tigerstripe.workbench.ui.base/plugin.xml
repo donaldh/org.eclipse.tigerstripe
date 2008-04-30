@@ -420,15 +420,6 @@
             name="Tigerstripe Explorer"/>
    </extension>
    <extension
-         id="tigerstripeProject"
-         name="Tigerstripe Project"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run class="org.eclipse.tigerstripe.workbench.ui.internal.natures.TigerstripeProjectNature"/>
-      </runtime>
-      <builder id="org.eclipse.tigerstripe.workbench.ui.base.tigerstripeProjectAuditor"/>
-   </extension>
-   <extension
          point="org.eclipse.ui.perspectives">
       <perspective
             class="org.eclipse.tigerstripe.workbench.ui.internal.perspective.TigerstripePerspectiveFactory"
@@ -437,43 +428,11 @@
             name="Tigerstripe"/>
    </extension>
    <extension
-         id="tigerstripeProjectAuditor"
-         name="Tigerstripe Project Auditor"
-         point="org.eclipse.core.resources.builders">
-      <builder hasNature="true">
-         <run class="org.eclipse.tigerstripe.workbench.ui.internal.builder.TigerstripeProjectAuditor"/>
-      </builder>
-   </extension>
-   <extension
          point="org.eclipse.ui.ide.projectNatureImages">
       <image
             icon="src/icons/tigerstripe-nature.gif"
             id="org.eclipse.tigerstripe.community.image1"
             natureId="org.eclipse.tigerstripe.workbench.pluggablePluginProjectAuditor"/>
-   </extension>
-   <extension
-         id="auditmarker"
-         name="Tigerstripe Audit Marker"
-         point="org.eclipse.core.resources.markers">
-      <super type="org.eclipse.core.resources.problemmarker"/>
-      <persistent value="true"/>
-   </extension>
-   <extension
-         id="tigerstripePluginProject"
-         name="Tigerstripe Plugin Project"
-         point="org.eclipse.core.resources.natures">
-      <runtime>
-         <run class="org.eclipse.tigerstripe.workbench.ui.internal.natures.TigerstripePluginProjectNature"/>
-      </runtime>
-      <builder id="org.eclipse.tigerstripe.workbench.ui.base.pluggablePluginProjectAuditor"/>
-   </extension>
-   <extension
-         id="pluggablePluginProjectAuditor"
-         name="Tigerstripe Plugin Auditor"
-         point="org.eclipse.core.resources.builders">
-      <builder hasNature="true">
-         <run class="org.eclipse.tigerstripe.workbench.ui.internal.builder.pluggable.PluggablePluginProjectAuditor"/>
-      </builder>
    </extension>
    <extension
          point="org.eclipse.ui.importWizards">

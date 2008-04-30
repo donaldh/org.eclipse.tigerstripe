@@ -32,7 +32,6 @@ import org.eclipse.jdt.internal.ui.actions.ActionMessages;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationCanceledException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1Generator;
@@ -40,7 +39,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.GenerateResultDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.NewTSElementWizard;
@@ -106,8 +104,8 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 	//
 
 	private ITigerstripeModelProject getTSProject() throws TigerstripeException {
-		IAbstractTigerstripeProject result = EclipsePlugin
-				.getITigerstripeProjectFor(fPage.getIProject());
+		IAbstractTigerstripeProject result = (IAbstractTigerstripeProject) fPage
+				.getIProject().getAdapter(IAbstractTigerstripeProject.class);
 
 		if (result instanceof ITigerstripeModelProject)
 			return (ITigerstripeModelProject) result;
@@ -126,8 +124,7 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 
 		try {
 			M1RunConfig config = fPage.getRunConfig();
-			M1Generator generator = new M1Generator(getTSProject(),
-					config);
+			M1Generator generator = new M1Generator(getTSProject(), config);
 			result = generator.run(monitor);
 
 		} catch (GenerationCanceledException e) {
@@ -135,7 +132,7 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 		} catch (GenerationException e) {
 			Status status = new Status(
 					IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID,
+					EclipsePlugin.getPluginId(),
 					222,
 					"An error was detected while generating a Tigerstripe project. Generation maybe incomplete.",
 					e);
@@ -143,11 +140,11 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 					"Tigerstripe Generation Error Detected.", status);
 			PluginRunStatus runStatus = new PluginRunStatus(e.getMessage());
 			runStatus.add(status);
-			result = new PluginRunStatus[] {runStatus};
+			result = new PluginRunStatus[] { runStatus };
 		} catch (TigerstripeException e) {
 			Status status = new Status(
 					IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID,
+					EclipsePlugin.getPluginId(),
 					222,
 					"An error was detected while generating a Tigerstripe project. Generation maybe incomplete.",
 					e);
@@ -155,7 +152,7 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 					"Tigerstripe Generation Error Detected.", status);
 			PluginRunStatus runStatus = new PluginRunStatus(e.getMessage());
 			runStatus.add(status);
-			result = new PluginRunStatus[] {runStatus};
+			result = new PluginRunStatus[] { runStatus };
 		}
 		// IStatus[] stats = fPage.runTigerstripe(monitor, segments); // use the
 		// full

@@ -20,7 +20,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
@@ -30,8 +29,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 
 public class SearchResultTreeContentProvider implements ITreeContentProvider,
 		ITigerstripeSearchContentProvider {
@@ -62,15 +59,13 @@ public class SearchResultTreeContentProvider implements ITreeContentProvider,
 
 	public Object getParent(Object element) {
 		if (element instanceof IAbstractArtifact) {
-			try {
-				IResource res = TSExplorerUtils
-						.getIResourceForArtifact((IAbstractArtifact) element);
+			IResource res = (IResource) ((IAbstractArtifact) element)
+					.getAdapter(IResource.class);
+			if (res != null)
 				return res.getParent();
-			} catch (TigerstripeException e) {
-
+			else {
 				// since we don't have a resource, maybe it is because this is
-				// coming from
-				// a module or from the Phantom Project
+				// coming from a module or from the Phantom Project
 				AbstractArtifact art = (AbstractArtifact) element;
 				ArtifactManager mgr = art.getArtifactManager();
 				if (mgr instanceof ModuleArtifactManager) {
@@ -78,8 +73,6 @@ public class SearchResultTreeContentProvider implements ITreeContentProvider,
 					return mMgr;
 				} else if (mgr.getTSProject() instanceof PhantomTigerstripeProject)
 					return mgr;
-				else
-					EclipsePlugin.log(e);
 			}
 		} else if (element instanceof IField) {
 			IField field = (IField) element;

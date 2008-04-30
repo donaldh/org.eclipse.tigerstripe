@@ -147,8 +147,8 @@ public class TigerstripeSearchPage extends DialogPage implements ISearchPage {
 				for (String projectName : projectNames) {
 					IProject project = ResourcesPlugin.getWorkspace().getRoot()
 							.getProject(projectName);
-					IAbstractTigerstripeProject atsProject = EclipsePlugin
-							.getITigerstripeProjectFor(project);
+					IAbstractTigerstripeProject atsProject = (IAbstractTigerstripeProject) project
+							.getAdapter(IAbstractTigerstripeProject.class);
 					if (atsProject instanceof ITigerstripeModelProject
 							&& atsProject.exists()) {
 						prjList.add((ITigerstripeModelProject) atsProject);
@@ -158,8 +158,8 @@ public class TigerstripeSearchPage extends DialogPage implements ISearchPage {
 				IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
 						.getProjects();
 				for (IProject project : projects) {
-					IAbstractTigerstripeProject atsProject = EclipsePlugin
-							.getITigerstripeProjectFor(project);
+					IAbstractTigerstripeProject atsProject = (IAbstractTigerstripeProject) project
+							.getAdapter(IAbstractTigerstripeProject.class);
 					if (atsProject instanceof ITigerstripeModelProject
 							&& atsProject.exists()) {
 						prjList.add((ITigerstripeModelProject) atsProject);
@@ -167,7 +167,8 @@ public class TigerstripeSearchPage extends DialogPage implements ISearchPage {
 				}
 			}
 
-			return prjList.toArray(new ITigerstripeModelProject[prjList.size()]);
+			return prjList
+					.toArray(new ITigerstripeModelProject[prjList.size()]);
 		}
 
 		public int getSearchFor() {

@@ -15,6 +15,8 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.command.AbstractCommand;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.IModelManager;
@@ -88,17 +90,36 @@ public class TestManagedEntityMigration extends TestCase {
 		IModelRepository repo = mMgr.getDefaultRepository();
 
 		repo.refresh(null);
-		
+
 		org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact nMea = MetamodelFactory.eINSTANCE
 				.createIManagedEntityArtifact();
 		nMea.setName("Mea");
 		nMea.setPackage("com.mycompany.testNO");
 		repo.store(nMea, true);
 
-		// At this stage, you need to be in the edit domain to make changes to nMea
-		
-		nMea.setAbstract(true);
-		
+		final org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact fnMea = nMea;
+
+		// At this stage, you need to be in the edit domain to make changes to
+		// nMea
+		repo.getEditingDomain().getCommandStack().execute(
+				new AbstractCommand() {
+
+					@Override
+					public boolean canExecute() {
+						return true;
+					}
+
+					public void execute() {
+						fnMea.setAbstract(true);
+					}
+
+					public void redo() {
+						// TODO Auto-generated method stub
+
+					}
+
+				});
+
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 		session.refresh(true, new NullProgressMonitor()); // required
 

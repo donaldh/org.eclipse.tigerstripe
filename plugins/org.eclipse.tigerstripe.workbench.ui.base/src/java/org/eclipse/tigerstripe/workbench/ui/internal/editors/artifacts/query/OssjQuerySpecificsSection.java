@@ -39,7 +39,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjArtifactSpecifics;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjQuerySpecifics;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
@@ -84,7 +83,7 @@ public class OssjQuerySpecificsSection extends ArtifactSectionPart {
 				handleWidgetSelected(e);
 			} catch (TigerstripeException ee) {
 				Status status = new Status(IStatus.WARNING,
-						TigerstripePluginConstants.PLUGIN_ID, 111,
+						EclipsePlugin.getPluginId(), 111,
 						"Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}

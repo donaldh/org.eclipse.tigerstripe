@@ -46,7 +46,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.ManagedEntityOverideDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
@@ -58,6 +57,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
+
 @Deprecated
 public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 
@@ -188,8 +188,7 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 					getPage().getManagedForm().getForm().getShell(),
 					"Please wait",
 					"This project has no been successfully audited yet. Please wait.",
-					new Status(IStatus.INFO,
-							TigerstripePluginConstants.PLUGIN_ID, 222,
+					new Status(IStatus.INFO, EclipsePlugin.getPluginId(), 222,
 							"Waiting for project audit", null), 0);
 			eDialog.open();
 		} else {
@@ -249,7 +248,8 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 		// with
 		// already selected entities.
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
-		Collection<IManagedEntityDetails> selectedOptions = session.getManagedEntityDetails();
+		Collection<IManagedEntityDetails> selectedOptions = session
+				.getManagedEntityDetails();
 
 		Collection entities = new ArrayList();
 		IArtifactManagerSession ams = session.getTigerstripeProject()
@@ -363,9 +363,8 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 				try {
 					addButtonSelected(event);
 				} catch (TigerstripeException e) {
-					Status status = new Status(IStatus.WARNING,
-							TigerstripePluginConstants.PLUGIN_ID, 111,
-							"Unexpected exception.", e);
+					Status status = new Status(IStatus.WARNING, EclipsePlugin
+							.getPluginId(), 111, "Unexpected exception.", e);
 					EclipsePlugin.log(status);
 				}
 			}
@@ -383,9 +382,8 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 				try {
 					overideButtonSelected(event);
 				} catch (TigerstripeException e) {
-					Status status = new Status(IStatus.WARNING,
-							TigerstripePluginConstants.PLUGIN_ID, 111,
-							"Unexpected exception.", e);
+					Status status = new Status(IStatus.WARNING, EclipsePlugin
+							.getPluginId(), 111, "Unexpected exception.", e);
 					EclipsePlugin.log(status);
 				}
 			}

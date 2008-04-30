@@ -16,7 +16,6 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 /**
  * A Diagram handle is a shell object to manipulate GMF diagrams without having
@@ -45,8 +44,9 @@ public class DiagramHandle {
 	public DiagramHandle(IResource diagramResource) {
 		this.diagramResource = diagramResource;
 		IProject iProject = diagramResource.getProject();
-		this.tsProject = (ITigerstripeModelProject) EclipsePlugin
-				.getITigerstripeProjectFor(iProject);
+		this.tsProject = (ITigerstripeModelProject) iProject
+				.getAdapter(ITigerstripeModelProject.class);
+		;
 	}
 
 	public ITigerstripeModelProject getITigerstripeProject() {

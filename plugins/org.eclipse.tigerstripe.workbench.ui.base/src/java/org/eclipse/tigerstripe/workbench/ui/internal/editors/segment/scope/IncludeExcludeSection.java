@@ -554,8 +554,9 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 	private ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		IFile file = ((IFileEditorInput) getPage().getEditorInput()).getFile();
 		IProject project = file.getProject();
-		IAbstractTigerstripeProject aProject = EclipsePlugin
-				.getITigerstripeProjectFor(project);
+		IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) project
+				.getAdapter(IAbstractTigerstripeProject.class);
+		;
 		if (aProject instanceof ITigerstripeModelProject)
 			return (ITigerstripeModelProject) aProject;
 		return null;
@@ -597,8 +598,8 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
 	private void addStereotypePatternSelected(int type) {
 
-		IWorkbenchProfile activeProfile = TigerstripeCore.getWorkbenchProfileSession()
-				.getActiveProfile();
+		IWorkbenchProfile activeProfile = TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile();
 		TableItem[] items = stereotypeExcludesTable.getItems();
 		Collection<IStereotypeInstance> existingStereotypes = new ArrayList<IStereotypeInstance>();
 		for (int i = 0; i < items.length; i++) {

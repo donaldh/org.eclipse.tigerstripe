@@ -58,9 +58,9 @@ public class AbstractArtifactAdapter {
 
 			if (jElement instanceof ICompilationUnit) {
 
-				if (EclipsePlugin.getIJavaProject(tsProject) != null) {
-					IProject diagProj = EclipsePlugin
-							.getIJavaProject(tsProject).getProject();
+				if (tsProject.getAdapter(IProject.class) != null) {
+					IProject diagProj = (IProject) tsProject
+							.getAdapter(IProject.class);
 
 					try {
 						boolean found = false;
@@ -116,9 +116,9 @@ public class AbstractArtifactAdapter {
 				// At that stage we need to make sure that the artifact that was
 				// returned
 				// is actually in the classpath of the project in scope
-				IAbstractTigerstripeProject proj = EclipsePlugin
-						.getITigerstripeProjectFor(jElement.getJavaProject()
-								.getProject());
+				IAbstractTigerstripeProject proj = (IAbstractTigerstripeProject) jElement
+						.getJavaProject().getProject().getAdapter(
+								IAbstractTigerstripeProject.class);
 				if (proj != null && proj.equals(tsProject))
 					return artifact;
 			}
@@ -137,8 +137,8 @@ public class AbstractArtifactAdapter {
 			IJavaElement jElement = (IJavaElement) obj;
 			IJavaProject jProject = jElement.getJavaProject();
 
-			IAbstractTigerstripeProject aProject = EclipsePlugin
-					.getITigerstripeProjectFor(jProject.getProject());
+			IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) jProject
+					.getProject().getAdapter(IAbstractTigerstripeProject.class);
 
 			if (aProject instanceof ITigerstripeModelProject
 					&& (jElement instanceof ICompilationUnit || jElement instanceof IClassFile))

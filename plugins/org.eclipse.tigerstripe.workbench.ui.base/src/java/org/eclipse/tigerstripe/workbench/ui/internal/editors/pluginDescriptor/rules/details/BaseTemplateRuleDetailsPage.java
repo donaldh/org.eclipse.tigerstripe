@@ -52,7 +52,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.VMFileSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.VelocityContextDefinitionEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
@@ -507,7 +506,8 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 
 		ITemplateBasedRule rule = getITemplateRunRule();
 
-		IJavaProject jProj = EclipsePlugin.getIJavaProject(getPPProject());
+		IJavaProject jProj = (IJavaProject) getPPProject().getAdapter(
+				IJavaProject.class);
 		VelocityContextDefinitionEditDialog dialog = new VelocityContextDefinitionEditDialog(
 				null, def, Arrays.asList(rule.getVelocityContextDefinitions()),
 				jProj, rule);
@@ -560,7 +560,8 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		if (selectedItems.length != 0) {
 			VelocityContextDefinition def = (VelocityContextDefinition) selectedItems[0]
 					.getData();
-			IJavaProject jProj = EclipsePlugin.getIJavaProject(getPPProject());
+			IJavaProject jProj = (IJavaProject) getPPProject().getAdapter(
+					IJavaProject.class);
 			VelocityContextDefinitionEditDialog dialog = new VelocityContextDefinitionEditDialog(
 					null, def, Arrays.asList(rule
 							.getVelocityContextDefinitions()), jProj, rule);

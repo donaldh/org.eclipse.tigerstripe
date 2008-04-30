@@ -26,7 +26,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.useCase.UseCaseEditor;
@@ -99,9 +98,8 @@ public class BodyContentSection extends TigerstripeSectionPart {
 		try {
 			createID(getBody(), getToolkit());
 		} catch (TigerstripeException ee) {
-			Status status = new Status(IStatus.WARNING,
-					TigerstripePluginConstants.PLUGIN_ID, 111,
-					"Unexpected Exception", ee);
+			Status status = new Status(IStatus.WARNING, EclipsePlugin
+					.getPluginId(), 111, "Unexpected Exception", ee);
 			EclipsePlugin.log(status);
 		}
 
@@ -213,8 +211,8 @@ public class BodyContentSection extends TigerstripeSectionPart {
 			// bodySchemaOrDTDText.setEnabled(handle.bodyIsXML());
 			// bodySchemaOrDTDBrowseButton.setEnabled(handle.bodyIsXML());
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
+			Status status = new Status(IStatus.ERROR, EclipsePlugin
+					.getPluginId(), 222,
 					"Error refreshing form Body details section on Use Case", e);
 			EclipsePlugin.log(status);
 		} finally {

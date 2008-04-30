@@ -27,7 +27,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
@@ -187,7 +186,8 @@ public abstract class QualifiedNamedElementETAdapter extends BaseETAdapter
 	protected void handleSetName(String oldValue, String newValue,
 			QualifiedNamedElement element) {
 		if (oldValue != null && element.getPackage() != null
-				&& newValue != null && newValue.length() != 0 && !oldValue.equals(newValue)) {
+				&& newValue != null && newValue.length() != 0
+				&& !oldValue.equals(newValue)) {
 			// This is a rename of the artifact within its package
 			try {
 				IArtifactRenameRequest request = (IArtifactRenameRequest) getModelUpdater()
@@ -211,8 +211,8 @@ public abstract class QualifiedNamedElementETAdapter extends BaseETAdapter
 				IAbstractArtifact artifact = session
 						.getArtifactByFullyQualifiedName(targetArt);
 				if (artifact != null) {
-					IResource res = TSExplorerUtils
-							.getIResourceForArtifact(artifact);
+					IResource res = (IResource) artifact
+							.getAdapter(IResource.class);
 					EclipsePlugin.closeEditorForResource(res);
 				}
 
@@ -302,8 +302,8 @@ public abstract class QualifiedNamedElementETAdapter extends BaseETAdapter
 			if (attr.getName() != null && attr.getType() != null) {
 				AttributeETAdapter.createAttribute(attr.getName(), attr
 						.getType(), attr.getTypeMultiplicity().getLiteral(),
-						element.getFullyQualifiedName(), getModelUpdater()
-						, attr.getField());
+						element.getFullyQualifiedName(), getModelUpdater(),
+						attr.getField());
 			}
 		} else if (arg0.getNewValue() instanceof Reference) {
 			// When first creating a reference, the zEnd is not set.
@@ -324,16 +324,19 @@ public abstract class QualifiedNamedElementETAdapter extends BaseETAdapter
 				MethodETAdapter.createMethod(meth.getName(), meth.getType(),
 						meth.getTypeMultiplicity().getLiteral(),
 						((QualifiedNamedElement) arg0.getNotifier())
-								.getFullyQualifiedName(), getModelUpdater(), meth.getMethod());
+								.getFullyQualifiedName(), getModelUpdater(),
+						meth.getMethod());
 			}
 		} else if (arg0.getNewValue() instanceof Literal) {
 			Literal lit = (Literal) arg0.getNewValue();
 			if (lit.getName() != null) {
-				LiteralETAdapter.createLiteral(lit.getName(), lit.getValue(),
-						lit.getTypeMultiplicity().getLiteral(),
-						((QualifiedNamedElement) arg0.getNotifier())
-								.getFullyQualifiedName(), getModelUpdater(),
-						(AbstractArtifact) arg0.getNotifier(), lit.getLiteral());
+				LiteralETAdapter
+						.createLiteral(lit.getName(), lit.getValue(), lit
+								.getTypeMultiplicity().getLiteral(),
+								((QualifiedNamedElement) arg0.getNotifier())
+										.getFullyQualifiedName(),
+								getModelUpdater(), (AbstractArtifact) arg0
+										.getNotifier(), lit.getLiteral());
 			}
 		}
 	}

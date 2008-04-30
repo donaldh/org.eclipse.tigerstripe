@@ -30,13 +30,15 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
+import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.TigerstripeProjectAuditor;
-import org.eclipse.tigerstripe.workbench.ui.internal.natures.ProjectMigrationUtils;
-import org.eclipse.tigerstripe.workbench.ui.internal.natures.TigerstripeM0GeneratorNature;
-import org.eclipse.tigerstripe.workbench.ui.internal.natures.TigerstripePluginProjectNature;
-import org.eclipse.tigerstripe.workbench.ui.internal.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.LogicalExplorerNodeFactory;
 
 public class NewTigerstripeExplorerContentProvider extends
@@ -150,18 +152,19 @@ public class NewTigerstripeExplorerContentProvider extends
 					ProjectMigrationUtils
 							.handlePluginProjectMigration(projects[i]);
 
-					if (TSExplorerUtils.getProjectHandleFor(projects[i]) != null) {
+					if (projects[i]
+							.getAdapter(ITigerstripeGeneratorProject.class) != null) {
 
 					}
 				} else if (TigerstripeM0GeneratorNature.hasNature(projects[i])) {
 					result.add(jm.getJavaProject(projects[i].getName()));
-					
+
 				} else if (TigerstripeProjectNature.hasNature(projects[i])) {
 					result.add(jm.getJavaProject(projects[i].getName()));
 
 					// At this point we build up the Artifact Manager
 					// from the snapshot we have
-					if (TSExplorerUtils.getProjectHandleFor(projects[i]) != null) {
+					if (projects[i].getAdapter(ITigerstripeModelProject.class) != null) {
 
 						// @since 0.4
 						// For compatibility reasons, we check that a

@@ -70,8 +70,9 @@ public class ResetActiveFacetActionDelegate implements IObjectActionDelegate {
 
 		IProject project = getIProject(selection);
 		if (project != null) {
-			IAbstractTigerstripeProject tsProject = EclipsePlugin
-					.getITigerstripeProjectFor(project);
+			IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) project
+					.getAdapter(IAbstractTigerstripeProject.class);
+			;
 			if (tsProject instanceof ITigerstripeModelProject) {
 				targetProject = (ITigerstripeModelProject) tsProject;
 				try {

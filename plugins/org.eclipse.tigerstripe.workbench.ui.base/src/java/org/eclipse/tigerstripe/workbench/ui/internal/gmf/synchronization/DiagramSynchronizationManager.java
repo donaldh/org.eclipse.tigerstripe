@@ -11,14 +11,34 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization;
 
 import java.io.File;
+import java.net.URI;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
+import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper;
+import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.WorkspaceListener;
 
 /**
  * The Diagram Synchronization Manager is the heart of diagram synchronization.
@@ -34,8 +54,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.builder.WorkspaceListener;
  * The manager is notified of model changes thru 2 mechanisms: - as a result of
  * a {@link IModelChangeRequest} being fired, for example coming from a class
  * diagram being edited. - as a result of a 'refactor' operation performed by
- * the user on the TS Explorer. This will be picked up by the
- * {@link WorkspaceListener} and propagated to this.
+ * the user on the TS Explorer. .
  * 
  * The manager is set to watch ITigerstripeProjects. As Eclipse starts up and
  * the auditors are being instantiated per project, this is notified with each
@@ -43,10 +62,9 @@ import org.eclipse.tigerstripe.workbench.ui.internal.builder.WorkspaceListener;
  * is taken off the list of projects to watch.
  * 
  * @Since Bug 936
- * @author eric
  * 
  */
-public class DiagramSynchronizationManager {
+public class DiagramSynchronizationManager implements IResourceChangeListener {
 
 	private static DiagramSynchronizationManager instance;
 
@@ -59,9 +77,65 @@ public class DiagramSynchronizationManager {
 	public static DiagramSynchronizationManager getInstance() {
 		if (instance == null) {
 			instance = new DiagramSynchronizationManager();
+			instance.initialize();
 		}
 
 		return instance;
+	}
+
+	/**
+	 * Upon start make sure we discover all existing projects
+	 */
+	private void initialize() {
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IWorkspaceRoot root = workspace.getRoot();
+		try {
+			checkProjectAdded(Arrays.asList(root.members()));
+		} catch (CoreException e) {
+			EclipsePlugin.log(e);
+		}
+	}
+
+	public void resourceChanged(IResourceChangeEvent event) {
+		// Get the list of removed resources
+		Collection<IResource> removedResources = new HashSet<IResource>();
+		Collection<IResource> changedResources = new HashSet<IResource>();
+		Collection<IResource> addedResources = new HashSet<IResource>();
+		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
+				changedResources, addedResources);
+
+		checkProjectAdded(addedResources);
+		checkProjectRemoved(removedResources);
+	}
+
+	private void checkProjectAdded(Collection<IResource> addedResources) {
+		for (IResource res : addedResources) {
+			if (res instanceof IProject) {
+				IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) res
+						.getProject().getAdapter(
+								IAbstractTigerstripeProject.class);
+				if (tsProject instanceof ITigerstripeModelProject
+						&& tsProject.exists()) {
+					addTSProjectToWatch((ITigerstripeModelProject) tsProject);
+				}
+			}
+		}
+	}
+
+	private void checkProjectRemoved(Collection<IResource> removedResources) {
+		for (IResource res : removedResources) {
+			if (res instanceof IProject) {
+				IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) res
+						.getAdapter(IAbstractTigerstripeProject.class);
+
+				// Bug 936: remove from watch list of
+				// DiagramSynchronizationManager
+				if (tsProject instanceof ITigerstripeModelProject)
+					DiagramSynchronizationManager.getInstance()
+							.removeTSProjectToWatch(
+									(ITigerstripeModelProject) tsProject);
+			}
+		}
 	}
 
 	/**

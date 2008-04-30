@@ -31,7 +31,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
@@ -70,8 +69,8 @@ public class ClassInstanceUpdateCommand extends BaseGMFTransactionalCommand {
 				.getEditDomain();
 		IResource res = (IResource) diagramDomain.getEditorPart()
 				.getEditorInput().getAdapter(IResource.class);
-		IAbstractTigerstripeProject aProject = EclipsePlugin
-				.getITigerstripeProjectFor(res.getProject());
+		IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) res
+				.getProject().getAdapter(IAbstractTigerstripeProject.class);
 		if (!(aProject instanceof ITigerstripeModelProject))
 			throw new RuntimeException("non-Tigerstripe Project found");
 		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;

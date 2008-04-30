@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -41,7 +42,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.action.LogicalNodeDeleteAction;
@@ -90,8 +90,8 @@ public class TSDeleteAction extends DeleteAction {
 							.getFileExtension())) {
 						// Can't delete active facet
 						IProject project = resource.getProject();
-						IAbstractTigerstripeProject aProject = EclipsePlugin
-								.getITigerstripeProjectFor(project);
+						IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) project
+								.getAdapter(IAbstractTigerstripeProject.class);
 						if (aProject instanceof ITigerstripeModelProject) {
 							ITigerstripeModelProject tsProject = (ITigerstripeModelProject) aProject;
 							try {
@@ -236,8 +236,7 @@ public class TSDeleteAction extends DeleteAction {
 								.getContainingArtifact();
 						art.removeFields(Collections.singleton(field));
 						try {
-							art
-									.doSilentSave(new NullProgressMonitor());
+							art.doSilentSave(new NullProgressMonitor());
 							changedArtifacts.add(art);
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);
@@ -248,8 +247,7 @@ public class TSDeleteAction extends DeleteAction {
 								.getContainingArtifact();
 						art.removeMethods(Collections.singleton(method));
 						try {
-							art
-									.doSilentSave(new NullProgressMonitor());
+							art.doSilentSave(new NullProgressMonitor());
 							changedArtifacts.add(art);
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);
@@ -260,8 +258,7 @@ public class TSDeleteAction extends DeleteAction {
 								.getContainingArtifact();
 						art.removeLiterals(Collections.singleton(literal));
 						try {
-							art
-									.doSilentSave(new NullProgressMonitor());
+							art.doSilentSave(new NullProgressMonitor());
 							changedArtifacts.add(art);
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);
@@ -281,8 +278,7 @@ public class TSDeleteAction extends DeleteAction {
 							.getArtifactManager();
 
 					try {
-						mgr.addArtifact(art,
-								new NullProgressMonitor()); // this
+						mgr.addArtifact(art, new NullProgressMonitor()); // this
 						// will
 						// replace
 						// the
@@ -292,13 +288,11 @@ public class TSDeleteAction extends DeleteAction {
 						// Since we did a silentSave we need to manually notify
 						// of the saves
 						// now
-						mgr.notifyArtifactSaved(art,
-								new NullProgressMonitor());
+						mgr.notifyArtifactSaved(art, new NullProgressMonitor());
 
 						// for the explorer to be refreshed, the corresponding
 						// resource needs to be refreshed
-						IResource res = TSExplorerUtils
-								.getIResourceForArtifact(art);
+						IResource res = (IResource) art.getAdapter(IResource.class);
 						res.refreshLocal(IResource.DEPTH_ONE,
 								new NullProgressMonitor());
 					} catch (TigerstripeException e) {

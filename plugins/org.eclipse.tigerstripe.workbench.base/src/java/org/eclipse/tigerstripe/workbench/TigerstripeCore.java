@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.internal.TigerstripeRuntimeDetails;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.WorkbenchProfileSession;
+import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
@@ -55,11 +56,6 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 public class TigerstripeCore {
 
 	private static IWorkbenchProfileSession workbenchProfileSession;
-
-	// FIXME: this needs to be changed, and the migration logic updated
-	// accordingly
-	public final static String MODELPROJECT_NATURE_ID = "org.eclipse.tigerstripe.workbench.ui.base.tigerstripeProject";
-	public final static String PLUGINPROJECT_NATURE_ID = "org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginProject";
 
 	protected TigerstripeCore() {
 	}

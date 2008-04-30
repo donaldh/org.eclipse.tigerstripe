@@ -46,7 +46,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 
 public class ArtifactComponentTransferDropAdapter extends
@@ -125,8 +124,8 @@ public class ArtifactComponentTransferDropAdapter extends
 
 				try {
 					targetArtifact.doSave(new NullProgressMonitor());
-					IResource res = TSExplorerUtils
-							.getIResourceForArtifact(targetArtifact);
+					IResource res = (IResource) targetArtifact
+							.getAdapter(IResource.class);
 					if (res != null) {
 						try {
 							res.refreshLocal(IResource.DEPTH_ZERO,
@@ -136,8 +135,8 @@ public class ArtifactComponentTransferDropAdapter extends
 						}
 					}
 				} catch (TigerstripeException e) {
-					Status error = new Status(IStatus.ERROR,
-							TigerstripePluginConstants.PLUGIN_ID, 222,
+					Status error = new Status(IStatus.ERROR, EclipsePlugin
+							.getPluginId(), 222,
 							"Exception during model component move: "
 									+ e.getMessage(), e);
 					MessageDialog
@@ -200,8 +199,8 @@ public class ArtifactComponentTransferDropAdapter extends
 
 				try {
 					targetArtifact.doSave(new NullProgressMonitor());
-					IResource res = TSExplorerUtils
-							.getIResourceForArtifact(targetArtifact);
+					IResource res = (IResource) targetArtifact
+							.getAdapter(IResource.class);
 					if (res != null) {
 						try {
 							res.refreshLocal(IResource.DEPTH_ZERO,
@@ -212,7 +211,7 @@ public class ArtifactComponentTransferDropAdapter extends
 					}
 					for (IAbstractArtifact art : srcArtifacts) {
 						art.doSave(new NullProgressMonitor());
-						res = TSExplorerUtils.getIResourceForArtifact(art);
+						res = (IResource) art.getAdapter(IResource.class);
 						if (res != null) {
 							try {
 								res.refreshLocal(IResource.DEPTH_ZERO,
@@ -224,8 +223,8 @@ public class ArtifactComponentTransferDropAdapter extends
 						}
 					}
 				} catch (TigerstripeException e) {
-					Status error = new Status(IStatus.ERROR,
-							TigerstripePluginConstants.PLUGIN_ID, 222,
+					Status error = new Status(IStatus.ERROR, EclipsePlugin
+							.getPluginId(), 222,
 							"Exception during model component move: "
 									+ e.getMessage(), e);
 					MessageDialog
@@ -317,19 +316,19 @@ public class ArtifactComponentTransferDropAdapter extends
 					IResource cRes = null;
 					if (component instanceof IField) {
 						IField field = (IField) component;
-						cRes = TSExplorerUtils
-								.getIResourceForArtifact((IAbstractArtifact) field
-										.getContainingArtifact());
+						cRes = (IResource) ((IAbstractArtifact) field
+								.getContainingArtifact())
+								.getAdapter(IResource.class);
 					} else if (component instanceof IMethod) {
 						IMethod method = (IMethod) component;
-						cRes = TSExplorerUtils
-								.getIResourceForArtifact((IAbstractArtifact) method
-										.getContainingArtifact());
+						cRes = (IResource) ((IAbstractArtifact) method
+								.getContainingArtifact())
+								.getAdapter(IResource.class);
 					} else if (component instanceof ILiteral) {
 						ILiteral literal = (ILiteral) component;
-						cRes = TSExplorerUtils
-								.getIResourceForArtifact((IAbstractArtifact) literal
-										.getContainingArtifact());
+						cRes = (IResource) ((IAbstractArtifact) literal
+								.getContainingArtifact())
+								.getAdapter(IResource.class);
 					}
 
 					if (cRes == null)
@@ -340,9 +339,6 @@ public class ArtifactComponentTransferDropAdapter extends
 					}
 				}
 			} catch (JavaModelException e) {
-				EclipsePlugin.log(e);
-				return false;
-			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 				return false;
 			}
@@ -424,5 +420,4 @@ public class ArtifactComponentTransferDropAdapter extends
 	private Shell getShell() {
 		return getViewer().getControl().getShell();
 	}
-
 }

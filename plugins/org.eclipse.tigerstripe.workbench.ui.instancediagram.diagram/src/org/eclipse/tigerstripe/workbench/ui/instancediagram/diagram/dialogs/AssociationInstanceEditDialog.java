@@ -101,8 +101,8 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 				.getEditDomain();
 		IResource res = (IResource) domain.getEditorPart().getEditorInput()
 				.getAdapter(IResource.class);
-		IAbstractTigerstripeProject aProject = EclipsePlugin
-				.getITigerstripeProjectFor(res.getProject());
+		IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) res
+				.getProject().getAdapter(IAbstractTigerstripeProject.class);
 		if (!(aProject instanceof ITigerstripeModelProject))
 			throw new RuntimeException("non-Tigerstripe Project found");
 		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;

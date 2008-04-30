@@ -92,8 +92,8 @@ public abstract class BaseDiagramPartAction {
 		IResource res = (IResource) domain.getEditorPart().getEditorInput()
 				.getAdapter(IResource.class);
 
-		IAbstractTigerstripeProject project = EclipsePlugin
-				.getITigerstripeProjectFor(res.getProject());
+		IAbstractTigerstripeProject project = (IAbstractTigerstripeProject) res
+				.getProject().getAdapter(IAbstractTigerstripeProject.class);
 
 		// domain.getCommandStack().execute(
 		// new ICommandProxy(new RefreshEditPartCommand(mySelectedElement,

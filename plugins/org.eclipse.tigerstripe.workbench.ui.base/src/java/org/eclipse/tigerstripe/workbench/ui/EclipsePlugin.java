@@ -10,42 +10,27 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.RollingFileAppender;
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.ui.IJavaStatusConstants;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.util.SafeRunnable;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -53,16 +38,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
-import org.eclipse.tigerstripe.workbench.ui.internal.install.PostInstallActions;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramSynchronizationManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.PreferencesInitializer;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ProjectLocatorFacilityForEclipse;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeExplorerPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.ui.IEditorInput;
@@ -81,13 +60,12 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class EclipsePlugin extends AbstractUIPlugin implements
-		TigerstripePluginConstants {
+public class EclipsePlugin extends AbstractUIPlugin {
+
+	public static final String PLUGIN_ID = "org.eclipse.tigerstripe.workbench.ui.base"; //$NON-NLS-1$
 
 	// The shared instance.
 	private static EclipsePlugin plugin;
-
-	private WorkspaceListener listener;
 
 	public static final String TIGERSTRIPE_SUPPORT_EMAILURL = "mailto:erdillon@cisco.com";
 
@@ -95,58 +73,12 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 
 	public static long LICENSE_WARNING_PERIOD = 14;
 
-	private static boolean loggerInitialized = false;
-
-	private static Level defaultLoggingLevel = Level.ALL;
-
-	private static final String LOG4J_FQCN = EclipsePlugin.class.getName();
-
-	private static final String tigerstripeLoggerID = EclipsePlugin.class
-			.getCanonicalName();
-
-	private static final Logger tigerstripeLogger = Logger
-			.getLogger(tigerstripeLoggerID);
-
 	/**
 	 * The constructor.
 	 */
 	public EclipsePlugin() {
 		super();
 		plugin = this;
-	}
-
-	public static void initLogger() {
-
-		String loggingDirStr = TigerstripeRuntime.getTigerstripeRuntimeRoot();
-
-		if (!loggerInitialized && loggingDirStr != null) {
-
-			// First check that the loggingDir exists: upon first run
-			// it would not have been created at this stage.
-			File loggingDir = new File(loggingDirStr);
-			if (loggingDir != null && !loggingDir.exists()) {
-				loggingDir.mkdirs();
-			}
-
-			// Add logic here
-			String outputPath = loggingDir.getPath() + File.separator
-					+ "tigerstripe.log";
-			File outputFile = new File(outputPath);
-			String conversionPattern = "%-5p %C [%d{dd-MMM-yyyy HH:mm:ss.SSS}] - %m ["
-					+ TigerstripeRuntime.getLogStartTime() + "]%n";
-			PatternLayout patternLayout = new PatternLayout(conversionPattern);
-			try {
-				RollingFileAppender appender = new RollingFileAppender(
-						patternLayout, outputPath);
-				tigerstripeLogger.removeAllAppenders();
-				tigerstripeLogger.addAppender(appender);
-				tigerstripeLogger.setAdditivity(false);
-				tigerstripeLogger.setLevel(defaultLoggingLevel);
-				loggerInitialized = true;
-			} catch (IOException e) {
-				e.printStackTrace(System.err);
-			}
-		}
 	}
 
 	public static Shell getActiveWorkbenchShell() {
@@ -172,14 +104,11 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 
 		super.start(context);
 
-		executePostInstallationActions(context);
-		initLogger();
-
 		// Initialize preferences
 		PreferencesInitializer.initialize();
 
 		initialiseAPI();
-		startWorkspaceListener();
+		startDiagramSynchronizerManager();
 	}
 
 	/**
@@ -188,7 +117,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		super.stop(context);
-		stopWorkspaceListener();
+		stopDiagramSynchronizerManager();
 	}
 
 	/**
@@ -196,18 +125,14 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 	 * can propagate as appropriate to the artifact manager
 	 * 
 	 */
-	private void startWorkspaceListener() {
-		listener = new WorkspaceListener();
-		JavaCore.addElementChangedListener(listener);
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(listener);
+	private void startDiagramSynchronizerManager() {
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(
+				DiagramSynchronizationManager.getInstance());
 	}
 
-	private void stopWorkspaceListener() {
-		if (listener != null) {
-			JavaCore.removeElementChangedListener(listener);
-			ResourcesPlugin.getWorkspace().removeResourceChangeListener(
-					listener);
-		}
+	private void stopDiagramSynchronizerManager() {
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(
+				DiagramSynchronizationManager.getInstance());
 	}
 
 	/**
@@ -236,7 +161,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 	}
 
 	private static void internalLogErrorMessage(String message, Throwable t) {
-		internalLogMessage(Level.ERROR, message, t);
+		BasePlugin.internalLogMessage(Level.ERROR, message, t);
 	}
 
 	private static void internalLogInfoMessage(String message) {
@@ -244,7 +169,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 	}
 
 	private static void internalLogInfoMessage(String message, Throwable t) {
-		internalLogMessage(Level.INFO, message, t);
+		BasePlugin.internalLogMessage(Level.INFO, message, t);
 	}
 
 	private static void internalLogWarnMessage(String message) {
@@ -252,12 +177,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 	}
 
 	private static void internalLogWarnMessage(String message, Throwable t) {
-		internalLogMessage(Level.WARN, message, t);
-	}
-
-	private static void internalLogMessage(Level level, String message,
-			Throwable t) {
-		tigerstripeLogger.log(LOG4J_FQCN, level, message, t);
+		BasePlugin.internalLogMessage(Level.WARN, message, t);
 	}
 
 	public static void log(IStatus status) {
@@ -291,8 +211,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 		// calls through to the static EclipsePlugin.log(IStatus):void method
 		// (above)
 		// passing this message as an "internal error" status message
-		log(new Status(IStatus.ERROR, getPluginId(),
-				IJavaStatusConstants.INTERNAL_ERROR, message, null));
+		log(new Status(IStatus.ERROR, getPluginId(), 222, message, null));
 	}
 
 	public static void logErrorStatus(String message, IStatus status) {
@@ -304,8 +223,7 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 			logErrorMessage(message);
 			return;
 		}
-		MultiStatus multi = new MultiStatus(getPluginId(),
-				IJavaStatusConstants.INTERNAL_ERROR, message, null);
+		MultiStatus multi = new MultiStatus(getPluginId(), 222, message, null);
 		// log the status message
 		multi.add(status);
 		log(multi);
@@ -316,21 +234,18 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 		if (e instanceof TigerstripeException) {
 			TigerstripeException tse = (TigerstripeException) e;
 			if (tse.getException() == null) {
-				IStatus status = new Status(IStatus.ERROR, getPluginId(),
-						IJavaStatusConstants.INTERNAL_ERROR,
+				IStatus status = new Status(IStatus.ERROR, getPluginId(), 222,
 						"Internal Error", tse); //$NON-NLS-1$
 				log(status);
 				return;
 			} else {
-				MultiStatus mStatus = new MultiStatus(getPluginId(),
-						IJavaStatusConstants.INTERNAL_ERROR, "Internal Error",
-						e);
+				MultiStatus mStatus = new MultiStatus(getPluginId(), 222,
+						"Internal Error", e);
 				Exception ee = tse.getException();
 
 				while (ee != null) {
 					IStatus subStatus = new Status(IStatus.ERROR,
-							getPluginId(), IJavaStatusConstants.INTERNAL_ERROR,
-							"Internal Error", ee); //$NON-NLS-1$
+							getPluginId(), 222, "Internal Error", ee); //$NON-NLS-1$
 					mStatus.add(subStatus);
 					if (ee instanceof TigerstripeException) {
 						ee = ((TigerstripeException) ee).getException();
@@ -345,21 +260,18 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 			}
 		} else {
 			if (e.getCause() == null) {
-				IStatus status = new Status(IStatus.ERROR, getPluginId(),
-						IJavaStatusConstants.INTERNAL_ERROR,
+				IStatus status = new Status(IStatus.ERROR, getPluginId(), 222,
 						"Internal Error", e); //$NON-NLS-1$
 				log(status);
 				return;
 			} else {
-				MultiStatus mStatus = new MultiStatus(getPluginId(),
-						IJavaStatusConstants.INTERNAL_ERROR, "Internal Error",
-						e);
+				MultiStatus mStatus = new MultiStatus(getPluginId(), 222,
+						"Internal Error", e);
 				Throwable ee = e.getCause();
 
 				while (ee != null) {
 					IStatus subStatus = new Status(IStatus.ERROR,
-							getPluginId(), IJavaStatusConstants.INTERNAL_ERROR,
-							"Internal Error", ee); //$NON-NLS-1$
+							getPluginId(), 222, "Internal Error", ee); //$NON-NLS-1$
 					mStatus.add(subStatus);
 					if (ee instanceof TigerstripeException) {
 						ee = ((TigerstripeException) ee).getException();
@@ -392,128 +304,6 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 		} catch (TigerstripeException e) {
 			log(e);
 		}
-	}
-
-	/**
-	 * Returns the IJavaProject for the given tsProject
-	 * 
-	 * @param tsProject
-	 * @return
-	 * @since 1.1
-	 */
-	public static IJavaProject getIJavaProject(
-			IAbstractTigerstripeProject tsProject) {
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IPath path = tsProject.getLocation();
-		IContainer container = root.getContainerForLocation(path);
-
-		// If the project cannot be matched to a IProject, return null
-		// Note this will happen for the PhantomProject.
-		if (container == null)
-			return null;
-
-		return JavaCore.create((IProject) container.getAdapter(IProject.class));
-	}
-
-	/**
-	 * 
-	 * @param tsProject
-	 * @return
-	 * @throws TigerstripeException
-	 * @deprecated use getAdapter(IProject.class) on IAbstractTigertripeProject
-	 *             instead
-	 */
-	public static IProject getIProject(IAbstractTigerstripeProject tsProject)
-			throws TigerstripeException {
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IPath path = tsProject.getLocation();
-		IContainer container = root.getContainerForLocation(path);
-		if (container instanceof IProject)
-			return (IProject) container;
-		throw new TigerstripeException("Can't resolve "
-				+ tsProject.getLocation() + " as Eclipse IProject");
-	}
-
-	public static IAbstractTigerstripeProject getITigerstripeProjectFor(
-			IProject project) {
-
-		if (!project.exists() || !project.isOpen())
-			return null;
-
-		try {
-			IAbstractTigerstripeProject tsProject = TigerstripeCore
-					.findProject(project.getLocation().toFile().toURI());
-
-			return tsProject;
-
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
-		}
-		return null;
-	}
-
-	public static void closeAllEditors(final boolean includeArtifactEditors,
-			final boolean includeDescriptorEditors,
-			final boolean includeProfileEditors,
-			final boolean includePluginDescriptorEditors,
-			final boolean includeDiagrams) throws TigerstripeException {
-
-		Platform.run(new SafeRunnable("Closing Tigerstripe Editors") {
-			public void run() {
-				// Collect dirtyParts
-				ArrayList<IEditorPart> partsToClose = new ArrayList<IEditorPart>();
-				IWorkbenchWindow windows[] = PlatformUI.getWorkbench()
-						.getWorkbenchWindows();
-				for (int i = 0; i < windows.length; i++) {
-					IWorkbenchPage pages[] = windows[i].getPages();
-					for (int j = 0; j < pages.length; j++) {
-						IEditorReference[] refs = pages[j]
-								.getEditorReferences();
-						for (IEditorReference ref : refs) {
-							IEditorPart part = ref.getEditor(false);
-							if (part instanceof ArtifactEditorBase
-									&& includeArtifactEditors) {
-								partsToClose.add(part);
-							} else if (part instanceof DescriptorEditor
-									&& includeDescriptorEditors) {
-								partsToClose.add(part);
-							} else if (part instanceof PluginDescriptorEditor
-									&& includePluginDescriptorEditors) {
-								partsToClose.add(part);
-							} else if (includeDiagrams && part != null) {
-								String partClass = part.getClass()
-										.getCanonicalName();
-								if (partClass
-										.endsWith("TigerstripeDiagramEditor")
-										|| partClass
-												.endsWith("InstanceDiagramEditor")) {
-									partsToClose.add(part);
-								}
-							}
-						}
-					}
-				}
-				if (partsToClose.size() > 0) {
-					for (IEditorPart part : partsToClose) {
-						if (part instanceof TigerstripeFormEditor) {
-							TigerstripeFormEditor editor = (TigerstripeFormEditor) part;
-							editor.close(true);
-						} else {
-							Display display = Display.getDefault();
-							final IEditorPart fPart = part;
-							display.asyncExec(new Runnable() {
-								public void run() {
-									PlatformUI.getWorkbench()
-											.getActiveWorkbenchWindow()
-											.getActivePage().closeEditor(fPart,
-													true);
-								}
-							});
-						}
-					}
-				}
-			}
-		});
 	}
 
 	public static IEditorPart[] getEditorPartsForResource(
@@ -575,11 +365,6 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 		}
 	}
 
-	private void executePostInstallationActions(BundleContext context)
-			throws TigerstripeException {
-		(new PostInstallActions()).run(context);
-	}
-
 	public static IProject getProjectInFocus() {
 		IStructuredSelection ssel = null;
 		IWorkbenchWindow window = EclipsePlugin.getActiveWorkbenchWindow();
@@ -596,68 +381,44 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 				IField field = (IField) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) field
 						.getContainingArtifact();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null)
-						selectedElement = obj;
-				} catch (TigerstripeException e) {
-					// ignore
-				}
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null)
+					selectedElement = obj;
 			} else if (selectedElement instanceof IMethod) {
 				IMethod meth = (IMethod) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) meth
 						.getContainingArtifact();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null)
-						selectedElement = obj;
-				} catch (TigerstripeException e) {
-					// ignore
-				}
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null)
+					selectedElement = obj;
 			} else if (selectedElement instanceof ILiteral) {
 				ILiteral la = (ILiteral) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) la
 						.getContainingArtifact();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null)
-						selectedElement = obj;
-				} catch (TigerstripeException e) {
-					// ignore
-				}
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null)
+					selectedElement = obj;
 			} else if (selectedElement instanceof AssociationEnd) {
 				AssociationEnd la = (AssociationEnd) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) la
 						.getContainingArtifact();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null)
-						selectedElement = obj;
-				} catch (TigerstripeException e) {
-					// ignore
-				}
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null)
+					selectedElement = obj;
 			} else if (selectedElement instanceof DependencyEnd) {
 				DependencyEnd la = (DependencyEnd) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) la
 						.getContainingRelationship();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null)
-						selectedElement = obj;
-				} catch (TigerstripeException e) {
-					// ignore
-				}
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null)
+					selectedElement = obj;
 			} else if (selectedElement instanceof DependencyEnd) {
 				DependencyEnd la = (DependencyEnd) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) la
 						.getContainingRelationship();
-				try {
-					Object obj = TSExplorerUtils.getIResourceForArtifact(art);
-					if (obj != null) {
-						selectedElement = obj;
-					}
-				} catch (TigerstripeException e) {
-					// ignore
+				Object obj = art.getAdapter(IResource.class);
+				if (obj != null) {
+					selectedElement = obj;
 				}
 			} else if (selectedElement instanceof DiagramEditPart) {
 				DiagramEditPart part = (DiagramEditPart) selectedElement;
@@ -717,7 +478,8 @@ public class EclipsePlugin extends AbstractUIPlugin implements
 	public static IAbstractTigerstripeProject getTSProjectInFocus() {
 		IProject iProject = getProjectInFocus();
 		if (iProject != null && iProject.isOpen())
-			return getITigerstripeProjectFor(iProject);
+			return (IAbstractTigerstripeProject) iProject
+					.getAdapter(IAbstractTigerstripeProject.class);
 		return null;
 	}
 

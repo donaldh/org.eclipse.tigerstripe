@@ -131,8 +131,8 @@ public class InstanceMapItemSemanticEditPolicy extends
 					.getEditDomain();
 			IResource res = (IResource) diagramDomain.getEditorPart()
 					.getEditorInput().getAdapter(IResource.class);
-			IAbstractTigerstripeProject aProject = EclipsePlugin
-					.getITigerstripeProjectFor(res.getProject());
+			IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) res
+					.getProject().getAdapter(IAbstractTigerstripeProject.class);
 			IArtifactManagerSession artMgrSession = null;
 			if (!(aProject instanceof ITigerstripeModelProject))
 				throw new RuntimeException("non-Tigerstripe Project found");
@@ -156,18 +156,24 @@ public class InstanceMapItemSemanticEditPolicy extends
 			} else if (!sessionFacadeInstancesEnabled()
 					&& artifact instanceof ISessionArtifact) {
 				String warningStr = "Your profile does not allow for instantiation "
-						+ "of " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-								ISessionArtifactImpl.class.getName()).getLabel() + " objects; drag-and-drop operation cancelled";
+						+ "of "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								ISessionArtifactImpl.class.getName())
+								.getLabel()
+						+ " objects; drag-and-drop operation cancelled";
 				String[] buttonLabels = new String[] { "OK" };
 				int defButtonIdx = 0;
 				MessageDialog warningDialog = new MessageDialog(shell,
 						ArtifactMetadataFactory.INSTANCE.getMetadata(
-								ISessionArtifactImpl.class.getName()).getLabel() + " detected", (Image) null, warningStr,
+								ISessionArtifactImpl.class.getName())
+								.getLabel()
+								+ " detected", (Image) null, warningStr,
 						MessageDialog.WARNING, buttonLabels, defButtonIdx);
 				int retIdx = warningDialog.open();
-				throw new OperationCanceledException(
-						"Cannot Instantiate " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-								ISessionArtifactImpl.class.getName()).getLabel());
+				throw new OperationCanceledException("Cannot Instantiate "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								ISessionArtifactImpl.class.getName())
+								.getLabel());
 			}
 			ClassInstanceEditDialog ied = new ClassInstanceEditDialog(shell,
 					artifact, mapEditPart);

@@ -44,6 +44,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
@@ -51,7 +52,6 @@ import org.eclipse.tigerstripe.workbench.optional.bulkImport.DiffFixer;
 import org.eclipse.tigerstripe.workbench.optional.bulkImport.ImportBundle;
 import org.eclipse.tigerstripe.workbench.optional.bulkImport.XML2TS;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 

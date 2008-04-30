@@ -20,7 +20,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.editors.text.FileDocumentProvider;
 import org.eclipse.ui.part.FileEditorInput;
@@ -50,9 +49,8 @@ public class UseCaseBodyDocumentProvider extends FileDocumentProvider {
 			if (useCase != null)
 				document.set(useCase.getBody());
 		} catch (TigerstripeException e) {
-			IStatus status = new Status(IStatus.WARNING,
-					TigerstripePluginConstants.PLUGIN_ID, 222,
-					"Couldn't parse use Case", e);
+			IStatus status = new Status(IStatus.WARNING, EclipsePlugin
+					.getPluginId(), 222, "Couldn't parse use Case", e);
 			throw new CoreExceptionWithRootCause(status);
 		}
 

@@ -33,7 +33,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
@@ -119,10 +118,13 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 			setIArtifact(artifact);
 
 			try {
-				if (artifact != null && artifact.getTigerstripeProject() != null) {
-					artifact.getTigerstripeProject().getArtifactManagerSession()
+				if (artifact != null
+						&& artifact.getTigerstripeProject() != null) {
+					artifact.getTigerstripeProject()
+							.getArtifactManagerSession()
 							.addArtifactChangeListener(this);
-					artifact.getTigerstripeProject().getArtifactManagerSession()
+					artifact.getTigerstripeProject()
+							.getArtifactManagerSession()
 							.addActiveFacetListener(this);
 				}
 			} catch (TigerstripeException e) {
@@ -178,9 +180,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 			try {
 				updateArtifactFromTextEditor();
 			} catch (TigerstripeException ee) {
-				Status status = new Status(IStatus.WARNING,
-						TigerstripePluginConstants.PLUGIN_ID, 111,
-						"Unexpected Exception", ee);
+				Status status = new Status(IStatus.WARNING, EclipsePlugin
+						.getPluginId(), 111, "Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}
 		}
@@ -240,9 +241,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				try {
 					updateArtifactFromTextEditor();
 				} catch (TigerstripeException ee) {
-					Status status = new Status(IStatus.WARNING,
-							TigerstripePluginConstants.PLUGIN_ID, 111,
-							"Unexpected Exception", ee);
+					Status status = new Status(IStatus.WARNING, EclipsePlugin
+							.getPluginId(), 111, "Unexpected Exception", ee);
 					EclipsePlugin.log(status);
 				}
 			}
@@ -266,7 +266,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		FileEditorInput input = (FileEditorInput) sourcePage.getEditorInput();
 		IAbstractArtifact originalArtifact = getIArtifact();
 
-		ITigerstripeModelProject project = originalArtifact.getTigerstripeProject();
+		ITigerstripeModelProject project = originalArtifact
+				.getTigerstripeProject();
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 
 		if (sourcePage.getDocumentProvider().getDocument(input) != null) { // Bug

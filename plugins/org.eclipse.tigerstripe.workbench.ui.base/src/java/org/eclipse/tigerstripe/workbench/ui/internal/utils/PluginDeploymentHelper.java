@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorHelper;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.header.PluggablePluginProjectPackager;
 
 /**
@@ -53,7 +53,7 @@ public class PluginDeploymentHelper {
 		monitor.beginTask("Deploying " + ppProject.getProjectLabel(), 15);
 
 		monitor.subTask("Closing all editors");
-		EclipsePlugin.closeAllEditors(true, true, false, false, false);
+		EditorHelper.closeAllEditors(true, true, false, false, false);
 		monitor.worked(2);
 
 		monitor.subTask("Cleaning plugin repository");
@@ -79,7 +79,7 @@ public class PluginDeploymentHelper {
 		monitor.beginTask("Un-Deploying " + ppProject.getProjectLabel(), 15);
 
 		monitor.subTask("Closing all editors");
-		EclipsePlugin.closeAllEditors(true, true, false, false, false);
+		EditorHelper.closeAllEditors(true, true, false, false, false);
 		monitor.worked(2);
 
 		monitor.subTask("Cleaning plugin repository");
@@ -98,9 +98,8 @@ public class PluginDeploymentHelper {
 		if (zipFile.exists()) {
 			boolean res = zipFile.delete();
 			if (!res) {
-				IStatus status = new Status(IStatus.WARNING,
-						TigerstripePluginConstants.PLUGIN_ID, 222,
-						"Couldn't delete " + zipFile, null);
+				IStatus status = new Status(IStatus.WARNING, EclipsePlugin
+						.getPluginId(), 222, "Couldn't delete " + zipFile, null);
 				EclipsePlugin.log(status);
 			}
 		}
@@ -121,7 +120,8 @@ public class PluginDeploymentHelper {
 			boolean res = Util.deleteDir(unZippedDir);
 			if (!res) {
 				IStatus status = new Status(IStatus.WARNING,
-						TigerstripePluginConstants.PLUGIN_ID, 222,
+						EclipsePlugin
+						.getPluginId(), 222,
 						"Couldn't delete " + unZippedFile, null);
 				EclipsePlugin.log(status);
 			}

@@ -45,11 +45,11 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.perspective.TigerstripePerspectiveFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
@@ -296,9 +296,9 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 			List<String> newIds = new ArrayList<String>();
 			newIds.addAll(Arrays.asList(description.getNatureIds()));
 			int tsNatureIndex = newIds
-					.indexOf(TigerstripePluginConstants.PLUGINPROJECT_NATURE_ID);
+					.indexOf(BuilderConstants.PLUGINPROJECT_NATURE_ID);
 			if (tsNatureIndex == -1) {
-				newIds.add(TigerstripePluginConstants.PLUGINPROJECT_NATURE_ID);
+				newIds.add(BuilderConstants.PLUGINPROJECT_NATURE_ID);
 			}
 
 			int index = newIds.indexOf(JavaCore.NATURE_ID);

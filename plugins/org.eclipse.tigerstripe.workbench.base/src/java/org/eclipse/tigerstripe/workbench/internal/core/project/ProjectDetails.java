@@ -64,7 +64,7 @@ public class ProjectDetails extends BaseContainerObject implements
 	public IContainerObject getContainer() {
 		return this.container;
 	}
-	
+
 	/**
 	 * Marks this object as dirty and notify the container if any
 	 * 
@@ -79,7 +79,6 @@ public class ProjectDetails extends BaseContainerObject implements
 	// ===========================================================================
 	// ===========================================================================
 
-	
 	public String getName() {
 		return name;
 	}
@@ -90,11 +89,11 @@ public class ProjectDetails extends BaseContainerObject implements
 	}
 
 	public String getDescription() {
-		markDirty();
 		return this.description;
 	}
 
 	public void setDescription(String description) {
+		markDirty();
 		this.description = description;
 	}
 
@@ -110,10 +109,22 @@ public class ProjectDetails extends BaseContainerObject implements
 	public ProjectDetails(AbstractTigerstripeProject parentProject) {
 		this.properties = new ContainedProperties();
 		this.parentProject = parentProject;
+		applyDefaults();
+
+		this.properties.setContainer(this);
 	}
 
 	public void setParentProject(AbstractTigerstripeProject parentProject) {
 		this.parentProject = parentProject;
+	}
+
+	/**
+	 * Applies default values based on Preferences
+	 * 
+	 */
+	protected void applyDefaults() {
+		properties.put(IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP,
+				"com.mycompany");
 	}
 
 	/**

@@ -47,7 +47,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.mapper.DBDatatypeMapping;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.db.mapper.DBTypeMapper;
@@ -56,7 +55,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.mapper.Um
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
@@ -171,7 +169,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 			createID(getBody(), getToolkit());
 		} catch (TigerstripeException ee) {
 			Status status = new Status(IStatus.WARNING,
-					TigerstripePluginConstants.PLUGIN_ID, 111,
+					EclipsePlugin.getPluginId(), 111,
 					"Unexpected Exception", ee);
 			EclipsePlugin.log(status);
 		}

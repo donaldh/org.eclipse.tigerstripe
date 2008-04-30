@@ -31,10 +31,10 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -53,7 +53,7 @@ public class PluginProjectCreator extends BaseProjectCreator implements
 				// Creates a base Eclipse project
 				createBaseProject(projectDetails, path, monitor);
 				// Add the Appropriate Natures
-				addTSandJavaNature(TigerstripeCore.PLUGINPROJECT_NATURE_ID);
+				addTSandJavaNature(BuilderConstants.PLUGINPROJECT_NATURE_ID);
 
 				// And create the content and descriptor
 				try {

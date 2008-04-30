@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.search;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.ISearchResult;
@@ -18,7 +19,6 @@ import org.eclipse.search.ui.text.AbstractTextSearchResult;
 import org.eclipse.search.ui.text.IEditorMatchAdapter;
 import org.eclipse.search.ui.text.IFileMatchAdapter;
 import org.eclipse.search.ui.text.Match;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
@@ -41,12 +41,8 @@ public class TigerstripeSearchResult extends AbstractTextSearchResult implements
 			return (IFile) element;
 		else if (element instanceof IModelComponent) {
 			if (element instanceof IAbstractArtifact) {
-				try {
-					return (IFile) TSExplorerUtils
-							.getIResourceForArtifact((IAbstractArtifact) element);
-				} catch (TigerstripeException e) {
-					// ignore
-				}
+				return (IFile) ((IAbstractArtifact) element)
+						.getAdapter(IResource.class);
 			}
 		}
 		return null;

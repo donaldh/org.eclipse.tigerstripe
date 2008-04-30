@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.depende
 
 import java.util.TreeSet;
 
-import org.eclipse.jdt.internal.core.JavaProject;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -39,7 +39,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -192,10 +191,11 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		if (dialog.open() == Window.OK) {
 			Object[] results = dialog.getResult();
 			for (Object res : results) {
-				JavaProject prj = (JavaProject) res;
+				IJavaProject prj = (IJavaProject) res;
 
-				ITigerstripeModelProject tsPrj = (ITigerstripeModelProject) TSExplorerUtils
-						.getProjectHandleFor(prj.getProject());
+				ITigerstripeModelProject tsPrj = (ITigerstripeModelProject) prj
+						.getProject()
+						.getAdapter(ITigerstripeModelProject.class);
 				if (tsPrj != null) {
 					try {
 						handle.addReferencedProject(tsPrj);
@@ -233,9 +233,6 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 
 		if (msgDialog.open() == 0) {
 			viewer.remove(selectedFields);
-			FileEditorInput input = (FileEditorInput) getPage()
-					.getEditorInput();
-
 			ITigerstripeModelProject handle = getTSProject();
 			try {
 				handle.removeReferencedProjects(selectedFields);

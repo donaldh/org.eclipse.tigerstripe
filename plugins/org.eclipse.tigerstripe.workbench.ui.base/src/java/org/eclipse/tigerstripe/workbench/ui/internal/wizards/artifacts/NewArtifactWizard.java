@@ -146,12 +146,12 @@ public abstract class NewArtifactWizard extends NewTSElementWizard {
 		}
 		monitor.worked(1);
 
-		IAbstractTigerstripeProject tsProject = EclipsePlugin
-				.getITigerstripeProjectFor(project);
+		IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) project
+				.getAdapter(IAbstractTigerstripeProject.class);
 		if (tsProject instanceof ITigerstripeModelProject) {
 			try {
-				((ITigerstripeModelProject) tsProject).getArtifactManagerSession()
-						.refresh(monitor);
+				((ITigerstripeModelProject) tsProject)
+						.getArtifactManagerSession().refresh(monitor);
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}

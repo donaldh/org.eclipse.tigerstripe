@@ -33,7 +33,6 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.TigerstripePluginConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.WorkbenchContentProvider;
@@ -97,13 +96,11 @@ public class LogicalNodeMoveAction extends AbstractLogicalNodeAction {
 								if (isValidTargetProject(cont, keyRes)
 										&& !tentativePath.equals(keyRes
 												.getProjectRelativePath()))
-									return new Status(
-											IStatus.OK,
-											TigerstripePluginConstants.PLUGIN_ID,
-											222, "", null);
+									return new Status(IStatus.OK, EclipsePlugin
+											.getPluginId(), 222, "", null);
 							}
 							IStatus result = new Status(IStatus.ERROR,
-									TigerstripePluginConstants.PLUGIN_ID, 222,
+									EclipsePlugin.getPluginId(), 222,
 									"Invalid location.", null);
 							return result;
 						}
@@ -191,9 +188,9 @@ public class LogicalNodeMoveAction extends AbstractLogicalNodeAction {
 												targetContainer, monitor);
 									} catch (TigerstripeException ee) {
 										Status status = new Status(
-												IStatus.ERROR,
-												TigerstripePluginConstants.PLUGIN_ID,
-												222, ee.getLocalizedMessage(),
+												IStatus.ERROR, EclipsePlugin
+														.getPluginId(), 222, ee
+														.getLocalizedMessage(),
 												ee);
 										throw new CoreException(status);
 									}
