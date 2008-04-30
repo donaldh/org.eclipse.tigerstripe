@@ -224,6 +224,8 @@ public class PostInstallActions {
 		// The Core .jar
 		File rootDir = new File(this.baseBundleRoot);
 		File[] rootFiles = rootDir.listFiles();
+		if ( rootFiles == null )
+			rootFiles = new File[0];
 		for (File rootFile : rootFiles) {
 			if (rootFile.getName().startsWith("ts-headless")) {
 				String libDirPath = libDir.getAbsolutePath();
