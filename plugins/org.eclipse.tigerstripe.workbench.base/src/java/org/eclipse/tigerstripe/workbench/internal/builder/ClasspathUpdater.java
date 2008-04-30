@@ -52,7 +52,6 @@ public class ClasspathUpdater {
 
 		boolean needUpdate = false;
 		boolean phantomLibFound = false;
-		boolean legacyCoreArtifactsLib = false;
 		ArrayList<IClasspathEntry> newEntryList = new ArrayList<IClasspathEntry>();
 
 		try {
@@ -184,10 +183,6 @@ public class ClasspathUpdater {
 						// created before the zip file exists, so a refresh is
 						// necessary so a "clean
 						// project action" works
-					} else if (entries[i].getPath().equals(
-							new Path(ITigerstripeConstants.LEGACYCOREOSSJ_LIB))) {
-						legacyCoreArtifactsLib = true;
-						needUpdate = true;
 					}
 					newEntryList.add(entries[i]);
 				} else {
@@ -229,8 +224,7 @@ public class ClasspathUpdater {
 			}
 
 			// We need to add all the project references mentioned in the
-			// descriptor
-			// that are not yet in the classpath
+			// descriptor that are not yet in the classpath
 			try {
 				ITigerstripeModelProject[] projects = tsProject
 						.getReferencedProjects();
@@ -254,18 +248,6 @@ public class ClasspathUpdater {
 				needUpdate = true;
 			}
 
-			// TODO: remove this @see #299
-			// This is temporary needed until a profile can contain artifacts.
-			// This ensures compatibility
-			// with previous versions of tigerstripe workbench for OSS/J
-			// projects.
-			if (!legacyCoreArtifactsLib) {
-				IClasspathEntry entry = JavaCore.newVariableEntry(new Path(
-						ITigerstripeConstants.LEGACYCOREOSSJ_LIB), null, null);
-				newEntryList.add(entry);
-				needUpdate = true;
-			}
-
 			// Now if the classpath needs an update... let's do it!
 			if (needUpdate) {
 				final IClasspathEntry[] newEntries = newEntryList
@@ -279,16 +261,18 @@ public class ClasspathUpdater {
 	}
 
 	public static IClasspathEntry newLibraryEntry(IPath path) {
-		return new ClasspathEntry(IPackageFragmentRoot.K_BINARY,
-				IClasspathEntry.CPE_LIBRARY, JavaProject
-						.canonicalizedPath(path), ClasspathEntry.INCLUDE_ALL, // inclusion
-				// patterns
-				ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
-				null, null, null, // specific output folder
-				false, ClasspathEntry.NO_ACCESS_RULES, false, // no access
-				// rules to
-				// combine
-				ClasspathEntry.NO_EXTRA_ATTRIBUTES);
+		return JavaCore.newLibraryEntry(path, 
+				null, null, false);
+//		return new ClasspathEntry(IPackageFragmentRoot.K_BINARY,
+//				IClasspathEntry.CPE_LIBRARY, JavaProject
+//						.canonicalizedPath(path), ClasspathEntry.INCLUDE_ALL, // inclusion
+//				// patterns
+//				ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
+//				null, null, null, // specific output folder
+//				false, ClasspathEntry.NO_ACCESS_RULES, false, // no access
+//				// rules to
+//				// combine
+//				ClasspathEntry.NO_EXTRA_ATTRIBUTES);
 	}
 
 	private static IClasspathEntry newProjectEntry(

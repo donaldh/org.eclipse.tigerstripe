@@ -446,22 +446,6 @@ public class PostInstallActions {
 		} catch (JavaModelException e) {
 			BasePlugin.log(e);
 		}
-
-		// TODO: remove this. @see #299
-		// This is temporary until a profile can contain default artifacts (in
-		// this case
-		// the OSSJ profile).
-		try {
-			String pathStr = baseBundleRoot
-					+ ITigerstripeConstants.LEGACYCOREOSSJ_DEF;
-			Path legacyOssjPath = new Path(pathStr);
-			JavaCore.setClasspathVariable(
-					ITigerstripeConstants.LEGACYCOREOSSJ_LIB, legacyOssjPath,
-					null);
-		} catch (JavaModelException e) {
-			BasePlugin.log(e);
-		}
-
 	}
 
 	/**
@@ -490,9 +474,6 @@ public class PostInstallActions {
 		installProperties.setProperty(TigerstripeRuntime.EXTERNAL_API_ARCHIVE,
 				JavaCore.getClasspathVariable(
 						ITigerstripeConstants.EXTERNALAPI_LIB).toOSString());
-		installProperties.setProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE,
-				JavaCore.getClasspathVariable(
-						ITigerstripeConstants.LEGACYCOREOSSJ_LIB).toOSString());
 
 		// And save
 		FileOutputStream oStream = null;

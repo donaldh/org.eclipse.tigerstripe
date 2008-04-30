@@ -157,24 +157,11 @@ public class ModulePackager implements IModulePackager {
 		// Add all the dependencies of this project
 		try {
 			String classpath = "";
-			String coreLib = null;
 			ITigerstripeModelProject project = getTSProject();
 			for (IDependency dep : project.getDependencies()) {
-				String s = dep.getPath();
-				if (dep.getPath().endsWith(
-						ITigerstripeConstants.LEGACYCOREOSSJ_DEF.replace('/',
-								File.separatorChar))) {
-					coreLib = dep.getPath();
-					continue; // add the core lib at the end
-				} else
-					classpath += getTSProject().getLocation().toFile()
-							+ File.separator + dep.getPath() + ";";
+				classpath += getTSProject().getLocation().toFile()
+						+ File.separator + dep.getPath() + ";";
 			}
-			if (coreLib != null) {
-				classpath += coreLib;
-			}
-
-			// FIXME: still need to add the OSSJ built-in module
 
 			if (classpath.length() != 0) {
 				compilerArgs.add("-classpath");
@@ -199,8 +186,8 @@ public class ModulePackager implements IModulePackager {
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage(
 					"Error while compiling artifacts for project '"
-							+ getTSProject().getProjectLabel()
-							+ "': " + e.getMessage(), e);
+							+ getTSProject().getProjectLabel() + "': "
+							+ e.getMessage(), e);
 		}
 
 		// Try and compile

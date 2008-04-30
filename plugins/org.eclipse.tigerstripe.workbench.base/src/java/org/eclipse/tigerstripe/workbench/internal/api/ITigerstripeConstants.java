@@ -45,8 +45,8 @@ public interface ITigerstripeConstants {
 	public final static String EQUINOX_COMMON = "Equinox Common";
 
 	// TODO remove these 2 defs @see #299
-	public final static String LEGACYCOREOSSJ_LIB = "Legacy Core Artifacts";
-
-	public final static String LEGACYCOREOSSJ_DEF = File.separator
-			+ "src/compatibility/1.1.x/distrib.core.model-1.0.6.jar";
+//	public final static String LEGACYCOREOSSJ_LIB = "Legacy Core Artifacts";
+//
+//	public final static String LEGACYCOREOSSJ_DEF = File.separator
+//			+ "src/compatibility/1.1.x/distrib.core.model-1.0.6.jar";
 }

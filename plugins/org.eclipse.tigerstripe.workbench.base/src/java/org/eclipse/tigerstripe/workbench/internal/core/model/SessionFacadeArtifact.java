@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
@@ -40,9 +39,6 @@ import com.thoughtworks.qdox.model.JavaClass;
  */
 public class SessionFacadeArtifact extends AbstractArtifact implements
 		ISessionArtifact {
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(SessionFacadeArtifact.class);
 
 	// ===== populated during artifact extraction
 	private Collection<IManagedEntityDetails> managedEntities;
@@ -93,8 +89,6 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
-		log.debug(" Extracting Session from "
-				+ javaClass.getFullyQualifiedName());
 		SessionFacadeArtifact result = new SessionFacadeArtifact(javaClass,
 				artifactMgr, monitor);
 
@@ -157,7 +151,6 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 
 	public void addManagedEntity(ManagedEntityDetails me) {
 		if (!this.managedEntities.contains(me)) {
-			log.debug("added " + me.getFullyQualifiedName());
 			this.managedEntities.add(me);
 		}
 	}

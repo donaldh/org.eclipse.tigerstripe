@@ -102,11 +102,6 @@ public class ModelProjectCreator extends BaseProjectCreator implements
 						.getFullPath()),
 				JavaRuntime.getDefaultJREContainerEntry(),
 				JavaCore.newVariableEntry(new Path(
-						ITigerstripeConstants.LEGACYCOREOSSJ_LIB), null, null), // TODO:
-				// remove
-				// @see
-				// #299
-				JavaCore.newVariableEntry(new Path(
 						ITigerstripeConstants.PHANTOMLIB), null, null) };
 
 		newJavaProject.setRawClasspath(buildPath, projectHandle.getFullPath()

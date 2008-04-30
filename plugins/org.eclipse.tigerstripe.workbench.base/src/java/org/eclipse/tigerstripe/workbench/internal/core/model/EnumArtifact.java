@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
@@ -31,9 +30,6 @@ import com.thoughtworks.qdox.model.JavaClass;
  * 
  */
 public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(EnumArtifact.class);
 
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.ENUM;

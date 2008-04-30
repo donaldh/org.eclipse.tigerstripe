@@ -16,14 +16,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
 import org.eclipse.tigerstripe.annotations.AnnotationSchemeRegistry;
 import org.eclipse.tigerstripe.annotations.AnnotationStore;
 import org.eclipse.tigerstripe.annotations.IAnnotable;
 import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
 import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
-import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
 import org.eclipse.tigerstripe.metamodel.IModelComponentMetadata;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -48,9 +46,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  */
 public abstract class ArtifactComponent implements IModelComponent,
 		IStereotypeCapable {
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(ArtifactComponent.class);
 
 	/** the stereotypes attached to this component */
 	private ArrayList<IStereotypeInstance> stereotypeInstances = new ArrayList<IStereotypeInstance>();
@@ -264,11 +259,6 @@ public abstract class ArtifactComponent implements IModelComponent,
 	}
 
 	protected void addCustomProperty(String name, String value) {
-		if (this.customProperties.contains(name)) {
-			log.debug("Warning custom property '" + name
-					+ "' already defined on " + this.getName());
-		}
-
 		this.customProperties.put(name, value);
 	}
 
@@ -393,9 +383,9 @@ public abstract class ArtifactComponent implements IModelComponent,
 	}
 
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
-		if ( getParentArtifact() != null ) 
+		if (getParentArtifact() != null)
 			return getParentArtifact().getProject();
 		return null;
 	}
-	
+
 }

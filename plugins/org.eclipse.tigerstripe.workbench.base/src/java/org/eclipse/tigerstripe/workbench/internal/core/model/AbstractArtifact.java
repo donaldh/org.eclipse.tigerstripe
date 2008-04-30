@@ -24,20 +24,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -100,9 +95,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	// The fully qualifiedName for this artifact
 	private String _fullyQualifiedName;
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(AbstractArtifact.class);
 
 	/** The collection of methods for this artifact */
 	protected Collection<IMethod> methods;
@@ -368,7 +360,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 										IAdvancedProperties.PROP_MISC_IgnoreArtifactElementsWithoutTag));
 			}
 		} catch (TigerstripeException e) {
-			log.error(e);
+			BasePlugin.log(e);
 		}
 
 		// Then the methods

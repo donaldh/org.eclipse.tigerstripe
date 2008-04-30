@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
@@ -30,9 +29,6 @@ import com.thoughtworks.qdox.model.JavaClass;
  */
 public class ExceptionArtifact extends AbstractArtifact implements
 		IExceptionArtifact {
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(ExceptionArtifact.class);
 
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.EXCEPTION;
@@ -63,8 +59,7 @@ public class ExceptionArtifact extends AbstractArtifact implements
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IExceptionArtifactImpl.class.getName())
-				.getLabel();
+				IExceptionArtifactImpl.class.getName()).getLabel();
 	}
 
 	@Override

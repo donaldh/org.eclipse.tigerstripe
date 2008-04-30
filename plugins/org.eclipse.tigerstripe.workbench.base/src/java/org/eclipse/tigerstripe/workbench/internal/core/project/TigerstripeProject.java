@@ -34,7 +34,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.log4j.Logger;
 import org.apache.tools.ant.util.ReaderInputStream;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -545,13 +544,6 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		if (getBaseDir() == null)
 			// dependencies within modules are ignored
 			return;
-
-		// handle default Dep
-		if (getBaseDir() != null
-				&& !getProjectDetails().getName().equals("Phantom Project")) { // don't
-			// do that on TS Modules
-			addDependency(TigerstripeRuntime.getCoreOssjArchive());
-		}
 
 		NodeList dependencyNode = document.getElementsByTagName(DEPENDENCY_TAG);
 

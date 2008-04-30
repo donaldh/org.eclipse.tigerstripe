@@ -24,7 +24,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
-import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 
@@ -354,24 +353,6 @@ public class TigerstripeRuntime {
 
 	public static void setTigerstripeRuntimeRoot(String tigerstripeRuntimeDir) {
 		tigerstripeRuntimeRoot = tigerstripeRuntimeDir;
-	}
-
-	/**
-	 * Since 1.2 the distrib.core.model-1.0.x.jar module is not visible to the
-	 * user it is shipped internally in hope to remove it at some point and add
-	 * the corresponding artifacts in the profile itself.
-	 * 
-	 * @return
-	 */
-	public static IDependency getCoreOssjArchive() {
-		if (coreOssjArchive == null) {
-			String corePath = TigerstripeRuntime
-					.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
-			coreOssjArchive = new Dependency(corePath);
-			coreOssjArchive.isValid(); // force validation
-		}
-
-		return coreOssjArchive;
 	}
 
 	public static String getLogStartTime() {

@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -35,9 +34,6 @@ import com.thoughtworks.qdox.model.JavaClass;
  */
 public class ManagedEntityArtifact extends AbstractArtifact implements
 		IManagedEntityArtifact {
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(ManagedEntityArtifact.class);
 
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.MANAGEDENTITY;
@@ -82,10 +78,6 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
-		log.debug(" Extracting Entity from "
-				+ javaClass.getFullyQualifiedName());
-		// validate( javaClass );
-
 		ManagedEntityArtifact result = new ManagedEntityArtifact(javaClass,
 				artifactMgr, monitor);
 		return result;
