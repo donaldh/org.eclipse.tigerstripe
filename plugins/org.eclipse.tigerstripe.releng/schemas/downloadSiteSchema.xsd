@@ -69,8 +69,11 @@
 			<extension base="tb:downloadSiteElement">
 
 				<sequence>
-					<element name="bundle" type="tb:bundle" maxOccurs="unbounded" minOccurs="0"></element>
+					<element name="bundle" type="tb:bundle"
+						maxOccurs="unbounded" minOccurs="0">
+					</element>
 				</sequence>
+				<attribute name="junitResultsURL" type="string"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>

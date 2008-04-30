@@ -2,12 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ComponentImpl.java,v 1.2 2008/04/08 22:22:16 edillon Exp $
+ * $Id: ComponentImpl.java,v 1.3 2008/04/30 21:37:10 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema.impl;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -15,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -30,6 +32,7 @@ import org.eclipse.tigerstripe.releng.downloadsite.schema.DownloadSitePackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.ComponentImpl#getBundle <em>Bundle</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.ComponentImpl#getJunitResultsURL <em>Junit Results URL</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,6 +48,25 @@ public class ComponentImpl extends DownloadSiteElementImpl implements Component 
 	 * @ordered
 	 */
 	protected EList<Bundle> bundle;
+
+	/**
+	 * The default value of the '{@link #getJunitResultsURL() <em>Junit Results URL</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getJunitResultsURL()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String JUNIT_RESULTS_URL_EDEFAULT = null;
+	/**
+	 * The cached value of the '{@link #getJunitResultsURL() <em>Junit Results URL</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getJunitResultsURL()
+	 * @generated
+	 * @ordered
+	 */
+	protected String junitResultsURL = JUNIT_RESULTS_URL_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -82,6 +104,27 @@ public class ComponentImpl extends DownloadSiteElementImpl implements Component 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getJunitResultsURL() {
+		return junitResultsURL;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setJunitResultsURL(String newJunitResultsURL) {
+		String oldJunitResultsURL = junitResultsURL;
+		junitResultsURL = newJunitResultsURL;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DownloadSitePackage.COMPONENT__JUNIT_RESULTS_URL, oldJunitResultsURL, junitResultsURL));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -101,6 +144,8 @@ public class ComponentImpl extends DownloadSiteElementImpl implements Component 
 		switch (featureID) {
 			case DownloadSitePackage.COMPONENT__BUNDLE:
 				return getBundle();
+			case DownloadSitePackage.COMPONENT__JUNIT_RESULTS_URL:
+				return getJunitResultsURL();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -118,6 +163,9 @@ public class ComponentImpl extends DownloadSiteElementImpl implements Component 
 				getBundle().clear();
 				getBundle().addAll((Collection<? extends Bundle>)newValue);
 				return;
+			case DownloadSitePackage.COMPONENT__JUNIT_RESULTS_URL:
+				setJunitResultsURL((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -133,6 +181,9 @@ public class ComponentImpl extends DownloadSiteElementImpl implements Component 
 			case DownloadSitePackage.COMPONENT__BUNDLE:
 				getBundle().clear();
 				return;
+			case DownloadSitePackage.COMPONENT__JUNIT_RESULTS_URL:
+				setJunitResultsURL(JUNIT_RESULTS_URL_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -147,8 +198,26 @@ public class ComponentImpl extends DownloadSiteElementImpl implements Component 
 		switch (featureID) {
 			case DownloadSitePackage.COMPONENT__BUNDLE:
 				return bundle != null && !bundle.isEmpty();
+			case DownloadSitePackage.COMPONENT__JUNIT_RESULTS_URL:
+				return JUNIT_RESULTS_URL_EDEFAULT == null ? junitResultsURL != null : !JUNIT_RESULTS_URL_EDEFAULT.equals(junitResultsURL);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (junitResultsURL: ");
+		result.append(junitResultsURL);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ComponentImpl

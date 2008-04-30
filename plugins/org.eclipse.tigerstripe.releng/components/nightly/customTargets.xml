@@ -92,7 +92,7 @@
 		</antcall>
 
 		<dsite.addComponent file="${buildDescriptor}">
-			<component name="Tigerstripe Base Feature" summary="Base Tigerstripe Funtionalities (Headless, no UI)">
+			<component name="Tigerstripe Base Feature" summary="Base Tigerstripe Funtionalities (Headless, no UI)" junitResultsURL="@download.prefix@/Tigerstripe-base-tests_${buildLabel}.html">
 				<bundle name="tigerstripe-base-${buildLabel}.zip" summary="Tigerstripe Plugins only" size="18M" link="@download.prefix@/tigerstripe-base-${buildLabel}.zip" />
 				<bundle name="bundle-tigerstripe-base-${buildLabel}.zip" size="80M" summary="Tigerstripe Plugins + Required Plugins" link="@download.prefix@/bundle-base-workbench-${buildLabel}.zip" />
 			</component>
@@ -323,13 +323,13 @@
 	<target name="postBuild">
 		<!--  		<ant antfile="${scripts}/package.xml" target="pack200" />-->
 		<antcall target="gatherLogs" />
-		<antcall target="test" />
+		<antcall target="test-base" />
 	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do to test the build results -->
 	<!-- ===================================================================== -->
-	<target name="test">
+	<target name="test-base">
 		<property file="${buildDirectory}/finalPluginsVersions.properties" />
 		<property name="test-archive" value="Tigerstripe-base-test-${buildLabel}.zip" />
 		<unzip dest="${baseLocation}/.." src="${buildDirectory}/${buildLabel}/${test-archive}" />
@@ -344,27 +344,7 @@
 			<property name="report" value="org.eclipse.tigerstripe.base.test.all" />
 		</ant>
 
-	</target>
-
-	<!-- ===================================================================== -->
-	<!-- Steps to do to publish the build results -->
-	<!-- ===================================================================== -->
-	<target name="publish">
-		<!-- Publishing zip archive containing packed jars for update site -->
-		<copy file="${buildDirectory}/${buildLabel}/${archiveName}" todir="${artifacts.updates}/${buildLabel}" />
-
-		<!-- Building the  -->
-
-		<!-- Unpacking jars to produce downloadable zips -->
-		<ant antfile="${scripts}/package.xml" target="unpackUpdateJarsAndRepack" />
-		<ant antfile="${scripts}/package.xml" target="packageBundle" />
-		<ant antfile="${scripts}/package.xml" target="packageDistrib" />
-
-		<!-- Publishing downloadable bits -->
-		<move file="${buildDirectory}/${buildLabel}" tofile="${artifacts.drops}/${buildLabel}" />
-
-		<ant antfile="${scripts}/updateInternalWebsite.xml" target="upload-drop-details" />
-		<ant antfile="${scripts}/updateInternalWebsite.xml" target="upload-internalSite" />
+		<copy file="${baseLocation}/results/org.eclipse.tigerstripe.workbench.base.test.AllTests.html" tofile="${buildDirectory}/${buildLabel}/Tigerstripe-base-tests_${buildLabel}.html" />
 	</target>
 
 	<target name="createChecksums">

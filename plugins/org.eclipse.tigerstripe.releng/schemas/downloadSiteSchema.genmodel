@@ -29,6 +29,7 @@
     </genClasses>
     <genClasses ecoreClass="downloadSiteSchema.ecore#//Component">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference downloadSiteSchema.ecore#//Component/bundle"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute downloadSiteSchema.ecore#//Component/junitResultsURL"/>
     </genClasses>
     <genClasses ecoreClass="downloadSiteSchema.ecore#//Dependency"/>
     <genClasses ecoreClass="downloadSiteSchema.ecore#//Detail"/>

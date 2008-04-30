@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DownloadSitePackage.java,v 1.2 2008/04/08 22:22:15 edillon Exp $
+ * $Id: DownloadSitePackage.java,v 1.3 2008/04/30 21:37:10 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema;
 
@@ -323,13 +323,22 @@ public interface DownloadSitePackage extends EPackage {
 	int COMPONENT__BUNDLE = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Junit Results URL</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT__JUNIT_RESULTS_URL = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Component</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_FEATURE_COUNT = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 1;
+	int COMPONENT_FEATURE_COUNT = DOWNLOAD_SITE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DependencyImpl <em>Dependency</em>}' class.
@@ -684,6 +693,17 @@ public interface DownloadSitePackage extends EPackage {
 	EReference getComponent_Bundle();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Component#getJunitResultsURL <em>Junit Results URL</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Junit Results URL</em>'.
+	 * @see org.eclipse.tigerstripe.releng.downloadsite.schema.Component#getJunitResultsURL()
+	 * @see #getComponent()
+	 * @generated
+	 */
+	EAttribute getComponent_JunitResultsURL();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.Dependency <em>Dependency</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -935,6 +955,14 @@ public interface DownloadSitePackage extends EPackage {
 		 * @generated
 		 */
 		EReference COMPONENT__BUNDLE = eINSTANCE.getComponent_Bundle();
+
+		/**
+		 * The meta object literal for the '<em><b>Junit Results URL</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPONENT__JUNIT_RESULTS_URL = eINSTANCE.getComponent_JunitResultsURL();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.releng.downloadsite.schema.impl.DependencyImpl <em>Dependency</em>}' class.

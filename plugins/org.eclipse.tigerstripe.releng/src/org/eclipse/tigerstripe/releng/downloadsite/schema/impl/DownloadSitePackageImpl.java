@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DownloadSitePackageImpl.java,v 1.2 2008/04/08 22:22:16 edillon Exp $
+ * $Id: DownloadSitePackageImpl.java,v 1.3 2008/04/30 21:37:10 edillon Exp $
  */
 package org.eclipse.tigerstripe.releng.downloadsite.schema.impl;
 
@@ -301,6 +301,15 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getComponent_JunitResultsURL() {
+		return (EAttribute)componentEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getDependency() {
 		return dependencyEClass;
 	}
@@ -446,6 +455,7 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 
 		componentEClass = createEClass(COMPONENT);
 		createEReference(componentEClass, COMPONENT__BUNDLE);
+		createEAttribute(componentEClass, COMPONENT__JUNIT_RESULTS_URL);
 
 		dependencyEClass = createEClass(DEPENDENCY);
 
@@ -521,6 +531,7 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 
 		initEClass(componentEClass, Component.class, "Component", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponent_Bundle(), this.getBundle(), null, "bundle", null, 0, -1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getComponent_JunitResultsURL(), theXMLTypePackage.getString(), "junitResultsURL", null, 0, 1, Component.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dependencyEClass, Dependency.class, "Dependency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -662,6 +673,13 @@ public class DownloadSitePackageImpl extends EPackageImpl implements DownloadSit
 			 "kind", "element",
 			 "name", "bundle",
 			 "namespace", "##targetNamespace"
+		   });		
+		addAnnotation
+		  (getComponent_JunitResultsURL(), 
+		   source, 
+		   new String[] {
+			 "kind", "attribute",
+			 "name", "junitResultsURL"
 		   });		
 		addAnnotation
 		  (dependencyEClass, 
