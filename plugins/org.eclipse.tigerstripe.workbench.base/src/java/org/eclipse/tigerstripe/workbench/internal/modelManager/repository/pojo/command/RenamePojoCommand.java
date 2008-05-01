@@ -58,7 +58,7 @@ public class RenamePojoCommand extends PojoRepositoryCommand {
 			Resource newResource = rSet.createResource(newURI);
 			newResource.getContents().add(getArtifact());
 			newResource.save(null);
-			
+
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);// FIXME what's the right way to handle this?
 		} catch (IOException e) {
