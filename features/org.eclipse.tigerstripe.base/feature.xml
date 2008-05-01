@@ -22,10 +22,8 @@
       <discovery label="Tigerstripe Wiki" url="http://wiki.eclipse.org/Tigerstripe"/>
    </url>
 
-   <plugin
-         id="org.eclipse.tigerstripe.annotations"
-         download-size="0"
-         install-size="0"
+   <includes
+         id="org.eclipse.tigerstripe.annotation.feature"
          version="0.0.0"/>
 
    <plugin
@@ -42,63 +40,28 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.tigerstripe.annotation.core"
+         id="org.eclipse.tigerstripe.annotation.ts2project.router"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.tigerstripe.annotation.java"
+         id="org.eclipse.tigerstripe.annotation.tsmodel"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.tigerstripe.annotation.java.ui"
+         id="org.eclipse.tigerstripe.workbench.headless"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.tigerstripe.annotation.java.ui.refactoring"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.tigerstripe.annotation.resource"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.tigerstripe.annotation.resource.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.tigerstripe.annotation.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.tigerstripe.espace.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.tigerstripe.espace.resources"
+         id="org.eclipse.tigerstripe.workbench.help"
          download-size="0"
          install-size="0"
          version="0.0.0"
