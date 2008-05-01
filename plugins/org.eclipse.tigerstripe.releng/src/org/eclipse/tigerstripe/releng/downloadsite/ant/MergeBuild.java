@@ -96,6 +96,7 @@ public class MergeBuild extends BaseTask {
 
 		try {
 			buildsRes.save(new HashMap<Object, Object>());
+			buildsRes.unload();
 		} catch (IOException e) {
 			throw new BuildException(e);
 		}

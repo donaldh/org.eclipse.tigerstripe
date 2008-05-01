@@ -92,7 +92,7 @@
 		</antcall>
 
 		<dsite.addComponent file="${buildDescriptor}">
-			<component name="Tigerstripe Base Feature" summary="Base Tigerstripe Funtionalities (Headless, no UI)" junitResultsURL="@download.prefix@/Tigerstripe-base-tests_${buildLabel}.html">
+			<component name="Tigerstripe Base Feature" summary="Base Tigerstripe Funtionalities (Headless, no UI)" junitResultsURL="@download.prefix.direct@/Tigerstripe-base-tests_${buildLabel}.html">
 				<bundle name="tigerstripe-base-${buildLabel}.zip" summary="Tigerstripe Plugins only" size="18M" link="@download.prefix@/tigerstripe-base-${buildLabel}.zip" />
 				<bundle name="bundle-tigerstripe-base-${buildLabel}.zip" size="80M" summary="Tigerstripe Plugins + Required Plugins" link="@download.prefix@/bundle-base-workbench-${buildLabel}.zip" />
 			</component>

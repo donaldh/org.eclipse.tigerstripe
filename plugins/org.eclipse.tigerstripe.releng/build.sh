@@ -28,7 +28,7 @@ export	TSTIME=`date "+%Y%m%d%H%M%S" | sed "s/[_-]//g" | awk '{ print substr($1, 
 export CLASSPATH=pde/org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar
 
 ## Adding jSch to classpath to enable "scp" task in Ant.
-export CLASSPATH=${CLASSPATH}:lib/jsch-0.1.37.jar
+export CLASSPATH=${CLASSPATH}:lib/jsch-0.1.38.jar
 
 
 ${JAVA_HOME}/bin/java -Xmx1024m -cp ${CLASSPATH} \
