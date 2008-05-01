@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UML2Import Plug-in
+Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.UML2Import;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.uml2import.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.tigerstripe.workbench.base,
+ org.eclipse.uml2.uml,
+ org.eclipse.jdt.core,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.ui,
+ org.eclipse.tigerstripe.workbench.ui.base,
+ org.eclipse.ui.ide
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.tigerstripe.workbench.ui.uml2import.internal.model,
+ org.eclipse.tigerstripe.workbench.ui.uml2import.internal.profile

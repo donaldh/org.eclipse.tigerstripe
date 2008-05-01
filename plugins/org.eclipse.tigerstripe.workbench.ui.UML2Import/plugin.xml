@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="umlImportModelTrimmer" name="uml Import Model Trimmer" schema="schema/umlImportModelTrimmer.exsd"/>
+   <extension-point id="umlImportModelMapper" name="uml Import Model Mapper" schema="schema/umlImportModelMapper.exsd"/>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            id="org.eclipse.tigerstripe.workbench.UML2Import.category"
+            name="Tigerstripe2">
+      </category>
+      <wizard
+            category="org.eclipse.tigerstripe.workbench.UML2Import.category"
+            class="org.eclipse.tigerstripe.workbench.ui.uml2import.ui.wizards.UML2ImportWizard"
+            icon="src/icons/importExport.gif"
+            id="org.eclipse.tigerstripe.workbench.UML2Import.wizard1"
+            name="UML2 Import">
+      </wizard>
+      <wizard
+            category="org.eclipse.tigerstripe.workbench.UML2Import.category"
+            class="org.eclipse.tigerstripe.workbench.ui.uml2import.ui.wizards.ImportUML2ProfileWizard"
+            icon="src/icons/importExport.gif"
+            id="org.eclipse.tigerstripe.workbench.UML2Import.wizard2"
+            name="UML2 Profile Import">
+      </wizard>
+   </extension>
+
+</plugin>
