@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.IStatus;
@@ -138,7 +139,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method return"));
 			return null;
 		}
-
+		
+		public List<Object> getAnnotations(String schemeID) {
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method return"));
+			return null;
+		}
 	}
 
 	public String getDefaultReturnValue() {
@@ -727,7 +733,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method Arguments"));
 			return null;
 		}
-
+		
+		public List<Object> getAnnotations(String schemeID) {
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method Arguments"));
+			return null;
+		}
 	}
 
 	public class Exception implements IException {

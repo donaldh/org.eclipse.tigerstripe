@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.profile.stereotype;
 
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -52,6 +53,8 @@ public interface IStereotypeCapable {
 	public void removeStereotypeInstance(IStereotypeInstance instance);
 
 	public void removeStereotypeInstances(Collection<IStereotypeInstance> instances);
+
+	public List<Object> getAnnotations( String schemeID);
 
 	public Object getAnnotation( String schemeID, String annotationSpecificationID );
 

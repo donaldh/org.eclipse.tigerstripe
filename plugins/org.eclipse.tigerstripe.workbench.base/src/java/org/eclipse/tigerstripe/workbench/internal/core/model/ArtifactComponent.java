@@ -11,17 +11,23 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
-import org.eclipse.tigerstripe.annotations.AnnotationSchemeRegistry;
-import org.eclipse.tigerstripe.annotations.AnnotationStore;
-import org.eclipse.tigerstripe.annotations.IAnnotable;
-import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
-import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
+//import org.apache.log4j.Logger;
+//import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
+//import org.eclipse.tigerstripe.annotations.AnnotationSchemeRegistry;
+//import org.eclipse.tigerstripe.annotations.AnnotationStore;
+//import org.eclipse.tigerstripe.annotations.IAnnotable;
+//import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
+//import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
+import org.eclipse.jdt.core.util.IAnnotation;
+import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
 import org.eclipse.tigerstripe.metamodel.IModelComponentMetadata;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -38,6 +44,13 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+
+
+import org.eclipse.tigerstripe.annotation.core.Annotable;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IAnnotable;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 
 /**
  * @author Eric Dillon
@@ -353,7 +366,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
 		if (adapter == IAnnotable.class) {
-			return new ModelComponentAnnotable(this);
+			return null;
 		}
 		return null;
 	}
@@ -363,22 +376,32 @@ public abstract class ArtifactComponent implements IModelComponent,
 				.artifactMetadataMigrateClassname(this.getClass().getName()));
 	}
 
+	public List<Object> getAnnotations(String schemeID)
+	{
+		IAnnotationManager mgr = AnnotationPlugin.getManager();
+		List<Object> annotations = new LinkedList<Object>();
+		Annotation[] all = mgr.getAnnotations(this);
+		for(Annotation a : all)
+		{
+			if(a.getUri().scheme().equals(schemeID))
+			{
+				annotations.add(a);
+			}
+		}
+		return Collections.unmodifiableList(annotations);
+	}
+	
 	public Object getAnnotation(String schemeID,
 			String annotationSpecificationID) {
-		ModelComponentAnnotable annotable = new ModelComponentAnnotable(this);
-		AnnotationSchemeRegistry registry = AnnotationSchemeRegistry.eINSTANCE;
-		try {
-			IAnnotationScheme scheme = registry
-					.getAnnotationSchemeByID(schemeID);
-			IAnnotationSpecification spec = scheme
-					.findAnnotationSpecification(annotationSpecificationID);
-			if (scheme != null) {
-				AnnotationStore store = annotable.getStore(scheme);
-				return store.getAnnotation(spec, annotable.getURI());
-			}
-		} catch (AnnotationCoreException e) {
-			BasePlugin.log(e);
+		List<Object> all = getAnnotations(schemeID);
+		for(Object obj : all)
+		{
+			Annotation a = (Annotation)obj;
+			return a;
+			// And just how do I select an annotation??
+//			if(a.)
 		}
+
 		return null;
 	}
 
