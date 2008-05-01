@@ -14,10 +14,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
-import org.eclipse.tigerstripe.annotations.AnnotationSchemeRegistry;
-import org.eclipse.tigerstripe.annotations.AnnotationStore;
-import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
+//import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
+//import org.eclipse.tigerstripe.annotations.AnnotationSchemeRegistry;
+//import org.eclipse.tigerstripe.annotations.AnnotationStore;
+//import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
@@ -40,50 +40,50 @@ public class ModelChangeHandler implements IArtifactChangeListener {
 		// Remove the corresponding URI entry from store
 		ModelComponentAnnotable annotable = new ModelComponentAnnotable(
 				artifact);
-		AnnotationSchemeRegistry registry = AnnotationSchemeRegistry.eINSTANCE;
-
-		try {
-			for (IAnnotationScheme scheme : registry
-					.getDefinedSchemes(annotable.getURI())) {
-				AnnotationStore store = annotable.getStore(scheme);
-				store.uriRemoved(annotable.getURI());
-			}
-		} catch (AnnotationCoreException e) {
-			BasePlugin.log(e);
-		}
+//		AnnotationSchemeRegistry registry = AnnotationSchemeRegistry.eINSTANCE;
+//
+//		try {
+//			for (IAnnotationScheme scheme : registry
+//					.getDefinedSchemes(annotable.getURI())) {
+//				AnnotationStore store = annotable.getStore(scheme);
+//				store.uriRemoved(annotable.getURI());
+//			}
+//		} catch (AnnotationCoreException e) {
+//			BasePlugin.log(e);
+//		}
 	}
 
 	public void artifactRenamed(final IAbstractArtifact artifact,
 			final String fromFQN) {
 
-		Job renameJob = new Job("Annotation update job(rename)") {
-
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				// Rename the corresponding URI entry from store
-				ModelComponentAnnotable annotable = new ModelComponentAnnotable(
-						artifact);
-				AnnotationSchemeRegistry registry = AnnotationSchemeRegistry.eINSTANCE;
-				try {
-					String oldURI = annotable.getURIFor(fromFQN).toString();
-
-					for (IAnnotationScheme scheme : registry
-							.getDefinedSchemes(annotable.getURI())) {
-						AnnotationStore store = annotable.getStore(scheme);
-						store.uriChanged(oldURI, annotable.getURI());
-					}
-				} catch (AnnotationCoreException e) {
-					BasePlugin.log(e);
-					return Status.CANCEL_STATUS;
-				} catch (TigerstripeException e) {
-					BasePlugin.log(e);
-					return Status.CANCEL_STATUS;
-				}
-				return Status.OK_STATUS;
-			}
-		};
-
-		renameJob.schedule();
+//		Job renameJob = new Job("Annotation update job(rename)") {
+//
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
+//				// Rename the corresponding URI entry from store
+//				ModelComponentAnnotable annotable = new ModelComponentAnnotable(
+//						artifact);
+//				AnnotationSchemeRegistry registry = AnnotationSchemeRegistry.eINSTANCE;
+//				try {
+//					String oldURI = annotable.getURIFor(fromFQN).toString();
+//
+//					for (IAnnotationScheme scheme : registry
+//							.getDefinedSchemes(annotable.getURI())) {
+//						AnnotationStore store = annotable.getStore(scheme);
+//						store.uriChanged(oldURI, annotable.getURI());
+//					}
+//				} catch (AnnotationCoreException e) {
+//					BasePlugin.log(e);
+//					return Status.CANCEL_STATUS;
+//				} catch (TigerstripeException e) {
+//					BasePlugin.log(e);
+//					return Status.CANCEL_STATUS;
+//				}
+//				return Status.OK_STATUS;
+//			}
+//		};
+//
+//		renameJob.schedule();
 	}
 
 	public void managerReloaded() {

@@ -18,7 +18,6 @@ import java.util.Properties;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.tigerstripe.annotations.IAnnotable;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -125,8 +124,7 @@ public class Field extends ArtifactComponent implements IField {
 
 		com.thoughtworks.qdox.model.Type type = field.getType();
 		// Create a type with a basic Multiplicity that can be reset below.
-		this.type = new Type(type.getValue(), EMultiplicity.ONE,
-				getArtifactManager());
+		this.type = new Type(type.getValue(), EMultiplicity.ONE, getArtifactManager()); 
 		setName(field.getName());
 
 		Tag tag = getFirstTagByName(AbstractArtifactTag.PREFIX
@@ -162,6 +160,7 @@ public class Field extends ArtifactComponent implements IField {
 		extractStereotypes();
 
 	}
+
 
 	public boolean isRefByValue() {
 		return "value".equalsIgnoreCase(this.refBy);
@@ -348,7 +347,7 @@ public class Field extends ArtifactComponent implements IField {
 		}
 		return result;
 	}
-
+	
 	@Override
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		if (getContainingArtifact() != null)
