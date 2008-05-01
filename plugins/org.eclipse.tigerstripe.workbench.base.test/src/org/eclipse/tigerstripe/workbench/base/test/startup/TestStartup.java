@@ -45,15 +45,6 @@ public class TestStartup extends TestCase {
 		File phantomDir = new File(tigerstripeDir.getAbsolutePath()
 				+ File.separator + "phantom");
 		assertTrue(phantomDir.exists());
-
-		// Check for bin dir and its content
-		File binDir = new File(tigerstripeDir.getAbsolutePath()
-				+ File.separator + "bin");
-		assertTrue(phantomDir.exists());
-		assertTrue(new File(binDir.getAbsolutePath() + File.separator
-				+ "tigerstripe").exists());
-		assertTrue(new File(binDir.getAbsolutePath() + File.separator
-				+ "tigerstripe.bat").exists());
 	}
 
 	public void testLog() throws Exception {
