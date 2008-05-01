@@ -61,12 +61,6 @@ public class BasePlugin extends Plugin {
 
 		executePostInstallationActions(context);
 
-		// Register AdapterFactories
-		IAdapterManager manager = Platform.getAdapterManager();
-		IAdapterFactory factory = new AnnotableAdapterFactory();
-		manager.registerAdapters(factory, IJavaElement.class);
-		manager.registerAdapters(factory, IModelComponent.class);
-
 		extensionPointRegistered();
 
 		startWorkspaceListener();
