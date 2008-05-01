@@ -28,6 +28,7 @@ plugin@org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation=v20080415
 ! Optional Import/Export Stuff
 plugin@org.eclipse.tigerstripe.workbench.optional.bulkImport=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.optional.bulkImport
 plugin@org.eclipse.tigerstripe.workbench.optional.UML2Export=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.optional.UML2Export
+plugin@org.eclipse.tigerstripe.workbench.ui.UML2Import=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.UML2Import
 
 !==========================================
 ! Misc Stuff
@@ -43,6 +44,8 @@ plugin@org.eclipse.tigerstripe.metamodel=v200804151607,:pserver:anonymous@dev.ec
 
 !==========================================
 ! Annotations Stuff
-plugin@org.eclipse.tigerstripe.annotations=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotations
-plugin@org.eclipse.tigerstripe.annotations.ui=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotations.ui
+plugin@org.eclipse.tigerstripe.annotation.ts2project.router=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.ts2project.router
+plugin@org.eclipse.tigerstripe.annotation.tsmodel=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.tsmodel
+plugin@org.eclipse.tigerstripe.annotation.tsmodel.ui=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.tsmodel.ui
+
 
