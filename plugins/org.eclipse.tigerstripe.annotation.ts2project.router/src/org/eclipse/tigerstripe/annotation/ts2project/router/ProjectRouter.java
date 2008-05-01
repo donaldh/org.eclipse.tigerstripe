@@ -18,8 +18,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-//import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-//import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+
 
 /**
  * @author Yuri Strot
@@ -51,7 +50,6 @@ public class ProjectRouter implements EObjectRouter {
 				// Seem to need to use createFileURI rather than createPlatformURI to get proper behaviour...
 				// not too sure why
 				URI uri = URI.createFileURI(path.toString());
-				System.out.println("URI: "+uri);
 				return uri;
 			}
 		} catch (TigerstripeException e) {
