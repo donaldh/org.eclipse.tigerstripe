@@ -33,7 +33,7 @@ plugin@org.eclipse.tigerstripe.workbench.ui.UML2Import=v200804151607,:pserver:an
 !==========================================
 ! Misc Stuff
 plugin@org.eclipse.tigerstripe.workbench.branding=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.branding
-plugin@com.tigerstripesoftware.workbench.headless=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.headless
+plugin@org.eclipse.tigerstripe.workbench.headless=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.headless
 plugin@org.eclipse.tigerstripe.workbench.help=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.help
 plugin@org.eclipse.tigerstripe.workbench.ui.diagramrendering=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.diagramrendering
 plugin@org.eclipse.tigerstripe.workbench.ui.resources=v200804151607,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.resources
