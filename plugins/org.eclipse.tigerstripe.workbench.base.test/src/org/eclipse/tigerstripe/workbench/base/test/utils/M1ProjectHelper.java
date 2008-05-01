@@ -13,6 +13,9 @@ package org.eclipse.tigerstripe.workbench.base.test.utils;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -23,7 +26,8 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public class M1ProjectHelper {
 
-	public final static String TEMPLATES = "src/resources/templates";
+	public final static String TEMPLATES = "resources/templates";
+	public final static String SRCS = "resources/src";
 
 	/**
 	 * Creates a M1 project and copies all the templates located in the
@@ -35,7 +39,7 @@ public class M1ProjectHelper {
 	 */
 	public static ITigerstripeM1GeneratorProject createM1Project(
 			String projectName, boolean populateContents)
-			throws TigerstripeException, IOException {
+			throws TigerstripeException, IOException, CoreException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
 		projectDetails.setName(projectName);
 		ITigerstripeM1GeneratorProject project = (ITigerstripeM1GeneratorProject) TigerstripeCore
@@ -43,20 +47,22 @@ public class M1ProjectHelper {
 						ITigerstripeM1GeneratorProject.class, null, null);
 
 		if (populateContents) {
+			addJavaSrc(project);
 			addGlobalRules(project);
+			IProject iProj = (IProject) project.getAdapter(IProject.class);
+			iProj.refreshLocal(IResource.DEPTH_INFINITE, null);
 		}
 
 		return project;
 	}
 
-	private static void copyTemplates(ITigerstripeM1GeneratorProject project)
-			throws IOException {
+	private static void copyFiles(ITigerstripeM1GeneratorProject project,
+			String srcDir, String targetDir) throws IOException {
 		IPath projectLocation = project.getLocation();
 		String baseBundleRoot = BundleUtils.INSTANCE.getBundleRoot();
 
-		File templatesDir = new File(baseBundleRoot + File.separator
-				+ TEMPLATES);
-		IPath targetTemplatesPath = projectLocation.append("templates");
+		File templatesDir = new File(baseBundleRoot + File.separator + srcDir);
+		IPath targetTemplatesPath = projectLocation.append(targetDir);
 
 		File[] templates = templatesDir.listFiles();
 		if (templates == null)
@@ -69,12 +75,21 @@ public class M1ProjectHelper {
 					FileUtils
 							.copy(template.getAbsolutePath(), targetPath, true);
 				else {
-					FileUtils.copyDir(template.getAbsolutePath(), targetPath,
-							true);
+					FileUtils.copyDir(template.getParentFile()
+							.getAbsolutePath(), targetPath, true);
 				}
 			}
 		}
+	}
 
+	private static void copyTemplates(ITigerstripeM1GeneratorProject project)
+			throws IOException {
+		copyFiles(project, TEMPLATES, "templates");
+	}
+
+	private static void addJavaSrc(ITigerstripeM1GeneratorProject project)
+			throws IOException {
+		copyFiles(project, SRCS, "src");
 	}
 
 	private static void addGlobalRules(ITigerstripeM1GeneratorProject project)
@@ -94,7 +109,7 @@ public class M1ProjectHelper {
 		rule.setName("Rule1");
 		rule.setOutputFile("list.txt");
 		rule.setEnabled(true);
-		rule.setTemplate("templates/list.vm");
+		rule.setTemplate("templates/listAll.vm");
 
 		gProject.addGlobalRule(rule);
 		gProject.commit(null);

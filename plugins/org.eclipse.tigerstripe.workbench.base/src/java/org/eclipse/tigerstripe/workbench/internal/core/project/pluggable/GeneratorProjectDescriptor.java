@@ -685,4 +685,8 @@ public abstract class GeneratorProjectDescriptor extends
 		}
 	}
 
+	public String getId() {
+		return getProjectDetails().getName() + "("
+				+ getProjectDetails().getVersion() + ")";
+	}
 }

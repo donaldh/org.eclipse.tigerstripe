@@ -310,4 +310,7 @@ public abstract class GeneratorProjectHandle extends
 		return false;
 	}
 
+	public String getId() throws TigerstripeException {
+		return getDescriptor().getId();
+	}
 }

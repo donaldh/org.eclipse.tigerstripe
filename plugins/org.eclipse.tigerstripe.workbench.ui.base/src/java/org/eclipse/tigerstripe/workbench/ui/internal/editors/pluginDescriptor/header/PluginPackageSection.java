@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.h
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -21,6 +22,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.GeneratorProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProjectPackager;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
@@ -121,7 +123,7 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 												((GeneratorProjectHandle) projectHandle)
 														.getDescriptor());
 										packager.packageUpProject(monitor,
-												lPath);
+												new Path(lPath));
 
 										monitor.done();
 										operationSucceeded = true;

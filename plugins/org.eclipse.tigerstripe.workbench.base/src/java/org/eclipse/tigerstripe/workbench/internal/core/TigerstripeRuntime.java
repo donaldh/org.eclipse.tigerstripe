@@ -24,6 +24,8 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 
@@ -378,5 +380,17 @@ public class TigerstripeRuntime {
 			return false;
 		}
 		return true;
+	}
+
+	public static String getGeneratorDeployLocation() {
+		String runtimeRoot = TigerstripeRuntime.getTigerstripeRuntimeRoot();
+		String path = runtimeRoot + File.separator + "plugins" + File.separator;
+
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+
+		return path;
 	}
 }

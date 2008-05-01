@@ -22,6 +22,10 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -355,6 +359,20 @@ public class M1Generator {
 					.size()]);
 		} finally {
 			resetAfterGeneration();
+			IPath output = config.getOutputPath();
+			IProject iProj = (IProject) project.getAdapter(IProject.class);
+			if (iProj != null) {
+				IResource res = iProj.findMember(output);
+				try {
+					if (res != null)
+						res.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+					else {
+						iProj.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+					}
+				} catch (CoreException e) {
+					BasePlugin.log(e);
+				}
+			}
 		}
 	}
 
@@ -373,11 +391,12 @@ public class M1Generator {
 
 		boolean logMessages = false;
 		// Bug 219762
-//		if ("true"
-//				.equalsIgnoreCase(project
-//						.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_LogMessages))) {
-//			logMessages = true;
-//		}
+		// if ("true"
+		// .equalsIgnoreCase(project
+		// .getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_LogMessages)))
+		// {
+		// logMessages = true;
+		// }
 		// variables used in process of hijacking stdout/stderr...
 		PrintStream stdErrStreamRef = null;
 		FileAppender stderrAppender = null;

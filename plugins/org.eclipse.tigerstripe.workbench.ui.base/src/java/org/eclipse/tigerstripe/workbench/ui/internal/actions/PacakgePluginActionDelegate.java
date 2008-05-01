@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.actions;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -22,9 +23,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.GeneratorProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProjectPackager;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.header.PluggablePluginProjectPackager;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -51,7 +52,7 @@ public class PacakgePluginActionDelegate extends BasePluginActionDelegate
 						PluggablePluginProjectPackager packager = new PluggablePluginProjectPackager(
 								((GeneratorProjectHandle) projectHandle)
 										.getDescriptor());
-						packager.packageUpProject(monitor, lPath);
+						packager.packageUpProject(monitor, new Path(lPath));
 
 						monitor.done();
 						operationSucceeded = true;

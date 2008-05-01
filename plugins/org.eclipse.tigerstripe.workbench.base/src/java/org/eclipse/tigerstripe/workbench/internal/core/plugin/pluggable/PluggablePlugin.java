@@ -147,8 +147,7 @@ public class PluggablePlugin extends BasePlugin {
 	}
 
 	public String getPluginId() {
-		return descriptor.getProjectDetails().getName() + "("
-				+ descriptor.getProjectDetails().getVersion() + ")";
+		return descriptor.getId();
 	}
 
 	public String getGroupId() {

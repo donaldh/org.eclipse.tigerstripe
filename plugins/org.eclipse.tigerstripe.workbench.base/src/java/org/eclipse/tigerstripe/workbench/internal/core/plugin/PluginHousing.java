@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
-import org.apache.log4j.Logger;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
@@ -24,9 +22,6 @@ import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
  * Preferences - Java - Code Style - Code Templates
  */
 public class PluginHousing {
-
-	/** logger for output */
-	private static Logger log = Logger.getLogger(TigerstripeException.class);
 
 	protected PluginBody body;
 

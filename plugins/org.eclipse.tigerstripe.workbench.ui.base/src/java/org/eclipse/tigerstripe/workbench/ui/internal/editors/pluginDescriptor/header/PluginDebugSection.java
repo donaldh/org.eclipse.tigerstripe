@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorSectionPart;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.PluginDeploymentHelper;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.GeneratorDeploymentUIHelper;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -109,9 +109,8 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 								return;
 							}
 
-							ITigerstripeGeneratorProject projectHandle = getIPluggablePluginProject();
-							final PluginDeploymentHelper helper = new PluginDeploymentHelper(
-									projectHandle);
+							final ITigerstripeGeneratorProject projectHandle = getIPluggablePluginProject();
+							final GeneratorDeploymentUIHelper helper = new GeneratorDeploymentUIHelper();
 							if (MessageDialog
 									.openConfirm(
 											getBody().getShell(),
@@ -125,8 +124,9 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 								op = new IRunnableWithProgress() {
 									public void run(IProgressMonitor monitor) {
 										try {
-											deploymentPath = helper
-													.deploy(monitor);
+											deploymentPath = helper.deploy(
+													projectHandle, monitor)
+													.toOSString();
 											operationSucceeded = deploymentPath != null;
 										} catch (TigerstripeException e) {
 											operationSucceeded = false;
@@ -203,15 +203,14 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 								"Undeploy Plugin Error", errMessage);
 					} else {
 						try {
-							ITigerstripeGeneratorProject projectHandle = getIPluggablePluginProject();
-
-							final PluginDeploymentHelper helper = new PluginDeploymentHelper(
-									projectHandle);
+							final ITigerstripeGeneratorProject projectHandle = getIPluggablePluginProject();
+							final GeneratorDeploymentUIHelper helper = new GeneratorDeploymentUIHelper();
 							op = new IRunnableWithProgress() {
 								public void run(IProgressMonitor monitor) {
 									try {
-										deploymentPath = helper
-												.unDeploy(monitor);
+										deploymentPath = helper.unDeploy(
+												projectHandle, monitor)
+												.toOSString();
 										operationSucceeded = deploymentPath != null;
 									} catch (TigerstripeException e) {
 										operationSucceeded = false;

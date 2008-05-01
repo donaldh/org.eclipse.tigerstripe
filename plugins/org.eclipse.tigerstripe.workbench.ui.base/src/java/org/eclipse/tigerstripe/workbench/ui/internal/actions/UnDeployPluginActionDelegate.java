@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.PluginDeploymentHelper;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.GeneratorDeploymentUIHelper;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -36,13 +36,13 @@ public class UnDeployPluginActionDelegate extends BasePluginActionDelegate
 			return;
 		IRunnableWithProgress op = null;
 		try {
-			ITigerstripeM1GeneratorProject projectHandle = getPPProject();
-			final PluginDeploymentHelper helper = new PluginDeploymentHelper(
-					projectHandle);
+			final ITigerstripeM1GeneratorProject projectHandle = getPPProject();
+			final GeneratorDeploymentUIHelper helper = new GeneratorDeploymentUIHelper();
 			op = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor) {
 					try {
-						deploymentPath = helper.unDeploy(monitor);
+						deploymentPath = helper
+								.unDeploy(projectHandle, monitor).toOSString();
 						operationSucceeded = deploymentPath != null;
 					} catch (TigerstripeException e) {
 						operationSucceeded = false;
@@ -93,12 +93,11 @@ public class UnDeployPluginActionDelegate extends BasePluginActionDelegate
 	protected void checkEnabled(IAction action, IStructuredSelection selection) {
 		super.checkEnabled(action, selection);
 		if (action.isEnabled()) {
-			ITigerstripeM1GeneratorProject ppProject = getPPProject();
+			final ITigerstripeM1GeneratorProject ppProject = getPPProject();
 			if (ppProject != null) {
 				try {
-					PluginDeploymentHelper helper = new PluginDeploymentHelper(
-							ppProject);
-					action.setEnabled(helper.canUndeploy());
+					GeneratorDeploymentUIHelper helper = new GeneratorDeploymentUIHelper();
+					action.setEnabled(helper.canUndeploy(ppProject));
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 				}

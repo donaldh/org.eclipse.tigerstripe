@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.PluginDeploymentHelper;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.GeneratorDeploymentUIHelper;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -48,7 +48,7 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 			return;
 		IRunnableWithProgress op = null;
 		try {
-			ITigerstripeM1GeneratorProject projectHandle = getPPProject();
+			final ITigerstripeM1GeneratorProject projectHandle = getPPProject();
 			if (MessageDialog
 					.openConfirm(
 							targetPart.getSite().getShell(),
@@ -58,12 +58,12 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 											.getName()
 									+ "'). All open editors will be closed.\nDo you want to continue?.  ")) {
 
-				final PluginDeploymentHelper helper = new PluginDeploymentHelper(
-						projectHandle);
+				final GeneratorDeploymentUIHelper helper = new GeneratorDeploymentUIHelper();
 				op = new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) {
 						try {
-							deploymentPath = helper.deploy(monitor);
+							deploymentPath = helper.deploy(projectHandle,
+									monitor).toOSString();
 							operationSucceeded = deploymentPath != null;
 						} catch (TigerstripeException e) {
 							operationSucceeded = false;

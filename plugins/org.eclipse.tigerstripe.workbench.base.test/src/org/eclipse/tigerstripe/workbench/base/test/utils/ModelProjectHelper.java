@@ -53,6 +53,9 @@ public class ModelProjectHelper {
 		m2.setPackage("com.mycompany.test");
 		repo.store(m2, true);
 
+		// Still required for now
+		project.getArtifactManagerSession().refresh(true,null);
+		
 		return project;
 	}
 

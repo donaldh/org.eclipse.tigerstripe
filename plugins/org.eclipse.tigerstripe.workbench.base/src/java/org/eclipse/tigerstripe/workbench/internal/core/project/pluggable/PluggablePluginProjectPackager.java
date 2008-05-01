@@ -8,7 +8,7 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.header;
+package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -30,10 +31,11 @@ import org.eclipse.jdt.internal.compiler.batch.Main;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
+
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.StringStack;
 
 /**
  * Whenever a Plugin Project needs to be deployed/packaged up, the operation is
@@ -50,7 +52,7 @@ public class PluggablePluginProjectPackager {
 		this.descriptor = descriptor;
 	}
 
-	public void packageUpProject(IProgressMonitor monitor, String path)
+	public void packageUpProject(IProgressMonitor monitor, IPath path)
 			throws TigerstripeException {
 		ZipFilePackager zipper = null;
 		try {
@@ -60,7 +62,8 @@ public class PluggablePluginProjectPackager {
 			compileProject();
 			monitor.worked(2);
 
-			zipper = new ZipFilePackager(path, true);
+			String sPath = path.toOSString();
+			zipper = new ZipFilePackager(sPath, true);
 
 			// Package up the descriptor
 			monitor.subTask("Creating .zip file");
@@ -221,10 +224,10 @@ public class PluggablePluginProjectPackager {
 			// Finally, add the TS-specific jars at the end
 			String runtimeRoot = TigerstripeRuntime
 					.getProperty(TigerstripeRuntime.EXTERNAL_API_ARCHIVE);
-			classpath += runtimeRoot + ";";
+			classpath += runtimeRoot + File.pathSeparator;
 			String equinoxJar = JavaCore.getClasspathVariable(
 					ITigerstripeConstants.EQUINOX_COMMON).toOSString();
-			classpath += equinoxJar + ";";
+			classpath += equinoxJar + File.pathSeparator;
 
 			if (classpath.length() != 0) {
 				compilerArgs.add("-classpath");
@@ -250,20 +253,21 @@ public class PluggablePluginProjectPackager {
 		// Try and compile
 		// Compile only if there is something to compile
 		if (unitsNumber > 0) {
-			Main compiler = new Main(new PrintWriter(System.out),
-					new PrintWriter(System.err), false);
-			compiler.compile(compilerArgs.toArray(new String[compilerArgs
-					.size()]));
+			StringWriter outWriter = new StringWriter();
+			PrintWriter out = new PrintWriter(outWriter);
+			StringWriter errWriter = new StringWriter();
+			PrintWriter err = new PrintWriter(errWriter);
+			Main compiler = new Main(out, err, false);
+			boolean success = compiler.compile(compilerArgs
+					.toArray(new String[compilerArgs.size()]));
 			int status = compiler.globalErrorsCount;
-			// Main javac = new Main();
-			StringWriter writer = new StringWriter();
-			// PrintWriter printWriter = new PrintWriter(writer);
-			// int status = Main.compile(compilerArgs
-			// .toArray(new String[compilerArgs.size()]));
 
-			if (status != 0)
+			String outStr = outWriter.toString();
+			String errStr = errWriter.toString();
+
+			if (status != 0 || errStr.length() != 0)
 				throw new TigerstripeException(
-						" Couldn't compile plugin code: " + writer.toString());
+						" Couldn't compile plugin code: " + errStr);
 		}
 	}
 

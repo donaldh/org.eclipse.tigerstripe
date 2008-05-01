@@ -125,6 +125,7 @@ public class ProjectDetails extends BaseContainerObject implements
 	protected void applyDefaults() {
 		properties.put(IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP,
 				"com.mycompany");
+		setProjectOutputDirectory("target/tigerstripe.gen");
 	}
 
 	/**

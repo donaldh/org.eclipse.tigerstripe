@@ -53,7 +53,7 @@ public interface ITigerstripeGeneratorProject extends
 	public <T extends IRule> Class<T>[] getSupportedGlobalRules();
 
 	public String[] getSupportedGlobalRuleLabels();
-	
+
 	/**
 	 * Global rules are run once per generation cycle
 	 * 
@@ -111,4 +111,12 @@ public interface ITigerstripeGeneratorProject extends
 
 	public void setPluginNature(EPluggablePluginNature nature)
 			throws WorkingCopyException, TigerstripeException;
+
+	/**
+	 * Returns a unique ID for the generator ID based on its name, version,
+	 * group.
+	 * 
+	 * @return
+	 */
+	public String getId() throws TigerstripeException;
 }

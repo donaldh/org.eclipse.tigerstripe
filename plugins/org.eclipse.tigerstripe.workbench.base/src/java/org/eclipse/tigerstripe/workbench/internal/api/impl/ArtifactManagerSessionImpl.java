@@ -266,6 +266,9 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public void refresh(boolean forceReload, IProgressMonitor monitor)
 			throws TigerstripeException {
 
+		if ( monitor == null )
+			monitor = new NullProgressMonitor();
+		
 		// @since 2.1: when generating module no need to refresh manager
 		// since this is a module.
 		if (getArtifactManager() instanceof ModuleArtifactManager)
