@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.notation.Node;
-import org.eclipse.tigerstripe.annotations.IAnnotable;
+import org.eclipse.tigerstripe.annotation.core.IAnnotable;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -33,7 +33,7 @@ public class PartAdapterFactory implements IAdapterFactory {
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if (adapterType == IAnnotable.class) {
+		 if (adapterType == IAnnotable.class) {
 			return getAnnotable(adaptableObject);
 		}
 		return null;
@@ -45,7 +45,7 @@ public class PartAdapterFactory implements IAdapterFactory {
 	}
 
 	protected Object getAnnotable(Object adaptableObject) {
-		if (adaptableObject instanceof TigerstripeShapeNodeEditPart) {
+		 if (adaptableObject instanceof TigerstripeShapeNodeEditPart) {
 			TigerstripeShapeNodeEditPart part = (TigerstripeShapeNodeEditPart) adaptableObject;
 			Node node = (Node) part.getModel();
 
