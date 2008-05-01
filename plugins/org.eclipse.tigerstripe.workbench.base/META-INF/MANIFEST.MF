@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.tigerstripe.annotations,
  org.eclipse.jdt.launching,
  org.eclipse.tigerstripe.metamodel;visibility:=reexport,
- org.eclipse.emf.transaction;visibility:=reexport
+ org.eclipse.emf.transaction;visibility:=reexport,
+ org.eclipse.tigerstripe.annotation.core
 Eclipse-LazyStart: true
 Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apache.velocity.runtime.resource",
  org.apache.velocity.app;
