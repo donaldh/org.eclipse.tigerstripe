@@ -52,11 +52,5 @@ public class TestProjectGenerationBasics extends TestCase {
 		PluginRunStatus[] status = project.generate(config, null);
 
 		assertTrue(status.length == 0);
-
-		// Check that an empty dir was created as a result of the generation
-		String outputDir = project.getProjectDetails().getOutputDirectory();
-		IPath projectLocation = project.getLocation();
-		IPath outputLocation = projectLocation.append(outputDir);
-		assertTrue(outputLocation.toFile().exists());
 	}
 }
