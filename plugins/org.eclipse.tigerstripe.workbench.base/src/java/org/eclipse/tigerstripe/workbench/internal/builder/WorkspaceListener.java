@@ -45,8 +45,12 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactDeleteRequest;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -105,6 +109,12 @@ public class WorkspaceListener implements IElementChangedListener,
 				IProject iProject = (IProject) res;
 				try {
 					ProjectMigrationUtils.handleProjectMigration(iProject);
+
+					IAbstractTigerstripeProject tProject = (IAbstractTigerstripeProject) iProject
+							.getAdapter(IAbstractTigerstripeProject.class);
+					if (tProject != null)
+						TigerstripeWorkspaceNotifier.INSTANCE
+								.signalProjectAdded(tProject);
 				} catch (CoreException e) {
 					BasePlugin.log(e);
 				}
@@ -113,6 +123,21 @@ public class WorkspaceListener implements IElementChangedListener,
 	}
 
 	private void checkProjectRemoved(Collection<IResource> removedResources) {
+		for (IResource res : removedResources) {
+			if (res instanceof IProject) {
+				IProject iProject = (IProject) res;
+				try {
+					if (TigerstripeM0GeneratorNature.hasNature(iProject)
+							|| TigerstripePluginProjectNature
+									.hasNature(iProject)
+							|| TigerstripeProjectNature.hasNature(iProject))
+						TigerstripeWorkspaceNotifier.INSTANCE
+								.signalProjectDeleted(iProject.getName());
+				} catch (CoreException e) {
+					BasePlugin.log(e);
+				}
+			}
+		}
 	}
 
 	private void checkActiveFacetChanged(Collection<IResource> changedResources) {
@@ -372,9 +397,9 @@ public class WorkspaceListener implements IElementChangedListener,
 
 		// This may be turned off by the user through the General preference
 		// page
-//		if (!BasePlugin.getDefault().getPreferenceStore().getBoolean(
-//				GeneralPreferencePage.P_CASCADEDELETE_RELATIONSHIPS))
-//			return;
+		// if (!BasePlugin.getDefault().getPreferenceStore().getBoolean(
+		// GeneralPreferencePage.P_CASCADEDELETE_RELATIONSHIPS))
+		// return;
 
 		Set<IRelationship> additionalRelationships = new HashSet<IRelationship>();
 		computeAdditionalRelationships(toDeletes, additionalRelationships,

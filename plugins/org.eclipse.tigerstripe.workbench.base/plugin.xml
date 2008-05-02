@@ -2,6 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension-point id="diagramRendering" name="Tigerstripe Explorer Diagram Rendering" schema="schema/diagramRendering.exsd"/>
+   <extension-point id="tigerstripeChangeListener" name="Tigerstripe Change Listener Extension" schema="schema/tigerstripeChangeListener.exsd"/>
    <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser

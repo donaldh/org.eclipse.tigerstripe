@@ -12,15 +12,20 @@ package org.eclipse.tigerstripe.workbench;
 
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.internal.TigerstripeRuntimeDetails;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.WorkbenchProfileSession;
-import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
@@ -110,6 +115,28 @@ public class TigerstripeCore {
 	}
 
 	/**
+	 * Returns an array containing all Tigerstripe Projects present in the
+	 * workspace
+	 * 
+	 * @return
+	 * @throws TigerstripeException
+	 */
+	public IAbstractTigerstripeProject[] allProjects()
+			throws TigerstripeException {
+		List<IAbstractTigerstripeProject> allProjects = new ArrayList<IAbstractTigerstripeProject>();
+
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		for (IProject iProject : root.getProjects()) {
+			IAbstractTigerstripeProject tProject = (IAbstractTigerstripeProject) iProject
+					.getAdapter(IAbstractTigerstripeProject.class);
+			if (tProject instanceof IAbstractTigerstripeProject)
+				allProjects.add(tProject);
+		}
+		return allProjects.toArray(new IAbstractTigerstripeProject[allProjects
+				.size()]);
+	}
+
+	/**
 	 * Creates a project of the given type at the given folder, and returns a
 	 * handle on that project
 	 * 
@@ -145,4 +172,30 @@ public class TigerstripeCore {
 		return TigerstripeProjectFactory.INSTANCE.getSupportedProjectTypes();
 	}
 
+	/**
+	 * Register a new {@link ITigerstripeChangeListener}
+	 * 
+	 * @param listener
+	 *            the listener to register
+	 * @param changeLevel
+	 *            valid values are {@link ITigerstripeChangeListener#MODEL},
+	 *            {@link ITigerstripeChangeListener#PROJECT} or
+	 *            {@link ITigerstripeChangeListener#ALL}
+	 */
+	public static void addTigerstripeChangeListener(
+			ITigerstripeChangeListener listener, int changeLevel) {
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
+				listener, changeLevel);
+	}
+
+	/**
+	 * Un-Register a {@link ITigerstripeChangeListener}
+	 * 
+	 * @param listener
+	 */
+	public static void removeTigerstripeChangeListener(
+			ITigerstripeChangeListener listener) {
+		TigerstripeWorkspaceNotifier.INSTANCE
+				.removeTigerstripeChangeListener(listener);
+	}
 }

@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.base.test.model.TestArtifacts;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestFields;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestLiterals;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestMethods;
+import org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectContents;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestModelProjectLifecycle;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectBasics;
@@ -56,7 +57,7 @@ public class AllTests {
 
 		// Facet Tests
 		suite.addTestSuite(BasicFacetCreationTest.class);
-		
+
 		// Metamodel migration test
 		suite.addTestSuite(TestArtifactRefactor.class);
 		suite.addTestSuite(TestFieldMigration.class);
@@ -74,6 +75,7 @@ public class AllTests {
 		suite.addTestSuite(TestFields.class);
 		suite.addTestSuite(TestLiterals.class);
 		suite.addTestSuite(TestMethods.class);
+		suite.addTestSuite(TestTigerstripeWorkspaceNotifications.class);
 
 		// $JUnit-END$
 		return suite;
