@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.tigerstripe.annotation.feature"
-      label="Annotation Feature"
+      label="%featureName"
       version="0.3.0.qualifier"
-      provider-name="Eclipse.org">
+      provider-name="%providerName">
 
-   <description url="http://www.example.com/description">
-      Generic Annotation Framework.
+   <description>
+      %description
    </description>
 
-   <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+   <copyright url="http://www.eclipse.org/legal/epl-v10.html">
+      Copyright (c) 2008 Cisco Corporation and others.
+All rights reserved.   This program and the accompanying materials
+are made available under the terms of the Eclipse Public License
+v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
    </copyright>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
+   <license url="%licenseURL">
+      %license
    </license>
 
    <url>
       <update label="Tigerstripe Update Site Manager" url="http://download.eclipse.org/technology/tigerstripe/site.xml"/>
+      <discovery label="Tigerstripe Website" url="http://www.eclipse.org/tigerstripe"/>
+      <discovery label="Tigerstripe Wiki" url="http://wiki.eclipse.org/Tigerstripe"/>
    </url>
 
    <plugin
