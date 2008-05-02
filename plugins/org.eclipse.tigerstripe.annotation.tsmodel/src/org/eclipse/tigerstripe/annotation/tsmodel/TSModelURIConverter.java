@@ -136,7 +136,7 @@ public class TSModelURIConverter {
 		IPath path = new Path(uri.path());
 		String fqn = toFQN(path);
 		path = path.removeLastSegments(1);
-		System.out.println("TSModelURIConverter.toComponent(...): "+uri+" / "+fqn);
+//		System.out.println("TSModelURIConverter.toComponent(...): "+uri+" / "+fqn);
 		try {
 			IAbstractTigerstripeProject tsp = TigerstripeCore.findProject(path);
 
