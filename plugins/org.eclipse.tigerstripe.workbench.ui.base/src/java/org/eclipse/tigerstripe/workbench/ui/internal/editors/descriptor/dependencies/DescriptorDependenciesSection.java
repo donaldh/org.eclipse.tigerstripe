@@ -12,15 +12,14 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.depende
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
-import org.eclipse.jdt.internal.ui.wizards.buildpaths.JARFileSelectionDialog;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -49,7 +48,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripePr
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ExternalModules;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleException;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
@@ -57,6 +55,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.FileExtensionBasedSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
@@ -136,22 +135,9 @@ public class DescriptorDependenciesSection extends
 			if (inputElement instanceof ITigerstripeModelProject) {
 				ITigerstripeModelProject project = (ITigerstripeModelProject) inputElement;
 				try {
-					// Removing core ref from the list to be displayed
-					// TODO remove all that logic for #299
-					IDependency[] deps = project.getDependencies();
-					ArrayList<IDependency> result = new ArrayList<IDependency>();
-					for (IDependency dep : deps) {
-						if (!dep
-								.getPath()
-								.equals(
-										TigerstripeRuntime
-												.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE))) {
-							result.add(dep);
-						}
-					}
-					return result.toArray(new IDependency[result.size()]);
+					return project.getDependencies();
 				} catch (TigerstripeException e) {
-					return new Object[0];
+					EclipsePlugin.log(e);
 				}
 			}
 			return new Object[0];
@@ -347,18 +333,17 @@ public class DescriptorDependenciesSection extends
 		if (getPage().getEditorInput() instanceof IFileEditorInput) {
 			IFileEditorInput input = (IFileEditorInput) getPage()
 					.getEditorInput();
-			JARFileSelectionDialog dialog = new JARFileSelectionDialog(
+			FileExtensionBasedSelectionDialog dialog = new FileExtensionBasedSelectionDialog(
 					getSection().getShell(), true, false);
-			dialog
-					.setInput(input.getFile().getProject().getLocation()
-							.toFile());
+			dialog.setFileExtensions(new String[] { ".zip", ".jar" });
+			dialog.setInput(input.getFile().getProject());
 			dialog.setDoubleClickSelects(true);
 			dialog.setTitle("Select Tigerstripe Dependencies");
 
 			if (dialog.open() == Window.OK) {
 				Object[] toAdd = dialog.getResult();
 				for (int i = 0; i < toAdd.length; i++) {
-					File file = (File) toAdd[i];
+					File file = ((IFile) toAdd[i]).getLocation().toFile();
 
 					try {
 						String relative = Util.getRelativePath(file, input
@@ -391,8 +376,9 @@ public class DescriptorDependenciesSection extends
 
 			IFileEditorInput input = (IFileEditorInput) getPage()
 					.getEditorInput();
-			JARFileSelectionDialog dialog = new JARFileSelectionDialog(
+			FileExtensionBasedSelectionDialog dialog = new FileExtensionBasedSelectionDialog(
 					getSection().getShell(), true, false);
+			dialog.setFileExtensions(new String[] { "zip", "jar" });
 			dialog.setInput(ExternalModules.getModuleFolder());
 			dialog.setDoubleClickSelects(true);
 			dialog.setTitle("Select Standard Module");
@@ -400,7 +386,7 @@ public class DescriptorDependenciesSection extends
 			if (dialog.open() == Window.OK) {
 				Object[] toAdd = dialog.getResult();
 				for (int i = 0; i < toAdd.length; i++) {
-					File file = (File) toAdd[i];
+					File file = ((IFile) toAdd[i]).getLocation().toFile();
 
 					try {
 						IDependency dep = TigerstripeProjectFactory.INSTANCE

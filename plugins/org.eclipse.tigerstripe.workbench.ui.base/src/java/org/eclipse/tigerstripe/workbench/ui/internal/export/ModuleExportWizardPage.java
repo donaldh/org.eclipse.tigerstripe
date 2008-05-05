@@ -78,14 +78,14 @@ public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 
 	private void openFileSelectionDialog() {
 		FileDialog dialog = new FileDialog(getShell());
-		dialog.setFilterExtensions(new String[] { "*.jar" });
+		dialog.setFilterExtensions(new String[] { "*.jar", "*.zip" });
 		dialog.setFilterPath(getIProject().getLocation().toOSString());
-		dialog.setText("Select target module file (.jar)");
+		dialog.setText("Select target module file (zip)");
 		String result = dialog.open();
 
 		if (result != null) {
-			if (!result.endsWith(".jar")) {
-				result = result + ".jar";
+			if (!result.endsWith(".zip") && !result.endsWith(".jar")) {
+				result = result + ".zip";
 			}
 			jarFileDialogField.setText(result);
 			updateStatus(updatePage());
