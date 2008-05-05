@@ -48,6 +48,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.ui.forms.DetailsPart;
@@ -308,7 +309,7 @@ public class ClasspathEntrySection extends GeneratorDescriptorSectionPart
 	}
 
 	protected void markPageModified() {
-		PluginDescriptorEditor editor = (PluginDescriptorEditor) getPage()
+		GeneratorDescriptorEditor editor = (GeneratorDescriptorEditor) getPage()
 				.getEditor();
 		editor.pageModified();
 	}

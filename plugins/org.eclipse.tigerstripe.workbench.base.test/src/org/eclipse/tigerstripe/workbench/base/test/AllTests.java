@@ -17,6 +17,7 @@ import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicM1ProjectAu
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicModelProjectAuditor;
 import org.eclipse.tigerstripe.workbench.base.test.facet.BasicFacetTest;
 import org.eclipse.tigerstripe.workbench.base.test.facet.TestFacetResolution;
+import org.eclipse.tigerstripe.workbench.base.test.generation.TestM0DeployUndeploy;
 import org.eclipse.tigerstripe.workbench.base.test.generation.TestM1Generation;
 import org.eclipse.tigerstripe.workbench.base.test.generation.TestProjectGenerationBasics;
 import org.eclipse.tigerstripe.workbench.base.test.migration.TestArtifactRefactor;
@@ -28,9 +29,11 @@ import org.eclipse.tigerstripe.workbench.base.test.model.TestFields;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestLiterals;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestMethods;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestM0ProjectBasics;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestM0ProjectContents;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectBasics;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectContents;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestModelProjectLifecycle;
-import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectBasics;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestProjectManagement;
 import org.eclipse.tigerstripe.workbench.base.test.startup.TestStartup;
 
@@ -51,6 +54,8 @@ public class AllTests {
 		suite.addTestSuite(TestModelProjectLifecycle.class);
 		suite.addTestSuite(TestM1ProjectBasics.class);
 		suite.addTestSuite(TestM1ProjectContents.class);
+		suite.addTestSuite(TestM0ProjectBasics.class);
+		suite.addTestSuite(TestM0ProjectContents.class);
 
 		// Builder tests
 		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
@@ -69,6 +74,7 @@ public class AllTests {
 		// Generation Tests
 		suite.addTestSuite(TestProjectGenerationBasics.class);
 		suite.addTestSuite(TestM1Generation.class);
+		suite.addTestSuite(TestM0DeployUndeploy.class);
 
 		// Model operations
 		// suite.addTestSuite(TestModelManager.class); // None of these are

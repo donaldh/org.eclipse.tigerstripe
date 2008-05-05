@@ -29,7 +29,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.M0ProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -57,10 +59,13 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 
 	@SuppressWarnings("unchecked")
 	private final static Class[] SUPPORTED_PROJECT_TYPES = {
-			ITigerstripeModelProject.class, ITigerstripeM1GeneratorProject.class };
+			ITigerstripeModelProject.class,
+			ITigerstripeM1GeneratorProject.class,
+			ITigerstripeM0GeneratorProject.class };
 
 	private final static IProjectCreator[] PROJECT_CREATORS = {
-			new ModelProjectCreator(), new PluginProjectCreator() };
+			new ModelProjectCreator(), new PluginProjectCreator(),
+			new M0GeneratorProjectCreator() };
 
 	@SuppressWarnings("unchecked")
 	public Collection<Class> getSupportedProjectTypes() {

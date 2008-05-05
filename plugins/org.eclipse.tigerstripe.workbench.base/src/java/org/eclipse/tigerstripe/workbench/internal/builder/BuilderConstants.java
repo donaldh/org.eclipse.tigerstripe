@@ -48,16 +48,20 @@ public interface BuilderConstants {
 			"org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginProject", //$NON-NLS-1$
 	};
 
-	public static final String MARKER_ID = PREFIX + ".auditmarker"; //$NON-NLS-1$
-
-	public static final String[] OLDPROJECT_BUILDER_IDs = { 
-		"com.tigerstripesoftware.workbench.ui.base.tigerstripeProjectAuditor", //$NON-NLS-1$
-		"org.eclipse.tigerstripe.workbench.ui.base.tigerstripeProjectAuditor", //$NON-NLS-1$
+	public static final String[] OLDM0Generator_NATURE_IDs = {
+			"org.eclipse.tigerstripe.workbench.ui.base.m0GeneratorProject", //$NON-NLS-1$
 	};
 
-	public static final String[] OLDPLUGINPROJECT_BUILDER_IDs = { 
-		"com.tigerstripesoftware.workbench.ui.base.pluggablePluginProjectAuditor", //$NON-NLS-1$
-		"org.eclipse.tigerstripe.workbench.ui.base.pluggablePluginProjectAuditor", //$NON-NLS-1$
+	public static final String MARKER_ID = PREFIX + ".auditmarker"; //$NON-NLS-1$
+
+	public static final String[] OLDPROJECT_BUILDER_IDs = {
+			"com.tigerstripesoftware.workbench.ui.base.tigerstripeProjectAuditor", //$NON-NLS-1$
+			"org.eclipse.tigerstripe.workbench.ui.base.tigerstripeProjectAuditor", //$NON-NLS-1$
+	};
+
+	public static final String[] OLDPLUGINPROJECT_BUILDER_IDs = {
+			"com.tigerstripesoftware.workbench.ui.base.pluggablePluginProjectAuditor", //$NON-NLS-1$
+			"org.eclipse.tigerstripe.workbench.ui.base.pluggablePluginProjectAuditor", //$NON-NLS-1$
 	};
 
 }

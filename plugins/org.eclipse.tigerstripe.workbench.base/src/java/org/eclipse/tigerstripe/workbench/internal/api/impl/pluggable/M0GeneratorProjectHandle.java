@@ -20,8 +20,10 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.M0ProjectDescriptor;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject;
 
-public class M0GeneratorProjectHandle extends GeneratorProjectHandle {
+public class M0GeneratorProjectHandle extends GeneratorProjectHandle implements
+		ITigerstripeM0GeneratorProject {
 
 	private M0ProjectDescriptor descriptor;
 

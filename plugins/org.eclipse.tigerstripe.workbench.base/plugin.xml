@@ -127,5 +127,15 @@
           </adapter>
       </factory>
    </extension>
+   <extension
+         id="m0GeneratorProject"
+         name="Tigerstripe Instance-level Generator Project"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature">
+         </run>
+      </runtime>
+   </extension>
 
 </plugin>

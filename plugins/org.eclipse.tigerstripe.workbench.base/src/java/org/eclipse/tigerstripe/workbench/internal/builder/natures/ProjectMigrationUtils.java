@@ -144,6 +144,12 @@ public class ProjectMigrationUtils {
 					updateOldNature = true;
 				}
 			}
+			for (String OLD_NATURE_ID : BuilderConstants.OLDM0Generator_NATURE_IDs) {
+				if (OLD_NATURE_ID.equals(natures[i])) {
+					natures[i] = BuilderConstants.M0Generator_NATURE_ID;
+					updateOldNature = true;
+				}
+			}
 		}
 
 		if (updateOldNature)
@@ -153,12 +159,13 @@ public class ProjectMigrationUtils {
 			return;
 
 		// Remove builder from project
-		List<ICommand> newCmds = new ArrayList<ICommand>();
-		newCmds.addAll(Arrays.asList(cmds));
-		newCmds.remove(index);
-		description.setBuildSpec((ICommand[]) newCmds
-				.toArray(new ICommand[newCmds.size()]));
-
+		if (index != -1) {
+			List<ICommand> newCmds = new ArrayList<ICommand>();
+			newCmds.addAll(Arrays.asList(cmds));
+			newCmds.remove(index);
+			description.setBuildSpec((ICommand[]) newCmds
+					.toArray(new ICommand[newCmds.size()]));
+		}
 		final IProject fProject = project;
 
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
