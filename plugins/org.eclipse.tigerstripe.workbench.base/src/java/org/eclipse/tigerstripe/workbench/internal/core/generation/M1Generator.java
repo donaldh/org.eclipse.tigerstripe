@@ -790,7 +790,7 @@ public class M1Generator {
 	}
 
 	private void refreshAndSetupForGeneration() throws TigerstripeException {
-		project.getArtifactManagerSession().refresh(false,
+		project.getArtifactManagerSession().refreshAll(false,
 				new NullProgressMonitor());
 		project.getArtifactManagerSession().generationStart();
 	}
