@@ -15,7 +15,8 @@ import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicM1ProjectAuditor;
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicModelProjectAuditor;
-import org.eclipse.tigerstripe.workbench.base.test.facet.BasicFacetCreationTest;
+import org.eclipse.tigerstripe.workbench.base.test.facet.BasicFacetTest;
+import org.eclipse.tigerstripe.workbench.base.test.facet.TestFacetResolution;
 import org.eclipse.tigerstripe.workbench.base.test.generation.TestM1Generation;
 import org.eclipse.tigerstripe.workbench.base.test.generation.TestProjectGenerationBasics;
 import org.eclipse.tigerstripe.workbench.base.test.migration.TestArtifactRefactor;
@@ -56,7 +57,8 @@ public class AllTests {
 		suite.addTestSuite(TestBasicModelProjectAuditor.class);
 
 		// Facet Tests
-		suite.addTestSuite(BasicFacetCreationTest.class);
+		suite.addTestSuite(BasicFacetTest.class);
+		suite.addTestSuite(TestFacetResolution.class);
 
 		// Metamodel migration test
 		suite.addTestSuite(TestArtifactRefactor.class);

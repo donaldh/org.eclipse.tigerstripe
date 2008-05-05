@@ -638,7 +638,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				.getArtifactManager();
 
 		Set<IRelationship> nextRelSet = new HashSet<IRelationship>();
-		if (!(artifact instanceof IRelationship)) {
+		if (!(artifact instanceof IRelationship) || artifact instanceof IAssociationClassArtifact ) {
 
 			if (ignoreNavigability) {
 				// in this case just add everything, we don't care
