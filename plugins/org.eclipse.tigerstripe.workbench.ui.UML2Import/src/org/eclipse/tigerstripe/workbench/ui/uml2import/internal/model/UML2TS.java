@@ -298,13 +298,13 @@ public class UML2TS {
 				EObject o = (EObject) t.next();
 				if (o instanceof Classifier) {
 					Classifier element = (Classifier) o;
-					System.out.println("Gen of : "+element.getQualifiedName());
+					out.println("Gen of : "+element.getQualifiedName());
 					String baseFullyQualifiedName = convertToFQN(element.getQualifiedName());
 					IAbstractArtifact artifact = extractedArtifacts.get(baseFullyQualifiedName);
 					if (artifact != null ){
 						for (Classifier gen : element.getGenerals()){
 							String genFQN = gen.getQualifiedName();
-							System.out.println(genFQN);
+							out.println(genFQN);
 
 							String genFullyQualifiedName = convertToFQN(genFQN);
 							IAbstractArtifact genArtifact = extractedArtifacts.get(genFullyQualifiedName);
@@ -324,7 +324,7 @@ public class UML2TS {
 			e.printStackTrace();
 		} finally {
 			out.flush();
-			System.out.println(extractedArtifacts);
+			out.println(extractedArtifacts);
 			return extractedArtifacts;
 		}
 	}
@@ -758,7 +758,7 @@ public class UML2TS {
 			if (child instanceof Operation) {
 				Operation operation = (Operation) child;
 
-				System.out.println("    Operation :" + operation.getName());
+				out.println("    Operation :" + operation.getName());
 				IMethod method = artifact.makeMethod();
 				method.setName(operation.getName());
 				method.setComment(setComment(((NamedElement) child)));
@@ -783,7 +783,7 @@ public class UML2TS {
 							continue;
 						}
 
-						System.out.println("    Operation return : "
+						out.println("    Operation return : "
 								+ operation.getName() + " : "
 								+ iType.getFullyQualifiedName());
 						method.setReturnType(iType);
@@ -837,7 +837,7 @@ public class UML2TS {
 							+ " : " + param.getName())) {
 						continue;
 					}
-					System.out.println("    Operation parameter : "
+					out.println("    Operation parameter : "
 							+ operation.getName() + " : " + param.getName()
 							+ " : " + aType.getFullyQualifiedName());
 					arg.setType(aType);
@@ -915,17 +915,15 @@ public class UML2TS {
 		boolean optional = true;
 		try {
 			if ((uType == null) || (uType.getQualifiedName() == null)) {
-				System.out.println("uType :"+uType);
-				System.out.println("UType.FQN "+uType.getQualifiedName());
 				// TODO - Is this an error in the model?
 				String msgText = "Unsure of type : " + location + " Skipping...";
 				addMessage(msgText, 0);
-				System.out.println("Error : " + msgText);
+				out.println("Error : " + msgText);
 				return false;
 			}
 			// Need to determine if this is a primitive type that we know about
 			String pTypeFQN = convertToFQN(uType.getQualifiedName());
-			System.out.println(uType.getQualifiedName()+" "+pTypeFQN+" "+this.modelLibrary);
+			out.println(uType.getQualifiedName()+" "+pTypeFQN+" "+this.modelLibrary);
 			
 			if (uType.getQualifiedName().startsWith(this.modelLibrary)) {
 				if (!checkReservedPrimitive(pTypeFQN)) {
@@ -1228,11 +1226,11 @@ public class UML2TS {
 
 		}
 
-		System.out.println("artifactTypeName "+artifactTypeName);
+		out.println("artifactTypeName "+artifactTypeName);
 		try {
 			absArtifact = this.mgrSession.makeArtifact(artifactTypeName);
 		} catch (IllegalArgumentException t) {
-			System.out.println("artifactTypeName is invalid "+artifactTypeName);
+			out.println("artifactTypeName is invalid "+artifactTypeName);
 			return null;
 		}
 
@@ -1336,20 +1334,20 @@ public class UML2TS {
 			EObject o = (EObject) t.next();
 			if (o instanceof Class) {
 				Class cl = (Class) o;
-				System.out.println("Class" + cl.getQualifiedName());
+				out.println("Class" + cl.getQualifiedName());
 
 			} else if (o instanceof AssociationClass) {
 				AssociationClass assocCl = (AssociationClass) o;
-				System.out.println("AssociationClass"
+				out.println("AssociationClass"
 						+ assocCl.getQualifiedName());
 
 			} else if (o instanceof Association) {
 				Association assoc = (Association) o;
-				System.out.println("Association" + assoc.getQualifiedName());
+				out.println("Association" + assoc.getQualifiedName());
 
 			} else if (o instanceof Enumeration) {
 				Enumeration enumeration = (Enumeration) o;
-				System.out.println("Enumeration"
+				out.println("Enumeration"
 						+ enumeration.getQualifiedName());
 
 			} else if (o instanceof EnumerationLiteral) {

@@ -132,7 +132,6 @@ public class ReviewUpdatesWizardPage extends TSRuntimeBasedWizardPage {
 			CompareModelAndExtract comparer = new CompareModelAndExtract();
 			projectDiffs = comparer.compareExtractAndProject(importer.getExtractedArtifacts(), importer.getTigerstripeProject(), importer.getOut(), importer.getMessages());
 			for (Difference diff : projectDiffs){
-				System.out.println(diff.toString());
 				ImportMessage mess = new ImportMessage();
 				mess.setSeverity(1);
 				mess.setMessage(diff.getShortString());

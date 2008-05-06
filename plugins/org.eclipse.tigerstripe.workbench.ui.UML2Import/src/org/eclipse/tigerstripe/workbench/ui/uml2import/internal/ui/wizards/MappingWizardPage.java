@@ -100,18 +100,20 @@ public class MappingWizardPage extends TSRuntimeBasedWizardPage {
 		super.setVisible(visible);
 		// When I go visible, try to get the model...
 		UML2ImportDetailsWizardPage detailsPage = (UML2ImportDetailsWizardPage) getPreviousPage();
+
 		if (importer == null){
 			importer = new ModelImporter( detailsPage.getModelFilename(),
 					detailsPage.getTsProject(), detailsPage.getProfilesFilename());
-		}
-		try {
-			importer.doInitialLoad();
-			importer.doMapping();
-		} catch (Exception e){
-			setErrorMessage("Failed to read from Model File");
-			setPageComplete(false);
-			e.printStackTrace();
-			
+
+			try {
+				importer.doInitialLoad();
+				importer.doMapping();
+			} catch (Exception e){
+				setErrorMessage("Failed to read from Model File");
+				setPageComplete(false);
+				e.printStackTrace();
+
+			}
 		}
 		umlClassesTreeViewer.setInput(importer.getClassMap());
 	}

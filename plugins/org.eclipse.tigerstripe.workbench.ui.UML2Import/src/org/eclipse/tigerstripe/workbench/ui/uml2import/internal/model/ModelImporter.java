@@ -161,6 +161,7 @@ public class ModelImporter {
 	    		    final IModelMapper mapper  = (IModelMapper) children[0].createExecutableExtension("mapper_class");
 	    		  	String mapperName = children[0].getAttribute("name");
 	    		  	String mapperText = "Model mapped using mapper "+mapperName+" extension";
+	    		  	out.println(mapperText);
 	    		  	this.classMap = mapper.getMapping(model);
 	    		  	SafeRunner.run(new ISafeRunnable() {
 	    				public void handleException(Throwable exception) {
@@ -197,9 +198,9 @@ public class ModelImporter {
 
 		UML2TS uML2TS = new UML2TS(getClassMap());
 		this.extractedArtifacts = uML2TS.extractArtifacts(model, modelLibrary, out, messages, this.tigerstripeProject);
-		System.out.println(this.extractedArtifacts);
-		System.out.println(uML2TS.getClassMap().size());
-		System.out.println(messages.asText());
+		out.println("Extracted arrifact size :"+this.extractedArtifacts.size());
+		out.println(uML2TS.getClassMap().size());
+		out.println(messages.asText());
 		out.flush();
 		Utilities.tearDown();
 		return false;

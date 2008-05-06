@@ -102,7 +102,7 @@ public class DiffFixer {
 		 */
 
 		for (Difference diff : sortedDiffs) {
-			System.out.println("Handling Difference : " + diff);
+			out.println("Handling Difference : " + diff);
 			try {
 				IAbstractArtifact artifact = mgrSession
 						.getArtifactByFullyQualifiedName(diff.getLocal());
@@ -146,7 +146,7 @@ public class DiffFixer {
 							mgrSession.getArtifactByFullyQualifiedName(newArt.getFullyQualifiedName());
 							String msgText = "INFO : Added Artifact "
 									+ diff.getLocal();
-							System.out.println(msgText);
+							out.println(msgText);
 
 
 					} else {
