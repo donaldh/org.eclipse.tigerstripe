@@ -4,42 +4,25 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AnnotableModelFactory;
-import org.eclipse.tigerstripe.workbench.internal.core.model.importing.ModelImportException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.importing.ModelImporterListener;
-import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.UML2Importer;
-import org.eclipse.tigerstripe.workbench.internal.core.model.importing.uml2.UML2ModelImportConfiguration;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.Utilities;
-import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.AssociationClass;
-import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
-import org.eclipse.uml2.uml.Enumeration;
-import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Model;
 
 public class ModelImporter {
@@ -114,14 +97,26 @@ public class ModelImporter {
 	      for (IConfigurationElement element : points){
 	    	  IConfigurationElement children[] = element.getChildren("trimmer");
 	    	  if(children != null && children.length != 0){
-	    		  	IModelTrimmer trimmer  = (IModelTrimmer) children[0].createExecutableExtension("trimmer_class");
+	    		  
+	    		  	final IModelTrimmer trimmer  = (IModelTrimmer) children[0].createExecutableExtension("trimmer_class");
 	    		  	String trimmerName = children[0].getAttribute("name");
 	    		  	String trimmerText = "Model trimmed using trimmer "+trimmerName+" extension";
 	    		  	Message trimMessage = new Message();
 	    		  	trimMessage.setMessage(trimmerText);
 	    		  	trimMessage.setSeverity(2);
 	    			messages.addMessage(message);
-	    		  	model = trimmer.trimModel(model);
+	    			
+	    		  	
+	    			SafeRunner.run(new ISafeRunnable() {
+	    				public void handleException(Throwable exception) {
+	    					EclipsePlugin.log(exception);
+	    				}
+
+	    				public void run() throws Exception {
+	    					model = trimmer.trimModel(model);
+	    				}
+	    				
+	    			});
 	    	  	}
 	      }
 	      
@@ -163,10 +158,20 @@ public class ModelImporter {
 	      for (IConfigurationElement element : points){
 	    	  IConfigurationElement children[] = element.getChildren("mapper");
 	    	  if(children != null && children.length != 0){
-	    		  	IModelMapper mapper  = (IModelMapper) children[0].createExecutableExtension("mapper_class");
+	    		    final IModelMapper mapper  = (IModelMapper) children[0].createExecutableExtension("mapper_class");
 	    		  	String mapperName = children[0].getAttribute("name");
 	    		  	String mapperText = "Model mapped using mapper "+mapperName+" extension";
 	    		  	this.classMap = mapper.getMapping(model);
+	    		  	SafeRunner.run(new ISafeRunnable() {
+	    				public void handleException(Throwable exception) {
+	    					EclipsePlugin.log(exception);
+	    				}
+
+	    				public void run() throws Exception {
+	    					classMap = mapper.getMapping(model);
+	    				}
+	    				
+	    			});
 	    	  	}
 	      }
 	      

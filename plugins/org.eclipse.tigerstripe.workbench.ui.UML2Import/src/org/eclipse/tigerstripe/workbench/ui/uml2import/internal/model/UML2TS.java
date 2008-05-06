@@ -8,22 +8,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRunnable;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -76,7 +66,6 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageImport;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
-import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.ProfileApplication;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
@@ -272,23 +261,23 @@ public class UML2TS {
 								.setFullyQualifiedName(convertToFQN(supplier
 										.getQualifiedName()));
 								dependency.setZEndType(ztype);
-								IStereotype tsStereo = this.profileSession.getActiveProfile()
-									.getStereotypeByName("DependencyLabel");
+								//IStereotype tsStereo = this.profileSession.getActiveProfile()
+								//	.getStereotypeByName("DependencyLabel");
 
-								IStereotypeInstance depLabel = tsStereo.makeInstance();
-								String labelName = "label";
-								IStereotypeAttribute tsStereoAttribute = null;
-								IStereotypeAttribute[] tsStereoAttributes = depLabel.getCharacterizingStereotype().getAttributes();
-								for (int at = 0; at < tsStereoAttributes.length; at++) {
-									if (tsStereoAttributes[at].getName().equals(labelName)) {
-										tsStereoAttribute = tsStereoAttributes[at];
-										break;
-									}
+								//IStereotypeInstance depLabel = tsStereo.makeInstance();
+								//String labelName = "label";
+								//IStereotypeAttribute tsStereoAttribute = null;
+								//IStereotypeAttribute[] tsStereoAttributes = depLabel.getCharacterizingStereotype().getAttributes();
+								//for (int at = 0; at < tsStereoAttributes.length; at++) {
+								//	if (tsStereoAttributes[at].getName().equals(labelName)) {
+								//		tsStereoAttribute = tsStereoAttributes[at];
+								//		break;
+								//	}
 
-								}
+								//}
 
-								depLabel.setAttributeValue(tsStereoAttribute, depName);
-								dependency.addStereotypeInstance(depLabel);
+								//depLabel.setAttributeValue(tsStereoAttribute, depName);
+								//dependency.addStereotypeInstance(depLabel);
 
 								extractedArtifacts.put(dependency.getFullyQualifiedName(), dependency);
 
@@ -309,28 +298,29 @@ public class UML2TS {
 				EObject o = (EObject) t.next();
 				if (o instanceof Classifier) {
 					Classifier element = (Classifier) o;
-					String eleName = "";
-					String packageName = element.getNearestPackage().getQualifiedName();
-					if (element.getName() == null){
-					    eleName = "element"+Integer.toString(nullClassCounter);
-					    nullClassCounter++;
-					} else {
-						eleName = element.getName();
-					}
-					String myFQN = packageName+"::"+eleName;
-									
-					String artifactFullyQualifiedName = convertToFQN(myFQN);
+					System.out.println("Gen of : "+element.getQualifiedName());
+					String baseFullyQualifiedName = convertToFQN(element.getQualifiedName());
+					IAbstractArtifact artifact = extractedArtifacts.get(baseFullyQualifiedName);
+					if (artifact != null ){
+						for (Classifier gen : element.getGenerals()){
+							String genFQN = gen.getQualifiedName();
+							System.out.println(genFQN);
 
-					IAbstractArtifact artifact = extractedArtifacts.get(artifactFullyQualifiedName);
-					if (artifact != null) {
-						setGeneralization(artifact, element);
+							String genFullyQualifiedName = convertToFQN(genFQN);
+							IAbstractArtifact genArtifact = extractedArtifacts.get(genFullyQualifiedName);
+							if (artifact != null) {
+								artifact.setExtendedArtifact(genArtifact);
+							}
+							// TS MetaModel only supports one generalization;
+							break;
+						}
 					}
 				}
 			}
 		
 		} catch (Exception e){
 			// TODO something here
-			out.println("oh SHIT");
+			out.println("Unknown error");
 			e.printStackTrace();
 		} finally {
 			out.flush();
