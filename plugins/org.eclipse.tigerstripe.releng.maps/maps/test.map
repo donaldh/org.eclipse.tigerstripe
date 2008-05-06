@@ -1,6 +1,6 @@
 !==TEST MAP=========================================
 
-feature@org.eclipse.tigerstripe.base.test_feature=v200805061301,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.base.test-feature
+feature@org.eclipse.tigerstripe.base.test_feature=v200805061422,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.base.test-feature
 
-plugin@org.eclipse.tigerstripe.workbench.base.test=v200805061301,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.base.test
+plugin@org.eclipse.tigerstripe.workbench.base.test=v200805061422,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.base.test
 
