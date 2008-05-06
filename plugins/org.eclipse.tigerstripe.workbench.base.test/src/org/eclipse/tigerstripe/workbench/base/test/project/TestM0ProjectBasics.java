@@ -15,7 +15,6 @@ import junit.framework.TestCase;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
-import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -28,7 +27,7 @@ public class TestM0ProjectBasics extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName("TestPluginProjectBasics");
+		projectDetails.setName("TestM0ProjectBasics");
 		project = (ITigerstripeM0GeneratorProject) TigerstripeCore
 				.createProject(projectDetails, null,
 						ITigerstripeM0GeneratorProject.class, null, null);
@@ -84,20 +83,5 @@ public class TestM0ProjectBasics extends TestCase {
 			IRule property = project.makeRule(propertyType);
 			assertNotNull(property);
 		}
-	}
-
-	public void testSetPluginNature() throws TigerstripeException {
-		try {
-			project.setPluginNature(EPluggablePluginNature.Generic);
-			fail("setPluginNature should fail on original.");
-		} catch (WorkingCopyException e) {
-			ITigerstripeM0GeneratorProject copy = (ITigerstripeM0GeneratorProject) project
-					.makeWorkingCopy(null);
-			copy.setPluginNature(EPluggablePluginNature.Generic);
-			copy.commit(null);
-		}
-
-		EPluggablePluginNature nature = project.getPluginNature();
-		assertTrue(nature == EPluggablePluginNature.M0);
 	}
 }

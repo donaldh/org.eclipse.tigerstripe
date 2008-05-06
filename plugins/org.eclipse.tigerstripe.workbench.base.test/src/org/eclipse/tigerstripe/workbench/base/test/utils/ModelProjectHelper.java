@@ -76,51 +76,52 @@ public class ModelProjectHelper {
 		m2.setFullyQualifiedName(M2);
 		m2.doSave(null);
 
-		org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact m3 = session
-				.makeArtifact(org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact.class
-						.getName());
-		m3.setFullyQualifiedName(M3);
-		m3.doSave(null);
+		if (fullContent) {
+			org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact m3 = session
+					.makeArtifact(org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact.class
+							.getName());
+			m3.setFullyQualifiedName(M3);
+			m3.doSave(null);
 
-		// AC1 is an association class from M1 to M2
-		IAssociationClassArtifact ac1 = (IAssociationClassArtifact) session
-				.makeArtifact(IAssociationClassArtifact.class.getName());
-		ac1.setFullyQualifiedName(AC1);
-		IAssociationEnd aEnd = ac1.makeAssociationEnd();
-		aEnd.setNavigable(false);
-		IType aType = aEnd.makeType();
-		aType.setFullyQualifiedName(M1);
-		aEnd.setType(aType);
-		ac1.setAEnd(aEnd);
+			// AC1 is an association class from M1 to M2
+			IAssociationClassArtifact ac1 = (IAssociationClassArtifact) session
+					.makeArtifact(IAssociationClassArtifact.class.getName());
+			ac1.setFullyQualifiedName(AC1);
+			IAssociationEnd aEnd = ac1.makeAssociationEnd();
+			aEnd.setNavigable(false);
+			IType aType = aEnd.makeType();
+			aType.setFullyQualifiedName(M1);
+			aEnd.setType(aType);
+			ac1.setAEnd(aEnd);
 
+			IAssociationEnd zEnd = ac1.makeAssociationEnd();
+			zEnd.setNavigable(true);
+			IType zType = zEnd.makeType();
+			zType.setFullyQualifiedName(M2);
+			zEnd.setType(zType);
+			ac1.setZEnd(zEnd);
+			ac1.doSave(null);
 
-		IAssociationEnd zEnd = ac1.makeAssociationEnd();
-		zEnd.setNavigable(true);
-		IType zType = zEnd.makeType();
-		zType.setFullyQualifiedName(M2);
-		zEnd.setType(zType);
-		ac1.setZEnd(zEnd);
-		ac1.doSave(null);
+			// AS1 is an association from AC1 to M3
+			IAssociationArtifact as1 = (IAssociationArtifact) session
+					.makeArtifact(IAssociationArtifact.class.getName());
+			as1.setFullyQualifiedName(AS1);
+			aEnd = as1.makeAssociationEnd();
+			aEnd.setNavigable(false);
+			aType = aEnd.makeType();
+			aType.setFullyQualifiedName(AC1);
+			aEnd.setType(aType);
+			as1.setAEnd(aEnd);
 
-		// AS1 is an association from AC1 to M3
-		IAssociationArtifact as1 = (IAssociationArtifact) session
-				.makeArtifact(IAssociationArtifact.class.getName());
-		as1.setFullyQualifiedName(AS1);
-		aEnd = as1.makeAssociationEnd();
-		aEnd.setNavigable(false);
-		aType = aEnd.makeType();
-		aType.setFullyQualifiedName(AC1);
-		aEnd.setType(aType);
-		as1.setAEnd(aEnd);
-
-		zEnd = as1.makeAssociationEnd();
-		zEnd.setNavigable(true);
-		zType = zEnd.makeType();
-		zType.setFullyQualifiedName(M3);
-		zEnd.setType(zType);
-		as1.setZEnd(zEnd);
-		as1.doSave(null);
-
+			zEnd = as1.makeAssociationEnd();
+			zEnd.setNavigable(true);
+			zType = zEnd.makeType();
+			zType.setFullyQualifiedName(M3);
+			zEnd.setType(zType);
+			as1.setZEnd(zEnd);
+			as1.doSave(null);
+		}
+		
 		return project;
 	}
 
