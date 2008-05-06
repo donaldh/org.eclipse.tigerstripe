@@ -58,8 +58,8 @@ public class ProfileTypes2UML2 {
 		this.out = out;
 		this.primitiveTypeMap = new HashMap<String, Type>();
 
-		String modelName = this.profileSession.getActiveProfile().getName()
-				+ ".PrimitiveTypes";
+		String modelName = //this.profileSession.getActiveProfile().getName() +
+				"PrimitiveTypes";
 
 		this.model = UMLFactory.eINSTANCE.createModel();
 		model.setName(modelName);

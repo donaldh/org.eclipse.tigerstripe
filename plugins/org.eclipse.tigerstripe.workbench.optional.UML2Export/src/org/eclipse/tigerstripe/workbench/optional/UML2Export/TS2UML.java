@@ -439,7 +439,7 @@ public class TS2UML {
 		monitor.done();
 
 		this.out.println();
-		monitor.beginTask("Doing Realizations :", projectArtifacts.size());
+		monitor.beginTask("Doing implements :", projectArtifacts.size());
 
 		// Need another pass for generalizations
 		for (IAbstractArtifact artifact : projectArtifacts) {
@@ -468,7 +468,6 @@ public class TS2UML {
 		}
 
 		this.out.println();
-		monitor.beginTask("Adding Generalizations :", projectArtifacts.size());
 
 		// Need another pass for generalizations
 		this.out.println("Adding Generalizations : " + projectArtifacts.size());
@@ -480,7 +479,10 @@ public class TS2UML {
 				if (artifact instanceof IManagedEntityArtifact
 						|| artifact instanceof IDatatypeArtifact
 						|| artifact instanceof ISessionArtifact
-						|| artifact instanceof IExceptionArtifact) {
+						|| artifact instanceof IExceptionArtifact
+						|| artifact instanceof IQueryArtifact
+						|| artifact instanceof IUpdateProcedureArtifact
+						|| artifact instanceof IEventArtifact) {
 					// this.out.println ("General case!");
 					Class clazz = maker.makeOrFindClass(artifact);
 					Class extendClazz = maker.makeOrFindClass(artifact
