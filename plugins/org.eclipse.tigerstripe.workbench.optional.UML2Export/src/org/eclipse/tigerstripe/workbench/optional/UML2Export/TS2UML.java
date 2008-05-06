@@ -591,6 +591,23 @@ public class TS2UML {
 		}
 	}
 
+
+	/**
+	 * Add operations
+	 */
+	private void addOperations(IAbstractArtifact artifact, Class clazz) {
+		for (IMethod method : artifact.getMethods()) {
+			//Operation operation = clazz.createOwnedOperation(method.getName(),
+			//		null, null);
+			Operation operation = UMLFactory.eINSTANCE.createOperation();
+			operation.setName(method.getName());
+			operation.setClass_(clazz);
+			
+			doOperationDetails(artifact, operation, method);
+			
+		}
+	}
+	
 	/**
 	 * Add operations
 	 */
@@ -598,181 +615,100 @@ public class TS2UML {
 		for (IMethod method : artifact.getMethods()) {
 			Operation operation = clazz.createOwnedOperation(method.getName(),
 					null, null);
-			operation.setIsAbstract(method.isAbstract());
-			operation.setIsOrdered(method.isOrdered());
-			operation.setIsUnique(method.isUnique());
-
-			// TODO method.getStereotypeInstances()
-			// TODO method.getReturnRefBy()
-
-			// TODO method.isInstanceMethod()
-			// TODO method.isIteratorReturn()
-			// TODO method.isOptional()
-			// TODO method.isVoid()
-			switch (method.getVisibility()) {
-			case PACKAGE:
-				operation.setVisibility(VisibilityKind.PACKAGE_LITERAL);
-				break;
-			case PRIVATE:
-				operation.setVisibility(VisibilityKind.PRIVATE_LITERAL);
-				break;
-			case PROTECTED:
-				operation.setVisibility(VisibilityKind.PROTECTED_LITERAL);
-				break;
-			case PUBLIC:
-				operation.setVisibility(VisibilityKind.PUBLIC_LITERAL);
-				break;
-			}
-
-			Comment comment = operation.createOwnedComment();
-			comment.setBody(method.getComment());
-			Type type = maker.getUMLType(method.getReturnType());
-			if (type != null) {
-				Parameter result = operation.createReturnResult("return", type);
-				result.setLower(1); // Returns are mandatory
-				result.setUpper(Utilities.getUpperBound(method.getReturnType()
-						.getTypeMultiplicity()));
-				result.setDefault(method.getDefaultReturnValue());
-				addReturnTypeStereotype(method, result);
-				result.setName(method.getReturnName());
-				for (IArgument arg : method.getArguments()) {
-
-					Type argType = maker.getUMLType(arg.getType());
-					if (argType != null) {
-						Parameter param = operation.createOwnedParameter(arg
-								.getName(), argType);
-						Comment parameterComment = param.createOwnedComment();
-						parameterComment.setBody(arg.getComment());
-						// TODO arg.getRefBy()
-						// Multiplicity
-						param.setLower(Utilities.getLowerBound(arg.getType()
-								.getTypeMultiplicity()));
-						param.setUpper(Utilities.getUpperBound(arg.getType()
-								.getTypeMultiplicity()));
-						param.setIsOrdered(arg.isOrdered());
-						param.setIsUnique(arg.isUnique());
-						param.setDefault(arg.getDefaultValue());
-					} else {
-						// No type for this.
-						String msgText = "No type info for :"
-								+ artifact.getName() + ":" + method.getName()
-								+ ": Argument "
-								+ arg.getType().getFullyQualifiedName();
-						this.out.println("ERROR : " + msgText);
-						addMessage(msgText, 1);
-						return;
-					}
-				}
-				for (IException exception : method.getExceptions()) {
-
-					// TODO
-
-				}
-				addComponentStereotype(method, operation);
-			} else {
-				// No type for this.
-				String msgText = "No type info for :" + artifact.getName()
-						+ ":" + method.getName() + ": Return type "
-						+ method.getReturnType().getFullyQualifiedName();
-				this.out.println("ERROR : " + msgText);
-				addMessage(msgText, 1);
-				return;
-			}
-			this.out.println("Added operation " + method.getName());
+/*			Operation operation = UMLFactory.eINSTANCE.createOperation();
+			operation.setName(method.getName());
+			operation.setClass_(clazz);*/
+			
+			doOperationDetails(artifact, operation, method);
+			
 		}
-
 	}
+	
+	private void doOperationDetails(IAbstractArtifact artifact, Operation operation, IMethod method){
+		operation.setIsAbstract(method.isAbstract());
+		
 
-	/**
-	 * Add operations
-	 */
-	private void addOperations(IAbstractArtifact artifact, Class clazz) {
-		for (IMethod method : artifact.getMethods()) {
-			Operation operation = clazz.createOwnedOperation(method.getName(),
-					null, null);
-			operation.setIsAbstract(method.isAbstract());
-			operation.setIsOrdered(method.isOrdered());
-			operation.setIsUnique(method.isUnique());
+		// TODO method.getStereotypeInstances()
+		// TODO method.getReturnRefBy()
 
-			// TODO method.getStereotypeInstances()
-			// TODO method.getReturnRefBy()
+		// TODO method.isInstanceMethod()
+		// TODO method.isIteratorReturn()
+		// TODO method.isOptional()
+		// TODO method.isVoid()
+		switch (method.getVisibility()) {
+		case PACKAGE:
+			operation.setVisibility(VisibilityKind.PACKAGE_LITERAL);
+			break;
+		case PRIVATE:
+			operation.setVisibility(VisibilityKind.PRIVATE_LITERAL);
+			break;
+		case PROTECTED:
+			operation.setVisibility(VisibilityKind.PROTECTED_LITERAL);
+			break;
+		case PUBLIC:
+			operation.setVisibility(VisibilityKind.PUBLIC_LITERAL);
+			break;
+		}
 
-			// TODO method.isInstanceMethod()
-			// TODO method.isIteratorReturn()
-			// TODO method.isOptional()
-			// TODO method.isVoid()
-			switch (method.getVisibility()) {
-			case PACKAGE:
-				operation.setVisibility(VisibilityKind.PACKAGE_LITERAL);
-				break;
-			case PRIVATE:
-				operation.setVisibility(VisibilityKind.PRIVATE_LITERAL);
-				break;
-			case PROTECTED:
-				operation.setVisibility(VisibilityKind.PROTECTED_LITERAL);
-				break;
-			case PUBLIC:
-				operation.setVisibility(VisibilityKind.PUBLIC_LITERAL);
-				break;
-			}
+		Comment comment = operation.createOwnedComment();
+		comment.setBody(method.getComment());
+		Type type = maker.getUMLType(method.getReturnType());
+		if (type != null) {
+			Parameter result = operation.createReturnResult("return", type);
+			result.setLower(Utilities.getLowerBound(method.getReturnType()
+					.getTypeMultiplicity()));
+			result.setUpper(Utilities.getUpperBound(method.getReturnType()
+					.getTypeMultiplicity()));
+			result.setDefault(method.getDefaultReturnValue());
+			addReturnTypeStereotype(method, result);
+			result.setName(method.getReturnName());
+		} else {
+			// No type for this.
+			String msgText = "No type info for :" + artifact.getName()
+					+ ":" + method.getName() + ": Return type "
+					+ method.getReturnType().getFullyQualifiedName();
+			this.out.println("ERROR : " + msgText);
+			addMessage(msgText, 1);
+			return;
+		}
 
-			Comment comment = operation.createOwnedComment();
-			comment.setBody(method.getComment());
-			Type type = maker.getUMLType(method.getReturnType());
-			if (type != null) {
-				Parameter result = operation.createReturnResult("return", type);
-				result.setLower(1); // Returns are mandatory
-				result.setUpper(Utilities.getUpperBound(method.getReturnType()
+		for (IArgument arg : method.getArguments()) {
+
+			Type argType = maker.getUMLType(arg.getType());
+			if (argType != null) {
+				Parameter param = operation.createOwnedParameter(arg
+						.getName(), argType);
+				Comment parameterComment = param.createOwnedComment();
+				parameterComment.setBody(arg.getComment());
+				// TODO arg.getRefBy()
+				// Multiplicity
+				param.setLower(Utilities.getLowerBound(arg.getType()
 						.getTypeMultiplicity()));
-				result.setDefault(method.getDefaultReturnValue());
-				addReturnTypeStereotype(method, result);
-				result.setName(method.getReturnName());
-
-				for (IArgument arg : method.getArguments()) {
-
-					Type argType = maker.getUMLType(arg.getType());
-					if (argType != null) {
-						Parameter param = operation.createOwnedParameter(arg
-								.getName(), argType);
-						Comment parameterComment = param.createOwnedComment();
-						parameterComment.setBody(arg.getComment());
-						// TODO arg.getRefBy()
-						// Multiplicity
-						param.setLower(Utilities.getLowerBound(arg.getType()
-								.getTypeMultiplicity()));
-						param.setUpper(Utilities.getUpperBound(arg.getType()
-								.getTypeMultiplicity()));
-						param.setIsOrdered(arg.isOrdered());
-						param.setIsUnique(arg.isUnique());
-						param.setDefault(arg.getDefaultValue());
-					} else {
-						// No type for this.
-						String msgText = "No type info for :"
-								+ artifact.getName() + ":" + method.getName()
-								+ ": Argument "
-								+ arg.getType().getFullyQualifiedName();
-						this.out.println("ERROR : " + msgText);
-						addMessage(msgText, 1);
-						return;
-					}
-				}
-				for (IException exception : method.getExceptions()) {
-
-					// TODO
-
-				}
-				addComponentStereotype(method, operation);
+				param.setUpper(Utilities.getUpperBound(arg.getType()
+						.getTypeMultiplicity()));
+				param.setIsOrdered(arg.isOrdered());
+				param.setIsUnique(arg.isUnique());
+				param.setDefault(arg.getDefaultValue());
 			} else {
 				// No type for this.
-				String msgText = "No type info for :" + artifact.getName()
-						+ ":" + method.getName() + ": Return type "
-						+ method.getReturnType().getFullyQualifiedName();
+				String msgText = "No type info for :"
+					+ artifact.getName() + ":" + method.getName()
+					+ ": Argument "
+					+ arg.getType().getFullyQualifiedName();
 				this.out.println("ERROR : " + msgText);
 				addMessage(msgText, 1);
 				return;
 			}
-			this.out.println("Added operation " + method.getName());
 		}
+		for (IException exception : method.getExceptions()) {
+
+			// TODO
+
+		}
+		addComponentStereotype(method, operation);
+		operation.setIsOrdered(method.isOrdered());
+		operation.setIsUnique(method.isUnique());
+		this.out.println("Added operation " + method.getName());
 	}
 
 	/**
