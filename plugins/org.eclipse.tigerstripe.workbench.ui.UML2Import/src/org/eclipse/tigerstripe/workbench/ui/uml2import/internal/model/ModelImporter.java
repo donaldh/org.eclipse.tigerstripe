@@ -196,6 +196,7 @@ public class ModelImporter {
 		System.out.println(uML2TS.getClassMap().size());
 		System.out.println(messages.asText());
 		out.flush();
+		Utilities.tearDown();
 		return false;
 	}
 

@@ -64,7 +64,9 @@ import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.InterfaceRealization;
+import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.LiteralSpecification;
+import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.NamedElement;
@@ -74,6 +76,7 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageImport;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
+import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.ProfileApplication;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
@@ -103,9 +106,6 @@ public class UML2TS {
 	private IWorkbenchProfileSession profileSession;
 	
 	private int nullClassCounter = 0;
-
-	private String typeDefAnnotation = "TypeDefinition";
-	private String exceptionAnnotation = "Exception";
 	
 	/** constructor */
 	public UML2TS(Map<Classifier, String> classMap) {
@@ -120,7 +120,6 @@ public class UML2TS {
 	public Map<String,IAbstractArtifact> extractArtifacts(Model model, String modelLibrary, PrintWriter out, MessageList messages,
 			ITigerstripeModelProject tsProject){
 		
-		System.out.println("Extracting");
 		// This is where we store the extracted stuff..
 		Map<String,IAbstractArtifact> extractedArtifacts = new HashMap<String, IAbstractArtifact>();
 		this.out = out;;
@@ -274,7 +273,7 @@ public class UML2TS {
 										.getQualifiedName()));
 								dependency.setZEndType(ztype);
 								IStereotype tsStereo = this.profileSession.getActiveProfile()
-								.getStereotypeByName("DependencyLabel");
+									.getStereotypeByName("DependencyLabel");
 
 								IStereotypeInstance depLabel = tsStereo.makeInstance();
 								String labelName = "label";
@@ -340,301 +339,7 @@ public class UML2TS {
 		}
 	}
 	
-	/**
-	 * Load the UML model into TS
-	 * 
-	 * @param model
-	 * @param tSProjectName
-	 */
-	public void loadUMLtoTigerstripe(Model model, ITigerstripeModelProject tsProject,
-			String modelLibrary, PrintWriter out, MessageList messages,
-			IProgressMonitor monitor) throws TigerstripeException {
-		this.out = out;
-		this.modelLibrary = modelLibrary;
-		this.messages = messages;
-		// Make sure the TS project is OK
-		try {
-			this.mgrSession = tsProject.getArtifactManagerSession();
-
-		} catch (Exception e) {
-			String msgText = "Problem opening TS Project ";
-			addMessage(msgText, 0);
-			this.out.println("Error : " + msgText);
-			e.printStackTrace(this.out);
-			return;
-		}
-
-		// Walk the model
-		TreeIterator t = model.eAllContents();
-
-		int monCount = 0;
-		while (t.hasNext()) {
-			monCount++;
-			t.next();
-		}
-
-		try {
-			((ArtifactManagerSessionImpl) mgrSession)
-					.setLockForGeneration(true);
-			// TODO PUT THIS BACK
-			//TigerstripeProjectAuditor.setTurnedOffForImport(true);
-
-			monitor.beginTask("Processing UML Classes ", monCount);
-			t = model.eAllContents();
-			while (t.hasNext()) {
-				EObject o = (EObject) t.next();
-				/*if (o instanceof AssociationClass) {
-					// Map to AssociationClass Artifact
-					mapToArtifact(o, IAssociationClassArtifact.class.getName(),
-							monitor);
-				} else if (o instanceof Class) {
-					// Map to Entity or Datatype Artifact depending
-					mapToArtifact(o, IManagedEntityArtifact.class.getName(),
-							monitor);
-				} else if (o instanceof Association) {
-					// Map to Association Artifact
-					mapToArtifact(o, IAssociationArtifact.class.getName(),
-							monitor);
-				} else if (o instanceof Enumeration) {
-					// Map to Enumeration Artifact
-					mapToArtifact(o, IEnumArtifact.class.getName(), monitor);
-				} else if (o instanceof Interface) {
-					// Map to Interface Artifact
-					mapToArtifact(o, ISessionArtifact.class.getName(), monitor);
-				}*/
-				monitor.worked(1);
-			}
-
-
-			// Build dependencies
-			t = model.eAllContents();
-
-			monitor.beginTask("Post-Processing on Dependencies", monCount);
-			while (t.hasNext()) {
-				EObject o = (EObject) t.next();
-				if (o instanceof Classifier) {
-					Classifier element = (Classifier) o;
-					String packageName = element.getNearestPackage()
-							.getQualifiedName();
-					for (Object depO : element.getClientDependencies()) {
-						if (depO instanceof InterfaceRealization){
-							InterfaceRealization implReal = (InterfaceRealization) depO;
-							Classifier client = null;
-							
-
-							List<IAbstractArtifact> suppliers = new ArrayList<IAbstractArtifact>();
-
-							Classifier supplier = null;
-							for (Object c : implReal.getClients()) {
-								if (c instanceof Classifier) {
-									client = (Classifier) c;
-									//this.out.println("Client " + client.getQualifiedName());
-									// There should only be one client!
-									break;
-								}
-							}
-							for (Object s : implReal.getSuppliers()) {
-								if (s instanceof Classifier) {
-									supplier = (Classifier) s;
-									//this.out.println("Supplier " + supplier.getQualifiedName());
-									// Find the supplier artifact
-									String supplierFQN = convertToFQN(supplier.getQualifiedName());
-									IAbstractArtifact supplierArtifact = this.mgrSession.getArtifactByFullyQualifiedName(supplierFQN);
-									if (supplierArtifact != null){
-										suppliers.add(supplierArtifact);
-									} else {
-										this.out.println("Failed to find supplier for implementation "+supplierFQN);
-									}
-								}
-							}
-
-						
-							
-							
-							
-							// Find our client
-							String clientFQN = convertToFQN(client.getQualifiedName());
-							IAbstractArtifact clientArtifact = this.mgrSession.getArtifactByFullyQualifiedName(clientFQN);
-							if (clientArtifact != null){
-								if (clientArtifact instanceof ManagedEntityArtifact){
-									ManagedEntityArtifact clientEntity = (ManagedEntityArtifact) clientArtifact;
-									Collection<IAbstractArtifact> existing = clientEntity.getImplementedArtifacts();
-									
-									ArrayList<IAbstractArtifact> imp = new ArrayList<IAbstractArtifact>();
-									imp.addAll(existing);
-									imp.addAll(suppliers);
-									
-								    clientEntity.setImplementedArtifacts(imp);
-								    this.out.println("Adding "+clientEntity.getImplementedArtifacts().size()+" implements relations to "+clientFQN);
-
-								    
-								} else if (clientArtifact instanceof AssociationClassArtifact){
-									AssociationClassArtifact clientEntity = (AssociationClassArtifact) clientArtifact;
-									Collection<IAbstractArtifact> existing = clientEntity.getImplementedArtifacts();
-									
-									ArrayList<IAbstractArtifact> imp = new ArrayList<IAbstractArtifact>();
-									imp.addAll(existing);
-									imp.addAll(suppliers);
-									
-								    clientEntity.setImplementedArtifacts(imp);
-								    this.out.println("Adding "+clientEntity.getImplementedArtifacts().size()+" implements relations to "+clientFQN);
-								} else {
-									this.out.println("Client for implementation is not a Managed Entity or Association Class "+clientFQN);
-								}
-							} else {
-								this.out.println("Failed to find client for implementation "+clientFQN);
-							}
-							
-
-						} else if (depO instanceof Dependency) {
-							Dependency dep = (Dependency) depO;
-							String depName = dep.getName();
-							this.out.println("Dep Name " + dep.getName());
-							this.out.println(depO.getClass().getName());
-
-							// Treat as a dependency artifact
-
-							if (depName == null || depName.equals("")){
-								depName = "implements";
-							}
-
-							Classifier client = null;
-							Classifier supplier = null;
-							for (Object c : dep.getClients()) {
-								if (c instanceof Classifier) {
-									client = (Classifier) c;
-									break; // Only do one..
-								}
-							}
-							for (Object s : dep.getSuppliers()) {
-								if (s instanceof Classifier) {
-									supplier = (Classifier) s;
-									break; // Only do one..
-								}
-							}
-
-							// So go ahead and make one..
-							if (supplier != null && client != null) {
-								IAbstractArtifact depArtifact = this.mgrSession
-								.makeArtifact(IDependencyArtifact.class
-										.getName());
-								IDependencyArtifact dependency = (IDependencyArtifact) depArtifact;
-								dependency
-								.setFullyQualifiedName(convertToFQN(packageName
-										+ "."
-										+ client.getName()
-										+ depName + supplier.getName()));
-								this.out.println("ARTIFACT : "
-										+ IDependencyArtifact.class.getName()
-										+ " FQN "
-										+ depArtifact.getFullyQualifiedName());
-								IType atype = dependency.makeType();
-								atype.setFullyQualifiedName(convertToFQN(client
-										.getQualifiedName()));
-								dependency.setAEndType(atype);
-
-								IType ztype = dependency.makeType();
-								ztype
-								.setFullyQualifiedName(convertToFQN(supplier
-										.getQualifiedName()));
-								dependency.setZEndType(ztype);
-								IStereotype tsStereo = this.profileSession.getActiveProfile()
-								.getStereotypeByName("DependencyLabel");
-
-								IStereotypeInstance depLabel = tsStereo.makeInstance();
-								String labelName = "label";
-								IStereotypeAttribute tsStereoAttribute = null;
-								IStereotypeAttribute[] tsStereoAttributes = depLabel.getCharacterizingStereotype().getAttributes();
-								for (int at = 0; at < tsStereoAttributes.length; at++) {
-									if (tsStereoAttributes[at].getName().equals(labelName)) {
-										tsStereoAttribute = tsStereoAttributes[at];
-										break;
-									}
-
-								}
-
-								depLabel.setAttributeValue(tsStereoAttribute, depName);
-								dependency.addStereotypeInstance(depLabel);
-
-								this.mgrSession.addArtifact(dependency);
-								dependency.doSilentSave(new NullProgressMonitor());
-
-
-							}
-						}
-					}
-				}
-				monitor.worked(1);
-			}
-
-			
-
-			// Do a second pass to set the generalizations.
-			t = model.eAllContents();
-
-			monitor.beginTask("Post-Processing on Generalizations", monCount);
-			nullClassCounter = 0;
-			while (t.hasNext()) {
-				EObject o = (EObject) t.next();
-				if (o instanceof Classifier) {
-					Classifier element = (Classifier) o;
-					String eleName = "";
-					String packageName = element.getNearestPackage().getQualifiedName();
-					if (element.getName() == null){
-					    eleName = "element"+Integer.toString(nullClassCounter);
-					    nullClassCounter++;
-					} else {
-						eleName = element.getName();
-					}
-					String myFQN = packageName+"::"+eleName;
-					
-					
-					
-					String artifactFullyQualifiedName = convertToFQN(myFQN);
-					// remove the model name
-//					artifactFullyQualifiedName = artifactFullyQualifiedName
-//							.substring(artifactFullyQualifiedName.indexOf(".") + 1);
-					IAbstractArtifact artifact = this.mgrSession
-							.getArtifactByFullyQualifiedName(artifactFullyQualifiedName);
-					if (artifact != null) {
-						setGeneralization(artifact, element);
-						
-						artifact.doSilentSave(new NullProgressMonitor());
-					}
-				}
-				monitor.worked(1);
-			}
-			monitor.done();
-			
-		} finally {
-			((ArtifactManagerSessionImpl) mgrSession)
-					.setLockForGeneration(false);
-
-			mgrSession.refresh(true, monitor);
-		}
-
-		final String pName= tsProject.getProjectDetails().getName();
-
-		IWorkspaceRunnable op = new IWorkspaceRunnable() {
-
-			public void run(IProgressMonitor monitor) throws CoreException {
-				try {
-					IResource resource = ResourcesPlugin.getWorkspace()
-							.getRoot().findMember(new Path(pName));
-					resource.refreshLocal(IResource.DEPTH_INFINITE, null);
-				}  finally {
-					monitor.done();
-				}
-			}
-		};
-
-		try {
-			ResourcesPlugin.getWorkspace().run(op, monitor);
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	private IAbstractArtifact mapToArtifact(EObject o, String artifactTypeName) {
 		NamedElement element = (NamedElement) o;
 		String eleName;
@@ -920,182 +625,139 @@ public class UML2TS {
 	}
 
 	private void setConstants(IAbstractArtifact artifact, NamedElement element) {
-		// In UML model should only be on Enums ?
-		// How does that square with Tigerstripe ?
-	
-		String cType = getConstantsType(artifact, element);
+		if (artifact instanceof IEnumArtifact){
+			// In UML model should only be on Enums ?
+			// TODO How does that square with Tigerstripe ?
+			String cType ;
+			List children = element.getOwnedElements();
 
-		List children = element.getOwnedElements();
+			ListIterator it = children.listIterator();
+			while (it.hasNext()) {
+				EObject child = (EObject) it.next();
+				if (child instanceof EnumerationLiteral) {
+					EnumerationLiteral enumLit = (EnumerationLiteral) child;
+					// Might have an EnumValue stereotype ?
+					out.println("    Enum Literal : " + enumLit.getName());
+					String eName = nameCheck(enumLit.getName());
+					if (eName.substring(0, 1).matches("[0-9]")){
+						eName = "_"+eName;
+						out.println("    Name prepended : " + eName);
+					}
 
-		ListIterator it = children.listIterator();
-		while (it.hasNext()) {
-			EObject child = (EObject) it.next();
-			if (child instanceof EnumerationLiteral) {
-				EnumerationLiteral enumLit = (EnumerationLiteral) child;
-				// Might have an EnumValue stereotype ?
-				System.out.println("    Enum Literal : " + enumLit.getName());
+					ILiteral iLiteral = artifact.makeLiteral();
+					iLiteral.setName(eName);
+					IType type = iLiteral.makeType();
 
-				ILiteral iLiteral = artifact.makeLiteral();
-				String eName = nameCheck(enumLit.getName());
-				if (eName.substring(0, 1).matches("[0-9]")){
-					eName = "_"+eName;
-					this.out.println("    Name prepended : " + eName);
-				}
-				iLiteral.setName(eName);
-				IType type = iLiteral.makeType();
-				type.setFullyQualifiedName(cType);
-				iLiteral.setType(type);
-				artifact.addLiteral(iLiteral);
+					ValueSpecification spec = enumLit.getSpecification();
+					if (spec instanceof LiteralInteger) {
+						type.setFullyQualifiedName("int");
+						LiteralInteger lit = (LiteralInteger) spec;
+						iLiteral.setValue(Integer.toString(lit.getValue()));
+					} else if (spec instanceof LiteralString) {
+						type.setFullyQualifiedName("String");
+						LiteralString lit = (LiteralString) spec;
+						iLiteral.setValue(lit.getValue());
+					} else {
+						out.println("    Literal type unknown ("+spec.getLabel()+") : defaulting to String ");
+						type.setFullyQualifiedName("String");
+						// If unknown type, set the label to the name by default
+						iLiteral.setValue("\"" + iLiteral.getName() + "\"");
 
-				// If String set the label to the name by default - may be
-				// overridden by an EnumVal
-				// otherwise if int set it to -1
-				System.out.println(cType);
-				if (cType.equals("String")) {
-					iLiteral.setValue("\"" + iLiteral.getName() + "\"");
-				} else {
-					iLiteral.setValue(Integer.toString(-1));
-				}
+					}
 
-				List appliedStereotypes = ((NamedElement) child)
-						.getAppliedStereotypes();
-				if (appliedStereotypes.size() > 0) {
-
-					int count = 0;
-					for (int s = 0; s < appliedStereotypes.size(); s++) {
-						Stereotype stereo = (Stereotype) appliedStereotypes
-						.get(s);
-						
-						if (!stereo.getName().equals("EnumValue")){
-							IStereotype tsStereo = this.profileSession.getActiveProfile()
-							.getStereotypeByName(stereo.getName());
-							if (tsStereo == null) {
-								String msgText = "No Stereotype Named "+stereo.getName() +" in TS:"
-								+ stereo.getName();
-								addMessage(msgText, 0);
-								this.out.println("Error : " + msgText);
-								continue;
-							}
-							IStereotypeInstance tsStereoInstance = tsStereo.makeInstance();
-
-							List stereoAttributes = stereo.getAllAttributes();
-							for (int a = 0; a < stereoAttributes.size(); a++) {
-								Property attribute = (Property) stereoAttributes
-								.get(a);
+					iLiteral.setType(type);
+					artifact.addLiteral(iLiteral);
 
 
-								if (!attribute.getName().startsWith("base_")) {
-									// if ((element.getValue(stereo,
-									// attribute.getName()) != null) ){
-									this.out.println("    Enum Lit Stereo Attribute : "
-											+ stereo.getName()
-											+ ":"
-											+ attribute.getName()
-											+ " -> "
-											+ ((NamedElement) child).getValue(
-													stereo, attribute.getName()));
-									count++;
-									iLiteral.setValue(((NamedElement) child)
-											.getValue(stereo,
-													attribute.getName())
-													.toString());
-									addAttributesToStereoType(tsStereoInstance, stereo,
-											attribute, (NamedElement) child);
-									iLiteral.addStereotypeInstance(tsStereoInstance);
-									
-									}
+					List appliedStereotypes = ((NamedElement) child)
+					.getAppliedStereotypes();
+					if (appliedStereotypes.size() > 0) {
 
-							}
-						} else if (stereo.getName().equals("EnumValue")){
+						int count = 0;
+						for (int s = 0; s < appliedStereotypes.size(); s++) {
+							Stereotype stereo = (Stereotype) appliedStereotypes
+							.get(s);
 
-							List stereoAttributes = stereo.getAllAttributes();
+							if (!stereo.getName().equals("EnumValue")){
+								IStereotype tsStereo = this.profileSession.getActiveProfile()
+								.getStereotypeByName(stereo.getName());
+								if (tsStereo == null) {
+									String msgText = "No Stereotype Named "+stereo.getName() +" in TS:"
+									+ stereo.getName();
+									addMessage(msgText, 0);
+									this.out.println("Error : " + msgText);
+									continue;
+								}
+								IStereotypeInstance tsStereoInstance = tsStereo.makeInstance();
 
-							//this.out.println("Found EnumValue "+stereoAttributes.size());
+								List stereoAttributes = stereo.getAllAttributes();
+								for (int a = 0; a < stereoAttributes.size(); a++) {
+									Property attribute = (Property) stereoAttributes
+									.get(a);
 
-							for (int a = 0; a < stereoAttributes.size(); a++) {
-								Property attribute = (Property) stereoAttributes.get(a);
-								
-								if (attribute.getName().equals("value")) {
-									//this.out.println("Got the Value "+((NamedElement) child).hasValue(stereo,attribute.getName()));
-									if (((NamedElement) child).hasValue(stereo,attribute.getName())){
-										this.out.println("    Enum Value : "
+
+									if (!attribute.getName().startsWith("base_")) {
+										// if ((element.getValue(stereo,
+										// attribute.getName()) != null) ){
+										this.out.println("    Enum Lit Stereo Attribute : "
 												+ stereo.getName()
-												+ ":Value --> "+((NamedElement) child).getValue(stereo,attribute.getName()).toString());
-										iLiteral.setValue(((NamedElement) child).getValue(stereo,attribute.getName()).toString());
+												+ ":"
+												+ attribute.getName()
+												+ " -> "
+												+ ((NamedElement) child).getValue(
+														stereo, attribute.getName()));
+										count++;
+										iLiteral.setValue(((NamedElement) child)
+												.getValue(stereo,
+														attribute.getName())
+														.toString());
+										addAttributesToStereoType(tsStereoInstance, stereo,
+												attribute, (NamedElement) child);
+										iLiteral.addStereotypeInstance(tsStereoInstance);
+
 									}
-								} else {
-									iLiteral.setValue("-1");
+
 								}
-								
-							}
-						}
-					}
-				}
-			}
-		}
-		// After all that we need to set the literal types, and values for any that did not get one.
-		
-		
-		
-		this.out.println("    Finished handling constants");
+							} else if (stereo.getName().equals("EnumValue")){
+								// TODO - Is this specific to RSM ?
+								List stereoAttributes = stereo.getAllAttributes();
 
-	}
+								//this.out.println("Found EnumValue "+stereoAttributes.size());
 
-	private String getConstantsType(IAbstractArtifact artifact,
-			NamedElement element) {
-		// See if anything has a Value, then setting All of them to that,
-		// giving any without a Value a default value
+								for (int a = 0; a < stereoAttributes.size(); a++) {
+									Property attribute = (Property) stereoAttributes.get(a);
 
-		List children = element.getOwnedElements();
-		ListIterator it = children.listIterator();
-		while (it.hasNext()) {
-			EObject child = (EObject) it.next();
-			if (child instanceof EnumerationLiteral) {
-				//EnumerationLiteral enumLit = (EnumerationLiteral) child;
-
-				List appliedStereotypes = ((NamedElement) child)
-						.getAppliedStereotypes();
-				if (appliedStereotypes.size() > 0) {
-
-					for (int s = 0; s < appliedStereotypes.size(); s++) {
-						Stereotype stereo = (Stereotype) appliedStereotypes
-								.get(s);
-						if (stereo.getName().equals("EnumValue")){
-							List stereoAttributes = stereo.getAllAttributes();
-							for (int a = 0; a < stereoAttributes.size(); a++) {
-								Property attribute = (Property) stereoAttributes
-								.get(a);
-
-								if (!attribute.getName().startsWith("base_")) {
-									if (attribute.getType().getName().equals(
-									"Integer")) {
-										return "int";
-									} else if (attribute.getType().getName()
-											.equals("string")) {
-										return "string";
-									}else {
-										String msgText = "Unhandled type for Enum Value "
-											+ stereo.getName()
-											+ ":"
-											+ attribute.getName()
-											+ " -> "
-											+ attribute.getType().getName();
-										addMessage(msgText, 0);
-										this.out.println("Error : " + msgText);
-										//return "string";
+									if (attribute.getName().equals("value")) {
+										//this.out.println("Got the Value "+((NamedElement) child).hasValue(stereo,attribute.getName()));
+										if (((NamedElement) child).hasValue(stereo,attribute.getName())){
+											this.out.println("    Enum Value : "
+													+ stereo.getName()
+													+ ":Value --> "+((NamedElement) child).getValue(stereo,attribute.getName()).toString());
+											iLiteral.setValue(((NamedElement) child).getValue(stereo,attribute.getName()).toString());
+										}
+									} else {
+										iLiteral.setValue("-1");
 									}
+
 								}
 							}
 						}
 					}
 				}
+			}		
+			out.println("    Finished handling constants");
+			// Now set the base Type for the Enum
+			IEnumArtifact enumArtifact = (IEnumArtifact) artifact;
+			
+			if (enumArtifact.getLiterals().size()>0){
+				ILiteral firstLit = enumArtifact.getLiterals().iterator().next();
+				enumArtifact.setBaseType(firstLit.getType());
+			} else {
+				// Leave as the default - we have no idea!
 			}
 		}
-		String msgText = "Could not determine Enum type - Defaulting to string";
-		//addMessage(msgText, 0);
-		this.out.println("Info : " + msgText);
-		return "string";
 	}
+
 
 	private void setOperations(IAbstractArtifact artifact, NamedElement element) {
 		List children = element.getOwnedElements();
@@ -1106,7 +768,7 @@ public class UML2TS {
 			if (child instanceof Operation) {
 				Operation operation = (Operation) child;
 
-				this.out.println("    Operation :" + operation.getName());
+				System.out.println("    Operation :" + operation.getName());
 				IMethod method = artifact.makeMethod();
 				method.setName(operation.getName());
 				method.setComment(setComment(((NamedElement) child)));
@@ -1115,17 +777,30 @@ public class UML2TS {
 				Parameter returnResult = operation.getReturnResult();
 				if (returnResult != null){
 					Type retType = returnResult.getType();
+					
+					if (retType == null){
+						// assume this is a void return - although that might have a "void type" as well
+						method.setVoid(true);
+						IType iType = method.makeType();
+						iType.setFullyQualifiedName("void");
+						method.setReturnType(iType);
+						method.setReturnName("");
+					} else {
+						IType iType = method.makeType();
+						if (!setTypeDetails(iType, retType, returnResult, artifact
+								.getName()
+								+ " : " + returnResult.getName())) {
+							continue;
+						}
 
-					IType iType = method.makeType();
-					if (!setTypeDetails(iType, retType, returnResult, artifact
-							.getName()
-							+ " : " + returnResult.getName())) {
-						continue;
+						System.out.println("    Operation return : "
+								+ operation.getName() + " : "
+								+ iType.getFullyQualifiedName());
+						method.setReturnType(iType);
+						method.setReturnName(returnResult.getName());
+						this.out.println("    Operation return Name : "
+								+ returnResult.getName());
 					}
-					this.out.println("    Operation return : "
-							+ operation.getName() + " : "
-							+ iType.getFullyQualifiedName());
-					method.setReturnType(iType);
 					if (returnResult.isSetDefault()){
 						method.setDefaultReturnValue(returnResult.getDefault());
 					}
@@ -1138,9 +813,7 @@ public class UML2TS {
 						method.addReturnStereotypeInstance(iSI);
 					}
 					
-					method.setReturnName(returnResult.getName());
-					this.out.println("    Operation return Name : "
-							+ returnResult.getName());
+					
 				} else {
 					// No return type!
 					this.out.println("    Operation return : "
@@ -1150,6 +823,7 @@ public class UML2TS {
 				
 				method.setOrdered(operation.isOrdered());
 				method.setUnique(operation.isUnique());
+				method.setAbstract(operation.isAbstract());
 
 				
 				
@@ -1173,14 +847,12 @@ public class UML2TS {
 							+ " : " + param.getName())) {
 						continue;
 					}
-					this.out.println("    Operation parameter : "
+					System.out.println("    Operation parameter : "
 							+ operation.getName() + " : " + param.getName()
 							+ " : " + aType.getFullyQualifiedName());
 					arg.setType(aType);
 
-					// TODO The model might have stereos on these. TS can't yet
-					// handle
-//					 ============================
+
 					ArrayList stInstances = readStereotypes((NamedElement) param);
 					ListIterator stereoIt = stInstances.listIterator();
 					while (stereoIt.hasNext()) {
@@ -1253,16 +925,18 @@ public class UML2TS {
 		boolean optional = true;
 		try {
 			if ((uType == null) || (uType.getQualifiedName() == null)) {
-				System.out.println(uType);
-				System.out.println(uType.getQualifiedName());
+				System.out.println("uType :"+uType);
+				System.out.println("UType.FQN "+uType.getQualifiedName());
 				// TODO - Is this an error in the model?
 				String msgText = "Unsure of type : " + location + " Skipping...";
 				addMessage(msgText, 0);
-				this.out.println("Error : " + msgText);
+				System.out.println("Error : " + msgText);
 				return false;
 			}
 			// Need to determine if this is a primitive type that we know about
 			String pTypeFQN = convertToFQN(uType.getQualifiedName());
+			System.out.println(uType.getQualifiedName()+" "+pTypeFQN+" "+this.modelLibrary);
+			
 			if (uType.getQualifiedName().startsWith(this.modelLibrary)) {
 				if (!checkReservedPrimitive(pTypeFQN)) {
 					pTypeFQN = PRIMITIVE_PREFIX + pTypeFQN;
@@ -1277,9 +951,10 @@ public class UML2TS {
 			}
 			return true;
 		} catch (Exception e){
-			String msgText = "Excpetion working out type : " + location + " Skipping...";
+			String msgText = "Exception working out type : " + location + " Skipping...";
 			addMessage(msgText, 0);
-			this.out.println("Error : " + msgText);
+			out.println("Error : " + msgText);
+			e.printStackTrace();
 			return false;
 		}
 	}
@@ -1322,17 +997,13 @@ public class UML2TS {
 
 				Type propType = property.getType();
 				IType type = field.makeType();
-				// if (!setTypeDetails(type, propType,
-				// (MultiplicityElement) child, artifact.getName()+" : "+
-				// field.getName())){
 				if (!setTypeDetails(type, propType,
 						(MultiplicityElement) child, artifact.getName() + " : "
 								+ field.getName())) {
 					continue;
 				}
-
-				field
-						.setOptional(getOptional(type,
+				// TODO - Is this valid any more?
+				field.setOptional(getOptional(type,
 								(MultiplicityElement) child));
 
 				this.out.println("    Property : " + property.getName() + " : "
@@ -1351,11 +1022,6 @@ public class UML2TS {
 					field.setReadOnly(property.isReadOnly());
 				}
 				
-				/*
-				 * DOn't thinnk this is valid - cf EMPTY vs NOT-PRESENT? if
-				 * (multi.startsWith("0")){ field.setOptional(true); }
-				 */
-
 				// Visibility 
 				VisibilityKind viz = property.getVisibility();
 				
@@ -1369,37 +1035,12 @@ public class UML2TS {
 					field.setVisibility(IModelComponent.EVisibility.PUBLIC);
 				}
 
-				/*
-				 switch (field.getVisibility()) { 
-				 case IextModelComponent.VISIBILITY_PACKAGE :
-					 attribute.setVisibility(VisibilityKind.PACKAGE_LITERAL);
-					 break;
-				 case IextModelComponent.VISIBILITY_PRIVATE :
-					 attribute.setVisibility(VisibilityKind.PRIVATE_LITERAL);
-					 break;
-				 case IextModelComponent.VISIBILITY_PROTECTED :
-					 attribute.setVisibility(VisibilityKind.PROTECTED_LITERAL);
-					 break;
-				 case IextModelComponent.VISIBILITY_PUBLIC :
-					 attribute.setVisibility(VisibilityKind.PUBLIC_LITERAL);
-					 break; 
-				 }
-				
-				*/
-				
-				
-				// Other bits like RefBy, Optional, ReadOnly?
-				// RefBy not to be used
-				// ReadOnly is not set anywhere in the model IMHO
-				// In the model there are default values for some stuff?
-				// And stereotypes.....
 				ArrayList stInstances = readStereotypes((NamedElement) child);
 
 				ListIterator stereoIt = stInstances.listIterator();
 				while (stereoIt.hasNext()) {
 					IStereotypeInstance iSI = (IStereotypeInstance) stereoIt
 							.next();
-					// TODO Put this in....
 					field.addStereotypeInstance(iSI);
 				}
 
@@ -1466,48 +1107,6 @@ public class UML2TS {
 		return allTSStereoInstances;
 	}
 
-	/*private void setMultiplicity(IType type, MultiplicityElement property) {
-		String multi = readMultiplicity(property);
-		// TODO - is there more to say here (eg re:Optional).
-		if (multi.equals("0..1")) {
-			type.setMultiplicity(IextType.MULTIPLICITY_SINGLE);
-		} else {
-			type.setMultiplicity(IextType.MULTIPLICITY_MULTI);
-		}
-	}
-
-	private boolean setMultiplicityNew(IType type, MultiplicityElement property) {
-
-		String multiplicityString = "";
-		String upper = "";
-		int multi = IextType.MULTIPLICITY_SINGLE;
-		String lower = "";
-		boolean optional = true;
-
-		ValueSpecification upperVal = property.getUpperValue();
-		ValueSpecification lowerVal = property.getLowerValue();
-
-		if (upperVal != null) {
-			upper = "" + property.getUpper();
-			if (upper.equals("-1")) {
-				multi = IextType.MULTIPLICITY_MULTI;
-			} else {
-				multi = IextType.MULTIPLICITY_SINGLE;
-			}
-		}
-
-		if (lowerVal != null) {
-			lower = "" + property.getLower();
-			if (lower.equals("0")) {
-				// Can't ever see this happening...
-				optional = true;
-			} else {
-				optional = false;
-			}
-		}
-		type.setMultiplicity(multi);
-		return optional;
-	}*/
 
 	private String readMultiplicity(MultiplicityElement property) {
 
@@ -1920,21 +1519,6 @@ public class UML2TS {
 
 	}
 
-	public String getExceptionAnnotation() {
-		return exceptionAnnotation;
-	}
-
-	public void setExceptionAnnotation(String exceptionAnnotation) {
-		this.exceptionAnnotation = exceptionAnnotation;
-	}
-
-	public String getTypeDefAnnotation() {
-		return typeDefAnnotation;
-	}
-
-	public void setTypeDefAnnotation(String typeDefAnnotation) {
-		this.typeDefAnnotation = typeDefAnnotation;
-	}
 
 	public Map<Classifier, String> getClassMap() {
 		return classMap;

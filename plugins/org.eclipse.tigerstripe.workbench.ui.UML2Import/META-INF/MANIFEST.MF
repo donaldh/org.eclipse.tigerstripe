@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.uml2import.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.tigerstripe.workbench.base,
  org.eclipse.uml2.uml,
  org.eclipse.jdt.core,
  org.eclipse.core.resources,

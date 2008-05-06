@@ -11,14 +11,14 @@
       </category>
       <wizard
             category="org.eclipse.tigerstripe.workbench.UML2Import.category"
-            class="org.eclipse.tigerstripe.workbench.ui.uml2import.ui.wizards.UML2ImportWizard"
+            class="org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UML2ImportWizard"
             icon="src/icons/importExport.gif"
             id="org.eclipse.tigerstripe.workbench.UML2Import.wizard1"
             name="UML2 Import">
       </wizard>
       <wizard
             category="org.eclipse.tigerstripe.workbench.UML2Import.category"
-            class="org.eclipse.tigerstripe.workbench.ui.uml2import.ui.wizards.ImportUML2ProfileWizard"
+            class="org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.ImportUML2ProfileWizard"
             icon="src/icons/importExport.gif"
             id="org.eclipse.tigerstripe.workbench.UML2Import.wizard2"
             name="UML2 Profile Import">
