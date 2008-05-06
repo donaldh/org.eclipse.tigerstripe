@@ -99,8 +99,9 @@ public class PojoModelRepository extends ModelRepository {
 		}
 
 		for (IResource pojo : visitor.allMembers) {
-			Resource res = getResourceSet().createResource(
-					URI.createFileURI(pojo.getFullPath().toOSString()));
+			Resource res = getResourceSet().getResource(
+					URI.createPlatformResourceURI(pojo.getFullPath()
+							.toOSString(), true), true);
 			try {
 				res.load(null);
 				IAbstractArtifact art = (IAbstractArtifact) res.getContents()
