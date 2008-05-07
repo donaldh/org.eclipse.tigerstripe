@@ -15,7 +15,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.AssociationNode;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.ClassNode;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.DependencyNode;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.Node;
 
 
@@ -33,12 +35,7 @@ public class UmlClassesTreeLabelProvider extends LabelProvider {
 			if (((ClassNode) node).getMappingType().equals(IManagedEntityArtifact.class.getName())){
 				return Images.get(Images.ENTITY_ICON);
 			} 
-			if (((ClassNode) node).getMappingType().equals(IAssociationClassArtifact.class.getName())){
-				return Images.get(Images.ASSOCIATIONCLASS_ICON);
-			} 
-			if (((ClassNode) node).getMappingType().equals(IAssociationArtifact.class.getName())){
-				return Images.get(Images.ASSOCIATION_ICON);
-			} 
+			
 			if (((ClassNode) node).getMappingType().equals(IDatatypeArtifact.class.getName())){
 				return Images.get(Images.DATATYPE_ICON);
 			}
@@ -51,9 +48,7 @@ public class UmlClassesTreeLabelProvider extends LabelProvider {
 			if (((ClassNode) node).getMappingType().equals(IUpdateProcedureArtifact.class.getName())){
 				return Images.get(Images.UPDATEPROC_ICON);
 			}
-			if (((ClassNode) node).getMappingType().equals(IDependencyArtifact.class.getName())){
-				return Images.get(Images.DEPENDENCY_ICON);
-			}
+			
 			if (((ClassNode) node).getMappingType().equals(IQueryArtifact.class.getName())){
 				return Images.get(Images.QUERY_ICON);
 			}
@@ -63,7 +58,18 @@ public class UmlClassesTreeLabelProvider extends LabelProvider {
 			if (((ClassNode) node).getMappingType().equals(IEventArtifact.class.getName())){
 				return Images.get(Images.NOTIFICATION_ICON);
 			}
+		} else if (node instanceof AssociationNode){
+			if (((AssociationNode) node).getMappingType().equals(IAssociationClassArtifact.class.getName())){
+				return Images.get(Images.ASSOCIATIONCLASS_ICON);
+			} 
+			if (((AssociationNode) node).getMappingType().equals(IAssociationArtifact.class.getName())){
+				return Images.get(Images.ASSOCIATION_ICON);
+			} 
 			
+		} else if (node instanceof DependencyNode){
+			if (((DependencyNode) node).getMappingType().equals(IDependencyArtifact.class.getName())){
+				return Images.get(Images.DEPENDENCY_ICON);
+			}
 		}
 		return JavaPluginImages.get(JavaPluginImages.IMG_OBJS_HELP);
 	}

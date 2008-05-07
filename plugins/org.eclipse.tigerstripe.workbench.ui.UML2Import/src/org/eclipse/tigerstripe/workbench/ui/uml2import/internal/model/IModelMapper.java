@@ -2,12 +2,12 @@ package org.eclipse.tigerstripe.workbench.ui.uml2import.internal.model;
 
 import java.util.Map;
 
-import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Model;
 
 
 public interface IModelMapper {
 
-	public Map<Classifier, String> getMapping(Model model);
+	public Map<EObject, String> getMapping(Model model);
 	
 }

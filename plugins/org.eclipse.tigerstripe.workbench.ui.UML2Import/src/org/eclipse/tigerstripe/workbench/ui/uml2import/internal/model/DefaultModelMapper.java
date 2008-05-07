@@ -7,20 +7,23 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
 
 public class DefaultModelMapper implements IModelMapper {
 
-	public Map<Classifier, String> getMapping(Model model) {
-		Map<Classifier, String> classMap = new HashMap<Classifier, String>();
+	public Map<EObject, String> getMapping(Model model) {
+		Map<EObject, String> classMap = new HashMap<EObject, String>();
 		
 		/* 
 		 * First build a map of the eObject and the "default" artifact
@@ -33,16 +36,25 @@ public class DefaultModelMapper implements IModelMapper {
 				
 			EObject eObject = (EObject) t.next();
 			if (eObject instanceof AssociationClass) {
-				classMap.put((Classifier) eObject, IAssociationClassArtifact.class.getName());
+				classMap.put( eObject, IAssociationClassArtifact.class.getName());
 			} else if (eObject instanceof Association) {
-				classMap.put((Classifier) eObject, IAssociationArtifact.class.getName());
+				classMap.put( eObject, IAssociationArtifact.class.getName());
 			} else if (eObject instanceof Enumeration) {
-				classMap.put((Classifier) eObject, IEnumArtifact.class.getName());
+				classMap.put( eObject, IEnumArtifact.class.getName());
 			} else if (eObject instanceof Interface) {
-				classMap.put((Classifier) eObject,  ISessionArtifact.class.getName());
+				classMap.put( eObject,  ISessionArtifact.class.getName());
 			} else if (eObject instanceof Class) {
 				// We cannot determine "Class" types - could be Entity, Datatype, Exception etc
-				classMap.put((Classifier) eObject, "");
+				classMap.put( eObject, "");
+			}
+			if (eObject instanceof Classifier) {
+				Classifier element = (Classifier) eObject;
+				for (Object depO : element.getClientDependencies()) {
+					if (depO instanceof Dependency && !(depO instanceof InterfaceRealization)) {
+						Dependency dep = (Dependency) depO;
+						classMap.put( dep, IDependencyArtifact.class.getName());
+					}
+				}
 			}
 		}
 		return classMap;

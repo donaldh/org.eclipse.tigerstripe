@@ -76,7 +76,7 @@ import org.eclipse.uml2.uml.internal.impl.EnumerationLiteralImpl;
 
 public class UML2TS {
 
-	private Map<Classifier, String> classMap;
+	private Map<EObject, String> classMap;
 	
 	private String PRIMITIVE_PREFIX = "primitive.";
 
@@ -97,7 +97,7 @@ public class UML2TS {
 	private int nullClassCounter = 0;
 	
 	/** constructor */
-	public UML2TS(Map<Classifier, String> classMap) {
+	public UML2TS(Map<EObject, String> classMap) {
 		this.classMap = classMap;
 		this.profileSession = TigerstripeCore.getWorkbenchProfileSession();
 	}
@@ -212,14 +212,10 @@ public class UML2TS {
 						} else if (depO instanceof Dependency) {
 							Dependency dep = (Dependency) depO;
 							String depName = dep.getName();
-							this.out.println("Dep Name " + dep.getName());
-							this.out.println(depO.getClass().getName());
+							String depQName = dep.getQualifiedName();
+							this.out.println("INFO : Dep Name : " + depName + " "+depQName);
 
-							// Treat as a dependency artifact
-
-							if (depName == null || depName.equals("")){
-								depName = "implements";
-							}
+							// Make a dependency artifact							
 
 							Classifier client = null;
 							Classifier supplier = null;
@@ -238,15 +234,18 @@ public class UML2TS {
 
 							// So go ahead and make one..
 							if (supplier != null && client != null) {
+								
+								if (depQName == null || depQName.equals("")){
+									depQName = client.getName() + "_DependsOn_"+ supplier.getName();
+								}
+								
 								IAbstractArtifact depArtifact = this.mgrSession
 								.makeArtifact(IDependencyArtifact.class
 										.getName());
 								IDependencyArtifact dependency = (IDependencyArtifact) depArtifact;
 								dependency
-								.setFullyQualifiedName(convertToFQN(packageName
-										+ "."
-										+ client.getName()
-										+ depName + supplier.getName()));
+								.setFullyQualifiedName(convertToFQN(depQName));
+								
 								this.out.println("ARTIFACT : "
 										+ IDependencyArtifact.class.getName()
 										+ " FQN "
@@ -261,6 +260,7 @@ public class UML2TS {
 								.setFullyQualifiedName(convertToFQN(supplier
 										.getQualifiedName()));
 								dependency.setZEndType(ztype);
+								
 								//IStereotype tsStereo = this.profileSession.getActiveProfile()
 								//	.getStereotypeByName("DependencyLabel");
 
@@ -1508,7 +1508,7 @@ public class UML2TS {
 	}
 
 
-	public Map<Classifier, String> getClassMap() {
+	public Map<EObject, String> getClassMap() {
 		return classMap;
 	}
 }

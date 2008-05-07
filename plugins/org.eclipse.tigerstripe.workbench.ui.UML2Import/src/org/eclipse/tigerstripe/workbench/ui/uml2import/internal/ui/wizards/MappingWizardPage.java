@@ -111,7 +111,7 @@ public class MappingWizardPage extends TSRuntimeBasedWizardPage {
 			} catch (Exception e){
 				setErrorMessage("Failed to read from Model File");
 				setPageComplete(false);
-				e.printStackTrace();
+				e.printStackTrace(importer.getOut());
 
 			}
 		}

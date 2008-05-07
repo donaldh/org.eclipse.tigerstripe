@@ -22,8 +22,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.Utilities;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.NamedElement;
 
 public class ModelImporter {
 
@@ -37,7 +37,7 @@ public class ModelImporter {
 	
 	private Model model;
 	private String modelLibrary;
-	private Map<Classifier, String> classMap;
+	private Map<EObject, String> classMap;
 	private Map<String,IAbstractArtifact> extractedArtifacts;
 	
 	public ModelImporter (String importFilename,
@@ -187,7 +187,9 @@ public class ModelImporter {
 		}
 		out.println ("MAPPINGS PASSED TO LOADER");
 		for (EObject o : classMap.keySet()){
-			out.println(((Classifier) o).getQualifiedName()+  "    "+classMap.get(o));
+			if ( o instanceof NamedElement){
+				out.println(((NamedElement) o).getQualifiedName()+  "    "+classMap.get(o));
+			}
 		}
 		out.flush();
 		return true;
@@ -267,7 +269,7 @@ public class ModelImporter {
 		return profilesDir;
 	}
 
-	public Map<Classifier, String> getClassMap() {
+	public Map<EObject, String> getClassMap() {
 		return classMap;
 	}
 

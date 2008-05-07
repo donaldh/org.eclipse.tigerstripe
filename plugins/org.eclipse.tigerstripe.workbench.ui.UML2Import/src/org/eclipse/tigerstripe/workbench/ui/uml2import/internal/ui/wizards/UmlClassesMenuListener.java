@@ -17,6 +17,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
@@ -28,7 +29,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifac
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.AssociationNode;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.ClassNode;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.DependencyNode;
 
 
 public class UmlClassesMenuListener implements IMenuListener {
@@ -326,6 +329,22 @@ public class UmlClassesMenuListener implements IMenuListener {
 	public void menuAboutToShow(IMenuManager manager) {
 
 		// TODO  Filter for active types in profile.
+		//IWorkbenchProfileSession = TigerstripeCore.getWorkbenchProfileSession();
+		
+
+		IStructuredSelection ssel = (IStructuredSelection) viewer
+		.getSelection();
+		boolean classNodeSelected = false;
+		boolean dependencySelected = false;
+		boolean associationSelected = false;
+
+
+		for (Object obj : ssel.toArray()) {
+			classNodeSelected = obj instanceof ClassNode;
+			dependencySelected = obj instanceof DependencyNode;
+			associationSelected = obj instanceof AssociationNode;
+		}
+		if (classNodeSelected) {
 			manager.add(new DontAnnotateAction());
 			manager.add(new AsEntityAction());
 			manager.add(new AsDatatypeAction());
@@ -335,10 +354,14 @@ public class UmlClassesMenuListener implements IMenuListener {
 			manager.add(new AsEventAction());
 			manager.add(new AsUpdateProcAction());
 			manager.add(new AsSessionAction());
+		} else if (dependencySelected) {
+			manager.add(new DontAnnotateAction());
 			manager.add(new AsDependencyAction());
+		} else if (associationSelected) {
+			manager.add(new DontAnnotateAction());
 			manager.add(new AsAssociationAction());
 			manager.add(new AsAssociationClassAction());
-
+		}
 	}
 
 }
