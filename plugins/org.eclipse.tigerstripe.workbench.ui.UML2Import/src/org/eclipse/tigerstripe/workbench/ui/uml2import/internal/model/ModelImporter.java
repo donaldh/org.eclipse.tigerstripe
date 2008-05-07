@@ -60,7 +60,7 @@ public class ModelImporter {
 
 		out = new PrintWriter(new FileOutputStream(logFile));
 
-		String importText = "Import " + importFilename + " into "
+		String importText = "INFO : Import " + importFilename + " into "
 				+ tigerstripeProject.getProjectDetails().getName();
 
 		out.println(importText);
@@ -70,8 +70,6 @@ public class ModelImporter {
 		message.setSeverity(2);
 		messages.addMessage(message);
 
-		out.println("Loading file " + importFile.getName());
-		
 		model = null;
 		// Simply get the model - nothing fancy now!
 		// Set profile stuff
@@ -101,6 +99,7 @@ public class ModelImporter {
 	    		  	final IModelTrimmer trimmer  = (IModelTrimmer) children[0].createExecutableExtension("trimmer_class");
 	    		  	String trimmerName = children[0].getAttribute("name");
 	    		  	String trimmerText = "Model trimmed using trimmer "+trimmerName+" extension";
+	    		  	out.println("INFO : "+trimmerText);
 	    		  	Message trimMessage = new Message();
 	    		  	trimMessage.setMessage(trimmerText);
 	    		  	trimMessage.setSeverity(2);
@@ -113,6 +112,7 @@ public class ModelImporter {
 	    				}
 
 	    				public void run() throws Exception {
+	    					out.println("INFO : TRIMMING MODEL");
 	    					model = trimmer.trimModel(model);
 	    				}
 	    				
@@ -130,7 +130,7 @@ public class ModelImporter {
 			newMsg.setSeverity(0);
 			messages.addMessage(newMsg);
 
-			out.println("Error : " + msgText);
+			out.println("ERROR : " + msgText);
 			e.printStackTrace(out);
 			out.close();
 			return false;
@@ -149,7 +149,7 @@ public class ModelImporter {
 			return false;
 		}
 		try {
-		// Get any implementations of the ImodelTrimmer from the extension point
+		// Get any implementations of the IModelMapper from the extension point
 		IExtensionRegistry registry = Platform.getExtensionRegistry();
 	      IExtensionPoint extensionPoint =
 	         registry.getExtensionPoint("org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelMapper");
@@ -160,7 +160,7 @@ public class ModelImporter {
 	    	  if(children != null && children.length != 0){
 	    		    final IModelMapper mapper  = (IModelMapper) children[0].createExecutableExtension("mapper_class");
 	    		  	String mapperName = children[0].getAttribute("name");
-	    		  	String mapperText = "Model mapped using mapper "+mapperName+" extension";
+	    		  	String mapperText = "INFO : Model mapped using mapper "+mapperName+" extension";
 	    		  	out.println(mapperText);
 	    		  	this.classMap = mapper.getMapping(model);
 	    		  	SafeRunner.run(new ISafeRunnable() {
@@ -169,6 +169,7 @@ public class ModelImporter {
 	    				}
 
 	    				public void run() throws Exception {
+	    					out.println ("INFO : GETTING MAPPINGS");
 	    					classMap = mapper.getMapping(model);
 	    				}
 	    				
@@ -185,10 +186,10 @@ public class ModelImporter {
 			IModelMapper mapper  = new DefaultModelMapper();
 			this.classMap = mapper.getMapping(model);
 		}
-		out.println ("MAPPINGS PASSED TO LOADER");
+		out.println ("INFO : MAPPINGS PASSED TO WIZARD");
 		for (EObject o : classMap.keySet()){
 			if ( o instanceof NamedElement){
-				out.println(((NamedElement) o).getQualifiedName()+  "    "+classMap.get(o));
+				out.println("INFO : Mapping Element :"+((NamedElement) o).getQualifiedName()+  "    "+classMap.get(o));
 			}
 		}
 		out.flush();
@@ -200,8 +201,7 @@ public class ModelImporter {
 
 		UML2TS uML2TS = new UML2TS(getClassMap());
 		this.extractedArtifacts = uML2TS.extractArtifacts(model, modelLibrary, out, messages, this.tigerstripeProject);
-		out.println("Extracted arrifact size :"+this.extractedArtifacts.size());
-		out.println(uML2TS.getClassMap().size());
+		out.println("INFO : Extracted arrifact size :"+this.extractedArtifacts.size());
 		out.println(messages.asText());
 		out.flush();
 		Utilities.tearDown();

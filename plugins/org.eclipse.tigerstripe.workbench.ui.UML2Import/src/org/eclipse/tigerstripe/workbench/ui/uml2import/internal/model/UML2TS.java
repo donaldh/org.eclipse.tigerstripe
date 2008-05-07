@@ -100,6 +100,15 @@ public class UML2TS {
 	public UML2TS(Map<EObject, String> classMap) {
 		this.classMap = classMap;
 		this.profileSession = TigerstripeCore.getWorkbenchProfileSession();
+		
+		out.println ("INFO : MAPPINGS USED FOR EXTRACT");
+		for (EObject o : classMap.keySet()){
+			if ( o instanceof NamedElement){
+				out.println("INFO : Mapping Element :"+((NamedElement) o).getQualifiedName()+  "    "+classMap.get(o));
+			}
+		}
+		out.flush();
+		
 	}
 
 	/**
@@ -111,10 +120,11 @@ public class UML2TS {
 		
 		// This is where we store the extracted stuff..
 		Map<String,IAbstractArtifact> extractedArtifacts = new HashMap<String, IAbstractArtifact>();
-		this.out = out;;
+		this.out = out;
 		out.flush();
 		this.messages = messages;
 		this.modelLibrary = modelLibrary;
+		out.println("INFO : EXTRACTING FROM UML MODEL");
 		
 		// Walk the model
 		TreeIterator t = model.eAllContents();
@@ -124,11 +134,13 @@ public class UML2TS {
 			while (t.hasNext()) {
 				EObject o = (EObject) t.next();
 				if (classMap.containsKey(o) && classMap.get(o) != ""){
-					IAbstractArtifact thisOne = mapToArtifact(o, classMap.get(o));
-					if (thisOne != null ){
-						extractedArtifacts.put(thisOne.getFullyQualifiedName(), thisOne);
-					} else {
-						out.println("Null returned - probs not an artifact!");
+					if (! (o instanceof Dependency)){
+						IAbstractArtifact thisOne = mapToArtifact(o, classMap.get(o));
+						if (thisOne != null ){
+							extractedArtifacts.put(thisOne.getFullyQualifiedName(), thisOne);
+						} else {
+							out.println("WARN : Null returned when looking for EObject in project - probably not an artifact!");
+						}
 					}
 				}
 			}
@@ -136,7 +148,7 @@ public class UML2TS {
 			// Build dependencies
 			t = model.eAllContents();
 
-			out.println("Post-Processing on Dependencies");
+			out.println("INFO : Post-Processing on Dependencies");
 			while (t.hasNext()) {
 				EObject o = (EObject) t.next();
 				if (o instanceof Classifier) {
@@ -170,7 +182,7 @@ public class UML2TS {
 									if (supplierArtifact != null){
 										suppliers.add(supplierArtifact);
 									} else {
-										this.out.println("Failed to find supplier for implementation "+supplierFQN);
+										this.out.println("INFO : Failed to find supplier for implementation "+supplierFQN);
 									}
 								}
 							}
@@ -188,7 +200,7 @@ public class UML2TS {
 									imp.addAll(suppliers);
 									
 								    clientEntity.setImplementedArtifacts(imp);
-								    this.out.println("Adding "+clientEntity.getImplementedArtifacts().size()+" implements relations to "+clientFQN);
+								    this.out.println("INFO : Adding "+clientEntity.getImplementedArtifacts().size()+" implements relations to "+clientFQN);
 
 								    
 								} else if (clientArtifact instanceof AssociationClassArtifact){
@@ -200,112 +212,112 @@ public class UML2TS {
 									imp.addAll(suppliers);
 									
 								    clientEntity.setImplementedArtifacts(imp);
-								    this.out.println("Adding "+clientEntity.getImplementedArtifacts().size()+" implements relations to "+clientFQN);
+								    this.out.println("INFO : Adding "+clientEntity.getImplementedArtifacts().size()+" implements relations to "+clientFQN);
 								} else {
-									this.out.println("Client for implementation is not a Managed Entity or Association Class "+clientFQN);
+									this.out.println("WARN : Client for implementation is not a Managed Entity or Association Class "+clientFQN);
 								}
 							} else {
-								this.out.println("Failed to find client for implementation "+clientFQN);
+								this.out.println("WARN : Failed to find client for implementation "+clientFQN);
 							}
 							
 
 						} else if (depO instanceof Dependency) {
-							Dependency dep = (Dependency) depO;
-							String depName = dep.getName();
-							String depQName = dep.getQualifiedName();
-							this.out.println("INFO : Dep Name : " + depName + " "+depQName);
+							// See if we mapped or ignored it!
+							if (classMap.containsKey(o) && classMap.get(o) == IDependencyArtifact.class.getName()){
+								// We can ONLY map to a DependencyArtifact
+								Dependency dep = (Dependency) depO;
+								String depName = dep.getName();
+								String depQName = dep.getQualifiedName();
+								this.out.println("INFO : Dep Name : " + depName + " "+depQName);
 
-							// Make a dependency artifact							
+								// Make a dependency artifact							
 
-							Classifier client = null;
-							Classifier supplier = null;
-							for (Object c : dep.getClients()) {
-								if (c instanceof Classifier) {
-									client = (Classifier) c;
-									break; // Only do one..
+								Classifier client = null;
+								Classifier supplier = null;
+								for (Object c : dep.getClients()) {
+									if (c instanceof Classifier) {
+										client = (Classifier) c;
+										break; // Only do one..
+									}
 								}
-							}
-							for (Object s : dep.getSuppliers()) {
-								if (s instanceof Classifier) {
-									supplier = (Classifier) s;
-									break; // Only do one..
+								for (Object s : dep.getSuppliers()) {
+									if (s instanceof Classifier) {
+										supplier = (Classifier) s;
+										break; // Only do one..
+									}
 								}
-							}
 
-							// So go ahead and make one..
-							if (supplier != null && client != null) {
-								
-								if (depQName == null || depQName.equals("")){
-									depQName = client.getName() + "_DependsOn_"+ supplier.getName();
+								// So go ahead and make one..
+								if (supplier != null && client != null) {
+
+									if (depQName == null || depQName.equals("")){
+										depQName = client.getName() + "_DependsOn_"+ supplier.getName();
+									}
+
+									IAbstractArtifact depArtifact = this.mgrSession
+									.makeArtifact(IDependencyArtifact.class
+											.getName());
+									IDependencyArtifact dependency = (IDependencyArtifact) depArtifact;
+									dependency
+									.setFullyQualifiedName(convertToFQN(depQName));
+
+									this.out.println("INFO : MAKING ARTIFACT : "
+											+ IDependencyArtifact.class.getName()
+											+ " FQN "
+											+ depArtifact.getFullyQualifiedName());
+									IType atype = dependency.makeType();
+									atype.setFullyQualifiedName(convertToFQN(client
+											.getQualifiedName()));
+									dependency.setAEndType(atype);
+
+									IType ztype = dependency.makeType();
+									ztype
+									.setFullyQualifiedName(convertToFQN(supplier
+											.getQualifiedName()));
+									dependency.setZEndType(ztype);
+
+									//IStereotype tsStereo = this.profileSession.getActiveProfile()
+									//	.getStereotypeByName("DependencyLabel");
+
+									//IStereotypeInstance depLabel = tsStereo.makeInstance();
+									//String labelName = "label";
+									//IStereotypeAttribute tsStereoAttribute = null;
+									//IStereotypeAttribute[] tsStereoAttributes = depLabel.getCharacterizingStereotype().getAttributes();
+									//for (int at = 0; at < tsStereoAttributes.length; at++) {
+									//	if (tsStereoAttributes[at].getName().equals(labelName)) {
+									//		tsStereoAttribute = tsStereoAttributes[at];
+									//		break;
+									//	}
+
+									//}
+
+									//depLabel.setAttributeValue(tsStereoAttribute, depName);
+									//dependency.addStereotypeInstance(depLabel);
+
+									extractedArtifacts.put(dependency.getFullyQualifiedName(), dependency);
 								}
-								
-								IAbstractArtifact depArtifact = this.mgrSession
-								.makeArtifact(IDependencyArtifact.class
-										.getName());
-								IDependencyArtifact dependency = (IDependencyArtifact) depArtifact;
-								dependency
-								.setFullyQualifiedName(convertToFQN(depQName));
-								
-								this.out.println("ARTIFACT : "
-										+ IDependencyArtifact.class.getName()
-										+ " FQN "
-										+ depArtifact.getFullyQualifiedName());
-								IType atype = dependency.makeType();
-								atype.setFullyQualifiedName(convertToFQN(client
-										.getQualifiedName()));
-								dependency.setAEndType(atype);
-
-								IType ztype = dependency.makeType();
-								ztype
-								.setFullyQualifiedName(convertToFQN(supplier
-										.getQualifiedName()));
-								dependency.setZEndType(ztype);
-								
-								//IStereotype tsStereo = this.profileSession.getActiveProfile()
-								//	.getStereotypeByName("DependencyLabel");
-
-								//IStereotypeInstance depLabel = tsStereo.makeInstance();
-								//String labelName = "label";
-								//IStereotypeAttribute tsStereoAttribute = null;
-								//IStereotypeAttribute[] tsStereoAttributes = depLabel.getCharacterizingStereotype().getAttributes();
-								//for (int at = 0; at < tsStereoAttributes.length; at++) {
-								//	if (tsStereoAttributes[at].getName().equals(labelName)) {
-								//		tsStereoAttribute = tsStereoAttributes[at];
-								//		break;
-								//	}
-
-								//}
-
-								//depLabel.setAttributeValue(tsStereoAttribute, depName);
-								//dependency.addStereotypeInstance(depLabel);
-
-								extractedArtifacts.put(dependency.getFullyQualifiedName(), dependency);
-
 							}
 						}
 					}
 				}
 			}
 
-			
+
 
 			// Do a second pass to set the generalizations.
 			t = model.eAllContents();
 
-			this.out.println("Post-Processing on Generalizations");
+			this.out.println("INFO : Post-Processing on Generalizations");
 			nullClassCounter = 0;
 			while (t.hasNext()) {
 				EObject o = (EObject) t.next();
 				if (o instanceof Classifier) {
 					Classifier element = (Classifier) o;
-					out.println("Gen of : "+element.getQualifiedName());
 					String baseFullyQualifiedName = convertToFQN(element.getQualifiedName());
 					IAbstractArtifact artifact = extractedArtifacts.get(baseFullyQualifiedName);
 					if (artifact != null ){
 						for (Classifier gen : element.getGenerals()){
 							String genFQN = gen.getQualifiedName();
-							out.println(genFQN);
-
 							String genFullyQualifiedName = convertToFQN(genFQN);
 							IAbstractArtifact genArtifact = extractedArtifacts.get(genFullyQualifiedName);
 							if (artifact != null) {
@@ -320,8 +332,8 @@ public class UML2TS {
 		
 		} catch (Exception e){
 			// TODO something here
-			out.println("Unknown error");
-			e.printStackTrace();
+			out.println("ERROR : Unknown error");
+			e.printStackTrace(out);
 		} finally {
 			out.flush();
 			out.println(extractedArtifacts);
@@ -341,6 +353,7 @@ public class UML2TS {
 			String msgText = "Failed to extract class to artifact:"
 				+ artifact.getName();
 			addMessage(msgText, 0);
+			out.println( "ERROR : "+msgText);
 			return null;
 		}
 		if (element.getName() == null){
@@ -355,21 +368,21 @@ public class UML2TS {
 			hasTempName = false;
 		}
 		String msText = "Processing UML Class : " + eleName;
-		this.out.println("Info :" + msText);
+		this.out.println("INFO :" + msText);
 		// Some EObjects could be of Type "NestedClassifier" which we can't
 		// handle in our model.
 		// Not sure how to detect these..this is a bit "hacky"
 		String packageName = element.getNearestPackage().getQualifiedName();
 
 		msText = "packageName :" + packageName;
-		this.out.println("Info :" + msText);
+		this.out.println("INFO :" + msText);
 
 		String myFQN = "";
 		if (element.getQualifiedName() != null){
 			String elementName = element.getQualifiedName();
 			myFQN = elementName;
 			msText = "elementName :" + elementName;
-			this.out.println("Info :" + msText);
+			this.out.println("INFO :" + msText);
 
 			elementName = elementName.substring(packageName.length() + 2);
 
@@ -384,7 +397,7 @@ public class UML2TS {
 		} else {
 
 			msText = "elementName :" + eleName;
-			this.out.println("Info :" + msText);
+			this.out.println("INFO :" + msText);
 			myFQN = packageName+"::"+eleName;
 		}
 
@@ -392,7 +405,7 @@ public class UML2TS {
 
 		String artifactFullyQualifiedName = convertToFQN(myFQN);
 
-		this.out.println("ARTIFACT : " + artifactTypeName + " FQN "
+		this.out.println("INFO : MAKING ARTIFACT : " + artifactTypeName + " FQN "
 				+ artifactFullyQualifiedName);
 		artifact.setFullyQualifiedName(artifactFullyQualifiedName);
 
@@ -466,7 +479,7 @@ public class UML2TS {
 				String msgText = "Failed to extract class to artifact:"
 					+ artifact.getName();
 				addMessage(msgText, 0);
-				this.out.println("Error : " + msgText);
+				this.out.println("ERROR : " + msgText);
 				e.printStackTrace(this.out);
 				return null;
 			}
@@ -484,14 +497,14 @@ public class UML2TS {
 				String msgText = "Association No of Ends != 2 "
 						+ assocArtifact.getName();
 				addMessage(msgText, 0);
-				this.out.println("Error : " + msgText);
+				this.out.println("ERROR : " + msgText);
 			}
 			ListIterator mEndTypesIt = mEndTypes.listIterator();
 			boolean first = true;
 			while (mEndTypesIt.hasNext()) {
 
 				Property mEnd = (Property) mEndTypesIt.next();
-				this.out.println("   End " + mEnd.getName() + " "
+				this.out.println("INFO : Association End " + mEnd.getName() + " "
 						+ mEnd.getType().getName());
 				IAssociationEnd end = assocArtifact.makeAssociationEnd();
 
@@ -513,7 +526,7 @@ public class UML2TS {
 					String msgText = "Association End has no name : "
 							+ assocArtifact.getName();
 					addMessage(msgText, 1);
-					this.out.println("Warning : " + msgText);
+					this.out.println("WARN : " + msgText);
 					// Set a default name
 					if (first) {
 						end.setName("_aEnd");
@@ -587,7 +600,7 @@ public class UML2TS {
 			try {
 				if (gen.getQualifiedName() != null){
 					String genName = convertToFQN(gen.getQualifiedName());
-					this.out.println("    " + artifact.getName() + " Generalization "
+					this.out.println("INFO : " + artifact.getName() + " Generalization "
 							+ genName);
 
 					IAbstractArtifact genArtifact = this.mgrSession
@@ -596,7 +609,7 @@ public class UML2TS {
 						String msgText = "Failed to retreive generalization for Artifact : "
 							+ artifact.getName();
 						addMessage(msgText, 0);
-						this.out.println("Error : " + msgText);
+						this.out.println("ERROR : " + msgText);
 					} else {
 						artifact.setExtendedArtifact(genArtifact);
 					}
@@ -605,7 +618,7 @@ public class UML2TS {
 				String msgText = "Failed to retreive generalization for Artifact : "
 					+ artifact.getName();
 				addMessage(msgText, 0);
-				this.out.println("Error : " + msgText);
+				this.out.println("ERROR : " + msgText);
 				e.printStackTrace(this.out);
 				return;
 			}
@@ -627,11 +640,11 @@ public class UML2TS {
 				if (child instanceof EnumerationLiteral) {
 					EnumerationLiteral enumLit = (EnumerationLiteral) child;
 					// Might have an EnumValue stereotype ?
-					out.println("    Enum Literal : " + enumLit.getName());
+					out.println("INFO : Enum Literal : " + enumLit.getName());
 					String eName = nameCheck(enumLit.getName());
 					if (eName.substring(0, 1).matches("[0-9]")){
 						eName = "_"+eName;
-						out.println("    Name prepended : " + eName);
+						out.println("INFO : Name prepended : " + eName);
 					}
 
 					ILiteral iLiteral = artifact.makeLiteral();
@@ -648,7 +661,7 @@ public class UML2TS {
 						LiteralString lit = (LiteralString) spec;
 						iLiteral.setValue(lit.getValue());
 					} else {
-						out.println("    Literal type unknown ("+spec.getLabel()+") : defaulting to String ");
+						out.println("WARN : Literal type unknown ("+spec.getLabel()+") : defaulting to String ");
 						type.setFullyQualifiedName("String");
 						// If unknown type, set the label to the name by default
 						iLiteral.setValue("\"" + iLiteral.getName() + "\"");
@@ -675,7 +688,7 @@ public class UML2TS {
 									String msgText = "No Stereotype Named "+stereo.getName() +" in TS:"
 									+ stereo.getName();
 									addMessage(msgText, 0);
-									this.out.println("Error : " + msgText);
+									this.out.println("ERROR : " + msgText);
 									continue;
 								}
 								IStereotypeInstance tsStereoInstance = tsStereo.makeInstance();
@@ -689,7 +702,7 @@ public class UML2TS {
 									if (!attribute.getName().startsWith("base_")) {
 										// if ((element.getValue(stereo,
 										// attribute.getName()) != null) ){
-										this.out.println("    Enum Lit Stereo Attribute : "
+										this.out.println("INFO : Enum Lit Stereo Attribute : "
 												+ stereo.getName()
 												+ ":"
 												+ attribute.getName()
@@ -720,7 +733,7 @@ public class UML2TS {
 									if (attribute.getName().equals("value")) {
 										//this.out.println("Got the Value "+((NamedElement) child).hasValue(stereo,attribute.getName()));
 										if (((NamedElement) child).hasValue(stereo,attribute.getName())){
-											this.out.println("    Enum Value : "
+											this.out.println("INFO : Enum Value : "
 													+ stereo.getName()
 													+ ":Value --> "+((NamedElement) child).getValue(stereo,attribute.getName()).toString());
 											iLiteral.setValue(((NamedElement) child).getValue(stereo,attribute.getName()).toString());
@@ -735,7 +748,7 @@ public class UML2TS {
 					}
 				}
 			}		
-			out.println("    Finished handling constants");
+			out.println("INFO : Finished handling constants");
 			// Now set the base Type for the Enum
 			IEnumArtifact enumArtifact = (IEnumArtifact) artifact;
 			
@@ -758,7 +771,7 @@ public class UML2TS {
 			if (child instanceof Operation) {
 				Operation operation = (Operation) child;
 
-				out.println("    Operation :" + operation.getName());
+				out.println("INFO : Operation :" + operation.getName());
 				IMethod method = artifact.makeMethod();
 				method.setName(operation.getName());
 				method.setComment(setComment(((NamedElement) child)));
@@ -783,12 +796,12 @@ public class UML2TS {
 							continue;
 						}
 
-						out.println("    Operation return : "
+						out.println("INFO : Operation return : "
 								+ operation.getName() + " : "
 								+ iType.getFullyQualifiedName());
 						method.setReturnType(iType);
 						method.setReturnName(returnResult.getName());
-						this.out.println("    Operation return Name : "
+						this.out.println("INFO : Operation return Name : "
 								+ returnResult.getName());
 					}
 					if (returnResult.isSetDefault()){
@@ -806,7 +819,7 @@ public class UML2TS {
 					
 				} else {
 					// No return type!
-					this.out.println("    Operation return : "
+					this.out.println("INFO : Operation return : "
 							+ "unknown Type");
 
 				}
@@ -837,7 +850,7 @@ public class UML2TS {
 							+ " : " + param.getName())) {
 						continue;
 					}
-					out.println("    Operation parameter : "
+					out.println("INFO : Operation parameter : "
 							+ operation.getName() + " : " + param.getName()
 							+ " : " + aType.getFullyQualifiedName());
 					arg.setType(aType);
@@ -918,12 +931,11 @@ public class UML2TS {
 				// TODO - Is this an error in the model?
 				String msgText = "Unsure of type : " + location + " Skipping...";
 				addMessage(msgText, 0);
-				out.println("Error : " + msgText);
+				out.println("ERROR : " + msgText);
 				return false;
 			}
 			// Need to determine if this is a primitive type that we know about
 			String pTypeFQN = convertToFQN(uType.getQualifiedName());
-			out.println(uType.getQualifiedName()+" "+pTypeFQN+" "+this.modelLibrary);
 			
 			if (uType.getQualifiedName().startsWith(this.modelLibrary)) {
 				if (!checkReservedPrimitive(pTypeFQN)) {
@@ -941,7 +953,7 @@ public class UML2TS {
 		} catch (Exception e){
 			String msgText = "Exception working out type : " + location + " Skipping...";
 			addMessage(msgText, 0);
-			out.println("Error : " + msgText);
+			out.println("ERROR : " + msgText);
 			e.printStackTrace();
 			return false;
 		}
@@ -976,7 +988,7 @@ public class UML2TS {
 					// This ain't an attribute , but part of an association, so
 					// skip it here
 					this.out
-							.println("   Skipping property - it's as assoc. thing");
+							.println("INFO : Skipping property ("+property.getName()+")- it's as assoc. thing");
 					continue;
 				}
 
@@ -994,7 +1006,7 @@ public class UML2TS {
 				field.setOptional(getOptional(type,
 								(MultiplicityElement) child));
 
-				this.out.println("    Property : " + property.getName() + " : "
+				this.out.println("INFO : Property : " + property.getName() + " : "
 						+ type.getFullyQualifiedName());
 				field.setType(type);
 
@@ -1053,7 +1065,7 @@ public class UML2TS {
 					String msgText = "No Stereotype Named "+stereo.getName() +" in TS:"
 							+ stereo.getName();
 					addMessage(msgText, 0);
-					this.out.println("Error : " + msgText);
+					this.out.println("ERROR : " + msgText);
 					continue;
 				}
 				IStereotypeInstance tsStereoInstance = tsStereo.makeInstance();
@@ -1065,7 +1077,7 @@ public class UML2TS {
 						// if ((element.getValue(stereo, attribute.getName()) !=
 						// null) ){
 						
-						this.out.println("    Property Stereo Attribute : "
+						this.out.println("INFO : Property Stereo Attribute : "
 										+ stereo.getName()
 										+ ":"
 										+ attribute.getName()
@@ -1085,7 +1097,7 @@ public class UML2TS {
 					// We have given the user a choice in the profile stuff so
 					// our
 					// behaviour needs to be mildly intelligent.
-					this.out.println("    Property stereo Attribute : "
+					this.out.println("INFO :  Property stereo Attribute : "
 							+ stereo.getName() + ":Existence --> true");
 				}
 				allTSStereoInstances.add(tsStereoInstance);
@@ -1118,7 +1130,7 @@ public class UML2TS {
 				upper = "*";
 			} else if (! upper.equals("1") && !upper.equals("0")){
 				// FOund an instance where upper was "2"!
-				this.out.println("        Overriding upper Multiplicity from "+upper);
+				this.out.println("WARN :  Overriding upper Multiplicity from "+upper);
 				upper = "*";
 			}
 		}
@@ -1154,7 +1166,7 @@ public class UML2TS {
 		
 		// Check it's valid !
 		
-		this.out.println("        Multiplicity -> " + multiplicityString);
+		this.out.println("INFO : Multiplicity -> " + multiplicityString);
 		return multiplicityString;
 	}
 
@@ -1183,7 +1195,7 @@ public class UML2TS {
 					String msgText = "No Stereotype in TS with name :"
 							+ stereo.getName();
 					addMessage(msgText, 0);
-					this.out.println("Error : " + msgText);
+					this.out.println("ERROR : " + msgText);
 					continue;
 				}
 				IStereotypeInstance tsStereoInstance = tsStereo.makeInstance();
@@ -1197,7 +1209,7 @@ public class UML2TS {
 						// if ((element.getValue(stereo, attribute.getName()) !=
 						// null) ){
 						this.out
-								.println("    Artifact Stereo Attribute : "
+								.println("INFO : Artifact Stereo Attribute : "
 										+ stereo.getName()
 										+ ":"
 										+ attribute.getName()
@@ -1218,7 +1230,7 @@ public class UML2TS {
 					// We have given the user a choice in the profile stuff so
 					// our
 					// behaviour needs to be mildly intelligent.
-					this.out.println("    Artifact Attribute : "
+					this.out.println("INFO : Artifact Attribute : "
 							+ stereo.getName() + ":Existence --> true");
 				}
 				allTSStereoInstances.add(tsStereoInstance);
@@ -1226,11 +1238,10 @@ public class UML2TS {
 
 		}
 
-		out.println("artifactTypeName "+artifactTypeName);
 		try {
 			absArtifact = this.mgrSession.makeArtifact(artifactTypeName);
 		} catch (IllegalArgumentException t) {
-			out.println("artifactTypeName is invalid "+artifactTypeName);
+			out.println("ERROR : artifactTypeName is invalid "+artifactTypeName);
 			return null;
 		}
 
@@ -1286,7 +1297,7 @@ public class UML2TS {
 				} else {
 					tsStereoInstance.setAttributeValue(tsStereoAttribute, 
 							element.getValue(stereo, attribute.getName()).toString());
-					out.println ("Uncertain stereo attr type "+ tsStereoInstance.getName() + ":"
+					out.println ("WARN : Uncertain stereo attr type "+ tsStereoInstance.getName() + ":"
 							+ attribute.getName());
 				}
 			} catch (Exception e) {
@@ -1297,7 +1308,7 @@ public class UML2TS {
 						+ " : "
 						+ attribute.getName();
 				addMessage(msgText, 0);
-				this.out.println("Error : " + msgText);
+				this.out.println("ERROR : " + msgText);
 				e.printStackTrace();
 				return;
 			}
@@ -1318,7 +1329,7 @@ public class UML2TS {
 			}
 		}
 		if (comment != null) {
-			this.out.println("    Comment " + comment);
+			this.out.println("INFO : Comment " + comment);
 			return comment;
 		}
 		return null;
@@ -1445,7 +1456,7 @@ public class UML2TS {
 				if (! segmentName.substring(0,1).equals(segments[i].substring(0,1)) && i!=0){
 					String msgText = " Package Name Segment mapped : " + segments[i] + " -> " + segmentName;
 					addMessage(msgText, 1);
-					this.out.println("Warning:" + msgText);
+					this.out.println("WARN :" + msgText);
 				}
 				if (i==0){
 					//dottedName = nameCheck(segmentName);
@@ -1488,7 +1499,7 @@ public class UML2TS {
 			if (!inName.equals(name)) {
 				String msgText = " Name mapped : " + name + " -> " + inName;
 				addMessage(msgText, 1);
-				this.out.println("Warning:" + msgText);
+				this.out.println("WARN:" + msgText);
 			}
 
 			return inName;

@@ -44,12 +44,12 @@ public class CompareModelAndExtract {
 			for (IAbstractArtifact extractedArtifact : extractedArtifacts
 					.values()) {
 				String artifactName = extractedArtifact.getName();
-				out.print("Comparing " + artifactName);
+				out.print("INFO: Comparing " + artifactName);
 				IAbstractArtifact projectArtifact = mgrSession
 				.getArtifactByFullyQualifiedName(extractedArtifact
 						.getFullyQualifiedName());
 				if (projectArtifact == null) {
-					out.println(extractedArtifact.getFullyQualifiedName()
+					out.println("INFO : "+extractedArtifact.getFullyQualifiedName()
 							+ " not found in project");
 					// Make a Difference!
 					Difference artifactDiff = new Difference("presence",
@@ -62,7 +62,7 @@ public class CompareModelAndExtract {
 					.compareArtifacts(extractedArtifact,
 							projectArtifact, true, false);
 					allXMLDiffs.addAll(artifactDiffs);
-					out.println(" " + artifactDiffs.size() + " Diffs");
+					out.println("INFO : Found " + artifactDiffs.size() + " Diffs on "+extractedArtifact.getFullyQualifiedName());
 
 				}
 
@@ -83,7 +83,7 @@ public class CompareModelAndExtract {
 				}
 			}
 
-			out.println("All diffs : total " + allXMLDiffs.size());
+			out.println("INFO : Total diffs found : " + allXMLDiffs.size());
 			Message msg = new Message();
 			msg.setMessage("Total Diffs found : " + allXMLDiffs.size());
 			msg.setSeverity(1);
@@ -117,7 +117,7 @@ public class CompareModelAndExtract {
 			msg.setMessage(msgText);
 			msg.setSeverity(1);
 			messages.addMessage(msg);
-			out.println("Error : " + msgText);
+			out.println("ERROR : " + msgText);
 			e.printStackTrace(out);
 			return allXMLDiffs;
 

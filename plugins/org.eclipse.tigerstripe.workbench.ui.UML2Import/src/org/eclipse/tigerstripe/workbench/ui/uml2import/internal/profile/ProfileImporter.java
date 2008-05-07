@@ -106,7 +106,7 @@ public class ProfileImporter {
 			String msgText = " Failed to load Profile or model ";
 			e.printStackTrace(this.out);
 			addMessage(msgText, 0);
-			this.out.println("Error :" + msgText);
+			this.out.println("ERROR :" + msgText);
 
 			this.out.close();
 			return;
@@ -143,12 +143,12 @@ public class ProfileImporter {
 				try {
 					if (!existingDefs.contains(prim.getName())) {
 						handle.addPrimitiveTypeDef(prim);
-						this.out.println("Added primitive Type " + primName);
+						this.out.println("INFO : Added primitive Type " + primName);
 					}
 				} catch (Exception e) {
 					String msgText = "Failed to add primitive Type " + primName;
 					addMessage(msgText, 0);
-					this.out.println("Error : " + msgText);
+					this.out.println("ERROR : " + msgText);
 					e.printStackTrace(this.out);
 				}
 				subMonitor.worked(monCount);
@@ -217,7 +217,7 @@ public class ProfileImporter {
 								String msgText = "Failed to remove existing stereotype "
 										+ st.getName();
 								addMessage(msgText, 0);
-								this.out.println("Error : " + msgText);
+								this.out.println("ERROR : " + msgText);
 								e.printStackTrace(this.out);
 								continue;
 							}
@@ -229,20 +229,20 @@ public class ProfileImporter {
 								handle
 										.removeStereotype((IStereotype) existingStereoNames
 												.get(st.getName()));
-								this.out.println("Updating stereotype "
+								this.out.println("INFO : Updating stereotype "
 										+ st.getName());
 
 							} catch (Exception e) {
 								String msgText = "Failed to remove existing stereotype "
 										+ st.getName();
 								addMessage(msgText, 0);
-								this.out.println("Error : " + msgText);
+								this.out.println("ERROR : " + msgText);
 								e.printStackTrace(this.out);
 								continue;
 							}
 						}
 					} else {
-						this.out.println("Creating stereotype " + st.getName());
+						this.out.println("INFO : Creating stereotype " + st.getName());
 						newStereo = new org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype(
 								handle);
 
@@ -293,7 +293,7 @@ public class ProfileImporter {
 							String msgText = "Unhandled Scope type : " + sc
 									+ " for : " + st.getName();
 							addMessage(msgText, 1);
-							this.out.println("Warning : " + msgText);
+							this.out.println("WARN : " + msgText);
 						}
 						String[] strArr = new String[0];
 						String[] types = typeList.toArray(strArr);
@@ -327,7 +327,7 @@ public class ProfileImporter {
 
 								attribute.setName(prop.getName());
 								if (propTypeName == null) {
-									this.out.println("No propTypeName for : "
+									this.out.println("WARN : No propTypeName for : "
 											+ prop.getName());
 								}
 
@@ -366,7 +366,7 @@ public class ProfileImporter {
 											+ prop.getLower() + ".."
 											+ prop.getUpper();
 									addMessage(msgText, 1);
-									this.out.println("Warning : " + msgText);
+									this.out.println("WARN : " + msgText);
 									}
 								}
 
@@ -397,7 +397,7 @@ public class ProfileImporter {
 								} catch (Exception e) {
 									String msgText = "Failed to add List entries to : "
 											+ attribute.getName();
-									this.out.println("Error : " + msgText);
+									this.out.println("ERROR : " + msgText);
 									addMessage(msgText, 0);
 									e.printStackTrace(this.out);
 								}
@@ -436,7 +436,7 @@ public class ProfileImporter {
 									String msgText = "Failed to add Attribute : "
 											+ attribute.getName();
 									addMessage(msgText, 0);
-									this.out.println("Error : " + msgText);
+									this.out.println("ERROR : " + msgText);
 									e.printStackTrace(this.out);
 
 								}
