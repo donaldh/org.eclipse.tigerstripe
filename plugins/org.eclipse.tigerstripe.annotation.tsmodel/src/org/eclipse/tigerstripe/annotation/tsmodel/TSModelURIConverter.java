@@ -138,8 +138,9 @@ public class TSModelURIConverter {
 		path = path.removeLastSegments(1);
 //		System.out.println("TSModelURIConverter.toComponent(...): "+uri+" / "+fqn);
 		try {
-			IAbstractTigerstripeProject tsp = TigerstripeCore.findProject(path);
-
+			IAbstractTigerstripeProject tsp = TigerstripeProjectLocator.getProject(path.lastSegment());
+//			IAbstractTigerstripeProject tsp = TigerstripeCore.findProject(path);
+//
 			IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject)tsp).getArtifactManagerSession();
 			return artifactManagerSession.getArtifactByFullyQualifiedName(fqn);
 		} catch (TigerstripeException e) {
@@ -172,7 +173,6 @@ public class TSModelURIConverter {
 				return null;
 		IJavaElement element = (IJavaElement)firstElement;
 		IJavaProject jp = element.getJavaProject();
-//		System.out.println("Element name/project: "+element.getElementName()+" / "+element.getElementType()+" / "+jp.getElementName());
 		try {
 			IAbstractTigerstripeProject tsp = TigerstripeCore.findProject(jp.getProject().getLocation());
 			if(tsp instanceof ITigerstripeModelProject)
@@ -190,11 +190,9 @@ public class TSModelURIConverter {
 				IPath rootPath    = element.getAncestor(PACKAGE_FRAGMENT_ROOT).getPath();
 				IPath typePath = element.getAncestor(COMPILATION_UNIT).getPath();
 				IPath artifactPath = typePath.removeFirstSegments(rootPath.segmentCount());
-//				System.out.println("Element path: "+elementPath+" / root path: "+rootPath+" / relative: "+artifactPath);
 				String fqn = artifactPath.removeTrailingSeparator().toPortableString();
 				fqn = fqn.substring(0,fqn.lastIndexOf('.')).replace('/', '.');
 				IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject)tsp).getArtifactManagerSession();
-//				System.out.println("FQN: "+fqn);
 				IAbstractArtifact artifact = artifactManagerSession.getArtifactByFullyQualifiedName(fqn, true);
 				return artifact;
 				default:
@@ -209,7 +207,7 @@ public class TSModelURIConverter {
 	private static IPath getArtifactPath(IAbstractArtifact art, String newName) //throws TigerstripeException
 	{
 		try {
-			IPath path = art.getProject().getLocation();
+			IPath path = new Path(art.getProject().getProjectDetails().getName());
 			path = path.append(newName == null ? art.getFullyQualifiedName() : newName);
 			return path;
 		} catch (TigerstripeException e) {
