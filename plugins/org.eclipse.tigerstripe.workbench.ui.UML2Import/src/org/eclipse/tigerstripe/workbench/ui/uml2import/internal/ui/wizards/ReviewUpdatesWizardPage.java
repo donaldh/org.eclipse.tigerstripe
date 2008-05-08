@@ -125,6 +125,7 @@ public class ReviewUpdatesWizardPage extends TSRuntimeBasedWizardPage {
 		// TODO Auto-generated method stub
 		super.setVisible(visible);
 		// When I go visible, try to get the model...
+		try {
 		MappingWizardPage mappingPage = (MappingWizardPage) getPreviousPage();
 			importer = mappingPage.getImporter();
 			importer.doSecondLoad();
@@ -139,11 +140,12 @@ public class ReviewUpdatesWizardPage extends TSRuntimeBasedWizardPage {
 			}
 			createTableRows(table);
 			setPageComplete(true);
-		try {
+	
 			
 		} catch (Exception e){
 			setErrorMessage("Failed to read from Model File");
 			setPageComplete(false);
+			e.printStackTrace();
 			
 		}
 	}

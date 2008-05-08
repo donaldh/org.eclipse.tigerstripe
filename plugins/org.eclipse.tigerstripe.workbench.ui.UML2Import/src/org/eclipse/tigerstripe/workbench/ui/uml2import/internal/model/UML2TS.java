@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -96,9 +97,13 @@ public class UML2TS {
 	
 	private int nullClassCounter = 0;
 	
+	private CoreArtifactSettingsProperty property;
+	
 	/** constructor */
-	public UML2TS(Map<EObject, String> classMap) {
+	public UML2TS(Map<EObject, String> classMap, PrintWriter out, CoreArtifactSettingsProperty property) {
 		this.classMap = classMap;
+		this.out = out;
+		this.property = property;
 		this.profileSession = TigerstripeCore.getWorkbenchProfileSession();
 		
 		out.println ("INFO : MAPPINGS USED FOR EXTRACT");
@@ -115,12 +120,12 @@ public class UML2TS {
 	 * 	 * Pull all of the "candidate artifacts" from the model
 	 * 
 	 */ 
-	public Map<String,IAbstractArtifact> extractArtifacts(Model model, String modelLibrary, PrintWriter out, MessageList messages,
+	public Map<String,IAbstractArtifact> extractArtifacts(Model model, String modelLibrary,  MessageList messages,
 			ITigerstripeModelProject tsProject){
 		
 		// This is where we store the extracted stuff..
 		Map<String,IAbstractArtifact> extractedArtifacts = new HashMap<String, IAbstractArtifact>();
-		this.out = out;
+		
 		out.flush();
 		this.messages = messages;
 		this.modelLibrary = modelLibrary;
@@ -346,16 +351,6 @@ public class UML2TS {
 		NamedElement element = (NamedElement) o;
 		String eleName;
 		boolean hasTempName = false;
-		IAbstractArtifact artifact = readArtifactStereotypes(element,
-				artifactTypeName);
-
-		if (artifact == null) {
-			String msgText = "Failed to extract class to artifact:"
-				+ artifact.getName();
-			addMessage(msgText, 0);
-			out.println( "ERROR : "+msgText);
-			return null;
-		}
 		if (element.getName() == null){
 			String msText = "UML Class with null name - defaulting";
 			addMessage(msText, 0);
@@ -367,6 +362,36 @@ public class UML2TS {
 			eleName = element.getName();
 			hasTempName = false;
 		}
+		
+		
+		// See if this type of artifact is supported
+		boolean supportedInProfile = false;
+		for (String enabled :property.getEnabledArtifactTypes()){
+			if (enabled.equals(artifactTypeName)){
+				supportedInProfile = true;
+				break;
+			}
+		}
+		if (!supportedInProfile){
+			String msgText = "Unsupported Artifact type in current profile ("+artifactTypeName+") for : "+eleName;
+			addMessage(msgText, 0);
+			out.println( "ERROR : "+msgText);
+			return null;
+		}
+		
+		IAbstractArtifact artifact = readArtifactStereotypes(element,
+				artifactTypeName);
+
+		
+		
+		if (artifact == null) {
+			String msgText = "Failed to extract class to artifact:"
+				+ eleName;
+			addMessage(msgText, 0);
+			out.println( "ERROR : "+msgText);
+			return null;
+		}
+		
 		String msText = "Processing UML Class : " + eleName;
 		this.out.println("INFO :" + msText);
 		// Some EObjects could be of Type "NestedClassifier" which we can't

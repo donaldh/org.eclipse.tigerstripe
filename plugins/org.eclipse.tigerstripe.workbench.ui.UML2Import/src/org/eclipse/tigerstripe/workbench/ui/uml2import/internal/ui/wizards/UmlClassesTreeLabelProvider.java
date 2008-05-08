@@ -1,8 +1,13 @@
 package org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
@@ -22,6 +27,14 @@ import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlCl
 
 
 public class UmlClassesTreeLabelProvider extends LabelProvider {
+	
+	private Image errorImage = JavaPluginImages.get(JavaPluginImages.IMG_OBJS_ERROR);
+	
+	private List typeList;
+	
+	public void setSupportedArtifacts(CoreArtifactSettingsProperty property){
+		typeList = Arrays.asList(property.getEnabledArtifactTypes());
+	}
 
 	public String getText(Object element) {
 		String text = ((Node) element).getName();
@@ -33,42 +46,87 @@ public class UmlClassesTreeLabelProvider extends LabelProvider {
 
 		if (node instanceof ClassNode) {
 			if (((ClassNode) node).getMappingType().equals(IManagedEntityArtifact.class.getName())){
-				return Images.get(Images.ENTITY_ICON);
+				if (typeList.contains(IManagedEntityArtifact.class.getName())){
+					return Images.get(Images.ENTITY_ICON);
+			} else {
+				return errorImage;
+			}
 			} 
 			
 			if (((ClassNode) node).getMappingType().equals(IDatatypeArtifact.class.getName())){
+				if (typeList.contains(IDatatypeArtifact.class.getName())){
 				return Images.get(Images.DATATYPE_ICON);
+			} else {
+				return errorImage;
+			}
 			}
 			if (((ClassNode) node).getMappingType().equals(IEnumArtifact.class.getName())){
-				return Images.get(Images.ENUM_ICON);
+				if (typeList.contains(IEnumArtifact.class.getName())){
+					return Images.get(Images.ENUM_ICON);
+				} else {
+					return errorImage;
+				}
+
 			}
 			if (((ClassNode) node).getMappingType().equals(ISessionArtifact.class.getName())){
+				if (typeList.contains(ISessionArtifact.class.getName())){
 				return Images.get(Images.SESSION_ICON);
+			} else {
+				return errorImage;
+			}
 			}
 			if (((ClassNode) node).getMappingType().equals(IUpdateProcedureArtifact.class.getName())){
+				if (typeList.contains(IUpdateProcedureArtifact.class.getName())){
 				return Images.get(Images.UPDATEPROC_ICON);
+			} else {
+				return errorImage;
+			}
 			}
 			
 			if (((ClassNode) node).getMappingType().equals(IQueryArtifact.class.getName())){
+				if (typeList.contains(IQueryArtifact.class.getName())){
 				return Images.get(Images.QUERY_ICON);
+			} else {
+				return errorImage;
+			}
 			}
 			if (((ClassNode) node).getMappingType().equals(IExceptionArtifact.class.getName())){
+				if (typeList.contains(IExceptionArtifact.class.getName())){
 				return Images.get(Images.EXCEPTION_ICON);
+			} else {
+				return errorImage;
+			}
 			}
 			if (((ClassNode) node).getMappingType().equals(IEventArtifact.class.getName())){
+				if (typeList.contains(IEventArtifact.class.getName())){
 				return Images.get(Images.NOTIFICATION_ICON);
+			} else {
+				return errorImage;
+			}
 			}
 		} else if (node instanceof AssociationNode){
 			if (((AssociationNode) node).getMappingType().equals(IAssociationClassArtifact.class.getName())){
+				if (typeList.contains(IAssociationClassArtifact.class.getName())){
 				return Images.get(Images.ASSOCIATIONCLASS_ICON);
+			} else {
+				return errorImage;
+			}
 			} 
 			if (((AssociationNode) node).getMappingType().equals(IAssociationArtifact.class.getName())){
+				if (typeList.contains(IAssociationArtifact.class.getName())){
 				return Images.get(Images.ASSOCIATION_ICON);
+			} else {
+				return errorImage;
+			}
 			} 
 			
 		} else if (node instanceof DependencyNode){
 			if (((DependencyNode) node).getMappingType().equals(IDependencyArtifact.class.getName())){
+				if (typeList.contains(IDependencyArtifact.class.getName())){
 				return Images.get(Images.DEPENDENCY_ICON);
+			} else {
+				return errorImage;
+			}
 			}
 		}
 		return JavaPluginImages.get(JavaPluginImages.IMG_OBJS_HELP);

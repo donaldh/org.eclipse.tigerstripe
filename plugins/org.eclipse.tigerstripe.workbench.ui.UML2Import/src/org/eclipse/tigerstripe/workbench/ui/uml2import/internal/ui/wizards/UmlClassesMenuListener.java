@@ -1,5 +1,8 @@
 package org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -18,6 +21,10 @@ import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.IWorkbenchProfileProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.ArtifactSettingDetails;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
@@ -29,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifac
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.AssociationNode;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.ClassNode;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.DependencyNode;
@@ -40,6 +48,12 @@ public class UmlClassesMenuListener implements IMenuListener {
 	
 	public UmlClassesMenuListener(TreeViewer viewer) {
 		this.viewer = viewer;
+	}
+	
+	private List typeList;
+	
+	public void setSupportedArtifacts(CoreArtifactSettingsProperty property){
+		typeList = Arrays.asList(property.getEnabledArtifactTypes());
 	}
 	
 	private class DontAnnotateAction extends Action {
@@ -328,9 +342,6 @@ public class UmlClassesMenuListener implements IMenuListener {
 	
 	public void menuAboutToShow(IMenuManager manager) {
 
-		// TODO  Filter for active types in profile.
-		//IWorkbenchProfileSession = TigerstripeCore.getWorkbenchProfileSession();
-		
 
 		IStructuredSelection ssel = (IStructuredSelection) viewer
 		.getSelection();
@@ -346,22 +357,47 @@ public class UmlClassesMenuListener implements IMenuListener {
 		}
 		if (classNodeSelected) {
 			manager.add(new DontAnnotateAction());
-			manager.add(new AsEntityAction());
-			manager.add(new AsDatatypeAction());
-			manager.add(new AsEnumerationAction());
-			manager.add(new AsExceptionAction());
-			manager.add(new AsQueryAction());
-			manager.add(new AsEventAction());
-			manager.add(new AsUpdateProcAction());
-			manager.add(new AsSessionAction());
+			if (typeList.contains(IManagedEntityArtifact.class.getName())){
+				manager.add(new AsEntityAction());
+			}
+			if (typeList.contains(IDatatypeArtifact.class.getName())){
+				manager.add(new AsDatatypeAction());
+			}
+			if (typeList.contains(IEnumArtifact.class.getName())){
+				manager.add(new AsEnumerationAction());
+			}
+			if (typeList.contains(IExceptionArtifact.class.getName())){
+				manager.add(new AsExceptionAction());
+			}
+			if (typeList.contains(IQueryArtifact.class.getName())){
+				manager.add(new AsQueryAction());
+			}
+			if (typeList.contains(IEventArtifact.class.getName())){
+				manager.add(new AsEventAction());
+			}
+			if (typeList.contains(IUpdateProcedureArtifact.class.getName())){
+				manager.add(new AsUpdateProcAction());
+			}
+			if (typeList.contains(ISessionArtifact.class.getName())){
+				manager.add(new AsSessionAction());
+			}
 		} else if (dependencySelected) {
 			manager.add(new DontAnnotateAction());
-			manager.add(new AsDependencyAction());
+
+			if (typeList.contains(IDependencyArtifact.class.getName())){
+				manager.add(new AsDependencyAction());
+			}
 		} else if (associationSelected) {
 			manager.add(new DontAnnotateAction());
-			manager.add(new AsAssociationAction());
-			manager.add(new AsAssociationClassAction());
+
+			if (typeList.contains(IAssociationArtifact.class.getName())){
+				manager.add(new AsAssociationAction());
+			}
+			if (typeList.contains(IAssociationClassArtifact.class.getName())){
+				manager.add(new AsAssociationClassAction());
+			}
 		}
 	}
+
 
 }

@@ -9,6 +9,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.TSRuntimeBasedWizardPage;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.model.ModelImporter;
 
@@ -77,15 +81,23 @@ public class MappingWizardPage extends TSRuntimeBasedWizardPage {
 		contentProvider = new UmlClassesTreeContentProvider();
 		umlClassesTreeViewer.setContentProvider(contentProvider);
 		labelProvider = new UmlClassesTreeLabelProvider();
+		
+		IWorkbenchProfile profile  = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
+		CoreArtifactSettingsProperty property = (CoreArtifactSettingsProperty) profile
+			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+		
+		labelProvider.setSupportedArtifacts(property);
 		umlClassesTreeViewer.setLabelProvider(labelProvider);
 
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
 		fContextMenu = menuMgr
 				.createContextMenu(umlClassesTreeViewer.getTree());
-		menuMgr
-				.addMenuListener(new UmlClassesMenuListener(
-						umlClassesTreeViewer));
+		UmlClassesMenuListener menuListener = new UmlClassesMenuListener(
+				umlClassesTreeViewer);
+		menuListener.setSupportedArtifacts(property);
+		
+		menuMgr.addMenuListener(menuListener);
 		umlClassesTreeViewer.getTree().setMenu(fContextMenu);
 	}
 	
@@ -101,8 +113,8 @@ public class MappingWizardPage extends TSRuntimeBasedWizardPage {
 		// When I go visible, try to get the model...
 		UML2ImportDetailsWizardPage detailsPage = (UML2ImportDetailsWizardPage) getPreviousPage();
 
-		if (importer == null){
-			importer = new ModelImporter( detailsPage.getModelFilename(),
+		if (this.importer == null){
+			this.importer = new ModelImporter( detailsPage.getModelFilename(),
 					detailsPage.getTsProject(), detailsPage.getProfilesFilename());
 
 			try {

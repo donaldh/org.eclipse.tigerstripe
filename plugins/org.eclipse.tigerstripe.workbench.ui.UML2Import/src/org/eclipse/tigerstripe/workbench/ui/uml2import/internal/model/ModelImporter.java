@@ -15,10 +15,14 @@ import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.Utilities;
@@ -39,6 +43,7 @@ public class ModelImporter {
 	private String modelLibrary;
 	private Map<EObject, String> classMap;
 	private Map<String,IAbstractArtifact> extractedArtifacts;
+	private CoreArtifactSettingsProperty property;
 	
 	public ModelImporter (String importFilename,
 			ITigerstripeModelProject tigerstripeProject, String profilesDir){
@@ -46,6 +51,11 @@ public class ModelImporter {
 		this.importFilename = importFilename;
 		this.tigerstripeProject = tigerstripeProject;
 		this.profilesDir = profilesDir;
+		// TODO  Filter for active types in profile.
+		IWorkbenchProfile profile  = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
+		this.property = (CoreArtifactSettingsProperty) profile
+			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+	
 		
 	}
 	
@@ -143,6 +153,9 @@ public class ModelImporter {
 		// in the model, we need to provide a
 		// CLASS name for the target - no need to get into a twist about attributes etc at this stage.
 		
+		// A mapper can map to stuff that is not in the current profile.
+		// removinng "unsupported artifacts" is handled by the extract and the UI. 
+		
 		// TODO  Filter for active types in profile.
 		
 		if (model == null){
@@ -199,8 +212,8 @@ public class ModelImporter {
 
 	public boolean doSecondLoad() {
 
-		UML2TS uML2TS = new UML2TS(getClassMap());
-		this.extractedArtifacts = uML2TS.extractArtifacts(model, modelLibrary, out, messages, this.tigerstripeProject);
+		UML2TS uML2TS = new UML2TS(getClassMap() , out, property);
+		this.extractedArtifacts = uML2TS.extractArtifacts(model, modelLibrary, messages, this.tigerstripeProject);
 		out.println("INFO : Extracted arrifact size :"+this.extractedArtifacts.size());
 		out.println(messages.asText());
 		out.flush();

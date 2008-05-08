@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -31,6 +33,8 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 
 public class Utilities {
 
+	public IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
+	
 	public static ResourceSet resourceSet = new ResourceSetImpl();
 
 	public static Map options;
