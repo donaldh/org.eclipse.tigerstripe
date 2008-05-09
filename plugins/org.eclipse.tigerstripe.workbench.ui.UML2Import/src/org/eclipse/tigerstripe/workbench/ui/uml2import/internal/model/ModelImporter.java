@@ -97,38 +97,37 @@ public class ModelImporter {
 		
 		
 		// Get any implementations of the ImodelTrimmer from the extension point
-		IExtensionRegistry registry = Platform.getExtensionRegistry();
-	      IExtensionPoint extensionPoint =
-	         registry.getExtensionPoint("org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelTrimmer");
-	      IConfigurationElement points[] =
-	         extensionPoint.getConfigurationElements();
-	      for (IConfigurationElement element : points){
-	    	  IConfigurationElement children[] = element.getChildren("trimmer");
-	    	  if(children != null && children.length != 0){
-	    		  
-	    		  	final IModelTrimmer trimmer  = (IModelTrimmer) children[0].createExecutableExtension("trimmer_class");
-	    		  	String trimmerName = children[0].getAttribute("name");
-	    		  	String trimmerText = "Model trimmed using trimmer "+trimmerName+" extension";
-	    		  	out.println("INFO : "+trimmerText);
-	    		  	Message trimMessage = new Message();
-	    		  	trimMessage.setMessage(trimmerText);
-	    		  	trimMessage.setSeverity(2);
-	    			messages.addMessage(message);
-	    			
-	    		  	
-	    			SafeRunner.run(new ISafeRunnable() {
-	    				public void handleException(Throwable exception) {
-	    					EclipsePlugin.log(exception);
-	    				}
 
-	    				public void run() throws Exception {
-	    					out.println("INFO : TRIMMING MODEL");
-	    					model = trimmer.trimModel(model);
-	    				}
-	    				
-	    			});
-	    	  	}
-	      }
+		IConfigurationElement[] elements =   Platform.getExtensionRegistry()
+		.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelTrimmer");
+		for (IConfigurationElement element : elements){
+
+			final IModelTrimmer trimmer  = (IModelTrimmer) element.createExecutableExtension("trimmer_class");
+			String trimmerName = element.getAttribute("name");
+			String trimmerText = "Model trimmed using trimmer "+trimmerName+" extension";
+			out.println("INFO : "+trimmerText);
+			Message trimMessage = new Message();
+			trimMessage.setMessage(trimmerText);
+			trimMessage.setSeverity(2);
+			messages.addMessage(message);
+
+
+			SafeRunner.run(new ISafeRunnable() {
+				public void handleException(Throwable exception) {
+					EclipsePlugin.log(exception);
+					out.println("ERROR  : TRIMMING MODEL with extension Point threw exception.");
+					exception.printStackTrace(out);
+				}
+
+				public void run() throws Exception {
+					out.println("INFO : TRIMMING MODEL");
+					model = trimmer.trimModel(model);
+				}
+
+			});
+
+
+		}
 	      
 	      out.flush();
 	      return true;
@@ -163,22 +162,19 @@ public class ModelImporter {
 		}
 		try {
 		// Get any implementations of the IModelMapper from the extension point
-		IExtensionRegistry registry = Platform.getExtensionRegistry();
-	      IExtensionPoint extensionPoint =
-	         registry.getExtensionPoint("org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelMapper");
-	      IConfigurationElement points[] =
-	         extensionPoint.getConfigurationElements();
-	      for (IConfigurationElement element : points){
-	    	  IConfigurationElement children[] = element.getChildren("mapper");
-	    	  if(children != null && children.length != 0){
-	    		    final IModelMapper mapper  = (IModelMapper) children[0].createExecutableExtension("mapper_class");
-	    		  	String mapperName = children[0].getAttribute("name");
+			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelMapper");
+	      for (IConfigurationElement element : elements){
+	    		    final IModelMapper mapper  = (IModelMapper) element.createExecutableExtension("mapper_class");
+	    		  	String mapperName = element.getAttribute("name");
 	    		  	String mapperText = "INFO : Model mapped using mapper "+mapperName+" extension";
 	    		  	out.println(mapperText);
 	    		  	this.classMap = mapper.getMapping(model);
 	    		  	SafeRunner.run(new ISafeRunnable() {
 	    				public void handleException(Throwable exception) {
 	    					EclipsePlugin.log(exception);
+	    					out.println("ERROR  : GETTING MAPPING with extension Point threw exception.");
+	    					exception.printStackTrace(out);
 	    				}
 
 	    				public void run() throws Exception {
@@ -187,7 +183,6 @@ public class ModelImporter {
 	    				}
 	    				
 	    			});
-	    	  	}
 	      }
 	      
 		} catch (Exception e){
