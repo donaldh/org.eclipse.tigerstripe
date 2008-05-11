@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.espace.core;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * This interface represent persistence service which used for storing/retrieving
@@ -31,6 +32,15 @@ public interface IEMFDatabase {
 	 * @param object EMF object
 	 */
 	public void write(EObject object);
+	
+	/**
+	 * Return EMF objects by the specific feature value
+	 * 
+	 * @param feature
+	 * @param value
+	 * @return objects by the specific feature value
+	 */
+	public EObject[] get(EStructuralFeature feature, Object value);
 	
 	/**
 	 * Remove EMF object from the specific resource

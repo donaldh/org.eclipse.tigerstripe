@@ -142,6 +142,13 @@ public class AnnotationsView extends ViewPart implements IAnnotationListener, IR
 		updateAnnotations();
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationLoaded(org.eclipse.tigerstripe.annotation.core.Annotation)
+	 */
+	public void annotationLoaded(Annotation annotation) {
+		updateAnnotations();
+	}
+	
 	protected void updateAnnotations() {
 		if (aTable != null && aTable.isInitialized())
 			aTable.setInput(AnnotationPlugin.getManager().getAnnotations());

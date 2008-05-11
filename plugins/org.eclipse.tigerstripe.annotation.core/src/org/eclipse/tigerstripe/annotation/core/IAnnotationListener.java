@@ -32,17 +32,24 @@ public interface IAnnotationListener {
 	public void annotationAdded(Annotation annotation);
 	
 	/**
-     * Notifies this listener that an annotations was removed.
+     * Notifies this listener that annotations was removed.
      * 
 	 * @param annotations removed annotations
 	 */
 	public void annotationsRemoved(Annotation[] annotations);
 	
 	/**
-     * Notifies this listener that an annotations was changed.
+     * Notifies this listener that annotations was changed.
      * 
 	 * @param annotations changed annotations
 	 */
 	public void annotationsChanged(Annotation[] annotations);
+	
+	/**
+     * Notifies this listener that an annotation was loaded from the storage.
+     * 
+	 * @param annotation loaded annotation
+	 */
+	public void annotationLoaded(Annotation annotation);
 
 }

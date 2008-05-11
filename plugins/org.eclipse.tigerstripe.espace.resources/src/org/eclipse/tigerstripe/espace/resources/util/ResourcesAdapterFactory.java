@@ -13,16 +13,20 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesAdapterFactory.java,v 1.1 2008/04/24 17:06:42 jworrell Exp $
+ * $Id: ResourcesAdapterFactory.java,v 1.2 2008/05/11 12:42:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.util;
 
+import java.util.Map;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.tigerstripe.espace.resources.ResourceList;
-import org.eclipse.tigerstripe.espace.resources.ResourcesPackage;
+
+import org.eclipse.tigerstripe.espace.resources.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -81,8 +85,25 @@ public class ResourcesAdapterFactory extends AdapterFactoryImpl {
     protected ResourcesSwitch<Adapter> modelSwitch =
         new ResourcesSwitch<Adapter>() {
             @Override
+            public Adapter caseIndexKey(IndexKey object) {
+                return createIndexKeyAdapter();
+            }
+            @Override
+            public Adapter caseIndexList(IndexList object) {
+                return createIndexListAdapter();
+            }
+            @Override
             public Adapter caseResourceList(ResourceList object) {
                 return createResourceListAdapter();
+            }
+            @SuppressWarnings("unchecked")
+            @Override
+            public Adapter caseEMap_1(EMap object) {
+                return createEMap_1Adapter();
+            }
+            @Override
+            public Adapter caseEIndexKeyToStringMapEntry(Map.Entry<IndexKey, String> object) {
+                return createEIndexKeyToStringMapEntryAdapter();
             }
             @Override
             public Adapter defaultCase(EObject object) {
@@ -105,6 +126,34 @@ public class ResourcesAdapterFactory extends AdapterFactoryImpl {
 
 
     /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.espace.resources.IndexKey <em>Index Key</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.tigerstripe.espace.resources.IndexKey
+     * @generated
+     */
+    public Adapter createIndexKeyAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.espace.resources.IndexList <em>Index List</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.tigerstripe.espace.resources.IndexList
+     * @generated
+     */
+    public Adapter createIndexListAdapter() {
+        return null;
+    }
+
+    /**
      * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.espace.resources.ResourceList <em>Resource List</em>}'.
      * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
@@ -115,6 +164,34 @@ public class ResourcesAdapterFactory extends AdapterFactoryImpl {
      * @generated
      */
     public Adapter createResourceListAdapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link org.eclipse.emf.common.util.EMap <em>EMap 1</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see org.eclipse.emf.common.util.EMap
+     * @generated
+     */
+    public Adapter createEMap_1Adapter() {
+        return null;
+    }
+
+    /**
+     * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EIndex Key To String Map Entry</em>}'.
+     * <!-- begin-user-doc -->
+     * This default implementation returns null so that we can easily ignore cases;
+     * it's useful to ignore a case when inheritance will catch all the cases anyway.
+     * <!-- end-user-doc -->
+     * @return the new adapter.
+     * @see java.util.Map.Entry
+     * @generated
+     */
+    public Adapter createEIndexKeyToStringMapEntryAdapter() {
         return null;
     }
 

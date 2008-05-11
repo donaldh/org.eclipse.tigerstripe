@@ -11,5 +11,6 @@ Export-Package: org.eclipse.tigerstripe.annotation.example.person,
  org.eclipse.tigerstripe.annotation.example.person.impl,
  org.eclipse.tigerstripe.annotation.example.person.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.tigerstripe.espace.resources
 Eclipse-LazyStart: true

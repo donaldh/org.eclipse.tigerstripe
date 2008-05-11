@@ -13,12 +13,14 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesSwitch.java,v 1.1 2008/04/24 17:06:42 jworrell Exp $
+ * $Id: ResourcesSwitch.java,v 1.2 2008/05/11 12:42:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.util;
 
 import java.util.List;
 
+import java.util.Map;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
@@ -98,14 +100,62 @@ public class ResourcesSwitch<T> {
      */
     protected T doSwitch(int classifierID, EObject theEObject) {
         switch (classifierID) {
+            case ResourcesPackage.INDEX_KEY: {
+                IndexKey indexKey = (IndexKey)theEObject;
+                T result = caseIndexKey(indexKey);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
+            case ResourcesPackage.INDEX_LIST: {
+                IndexList indexList = (IndexList)theEObject;
+                T result = caseIndexList(indexList);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             case ResourcesPackage.RESOURCE_LIST: {
                 ResourceList resourceList = (ResourceList)theEObject;
                 T result = caseResourceList(resourceList);
                 if (result == null) result = defaultCase(theEObject);
                 return result;
             }
+            case ResourcesPackage.EINDEX_KEY_TO_STRING_MAP_ENTRY: {
+                @SuppressWarnings("unchecked") Map.Entry<IndexKey, String> eIndexKeyToStringMapEntry = (Map.Entry<IndexKey, String>)theEObject;
+                T result = caseEIndexKeyToStringMapEntry(eIndexKeyToStringMapEntry);
+                if (result == null) result = defaultCase(theEObject);
+                return result;
+            }
             default: return defaultCase(theEObject);
         }
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Index Key</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Index Key</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseIndexKey(IndexKey object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>Index List</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>Index List</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseIndexList(IndexList object) {
+        return null;
     }
 
     /**
@@ -120,6 +170,37 @@ public class ResourcesSwitch<T> {
      * @generated
      */
     public T caseResourceList(ResourceList object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>EMap 1</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>EMap 1</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    @SuppressWarnings("unchecked")
+    public T caseEMap_1(EMap object) {
+        return null;
+    }
+
+    /**
+     * Returns the result of interpreting the object as an instance of '<em>EIndex Key To String Map Entry</em>'.
+     * <!-- begin-user-doc -->
+     * This implementation returns null;
+     * returning a non-null result will terminate the switch.
+     * <!-- end-user-doc -->
+     * @param object the target of the switch.
+     * @return the result of interpreting the object as an instance of '<em>EIndex Key To String Map Entry</em>'.
+     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+     * @generated
+     */
+    public T caseEIndexKeyToStringMapEntry(Map.Entry<IndexKey, String> object) {
         return null;
     }
 

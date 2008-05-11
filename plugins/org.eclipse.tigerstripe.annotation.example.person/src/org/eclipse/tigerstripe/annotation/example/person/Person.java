@@ -21,15 +21,15 @@ import org.eclipse.emf.ecore.EObject;
 public interface Person extends EObject {
 	
 	/**
-	 * @model
+	 * @model containment="true"
 	 */
 	Name getName();
 
     /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Person#getName <em>Name</em>}' reference.
+     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Person#getName <em>Name</em>}' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Name</em>' reference.
+     * @param value the new value of the '<em>Name</em>' containment reference.
      * @see #getName()
      * @generated
      */

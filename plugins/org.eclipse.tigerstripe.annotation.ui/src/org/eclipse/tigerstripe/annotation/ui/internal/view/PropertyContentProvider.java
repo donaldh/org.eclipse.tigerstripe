@@ -77,7 +77,7 @@ public class PropertyContentProvider implements ITreeContentProvider {
 		}
 		if (element instanceof IProperty) {
 			IProperty property = (IProperty)element;
-			if (property.getEType() instanceof EClass) {
+			if (property.getValue() instanceof EObject) {
 				object = (EObject)property.getValue();
 			}
 		}

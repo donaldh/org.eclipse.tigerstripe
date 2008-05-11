@@ -217,5 +217,11 @@ public class AnnotationsSection extends AbstractPropertySection implements IAnno
 	public void annotationsChanged(Annotation[] annotations) {
 		updateTable();
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationLoaded(org.eclipse.tigerstripe.annotation.core.Annotation)
+	 */
+	public void annotationLoaded(Annotation annotation) {
+	}
 
 }

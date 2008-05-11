@@ -13,15 +13,22 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesPackageImpl.java,v 1.1 2008/04/24 17:06:42 jworrell Exp $
+ * $Id: ResourcesPackageImpl.java,v 1.2 2008/05/11 12:42:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
+import java.util.Map;
+
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.tigerstripe.espace.resources.IndexKey;
+import org.eclipse.tigerstripe.espace.resources.IndexList;
 import org.eclipse.tigerstripe.espace.resources.ResourceList;
 import org.eclipse.tigerstripe.espace.resources.ResourcesFactory;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPackage;
@@ -38,6 +45,20 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
      * <!-- end-user-doc -->
      * @generated
      */
+    private EClass indexKeyEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass indexListEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     private EClass resourceListEClass = null;
 
     /**
@@ -45,7 +66,35 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
      * <!-- end-user-doc -->
      * @generated
      */
+    private EClass eMap_1EClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EClass eIndexKeyToStringMapEntryEClass = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EDataType mapEDataType = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     private EDataType uriEDataType = null;
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    private EDataType eMapEDataType = null;
 
     /**
      * Creates an instance of the model <b>Package</b>, registered with
@@ -103,6 +152,9 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 
         isInited = true;
 
+        // Initialize simple dependencies
+        EcorePackage.eINSTANCE.eClass();
+
         // Create package meta-data objects
         theResourcesPackage.createPackageContents();
 
@@ -113,6 +165,51 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
         theResourcesPackage.freeze();
 
         return theResourcesPackage;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getIndexKey() {
+        return indexKeyEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getIndexKey_ClassName() {
+        return (EAttribute)indexKeyEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getIndexKey_FeatureName() {
+        return (EAttribute)indexKeyEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getIndexList() {
+        return indexListEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getIndexList_IndexPaths() {
+        return (EReference)indexListEClass.getEStructuralFeatures().get(0);
     }
 
     /**
@@ -138,8 +235,62 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
      * <!-- end-user-doc -->
      * @generated
      */
+    public EClass getEMap_1() {
+        return eMap_1EClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EClass getEIndexKeyToStringMapEntry() {
+        return eIndexKeyToStringMapEntryEClass;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EReference getEIndexKeyToStringMapEntry_Key() {
+        return (EReference)eIndexKeyToStringMapEntryEClass.getEStructuralFeatures().get(0);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EAttribute getEIndexKeyToStringMapEntry_Value() {
+        return (EAttribute)eIndexKeyToStringMapEntryEClass.getEStructuralFeatures().get(1);
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EDataType getMap() {
+        return mapEDataType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
     public EDataType getURI() {
         return uriEDataType;
+    }
+
+    /**
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    public EDataType getEMap() {
+        return eMapEDataType;
     }
 
     /**
@@ -170,11 +321,26 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
         isCreated = true;
 
         // Create classes and their features
+        indexKeyEClass = createEClass(INDEX_KEY);
+        createEAttribute(indexKeyEClass, INDEX_KEY__CLASS_NAME);
+        createEAttribute(indexKeyEClass, INDEX_KEY__FEATURE_NAME);
+
+        indexListEClass = createEClass(INDEX_LIST);
+        createEReference(indexListEClass, INDEX_LIST__INDEX_PATHS);
+
         resourceListEClass = createEClass(RESOURCE_LIST);
         createEAttribute(resourceListEClass, RESOURCE_LIST__RESOURCE_URIS);
 
+        eMap_1EClass = createEClass(EMAP_1);
+
+        eIndexKeyToStringMapEntryEClass = createEClass(EINDEX_KEY_TO_STRING_MAP_ENTRY);
+        createEReference(eIndexKeyToStringMapEntryEClass, EINDEX_KEY_TO_STRING_MAP_ENTRY__KEY);
+        createEAttribute(eIndexKeyToStringMapEntryEClass, EINDEX_KEY_TO_STRING_MAP_ENTRY__VALUE);
+
         // Create data types
+        mapEDataType = createEDataType(MAP);
         uriEDataType = createEDataType(URI);
+        eMapEDataType = createEDataType(EMAP);
     }
 
     /**
@@ -200,18 +366,40 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
         setNsPrefix(eNS_PREFIX);
         setNsURI(eNS_URI);
 
+        // Obtain other dependent packages
+        EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+
         // Create type parameters
+        addETypeParameter(mapEDataType, "T");
+        addETypeParameter(mapEDataType, "T1");
+        addETypeParameter(eMapEDataType, "T");
+        addETypeParameter(eMapEDataType, "T1");
 
         // Set bounds for type parameters
 
         // Add supertypes to classes
 
         // Initialize classes and features; add operations and parameters
+        initEClass(indexKeyEClass, IndexKey.class, "IndexKey", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEAttribute(getIndexKey_ClassName(), ecorePackage.getEString(), "className", null, 0, 1, IndexKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getIndexKey_FeatureName(), ecorePackage.getEString(), "featureName", null, 0, 1, IndexKey.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+        initEClass(indexListEClass, IndexList.class, "IndexList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getIndexList_IndexPaths(), this.getEIndexKeyToStringMapEntry(), null, "indexPaths", null, 0, -1, IndexList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
         initEClass(resourceListEClass, ResourceList.class, "ResourceList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
         initEAttribute(getResourceList_ResourceUris(), this.getURI(), "resourceUris", null, 0, -1, ResourceList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+        initEClass(eMap_1EClass, EMap.class, "EMap_1", IS_ABSTRACT, IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+
+        initEClass(eIndexKeyToStringMapEntryEClass, Map.Entry.class, "EIndexKeyToStringMapEntry", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+        initEReference(getEIndexKeyToStringMapEntry_Key(), this.getIndexKey(), null, "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+        initEAttribute(getEIndexKeyToStringMapEntry_Value(), theEcorePackage.getEString(), "value", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
         // Initialize data types
+        initEDataType(mapEDataType, Map.class, "Map", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
         initEDataType(uriEDataType, org.eclipse.emf.common.util.URI.class, "URI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+        initEDataType(eMapEDataType, EMap.class, "EMap", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
         // Create resource
         createResource(eNS_URI);

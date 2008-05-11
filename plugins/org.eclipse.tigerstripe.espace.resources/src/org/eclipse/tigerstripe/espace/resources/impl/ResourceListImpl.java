@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourceListImpl.java,v 1.1 2008/04/24 17:06:42 jworrell Exp $
+ * $Id: ResourceListImpl.java,v 1.2 2008/05/11 12:42:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 

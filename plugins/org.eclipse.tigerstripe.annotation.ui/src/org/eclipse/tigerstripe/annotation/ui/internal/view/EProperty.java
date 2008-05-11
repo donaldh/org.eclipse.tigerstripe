@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.ui.celleditor.ExtendedComboBoxCellEditor;
 import org.eclipse.emf.common.util.Enumerator;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -43,6 +44,9 @@ public class EProperty implements IProperty {
 	private EObject object;
 	private EStructuralFeature feature;
 	private Annotation annotation;
+	
+	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
+	private static final String ANNOTATION_MULTILINE = "multiline";
 	
 	private static final String CREATE = "Create";
 	private static final String DESTROY = "Destroy";
@@ -106,21 +110,23 @@ public class EProperty implements IProperty {
 			return cellEditor;
 		}
 		if (feature.getEType() instanceof EClass) {
-			EObject value = (EObject)getValue();
-			if (value == null) {
-				List<Object> values = new ArrayList<Object>();
-				values.add(CREATE);
-				createComboBoxCellEditor(parent, values);
-				cellEditor = createComboBoxCellEditor(parent, values);
-				return cellEditor;
-			}
-			else {
-				List<Object> values = new ArrayList<Object>();
-				values.add(getDisplayName());
-				values.add(DESTROY);
-				createComboBoxCellEditor(parent, values);
-				cellEditor = createComboBoxCellEditor(parent, values);
-				return cellEditor;
+			if (!feature.isMany()) {
+				EObject value = (EObject)getValue();
+				if (value == null) {
+					List<Object> values = new ArrayList<Object>();
+					values.add(CREATE);
+					createComboBoxCellEditor(parent, values);
+					cellEditor = createComboBoxCellEditor(parent, values);
+					return cellEditor;
+				}
+				else {
+					List<Object> values = new ArrayList<Object>();
+					values.add(getDisplayName());
+					values.add(DESTROY);
+					createComboBoxCellEditor(parent, values);
+					cellEditor = createComboBoxCellEditor(parent, values);
+					return cellEditor;
+				}
 			}
 		}
 		if (feature.getEType() instanceof EDataType) {
@@ -139,8 +145,18 @@ public class EProperty implements IProperty {
 			cellEditor = createDialogCellEditor(parent, feature, (List<String>)getValue());
 			return cellEditor;
 		}
-		if (clazz.equals(String.class) || clazz.equals(int.class))
+		if (clazz.equals(String.class) || clazz.equals(int.class)) {
+	    	EAnnotation annotation = feature.getEAnnotation(ANNOTATION_MARKER);
+	    	if (annotation != null) {
+				String value = annotation.getDetails().get(ANNOTATION_MULTILINE);
+				if (value != null && Boolean.valueOf(value)) {
+					cellEditor = new MultiLineCellEditor(parent, 
+						(EDataType)classifier, feature.getName());
+					return cellEditor;
+				}
+	    	}
 			cellEditor = new TextCellEditor(parent);
+		}
 	    return cellEditor;
     }
 	
@@ -156,7 +172,8 @@ public class EProperty implements IProperty {
 		return object.eGet(feature);
     }
 
-	public void setValue(Object value) {
+	@SuppressWarnings("unchecked")
+    public void setValue(Object value) {
 		if (feature.getEType().getInstanceClass().equals(int.class)) {
 			if (value == null) value = new Integer(0);
 			else {
@@ -168,7 +185,10 @@ public class EProperty implements IProperty {
 				}
 			}
 		}
-		if (feature.getEType() instanceof EClass) {
+		if (feature.isMany()) {
+			//ignore
+		}
+		else if (feature.getEType() instanceof EClass) {
 			EClass clazz = (EClass)feature.getEType();
 			if (CREATE.equals(value)) {
 				value = clazz.getEPackage().getEFactoryInstance().create(clazz);

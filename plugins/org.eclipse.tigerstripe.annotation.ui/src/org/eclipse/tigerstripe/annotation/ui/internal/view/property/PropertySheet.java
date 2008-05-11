@@ -41,6 +41,8 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributo
 
 public class PropertySheet extends PageBookView 
 	implements ISelectionListener, IRefactoringListener, ISelectionFilter {
+	
+	public static final String ID = "org.eclipse.tigerstripe.annotation.view.property";
 
     /**
      * Creates a property sheet view.

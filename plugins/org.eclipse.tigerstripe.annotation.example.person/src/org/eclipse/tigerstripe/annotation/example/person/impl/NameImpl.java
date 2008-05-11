@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: NameImpl.java,v 1.1 2008/04/21 23:22:31 edillon Exp $
+ * $Id: NameImpl.java,v 1.2 2008/05/11 12:41:56 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.person.impl;
 

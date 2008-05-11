@@ -44,7 +44,7 @@
                id="org.eclipse.tigerstripe.annotation.ui.resource.actions.create"
                label="Create"
                menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/group1"
-               style="push"
+               style="pulldown"
                tooltip="Add Annotation">
          </action>
          <action
@@ -91,6 +91,16 @@
 				tab="property.tab.PropertiesPropertySection">
 			</propertySection>            
 		</propertySections>
+	</extension>
+	
+	<extension
+	      point="org.eclipse.debug.core.statusHandlers">
+    <statusHandler
+          class="org.eclipse.tigerstripe.annotation.ui.internal.view.property.ValidationStatusHandler"
+          code="1"
+          id="org.eclipse.tigerstripe.annotation.ui.statusHandler"
+          plugin="org.eclipse.tigerstripe.annotation.validation">
+    </statusHandler>
 	</extension>
 
 </plugin>

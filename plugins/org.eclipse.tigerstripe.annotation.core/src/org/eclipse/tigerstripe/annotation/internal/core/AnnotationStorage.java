@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.espace.resources.core.EMFDatabase;
 
@@ -42,6 +43,7 @@ public class AnnotationStorage {
 	}
 	
 	public void add(Annotation annotation) {
+		loadAnnotations(annotation.getUri());
 		addToList(annotation, annotation.getUri());
 		database.write(annotation);
 		fireAnnotationAdded(annotation);
@@ -54,10 +56,25 @@ public class AnnotationStorage {
 	}
 	
 	public Annotation[] getAnnotations(URI uri) {
+		loadAnnotations(uri);
 		List<Annotation> list = getAnnotationMap().get(uri);
-		if (list == null)
-			return EMPTY_ARRAY;
 		return list.toArray(new Annotation[list.size()]);
+	}
+	
+	protected void loadAnnotations(URI uri) {
+		List<Annotation> list = getAnnotationMap().get(uri);
+		if (list == null) {
+			EObject[] objects = database.get(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
+			list = new ArrayList<Annotation>();
+			for (int i = 0; i < objects.length; i++) {
+				if (objects[i] instanceof Annotation) {
+		        	Annotation annotation = (Annotation)objects[i];
+					list.add((Annotation)objects[i]);
+		    		fireAnnotationLoaded(annotation);
+				}
+			}
+			getAnnotationMap().put(uri, list);
+		}
 	}
 	
 	public Annotation[] getAnnotations() {
@@ -132,6 +149,14 @@ public class AnnotationStorage {
 		}
 	}
 	
+	protected void fireAnnotationLoaded(Annotation annotation) {
+		Object[] objects = listeners.getListeners();
+		for (int i = 0; i < objects.length; i++) {
+			IAnnotationListener listener = (IAnnotationListener)objects[i];
+			listener.annotationLoaded(annotation);
+		}
+	}
+	
 	protected void addToList(Annotation annotation, URI uri) {
 		List<Annotation> list = getAnnotationMap().get(uri);
 		if (list == null) {
@@ -157,13 +182,14 @@ public class AnnotationStorage {
 	protected Map<URI, List<Annotation>> getAnnotationMap() {
 		if (annotations == null) {
 			annotations = new HashMap<URI, List<Annotation>>();
-			EObject[] objects = database.read();
-			for (int i = 0; i < objects.length; i++) {
-		        if (objects[i] instanceof Annotation) {
-		        	Annotation annotation = (Annotation)objects[i];
-		    		addToList(annotation, annotation.getUri());
-		        }
-	        }
+			//EObject[] objects = database.read();
+//			for (int i = 0; i < objects.length; i++) {
+//		        if (objects[i] instanceof Annotation) {
+//		        	Annotation annotation = (Annotation)objects[i];
+//		    		addToList(annotation, annotation.getUri());
+//		    		fireAnnotationLoaded(annotation);
+//		        }
+//	        }
 		}
 		return annotations;
 	}

@@ -22,6 +22,11 @@ import org.eclipse.emf.common.util.URI;
  */
 public interface IAnnotable {
 	
+	/**
+	 * Return annotable object URI 
+	 * 
+	 * @return annotable object URI
+	 */
 	public URI getUri();
 
 }

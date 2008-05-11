@@ -25,13 +25,15 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
 import org.eclipse.tigerstripe.espace.resources.ResourceList;
-import org.eclipse.tigerstripe.espace.resources.ResourceUtil;
+import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourcesFactory;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 
@@ -52,11 +54,13 @@ public class EMFDatabase implements IEMFDatabase {
 	private EObjectRouter[] routers;
 	private ResourceSet resourceSet;
 	private ResourceList resourceList;
+	private ResourceHelper resourceHelper;
 	
 	public EMFDatabase() {
 		IPath path = ResourcesPlugin.getDefault().getStateLocation();
 		defaultRouter = new DefaultObjectRouter(new File(path.toFile(), DEFAULT_STORAGE));
 		resourceSet = new ResourceSetImpl();
+		resourceHelper = new ResourceHelper(resourceSet);
 	}
 	
 	protected EObjectRouter[] getRouters() {
@@ -93,22 +97,22 @@ public class EMFDatabase implements IEMFDatabase {
 
 	public void write(EObject object) {
 		Resource resource = getResource(object);
-		ResourceUtil.addAndSave(resource, object);
+		resourceHelper.addAndSave(resource, object, true);
 		
 		if (addToUris(resource.getURI())) {
 			getResourceList().getResourceUris().add(resource.getURI());
-			ResourceUtil.save(getResource(resourcesStorage.getUri()));
+			ResourceHelper.save(getResource(resourcesStorage.getUri()));
 		}
     }
 	
 	public void remove(EObject object) {
 		Resource resource = getResource(object);
-		ResourceUtil.removeAndSave(resource, object);
+		resourceHelper.removeAndSave(resource, object);
 		
 		if (resource.getContents().size() == 0 && !isDefaultUri(resource.getURI())) {
 			getResourceList().getResourceUris().remove(resource.getURI());
 			removeResource(resource);
-			ResourceUtil.save(getResource(resourcesStorage.getUri()));
+			ResourceHelper.save(getResource(resourcesStorage.getUri()));
 		}
 	}
 	
@@ -173,7 +177,7 @@ public class EMFDatabase implements IEMFDatabase {
             else {
             	resourceList = ResourcesFactory.eINSTANCE.createResourceList();
             	resource.getContents().add(resourceList);
-            	ResourceUtil.addAndSave(resource, resourceList);
+            	resourceHelper.addAndSave(resource, resourceList);
             }
 		}
 		return resourceList;
@@ -189,6 +193,37 @@ public class EMFDatabase implements IEMFDatabase {
         }
         resources.add(getResource(defaultRouter.getUri()));
 		return resources.toArray(new Resource[resources.size()]);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 */
+	public EObject[] get(EStructuralFeature feature, Object value) {
+		if (ResourceHelper.isFeatureIndexed(feature)) {
+		    return resourceHelper.readFromIndex(feature, value);
+		}
+		else {
+			List<EObject> list = new ArrayList<EObject>();
+			EClass clazz = ((EClass)feature.eContainer());
+			EObject[] objects = read();
+			for (int i = 0; i < objects.length; i++) {
+	            if (objects[i].eClass().equals(clazz)) {
+	            	try {
+		            	Object oValue = objects[i].eGet(feature);
+		            	if (value == null) {
+		            		if (oValue == null)
+		            			list.add(objects[i]);
+		            	}
+		            	else if (value.equals(oValue)){
+		            		list.add(objects[i]);
+		            	}
+	            	}
+	            	catch (Exception e) {
+					}
+	            }
+            }
+			return list.toArray(new EObject[list.size()]);
+		}
 	}
 	
 	public EObject[] read() {

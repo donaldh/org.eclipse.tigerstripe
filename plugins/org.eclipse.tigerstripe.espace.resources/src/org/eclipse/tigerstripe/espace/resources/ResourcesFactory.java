@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesFactory.java,v 1.1 2008/04/24 17:06:42 jworrell Exp $
+ * $Id: ResourcesFactory.java,v 1.2 2008/05/11 12:42:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources;
 
@@ -35,6 +35,24 @@ public interface ResourcesFactory extends EFactory {
      * @generated
      */
     ResourcesFactory eINSTANCE = org.eclipse.tigerstripe.espace.resources.impl.ResourcesFactoryImpl.init();
+
+    /**
+     * Returns a new object of class '<em>Index Key</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Index Key</em>'.
+     * @generated
+     */
+    IndexKey createIndexKey();
+
+    /**
+     * Returns a new object of class '<em>Index List</em>'.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @return a new object of class '<em>Index List</em>'.
+     * @generated
+     */
+    IndexList createIndexList();
 
     /**
      * Returns a new object of class '<em>Resource List</em>'.

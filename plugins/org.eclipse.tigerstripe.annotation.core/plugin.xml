@@ -4,7 +4,7 @@
 	<extension-point id="annotationProvider" name="annotationProvider" schema="schema/annotationProvider.exsd"/>
 	<extension-point id="router" name="router" schema="schema/router.exsd"/>
 	<extension-point id="annotationType" name="annotationType" schema="schema/annotationType.exsd"/>
-	<extension-point id="validators" name="validators" schema="schema/validators.exsd"/>
+	<extension-point id="annotationAdapter" name="annotationAdapter" schema="schema/annotationAdapter.exsd"/>
 
 	<extension point="org.eclipse.emf.ecore.generated_package">
 		<package 
@@ -12,23 +12,5 @@
 			class = "org.eclipse.tigerstripe.annotation.core.AnnotationPackage"
 			genModel = "model/annotation.genmodel" /> 
 	</extension>
-	<extension
-			point="org.eclipse.emf.validation.constraintProviders">
-		<category
-				name="Annotation Object Category"
-				id="org.eclipse.tigerstripe.annotation.core.validation.category"/>
-	</extension>
-	
-	<extension
-			point="org.eclipse.emf.validation.constraintBindings">
-		<clientContext
-				default="false"
-				id="org.eclipse.tigerstripe.annotation.core.context">
-			<selector class="org.eclipse.tigerstripe.annotation.core.AcceptAllClientSelector"/>
-		</clientContext>
-		<binding
-			category="org.eclipse.tigerstripe.annotation.core.validation.category"
-			context="org.eclipse.tigerstripe.annotation.core.context"/>
-   </extension>
 
 </plugin>

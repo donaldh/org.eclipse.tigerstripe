@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ExamplePackageImpl.java,v 1.1 2008/04/21 23:21:10 edillon Exp $
+ * $Id: ExamplePackageImpl.java,v 1.2 2008/05/11 12:42:21 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.impl;
 
@@ -258,6 +258,53 @@ public class ExamplePackageImpl extends EPackageImpl implements ExamplePackage {
 
         // Create resource
         createResource(eNS_URI);
+
+        // Create annotations
+        // http:///org/eclipse/emf/ecore/util/ExtendedMetaData
+        createExtendedMetaDataAnnotations();
+        // org.eclipse.tigerstripe.annotation
+        createOrgAnnotations();
+    }
+
+    /**
+     * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void createExtendedMetaDataAnnotations() {
+        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+        addAnnotation
+          (textAnnotationEClass, 
+           source, 
+           new String[] {
+             "name", "text_._annotation",
+             "kind", "elementOnly"
+           });		
+        addAnnotation
+          (getTextAnnotation_Text(), 
+           source, 
+           new String[] {
+             "kind", "element",
+             "name", "text",
+             "namespace", "##targetNamespace"
+           });	
+    }
+
+    /**
+     * Initializes the annotations for <b>org.eclipse.tigerstripe.annotation</b>.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void createOrgAnnotations() {
+        String source = "org.eclipse.tigerstripe.annotation";				
+        addAnnotation
+          (getTextAnnotation_Text(), 
+           source, 
+           new String[] {
+             "multiline", "true"
+           });
     }
 
 } //ExamplePackageImpl

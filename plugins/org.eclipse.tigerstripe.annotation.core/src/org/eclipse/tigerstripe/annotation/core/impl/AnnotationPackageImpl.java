@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationPackageImpl.java,v 1.1 2008/04/21 23:20:23 edillon Exp $
+ * $Id: AnnotationPackageImpl.java,v 1.2 2008/05/11 12:42:14 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.impl;
 
@@ -264,6 +264,26 @@ public class AnnotationPackageImpl extends EPackageImpl implements AnnotationPac
 
         // Create resource
         createResource(eNS_URI);
+
+        // Create annotations
+        // org.eclipse.tigerstripe.annotation
+        createOrgAnnotations();
+    }
+
+    /**
+     * Initializes the annotations for <b>org.eclipse.tigerstripe.annotation</b>.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    protected void createOrgAnnotations() {
+        String source = "org.eclipse.tigerstripe.annotation";		
+        addAnnotation
+          (getAnnotation_Uri(), 
+           source, 
+           new String[] {
+             "index", "true"
+           });
     }
 
 } //AnnotationPackageImpl

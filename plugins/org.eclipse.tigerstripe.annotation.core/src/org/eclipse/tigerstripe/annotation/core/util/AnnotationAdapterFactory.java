@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationAdapterFactory.java,v 1.2 2008/04/24 17:35:03 jworrell Exp $
+ * $Id: AnnotationAdapterFactory.java,v 1.3 2008/05/11 12:42:14 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.util;
 

@@ -27,8 +27,8 @@ public class CreateAnnotationWizard extends Wizard implements INewWizard {
 	
 	private static final String TITLE = "Create Annotation Wizard";
 	
-	private CreateAnnotationWizardPage page;
-	private Object object;
+	protected CreateAnnotationWizardPage page;
+	protected Object object;
 	
 	public CreateAnnotationWizard() {
 		setWindowTitle(TITLE);
@@ -51,10 +51,14 @@ public class CreateAnnotationWizard extends Wizard implements INewWizard {
     public boolean performFinish() {
 		AnnotationType type = page.getType();
 		EObject content = type.createInstance();
+		addContent(content);
+		return true;
+    }
+	
+	protected void addContent(EObject content) {
 		if (object != null)
 			AnnotationPlugin.getManager().addAnnotation(object, content);
-	    return true;
-    }
+	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
     }

@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationImpl.java,v 1.1 2008/04/21 23:20:23 edillon Exp $
+ * $Id: AnnotationImpl.java,v 1.2 2008/05/11 12:42:14 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.impl;
 

@@ -11,5 +11,7 @@ Export-Package: org.eclipse.tigerstripe.annotation.example,
  org.eclipse.tigerstripe.annotation.example.impl,
  org.eclipse.tigerstripe.annotation.example.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.tigerstripe.annotation.core,
+ org.eclipse.tigerstripe.annotation.ui
 Eclipse-LazyStart: true

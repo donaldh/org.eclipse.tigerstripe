@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+	<extension
+	      point="org.eclipse.tigerstripe.annotation.core.annotationAdapter">
+    	<adapter
+			class="org.eclipse.tigerstripe.annotation.validation.ValidationAdapter"/>
+	</extension>
+	
+	<extension
+			point="org.eclipse.emf.validation.constraintProviders">
+		<category
+				name="Annotation Object Category"
+				id="org.eclipse.tigerstripe.annotation.validation.category"/>
+	</extension>
+	
+	<extension
+			point="org.eclipse.emf.validation.constraintBindings">
+		<clientContext
+				default="false"
+				id="org.eclipse.tigerstripe.annotation.context">
+			<selector class="org.eclipse.tigerstripe.annotation.validation.AcceptAllClientSelector"/>
+		</clientContext>
+		<binding
+			category="org.eclipse.tigerstripe.annotation.validation.category"
+			context="org.eclipse.tigerstripe.annotation.context"/>
+   </extension>
+
+</plugin>

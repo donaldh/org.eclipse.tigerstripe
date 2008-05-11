@@ -113,7 +113,7 @@ public interface PersonPackage extends EPackage {
     int PERSON = 1;
 
     /**
-     * The feature id for the '<em><b>Name</b></em>' reference.
+     * The feature id for the '<em><b>Name</b></em>' containment reference.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
@@ -229,10 +229,10 @@ public interface PersonPackage extends EPackage {
     EClass getPerson();
 
     /**
-     * Returns the meta object for the reference '{@link org.eclipse.tigerstripe.annotation.example.person.Person#getName <em>Name</em>}'.
+     * Returns the meta object for the containment reference '{@link org.eclipse.tigerstripe.annotation.example.person.Person#getName <em>Name</em>}'.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the meta object for the reference '<em>Name</em>'.
+     * @return the meta object for the containment reference '<em>Name</em>'.
      * @see org.eclipse.tigerstripe.annotation.example.person.Person#getName()
      * @see #getPerson()
      * @generated
@@ -363,7 +363,7 @@ public interface PersonPackage extends EPackage {
         EClass PERSON = eINSTANCE.getPerson();
 
         /**
-         * The meta object literal for the '<em><b>Name</b></em>' reference feature.
+         * The meta object literal for the '<em><b>Name</b></em>' containment reference feature.
          * <!-- begin-user-doc -->
          * <!-- end-user-doc -->
          * @generated

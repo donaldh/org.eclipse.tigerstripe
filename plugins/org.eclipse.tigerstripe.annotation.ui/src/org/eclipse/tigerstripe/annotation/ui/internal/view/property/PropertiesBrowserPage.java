@@ -143,6 +143,12 @@ public class PropertiesBrowserPage
 	public void annotationsChanged(Annotation[] annotations) {
 		updateSelection();
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationLoaded(org.eclipse.tigerstripe.annotation.core.Annotation)
+	 */
+	public void annotationLoaded(Annotation annotation) {
+	}
 
 	public void containerUpdated() {
 		AsyncExecUtil.run(composite, new Runnable() {

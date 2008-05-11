@@ -20,7 +20,9 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
@@ -42,23 +44,28 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	
 	private static final String ANNOTATION_TYPE_EXTPT = "org.eclipse.tigerstripe.annotation.core.annotationType";
 	
+	private static final String ANNOTATION_ADAPTER_EXTPT = "org.eclipse.tigerstripe.annotation.core.annotationAdapter";
+	
 	private static final String ANNOTATION_PROVIDER_EXTPT = "org.eclipse.tigerstripe.annotation.core.annotationProvider";
-	private static final String ANNOTATION_PROVIDER_ATTR_CLASS = "class";
-	private static final String ANNOTATION_PROVIDER_ATTR_ID = "id";
+	private static final String ANNOTATION_ATTR_CLASS = "class";
+	private static final String ANNOTATION_ATTR_ID = "id";
+	
+	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
+	private static final String ANNOTATION_UNIQUE = "unique";
 	
 	private static AnnotationManager instance;
 	
 	private Map<IAnnotationProvider, String> providers;
 	private AnnotationType[] types;
-	private ValidationAdapter validationAdapter;
+	private List<Adapter> adapters;
 	
 	public AnnotationManager() {
-		validationAdapter = new ValidationAdapter();
 	}
 
 	public Annotation addAnnotation(Object object, EObject content) {
 		URI uri = getUri(object);
 		if (uri != null) {
+			checkUnique(uri, content);
 			Annotation annotation = AnnotationFactory.eINSTANCE.createAnnotation();
 			annotation.setUri(uri);
 			annotation.setContent(content);
@@ -67,6 +74,25 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		}
 		return null;
     }
+	
+	protected void checkUnique(URI uri, EObject content) {
+		boolean unique = true;
+		EAnnotation annotation = content.eClass().getEAnnotation(ANNOTATION_MARKER);
+		if (annotation != null) {
+			String value = annotation.getDetails().get(ANNOTATION_UNIQUE);
+			if (value != null && !Boolean.valueOf(value))
+				unique = false;
+		}
+		if (unique) {
+			Annotation[] annotations = getAnnotations(uri);
+			for (int i = 0; i < annotations.length; i++) {
+				Class<?> clazz = annotations[i].getContent().getClass();
+				if (content.getClass().equals(clazz)) {
+					throw new RuntimeException("Can't create more tham one annotation for the unique class");
+				}
+            }
+		}
+	}
 	
 	public void setUri(URI oldUri, URI newUri) {
 		uriChanged(oldUri, newUri);
@@ -101,7 +127,8 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	
 	@Override
 	protected void addToList(Annotation annotation, URI uri) {
-		annotation.getContent().eAdapters().add(validationAdapter);
+		if (annotation.getContent() != null)
+			annotation.getContent().eAdapters().addAll(getAdapters());
 	    super.addToList(annotation, uri);
 	}
 	
@@ -121,8 +148,8 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	        for (IConfigurationElement config : configs) {
 	        	try {
 	                IAnnotationProvider provider = 
-	                	(IAnnotationProvider)config.createExecutableExtension(ANNOTATION_PROVIDER_ATTR_CLASS);
-	                String id = config.getAttribute(ANNOTATION_PROVIDER_ATTR_ID);
+	                	(IAnnotationProvider)config.createExecutableExtension(ANNOTATION_ATTR_CLASS);
+	                String id = config.getAttribute(ANNOTATION_ATTR_ID);
 	                providers.put(provider, id);
 	            }
 	            catch (CoreException e) {
@@ -149,6 +176,25 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	        this.types = types.toArray(new AnnotationType[types.size()]);
 		}
 		return this.types;
+	}
+	
+	public List<Adapter> getAdapters() {
+		if (adapters == null) {
+			adapters = new ArrayList<Adapter>();
+			IConfigurationElement[] configs = Platform.getExtensionRegistry(
+				).getConfigurationElementsFor(ANNOTATION_ADAPTER_EXTPT);
+	        for (IConfigurationElement config : configs) {
+	        	try {
+	                Adapter adapter = 
+	                	(Adapter)config.createExecutableExtension(ANNOTATION_ATTR_CLASS);
+	                adapters.add(adapter);
+	            }
+	            catch (Exception e) {
+	            	AnnotationPlugin.log(e);
+	            }
+	        }
+		}
+		return adapters;
 	}
 	
 	public String getProviderId(URI uri) {

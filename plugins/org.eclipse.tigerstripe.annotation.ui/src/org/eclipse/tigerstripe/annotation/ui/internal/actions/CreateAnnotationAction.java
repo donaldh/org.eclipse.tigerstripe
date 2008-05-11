@@ -11,12 +11,15 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationUtils;
-import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
-import org.eclipse.tigerstripe.annotation.ui.wizard.CreateAnnotationWizard;
 
 
 /**
@@ -26,17 +29,36 @@ import org.eclipse.tigerstripe.annotation.ui.wizard.CreateAnnotationWizard;
 public class CreateAnnotationAction extends DelegateAction {
 	
 	private Object object;
-
-	public void run() {
-		Shell shell = WorkbenchUtil.getShell();
-		if (shell == null)
-			return;
-		CreateAnnotationWizard wizard = new CreateAnnotationWizard(object);
-		WizardDialog dialog= new WizardDialog(shell, wizard);
-		dialog.create();
-		dialog.getShell().setSize(500, 500);
-		dialog.open();
-    }
+	private List<Object> list;
+	private MenuCreator menu;
+	
+	public CreateAnnotationAction() {
+		list = new ArrayList<Object>();
+		menu = new MenuCreator(list);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.internal.actions.DelegateAction#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
+	 */
+	@Override
+	public void selectionChanged(IAction action, ISelection selection) {
+	    super.selectionChanged(action, selection);
+	    if (action.isEnabled()) {
+	    	updateAnnotationsList();
+	    	action.setMenuCreator(menu);
+	    }
+	}
+	
+	protected void updateAnnotationsList() {
+    	list.clear();
+    	list.add(new OpenAnnotationWizardAction(object, "Open Annotation Wizard..."));
+    	list.add(new Separator());
+    	
+		AnnotationType[] types = AnnotationPlugin.getManager().getTypes();
+		for (int i = 0; i < types.length; i++) {
+			list.add(new CreateSpecificTypeAnnotationAction(object, types[i]));
+        }
+	}
 	
 	@Override
 	protected void adaptSelection(ISelection selection) {

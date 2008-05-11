@@ -15,12 +15,12 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * @author Yuri Strot
- * @model
+ * @model extendedMetaData="name='text_._annotation' kind='elementOnly'"
  */
 public interface TextAnnotation extends EObject {
 	
 	/**
-	 * @model
+	 * @model extendedMetaData="kind='element' name='text' namespace='##targetNamespace'"
 	 */
 	String getText();
 

@@ -1,9 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Espace Plug-in
-Bundle-SymbolicName: org.eclipse.tigerstripe.espace.core
+Bundle-SymbolicName: org.eclipse.tigerstripe.espace.core; singleton:=true
 Bundle-Version: 0.3.0.qualifier
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle: org.eclipse.emf.ecore
-Export-Package: org.eclipse.tigerstripe.espace.core
+Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.tigerstripe.espace.core,
+ org.eclipse.tigerstripe.espace.core.tree,
+ org.eclipse.tigerstripe.espace.core.tree.impl,
+ org.eclipse.tigerstripe.espace.core.tree.util
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
+Eclipse-LazyStart: true

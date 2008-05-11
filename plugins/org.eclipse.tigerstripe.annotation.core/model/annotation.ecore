@@ -4,8 +4,12 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="annotation"
     nsURI="http:///org/eclipse/tigerstripe/annotation.ecore" nsPrefix="org.eclipse.tigerstripe.annotation">
   <eClassifiers xsi:type="ecore:EClass" name="Annotation">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="#//URI"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="content" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="#//URI">
+      <eAnnotations source="org.eclipse.tigerstripe.annotation">
+        <details key="index" value="true"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="content" eType="ecore:EClass ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="org.eclipse.emf.common.util.URI"/>
 </ecore:EPackage>

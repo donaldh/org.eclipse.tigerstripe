@@ -36,18 +36,16 @@ import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
  */
 public class CreateAnnotationWizardPage extends WizardPage {
 	
-	private static final String TITLE = "Create Annotation";
+	private static final String TITLE = "Select Annotation Type";
 	private String uri;
 	private AnnotationType type;
 	private AnnotationType[] types;
-	private Label description;
 	private Table combo;
 	
 	private ComboListener comboListener;
 
 	public CreateAnnotationWizardPage() {
 	    super(TITLE);
-	    setMessage("Create Annotation with the specified type");
 	    setTitle(TITLE);
     }
 	
@@ -69,9 +67,6 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		layout.numColumns = 2;		
 		composite.setLayout(layout);
 		
-		if (uri != null) {
-			createURIControls(composite);
-		}
 		createTypeControls(composite);
 		
 		setControl(composite);
@@ -108,8 +103,6 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		}
 		combo.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		description = new Label(parent, SWT.WRAP);
-		description.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 		comboListener = new ComboListener();
 		combo.addSelectionListener(comboListener);
 		combo.select(0);
@@ -131,7 +124,7 @@ public class CreateAnnotationWizardPage extends WizardPage {
 			type = types[combo.getSelectionIndex()];
 			String d = type.getDesciption();
 			if (d == null) d = "";
-			description.setText(d);
+			setMessage(d);
 		}
 	
 	}

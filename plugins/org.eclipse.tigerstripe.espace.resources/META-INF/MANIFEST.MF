@@ -8,9 +8,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.tigerstripe.espace.resources,
- org.eclipse.tigerstripe.espace.resources.core,
- org.eclipse.tigerstripe.espace.resources.impl,
- org.eclipse.tigerstripe.espace.resources.util
+ org.eclipse.tigerstripe.espace.resources.core
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.tigerstripe.espace.core,
