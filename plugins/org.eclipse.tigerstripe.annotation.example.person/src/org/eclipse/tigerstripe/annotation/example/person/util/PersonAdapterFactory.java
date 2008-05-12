@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: PersonAdapterFactory.java,v 1.2 2008/05/11 12:41:56 ystrot Exp $
+ * $Id: PersonAdapterFactory.java,v 1.3 2008/05/12 04:57:19 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.person.util;
 
@@ -36,118 +36,118 @@ import org.eclipse.tigerstripe.annotation.example.person.*;
  */
 public class PersonAdapterFactory extends AdapterFactoryImpl {
     /**
-     * The cached model package.
-     * <!-- begin-user-doc -->
+	 * The cached model package.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected static PersonPackage modelPackage;
 
     /**
-     * Creates an instance of the adapter factory.
-     * <!-- begin-user-doc -->
+	 * Creates an instance of the adapter factory.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public PersonAdapterFactory() {
-        if (modelPackage == null) {
-            modelPackage = PersonPackage.eINSTANCE;
-        }
-    }
+		if (modelPackage == null) {
+			modelPackage = PersonPackage.eINSTANCE;
+		}
+	}
 
     /**
-     * Returns whether this factory is applicable for the type of the object.
-     * <!-- begin-user-doc -->
+	 * Returns whether this factory is applicable for the type of the object.
+	 * <!-- begin-user-doc -->
      * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
      * <!-- end-user-doc -->
-     * @return whether this factory is applicable for the type of the object.
-     * @generated
-     */
+	 * @return whether this factory is applicable for the type of the object.
+	 * @generated
+	 */
     @Override
     public boolean isFactoryForType(Object object) {
-        if (object == modelPackage) {
-            return true;
-        }
-        if (object instanceof EObject) {
-            return ((EObject)object).eClass().getEPackage() == modelPackage;
-        }
-        return false;
-    }
+		if (object == modelPackage) {
+			return true;
+		}
+		if (object instanceof EObject) {
+			return ((EObject)object).eClass().getEPackage() == modelPackage;
+		}
+		return false;
+	}
 
     /**
-     * The switch the delegates to the <code>createXXX</code> methods.
-     * <!-- begin-user-doc -->
+	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected PersonSwitch<Adapter> modelSwitch =
         new PersonSwitch<Adapter>() {
-            @Override
-            public Adapter caseName(Name object) {
-                return createNameAdapter();
-            }
-            @Override
-            public Adapter casePerson(Person object) {
-                return createPersonAdapter();
-            }
-            @Override
-            public Adapter defaultCase(EObject object) {
-                return createEObjectAdapter();
-            }
-        };
+			@Override
+			public Adapter caseName(Name object) {
+				return createNameAdapter();
+			}
+			@Override
+			public Adapter casePerson(Person object) {
+				return createPersonAdapter();
+			}
+			@Override
+			public Adapter defaultCase(EObject object) {
+				return createEObjectAdapter();
+			}
+		};
 
     /**
-     * Creates an adapter for the <code>target</code>.
-     * <!-- begin-user-doc -->
+	 * Creates an adapter for the <code>target</code>.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param target the object to adapt.
-     * @return the adapter for the <code>target</code>.
-     * @generated
-     */
+	 * @param target the object to adapt.
+	 * @return the adapter for the <code>target</code>.
+	 * @generated
+	 */
     @Override
     public Adapter createAdapter(Notifier target) {
-        return modelSwitch.doSwitch((EObject)target);
-    }
+		return modelSwitch.doSwitch((EObject)target);
+	}
 
 
     /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.example.person.Name <em>Name</em>}'.
-     * <!-- begin-user-doc -->
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.example.person.Name <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see org.eclipse.tigerstripe.annotation.example.person.Name
-     * @generated
-     */
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.annotation.example.person.Name
+	 * @generated
+	 */
     public Adapter createNameAdapter() {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.example.person.Person <em>Person</em>}'.
-     * <!-- begin-user-doc -->
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.example.person.Person <em>Person</em>}'.
+	 * <!-- begin-user-doc -->
      * This default implementation returns null so that we can easily ignore cases;
      * it's useful to ignore a case when inheritance will catch all the cases anyway.
      * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see org.eclipse.tigerstripe.annotation.example.person.Person
-     * @generated
-     */
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.annotation.example.person.Person
+	 * @generated
+	 */
     public Adapter createPersonAdapter() {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Creates a new adapter for the default case.
-     * <!-- begin-user-doc -->
+	 * Creates a new adapter for the default case.
+	 * <!-- begin-user-doc -->
      * This default implementation returns null.
      * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @generated
-     */
+	 * @return the new adapter.
+	 * @generated
+	 */
     public Adapter createEObjectAdapter() {
-        return null;
-    }
+		return null;
+	}
 
 } //PersonAdapterFactory

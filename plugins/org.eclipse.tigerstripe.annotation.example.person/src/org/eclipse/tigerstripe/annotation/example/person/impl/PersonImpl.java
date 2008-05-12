@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: PersonImpl.java,v 1.2 2008/05/11 12:41:56 ystrot Exp $
+ * $Id: PersonImpl.java,v 1.3 2008/05/12 04:57:19 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.person.impl;
 
@@ -57,391 +57,391 @@ import org.eclipse.tigerstripe.annotation.example.person.Sex;
  */
 public class PersonImpl extends EObjectImpl implements Person {
     /**
-     * The cached value of the '{@link #getName() <em>Name</em>}' containment reference.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getName() <em>Name</em>}' containment reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getName()
-     * @generated
-     * @ordered
-     */
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
     protected Name name;
 
     /**
-     * The default value of the '{@link #getAge() <em>Age</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getAge() <em>Age</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getAge()
-     * @generated
-     * @ordered
-     */
+	 * @see #getAge()
+	 * @generated
+	 * @ordered
+	 */
     protected static final int AGE_EDEFAULT = 0;
 
     /**
-     * The cached value of the '{@link #getAge() <em>Age</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getAge() <em>Age</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getAge()
-     * @generated
-     * @ordered
-     */
+	 * @see #getAge()
+	 * @generated
+	 * @ordered
+	 */
     protected int age = AGE_EDEFAULT;
 
     /**
-     * The cached value of the '{@link #getEmails() <em>Emails</em>}' attribute list.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getEmails() <em>Emails</em>}' attribute list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getEmails()
-     * @generated
-     * @ordered
-     */
+	 * @see #getEmails()
+	 * @generated
+	 * @ordered
+	 */
     protected EList<String> emails;
 
     /**
-     * The cached value of the '{@link #getPhones() <em>Phones</em>}' attribute list.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getPhones() <em>Phones</em>}' attribute list.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getPhones()
-     * @generated
-     * @ordered
-     */
+	 * @see #getPhones()
+	 * @generated
+	 * @ordered
+	 */
     protected EList<String> phones;
 
     /**
-     * The default value of the '{@link #isMarried() <em>Married</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #isMarried() <em>Married</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isMarried()
-     * @generated
-     * @ordered
-     */
+	 * @see #isMarried()
+	 * @generated
+	 * @ordered
+	 */
     protected static final boolean MARRIED_EDEFAULT = false;
 
     /**
-     * The cached value of the '{@link #isMarried() <em>Married</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #isMarried() <em>Married</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isMarried()
-     * @generated
-     * @ordered
-     */
+	 * @see #isMarried()
+	 * @generated
+	 * @ordered
+	 */
     protected boolean married = MARRIED_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getSex() <em>Sex</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getSex() <em>Sex</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSex()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSex()
+	 * @generated
+	 * @ordered
+	 */
     protected static final Sex SEX_EDEFAULT = Sex.MALE;
 
     /**
-     * The cached value of the '{@link #getSex() <em>Sex</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getSex() <em>Sex</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getSex()
-     * @generated
-     * @ordered
-     */
+	 * @see #getSex()
+	 * @generated
+	 * @ordered
+	 */
     protected Sex sex = SEX_EDEFAULT;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected PersonImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PersonPackage.Literals.PERSON;
-    }
+		return PersonPackage.Literals.PERSON;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Name getName() {
-        return name;
-    }
+		return name;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public NotificationChain basicSetName(Name newName, NotificationChain msgs) {
-        Name oldName = name;
-        name = newName;
-        if (eNotificationRequired()) {
-            ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PersonPackage.PERSON__NAME, oldName, newName);
-            if (msgs == null) msgs = notification; else msgs.add(notification);
-        }
-        return msgs;
-    }
+		Name oldName = name;
+		name = newName;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, PersonPackage.PERSON__NAME, oldName, newName);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setName(Name newName) {
-        if (newName != name) {
-            NotificationChain msgs = null;
-            if (name != null)
-                msgs = ((InternalEObject)name).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PersonPackage.PERSON__NAME, null, msgs);
-            if (newName != null)
-                msgs = ((InternalEObject)newName).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PersonPackage.PERSON__NAME, null, msgs);
-            msgs = basicSetName(newName, msgs);
-            if (msgs != null) msgs.dispatch();
-        }
-        else if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.PERSON__NAME, newName, newName));
-    }
+		if (newName != name) {
+			NotificationChain msgs = null;
+			if (name != null)
+				msgs = ((InternalEObject)name).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - PersonPackage.PERSON__NAME, null, msgs);
+			if (newName != null)
+				msgs = ((InternalEObject)newName).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - PersonPackage.PERSON__NAME, null, msgs);
+			msgs = basicSetName(newName, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.PERSON__NAME, newName, newName));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public int getAge() {
-        return age;
-    }
+		return age;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setAge(int newAge) {
-        int oldAge = age;
-        age = newAge;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.PERSON__AGE, oldAge, age));
-    }
+		int oldAge = age;
+		age = newAge;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.PERSON__AGE, oldAge, age));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList<String> getEmails() {
-        if (emails == null) {
-            emails = new EDataTypeUniqueEList<String>(String.class, this, PersonPackage.PERSON__EMAILS);
-        }
-        return emails;
-    }
+		if (emails == null) {
+			emails = new EDataTypeUniqueEList<String>(String.class, this, PersonPackage.PERSON__EMAILS);
+		}
+		return emails;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EList<String> getPhones() {
-        if (phones == null) {
-            phones = new EDataTypeUniqueEList<String>(String.class, this, PersonPackage.PERSON__PHONES);
-        }
-        return phones;
-    }
+		if (phones == null) {
+			phones = new EDataTypeUniqueEList<String>(String.class, this, PersonPackage.PERSON__PHONES);
+		}
+		return phones;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean isMarried() {
-        return married;
-    }
+		return married;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setMarried(boolean newMarried) {
-        boolean oldMarried = married;
-        married = newMarried;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.PERSON__MARRIED, oldMarried, married));
-    }
+		boolean oldMarried = married;
+		married = newMarried;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.PERSON__MARRIED, oldMarried, married));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public Sex getSex() {
-        return sex;
-    }
+		return sex;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setSex(Sex newSex) {
-        Sex oldSex = sex;
-        sex = newSex == null ? SEX_EDEFAULT : newSex;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.PERSON__SEX, oldSex, sex));
-    }
+		Sex oldSex = sex;
+		sex = newSex == null ? SEX_EDEFAULT : newSex;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.PERSON__SEX, oldSex, sex));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-        switch (featureID) {
-            case PersonPackage.PERSON__NAME:
-                return basicSetName(null, msgs);
-        }
-        return super.eInverseRemove(otherEnd, featureID, msgs);
-    }
+		switch (featureID) {
+			case PersonPackage.PERSON__NAME:
+				return basicSetName(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PersonPackage.PERSON__NAME:
-                return getName();
-            case PersonPackage.PERSON__AGE:
-                return new Integer(getAge());
-            case PersonPackage.PERSON__EMAILS:
-                return getEmails();
-            case PersonPackage.PERSON__PHONES:
-                return getPhones();
-            case PersonPackage.PERSON__MARRIED:
-                return isMarried() ? Boolean.TRUE : Boolean.FALSE;
-            case PersonPackage.PERSON__SEX:
-                return getSex();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case PersonPackage.PERSON__NAME:
+				return getName();
+			case PersonPackage.PERSON__AGE:
+				return new Integer(getAge());
+			case PersonPackage.PERSON__EMAILS:
+				return getEmails();
+			case PersonPackage.PERSON__PHONES:
+				return getPhones();
+			case PersonPackage.PERSON__MARRIED:
+				return isMarried() ? Boolean.TRUE : Boolean.FALSE;
+			case PersonPackage.PERSON__SEX:
+				return getSex();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @SuppressWarnings("unchecked")
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PersonPackage.PERSON__NAME:
-                setName((Name)newValue);
-                return;
-            case PersonPackage.PERSON__AGE:
-                setAge(((Integer)newValue).intValue());
-                return;
-            case PersonPackage.PERSON__EMAILS:
-                getEmails().clear();
-                getEmails().addAll((Collection<? extends String>)newValue);
-                return;
-            case PersonPackage.PERSON__PHONES:
-                getPhones().clear();
-                getPhones().addAll((Collection<? extends String>)newValue);
-                return;
-            case PersonPackage.PERSON__MARRIED:
-                setMarried(((Boolean)newValue).booleanValue());
-                return;
-            case PersonPackage.PERSON__SEX:
-                setSex((Sex)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case PersonPackage.PERSON__NAME:
+				setName((Name)newValue);
+				return;
+			case PersonPackage.PERSON__AGE:
+				setAge(((Integer)newValue).intValue());
+				return;
+			case PersonPackage.PERSON__EMAILS:
+				getEmails().clear();
+				getEmails().addAll((Collection<? extends String>)newValue);
+				return;
+			case PersonPackage.PERSON__PHONES:
+				getPhones().clear();
+				getPhones().addAll((Collection<? extends String>)newValue);
+				return;
+			case PersonPackage.PERSON__MARRIED:
+				setMarried(((Boolean)newValue).booleanValue());
+				return;
+			case PersonPackage.PERSON__SEX:
+				setSex((Sex)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case PersonPackage.PERSON__NAME:
-                setName((Name)null);
-                return;
-            case PersonPackage.PERSON__AGE:
-                setAge(AGE_EDEFAULT);
-                return;
-            case PersonPackage.PERSON__EMAILS:
-                getEmails().clear();
-                return;
-            case PersonPackage.PERSON__PHONES:
-                getPhones().clear();
-                return;
-            case PersonPackage.PERSON__MARRIED:
-                setMarried(MARRIED_EDEFAULT);
-                return;
-            case PersonPackage.PERSON__SEX:
-                setSex(SEX_EDEFAULT);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case PersonPackage.PERSON__NAME:
+				setName((Name)null);
+				return;
+			case PersonPackage.PERSON__AGE:
+				setAge(AGE_EDEFAULT);
+				return;
+			case PersonPackage.PERSON__EMAILS:
+				getEmails().clear();
+				return;
+			case PersonPackage.PERSON__PHONES:
+				getPhones().clear();
+				return;
+			case PersonPackage.PERSON__MARRIED:
+				setMarried(MARRIED_EDEFAULT);
+				return;
+			case PersonPackage.PERSON__SEX:
+				setSex(SEX_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PersonPackage.PERSON__NAME:
-                return name != null;
-            case PersonPackage.PERSON__AGE:
-                return age != AGE_EDEFAULT;
-            case PersonPackage.PERSON__EMAILS:
-                return emails != null && !emails.isEmpty();
-            case PersonPackage.PERSON__PHONES:
-                return phones != null && !phones.isEmpty();
-            case PersonPackage.PERSON__MARRIED:
-                return married != MARRIED_EDEFAULT;
-            case PersonPackage.PERSON__SEX:
-                return sex != SEX_EDEFAULT;
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case PersonPackage.PERSON__NAME:
+				return name != null;
+			case PersonPackage.PERSON__AGE:
+				return age != AGE_EDEFAULT;
+			case PersonPackage.PERSON__EMAILS:
+				return emails != null && !emails.isEmpty();
+			case PersonPackage.PERSON__PHONES:
+				return phones != null && !phones.isEmpty();
+			case PersonPackage.PERSON__MARRIED:
+				return married != MARRIED_EDEFAULT;
+			case PersonPackage.PERSON__SEX:
+				return sex != SEX_EDEFAULT;
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (age: ");
-        result.append(age);
-        result.append(", emails: ");
-        result.append(emails);
-        result.append(", phones: ");
-        result.append(phones);
-        result.append(", married: ");
-        result.append(married);
-        result.append(", sex: ");
-        result.append(sex);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (age: ");
+		result.append(age);
+		result.append(", emails: ");
+		result.append(emails);
+		result.append(", phones: ");
+		result.append(phones);
+		result.append(", married: ");
+		result.append(married);
+		result.append(", sex: ");
+		result.append(sex);
+		result.append(')');
+		return result.toString();
+	}
 
 } //PersonImpl

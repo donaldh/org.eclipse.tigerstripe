@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: NameImpl.java,v 1.2 2008/05/11 12:41:56 ystrot Exp $
+ * $Id: NameImpl.java,v 1.3 2008/05/12 04:57:19 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.person.impl;
 
@@ -43,190 +43,190 @@ import org.eclipse.tigerstripe.annotation.example.person.PersonPackage;
  */
 public class NameImpl extends EObjectImpl implements Name {
     /**
-     * The default value of the '{@link #getFirstName() <em>First Name</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getFirstName() <em>First Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getFirstName()
-     * @generated
-     * @ordered
-     */
+	 * @see #getFirstName()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String FIRST_NAME_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getFirstName() <em>First Name</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getFirstName() <em>First Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getFirstName()
-     * @generated
-     * @ordered
-     */
+	 * @see #getFirstName()
+	 * @generated
+	 * @ordered
+	 */
     protected String firstName = FIRST_NAME_EDEFAULT;
 
     /**
-     * The default value of the '{@link #getLastName() <em>Last Name</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getLastName() <em>Last Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getLastName()
-     * @generated
-     * @ordered
-     */
+	 * @see #getLastName()
+	 * @generated
+	 * @ordered
+	 */
     protected static final String LAST_NAME_EDEFAULT = null;
 
     /**
-     * The cached value of the '{@link #getLastName() <em>Last Name</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getLastName() <em>Last Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getLastName()
-     * @generated
-     * @ordered
-     */
+	 * @see #getLastName()
+	 * @generated
+	 * @ordered
+	 */
     protected String lastName = LAST_NAME_EDEFAULT;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected NameImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return PersonPackage.Literals.NAME;
-    }
+		return PersonPackage.Literals.NAME;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String getFirstName() {
-        return firstName;
-    }
+		return firstName;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setFirstName(String newFirstName) {
-        String oldFirstName = firstName;
-        firstName = newFirstName;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.NAME__FIRST_NAME, oldFirstName, firstName));
-    }
+		String oldFirstName = firstName;
+		firstName = newFirstName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.NAME__FIRST_NAME, oldFirstName, firstName));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public String getLastName() {
-        return lastName;
-    }
+		return lastName;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setLastName(String newLastName) {
-        String oldLastName = lastName;
-        lastName = newLastName;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.NAME__LAST_NAME, oldLastName, lastName));
-    }
+		String oldLastName = lastName;
+		lastName = newLastName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, PersonPackage.NAME__LAST_NAME, oldLastName, lastName));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case PersonPackage.NAME__FIRST_NAME:
-                return getFirstName();
-            case PersonPackage.NAME__LAST_NAME:
-                return getLastName();
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case PersonPackage.NAME__FIRST_NAME:
+				return getFirstName();
+			case PersonPackage.NAME__LAST_NAME:
+				return getLastName();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case PersonPackage.NAME__FIRST_NAME:
-                setFirstName((String)newValue);
-                return;
-            case PersonPackage.NAME__LAST_NAME:
-                setLastName((String)newValue);
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case PersonPackage.NAME__FIRST_NAME:
+				setFirstName((String)newValue);
+				return;
+			case PersonPackage.NAME__LAST_NAME:
+				setLastName((String)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case PersonPackage.NAME__FIRST_NAME:
-                setFirstName(FIRST_NAME_EDEFAULT);
-                return;
-            case PersonPackage.NAME__LAST_NAME:
-                setLastName(LAST_NAME_EDEFAULT);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case PersonPackage.NAME__FIRST_NAME:
+				setFirstName(FIRST_NAME_EDEFAULT);
+				return;
+			case PersonPackage.NAME__LAST_NAME:
+				setLastName(LAST_NAME_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case PersonPackage.NAME__FIRST_NAME:
-                return FIRST_NAME_EDEFAULT == null ? firstName != null : !FIRST_NAME_EDEFAULT.equals(firstName);
-            case PersonPackage.NAME__LAST_NAME:
-                return LAST_NAME_EDEFAULT == null ? lastName != null : !LAST_NAME_EDEFAULT.equals(lastName);
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case PersonPackage.NAME__FIRST_NAME:
+				return FIRST_NAME_EDEFAULT == null ? firstName != null : !FIRST_NAME_EDEFAULT.equals(firstName);
+			case PersonPackage.NAME__LAST_NAME:
+				return LAST_NAME_EDEFAULT == null ? lastName != null : !LAST_NAME_EDEFAULT.equals(lastName);
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (firstName: ");
-        result.append(firstName);
-        result.append(", lastName: ");
-        result.append(lastName);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (firstName: ");
+		result.append(firstName);
+		result.append(", lastName: ");
+		result.append(lastName);
+		result.append(')');
+		return result.toString();
+	}
 
 } //NameImpl

@@ -26,13 +26,13 @@ public interface Person extends EObject {
 	Name getName();
 
     /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Person#getName <em>Name</em>}' containment reference.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Person#getName <em>Name</em>}' containment reference.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Name</em>' containment reference.
-     * @see #getName()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Name</em>' containment reference.
+	 * @see #getName()
+	 * @generated
+	 */
     void setName(Name value);
 
     /**
@@ -41,13 +41,13 @@ public interface Person extends EObject {
 	int getAge();
 
     /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Person#getAge <em>Age</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Person#getAge <em>Age</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Age</em>' attribute.
-     * @see #getAge()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Age</em>' attribute.
+	 * @see #getAge()
+	 * @generated
+	 */
     void setAge(int value);
 
     /**
@@ -66,13 +66,13 @@ public interface Person extends EObject {
 	boolean isMarried();
 
     /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Person#isMarried <em>Married</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Person#isMarried <em>Married</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Married</em>' attribute.
-     * @see #isMarried()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Married</em>' attribute.
+	 * @see #isMarried()
+	 * @generated
+	 */
     void setMarried(boolean value);
     
 	/**
@@ -81,14 +81,14 @@ public interface Person extends EObject {
     Sex getSex();
 
     /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Person#getSex <em>Sex</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Person#getSex <em>Sex</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Sex</em>' attribute.
-     * @see org.eclipse.tigerstripe.annotation.example.person.Sex
-     * @see #getSex()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Sex</em>' attribute.
+	 * @see org.eclipse.tigerstripe.annotation.example.person.Sex
+	 * @see #getSex()
+	 * @generated
+	 */
     void setSex(Sex value);
 
 }

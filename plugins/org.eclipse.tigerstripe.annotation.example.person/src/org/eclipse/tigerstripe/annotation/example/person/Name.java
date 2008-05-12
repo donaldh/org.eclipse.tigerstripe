@@ -25,13 +25,13 @@ public interface Name extends EObject {
 	String getFirstName();
 
     /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Name#getFirstName <em>First Name</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Name#getFirstName <em>First Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>First Name</em>' attribute.
-     * @see #getFirstName()
-     * @generated
-     */
+	 * @param value the new value of the '<em>First Name</em>' attribute.
+	 * @see #getFirstName()
+	 * @generated
+	 */
     void setFirstName(String value);
 
     /**
@@ -40,13 +40,13 @@ public interface Name extends EObject {
 	String getLastName();
 
     /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Name#getLastName <em>Last Name</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.person.Name#getLastName <em>Last Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Last Name</em>' attribute.
-     * @see #getLastName()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Last Name</em>' attribute.
+	 * @see #getLastName()
+	 * @generated
+	 */
     void setLastName(String value);
 
 }
