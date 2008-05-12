@@ -17,8 +17,11 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.associati
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.datatype.DatatypeArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.entity.EntityArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.enumeration.EnumArtifactEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.event.EventArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.exception.ExceptionArtifactEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.query.QueryArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.session.SessionArtifactEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.updateProcedure.UpdateProcedureArtifactEditor;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -121,7 +124,10 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		if (getEditor() instanceof EntityArtifactEditor
 				|| getEditor() instanceof DatatypeArtifactEditor
 				|| getEditor() instanceof ExceptionArtifactEditor
-				|| getEditor() instanceof AssociationClassArtifactEditor) {
+				|| getEditor() instanceof AssociationClassArtifactEditor
+				|| getEditor() instanceof QueryArtifactEditor
+				|| getEditor() instanceof UpdateProcedureArtifactEditor
+				|| getEditor() instanceof EventArtifactEditor) {
 			return ExpandableComposite.EXPANDED;
 		}
 		return ExpandableComposite.COMPACT;
