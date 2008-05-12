@@ -120,7 +120,6 @@ public abstract class AbstractArtifactAuditor {
 			for (IConfigurationElement element : elements){
 				final IArtifactAuditor customRule  = (IArtifactAuditor) element.createExecutableExtension("auditorClass");
 				final IProgressMonitor finalMonitor = monitor;
-				String mapperName = element.getAttribute("name");
 
 				SafeRunner.run(new ISafeRunnable() {
 					public void handleException(Throwable exception) {

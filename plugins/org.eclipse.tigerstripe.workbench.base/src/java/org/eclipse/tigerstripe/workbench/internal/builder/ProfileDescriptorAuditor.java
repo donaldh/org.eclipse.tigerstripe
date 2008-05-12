@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.builder;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -26,23 +27,29 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class ProfileDescriptorAuditor {
+public class ProfileDescriptorAuditor implements IFileExtensionBasedAuditor{
 
-	private IProject project;
+/*	private IProject project;
 
 	public ProfileDescriptorAuditor(IProject project) {
 		this.project = project;
+	}*/
+	
+	String extension = IWorkbenchProfile.FILE_EXTENSION;
+	
+	public String getFileExtension(){
+		return extension;
 	}
 
-	public void run(IResource[] resources, IProgressMonitor monitor) {
+	public void run(IProject project, List<IResource> resources, IProgressMonitor monitor) {
 
-		if (resources == null || resources.length == 0)
+		if (resources == null || resources.size() == 0)
 			return;
 
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project
 				.getAdapter(ITigerstripeModelProject.class);
 		if (tsProject != null) {
-			monitor.beginTask("Checking profile description", resources.length);
+			monitor.beginTask("Checking profile description", resources.size());
 
 			for (IResource res : resources) {
 				try {
@@ -60,7 +67,7 @@ public class ProfileDescriptorAuditor {
 			monitor.done();
 		} else {
 			TigerstripeProjectAuditor.reportError("Project '"
-					+ project.getName() + "' is invalid", project, 222);
+					+ project.getName() + "' contains invalid profile", project, 222);
 		}
 	}
 

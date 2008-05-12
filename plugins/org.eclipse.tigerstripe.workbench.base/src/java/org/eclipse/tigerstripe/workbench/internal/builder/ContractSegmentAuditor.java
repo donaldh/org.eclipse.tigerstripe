@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,26 +33,25 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
-public class ContractSegmentAuditor {
+public class ContractSegmentAuditor implements IFileExtensionBasedAuditor{
 
 	private IProject project;
 
-	public ContractSegmentAuditor(IProject project) {
+	String extension = IContractSegment.FILE_EXTENSION;
+
+	public String getFileExtension(){
+		return extension;
+	}
+	
+	public void run(IProject project, List<IResource> resources, IProgressMonitor monitor) {
+
 		this.project = project;
-	}
-
-	private ITigerstripeModelProject getTSProject() {
-		return (ITigerstripeModelProject) project
-				.getAdapter(ITigerstripeModelProject.class);
-	}
-
-	public void run(IResource[] resources, IProgressMonitor monitor) {
-
-		if (resources == null || resources.length == 0)
+		
+		if (resources == null || resources.size() == 0)
 			return;
 
 		if (getTSProject() != null) {
-			monitor.beginTask("Checking Contract Facets", resources.length);
+			monitor.beginTask("Checking Contract Facets", resources.size());
 
 			for (IResource res : resources) {
 				try {
@@ -82,6 +82,11 @@ public class ContractSegmentAuditor {
 		}
 	}
 
+	private ITigerstripeModelProject getTSProject() {
+		return (ITigerstripeModelProject) project
+		.getAdapter(ITigerstripeModelProject.class);
+	}
+	
 	private void checkFacetRefs(IContractSegment facet, IResource res) {
 		for (IFacetReference ref : facet.getFacetReferences()) {
 			if (!ref.canResolve()) {
@@ -94,8 +99,8 @@ public class ContractSegmentAuditor {
 				try {
 					if (ref.resolve().getURI().equals(facet.getURI())) {
 						TigerstripeProjectAuditor.reportError(
-								"A facet can't reference itself. (in "
-										+ facet.getName() + "')", res, 222);
+								"A facet can't reference itself. ( "
+										+ facet.getName() + ")", res, 222);
 					}
 				} catch (TigerstripeException e) {
 					BasePlugin.log(e);

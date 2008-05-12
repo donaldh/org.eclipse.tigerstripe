@@ -4,6 +4,7 @@
    <extension-point id="diagramRendering" name="Tigerstripe Explorer Diagram Rendering" schema="schema/diagramRendering.exsd"/>
    <extension-point id="tigerstripeChangeListener" name="Tigerstripe Change Listener Extension" schema="schema/tigerstripeChangeListener.exsd"/>
    <extension-point id="customArtifactAuditor" name="Tigerstripe Custom Artifact Auditor" schema="schema/customArtifactAuditor.exsd"/>
+   <extension-point id="fileExtensionBasedAuditor" name="File Extension Based Auditor" schema="schema/fileExtensionBasedAuditor.exsd"/>
    <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
@@ -137,6 +138,17 @@
                class="org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature">
          </run>
       </runtime>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.workbench.base.fileExtensionBasedAuditor">
+      <fileExtensionBasedRule
+            auditorClass="org.eclipse.tigerstripe.workbench.internal.builder.ProfileDescriptorAuditor"
+            name="ProfileDescriptorAuditor">
+      </fileExtensionBasedRule>
+      <fileExtensionBasedRule
+            auditorClass="org.eclipse.tigerstripe.workbench.internal.builder.ContractSegmentAuditor"
+            name="ContractSegmentAuditor">
+      </fileExtensionBasedRule>
    </extension>
 
 </plugin>

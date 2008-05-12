@@ -33,9 +33,13 @@ import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
@@ -387,35 +391,33 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	 */
 	private void runAuditorsByFileExtensions(int kind, IProgressMonitor monitor) {
 
-		// First the Profiles
-		String extension = IWorkbenchProfile.FILE_EXTENSION;
-		ProfileDescriptorAuditor auditor = new ProfileDescriptorAuditor(
-				getProject());
-		List<IResource> wbps = null;
+		
+		// Run any custom rules that are defined in the extension point.
+		try {
+			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
+			.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.fileExtensionBasedAuditor");
+			for (IConfigurationElement element : elements){
+				final IFileExtensionBasedAuditor customRule  = (IFileExtensionBasedAuditor) element.createExecutableExtension("auditorClass");
+				final IProgressMonitor finalMonitor = monitor;
+				System.out.println(element.getAttribute("name"));
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
 
-		// if ( delta.getKind() != IResourceDelta.NO_CHANGE ) {
-		// wbps = findResourcesFromDelta(delta, extension);
-		// } else if (kind == FULL_BUILD || kind == CLEAN_BUILD ) {
-		wbps = findAll(getProject(), extension);
-		// }
-		if (checkCancel(monitor))
-			return;
+					public void run() throws Exception {
+						String extension = customRule.getFileExtension();
+						List<IResource> resources = null;
+						resources = findAll(getProject(), extension);
+						customRule.run(getProject(), resources, finalMonitor);
+					}
 
-		if (wbps != null && wbps.size() != 0)
-			auditor.run(wbps.toArray(new IResource[wbps.size()]), monitor);
-
-		// Then the ContractSegments
-		extension = IContractSegment.FILE_EXTENSION;
-		ContractSegmentAuditor cAuditor = new ContractSegmentAuditor(
-				getProject());
-		List<IResource> wcss = null;
-		wcss = findAll(getProject(), extension);
-
-		if (checkCancel(monitor))
-			return;
-
-		if (wcss != null && wcss.size() != 0)
-			cAuditor.run(wcss.toArray(new IResource[wcss.size()]), monitor);
+				});
+			}
+		}catch (CoreException e ){
+			TigerstripeProjectAuditor.reportError(
+					"Invalid custom audit definitions.", getProject(), 222);
+		}
 
 	}
 
