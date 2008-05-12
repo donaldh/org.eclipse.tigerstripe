@@ -12,8 +12,13 @@ package org.eclipse.tigerstripe.workbench.internal.builder;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -107,6 +112,33 @@ public abstract class AbstractArtifactAuditor {
 		checkImplementedArtifacts();
 		checkStereotypes(getArtifact(), "artifact '" + getArtifact().getName()
 				+ "'");
+		
+		// Run any custom rules that are defined in the extension point.
+		try {
+			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
+			.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.customArtifactAuditor");
+			for (IConfigurationElement element : elements){
+				final IArtifactAuditor customRule  = (IArtifactAuditor) element.createExecutableExtension("auditorClass");
+				final IProgressMonitor finalMonitor = monitor;
+				String mapperName = element.getAttribute("name");
+
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
+
+					public void run() throws Exception {
+						customRule.setDetails(project, artifact);
+						customRule.run(finalMonitor);
+					}
+
+				});
+			}
+		}catch (CoreException e ){
+			TigerstripeProjectAuditor.reportError(
+					"Invalid custom audit definitions.", getIProject(), 222);
+		}
+
 	}
 
 	private void checkStereotypes(IStereotypeCapable capable, String location) {
