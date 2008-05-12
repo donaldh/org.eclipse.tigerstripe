@@ -50,6 +50,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -67,8 +68,12 @@ import org.eclipse.tigerstripe.workbench.ui.internal.wizards.model.ArtifactAttri
  * Preferences - Java - Code Style - Code Templates
  */
 public class AttributesSelectionDialog extends TSMessageDialog {
-
+	
 	private final static String PAGE_NAME = "AttributesSelectionDialog";
+	
+	private final static int UNIQUE = 2;
+	
+	private final static int ORDERED = 3;
 
 	private SelectionButtonDialogFieldGroup fAccMdfButtons;
 
@@ -336,7 +341,10 @@ public class AttributesSelectionDialog extends TSMessageDialog {
 		}
 		// attributeDimensionDialogField.setText(String
 		// .valueOf(initialAttributeRef.getDimensions()));
-		multiplicityCombo.selectItem(initialAttributeRef.getDimensions());
+		
+		
+//		multiplicityCombo.selectItem(IModelComponent.EMultiplicity
+//				.indexOf(initialArgument.getType().getTypeMultiplicity()));
 
 		if (initialAttributeRef.getRefBy() == AttributeRef.NON_APPLICABLE) {
 			fRefByButtons.setEnabled(false);
@@ -352,11 +360,13 @@ public class AttributesSelectionDialog extends TSMessageDialog {
 					(AttributeRef.REFBY_KEYRESULT == initialAttributeRef
 							.getRefBy()));
 		}
-
+		
 		attrModifierButtons.setSelection(0, initialAttributeRef.isOptional());
 		attrModifierButtons.setSelection(1, initialAttributeRef.isReadOnly());
 		attrModifierButtons.setSelection(2, initialAttributeRef.isUnique());
 		attrModifierButtons.setSelection(3, initialAttributeRef.isOrdered());
+		
+		multiplicityCombo.selectItem(initialAttributeRef.getDimensions());
 	}
 
 	protected void setDefaultMessage() {
@@ -473,6 +483,18 @@ public class AttributesSelectionDialog extends TSMessageDialog {
 			// TODO check this is an int
 		} else if (field == attributeNameDialogField) {
 			validateAttribute();
+		} else if (field == multiplicityCombo) {
+			if(IModelComponent.EMultiplicity
+					.parse(multiplicityCombo.getText()).isArray()) {
+				attrModifierButtons.enableSelectionButton(ORDERED, true);
+				attrModifierButtons.enableSelectionButton(UNIQUE, true);
+					
+			} else {
+				attrModifierButtons.enableSelectionButton(ORDERED, false);
+				attrModifierButtons.setSelection(ORDERED, false);
+				attrModifierButtons.enableSelectionButton(UNIQUE, false);
+				attrModifierButtons.setSelection(UNIQUE, true);
+			}
 		}
 
 		for (int i = 0; i < 4; i++) {

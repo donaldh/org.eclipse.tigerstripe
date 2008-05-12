@@ -957,13 +957,18 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			multiplicityLabel.setEnabled(!isReadOnly);
 			returnLabel.setEnabled(!isReadOnly);
 			returnValueLabel.setEnabled(!isReadOnly);
-			if (!getMethod().getReturnType().getTypeMultiplicity().isArray()) {
-				orderedButton.setEnabled(false);
-				uniqueButton.setEnabled(false);
-			} else {
+			if (getMethod().getReturnType().getTypeMultiplicity().isArray()) {
 				orderedButton.setEnabled(true);
-				uniqueButton.setEnabled(true);
+				uniqueButton.setEnabled(true);	
+			} else {
+				orderedButton.setEnabled(false);
+				orderedButton.setSelection(false);
+				getMethod().setOrdered(false);
+				uniqueButton.setEnabled(false);
+				uniqueButton.setSelection(true);
+				getMethod().setUnique(true);
 			}
+			
 		} else {
 			defaultReturnValue.clearSelection();
 			defaultReturnValue.setText("");

@@ -79,7 +79,11 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
  * Preferences - Java - Code Style - Code Templates
  */
 public class ArgumentEditDialog extends TSMessageDialog {
-
+	
+	private final static int ORDERED = 0;
+	
+	private final static int UNIQUE = 1;
+	
 	private final static String PAGE_NAME = "ParametersSelectionDialog";
 
 	private StringButtonDialogField attributeClassDialogField;
@@ -171,9 +175,6 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		// attributeDimensionDialogField.setLabelText("Attribute Dimensions:");
 		// //$NON-NLS-1$
 
-		String[] multiItems = new String[2];
-		multiItems[0] = "0..1";
-		multiItems[1] = "*";
 		multiplicityCombo = new ComboDialogField(0);
 		multiplicityCombo.setItems(IModelComponent.EMultiplicity.labels());
 		multiplicityCombo.setLabelText("Multiplicity");
@@ -382,10 +383,8 @@ public class ArgumentEditDialog extends TSMessageDialog {
 			}
 		}
 
-		modifierButtons.setSelection(0 // ORDERED
-				, initialArgument.isOrdered());
-		modifierButtons.setSelection(1 // UNIQUE
-				, initialArgument.isUnique());
+		modifierButtons.setSelection(ORDERED, initialArgument.isOrdered());
+		modifierButtons.setSelection(UNIQUE, initialArgument.isUnique());
 
 		multiplicityCombo.selectItem(IModelComponent.EMultiplicity
 				.indexOf(initialArgument.getType().getTypeMultiplicity()));
@@ -535,6 +534,18 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		} else if (field == defaultValueField) {
 			attributeDefaultValue = defaultValueField.getText();
 			defaultValueIsSet = true;
+		} else if (field == multiplicityCombo) {
+			if(IModelComponent.EMultiplicity
+					.at(multiplicityCombo.getSelectionIndex()).isArray()) {
+				modifierButtons.enableSelectionButton(ORDERED, true);
+				modifierButtons.enableSelectionButton(UNIQUE, true);
+					
+			} else {
+				modifierButtons.enableSelectionButton(ORDERED, false);
+				modifierButtons.setSelection(ORDERED, false);
+				modifierButtons.enableSelectionButton(UNIQUE, false);
+				modifierButtons.setSelection(UNIQUE, true);
+			}
 		}
 		validateParam();
 	}

@@ -450,14 +450,16 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 			if (refByValueButton != null)
 				refByValueButton.setEnabled(false);
 		}
-		if (!getField().getType().getTypeMultiplicity().isArray()) {
+		if (getField().getType().getTypeMultiplicity().isArray()) {
+			orderedButton.setEnabled(true);
+			uniqueButton.setEnabled(true);	
+		} else {
 			orderedButton.setEnabled(false);
 			orderedButton.setSelection(false);
+			field.setOrdered(false);
 			uniqueButton.setEnabled(false);
-			uniqueButton.setSelection(false);
-		} else {
-			orderedButton.setEnabled(true);
-			uniqueButton.setEnabled(true);
+			uniqueButton.setSelection(true);
+			field.setUnique(true);
 		}
 		setSilentUpdate(false);
 	}

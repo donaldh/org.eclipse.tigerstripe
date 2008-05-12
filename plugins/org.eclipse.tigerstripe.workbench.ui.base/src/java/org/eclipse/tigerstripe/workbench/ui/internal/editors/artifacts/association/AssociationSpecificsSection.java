@@ -622,8 +622,21 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		aEndMultiplicityCombo.select(indexIn(mulStrs, aEnd.getMultiplicity()
 				.getLabel()));
 		aEndIsNavigableButton.setSelection(aEnd.isNavigable());
-		aEndIsOrderedButton.setSelection(aEnd.isOrdered());
-		aEndIsUniqueButton.setSelection(aEnd.isUnique());
+		
+		if (aEnd.getMultiplicity().isArray()) {
+			aEndIsOrderedButton.setEnabled(true);
+			aEndIsOrderedButton.setSelection(aEnd.isOrdered());
+			aEndIsUniqueButton.setEnabled(true);
+			aEndIsUniqueButton.setSelection(aEnd.isUnique());
+		} else {
+			aEndIsOrderedButton.setEnabled(false);
+			aEndIsOrderedButton.setSelection(false);
+			aEnd.setOrdered(false);
+			aEndIsUniqueButton.setEnabled(false);
+			aEndIsUniqueButton.setSelection(true);
+			aEnd.setUnique(true);
+		}
+		
 		setAEndVisibility(aEnd.getVisibility());
 
 		// Update zEnd
@@ -638,11 +651,22 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		zEndMultiplicityCombo.select(indexIn(mulStrs, zEnd.getMultiplicity()
 				.getLabel()));
 		zEndIsNavigableButton.setSelection(zEnd.isNavigable());
-		zEndIsOrderedButton.setSelection(zEnd.isOrdered());
-		zEndIsUniqueButton.setSelection(zEnd.isUnique());
+		
+		if (zEnd.getMultiplicity().isArray()) {
+			zEndIsOrderedButton.setEnabled(true);
+			zEndIsOrderedButton.setSelection(zEnd.isOrdered());
+			zEndIsUniqueButton.setEnabled(true);
+			zEndIsUniqueButton.setSelection(zEnd.isUnique());
+		} else {
+			zEndIsOrderedButton.setEnabled(false);
+			zEndIsOrderedButton.setSelection(false);
+			zEnd.setOrdered(false);
+			zEndIsUniqueButton.setEnabled(false);
+			zEndIsUniqueButton.setSelection(true);
+			zEnd.setUnique(true);
+		}
 
 		setZEndVisibility(zEnd.getVisibility());
-
 		setSilentUpdate(false);
 	}
 
@@ -724,6 +748,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 					aEnd.setMultiplicity(IModelComponent.EMultiplicity
 							.parse(label));
 					markPageModified();
+					updateForm();
 				}
 			} else if (e.getSource() == zEndMultiplicityCombo) {
 				int i = zEndMultiplicityCombo.getSelectionIndex();
@@ -732,6 +757,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 					zEnd.setMultiplicity(IModelComponent.EMultiplicity
 							.parse(label));
 					markPageModified();
+					updateForm();
 				}
 			} else if (e.getSource() == aEndChangeableCombo) {
 				int i = aEndChangeableCombo.getSelectionIndex();
