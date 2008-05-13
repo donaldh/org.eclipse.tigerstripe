@@ -385,26 +385,43 @@ public abstract class ArtifactComponent implements IModelComponent,
 		{
 			if(a.getUri().scheme().equals(schemeID))
 			{
-				annotations.add(a);
+				annotations.add(a.getContent());
 			}
 		}
 		return Collections.unmodifiableList(annotations);
 	}
 	
-	public Object getAnnotation(String schemeID,
-			String annotationSpecificationID) {
+	public Object getAnnotation(String schemeID, String annotationSpecificationID) {
 		List<Object> all = getAnnotations(schemeID);
 		for(Object obj : all)
 		{
-			Annotation a = (Annotation)obj;
-			return a;
-			// And just how do I select an annotation??
-//			if(a.)
+			if(isAnnotationMatch(annotationSpecificationID, obj))
+				return obj;
 		}
 
 		return null;
 	}
 
+	/**
+	 * @param annotationSpecificationID
+	 * @param obj
+	 * @return
+	 */
+	private boolean isAnnotationMatch(String annotationSpecificationID,	Object obj) {
+		return obj.getClass().getName().endsWith(annotationSpecificationID);
+	}
+	
+	public List<Object> getAnnotations(String schemeID, String annotationSpecificationID) {
+		List<Object> annotations = getAnnotations(schemeID);
+		for(Iterator<Object> i = annotations.iterator(); i.hasNext(); )
+		{
+			if(!isAnnotationMatch(annotationSpecificationID, i.next()))
+				i.remove();
+		}
+
+		return Collections.unmodifiableList(annotations);
+	}
+	
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		if (getParentArtifact() != null)
 			return getParentArtifact().getProject();
