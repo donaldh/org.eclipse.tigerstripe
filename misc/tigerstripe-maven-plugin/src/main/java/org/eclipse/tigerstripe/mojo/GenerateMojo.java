@@ -32,6 +32,12 @@ public class GenerateMojo extends AbstractMojo {
 
 	private static final String GENERATION_PROJECT_ARG = "GENERATION_PROJECT";
 	
+	protected static final String WIN_ECLIPSE_EXE = "eclipsec.exe";
+	
+	protected static final String MAC_ECLIPSE_EXE = "eclipse";
+	
+	protected static final String LNX_ECLIPSE_EXE = MAC_ECLIPSE_EXE;
+	
 	/**
 	 * @parameter expression="${workspace}"
 	 * @required
@@ -58,7 +64,7 @@ public class GenerateMojo extends AbstractMojo {
 		}
 		
 		Commandline cl = new Commandline();
-		cl.setExecutable(System.getenv("ECLIPSE_HOME") + File.separator + "eclipsec.exe");
+		cl.setExecutable(System.getenv("ECLIPSE_HOME") + File.separator + getExecutableForOs(System.getProperty("os.name")));
 		cl.createArg(true).setValue("-nosplash");
 		cl.createArg().setValue("-data");
 		cl.createArg().setValue(workspace);
@@ -85,5 +91,19 @@ public class GenerateMojo extends AbstractMojo {
 		} catch (Exception e) {
 			throw new MojoExecutionException("Command execution failed.", e);
 		}
+	}
+
+	protected String getExecutableForOs(String osName) {
+		
+		if(osName.startsWith("Mac OS")) {
+			return MAC_ECLIPSE_EXE;
+		}
+		else if (osName.startsWith("Linux")) {
+			return LNX_ECLIPSE_EXE;
+		}
+		else if (osName.startsWith("Windows")) {
+			return WIN_ECLIPSE_EXE;
+		}
+		throw new UnsupportedOperationException(osName + "is not currently supported.");
 	}
 }
