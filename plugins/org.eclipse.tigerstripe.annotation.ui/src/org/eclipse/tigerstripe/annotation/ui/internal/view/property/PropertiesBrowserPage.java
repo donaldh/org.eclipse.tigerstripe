@@ -204,7 +204,7 @@ public class PropertiesBrowserPage
 		parent.setLayout(new FormLayout());
 		
 		TabbedPropertyTitle title = new TabbedPropertyTitle(parent, factory);
-		title.setTitle("Annotation URI:", null);
+		title.setTitle("Annotations", null);
 
         FormData formData = new FormData();
         formData.left = new FormAttachment(0, 0);

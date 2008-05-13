@@ -12,10 +12,8 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.ui.PlatformUI;
 
 
@@ -38,11 +36,7 @@ public class CommonLabelProvider
 		}
 
 		public String getText(Object element) {
-			if (element instanceof IStructuredSelection) {
-				Annotation annotation = (Annotation)((IStructuredSelection)element).getFirstElement();
-				return annotation.getUri().toString();
-			}
-			return "";
+			return " ";
 		}
 	};
 	
