@@ -399,7 +399,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			for (IConfigurationElement element : elements){
 				final IFileExtensionBasedAuditor customRule  = (IFileExtensionBasedAuditor) element.createExecutableExtension("auditorClass");
 				final IProgressMonitor finalMonitor = monitor;
-				System.out.println(element.getAttribute("name"));
 				SafeRunner.run(new ISafeRunnable() {
 					public void handleException(Throwable exception) {
 						BasePlugin.log(exception);
@@ -533,6 +532,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					&& extension.equals(root.getFileExtension())) {
 				result.add(root);
 			} else if (root instanceof IContainer) {
+				// Need to stop looking in the project/bin dir,
+				// but beware the possibility of other dirs called bin elsewhere!
 				IContainer rootFolder = (IContainer) root;
 				for (IResource res : rootFolder.members()) {
 					result.addAll(findAll(res, extension));
