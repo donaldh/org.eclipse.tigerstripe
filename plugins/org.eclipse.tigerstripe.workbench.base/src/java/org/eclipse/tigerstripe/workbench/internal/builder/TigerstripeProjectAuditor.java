@@ -531,12 +531,12 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			if (root instanceof IFile
 					&& extension.equals(root.getFileExtension())) {
 				result.add(root);
-			} else if (root instanceof IContainer) {
-				// Need to stop looking in the project/bin dir,
-				// but beware the possibility of other dirs called bin elsewhere!
-				IContainer rootFolder = (IContainer) root;
-				for (IResource res : rootFolder.members()) {
-					result.addAll(findAll(res, extension));
+			} else {
+				if (root instanceof IContainer) {
+					IContainer rootFolder = (IContainer) root;
+					for (IResource res : rootFolder.members()) {
+						result.addAll(findAll(res, extension));
+					}
 				}
 			}
 		} catch (CoreException e) {
