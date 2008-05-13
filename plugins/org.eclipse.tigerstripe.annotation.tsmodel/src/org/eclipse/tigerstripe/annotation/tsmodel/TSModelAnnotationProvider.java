@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
 public class TSModelAnnotationProvider implements IAnnotationProvider {
 
 	public Object getObject(URI uri) {
-	    return TSModelURIConverter.toComponent(uri);
+	    return TSModelURIConverter.isRelated(uri) ? TSModelURIConverter.toComponent(uri) : null;
     }
 
 }
