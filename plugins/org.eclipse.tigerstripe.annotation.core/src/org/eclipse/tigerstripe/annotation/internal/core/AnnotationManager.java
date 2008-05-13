@@ -133,8 +133,12 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	}
 	
 	public URI getUri(Object object) {
-		IAnnotable annotable = (IAnnotable)Platform.getAdapterManager(
-			).loadAdapter(object, IAnnotable.class.getName());
+		IAnnotable annotable = null;
+		if (object instanceof IAnnotable)
+			annotable = (IAnnotable)object;
+		else
+			annotable = (IAnnotable)Platform.getAdapterManager(
+					).loadAdapter(object, IAnnotable.class.getName());
 		if (annotable == null)
 			return null;
 		return annotable.getUri();
