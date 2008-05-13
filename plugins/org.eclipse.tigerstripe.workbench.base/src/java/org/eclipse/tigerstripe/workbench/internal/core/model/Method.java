@@ -145,6 +145,13 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method return"));
 			return null;
 		}
+
+		public List<Object> getAnnotations(String schemeID,
+				String annotationSpecificationID) {
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method return"));
+			return null;
+		}
 	}
 
 	public String getDefaultReturnValue() {
@@ -735,6 +742,13 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 		
 		public List<Object> getAnnotations(String schemeID) {
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method Arguments"));
+			return null;
+		}
+
+		public List<Object> getAnnotations(String schemeID,
+				String annotationSpecificationID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method Arguments"));
 			return null;
