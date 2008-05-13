@@ -211,7 +211,7 @@ public class PluggablePluginProjectPackager {
 			for (IClasspathEntry entry : classpathEntries) {
 				if (entry.getEntryKind() == IClasspathEntry.CPE_LIBRARY) {
 					IPath path = entry.getPath();
-					classpath += path.toOSString() + ";";
+					classpath += path.toOSString() + File.pathSeparator;
 				} else if (entry.getEntryKind() == IClasspathEntry.CPE_VARIABLE) {
 					// TODO not sure what to do here if the classpath entry is
 					// not TS's???
@@ -221,8 +221,9 @@ public class PluggablePluginProjectPackager {
 			// All the runtime classpath entries of the project
 			for (IPluginClasspathEntry entry : descriptor.getClasspathEntries()) {
 				classpath += descriptor.getBaseDir() + File.separator
-						+ entry.getRelativePath() + ";";
+						+ entry.getRelativePath() + File.pathSeparator;
 			}
+
 
 			// Finally, add the TS-specific jars at the end
 			String runtimeRoot = TigerstripeRuntime
