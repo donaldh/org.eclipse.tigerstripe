@@ -12,12 +12,7 @@ package org.eclipse.tigerstripe.annotation.tsmodel.ui;
 
 import java.util.Iterator;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.jdt.ui.IPackagesViewPart;
-import org.eclipse.jdt.ui.JavaUI;
-import org.eclipse.jdt.ui.actions.OpenAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.tigerstripe.annotation.tsmodel.TSModelURIConverter;
@@ -39,40 +34,34 @@ import org.eclipse.ui.PartInitException;
 public class TSModelSelectionConverter implements ISelectionConverter {
 
 	public ISelection convert(IWorkbenchPart part, ISelection selection) {
+//		System.out.println("SelectionConverter: part/selection: "+part+" / "+selection);			
 		if (part instanceof TigerstripeExplorerPart)
 		{
 			TreeSelection ts = (TreeSelection)selection;
 			Object firstElement = ts.getFirstElement();
 			if(firstElement == null)
 				return null;
+//			System.out.println("SelectionConverter: firstElement: "+firstElement);
 			if(firstElement instanceof IModelComponent)
 				return new StructuredSelection(firstElement);
-			return new StructuredSelection(TSModelURIConverter.toModelComponent(firstElement));
+			IModelComponent modelComponent = TSModelURIConverter.toModelComponent(firstElement);
+//			System.out.println("SelectionConverter: modelComponent: "+modelComponent);
+			return new StructuredSelection(modelComponent);
+		}
+//		else if(part instanceof SessionArtifactEditor)
+		else if(part.getClass().getName().endsWith("SessionArtifactEditor"))
+		{
+			System.out.println("SelectionConverter: part/selection: "+part+" / "+selection);
 		}
 
 	    return null;
     }
 
 	public void open(ISelection selection) {
-		System.out.println("Entered TSModelSelectionConverter.open(...): selection: "+selection);
+//		System.out.println("Entered TSModelSelectionConverter.open(...): selection: "+selection);
 		IModelComponent element = getElement(selection);
 		if (element != null) {
-//			switch (element.getElementType()) {
-//        		case IJavaElement.JAVA_MODEL:
-//        		case IJavaElement.JAVA_PROJECT:
-//        		case IJavaElement.PACKAGE_FRAGMENT:
-//        		case IJavaElement.PACKAGE_FRAGMENT_ROOT:
-//        			IResource resource = (IResource)Platform.getAdapterManager(
-//        			     ).getAdapter(element, IResource.class);
-//        			if (resource != null) {
-//        				openResource(resource);
-//            			break;
-//        			}
-//        			//if this resource do not open like resource,
-//        			//try to open it like IJavaElement 
-//            	default:
-        			openSelection(new StructuredSelection(element));
-//            }
+			openSelection(new StructuredSelection(element));
 		}
     }
 	
