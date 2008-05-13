@@ -21,6 +21,8 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
@@ -29,6 +31,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.compiler.batch.Main;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
@@ -265,9 +268,14 @@ public class PluggablePluginProjectPackager {
 			String outStr = outWriter.toString();
 			String errStr = errWriter.toString();
 
-			if (status != 0 || errStr.length() != 0)
+			if (status != 0) {
 				throw new TigerstripeException(
 						" Couldn't compile plugin code: " + errStr);
+			} else if (errStr.length() != 0) {
+				IStatus s = new Status(IStatus.WARNING, BasePlugin.PLUGIN_ID,
+						errStr);
+				BasePlugin.log(s);
+			}
 		}
 	}
 
