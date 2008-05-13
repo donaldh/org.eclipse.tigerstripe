@@ -14,6 +14,7 @@ package org.eclipse.tigerstripe.annotation.ui.internal.util;
 import java.util.Iterator;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -32,12 +33,15 @@ public class AnnotationUtils {
 			Iterator<?> it = sel.iterator();
 			while (it.hasNext()) {
 	            Object element = it.next();
-	            if (element instanceof Annotation) {
-	            	return AnnotationPlugin.getManager().getObject(
-	            		((Annotation)element).getUri());
-	            }
+	            URI uri = null;
+	            if (element instanceof IAnnotable)
+	            	uri = ((IAnnotable)element).getUri();
+	            if (element instanceof Annotation)
+	            	uri = ((Annotation)element).getUri();
+	            if (uri != null)
+	            	return AnnotationPlugin.getManager().getObject(uri);
 	            IAnnotable adaptable = (IAnnotable)Platform.getAdapterManager(
-            		).getAdapter(element, IAnnotable.class);
+            		).loadAdapter(element, IAnnotable.class.getName());
 	            if (adaptable != null)
 	            	return element;
             }

@@ -43,7 +43,6 @@ public class AnnotationStorage {
 	}
 	
 	public void add(Annotation annotation) {
-		loadAnnotations(annotation.getUri());
 		addToList(annotation, annotation.getUri());
 		database.write(annotation);
 		fireAnnotationAdded(annotation);
@@ -56,25 +55,23 @@ public class AnnotationStorage {
 	}
 	
 	public Annotation[] getAnnotations(URI uri) {
-		loadAnnotations(uri);
-		List<Annotation> list = getAnnotationMap().get(uri);
+		List<Annotation> list = doGetAnnotations(uri);
 		return list.toArray(new Annotation[list.size()]);
 	}
 	
-	protected void loadAnnotations(URI uri) {
+	protected List<Annotation> doGetAnnotations(URI uri) {
 		List<Annotation> list = getAnnotationMap().get(uri);
 		if (list == null) {
 			EObject[] objects = database.get(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
 			list = new ArrayList<Annotation>();
 			for (int i = 0; i < objects.length; i++) {
-				if (objects[i] instanceof Annotation) {
-		        	Annotation annotation = (Annotation)objects[i];
+				if (objects[i] instanceof Annotation)
 					list.add((Annotation)objects[i]);
-		    		fireAnnotationLoaded(annotation);
-				}
 			}
 			getAnnotationMap().put(uri, list);
+    		fireAnnotationLoaded(list.toArray(new Annotation[list.size()]));
 		}
+		return list;
 	}
 	
 	public Annotation[] getAnnotations() {
@@ -88,8 +85,8 @@ public class AnnotationStorage {
 	}
 	
 	public void uriChanged(URI oldUri, URI newUri) {
-		List<Annotation> oldList = getAnnotationMap().get(oldUri);
-		if (oldList == null)
+		List<Annotation> oldList = doGetAnnotations(oldUri);
+		if (oldList.size() == 0)
 			return;
 		Iterator<Annotation> it = oldList.iterator();
 		while (it.hasNext()) {
@@ -97,22 +94,19 @@ public class AnnotationStorage {
 	        annotation.setUri(newUri);
 	        database.write(annotation);
         }
-		fireAnnotationsChanged(oldList.toArray(new Annotation[oldList.size()]));
-		List<Annotation> newList = getAnnotationMap().get(newUri);
-		if (newList == null) {
-			getAnnotationMap().put(newUri, oldList);
-		}
-		else {
-			newList.addAll(oldList);
-		}
+		List<Annotation> newList = doGetAnnotations(newUri);
+		newList.addAll(oldList);
 		getAnnotationMap().remove(oldUri);
+		fireAnnotationsChanged(oldList.toArray(new Annotation[oldList.size()]));
 	}
 	
 	public void remove(URI uri) {
-		List<Annotation> list = getAnnotationMap().get(uri);
-		if (list != null) {
+		List<Annotation> list = doGetAnnotations(uri);
+		if (list.size() > 0) {
 			Annotation[] array = list.toArray(new Annotation[list.size()]);
-			getAnnotationMap().remove(uri);
+			for (int i = 0; i < array.length; i++)
+				database.remove(array[i]);
+			list.clear();
 			fireAnnotationsRemoved(array);
 		}
 	}
@@ -149,30 +143,20 @@ public class AnnotationStorage {
 		}
 	}
 	
-	protected void fireAnnotationLoaded(Annotation annotation) {
+	protected void fireAnnotationLoaded(Annotation[] annotations) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
 			IAnnotationListener listener = (IAnnotationListener)objects[i];
-			listener.annotationLoaded(annotation);
+			listener.annotationsLoaded(annotations);
 		}
 	}
 	
 	protected void addToList(Annotation annotation, URI uri) {
-		List<Annotation> list = getAnnotationMap().get(uri);
-		if (list == null) {
-			list = new ArrayList<Annotation>();
-			getAnnotationMap().put(uri, list);
-		}
-		list.add(annotation);
+		doGetAnnotations(uri).add(annotation);
 	}
 	
 	protected void removeFromList(Annotation annotation, URI uri) {
-		List<Annotation> list = getAnnotationMap().get(uri);
-		if (list != null) {
-			list.remove(annotation);
-			if (list.isEmpty())
-				getAnnotationMap().remove(list);
-		}
+		doGetAnnotations(uri).remove(annotation);
 	}
 	
 	public void save(Annotation annotation) {
@@ -182,14 +166,6 @@ public class AnnotationStorage {
 	protected Map<URI, List<Annotation>> getAnnotationMap() {
 		if (annotations == null) {
 			annotations = new HashMap<URI, List<Annotation>>();
-			//EObject[] objects = database.read();
-//			for (int i = 0; i < objects.length; i++) {
-//		        if (objects[i] instanceof Annotation) {
-//		        	Annotation annotation = (Annotation)objects[i];
-//		    		addToList(annotation, annotation.getUri());
-//		    		fireAnnotationLoaded(annotation);
-//		        }
-//	        }
 		}
 		return annotations;
 	}

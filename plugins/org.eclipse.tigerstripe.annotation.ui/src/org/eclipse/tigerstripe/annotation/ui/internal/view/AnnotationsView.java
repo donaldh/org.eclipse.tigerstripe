@@ -145,7 +145,7 @@ public class AnnotationsView extends ViewPart implements IAnnotationListener, IR
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationLoaded(org.eclipse.tigerstripe.annotation.core.Annotation)
 	 */
-	public void annotationLoaded(Annotation annotation) {
+	public void annotationsLoaded(Annotation[] annotations) {
 		updateAnnotations();
 	}
 	

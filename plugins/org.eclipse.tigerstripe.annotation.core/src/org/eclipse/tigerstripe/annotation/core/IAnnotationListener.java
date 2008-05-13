@@ -50,6 +50,6 @@ public interface IAnnotationListener {
      * 
 	 * @param annotation loaded annotation
 	 */
-	public void annotationLoaded(Annotation annotation);
+	public void annotationsLoaded(Annotation[] annotation);
 
 }

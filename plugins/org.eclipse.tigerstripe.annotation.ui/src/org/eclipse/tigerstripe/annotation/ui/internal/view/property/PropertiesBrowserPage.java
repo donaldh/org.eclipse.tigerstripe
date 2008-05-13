@@ -147,7 +147,7 @@ public class PropertiesBrowserPage
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationLoaded(org.eclipse.tigerstripe.annotation.core.Annotation)
 	 */
-	public void annotationLoaded(Annotation annotation) {
+	public void annotationsLoaded(Annotation[] annotations) {
 	}
 
 	public void containerUpdated() {
