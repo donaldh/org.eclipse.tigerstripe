@@ -44,6 +44,7 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
@@ -523,7 +524,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	public static List<IResource> findAll(IResource root, String extension) {
 		List<IResource> result = new ArrayList<IResource>();
-
 		if (extension == null || extension.length() == 0)
 			return result;
 
@@ -533,6 +533,19 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				result.add(root);
 			} else {
 				if (root instanceof IContainer) {
+					// We need to avoid the "bin" directory - or we get two of everything!
+					// Hoever this may not be called "bin" so we have to do some 
+					// Gymnastics to work out if we are the "outputLocation"...
+					if (root.getParent() instanceof IProject){
+						IProject project = (IProject) root.getParent();
+						IJavaProject jProject = JavaCore.create(project);
+						if (jProject != null){
+							if (jProject.getOutputLocation().equals(root.getFullPath())){
+								//System.out.println("this is the output folder "+root);
+								return result;
+							}
+						}
+					}
 					IContainer rootFolder = (IContainer) root;
 					for (IResource res : rootFolder.members()) {
 						result.addAll(findAll(res, extension));
