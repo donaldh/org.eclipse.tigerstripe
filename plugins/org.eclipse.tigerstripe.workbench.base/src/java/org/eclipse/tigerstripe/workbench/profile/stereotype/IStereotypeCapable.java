@@ -60,4 +60,7 @@ public interface IStereotypeCapable {
 
 	public List<Object> getAnnotations( String schemeID, String annotationSpecificationID );
 
+	public boolean hasAnnotations( String schemeID);
+
+	public boolean hasAnnotations( String schemeID, String annotationSpecificationID );
 }

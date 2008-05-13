@@ -408,7 +408,13 @@ public abstract class ArtifactComponent implements IModelComponent,
 	 * @return
 	 */
 	private boolean isAnnotationMatch(String annotationSpecificationID,	Object obj) {
-		return obj.getClass().getName().endsWith(annotationSpecificationID);
+		Class<?>[] interfaces = obj.getClass().getInterfaces();
+		for(int i = 0; i < interfaces.length; i++)
+		{
+			if(interfaces[i].getName().endsWith(annotationSpecificationID))
+				return true;
+		}
+		return false;
 	}
 	
 	public List<Object> getAnnotations(String schemeID, String annotationSpecificationID) {
@@ -420,6 +426,22 @@ public abstract class ArtifactComponent implements IModelComponent,
 		}
 
 		return Collections.unmodifiableList(annotations);
+	}
+
+	public boolean hasAnnotations( String schemeID)
+	{
+		return !getAnnotations(schemeID).isEmpty();
+	}
+
+	public boolean hasAnnotations( String schemeID, String annotationSpecificationID )
+	{
+		List<Object> annotations = getAnnotations(schemeID);
+		for(Iterator<Object> i = annotations.iterator(); i.hasNext(); )
+		{
+			if(isAnnotationMatch(annotationSpecificationID, i.next()))
+				return true;
+		}
+		return false;
 	}
 	
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
