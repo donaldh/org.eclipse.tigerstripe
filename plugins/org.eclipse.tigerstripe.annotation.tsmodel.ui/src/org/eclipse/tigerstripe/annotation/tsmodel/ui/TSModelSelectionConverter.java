@@ -45,8 +45,7 @@ public class TSModelSelectionConverter implements ISelectionConverter {
 			if(firstElement instanceof IModelComponent)
 				return new StructuredSelection(firstElement);
 			IModelComponent modelComponent = TSModelURIConverter.toModelComponent(firstElement);
-//			System.out.println("SelectionConverter: modelComponent: "+modelComponent);
-			return new StructuredSelection(modelComponent);
+			return modelComponent == null ? null : new StructuredSelection(modelComponent);
 		}
 //		else if(part instanceof SessionArtifactEditor)
 		else if(part.getClass().getName().endsWith("SessionArtifactEditor"))
