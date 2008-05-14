@@ -1,0 +1,13 @@
+                   <ts:stereotype name="$instance.Name">
+#foreach ($attribute in $instance.CharacterizingStereotype.Attributes)
+                      <ts:stereotypeAttribute name="$attribute.Name" array="$attribute.Array">
+#if($attribute.Array == "false")
+                        <ts:value>$entityUtil.encode($instance.getAttributeValue($attribute))</ts:value>                       
+#else
+#foreach ($val in $instance.getAttributeValues($attribute))
+                        <ts:value>$entityUtil.encode($val)</ts:value>                   
+#end
+#end
+                      </ts:stereotypeAttribute>
+#end
+                    </ts:stereotype>

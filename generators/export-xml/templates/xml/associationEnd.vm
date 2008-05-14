@@ -1,0 +1,16 @@
+            <ts:associationEnd name="$artifact.AEnd.Name" end="AEnd" type="$artifact.AEnd.Type.FullyQualifiedName" multiplicity="$artifact.AEnd.Multiplicity.Label" 
+                                       aggregation="$artifact.AEnd.Aggregation.Label" changeable="$artifact.AEnd.Changeable.Label" navigable="$artifact.AEnd.Navigable" 
+                                       ordered="$artifact.AEnd.Ordered" visibility="$artifact.AEnd.Visibility"
+                                       unique="$artifact.AEnd.Unique">
+#set ($component = $artifact.AEnd)
+#parse ("templates/xml/Stereotypes.vm")
+#parse ("templates/xml/Comment.vm")
+            </ts:associationEnd>
+            <ts:associationEnd name="$artifact.ZEnd.Name" end="ZEnd" type="$artifact.ZEnd.Type.FullyQualifiedName" multiplicity="$artifact.ZEnd.Multiplicity.Label" 
+                                       aggregation="$artifact.ZEnd.Aggregation.Label" changeable="$artifact.ZEnd.Changeable.Label" navigable="$artifact.ZEnd.Navigable" 
+                                       ordered="$artifact.ZEnd.Ordered" visibility="$artifact.ZEnd.Visibility"
+                                       unique="$artifact.ZEnd.Unique">
+#set ($component = $artifact.ZEnd)
+#parse ("templates/xml/Stereotypes.vm")
+#parse ("templates/xml/Comment.vm")
+            </ts:associationEnd>

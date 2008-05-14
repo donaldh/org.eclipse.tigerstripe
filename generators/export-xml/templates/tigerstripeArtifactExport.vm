@@ -1,0 +1,17 @@
+#set ($singleFile = $pluginConfig.getProperty("singleFile"))
+#if($singleFile == "false")
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:tns="http://org.eclipse.tigerstripe/xml/tigerstripeArtifactExport/v1-0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://org.eclipse.tigerstripe/xml/tigerstripeArtifactExport/v1-0" version="1.0" xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
+    <xs:import namespace="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0"
+            schemaLocation="tigerstripeExportSchema.xsd"/>
+        <xs:element name="projectArtifact">
+           <xs:complexType>
+               <xs:sequence>
+                   <xs:element maxOccurs="1" minOccurs="1" ref="ts:artifact"/>
+               </xs:sequence>
+               <xs:attribute name="projectName" type="xs:string" use="required"/>
+               <xs:attribute name="projectVersion" type="xs:string" use="required"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+#end

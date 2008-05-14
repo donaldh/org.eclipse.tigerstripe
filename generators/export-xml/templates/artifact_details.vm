@@ -1,0 +1,32 @@
+    <ts:artifact name="$artifact.FullyQualifiedName"
+#if ($artifact.hasExtends())
+                 extendedArtifact="$artifact.Extends.FullyQualifiedName"
+#end
+                 artifactType="$artifact.ArtifactType"
+                 isAbstract="$artifact.Abstract">
+#if(!$artifact.getImplementedArtifacts().isEmpty())
+        <ts:implements>
+#foreach ($interface in $artifact.getImplementedArtifacts())
+            <ts:implementedInterface>$interface.FullyQualifiedName</ts:implementedInterface>
+#end
+        </ts:implements>
+#end
+#set($component = $artifact)
+#parse ("templates/xml/Comment.vm")
+#parse ("templates/xml/Stereotypes.vm")
+#parse ("templates/xml/Labels.vm")
+#parse ("templates/xml/Fields.vm")
+#parse ("templates/xml/Methods.vm")
+#set($component = $artifact)
+#if ($artifact.ArtifactType == "org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact")
+#parse ("templates/xml/enumerationSpecifics.vm")
+#elseif ($artifact.ArtifactType == "org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact")
+#parse ("templates/xml/associationSpecifics.vm")
+#elseif ($artifact.ArtifactType == "org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact")
+#parse ("templates/xml/associationClassSpecifics.vm")
+#elseif ($artifact.ArtifactType == "org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact")
+#parse ("templates/xml/dependencySpecifics.vm")
+#elseif ($artifact.ArtifactType == "org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact")
+#parse ("templates/xml/querySpecifics.vm")
+#end
+    </ts:artifact>

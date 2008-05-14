@@ -1,0 +1,8 @@
+#if(!$component.StereotypeInstances.isEmpty())
+                <ts:stereotypes>
+#foreach ($instance in $component.StereotypeInstances)
+#parse("templates/xml/StereoTypeCommon.vm")
+#end
+
+                </ts:stereotypes>
+#end

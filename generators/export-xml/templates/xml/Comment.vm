@@ -1,0 +1,3 @@
+#if($component.Comment.length() != 0)
+                <ts:comment>$entityUtil.encode($component.comment)</ts:comment>
+#end

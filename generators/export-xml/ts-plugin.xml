@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ts_plugin version="1.2">
+<project name="export-xml">
+<outputDirectory/>
+<version>3.1</version>
+<description>3.1 First Open Source version - removal of OSS/J specifics.&#13;
+This version of the Export Plugin can export a Tigerstripe Project in a single XML file or as one XML file per artifact (with an additional file giving summary details of the export).&#13;
+&#13;
+The XSD schema files that define the format of the exported XML are also generated to the ouput directory.&#13;
+&#13;
+Optionally XSL files can be included in the export such that HTML documentation of the Tigerstripe Project can be generated from the XML.&#13;
+&#13;
+Version 1.2.0 supprts meta model changes from Tigerstripe 2.2</description>
+<provider>Cisco Systems</provider>
+</project>
+<pluginNature type="Generic"/>
+<logger defautLevel="0" isEnabled="false" logPath="Full_Export.log" maxRoll="9"/>
+<globalProperties>
+<property name="xmldir" tipToolText="Directory to which export xml files are generated" type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">xml</property>
+<property name="singleFile" tipToolText="Create single XML file (true) or one per artifact (false)" type="org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty">true</property>
+<property name="IndexXSL" tipToolText="XSL file used to generate index page." type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">converter.xsl</property>
+<property name="ArtifactXSL" tipToolText="XSL used to generate artifact detail pages." type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">artifact_converter.xsl</property>
+</globalProperties>
+<globalRules>
+<rule description="Extracts the selected Tigerstripe model to single XML file &lt;project_name&gt;.xml. The file is generated to the directory: tigerstripe.gen\&lt;xmldir&gt;." enabled="true" name="xml_export" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.plugins.xml.EntityUtil" entry="entityUtil"/>
+<body outputFile="${ppProp.xmldir}\${name}.xml" overwriteFiles="true" suppressFiles="true" template="templates\xml_export.vm"/>
+</rule>
+<rule description="Generates the schema file for the &quot;file per artifact&quot; export files and places it in the directory: tigerstripe.gen\&lt;xmldir&gt;." enabled="true" name="copyPerArtiSchema" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<body outputFile="${ppProp.xmldir}\tigerstripeArtifactExport.xsd" overwriteFiles="true" suppressFiles="true" template="templates\tigerstripeArtifactExport.vm"/>
+</rule>
+<rule description="Copy xml export schema from generator project to model project." enabled="true" name="schema" type="org.eclipse.tigerstripe.workbench.plugins.ICopyRule">
+<body copyFrom="0" filesetMatch="resources\tigerstripeExportSchema.xsd" toDirectory="${ppProp.xmldir}\"/>
+</rule>
+<rule description="Copies the XSL files to tigerstripe.gen/&lt;xmldir&gt;/xslt directory." enabled="true" name="copyXSLs" type="org.eclipse.tigerstripe.workbench.plugins.ICopyRule">
+<body copyFrom="0" filesetMatch="resources\*.xsl" toDirectory="${ppProp.xmldir}\xsl"/>
+</rule>
+</globalRules>
+<artifactRules>
+<rule description="Extracts the selected Tigerstripe model such that one XML export file is generated for each artifact. The XML export files have the following name &lt;artifact_name&gt;.xml. The files are generated to the directory: tigerstripe.gen\&lt;xmldir&gt;." enabled="true" name="xml_per_artifact" type="org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.plugins.xml.EntityUtil" entry="entityUtil"/>
+<body artifactFilterClass="" artifactType="Any Artifact" includeDependencies="false" modelClass="org.eclipse.tigerstripe.plugins.xml.XmlModel" modelClassName="model" outputFile="${ppProp.xmldir}/${model.OutPath}/${artifact.Name}.xml" overwriteFiles="true" suppressFiles="true" template="templates\xml_per_artifact.vm"/>
+</rule>
+</artifactRules>
+<classpathEntries/>
+<additionalFiles>
+<includeEntry relativePath="resources/"/>
+</additionalFiles>
+<advanced/>
+</ts_plugin>

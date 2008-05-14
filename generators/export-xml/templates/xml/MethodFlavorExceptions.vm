@@ -1,0 +1,5 @@
+                <ts:exceptions>
+#foreach ($exception in $EntityMethodFlavorDetails.Exceptions)
+	                    <ts:exception name="$exception"/>
+#end
+                <ts:/exceptions>

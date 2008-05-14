@@ -1,0 +1,3 @@
+        <ts:associationClassSpecifics>
+#parse ("templates/xml/associationEnd.vm")
+        </ts:associationClassSpecifics>

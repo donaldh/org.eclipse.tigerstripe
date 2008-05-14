@@ -1,0 +1,18 @@
+#if(!$method.Arguments.isEmpty())
+                <ts:arguments>
+#foreach ($argument in $method.Arguments)
+                    <ts:argument name="$argument.Name" typeMultiplicity="$argument.Type.TypeMultiplicity.Label"
+                     type="$argument.Type.FullyQualifiedName"
+                     unique="$argument.Unique" ordered="$argument.Ordered" 
+#if ($argument.DefaultValue)
+                     defaultValue="$entityUtil.encode($argument.DefaultValue)"
+#end
+                     >
+#set($component = $argument)
+#parse ("templates/xml/Comment.vm")
+#set($component = $argument)
+#parse ("templates/xml/Stereotypes.vm")
+		                </ts:argument>
+#end
+                </ts:arguments>
+#end

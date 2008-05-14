@@ -1,0 +1,7 @@
+#if(!$method.Exceptions.isEmpty())
+                <ts:exceptions>
+#foreach ($exception in $method.Exceptions)
+                    <ts:exception name="$exception.FullyQualifiedName"/>
+#end
+                </ts:exceptions>
+#end

@@ -1,0 +1,42 @@
+#set ($singleFile = $pluginConfig.getProperty("singleFile"))
+#set ($artifactXSL = $pluginConfig.getProperty("ArtifactXSL"))
+#if($singleFile == "false")
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ *	 Generated with Tigerstripe Workbench $runtime.getProperty("tigerstripe.feature.version").
+ *
+ * Copyright (c) 2008 Cisco Systems, Inc. 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Cisco Systems, Inc. - dkeysell
+ *
+ *	Plugin  : $pluginConfig.groupId/$pluginConfig.pluginId ($pluginConfig.Version)
+ *	
+ *  DO NOT EDIT THIS CODE WAS AUTOMATICALLY GENERATED
+-->
+<!--
+DOCUMENTATION IS PROVIDED "AS IS" AND ALL EXPRESS OR IMPLIED
+CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING ANY IMPLIED
+WARRANTY OF MERCHANTABILITY, FITNESS FOR FOR A PARTICULAR PURPOSE OR
+NON-INFRINGEMENT, ARE DISCLAIMED, EXCEPT TO THE EXTENT THAT SUCH
+DISCLAIMERS ARE HELD TO BE LEGALLY INVALID.
+-->
+
+
+<?xml-stylesheet version="1.0" type="text/xsl" href="$entityUtil.pathToRoot($artifact.Package)xsl/$artifactXSL"?>
+
+
+<tsa:projectArtifact projectName="$tsProject.ProjectDetails.Name" projectVersion="$tsProject.ProjectDetails.Version"
+                       xmlns:tsa="http://org.eclipse.tigerstripe/xml/tigerstripeArtifactExport/v1-0"
+                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0"
+                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                       xsi:schemaLocation="http://org.eclipse.tigerstripe/xml/tigerstripeArtifactExport/v1-0 tigerstripeArtifactExport.xsd">
+#parse ("templates/artifact_details.vm")
+</tsa:projectArtifact>
+#end

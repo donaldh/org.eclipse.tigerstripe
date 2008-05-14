@@ -1,0 +1,7 @@
+#if(!$component.ReturnStereotypeInstances.isEmpty())
+                <ts:returnStereotypes>
+#foreach ($instance in $component.ReturnStereotypeInstances)
+#parse("templates/xml/StereoTypeCommon.vm")
+#end
+                </ts:returnStereotypes>
+#end

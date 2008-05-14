@@ -1,0 +1,28 @@
+#if(!$artifact.Methods.isEmpty())
+        <ts:methods>
+#foreach($method in $artifact.Methods)
+            <ts:method name="$method.Name" visibility="$method.Visibility.Label" returnType="$method.ReturnType.FullyQualifiedName" 
+                       returnTypeMultiplicity="$method.ReturnType.TypeMultiplicity.Label" isVoid="$method.Void" 
+                       isAbstract="$method.Abstract"
+                       unique="$method.Unique" ordered="$method.Ordered"
+#if ($method.DefaultReturnValue)
+                       defaultReturnValue="$entityUtil.encode($method.DefaultReturnValue)"
+#end
+#if($method.ReturnName.length() != 0)
+                       methodReturnName="$entityUtil.encode($method.ReturnName)"
+#end
+                       >
+#set($component = $method)
+#parse ("templates/xml/Stereotypes.vm")
+#set($component = $method)
+#parse ("templates/xml/Arguments.vm")
+#set($component = $method)
+#parse ("templates/xml/ReturnStereotypes.vm")
+#set($component = $method)
+#parse ("templates/xml/Exceptions.vm")
+#set($component = $method)
+#parse ("templates/xml/Comment.vm")
+            </ts:method>
+#end
+        </ts:methods>
+#end

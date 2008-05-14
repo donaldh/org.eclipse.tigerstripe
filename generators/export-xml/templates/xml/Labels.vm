@@ -1,0 +1,11 @@
+#if(!$artifact.Literals.isEmpty())
+        <ts:literals>
+#foreach ($label in $artifact.Literals)
+                <ts:literal name="$label.Name" value="$entityUtil.encode($label.Value)" type="$label.Type.FullyQualifiedName" visibility="$label.Visibility.Label">
+#set ($component = $label)
+#parse ("templates/xml/Stereotypes.vm")
+#parse ("templates/xml/Comment.vm")
+                </ts:literal>
+#end
+        </ts:literals>
+#end

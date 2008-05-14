@@ -1,0 +1,2 @@
+        <ts:dependencySpecifics aEndTypeName="$artifact.AEndType.FullyQualifiedName" 
+                                zEndTypeName="$artifact.ZEndType.FullyQualifiedName"/>

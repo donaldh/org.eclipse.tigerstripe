@@ -1,0 +1,18 @@
+#if(!$artifact.Fields.isEmpty())
+        <ts:fields>
+#foreach($field in $artifact.Fields)
+            <ts:field name="$field.Name" visibility="$field.Visibility.Label" 
+            type="$field.Type.FullyQualifiedName" typeMultiplicity="$field.Type.TypeMultiplicity.Label"
+             readonly="$field.ReadOnly"
+             unique="$field.Unique" ordered="$field.Ordered"
+#if ( $field.DefaultValue)
+             defaultValue="$entityUtil.encode($field.DefaultValue)"
+#end
+             >
+#set ($component = $field)
+#parse ("templates/xml/Stereotypes.vm")
+#parse ("templates/xml/Comment.vm")
+            </ts:field>
+#end
+        </ts:fields>
+#end
