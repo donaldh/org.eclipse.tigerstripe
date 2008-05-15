@@ -13,58 +13,54 @@
  *     
  * </copyright>
  *
- * $Id: ResourceListImpl.java,v 1.3 2008/05/15 04:53:03 ystrot Exp $
+ * $Id: EObjectListImpl.java,v 1.1 2008/05/15 04:53:03 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
-import org.eclipse.tigerstripe.espace.resources.ResourceList;
+import org.eclipse.tigerstripe.espace.resources.EObjectList;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Resource List</b></em>'.
+ * An implementation of the model object '<em><b>EObject List</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.tigerstripe.espace.resources.impl.ResourceListImpl#getResourceUris <em>Resource Uris</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.espace.resources.impl.EObjectListImpl#getObjects <em>Objects</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ResourceListImpl extends EObjectImpl implements ResourceList {
+public class EObjectListImpl extends EObjectImpl implements EObjectList {
 	/**
-	 * The cached value of the '{@link #getResourceUris() <em>Resource Uris</em>}' containment reference list.
+	 * The cached value of the '{@link #getObjects() <em>Objects</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getResourceUris()
+	 * @see #getObjects()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<URI> resourceUris;
+	protected EList<EObject> objects;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ResourceListImpl() {
+	protected EObjectListImpl() {
 		super();
 	}
 
@@ -75,7 +71,7 @@ public class ResourceListImpl extends EObjectImpl implements ResourceList {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ResourcesPackage.Literals.RESOURCE_LIST;
+		return ResourcesPackage.Literals.EOBJECT_LIST;
 	}
 
 	/**
@@ -83,25 +79,11 @@ public class ResourceListImpl extends EObjectImpl implements ResourceList {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<URI> getResourceUris() {
-		if (resourceUris == null) {
-			resourceUris = new EObjectContainmentEList<URI>(URI.class, this, ResourcesPackage.RESOURCE_LIST__RESOURCE_URIS);
+	public EList<EObject> getObjects() {
+		if (objects == null) {
+			objects = new EObjectResolvingEList<EObject>(EObject.class, this, ResourcesPackage.EOBJECT_LIST__OBJECTS);
 		}
-		return resourceUris;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ResourcesPackage.RESOURCE_LIST__RESOURCE_URIS:
-				return ((InternalEList<?>)getResourceUris()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+		return objects;
 	}
 
 	/**
@@ -112,8 +94,8 @@ public class ResourceListImpl extends EObjectImpl implements ResourceList {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ResourcesPackage.RESOURCE_LIST__RESOURCE_URIS:
-				return getResourceUris();
+			case ResourcesPackage.EOBJECT_LIST__OBJECTS:
+				return getObjects();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -127,9 +109,9 @@ public class ResourceListImpl extends EObjectImpl implements ResourceList {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ResourcesPackage.RESOURCE_LIST__RESOURCE_URIS:
-				getResourceUris().clear();
-				getResourceUris().addAll((Collection<? extends URI>)newValue);
+			case ResourcesPackage.EOBJECT_LIST__OBJECTS:
+				getObjects().clear();
+				getObjects().addAll((Collection<? extends EObject>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -143,8 +125,8 @@ public class ResourceListImpl extends EObjectImpl implements ResourceList {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ResourcesPackage.RESOURCE_LIST__RESOURCE_URIS:
-				getResourceUris().clear();
+			case ResourcesPackage.EOBJECT_LIST__OBJECTS:
+				getObjects().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -158,10 +140,10 @@ public class ResourceListImpl extends EObjectImpl implements ResourceList {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ResourcesPackage.RESOURCE_LIST__RESOURCE_URIS:
-				return resourceUris != null && !resourceUris.isEmpty();
+			case ResourcesPackage.EOBJECT_LIST__OBJECTS:
+				return objects != null && !objects.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //ResourceListImpl
+} //EObjectListImpl

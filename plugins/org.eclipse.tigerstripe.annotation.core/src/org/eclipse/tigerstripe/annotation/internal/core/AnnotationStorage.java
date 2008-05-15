@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
@@ -52,6 +53,10 @@ public class AnnotationStorage {
 		removeFromList(annotation, annotation.getUri());
 		database.remove(annotation);
 		fireAnnotationsRemoved( new Annotation[] { annotation } );
+	}
+	
+	public EObject[] query(EClassifier classifier) {
+		return database.query(classifier);
 	}
 	
 	public Annotation[] getAnnotations(URI uri) {

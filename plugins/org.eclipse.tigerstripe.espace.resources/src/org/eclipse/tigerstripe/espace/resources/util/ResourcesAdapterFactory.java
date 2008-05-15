@@ -1,29 +1,18 @@
 /**
  * <copyright>
- * 
- * Copyright (c) 2008 xored software, Inc.  
- * 
- * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0 
- * which accompanies this distribution, and is available at 
- * http://www.eclipse.org/legal/epl-v10.html  
- * 
- * Contributors: 
- *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
- *     
  * </copyright>
  *
- * $Id: ResourcesAdapterFactory.java,v 1.2 2008/05/11 12:42:38 ystrot Exp $
+ * $Id: ResourcesAdapterFactory.java,v 1.3 2008/05/15 04:53:03 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.util;
 
-import java.util.Map;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
-import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.URI;
+
 import org.eclipse.emf.ecore.EObject;
 
 import org.eclipse.tigerstripe.espace.resources.*;
@@ -37,174 +26,137 @@ import org.eclipse.tigerstripe.espace.resources.*;
  * @generated
  */
 public class ResourcesAdapterFactory extends AdapterFactoryImpl {
-    /**
-     * The cached model package.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected static ResourcesPackage modelPackage;
+	/**
+	 * The cached model package.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected static ResourcesPackage modelPackage;
 
-    /**
-     * Creates an instance of the adapter factory.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    public ResourcesAdapterFactory() {
-        if (modelPackage == null) {
-            modelPackage = ResourcesPackage.eINSTANCE;
-        }
-    }
+	/**
+	 * Creates an instance of the adapter factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ResourcesAdapterFactory() {
+		if (modelPackage == null) {
+			modelPackage = ResourcesPackage.eINSTANCE;
+		}
+	}
 
-    /**
-     * Returns whether this factory is applicable for the type of the object.
-     * <!-- begin-user-doc -->
-     * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
-     * <!-- end-user-doc -->
-     * @return whether this factory is applicable for the type of the object.
-     * @generated
-     */
-    @Override
-    public boolean isFactoryForType(Object object) {
-        if (object == modelPackage) {
-            return true;
-        }
-        if (object instanceof EObject) {
-            return ((EObject)object).eClass().getEPackage() == modelPackage;
-        }
-        return false;
-    }
+	/**
+	 * Returns whether this factory is applicable for the type of the object.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
+	 * <!-- end-user-doc -->
+	 * @return whether this factory is applicable for the type of the object.
+	 * @generated
+	 */
+	@Override
+	public boolean isFactoryForType(Object object) {
+		if (object == modelPackage) {
+			return true;
+		}
+		if (object instanceof EObject) {
+			return ((EObject)object).eClass().getEPackage() == modelPackage;
+		}
+		return false;
+	}
 
-    /**
-     * The switch the delegates to the <code>createXXX</code> methods.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    protected ResourcesSwitch<Adapter> modelSwitch =
-        new ResourcesSwitch<Adapter>() {
-            @Override
-            public Adapter caseIndexKey(IndexKey object) {
-                return createIndexKeyAdapter();
-            }
-            @Override
-            public Adapter caseIndexList(IndexList object) {
-                return createIndexListAdapter();
-            }
-            @Override
-            public Adapter caseResourceList(ResourceList object) {
-                return createResourceListAdapter();
-            }
-            @SuppressWarnings("unchecked")
-            @Override
-            public Adapter caseEMap_1(EMap object) {
-                return createEMap_1Adapter();
-            }
-            @Override
-            public Adapter caseEIndexKeyToStringMapEntry(Map.Entry<IndexKey, String> object) {
-                return createEIndexKeyToStringMapEntryAdapter();
-            }
-            @Override
-            public Adapter defaultCase(EObject object) {
-                return createEObjectAdapter();
-            }
-        };
+	/**
+	 * The switch the delegates to the <code>createXXX</code> methods.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected ResourcesSwitch<Adapter> modelSwitch =
+		new ResourcesSwitch<Adapter>() {
+			@Override
+			public Adapter caseEObjectList(EObjectList object) {
+				return createEObjectListAdapter();
+			}
+			@Override
+			public Adapter caseResourceList(ResourceList object) {
+				return createResourceListAdapter();
+			}
+			@Override
+			public Adapter caseURI(URI object) {
+				return createURIAdapter();
+			}
+			@Override
+			public Adapter defaultCase(EObject object) {
+				return createEObjectAdapter();
+			}
+		};
 
-    /**
-     * Creates an adapter for the <code>target</code>.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param target the object to adapt.
-     * @return the adapter for the <code>target</code>.
-     * @generated
-     */
-    @Override
-    public Adapter createAdapter(Notifier target) {
-        return modelSwitch.doSwitch((EObject)target);
-    }
+	/**
+	 * Creates an adapter for the <code>target</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param target the object to adapt.
+	 * @return the adapter for the <code>target</code>.
+	 * @generated
+	 */
+	@Override
+	public Adapter createAdapter(Notifier target) {
+		return modelSwitch.doSwitch((EObject)target);
+	}
 
 
-    /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.espace.resources.IndexKey <em>Index Key</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see org.eclipse.tigerstripe.espace.resources.IndexKey
-     * @generated
-     */
-    public Adapter createIndexKeyAdapter() {
-        return null;
-    }
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.espace.resources.EObjectList <em>EObject List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.espace.resources.EObjectList
+	 * @generated
+	 */
+	public Adapter createEObjectListAdapter() {
+		return null;
+	}
 
-    /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.espace.resources.IndexList <em>Index List</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see org.eclipse.tigerstripe.espace.resources.IndexList
-     * @generated
-     */
-    public Adapter createIndexListAdapter() {
-        return null;
-    }
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.espace.resources.ResourceList <em>Resource List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.espace.resources.ResourceList
+	 * @generated
+	 */
+	public Adapter createResourceListAdapter() {
+		return null;
+	}
 
-    /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.espace.resources.ResourceList <em>Resource List</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see org.eclipse.tigerstripe.espace.resources.ResourceList
-     * @generated
-     */
-    public Adapter createResourceListAdapter() {
-        return null;
-    }
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.common.util.URI <em>URI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.emf.common.util.URI
+	 * @generated
+	 */
+	public Adapter createURIAdapter() {
+		return null;
+	}
 
-    /**
-     * Creates a new adapter for an object of class '{@link org.eclipse.emf.common.util.EMap <em>EMap 1</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see org.eclipse.emf.common.util.EMap
-     * @generated
-     */
-    public Adapter createEMap_1Adapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EIndex Key To String Map Entry</em>}'.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null so that we can easily ignore cases;
-     * it's useful to ignore a case when inheritance will catch all the cases anyway.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @see java.util.Map.Entry
-     * @generated
-     */
-    public Adapter createEIndexKeyToStringMapEntryAdapter() {
-        return null;
-    }
-
-    /**
-     * Creates a new adapter for the default case.
-     * <!-- begin-user-doc -->
-     * This default implementation returns null.
-     * <!-- end-user-doc -->
-     * @return the new adapter.
-     * @generated
-     */
-    public Adapter createEObjectAdapter() {
-        return null;
-    }
+	/**
+	 * Creates a new adapter for the default case.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @generated
+	 */
+	public Adapter createEObjectAdapter() {
+		return null;
+	}
 
 } //ResourcesAdapterFactory

@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.annotation.core;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -54,6 +55,14 @@ public interface IAnnotationManager {
 	 * @return all annotations of the annotable object or empty array, if there are no one annotation
 	 */
 	public Annotation[] getAnnotations(Object object);
+	
+	/**
+	 * Return all stored objects of the passed classifier
+	 * 
+	 * @param classifier classifier of the objects should be found
+	 * @return Return all stored objects of the passed classifier
+	 */
+	public EObject[] query(EClassifier classifier);
 	
 	/**
 	 * Return all annotations

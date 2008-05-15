@@ -9,20 +9,22 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.espace.resources;
+package org.eclipse.tigerstripe.espace.resources.core;
 
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 
 /**
  * @author Yuri Strot
- * @model
+ *
  */
-public interface IndexList extends EObject {
+public interface IIndexer {
 	
-	/**
-	 * @model mapType="org.eclipse.emf.ecore.EIndexKeyToStringMapEntry<org.eclipse.tigerstripe.espace.resources.IndexKey, org.eclipse.emf.ecore.EString>"
-	 */
-	public EMap<IndexKey, String> getIndexPaths();
+	public void addToIndex(EObject object);
+	
+	public void removeFromIndex(EObject object);
+	
+	public void save();
+	
+	public void clear();
 
 }

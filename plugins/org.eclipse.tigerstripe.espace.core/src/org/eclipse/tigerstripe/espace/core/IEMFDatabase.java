@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.core;
 
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
@@ -41,6 +42,14 @@ public interface IEMFDatabase {
 	 * @return objects by the specific feature value
 	 */
 	public EObject[] get(EStructuralFeature feature, Object value);
+	
+	/**
+	 * Return all stored objects of the passed classifier
+	 * 
+	 * @param classifier classifier of the objects should be found
+	 * @return Return all stored objects of the passed classifier
+	 */
+	public EObject[] query(EClassifier classifier);
 	
 	/**
 	 * Remove EMF object from the specific resource

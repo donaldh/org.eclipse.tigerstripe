@@ -3,31 +3,14 @@
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="resources"
     nsURI="http:///org/eclipse/tigerstripe/espace/resources.ecore" nsPrefix="org.eclipse.tigerstripe.espace.resources">
-  <eClassifiers xsi:type="ecore:EClass" name="IndexKey">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="className" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IndexList">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="indexPaths" upperBound="-1"
-        eType="#//EIndexKeyToStringMapEntry" containment="true" resolveProxies="false"/>
+  <eClassifiers xsi:type="ecore:EClass" name="EObjectList">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objects" upperBound="-1"
+        eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResourceList">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceUris" upperBound="-1"
-        eType="#//URI"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="resourceUris" upperBound="-1"
+        eType="#//URI" containment="true" resolveProxies="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EMap_1" instanceClassName="org.eclipse.emf.common.util.EMap"
+  <eClassifiers xsi:type="ecore:EClass" name="URI" instanceClassName="org.eclipse.emf.common.util.URI"
       abstract="true" interface="true"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="Map" instanceClassName="java.util.Map">
-    <eTypeParameters name="T"/>
-    <eTypeParameters name="T1"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="org.eclipse.emf.common.util.URI"/>
-  <eClassifiers xsi:type="ecore:EDataType" name="EMap" instanceClassName="org.eclipse.emf.common.util.EMap">
-    <eTypeParameters name="T"/>
-    <eTypeParameters name="T1"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EIndexKeyToStringMapEntry" instanceClassName="java.util.Map$Entry">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="#//IndexKey"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType ../../org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
-  </eClassifiers>
 </ecore:EPackage>

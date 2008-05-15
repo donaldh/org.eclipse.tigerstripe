@@ -26,14 +26,15 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
-import org.eclipse.tigerstripe.espace.resources.ResourceList;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
+import org.eclipse.tigerstripe.espace.resources.ResourceList;
 import org.eclipse.tigerstripe.espace.resources.ResourcesFactory;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 
@@ -56,11 +57,21 @@ public class EMFDatabase implements IEMFDatabase {
 	private ResourceList resourceList;
 	private ResourceHelper resourceHelper;
 	
+	private FeatureIndexer fIndexer;
+	private ClassifierIndexer cIndexer;
+	private CompositeIndexer indexer;
+	
 	public EMFDatabase() {
 		IPath path = ResourcesPlugin.getDefault().getStateLocation();
 		defaultRouter = new DefaultObjectRouter(new File(path.toFile(), DEFAULT_STORAGE));
 		resourceSet = new ResourceSetImpl();
-		resourceHelper = new ResourceHelper(resourceSet);
+		
+		fIndexer = new FeatureIndexer(resourceSet);
+		cIndexer = new ClassifierIndexer(resourceSet);
+		indexer = new CompositeIndexer();
+		indexer.addIndexer(fIndexer);
+		indexer.addIndexer(cIndexer);
+		resourceHelper = new ResourceHelper(indexer);
 	}
 	
 	protected EObjectRouter[] getRouters() {
@@ -93,6 +104,10 @@ public class EMFDatabase implements IEMFDatabase {
 	
 	private boolean isDefaultUri(URI uri) {
 		return defaultRouter.getUri().equals(uri);
+	}
+	
+	public EObject[] query(EClassifier classifier) {
+		return cIndexer.read(classifier);
 	}
 
 	public void write(EObject object) {
@@ -199,8 +214,8 @@ public class EMFDatabase implements IEMFDatabase {
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	public EObject[] get(EStructuralFeature feature, Object value) {
-		if (ResourceHelper.isFeatureIndexed(feature)) {
-		    return resourceHelper.readFromIndex(feature, value);
+		if (fIndexer.isFeatureIndexed(feature)) {
+		    return fIndexer.read(feature, value);
 		}
 		else {
 			List<EObject> list = new ArrayList<EObject>();

@@ -12,18 +12,17 @@
 package org.eclipse.tigerstripe.espace.resources;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 
 /**
  * @author Yuri Strot
  * @model
  */
-public interface ResourceList extends EObject {
+public interface EObjectList extends EObject {
 	
 	/**
-	 * @model containment="true"
+	 * @model
 	 */
-	EList<URI> getResourceUris();
+	EList<EObject> getObjects();
 
 }
