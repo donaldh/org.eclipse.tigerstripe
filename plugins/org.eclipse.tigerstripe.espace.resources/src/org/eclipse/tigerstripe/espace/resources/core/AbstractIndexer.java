@@ -113,8 +113,10 @@ public abstract class AbstractIndexer implements IIndexer {
 	
 	protected Resource getResource(Object object, boolean create) {
 		Resource res = map.get(object);
-		if (res == null && create) {
+		if (res == null) {
 			File file = getFile(object);
+			if (!file.exists() && !create)
+				return null;
 			res = getResource(file);
 			map.put(object, res);
 		}

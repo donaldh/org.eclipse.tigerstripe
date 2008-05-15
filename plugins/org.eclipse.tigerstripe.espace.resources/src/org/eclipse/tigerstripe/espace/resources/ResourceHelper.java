@@ -54,8 +54,8 @@ public class ResourceHelper {
 		ArrayList<EObject> list = new ArrayList<EObject>();
 		readReferences(object, new HashSet<EObject>(), list, REMOVE_INDEX);
 		resource.getContents().removeAll(list);
-		save(resource);
 		indexer.save();
+		save(resource);
 	}
 	
 	public static void save(Resource resource) {

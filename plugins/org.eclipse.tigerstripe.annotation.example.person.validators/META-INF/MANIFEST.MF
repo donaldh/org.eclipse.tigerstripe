@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tigerstripe Annotation Validators Plug-in
+Bundle-Name: Tigerstripe Annotation Validators Example Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.example.person.validators;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 0.3.0.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.tigerstripe.annotation.core,
  org.eclipse.tigerstripe.annotation.example.person,

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe Annotation Example Tests Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.example.person.tests
-Bundle-Version: 1.0.0
+Bundle-Version: 0.3.0.qualifier
 Require-Bundle: org.junit,
  org.eclipse.tigerstripe.annotation.core,
  org.eclipse.tigerstripe.annotation.example.person

@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Tigerstripe Annotation Example Router Plug-in
+Bundle-Name: Tigerstripe Annotation Router Example Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.example.router;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 0.3.0.qualifier
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.tigerstripe.annotation.core,
  org.eclipse.core.resources,

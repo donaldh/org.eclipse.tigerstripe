@@ -25,7 +25,7 @@ import org.osgi.framework.BundleContext;
 public class AnnotationPlugin extends Plugin {
 	
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.tigerstripe.annotation";
+	public static final String PLUGIN_ID = "org.eclipse.tigerstripe.annotation.core";
 
 	// The shared instance
 	private static AnnotationPlugin plugin;

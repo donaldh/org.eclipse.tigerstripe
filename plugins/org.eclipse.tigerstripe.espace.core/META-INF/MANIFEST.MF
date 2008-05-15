@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Espace Plug-in
+Bundle-Name: Tigerstripe ESpace Core Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.espace.core; singleton:=true
 Bundle-Version: 0.3.0.qualifier
 Bundle-ClassPath: .
