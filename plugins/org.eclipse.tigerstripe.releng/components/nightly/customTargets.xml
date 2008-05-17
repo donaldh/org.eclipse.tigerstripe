@@ -20,8 +20,6 @@
 	<property file="${login.properties}" />
 	<property file="${update.site.details}" />
 
-	<echo message="==> ${login.properties} ${update.site.username}" />
-
 	<!-- Include task defs for Releng Ant extensions -->
 	<path id="downloadsite.ant.path">
 		<fileset dir="${libs}">
@@ -182,7 +180,6 @@
 	<!-- Replace values for mapsCheckoutTag as desired. -->
 	<!-- ===================================================================== -->
 	<target name="getMapFiles" depends="checkLocalMaps" unless="skipMaps">
-		<echo message="${mapsRepo}" />
 		<cvs cvsRoot="${mapsRepo}" package="${mapsRoot}" dest="${buildDirectory}/maps" tag="${mapsCheckoutTag}" />
 	</target>
 
@@ -222,7 +219,6 @@
 		<mkdir dir="${buildDirectory}" />
 		<mkdir dir="${artifacts.drops}" />
 		<mkdir dir="${artifacts.updates}" />
-		<echo message="${remote.site.descriptor} - ${update.site.password}" />
 
 		<antcall target="cleanBase" />
 	</target>
