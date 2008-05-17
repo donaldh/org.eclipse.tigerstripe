@@ -19,28 +19,29 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class CompositeIndexer implements IIndexer {
-	
+
 	private List<IIndexer> indexers;
-	
+
 	public CompositeIndexer() {
 		indexers = new ArrayList<IIndexer>();
 	}
-	
+
 	public void addIndexer(IIndexer indexer) {
 		indexers.add(indexer);
 	}
-	
+
 	public void removeIndexer(IIndexer indexer) {
 		indexers.remove(indexer);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#addToIndex(org.eclipse.emf.ecore.EObject)
 	 */
-	@Override
 	public void addToIndex(EObject object) {
 		Iterator<IIndexer> it = indexers.iterator();
 		while (it.hasNext()) {
@@ -48,11 +49,12 @@ public class CompositeIndexer implements IIndexer {
 			indexer.addToIndex(object);
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#removeFromIndex(org.eclipse.emf.ecore.EObject)
 	 */
-	@Override
 	public void removeFromIndex(EObject object) {
 		Iterator<IIndexer> it = indexers.iterator();
 		while (it.hasNext()) {
@@ -61,10 +63,11 @@ public class CompositeIndexer implements IIndexer {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#clear()
 	 */
-	@Override
 	public void clear() {
 		Iterator<IIndexer> it = indexers.iterator();
 		while (it.hasNext()) {
@@ -72,11 +75,12 @@ public class CompositeIndexer implements IIndexer {
 			indexer.clear();
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#save()
 	 */
-	@Override
 	public void save() {
 		Iterator<IIndexer> it = indexers.iterator();
 		while (it.hasNext()) {

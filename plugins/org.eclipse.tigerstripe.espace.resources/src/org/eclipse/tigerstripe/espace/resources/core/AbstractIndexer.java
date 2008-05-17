@@ -47,7 +47,6 @@ public abstract class AbstractIndexer implements IIndexer {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#removeFromIndex(org.eclipse.emf.ecore.EObject)
 	 */
-	@Override
 	public void removeFromIndex(EObject object) {
 		addedMap.put(object, Boolean.FALSE);
 		index(object);
@@ -56,7 +55,6 @@ public abstract class AbstractIndexer implements IIndexer {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#addToIndex(org.eclipse.emf.ecore.EObject)
 	 */
-	@Override
 	public void addToIndex(EObject object) {
 		addedMap.put(object, Boolean.TRUE);
 		index(object);
@@ -152,7 +150,6 @@ public abstract class AbstractIndexer implements IIndexer {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#clear()
 	 */
-	@Override
 	public void clear() {
 		indexes = new HashMap<Object, List<EObject>>();
 		addedMap = new HashMap<EObject, Boolean>();
