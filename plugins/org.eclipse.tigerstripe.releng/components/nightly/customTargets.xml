@@ -327,7 +327,7 @@
 	<!-- ===================================================================== -->
 	<target name="test-base">
 		<property file="${buildDirectory}/finalPluginsVersions.properties" />
-		<property name="test-archive" value="Tigerstripe-base-test-${buildLabel}.zip" />
+		<property name="test-archive" value="tigerstripe-base-test-${buildLabel}.zip" />
 		<unzip dest="${baseLocation}/.." src="${buildDirectory}/${buildLabel}/${test-archive}" />
 		<ant antfile="${scripts}/install.xml" target="install-eclipse-test" inheritall="true" />
 		<ant antfile="${scripts}/install.xml" target="install-ant-optional" inheritall="true" />
