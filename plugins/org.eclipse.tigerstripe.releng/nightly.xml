@@ -44,7 +44,7 @@
 			<property name="stream" value="${stream}" />
 			<property name="buildRoot" value="${build.root}/builds" />
 			<property name="builder" value="${basedir}/components/${component}" />
-			<property name="buildDirectory" value="${env.WORKSPACE}/../builds/${component}/${env.BUILD_ID}" />
+			<property name="buildDirectory" value="${env.WORKSPACE}/../builds/${env.BUILD_ID}" />
 			<property name="update.site.details" value="${basedir}/eclipseUpdate-unstable.properties" />
 		</ant>
 
@@ -56,8 +56,8 @@
 			<property name="stream" value="${stream}" />
 			<property name="buildRoot" value="${build.root}/builds" />
 			<property name="builder" value="${basedir}/components/${component}" />
-			<property name="buildDirectory" value="${env.WORKSPACE}/../builds/workbench-only/${env.BUILD_ID}" />
-			<property name="artifactsDirectory" value="${build.root}/builds/${component}/${env.BUILD_ID}/${buildId}" />
+			<property name="buildDirectory" value="${env.WORKSPACE}/../builds/${env.BUILD_ID}" />
+			<property name="artifactsDirectory" value="${env.WORKSPACE}/../builds/${env.BUILD_ID}/${buildId}" />
 			<property name="downloads.site.details" value="${basedir}/eclipseDownloads.properties" />
 			<property name="update.site.details" value="${basedir}/eclipseUpdate-unstable.properties" />
 		</ant>
