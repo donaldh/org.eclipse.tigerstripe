@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Annotation Framework Core Tests
+Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.core.test
+Bundle-Version: 0.3.0.qualifier
+Bundle-Activator: org.eclipse.tigerstripe.annotation.core.test.Activator
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.core.runtime,
+ org.junit
+Eclipse-LazyStart: true
