@@ -29,7 +29,7 @@
 		<ant target="core-test" antfile="${library-file}"
 			dir="${eclipse-home}">
 			<property name="data-dir"
-				value="${org.eclipse.tigerstripe.annoation.core-folder}" />
+				value="${org.eclipse.tigerstripe.annotation.core-folder}" />
 			<property name="plugin-name" value="${plugin-name}" />
 			<property name="classname"
 				value="org.eclipse.tigerstripe.annotation.core.test.AllTests" />
