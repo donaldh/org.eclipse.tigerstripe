@@ -32,7 +32,7 @@
 				value="${org.eclipse.tigerstripe.annoation.core-folder}" />
 			<property name="plugin-name" value="${plugin-name}" />
 			<property name="classname"
-				value="org.eclipse.tigerstripe.workbench.annotation.core.test.AllTests" />
+				value="org.eclipse.tigerstripe.annotation.core.test.AllTests" />
 		</ant>
 	</target>
 
