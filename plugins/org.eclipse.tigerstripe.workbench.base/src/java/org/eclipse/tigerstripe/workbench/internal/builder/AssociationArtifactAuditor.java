@@ -69,32 +69,8 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 			checkStereotypes(artifact.getZEnd(), "artifact '"
 					+ getArtifact().getName() + "' endZ");
 
-			checkEndNames(); // Bug 222614
 			checkNavigability(); // Bug 221458
 			checkAggregation(); // Bug 221458
-		}
-	}
-
-	protected void checkEndNames() {
-		IAssociationArtifact artifact = (IAssociationArtifact) getArtifact();
-		String aEndName = artifact.getAEnd().getName();
-		String zEndName = artifact.getZEnd().getName();
-
-		if (!TigerstripeValidationUtils.elementNamePattern.matcher(aEndName)
-				.matches()) {
-			TigerstripeProjectAuditor.reportWarning("Discouraged "
-					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel() + " AEnd name '" + aEndName + "' in '"
-					+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
-		}
-		if (!TigerstripeValidationUtils.elementNamePattern.matcher(zEndName)
-				.matches()) {
-			TigerstripeProjectAuditor.reportWarning("Discouraged "
-					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel() + " ZEnd name '" + zEndName + "' in '"
-					+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
 		}
 	}
 
