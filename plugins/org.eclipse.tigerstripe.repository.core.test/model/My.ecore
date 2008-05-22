@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="sample"
+    nsURI="http://www.eclipse.org/tigerstripe/repository/sample" nsPrefix="sm">
+  <eClassifiers xsi:type="ecore:EClass" name="Top" abstract="true">
+    <eOperations name="getID"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Village" eSuperTypes="#//Top">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="streets" upperBound="-1"
+        eType="#//Street" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="neighboringVillages" upperBound="-1"
+        eType="#//Village"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="House" eSuperTypes="#//Top">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="windows" upperBound="-1"
+        eType="#//Window" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Street" eSuperTypes="#//Top">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="houses" upperBound="-1"
+        eType="#//House" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cars" upperBound="-1" eType="#//Car"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="crossStreets" upperBound="-1"
+        eType="#//Street"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Car">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="licensePlate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Region" eSuperTypes="#//Top">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="villages" upperBound="-1"
+        eType="#//Village" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nextTo" eType="#//Region"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Window" eSuperTypes="#//Top">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>
