@@ -41,6 +41,7 @@ plugin@org.eclipse.tigerstripe.workbench.ui.resources=v200805061422,:pserver:ano
 !==========================================
 ! Metamodel Stuff
 plugin@org.eclipse.tigerstripe.metamodel=v200805061422,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.metamodel
+plugin@org.eclipse.tigerstripe.repository.core=v200805061422,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.repository.core
 
 !==========================================
 ! Annotations Stuff
