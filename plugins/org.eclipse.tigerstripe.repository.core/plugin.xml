@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.1 2008/05/22 17:45:29 edillon Exp $
+-->
+
+<plugin>
+   <extension-point id="modelRepositoryProvider" name="Model Repository Provider" schema="schema/modelRepositoryProvider.exsd"/>
+   <extension-point id="keyProvider" name="EObject Key Provider" schema="schema/keyProvider.exsd"/>
+
+</plugin>
