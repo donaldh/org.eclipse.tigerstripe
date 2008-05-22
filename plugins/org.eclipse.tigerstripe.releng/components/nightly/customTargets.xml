@@ -63,6 +63,10 @@
 			<property name="type" value="feature" />
 			<property name="id" value="org.eclipse.tigerstripe.annotation.feature" />
 		</ant>
+		<ant antfile="${genericTargets}" target="${target}">
+			<property name="type" value="feature" />
+			<property name="id" value="org.eclipse.tigerstripe.annotation.core.test_feature" />
+		</ant>
 	</target>
 
 	<!-- ===================================================================== -->
@@ -153,7 +157,7 @@
 		</antcall>
 
 		<dsite.addComponent file="${buildDescriptor}">
-			<component name="Tigerstripe Annotation" summary="Tigerstripe Annotation Framework">
+			<component name="Tigerstripe Annotation" summary="Tigerstripe Annotation Framework" junitResultsURL="@download.prefix.direct@/Annotation-core-tests_${buildLabel}.html">
 				<bundle name="tigerstripe-annotation-${buildLabel}.zip" summary="Tigerstripe Annotation Plugins" size="18M" link="@download.prefix@/tigerstripe-annotation-${buildLabel}.zip" />
 			</component>
 		</dsite.addComponent>
@@ -169,6 +173,14 @@
 
 	<target name="assemble.org.eclipse.tigerstripe.base.test_feature">
 		<property name="archiveName" value="tigerstripe-base-test-${buildLabel}.zip" />
+		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
+
+		<!-- build the .zip files -->
+		<ant antfile="${scripts}/package.xml" target="unpackUpdateJarsAndRepack" />
+	</target>
+
+	<target name="assemble.org.eclipse.tigerstripe.annotation.core.test_feature">
+		<property name="archiveName" value="annotation-core-test-${buildLabel}.zip" />
 		<ant antfile="${assembleScriptName}" dir="${buildDirectory}" />
 
 		<!-- build the .zip files -->
@@ -320,15 +332,19 @@
 		<!--  		<ant antfile="${scripts}/package.xml" target="pack200" />-->
 		<antcall target="gatherLogs" />
 		<antcall target="test-base" />
+		<antcall target="test-annotation.core" />
 	</target>
 
 	<!-- ===================================================================== -->
 	<!-- Steps to do to test the build results -->
 	<!-- ===================================================================== -->
 	<target name="test-base">
+		<delete dir="${baseLocation}/../eclipse" />
 		<property file="${buildDirectory}/finalPluginsVersions.properties" />
 		<property name="test-archive" value="tigerstripe-base-test-${buildLabel}.zip" />
 		<unzip dest="${baseLocation}/.." src="${buildDirectory}/${buildLabel}/${test-archive}" />
+		<ant antfile="${scripts}/install.xml" target="install-eclipse-sdk" inheritall="true" />
+		<ant antfile="${scripts}/install.xml" target="install-required-plugins" inheritall="true" />
 		<ant antfile="${scripts}/install.xml" target="install-eclipse-test" inheritall="true" />
 		<ant antfile="${scripts}/install.xml" target="install-ant-optional" inheritall="true" />
 
@@ -341,6 +357,27 @@
 		</ant>
 
 		<copy file="${baseLocation}/results/org.eclipse.tigerstripe.workbench.base.test.AllTests.html" tofile="${buildDirectory}/${buildLabel}/Tigerstripe-base-tests_${buildLabel}.html" />
+	</target>
+
+	<target name="test-annotation.core">
+		<delete dir="${baseLocation}/../eclipse" />
+		<property file="${buildDirectory}/finalPluginsVersions.properties" />
+		<property name="test-archive" value="annotation-core-test-${buildLabel}.zip" />
+		<unzip dest="${baseLocation}/.." src="${buildDirectory}/${buildLabel}/${test-archive}" />
+		<ant antfile="${scripts}/install.xml" target="install-eclipse-sdk" inheritall="true" />
+		<ant antfile="${scripts}/install.xml" target="install-required-plugins" inheritall="true" />
+		<ant antfile="${scripts}/install.xml" target="install-eclipse-test" inheritall="true" />
+		<ant antfile="${scripts}/install.xml" target="install-ant-optional" inheritall="true" />
+
+		<ant antfile="${baseLocation}/plugins/org.eclipse.tigerstripe.annotation.core.test_${org.eclipse.tigerstripe.annotation.core.test}/test.xml" target="run" dir="${baseLocation}">
+			<property name="os" value="${baseos}" />
+			<property name="ws" value="${basews}" />
+			<property name="arch" value="${basearch}" />
+			<property name="eclipse-home" value="${baseLocation}" />
+			<property name="report" value="org.eclipse.tigerstripe.annotation.core.test.all" />
+		</ant>
+
+		<copy file="${baseLocation}/results/org.eclipse.tigerstripe.annotation.core.test.AllTests.html" tofile="${buildDirectory}/${buildLabel}/Annotation-core-tests_${buildLabel}.html" />
 	</target>
 
 	<target name="createChecksums">
