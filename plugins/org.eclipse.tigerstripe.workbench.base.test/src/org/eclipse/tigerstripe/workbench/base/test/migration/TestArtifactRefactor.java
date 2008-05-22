@@ -20,14 +20,14 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
 import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
+import org.eclipse.tigerstripe.repository.manager.IModelRepository;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.IModelManager;
-import org.eclipse.tigerstripe.workbench.model.IModelRepository;
+import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManager;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -52,15 +52,15 @@ public class TestArtifactRefactor extends TestCase {
 			project.delete(true, null);
 	}
 
-	public void testArtifactRename() throws TigerstripeException {
-		IModelManager mMgr = project.getModelManager();
+	public void testArtifactRename() throws Exception {
+		ProjectModelManager mMgr = project.getModelManager();
 		IModelRepository repo = mMgr.getDefaultRepository();
 
 		IManagedEntityArtifact nMea = MetamodelFactory.eINSTANCE
 				.createIManagedEntityArtifact();
 		nMea.setName("Mea");
 		nMea.setPackage("com.mycompany.testNO");
-		repo.store(nMea, true);
+		mMgr.store(nMea, true);
 
 		URI oldUri = nMea.eResource().getURI();
 		final IManagedEntityArtifact fMea = nMea;
@@ -97,9 +97,9 @@ public class TestArtifactRefactor extends TestCase {
 				.findMember(newURI.toPlatformString(true));
 		assertTrue(newPojo instanceof IFile && newPojo.exists());
 
-		Collection<IAbstractArtifact> allArts = repo.getAllArtifacts();
+		Collection<EObject> allArts = repo.getAllEObjects();
 		assertTrue(allArts.size() == 1);
-		assertTrue("com.moo.newName".equals(allArts.iterator().next()
-				.getFullyQualifiedName()));
+		assertTrue("com.moo.newName".equals(((IAbstractArtifact) allArts
+				.iterator().next()).getFullyQualifiedName()));
 	}
 }

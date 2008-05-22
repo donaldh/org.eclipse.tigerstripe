@@ -15,10 +15,10 @@ Require-Bundle: org.eclipse.ui,
  org.apache.log4j,
  org.eclipse.update.core,
  org.eclipse.jdt.launching,
- org.eclipse.tigerstripe.metamodel;visibility:=reexport,
  org.eclipse.emf.transaction;visibility:=reexport,
  org.eclipse.tigerstripe.annotation.core,
- org.eclipse.core.resources
+ org.eclipse.core.resources,
+ org.eclipse.tigerstripe.metamodel;visibility:=reexport
 Eclipse-LazyStart: true
 Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apache.velocity.runtime.resource",
  org.apache.velocity.app;
@@ -319,9 +319,9 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
 Bundle-ClassPath: lib/dom4j-1.6.1.jar,
  lib/qdox-1.6.3.jar,
  .,
- lib/velocity-1.5.jar,
  lib/commons-lang-2.1.jar,
  lib/commons-collections-3.2.jar,
- lib/commons-cli-1.0.jar
+ lib/commons-cli-1.0.jar,
+ lib/velocity-1.5.jar
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Activator: org.eclipse.tigerstripe.workbench.internal.BasePlugin

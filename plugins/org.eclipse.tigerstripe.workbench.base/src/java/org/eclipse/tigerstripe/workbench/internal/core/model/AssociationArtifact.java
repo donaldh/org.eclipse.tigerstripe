@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.AssociationArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;

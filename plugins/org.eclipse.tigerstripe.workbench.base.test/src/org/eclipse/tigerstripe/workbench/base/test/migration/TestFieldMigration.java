@@ -10,19 +10,21 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.migration;
 
+import javax.naming.InitialContext;
+
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.tigerstripe.metamodel.ERefByEnum;
 import org.eclipse.tigerstripe.metamodel.IField;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
 import org.eclipse.tigerstripe.metamodel.VisibilityEnum;
+import org.eclipse.tigerstripe.repository.manager.IModelRepository;
+import org.eclipse.tigerstripe.repository.metamodel.pojo.internal.Init;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.IModelManager;
-import org.eclipse.tigerstripe.workbench.model.IModelRepository;
+import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
@@ -277,14 +279,11 @@ public class TestFieldMigration extends TestCase {
 		iProject.refreshLocal(IResource.DEPTH_INFINITE,
 				new NullProgressMonitor());
 
-		IModelManager mMgr = project.getModelManager();
+		ProjectModelManager mMgr = project.getModelManager();
 		IModelRepository repo = mMgr.getDefaultRepository();
 
-		// This should go away soon as clients shouldn't be worried about that.
-		repo.refresh(null);
-
 		org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact nMea = (org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact) repo
-				.getArtifactByFullyQualifiedName("com.mycompany.testON.Mea");
+				.getEObjectByKey("com.mycompany.testON.Mea");
 		assertNotNull(nMea);
 
 		boolean simpleIntFound = false;
@@ -342,12 +341,6 @@ public class TestFieldMigration extends TestCase {
 			} else if ("uniqueInt".equals(field.getName())) {
 				assertTrue(field.isUnique());
 				uniqueIntFound = true;
-			} else if ("notOptionalInt".equals(field.getName())) {
-				assertTrue(!field.isOptional());
-				notOptionalIntFound = true;
-			} else if ("optionalInt".equals(field.getName())) {
-				assertTrue(field.isOptional());
-				optionalIntFound = true;
 			} else if ("noDefaultInt".equals(field.getName())) {
 				assertTrue(!field.isSetDefaultValue());
 				noDefaultIntFound = true;
@@ -358,27 +351,6 @@ public class TestFieldMigration extends TestCase {
 			} else if ("setNoDefaultInt".equals(field.getName())) {
 				assertTrue(!field.isSetDefaultValue());
 				setNoDefaultIntFound = true;
-			} else if ("refByNA".equals(field.getName())) {
-				assertTrue(field.getRefBy() == ERefByEnum.REF_BY_VALUE); // This
-				// used
-				// to
-				// be
-				// the
-				// default,
-				// need
-				// to
-				// keep
-				// it.
-				refByNAFound = true;
-			} else if ("refByKey".equals(field.getName())) {
-				assertTrue(field.getRefBy() == ERefByEnum.REF_BY_KEY);
-				refByKeyFound = true;
-			} else if ("refByKeyResult".equals(field.getName())) {
-				assertTrue(field.getRefBy() == ERefByEnum.REF_BY_KEY_RESULT);
-				refByKeyResultFound = true;
-			} else if ("refByValue".equals(field.getName())) {
-				assertTrue(field.getRefBy() == ERefByEnum.REF_BY_VALUE);
-				refByValueFound = true;
 			}
 		}
 
@@ -393,27 +365,23 @@ public class TestFieldMigration extends TestCase {
 		assertTrue(notOrderedIntFound);
 		assertTrue(uniqueIntFound);
 		assertTrue(notUniqueIntFound);
-		assertTrue(optionalIntFound);
-		assertTrue(notOptionalIntFound);
 		assertTrue(defaultIntFound);
 		assertTrue(noDefaultIntFound);
 		assertTrue(setNoDefaultIntFound);
-		assertTrue(refByKeyFound);
-		assertTrue(refByNAFound);
-		assertTrue(refByKeyResultFound);
-		assertTrue(refByValueFound);
 	}
 
 	public void testAllFieldModifiersNtoO() throws Exception {
-		IModelManager mMgr = project.getModelManager();
-		IModelRepository repo = mMgr.getDefaultRepository();
 
-		repo.refresh(null); // TODO: shouldn't need this!
+		org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession session = project
+				.getArtifactManagerSession();
+
+		ProjectModelManager mMgr = project.getModelManager();
+		IModelRepository repo = mMgr.getDefaultRepository();
 
 		org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact nMea = MetamodelFactory.eINSTANCE
 				.createIManagedEntityArtifact();
 		nMea.setName("Mea");
-		nMea.setPackage("com.mycompany.testAllFieldModifiersNtoO");
+		nMea.setPackage("testAllFieldModifiersNtoO");
 
 		// Create a few attributes, trying all modifiers
 		IField simpleInt = MetamodelFactory.eINSTANCE.createIField();
@@ -512,24 +480,6 @@ public class TestFieldMigration extends TestCase {
 		notUniqueInt.setType(type);
 		nMea.getFields().add(notUniqueInt);
 
-		// =========================================================
-		// is optional
-		IField optionalInt = MetamodelFactory.eINSTANCE.createIField();
-		optionalInt.setName("optionalInt");
-		optionalInt.setOptional(true);
-		type = MetamodelFactory.eINSTANCE.createIType();
-		type.setFullyQualifiedName("int");
-		optionalInt.setType(type);
-		nMea.getFields().add(optionalInt);
-
-		IField notOptionalInt = MetamodelFactory.eINSTANCE.createIField();
-		notOptionalInt.setName("notOptionalInt");
-		notOptionalInt.setOptional(false);
-		type = MetamodelFactory.eINSTANCE.createIType();
-		type.setFullyQualifiedName("int");
-		notOptionalInt.setType(type);
-		nMea.getFields().add(notOptionalInt);
-
 		// Default Value
 		IField noDefaultInt = MetamodelFactory.eINSTANCE.createIField();
 		noDefaultInt.setName("noDefaultInt");
@@ -554,46 +504,12 @@ public class TestFieldMigration extends TestCase {
 		setNoDefaultInt.setType(type);
 		nMea.getFields().add(setNoDefaultInt);
 
-		// RefBy
-		IField refByNA = MetamodelFactory.eINSTANCE.createIField();
-		refByNA.setName("refByNA");
-		refByNA.setRefBy(ERefByEnum.NON_APPLICABLE);
-		type = MetamodelFactory.eINSTANCE.createIType();
-		type.setFullyQualifiedName("int");
-		refByNA.setType(type);
-		nMea.getFields().add(refByNA);
-
-		IField refByKey = MetamodelFactory.eINSTANCE.createIField();
-		refByKey.setName("refByKey");
-		refByKey.setRefBy(ERefByEnum.REF_BY_KEY);
-		type = MetamodelFactory.eINSTANCE.createIType();
-		type.setFullyQualifiedName("int");
-		refByKey.setType(type);
-		nMea.getFields().add(refByKey);
-
-		IField refByKeyResult = MetamodelFactory.eINSTANCE.createIField();
-		refByKeyResult.setName("refByKeyResult");
-		refByKeyResult.setRefBy(ERefByEnum.REF_BY_KEY_RESULT);
-		type = MetamodelFactory.eINSTANCE.createIType();
-		type.setFullyQualifiedName("int");
-		refByKeyResult.setType(type);
-		nMea.getFields().add(refByKeyResult);
-
-		IField refByValue = MetamodelFactory.eINSTANCE.createIField();
-		refByValue.setName("refByValue");
-		refByValue.setRefBy(ERefByEnum.REF_BY_VALUE);
-		type = MetamodelFactory.eINSTANCE.createIType();
-		type.setFullyQualifiedName("int");
-		refByValue.setType(type);
-		nMea.getFields().add(refByValue);
-
 		repo.store(nMea, true);
 
-		IArtifactManagerSession session = project.getArtifactManagerSession();
 		session.refresh(true, new NullProgressMonitor()); // required
 
 		IManagedEntityArtifact oMea = (IManagedEntityArtifact) session
-				.getArtifactByFullyQualifiedName("com.mycompany.testAllFieldModifiersNtoO.Mea");
+				.getArtifactByFullyQualifiedName("testAllFieldModifiersNtoO.Mea");
 		assertNotNull(oMea);
 
 		boolean simpleIntFound = false;
@@ -705,7 +621,7 @@ public class TestFieldMigration extends TestCase {
 		assertTrue(refByValueFound);
 	}
 
-	public void testMultiplicityNtoO() throws Exception {
+	public void testMultiplicityOtoN() throws Exception {
 		org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession session = project
 				.getArtifactManagerSession();
 
@@ -713,7 +629,7 @@ public class TestFieldMigration extends TestCase {
 				.makeArtifact(org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact.class
 						.getName());
 		mea.setName("Mea");
-		mea.setPackage("com.mycompany.testMultiplicityON");
+		mea.setPackage("testMultiplicityON");
 
 		// =========================================================
 		// Multiplicity 0
@@ -790,14 +706,11 @@ public class TestFieldMigration extends TestCase {
 		iProject.refreshLocal(IResource.DEPTH_INFINITE,
 				new NullProgressMonitor());
 
-		IModelManager mMgr = project.getModelManager();
+		ProjectModelManager mMgr = project.getModelManager();
 		IModelRepository repo = mMgr.getDefaultRepository();
 
-		// This should go away soon as clients shouldn't be worried about that.
-		repo.refresh(null);
-
 		org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact nMea = (org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact) repo
-				.getArtifactByFullyQualifiedName("com.mycompany.testMultiplicityON.Mea");
+				.getEObjectByKey("testMultiplicityON.Mea");
 		assertNotNull(nMea);
 
 		boolean oneFound = false;
@@ -843,22 +756,20 @@ public class TestFieldMigration extends TestCase {
 	}
 
 	public void testSimpleNtoOCreate() throws Exception {
-		IModelManager mMgr = project.getModelManager();
+		ProjectModelManager mMgr = project.getModelManager();
 		IModelRepository repo = mMgr.getDefaultRepository();
 
-		repo.refresh(null); // TODO: shouldn't need this!
-		
 		org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact nMea = MetamodelFactory.eINSTANCE
 				.createIManagedEntityArtifact();
 		nMea.setName("Mea");
-		nMea.setPackage("com.mycompany.testNO");
+		nMea.setPackage("testNO");
 		repo.store(nMea, true);
 
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 		session.refresh(true, new NullProgressMonitor()); // required
 
 		IManagedEntityArtifact oMea = (IManagedEntityArtifact) session
-				.getArtifactByFullyQualifiedName("com.mycompany.testNO.Mea");
+				.getArtifactByFullyQualifiedName("testNO.Mea");
 		assertNotNull(oMea);
 
 		// At this stage, you need to be in the edit domain to make changes to

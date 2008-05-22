@@ -14,7 +14,7 @@ import java.io.Writer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEventSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.EventArtifactPersister;

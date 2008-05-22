@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.query;
 
 import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactFormContentProviderBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormContentProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormContentProvider;

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MetamodelFactoryImpl.java,v 1.2 2008/02/28 18:05:31 edillon Exp $
+ * $Id: MetamodelFactoryImpl.java,v 1.3 2008/05/22 18:26:28 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -84,7 +84,6 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 			case MetamodelPackage.ISTEREOTYPE_CAPABLE: return createIStereotypeCapable();
 			case MetamodelPackage.ISTEREOTYPE_INSTANCE: return createIStereotypeInstance();
 			case MetamodelPackage.ISTEREOTYPE_ATTRIBUTE_VALUE: return createIStereotypeAttributeValue();
-			case MetamodelPackage.IENTITY_METHOD_FLAVOR_DETAILS: return createIEntityMethodFlavorDetails();
 			case MetamodelPackage.IMULTIPLICITY: return createIMultiplicity();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -99,16 +98,12 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case MetamodelPackage.EREF_BY_ENUM:
-				return createERefByEnumFromString(eDataType, initialValue);
 			case MetamodelPackage.VISIBILITY_ENUM:
 				return createVisibilityEnumFromString(eDataType, initialValue);
 			case MetamodelPackage.EAGGREGATION_ENUM:
 				return createEAggregationEnumFromString(eDataType, initialValue);
 			case MetamodelPackage.ECHANGEABLE_ENUM:
 				return createEChangeableEnumFromString(eDataType, initialValue);
-			case MetamodelPackage.OSSJ_ENTITY_METHOD_FLAVOR:
-				return createOssjEntityMethodFlavorFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -122,16 +117,12 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case MetamodelPackage.EREF_BY_ENUM:
-				return convertERefByEnumToString(eDataType, instanceValue);
 			case MetamodelPackage.VISIBILITY_ENUM:
 				return convertVisibilityEnumToString(eDataType, instanceValue);
 			case MetamodelPackage.EAGGREGATION_ENUM:
 				return convertEAggregationEnumToString(eDataType, instanceValue);
 			case MetamodelPackage.ECHANGEABLE_ENUM:
 				return convertEChangeableEnumToString(eDataType, instanceValue);
-			case MetamodelPackage.OSSJ_ENTITY_METHOD_FLAVOR:
-				return convertOssjEntityMethodFlavorToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -372,39 +363,9 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IEntityMethodFlavorDetails createIEntityMethodFlavorDetails() {
-		IEntityMethodFlavorDetailsImpl iEntityMethodFlavorDetails = new IEntityMethodFlavorDetailsImpl();
-		return iEntityMethodFlavorDetails;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public IMultiplicity createIMultiplicity() {
 		IMultiplicityImpl iMultiplicity = new IMultiplicityImpl();
 		return iMultiplicity;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ERefByEnum createERefByEnumFromString(EDataType eDataType, String initialValue) {
-		ERefByEnum result = ERefByEnum.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertERefByEnumToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**
@@ -464,26 +425,6 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	 * @generated
 	 */
 	public String convertEChangeableEnumToString(EDataType eDataType, Object instanceValue) {
-		return instanceValue == null ? null : instanceValue.toString();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public OssjEntityMethodFlavor createOssjEntityMethodFlavorFromString(EDataType eDataType, String initialValue) {
-		OssjEntityMethodFlavor result = OssjEntityMethodFlavor.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-		return result;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertOssjEntityMethodFlavorToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

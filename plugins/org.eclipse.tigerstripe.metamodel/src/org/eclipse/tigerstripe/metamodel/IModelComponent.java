@@ -2,12 +2,14 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IModelComponent.java,v 1.3 2008/02/28 18:05:32 edillon Exp $
+ * $Id: IModelComponent.java,v 1.4 2008/05/22 18:26:30 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
+
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>IModel Component</b></em>'.
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>IModel Component</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -25,14 +27,13 @@ package org.eclipse.tigerstripe.metamodel;
  */
 public interface IModelComponent extends IStereotypeCapable {
 	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute. <!--
-	 * begin-user-doc -->
+	 * Returns the value of the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear, there
-	 * really should be more of a description here...
+	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIModelComponent_Name()
@@ -43,7 +44,8 @@ public interface IModelComponent extends IStereotypeCapable {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IModelComponent#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Name</em>' attribute.
 	 * @see #getName()
 	 * @generated
@@ -51,14 +53,13 @@ public interface IModelComponent extends IStereotypeCapable {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Comment</b></em>' attribute. <!--
-	 * begin-user-doc -->
+	 * Returns the value of the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Comment</em>' attribute isn't clear, there
-	 * really should be more of a description here...
+	 * If the meaning of the '<em>Comment</em>' attribute isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Comment</em>' attribute.
 	 * @see #setComment(String)
 	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIModelComponent_Comment()
@@ -69,7 +70,8 @@ public interface IModelComponent extends IStereotypeCapable {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IModelComponent#getComment <em>Comment</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Comment</em>' attribute.
 	 * @see #getComment()
 	 * @generated
@@ -77,16 +79,14 @@ public interface IModelComponent extends IStereotypeCapable {
 	void setComment(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Visibility</b></em>' attribute. The
-	 * literals are from the enumeration
-	 * {@link org.eclipse.tigerstripe.metamodel.VisibilityEnum}. <!--
-	 * begin-user-doc -->
+	 * Returns the value of the '<em><b>Visibility</b></em>' attribute.
+	 * The literals are from the enumeration {@link org.eclipse.tigerstripe.metamodel.VisibilityEnum}.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Visibility</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Visibility</em>' attribute.
 	 * @see org.eclipse.tigerstripe.metamodel.VisibilityEnum
 	 * @see #setVisibility(VisibilityEnum)
@@ -98,20 +98,13 @@ public interface IModelComponent extends IStereotypeCapable {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IModelComponent#getVisibility <em>Visibility</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Visibility</em>' attribute.
 	 * @see org.eclipse.tigerstripe.metamodel.VisibilityEnum
 	 * @see #getVisibility()
 	 * @generated
 	 */
 	void setVisibility(VisibilityEnum value);
-
-	/**
-	 * Gets the metadata for this artifact type.
-	 * 
-	 * This is not an EMF method.
-	 * 
-	 */
-	public IModelComponentMetadata getMetadata();
 
 } // IModelComponent

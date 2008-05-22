@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MetamodelPackageImpl.java,v 1.2 2008/02/28 18:05:32 edillon Exp $
+ * $Id: MetamodelPackageImpl.java,v 1.3 2008/05/22 18:26:28 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -17,8 +17,6 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.tigerstripe.metamodel.EAggregationEnum;
 import org.eclipse.tigerstripe.metamodel.EChangeableEnum;
-import org.eclipse.tigerstripe.metamodel.EMultiplicity;
-import org.eclipse.tigerstripe.metamodel.ERefByEnum;
 import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
 import org.eclipse.tigerstripe.metamodel.IArgument;
 import org.eclipse.tigerstripe.metamodel.IAssociationArtifact;
@@ -26,7 +24,6 @@ import org.eclipse.tigerstripe.metamodel.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.metamodel.IAssociationEnd;
 import org.eclipse.tigerstripe.metamodel.IDatatypeArtifact;
 import org.eclipse.tigerstripe.metamodel.IDependencyArtifact;
-import org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.metamodel.IEnumArtifact;
 import org.eclipse.tigerstripe.metamodel.IEventArtifact;
 import org.eclipse.tigerstripe.metamodel.IExceptionArtifact;
@@ -49,16 +46,7 @@ import org.eclipse.tigerstripe.metamodel.IType;
 import org.eclipse.tigerstripe.metamodel.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
 import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
-import org.eclipse.tigerstripe.metamodel.OssjEntityMethodFlavor;
 import org.eclipse.tigerstripe.metamodel.VisibilityEnum;
-
-import org.eclipse.tigerstripe.metamodel.extensions.ExtensionsPackage;
-
-import org.eclipse.tigerstripe.metamodel.extensions.impl.ExtensionsPackageImpl;
-
-import org.eclipse.tigerstripe.metamodel.extensions.ossj.OssjPackage;
-
-import org.eclipse.tigerstripe.metamodel.extensions.ossj.impl.OssjPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -254,21 +242,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass iEntityMethodFlavorDetailsEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	private EClass iMultiplicityEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum eRefByEnumEEnum = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -290,13 +264,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * @generated
 	 */
 	private EEnum eChangeableEnumEEnum = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EEnum ossjEntityMethodFlavorEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -354,19 +321,11 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 
 		isInited = true;
 
-		// Obtain or create and register interdependencies
-		ExtensionsPackageImpl theExtensionsPackage = (ExtensionsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ExtensionsPackage.eNS_URI) instanceof ExtensionsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ExtensionsPackage.eNS_URI) : ExtensionsPackage.eINSTANCE);
-		OssjPackageImpl theOssjPackage = (OssjPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OssjPackage.eNS_URI) instanceof OssjPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OssjPackage.eNS_URI) : OssjPackage.eINSTANCE);
-
 		// Create package meta-data objects
 		theMetamodelPackage.createPackageContents();
-		theExtensionsPackage.createPackageContents();
-		theOssjPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theMetamodelPackage.initializePackageContents();
-		theExtensionsPackage.initializePackageContents();
-		theOssjPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theMetamodelPackage.freeze();
@@ -442,8 +401,17 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getIAbstractArtifact_StandardSpecifics() {
+	public EReference getIAbstractArtifact_ExtendingArtifacts() {
 		return (EReference)iAbstractArtifactEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIAbstractArtifact_ImplementingArtifacts() {
+		return (EReference)iAbstractArtifactEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -667,7 +635,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getIField_Optional() {
+	public EAttribute getIField_ReadOnly() {
 		return (EAttribute)iFieldEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -676,7 +644,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getIField_ReadOnly() {
+	public EAttribute getIField_Ordered() {
 		return (EAttribute)iFieldEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -685,7 +653,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getIField_Ordered() {
+	public EAttribute getIField_Unique() {
 		return (EAttribute)iFieldEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -694,17 +662,8 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getIField_Unique() {
-		return (EAttribute)iFieldEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getIField_Type() {
-		return (EReference)iFieldEClass.getEStructuralFeatures().get(4);
+		return (EReference)iFieldEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -713,16 +672,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * @generated
 	 */
 	public EAttribute getIField_DefaultValue() {
-		return (EAttribute)iFieldEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIField_RefBy() {
-		return (EAttribute)iFieldEClass.getEStructuralFeatures().get(6);
+		return (EAttribute)iFieldEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -784,17 +734,8 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getIMethod_Optional() {
-		return (EAttribute)iMethodEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getIMethod_Exceptions() {
-		return (EReference)iMethodEClass.getEStructuralFeatures().get(6);
+		return (EReference)iMethodEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -803,34 +744,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * @generated
 	 */
 	public EAttribute getIMethod_Void() {
-		return (EAttribute)iMethodEClass.getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIMethod_IteratorReturn() {
-		return (EAttribute)iMethodEClass.getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIMethod_ReturnRefBy() {
-		return (EAttribute)iMethodEClass.getEStructuralFeatures().get(9);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIMethod_InstanceMethod() {
-		return (EAttribute)iMethodEClass.getEStructuralFeatures().get(10);
+		return (EAttribute)iMethodEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -839,7 +753,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * @generated
 	 */
 	public EAttribute getIMethod_DefaultReturnValue() {
-		return (EAttribute)iMethodEClass.getEStructuralFeatures().get(11);
+		return (EAttribute)iMethodEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -848,7 +762,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * @generated
 	 */
 	public EAttribute getIMethod_MethodReturnName() {
-		return (EAttribute)iMethodEClass.getEStructuralFeatures().get(12);
+		return (EAttribute)iMethodEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -857,16 +771,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * @generated
 	 */
 	public EReference getIMethod_ReturnStereotypeInstances() {
-		return (EReference)iMethodEClass.getEStructuralFeatures().get(13);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getIMethod_EntityMethodFlavorDetails() {
-		return (EReference)iMethodEClass.getEStructuralFeatures().get(14);
+		return (EReference)iMethodEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -1099,15 +1004,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getIArgument_RefBy() {
-		return (EAttribute)iArgumentEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getIModel() {
 		return iModelEClass;
 	}
@@ -1137,15 +1033,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 */
 	public EReference getIPackage_Artifacts() {
 		return (EReference)iPackageEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIPackage_Name() {
-		return (EAttribute)iPackageEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1225,69 +1112,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getIEntityMethodFlavorDetails() {
-		return iEntityMethodFlavorDetailsEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIEntityMethodFlavorDetails_Comment() {
-		return (EAttribute)iEntityMethodFlavorDetailsEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIEntityMethodFlavorDetails_Flag() {
-		return (EAttribute)iEntityMethodFlavorDetailsEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getIEntityMethodFlavorDetails_Exceptions() {
-		return (EReference)iEntityMethodFlavorDetailsEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getIEntityMethodFlavorDetails_Method() {
-		return (EReference)iEntityMethodFlavorDetailsEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIEntityMethodFlavorDetails_Flavor() {
-		return (EAttribute)iEntityMethodFlavorDetailsEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIEntityMethodFlavorDetails_MethodType() {
-		return (EAttribute)iEntityMethodFlavorDetailsEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getIMultiplicity() {
 		return iMultiplicityEClass;
 	}
@@ -1315,15 +1139,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getERefByEnum() {
-		return eRefByEnumEEnum;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EEnum getVisibilityEnum() {
 		return visibilityEnumEEnum;
 	}
@@ -1344,15 +1159,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 */
 	public EEnum getEChangeableEnum() {
 		return eChangeableEnumEEnum;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EEnum getOssjEntityMethodFlavor() {
-		return ossjEntityMethodFlavorEEnum;
 	}
 
 	/**
@@ -1390,7 +1196,8 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		createEAttribute(iAbstractArtifactEClass, IABSTRACT_ARTIFACT__ABSTRACT);
 		createEReference(iAbstractArtifactEClass, IABSTRACT_ARTIFACT__EXTENDED_ARTIFACT);
 		createEReference(iAbstractArtifactEClass, IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS);
-		createEReference(iAbstractArtifactEClass, IABSTRACT_ARTIFACT__STANDARD_SPECIFICS);
+		createEReference(iAbstractArtifactEClass, IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS);
+		createEReference(iAbstractArtifactEClass, IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS);
 
 		iPrimitiveTypeEClass = createEClass(IPRIMITIVE_TYPE);
 
@@ -1428,13 +1235,11 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		createEAttribute(iEnumArtifactEClass, IENUM_ARTIFACT__BASE_TYPE);
 
 		iFieldEClass = createEClass(IFIELD);
-		createEAttribute(iFieldEClass, IFIELD__OPTIONAL);
 		createEAttribute(iFieldEClass, IFIELD__READ_ONLY);
 		createEAttribute(iFieldEClass, IFIELD__ORDERED);
 		createEAttribute(iFieldEClass, IFIELD__UNIQUE);
 		createEReference(iFieldEClass, IFIELD__TYPE);
 		createEAttribute(iFieldEClass, IFIELD__DEFAULT_VALUE);
-		createEAttribute(iFieldEClass, IFIELD__REF_BY);
 
 		iMethodEClass = createEClass(IMETHOD);
 		createEReference(iMethodEClass, IMETHOD__ARGUMENTS);
@@ -1442,16 +1247,11 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		createEAttribute(iMethodEClass, IMETHOD__ABSTRACT);
 		createEAttribute(iMethodEClass, IMETHOD__ORDERED);
 		createEAttribute(iMethodEClass, IMETHOD__UNIQUE);
-		createEAttribute(iMethodEClass, IMETHOD__OPTIONAL);
 		createEReference(iMethodEClass, IMETHOD__EXCEPTIONS);
 		createEAttribute(iMethodEClass, IMETHOD__VOID);
-		createEAttribute(iMethodEClass, IMETHOD__ITERATOR_RETURN);
-		createEAttribute(iMethodEClass, IMETHOD__RETURN_REF_BY);
-		createEAttribute(iMethodEClass, IMETHOD__INSTANCE_METHOD);
 		createEAttribute(iMethodEClass, IMETHOD__DEFAULT_RETURN_VALUE);
 		createEAttribute(iMethodEClass, IMETHOD__METHOD_RETURN_NAME);
 		createEReference(iMethodEClass, IMETHOD__RETURN_STEREOTYPE_INSTANCES);
-		createEReference(iMethodEClass, IMETHOD__ENTITY_METHOD_FLAVOR_DETAILS);
 
 		iLiteralEClass = createEClass(ILITERAL);
 		createEAttribute(iLiteralEClass, ILITERAL__VALUE);
@@ -1483,14 +1283,12 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		createEAttribute(iArgumentEClass, IARGUMENT__DEFAULT_VALUE);
 		createEAttribute(iArgumentEClass, IARGUMENT__ORDERED);
 		createEAttribute(iArgumentEClass, IARGUMENT__UNIQUE);
-		createEAttribute(iArgumentEClass, IARGUMENT__REF_BY);
 
 		iModelEClass = createEClass(IMODEL);
 		createEReference(iModelEClass, IMODEL__PACKAGES);
 
 		iPackageEClass = createEClass(IPACKAGE);
 		createEReference(iPackageEClass, IPACKAGE__ARTIFACTS);
-		createEAttribute(iPackageEClass, IPACKAGE__NAME);
 
 		iStereotypeCapableEClass = createEClass(ISTEREOTYPE_CAPABLE);
 		createEReference(iStereotypeCapableEClass, ISTEREOTYPE_CAPABLE__STEREOTYPE_INSTANCES);
@@ -1503,24 +1301,14 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		createEAttribute(iStereotypeAttributeValueEClass, ISTEREOTYPE_ATTRIBUTE_VALUE__NAME);
 		createEAttribute(iStereotypeAttributeValueEClass, ISTEREOTYPE_ATTRIBUTE_VALUE__VALUE);
 
-		iEntityMethodFlavorDetailsEClass = createEClass(IENTITY_METHOD_FLAVOR_DETAILS);
-		createEAttribute(iEntityMethodFlavorDetailsEClass, IENTITY_METHOD_FLAVOR_DETAILS__COMMENT);
-		createEAttribute(iEntityMethodFlavorDetailsEClass, IENTITY_METHOD_FLAVOR_DETAILS__FLAG);
-		createEReference(iEntityMethodFlavorDetailsEClass, IENTITY_METHOD_FLAVOR_DETAILS__EXCEPTIONS);
-		createEReference(iEntityMethodFlavorDetailsEClass, IENTITY_METHOD_FLAVOR_DETAILS__METHOD);
-		createEAttribute(iEntityMethodFlavorDetailsEClass, IENTITY_METHOD_FLAVOR_DETAILS__FLAVOR);
-		createEAttribute(iEntityMethodFlavorDetailsEClass, IENTITY_METHOD_FLAVOR_DETAILS__METHOD_TYPE);
-
 		iMultiplicityEClass = createEClass(IMULTIPLICITY);
 		createEAttribute(iMultiplicityEClass, IMULTIPLICITY__LOWER_BOUND);
 		createEAttribute(iMultiplicityEClass, IMULTIPLICITY__UPPER_BOUND);
 
 		// Create enums
-		eRefByEnumEEnum = createEEnum(EREF_BY_ENUM);
 		visibilityEnumEEnum = createEEnum(VISIBILITY_ENUM);
 		eAggregationEnumEEnum = createEEnum(EAGGREGATION_ENUM);
 		eChangeableEnumEEnum = createEEnum(ECHANGEABLE_ENUM);
-		ossjEntityMethodFlavorEEnum = createEEnum(OSSJ_ENTITY_METHOD_FLAVOR);
 	}
 
 	/**
@@ -1545,13 +1333,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		setName(eNAME);
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
-
-		// Obtain other dependent packages
-		ExtensionsPackage theExtensionsPackage = (ExtensionsPackage)EPackage.Registry.INSTANCE.getEPackage(ExtensionsPackage.eNS_URI);
-		OssjPackage theOssjPackage = (OssjPackage)EPackage.Registry.INSTANCE.getEPackage(OssjPackage.eNS_URI);
-
-		// Add subpackages
-		getESubpackages().add(theExtensionsPackage);
 
 		// Create type parameters
 
@@ -1580,6 +1361,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		iAssociationEndEClass.getESuperTypes().add(this.getIModelComponent());
 		iArgumentEClass.getESuperTypes().add(this.getIModelComponent());
 		iModelEClass.getESuperTypes().add(this.getIModelComponent());
+		iPackageEClass.getESuperTypes().add(this.getIModelComponent());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(iAbstractArtifactEClass, IAbstractArtifact.class, "IAbstractArtifact", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1587,15 +1369,12 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		initEReference(getIAbstractArtifact_Methods(), this.getIMethod(), null, "methods", null, 0, -1, IAbstractArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIAbstractArtifact_Literals(), this.getILiteral(), null, "literals", null, 0, -1, IAbstractArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIAbstractArtifact_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, IAbstractArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIAbstractArtifact_ExtendedArtifact(), this.getIAbstractArtifact(), null, "extendedArtifact", null, 0, 1, IAbstractArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIAbstractArtifact_ImplementedArtifacts(), this.getIAbstractArtifact(), null, "implementedArtifacts", null, 0, -1, IAbstractArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIAbstractArtifact_StandardSpecifics(), theExtensionsPackage.getIStandardSpecifics(), null, "standardSpecifics", null, 0, 1, IAbstractArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIAbstractArtifact_ExtendedArtifact(), this.getIAbstractArtifact(), this.getIAbstractArtifact_ExtendingArtifacts(), "extendedArtifact", null, 0, 1, IAbstractArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIAbstractArtifact_ImplementedArtifacts(), this.getIAbstractArtifact(), this.getIAbstractArtifact_ImplementingArtifacts(), "implementedArtifacts", null, 0, -1, IAbstractArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIAbstractArtifact_ExtendingArtifacts(), this.getIAbstractArtifact(), this.getIAbstractArtifact_ExtendedArtifact(), "extendingArtifacts", null, 0, -1, IAbstractArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIAbstractArtifact_ImplementingArtifacts(), this.getIAbstractArtifact(), this.getIAbstractArtifact_ImplementedArtifacts(), "implementingArtifacts", null, 0, -1, IAbstractArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(iAbstractArtifactEClass, this.getIAbstractArtifact(), "getAncestors", 0, -1, IS_UNIQUE, IS_ORDERED);
-
-		addEOperation(iAbstractArtifactEClass, this.getIAbstractArtifact(), "getExtendingArtifacts", 0, -1, IS_UNIQUE, IS_ORDERED);
-
-		addEOperation(iAbstractArtifactEClass, this.getIAbstractArtifact(), "getImplementingArtifact", 0, -1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(iAbstractArtifactEClass, this.getIField(), "getInheritedFields", 0, -1, IS_UNIQUE, IS_ORDERED);
 
@@ -1615,7 +1394,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		initEClass(iExceptionArtifactEClass, IExceptionArtifact.class, "IExceptionArtifact", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(iSessionArtifactEClass, ISessionArtifact.class, "ISessionArtifact", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getISessionArtifact_ManagedEntities(), theOssjPackage.getIManagedEntityDetails(), null, "managedEntities", null, 0, -1, ISessionArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getISessionArtifact_ManagedEntities(), this.getIManagedEntityArtifact(), null, "managedEntities", null, 0, -1, ISessionArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getISessionArtifact_EmittedNotifications(), this.getIEventArtifact(), null, "emittedNotifications", null, 0, -1, ISessionArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getISessionArtifact_SupportedNamedQueries(), this.getIQueryArtifact(), null, "supportedNamedQueries", null, 0, -1, ISessionArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getISessionArtifact_ExposedUpdateProcedures(), this.getIUpdateProcedureArtifact(), null, "exposedUpdateProcedures", null, 0, -1, ISessionArtifact.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1647,13 +1426,11 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		addEOperation(iEnumArtifactEClass, ecorePackage.getEString(), "getMinLiteral", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(iFieldEClass, IField.class, "IField", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIField_Optional(), ecorePackage.getEBoolean(), "optional", null, 0, 1, IField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIField_ReadOnly(), ecorePackage.getEBoolean(), "readOnly", null, 0, 1, IField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIField_Ordered(), ecorePackage.getEBoolean(), "ordered", null, 0, 1, IField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIField_Unique(), ecorePackage.getEBoolean(), "unique", null, 0, 1, IField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIField_Type(), this.getIType(), null, "type", null, 0, 1, IField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIField_DefaultValue(), ecorePackage.getEString(), "defaultValue", null, 0, 1, IField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIField_RefBy(), this.getERefByEnum(), "refBy", null, 0, 1, IField.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iMethodEClass, IMethod.class, "IMethod", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIMethod_Arguments(), this.getIArgument(), null, "arguments", null, 0, -1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1661,23 +1438,11 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		initEAttribute(getIMethod_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIMethod_Ordered(), ecorePackage.getEBoolean(), "ordered", null, 0, 1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIMethod_Unique(), ecorePackage.getEBoolean(), "unique", null, 0, 1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIMethod_Optional(), ecorePackage.getEBoolean(), "optional", null, 0, 1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIMethod_Exceptions(), this.getIType(), null, "exceptions", null, 0, -1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIMethod_Void(), ecorePackage.getEBoolean(), "void", null, 0, 1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIMethod_IteratorReturn(), ecorePackage.getEBoolean(), "iteratorReturn", null, 0, 1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIMethod_ReturnRefBy(), this.getERefByEnum(), "returnRefBy", null, 0, 1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIMethod_InstanceMethod(), ecorePackage.getEBoolean(), "instanceMethod", null, 0, 1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIMethod_DefaultReturnValue(), ecorePackage.getEString(), "defaultReturnValue", null, 0, 1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIMethod_MethodReturnName(), ecorePackage.getEString(), "methodReturnName", null, 0, 1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIMethod_ReturnStereotypeInstances(), this.getIStereotypeInstance(), null, "returnStereotypeInstances", null, 0, -1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIMethod_EntityMethodFlavorDetails(), this.getIEntityMethodFlavorDetails(), null, "entityMethodFlavorDetails", null, 0, -1, IMethod.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		EOperation op = addEOperation(iMethodEClass, this.getIEntityMethodFlavorDetails(), "getEntityMethodFlavorDetails", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getOssjEntityMethodFlavor(), "flavor", 0, 1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(iMethodEClass, null, "setEntityMethodFlavorDetails", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getOssjEntityMethodFlavor(), "flavor", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, this.getIEntityMethodFlavorDetails(), "details", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		addEOperation(iMethodEClass, ecorePackage.getEString(), "getMethodId", 0, 1, IS_UNIQUE, IS_ORDERED);
 
@@ -1727,24 +1492,17 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		initEAttribute(getIArgument_DefaultValue(), ecorePackage.getEString(), "defaultValue", null, 0, 1, IArgument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIArgument_Ordered(), ecorePackage.getEBoolean(), "ordered", null, 0, 1, IArgument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIArgument_Unique(), ecorePackage.getEBoolean(), "unique", null, 0, 1, IArgument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIArgument_RefBy(), this.getERefByEnum(), "refBy", null, 0, 1, IArgument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iModelEClass, IModel.class, "IModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIModel_Packages(), this.getIPackage(), null, "packages", null, 0, -1, IModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		addEOperation(iModelEClass, this.getIAbstractArtifact(), "getAllArtifacts", 0, -1, IS_UNIQUE, IS_ORDERED);
-
-		op = addEOperation(iModelEClass, this.getIAbstractArtifact(), "getArtifactByName", 0, 1, IS_UNIQUE, IS_ORDERED);
-		addEParameter(op, ecorePackage.getEString(), "fullyQualifiedName", 0, 1, IS_UNIQUE, IS_ORDERED);
-
 		initEClass(iPackageEClass, IPackage.class, "IPackage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getIPackage_Artifacts(), this.getIAbstractArtifact(), null, "artifacts", null, 0, -1, IPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIPackage_Name(), ecorePackage.getEString(), "name", null, 0, 1, IPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIPackage_Artifacts(), this.getIQualifiedNamedComponent(), null, "artifacts", null, 0, -1, IPackage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(iStereotypeCapableEClass, IStereotypeCapable.class, "IStereotypeCapable", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIStereotypeCapable_StereotypeInstances(), this.getIStereotypeInstance(), null, "stereotypeInstances", null, 0, -1, IStereotypeCapable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		op = addEOperation(iStereotypeCapableEClass, this.getIStereotypeInstance(), "getStereotypeInstanceByName", 0, 1, IS_UNIQUE, IS_ORDERED);
+		EOperation op = addEOperation(iStereotypeCapableEClass, this.getIStereotypeInstance(), "getStereotypeInstanceByName", 0, 1, IS_UNIQUE, IS_ORDERED);
 		addEParameter(op, ecorePackage.getEString(), "name", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		op = addEOperation(iStereotypeCapableEClass, ecorePackage.getEBoolean(), "hasStereotypeInstance", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -1758,25 +1516,11 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		initEAttribute(getIStereotypeAttributeValue_Name(), ecorePackage.getEString(), "name", null, 0, 1, IStereotypeAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIStereotypeAttributeValue_Value(), ecorePackage.getEString(), "value", null, 0, 1, IStereotypeAttributeValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(iEntityMethodFlavorDetailsEClass, IEntityMethodFlavorDetails.class, "IEntityMethodFlavorDetails", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIEntityMethodFlavorDetails_Comment(), ecorePackage.getEString(), "comment", null, 0, 1, IEntityMethodFlavorDetails.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIEntityMethodFlavorDetails_Flag(), theOssjPackage.getEEntityMethodFlavorFlag(), "flag", null, 0, 1, IEntityMethodFlavorDetails.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIEntityMethodFlavorDetails_Exceptions(), this.getIType(), null, "exceptions", null, 0, -1, IEntityMethodFlavorDetails.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIEntityMethodFlavorDetails_Method(), this.getIMethod(), null, "method", null, 0, 1, IEntityMethodFlavorDetails.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIEntityMethodFlavorDetails_Flavor(), this.getOssjEntityMethodFlavor(), "flavor", null, 0, 1, IEntityMethodFlavorDetails.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIEntityMethodFlavorDetails_MethodType(), theOssjPackage.getEMethodType(), "methodType", null, 0, 1, IEntityMethodFlavorDetails.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(iMultiplicityEClass, IMultiplicity.class, "IMultiplicity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIMultiplicity_LowerBound(), ecorePackage.getEInt(), "lowerBound", null, 0, 1, IMultiplicity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIMultiplicity_UpperBound(), ecorePackage.getEInt(), "upperBound", null, 0, 1, IMultiplicity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
-		initEEnum(eRefByEnumEEnum, ERefByEnum.class, "ERefByEnum");
-		addEEnumLiteral(eRefByEnumEEnum, ERefByEnum.NON_APPLICABLE);
-		addEEnumLiteral(eRefByEnumEEnum, ERefByEnum.REF_BY_KEY);
-		addEEnumLiteral(eRefByEnumEEnum, ERefByEnum.REF_BY_KEY_RESULT);
-		addEEnumLiteral(eRefByEnumEEnum, ERefByEnum.REF_BY_VALUE);
-
 		initEEnum(visibilityEnumEEnum, VisibilityEnum.class, "VisibilityEnum");
 		addEEnumLiteral(visibilityEnumEEnum, VisibilityEnum.PUBLIC);
 		addEEnumLiteral(visibilityEnumEEnum, VisibilityEnum.PACKAGE);
@@ -1792,19 +1536,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		addEEnumLiteral(eChangeableEnumEEnum, EChangeableEnum.NONE);
 		addEEnumLiteral(eChangeableEnumEEnum, EChangeableEnum.FROZEN);
 		addEEnumLiteral(eChangeableEnumEEnum, EChangeableEnum.ADD_ONLY);
-
-		initEEnum(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.class, "OssjEntityMethodFlavor");
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.SIMPLE);
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.SIMPLE_BY_KEY);
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BULK_ATOMIC);
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BULK_ATOMIC_BY_KEYS);
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BULK_BEST_EFFORT);
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BULK_BEST_EFFORT_BY_KEYS);
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BY_TEMPLATE);
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BY_TEMPLATES);
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BY_TEMPLATE_BEST_EFFORT);
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BY_TEMPLATES_BEST_EFFORT);
-		addEEnumLiteral(ossjEntityMethodFlavorEEnum, OssjEntityMethodFlavor.BY_AUTO_NAMING);
 
 		// Create resource
 		createResource(eNS_URI);

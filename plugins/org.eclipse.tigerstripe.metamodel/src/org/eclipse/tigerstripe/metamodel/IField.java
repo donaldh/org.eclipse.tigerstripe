@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IField.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: IField.java,v 1.2 2008/05/22 18:26:30 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
@@ -15,13 +15,11 @@ package org.eclipse.tigerstripe.metamodel;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.IField#isOptional <em>Optional</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IField#isReadOnly <em>Read Only</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IField#isOrdered <em>Ordered</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IField#isUnique <em>Unique</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IField#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IField#getDefaultValue <em>Default Value</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.IField#getRefBy <em>Ref By</em>}</li>
  * </ul>
  * </p>
  *
@@ -30,32 +28,6 @@ package org.eclipse.tigerstripe.metamodel;
  * @generated
  */
 public interface IField extends IModelComponent {
-	/**
-	 * Returns the value of the '<em><b>Optional</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Optional</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Optional</em>' attribute.
-	 * @see #setOptional(boolean)
-	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIField_Optional()
-	 * @model
-	 * @generated
-	 */
-	boolean isOptional();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IField#isOptional <em>Optional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Optional</em>' attribute.
-	 * @see #isOptional()
-	 * @generated
-	 */
-	void setOptional(boolean value);
-
 	/**
 	 * Returns the value of the '<em><b>Read Only</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -212,34 +184,5 @@ public interface IField extends IModelComponent {
 	 * @generated
 	 */
 	boolean isSetDefaultValue();
-
-	/**
-	 * Returns the value of the '<em><b>Ref By</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.eclipse.tigerstripe.metamodel.ERefByEnum}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref By</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ref By</em>' attribute.
-	 * @see org.eclipse.tigerstripe.metamodel.ERefByEnum
-	 * @see #setRefBy(ERefByEnum)
-	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIField_RefBy()
-	 * @model
-	 * @generated
-	 */
-	ERefByEnum getRefBy();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IField#getRefBy <em>Ref By</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Ref By</em>' attribute.
-	 * @see org.eclipse.tigerstripe.metamodel.ERefByEnum
-	 * @see #getRefBy()
-	 * @generated
-	 */
-	void setRefBy(ERefByEnum value);
 
 } // IField

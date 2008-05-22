@@ -29,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.base.test.model.TestFields;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestLiterals;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestMethods;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications;
+import org.eclipse.tigerstripe.workbench.base.test.profile.TestProfileBasics;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM0ProjectBasics;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM0ProjectContents;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectBasics;
@@ -66,10 +67,10 @@ public class AllTests {
 		suite.addTestSuite(TestFacetResolution.class);
 
 		// Metamodel migration test
-		suite.addTestSuite(TestArtifactRefactor.class);
-		suite.addTestSuite(TestFieldMigration.class);
-		suite.addTestSuite(TestManagedEntityMigration.class);
-		suite.addTestSuite(TestModelManager.class);
+//		suite.addTestSuite(TestArtifactRefactor.class);
+//		suite.addTestSuite(TestFieldMigration.class);
+//		suite.addTestSuite(TestManagedEntityMigration.class);
+//		suite.addTestSuite(TestModelManager.class);
 
 		// Generation Tests
 		suite.addTestSuite(TestProjectGenerationBasics.class);
@@ -85,6 +86,9 @@ public class AllTests {
 		suite.addTestSuite(TestMethods.class);
 		suite.addTestSuite(TestTigerstripeWorkspaceNotifications.class);
 
+		// Profiles
+		suite.addTestSuite(TestProfileBasics.class);
+		
 		// $JUnit-END$
 		return suite;
 	}

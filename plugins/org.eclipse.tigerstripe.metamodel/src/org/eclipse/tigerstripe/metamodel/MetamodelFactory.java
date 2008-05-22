@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MetamodelFactory.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: MetamodelFactory.java,v 1.2 2008/05/22 18:26:30 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
@@ -231,15 +231,6 @@ public interface MetamodelFactory extends EFactory {
 	 * @generated
 	 */
 	IStereotypeAttributeValue createIStereotypeAttributeValue();
-
-	/**
-	 * Returns a new object of class '<em>IEntity Method Flavor Details</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>IEntity Method Flavor Details</em>'.
-	 * @generated
-	 */
-	IEntityMethodFlavorDetails createIEntityMethodFlavorDetails();
 
 	/**
 	 * Returns a new object of class '<em>IMultiplicity</em>'.

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IModelComponentImpl.java,v 1.4 2008/03/24 17:55:47 edillon Exp $
+ * $Id: IModelComponentImpl.java,v 1.5 2008/05/22 18:26:28 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -12,15 +12,13 @@ import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
 import org.eclipse.tigerstripe.metamodel.IModelComponent;
-import org.eclipse.tigerstripe.metamodel.IModelComponentMetadata;
 import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
 import org.eclipse.tigerstripe.metamodel.VisibilityEnum;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>IModel Component</b></em>'.
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>IModel Component</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -33,11 +31,11 @@ import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
  *
  * @generated
  */
-public abstract class IModelComponentImpl extends IStereotypeCapableImpl
-		implements IModelComponent {
+public abstract class IModelComponentImpl extends IStereotypeCapableImpl implements IModelComponent {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -46,7 +44,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getName()
 	 * @generated
 	 * @ordered
@@ -55,7 +54,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 
 	/**
 	 * The default value of the '{@link #getComment() <em>Comment</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getComment()
 	 * @generated
 	 * @ordered
@@ -64,7 +64,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 
 	/**
 	 * The cached value of the '{@link #getComment() <em>Comment</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getComment()
 	 * @generated
 	 * @ordered
@@ -73,7 +74,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 
 	/**
 	 * The default value of the '{@link #getVisibility() <em>Visibility</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getVisibility()
 	 * @generated
 	 * @ordered
@@ -82,7 +84,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 
 	/**
 	 * The cached value of the '{@link #getVisibility() <em>Visibility</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #getVisibility()
 	 * @generated
 	 * @ordered
@@ -90,7 +93,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	protected VisibilityEnum visibility = VISIBILITY_EDEFAULT;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected IModelComponentImpl() {
@@ -98,7 +102,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -107,7 +112,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getName() {
@@ -115,7 +121,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setName(String newName) {
@@ -126,7 +133,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getComment() {
@@ -134,7 +142,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setComment(String newComment) {
@@ -145,7 +154,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public VisibilityEnum getVisibility() {
@@ -153,7 +163,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setVisibility(VisibilityEnum newVisibility) {
@@ -164,7 +175,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -181,7 +193,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -201,7 +214,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -221,7 +235,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -238,7 +253,8 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -256,9 +272,4 @@ public abstract class IModelComponentImpl extends IStereotypeCapableImpl
 		return result.toString();
 	}
 
-	public IModelComponentMetadata getMetadata() {
-		return ArtifactMetadataFactory.INSTANCE.getMetadata(this.getClass()
-				.getName());
-	}
-
-} // IModelComponentImpl
+} //IModelComponentImpl

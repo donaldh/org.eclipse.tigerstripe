@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MetamodelAdapterFactory.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: MetamodelAdapterFactory.java,v 1.2 2008/05/22 18:26:36 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.util;
 
@@ -174,10 +174,6 @@ public class MetamodelAdapterFactory extends AdapterFactoryImpl {
 			@Override
 			public Adapter caseIStereotypeAttributeValue(IStereotypeAttributeValue object) {
 				return createIStereotypeAttributeValueAdapter();
-			}
-			@Override
-			public Adapter caseIEntityMethodFlavorDetails(IEntityMethodFlavorDetails object) {
-				return createIEntityMethodFlavorDetailsAdapter();
 			}
 			@Override
 			public Adapter caseIMultiplicity(IMultiplicity object) {
@@ -564,20 +560,6 @@ public class MetamodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIStereotypeAttributeValueAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails <em>IEntity Method Flavor Details</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails
-	 * @generated
-	 */
-	public Adapter createIEntityMethodFlavorDetailsAdapter() {
 		return null;
 	}
 

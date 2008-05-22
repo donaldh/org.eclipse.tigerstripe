@@ -16,10 +16,11 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
 import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
+import org.eclipse.tigerstripe.repository.manager.IModelRepository;
+import org.eclipse.tigerstripe.repository.metamodel.pojo.MultiFileArtifactRepository;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.IModelManager;
-import org.eclipse.tigerstripe.workbench.model.IModelRepository;
+import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManager;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -45,7 +46,7 @@ public class TestModelManager extends TestCase {
 	}
 
 	public void testGetModelManager() throws TigerstripeException {
-		IModelManager manager = projectA.getModelManager();
+		ProjectModelManager manager = projectA.getModelManager();
 		assertNotNull(manager);
 	}
 
@@ -71,8 +72,8 @@ public class TestModelManager extends TestCase {
 		// }
 	}
 
-	public void testBasicSave() throws TigerstripeException {
-		IModelManager manager = projectA.getModelManager();
+	public void testBasicSave() throws Exception {
+		ProjectModelManager manager = projectA.getModelManager();
 		assertNotNull(manager);
 		IModelRepository repo = manager.getDefaultRepository();
 
@@ -96,16 +97,15 @@ public class TestModelManager extends TestCase {
 		// dta.setExtends(mea);
 		// repo.store(dta, true);
 
-		IAbstractArtifact[] allArts = manager.getAllArtifacts(false);
-		assertTrue(allArts.length == 2);
-		for (IAbstractArtifact art : allArts) {
+		assertTrue(manager.getAllArtifacts().size() == 2);
+		for (IAbstractArtifact art : manager.getAllArtifacts()) {
 			System.out.println(art);
 		}
 
-		repo.refresh(null);
+		((MultiFileArtifactRepository) repo).refresh();
 
 		IManagedEntityArtifact art = (IManagedEntityArtifact) repo
-				.getArtifactByFullyQualifiedName("com.mycompany.Meuh");
+				.getEObjectByKey("com.mycompany.Meuh");
 		assertNotNull(art);
 		IManagedEntityArtifact extArt = (IManagedEntityArtifact) art
 				.getExtendedArtifact();

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IMethodImpl.java,v 1.1 2008/02/14 23:57:59 edillon Exp $
+ * $Id: IMethodImpl.java,v 1.2 2008/05/22 18:26:28 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -19,14 +19,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
-import org.eclipse.tigerstripe.metamodel.ERefByEnum;
 import org.eclipse.tigerstripe.metamodel.IArgument;
-import org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.metamodel.IMethod;
 import org.eclipse.tigerstripe.metamodel.IStereotypeInstance;
 import org.eclipse.tigerstripe.metamodel.IType;
 import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
-import org.eclipse.tigerstripe.metamodel.OssjEntityMethodFlavor;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,16 +37,11 @@ import org.eclipse.tigerstripe.metamodel.OssjEntityMethodFlavor;
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#isOrdered <em>Ordered</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#isUnique <em>Unique</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#isOptional <em>Optional</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#getExceptions <em>Exceptions</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#isVoid <em>Void</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#isIteratorReturn <em>Iterator Return</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#getReturnRefBy <em>Return Ref By</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#isInstanceMethod <em>Instance Method</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#getDefaultReturnValue <em>Default Return Value</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#getMethodReturnName <em>Method Return Name</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#getReturnStereotypeInstances <em>Return Stereotype Instances</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl#getEntityMethodFlavorDetails <em>Entity Method Flavor Details</em>}</li>
  * </ul>
  * </p>
  *
@@ -137,26 +129,6 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 	protected boolean unique = UNIQUE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isOptional() <em>Optional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isOptional()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean OPTIONAL_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isOptional() <em>Optional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isOptional()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean optional = OPTIONAL_EDEFAULT;
-
-	/**
 	 * The cached value of the '{@link #getExceptions() <em>Exceptions</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -185,66 +157,6 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 	 * @ordered
 	 */
 	protected boolean void_ = VOID_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #isIteratorReturn() <em>Iterator Return</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isIteratorReturn()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean ITERATOR_RETURN_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isIteratorReturn() <em>Iterator Return</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isIteratorReturn()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean iteratorReturn = ITERATOR_RETURN_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getReturnRefBy() <em>Return Ref By</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getReturnRefBy()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final ERefByEnum RETURN_REF_BY_EDEFAULT = ERefByEnum.NON_APPLICABLE;
-
-	/**
-	 * The cached value of the '{@link #getReturnRefBy() <em>Return Ref By</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getReturnRefBy()
-	 * @generated
-	 * @ordered
-	 */
-	protected ERefByEnum returnRefBy = RETURN_REF_BY_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #isInstanceMethod() <em>Instance Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isInstanceMethod()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean INSTANCE_METHOD_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isInstanceMethod() <em>Instance Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isInstanceMethod()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean instanceMethod = INSTANCE_METHOD_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getDefaultReturnValue() <em>Default Return Value</em>}' attribute.
@@ -304,16 +216,6 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 	 * @ordered
 	 */
 	protected EList<IStereotypeInstance> returnStereotypeInstances;
-
-	/**
-	 * The cached value of the '{@link #getEntityMethodFlavorDetails() <em>Entity Method Flavor Details</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getEntityMethodFlavorDetails()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<IEntityMethodFlavorDetails> entityMethodFlavorDetails;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -452,27 +354,6 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isOptional() {
-		return optional;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOptional(boolean newOptional) {
-		boolean oldOptional = optional;
-		optional = newOptional;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.IMETHOD__OPTIONAL, oldOptional, optional));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<IType> getExceptions() {
 		if (exceptions == null) {
 			exceptions = new EObjectResolvingEList<IType>(IType.class, this, MetamodelPackage.IMETHOD__EXCEPTIONS);
@@ -499,69 +380,6 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 		void_ = newVoid;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.IMETHOD__VOID, oldVoid, void_));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isIteratorReturn() {
-		return iteratorReturn;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIteratorReturn(boolean newIteratorReturn) {
-		boolean oldIteratorReturn = iteratorReturn;
-		iteratorReturn = newIteratorReturn;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.IMETHOD__ITERATOR_RETURN, oldIteratorReturn, iteratorReturn));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ERefByEnum getReturnRefBy() {
-		return returnRefBy;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setReturnRefBy(ERefByEnum newReturnRefBy) {
-		ERefByEnum oldReturnRefBy = returnRefBy;
-		returnRefBy = newReturnRefBy == null ? RETURN_REF_BY_EDEFAULT : newReturnRefBy;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.IMETHOD__RETURN_REF_BY, oldReturnRefBy, returnRefBy));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isInstanceMethod() {
-		return instanceMethod;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setInstanceMethod(boolean newInstanceMethod) {
-		boolean oldInstanceMethod = instanceMethod;
-		instanceMethod = newInstanceMethod;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.IMETHOD__INSTANCE_METHOD, oldInstanceMethod, instanceMethod));
 	}
 
 	/**
@@ -648,40 +466,6 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<IEntityMethodFlavorDetails> getEntityMethodFlavorDetails() {
-		if (entityMethodFlavorDetails == null) {
-			entityMethodFlavorDetails = new EObjectResolvingEList<IEntityMethodFlavorDetails>(IEntityMethodFlavorDetails.class, this, MetamodelPackage.IMETHOD__ENTITY_METHOD_FLAVOR_DETAILS);
-		}
-		return entityMethodFlavorDetails;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IEntityMethodFlavorDetails getEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor, IEntityMethodFlavorDetails details) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public String getMethodId() {
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
@@ -707,26 +491,16 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 				return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
 			case MetamodelPackage.IMETHOD__UNIQUE:
 				return isUnique() ? Boolean.TRUE : Boolean.FALSE;
-			case MetamodelPackage.IMETHOD__OPTIONAL:
-				return isOptional() ? Boolean.TRUE : Boolean.FALSE;
 			case MetamodelPackage.IMETHOD__EXCEPTIONS:
 				return getExceptions();
 			case MetamodelPackage.IMETHOD__VOID:
 				return isVoid() ? Boolean.TRUE : Boolean.FALSE;
-			case MetamodelPackage.IMETHOD__ITERATOR_RETURN:
-				return isIteratorReturn() ? Boolean.TRUE : Boolean.FALSE;
-			case MetamodelPackage.IMETHOD__RETURN_REF_BY:
-				return getReturnRefBy();
-			case MetamodelPackage.IMETHOD__INSTANCE_METHOD:
-				return isInstanceMethod() ? Boolean.TRUE : Boolean.FALSE;
 			case MetamodelPackage.IMETHOD__DEFAULT_RETURN_VALUE:
 				return getDefaultReturnValue();
 			case MetamodelPackage.IMETHOD__METHOD_RETURN_NAME:
 				return getMethodReturnName();
 			case MetamodelPackage.IMETHOD__RETURN_STEREOTYPE_INSTANCES:
 				return getReturnStereotypeInstances();
-			case MetamodelPackage.IMETHOD__ENTITY_METHOD_FLAVOR_DETAILS:
-				return getEntityMethodFlavorDetails();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -756,24 +530,12 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 			case MetamodelPackage.IMETHOD__UNIQUE:
 				setUnique(((Boolean)newValue).booleanValue());
 				return;
-			case MetamodelPackage.IMETHOD__OPTIONAL:
-				setOptional(((Boolean)newValue).booleanValue());
-				return;
 			case MetamodelPackage.IMETHOD__EXCEPTIONS:
 				getExceptions().clear();
 				getExceptions().addAll((Collection<? extends IType>)newValue);
 				return;
 			case MetamodelPackage.IMETHOD__VOID:
 				setVoid(((Boolean)newValue).booleanValue());
-				return;
-			case MetamodelPackage.IMETHOD__ITERATOR_RETURN:
-				setIteratorReturn(((Boolean)newValue).booleanValue());
-				return;
-			case MetamodelPackage.IMETHOD__RETURN_REF_BY:
-				setReturnRefBy((ERefByEnum)newValue);
-				return;
-			case MetamodelPackage.IMETHOD__INSTANCE_METHOD:
-				setInstanceMethod(((Boolean)newValue).booleanValue());
 				return;
 			case MetamodelPackage.IMETHOD__DEFAULT_RETURN_VALUE:
 				setDefaultReturnValue((String)newValue);
@@ -784,10 +546,6 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 			case MetamodelPackage.IMETHOD__RETURN_STEREOTYPE_INSTANCES:
 				getReturnStereotypeInstances().clear();
 				getReturnStereotypeInstances().addAll((Collection<? extends IStereotypeInstance>)newValue);
-				return;
-			case MetamodelPackage.IMETHOD__ENTITY_METHOD_FLAVOR_DETAILS:
-				getEntityMethodFlavorDetails().clear();
-				getEntityMethodFlavorDetails().addAll((Collection<? extends IEntityMethodFlavorDetails>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -816,23 +574,11 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 			case MetamodelPackage.IMETHOD__UNIQUE:
 				setUnique(UNIQUE_EDEFAULT);
 				return;
-			case MetamodelPackage.IMETHOD__OPTIONAL:
-				setOptional(OPTIONAL_EDEFAULT);
-				return;
 			case MetamodelPackage.IMETHOD__EXCEPTIONS:
 				getExceptions().clear();
 				return;
 			case MetamodelPackage.IMETHOD__VOID:
 				setVoid(VOID_EDEFAULT);
-				return;
-			case MetamodelPackage.IMETHOD__ITERATOR_RETURN:
-				setIteratorReturn(ITERATOR_RETURN_EDEFAULT);
-				return;
-			case MetamodelPackage.IMETHOD__RETURN_REF_BY:
-				setReturnRefBy(RETURN_REF_BY_EDEFAULT);
-				return;
-			case MetamodelPackage.IMETHOD__INSTANCE_METHOD:
-				setInstanceMethod(INSTANCE_METHOD_EDEFAULT);
 				return;
 			case MetamodelPackage.IMETHOD__DEFAULT_RETURN_VALUE:
 				unsetDefaultReturnValue();
@@ -842,9 +588,6 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 				return;
 			case MetamodelPackage.IMETHOD__RETURN_STEREOTYPE_INSTANCES:
 				getReturnStereotypeInstances().clear();
-				return;
-			case MetamodelPackage.IMETHOD__ENTITY_METHOD_FLAVOR_DETAILS:
-				getEntityMethodFlavorDetails().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -868,26 +611,16 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 				return ordered != ORDERED_EDEFAULT;
 			case MetamodelPackage.IMETHOD__UNIQUE:
 				return unique != UNIQUE_EDEFAULT;
-			case MetamodelPackage.IMETHOD__OPTIONAL:
-				return optional != OPTIONAL_EDEFAULT;
 			case MetamodelPackage.IMETHOD__EXCEPTIONS:
 				return exceptions != null && !exceptions.isEmpty();
 			case MetamodelPackage.IMETHOD__VOID:
 				return void_ != VOID_EDEFAULT;
-			case MetamodelPackage.IMETHOD__ITERATOR_RETURN:
-				return iteratorReturn != ITERATOR_RETURN_EDEFAULT;
-			case MetamodelPackage.IMETHOD__RETURN_REF_BY:
-				return returnRefBy != RETURN_REF_BY_EDEFAULT;
-			case MetamodelPackage.IMETHOD__INSTANCE_METHOD:
-				return instanceMethod != INSTANCE_METHOD_EDEFAULT;
 			case MetamodelPackage.IMETHOD__DEFAULT_RETURN_VALUE:
 				return isSetDefaultReturnValue();
 			case MetamodelPackage.IMETHOD__METHOD_RETURN_NAME:
 				return METHOD_RETURN_NAME_EDEFAULT == null ? methodReturnName != null : !METHOD_RETURN_NAME_EDEFAULT.equals(methodReturnName);
 			case MetamodelPackage.IMETHOD__RETURN_STEREOTYPE_INSTANCES:
 				return returnStereotypeInstances != null && !returnStereotypeInstances.isEmpty();
-			case MetamodelPackage.IMETHOD__ENTITY_METHOD_FLAVOR_DETAILS:
-				return entityMethodFlavorDetails != null && !entityMethodFlavorDetails.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -908,16 +641,8 @@ public class IMethodImpl extends IModelComponentImpl implements IMethod {
 		result.append(ordered);
 		result.append(", unique: ");
 		result.append(unique);
-		result.append(", optional: ");
-		result.append(optional);
 		result.append(", void: ");
 		result.append(void_);
-		result.append(", iteratorReturn: ");
-		result.append(iteratorReturn);
-		result.append(", returnRefBy: ");
-		result.append(returnRefBy);
-		result.append(", instanceMethod: ");
-		result.append(instanceMethod);
 		result.append(", defaultReturnValue: ");
 		if (defaultReturnValueESet) result.append(defaultReturnValue); else result.append("<unset>");
 		result.append(", methodReturnName: ");

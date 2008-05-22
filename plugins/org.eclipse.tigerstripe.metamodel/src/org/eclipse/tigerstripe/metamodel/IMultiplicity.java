@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IMultiplicity.java,v 1.2 2008/02/28 18:05:32 edillon Exp $
+ * $Id: IMultiplicity.java,v 1.3 2008/05/22 18:26:30 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 

@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -124,7 +125,7 @@ public abstract class AbstractTigerstripeProjectHandle extends
 		} else if (adapter == IJavaProject.class) {
 			try {
 				IProject project = getIProject(this);
-				
+
 				// Note that this will be null for the PhantomProject
 				if (project != null) {
 					return JavaCore.create(project);
@@ -148,16 +149,21 @@ public abstract class AbstractTigerstripeProjectHandle extends
 				+ tsProject.getLocation() + " as Eclipse IProject");
 	}
 
-	public void delete(boolean force, IProgressMonitor monitor)
+	public void delete(final boolean force, IProgressMonitor monitor)
 			throws TigerstripeException {
 
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
-		IProject project = (IProject) getAdapter(IProject.class);
+		final IProject project = (IProject) getAdapter(IProject.class);
 		if (project != null) {
 			try {
-				project.delete(force, monitor);
+				ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+					public void run(IProgressMonitor monitor)
+							throws CoreException {
+						project.delete(force, monitor);
+					}
+				}, project, IResource.NONE, monitor);
 			} catch (CoreException e) {
 				new TigerstripeException(
 						"An error occured while trying to delete project:"

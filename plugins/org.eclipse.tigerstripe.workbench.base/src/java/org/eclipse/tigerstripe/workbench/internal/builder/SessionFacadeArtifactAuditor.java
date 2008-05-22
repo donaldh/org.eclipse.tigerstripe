@@ -19,7 +19,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;

@@ -31,6 +31,8 @@ public class BundleUtils {
 
 	private String bundleRoot = "";
 
+	private BundleContext context;
+
 	private final static String BASETEST_BUNDLE_ID = "org.eclipse.tigerstripe.workbench.base.test";
 
 	public final static BundleUtils INSTANCE = new BundleUtils();
@@ -40,12 +42,17 @@ public class BundleUtils {
 	}
 
 	public void setBundleRoot(BundleContext context) {
+		this.context = context;
 		Bundle baseBundle = Platform.getBundle(BASETEST_BUNDLE_ID);
 		bundleRoot = installLocation.getURL().getPath()
 				+ File.separator
 				+ baseBundle.getLocation().substring(
 						baseBundle.getLocation().indexOf("@") + 1,
 						baseBundle.getLocation().length());
+	}
+
+	public BundleContext getContext() {
+		return this.context;
 	}
 
 	public String getBundleRoot() {

@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;

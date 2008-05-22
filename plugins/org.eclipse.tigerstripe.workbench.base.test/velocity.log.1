@@ -1,0 +1,1188 @@
+2008-05-22 11:05:30,506 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:30,507 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:30,507 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:30,507 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,507 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:30,507 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:30,507 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:30,508 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:30,508 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:30,508 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:30,509 - Created '20' parsers.
+2008-05-22 11:05:30,509 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:30,509 - Velocimacro : Default library not found.
+2008-05-22 11:05:30,510 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:30,510 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:30,510 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:30,510 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:30,511 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,513 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,516 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:30,516 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:30,516 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:30,517 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,518 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,519 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,520 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,536 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,563 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:30,563 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:30,563 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:30,563 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:30,563 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper.createModelProject(ModelProjectHelper.java:71)
+	at org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper.createModelProject(ModelProjectHelper.java:42)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testProjectNotifications(TestTigerstripeWorkspaceNotifications.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:30,565 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:30,565 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:30,566 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:30,566 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,566 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:30,566 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:30,566 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:30,566 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:30,567 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:30,567 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:30,568 - Created '20' parsers.
+2008-05-22 11:05:30,568 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:30,568 - Velocimacro : Default library not found.
+2008-05-22 11:05:30,569 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:30,569 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:30,570 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:30,570 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:30,571 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,571 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,573 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:30,573 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:30,573 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:30,574 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,575 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,586 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,587 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,589 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,603 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:30,604 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:30,604 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:30,604 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:30,604 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper.createModelProject(ModelProjectHelper.java:77)
+	at org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper.createModelProject(ModelProjectHelper.java:42)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testProjectNotifications(TestTigerstripeWorkspaceNotifications.java:52)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:30,606 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:30,606 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:30,606 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:30,607 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,607 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:30,607 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:30,607 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:30,607 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:30,607 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:30,608 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:30,609 - Created '20' parsers.
+2008-05-22 11:05:30,609 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:30,610 - Velocimacro : Default library not found.
+2008-05-22 11:05:30,610 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:30,610 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:30,610 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:30,610 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:30,612 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,612 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,613 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:30,614 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:30,614 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:30,615 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,616 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,617 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,617 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:30,620 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,692 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:33,693 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:33,693 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:33,693 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:33,693 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper.createModelProject(ModelProjectHelper.java:71)
+	at org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper.createModelProject(ModelProjectHelper.java:42)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testModelNotifications(TestTigerstripeWorkspaceNotifications.java:82)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:33,695 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,695 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,696 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:33,696 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,696 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:33,696 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:33,696 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:33,696 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:33,697 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:33,697 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:33,698 - Created '20' parsers.
+2008-05-22 11:05:33,699 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:33,699 - Velocimacro : Default library not found.
+2008-05-22 11:05:33,699 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:33,699 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:33,699 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:33,699 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:33,701 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,701 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,702 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:33,703 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,703 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,704 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,705 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,706 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,707 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,709 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,712 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:33,712 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:33,712 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:33,712 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:33,712 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper.createModelProject(ModelProjectHelper.java:77)
+	at org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper.createModelProject(ModelProjectHelper.java:42)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testModelNotifications(TestTigerstripeWorkspaceNotifications.java:82)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:33,714 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,714 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,715 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:33,715 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,715 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:33,715 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:33,715 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:33,715 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:33,716 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:33,716 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:33,717 - Created '20' parsers.
+2008-05-22 11:05:33,717 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:33,717 - Velocimacro : Default library not found.
+2008-05-22 11:05:33,717 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:33,718 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:33,718 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:33,718 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:33,719 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,720 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,721 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:33,721 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,721 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,722 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,723 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,724 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,725 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,737 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,739 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:33,739 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:33,739 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:33,740 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:33,740 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testModelNotifications(TestTigerstripeWorkspaceNotifications.java:88)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:33,742 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,742 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,742 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:33,743 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,743 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:33,744 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:33,745 - Created '20' parsers.
+2008-05-22 11:05:33,745 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:33,745 - Velocimacro : Default library not found.
+2008-05-22 11:05:33,745 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:33,745 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:33,746 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:33,746 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:33,747 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,748 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,750 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,751 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,752 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,753 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,755 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,762 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:34,762 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:34,763 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:34,763 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:34,763 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testModelNotifications(TestTigerstripeWorkspaceNotifications.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:34,767 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:34,767 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:34,768 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:34,768 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,768 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:34,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:34,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:34,771 - Created '20' parsers.
+2008-05-22 11:05:34,772 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:34,772 - Velocimacro : Default library not found.
+2008-05-22 11:05:34,772 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:34,773 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:34,773 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:34,773 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:34,775 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,775 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:34,779 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,780 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,781 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,783 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,785 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Entity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,721 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,721 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,722 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,722 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,723 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,723 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,724 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,724 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,725 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,725 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,737 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,737 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,739 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:33,739 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:33,739 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:33,739 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:33,739 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:33,739 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:33,739 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:33,739 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:33,739 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:33,740 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:33,740 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:33,740 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:33,740 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testModelNotifications(TestTigerstripeWorkspaceNotifications.java:88)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:33,740 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testModelNotifications(TestTigerstripeWorkspaceNotifications.java:88)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:33,740 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testModelNotifications(TestTigerstripeWorkspaceNotifications.java:88)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:33,742 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,742 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,742 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,742 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,742 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,742 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:33,742 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:33,742 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:33,742 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:33,743 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,743 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,743 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,743 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:33,743 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:33,743 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:33,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:33,744 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:33,744 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:33,744 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:33,745 - Created '20' parsers.
+2008-05-22 11:05:33,745 - Created '20' parsers.
+2008-05-22 11:05:33,745 - Created '20' parsers.
+2008-05-22 11:05:33,745 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:33,745 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:33,745 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:33,745 - Velocimacro : Default library not found.
+2008-05-22 11:05:33,745 - Velocimacro : Default library not found.
+2008-05-22 11:05:33,745 - Velocimacro : Default library not found.
+2008-05-22 11:05:33,745 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:33,745 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:33,745 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:33,745 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:33,745 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:33,745 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:33,746 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:33,746 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:33,746 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:33,746 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:33,746 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:33,746 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:33,747 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,747 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,747 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,748 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,748 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,748 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,749 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:33,750 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,750 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,750 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,751 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,751 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,751 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,752 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,752 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,752 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,753 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,753 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,753 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,755 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,755 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:33,755 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,762 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:34,762 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:34,762 - Log4JLogChute initialized using file 'velocity.log'
+2008-05-22 11:05:34,762 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:34,762 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:34,762 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2008-05-22 11:05:34,763 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:34,763 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:34,763 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2008-05-22 11:05:34,763 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:34,763 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:34,763 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2008-05-22 11:05:34,763 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testModelNotifications(TestTigerstripeWorkspaceNotifications.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:34,763 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testModelNotifications(TestTigerstripeWorkspaceNotifications.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:34,763 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:242)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:534)
+	at org.apache.velocity.app.VelocityEngine.init(VelocityEngine.java:144)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.setClasspathLoaderForVelocity(AbstractArtifactPersister.java:102)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister.applyTemplate(AbstractArtifactPersister.java:108)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1296)
+	at org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact.doSave(AbstractArtifact.java:1173)
+	at org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications.testModelNotifications(TestTigerstripeWorkspaceNotifications.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at junit.framework.TestCase.runTest(TestCase.java:164)
+	at junit.framework.TestCase.runBare(TestCase.java:130)
+	at junit.framework.TestResult$1.protect(TestResult.java:106)
+	at junit.framework.TestResult.runProtected(TestResult.java:124)
+	at junit.framework.TestResult.run(TestResult.java:109)
+	at junit.framework.TestCase.run(TestCase.java:120)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at junit.framework.TestSuite.runTest(TestSuite.java:230)
+	at junit.framework.TestSuite.run(TestSuite.java:225)
+	at org.eclipse.jdt.internal.junit.runner.junit3.JUnit3TestReference.run(JUnit3TestReference.java:130)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:460)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:673)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:386)
+	at org.eclipse.pde.internal.junit.runtime.RemotePluginTestRunner.main(RemotePluginTestRunner.java:58)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication$1.run(UITestApplication.java:122)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:129)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:3214)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:2954)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2389)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2353)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2219)
+	at org.eclipse.ui.internal.Workbench$4.run(Workbench.java:466)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:289)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:461)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:106)
+	at org.eclipse.pde.internal.junit.runtime.UITestApplication.start(UITestApplication.java:52)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:169)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:106)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:76)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:363)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:176)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:585)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:508)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:447)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1173)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1148)
+2008-05-22 11:05:34,767 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:34,767 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:34,767 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:34,767 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:34,767 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:34,767 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2008-05-22 11:05:34,768 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:34,768 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:34,768 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2008-05-22 11:05:34,768 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,768 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,768 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,768 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:34,768 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:34,768 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:34,769 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2008-05-22 11:05:34,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:34,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:34,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2008-05-22 11:05:34,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:34,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:34,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2008-05-22 11:05:34,771 - Created '20' parsers.
+2008-05-22 11:05:34,771 - Created '20' parsers.
+2008-05-22 11:05:34,771 - Created '20' parsers.
+2008-05-22 11:05:34,772 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:34,772 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:34,772 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2008-05-22 11:05:34,772 - Velocimacro : Default library not found.
+2008-05-22 11:05:34,772 - Velocimacro : Default library not found.
+2008-05-22 11:05:34,772 - Velocimacro : Default library not found.
+2008-05-22 11:05:34,772 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:34,772 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:34,772 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2008-05-22 11:05:34,773 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:34,773 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:34,773 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2008-05-22 11:05:34,773 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:34,773 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:34,773 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2008-05-22 11:05:34,773 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:34,773 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:34,773 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2008-05-22 11:05:34,775 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,775 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,775 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,775 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,775 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,775 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/header.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 16, column 44] : $artifact.IStandardSpecifics.PrimaryKey cannot be resolved.
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 21, column 42] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:34,777 - Null reference [template 'org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/managedEntity.vm', line 23, column 34] : $artifact.IStandardSpecifics.InterfaceProperties.get("package") cannot be resolved.
+2008-05-22 11:05:34,779 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,779 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,779 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/artifactLevelStereotype.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,780 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,780 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,780 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/refComments.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,781 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,781 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,781 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/field.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,783 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,783 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,783 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/constant.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,785 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,785 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2008-05-22 11:05:34,785 - ResourceManager : found org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/method.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader

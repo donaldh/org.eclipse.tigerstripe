@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.profile.primitiveType;
 import org.dom4j.DocumentFactory;
 import org.dom4j.Element;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;

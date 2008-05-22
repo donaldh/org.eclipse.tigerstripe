@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IFieldImpl.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: IFieldImpl.java,v 1.2 2008/05/22 18:26:28 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -13,7 +13,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.eclipse.tigerstripe.metamodel.ERefByEnum;
 import org.eclipse.tigerstripe.metamodel.IField;
 import org.eclipse.tigerstripe.metamodel.IType;
 import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
@@ -25,39 +24,17 @@ import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IFieldImpl#isOptional <em>Optional</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IFieldImpl#isReadOnly <em>Read Only</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IFieldImpl#isOrdered <em>Ordered</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IFieldImpl#isUnique <em>Unique</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IFieldImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IFieldImpl#getDefaultValue <em>Default Value</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IFieldImpl#getRefBy <em>Ref By</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
 public class IFieldImpl extends IModelComponentImpl implements IField {
-	/**
-	 * The default value of the '{@link #isOptional() <em>Optional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isOptional()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean OPTIONAL_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isOptional() <em>Optional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isOptional()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean optional = OPTIONAL_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #isReadOnly() <em>Read Only</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -158,26 +135,6 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 	protected boolean defaultValueESet;
 
 	/**
-	 * The default value of the '{@link #getRefBy() <em>Ref By</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefBy()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final ERefByEnum REF_BY_EDEFAULT = ERefByEnum.NON_APPLICABLE;
-
-	/**
-	 * The cached value of the '{@link #getRefBy() <em>Ref By</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefBy()
-	 * @generated
-	 * @ordered
-	 */
-	protected ERefByEnum refBy = REF_BY_EDEFAULT;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -194,27 +151,6 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 	@Override
 	protected EClass eStaticClass() {
 		return MetamodelPackage.Literals.IFIELD;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isOptional() {
-		return optional;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOptional(boolean newOptional) {
-		boolean oldOptional = optional;
-		optional = newOptional;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.IFIELD__OPTIONAL, oldOptional, optional));
 	}
 
 	/**
@@ -369,32 +305,9 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ERefByEnum getRefBy() {
-		return refBy;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRefBy(ERefByEnum newRefBy) {
-		ERefByEnum oldRefBy = refBy;
-		refBy = newRefBy == null ? REF_BY_EDEFAULT : newRefBy;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.IFIELD__REF_BY, oldRefBy, refBy));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case MetamodelPackage.IFIELD__OPTIONAL:
-				return isOptional() ? Boolean.TRUE : Boolean.FALSE;
 			case MetamodelPackage.IFIELD__READ_ONLY:
 				return isReadOnly() ? Boolean.TRUE : Boolean.FALSE;
 			case MetamodelPackage.IFIELD__ORDERED:
@@ -406,8 +319,6 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 				return basicGetType();
 			case MetamodelPackage.IFIELD__DEFAULT_VALUE:
 				return getDefaultValue();
-			case MetamodelPackage.IFIELD__REF_BY:
-				return getRefBy();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -420,9 +331,6 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case MetamodelPackage.IFIELD__OPTIONAL:
-				setOptional(((Boolean)newValue).booleanValue());
-				return;
 			case MetamodelPackage.IFIELD__READ_ONLY:
 				setReadOnly(((Boolean)newValue).booleanValue());
 				return;
@@ -438,9 +346,6 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 			case MetamodelPackage.IFIELD__DEFAULT_VALUE:
 				setDefaultValue((String)newValue);
 				return;
-			case MetamodelPackage.IFIELD__REF_BY:
-				setRefBy((ERefByEnum)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -453,9 +358,6 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case MetamodelPackage.IFIELD__OPTIONAL:
-				setOptional(OPTIONAL_EDEFAULT);
-				return;
 			case MetamodelPackage.IFIELD__READ_ONLY:
 				setReadOnly(READ_ONLY_EDEFAULT);
 				return;
@@ -471,9 +373,6 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 			case MetamodelPackage.IFIELD__DEFAULT_VALUE:
 				unsetDefaultValue();
 				return;
-			case MetamodelPackage.IFIELD__REF_BY:
-				setRefBy(REF_BY_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -486,8 +385,6 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case MetamodelPackage.IFIELD__OPTIONAL:
-				return optional != OPTIONAL_EDEFAULT;
 			case MetamodelPackage.IFIELD__READ_ONLY:
 				return readOnly != READ_ONLY_EDEFAULT;
 			case MetamodelPackage.IFIELD__ORDERED:
@@ -498,8 +395,6 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 				return type != null;
 			case MetamodelPackage.IFIELD__DEFAULT_VALUE:
 				return isSetDefaultValue();
-			case MetamodelPackage.IFIELD__REF_BY:
-				return refBy != REF_BY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -514,9 +409,7 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (optional: ");
-		result.append(optional);
-		result.append(", readOnly: ");
+		result.append(" (readOnly: ");
 		result.append(readOnly);
 		result.append(", ordered: ");
 		result.append(ordered);
@@ -524,8 +417,6 @@ public class IFieldImpl extends IModelComponentImpl implements IField {
 		result.append(unique);
 		result.append(", defaultValue: ");
 		if (defaultValueESet) result.append(defaultValue); else result.append("<unset>");
-		result.append(", refBy: ");
-		result.append(refBy);
 		result.append(')');
 		return result.toString();
 	}

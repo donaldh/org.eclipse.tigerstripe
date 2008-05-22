@@ -52,7 +52,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpointDetails;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;

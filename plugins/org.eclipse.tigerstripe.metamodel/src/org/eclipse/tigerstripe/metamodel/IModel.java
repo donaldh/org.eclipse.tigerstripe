@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IModel.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: IModel.java,v 1.2 2008/05/22 18:26:29 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
@@ -40,21 +40,5 @@ public interface IModel extends IModelComponent {
 	 * @generated
 	 */
 	EList<IPackage> getPackages();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<IAbstractArtifact> getAllArtifacts();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	IAbstractArtifact getArtifactByName(String fullyQualifiedName);
 
 } // IModel

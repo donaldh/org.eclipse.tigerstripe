@@ -16,11 +16,10 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.AbstractCommand;
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
+import org.eclipse.tigerstripe.repository.manager.IModelRepository;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.model.IModelManager;
-import org.eclipse.tigerstripe.workbench.model.IModelRepository;
+import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -65,7 +64,7 @@ public class TestManagedEntityMigration extends TestCase {
 		IManagedEntityArtifact mea = (IManagedEntityArtifact) session
 				.makeArtifact(IManagedEntityArtifact.class.getName());
 		mea.setName("Mea");
-		mea.setPackage("com.mycompany.testON");
+		mea.setPackage("testON");
 		mea.doSave(new NullProgressMonitor());
 
 		// THIS IS MANDATORY BECAUSE THE OLD API WAS OUTSIDE OF ECLIPSE
@@ -74,27 +73,22 @@ public class TestManagedEntityMigration extends TestCase {
 		iProject.refreshLocal(IResource.DEPTH_INFINITE,
 				new NullProgressMonitor());
 
-		IModelManager mMgr = project.getModelManager();
+		ProjectModelManager mMgr = project.getModelManager();
 		IModelRepository repo = mMgr.getDefaultRepository();
 
-		// This should go away soon as clients shouldn't be worried about that.
-		repo.refresh(null);
-
 		org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact nMea = (org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact) repo
-				.getArtifactByFullyQualifiedName("com.mycompany.testON.Mea");
+				.getEObjectByKey("testON.Mea");
 		assertNotNull(nMea);
 	}
 
 	public void testSimpleNtoOCreate() throws Exception {
-		IModelManager mMgr = project.getModelManager();
+		ProjectModelManager mMgr = project.getModelManager();
 		IModelRepository repo = mMgr.getDefaultRepository();
-
-		repo.refresh(null);
 
 		org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact nMea = MetamodelFactory.eINSTANCE
 				.createIManagedEntityArtifact();
 		nMea.setName("Mea");
-		nMea.setPackage("com.mycompany.testNO");
+		nMea.setPackage("testNO");
 		repo.store(nMea, true);
 
 		final org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact fnMea = nMea;
@@ -124,7 +118,7 @@ public class TestManagedEntityMigration extends TestCase {
 		session.refresh(true, new NullProgressMonitor()); // required
 
 		IManagedEntityArtifact oMea = (IManagedEntityArtifact) session
-				.getArtifactByFullyQualifiedName("com.mycompany.testNO.Mea");
+				.getArtifactByFullyQualifiedName("testNO.Mea");
 		assertNotNull(oMea);
 	}
 

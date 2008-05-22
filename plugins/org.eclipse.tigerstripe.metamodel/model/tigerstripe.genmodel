@@ -7,12 +7,6 @@
   <foreignModel>tigerstripe.ecore</foreignModel>
   <genPackages prefix="Metamodel" basePackage="org.eclipse.tigerstripe" disposableProviderFactory="true"
       ecorePackage="tigerstripe.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="tigerstripe.ecore#//ERefByEnum">
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//ERefByEnum/nonApplicable"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//ERefByEnum/refByKey"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//ERefByEnum/refByKeyResult"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//ERefByEnum/refByValue"/>
-    </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="tigerstripe.ecore#//VisibilityEnum">
       <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//VisibilityEnum/public"/>
       <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//VisibilityEnum/package"/>
@@ -29,19 +23,6 @@
       <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//EChangeableEnum/frozen"/>
       <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//EChangeableEnum/addOnly"/>
     </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="tigerstripe.ecore#//OssjEntityMethodFlavor">
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/simple"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/simpleByKey"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/bulkAtomic"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/bulkAtomicByKeys"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/bulkBestEffort"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/bulkBestEffortByKeys"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/byTemplate"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/byTemplates"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/byTemplateBestEffort"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/byTemplatesBestEffort"/>
-      <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//OssjEntityMethodFlavor/byAutoNaming"/>
-    </genEnums>
     <genClasses image="false" ecoreClass="tigerstripe.ecore#//IAbstractArtifact">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IAbstractArtifact/fields"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IAbstractArtifact/methods"/>
@@ -49,10 +30,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IAbstractArtifact/abstract"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IAbstractArtifact/extendedArtifact"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IAbstractArtifact/implementedArtifacts"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IAbstractArtifact/standardSpecifics"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IAbstractArtifact/extendingArtifacts"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IAbstractArtifact/implementingArtifacts"/>
       <genOperations ecoreOperation="tigerstripe.ecore#//IAbstractArtifact/getAncestors"/>
-      <genOperations ecoreOperation="tigerstripe.ecore#//IAbstractArtifact/getExtendingArtifacts"/>
-      <genOperations ecoreOperation="tigerstripe.ecore#//IAbstractArtifact/getImplementingArtifact"/>
       <genOperations ecoreOperation="tigerstripe.ecore#//IAbstractArtifact/getInheritedFields"/>
       <genOperations ecoreOperation="tigerstripe.ecore#//IAbstractArtifact/getInheritedMethods"/>
       <genOperations ecoreOperation="tigerstripe.ecore#//IAbstractArtifact/getReferencedArtifacts"/>
@@ -91,13 +71,11 @@
       <genOperations ecoreOperation="tigerstripe.ecore#//IEnumArtifact/getMinLiteral"/>
     </genClasses>
     <genClasses ecoreClass="tigerstripe.ecore#//IField">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IField/optional"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IField/readOnly"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IField/ordered"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IField/unique"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IField/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IField/defaultValue"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IField/refBy"/>
     </genClasses>
     <genClasses ecoreClass="tigerstripe.ecore#//IMethod">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IMethod/arguments"/>
@@ -105,23 +83,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMethod/abstract"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMethod/ordered"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMethod/unique"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMethod/optional"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IMethod/exceptions"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMethod/void"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMethod/iteratorReturn"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMethod/returnRefBy"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMethod/instanceMethod"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMethod/defaultReturnValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMethod/methodReturnName"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IMethod/returnStereotypeInstances"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IMethod/entityMethodFlavorDetails"/>
-      <genOperations ecoreOperation="tigerstripe.ecore#//IMethod/getEntityMethodFlavorDetails">
-        <genParameters ecoreParameter="tigerstripe.ecore#//IMethod/getEntityMethodFlavorDetails/flavor"/>
-      </genOperations>
-      <genOperations ecoreOperation="tigerstripe.ecore#//IMethod/setEntityMethodFlavorDetails">
-        <genParameters ecoreParameter="tigerstripe.ecore#//IMethod/setEntityMethodFlavorDetails/flavor"/>
-        <genParameters ecoreParameter="tigerstripe.ecore#//IMethod/setEntityMethodFlavorDetails/details"/>
-      </genOperations>
       <genOperations ecoreOperation="tigerstripe.ecore#//IMethod/getMethodId"/>
     </genClasses>
     <genClasses ecoreClass="tigerstripe.ecore#//ILiteral">
@@ -162,18 +128,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IArgument/defaultValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IArgument/ordered"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IArgument/unique"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IArgument/refBy"/>
     </genClasses>
     <genClasses ecoreClass="tigerstripe.ecore#//IModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IModel/packages"/>
-      <genOperations ecoreOperation="tigerstripe.ecore#//IModel/getAllArtifacts"/>
-      <genOperations ecoreOperation="tigerstripe.ecore#//IModel/getArtifactByName">
-        <genParameters ecoreParameter="tigerstripe.ecore#//IModel/getArtifactByName/fullyQualifiedName"/>
-      </genOperations>
     </genClasses>
     <genClasses ecoreClass="tigerstripe.ecore#//IPackage">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IPackage/artifacts"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IPackage/name"/>
     </genClasses>
     <genClasses ecoreClass="tigerstripe.ecore#//IStereotypeCapable">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IStereotypeCapable/stereotypeInstances"/>
@@ -192,118 +152,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IStereotypeAttributeValue/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IStereotypeAttributeValue/value"/>
     </genClasses>
-    <genClasses ecoreClass="tigerstripe.ecore#//IEntityMethodFlavorDetails">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IEntityMethodFlavorDetails/comment"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IEntityMethodFlavorDetails/flag"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IEntityMethodFlavorDetails/exceptions"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tigerstripe.ecore#//IEntityMethodFlavorDetails/method"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IEntityMethodFlavorDetails/flavor"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IEntityMethodFlavorDetails/methodType"/>
-    </genClasses>
     <genClasses ecoreClass="tigerstripe.ecore#//IMultiplicity">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMultiplicity/lowerBound"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//IMultiplicity/upperBound"/>
     </genClasses>
-    <nestedGenPackages prefix="Extensions" basePackage="org.eclipse.tigerstripe.metamodel"
-        disposableProviderFactory="true" ecorePackage="tigerstripe.ecore#//extensions">
-      <genClasses image="false" ecoreClass="tigerstripe.ecore#//extensions/IStandardSpecifics"/>
-      <genClasses ecoreClass="tigerstripe.ecore#//extensions/IProperties">
-        <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/IProperties/entries"/>
-      </genClasses>
-      <genClasses ecoreClass="tigerstripe.ecore#//extensions/IProperty">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/IProperty/name"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/IProperty/value"/>
-      </genClasses>
-      <nestedGenPackages prefix="Ossj" basePackage="org.eclipse.tigerstripe.metamodel.extensions"
-          disposableProviderFactory="true" ecorePackage="tigerstripe.ecore#//extensions/ossj">
-        <genEnums typeSafeEnumCompatible="false" ecoreEnum="tigerstripe.ecore#//extensions/ossj/EMethodType">
-          <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//extensions/ossj/EMethodType/CRUD_CREATE"/>
-          <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//extensions/ossj/EMethodType/CRUD_GET"/>
-          <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//extensions/ossj/EMethodType/CRUD_SET"/>
-          <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//extensions/ossj/EMethodType/CRUD_REMOVE"/>
-          <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//extensions/ossj/EMethodType/CUSTOM"/>
-        </genEnums>
-        <genEnums typeSafeEnumCompatible="false" ecoreEnum="tigerstripe.ecore#//extensions/ossj/EEntityMethodFlavorFlag">
-          <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//extensions/ossj/EEntityMethodFlavorFlag/true"/>
-          <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//extensions/ossj/EEntityMethodFlavorFlag/false"/>
-          <genEnumLiterals ecoreEnumLiteral="tigerstripe.ecore#//extensions/ossj/EEntityMethodFlavorFlag/optional"/>
-        </genEnums>
-        <genClasses ecoreClass="tigerstripe.ecore#//extensions/ossj/IOssjArtifactSpecifics">
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/ossj/IOssjArtifactSpecifics/interfaceProperties"/>
-          <genOperations ecoreOperation="tigerstripe.ecore#//extensions/ossj/IOssjArtifactSpecifics/mergeInterfaceProperties">
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IOssjArtifactSpecifics/mergeInterfaceProperties/interfaceProperties"/>
-          </genOperations>
-        </genClasses>
-        <genClasses ecoreClass="tigerstripe.ecore#//extensions/ossj/IOssjDatatypeSpecifics">
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjDatatypeSpecifics/singleExtensionType"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjDatatypeSpecifics/sessionFactoryMethods"/>
-        </genClasses>
-        <genClasses ecoreClass="tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics">
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/flavorDetails"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/primaryKey"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/extensibilityType"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/sessionFactoryMethods"/>
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/interfaceKeyProperties"/>
-          <genOperations ecoreOperation="tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/getCRUDFlavorDetails">
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/getCRUDFlavorDetails/crudID"/>
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/getCRUDFlavorDetails/flavor"/>
-          </genOperations>
-          <genOperations ecoreOperation="tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/setCRUDFlavorDetails">
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/setCRUDFlavorDetails/crudID"/>
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/setCRUDFlavorDetails/flavor"/>
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/setCRUDFlavorDetails/details"/>
-          </genOperations>
-          <genOperations ecoreOperation="tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/getSupportedFlavors">
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IOssjEntitySpecifics/getSupportedFlavors/crudID"/>
-          </genOperations>
-        </genClasses>
-        <genClasses ecoreClass="tigerstripe.ecore#//extensions/ossj/IOssjEnumSpecifics">
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjEnumSpecifics/extensible"/>
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/ossj/IOssjEnumSpecifics/baseIType"/>
-        </genClasses>
-        <genClasses ecoreClass="tigerstripe.ecore#//extensions/ossj/IOssjEventSpecifics">
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjEventSpecifics/singleExtensionType"/>
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/ossj/IOssjEventSpecifics/eventDescriptorEntries"/>
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/ossj/IOssjEventSpecifics/customEventDescriptorEntries"/>
-        </genClasses>
-        <genClasses ecoreClass="tigerstripe.ecore#//extensions/ossj/IEventDescriptorEntry">
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IEventDescriptorEntry/label"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IEventDescriptorEntry/primitiveType"/>
-        </genClasses>
-        <genClasses ecoreClass="tigerstripe.ecore#//extensions/ossj/IOssjQuerySpecifics">
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/ossj/IOssjQuerySpecifics/returnedEntityIType"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjQuerySpecifics/singleExtensionType"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjQuerySpecifics/sessionFactoryMethods"/>
-        </genClasses>
-        <genClasses ecoreClass="tigerstripe.ecore#//extensions/ossj/IOssjUpdateProcedureSpecifics">
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjUpdateProcedureSpecifics/singleExtensionType"/>
-          <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tigerstripe.ecore#//extensions/ossj/IOssjUpdateProcedureSpecifics/sessionFactoryMethods"/>
-        </genClasses>
-        <genClasses ecoreClass="tigerstripe.ecore#//extensions/ossj/IManagedEntityDetails">
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/ossj/IManagedEntityDetails/managedEntity"/>
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/ossj/IManagedEntityDetails/crudFlavorDetails"/>
-          <genFeatures notify="false" createChild="false" propertySortChoices="true"
-              ecoreFeature="ecore:EReference tigerstripe.ecore#//extensions/ossj/IManagedEntityDetails/customMethodFlavorDetails"/>
-          <genOperations ecoreOperation="tigerstripe.ecore#//extensions/ossj/IManagedEntityDetails/getCRUDFlavorDetails">
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IManagedEntityDetails/getCRUDFlavorDetails/methodType"/>
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IManagedEntityDetails/getCRUDFlavorDetails/flavor"/>
-          </genOperations>
-          <genOperations ecoreOperation="tigerstripe.ecore#//extensions/ossj/IManagedEntityDetails/getCustomMethodFlavorDetails">
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IManagedEntityDetails/getCustomMethodFlavorDetails/flavor"/>
-            <genParameters ecoreParameter="tigerstripe.ecore#//extensions/ossj/IManagedEntityDetails/getCustomMethodFlavorDetails/methodID"/>
-          </genOperations>
-        </genClasses>
-      </nestedGenPackages>
-    </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

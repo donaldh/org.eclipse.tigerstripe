@@ -2,16 +2,15 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IAbstractArtifact.java,v 1.3 2008/02/28 18:05:32 edillon Exp $
+ * $Id: IAbstractArtifact.java,v 1.4 2008/05/22 18:26:30 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
 import org.eclipse.emf.common.util.EList;
 
-import org.eclipse.tigerstripe.metamodel.extensions.IStandardSpecifics;
-
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>IAbstract Artifact</b></em>'.
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>IAbstract Artifact</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -23,7 +22,8 @@ import org.eclipse.tigerstripe.metamodel.extensions.IStandardSpecifics;
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendedArtifact <em>Extended Artifact</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getImplementedArtifacts <em>Implemented Artifacts</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getStandardSpecifics <em>Standard Specifics</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendingArtifacts <em>Extending Artifacts</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getImplementingArtifacts <em>Implementing Artifacts</em>}</li>
  * </ul>
  * </p>
  *
@@ -35,11 +35,10 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	/**
 	 * Returns the value of the '<em><b>Fields</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IField}.
-	 * <!-- begin-user-doc
-	 * -->
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Fields</em>' containment reference list
-	 * isn't clear, there really should be more of a description here...
+	 * If the meaning of the '<em>Fields</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Fields</em>' containment reference list.
@@ -52,11 +51,10 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	/**
 	 * Returns the value of the '<em><b>Methods</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IMethod}.
-	 * <!-- begin-user-doc
-	 * -->
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Methods</em>' containment reference list
-	 * isn't clear, there really should be more of a description here...
+	 * If the meaning of the '<em>Methods</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Methods</em>' containment reference list.
@@ -69,11 +67,10 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	/**
 	 * Returns the value of the '<em><b>Literals</b></em>' containment reference list.
 	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.ILiteral}.
-	 * <!-- begin-user-doc
-	 * -->
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Literals</em>' containment reference list
-	 * isn't clear, there really should be more of a description here...
+	 * If the meaning of the '<em>Literals</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Literals</em>' containment reference list.
@@ -84,14 +81,13 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	EList<ILiteral> getLiterals();
 
 	/**
-	 * Returns the value of the '<em><b>Abstract</b></em>' attribute. <!--
-	 * begin-user-doc -->
+	 * Returns the value of the '<em><b>Abstract</b></em>' attribute.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Abstract</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the value of the '<em>Abstract</em>' attribute.
 	 * @see #setAbstract(boolean)
 	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_Abstract()
@@ -102,7 +98,8 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#isAbstract <em>Abstract</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Abstract</em>' attribute.
 	 * @see #isAbstract()
 	 * @generated
@@ -111,23 +108,26 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 
 	/**
 	 * Returns the value of the '<em><b>Extended Artifact</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendingArtifacts <em>Extending Artifacts</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Extended Artifact</em>' reference isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of the '<em>Extended Artifact</em>' reference isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Extended Artifact</em>' reference.
 	 * @see #setExtendedArtifact(IAbstractArtifact)
 	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_ExtendedArtifact()
-	 * @model
+	 * @see org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendingArtifacts
+	 * @model opposite="extendingArtifacts"
 	 * @generated
 	 */
 	IAbstractArtifact getExtendedArtifact();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendedArtifact <em>Extended Artifact</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Extended Artifact</em>' reference.
 	 * @see #getExtendedArtifact()
 	 * @generated
@@ -135,93 +135,94 @@ public interface IAbstractArtifact extends IQualifiedNamedComponent {
 	void setExtendedArtifact(IAbstractArtifact value);
 
 	/**
-	 * Returns the value of the '<em><b>Implemented Artifacts</b></em>'
-	 * reference list. The list contents are of type
-	 * {@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact}. <!--
-	 * begin-user-doc -->
+	 * Returns the value of the '<em><b>Implemented Artifacts</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getImplementingArtifacts <em>Implementing Artifacts</em>}'.
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Implemented Artifacts</em>' reference list
-	 * isn't clear, there really should be more of a description here...
+	 * If the meaning of the '<em>Implemented Artifacts</em>' reference list isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
-	 * @return the value of the '<em>Implemented Artifacts</em>' reference
-	 *         list.
+	 * @return the value of the '<em>Implemented Artifacts</em>' reference list.
 	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_ImplementedArtifacts()
-	 * @model
+	 * @see org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getImplementingArtifacts
+	 * @model opposite="implementingArtifacts"
 	 * @generated
 	 */
 	EList<IAbstractArtifact> getImplementedArtifacts();
 
 	/**
-	 * Returns the value of the '<em><b>Standard Specifics</b></em>' reference.
+	 * Returns the value of the '<em><b>Extending Artifacts</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendedArtifact <em>Extended Artifact</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Standard Specifics</em>' reference isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of the '<em>Extending Artifacts</em>' reference list isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Standard Specifics</em>' reference.
-	 * @see #setStandardSpecifics(IStandardSpecifics)
-	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_StandardSpecifics()
-	 * @model
+	 * @return the value of the '<em>Extending Artifacts</em>' reference list.
+	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_ExtendingArtifacts()
+	 * @see org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendedArtifact
+	 * @model opposite="extendedArtifact"
 	 * @generated
 	 */
-	IStandardSpecifics getStandardSpecifics();
+	EList<IAbstractArtifact> getExtendingArtifacts();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getStandardSpecifics <em>Standard Specifics</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Standard Specifics</em>' reference.
-	 * @see #getStandardSpecifics()
+	 * Returns the value of the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact}.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getImplementedArtifacts <em>Implemented Artifacts</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Implementing Artifacts</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Implementing Artifacts</em>' reference list.
+	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIAbstractArtifact_ImplementingArtifacts()
+	 * @see org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getImplementedArtifacts
+	 * @model opposite="implementedArtifacts"
 	 * @generated
 	 */
-	void setStandardSpecifics(IStandardSpecifics value);
+	EList<IAbstractArtifact> getImplementingArtifacts();
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
 	EList<IAbstractArtifact> getAncestors();
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<IAbstractArtifact> getExtendingArtifacts();
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	EList<IAbstractArtifact> getImplementingArtifact();
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
 	EList<IField> getInheritedFields();
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
 	EList<IMethod> getInheritedMethods();
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model kind="operation"
 	 * @generated
 	 */
 	EList<IAbstractArtifact> getReferencedArtifacts();
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @model
 	 * @generated
 	 */

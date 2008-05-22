@@ -2,13 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ISessionArtifact.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: ISessionArtifact.java,v 1.2 2008/05/22 18:26:30 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.tigerstripe.metamodel.extensions.ossj.IManagedEntityDetails;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,7 +30,7 @@ import org.eclipse.tigerstripe.metamodel.extensions.ossj.IManagedEntityDetails;
 public interface ISessionArtifact extends IAbstractArtifact {
 	/**
 	 * Returns the value of the '<em><b>Managed Entities</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.extensions.ossj.IManagedEntityDetails}.
+	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Managed Entities</em>' reference list isn't clear,
@@ -44,7 +42,7 @@ public interface ISessionArtifact extends IAbstractArtifact {
 	 * @model
 	 * @generated
 	 */
-	EList<IManagedEntityDetails> getManagedEntities();
+	EList<IManagedEntityArtifact> getManagedEntities();
 
 	/**
 	 * Returns the value of the '<em><b>Emitted Notifications</b></em>' reference list.

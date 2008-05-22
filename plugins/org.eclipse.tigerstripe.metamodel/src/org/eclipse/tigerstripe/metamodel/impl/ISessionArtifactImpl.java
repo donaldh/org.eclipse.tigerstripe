@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ISessionArtifactImpl.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: ISessionArtifactImpl.java,v 1.2 2008/05/22 18:26:28 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -15,12 +15,11 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 import org.eclipse.tigerstripe.metamodel.IEventArtifact;
+import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.metamodel.IQueryArtifact;
 import org.eclipse.tigerstripe.metamodel.ISessionArtifact;
 import org.eclipse.tigerstripe.metamodel.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
-
-import org.eclipse.tigerstripe.metamodel.extensions.ossj.IManagedEntityDetails;
 
 /**
  * <!-- begin-user-doc -->
@@ -47,7 +46,7 @@ public class ISessionArtifactImpl extends IAbstractArtifactImpl implements ISess
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<IManagedEntityDetails> managedEntities;
+	protected EList<IManagedEntityArtifact> managedEntities;
 
 	/**
 	 * The cached value of the '{@link #getEmittedNotifications() <em>Emitted Notifications</em>}' reference list.
@@ -103,9 +102,9 @@ public class ISessionArtifactImpl extends IAbstractArtifactImpl implements ISess
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<IManagedEntityDetails> getManagedEntities() {
+	public EList<IManagedEntityArtifact> getManagedEntities() {
 		if (managedEntities == null) {
-			managedEntities = new EObjectResolvingEList<IManagedEntityDetails>(IManagedEntityDetails.class, this, MetamodelPackage.ISESSION_ARTIFACT__MANAGED_ENTITIES);
+			managedEntities = new EObjectResolvingEList<IManagedEntityArtifact>(IManagedEntityArtifact.class, this, MetamodelPackage.ISESSION_ARTIFACT__MANAGED_ENTITIES);
 		}
 		return managedEntities;
 	}
@@ -177,7 +176,7 @@ public class ISessionArtifactImpl extends IAbstractArtifactImpl implements ISess
 		switch (featureID) {
 			case MetamodelPackage.ISESSION_ARTIFACT__MANAGED_ENTITIES:
 				getManagedEntities().clear();
-				getManagedEntities().addAll((Collection<? extends IManagedEntityDetails>)newValue);
+				getManagedEntities().addAll((Collection<? extends IManagedEntityArtifact>)newValue);
 				return;
 			case MetamodelPackage.ISESSION_ARTIFACT__EMITTED_NOTIFICATIONS:
 				getEmittedNotifications().clear();

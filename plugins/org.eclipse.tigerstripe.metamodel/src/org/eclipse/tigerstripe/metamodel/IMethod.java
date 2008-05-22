@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IMethod.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: IMethod.java,v 1.2 2008/05/22 18:26:30 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
@@ -21,16 +21,11 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#isOrdered <em>Ordered</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#isUnique <em>Unique</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#isOptional <em>Optional</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#getExceptions <em>Exceptions</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#isVoid <em>Void</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#isIteratorReturn <em>Iterator Return</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#getReturnRefBy <em>Return Ref By</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#isInstanceMethod <em>Instance Method</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#getDefaultReturnValue <em>Default Return Value</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#getMethodReturnName <em>Method Return Name</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#getReturnStereotypeInstances <em>Return Stereotype Instances</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.IMethod#getEntityMethodFlavorDetails <em>Entity Method Flavor Details</em>}</li>
  * </ul>
  * </p>
  *
@@ -160,32 +155,6 @@ public interface IMethod extends IModelComponent {
 	void setUnique(boolean value);
 
 	/**
-	 * Returns the value of the '<em><b>Optional</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Optional</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Optional</em>' attribute.
-	 * @see #setOptional(boolean)
-	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIMethod_Optional()
-	 * @model
-	 * @generated
-	 */
-	boolean isOptional();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IMethod#isOptional <em>Optional</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Optional</em>' attribute.
-	 * @see #isOptional()
-	 * @generated
-	 */
-	void setOptional(boolean value);
-
-	/**
 	 * Returns the value of the '<em><b>Exceptions</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IType}.
 	 * <!-- begin-user-doc -->
@@ -226,87 +195,6 @@ public interface IMethod extends IModelComponent {
 	 * @generated
 	 */
 	void setVoid(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>Iterator Return</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Iterator Return</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Iterator Return</em>' attribute.
-	 * @see #setIteratorReturn(boolean)
-	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIMethod_IteratorReturn()
-	 * @model
-	 * @generated
-	 */
-	boolean isIteratorReturn();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IMethod#isIteratorReturn <em>Iterator Return</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Iterator Return</em>' attribute.
-	 * @see #isIteratorReturn()
-	 * @generated
-	 */
-	void setIteratorReturn(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>Return Ref By</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.eclipse.tigerstripe.metamodel.ERefByEnum}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Return Ref By</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Return Ref By</em>' attribute.
-	 * @see org.eclipse.tigerstripe.metamodel.ERefByEnum
-	 * @see #setReturnRefBy(ERefByEnum)
-	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIMethod_ReturnRefBy()
-	 * @model
-	 * @generated
-	 */
-	ERefByEnum getReturnRefBy();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IMethod#getReturnRefBy <em>Return Ref By</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Return Ref By</em>' attribute.
-	 * @see org.eclipse.tigerstripe.metamodel.ERefByEnum
-	 * @see #getReturnRefBy()
-	 * @generated
-	 */
-	void setReturnRefBy(ERefByEnum value);
-
-	/**
-	 * Returns the value of the '<em><b>Instance Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Instance Method</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Instance Method</em>' attribute.
-	 * @see #setInstanceMethod(boolean)
-	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIMethod_InstanceMethod()
-	 * @model
-	 * @generated
-	 */
-	boolean isInstanceMethod();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IMethod#isInstanceMethod <em>Instance Method</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Instance Method</em>' attribute.
-	 * @see #isInstanceMethod()
-	 * @generated
-	 */
-	void setInstanceMethod(boolean value);
 
 	/**
 	 * Returns the value of the '<em><b>Default Return Value</b></em>' attribute.
@@ -402,38 +290,6 @@ public interface IMethod extends IModelComponent {
 	 * @generated
 	 */
 	EList<IStereotypeInstance> getReturnStereotypeInstances();
-
-	/**
-	 * Returns the value of the '<em><b>Entity Method Flavor Details</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Entity Method Flavor Details</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Entity Method Flavor Details</em>' reference list.
-	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIMethod_EntityMethodFlavorDetails()
-	 * @model
-	 * @generated
-	 */
-	EList<IEntityMethodFlavorDetails> getEntityMethodFlavorDetails();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	IEntityMethodFlavorDetails getEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model
-	 * @generated
-	 */
-	void setEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor, IEntityMethodFlavorDetails details);
 
 	/**
 	 * <!-- begin-user-doc -->

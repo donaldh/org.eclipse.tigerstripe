@@ -5,8 +5,6 @@
     nsURI="tigerstripe" nsPrefix="ts">
   <eClassifiers xsi:type="ecore:EClass" name="IAbstractArtifact" abstract="true" eSuperTypes="#//IQualifiedNamedComponent">
     <eOperations name="getAncestors" upperBound="-1" eType="#//IAbstractArtifact"/>
-    <eOperations name="getExtendingArtifacts" upperBound="-1" eType="#//IAbstractArtifact"/>
-    <eOperations name="getImplementingArtifact" upperBound="-1" eType="#//IAbstractArtifact"/>
     <eOperations name="getInheritedFields" upperBound="-1" eType="#//IField"/>
     <eOperations name="getInheritedMethods" upperBound="-1" eType="#//IMethod"/>
     <eOperations name="getReferencedArtifacts" upperBound="-1" eType="#//IAbstractArtifact"/>
@@ -18,10 +16,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="literals" upperBound="-1"
         eType="#//ILiteral" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="extendedArtifact" eType="#//IAbstractArtifact"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extendedArtifact" eType="#//IAbstractArtifact"
+        eOpposite="#//IAbstractArtifact/extendingArtifacts"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="implementedArtifacts" upperBound="-1"
-        eType="#//IAbstractArtifact"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="standardSpecifics" eType="#//extensions/IStandardSpecifics"/>
+        eType="#//IAbstractArtifact" eOpposite="#//IAbstractArtifact/implementingArtifacts"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="extendingArtifacts" upperBound="-1"
+        eType="#//IAbstractArtifact" eOpposite="#//IAbstractArtifact/extendedArtifact"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implementingArtifacts"
+        upperBound="-1" eType="#//IAbstractArtifact" eOpposite="#//IAbstractArtifact/implementedArtifacts"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IPrimitiveType" eSuperTypes="#//IAbstractArtifact"/>
   <eClassifiers xsi:type="ecore:EClass" name="IManagedEntityArtifact" eSuperTypes="#//IAbstractArtifact">
@@ -31,7 +33,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="IExceptionArtifact" eSuperTypes="#//IAbstractArtifact"/>
   <eClassifiers xsi:type="ecore:EClass" name="ISessionArtifact" eSuperTypes="#//IAbstractArtifact">
     <eStructuralFeatures xsi:type="ecore:EReference" name="managedEntities" upperBound="-1"
-        eType="#//extensions/ossj/IManagedEntityDetails"/>
+        eType="#//IManagedEntityArtifact"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="emittedNotifications" upperBound="-1"
         eType="#//IEventArtifact"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="supportedNamedQueries"
@@ -65,29 +67,14 @@
         defaultValueLiteral="int"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IField" eSuperTypes="#//IModelComponent">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="optional" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="readOnly" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ordered" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//IType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         unsettable="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="refBy" eType="#//ERefByEnum"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="ERefByEnum">
-    <eLiterals name="nonApplicable"/>
-    <eLiterals name="refByKey" value="1"/>
-    <eLiterals name="refByKeyResult" value="2"/>
-    <eLiterals name="refByValue" value="3"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IMethod" eSuperTypes="#//IModelComponent">
-    <eOperations name="getEntityMethodFlavorDetails" eType="#//IEntityMethodFlavorDetails">
-      <eParameters name="flavor" eType="#//OssjEntityMethodFlavor"/>
-    </eOperations>
-    <eOperations name="setEntityMethodFlavorDetails">
-      <eParameters name="flavor" eType="#//OssjEntityMethodFlavor"/>
-      <eParameters name="details" eType="#//IEntityMethodFlavorDetails"/>
-    </eOperations>
     <eOperations name="getMethodId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="arguments" upperBound="-1"
         eType="#//IArgument"/>
@@ -95,20 +82,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ordered" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="optional" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exceptions" upperBound="-1"
         eType="#//IType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="void" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="iteratorReturn" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="returnRefBy" eType="#//ERefByEnum"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceMethod" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultReturnValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodReturnName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="returnStereotypeInstances"
         upperBound="-1" eType="#//IStereotypeInstance"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="entityMethodFlavorDetails"
-        upperBound="-1" eType="#//IEntityMethodFlavorDetails"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ILiteral" eSuperTypes="#//IModelComponent">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -171,20 +152,14 @@
         unsettable="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ordered" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="refBy" eType="#//ERefByEnum"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IModel" eSuperTypes="#//IModelComponent">
-    <eOperations name="getAllArtifacts" upperBound="-1" eType="#//IAbstractArtifact"/>
-    <eOperations name="getArtifactByName" eType="#//IAbstractArtifact">
-      <eParameters name="fullyQualifiedName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
         eType="#//IPackage" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IPackage">
+  <eClassifiers xsi:type="ecore:EClass" name="IPackage" eSuperTypes="#//IModelComponent">
     <eStructuralFeatures xsi:type="ecore:EReference" name="artifacts" upperBound="-1"
-        eType="#//IAbstractArtifact" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        eType="#//IQualifiedNamedComponent" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IStereotypeCapable">
     <eOperations name="getStereotypeInstanceByName" eType="#//IStereotypeInstance">
@@ -205,139 +180,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="OssjEntityMethodFlavor">
-    <eLiterals name="simple"/>
-    <eLiterals name="simpleByKey" value="1"/>
-    <eLiterals name="bulkAtomic" value="2"/>
-    <eLiterals name="bulkAtomicByKeys" value="3"/>
-    <eLiterals name="bulkBestEffort" value="4"/>
-    <eLiterals name="bulkBestEffortByKeys" value="5"/>
-    <eLiterals name="byTemplate" value="6"/>
-    <eLiterals name="byTemplates" value="7"/>
-    <eLiterals name="byTemplateBestEffort" value="8"/>
-    <eLiterals name="byTemplatesBestEffort" value="9"/>
-    <eLiterals name="byAutoNaming" value="10"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IEntityMethodFlavorDetails">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="flag" eType="#//extensions/ossj/EEntityMethodFlavorFlag"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="exceptions" upperBound="-1"
-        eType="#//IType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="method" eType="#//IMethod"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="flavor" eType="#//OssjEntityMethodFlavor"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodType" eType="#//extensions/ossj/EMethodType"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IMultiplicity">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eSubpackages name="extensions" nsURI="tigerstripe-extensions" nsPrefix="ts-extensions">
-    <eClassifiers xsi:type="ecore:EClass" name="IStandardSpecifics" abstract="true"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IProperties">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="entries" eType="#//extensions/IProperty"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="IProperty">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eClassifiers>
-    <eSubpackages name="ossj" nsURI="tigerstripe-ossj" nsPrefix="ts-ossj">
-      <eClassifiers xsi:type="ecore:EClass" name="IOssjArtifactSpecifics" eSuperTypes="#//extensions/IStandardSpecifics">
-        <eOperations name="mergeInterfaceProperties">
-          <eParameters name="interfaceProperties" eType="#//extensions/IProperties"/>
-        </eOperations>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="interfaceProperties"
-            eType="#//extensions/IProperties"/>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="IOssjDatatypeSpecifics" eSuperTypes="#//extensions/ossj/IOssjArtifactSpecifics">
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleExtensionType"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sessionFactoryMethods"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="IOssjEntitySpecifics" eSuperTypes="#//extensions/ossj/IOssjArtifactSpecifics">
-        <eOperations name="getCRUDFlavorDetails" eType="#//IEntityMethodFlavorDetails">
-          <eParameters name="crudID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-          <eParameters name="flavor" eType="#//OssjEntityMethodFlavor"/>
-        </eOperations>
-        <eOperations name="setCRUDFlavorDetails">
-          <eParameters name="crudID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-          <eParameters name="flavor" eType="#//OssjEntityMethodFlavor"/>
-          <eParameters name="details" eType="#//IEntityMethodFlavorDetails"/>
-        </eOperations>
-        <eOperations name="getSupportedFlavors" upperBound="-1" eType="#//OssjEntityMethodFlavor">
-          <eParameters name="crudID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-        </eOperations>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="flavorDetails" upperBound="-1"
-            eType="#//IEntityMethodFlavorDetails"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="primaryKey" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-            defaultValueLiteral="String"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="extensibilityType"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sessionFactoryMethods"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="interfaceKeyProperties"
-            eType="#//extensions/IProperties"/>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="IOssjEnumSpecifics" eSuperTypes="#//extensions/ossj/IOssjArtifactSpecifics">
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="extensible" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="baseIType" eType="#//IType"/>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="IOssjEventSpecifics" eSuperTypes="#//extensions/ossj/IOssjArtifactSpecifics">
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleExtensionType"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="eventDescriptorEntries"
-            upperBound="-1" eType="#//extensions/ossj/IEventDescriptorEntry"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="customEventDescriptorEntries"
-            upperBound="-1" eType="#//extensions/ossj/IEventDescriptorEntry"/>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="IEventDescriptorEntry">
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="primitiveType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="IOssjQuerySpecifics" eSuperTypes="#//extensions/ossj/IOssjArtifactSpecifics">
-        <eStructuralFeatures xsi:type="ecore:EReference" name="returnedEntityIType"
-            eType="#//IType"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleExtensionType"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sessionFactoryMethods"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="IOssjUpdateProcedureSpecifics" eSuperTypes="#//extensions/ossj/IOssjArtifactSpecifics">
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="singleExtensionType"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-        <eStructuralFeatures xsi:type="ecore:EAttribute" name="sessionFactoryMethods"
-            eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EEnum" name="EMethodType">
-        <eLiterals name="CRUD_CREATE"/>
-        <eLiterals name="CRUD_GET" value="1"/>
-        <eLiterals name="CRUD_SET" value="2"/>
-        <eLiterals name="CRUD_REMOVE" value="3"/>
-        <eLiterals name="CUSTOM" value="-1"/>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="IManagedEntityDetails">
-        <eOperations name="getCRUDFlavorDetails" eType="#//IEntityMethodFlavorDetails">
-          <eParameters name="methodType" eType="#//extensions/ossj/EMethodType"/>
-          <eParameters name="flavor" eType="#//OssjEntityMethodFlavor"/>
-        </eOperations>
-        <eOperations name="getCustomMethodFlavorDetails" eType="#//IEntityMethodFlavorDetails">
-          <eParameters name="flavor" eType="#//OssjEntityMethodFlavor"/>
-          <eParameters name="methodID" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-        </eOperations>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="managedEntity" eType="#//IManagedEntityArtifact"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="crudFlavorDetails"
-            upperBound="-1" eType="#//IEntityMethodFlavorDetails"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="customMethodFlavorDetails"
-            upperBound="-1" eType="#//IEntityMethodFlavorDetails"/>
-      </eClassifiers>
-      <eClassifiers xsi:type="ecore:EEnum" name="EEntityMethodFlavorFlag">
-        <eLiterals name="true"/>
-        <eLiterals name="false" value="1"/>
-        <eLiterals name="optional" value="2"/>
-      </eClassifiers>
-    </eSubpackages>
-  </eSubpackages>
-  <eSubpackages name="instance" nsURI="tigerstripe-instance" nsPrefix="ts-instance">
-    <eClassifiers xsi:type="ecore:EClass" name="ArtifactInstance" abstract="true"/>
-  </eSubpackages>
 </ecore:EPackage>

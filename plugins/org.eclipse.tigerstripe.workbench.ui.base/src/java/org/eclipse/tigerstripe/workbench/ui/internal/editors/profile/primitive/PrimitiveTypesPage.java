@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.primitive;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;

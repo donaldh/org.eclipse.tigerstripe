@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IArgumentImpl.java,v 1.1 2008/02/14 23:57:59 edillon Exp $
+ * $Id: IArgumentImpl.java,v 1.2 2008/05/22 18:26:28 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.eclipse.tigerstripe.metamodel.ERefByEnum;
 import org.eclipse.tigerstripe.metamodel.IArgument;
 import org.eclipse.tigerstripe.metamodel.IType;
 import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
@@ -30,7 +29,6 @@ import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IArgumentImpl#getDefaultValue <em>Default Value</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IArgumentImpl#isOrdered <em>Ordered</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IArgumentImpl#isUnique <em>Unique</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.impl.IArgumentImpl#getRefBy <em>Ref By</em>}</li>
  * </ul>
  * </p>
  *
@@ -115,26 +113,6 @@ public class IArgumentImpl extends IModelComponentImpl implements IArgument {
 	 * @ordered
 	 */
 	protected boolean unique = UNIQUE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getRefBy() <em>Ref By</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefBy()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final ERefByEnum REF_BY_EDEFAULT = ERefByEnum.NON_APPLICABLE;
-
-	/**
-	 * The cached value of the '{@link #getRefBy() <em>Ref By</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRefBy()
-	 * @generated
-	 * @ordered
-	 */
-	protected ERefByEnum refBy = REF_BY_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -291,27 +269,6 @@ public class IArgumentImpl extends IModelComponentImpl implements IArgument {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ERefByEnum getRefBy() {
-		return refBy;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRefBy(ERefByEnum newRefBy) {
-		ERefByEnum oldRefBy = refBy;
-		refBy = newRefBy == null ? REF_BY_EDEFAULT : newRefBy;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.IARGUMENT__REF_BY, oldRefBy, refBy));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -337,8 +294,6 @@ public class IArgumentImpl extends IModelComponentImpl implements IArgument {
 				return isOrdered() ? Boolean.TRUE : Boolean.FALSE;
 			case MetamodelPackage.IARGUMENT__UNIQUE:
 				return isUnique() ? Boolean.TRUE : Boolean.FALSE;
-			case MetamodelPackage.IARGUMENT__REF_BY:
-				return getRefBy();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -362,9 +317,6 @@ public class IArgumentImpl extends IModelComponentImpl implements IArgument {
 				return;
 			case MetamodelPackage.IARGUMENT__UNIQUE:
 				setUnique(((Boolean)newValue).booleanValue());
-				return;
-			case MetamodelPackage.IARGUMENT__REF_BY:
-				setRefBy((ERefByEnum)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -390,9 +342,6 @@ public class IArgumentImpl extends IModelComponentImpl implements IArgument {
 			case MetamodelPackage.IARGUMENT__UNIQUE:
 				setUnique(UNIQUE_EDEFAULT);
 				return;
-			case MetamodelPackage.IARGUMENT__REF_BY:
-				setRefBy(REF_BY_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -413,8 +362,6 @@ public class IArgumentImpl extends IModelComponentImpl implements IArgument {
 				return ordered != ORDERED_EDEFAULT;
 			case MetamodelPackage.IARGUMENT__UNIQUE:
 				return unique != UNIQUE_EDEFAULT;
-			case MetamodelPackage.IARGUMENT__REF_BY:
-				return refBy != REF_BY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -435,8 +382,6 @@ public class IArgumentImpl extends IModelComponentImpl implements IArgument {
 		result.append(ordered);
 		result.append(", unique: ");
 		result.append(unique);
-		result.append(", refBy: ");
-		result.append(refBy);
 		result.append(')');
 		return result.toString();
 	}

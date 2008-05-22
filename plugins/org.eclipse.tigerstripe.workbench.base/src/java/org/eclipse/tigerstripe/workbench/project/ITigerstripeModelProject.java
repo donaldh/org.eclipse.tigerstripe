@@ -19,7 +19,7 @@ import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.workbench.model.IModelManager;
+import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 
 /**
@@ -30,7 +30,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
  */
 public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 
-	public IModelManager getModelManager() throws TigerstripeException;
+	public ProjectModelManager getModelManager() throws TigerstripeException;
 
 	/**
 	 * Returns the artifact manager session for this Tigerstripe project.

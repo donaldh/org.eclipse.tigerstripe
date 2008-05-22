@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.tigerstripe.metamodel.IArtifactMetadata;
-import org.eclipse.tigerstripe.metamodel.IModelComponentMetadata;
+import org.eclipse.tigerstripe.repository.internal.IArtifactMetadata;
+import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;

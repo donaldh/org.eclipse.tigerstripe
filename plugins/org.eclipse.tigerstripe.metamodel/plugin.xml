@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.2 2008/02/22 22:34:03 edillon Exp $
+ $Id: plugin.xml,v 1.3 2008/05/22 18:26:36 edillon Exp $
 -->
 
 <plugin>
@@ -17,5 +17,24 @@
        class = "org.eclipse.tigerstripe.metamodel.MetamodelPackage"
        genModel = "model/tigerstripe.genmodel" /> 
   </extension>
+  <extension
+        point="org.eclipse.tigerstripe.repository.core.keyProvider">
+     <provider
+           class="org.eclipse.tigerstripe.repository.metamodel.providers.TigerstripeKeyProvider">
+     </provider>
+  </extension>
+  <extension
+        point="org.eclipse.tigerstripe.repository.core.modelRepositoryProvider">
+     <provider
+           class="org.eclipse.tigerstripe.repository.metamodel.providers.TigerstripeLocalPojoRepositoryProvider">
+     </provider>
+  </extension>
+   <extension
+         point="org.eclipse.emf.ecore.extension_parser">
+      <parser
+            class="org.eclipse.tigerstripe.repository.metamodel.pojo.PojoResourceFactoryImpl"
+            type="java">
+      </parser>
+   </extension>
 
 </plugin>

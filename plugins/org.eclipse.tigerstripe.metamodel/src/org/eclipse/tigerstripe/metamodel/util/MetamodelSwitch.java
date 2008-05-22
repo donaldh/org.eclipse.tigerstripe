@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MetamodelSwitch.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: MetamodelSwitch.java,v 1.2 2008/05/22 18:26:36 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.util;
 
@@ -290,6 +290,8 @@ public class MetamodelSwitch<T> {
 			case MetamodelPackage.IPACKAGE: {
 				IPackage iPackage = (IPackage)theEObject;
 				T result = caseIPackage(iPackage);
+				if (result == null) result = caseIModelComponent(iPackage);
+				if (result == null) result = caseIStereotypeCapable(iPackage);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -308,12 +310,6 @@ public class MetamodelSwitch<T> {
 			case MetamodelPackage.ISTEREOTYPE_ATTRIBUTE_VALUE: {
 				IStereotypeAttributeValue iStereotypeAttributeValue = (IStereotypeAttributeValue)theEObject;
 				T result = caseIStereotypeAttributeValue(iStereotypeAttributeValue);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case MetamodelPackage.IENTITY_METHOD_FLAVOR_DETAILS: {
-				IEntityMethodFlavorDetails iEntityMethodFlavorDetails = (IEntityMethodFlavorDetails)theEObject;
-				T result = caseIEntityMethodFlavorDetails(iEntityMethodFlavorDetails);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -714,21 +710,6 @@ public class MetamodelSwitch<T> {
 	 * @generated
 	 */
 	public T caseIStereotypeAttributeValue(IStereotypeAttributeValue object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>IEntity Method Flavor Details</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>IEntity Method Flavor Details</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIEntityMethodFlavorDetails(IEntityMethodFlavorDetails object) {
 		return null;
 	}
 

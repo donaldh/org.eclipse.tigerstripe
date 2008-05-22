@@ -15,7 +15,6 @@ import java.io.FilenameFilter;
 import java.net.URI;
 import java.util.Arrays;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
@@ -38,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractI
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
-import org.eclipse.tigerstripe.workbench.model.IModelManager;
+import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
@@ -89,9 +88,8 @@ public abstract class TigerstripeProjectHandle extends
 		throw new TigerstripeException("Invalid project handle.");
 	}
 
-	public IModelManager getModelManager() throws TigerstripeException {
-		org.eclipse.tigerstripe.workbench.internal.modelManager.ModelManager manager = new org.eclipse.tigerstripe.workbench.internal.modelManager.ModelManager(
-				this);
+	public ProjectModelManager getModelManager() throws TigerstripeException {
+		ProjectModelManager manager = new ProjectModelManager(this);
 		return manager;
 	}
 

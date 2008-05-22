@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.profile.properties;
 
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IWorkbenchProfileProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;

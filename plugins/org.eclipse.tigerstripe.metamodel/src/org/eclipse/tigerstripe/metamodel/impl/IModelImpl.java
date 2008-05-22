@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IModelImpl.java,v 1.1 2008/02/14 23:57:59 edillon Exp $
+ * $Id: IModelImpl.java,v 1.2 2008/05/22 18:26:28 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel.impl;
 
@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
-import org.eclipse.tigerstripe.metamodel.IAbstractArtifact;
 import org.eclipse.tigerstripe.metamodel.IModel;
 import org.eclipse.tigerstripe.metamodel.IPackage;
 import org.eclipse.tigerstripe.metamodel.MetamodelPackage;
@@ -76,28 +75,6 @@ public class IModelImpl extends IModelComponentImpl implements IModel {
 			packages = new EObjectContainmentEList<IPackage>(IPackage.class, this, MetamodelPackage.IMODEL__PACKAGES);
 		}
 		return packages;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<IAbstractArtifact> getAllArtifacts() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IAbstractArtifact getArtifactByName(String fullyQualifiedName) {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
 	}
 
 	/**

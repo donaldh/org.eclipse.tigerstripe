@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IArgument.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: IArgument.java,v 1.2 2008/05/22 18:26:30 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
@@ -19,7 +19,6 @@ package org.eclipse.tigerstripe.metamodel;
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IArgument#getDefaultValue <em>Default Value</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IArgument#isOrdered <em>Ordered</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IArgument#isUnique <em>Unique</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.IArgument#getRefBy <em>Ref By</em>}</li>
  * </ul>
  * </p>
  *
@@ -158,34 +157,5 @@ public interface IArgument extends IModelComponent {
 	 * @generated
 	 */
 	void setUnique(boolean value);
-
-	/**
-	 * Returns the value of the '<em><b>Ref By</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.eclipse.tigerstripe.metamodel.ERefByEnum}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ref By</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ref By</em>' attribute.
-	 * @see org.eclipse.tigerstripe.metamodel.ERefByEnum
-	 * @see #setRefBy(ERefByEnum)
-	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIArgument_RefBy()
-	 * @model
-	 * @generated
-	 */
-	ERefByEnum getRefBy();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IArgument#getRefBy <em>Ref By</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Ref By</em>' attribute.
-	 * @see org.eclipse.tigerstripe.metamodel.ERefByEnum
-	 * @see #getRefBy()
-	 * @generated
-	 */
-	void setRefBy(ERefByEnum value);
 
 } // IArgument

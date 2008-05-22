@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IImportCheckpointDetails;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;

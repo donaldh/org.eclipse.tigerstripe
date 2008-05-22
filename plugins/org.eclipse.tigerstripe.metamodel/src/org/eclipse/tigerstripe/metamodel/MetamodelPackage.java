@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MetamodelPackage.java,v 1.2 2008/02/28 18:05:32 edillon Exp $
+ * $Id: MetamodelPackage.java,v 1.3 2008/05/22 18:26:30 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
@@ -317,13 +317,22 @@ public interface MetamodelPackage extends EPackage {
 	int IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS = IQUALIFIED_NAMED_COMPONENT_FEATURE_COUNT + 5;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IABSTRACT_ARTIFACT__STANDARD_SPECIFICS = IQUALIFIED_NAMED_COMPONENT_FEATURE_COUNT + 6;
+	int IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS = IQUALIFIED_NAMED_COMPONENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS = IQUALIFIED_NAMED_COMPONENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of structural features of the '<em>IAbstract Artifact</em>' class.
@@ -332,7 +341,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IABSTRACT_ARTIFACT_FEATURE_COUNT = IQUALIFIED_NAMED_COMPONENT_FEATURE_COUNT + 7;
+	int IABSTRACT_ARTIFACT_FEATURE_COUNT = IQUALIFIED_NAMED_COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl <em>IPrimitive Type</em>}' class.
@@ -444,13 +453,22 @@ public interface MetamodelPackage extends EPackage {
 	int IPRIMITIVE_TYPE__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPRIMITIVE_TYPE__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int IPRIMITIVE_TYPE__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPRIMITIVE_TYPE__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The number of structural features of the '<em>IPrimitive Type</em>' class.
@@ -571,13 +589,22 @@ public interface MetamodelPackage extends EPackage {
 	int IMANAGED_ENTITY_ARTIFACT__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMANAGED_ENTITY_ARTIFACT__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int IMANAGED_ENTITY_ARTIFACT__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IMANAGED_ENTITY_ARTIFACT__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The feature id for the '<em><b>Primary Key</b></em>' attribute.
@@ -707,13 +734,22 @@ public interface MetamodelPackage extends EPackage {
 	int IDATATYPE_ARTIFACT__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IDATATYPE_ARTIFACT__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int IDATATYPE_ARTIFACT__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IDATATYPE_ARTIFACT__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The number of structural features of the '<em>IDatatype Artifact</em>' class.
@@ -834,13 +870,22 @@ public interface MetamodelPackage extends EPackage {
 	int IEXCEPTION_ARTIFACT__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IEXCEPTION_ARTIFACT__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int IEXCEPTION_ARTIFACT__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IEXCEPTION_ARTIFACT__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The number of structural features of the '<em>IException Artifact</em>' class.
@@ -961,13 +1006,22 @@ public interface MetamodelPackage extends EPackage {
 	int ISESSION_ARTIFACT__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ISESSION_ARTIFACT__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int ISESSION_ARTIFACT__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ISESSION_ARTIFACT__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The feature id for the '<em><b>Managed Entities</b></em>' reference list.
@@ -1124,13 +1178,22 @@ public interface MetamodelPackage extends EPackage {
 	int IQUERY_ARTIFACT__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IQUERY_ARTIFACT__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int IQUERY_ARTIFACT__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IQUERY_ARTIFACT__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The feature id for the '<em><b>Returned Type</b></em>' reference list.
@@ -1260,13 +1323,22 @@ public interface MetamodelPackage extends EPackage {
 	int IUPDATE_PROCEDURE_ARTIFACT__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IUPDATE_PROCEDURE_ARTIFACT__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int IUPDATE_PROCEDURE_ARTIFACT__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IUPDATE_PROCEDURE_ARTIFACT__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The number of structural features of the '<em>IUpdate Procedure Artifact</em>' class.
@@ -1387,13 +1459,22 @@ public interface MetamodelPackage extends EPackage {
 	int IEVENT_ARTIFACT__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IEVENT_ARTIFACT__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int IEVENT_ARTIFACT__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IEVENT_ARTIFACT__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The number of structural features of the '<em>IEvent Artifact</em>' class.
@@ -1514,13 +1595,22 @@ public interface MetamodelPackage extends EPackage {
 	int IASSOCIATION_ARTIFACT__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IASSOCIATION_ARTIFACT__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int IASSOCIATION_ARTIFACT__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IASSOCIATION_ARTIFACT__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The feature id for the '<em><b>AEnd</b></em>' containment reference.
@@ -1659,13 +1749,22 @@ public interface MetamodelPackage extends EPackage {
 	int IASSOCIATION_CLASS_ARTIFACT__IMPLEMENTED_ARTIFACTS = IASSOCIATION_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IASSOCIATION_CLASS_ARTIFACT__STANDARD_SPECIFICS = IASSOCIATION_ARTIFACT__STANDARD_SPECIFICS;
+	int IASSOCIATION_CLASS_ARTIFACT__EXTENDING_ARTIFACTS = IASSOCIATION_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IASSOCIATION_CLASS_ARTIFACT__IMPLEMENTING_ARTIFACTS = IASSOCIATION_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The feature id for the '<em><b>AEnd</b></em>' containment reference.
@@ -1813,13 +1912,22 @@ public interface MetamodelPackage extends EPackage {
 	int IDEPENDENCY_ARTIFACT__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IDEPENDENCY_ARTIFACT__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int IDEPENDENCY_ARTIFACT__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IDEPENDENCY_ARTIFACT__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The feature id for the '<em><b>AEnd Type</b></em>' reference.
@@ -1958,13 +2066,22 @@ public interface MetamodelPackage extends EPackage {
 	int IENUM_ARTIFACT__IMPLEMENTED_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS;
 
 	/**
-	 * The feature id for the '<em><b>Standard Specifics</b></em>' reference.
+	 * The feature id for the '<em><b>Extending Artifacts</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IENUM_ARTIFACT__STANDARD_SPECIFICS = IABSTRACT_ARTIFACT__STANDARD_SPECIFICS;
+	int IENUM_ARTIFACT__EXTENDING_ARTIFACTS = IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS;
+
+	/**
+	 * The feature id for the '<em><b>Implementing Artifacts</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IENUM_ARTIFACT__IMPLEMENTING_ARTIFACTS = IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS;
 
 	/**
 	 * The feature id for the '<em><b>Base Type</b></em>' attribute.
@@ -2031,22 +2148,13 @@ public interface MetamodelPackage extends EPackage {
 	int IFIELD__VISIBILITY = IMODEL_COMPONENT__VISIBILITY;
 
 	/**
-	 * The feature id for the '<em><b>Optional</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IFIELD__OPTIONAL = IMODEL_COMPONENT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Read Only</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IFIELD__READ_ONLY = IMODEL_COMPONENT_FEATURE_COUNT + 1;
+	int IFIELD__READ_ONLY = IMODEL_COMPONENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Ordered</b></em>' attribute.
@@ -2055,7 +2163,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IFIELD__ORDERED = IMODEL_COMPONENT_FEATURE_COUNT + 2;
+	int IFIELD__ORDERED = IMODEL_COMPONENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Unique</b></em>' attribute.
@@ -2064,7 +2172,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IFIELD__UNIQUE = IMODEL_COMPONENT_FEATURE_COUNT + 3;
+	int IFIELD__UNIQUE = IMODEL_COMPONENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' reference.
@@ -2073,7 +2181,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IFIELD__TYPE = IMODEL_COMPONENT_FEATURE_COUNT + 4;
+	int IFIELD__TYPE = IMODEL_COMPONENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Default Value</b></em>' attribute.
@@ -2082,16 +2190,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IFIELD__DEFAULT_VALUE = IMODEL_COMPONENT_FEATURE_COUNT + 5;
-
-	/**
-	 * The feature id for the '<em><b>Ref By</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IFIELD__REF_BY = IMODEL_COMPONENT_FEATURE_COUNT + 6;
+	int IFIELD__DEFAULT_VALUE = IMODEL_COMPONENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>IField</em>' class.
@@ -2100,7 +2199,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IFIELD_FEATURE_COUNT = IMODEL_COMPONENT_FEATURE_COUNT + 7;
+	int IFIELD_FEATURE_COUNT = IMODEL_COMPONENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl <em>IMethod</em>}' class.
@@ -2194,22 +2293,13 @@ public interface MetamodelPackage extends EPackage {
 	int IMETHOD__UNIQUE = IMODEL_COMPONENT_FEATURE_COUNT + 4;
 
 	/**
-	 * The feature id for the '<em><b>Optional</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMETHOD__OPTIONAL = IMODEL_COMPONENT_FEATURE_COUNT + 5;
-
-	/**
 	 * The feature id for the '<em><b>Exceptions</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IMETHOD__EXCEPTIONS = IMODEL_COMPONENT_FEATURE_COUNT + 6;
+	int IMETHOD__EXCEPTIONS = IMODEL_COMPONENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Void</b></em>' attribute.
@@ -2218,34 +2308,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IMETHOD__VOID = IMODEL_COMPONENT_FEATURE_COUNT + 7;
-
-	/**
-	 * The feature id for the '<em><b>Iterator Return</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMETHOD__ITERATOR_RETURN = IMODEL_COMPONENT_FEATURE_COUNT + 8;
-
-	/**
-	 * The feature id for the '<em><b>Return Ref By</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMETHOD__RETURN_REF_BY = IMODEL_COMPONENT_FEATURE_COUNT + 9;
-
-	/**
-	 * The feature id for the '<em><b>Instance Method</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMETHOD__INSTANCE_METHOD = IMODEL_COMPONENT_FEATURE_COUNT + 10;
+	int IMETHOD__VOID = IMODEL_COMPONENT_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Default Return Value</b></em>' attribute.
@@ -2254,7 +2317,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IMETHOD__DEFAULT_RETURN_VALUE = IMODEL_COMPONENT_FEATURE_COUNT + 11;
+	int IMETHOD__DEFAULT_RETURN_VALUE = IMODEL_COMPONENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Method Return Name</b></em>' attribute.
@@ -2263,7 +2326,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IMETHOD__METHOD_RETURN_NAME = IMODEL_COMPONENT_FEATURE_COUNT + 12;
+	int IMETHOD__METHOD_RETURN_NAME = IMODEL_COMPONENT_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Return Stereotype Instances</b></em>' reference list.
@@ -2272,16 +2335,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IMETHOD__RETURN_STEREOTYPE_INSTANCES = IMODEL_COMPONENT_FEATURE_COUNT + 13;
-
-	/**
-	 * The feature id for the '<em><b>Entity Method Flavor Details</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IMETHOD__ENTITY_METHOD_FLAVOR_DETAILS = IMODEL_COMPONENT_FEATURE_COUNT + 14;
+	int IMETHOD__RETURN_STEREOTYPE_INSTANCES = IMODEL_COMPONENT_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>IMethod</em>' class.
@@ -2290,7 +2344,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IMETHOD_FEATURE_COUNT = IMODEL_COMPONENT_FEATURE_COUNT + 15;
+	int IMETHOD_FEATURE_COUNT = IMODEL_COMPONENT_FEATURE_COUNT + 10;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.impl.ILiteralImpl <em>ILiteral</em>}' class.
@@ -2603,22 +2657,13 @@ public interface MetamodelPackage extends EPackage {
 	int IARGUMENT__UNIQUE = IMODEL_COMPONENT_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Ref By</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IARGUMENT__REF_BY = IMODEL_COMPONENT_FEATURE_COUNT + 4;
-
-	/**
 	 * The number of structural features of the '<em>IArgument</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IARGUMENT_FEATURE_COUNT = IMODEL_COMPONENT_FEATURE_COUNT + 5;
+	int IARGUMENT_FEATURE_COUNT = IMODEL_COMPONENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.impl.IModelImpl <em>IModel</em>}' class.
@@ -2695,13 +2740,13 @@ public interface MetamodelPackage extends EPackage {
 	int IPACKAGE = 22;
 
 	/**
-	 * The feature id for the '<em><b>Artifacts</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Stereotype Instances</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPACKAGE__ARTIFACTS = 0;
+	int IPACKAGE__STEREOTYPE_INSTANCES = IMODEL_COMPONENT__STEREOTYPE_INSTANCES;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -2710,7 +2755,34 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IPACKAGE__NAME = 1;
+	int IPACKAGE__NAME = IMODEL_COMPONENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Comment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPACKAGE__COMMENT = IMODEL_COMPONENT__COMMENT;
+
+	/**
+	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPACKAGE__VISIBILITY = IMODEL_COMPONENT__VISIBILITY;
+
+	/**
+	 * The feature id for the '<em><b>Artifacts</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPACKAGE__ARTIFACTS = IMODEL_COMPONENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>IPackage</em>' class.
@@ -2719,7 +2791,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IPACKAGE_FEATURE_COUNT = 2;
+	int IPACKAGE_FEATURE_COUNT = IMODEL_COMPONENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.impl.IStereotypeInstanceImpl <em>IStereotype Instance</em>}' class.
@@ -2796,79 +2868,6 @@ public interface MetamodelPackage extends EPackage {
 	int ISTEREOTYPE_ATTRIBUTE_VALUE_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.impl.IEntityMethodFlavorDetailsImpl <em>IEntity Method Flavor Details</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.tigerstripe.metamodel.impl.IEntityMethodFlavorDetailsImpl
-	 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getIEntityMethodFlavorDetails()
-	 * @generated
-	 */
-	int IENTITY_METHOD_FLAVOR_DETAILS = 26;
-
-	/**
-	 * The feature id for the '<em><b>Comment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IENTITY_METHOD_FLAVOR_DETAILS__COMMENT = 0;
-
-	/**
-	 * The feature id for the '<em><b>Flag</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IENTITY_METHOD_FLAVOR_DETAILS__FLAG = 1;
-
-	/**
-	 * The feature id for the '<em><b>Exceptions</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IENTITY_METHOD_FLAVOR_DETAILS__EXCEPTIONS = 2;
-
-	/**
-	 * The feature id for the '<em><b>Method</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IENTITY_METHOD_FLAVOR_DETAILS__METHOD = 3;
-
-	/**
-	 * The feature id for the '<em><b>Flavor</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IENTITY_METHOD_FLAVOR_DETAILS__FLAVOR = 4;
-
-	/**
-	 * The feature id for the '<em><b>Method Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IENTITY_METHOD_FLAVOR_DETAILS__METHOD_TYPE = 5;
-
-	/**
-	 * The number of structural features of the '<em>IEntity Method Flavor Details</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IENTITY_METHOD_FLAVOR_DETAILS_FEATURE_COUNT = 6;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.impl.IMultiplicityImpl <em>IMultiplicity</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2876,7 +2875,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getIMultiplicity()
 	 * @generated
 	 */
-	int IMULTIPLICITY = 27;
+	int IMULTIPLICITY = 26;
 
 	/**
 	 * The feature id for the '<em><b>Lower Bound</b></em>' attribute.
@@ -2906,16 +2905,6 @@ public interface MetamodelPackage extends EPackage {
 	int IMULTIPLICITY_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.ERefByEnum <em>ERef By Enum</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.tigerstripe.metamodel.ERefByEnum
-	 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getERefByEnum()
-	 * @generated
-	 */
-	int EREF_BY_ENUM = 28;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.VisibilityEnum <em>Visibility Enum</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2923,7 +2912,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getVisibilityEnum()
 	 * @generated
 	 */
-	int VISIBILITY_ENUM = 29;
+	int VISIBILITY_ENUM = 27;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.EAggregationEnum <em>EAggregation Enum</em>}' enum.
@@ -2933,7 +2922,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getEAggregationEnum()
 	 * @generated
 	 */
-	int EAGGREGATION_ENUM = 30;
+	int EAGGREGATION_ENUM = 28;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.EChangeableEnum <em>EChangeable Enum</em>}' enum.
@@ -2943,17 +2932,8 @@ public interface MetamodelPackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getEChangeableEnum()
 	 * @generated
 	 */
-	int ECHANGEABLE_ENUM = 31;
+	int ECHANGEABLE_ENUM = 29;
 
-	/**
-	 * The meta object id for the '{@link org.eclipse.tigerstripe.metamodel.OssjEntityMethodFlavor <em>Ossj Entity Method Flavor</em>}' enum.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.tigerstripe.metamodel.OssjEntityMethodFlavor
-	 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getOssjEntityMethodFlavor()
-	 * @generated
-	 */
-	int OSSJ_ENTITY_METHOD_FLAVOR = 32;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact <em>IAbstract Artifact</em>}'.
@@ -3032,15 +3012,26 @@ public interface MetamodelPackage extends EPackage {
 	EReference getIAbstractArtifact_ImplementedArtifacts();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getStandardSpecifics <em>Standard Specifics</em>}'.
+	 * Returns the meta object for the reference list '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendingArtifacts <em>Extending Artifacts</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Standard Specifics</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getStandardSpecifics()
+	 * @return the meta object for the reference list '<em>Extending Artifacts</em>'.
+	 * @see org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getExtendingArtifacts()
 	 * @see #getIAbstractArtifact()
 	 * @generated
 	 */
-	EReference getIAbstractArtifact_StandardSpecifics();
+	EReference getIAbstractArtifact_ExtendingArtifacts();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getImplementingArtifacts <em>Implementing Artifacts</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Implementing Artifacts</em>'.
+	 * @see org.eclipse.tigerstripe.metamodel.IAbstractArtifact#getImplementingArtifacts()
+	 * @see #getIAbstractArtifact()
+	 * @generated
+	 */
+	EReference getIAbstractArtifact_ImplementingArtifacts();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.metamodel.IPrimitiveType <em>IPrimitive Type</em>}'.
@@ -3294,17 +3285,6 @@ public interface MetamodelPackage extends EPackage {
 	EClass getIField();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IField#isOptional <em>Optional</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Optional</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IField#isOptional()
-	 * @see #getIField()
-	 * @generated
-	 */
-	EAttribute getIField_Optional();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IField#isReadOnly <em>Read Only</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3358,17 +3338,6 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getIField_DefaultValue();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IField#getRefBy <em>Ref By</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Ref By</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IField#getRefBy()
-	 * @see #getIField()
-	 * @generated
-	 */
-	EAttribute getIField_RefBy();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.metamodel.IMethod <em>IMethod</em>}'.
@@ -3436,17 +3405,6 @@ public interface MetamodelPackage extends EPackage {
 	EAttribute getIMethod_Unique();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IMethod#isOptional <em>Optional</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Optional</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IMethod#isOptional()
-	 * @see #getIMethod()
-	 * @generated
-	 */
-	EAttribute getIMethod_Optional();
-
-	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.tigerstripe.metamodel.IMethod#getExceptions <em>Exceptions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3467,39 +3425,6 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getIMethod_Void();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IMethod#isIteratorReturn <em>Iterator Return</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Iterator Return</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IMethod#isIteratorReturn()
-	 * @see #getIMethod()
-	 * @generated
-	 */
-	EAttribute getIMethod_IteratorReturn();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IMethod#getReturnRefBy <em>Return Ref By</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Return Ref By</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IMethod#getReturnRefBy()
-	 * @see #getIMethod()
-	 * @generated
-	 */
-	EAttribute getIMethod_ReturnRefBy();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IMethod#isInstanceMethod <em>Instance Method</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Instance Method</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IMethod#isInstanceMethod()
-	 * @see #getIMethod()
-	 * @generated
-	 */
-	EAttribute getIMethod_InstanceMethod();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IMethod#getDefaultReturnValue <em>Default Return Value</em>}'.
@@ -3533,17 +3458,6 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getIMethod_ReturnStereotypeInstances();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.tigerstripe.metamodel.IMethod#getEntityMethodFlavorDetails <em>Entity Method Flavor Details</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Entity Method Flavor Details</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IMethod#getEntityMethodFlavorDetails()
-	 * @see #getIMethod()
-	 * @generated
-	 */
-	EReference getIMethod_EntityMethodFlavorDetails();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.metamodel.ILiteral <em>ILiteral</em>}'.
@@ -3815,17 +3729,6 @@ public interface MetamodelPackage extends EPackage {
 	EAttribute getIArgument_Unique();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IArgument#getRefBy <em>Ref By</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Ref By</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IArgument#getRefBy()
-	 * @see #getIArgument()
-	 * @generated
-	 */
-	EAttribute getIArgument_RefBy();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.metamodel.IModel <em>IModel</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3866,17 +3769,6 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getIPackage_Artifacts();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IPackage#getName <em>Name</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IPackage#getName()
-	 * @see #getIPackage()
-	 * @generated
-	 */
-	EAttribute getIPackage_Name();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.metamodel.IStereotypeCapable <em>IStereotype Capable</em>}'.
@@ -3964,82 +3856,6 @@ public interface MetamodelPackage extends EPackage {
 	EAttribute getIStereotypeAttributeValue_Value();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails <em>IEntity Method Flavor Details</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>IEntity Method Flavor Details</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails
-	 * @generated
-	 */
-	EClass getIEntityMethodFlavorDetails();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getComment <em>Comment</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Comment</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getComment()
-	 * @see #getIEntityMethodFlavorDetails()
-	 * @generated
-	 */
-	EAttribute getIEntityMethodFlavorDetails_Comment();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getFlag <em>Flag</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Flag</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getFlag()
-	 * @see #getIEntityMethodFlavorDetails()
-	 * @generated
-	 */
-	EAttribute getIEntityMethodFlavorDetails_Flag();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getExceptions <em>Exceptions</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Exceptions</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getExceptions()
-	 * @see #getIEntityMethodFlavorDetails()
-	 * @generated
-	 */
-	EReference getIEntityMethodFlavorDetails_Exceptions();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getMethod <em>Method</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Method</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getMethod()
-	 * @see #getIEntityMethodFlavorDetails()
-	 * @generated
-	 */
-	EReference getIEntityMethodFlavorDetails_Method();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getFlavor <em>Flavor</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Flavor</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getFlavor()
-	 * @see #getIEntityMethodFlavorDetails()
-	 * @generated
-	 */
-	EAttribute getIEntityMethodFlavorDetails_Flavor();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getMethodType <em>Method Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Method Type</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.IEntityMethodFlavorDetails#getMethodType()
-	 * @see #getIEntityMethodFlavorDetails()
-	 * @generated
-	 */
-	EAttribute getIEntityMethodFlavorDetails_MethodType();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.metamodel.IMultiplicity <em>IMultiplicity</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4072,16 +3888,6 @@ public interface MetamodelPackage extends EPackage {
 	EAttribute getIMultiplicity_UpperBound();
 
 	/**
-	 * Returns the meta object for enum '{@link org.eclipse.tigerstripe.metamodel.ERefByEnum <em>ERef By Enum</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>ERef By Enum</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.ERefByEnum
-	 * @generated
-	 */
-	EEnum getERefByEnum();
-
-	/**
 	 * Returns the meta object for enum '{@link org.eclipse.tigerstripe.metamodel.VisibilityEnum <em>Visibility Enum</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -4110,16 +3916,6 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getEChangeableEnum();
-
-	/**
-	 * Returns the meta object for enum '{@link org.eclipse.tigerstripe.metamodel.OssjEntityMethodFlavor <em>Ossj Entity Method Flavor</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Ossj Entity Method Flavor</em>'.
-	 * @see org.eclipse.tigerstripe.metamodel.OssjEntityMethodFlavor
-	 * @generated
-	 */
-	EEnum getOssjEntityMethodFlavor();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -4202,12 +3998,20 @@ public interface MetamodelPackage extends EPackage {
 		EReference IABSTRACT_ARTIFACT__IMPLEMENTED_ARTIFACTS = eINSTANCE.getIAbstractArtifact_ImplementedArtifacts();
 
 		/**
-		 * The meta object literal for the '<em><b>Standard Specifics</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Extending Artifacts</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference IABSTRACT_ARTIFACT__STANDARD_SPECIFICS = eINSTANCE.getIAbstractArtifact_StandardSpecifics();
+		EReference IABSTRACT_ARTIFACT__EXTENDING_ARTIFACTS = eINSTANCE.getIAbstractArtifact_ExtendingArtifacts();
+
+		/**
+		 * The meta object literal for the '<em><b>Implementing Artifacts</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IABSTRACT_ARTIFACT__IMPLEMENTING_ARTIFACTS = eINSTANCE.getIAbstractArtifact_ImplementingArtifacts();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl <em>IPrimitive Type</em>}' class.
@@ -4428,14 +4232,6 @@ public interface MetamodelPackage extends EPackage {
 		EClass IFIELD = eINSTANCE.getIField();
 
 		/**
-		 * The meta object literal for the '<em><b>Optional</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IFIELD__OPTIONAL = eINSTANCE.getIField_Optional();
-
-		/**
 		 * The meta object literal for the '<em><b>Read Only</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4474,14 +4270,6 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IFIELD__DEFAULT_VALUE = eINSTANCE.getIField_DefaultValue();
-
-		/**
-		 * The meta object literal for the '<em><b>Ref By</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IFIELD__REF_BY = eINSTANCE.getIField_RefBy();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.impl.IMethodImpl <em>IMethod</em>}' class.
@@ -4534,14 +4322,6 @@ public interface MetamodelPackage extends EPackage {
 		EAttribute IMETHOD__UNIQUE = eINSTANCE.getIMethod_Unique();
 
 		/**
-		 * The meta object literal for the '<em><b>Optional</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IMETHOD__OPTIONAL = eINSTANCE.getIMethod_Optional();
-
-		/**
 		 * The meta object literal for the '<em><b>Exceptions</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4556,30 +4336,6 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IMETHOD__VOID = eINSTANCE.getIMethod_Void();
-
-		/**
-		 * The meta object literal for the '<em><b>Iterator Return</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IMETHOD__ITERATOR_RETURN = eINSTANCE.getIMethod_IteratorReturn();
-
-		/**
-		 * The meta object literal for the '<em><b>Return Ref By</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IMETHOD__RETURN_REF_BY = eINSTANCE.getIMethod_ReturnRefBy();
-
-		/**
-		 * The meta object literal for the '<em><b>Instance Method</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IMETHOD__INSTANCE_METHOD = eINSTANCE.getIMethod_InstanceMethod();
 
 		/**
 		 * The meta object literal for the '<em><b>Default Return Value</b></em>' attribute feature.
@@ -4604,14 +4360,6 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference IMETHOD__RETURN_STEREOTYPE_INSTANCES = eINSTANCE.getIMethod_ReturnStereotypeInstances();
-
-		/**
-		 * The meta object literal for the '<em><b>Entity Method Flavor Details</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference IMETHOD__ENTITY_METHOD_FLAVOR_DETAILS = eINSTANCE.getIMethod_EntityMethodFlavorDetails();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.impl.ILiteralImpl <em>ILiteral</em>}' class.
@@ -4826,14 +4574,6 @@ public interface MetamodelPackage extends EPackage {
 		EAttribute IARGUMENT__UNIQUE = eINSTANCE.getIArgument_Unique();
 
 		/**
-		 * The meta object literal for the '<em><b>Ref By</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IARGUMENT__REF_BY = eINSTANCE.getIArgument_RefBy();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.impl.IModelImpl <em>IModel</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -4868,14 +4608,6 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference IPACKAGE__ARTIFACTS = eINSTANCE.getIPackage_Artifacts();
-
-		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IPACKAGE__NAME = eINSTANCE.getIPackage_Name();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.impl.IStereotypeCapableImpl <em>IStereotype Capable</em>}' class.
@@ -4948,64 +4680,6 @@ public interface MetamodelPackage extends EPackage {
 		EAttribute ISTEREOTYPE_ATTRIBUTE_VALUE__VALUE = eINSTANCE.getIStereotypeAttributeValue_Value();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.impl.IEntityMethodFlavorDetailsImpl <em>IEntity Method Flavor Details</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.tigerstripe.metamodel.impl.IEntityMethodFlavorDetailsImpl
-		 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getIEntityMethodFlavorDetails()
-		 * @generated
-		 */
-		EClass IENTITY_METHOD_FLAVOR_DETAILS = eINSTANCE.getIEntityMethodFlavorDetails();
-
-		/**
-		 * The meta object literal for the '<em><b>Comment</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IENTITY_METHOD_FLAVOR_DETAILS__COMMENT = eINSTANCE.getIEntityMethodFlavorDetails_Comment();
-
-		/**
-		 * The meta object literal for the '<em><b>Flag</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IENTITY_METHOD_FLAVOR_DETAILS__FLAG = eINSTANCE.getIEntityMethodFlavorDetails_Flag();
-
-		/**
-		 * The meta object literal for the '<em><b>Exceptions</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference IENTITY_METHOD_FLAVOR_DETAILS__EXCEPTIONS = eINSTANCE.getIEntityMethodFlavorDetails_Exceptions();
-
-		/**
-		 * The meta object literal for the '<em><b>Method</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference IENTITY_METHOD_FLAVOR_DETAILS__METHOD = eINSTANCE.getIEntityMethodFlavorDetails_Method();
-
-		/**
-		 * The meta object literal for the '<em><b>Flavor</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IENTITY_METHOD_FLAVOR_DETAILS__FLAVOR = eINSTANCE.getIEntityMethodFlavorDetails_Flavor();
-
-		/**
-		 * The meta object literal for the '<em><b>Method Type</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IENTITY_METHOD_FLAVOR_DETAILS__METHOD_TYPE = eINSTANCE.getIEntityMethodFlavorDetails_MethodType();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.impl.IMultiplicityImpl <em>IMultiplicity</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -5030,16 +4704,6 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IMULTIPLICITY__UPPER_BOUND = eINSTANCE.getIMultiplicity_UpperBound();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.ERefByEnum <em>ERef By Enum</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.tigerstripe.metamodel.ERefByEnum
-		 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getERefByEnum()
-		 * @generated
-		 */
-		EEnum EREF_BY_ENUM = eINSTANCE.getERefByEnum();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.VisibilityEnum <em>Visibility Enum</em>}' enum.
@@ -5070,16 +4734,6 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum ECHANGEABLE_ENUM = eINSTANCE.getEChangeableEnum();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.tigerstripe.metamodel.OssjEntityMethodFlavor <em>Ossj Entity Method Flavor</em>}' enum.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.tigerstripe.metamodel.OssjEntityMethodFlavor
-		 * @see org.eclipse.tigerstripe.metamodel.impl.MetamodelPackageImpl#getOssjEntityMethodFlavor()
-		 * @generated
-		 */
-		EEnum OSSJ_ENTITY_METHOD_FLAVOR = eINSTANCE.getOssjEntityMethodFlavor();
 
 	}
 

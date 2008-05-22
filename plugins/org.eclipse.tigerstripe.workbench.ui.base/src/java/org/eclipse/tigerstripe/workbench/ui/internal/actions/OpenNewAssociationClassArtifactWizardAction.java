@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.actions;
 
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.associationClass.NewAssociationClassWizard;
 

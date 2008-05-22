@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model;
 
+import org.eclipse.tigerstripe.repository.manager.IModelRepository;
+
 /**
  * A Tigerstripe Module repository.
  * 

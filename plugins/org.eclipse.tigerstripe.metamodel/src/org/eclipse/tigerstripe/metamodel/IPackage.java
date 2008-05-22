@@ -2,13 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: IPackage.java,v 1.1 2008/02/14 23:58:00 edillon Exp $
+ * $Id: IPackage.java,v 1.2 2008/05/22 18:26:30 edillon Exp $
  */
 package org.eclipse.tigerstripe.metamodel;
 
 import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +17,6 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.tigerstripe.metamodel.IPackage#getArtifacts <em>Artifacts</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.metamodel.IPackage#getName <em>Name</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,10 +24,10 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface IPackage extends EObject {
+public interface IPackage extends IModelComponent {
 	/**
 	 * Returns the value of the '<em><b>Artifacts</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IAbstractArtifact}.
+	 * The list contents are of type {@link org.eclipse.tigerstripe.metamodel.IQualifiedNamedComponent}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Artifacts</em>' containment reference list isn't clear,
@@ -42,32 +39,6 @@ public interface IPackage extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<IAbstractArtifact> getArtifacts();
-
-	/**
-	 * Returns the value of the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Name</em>' attribute.
-	 * @see #setName(String)
-	 * @see org.eclipse.tigerstripe.metamodel.MetamodelPackage#getIPackage_Name()
-	 * @model
-	 * @generated
-	 */
-	String getName();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.metamodel.IPackage#getName <em>Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Name</em>' attribute.
-	 * @see #getName()
-	 * @generated
-	 */
-	void setName(String value);
+	EList<IQualifiedNamedComponent> getArtifacts();
 
 } // IPackage

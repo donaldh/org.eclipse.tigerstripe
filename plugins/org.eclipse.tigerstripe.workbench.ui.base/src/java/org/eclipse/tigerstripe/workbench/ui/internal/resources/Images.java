@@ -32,7 +32,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 /**
