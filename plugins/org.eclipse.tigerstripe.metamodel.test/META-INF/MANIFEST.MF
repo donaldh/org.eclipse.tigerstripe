@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Metamodel Test Plug-in
+Bundle-SymbolicName: org.eclipse.tigerstripe.metamodel.test
+Bundle-Version: 0.3.0
+Bundle-ClassPath: org.eclipse.tigerstripe.metamodel.test/
+Bundle-Activator: org.eclipse.tigerstripe.metamodel.test.Activator
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.tigerstripe.metamodel,
+ org.eclipse.tigerstripe.test_common,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.launching,
+ org.junit4
+Eclipse-LazyStart: true
