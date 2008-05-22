@@ -2,8 +2,9 @@
 <ts_plugin version="1.2">
 <project name="export-xml">
 <outputDirectory/>
-<version>3.1</version>
-<description>3.1 First Open Source version - removal of OSS/J specifics.&#13;
+<version>3.2</version>
+<description>3.2 Fix for XML escape characters bug and schema sequence order issue.&#13;
+3.1 First Open Source version - removal of OSS/J specifics.&#13;
 This version of the Export Plugin can export a Tigerstripe Project in a single XML file or as one XML file per artifact (with an additional file giving summary details of the export).&#13;
 &#13;
 The XSD schema files that define the format of the exported XML are also generated to the ouput directory.&#13;

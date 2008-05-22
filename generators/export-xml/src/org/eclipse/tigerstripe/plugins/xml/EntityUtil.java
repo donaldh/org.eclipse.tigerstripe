@@ -61,7 +61,12 @@ public class EntityUtil {
 		    sb.append("&quot;");
 		   } else if (c == '\'') {
 		    sb.append("&apos;");
-		   } else if (c == '&') {
+		   } else if (c == '<') {
+		    	sb.append("&lt;");
+		   } else if (c == '>') {
+			   sb.append("&gt;");
+		   }
+		   else if (c == '&') {
 		    sb.append("&amp;");
 		   } else if (c == '/' && lastC == '*') { // added to handle Javadoc
 		    // comments
