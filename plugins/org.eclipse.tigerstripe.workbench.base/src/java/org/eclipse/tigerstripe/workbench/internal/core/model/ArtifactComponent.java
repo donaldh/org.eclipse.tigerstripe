@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -19,21 +18,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-//import org.apache.log4j.Logger;
-//import org.eclipse.tigerstripe.annotations.AnnotationCoreException;
-//import org.eclipse.tigerstripe.annotations.AnnotationSchemeRegistry;
-//import org.eclipse.tigerstripe.annotations.AnnotationStore;
-//import org.eclipse.tigerstripe.annotations.IAnnotable;
-//import org.eclipse.tigerstripe.annotations.IAnnotationScheme;
-//import org.eclipse.tigerstripe.annotations.IAnnotationSpecification;
-import org.eclipse.jdt.core.util.IAnnotation;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
-import org.eclipse.tigerstripe.repository.internal.IArtifactMetadata;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
-import org.eclipse.tigerstripe.workbench.internal.annotations.ModelComponentAnnotable;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -44,13 +35,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-
-
-import org.eclipse.tigerstripe.annotation.core.Annotable;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.IAnnotable;
-import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 
 /**
  * @author Eric Dillon
@@ -365,9 +349,6 @@ public abstract class ArtifactComponent implements IModelComponent,
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
-		if (adapter == IAnnotable.class) {
-			return null;
-		}
 		return null;
 	}
 
@@ -376,26 +357,23 @@ public abstract class ArtifactComponent implements IModelComponent,
 				.artifactMetadataMigrateClassname(this.getClass().getName()));
 	}
 
-	public List<Object> getAnnotations(String schemeID)
-	{
+	public List<Object> getAnnotations(String schemeID) {
 		IAnnotationManager mgr = AnnotationPlugin.getManager();
 		List<Object> annotations = new LinkedList<Object>();
-		Annotation[] all = mgr.getAnnotations(this);
-		for(Annotation a : all)
-		{
-			if(a.getUri().scheme().equals(schemeID))
-			{
+		Annotation[] all = mgr.getAnnotations(this, false);
+		for (Annotation a : all) {
+			if (a.getUri().scheme().equals(schemeID)) {
 				annotations.add(a.getContent());
 			}
 		}
 		return Collections.unmodifiableList(annotations);
 	}
-	
-	public Object getAnnotation(String schemeID, String annotationSpecificationID) {
+
+	public Object getAnnotation(String schemeID,
+			String annotationSpecificationID) {
 		List<Object> all = getAnnotations(schemeID);
-		for(Object obj : all)
-		{
-			if(isAnnotationMatch(annotationSpecificationID, obj))
+		for (Object obj : all) {
+			if (isAnnotationMatch(annotationSpecificationID, obj))
 				return obj;
 		}
 
@@ -407,43 +385,41 @@ public abstract class ArtifactComponent implements IModelComponent,
 	 * @param obj
 	 * @return
 	 */
-	private boolean isAnnotationMatch(String annotationSpecificationID,	Object obj) {
+	private boolean isAnnotationMatch(String annotationSpecificationID,
+			Object obj) {
 		Class<?>[] interfaces = obj.getClass().getInterfaces();
-		for(int i = 0; i < interfaces.length; i++)
-		{
-			if(interfaces[i].getName().endsWith(annotationSpecificationID))
+		for (int i = 0; i < interfaces.length; i++) {
+			if (interfaces[i].getName().endsWith(annotationSpecificationID))
 				return true;
 		}
 		return false;
 	}
-	
-	public List<Object> getAnnotations(String schemeID, String annotationSpecificationID) {
+
+	public List<Object> getAnnotations(String schemeID,
+			String annotationSpecificationID) {
 		List<Object> annotations = getAnnotations(schemeID);
-		for(Iterator<Object> i = annotations.iterator(); i.hasNext(); )
-		{
-			if(!isAnnotationMatch(annotationSpecificationID, i.next()))
+		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
+			if (!isAnnotationMatch(annotationSpecificationID, i.next()))
 				i.remove();
 		}
 
 		return Collections.unmodifiableList(annotations);
 	}
 
-	public boolean hasAnnotations( String schemeID)
-	{
+	public boolean hasAnnotations(String schemeID) {
 		return !getAnnotations(schemeID).isEmpty();
 	}
 
-	public boolean hasAnnotations( String schemeID, String annotationSpecificationID )
-	{
+	public boolean hasAnnotations(String schemeID,
+			String annotationSpecificationID) {
 		List<Object> annotations = getAnnotations(schemeID);
-		for(Iterator<Object> i = annotations.iterator(); i.hasNext(); )
-		{
-			if(isAnnotationMatch(annotationSpecificationID, i.next()))
+		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
+			if (isAnnotationMatch(annotationSpecificationID, i.next()))
 				return true;
 		}
 		return false;
 	}
-	
+
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		if (getParentArtifact() != null)
 			return getParentArtifact().getProject();

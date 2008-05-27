@@ -19,35 +19,34 @@ import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 
-
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class ProjectRouter implements EObjectRouter {
-	
+
 	private static final String ANNOTATIONS_FILE_NAME = ".annotations";
 
-	
 	public URI route(EObject object) {
 		if (object instanceof Annotation) {
-			Annotation annotation = (Annotation)object;
-			URI uri = annotation.getUri();
-			Object annotable = AnnotationPlugin.getManager().getObject(uri);
+			Annotation annotation = (Annotation) object;
+			Object annotable = AnnotationPlugin.getManager()
+					.getAnnotatedObject(annotation);
 			if (annotable instanceof IModelComponent) {
-				IModelComponent resource = (IModelComponent)annotable;
+				IModelComponent resource = (IModelComponent) annotable;
 				return getUri(resource);
 			}
 		}
-	    return null;
-    }
-	
+		return null;
+	}
+
 	protected URI getUri(IModelComponent res) {
 		try {
 			IPath path = res.getProject().getLocation();
 			if (path != null) {
 				path = path.append(ANNOTATIONS_FILE_NAME);
-				// Seem to need to use createFileURI rather than createPlatformURI to get proper behaviour...
+				// Seem to need to use createFileURI rather than
+				// createPlatformURI to get proper behaviour...
 				// not too sure why
 				URI uri = URI.createFileURI(path.toString());
 				return uri;

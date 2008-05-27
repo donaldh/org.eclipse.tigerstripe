@@ -1637,7 +1637,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return handle;
 	}
 
-	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
 		if (adapter == IResource.class) {
@@ -1648,7 +1647,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			}
 		}
 
-		return super.getAdapter(adapter);
+		return null;
 	}
 
 	/**

@@ -5,7 +5,9 @@
 			point="org.eclipse.tigerstripe.annotation.core.annotationProvider">
 		<provider
 			id="org.eclipse.tigerstripe.annotation.tsmodel.provider"
-			class="org.eclipse.tigerstripe.annotation.tsmodel.TSModelAnnotationProvider"/>
+			class="org.eclipse.tigerstripe.annotation.tsmodel.TSModelAnnotationProvider"
+			targetDescription="Model Component"
+			type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"/>
    </extension>
    
    <extension

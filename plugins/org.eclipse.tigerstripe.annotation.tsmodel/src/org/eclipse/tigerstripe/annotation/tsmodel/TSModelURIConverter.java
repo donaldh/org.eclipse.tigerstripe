@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.tsmodel;
 
-import static org.eclipse.jdt.core.IJavaElement.COMPILATION_UNIT;
 import static org.eclipse.jdt.core.IJavaElement.CLASS_FILE;
+import static org.eclipse.jdt.core.IJavaElement.COMPILATION_UNIT;
 import static org.eclipse.jdt.core.IJavaElement.JAVA_MODEL;
 import static org.eclipse.jdt.core.IJavaElement.JAVA_PROJECT;
 import static org.eclipse.jdt.core.IJavaElement.PACKAGE_FRAGMENT;
@@ -33,7 +33,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 

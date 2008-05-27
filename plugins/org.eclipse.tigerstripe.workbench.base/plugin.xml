@@ -127,6 +127,9 @@
          <adapter
                 type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
           </adapter>
+         <adapter
+                type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent">
+          </adapter>
       </factory>
    </extension>
    <extension

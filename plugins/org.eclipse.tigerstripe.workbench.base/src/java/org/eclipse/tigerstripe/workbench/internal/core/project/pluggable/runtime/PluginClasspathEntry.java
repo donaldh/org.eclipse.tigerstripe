@@ -13,8 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtim
 import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 /**
  * Captures the details of a Plugin classpath entry (ie a .jar file for example)
