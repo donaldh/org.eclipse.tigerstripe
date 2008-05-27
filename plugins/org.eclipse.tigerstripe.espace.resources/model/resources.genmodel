@@ -8,12 +8,12 @@
   <foreignModel>@model</foreignModel>
   <genPackages prefix="Resources" basePackage="org.eclipse.tigerstripe.espace" disposableProviderFactory="true"
       ecorePackage="resources.ecore#/">
+    <genDataTypes ecoreDataType="resources.ecore#//URI"/>
     <genClasses ecoreClass="resources.ecore#//EObjectList">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference resources.ecore#//EObjectList/objects"/>
     </genClasses>
     <genClasses ecoreClass="resources.ecore#//ResourceList">
-      <genFeatures createChild="false" ecoreFeature="ecore:EReference resources.ecore#//ResourceList/resourceUris"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute resources.ecore#//ResourceList/resourceUris"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="resources.ecore#//URI"/>
   </genPackages>
 </genmodel:GenModel>

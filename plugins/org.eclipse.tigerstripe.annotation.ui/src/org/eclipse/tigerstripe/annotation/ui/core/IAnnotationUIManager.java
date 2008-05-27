@@ -11,9 +11,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core;
 
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.ui.ISelectionListener;
 
 /**
@@ -60,7 +61,13 @@ public interface IAnnotationUIManager {
 	 */
 	public ISelection getSelection();
 	
-	public ImageDescriptor getImage(AnnotationType object);
+	/**
+	 * Return label provider for the annotation type
+	 * 
+	 * @param annotationType annotation type
+	 * @return label provider for the annotation type
+	 */
+	public ILabelProvider getLabelProvider(AnnotationType annotationType);
 	
 	/**
 	 * Open annotable object in the workbench
@@ -68,20 +75,6 @@ public interface IAnnotationUIManager {
 	 * @param object
 	 */
 	public void open(Object object);
-	
-	/**
-	 * Add refactoring listener
-	 * 
-	 * @param listener
-	 */
-	public void addRefactoringListener(IRefactoringListener listener);
-	
-	/**
-	 * Remove refactoring listener
-	 * 
-	 * @param listener
-	 */
-	public void removeRefactoringListener(IRefactoringListener listener);
 	
 	/**
 	 * Add selection filter

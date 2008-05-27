@@ -3,9 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe Annotation Java Refactoring Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.java.ui.refactoring;singleton:=true
 Bundle-Version: 0.3.0.qualifier
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.tigerstripe.annotation.ui,
+Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.ui,
  org.eclipse.ui.editors,
  org.eclipse.core.resources,
@@ -15,5 +13,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.tigerstripe.annotation.java,
  org.eclipse.emf.ecore,
  org.eclipse.jface.text,
- org.eclipse.tigerstripe.annotation.resource
+ org.eclipse.tigerstripe.annotation.resource,
+ org.eclipse.tigerstripe.annotation.core
 Bundle-Vendor: Eclipse.org

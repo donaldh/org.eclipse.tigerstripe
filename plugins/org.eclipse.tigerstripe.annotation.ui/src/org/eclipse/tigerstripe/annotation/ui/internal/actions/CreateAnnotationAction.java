@@ -17,9 +17,8 @@ import java.util.List;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationUtils;
+import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 
 
 /**
@@ -31,6 +30,7 @@ public class CreateAnnotationAction extends DelegateAction {
 	private Object object;
 	private List<Object> list;
 	private MenuCreator menu;
+	private AnnotationType[] types;
 	
 	public CreateAnnotationAction() {
 		list = new ArrayList<Object>();
@@ -54,7 +54,6 @@ public class CreateAnnotationAction extends DelegateAction {
     	list.add(new OpenAnnotationWizardAction(object, "Open Annotation Wizard..."));
     	list.add(new Separator());
     	
-		AnnotationType[] types = AnnotationPlugin.getManager().getTypes();
 		for (int i = 0; i < types.length; i++) {
 			list.add(new CreateSpecificTypeAnnotationAction(object, types[i]));
         }
@@ -62,8 +61,11 @@ public class CreateAnnotationAction extends DelegateAction {
 	
 	@Override
 	protected void adaptSelection(ISelection selection) {
-		object = AnnotationUtils.getAnnotableElement(selection);
-		setEnabled(object != null);
+		types = null;
+		object = getSelected(selection);
+		if (object != null)
+			types = AdaptableUtil.getTypes(object);
+		setEnabled(types != null && types.length > 0);
 	}
 
 }

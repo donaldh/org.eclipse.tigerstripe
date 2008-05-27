@@ -13,13 +13,9 @@ package org.eclipse.tigerstripe.annotation.ui.internal.util;
 
 import java.util.Iterator;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.IAnnotable;
 
 /**
  * @author Yuri Strot
@@ -30,21 +26,7 @@ public class AnnotationUtils {
 	public static Object getAnnotableElement(ISelection selection) {
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection sel = (IStructuredSelection)selection;
-			Iterator<?> it = sel.iterator();
-			while (it.hasNext()) {
-	            Object element = it.next();
-	            URI uri = null;
-	            if (element instanceof IAnnotable)
-	            	uri = ((IAnnotable)element).getUri();
-	            if (element instanceof Annotation)
-	            	uri = ((Annotation)element).getUri();
-	            if (uri != null)
-	            	return AnnotationPlugin.getManager().getObject(uri);
-	            IAnnotable adaptable = (IAnnotable)Platform.getAdapterManager(
-            		).loadAdapter(element, IAnnotable.class.getName());
-	            if (adaptable != null)
-	            	return element;
-            }
+			return sel.getFirstElement();
 		}
 		return null;
 	}

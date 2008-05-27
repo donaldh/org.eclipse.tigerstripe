@@ -27,8 +27,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
-import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.tigerstripe.annotation.ui.core.IRefactoringListener;
+import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RefreshAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAllAnnotationAction;
@@ -61,7 +60,7 @@ public class AnnotationsView extends ViewPart implements IAnnotationListener, IR
     }
 	
 	protected void addListeners() {
-		AnnotationUIPlugin.getManager().addRefactoringListener(this);
+		AnnotationPlugin.getManager().addRefactoringListener(this);
 		AnnotationPlugin.getManager().addAnnotationListener(this);
 		getSite().setSelectionProvider(aTable.getViewer());
 	}
@@ -69,7 +68,7 @@ public class AnnotationsView extends ViewPart implements IAnnotationListener, IR
 	protected void removeListeners() {
 		getSite().setSelectionProvider(null);
 		AnnotationPlugin.getManager().removeAnnotationListener(this);
-		AnnotationUIPlugin.getManager().removeRefactoringListener(this);
+		AnnotationPlugin.getManager().removeRefactoringListener(this);
 	}
 	
 	protected void fillToolBar() {
@@ -151,7 +150,7 @@ public class AnnotationsView extends ViewPart implements IAnnotationListener, IR
 	
 	protected void updateAnnotations() {
 		if (aTable != null && aTable.isInitialized())
-			aTable.setInput(AnnotationPlugin.getManager().getAnnotations());
+			aTable.setInput(AnnotationPlugin.getManager().getLoadedAnnotations());
 	}
 	
 	@Override

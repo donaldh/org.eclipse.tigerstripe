@@ -1,10 +1,22 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Annotation Framework Core Tests
-Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.core.test
-Bundle-Version: 0.3.0.qualifier
-Bundle-Activator: org.eclipse.tigerstripe.annotation.core.test.Activator
-Bundle-Vendor: Eclipse.org
+Bundle-Name: %pluginName
+Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.core.test; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Export-Package: org.eclipse.tigerstripe.annotation.core.test.model,
+ org.eclipse.tigerstripe.annotation.core.test.model.impl,
+ org.eclipse.tigerstripe.annotation.core.test.model.util
 Require-Bundle: org.eclipse.core.runtime,
- org.junit
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.junit,
+ org.eclipse.jface,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.core,
+ org.eclipse.tigerstripe.annotation.core,
+ org.eclipse.emf.ecore.change,
+ org.eclipse.ui.workbench
 Eclipse-LazyStart: true
+Bundle-Activator: org.eclipse.tigerstripe.annotation.core.test.Activator

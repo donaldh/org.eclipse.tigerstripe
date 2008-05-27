@@ -23,6 +23,10 @@ public interface IIndexer {
 	
 	public void removeFromIndex(EObject object);
 	
+	public void resolve();
+	
+	public void applyChanges();
+	
 	public void save();
 	
 	public void clear();

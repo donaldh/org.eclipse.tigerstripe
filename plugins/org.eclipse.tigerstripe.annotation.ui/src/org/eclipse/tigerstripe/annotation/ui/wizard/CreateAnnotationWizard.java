@@ -11,11 +11,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.wizard;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.CreateSpecificTypeAnnotationAction;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
@@ -41,23 +40,21 @@ public class CreateAnnotationWizard extends Wizard implements INewWizard {
 	
 	@Override
 	public void addPages() {
-		page = new CreateAnnotationWizardPage();
+		page = new CreateAnnotationWizardPage(object);
 		addPage(page);
-		if (object != null)
-			page.setUri(AnnotationPlugin.getManager().getUri(object).toString());
 	}
 
 	@Override
     public boolean performFinish() {
 		AnnotationType type = page.getType();
-		EObject content = type.createInstance();
-		addContent(content);
+		addContent(type);
 		return true;
     }
 	
-	protected void addContent(EObject content) {
-		if (object != null)
-			AnnotationPlugin.getManager().addAnnotation(object, content);
+	protected void addContent(AnnotationType type) {
+		if (object != null) {
+			new CreateSpecificTypeAnnotationAction(object, type).run();
+		}
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {

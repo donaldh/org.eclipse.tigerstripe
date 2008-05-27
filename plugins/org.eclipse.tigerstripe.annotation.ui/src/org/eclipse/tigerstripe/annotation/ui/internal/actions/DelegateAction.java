@@ -15,6 +15,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionDelegate;
 
 /**
@@ -42,6 +43,14 @@ public class DelegateAction extends Action implements IActionDelegate {
 	public void run(IAction action) {
 		run();
     }
+	
+	protected static Object getSelected(ISelection selection) {
+		if (selection instanceof IStructuredSelection) {
+			IStructuredSelection sel = (IStructuredSelection)selection;
+			return sel.getFirstElement();
+		}
+		return null;
+	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
 		adaptSelection(selection);

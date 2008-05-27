@@ -30,9 +30,9 @@ import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 import org.eclipse.ltk.core.refactoring.history.IRefactoringExecutionListener;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
+import org.eclipse.tigerstripe.annotation.core.RefactoringSupport;
 import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
 import org.eclipse.tigerstripe.annotation.resource.ResourceURIConverter;
-import org.eclipse.tigerstripe.annotation.ui.core.RefactoringSupport;
 
 /**
  * @author Yuri Strot

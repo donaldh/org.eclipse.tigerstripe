@@ -1,12 +1,25 @@
 /**
  * <copyright>
+ * 
+ * Copyright (c) 2008 xored software, Inc.  
+ * 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at 
+ * http://www.eclipse.org/legal/epl-v10.html  
+ * 
+ * Contributors: 
+ *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
+ *     
  * </copyright>
  *
- * $Id: ResourcesPackage.java,v 1.3 2008/05/15 04:53:03 ystrot Exp $
+ * $Id: ResourcesPackage.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -97,7 +110,7 @@ public interface ResourcesPackage extends EPackage {
 	int RESOURCE_LIST = 1;
 
 	/**
-	 * The feature id for the '<em><b>Resource Uris</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Resource Uris</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -115,7 +128,7 @@ public interface ResourcesPackage extends EPackage {
 	int RESOURCE_LIST_FEATURE_COUNT = 1;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.emf.common.util.URI <em>URI</em>}' class.
+	 * The meta object id for the '<em>URI</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see org.eclipse.emf.common.util.URI
@@ -123,15 +136,6 @@ public interface ResourcesPackage extends EPackage {
 	 * @generated
 	 */
 	int URI = 2;
-
-	/**
-	 * The number of structural features of the '<em>URI</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int URI_FEATURE_COUNT = 0;
 
 
 	/**
@@ -166,26 +170,26 @@ public interface ResourcesPackage extends EPackage {
 	EClass getResourceList();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.tigerstripe.espace.resources.ResourceList#getResourceUris <em>Resource Uris</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.eclipse.tigerstripe.espace.resources.ResourceList#getResourceUris <em>Resource Uris</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Resource Uris</em>'.
+	 * @return the meta object for the attribute list '<em>Resource Uris</em>'.
 	 * @see org.eclipse.tigerstripe.espace.resources.ResourceList#getResourceUris()
 	 * @see #getResourceList()
 	 * @generated
 	 */
-	EReference getResourceList_ResourceUris();
+	EAttribute getResourceList_ResourceUris();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.emf.common.util.URI <em>URI</em>}'.
+	 * Returns the meta object for data type '{@link org.eclipse.emf.common.util.URI <em>URI</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>URI</em>'.
+	 * @return the meta object for data type '<em>URI</em>'.
 	 * @see org.eclipse.emf.common.util.URI
 	 * @model instanceClass="org.eclipse.emf.common.util.URI"
 	 * @generated
 	 */
-	EClass getURI();
+	EDataType getURI();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -238,22 +242,22 @@ public interface ResourcesPackage extends EPackage {
 		EClass RESOURCE_LIST = eINSTANCE.getResourceList();
 
 		/**
-		 * The meta object literal for the '<em><b>Resource Uris</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Resource Uris</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RESOURCE_LIST__RESOURCE_URIS = eINSTANCE.getResourceList_ResourceUris();
+		EAttribute RESOURCE_LIST__RESOURCE_URIS = eINSTANCE.getResourceList_ResourceUris();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.emf.common.util.URI <em>URI</em>}' class.
+		 * The meta object literal for the '<em>URI</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @see org.eclipse.emf.common.util.URI
 		 * @see org.eclipse.tigerstripe.espace.resources.impl.ResourcesPackageImpl#getURI()
 		 * @generated
 		 */
-		EClass URI = eINSTANCE.getURI();
+		EDataType URI = eINSTANCE.getURI();
 
 	}
 

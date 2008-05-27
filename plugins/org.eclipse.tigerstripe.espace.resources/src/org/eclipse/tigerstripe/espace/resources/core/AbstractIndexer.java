@@ -36,11 +36,14 @@ public abstract class AbstractIndexer implements IIndexer {
 	private Map<Object, Resource> map;
 	private Map<EObject, Boolean> addedMap;
 	
+	private List<Resource> resources;
+	
 	protected static EObject[] EMPTY = new EObject[0];
 	
 	public AbstractIndexer(ResourceSet resourceSet) {
 		this.resourceSet = resourceSet;
 		map = new HashMap<Object, Resource>();
+		resources = new ArrayList<Resource>();
 		clear();
 	}
 	
@@ -74,7 +77,27 @@ public abstract class AbstractIndexer implements IIndexer {
 	
 	protected abstract Object[] getTargets(EObject object);
 	
-	public void save() {
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#resolve()
+	 */
+	public void resolve() {
+		if (indexes.size() == 0)
+			return;
+		
+		Iterator<Object> it = indexes.keySet().iterator();
+		while (it.hasNext()) {
+			Object object = it.next();
+			Resource res = getResource(object, true);
+			EObject container = getContainer(res, object);
+			Iterator<EObject> iter = indexes.get(object).iterator();
+			while (iter.hasNext()) {
+				EObject eobject = iter.next();
+				resolve(container, eobject);
+            }
+        }
+	}
+	
+	public void applyChanges() {
 		if (indexes.size() == 0)
 			return;
 		
@@ -96,8 +119,17 @@ public abstract class AbstractIndexer implements IIndexer {
 				else if (!res.getContents().contains(container))
 					res.getContents().add(container);
             }
-			save(res);
+			resources.add(res);
         }
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#save()
+	 */
+	public void save() {
+		for (Resource resource : resources)
+			save(resource);
+		resources = new ArrayList<Resource>();
 	}
 	
 	public static void save(Resource resource) {
@@ -142,6 +174,8 @@ public abstract class AbstractIndexer implements IIndexer {
 	protected abstract EObject getContainer(Resource resource, Object object);
 
 	protected abstract void insert(EObject container, Object object);
+
+	protected abstract void resolve(EObject container, Object object);
 
 	protected abstract void remove(EObject container, Object object);
 

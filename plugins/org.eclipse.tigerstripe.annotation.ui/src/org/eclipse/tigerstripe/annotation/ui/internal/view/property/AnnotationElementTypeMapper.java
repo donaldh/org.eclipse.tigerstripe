@@ -11,9 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.ui.views.properties.tabbed.AbstractTypeMapper;
 
 /**
@@ -31,9 +29,6 @@ public class AnnotationElementTypeMapper extends AbstractTypeMapper {
 
     @SuppressWarnings("unchecked")
 	public Class mapType(Object input) {
-        URI uri = AnnotationPlugin.getManager().getUri(input);
-        if (uri != null)
-        	return Annotation.class;
-        return super.mapType(input);
+       	return Annotation.class;
     }
 }

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.resource;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
 
@@ -23,5 +24,16 @@ public class ResourceAnnotationProvider implements IAnnotationProvider {
 	public Object getObject(URI uri) {
 	    return ResourceURIConverter.toResource(uri);
     }
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationProvider#getURI(java.lang.Object)
+	 */
+	public URI getUri(Object object) {
+		if (object instanceof IResource) {
+			IResource resource = (IResource)object;
+			return ResourceURIConverter.toURI(resource);
+		}
+		return null;
+	}
 
 }

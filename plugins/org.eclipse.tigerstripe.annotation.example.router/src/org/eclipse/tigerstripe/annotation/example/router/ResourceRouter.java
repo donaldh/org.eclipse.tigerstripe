@@ -39,8 +39,7 @@ public class ResourceRouter implements EObjectRouter {
 	public URI route(EObject object) {
 		if (object instanceof Annotation) {
 			Annotation annotation = (Annotation)object;
-			URI uri = annotation.getUri();
-			Object annotable = AnnotationPlugin.getManager().getObject(uri);
+			Object annotable = AnnotationPlugin.getManager().getAnnotatedObject(annotation);
 			if (annotable instanceof IResource) {
 				IResource resource = (IResource)annotable;
 				return getUri(resource);

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RBTreeImpl.java,v 1.1 2008/05/11 12:41:45 ystrot Exp $
+ * $Id: RBTreeImpl.java,v 1.2 2008/05/27 09:40:51 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.core.tree.impl;
 
@@ -382,42 +382,38 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
         RBNode t = root;
 
         if (t == null) {
-            incrementSize();
+        	size = 1;
+        	modCount++;
             root = TreeFactory.eINSTANCE.createRBNode();
             root.getObjects().add(item);
             return;
        }
-
-        while (true) {
-            int cmp = compare(key, geNodeKey(t));
-            if (cmp == 0) {
+        
+        RBNode parent;
+        int cmp;
+        
+        do {
+            parent = t;
+            cmp = compare(key, geNodeKey(t));
+            if (cmp < 0)
+                t = t.getLeft();
+            else if (cmp > 0)
+                t = t.getRight();
+            else {
+                incrementSize();
                 t.getObjects().add(item);
                 return;
-            } else if (cmp < 0) {
-                if (t.getLeft() != null) {
-                    t = t.getLeft();
-                } else {
-                    incrementSize();
-                    RBNode newNode = TreeFactory.eINSTANCE.createRBNode();
-                    newNode.getObjects().add(item);
-                    //newNode.setParent(t);
-                    t.setLeft(newNode);
-                    fixAfterInsertion(newNode);
-                }
-            } else { // cmp > 0
-                if (t.getRight() != null) {
-                    t = t.getRight();
-                } else {
-                    incrementSize();
-                    
-                    RBNode newNode = TreeFactory.eINSTANCE.createRBNode();
-                    newNode.getObjects().add(item);
-                    //newNode.setParent(t);
-                    t.setRight(newNode);
-                    fixAfterInsertion(newNode);
-                }
             }
-        }
+        } while (t != null);
+        
+        RBNode newNode = TreeFactory.eINSTANCE.createRBNode();
+        newNode.getObjects().add(item);
+        if (cmp < 0)
+            parent.setLeft(newNode);
+        else
+            parent.setRight(newNode);
+        fixAfterInsertion(newNode);
+        incrementSize();
     }
 
 	public boolean isEmpty() {

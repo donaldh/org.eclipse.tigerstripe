@@ -200,7 +200,7 @@ public class EProperty implements IProperty {
 		}
 		if (value instanceof EDataTypeUniqueEList)
 			return;
-		this.object.eSet(feature, value);
+		object.eSet(feature, value);
 		AnnotationPlugin.getManager().save(annotation);
     }
 

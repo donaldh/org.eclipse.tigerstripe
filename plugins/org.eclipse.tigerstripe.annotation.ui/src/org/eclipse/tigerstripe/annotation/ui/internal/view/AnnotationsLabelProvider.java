@@ -12,7 +12,7 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.view;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -50,9 +50,9 @@ public class AnnotationsLabelProvider extends LabelProvider implements ITableLab
 	
 	private Image getImage(Annotation annotation) {
 		AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
-		ImageDescriptor image = AnnotationUIPlugin.getManager().getImage(type);
-		if (image != null)
-			return image.createImage();
+		ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
+		if (provider != null)
+			return provider.getImage(annotation.getContent());
 		return null;
 	}
 

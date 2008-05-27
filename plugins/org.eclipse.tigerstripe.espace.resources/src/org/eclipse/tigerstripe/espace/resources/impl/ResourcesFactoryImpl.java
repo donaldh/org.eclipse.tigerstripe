@@ -1,12 +1,26 @@
 /**
  * <copyright>
+ * 
+ * Copyright (c) 2008 xored software, Inc.  
+ * 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at 
+ * http://www.eclipse.org/legal/epl-v10.html  
+ * 
+ * Contributors: 
+ *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
+ *     
  * </copyright>
  *
- * $Id: ResourcesFactoryImpl.java,v 1.3 2008/05/15 04:53:03 ystrot Exp $
+ * $Id: ResourcesFactoryImpl.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
+import org.eclipse.emf.common.util.URI;
+
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -72,6 +86,36 @@ public class ResourcesFactoryImpl extends EFactoryImpl implements ResourcesFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case ResourcesPackage.URI:
+				return createURIFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case ResourcesPackage.URI:
+				return convertURIToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EObjectList createEObjectList() {
 		EObjectListImpl eObjectList = new EObjectListImpl();
 		return eObjectList;
@@ -85,6 +129,24 @@ public class ResourcesFactoryImpl extends EFactoryImpl implements ResourcesFacto
 	public ResourceList createResourceList() {
 		ResourceListImpl resourceList = new ResourceListImpl();
 		return resourceList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public URI createURIFromString(EDataType eDataType, String initialValue) {
+		return (URI)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertURIToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
 	}
 
 	/**

@@ -13,8 +13,7 @@
    <element name="extension">
       <complexType>
          <sequence>
-            <element ref="refactoringSupport" minOccurs="0" maxOccurs="unbounded"/>
-            <element ref="selectionConverter" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="selectionConverter" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -37,28 +36,6 @@
                </documentation>
                <appInfo>
                   <meta.attribute translatable="true"/>
-               </appInfo>
-            </annotation>
-         </attribute>
-      </complexType>
-   </element>
-
-   <element name="refactoringSupport">
-      <complexType>
-         <attribute name="id" type="string">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="class" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-               <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.annotation.ui.core.IWorkbenchAnnotationProvider"/>
                </appInfo>
             </annotation>
          </attribute>

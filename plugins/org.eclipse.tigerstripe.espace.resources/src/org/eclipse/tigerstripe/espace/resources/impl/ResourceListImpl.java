@@ -13,24 +13,20 @@
  *     
  * </copyright>
  *
- * $Id: ResourceListImpl.java,v 1.3 2008/05/15 04:53:03 ystrot Exp $
+ * $Id: ResourceListImpl.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
 import org.eclipse.tigerstripe.espace.resources.ResourceList;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPackage;
@@ -50,7 +46,7 @@ import org.eclipse.tigerstripe.espace.resources.ResourcesPackage;
  */
 public class ResourceListImpl extends EObjectImpl implements ResourceList {
 	/**
-	 * The cached value of the '{@link #getResourceUris() <em>Resource Uris</em>}' containment reference list.
+	 * The cached value of the '{@link #getResourceUris() <em>Resource Uris</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getResourceUris()
@@ -85,23 +81,9 @@ public class ResourceListImpl extends EObjectImpl implements ResourceList {
 	 */
 	public EList<URI> getResourceUris() {
 		if (resourceUris == null) {
-			resourceUris = new EObjectContainmentEList<URI>(URI.class, this, ResourcesPackage.RESOURCE_LIST__RESOURCE_URIS);
+			resourceUris = new EDataTypeUniqueEList<URI>(URI.class, this, ResourcesPackage.RESOURCE_LIST__RESOURCE_URIS);
 		}
 		return resourceUris;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case ResourcesPackage.RESOURCE_LIST__RESOURCE_URIS:
-				return ((InternalEList<?>)getResourceUris()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -162,6 +144,22 @@ public class ResourceListImpl extends EObjectImpl implements ResourceList {
 				return resourceUris != null && !resourceUris.isEmpty();
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (resourceUris: ");
+		result.append(resourceUris);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ResourceListImpl

@@ -9,24 +9,31 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.core;
+package org.eclipse.tigerstripe.annotation.example;
 
-import org.eclipse.emf.common.util.URI;
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Image;
 
 /**
- * This interface uses to mark annotable objects. All annotable objects should be adapted to this type 
- * (for example using <code>IAdapterFactory</code>)
- * 
- * @see org.eclipse.core.runtime.IAdaptable
  * @author Yuri Strot
+ *
  */
-public interface IAnnotable {
+public class ExampleLabelProvider extends LabelProvider {
 	
-	/**
-	 * Return annotable object URI 
-	 * 
-	 * @return annotable object URI
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
-	public URI getUri();
+	@Override
+	public Image getImage(Object element) {
+		return super.getImage(element);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
+	 */
+	@Override
+	public String getText(Object element) {
+		return super.getText(element);
+	}
 
 }

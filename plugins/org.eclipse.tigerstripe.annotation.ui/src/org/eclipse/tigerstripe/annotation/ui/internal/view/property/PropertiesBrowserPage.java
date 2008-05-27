@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
@@ -37,11 +38,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
+import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.tigerstripe.annotation.ui.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AsyncExecUtil;
+import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
@@ -84,7 +87,6 @@ public class PropertiesBrowserPage
 	 */
 	public PropertiesBrowserPage(ITabbedPropertySheetPageContributor contributor) {
 		super(contributor);
-
 		this.contributor = contributor;
 	}
 
@@ -123,13 +125,13 @@ public class PropertiesBrowserPage
 	}
 	
 	protected void addListeners() {
-		AnnotationUIPlugin.getManager().addRefactoringListener(this);
+		AnnotationPlugin.getManager().addRefactoringListener(this);
 		AnnotationPlugin.getManager().addAnnotationListener(this);
 	}
 	
 	protected void removeListeners() {
 		AnnotationPlugin.getManager().removeAnnotationListener(this);
-		AnnotationUIPlugin.getManager().removeRefactoringListener(this);
+		AnnotationPlugin.getManager().removeRefactoringListener(this);
 	}
 
 	public void annotationAdded(Annotation annotation) {
@@ -299,6 +301,12 @@ public class PropertiesBrowserPage
 			return "<no content>";
 		}
 		else {
+			AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
+			if (type != null) {
+				ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
+				if (provider != null)
+					return provider.getText(content);
+			}
 			return content.eClass().getName() + "@" + Integer.toHexString(content.hashCode());
 		}
 	}
@@ -316,7 +324,9 @@ public class PropertiesBrowserPage
 		Object object = AnnotationUtils.getAnnotableElement(selection);
 		if (object == null)
 			return EMPTY_ARRAY;
-		Annotation[] annotations = AnnotationPlugin.getManager().getAnnotations(object);
+		if (object instanceof Annotation)
+			return new Annotation[] { (Annotation)object };
+		Annotation[] annotations = AdaptableUtil.getAllAnnotations(object);
 		if (annotations != null)
 			return annotations;
 		return EMPTY_ARRAY;
@@ -374,8 +384,7 @@ public class PropertiesBrowserPage
 		}
 
 
-		if (selection.isEmpty()) // no point in expensive calculations if there
-								 // are no elements
+		if (selection.isEmpty())
 			return;
 		
 		List<EObject> elementsAffected = new ArrayList<EObject>();

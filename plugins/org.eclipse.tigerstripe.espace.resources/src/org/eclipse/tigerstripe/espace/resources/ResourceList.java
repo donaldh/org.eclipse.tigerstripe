@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface ResourceList extends EObject {
 	
 	/**
-	 * @model containment="true"
+	 * @model
 	 */
 	EList<URI> getResourceUris();
 

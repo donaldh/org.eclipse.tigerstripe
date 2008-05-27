@@ -13,7 +13,7 @@
    <element name="extension">
       <complexType>
          <sequence>
-            <element ref="provider"/>
+            <element ref="provider" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -44,6 +44,9 @@
 
    <element name="provider">
       <complexType>
+         <sequence>
+            <element ref="delegate" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
@@ -59,6 +62,38 @@
                <documentation>
                   
                </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="type" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="targetDescription" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Short human-readable description of the objects provided by this annotation provider.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="delegate">
+      <complexType>
+         <attribute name="type" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"/>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>

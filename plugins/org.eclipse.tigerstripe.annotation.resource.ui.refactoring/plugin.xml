@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+
 	<extension
-			point="org.eclipse.tigerstripe.annotation.ui.workbenchAnnotationProvider">
+			point="org.eclipse.tigerstripe.annotation.core.refactoringSupport">
 		<refactoringSupport
+			id="org.eclipse.tigerstripe.annotation.resource.refactoring"
 			class="org.eclipse.tigerstripe.annotation.resource.ui.refactoring.ResourceRefactoringSupport"/>
 	</extension>
 

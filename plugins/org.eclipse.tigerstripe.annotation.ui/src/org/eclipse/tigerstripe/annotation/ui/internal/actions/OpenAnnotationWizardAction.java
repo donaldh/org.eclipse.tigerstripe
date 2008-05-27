@@ -11,10 +11,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
-import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.tigerstripe.annotation.ui.wizard.CreateAnnotationWizard;
 
@@ -22,7 +21,7 @@ import org.eclipse.tigerstripe.annotation.ui.wizard.CreateAnnotationWizard;
  * @author Yuri Strot
  *
  */
-public class OpenAnnotationWizardAction extends DelegateAction {
+public class OpenAnnotationWizardAction extends Action {
 	
 	private Object object;
 	
@@ -44,11 +43,5 @@ public class OpenAnnotationWizardAction extends DelegateAction {
 		dialog.getShell().setSize(500, 500);
 		dialog.open();
     }
-	
-	@Override
-	protected void adaptSelection(ISelection selection) {
-		object = AnnotationUtils.getAnnotableElement(selection);
-		setEnabled(object != null);
-	}
 
 }

@@ -1,14 +1,23 @@
 /**
  * <copyright>
+ * 
+ * Copyright (c) 2008 xored software, Inc.  
+ * 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at 
+ * http://www.eclipse.org/legal/epl-v10.html  
+ * 
+ * Contributors: 
+ *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
+ *     
  * </copyright>
  *
- * $Id: ResourcesSwitch.java,v 1.3 2008/05/15 04:53:03 ystrot Exp $
+ * $Id: ResourcesSwitch.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.util;
 
 import java.util.List;
-
-import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -132,21 +141,6 @@ public class ResourcesSwitch<T> {
 	 * @generated
 	 */
 	public T caseResourceList(ResourceList object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>URI</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>URI</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseURI(URI object) {
 		return null;
 	}
 

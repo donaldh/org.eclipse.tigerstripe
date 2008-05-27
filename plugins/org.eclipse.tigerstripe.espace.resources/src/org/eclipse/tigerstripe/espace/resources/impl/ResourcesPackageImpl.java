@@ -1,12 +1,25 @@
 /**
  * <copyright>
+ * 
+ * Copyright (c) 2008 xored software, Inc.  
+ * 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at 
+ * http://www.eclipse.org/legal/epl-v10.html  
+ * 
+ * Contributors: 
+ *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
+ *     
  * </copyright>
  *
- * $Id: ResourcesPackageImpl.java,v 1.3 2008/05/15 04:53:03 ystrot Exp $
+ * $Id: ResourcesPackageImpl.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -44,7 +57,7 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass uriEClass = null;
+	private EDataType uriEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -149,8 +162,8 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getResourceList_ResourceUris() {
-		return (EReference)resourceListEClass.getEStructuralFeatures().get(0);
+	public EAttribute getResourceList_ResourceUris() {
+		return (EAttribute)resourceListEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -158,8 +171,8 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getURI() {
-		return uriEClass;
+	public EDataType getURI() {
+		return uriEDataType;
 	}
 
 	/**
@@ -194,9 +207,10 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 		createEReference(eObjectListEClass, EOBJECT_LIST__OBJECTS);
 
 		resourceListEClass = createEClass(RESOURCE_LIST);
-		createEReference(resourceListEClass, RESOURCE_LIST__RESOURCE_URIS);
+		createEAttribute(resourceListEClass, RESOURCE_LIST__RESOURCE_URIS);
 
-		uriEClass = createEClass(URI);
+		// Create data types
+		uriEDataType = createEDataType(URI);
 	}
 
 	/**
@@ -236,9 +250,10 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 		initEReference(getEObjectList_Objects(), theEcorePackage.getEObject(), null, "objects", null, 0, -1, EObjectList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resourceListEClass, ResourceList.class, "ResourceList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getResourceList_ResourceUris(), this.getURI(), null, "resourceUris", null, 0, -1, ResourceList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getResourceList_ResourceUris(), this.getURI(), "resourceUris", null, 0, -1, ResourceList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(uriEClass, org.eclipse.emf.common.util.URI.class, "URI", IS_ABSTRACT, IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+		// Initialize data types
+		initEDataType(uriEDataType, org.eclipse.emf.common.util.URI.class, "URI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

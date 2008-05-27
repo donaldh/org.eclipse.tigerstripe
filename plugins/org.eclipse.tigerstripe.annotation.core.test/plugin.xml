@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.2 2008/05/27 09:40:44 ystrot Exp $
+-->
+
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore" 
+       class = "org.eclipse.tigerstripe.annotation.core.test.model.ModelPackage"
+       genModel = "model/model.genmodel" /> 
+  </extension>
+  
+  <extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
+     <definition
+           id="org.eclipse.tigerstripe.annotation.core.test.author"
+           name="Author"
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore"
+           description="Author Annotation"
+           eclass="Author">
+     </definition>
+  </extension>
+  
+  <extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
+     <definition
+           id="org.eclipse.tigerstripe.annotation.core.test.hibernate"
+           name="Hibernate"
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore"
+           description="Hibernate Annotation"
+           eclass="Hibernate">
+         <target
+               type="org.eclipse.jdt.core.IJavaElement"/>
+     </definition>
+  </extension>
+  
+  <extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
+     <definition
+           id="org.eclipse.tigerstripe.annotation.core.test.mimetype"
+           name="MIME Type"
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore"
+           description="MIME Type Annotation"
+           eclass="MimeType">
+         <target
+               type="org.eclipse.core.resources.IResource"/>
+     </definition>
+  </extension>
+	
+	<extension
+			point="org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider">
+		<provider
+			class="org.eclipse.tigerstripe.annotation.core.test.model.LabelProvider"
+			typeID="org.eclipse.tigerstripe.annotation.core.test.author"/>
+		<provider
+			class="org.eclipse.tigerstripe.annotation.core.test.model.LabelProvider"
+			typeID="org.eclipse.tigerstripe.annotation.core.test.hibernate"/>
+		<provider
+			class="org.eclipse.tigerstripe.annotation.core.test.model.LabelProvider"
+			typeID="org.eclipse.tigerstripe.annotation.core.test.mimetype"/>
+	</extension>
+
+</plugin>

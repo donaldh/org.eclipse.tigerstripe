@@ -2,7 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
 	<extension-point id="workbenchAnnotationProvider" name="workbenchAnnotationProvider" schema="schema/workbenchAnnotationProvider.exsd"/>
-	<extension-point id="annotationTypeImages" name="annotationTypeImages" schema="schema/annotationTypeImages.exsd"/>
+ <extension-point id="annotationLabelProvider" name="annotationLabelProvider" schema="schema/annotationLabelProvider.exsd"/>
 	
    <extension
          point="org.eclipse.ui.views">
@@ -29,7 +29,7 @@
             adaptable="true"
             id="org.eclipse.tigerstripe.annotation.ui.resource.contribution"
             nameFilter="*"
-            objectClass="org.eclipse.tigerstripe.annotation.core.IAnnotable">
+            objectClass="java.lang.Object">
          <menu
                label="Annotations"
                path="additions"

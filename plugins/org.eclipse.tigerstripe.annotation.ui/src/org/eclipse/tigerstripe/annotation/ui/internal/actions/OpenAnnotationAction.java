@@ -38,9 +38,8 @@ public class OpenAnnotationAction extends DelegateAction {
 	protected void adaptSelection(ISelection selection) {
 		object = null;
 		Annotation annotation = AnnotationUtils.getAnnotation(selection);
-		if (annotation != null) {
-			object = AnnotationPlugin.getManager().getObject(annotation.getUri());
-		}
+		if (annotation != null)
+			object = AnnotationPlugin.getManager().getAnnotatedObject(annotation);
 		setEnabled(object != null);
 	}
 

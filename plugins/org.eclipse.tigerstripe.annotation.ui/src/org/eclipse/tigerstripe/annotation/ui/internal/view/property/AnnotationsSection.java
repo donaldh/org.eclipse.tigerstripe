@@ -31,8 +31,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
-import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.tigerstripe.annotation.ui.core.IRefactoringListener;
+import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RefreshAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAllAnnotationAction;
@@ -94,12 +93,12 @@ public class AnnotationsSection extends AbstractPropertySection implements IAnno
     }
 	
 	protected void addListeners() {
-		AnnotationUIPlugin.getManager().addRefactoringListener(this);
+		AnnotationPlugin.getManager().addRefactoringListener(this);
 		AnnotationPlugin.getManager().addAnnotationListener(this);
 	}
 	
 	protected void removeListeners() {
-		AnnotationUIPlugin.getManager().removeRefactoringListener(this);
+		AnnotationPlugin.getManager().removeRefactoringListener(this);
 		AnnotationPlugin.getManager().removeAnnotationListener(this);
 	}
     
@@ -191,7 +190,7 @@ public class AnnotationsSection extends AbstractPropertySection implements IAnno
 	
 	protected void updateTable() {
 	    if (isInitialized())
-	    	aTable.setInput(AnnotationPlugin.getManager().getAnnotations());
+	    	aTable.setInput(AnnotationPlugin.getManager().getLoadedAnnotations());
 	}
 	
 	protected void refreshTable() {

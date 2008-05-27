@@ -30,7 +30,7 @@ import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import org.eclipse.ltk.core.refactoring.resource.MoveResourcesDescriptor;
 import org.eclipse.ltk.core.refactoring.resource.RenameResourceDescriptor;
 import org.eclipse.tigerstripe.annotation.resource.ResourceURIConverter;
-import org.eclipse.tigerstripe.annotation.ui.core.RefactoringSupport;
+import org.eclipse.tigerstripe.annotation.core.RefactoringSupport;
 
 /**
  * @author Yuri Strot

@@ -6,12 +6,12 @@ Bundle-Version: 0.3.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.tigerstripe.annotation.example,
  org.eclipse.tigerstripe.annotation.example.impl,
  org.eclipse.tigerstripe.annotation.example.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.tigerstripe.annotation.core,
- org.eclipse.tigerstripe.annotation.ui
+ org.eclipse.tigerstripe.annotation.ui,
+ org.eclipse.jface
 Eclipse-LazyStart: true

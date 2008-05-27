@@ -33,7 +33,7 @@ import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 public class FeatureIndexer extends AbstractIndexer {
 	
 	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
-	private static final String ANNOTATION_INDEX = "index";
+	private static final String ANNOTATION_INDEX = "indexed";
 	private static final String INDEX_DIRECTORY = "INDEX/";
 	
 	public FeatureIndexer(ResourceSet resourceSet) {
@@ -47,6 +47,17 @@ public class FeatureIndexer extends AbstractIndexer {
 			return tree.find(value);
 		}
 		return EMPTY;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.AbstractIndexer#resolve(org.eclipse.emf.ecore.EObject, java.lang.Object)
+	 */
+	@Override
+	protected void resolve(EObject container, Object object) {
+		RBTree tree = (RBTree)container;
+		EObject eobject = (EObject)object;
+		Object value = eobject.eGet(tree.getFeature());
+		((RBTree)container).find(value);
 	}
 	
 	/* (non-Javadoc)

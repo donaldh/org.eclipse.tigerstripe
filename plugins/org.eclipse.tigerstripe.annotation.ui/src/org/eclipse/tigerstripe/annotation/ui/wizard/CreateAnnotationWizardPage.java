@@ -12,22 +12,21 @@
 package org.eclipse.tigerstripe.annotation.ui.wizard;
 
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
+import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 
 
 /**
@@ -37,21 +36,18 @@ import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 public class CreateAnnotationWizardPage extends WizardPage {
 	
 	private static final String TITLE = "Select Annotation Type";
-	private String uri;
 	private AnnotationType type;
 	private AnnotationType[] types;
 	private Table combo;
+	private Object object;
 	
 	private ComboListener comboListener;
 
-	public CreateAnnotationWizardPage() {
+	public CreateAnnotationWizardPage(Object object) {
 	    super(TITLE);
 	    setTitle(TITLE);
+	    this.object = object;
     }
-	
-	public void setUri(String uri) {
-		this.uri = uri;
-	}
 	
 	public AnnotationType getType() {
 		return type;
@@ -73,33 +69,31 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		Dialog.applyDialogFont(composite);
     }
 	
-	protected void createURIControls(Composite parent) {
-		Label label = new Label(parent, SWT.NONE);
-		label.setText("URI: ");
-		
-		Text content = new Text(parent, SWT.READ_ONLY);
-		content.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
-		content.setText(uri);
-		content.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-	}
-	
 	protected void createTypeControls(Composite parent) {
 		Label label = new Label(parent, SWT.TOP);
 		label.setText("Type: ");
 		label.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 
-		types = AnnotationPlugin.getManager().getTypes();
+		types = AdaptableUtil.getTypes(object);
 		
 		combo = new Table(parent, SWT.BORDER);
 		combo.setHeaderVisible(false);
 		combo.setLinesVisible(false);
 		for (int i = 0; i < types.length; i++) {
+			AnnotationType type = types[i];
 			TableItem item = new TableItem(combo, SWT.NONE);
-			item.setText(types[i].getName());
-			ImageDescriptor descriptor = AnnotationUIPlugin.getManager(
-				).getImage(types[i]);
-			if (descriptor != null)
-				item.setImage(descriptor.createImage());
+			item.setText(type.getName());
+			ILabelProvider provider = AnnotationUIPlugin.getManager(
+				).getLabelProvider(type);
+			if (provider != null) {
+				try {
+					Image image = provider.getImage(type.createInstance());
+					item.setImage(image);
+				}
+				catch (Exception e) {
+					AnnotationUIPlugin.log(e);
+				}
+			}
 		}
 		combo.setLayoutData(new GridData(GridData.FILL_BOTH));
 		

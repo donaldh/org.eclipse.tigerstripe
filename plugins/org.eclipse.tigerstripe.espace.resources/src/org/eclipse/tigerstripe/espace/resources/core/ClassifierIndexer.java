@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -99,6 +100,18 @@ public class ClassifierIndexer extends AbstractIndexer {
 	@Override
 	protected void remove(EObject container, Object object) {
 		((EObjectList)container).getObjects().remove((EObject)object);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.AbstractIndexer#resolve(org.eclipse.emf.ecore.EObject, java.lang.Object)
+	 */
+	@Override
+	protected void resolve(EObject container, Object object) {
+		EList<EObject> list = ((EObjectList)container).getObjects();
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+			list.get(i);
+		}
 	}
 	
 	/* (non-Javadoc)

@@ -14,6 +14,8 @@ package org.eclipse.tigerstripe.espace.resources.core;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,13 +27,16 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourceList;
@@ -49,6 +54,9 @@ public class EMFDatabase implements IEMFDatabase {
 	
 	private static final String ROUTER_EXTPT = "org.eclipse.tigerstripe.annotation.core.router";
 	private static final String ROUTER_ATTR_CLASS = "class";
+	
+	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
+	private static final String ANNOTATION_ID = "id";
 	
 	private DefaultObjectRouter resourcesStorage;
 	private DefaultObjectRouter defaultRouter;
@@ -72,6 +80,16 @@ public class EMFDatabase implements IEMFDatabase {
 		indexer.addIndexer(fIndexer);
 		indexer.addIndexer(cIndexer);
 		resourceHelper = new ResourceHelper(indexer);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#update(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.change.ChangeDescription)
+	 */
+	public void update(EObject object, ChangeDescription changes) {
+		changes.applyAndReverse();
+		remove(object);
+		changes.apply();
+		write(object);
 	}
 	
 	protected EObjectRouter[] getRouters() {
@@ -107,10 +125,20 @@ public class EMFDatabase implements IEMFDatabase {
 	}
 	
 	public EObject[] query(EClassifier classifier) {
-		return cIndexer.read(classifier);
+		return copy(cIndexer.read(classifier));
+	}
+	
+	protected EObject[] copy(EObject[] objects) {
+		return copy(Arrays.asList(objects));
+	}
+	
+	protected EObject[] copy(Collection<EObject> collection) {
+		Collection<EObject> copy = EcoreUtil.copyAll(collection);
+		return copy.toArray(new EObject[copy.size()]);
 	}
 
 	public void write(EObject object) {
+		object = EcoreUtil.copy(object);
 		Resource resource = getResource(object);
 		resourceHelper.addAndSave(resource, object, true);
 		
@@ -121,14 +149,30 @@ public class EMFDatabase implements IEMFDatabase {
     }
 	
 	public void remove(EObject object) {
-		Resource resource = getResource(object);
-		resourceHelper.removeAndSave(resource, object);
-		
-		if (resource.getContents().size() == 0 && !isDefaultUri(resource.getURI())) {
-			getResourceList().getResourceUris().remove(resource.getURI());
-			removeResource(resource);
-			ResourceHelper.save(getResource(resourcesStorage.getUri()));
+		EStructuralFeature feature = getIDFeature(object);
+		if (feature != null) {
+			EObject[] objects = doGet(feature, object.eGet(feature));
+			for (int i = 0; i < objects.length; i++) {
+				EObject candidate = objects[i];
+				if (EcoreUtil.equals(candidate, object)) {
+					Resource resource = getResource(candidate);
+					resourceHelper.removeAndSave(resource, candidate);
+					if (resource.getContents().size() == 0 && !isDefaultUri(resource.getURI())) {
+						getResourceList().getResourceUris().remove(resource.getURI());
+						removeResource(resource);
+						ResourceHelper.save(getResource(resourcesStorage.getUri()));
+					}
+					return;
+				}
+			}
 		}
+	}
+	
+	protected EStructuralFeature getIDFeature(EObject object) {
+		for (EStructuralFeature feature : object.eClass().getEStructuralFeatures())
+			if (isIDFeature(feature) && object.eIsSet(feature))
+				return feature;
+		return null;
 	}
 	
 	protected void removeResource(Resource resource) {
@@ -168,9 +212,14 @@ public class EMFDatabase implements IEMFDatabase {
 		EObjectRouter[] routers = getRouters();
 		for (int i = 0; i < routers.length; i++) {
 	        EObjectRouter elem = routers[i];
-	        URI uri = elem.route(object);
-	        if (uri != null)
-	        	return uri;
+	        try {
+		        URI uri = elem.route(object);
+		        if (uri != null)
+		        	return uri;
+	        }
+	        catch (Exception e) {
+	        	ResourcesPlugin.log(e);
+			}
         }
 		return defaultRouter.route(object);
 	}
@@ -209,11 +258,18 @@ public class EMFDatabase implements IEMFDatabase {
         resources.add(getResource(defaultRouter.getUri()));
 		return resources.toArray(new Resource[resources.size()]);
 	}
+
+	public boolean isIDFeature(EStructuralFeature feature) {
+    	EAnnotation annotation = feature.getEAnnotation(ANNOTATION_MARKER);
+    	if (annotation != null) {
+			String value = annotation.getDetails().get(ANNOTATION_ID);
+			if (value != null && Boolean.valueOf(value))
+				return true;
+    	}
+		return false;
+	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
-	 */
-	public EObject[] get(EStructuralFeature feature, Object value) {
+	protected EObject[] doGet(EStructuralFeature feature, Object value) {
 		if (fIndexer.isFeatureIndexed(feature)) {
 		    return fIndexer.read(feature, value);
 		}
@@ -239,6 +295,13 @@ public class EMFDatabase implements IEMFDatabase {
             }
 			return list.toArray(new EObject[list.size()]);
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 */
+	public EObject[] get(EStructuralFeature feature, Object value) {
+		return copy(doGet(feature, value));
 	}
 	
 	public EObject[] read() {

@@ -15,39 +15,75 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * @author Yuri Strot
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Annotation</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link org.eclipse.tigerstripe.annotation.Annotation#getUri <em>Uri</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.annotation.Annotation#getContent <em>Content</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @see org.eclipse.tigerstripe.annotation.AnnotationPackage#getAnnotation()
  * @model
+ * @author Yuri Strot
+ * @generated
  */
 public interface Annotation extends EObject {
-	
 	/**
-	 * @model
+	 * Returns the value of the '<em><b>Uri</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Uri</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Uri</em>' attribute.
+	 * @see #setUri(URI)
+	 * @see org.eclipse.tigerstripe.annotation.AnnotationPackage#getAnnotation_Uri()
+	 * @model dataType="org.eclipse.tigerstripe.annotation.URI"
+	 *        annotation="org.eclipse.tigerstripe.annotation indexed='true'"
+	 * @generated
 	 */
-	public URI getUri();
+	URI getUri();
 
-    /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.core.Annotation#getUri <em>Uri</em>}' attribute.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Uri</em>' attribute.
-     * @see #getUri()
-     * @generated
-     */
-    void setUri(URI value);
-
-    /**
-	 * @model
+	/**
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.Annotation#getUri <em>Uri</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Uri</em>' attribute.
+	 * @see #getUri()
+	 * @generated
 	 */
-	public EObject getContent();
+	void setUri(URI value);
 
-    /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.core.Annotation#getContent <em>Content</em>}' reference.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Content</em>' reference.
-     * @see #getContent()
-     * @generated
-     */
-    void setContent(EObject value);
+	/**
+	 * Returns the value of the '<em><b>Content</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Content</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Content</em>' containment reference.
+	 * @see #setContent(EObject)
+	 * @see org.eclipse.tigerstripe.annotation.AnnotationPackage#getAnnotation_Content()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EObject getContent();
 
-}
+	/**
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.Annotation#getContent <em>Content</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Content</em>' containment reference.
+	 * @see #getContent()
+	 * @generated
+	 */
+	void setContent(EObject value);
+
+} // Annotation

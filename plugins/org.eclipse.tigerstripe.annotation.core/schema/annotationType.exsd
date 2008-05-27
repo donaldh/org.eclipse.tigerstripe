@@ -44,6 +44,9 @@
 
    <element name="definition">
       <complexType>
+         <sequence>
+            <element ref="target" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
@@ -77,6 +80,21 @@
                <documentation>
                   An annotation type description
                </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="target">
+      <complexType>
+         <attribute name="type" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"/>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>

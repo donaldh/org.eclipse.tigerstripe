@@ -1,8 +1,19 @@
 /**
  * <copyright>
+ * 
+ * Copyright (c) 2008 xored software, Inc.  
+ * 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at 
+ * http://www.eclipse.org/legal/epl-v10.html  
+ * 
+ * Contributors: 
+ *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
+ *     
  * </copyright>
  *
- * $Id: ResourcesAdapterFactory.java,v 1.3 2008/05/15 04:53:03 ystrot Exp $
+ * $Id: ResourcesAdapterFactory.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.util;
 
@@ -10,8 +21,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
-import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -82,10 +91,6 @@ public class ResourcesAdapterFactory extends AdapterFactoryImpl {
 				return createResourceListAdapter();
 			}
 			@Override
-			public Adapter caseURI(URI object) {
-				return createURIAdapter();
-			}
-			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -130,20 +135,6 @@ public class ResourcesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createResourceListAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.emf.common.util.URI <em>URI</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.emf.common.util.URI
-	 * @generated
-	 */
-	public Adapter createURIAdapter() {
 		return null;
 	}
 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.core.CompositeSelectionFilter;
 import org.eclipse.tigerstripe.annotation.ui.core.ISelectionConverter;
 import org.eclipse.ui.ISelectionListener;
@@ -64,9 +65,14 @@ public class AnnotationSelectionListener implements ISelectionListener {
 	
 	protected ISelection convertSelection(IWorkbenchPart part, ISelection selection) {
 		for (int i = 0; i < converters.length; i++) {
-	        ISelection newSelection = converters[i].convert(part, selection);
-			if (newSelection != null)
-				selection = newSelection;
+			try {
+		        ISelection newSelection = converters[i].convert(part, selection);
+				if (newSelection != null)
+					selection = newSelection;
+			}
+			catch (Exception e) {
+				AnnotationUIPlugin.log(e);
+			}
         }
 		return selection;
 	}

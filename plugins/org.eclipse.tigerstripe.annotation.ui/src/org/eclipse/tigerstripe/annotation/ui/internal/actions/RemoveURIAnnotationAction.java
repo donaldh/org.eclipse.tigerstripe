@@ -11,14 +11,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationUtils;
+import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -27,30 +26,28 @@ import org.eclipse.ui.PlatformUI;
  */
 public class RemoveURIAnnotationAction extends DelegateAction {
 	
-	private URI uri;
-
+	private Annotation[] annotations;
+	
 	public void run() {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		MessageBox message = new MessageBox(shell, SWT.YES | SWT.NO);
 		message.setText("Confirm Delete");
-		message.setMessage("Are you sure you want to delete all annotations from the '" + 
-			uri.toString() + "'?");
-		if (message.open() == SWT.YES)
-			AnnotationPlugin.getManager().removeAnnotations(
-				AnnotationPlugin.getManager().getObject(uri));
+		message.setMessage("Are you sure you want to delete all annotations from this object?");
+		if (message.open() == SWT.YES) {
+			for (int i = 0; i < annotations.length; i++) {
+				AnnotationPlugin.getManager().removeAnnotation(annotations[i]);
+			}
+		}
     }
 	
 	@Override
 	protected void adaptSelection(ISelection selection) {
-		Object object = AnnotationUtils.getAnnotableElement(selection);
-		uri = null;
+		annotations = null;
+		Object object = getSelected(selection);
 		if (object != null) {
-			uri = AnnotationPlugin.getManager().getUri(object);
-			Annotation[] annotations = AnnotationPlugin.getManager().getAnnotations(object);
-			if (annotations.length == 0)
-				uri = null;
+			annotations = AdaptableUtil.getAllAnnotations(object);
 		}
-		setEnabled(uri != null);
+		setEnabled(annotations != null && annotations.length > 0);
 	}
 
 }

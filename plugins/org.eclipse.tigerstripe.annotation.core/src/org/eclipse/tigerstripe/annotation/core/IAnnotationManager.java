@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
@@ -51,10 +50,32 @@ public interface IAnnotationManager {
 	/**
 	 * Return all annotations of the annotable object
 	 * 
-	 * @param object
+	 * @param object annotated object
+	 * @param deepest if false, this method return annotations only for passed object.
+	 * If true, this method return annotations for passed object and for all delegated
+	 * objects. For example, <code>IJavaElement</code> delegate to <code>IResource</code>,
+	 * so <code>getAnnotations(IJavaElement, false)</code> return annotations only for
+	 * <code>IJavaElement</code> and <code>getAnnotations(IJavaElement, true)</code>
+	 * return annotations for <code>IJavaElement</code> and for corresponding
+	 * <code>IResource</code>.
 	 * @return all annotations of the annotable object or empty array, if there are no one annotation
 	 */
-	public Annotation[] getAnnotations(Object object);
+	public Annotation[] getAnnotations(Object object, boolean deepest);
+	
+	/**
+	 * Return all loaded annotations
+	 * 
+	 * @return all loaded annotations
+	 */
+	public Annotation[] getLoadedAnnotations();
+	
+	/**
+	 * Return annotable object annotated with the passed annotation
+	 *  
+	 * @param annotation
+	 * @return annotated object
+	 */
+	public Object getAnnotatedObject(Annotation annotation);
 	
 	/**
 	 * Return all stored objects of the passed classifier
@@ -63,61 +84,6 @@ public interface IAnnotationManager {
 	 * @return Return all stored objects of the passed classifier
 	 */
 	public EObject[] query(EClassifier classifier);
-	
-	/**
-	 * Return all annotations
-	 * 
-	 * @return all annotations
-	 */
-	public Annotation[] getAnnotations();
-	
-	/**
-	 * Return all annotation type that can be create
-	 * 
-	 * @return
-	 */
-	public AnnotationType[] getTypes();
-	
-	/**
-	 * Return type of the specific annotation
-	 * 
-	 * @param annotation
-	 * @return type of the passed annotation
-	 */
-	public AnnotationType getType(Annotation annotation);
-	
-	/**
-	 * Notify that some URI changed and all corresponding annotations should be changed.
-	 * Annotation should not be changed directly with a <code>Annotation.setUri(URI)</code> method
-	 * 
-	 * @param oldUri old URI value
-	 * @param newUri new URI value
-	 */
-	public void setUri(URI oldUri, URI newUri);
-	
-	/**
-	 * Return URI of the annotable object
-	 *  
-	 * @param object annotable object
-	 * @return URI of the annotable object or null, if this object is not annotable
-	 */
-	public URI getUri(Object object);
-	
-	/**
-	 * Return annotable object by URI
-	 * 
-	 * @param uri annotable object URI
-	 * @return annotable object or null, if there is no object
-	 */
-	public Object getObject(URI uri);
-	
-	/**
-	 * 
-	 * 
-	 * @param uri
-	 * @return
-	 */
-	public String getProviderId(URI uri);
 	
 	/**
 	 * Save annotation to the corresponding storage
@@ -139,5 +105,50 @@ public interface IAnnotationManager {
 	 * @param listener
 	 */
 	public void removeAnnotationListener(IAnnotationListener listener);
+	
+	/**
+	 * Return all annotation type that can be create
+	 * 
+	 * @return
+	 */
+	public AnnotationType[] getTypes();
+	
+	/**
+	 * Return type of the specific annotation
+	 * 
+	 * @param annotation
+	 * @return type of the passed annotation
+	 */
+	public AnnotationType getType(Annotation annotation);
+	
+	/**
+	 * Add refactoring listener
+	 * 
+	 * @param listener
+	 */
+	public void addRefactoringListener(IRefactoringListener listener);
+	
+	/**
+	 * Remove refactoring listener
+	 * 
+	 * @param listener
+	 */
+	public void removeRefactoringListener(IRefactoringListener listener);
+	
+	/**
+	 * Return list of the annotated object class names, for example
+	 * [org.eclipse.core.resources.IResource, org.eclipse.jdt.core.IJavaElement] 
+	 * 
+	 * @return list of the annotated object class names
+	 */
+	public String[] getAnnotatedObjectTypes();
+	
+	/**
+	 * Return provider which support this type
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public ProviderContext getProvider(String type);
 
 }

@@ -34,7 +34,7 @@ public class RemoveAllAnnotationAction extends DelegateAction {
 		message.setText("Confirm Delete");
 		message.setMessage("Are you sure you want to delete all annotations?");
 		if (message.open() == SWT.YES) {
-			Annotation[] annotations = AnnotationPlugin.getManager().getAnnotations();
+			Annotation[] annotations = AnnotationPlugin.getManager().getLoadedAnnotations();
 			for (int i = 0; i < annotations.length; i++) {
 				AnnotationPlugin.getManager().removeAnnotation(annotations[i]);
             }

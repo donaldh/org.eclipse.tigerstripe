@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.2 2008/05/11 12:41:56 ystrot Exp $
+ $Id: plugin.xml,v 1.3 2008/05/27 09:40:53 ystrot Exp $
 -->
 
 <plugin>
@@ -24,14 +24,16 @@
            epackage-uri="http:///org/eclipse/tigerstripe/annotation/example/person.ecore"
            description="Personal information, like a full name, e-mail address, telephone number and so on"
            eclass="Person">
+         <target
+             type="org.eclipse.core.resources.IResource"/>
      </definition>
   </extension>
-	
-	<extension
-			point="org.eclipse.tigerstripe.annotation.ui.annotationTypeImages">
-		<annotationTypeImage
-			icon="icons/person.gif"
-			typeID="org.eclipse.tigerstripe.annotation.example.person"/>
-	</extension>
+  
+  <extension
+        point="org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider">
+     <provider
+           class="org.eclipse.tigerstripe.annotation.example.person.PersonLabelProvider"
+           typeID="org.eclipse.tigerstripe.annotation.example.person"/>
+  </extension>
 
 </plugin>

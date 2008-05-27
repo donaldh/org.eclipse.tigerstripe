@@ -176,7 +176,7 @@ public class PropertiesSection extends AbstractPropertySection {
 
             public void applyEditorValue() {
             	PropertiesSection.this.applyEditorValue();
-                //Do nothing
+                deactivateCellEditor();
             }
         };
     }
@@ -203,7 +203,7 @@ public class PropertiesSection extends AbstractPropertySection {
 			 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
 			 */
 			public void widgetDefaultSelected(SelectionEvent e) {
-                handleSelect((TreeItem) e.item);
+                //handleSelect((TreeItem) e.item);
             }
         });
         // Part2: handle single click activation of cell editor
@@ -226,6 +226,19 @@ public class PropertiesSection extends AbstractPropertySection {
 
         // Refresh the tree when F5 pressed
         table.addKeyListener(new KeyAdapter() {
+        	
+        	/* (non-Javadoc)
+        	 * @see org.eclipse.swt.events.KeyAdapter#keyPressed(org.eclipse.swt.events.KeyEvent)
+        	 */
+        	public void keyPressed(KeyEvent e) {
+        		 if (e.character == SWT.CR && cellEditor == null) {
+ 					TreeItem[] items = table.getSelection();
+ 					if (items != null && items.length > 0) {
+ 						handleSelect(items[0]);
+ 					}
+ 				}
+        	}
+        	
             public void keyReleased(KeyEvent e) {
                 if (e.character == SWT.ESC) {
 					deactivateCellEditor();

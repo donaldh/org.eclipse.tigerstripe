@@ -20,8 +20,9 @@ import org.eclipse.core.runtime.PlatformObject;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.tigerstripe.annotation.ui.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.ui.core.ISelectionFilter;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AsyncExecUtil;
 import org.eclipse.ui.ISaveablePart;
@@ -72,7 +73,7 @@ public class PropertySheet extends PageBookView
     }
 	
 	protected void addListeners() {
-		AnnotationUIPlugin.getManager().addRefactoringListener(this);
+		AnnotationPlugin.getManager().addRefactoringListener(this);
 		AnnotationUIPlugin.getManager().addSelectionListener(this);
 		AnnotationUIPlugin.getManager().addSelectionFilter(this);
 	}
@@ -80,7 +81,7 @@ public class PropertySheet extends PageBookView
 	protected void removeListeners() {
 		AnnotationUIPlugin.getManager().removeSelectionFilter(this);
 		AnnotationUIPlugin.getManager().removeSelectionListener(this);
-		AnnotationUIPlugin.getManager().removeRefactoringListener(this);
+		AnnotationPlugin.getManager().removeRefactoringListener(this);
 	}
 
     /* (non-Javadoc)

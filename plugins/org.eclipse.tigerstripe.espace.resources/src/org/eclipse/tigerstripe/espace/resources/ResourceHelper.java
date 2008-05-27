@@ -12,12 +12,8 @@
 package org.eclipse.tigerstripe.espace.resources;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.tigerstripe.espace.resources.core.IIndexer;
 
@@ -43,19 +39,21 @@ public class ResourceHelper {
 	
 	public void addAndSave(Resource resource, EObject object, boolean indexing) {
 		indexer.clear();
-		readReferences(object, new HashSet<EObject>(), resource.getContents(),
-				indexing ? ADD_INDEX : NO_INDEX);
+		resource.getContents().add(object);
+		readReferences(object, indexing ? ADD_INDEX : NO_INDEX);
+		indexer.applyChanges();
 		save(resource);
 		indexer.save();
 	}
 	
 	public void removeAndSave(Resource resource, EObject object) {
 		indexer.clear();
-		ArrayList<EObject> list = new ArrayList<EObject>();
-		readReferences(object, new HashSet<EObject>(), list, REMOVE_INDEX);
-		resource.getContents().removeAll(list);
-		indexer.save();
+		readReferences(object, REMOVE_INDEX);
+		indexer.resolve();
+		resource.getContents().remove(object);
 		save(resource);
+		indexer.applyChanges();
+		indexer.save();
 	}
 	
 	public static void save(Resource resource) {
@@ -72,37 +70,14 @@ public class ResourceHelper {
 	* The objects which do not have an econtainer are added to the rootList.
 	* The resulting rootList can be added to the contents of a resource.
 	*/
-    private void readReferences(EObject eobject, HashSet<EObject> preventCycles, List<EObject> rootList,
-    		int indexStyle) {
-        if(preventCycles.contains(eobject)){ // been here get away
-            return;
-        }
-        preventCycles.add(eobject);
-        
+    private void readReferences(EObject eobject, int indexStyle) {
         if (indexStyle == ADD_INDEX)
         	indexer.addToIndex(eobject);
         else if (indexStyle == REMOVE_INDEX)
         	indexer.removeFromIndex(eobject);
         
-        if(eobject.eContainer() != null){
-            readReferences(eobject.eContainer(), preventCycles, rootList, indexStyle);
-        }else{ // a root object
-        	if (!rootList.contains(eobject))
-        		rootList.add(eobject);
-        }
-        for(Object erefObj : eobject.eClass().getEAllReferences()){
-            EReference eref = (EReference)erefObj;
-            final Object value = eobject.eGet(eref);
-            if (value == null) {
-                continue;
-            }
-            if(value instanceof List){
-                for(Object obj : (List<?>)value){
-                    readReferences((EObject)obj, preventCycles, rootList, indexStyle);
-                }
-            }else{ // an eobject
-                readReferences((EObject)value, preventCycles, rootList, indexStyle);
-            }
+        for(EObject child : eobject.eContents()){
+        	readReferences(child, indexStyle);
         }
     }
 

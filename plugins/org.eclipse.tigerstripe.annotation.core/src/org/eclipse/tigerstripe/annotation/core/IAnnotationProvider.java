@@ -31,5 +31,12 @@ public interface IAnnotationProvider {
 	 * @return annotable object
 	 */
 	public Object getObject(URI uri);
+	
+	/**
+	 * Return annotable object URI 
+	 * 
+	 * @return annotable object URI
+	 */
+	public URI getUri(Object object);
 
 }

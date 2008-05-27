@@ -5,17 +5,10 @@
 			point="org.eclipse.tigerstripe.annotation.core.annotationProvider">
 		<provider
 			id="org.eclipse.tigerstripe.annotation.java.provider"
-			class="org.eclipse.tigerstripe.annotation.java.JavaAnnotationProvider"/>
+			class="org.eclipse.tigerstripe.annotation.java.JavaAnnotationProvider"
+			targetDescription="Java Element"
+			type="org.eclipse.jdt.core.IJavaElement">
+			<delegate type="org.eclipse.core.resources.IResource"/>
+		</provider>
    </extension>
-   
-   <extension
-         point="org.eclipse.core.runtime.adapters">
-      <factory
-            adaptableType="org.eclipse.jdt.core.IJavaElement"
-            class="org.eclipse.tigerstripe.annotation.java.JavaAdapterFactory">
-         <adapter
-               type="org.eclipse.tigerstripe.annotation.core.IAnnotable"/>
-      </factory>
-   </extension>
-
 </plugin>

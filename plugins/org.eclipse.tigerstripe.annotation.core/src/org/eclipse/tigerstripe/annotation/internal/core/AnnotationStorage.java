@@ -21,6 +21,8 @@ import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
@@ -38,19 +40,29 @@ public class AnnotationStorage {
 	protected static Annotation[] EMPTY_ARRAY = new Annotation[0];
 	
 	protected ListenerList listeners = new ListenerList();
-	private EMFDatabase database = new EMFDatabase();
+	protected EMFDatabase database = new EMFDatabase();
+	
+	protected Map<Annotation, ChangeRecorder> changes =
+		new HashMap<Annotation, ChangeRecorder>();
 	
 	public AnnotationStorage() {
 	}
 	
 	public void add(Annotation annotation) {
 		addToList(annotation, annotation.getUri());
+		trackChanges(annotation);
 		database.write(annotation);
 		fireAnnotationAdded(annotation);
 	}
 	
+	protected void trackChanges(Annotation annotation) {
+		ChangeRecorder recorder = new ChangeRecorder(annotation);
+		changes.put(annotation, recorder);
+	}
+	
 	public void remove(Annotation annotation) {
 		removeFromList(annotation, annotation.getUri());
+		changes.remove(annotation);
 		database.remove(annotation);
 		fireAnnotationsRemoved( new Annotation[] { annotation } );
 	}
@@ -59,9 +71,9 @@ public class AnnotationStorage {
 		return database.query(classifier);
 	}
 	
-	public Annotation[] getAnnotations(URI uri) {
+	public List<Annotation> getAnnotations(URI uri) {
 		List<Annotation> list = doGetAnnotations(uri);
-		return list.toArray(new Annotation[list.size()]);
+		return list;
 	}
 	
 	protected List<Annotation> doGetAnnotations(URI uri) {
@@ -70,8 +82,11 @@ public class AnnotationStorage {
 			EObject[] objects = database.get(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
 			list = new ArrayList<Annotation>();
 			for (int i = 0; i < objects.length; i++) {
-				if (objects[i] instanceof Annotation)
-					list.add((Annotation)objects[i]);
+				if (objects[i] instanceof Annotation) {
+					Annotation annotation = (Annotation)objects[i];
+					list.add(annotation);
+					trackChanges(annotation);
+				}
 			}
 			getAnnotationMap().put(uri, list);
     		fireAnnotationLoaded(list.toArray(new Annotation[list.size()]));
@@ -91,15 +106,15 @@ public class AnnotationStorage {
 	
 	public void uriChanged(URI oldUri, URI newUri) {
 		List<Annotation> oldList = doGetAnnotations(oldUri);
+		List<Annotation> newList = doGetAnnotations(newUri);
 		if (oldList.size() == 0)
 			return;
 		Iterator<Annotation> it = oldList.iterator();
 		while (it.hasNext()) {
 	        Annotation annotation = (Annotation) it.next();
 	        annotation.setUri(newUri);
-	        database.write(annotation);
+	        save(annotation);
         }
-		List<Annotation> newList = doGetAnnotations(newUri);
 		newList.addAll(oldList);
 		getAnnotationMap().remove(oldUri);
 		fireAnnotationsChanged(oldList.toArray(new Annotation[oldList.size()]));
@@ -165,7 +180,12 @@ public class AnnotationStorage {
 	}
 	
 	public void save(Annotation annotation) {
-		database.write(annotation);
+		ChangeRecorder recorder = changes.get(annotation);
+		ChangeDescription changes = recorder.summarize();
+		boolean changed = changes.getObjectChanges().size() > 0;
+		database.update(annotation, changes);
+		if (changed)
+			fireAnnotationsChanged(new Annotation[] { annotation });
 	}
 	
 	protected Map<URI, List<Annotation>> getAnnotationMap() {
