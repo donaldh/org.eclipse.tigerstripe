@@ -107,6 +107,7 @@ public class OssjEnumSpecificsSection extends ArtifactSectionPart {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 		.getWorkbenchProfileSession().getActiveProfile().getProperty(
 				IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+		
 
 		if (prop
 				.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
@@ -114,7 +115,7 @@ public class OssjEnumSpecificsSection extends ArtifactSectionPart {
 			createExtensibleControl(getBody(), getToolkit());
 		}
 		createBaseTypeControl(getBody(), getToolkit());
-
+		
 		getSection().setClient(getBody());
 		getToolkit().paintBordersFor(getBody());
 	}
@@ -231,14 +232,16 @@ public class OssjEnumSpecificsSection extends ArtifactSectionPart {
 		setSilentUpdate(true);
 		IOssjEnumSpecifics specifics = (IOssjEnumSpecifics) getIArtifact()
 				.getIStandardSpecifics();
-		interfaceText.setText(specifics.getInterfaceProperties().getProperty(
+		if (interfaceText != null) {
+			interfaceText.setText(specifics.getInterfaceProperties().getProperty(
 				"package"));
-
+		}
 		baseTypeCombo.select(indexOf(specifics.getBaseIType() != null ? Misc
 				.removeJavaLangString(specifics.getBaseIType()
 						.getFullyQualifiedName()) : ""));
-
-		isExtensible.setSelection(specifics.getExtensible());
+		if (isExtensible != null){
+			isExtensible.setSelection(specifics.getExtensible());
+		}
 
 		setSilentUpdate(false);
 	}
