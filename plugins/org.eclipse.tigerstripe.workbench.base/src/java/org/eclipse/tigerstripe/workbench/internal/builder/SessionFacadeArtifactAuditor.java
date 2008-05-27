@@ -67,72 +67,76 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 					.getWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+			
+			if (prop
+					.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
 
-			IArtifactManagerSession session = artifact.getTigerstripeProject()
-					.getArtifactManagerSession();
-			Collection<IManagedEntityDetails> details = artifact
-					.getManagedEntityDetails();
-			if (details.size() == 0
-					&& prop
-							.getPropertyValue(IOssjLegacySettigsProperty.USEMANAGEDENTITIES_ONSESSION)) {
-				TigerstripeProjectAuditor.reportWarning(ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel() + " '"
-						+ artifact.getName()
-						+ "' has no declared "
-						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IManagedEntityArtifactImpl.class.getName())
-								.getLabel() + ".", getIResource(), 222);
-			}
-
-			for (IManagedEntityDetails detail : details) {
-
-				IAbstractArtifact mArt = session
-						.getArtifactByFullyQualifiedName(detail
-								.getFullyQualifiedName());
-				if (mArt == null) {
-					TigerstripeProjectAuditor.reportError(
-							ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IArtifactManagerSession session = artifact.getTigerstripeProject()
+				.getArtifactManagerSession();
+				Collection<IManagedEntityDetails> details = artifact
+				.getManagedEntityDetails();
+				if (details.size() == 0
+						&& prop
+						.getPropertyValue(IOssjLegacySettigsProperty.USEMANAGEDENTITIES_ONSESSION)) {
+					TigerstripeProjectAuditor.reportWarning(ArtifactMetadataFactory.INSTANCE.getMetadata(
+							ISessionArtifactImpl.class.getName()).getLabel() + " '"
+							+ artifact.getName()
+							+ "' has no declared "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IManagedEntityArtifactImpl.class.getName())
-									.getLabel()
-									+ " '"
-									+ detail.getFullyQualifiedName()
-									+ "' referenced in '"
-									+ artifact.getName()
-									+ "' cannot be resolved.", getIResource(),
-							222);
-				} else {
-					EntityOveride overide = ((ManagedEntityDetails) detail)
-							.getOveride();
-					// Need to check here for the Exceptions as they may be
-					// coming from
-					// an overide
-					IOssjMethod[] methods = overide.getMethods();
-					for (IOssjMethod method : methods) {
-						for (OssjEntityMethodFlavor flavor : method
-								.getSupportedFlavors()) {
-							EntityMethodFlavorDetails oDetails = method
-									.getFlavorDetails(flavor);
-							for (String fqn : oDetails.getExceptions()) {
-								IAbstractArtifact mAExc = session
-										.getArtifactByFullyQualifiedName(fqn);
-								if (mAExc == null) {
-									TigerstripeProjectAuditor
-											.reportError(
-													ArtifactMetadataFactory.INSTANCE
-															.getMetadata(
-																	IExceptionArtifactImpl.class
-																			.getName())
-															.getLabel()
-															+ "'"
-															+ fqn
-															+ "' defined in override of '"
-															+ detail.getName()
-															+ ":"
-															+ method.getName()
-															+ "("
-															+ flavor.name()
-															+ ")' cannot be resolved.",
-													getIResource(), 222);
+									.getLabel() + ".", getIResource(), 222);
+				}
+
+				for (IManagedEntityDetails detail : details) {
+
+					IAbstractArtifact mArt = session
+					.getArtifactByFullyQualifiedName(detail
+							.getFullyQualifiedName());
+					if (mArt == null) {
+						TigerstripeProjectAuditor.reportError(
+								ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IManagedEntityArtifactImpl.class.getName())
+										.getLabel()
+										+ " '"
+										+ detail.getFullyQualifiedName()
+										+ "' referenced in '"
+										+ artifact.getName()
+										+ "' cannot be resolved.", getIResource(),
+										222);
+					} else {
+						EntityOveride overide = ((ManagedEntityDetails) detail)
+						.getOveride();
+						// Need to check here for the Exceptions as they may be
+						// coming from
+						// an overide
+						IOssjMethod[] methods = overide.getMethods();
+						for (IOssjMethod method : methods) {
+							for (OssjEntityMethodFlavor flavor : method
+									.getSupportedFlavors()) {
+								EntityMethodFlavorDetails oDetails = method
+								.getFlavorDetails(flavor);
+								for (String fqn : oDetails.getExceptions()) {
+									IAbstractArtifact mAExc = session
+									.getArtifactByFullyQualifiedName(fqn);
+									if (mAExc == null) {
+										TigerstripeProjectAuditor
+										.reportError(
+												ArtifactMetadataFactory.INSTANCE
+												.getMetadata(
+														IExceptionArtifactImpl.class
+														.getName())
+														.getLabel()
+														+ "'"
+														+ fqn
+														+ "' defined in override of '"
+														+ detail.getName()
+														+ ":"
+														+ method.getName()
+														+ "("
+														+ flavor.name()
+														+ ")' cannot be resolved.",
+														getIResource(), 222);
+									}
 								}
 							}
 						}
@@ -149,32 +153,34 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 
 		try {
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-					.getWorkbenchProfileSession().getActiveProfile()
-					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+			.getWorkbenchProfileSession().getActiveProfile()
+			.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 			IArtifactManagerSession session = artifact.getTigerstripeProject()
-					.getArtifactManagerSession();
+			.getArtifactManagerSession();
 			Collection<INamedQuery> queries = artifact.getNamedQueries();
+			if (prop
+					.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
+				if (queries.size() == 0
+						&& prop
+						.getPropertyValue(IOssjLegacySettigsProperty.USENAMEDQUERIES_ONSESSION)) {
+					TigerstripeProjectAuditor.reportWarning(ArtifactMetadataFactory.INSTANCE.getMetadata(
+							ISessionArtifactImpl.class.getName()).getLabel() + " '"
+							+ artifact.getName() + "' has no declared " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IQueryArtifactImpl.class.getName()).getLabel(),
+									getIResource(), 222);
+				}
 
-			if (queries.size() == 0
-					&& prop
-							.getPropertyValue(IOssjLegacySettigsProperty.USENAMEDQUERIES_ONSESSION)) {
-				TigerstripeProjectAuditor.reportWarning(ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel() + " '"
-						+ artifact.getName() + "' has no declared " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IQueryArtifactImpl.class.getName()).getLabel(),
-						getIResource(), 222);
-			}
-
-			for (INamedQuery query : queries) {
-				IAbstractArtifact mArt = session
-						.getArtifactByFullyQualifiedName(query
-								.getFullyQualifiedName());
-				if (mArt == null) {
-					TigerstripeProjectAuditor.reportError(ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IQueryArtifactImpl.class.getName()).getLabel() + " '"
-							+ query.getFullyQualifiedName()
-							+ "' referenced in '" + artifact.getName()
-							+ "' cannot be resolved.", getIResource(), 222);
+				for (INamedQuery query : queries) {
+					IAbstractArtifact mArt = session
+					.getArtifactByFullyQualifiedName(query
+							.getFullyQualifiedName());
+					if (mArt == null) {
+						TigerstripeProjectAuditor.reportError(ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IQueryArtifactImpl.class.getName()).getLabel() + " '"
+								+ query.getFullyQualifiedName()
+								+ "' referenced in '" + artifact.getName()
+								+ "' cannot be resolved.", getIResource(), 222);
+					}
 				}
 			}
 		} catch (TigerstripeException e) {
@@ -187,33 +193,35 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 
 		try {
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-					.getWorkbenchProfileSession().getActiveProfile()
-					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+			.getWorkbenchProfileSession().getActiveProfile()
+			.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 			IArtifactManagerSession session = artifact.getTigerstripeProject()
-					.getArtifactManagerSession();
+			.getArtifactManagerSession();
 			Collection<IEmittedEvent> eevents = artifact.getEmittedEvents();
+			if (prop
+					.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
+				if (eevents.size() == 0
+						&& prop
+						.getPropertyValue(IOssjLegacySettigsProperty.USEEMITTEDNOTIFICATIONS_ONSESSION)) {
+					TigerstripeProjectAuditor.reportWarning(ArtifactMetadataFactory.INSTANCE.getMetadata(
+							ISessionArtifactImpl.class.getName()).getLabel() + " '"
+							+ artifact.getName()
+							+ "' has no declared Emitted " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IEventArtifactImpl.class.getName()).getLabel(),
+									getIResource(), 222);
+				}
 
-			if (eevents.size() == 0
-					&& prop
-							.getPropertyValue(IOssjLegacySettigsProperty.USEEMITTEDNOTIFICATIONS_ONSESSION)) {
-				TigerstripeProjectAuditor.reportWarning(ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel() + " '"
-						+ artifact.getName()
-						+ "' has no declared Emitted " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IEventArtifactImpl.class.getName()).getLabel(),
-						getIResource(), 222);
-			}
-
-			for (IEmittedEvent eevent : eevents) {
-				IAbstractArtifact mArt = session
-						.getArtifactByFullyQualifiedName(eevent
-								.getFullyQualifiedName());
-				if (mArt == null) {
-					TigerstripeProjectAuditor.reportError(ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IEventArtifactImpl.class.getName()).getLabel() + " '"
-							+ eevent.getFullyQualifiedName()
-							+ "' referenced in '" + artifact.getName()
-							+ "' cannot be resolved.", getIResource(), 222);
+				for (IEmittedEvent eevent : eevents) {
+					IAbstractArtifact mArt = session
+					.getArtifactByFullyQualifiedName(eevent
+							.getFullyQualifiedName());
+					if (mArt == null) {
+						TigerstripeProjectAuditor.reportError(ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IEventArtifactImpl.class.getName()).getLabel() + " '"
+								+ eevent.getFullyQualifiedName()
+								+ "' referenced in '" + artifact.getName()
+								+ "' cannot be resolved.", getIResource(), 222);
+					}
 				}
 			}
 		} catch (TigerstripeException e) {
