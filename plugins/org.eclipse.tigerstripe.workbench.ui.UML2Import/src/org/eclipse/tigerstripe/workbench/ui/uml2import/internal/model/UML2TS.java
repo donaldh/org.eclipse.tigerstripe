@@ -457,40 +457,7 @@ public class UML2TS {
 		setOperations(artifact, element);
 
 		// Specifics for various artifact types...
-	
-		//TODO
-		
-		// Enums need base type - cheat and look at the first entry...
-		if (false) {
-			if (artifact instanceof IEnumArtifact) {
-				IEnumArtifact enumArt = (IEnumArtifact) artifact;
-				Collection<ILiteral> labels = enumArt.getLiterals();
-				IType type;
-				if (labels.size() > 0) {
-					type = ((ILiteral) labels.iterator().next() ).getType();
-				} else {
-					// Make it String by default
-					type = artifact.makeLiteral().makeType();
-					type.setFullyQualifiedName("String");
 
-				}
-				IOssjEnumSpecifics enumSpecs = (IOssjEnumSpecifics) enumArt
-				.getIStandardSpecifics();
-				enumSpecs.setBaseIType(type);
-			}
-		}
-
-		if (true) {
-			// they should all be int...
-			if (artifact instanceof IEnumArtifact) {
-				IEnumArtifact enumArt = (IEnumArtifact) artifact;
-				IType type = artifact.makeLiteral().makeType();
-				type.setFullyQualifiedName("int");
-				IOssjEnumSpecifics enumSpecs = (IOssjEnumSpecifics) enumArt
-				.getIStandardSpecifics();
-				enumSpecs.setBaseIType(type);
-			}
-		}
 
 			try {
 				if (artifact instanceof IAssociationArtifact) {
@@ -790,6 +757,7 @@ public class UML2TS {
 			if (enumArtifact.getLiterals().size()>0){
 				ILiteral firstLit = enumArtifact.getLiterals().iterator().next();
 				enumArtifact.setBaseType(firstLit.getType());
+				System.out.println(enumArtifact.getBaseTypeStr());
 			} else {
 				// Leave as the default - we have no idea!
 			}
