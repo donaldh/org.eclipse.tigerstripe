@@ -107,7 +107,7 @@
          </adapter>
       </factory>
       <factory
-            adaptableType="org.eclipse.core.resources.IJavaElement"
+            adaptableType="org.eclipse.jdt.core.IJavaElement"
             class="org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeJavaAdapterFactory">
          <adapter
                type="org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject">

@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject;
@@ -56,7 +57,9 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 	public Class[] getAdapterList() {
 		return new Class[] { ITigerstripeModelProject.class,
 				ITigerstripeGeneratorProject.class,
-				IAbstractTigerstripeProject.class };
+				IAbstractTigerstripeProject.class,
+				ITigerstripeM0GeneratorProject.class,
+				ITigerstripeM1GeneratorProject.class, IModelComponent.class };
 	}
 
 	private IAbstractTigerstripeProject adaptToProject(Object adaptableObject) {
