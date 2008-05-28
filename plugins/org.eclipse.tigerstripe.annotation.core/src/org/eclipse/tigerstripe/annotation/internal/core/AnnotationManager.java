@@ -276,6 +276,9 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	}
 	
 	public static Object getAdapted(Object object, String className) {
+		Object adapted = Platform.getAdapterManager().loadAdapter(object, className);
+		if (adapted != null)
+			return adapted;
 		try {
 			Class<?> clazz = Class.forName(className, true, object.getClass().getClassLoader());
 			return Platform.getAdapterManager().getAdapter(object, clazz);
