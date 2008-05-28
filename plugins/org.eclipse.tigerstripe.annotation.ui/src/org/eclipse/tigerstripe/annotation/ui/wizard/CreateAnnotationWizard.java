@@ -58,6 +58,7 @@ public class CreateAnnotationWizard extends Wizard implements INewWizard {
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		object = selection.getFirstElement();
     }
 
 }

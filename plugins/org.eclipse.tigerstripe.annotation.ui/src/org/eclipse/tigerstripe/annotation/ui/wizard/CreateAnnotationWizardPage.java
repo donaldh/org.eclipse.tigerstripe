@@ -74,7 +74,8 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		label.setText("Type: ");
 		label.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 
-		types = AdaptableUtil.getTypes(object);
+		types = object == null ? new AnnotationType[0] : 
+			AdaptableUtil.getTypes(object);
 		
 		combo = new Table(parent, SWT.BORDER);
 		combo.setHeaderVisible(false);
