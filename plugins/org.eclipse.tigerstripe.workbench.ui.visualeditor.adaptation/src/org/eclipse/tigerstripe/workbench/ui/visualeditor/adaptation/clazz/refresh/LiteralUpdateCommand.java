@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.jface.text.link.ILinkedModeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -36,11 +35,12 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 	@Override
 	public void updateEArtifact(AbstractArtifact eArtifact,
 			IAbstractArtifact iArtifact) {
-		
-		if (! ClassDiagramUtils.checkLiteralOrder(eArtifact, iArtifact.getLiterals())){
+
+		if (!ClassDiagramUtils.checkLiteralOrder(eArtifact, iArtifact
+				.getLiterals())) {
 			eArtifact.getLiterals().clear();
 		}
-		
+
 		// go thru attributes in the EMF domain
 		List<Literal> eLiterals = eArtifact.getLiterals();
 		List<Literal> toDelete = new ArrayList<Literal>();
@@ -69,10 +69,16 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 						|| !eLiteral.getValue().equals(targetValue)) {
 					eLiteral.setValue(targetValue);
 				}
-				if (eLiteral.getLiteral() == null 
-						|| !eLiteral.getLiteral().equals(targetLabel)){
+				if (eLiteral.getLiteral() == null
+						|| !eLiteral.getLiteral().equals(targetLabel)) {
 					eLiteral.setLiteral(targetLabel);
 				}
+
+				if (eLiteral.getVisibility() != ClassDiagramUtils
+						.toVisibility(targetLabel.getVisibility()))
+					eLiteral.setVisibility(ClassDiagramUtils
+							.toVisibility(targetLabel.getVisibility()));
+
 			}
 		}
 
@@ -106,6 +112,8 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 					eLiteral.setType(typeStr);
 					eLiteral.setValue(iLiteral.getValue());
 					eLiteral.setLiteral(iLiteral);
+					eLiteral.setVisibility(ClassDiagramUtils
+							.toVisibility(iLiteral.getVisibility()));
 					eArtifact.getLiterals().add(eLiteral);
 				}
 			}
@@ -113,10 +121,13 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 			if (eLiteral != null) {
 				if (eLiteral.getStereotypes().size() != iLiteral
 						.getStereotypeInstances().size()) {
-					// not even the same number of stereotypes, let's redo the list
+					// not even the same number of stereotypes, let's redo the
+					// list
 					eLiteral.getStereotypes().clear();
-					eLiteral.setName(iLiteral.getName());// Bug 219454: this is a hack to 
-					// force the diagram to go dirty as the stereotype add doesn't??????
+					eLiteral.setName(iLiteral.getName());// Bug 219454: this
+															// is a hack to
+					// force the diagram to go dirty as the stereotype add
+					// doesn't??????
 
 					for (IStereotypeInstance stereo : iLiteral
 							.getStereotypeInstances()) {
@@ -126,30 +137,35 @@ public class LiteralUpdateCommand extends AbstractArtifactUpdateCommand {
 					// same number of stereotypes let's see if they all match
 					List<String> eStereotypes = eLiteral.getStereotypes();
 					Iterator<String> eStereo = eStereotypes.iterator();
-					Collection<IStereotypeInstance> iStereotypes = iLiteral.getStereotypeInstances();
+					Collection<IStereotypeInstance> iStereotypes = iLiteral
+							.getStereotypeInstances();
 					boolean updateNeeded = false;
 					for (IStereotypeInstance iStereo : iStereotypes) {
 						String eStereotypeName = eStereo.next();
 						String iStereotypeName = iStereo.getName();
-						
+
 						if (!eStereotypeName.equals(iStereotypeName)) {
 							updateNeeded = true;
 							break;
 						}
 
 					}
-					if (updateNeeded){
-						// Bug 215646 - Just redo the whole list as the order is relevant -
+					if (updateNeeded) {
+						// Bug 215646 - Just redo the whole list as the order is
+						// relevant -
 						// You can confuse the diagram
 						eLiteral.getStereotypes().clear();
 						for (IStereotypeInstance stereo : iLiteral
 								.getStereotypeInstances()) {
 							eLiteral.getStereotypes().add(stereo.getName());
 						}
-							
-						eLiteral.setName(iLiteral.getName());// Bug 219454: this is a hack to 
-						// force the diagram to go dirty as the stereotype add doesn't??????
-						
+
+						eLiteral.setName(iLiteral.getName());// Bug 219454:
+																// this is a
+																// hack to
+						// force the diagram to go dirty as the stereotype add
+						// doesn't??????
+
 					}
 				}
 			}

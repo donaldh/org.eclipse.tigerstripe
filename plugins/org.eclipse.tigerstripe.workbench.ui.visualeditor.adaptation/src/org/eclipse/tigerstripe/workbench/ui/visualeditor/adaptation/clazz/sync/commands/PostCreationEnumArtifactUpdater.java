@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.Enumeration;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorFactory;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.utils.ClassDiagramUtils;
 
 public class PostCreationEnumArtifactUpdater extends
 		PostCreationAbstractArtifactUpdater {
@@ -53,6 +54,8 @@ public class PostCreationEnumArtifactUpdater extends
 				lit.setName(labelName);
 				lit.setValue(labelValue);
 				lit.setType(Misc.removeJavaLangString(labelType));
+				lit.setVisibility(ClassDiagramUtils.toVisibility(literal
+						.getVisibility()));
 				for (IStereotypeInstance instance : literal
 						.getStereotypeInstances()) {
 					lit.getStereotypes().add(instance.getName());
