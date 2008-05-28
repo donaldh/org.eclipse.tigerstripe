@@ -33,6 +33,8 @@ public interface AbstractArtifactTag {
 	public final static String METHOD = "method";
 	public final static String LITERAL = "label";
 	public final static String REFCOMMENT = "refComment";
+	
+	public final static String VISIBILITY = "visibility";
 
 	// =========================== MARKING TAGS
 	public final static String DATATYPE = "datatype";

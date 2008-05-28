@@ -19,6 +19,7 @@
      *  isUnique = "$method.isUnique()"
      *  typeMultiplicity = "$method.ReturnType.TypeMultiplicity.Label"
      *  returnName = "$method.ReturnName"
+     *  visibility = "$utils.getVisibilityAsString( $method )"
 #if ($method.hasDefaultReturnValue())     *  defaultReturnValue = "$xmlEncode.encode($method.DefaultReturnValue)" 
 #end
 #foreach( $argument in $method.Arguments )
@@ -99,7 +100,7 @@
      * $tag
 #end
      */
-	$utils.getVisibilityAsString( $method ) abstract $utils.getReturnType($method) ${method.Name}(
+	public abstract $utils.getReturnType($method) ${method.Name}(
 	#set( $firstPass = "true" )
 	#foreach( $argument in $method.Arguments)
 		#if ( $firstPass == "false" )

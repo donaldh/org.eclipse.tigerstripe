@@ -139,7 +139,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method return"));
 			return null;
 		}
-		
+
 		public List<Object> getAnnotations(String schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method return"));
@@ -152,7 +152,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method return"));
 			return null;
 		}
-		
+
 		public boolean hasAnnotations(String schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method return"));
@@ -314,7 +314,6 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		// Get the comment first
 		setComment(xmlEncode.decode(method.getComment()));
-		setVisibility(method.getModifiers());
 
 		// Then the name of the method
 		setName(method.getName());
@@ -329,6 +328,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		// Extract method tag stuff
 		Tag methodTag = getFirstTagByName(AbstractArtifactTag.PREFIX
 				+ AbstractArtifactTag.METHOD);
+
 		String typeMultiplicity = null;
 		if (methodTag != null) {
 			Properties props = methodTag.getProperties();
@@ -347,6 +347,18 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			String defaultRet = props.getProperty("defaultReturnValue", null);
 			if (defaultRet != null) {
 				this.setDefaultReturnValue(xmlEncode.decode(defaultRet));
+			}
+
+			// Set visibility
+			// Since #233884 visibility is stored in a tag rather than
+			// using the method modifier in the pojo because private abstract
+			// didn't make sense
+			// to the java compiler
+			String tagVisibility = props.getProperty("visibility", "unset");
+			if ("unset".equals(tagVisibility)) {
+				setVisibility(method.getModifiers());
+			} else {
+				setVisibility(new String[] { tagVisibility });
 			}
 
 			// Since 2.2.1 extract return type name
@@ -753,7 +765,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method Arguments"));
 			return null;
 		}
-		
+
 		public List<Object> getAnnotations(String schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method Arguments"));
@@ -766,7 +778,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method Arguments"));
 			return null;
 		}
-		
+
 		public boolean hasAnnotations(String schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method Arguments"));
@@ -778,7 +790,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method Arguments"));
 			return false;
-		}		
+		}
 	}
 
 	public class Exception implements IException {
