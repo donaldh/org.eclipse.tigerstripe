@@ -13,12 +13,12 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.notation.Node;
-import org.eclipse.tigerstripe.annotation.core.IAnnotable;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.TigerstripeShapeNodeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
@@ -33,7 +33,7 @@ public class PartAdapterFactory implements IAdapterFactory {
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		 if (adapterType == IAnnotable.class) {
+		 if (adapterType == IModelComponent.class) {
 			return getAnnotable(adaptableObject);
 		}
 		return null;
@@ -41,7 +41,7 @@ public class PartAdapterFactory implements IAdapterFactory {
 
 	@SuppressWarnings("unchecked")
 	public Class[] getAdapterList() {
-		return new Class[] { IAnnotable.class };
+		return new Class[] { IModelComponent.class };
 	}
 
 	protected Object getAnnotable(Object adaptableObject) {
@@ -52,8 +52,7 @@ public class PartAdapterFactory implements IAdapterFactory {
 			if (node.getElement() instanceof AbstractArtifact) {
 				AbstractArtifact art = (AbstractArtifact) node.getElement();
 				try {
-					return art.getCorrespondingIArtifact().getAdapter(
-							IAnnotable.class);
+					return art.getCorrespondingIArtifact();
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 				}
@@ -70,7 +69,7 @@ public class PartAdapterFactory implements IAdapterFactory {
 								.getCorrespondingIArtifact();
 						for (IField field : artifact.getFields()) {
 							if (field.getName().equals(attr.getName())) {
-								return field.getAdapter(IAnnotable.class);
+								return field;
 							}
 						}
 					} catch (TigerstripeException e) {
@@ -87,7 +86,7 @@ public class PartAdapterFactory implements IAdapterFactory {
 								.getCorrespondingIArtifact();
 						for (IMethod method : artifact.getMethods()) {
 							if (method.getName().equals(meth.getName())) {
-								return method.getAdapter(IAnnotable.class);
+								return method;
 							}
 						}
 					} catch (TigerstripeException e) {
@@ -104,7 +103,7 @@ public class PartAdapterFactory implements IAdapterFactory {
 								.getCorrespondingIArtifact();
 						for (ILiteral literal : artifact.getLiterals()) {
 							if (literal.getName().equals(lit.getName())) {
-								return literal.getAdapter(IAnnotable.class);
+								return literal;
 							}
 						}
 					} catch (TigerstripeException e) {
