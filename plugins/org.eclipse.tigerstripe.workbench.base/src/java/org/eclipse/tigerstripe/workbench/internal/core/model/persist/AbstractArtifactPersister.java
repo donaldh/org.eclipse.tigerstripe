@@ -98,7 +98,7 @@ public abstract class AbstractArtifactPersister {
 		properties
 				.put("class.resource.loader.class",
 						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-
+		properties.put("runtime.log", "tigerstripe/velocity.log");
 		engine.init(properties);
 		return engine;
 	}

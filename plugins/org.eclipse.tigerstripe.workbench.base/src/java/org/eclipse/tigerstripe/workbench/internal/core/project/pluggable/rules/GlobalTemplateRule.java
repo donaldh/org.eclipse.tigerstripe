@@ -102,7 +102,7 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 		try {
 			initializeReport(pluginConfig);
 
-			VelocityEngine engine = setClasspathLoaderForVelocity();
+			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig,exec);
 			Template template = engine.getTemplate(getTemplate());
 
 			Expander expander = new Expander(pluginConfig);

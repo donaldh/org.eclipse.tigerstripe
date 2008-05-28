@@ -22,11 +22,12 @@ import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -265,18 +266,19 @@ public abstract class TemplateBasedRule extends Rule implements
 		markDirty();
 		this.outputFile = outputFile;
 	}
-
+	
 	/**
 	 * Initializes the Velocity framework and sets it up with a classpath
 	 * loader.
 	 * 
-	 * NOTE: Velocity.init only works the first time - subsequen inits are
-	 * ignored- Therefore can't out any specific behaviour in here!
+	 * NOTE: Velocity.init only works the first time - subsequent inits are
+	 * ignored- Therefore can't put any specific behaviour in here!
 	 * 
 	 * @throws Exception,
 	 *             if the class loader cannot be set up
 	 */
-	protected VelocityEngine setClasspathLoaderForVelocity() throws Exception {
+	protected VelocityEngine setClasspathLoaderForVelocity(PluggablePluginConfig pluginConfig,
+			IPluginRuleExecutor exec) throws Exception {
 
 		VelocityEngine result = new VelocityEngine();
 
@@ -325,7 +327,42 @@ public abstract class TemplateBasedRule extends Rule implements
 			}
 			properties.put("velocimacro.library", libraryList);
 		}
-
+		
+		if (exec.getPlugin().isLogEnabled()){
+			String projectDir = pluginConfig.getProjectHandle().getLocation()
+			.toOSString();
+			String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
+			.getOutputDirectory();
+			String logPath = exec.getPlugin().getLogPath();
+			// Find the extension (if any) and insert ".velocity" before it
+			String velocityLogPath;
+			if (logPath.contains(".")){
+				// Pay attention in case of strange formats such as 
+				// path/road.street/avenue - we could easily put the extra word in the middle of the path!
+				
+				IPath path = new Path(logPath);
+				
+				if (path.getFileExtension() != null){
+					String ext = path.getFileExtension();
+					path = path.removeFileExtension();
+					path = path.addFileExtension("velocity");
+					path = path.addFileExtension(ext);
+					
+				} else {
+					path = path.addFileExtension("velocity");
+				}
+				
+				
+				velocityLogPath = path.toOSString();
+			} else {
+				velocityLogPath = logPath+".velocity";
+			}
+			
+			properties.put("runtime.log", projectDir+File.separatorChar+outputDir+File.separator+velocityLogPath);
+		} else {
+			properties.put("runtime.log", "tigerstripe/velocity.log");
+		}
+		
 		result.init(properties);
 		return result;
 	}

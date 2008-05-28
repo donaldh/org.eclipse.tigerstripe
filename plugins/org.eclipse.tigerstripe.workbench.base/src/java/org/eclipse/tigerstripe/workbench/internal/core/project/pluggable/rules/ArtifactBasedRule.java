@@ -188,8 +188,8 @@ public class ArtifactBasedRule extends TemplateBasedRule implements
 		Writer writer = null;
 		try {
 			initializeReport(pluginConfig);
-
-			VelocityEngine engine = setClasspathLoaderForVelocity();
+			String logPath = exec.getPlugin().getLogPath(); 
+			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig,exec);
 			Template template = engine.getTemplate(getTemplate());
 			Expander expander = new Expander(pluginConfig);
 			// TODO add referenced user-java objects into the context
