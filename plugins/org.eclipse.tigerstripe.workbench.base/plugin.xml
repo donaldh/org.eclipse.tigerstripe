@@ -105,6 +105,9 @@
          <adapter
                type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
          </adapter>
+          <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent">
+         </adapter>
       </factory>
       <factory
             adaptableType="org.eclipse.jdt.core.IJavaElement"

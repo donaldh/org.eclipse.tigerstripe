@@ -10,13 +10,21 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.adapt;
 
+import java.io.InputStreamReader;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
@@ -48,9 +56,53 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 			}
 		} else if (adapterType == IAbstractTigerstripeProject.class) {
 			return adaptToProject(adaptableObject);
+		} else if (adapterType == IModelComponent.class) {
+			return adaptToArtifact(adaptableObject);
 		}
 
 		return null;
+	}
+
+	protected IAbstractArtifact adaptToArtifact(Object adaptableObject) {
+		if (adaptableObject instanceof IFile) {
+			IFile res = (IFile) adaptableObject;
+			if (res != null) {
+				try {
+					IAbstractTigerstripeProject aProject = TigerstripeCore
+							.findProject(res.getProject().getLocation()
+									.toFile().toURI());
+
+					if (aProject instanceof ITigerstripeModelProject) {
+						ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
+						IArtifactManagerSession mgr = project
+								.getArtifactManagerSession();
+
+						IAbstractArtifact artifact = ((ArtifactManagerSessionImpl) mgr)
+								.getArtifactManager().getArtifactByFilename(
+										res.getLocation().toOSString());
+
+						if (artifact == null) {
+							try {
+								InputStreamReader reader = new InputStreamReader(
+										res.getContents());
+								artifact = mgr.extractArtifact(reader,
+										new NullProgressMonitor());
+							} catch (CoreException e) {
+								BasePlugin.log(e);
+							}
+						}
+						return artifact;
+					} else
+						return null;
+
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
+					return null;
+				}
+			} else
+				return null;
+		} else
+			return null;
 	}
 
 	@SuppressWarnings("unchecked")

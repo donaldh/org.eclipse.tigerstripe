@@ -8,22 +8,6 @@
 			class="org.eclipse.tigerstripe.annotation.tsmodel.TSModelAnnotationProvider"
 			targetDescription="Model Component"
 			type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"/>
+			<delegate type="org.eclipse.jdt.core.IJavaElement"/>
    </extension>
-   
-   <extension
-         point="org.eclipse.core.runtime.adapters">
-      <factory
-            adaptableType="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"
-            class="org.eclipse.tigerstripe.annotation.tsmodel.TSModelAdapterFactory">
-         <adapter
-               type="org.eclipse.tigerstripe.annotation.core.IAnnotable"/>
-      </factory>
-      <factory
-            adaptableType="org.eclipse.jdt.core.IJavaElement"
-            class="org.eclipse.tigerstripe.annotation.tsmodel.TSModelAdapterFactory">
-         <adapter
-               type="org.eclipse.tigerstripe.annotation.core.IAnnotable"/>
-      </factory>
-   </extension>
-
 </plugin>
