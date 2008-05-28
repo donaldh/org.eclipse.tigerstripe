@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -32,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
+import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 
 /**
@@ -89,6 +91,22 @@ public class PluggablePlugin extends BasePlugin {
 		}
 	}
 
+	
+	private void logClassPath(ClassLoader loader){
+		//Get the URLs
+		if (loader instanceof URLClassLoader){
+			URL[] urls = ((URLClassLoader)loader).getURLs();
+
+			for(int i=0; i< urls.length; i++)
+			{
+				PluginLog.logDebug("Classpath entry : "+urls[i].getFile());
+			}
+			if (loader.getParent() != null ){
+				logClassPath(loader.getParent());
+			}
+		}
+	}
+	
 	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 		this.report = new PluggablePluginReport(pluginConfig);
@@ -97,6 +115,11 @@ public class PluggablePlugin extends BasePlugin {
 		// Update the pluginConfig with any missing properties, and
 		// remove any that are not valid.
 
+		if (isLogEnabled()){
+			// Add the classpath entries to the plugin log
+			logClassPath(getClassloader());
+		}
+		
 		Properties properties = pluginConfig.getProperties();
 		String[] definedProps = pluginConfig.getDefinedProperties();
 		Properties usableProps = new Properties();
