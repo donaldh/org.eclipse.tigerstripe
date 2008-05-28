@@ -11,27 +11,31 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
+import org.eclipse.tigerstripe.annotation.core.test.provider.IResourcePath;
+import org.eclipse.tigerstripe.annotation.core.test.provider.ResourcePath;
 
 /**
  * @author Yuri Strot
  *
  */
-public class DelegatesTest extends AbstractResourceTestCase {
+public class TargetsTest extends AbstractResourceTestCase {
 	
 	protected IProject project;
-	protected IJavaProject javaProject;
+	protected IResourcePath path;
 	
 	@Override
 	protected void setUp() throws Exception {
 		project = createProject("project");
-		javaProject = JavaCore.create(project);
+		path = new ResourcePath(project.getFullPath());
 	}
 	
 	/* (non-Javadoc)
@@ -42,27 +46,47 @@ public class DelegatesTest extends AbstractResourceTestCase {
 		deleteProject(project);
 	}
 	
-	public void testAddRemove() {
+	public void testTargets() {
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
 			Annotation annotation1 = manager.addAnnotation(project,
 					ModelFactory.eINSTANCE.createAuthor());
 			assertNotNull(annotation1);
 			
-			Annotation annotation2 = manager.addAnnotation(javaProject,
+			Annotation annotation2 = manager.addAnnotation(path,
 					ModelFactory.eINSTANCE.createAuthor());
 			assertNotNull(annotation2);
 			
-			Annotation[] annotations = manager.getAnnotations(javaProject, false);
-			assertEquals(annotations.length, 1);
-			
-			annotations = manager.getAnnotations(javaProject, true);
-			assertEquals(annotations.length, 2);
+			List<String> targets = getTargets(project);
+			assertTrue(targets.contains(IResourcePath.class.getName()));
 		}
 		finally {
 			manager.removeAnnotations(project);
-			manager.removeAnnotations(javaProject);
+			manager.removeAnnotations(path);
 		}
+	}
+	
+	public static List<String> getTargets(Object object) {
+		List<String> resultTypes = new ArrayList<String>();
+		String[] targets = AnnotationPlugin.getManager().getAnnotatedObjectTypes();
+		for (int i = 0; i < targets.length; i++) {
+			if (getAdapted(object, targets[i]) != null) {
+				resultTypes.add(targets[i]);
+			}
+		}
+		return resultTypes;
+	}
+	
+	public static Object getAdapted(Object object, String className) {
+		Object adapted = Platform.getAdapterManager().loadAdapter(object, className);
+		if (adapted != null)
+			return adapted;
+		try {
+			Class<?> clazz = Class.forName(className, true, object.getClass().getClassLoader());
+			return Platform.getAdapterManager().getAdapter(object, clazz);
+		} catch (ClassNotFoundException e) {
+		}
+		return null;
 	}
 
 }
