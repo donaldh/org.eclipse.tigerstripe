@@ -34,6 +34,7 @@ public class TigerstripePerspectiveFactory implements IPerspectiveFactory {
 				IPageLayout.BOTTOM, 0.66f, editorArea);
 		bottom.addView(IPageLayout.ID_PROBLEM_VIEW);
 		bottom.addView(IPageLayout.ID_TASK_LIST);
+		bottom.addView("org.eclipse.tigerstripe.annotation.view.property");
 
 		layout.addPerspectiveShortcut(ID);
 		layout.addShowViewShortcut("org.eclipse.pde.runtime.LogView"); //$NON-NLS-1$
