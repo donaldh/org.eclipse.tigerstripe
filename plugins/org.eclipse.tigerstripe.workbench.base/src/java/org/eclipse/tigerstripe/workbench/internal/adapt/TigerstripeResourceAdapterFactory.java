@@ -25,7 +25,19 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject;
@@ -39,6 +51,23 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * 
  */
 public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
+
+	private final static Class<?>[] artifactTypes = { IAbstractArtifact.class,
+			IManagedEntityArtifact.class, IDatatypeArtifact.class,
+			IPrimitiveTypeArtifact.class, IEnumArtifact.class,
+			IExceptionArtifact.class, ISessionArtifact.class,
+			IUpdateProcedureArtifact.class, IEventArtifact.class,
+			IQueryArtifact.class, IAssociationArtifact.class,
+			IAssociationClassArtifact.class, IDependencyArtifact.class };
+
+	protected boolean isArtifactType(Class<?> adapterType) {
+		for (Class<?> type : artifactTypes) {
+			if (type == adapterType) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
@@ -56,14 +85,17 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 			}
 		} else if (adapterType == IAbstractTigerstripeProject.class) {
 			return adaptToProject(adaptableObject);
+		} else if (isArtifactType(adapterType)) {
+			return adaptToArtifact(adaptableObject, adapterType);
 		} else if (adapterType == IModelComponent.class) {
-			return adaptToArtifact(adaptableObject);
+			return adaptToArtifact(adaptableObject, adapterType);
 		}
 
 		return null;
 	}
 
-	protected IAbstractArtifact adaptToArtifact(Object adaptableObject) {
+	protected IAbstractArtifact adaptToArtifact(Object adaptableObject,
+			Class<?> adapterType) {
 		if (adaptableObject instanceof IFile) {
 			IFile res = (IFile) adaptableObject;
 			if (res != null) {
@@ -91,7 +123,10 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 								BasePlugin.log(e);
 							}
 						}
-						return artifact;
+						if (adapterType.isInstance(artifact))
+							return artifact;
+						else
+							return null;
 					} else
 						return null;
 
@@ -111,7 +146,8 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 				ITigerstripeGeneratorProject.class,
 				IAbstractTigerstripeProject.class,
 				ITigerstripeM0GeneratorProject.class,
-				ITigerstripeM1GeneratorProject.class, IModelComponent.class };
+				ITigerstripeM1GeneratorProject.class, IModelComponent.class,
+				IAbstractArtifact.class };
 	}
 
 	private IAbstractTigerstripeProject adaptToProject(Object adaptableObject) {
