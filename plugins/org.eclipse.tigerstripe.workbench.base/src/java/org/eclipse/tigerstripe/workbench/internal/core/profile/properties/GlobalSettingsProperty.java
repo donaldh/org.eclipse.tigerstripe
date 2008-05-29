@@ -32,7 +32,7 @@ public class GlobalSettingsProperty extends MultiPropertiesProfileProperty
 	// all props propKey, prop Label displayed on GUI, default Legacy OSS/J
 	// value, SectionTitle
 	private static String[][] properties = {
-			{ IMPLEMENTSRELATIONSHIP, "'Implements' Relationship", "false",
+			{ IMPLEMENTSRELATIONSHIP, "'Implements' Relationship", "true",
 					"Meta-model" },
 			{
 					ENABLE_SESSIONFACADE_ONINSTDIAG,
