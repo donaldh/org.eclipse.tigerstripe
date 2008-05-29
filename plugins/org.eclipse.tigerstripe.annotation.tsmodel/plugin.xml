@@ -7,7 +7,8 @@
 			id="org.eclipse.tigerstripe.annotation.tsmodel.provider"
 			class="org.eclipse.tigerstripe.annotation.tsmodel.TSModelAnnotationProvider"
 			targetDescription="Model Component"
-			type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"/>
-			<delegate type="org.eclipse.jdt.core.IJavaElement"/>
+			type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent">
+		  <delegate type="org.eclipse.jdt.core.IJavaElement"/>
+		</provider>
    </extension>
 </plugin>
