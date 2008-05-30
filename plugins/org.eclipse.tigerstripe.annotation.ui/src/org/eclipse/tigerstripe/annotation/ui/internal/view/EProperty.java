@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.annotation.ui.internal.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -131,14 +132,20 @@ public class EProperty implements IProperty {
 		}
 		if (feature.getEType() instanceof EDataType) {
 			EDataType eDataType = (EDataType)feature.getEType();
-			List<String> enumeration = ExtendedMetaData.INSTANCE.getEnumerationFacet(eDataType);
-			if (!enumeration.isEmpty()) {
-				List<Object> enumerators = new ArrayList<Object>();
-				for (String enumerator : enumeration) {
-					enumerators.add(EcoreUtil.createFromString(eDataType, enumerator));
-				}
-				cellEditor = createComboBoxCellEditor(parent, enumerators);
+			if (eDataType.getInstanceClass() == Date.class) {
+				cellEditor = createDateTimeCellEditor(parent, feature, (Date)getValue());
 				return cellEditor;
+			}
+			else {
+				List<String> enumeration = ExtendedMetaData.INSTANCE.getEnumerationFacet(eDataType);
+				if (!enumeration.isEmpty()) {
+					List<Object> enumerators = new ArrayList<Object>();
+					for (String enumerator : enumeration) {
+						enumerators.add(EcoreUtil.createFromString(eDataType, enumerator));
+					}
+					cellEditor = createComboBoxCellEditor(parent, enumerators);
+					return cellEditor;
+				}
 			}
 		}
 		if (feature.isMany()) {
@@ -159,6 +166,11 @@ public class EProperty implements IProperty {
 		}
 	    return cellEditor;
     }
+	
+	public CellEditor createDateTimeCellEditor(Composite composite,
+			EStructuralFeature feature, Date value) {
+		return new DateTimeCellEditor(composite, feature.getName(), value);
+	}	
 	
 	public List<Enumerator> getEnums() {
 		return null;

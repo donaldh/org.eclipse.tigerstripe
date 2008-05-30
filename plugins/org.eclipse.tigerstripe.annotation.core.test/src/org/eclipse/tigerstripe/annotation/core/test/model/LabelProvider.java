@@ -68,9 +68,6 @@ public class LabelProvider extends org.eclipse.jface.viewers.LabelProvider {
 			if (author.getLastName() != null) {
 				details += author.getLastName() + " ";
 			}
-			if (author.getDate() != null) {
-				details += author.getDate() + " ";
-			}
 			details = details.trim();
 			if (details.length() == 0)
 				return "Author";
