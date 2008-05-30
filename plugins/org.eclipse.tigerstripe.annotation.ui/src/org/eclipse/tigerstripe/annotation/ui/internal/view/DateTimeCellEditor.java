@@ -73,7 +73,7 @@ public class DateTimeCellEditor extends ExtendedDialogCellEditor {
 					dateTime[0].setEnabled(false);
 				else
 					setDate(dateTime[0], initDate);
-				
+				date[0] = getDate(dateTime[0]);
 				dateTime[0].addSelectionListener(new SelectionAdapter() {
 					public void widgetSelected(SelectionEvent e) {
 						date[0] = getDate(dateTime[0]);
