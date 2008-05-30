@@ -115,7 +115,7 @@ public class DateTimeCellEditor extends ExtendedDialogCellEditor {
 	
 	private static Date getDate(DateTime dt) {
 		Calendar calendar = new GregorianCalendar();
-		calendar.set(Calendar.YEAR, dt.getYear() + 1900);
+		calendar.set(Calendar.YEAR, dt.getYear());
 		calendar.set(Calendar.MONTH, dt.getMonth());
 		calendar.set(Calendar.DAY_OF_MONTH, dt.getDay());
 		return calendar.getTime();
@@ -126,7 +126,7 @@ public class DateTimeCellEditor extends ExtendedDialogCellEditor {
 		calendar.setTime(date);
 		dt.setDay(calendar.get(Calendar.DAY_OF_MONTH));
 		dt.setMonth(calendar.get(Calendar.MONTH));
-		dt.setYear(calendar.get(Calendar.YEAR) - 1900);
+		dt.setYear(calendar.get(Calendar.YEAR));
 	}
 
 }
