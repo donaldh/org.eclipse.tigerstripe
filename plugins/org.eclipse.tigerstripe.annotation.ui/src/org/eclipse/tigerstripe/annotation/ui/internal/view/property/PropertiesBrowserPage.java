@@ -19,6 +19,8 @@ import java.util.Map;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -27,6 +29,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MenuEvent;
+import org.eclipse.swt.events.MenuListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
@@ -36,12 +40,18 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationWizardAction;
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAnnotationAction;
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AsyncExecUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
@@ -77,6 +87,8 @@ public class PropertiesBrowserPage
 	private Annotation[] EMPTY_ARRAY = new Annotation[0];
 	
 	private Annotation[] currentSelection;
+	
+	private static Annotation NULL_ANNOTATION = AnnotationFactory.eINSTANCE.createAnnotation();
 
 	private StructuredSelection EMPTY_SELECTION = new StructuredSelection();
 
@@ -186,6 +198,30 @@ public class PropertiesBrowserPage
 		addListeners();
 	}
 	
+	private void fillMenu(Menu menu) {
+	    Annotation annotation = getSelectedAnnotation();
+	    Object annotable = getAnnotableElement();
+	    if (annotable != null) {
+			IAction action = new OpenAnnotationWizardAction(annotable, "Add");
+		    ActionContributionItem item = new ActionContributionItem(action);
+		    item.fill(menu, -1);
+	    }
+	    
+	    if (annotation != null) {
+	    	RemoveAnnotationAction action = new RemoveAnnotationAction(annotation);
+		    ActionContributionItem item = new ActionContributionItem(action);
+		    item.fill(menu, -1);
+	    }
+	    
+	    if (annotable != null) {
+		    RemoveURIAnnotationAction removeAll = new RemoveURIAnnotationAction(annotable);
+		    if (removeAll.isEnabled()) {
+		    	ActionContributionItem item = new ActionContributionItem(removeAll);
+			    item.fill(menu, -1);
+		    }
+	    }
+	}
+	
 	private GridLayout getEmptyLayout(int columns) {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = columns;
@@ -220,6 +256,13 @@ public class PropertiesBrowserPage
 		return composite;
 	}
 	
+	private Annotation getSelectedAnnotation() {
+		int index = list.getSelectionIndex();
+		if (index >= 0 && index < currentSelection.length)
+			return currentSelection[index];
+		return null;
+	}
+	
 	protected void createNavigateMenu(Composite parent, TabbedPropertySheetWidgetFactory factory) {
 		
 		Composite composite = createTitle(parent, factory);
@@ -240,10 +283,9 @@ public class PropertiesBrowserPage
 			}
 			
 			public void onSelection() {
-				int index = list.getSelectionIndex();
-				if (index >= 0 && index < currentSelection.length) {
-					setPageSelection(currentSelection[index]);
-				}
+				Annotation annotation = getSelectedAnnotation();
+				if (annotation != null)
+					setPageSelection(annotation);
 			}
 		
 		});
@@ -257,17 +299,39 @@ public class PropertiesBrowserPage
 		formData.bottom = new FormAttachment(100, 0);
 		
 		list.setLayoutData(formData);
+		
+		Menu menu = new Menu(list);
+		list.setMenu(menu);
+		menu.addMenuListener(new MenuListener() {
+		
+			public void menuShown(MenuEvent e) {
+				Menu menu = (Menu)e.widget;
+				MenuItem[] items = menu.getItems();
+				for (int i=0; i < items.length; i++)
+					items[i].dispose();
+				fillMenu(menu);
+			}
+		
+			public void menuHidden(MenuEvent e) {
+			}
+		
+		});
+		
 	}
 	
 	protected void setPageSelection(Annotation annotation) {
 		super.selectionChanged(part, new StructuredSelection(annotation));
 	}
 	
+	protected void setPageEmpty() {
+		super.selectionChanged(part, new StructuredSelection(NULL_ANNOTATION));
+	}
+	
 	protected void updatePage() {
 		currentSelection = getAnnotation(selectedElements);
 		int newSelection = list.getSelectionIndex();
 		list.removeAll();
-		boolean showPage = currentSelection.length > 0;
+		boolean showPage = currentSelection != null;
 		if (showPage) {
 			for (int i = 0; i < currentSelection.length; i++) {
 				list.add(getDisplayName(currentSelection[i]));
@@ -279,8 +343,13 @@ public class PropertiesBrowserPage
 			else if (newSelection < 0 || newSelection >= list.getItemCount()) {
 				newSelection = 0;
 			}
-			list.select(newSelection);
-			setPageSelection(currentSelection[newSelection]);
+			if (newSelection >= 0 && list.getItemCount() > newSelection) {
+				list.select(newSelection);
+				setPageSelection(currentSelection[newSelection]);
+			}
+			else {
+				setPageEmpty();
+			}
 		}
 		else {
 			super.selectionChanged(null, EMPTY_SELECTION);
@@ -314,10 +383,23 @@ public class PropertiesBrowserPage
 		return -1;
 	}
 	
+	private Object getAnnotableElement() {
+		Object annotable = null;
+		if (selectedElements != null) {
+			annotable = AnnotationUtils.getAnnotableElement(selectedElements);
+			if (annotable instanceof Annotation) {
+				Annotation annotation = (Annotation)annotable;
+				annotable = AnnotationPlugin.getManager(
+						).getAnnotatedObject(annotation);
+			}
+		}
+		return annotable;
+	}
+	
 	private Annotation[] getAnnotation(ISelection selection) {
 		Object object = AnnotationUtils.getAnnotableElement(selection);
 		if (object == null)
-			return EMPTY_ARRAY;
+			return null;
 		if (object instanceof Annotation)
 			return new Annotation[] { (Annotation)object };
 		Annotation[] annotations = AdaptableUtil.getAllAnnotations(object);

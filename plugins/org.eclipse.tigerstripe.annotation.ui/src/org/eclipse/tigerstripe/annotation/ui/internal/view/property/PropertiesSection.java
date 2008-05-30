@@ -129,6 +129,9 @@ public class PropertiesSection extends AbstractPropertySection {
 			viewer.setContentProvider(new PropertyContentProvider(annotation));
 			viewer.setInput(annotation.getContent());
 		}
+		else {
+			viewer.setInput(null);
+		}
 	}
 	
 	private Annotation getAnnotation(ISelection selection) {

@@ -28,6 +28,7 @@ public class RemoveAnnotationAction extends Action {
 	private Annotation annotation;
 	
 	public RemoveAnnotationAction(Annotation annotation) {
+		setText("Remove");
 		this.annotation = annotation;
 	}
 

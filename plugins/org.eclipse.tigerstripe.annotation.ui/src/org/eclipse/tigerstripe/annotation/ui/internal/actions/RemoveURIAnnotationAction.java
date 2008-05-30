@@ -28,6 +28,16 @@ public class RemoveURIAnnotationAction extends DelegateAction {
 	
 	private Annotation[] annotations;
 	
+	public RemoveURIAnnotationAction(Object object) {
+		this();
+		annotations = AdaptableUtil.getAllAnnotations(object);
+		setEnabled(annotations != null && annotations.length > 0);
+	}
+	
+	public RemoveURIAnnotationAction() {
+		super("Remove All");
+	}
+	
 	public void run() {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		MessageBox message = new MessageBox(shell, SWT.YES | SWT.NO);
