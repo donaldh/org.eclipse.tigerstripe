@@ -46,6 +46,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -354,7 +355,8 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 		IAbstractArtifact artifact = getIArtifact();
 		IField newField = artifact.makeField();
 
-		String newFieldName = findNewFieldName();
+		ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
+		String newFieldName = nameFactory.getNewFieldName(artifact);
 		newField.setName(newFieldName);
 		IType defaultType = newField.makeType();
 		try {
@@ -417,8 +419,6 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 		editor.pageModified();
 	}
 
-	private int newFieldCount;
-
 	/**
 	 * Gets the default attribute type from the active profile.
 	 */
@@ -428,21 +428,6 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 		return profile.getDefaultPrimitiveTypeString();
 	}
 
-	/**
-	 * Finds a new field name
-	 */
-	private String findNewFieldName() {
-		String result = "attribute" + newFieldCount++;
-
-		// make sure we're not creating a duplicate
-		TableItem[] items = viewer.getTable().getItems();
-		for (int i = 0; i < items.length; i++) {
-			String name = ((IField) items[i].getData()).getName();
-			if (result.equals(name))
-				return findNewFieldName();
-		}
-		return result;
-	}
 
 	/**
 	 * Triggered when the remove button is pushed

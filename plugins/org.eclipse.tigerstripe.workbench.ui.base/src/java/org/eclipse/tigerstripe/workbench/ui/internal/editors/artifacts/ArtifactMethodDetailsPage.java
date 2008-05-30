@@ -54,6 +54,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbe
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
@@ -1199,22 +1200,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	// }
 	// }
 
-	private int uniqueArgCount = 0;
-
-	private String getNewUniqueArg() {
-		String candidateName = null;
-		boolean duplicate = false;
-		do {
-			duplicate = false;
-			candidateName = "arg" + uniqueArgCount++;
-			for (IArgument arg : getMethod().getArguments()) {
-				if (arg.getName().equals(candidateName)) {
-					duplicate = true;
-				}
-			}
-		} while (duplicate);
-		return candidateName;
-	}
 
 	private void addArgButtonPressed() {
 		IType type = getMethod().makeType();
@@ -1233,7 +1218,11 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		type.setTypeMultiplicity(EMultiplicity.ONE);
 
 		IArgument newArg = getMethod().makeArgument();
-		newArg.setName(getNewUniqueArg());
+		ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
+		String newArgName = nameFactory.getNewArgumentName(getMethod());
+
+		
+		newArg.setName(newArgName);
 		newArg.setType(type);
 
 		getMethod().addArgument(newArg);

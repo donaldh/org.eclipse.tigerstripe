@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Literal;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -399,7 +400,9 @@ public class ArtifactConstantsSection extends ArtifactSectionPart implements
 		IAbstractArtifact artifact = getIArtifact();
 		ILiteral newLiteral = artifact.makeLiteral();
 
-		String newLabelName = findNewFieldName();
+		ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
+		
+		String newLabelName = nameFactory.getNewLiteralName(artifact);
 		newLiteral.setName(newLabelName);
 		IType defaultType = newLiteral.makeType();
 
@@ -454,25 +457,6 @@ public class ArtifactConstantsSection extends ArtifactSectionPart implements
 		editor.pageModified();
 	}
 
-	private int newFieldCount;
-
-	/**
-	 * Finds a new field name
-	 */
-	private String findNewFieldName() {
-		String result = "literal" + newFieldCount;
-
-		// make sure we're not creating a duplicate
-		TableItem[] items = viewer.getTable().getItems();
-		for (int i = 0; i < items.length; i++) {
-			String name = ((ILiteral) items[i].getData()).getName();
-			if (result.equals(name)) {
-				newFieldCount++;
-				return findNewFieldName();
-			}
-		}
-		return result;
-	}
 
 	private int newLiteralValue;
 

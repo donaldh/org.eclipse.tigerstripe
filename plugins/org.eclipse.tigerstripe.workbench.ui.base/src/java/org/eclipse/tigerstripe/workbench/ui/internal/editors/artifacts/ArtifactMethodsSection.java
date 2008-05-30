@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -332,7 +333,9 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 		IAbstractArtifact artifact = getIArtifact();
 		IMethod newMethod = artifact.makeMethod();
 
-		String newMethodName = findNewMethodName();
+		ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
+		String newMethodName = nameFactory.getNewMethodName(artifact);
+
 		newMethod.setName(newMethodName);
 		newMethod.setVoid(true);
 		IType type = newMethod.makeType();
@@ -377,24 +380,6 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 		updateMaster();
 	}
 
-	private int newMethodCount;
-
-	/**
-	 * Finds a new field name
-	 */
-	private String findNewMethodName() {
-		String result = "method" + newMethodCount++;
-
-		// make sure we're not creating a duplicate
-		TableItem[] items = viewer.getTable().getItems();
-		for (int i = 0; i < items.length; i++) {
-			String name = ((IMethod) items[i].getData()).getName();
-			if (result.equals(name))
-				return findNewMethodName();
-		}
-
-		return result;
-	}
 
 	/**
 	 * Triggered when the remove button is pushed

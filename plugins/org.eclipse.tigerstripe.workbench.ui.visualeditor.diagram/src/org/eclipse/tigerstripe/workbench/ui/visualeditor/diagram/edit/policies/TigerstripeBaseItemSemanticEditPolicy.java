@@ -60,8 +60,7 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
-import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -72,7 +71,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
@@ -159,43 +160,46 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 					"defaultArtifactPackage", "");
 		}
 
-		INameProvider provider = ((TigerstripeProjectHandle) tsProject)
-				.getNameProvider();
+		//INameProvider provider = ((TigerstripeProjectHandle) tsProject)
+		//		.getNameProvider();
 
+		
+		ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
+		
 		String defaultUniqueName = null;
 		if (eObject instanceof ManagedEntityArtifact) {
-			defaultUniqueName = provider.getUniqueName(
-					IManagedEntityArtifact.class, defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IManagedEntityArtifact.class, tsProject,defaultPackage);
 		} else if (eObject instanceof DatatypeArtifact) {
-			defaultUniqueName = provider.getUniqueName(IDatatypeArtifact.class,
-					defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IDatatypeArtifact.class,tsProject,defaultPackage);
 		} else if (eObject instanceof Enumeration) {
-			defaultUniqueName = provider.getUniqueName(IEnumArtifact.class,
-					defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IEnumArtifact.class,tsProject,defaultPackage);
 		} else if (eObject instanceof AssociationClass) {
-			defaultUniqueName = provider.getUniqueName(
-					IAssociationClassArtifact.class, defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IAssociationClassArtifact.class, tsProject,defaultPackage);
 		} else if (eObject instanceof Association) {
-			defaultUniqueName = provider.getUniqueName(
-					IAssociationArtifact.class, defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IAssociationArtifact.class, tsProject,defaultPackage);
 		} else if (eObject instanceof Dependency) {
-			defaultUniqueName = provider.getUniqueName(
-					IDependencyArtifact.class, defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IDependencyArtifact.class, tsProject,defaultPackage);
 		} else if (eObject instanceof NamedQueryArtifact) {
-			defaultUniqueName = provider.getUniqueName(IQueryArtifact.class,
-					defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IQueryArtifact.class,tsProject,defaultPackage);
 		} else if (eObject instanceof UpdateProcedureArtifact) {
-			defaultUniqueName = provider.getUniqueName(
-					IUpdateProcedureArtifact.class, defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IUpdateProcedureArtifact.class, tsProject,defaultPackage);
 		} else if (eObject instanceof SessionFacadeArtifact) {
-			defaultUniqueName = provider.getUniqueName(ISessionArtifact.class,
-					defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					ISessionArtifact.class,	tsProject,defaultPackage);
 		} else if (eObject instanceof ExceptionArtifact) {
-			defaultUniqueName = provider.getUniqueName(
-					IExceptionArtifact.class, defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IExceptionArtifact.class, tsProject,defaultPackage);
 		} else if (eObject instanceof NotificationArtifact) {
-			defaultUniqueName = provider.getUniqueName(IEventArtifact.class,
-					defaultPackage);
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IEventArtifact.class, tsProject,defaultPackage);
 		}
 
 		if (defaultUniqueName != null) {
@@ -218,13 +222,14 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			Enumeration en = (Enumeration) eObject;
 			en.setBaseType("int");
 		} else if (eObject instanceof Association) {
-			Association assoc = (Association) eObject;
-			String aName = getUniqueAssociationEndName(assoc.getAEnd(), assoc
-					.getZEnd(), AEND);
-			String zName = getUniqueAssociationEndName(assoc.getAEnd(), assoc
-					.getZEnd(), ZEND);
+			Association assoc = (Association) eObject;	
+			
+			IAbstractArtifact iArtifact = assoc.getCorrespondingIArtifact();
+			String aName = nameFactory.getNewAssociationEndName(iArtifact, AEND);
+			String zName = nameFactory.getNewAssociationEndName(iArtifact, ZEND);
 			assoc.setAEndName(aName);
 			assoc.setZEndName(zName);
+			
 		}
 	}
 
@@ -232,166 +237,7 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 
 	private final static int ZEND = 1;
 
-	private static String getUniqueAssociationEndName(
-			AbstractArtifact aEndType, AbstractArtifact zEndType, int whichEnd) {
-
-		ITigerstripeModelProject tsProject = null;
-		if (aEndType.eContainer() instanceof org.eclipse.tigerstripe.workbench.ui.visualeditor.Map) {
-			org.eclipse.tigerstripe.workbench.ui.visualeditor.Map map = (org.eclipse.tigerstripe.workbench.ui.visualeditor.Map) aEndType
-					.eContainer();
-			tsProject = map.getCorrespondingITigerstripeProject();
-		}
-
-		int index = 0;
-
-		// compute aEnd name
-		String aEndName = unCapitalize(aEndType.getName());
-		if (tsProject != null) {
-			try {
-				IArtifactManagerSession session = tsProject
-						.getArtifactManagerSession();
-				Set<IRelationship> existingA = new HashSet<IRelationship>();
-				existingA.addAll(session.getOriginatingRelationshipForFQN(
-						aEndType.getFullyQualifiedName(), true));
-				Set<IRelationship> existingZ = new HashSet<IRelationship>();
-				existingZ.addAll(session.getTerminatingRelationshipForFQN(
-						aEndType.getFullyQualifiedName(), true));
-
-				Collection<IField> fields = new ArrayList<IField>();
-				IAbstractArtifact aArtifact = session
-						.getArtifactByFullyQualifiedName(aEndType
-								.getFullyQualifiedName());
-				if (aArtifact != null) {
-					fields.addAll(aArtifact.getFields());
-					fields.addAll(aArtifact.getInheritedFields());
-				}
-
-				boolean found = false;
-
-				String tmpName = aEndName;
-				do {
-					found = false;
-					for (IRelationship rel : existingA) {
-						// Check the *remote* End of any existing associations
-						if (tmpName.equals(rel.getRelationshipAEnd().getName())) {
-							found = true;
-							tmpName = aEndName + "_" + index++;
-						}
-					}
-
-					if (!found) {
-						for (IRelationship rel : existingZ) {
-							// Check the *remote* End of any existing
-							// associations
-							if (tmpName.equals(rel.getRelationshipZEnd()
-									.getName())) {
-								found = true;
-								tmpName = aEndName + "_" + index++;
-							}
-						}
-					}
-
-					if (!found) {
-						for (IField field : fields) {
-							if (tmpName.equals(field.getName())) {
-								found = true;
-								tmpName = aEndName + "_" + index++;
-							}
-						}
-
-					}
-
-				} while (found);
-				aEndName = tmpName;
-			} catch (TigerstripeException e) {
-				EclipsePlugin.log(e);
-			}
-		}
-
-		// compute zEnd name
-		String zEndName = unCapitalize(zEndType.getName());
-		// Check for self association
-		if (zEndType == aEndType) {
-			zEndName = zEndName + "_" + index++;
-		} else {
-			index = 0;
-		}
-		if (tsProject != null) {
-			try {
-				IArtifactManagerSession session = tsProject
-						.getArtifactManagerSession();
-				Set<IRelationship> existingA = new HashSet<IRelationship>();
-				existingA.addAll(session.getOriginatingRelationshipForFQN(
-						zEndType.getFullyQualifiedName(), true));
-				Set<IRelationship> existingZ = new HashSet<IRelationship>();
-				existingZ.addAll(session.getTerminatingRelationshipForFQN(
-						zEndType.getFullyQualifiedName(), true));
-
-				Collection<IField> fields = new ArrayList<IField>();
-				IAbstractArtifact zArtifact = session
-						.getArtifactByFullyQualifiedName(aEndType
-								.getFullyQualifiedName());
-				if (zArtifact != null) {
-					fields.addAll(zArtifact.getFields());
-					fields.addAll(zArtifact.getInheritedFields());
-				}
-
-				boolean found = false;
-
-				String tmpName = zEndName;
-				do {
-					found = false;
-					for (IRelationship rel : existingZ) {
-						if (tmpName.equals(rel.getRelationshipZEnd().getName())) {
-							found = true;
-							tmpName = zEndName + "_" + index++;
-						}
-					}
-					if (!found) {
-						for (IRelationship rel : existingA) {
-							if (tmpName.equals(rel.getRelationshipAEnd()
-									.getName())) {
-								found = true;
-								tmpName = zEndName + "_" + index++;
-							}
-						}
-					}
-
-					if (!found) {
-						for (IField field : fields) {
-							if (tmpName.equals(field.getName())) {
-								found = true;
-								tmpName = zEndName + "_" + index++;
-							}
-						}
-					}
-
-				} while (found);
-				zEndName = tmpName;
-			} catch (TigerstripeException e) {
-				EclipsePlugin.log(e);
-			}
-		}
-
-		switch (whichEnd) {
-		case AEND:
-			return aEndName;
-		case ZEND:
-			return zEndName;
-		default:
-			return aEndName;
-		}
-
-	}
-
-	private static String unCapitalize(String str) {
-		if (str == null || str.length() == 0)
-			return str;
-		else if (str.length() == 1)
-			return str.toLowerCase();
-
-		return str.substring(0, 1).toLowerCase() + str.substring(1);
-	}
+	
 
 	protected static void setAttributeDefaults(Attribute attribute)
 			throws TigerstripeException {
@@ -400,27 +246,10 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			AbstractArtifact artifact = (AbstractArtifact) attribute
 					.eContainer();
 
-			List<Attribute> attributes = artifact.getAttributes();
-
-			String tentative = "attribute" + attrIndex;
-
-			boolean found = false;
-			for (Attribute attr : attributes) {
-				if (tentative.equals(attr.getName())) {
-					found = true;
-				}
-			}
-
-			while (found) {
-				found = false;
-				attrIndex++;
-				tentative = "attribute" + attrIndex;
-				for (Attribute attr : attributes) {
-					if (tentative.equals(attr.getName())) {
-						found = true;
-					}
-				}
-			}
+			IAbstractArtifact iArtifact = artifact.getCorrespondingIArtifact();
+			
+			ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
+			String tentative = nameFactory.getNewFieldName(iArtifact);
 
 			attribute.setName(tentative);
 			attribute.setType(getDefaultTypeName());
@@ -441,33 +270,23 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 
 		if (literal != null) {
 			AbstractArtifact artifact = (AbstractArtifact) literal.eContainer();
-
 			List<Literal> literals = artifact.getLiterals();
-
-			String tentative = "literal" + litIndex;
-
 			boolean found = false;
-			for (Literal lit : literals) {
-				if (tentative.equals(lit.getName())) {
-					found = true;
-				}
-			}
-
-			while (found) {
-				found = false;
-				litIndex++;
-				tentative = "literal" + litIndex;
-				for (Literal lit : literals) {
-					if (tentative.equals(lit.getName())) {
-						found = true;
-					}
-				}
-			}
+			
+			IAbstractArtifact iArtifact = artifact.getCorrespondingIArtifact();
+			
+			ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
+			String tentative = nameFactory.getNewLiteralName(iArtifact);
 
 			literal.setName(tentative);
 			literal.setType(baseType);
+
 			if ("String".equals(baseType)) {
-				literal.setValue("\"" + String.valueOf(litIndex) + "\"");
+				int count = literals.size();
+				// make sure this is not a duplicate..
+				
+				
+				literal.setValue(getLiteralValue(iArtifact));
 			} else {
 				int valIndex = 0;
 				found = false;
@@ -494,12 +313,37 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 						}
 					}
 				}
+
+
 				literal.setValue(String.valueOf(valIndex));
 			}
 		}
 
 	}
 
+	
+	private static String getLiteralValue(IAbstractArtifact artifact){
+		Collection<ILiteral> existingLiterals = artifact.getLiterals();
+		int count = existingLiterals.size();
+		
+		String newValue = "\"" + String.valueOf(count) +"\"";
+		// make sure we're not creating a duplicate
+		boolean ok ;
+		do {
+			ok = true;
+			for (ILiteral exists : existingLiterals){
+				if (exists.getValue().equals(newValue)){
+					count++;
+					newValue = "\"" + String.valueOf(count) +"\"";
+					ok = false;
+					break ;
+				}
+			}
+		} 
+		while ( ! ok);
+		return newValue;
+	}
+	
 	protected static void setReferenceDefaults(Reference reference)
 			throws TigerstripeException {
 
@@ -538,28 +382,11 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 		if (method != null) {
 			AbstractArtifact artifact = (AbstractArtifact) method.eContainer();
 
-			List<Method> methods = artifact.getMethods();
-
-			String tentative = "method" + methIndex;
-
-			boolean found = false;
-			for (Method meth : methods) {
-				if (tentative.equals(meth.getName())) {
-					found = true;
-				}
-			}
-
-			while (found) {
-				found = false;
-				methIndex++;
-				tentative = "method" + methIndex;
-				for (Method meth : methods) {
-					if (tentative.equals(meth.getName())) {
-						found = true;
-					}
-				}
-			}
-
+			IAbstractArtifact iArtifact = artifact.getCorrespondingIArtifact();
+			
+			ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
+			String tentative = nameFactory.getNewMethodName(iArtifact);
+			
 			method.setName(tentative);
 			method.setType("void");
 		}
