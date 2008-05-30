@@ -62,16 +62,19 @@ public class CreateSpecificTypeAnnotationAction extends Action {
 			}
 		}
 		
+		Object selected = null;
 		if (objects.size() == 1) {
-			AnnotationPlugin.getManager().addAnnotation(
-					objects.keySet().toArray()[0], type.createInstance());
+			selected = objects.keySet().toArray()[0];
 		}
 		else if (objects.size() > 1) {
 			ObjectsListDialog dialog = new ObjectsListDialog(objects, new Shell(SWT.RESIZE));
 			if (dialog.open() == Dialog.OK) {
-				AnnotationPlugin.getManager().addAnnotation(
-						dialog.getSelected(), type.createInstance());
+				selected = dialog.getSelected();
 			}
+		}
+		if (selected != null) {
+			AnnotationPlugin.getManager().addAnnotation(
+					selected, type.createInstance());
 		}
 	}
 
