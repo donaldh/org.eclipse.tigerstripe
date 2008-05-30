@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.core;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +18,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 
 /**
@@ -31,19 +28,17 @@ import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
  */
 public abstract class AbstractIndexer implements IIndexer {
 	
-	private ResourceSet resourceSet;
 	private Map<Object, List<EObject>> indexes;
-	private Map<Object, Resource> map;
 	private Map<EObject, Boolean> addedMap;
 	
 	private List<Resource> resources;
+	private IndexStorage storage;
 	
 	protected static EObject[] EMPTY = new EObject[0];
 	
-	public AbstractIndexer(ResourceSet resourceSet) {
-		this.resourceSet = resourceSet;
-		map = new HashMap<Object, Resource>();
+	public AbstractIndexer(IndexStorage storage) {
 		resources = new ArrayList<Resource>();
+		this.storage = storage;
 		clear();
 	}
 	
@@ -142,34 +137,11 @@ public abstract class AbstractIndexer implements IIndexer {
 	}
 	
 	protected Resource getResource(Object object, boolean create) {
-		Resource res = map.get(object);
-		if (res == null) {
-			File file = getFile(object);
-			if (!file.exists() && !create)
-				return null;
-			res = getResource(file);
-			map.put(object, res);
-		}
-		return res;
+		String featureName = getFeatureName(object);
+		return storage.getResource(featureName, create);
 	}
 	
-	protected abstract File getFile(Object object);
-	
-	protected Resource getResource(File file) {
-		URI uri = URI.createFileURI(file.getAbsolutePath());
-		Resource resource = resourceSet.getResource(uri, false);
-		if (resource == null)
-			resource = resourceSet.createResource(uri);
-		if (resource != null) {
-			try {
-				resource.load(null);
-            }
-            catch (IOException e) {
-            	//ignore exception
-            }
-		}
-		return resource;
-	}
+	protected abstract String getFeatureName(Object object);
 
 	protected abstract EObject getContainer(Resource resource, Object object);
 

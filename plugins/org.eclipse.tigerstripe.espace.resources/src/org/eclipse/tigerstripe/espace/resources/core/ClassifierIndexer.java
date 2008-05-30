@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.core;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +19,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.tigerstripe.espace.resources.EObjectList;
 import org.eclipse.tigerstripe.espace.resources.ResourcesFactory;
-import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 
 /**
  * @author Yuri Strot
@@ -33,8 +30,8 @@ public class ClassifierIndexer extends AbstractIndexer {
 	
 	public static final String INDEX_DIRECTORY = "INDEX/";
 	
-	public ClassifierIndexer(ResourceSet resourceSet) {
-		super(resourceSet);
+	public ClassifierIndexer(IndexStorage storage) {
+		super(storage);
 	}
 	
 	public EObject[] read(EClassifier classifier) {
@@ -63,13 +60,11 @@ public class ClassifierIndexer extends AbstractIndexer {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.espace.resources.core.AbstractIndexer#getFile(java.lang.Object)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.AbstractIndexer#getFeatureName(java.lang.Object)
 	 */
 	@Override
-	protected File getFile(Object object) {
-		String featurePath = ((EClass)object).getInstanceClassName() + ".xml";
-		return new File(ResourcesPlugin.getDefault().getStateLocation().toFile(), 
-			INDEX_DIRECTORY + featurePath);
+	protected String getFeatureName(Object object) {
+		return ((EClass)object).getInstanceClassName();
 	}
 	
 	/* (non-Javadoc)
@@ -90,8 +85,7 @@ public class ClassifierIndexer extends AbstractIndexer {
 	protected void insert(EObject container, Object object) {
 		List<EObject> list = ((EObjectList)container).getObjects();
 		EObject eobject = (EObject)object;
-		if (!list.contains(eobject))
-			list.add(eobject);
+		list.add(eobject);
 	}
 	
 	/* (non-Javadoc)
@@ -99,7 +93,8 @@ public class ClassifierIndexer extends AbstractIndexer {
 	 */
 	@Override
 	protected void remove(EObject container, Object object) {
-		((EObjectList)container).getObjects().remove((EObject)object);
+		EList<EObject> list = ((EObjectList)container).getObjects();
+		list.remove((EObject)object);
 	}
 	
 	/* (non-Javadoc)

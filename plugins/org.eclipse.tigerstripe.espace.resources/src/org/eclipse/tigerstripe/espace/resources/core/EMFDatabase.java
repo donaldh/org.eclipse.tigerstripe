@@ -65,6 +65,7 @@ public class EMFDatabase implements IEMFDatabase {
 	private ResourceList resourceList;
 	private ResourceHelper resourceHelper;
 	
+	private IndexStorage indexStorage;
 	private FeatureIndexer fIndexer;
 	private ClassifierIndexer cIndexer;
 	private CompositeIndexer indexer;
@@ -72,14 +73,49 @@ public class EMFDatabase implements IEMFDatabase {
 	public EMFDatabase() {
 		IPath path = ResourcesPlugin.getDefault().getStateLocation();
 		defaultRouter = new DefaultObjectRouter(new File(path.toFile(), DEFAULT_STORAGE));
-		resourceSet = new ResourceSetImpl();
+	}
+	
+	protected ResourceSet getResourceSet() {
+		if (resourceSet == null) {
+			resourceSet = new ResourceSetImpl();
+		}
+		return resourceSet;
+	}
+	
+	protected IndexStorage getIndexStorage() {
+		if (indexStorage == null)
+			indexStorage = new IndexStorage(getResourceSet());
+		return indexStorage;
+	}
+	
+	protected FeatureIndexer getFeatureIndexer() {
+		if (fIndexer == null) {
+			fIndexer = new FeatureIndexer(getIndexStorage());
+		}
+		return fIndexer;
+	}
+	
+	protected ClassifierIndexer getClassifierIndexer() {
+		if (cIndexer == null) {
+			cIndexer = new ClassifierIndexer(getIndexStorage());
+		}
+		return cIndexer;
+	}
+	
+	protected CompositeIndexer getIndexer() {
+		if (indexer == null) {
+			indexer = new CompositeIndexer();
+			indexer.addIndexer(getFeatureIndexer());
+			indexer.addIndexer(getClassifierIndexer());
+		}
+		return indexer;
 		
-		fIndexer = new FeatureIndexer(resourceSet);
-		cIndexer = new ClassifierIndexer(resourceSet);
-		indexer = new CompositeIndexer();
-		indexer.addIndexer(fIndexer);
-		indexer.addIndexer(cIndexer);
-		resourceHelper = new ResourceHelper(indexer);
+	}
+	
+	protected ResourceHelper getResourceHelper() {
+		if (resourceHelper == null)
+			resourceHelper = new ResourceHelper(getIndexer());
+		return resourceHelper;
 	}
 	
 	/* (non-Javadoc)
@@ -125,7 +161,7 @@ public class EMFDatabase implements IEMFDatabase {
 	}
 	
 	public EObject[] query(EClassifier classifier) {
-		return copy(cIndexer.read(classifier));
+		return copy(getClassifierIndexer().read(classifier));
 	}
 	
 	protected EObject[] copy(EObject[] objects) {
@@ -140,7 +176,7 @@ public class EMFDatabase implements IEMFDatabase {
 	public void write(EObject object) {
 		object = EcoreUtil.copy(object);
 		Resource resource = getResource(object);
-		resourceHelper.addAndSave(resource, object, true);
+		getResourceHelper().addAndSave(resource, object, true);
 		
 		if (addToUris(resource.getURI())) {
 			getResourceList().getResourceUris().add(resource.getURI());
@@ -156,7 +192,7 @@ public class EMFDatabase implements IEMFDatabase {
 				EObject candidate = objects[i];
 				if (EcoreUtil.equals(candidate, object)) {
 					Resource resource = getResource(candidate);
-					resourceHelper.removeAndSave(resource, candidate);
+					getResourceHelper().removeAndSave(resource, candidate);
 					if (resource.getContents().size() == 0 && !isDefaultUri(resource.getURI())) {
 						getResourceList().getResourceUris().remove(resource.getURI());
 						removeResource(resource);
@@ -193,9 +229,9 @@ public class EMFDatabase implements IEMFDatabase {
 	}
 	
 	protected Resource getResource(URI uri) {
-		Resource resource = resourceSet.getResource(uri, false);
+		Resource resource = getResourceSet().getResource(uri, false);
 		if (resource == null) {
-			resource = resourceSet.createResource(uri);
+			resource = getResourceSet().createResource(uri);
 		}
 		if (resource != null) {
 			try {
@@ -204,6 +240,7 @@ public class EMFDatabase implements IEMFDatabase {
             catch (IOException e) {
             	//ignore exception
             }
+    		EcoreUtil.resolveAll(resource);
 		}
 		return resource;
 	}
@@ -241,7 +278,7 @@ public class EMFDatabase implements IEMFDatabase {
             else {
             	resourceList = ResourcesFactory.eINSTANCE.createResourceList();
             	resource.getContents().add(resourceList);
-            	resourceHelper.addAndSave(resource, resourceList);
+            	getResourceHelper().addAndSave(resource, resourceList);
             }
 		}
 		return resourceList;
@@ -270,8 +307,8 @@ public class EMFDatabase implements IEMFDatabase {
 	}
 	
 	protected EObject[] doGet(EStructuralFeature feature, Object value) {
-		if (fIndexer.isFeatureIndexed(feature)) {
-		    return fIndexer.read(feature, value);
+		if (getFeatureIndexer().isFeatureIndexed(feature)) {
+		    return getFeatureIndexer().read(feature, value);
 		}
 		else {
 			List<EObject> list = new ArrayList<EObject>();

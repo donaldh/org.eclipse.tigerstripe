@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.core;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,10 +20,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.tigerstripe.espace.core.tree.RBTree;
 import org.eclipse.tigerstripe.espace.core.tree.TreeFactory;
-import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 
 /**
  * @author Yuri Strot
@@ -34,10 +31,9 @@ public class FeatureIndexer extends AbstractIndexer {
 	
 	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
 	private static final String ANNOTATION_INDEX = "indexed";
-	private static final String INDEX_DIRECTORY = "INDEX/";
 	
-	public FeatureIndexer(ResourceSet resourceSet) {
-		super(resourceSet);
+	public FeatureIndexer(IndexStorage storage) {
+		super(storage);
 	}
 	
 	public EObject[] read(EStructuralFeature feature, Object value) {
@@ -78,15 +74,13 @@ public class FeatureIndexer extends AbstractIndexer {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.espace.resources.core.AbstractIndexer#getFile(java.lang.Object)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.AbstractIndexer#getFeatureName(java.lang.Object)
 	 */
 	@Override
-	protected File getFile(Object object) {
+	protected String getFeatureName(Object object) {
 		EStructuralFeature feature = (EStructuralFeature)object;
 		EClass container = (EClass)feature.eContainer();
-		String featurePath = container.getInstanceClassName() + "." + feature.getName() + ".xml";
-		return new File(ResourcesPlugin.getDefault().getStateLocation().toFile(), 
-			INDEX_DIRECTORY + featurePath);
+		return container.getInstanceClassName() + "." + feature.getName();
 	}
 	
 	/* (non-Javadoc)
