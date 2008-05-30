@@ -153,13 +153,7 @@ public class PropertiesBrowserPage
 	}
 
 	public void containerUpdated() {
-		AsyncExecUtil.run(composite, new Runnable() {
-		
-			public void run() {
-				updateSelection();
-			}
-		
-		});
+		updateSelection();
     }
 
 	public void refactoringPerformed(Map<URI, URI> changes) {
@@ -341,10 +335,16 @@ public class PropertiesBrowserPage
 	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	protected void updateSelection() {
-		ISelection selection = AnnotationUIPlugin.getManager().getSelection();
-		if (selection instanceof IStructuredSelection)
-			selectedElements = (IStructuredSelection) selection;
-		updatePage();
+		AsyncExecUtil.run(composite, new Runnable() {
+			
+			public void run() {
+				ISelection selection = AnnotationUIPlugin.getManager().getSelection();
+				if (selection instanceof IStructuredSelection)
+					selectedElements = (IStructuredSelection) selection;
+				updatePage();
+			}
+		
+		});
 	}
 	
 	/* (non-Javadoc)

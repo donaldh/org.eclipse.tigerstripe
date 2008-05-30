@@ -36,6 +36,7 @@ import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationActi
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RefreshAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAllAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAnnotationAction;
+import org.eclipse.tigerstripe.annotation.ui.internal.util.AsyncExecUtil;
 import org.eclipse.tigerstripe.annotation.ui.internal.view.AnnotationsTable;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
@@ -184,18 +185,24 @@ public class AnnotationsSection extends AbstractPropertySection implements IAnno
 		}
 	}
 	
-	protected boolean isInitialized() {
-		return aTable != null && aTable.isInitialized();
-	}
-	
 	protected void updateTable() {
-	    if (isInitialized())
-	    	aTable.setInput(AnnotationPlugin.getManager().getLoadedAnnotations());
+		AsyncExecUtil.run(aTable.getViewer().getControl(), new Runnable() {
+			
+			public void run() {
+		    	aTable.setInput(AnnotationPlugin.getManager().getLoadedAnnotations());
+			}
+		
+		});
 	}
 	
 	protected void refreshTable() {
-	    if (isInitialized())
-	    	aTable.refresh();
+		AsyncExecUtil.run(aTable.getViewer().getControl(), new Runnable() {
+			
+			public void run() {
+		    	aTable.refresh();
+			}
+		
+		});
 	}
 
 	public void containerUpdated() {

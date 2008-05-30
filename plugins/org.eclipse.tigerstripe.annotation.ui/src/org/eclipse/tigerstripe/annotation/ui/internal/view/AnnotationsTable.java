@@ -36,7 +36,6 @@ public class AnnotationsTable {
 	
 	private Table table;
 	private TableViewer viewer;
-	private boolean initialized;
 	
 	public AnnotationsTable() {
 	}
@@ -72,8 +71,6 @@ public class AnnotationsTable {
                 }
             }
         });
-        
-        initialized = true;
 
 		return table;
 	}
@@ -92,10 +89,6 @@ public class AnnotationsTable {
 			}
 		
 		});
-	}
-	
-	public boolean isInitialized() {
-		return initialized;
 	}
 	
 	public Viewer getViewer() {

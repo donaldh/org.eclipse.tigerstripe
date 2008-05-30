@@ -63,6 +63,8 @@ public class ResourcePathProvider implements IAnnotationProvider {
 	
 	public static IResourcePath toResourcePath(URI uri) {
 		IResource resource = toResource(uri);
+		if (resource == null)
+			return null;
 		return (IResourcePath)Platform.getAdapterManager().getAdapter(
 				resource, IResourcePath.class);
 	}

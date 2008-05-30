@@ -149,8 +149,13 @@ public class AnnotationsView extends ViewPart implements IAnnotationListener, IR
 	}
 	
 	protected void updateAnnotations() {
-		if (aTable != null && aTable.isInitialized())
-			aTable.setInput(AnnotationPlugin.getManager().getLoadedAnnotations());
+		AsyncExecUtil.run(aTable.getViewer().getControl(), new Runnable() {
+			
+			public void run() {
+				aTable.setInput(AnnotationPlugin.getManager().getLoadedAnnotations());
+			}
+		
+		});
 	}
 	
 	@Override
