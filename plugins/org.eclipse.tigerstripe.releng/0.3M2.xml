@@ -19,22 +19,20 @@
 
 	<target name="init">
 		<touch file="${user.home}/.cvspass" />
-		<property name="date" value="${env.TSDATE}" />
-		<property name="time" value="${env.TSTIME}" />
+		<property name="date" value="20080526" />
+		<property name="time" value="0834" />
 		<property name="timestamp" value="${date}${time}" />
-		<property name="buildType" value="N" />
+		<property name="buildType" value="M" />
 		<property name="buildId" value="${buildType}${timestamp}_incubation" />
 		<property name="component" value="nightly" />
-		<property name="mapsCheckoutTag" value="HEAD" />
+		<property name="mapsCheckoutTag" value="v0-3M2" />
 		<property name="stream" value="0.3.0" />
-
-		<property name="fetchTag" value="HEAD" />
 
 		<!-- Login details (username/password) for download site and update site -->
 		<property name="login.properties" value="${basedir}/eclipse-login.properties" />
 
 		<!-- For Nightly/Integration builds, the buildLabel is set to the buildId -->
-		<property name="buildLabel" value="${buildId}" />
+		<property name="buildLabel" value="0.3M2_incubation" />
 	</target>
 
 	<target name="main" depends="init">
@@ -46,8 +44,8 @@
 			<property name="stream" value="${stream}" />
 			<property name="buildRoot" value="${build.root}/builds" />
 			<property name="builder" value="${basedir}/components/${component}" />
-			<property name="buildDirectory" value="${env.WORKSPACE}/../builds/${env.BUILD_ID}" />
-			<property name="update.site.details" value="${basedir}/eclipseUpdate-unstable.properties" />
+			<property name="buildDirectory" value="${env.WORKSPACE}/../builds/${buildLabel}" />
+			<property name="update.site.details" value="${basedir}/eclipseUpdate-interim.properties" />
 		</ant>
 
 		<echo message="Deploying ..." />
@@ -58,10 +56,10 @@
 			<property name="stream" value="${stream}" />
 			<property name="buildRoot" value="${build.root}/builds" />
 			<property name="builder" value="${basedir}/components/${component}" />
-			<property name="buildDirectory" value="${env.WORKSPACE}/../builds/${env.BUILD_ID}" />
-			<property name="artifactsDirectory" value="${env.WORKSPACE}/../builds/${env.BUILD_ID}/${buildId}" />
+			<property name="buildDirectory" value="${env.WORKSPACE}/../builds/${buildLabel}" />
+			<property name="artifactsDirectory" value="${env.WORKSPACE}/../builds/${buildLabel}/${buildLabel}" />
 			<property name="downloads.site.details" value="${basedir}/eclipseDownloads.properties" />
-			<property name="update.site.details" value="${basedir}/eclipseUpdate-unstable.properties" />
+			<property name="update.site.details" value="${basedir}/eclipseUpdate-interim.properties" />
 		</ant>
 	</target>
 

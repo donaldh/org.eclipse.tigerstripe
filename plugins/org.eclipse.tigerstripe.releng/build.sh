@@ -23,6 +23,7 @@ export	PATH=${JAVA_HOME}/bin:${PATH}:${ANT_HOME}/bin
 export	BUILD_ID=1
 export	TSDATE=`date "+%Y%m%d%H%M%S" | sed "s/[_-]//g" | awk '{ print substr($1, 0, 8)}'`
 export	TSTIME=`date "+%Y%m%d%H%M%S" | sed "s/[_-]//g" | awk '{ print substr($1, 9, 4)}'`
+export	WORKSPACE=/Users/erdillon/Documents/workspace/releng/org.eclipse.tigerstripe.releng/
 
 ## Base classpath for Eclipse Launcher	
 export CLASSPATH=pde/org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar
