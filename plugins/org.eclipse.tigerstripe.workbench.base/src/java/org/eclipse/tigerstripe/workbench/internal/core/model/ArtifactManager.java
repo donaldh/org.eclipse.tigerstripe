@@ -32,10 +32,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.IModelChangeDelta.RenamedArtifact;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
@@ -46,7 +44,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchPr
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
@@ -1270,9 +1267,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				}
 			}
 
-			ModelChangeDelta delta = new ModelChangeDelta(artifact
-					.getTigerstripeProject(), artifact, null, null, null);
-			TigerstripeWorkspaceNotifier.INSTANCE.signalModelChange(delta);
 		} finally {
 			readLock.unlock();
 		}
@@ -1321,7 +1315,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		}
 	}
 
-	protected void notifyArtifactChanged(IAbstractArtifact artifact) {
+	protected void notifyArtifactChanged(IAbstractArtifact artifact,
+			IAbstractArtifact oldArtifact) {
 		// FIXME: the notification should really be coming from the refresh
 		// based on what was actually reloaded?
 		Lock readLock = listenersLock.readLock();
@@ -1338,10 +1333,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 					}
 				}
 			}
-
-			ModelChangeDelta delta = new ModelChangeDelta(artifact
-					.getTigerstripeProject(), null, null, null, artifact);
-			TigerstripeWorkspaceNotifier.INSTANCE.signalModelChange(delta);
 
 		} finally {
 			readLock.unlock();
@@ -1364,9 +1355,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				}
 			}
 
-			ModelChangeDelta delta = new ModelChangeDelta(artifact
-					.getTigerstripeProject(), null, artifact, null, null);
-			TigerstripeWorkspaceNotifier.INSTANCE.signalModelChange(delta);
 		} finally {
 			readLock.unlock();
 		}
@@ -1559,7 +1547,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			}
 
 			// // since 2.2-beta making sure that references to old artifact
-// are updated properly
+			// are updated properly
 			if (oldArtifact != null && oldArtifact != iartifact) {
 				oldArtifact.updateExtendingArtifacts(artifact);
 				oldArtifact.dispose();
@@ -1573,7 +1561,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			if (oldArtifact == null)
 				notifyArtifactAdded(artifact);
 			else
-				notifyArtifactChanged(artifact);
+				notifyArtifactChanged(artifact, oldArtifact);
 	}
 
 	private void addToFilenameMap(String filename, IAbstractArtifact artifact) {
@@ -1953,13 +1941,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				}
 			}
 
-			RenamedArtifact ren = new IModelChangeDelta.RenamedArtifact();
-			ren.artifact = artifact;
-			ren.oldFQN = fromFQN;
-
-			ModelChangeDelta delta = new ModelChangeDelta(artifact
-					.getTigerstripeProject(), null, null, ren, null);
-			TigerstripeWorkspaceNotifier.INSTANCE.signalModelChange(delta);
 		} finally {
 			readLock.unlock();
 		}

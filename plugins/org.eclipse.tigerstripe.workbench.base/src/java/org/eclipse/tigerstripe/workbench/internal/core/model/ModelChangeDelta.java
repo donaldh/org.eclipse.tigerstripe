@@ -13,71 +13,127 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * 
  * @author erdillon
- * @deprecated
  */
 public class ModelChangeDelta implements IModelChangeDelta {
 
+	public final static ModelChangeDelta UNKNOWNDELTA = new ModelChangeDelta(
+			UNKNOWN);
+
 	private ITigerstripeModelProject project;
-	private IAbstractArtifact addedArtifact;
-	private IAbstractArtifact deletedArtifact;
-	private RenamedArtifact renamedArtifact;
-	private IAbstractArtifact changedArtifact;
+	private Object oldValue;
+	private Object newValue;
+	private String feature;
+	private URI componentURI;
+	private int type;
+	private Object source;
 
-	public ModelChangeDelta(ITigerstripeModelProject project,
-			IAbstractArtifact addedArtifact, IAbstractArtifact deletedArtifact,
-			RenamedArtifact renamedArtifact, IAbstractArtifact changedArtifact) {
-		this.project = project;
-		this.addedArtifact = addedArtifact;
-		this.deletedArtifact = deletedArtifact;
-		this.renamedArtifact = renamedArtifact;
-		this.changedArtifact = changedArtifact;
+	public ModelChangeDelta() {
+		this(UNKNOWN);
 	}
 
-	public IAbstractArtifact[] getAddedArtifacts() {
-		if (addedArtifact != null)
-			return new IAbstractArtifact[] { addedArtifact };
-		return IAbstractArtifact.EMPTY_ARRAY;
+	public ModelChangeDelta(int type) {
+		setType(type);
 	}
 
-	public ITigerstripeModelProject[] getAffectedProjects() throws TigerstripeException {
+	public ITigerstripeModelProject[] getAffectedProjects()
+			throws TigerstripeException {
 		List<ITigerstripeModelProject> projects = new ArrayList<ITigerstripeModelProject>();
-		
+
 		projects.add(getProject());
-		for( ITigerstripeModelProject other : getProject().getReferencedProjects()) {
+		for (ITigerstripeModelProject other : getProject()
+				.getReferencedProjects()) {
 			projects.add(other);
 		}
-		
+
 		return projects.toArray(new ITigerstripeModelProject[projects.size()]);
-	}
-
-	public IAbstractArtifact[] getChangedArtifacts() {
-		if (changedArtifact != null)
-			return new IAbstractArtifact[] { changedArtifact };
-		return IAbstractArtifact.EMPTY_ARRAY;
-	}
-
-	public IAbstractArtifact[] getDeletedArtifacts() {
-		if (deletedArtifact != null)
-			return new IAbstractArtifact[] { deletedArtifact };
-		return IAbstractArtifact.EMPTY_ARRAY;
 	}
 
 	public ITigerstripeModelProject getProject() {
 		return this.project;
 	}
 
-	public RenamedArtifact[] getRenamedArtifacts() {
-		if (renamedArtifact != null)
-			return new RenamedArtifact[] { renamedArtifact };
-		return new RenamedArtifact[0];
+	public void setProject(ITigerstripeModelProject project) {
+		this.project = project;
 	}
 
+	public URI getAffectedModelComponentURI() {
+		return componentURI;
+	}
+
+	public void setAffectedModelComponentURI(URI uri) {
+		this.componentURI = uri;
+	}
+
+	public String getFeature() {
+		return feature;
+	}
+
+	public void setFeature(String feature) {
+		this.feature = feature;
+	}
+
+	public Object getNewValue() {
+		return newValue;
+	}
+
+	public void setNewValue(Object newValue) {
+		this.newValue = newValue;
+	}
+
+	public Object getOldValue() {
+		return oldValue;
+	}
+
+	public void setOldValue(Object oldValue) {
+		this.oldValue = oldValue;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public void setSource(Object source) {
+		this.source = source;
+	}
+
+	public Object getSource() {
+		return this.source;
+	}
+
+	@Override
+	public String toString() {
+		String result = ": {";
+
+		switch (type) {
+		case IModelChangeDelta.SET:
+			result = "SET: {";
+			break;
+		case IModelChangeDelta.ADD:
+			result = "ADD: {";
+			break;
+		case IModelChangeDelta.REMOVE:
+			result = "REMOVE: {";
+			break;
+		case IModelChangeDelta.UNKNOWN:
+			result = "UNKNOWN: {";
+		}
+
+		result = result + "componentURI = '" + componentURI + "', "
+				+ "feature = '" + feature + "', " + "oldValue = '" + oldValue
+				+ "', " + "newValue = '" + newValue + "', " + "project = '"
+				+ project + "', " + "source = '" + source + "'}";
+		return result;
+	}
 }

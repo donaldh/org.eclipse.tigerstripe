@@ -1647,7 +1647,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			}
 		}
 
-		return null;
+		return super.getAdapter(adapter);
 	}
 
 	/**

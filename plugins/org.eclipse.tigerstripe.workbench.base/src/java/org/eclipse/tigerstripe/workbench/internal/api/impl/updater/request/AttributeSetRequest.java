@@ -11,8 +11,12 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -26,13 +30,19 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 
 	private String newValue;
 
+	private String oldValue;
+
 	private String attributeName;
+
+	private URI attributeURI;
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		try{
+		super.canExecute(mgrSession);
+
+		try {
 			IAbstractArtifact art = mgrSession
-			.getArtifactByFullyQualifiedName(getArtifactFQN());
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 			if (art != null) {
 				for (IField field : art.getFields()) {
@@ -41,8 +51,7 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 				}
 			}
 			return false;
-		}
-		catch (TigerstripeException t){
+		} catch (TigerstripeException t) {
 			return false;
 		}
 	}
@@ -50,6 +59,7 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
 
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
@@ -59,6 +69,7 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 			for (IField field : art.getFields()) {
 				if (field.getName().equals(attributeName)) {
 					IField iField = (IField) field;
+					attributeURI = (URI) iField.getAdapter(URI.class);
 					if (NAME_FEATURE.equals(featureId)) {
 						iField.setName(newValue);
 						needSave = true;
@@ -66,22 +77,19 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 						iField.getType().setFullyQualifiedName(newValue);
 						needSave = true;
 					} else if (MULTIPLICITY_FEATURE.equals(featureId)) {
-						IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity.parse(newValue);
+						IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity
+								.parse(newValue);
 						iField.getType().setTypeMultiplicity(mult);
 						needSave = true;
 					} else if (VISIBILITY_FEATURE.equals(featureId)) {
 						if ("PUBLIC".equals(newValue)) {
-							iField
-									.setVisibility(EVisibility.PUBLIC);
+							iField.setVisibility(EVisibility.PUBLIC);
 						} else if ("PROTECTED".equals(newValue)) {
-							iField
-									.setVisibility(EVisibility.PROTECTED);
+							iField.setVisibility(EVisibility.PROTECTED);
 						} else if ("PRIVATE".equals(newValue)) {
-							iField
-									.setVisibility(EVisibility.PRIVATE);
+							iField.setVisibility(EVisibility.PRIVATE);
 						} else if ("PACKAGE".equals(newValue)) {
-							iField
-									.setVisibility(EVisibility.PACKAGE);
+							iField.setVisibility(EVisibility.PACKAGE);
 						}
 						needSave = true;
 					} else if (ISUNIQUE_FEATURE.equals(featureId)) {
@@ -112,9 +120,31 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 	}
 
 	public void setOldValue(String oldValue) {
+		this.oldValue = oldValue;
 	}
 
 	public void setAttributeName(String attributeName) {
 		this.attributeName = attributeName;
 	}
+
+	@Override
+	public IModelChangeDelta getCorrespondingDelta() {
+		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.SET);
+
+		try {
+			IAbstractArtifact art = (IAbstractArtifact) getMgrSession()
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
+			delta.setAffectedModelComponentURI(attributeURI);
+			delta.setFeature(this.featureId);
+			delta.setNewValue(this.newValue);
+			delta.setOldValue(this.oldValue);
+			delta.setProject(art.getProject());
+			delta.setSource(this);
+			return delta;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+		return ModelChangeDelta.UNKNOWNDELTA;
+	}
+
 }

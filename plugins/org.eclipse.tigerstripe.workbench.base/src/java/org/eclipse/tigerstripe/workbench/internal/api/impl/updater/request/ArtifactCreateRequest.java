@@ -11,11 +11,16 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactCreateRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjArtifactSpecifics;
 
 public class ArtifactCreateRequest extends BaseModelChangeRequest implements
@@ -60,6 +65,7 @@ public class ArtifactCreateRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
+		super.canExecute(mgrSession);
 		IAbstractArtifact art = mgrSession.getArtifactByFullyQualifiedName(
 				getFullyQualifiedName(), false);
 		return art == null;
@@ -68,6 +74,7 @@ public class ArtifactCreateRequest extends BaseModelChangeRequest implements
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
 		IAbstractArtifact artifact = mgrSession.makeArtifact(getArtifactType());
 		artifact.setFullyQualifiedName(getFullyQualifiedName());
 
@@ -84,4 +91,24 @@ public class ArtifactCreateRequest extends BaseModelChangeRequest implements
 					.applyDefaults();
 		}
 	}
+
+	@Override
+	public IModelChangeDelta getCorrespondingDelta() {
+		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.ADD);
+		try {
+			IModelComponent comp = getMgrSession()
+					.getArtifactByFullyQualifiedName(getFullyQualifiedName());
+			if (comp != null) {
+				delta.setNewValue(comp.getAdapter(URI.class));
+				delta.setFeature(comp.getClass().getSimpleName());
+				delta.setProject(comp.getProject());
+				delta.setSource(this);
+			}
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+			return ModelChangeDelta.UNKNOWNDELTA;
+		}
+		return delta;
+	}
+
 }

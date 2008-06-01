@@ -31,16 +31,16 @@ public class ArtifactRemoveFeatureRequest extends BaseArtifactElementRequest
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		try{
-		IAbstractArtifact art = mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		super.canExecute(mgrSession);
+		try {
+			IAbstractArtifact art = mgrSession
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		if (IMPLEMENTS_FEATURE.equals(featureId))
-			return art instanceof IManagedEntityArtifact
-					|| art instanceof IAssociationClassArtifact;
-		return false;
-		}
-		catch (TigerstripeException t){
+			if (IMPLEMENTS_FEATURE.equals(featureId))
+				return art instanceof IManagedEntityArtifact
+						|| art instanceof IAssociationClassArtifact;
+			return false;
+		} catch (TigerstripeException t) {
 			return false;
 		}
 	}
@@ -48,6 +48,7 @@ public class ArtifactRemoveFeatureRequest extends BaseArtifactElementRequest
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
 		IAbstractArtifact art = mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 		if (art instanceof IManagedEntityArtifact

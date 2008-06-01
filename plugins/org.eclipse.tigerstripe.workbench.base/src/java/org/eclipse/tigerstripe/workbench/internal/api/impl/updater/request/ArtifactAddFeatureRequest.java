@@ -14,13 +14,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEmittedEvent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IExposedUpdateProcedure;
@@ -36,28 +42,30 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		try{
-		IAbstractArtifact art = mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		super.canExecute(mgrSession);
+		try {
+			IAbstractArtifact art = mgrSession
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		if (EXPOSED_PROCEDURES.equals(featureId)
-				|| MANAGED_ENTITIES.equals(featureId)
-				|| EMITTED_NOTIFICATIONS.equals(featureId)
-				|| NAMED_QUERIES.equals(featureId))
-			return art instanceof ISessionArtifact;
-		else if (IMPLEMENTS_FEATURE.equals(featureId))
-			return art instanceof IManagedEntityArtifact
-					|| art instanceof IAssociationClassArtifact;
-		return false;
-	}
-	catch (TigerstripeException t){
-		return false;
-	}
+			if (EXPOSED_PROCEDURES.equals(featureId)
+					|| MANAGED_ENTITIES.equals(featureId)
+					|| EMITTED_NOTIFICATIONS.equals(featureId)
+					|| NAMED_QUERIES.equals(featureId))
+				return art instanceof ISessionArtifact;
+			else if (IMPLEMENTS_FEATURE.equals(featureId))
+				return art instanceof IManagedEntityArtifact
+						|| art instanceof IAssociationClassArtifact;
+			return false;
+		} catch (TigerstripeException t) {
+			return false;
+		}
 	}
 
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
+
 		IAbstractArtifact art = mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 		if (art instanceof ISessionArtifact) {
@@ -108,4 +116,23 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 		this.featureValue = value;
 	}
 
+	public IModelChangeDelta getCorrespondingDelta() {
+		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.ADD);
+
+		try {
+			IModelComponent comp = getMgrSession()
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
+			delta
+					.setAffectedModelComponentURI((URI) comp
+							.getAdapter(URI.class));
+
+			delta.setFeature(featureId);
+			delta.setNewValue(featureValue);
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+			return ModelChangeDelta.UNKNOWNDELTA;
+		}
+
+		return delta;
+	}
 }

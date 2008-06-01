@@ -13,9 +13,13 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 import java.util.Collections;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
@@ -26,6 +30,10 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 	private String artifactFQN;
 
 	private String methodName;
+
+	private IMethod toRemove;
+
+	private URI methodURI;
 
 	public void setArtifactFQN(String name) {
 		this.artifactFQN = name;
@@ -45,6 +53,7 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
+		super.canExecute(mgrSession);
 		try {
 			IAbstractArtifact art = mgrSession
 					.getArtifactByFullyQualifiedName(getArtifactFQN());
@@ -64,13 +73,15 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
+
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		IMethod toRemove = null;
 		for (IMethod method : art.getMethods()) {
 			if (method.getName().equals(getMethodName())) {
 				toRemove = method;
+				methodURI = (URI) toRemove.getAdapter(URI.class);
 			}
 		}
 
@@ -79,4 +90,25 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 		}
 		art.doSave(new NullProgressMonitor());
 	}
+
+	@Override
+	public IModelChangeDelta getCorrespondingDelta() {
+		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.REMOVE);
+
+		try {
+			IAbstractArtifact art = (IAbstractArtifact) getMgrSession()
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
+			URI compURI = (URI) art.getAdapter(URI.class);
+			delta.setAffectedModelComponentURI(compURI);
+			delta.setFeature(IModelChangeDelta.METHOD);
+			delta.setOldValue(methodURI);
+			delta.setProject(art.getProject());
+			delta.setSource(this);
+			return delta;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+		return ModelChangeDelta.UNKNOWNDELTA;
+	}
+
 }

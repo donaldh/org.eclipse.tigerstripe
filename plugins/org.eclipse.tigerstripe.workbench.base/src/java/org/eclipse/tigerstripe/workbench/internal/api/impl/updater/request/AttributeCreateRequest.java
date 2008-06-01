@@ -11,8 +11,12 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeCreateRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -49,9 +53,10 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		try{
+		super.canExecute(mgrSession);
+		try {
 			IAbstractArtifact art = mgrSession
-			.getArtifactByFullyQualifiedName(getArtifactFQN());
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
 			if (art == null)
 				return false;
 
@@ -60,8 +65,7 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 					return false;
 			}
 			return true;
-		}
-		catch (TigerstripeException t){
+		} catch (TigerstripeException t) {
 			return false;
 		}
 	}
@@ -69,22 +73,23 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		IField field;
-		if (getField() == null){
+		if (getField() == null) {
 			field = art.makeField();
 			field.setName(getAttributeName());
 			IType type = field.makeType();
 			type.setFullyQualifiedName(getAttributeType());
 
 			if (IModelComponent.EMultiplicity.parse(attributeMultiplicity) != null)
-				type
-				.setTypeMultiplicity(IModelComponent.EMultiplicity
+				type.setTypeMultiplicity(IModelComponent.EMultiplicity
 						.parse(attributeMultiplicity));
 			else
-				type.setTypeMultiplicity(IModelComponent.EMultiplicity.ZERO_ONE);
+				type
+						.setTypeMultiplicity(IModelComponent.EMultiplicity.ZERO_ONE);
 			field.setType(type);
 
 		} else {
@@ -97,10 +102,33 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 
 	public void setField(IField field) {
 		this.field = field;
-		
+
 	}
 
 	public IField getField() {
 		return this.field;
 	}
+
+	@Override
+	public IModelChangeDelta getCorrespondingDelta() {
+		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.ADD);
+
+		try {
+			IAbstractArtifact art = (IAbstractArtifact) getMgrSession()
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
+			URI compURI = (URI) art.getAdapter(URI.class);
+			delta.setAffectedModelComponentURI(compURI);
+			URI attrURI = URI.createURI(compURI.toString()).appendFragment(
+					getAttributeName());
+			delta.setFeature(IModelChangeDelta.ATTRIBUTE);
+			delta.setNewValue(attrURI);
+			delta.setProject(art.getProject());
+			delta.setSource(this);
+			return delta;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+		return ModelChangeDelta.UNKNOWNDELTA;
+	}
+
 }

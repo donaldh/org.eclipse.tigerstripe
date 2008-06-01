@@ -10,18 +10,26 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactDeleteRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 		IArtifactDeleteRequest {
 
 	private String artifactName;
-
+	private URI artifactURI;
 	private String packageName;
+	private ITigerstripeModelProject project;
+	private String artifactSimpleType;
 
 	public void setArtifactName(String name) {
 		this.artifactName = name;
@@ -48,6 +56,7 @@ public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
+		super.canExecute(mgrSession);
 		IAbstractArtifact art = mgrSession.getArtifactByFullyQualifiedName(
 				getFullyQualifiedName(), false);
 		return art != null;
@@ -56,13 +65,28 @@ public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
 		String fqn = getArtifactName();
 		if (getArtifactPackage() != null && getArtifactPackage().length() != 0) {
 			fqn = getArtifactPackage() + "." + getArtifactName();
 		}
 		IAbstractArtifact artifact = mgrSession
 				.getArtifactByFullyQualifiedName(fqn);
+		project = artifact.getProject();
+		artifactURI = (URI) artifact.getAdapter(URI.class);
+		artifactSimpleType = artifact.getClass().getSimpleName();
 		mgrSession.removeArtifact(artifact);
+	}
+
+	@Override
+	public IModelChangeDelta getCorrespondingDelta() {
+		return null;
+//		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.REMOVE);
+//		delta.setOldValue(artifactURI);
+//		delta.setProject(project);
+//		delta.setFeature(artifactSimpleType);
+//		delta.setSource(this);
+//		return delta;
 	}
 
 }

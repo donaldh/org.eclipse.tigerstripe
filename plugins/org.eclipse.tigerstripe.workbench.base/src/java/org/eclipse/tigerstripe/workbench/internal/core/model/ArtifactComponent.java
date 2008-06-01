@@ -18,13 +18,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -349,6 +352,13 @@ public abstract class ArtifactComponent implements IModelComponent,
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
+		if (adapter == URI.class) {
+			try {
+				return toURI();
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
 		return null;
 	}
 
@@ -426,4 +436,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return null;
 	}
 
+	public URI toURI() throws TigerstripeException {
+		return TigerstripeURIAdapterFactory.toURI(this);
+	}
 }

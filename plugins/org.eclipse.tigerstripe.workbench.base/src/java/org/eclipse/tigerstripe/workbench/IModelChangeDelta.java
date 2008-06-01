@@ -10,15 +10,60 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench;
 
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public interface IModelChangeDelta {
 
-	public class RenamedArtifact {
-		public IAbstractArtifact artifact;
-		public String oldFQN;
-	}
+	public final int SET = 0;
+	public final int ADD = 1;
+	public final int REMOVE = 2;
+	public final int UNKNOWN = -1;
+
+	public final String ATTRIBUTE = "attribute";
+	public final String METHOD = "method";
+	public final String LITERAL = "literal";
+
+	/**
+	 * Returns the type of the model change
+	 * 
+	 * @return one of {@value #SET}, {@value #ADD}, {@value #REMOVE},
+	 *         {@value #UNKNOWN}
+	 */
+	public int getType();
+
+	/**
+	 * The Model component URI on which the delta has occured
+	 * 
+	 * @author erdillon
+	 * 
+	 */
+	public URI getAffectedModelComponentURI();
+
+	/**
+	 * On a {@value #SET} returns the new value of the feature, on an
+	 * {@value #ADD} returns the add value of the feature, on a {@value #REMOVE}
+	 * returns null
+	 * 
+	 * @return
+	 */
+	public Object getNewValue();
+
+	/**
+	 * On a {@value #SET} returns the old value of the feature, on an
+	 * {@value #ADD} returns null, on a {@value #REMOVE} returns the value that
+	 * was deleted
+	 * 
+	 * @return
+	 */
+	public Object getOldValue();
+
+	/**
+	 * Returns the feature being affected for the model component
+	 * 
+	 * @return
+	 */
+	public String getFeature();
 
 	/**
 	 * Returns all the affected projects affected by the model change
@@ -39,11 +84,4 @@ public interface IModelChangeDelta {
 	 */
 	public ITigerstripeModelProject getProject();
 
-	public IAbstractArtifact[] getAddedArtifacts();
-
-	public IAbstractArtifact[] getDeletedArtifacts();
-
-	public IAbstractArtifact[] getChangedArtifacts();
-
-	public RenamedArtifact[] getRenamedArtifacts();
 }

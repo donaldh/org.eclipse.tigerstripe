@@ -11,8 +11,12 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralCreateRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -25,6 +29,7 @@ public class LiteralCreateRequest extends BaseArtifactElementRequest implements
 	private String literalValue;
 	private String literalType;
 	private ILiteral literal;
+	private URI literalURI;
 
 	public void setLiteralType(String type) {
 		this.literalType = type;
@@ -52,9 +57,10 @@ public class LiteralCreateRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		try{
+		super.canExecute(mgrSession);
+		try {
 			IAbstractArtifact art = mgrSession
-			.getArtifactByFullyQualifiedName(getArtifactFQN());
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
 			if (art == null)
 				return false;
 
@@ -63,8 +69,7 @@ public class LiteralCreateRequest extends BaseArtifactElementRequest implements
 					return false;
 			}
 			return true;
-		}
-		catch (TigerstripeException t){
+		} catch (TigerstripeException t) {
 			return false;
 		}
 	}
@@ -72,21 +77,23 @@ public class LiteralCreateRequest extends BaseArtifactElementRequest implements
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 		ILiteral literal;
-		if (this.getLiteral()== null){
+		if (this.getLiteral() == null) {
 			literal = art.makeLiteral();
-	
-		literal.setName(getLiteralName());
-		literal.setValue(getLiteralValue());
-		IType type = literal.makeType();
-		type.setFullyQualifiedName(getLiteralType());
-		literal.setType(type);
-	} else {
-		literal = this.getLiteral();
-	}
+
+			literal.setName(getLiteralName());
+			literal.setValue(getLiteralValue());
+			IType type = literal.makeType();
+			type.setFullyQualifiedName(getLiteralType());
+			literal.setType(type);
+		} else {
+			literal = this.getLiteral();
+		}
+		literalURI = (URI) literal.getAdapter(URI.class);
 		art.addLiteral(literal);
 		art.doSave(new NullProgressMonitor());
 	}
@@ -98,4 +105,25 @@ public class LiteralCreateRequest extends BaseArtifactElementRequest implements
 	public ILiteral getLiteral() {
 		return this.literal;
 	}
+
+	@Override
+	public IModelChangeDelta getCorrespondingDelta() {
+		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.ADD);
+
+		try {
+			IAbstractArtifact art = (IAbstractArtifact) getMgrSession()
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
+			URI compURI = (URI) art.getAdapter(URI.class);
+			delta.setFeature(IModelChangeDelta.LITERAL);
+			delta.setAffectedModelComponentURI(compURI);
+			delta.setNewValue(literalURI);
+			delta.setProject(art.getProject());
+			delta.setSource(this);
+			return delta;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+		return ModelChangeDelta.UNKNOWNDELTA;
+	}
+
 }

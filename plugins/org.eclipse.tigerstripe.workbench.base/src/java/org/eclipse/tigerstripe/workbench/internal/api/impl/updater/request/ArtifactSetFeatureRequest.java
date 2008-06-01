@@ -11,8 +11,10 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -33,11 +35,22 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 
 	private String featureValue;
 
+	private String oldFeatureValue;
+
+	public String getOldValue() {
+		return this.oldFeatureValue;
+	}
+
+	public void setOldValue(String oldValue) {
+		this.oldFeatureValue = oldValue;
+	}
+
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		try{
+		super.canExecute(mgrSession);
+		try {
 			IAbstractArtifact art = mgrSession
-			.getArtifactByFullyQualifiedName(getArtifactFQN());
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
 
 			if (EXTENDS_FEATURE.equals(featureId))
 				return art != null;
@@ -54,8 +67,8 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 					|| AENDISORDERED.equals(featureId)
 					|| AENDVISIBILITY.equals(featureId)
 					|| AENDISUNIQUE.equals(featureId)
-					|| AENDMULTIPLICITY.equals(featureId) || ZEND.equals(featureId)
-					|| ZENDName.equals(featureId)
+					|| AENDMULTIPLICITY.equals(featureId)
+					|| ZEND.equals(featureId) || ZENDName.equals(featureId)
 					|| ZENDAGGREGATION.equals(featureId)
 					|| ZENDNAVIGABLE.equals(featureId)
 					|| ZENDISCHANGEABLE.equals(featureId)
@@ -64,12 +77,11 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 					|| ZENDVISIBILITY.equals(featureId)
 					|| ZENDISUNIQUE.equals(featureId))
 				return (art instanceof IAssociationArtifact)
-				|| (art instanceof IDependencyArtifact)
-				&& featureValue != null;
+						|| (art instanceof IDependencyArtifact)
+						&& featureValue != null;
 			else
 				return false;
-		}
-		catch (TigerstripeException t){
+		} catch (TigerstripeException t) {
 			return false;
 		}
 	}
@@ -77,6 +89,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
 		IAbstractArtifact art = mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 		if (EXTENDS_FEATURE.equals(featureId)) {
@@ -148,8 +161,8 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 					targetEnd.setAggregation(EAggregationEnum
 							.parse(featureValue));
 				} else if (featureId.endsWith("Multiplicity")) {
-					targetEnd
-							.setMultiplicity(IModelComponent.EMultiplicity.parse(featureValue));
+					targetEnd.setMultiplicity(IModelComponent.EMultiplicity
+							.parse(featureValue));
 				} else if (featureId.endsWith("Navigable")) {
 					boolean bool = Boolean.valueOf(featureValue);
 					targetEnd.setNavigable(bool);
@@ -165,17 +178,13 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 					targetEnd.setUnique(Boolean.valueOf(featureValue));
 				} else if (featureId.endsWith("Visibility")) {
 					if ("PUBLIC".equals(featureValue))
-						targetEnd
-								.setVisibility(EVisibility.PUBLIC);
+						targetEnd.setVisibility(EVisibility.PUBLIC);
 					else if ("PROTECTED".equals(featureValue))
-						targetEnd
-								.setVisibility(EVisibility.PROTECTED);
+						targetEnd.setVisibility(EVisibility.PROTECTED);
 					else if ("PRIVATE".equals(featureValue))
-						targetEnd
-								.setVisibility(EVisibility.PRIVATE);
+						targetEnd.setVisibility(EVisibility.PRIVATE);
 					else if ("PACKAGE".equals(featureValue))
-						targetEnd
-								.setVisibility(EVisibility.PACKAGE);
+						targetEnd.setVisibility(EVisibility.PACKAGE);
 				} else {
 					// It's the end itself that is changing!!
 					IType type = targetEnd.makeType();
@@ -207,6 +216,14 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 
 	public void setFeatureValue(String value) {
 		this.featureValue = value;
+	}
+
+	public IModelChangeDelta getCorrespondingDelta() {
+		ModelChangeDelta delta = makeDelta(IModelChangeDelta.SET);
+		delta.setFeature(featureId);
+		delta.setNewValue(this.featureValue);
+		delta.setOldValue(this.oldFeatureValue);
+		return delta;
 	}
 
 }

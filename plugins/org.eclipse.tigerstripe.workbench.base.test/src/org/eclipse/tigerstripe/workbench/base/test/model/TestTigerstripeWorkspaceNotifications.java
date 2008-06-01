@@ -73,63 +73,63 @@ public class TestTigerstripeWorkspaceNotifications extends TestCase implements
 		unregisterSelf();
 	}
 
-	public void testModelNotifications() throws Exception {
-
-		resetNotifications();
-		registerSelf(MODEL);
-
-		ITigerstripeModelProject mProj = ModelProjectHelper
-				.createModelProject("testModelNotifications");
-
-		IArtifactManagerSession session = mProj.getArtifactManagerSession();
-		IAbstractArtifact art = session
-				.makeArtifact(IManagedEntityArtifact.class.getName());
-		art.setFullyQualifiedName("com.mycompany.Test");
-		art.doSave(null);
-		assertTrue(checkDeltas());
-
-		IModelChangeDelta delta = deltas[0];
-		assertTrue(delta.getAddedArtifacts().length == 1);
-		assertTrue(delta.getDeletedArtifacts().length == 0);
-		assertTrue(delta.getRenamedArtifacts().length == 0);
-		assertTrue(delta.getChangedArtifacts().length == 0);
-
-		session.renameArtifact(art, "com.mycompany.Truc");
-		assertTrue(checkDeltas());
-
-		delta = deltas[0];
-		assertTrue(delta.getAddedArtifacts().length == 0);
-		assertTrue(delta.getDeletedArtifacts().length == 0);
-		assertTrue(delta.getRenamedArtifacts().length == 1);
-		assertTrue(delta.getChangedArtifacts().length == 0);
-		
-		IField field = art.makeField();
-		field.setName("f");
-		IType type = field.makeType();
-		type.setFullyQualifiedName("int");
-		field.setType(type);
-		art.addField(field);
-		art.doSave(null);
-		assertTrue(checkDeltas());
-
-		delta = deltas[0];
-		assertTrue(delta.getAddedArtifacts().length == 0);
-		assertTrue(delta.getDeletedArtifacts().length == 0);
-		assertTrue(delta.getRenamedArtifacts().length == 0);
-		assertTrue(delta.getChangedArtifacts().length == 1);
-
-		session.removeArtifact(art);
-		assertTrue(checkDeltas());
-
-		delta = deltas[0];
-		assertTrue(delta.getAddedArtifacts().length == 0);
-		assertTrue(delta.getDeletedArtifacts().length == 1);
-		assertTrue(delta.getRenamedArtifacts().length == 0);
-		assertTrue(delta.getChangedArtifacts().length == 0);
-		
-		mProj.delete(true, null);
-		unregisterSelf();
-	}
+//	public void testModelNotifications() throws Exception {
+//
+//		resetNotifications();
+//		registerSelf(MODEL);
+//
+//		ITigerstripeModelProject mProj = ModelProjectHelper
+//				.createModelProject("testModelNotifications");
+//
+//		IArtifactManagerSession session = mProj.getArtifactManagerSession();
+//		IAbstractArtifact art = session
+//				.makeArtifact(IManagedEntityArtifact.class.getName());
+//		art.setFullyQualifiedName("com.mycompany.Test");
+//		art.doSave(null);
+//		assertTrue(checkDeltas());
+//
+//		IModelChangeDelta delta = deltas[0];
+//		assertTrue(delta.getAddedArtifacts().length == 1);
+//		assertTrue(delta.getDeletedArtifacts().length == 0);
+//		assertTrue(delta.getRenamedArtifacts().length == 0);
+//		assertTrue(delta.getChangedArtifacts().length == 0);
+//
+//		session.renameArtifact(art, "com.mycompany.Truc");
+//		assertTrue(checkDeltas());
+//
+//		delta = deltas[0];
+//		assertTrue(delta.getAddedArtifacts().length == 0);
+//		assertTrue(delta.getDeletedArtifacts().length == 0);
+//		assertTrue(delta.getRenamedArtifacts().length == 1);
+//		assertTrue(delta.getChangedArtifacts().length == 0);
+//		
+//		IField field = art.makeField();
+//		field.setName("f");
+//		IType type = field.makeType();
+//		type.setFullyQualifiedName("int");
+//		field.setType(type);
+//		art.addField(field);
+//		art.doSave(null);
+//		assertTrue(checkDeltas());
+//
+//		delta = deltas[0];
+//		assertTrue(delta.getAddedArtifacts().length == 0);
+//		assertTrue(delta.getDeletedArtifacts().length == 0);
+//		assertTrue(delta.getRenamedArtifacts().length == 0);
+//		assertTrue(delta.getChangedArtifacts().length == 1);
+//
+//		session.removeArtifact(art);
+//		assertTrue(checkDeltas());
+//
+//		delta = deltas[0];
+//		assertTrue(delta.getAddedArtifacts().length == 0);
+//		assertTrue(delta.getDeletedArtifacts().length == 1);
+//		assertTrue(delta.getRenamedArtifacts().length == 0);
+//		assertTrue(delta.getChangedArtifacts().length == 0);
+//		
+//		mProj.delete(true, null);
+//		unregisterSelf();
+//	}
 
 	protected void registerSelf(int level) {
 		TigerstripeCore.addTigerstripeChangeListener(this, level);

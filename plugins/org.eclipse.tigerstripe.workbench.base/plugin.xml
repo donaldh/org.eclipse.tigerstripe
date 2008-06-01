@@ -237,6 +237,64 @@
                type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent">
          </adapter>
       </factory>
+      <factory
+            adaptableType="org.eclipse.emf.common.util.URI"
+            class="org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory">
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IField">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd">
+         </adapter>
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship">
+         </adapter>
+      </factory>
    </extension>
    <extension
          id="m0GeneratorProject"

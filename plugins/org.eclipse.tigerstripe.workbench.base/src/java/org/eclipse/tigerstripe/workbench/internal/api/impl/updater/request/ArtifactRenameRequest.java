@@ -12,13 +12,22 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.StringTokenizer;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -28,6 +37,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
@@ -54,24 +64,24 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		try{
-		IAbstractArtifact art = mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		super.canExecute(mgrSession);
+		try {
+			IAbstractArtifact art = mgrSession
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		String target = newName;
-		if (art != null) {
-			String artPack = art.getPackage();
-			if (artPack != null && artPack.length() != 0) {
-				target = artPack + "." + newName;
+			String target = newName;
+			if (art != null) {
+				String artPack = art.getPackage();
+				if (artPack != null && artPack.length() != 0) {
+					target = artPack + "." + newName;
+				}
+				IAbstractArtifact newArt = mgrSession
+						.getArtifactByFullyQualifiedName(target);
+				return newArt == null;
 			}
-			IAbstractArtifact newArt = mgrSession
-					.getArtifactByFullyQualifiedName(target);
-			return newArt == null;
-		}
 
-		return false;
-		}
-		catch (TigerstripeException t){
+			return false;
+		} catch (TigerstripeException t) {
 			return false;
 		}
 	}
@@ -79,6 +89,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
 
 		IAbstractArtifact origArt = mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
@@ -297,4 +308,35 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 					e); // FIXME
 		}
 	}
+
+	public IModelChangeDelta getCorrespondingDelta() {
+		ModelChangeDelta delta = makeDelta(IModelChangeDelta.SET);
+
+		try {
+			AbstractArtifact comp = (AbstractArtifact) getMgrSession()
+					.getArtifactByFullyQualifiedName(
+							Util.packageOf(getArtifactFQN()) + "." + newName);
+			delta
+					.setAffectedModelComponentURI((URI) comp
+							.getAdapter(URI.class));
+
+			delta.setFeature("name");
+			URI newUri = (URI) comp.getAdapter(URI.class);
+			IPath path = new Path(comp.getProject().getProjectDetails()
+					.getName());
+			path = path.append(getArtifactFQN());
+			URI oldUri = URI.createHierarchicalURI(
+					TigerstripeURIAdapterFactory.SCHEME_TS, null, null, path
+							.segments(), null, null);
+			delta.setNewValue(newUri);
+			delta.setOldValue(oldUri);
+
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+			return ModelChangeDelta.UNKNOWNDELTA;
+		}
+
+		return delta;
+	}
+
 }

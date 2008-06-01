@@ -18,6 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 
 public class ModelUpdaterImpl implements IModelUpdater {
@@ -50,6 +51,11 @@ public class ModelUpdaterImpl implements IModelUpdater {
 		for (IModelChangeListener listener : listeners) {
 			listener.notifyModelChanged(request);
 		}
+
+		// push to TigerstripeWorkspaceNotifier no matter what
+		if (request.getCorrespondingDelta() != null)
+			TigerstripeWorkspaceNotifier.INSTANCE.signalModelChange(request
+					.getCorrespondingDelta());
 	}
 
 	public IModelChangeRequestFactory getRequestFactory() {

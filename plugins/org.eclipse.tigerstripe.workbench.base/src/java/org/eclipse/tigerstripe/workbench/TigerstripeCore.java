@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -112,6 +113,14 @@ public class TigerstripeCore {
 		File file = new File(uri);
 		IPath path = new Path(file.getAbsolutePath());
 		return TigerstripeProjectFactory.INSTANCE.findProject(path);
+	}
+
+	public static IAbstractTigerstripeProject findProject(String name)
+			throws TigerstripeException {
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		IResource tsContainer = root.findMember(new Path(name));
+		IPath path = tsContainer.getLocation();
+		return findProject(path);
 	}
 
 	/**

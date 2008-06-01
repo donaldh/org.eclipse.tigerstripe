@@ -11,8 +11,12 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
@@ -27,23 +31,29 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 
 	private String newValue;
 
+	private String oldValue;
+
 	private String methodLabelBeforeChange;
+
+	private IMethod iMethod;
+
+	private URI methodURI;
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		try{
-		IAbstractArtifact art = mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		super.canExecute(mgrSession);
+		try {
+			IAbstractArtifact art = mgrSession
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		if (art != null) {
-			for (IMethod method : art.getMethods()) {
-				if (method.getLabelString().equals(methodLabelBeforeChange))
-					return true;
+			if (art != null) {
+				for (IMethod method : art.getMethods()) {
+					if (method.getLabelString().equals(methodLabelBeforeChange))
+						return true;
+				}
 			}
-		}
-		return false;
-		}
-		catch (TigerstripeException t){
+			return false;
+		} catch (TigerstripeException t) {
 			return false;
 		}
 	}
@@ -51,6 +61,7 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
+		super.execute(mgrSession);
 
 		IAbstractArtifact art = (IAbstractArtifact) mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
@@ -60,7 +71,8 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 			for (IMethod method : art.getMethods()) {
 				if (((IMethod) method).getLabelString().equals(
 						methodLabelBeforeChange)) {
-					IMethod iMethod = (IMethod) method;
+					iMethod = (IMethod) method;
+					methodURI = (URI) iMethod.getAdapter(URI.class);
 					if (NAME_FEATURE.equals(featureId)) {
 						iMethod.setName(newValue);
 						needSave = true;
@@ -75,22 +87,19 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 						iMethod.setReturnType(type);
 						needSave = true;
 					} else if (MULTIPLICITY_FEATURE.equals(featureId)) {
-						IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity.parse(newValue);
+						IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity
+								.parse(newValue);
 						iMethod.getReturnType().setTypeMultiplicity(mult);
 						needSave = true;
 					} else if (VISIBILITY_FEATURE.equals(featureId)) {
 						if ("PUBLIC".equals(newValue)) {
-							iMethod
-									.setVisibility(EVisibility.PUBLIC);
+							iMethod.setVisibility(EVisibility.PUBLIC);
 						} else if ("PROTECTED".equals(newValue)) {
-							iMethod
-									.setVisibility(EVisibility.PROTECTED);
+							iMethod.setVisibility(EVisibility.PROTECTED);
 						} else if ("PRIVATE".equals(newValue)) {
-							iMethod
-									.setVisibility(EVisibility.PRIVATE);
+							iMethod.setVisibility(EVisibility.PRIVATE);
 						} else if ("PACKAGE".equals(newValue)) {
-							iMethod
-									.setVisibility(EVisibility.PACKAGE);
+							iMethod.setVisibility(EVisibility.PACKAGE);
 						}
 						needSave = true;
 					} else if (ISABSTRACT_FEATURE.equals(featureId)) {
@@ -125,9 +134,31 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 	}
 
 	public void setOldValue(String oldValue) {
+		this.oldValue = oldValue;
 	}
 
 	public void setMethodLabelBeforeChange(String methodLabelBeforeChange) {
 		this.methodLabelBeforeChange = methodLabelBeforeChange;
 	}
+
+	@Override
+	public IModelChangeDelta getCorrespondingDelta() {
+		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.SET);
+
+		try {
+			IAbstractArtifact art = (IAbstractArtifact) getMgrSession()
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
+			delta.setAffectedModelComponentURI(methodURI);
+			delta.setFeature(this.featureId);
+			delta.setNewValue(this.newValue);
+			delta.setOldValue(this.oldValue);
+			delta.setProject(art.getProject());
+			delta.setSource(this);
+			return delta;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+		return ModelChangeDelta.UNKNOWNDELTA;
+	}
+
 }

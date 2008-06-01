@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater;
 
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
+
 /**
  * Top Level interface for model change requests
  * 
@@ -31,4 +33,6 @@ public interface IModelChangeRequest {
 	 * @param source
 	 */
 	public void setSource(Object source);
+	
+	public IModelChangeDelta getCorrespondingDelta();
 }

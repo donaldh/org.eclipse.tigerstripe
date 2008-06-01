@@ -18,8 +18,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -30,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
@@ -40,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
@@ -74,7 +80,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	private ArtifactManager artifactManager;
 
 	private IModelUpdater modelUpdater;
-	
+
 	// =======================================================================
 
 	protected ArtifactManagerSessionImpl(ArtifactManager artifactManager) {
@@ -109,7 +115,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public Collection<String> getSupportedArtifacts() {
 		Collection<Class> classes = getSupportedArtifactClasses();
 		Collection<String> classNames = new ArrayList<String>();
-		for (Class clazz : classes) {
+		for (Class<?> clazz : classes) {
 			classNames.add(clazz.getName());
 		}
 		return classNames;
@@ -127,7 +133,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public ArtifactManager getArtifactManager() {
 		return this.artifactManager;
 	}
-	
+
 	public Collection queryArtifact(IArtifactQuery query)
 			throws IllegalArgumentException, TigerstripeException {
 		if (!(query instanceof ArtifactQueryBase))
@@ -254,9 +260,25 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		artifactManager.addArtifact(artifact, new NullProgressMonitor()); // FIXME
 	}
 
+	protected void internalRemoveArtifact(IAbstractArtifact artifact) {
+
+	}
+
 	public void removeArtifact(IAbstractArtifact artifact)
 			throws TigerstripeException {
+		URI oldURI = (URI) artifact.getAdapter(URI.class);
+		String simpleName = artifact.getClass().getSimpleName();
 		artifactManager.removeArtifact(artifact);
+
+		// push a notif
+		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.REMOVE);
+		delta.setFeature(simpleName);
+		delta.setOldValue(oldURI);
+		delta.setProject(artifact.getProject());
+		delta.setSource(this);
+
+		TigerstripeWorkspaceNotifier.INSTANCE.signalModelChange(delta);
+
 	}
 
 	public void refresh(IProgressMonitor monitor) throws TigerstripeException {
@@ -266,9 +288,9 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	public void refresh(boolean forceReload, IProgressMonitor monitor)
 			throws TigerstripeException {
 
-		if ( monitor == null )
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
-		
+
 		// @since 2.1: when generating module no need to refresh manager
 		// since this is a module.
 		if (getArtifactManager() instanceof ModuleArtifactManager)
@@ -481,8 +503,26 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 	public void renameArtifact(IAbstractArtifact artifact, String toFQN)
 			throws TigerstripeException {
+
+		URI oldURI = (URI) artifact.getAdapter(URI.class);
+
 		getArtifactManager().renameArtifact(artifact, toFQN,
 				new NullProgressMonitor()); // FIXME
+
+		IPath path = new Path(oldURI.segment(0)).append(toFQN);
+		URI newURI = URI.createHierarchicalURI(oldURI.scheme(), null, null,
+				path.segments(), null, null);
+
+		// push a notif
+		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.SET);
+		delta.setFeature("name");
+		delta.setAffectedModelComponentURI(oldURI);
+		delta.setNewValue(newURI);
+		delta.setOldValue(oldURI);
+		delta.setProject(artifact.getProject());
+		delta.setSource(this);
+
+		TigerstripeWorkspaceNotifier.INSTANCE.signalModelChange(delta);
 	}
 
 	// ====================================================
