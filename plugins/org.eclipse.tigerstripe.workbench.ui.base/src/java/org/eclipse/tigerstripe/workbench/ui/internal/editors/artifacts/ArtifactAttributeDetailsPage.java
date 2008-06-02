@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import java.util.ArrayList;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
@@ -29,6 +30,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
@@ -45,8 +47,14 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener.IURIBaseProviderPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ITigerstripePreferences;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -56,7 +64,8 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class ArtifactAttributeDetailsPage implements IDetailsPage {
+public class ArtifactAttributeDetailsPage implements IDetailsPage,
+		IURIBaseProviderPage {
 
 	private StereotypeSectionManager stereotypeMgr;
 
@@ -113,6 +122,8 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 	private Table annTable;
 
 	private boolean isReadOnly = false;
+
+	private TextEditListener nameEditListener;
 
 	public ArtifactAttributeDetailsPage(boolean isReadOnly) {
 		super();
@@ -177,6 +188,20 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		return field;
 	}
 
+	public URI getBaseURI() {
+		return (URI) getField().getAdapter(URI.class);
+	}
+
+	public ITigerstripeModelProject getProject() {
+		try {
+			if (getField() != null)
+				return getField().getProject();
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+		return null;
+	}
+
 	// ============================================================
 	private Text nameText;
 
@@ -219,6 +244,11 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		nameText.setEnabled(!isReadOnly);
 		nameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		nameText.addModifyListener(adapter);
+		TigerstripeFormEditor editor = (TigerstripeFormEditor) ((TigerstripeFormPage) getForm()
+				.getContainer()).getEditor();
+		nameEditListener = new TextEditListener(editor, "name",
+				IModelChangeDelta.SET, this);
+		nameText.addModifyListener(nameEditListener);
 
 		label = toolkit.createLabel(sectionClient, "");
 
@@ -411,6 +441,9 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 
 	public void selectionChanged(IFormPart part, ISelection selection) {
 		if (part instanceof ArtifactAttributesSection) {
+			if (nameEditListener != null)
+				nameEditListener.reset();
+
 			master = (ArtifactAttributesSection) part;
 			Table fieldsTable = master.getViewer().getTable();
 
@@ -452,7 +485,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 		}
 		if (getField().getType().getTypeMultiplicity().isArray()) {
 			orderedButton.setEnabled(true);
-			uniqueButton.setEnabled(true);	
+			uniqueButton.setEnabled(true);
 		} else {
 			orderedButton.setEnabled(false);
 			orderedButton.setSelection(false);
@@ -695,7 +728,8 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage {
 					+ " or an empty string for no filtering: ");
 
 			IAbstractArtifact[] artifacts = dialog.browseAvailableArtifacts(
-					master.getSection().getShell(), new ArrayList());
+					master.getSection().getShell(),
+					new ArrayList<IAbstractArtifact>());
 			if (artifacts.length != 0) {
 				typeText.setText(artifacts[0].getFullyQualifiedName());
 				pageModified();

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
@@ -27,6 +28,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
@@ -34,20 +37,41 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener.IURIBaseProviderPage;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
-import org.eclipse.ui.forms.events.ExpansionAdapter;
-import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class ArtifactConstantDetailsPage implements IDetailsPage {
+public class ArtifactConstantDetailsPage implements IDetailsPage,
+		IURIBaseProviderPage {
+
+	private TextEditListener nameEditListener;
 
 	private StereotypeSectionManager stereotypeMgr;
+
+	public URI getBaseURI() {
+		return (URI) getLiteral().getAdapter(URI.class);
+	}
+
+	public ITigerstripeModelProject getProject() {
+		try {
+			if (getLiteral() != null)
+				return getLiteral().getProject();
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+		return null;
+	}
 
 	/**
 	 * An adapter that will listen for changes on the form
@@ -115,17 +139,17 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 	}
 
 	private void createStereotypes(Composite parent, FormToolkit toolkit) {
-		
+
 		Label label = toolkit.createLabel(parent, "Stereotypes");
 		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		
+
 		Composite innerComposite = toolkit.createComposite(parent);
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		innerComposite.setLayoutData(td);
 		TableWrapLayout layout = new TableWrapLayout();
 		layout.numColumns = 2;
 		innerComposite.setLayout(layout);
-		
+
 		annTable = toolkit.createTable(innerComposite, SWT.BORDER);
 		annTable.setEnabled(!isReadOnly);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -192,6 +216,11 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 		nameText.setEnabled(!isReadOnly);
 		nameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		nameText.addModifyListener(adapter);
+		TigerstripeFormEditor editor = (TigerstripeFormEditor) ((TigerstripeFormPage) getForm()
+				.getContainer()).getEditor();
+		nameEditListener = new TextEditListener(editor, "name",
+				IModelChangeDelta.SET, this);
+		nameText.addModifyListener(nameEditListener);
 
 		label = toolkit.createLabel(sectionClient, "");
 
@@ -303,11 +332,14 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 	public void selectionChanged(IFormPart part, ISelection selection) {
 
 		if (part instanceof ArtifactConstantsSection) {
+			if (nameEditListener != null)
+				nameEditListener.reset();
 			master = (ArtifactConstantsSection) part;
 
 			Table labelsTable = master.getViewer().getTable();
 
-			ILiteral selected = (ILiteral) labelsTable.getSelection()[0].getData();
+			ILiteral selected = (ILiteral) labelsTable.getSelection()[0]
+					.getData();
 			setLiteral(selected);
 			ArtifactEditorBase editor = (ArtifactEditorBase) master.getPage()
 					.getEditor();
@@ -329,7 +361,6 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 	private void updateForm() {
 
 		setSilentUpdate(true);
-		ILiteral literal = getLiteral();
 		nameText.setText(getLiteral().getName());
 
 		String typeFqn = Misc.removeJavaLangString(getLiteral().getType()
@@ -356,15 +387,12 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 	}
 
 	private void setVisibility(EVisibility visibility) {
-		if (visibility == null){
+		if (visibility == null) {
 			visibility = EVisibility.PUBLIC;
 		}
-		publicButton
-				.setSelection(visibility.equals(EVisibility.PUBLIC));
-		protectedButton
-				.setSelection(visibility.equals(EVisibility.PROTECTED));
-		privateButton
-				.setSelection(visibility.equals(EVisibility.PRIVATE));
+		publicButton.setSelection(visibility.equals(EVisibility.PUBLIC));
+		protectedButton.setSelection(visibility.equals(EVisibility.PROTECTED));
+		privateButton.setSelection(visibility.equals(EVisibility.PRIVATE));
 	}
 
 	private EVisibility getVisibility() {
@@ -403,7 +431,8 @@ public class ArtifactConstantDetailsPage implements IDetailsPage {
 			IType type = getLiteral().makeType();
 			type.setFullyQualifiedName(baseTypeCombo.getItem(baseTypeCombo
 					.getSelectionIndex()));
-			type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);;
+			type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
+			;
 			getLiteral().setType(type);
 		}
 		pageModified();

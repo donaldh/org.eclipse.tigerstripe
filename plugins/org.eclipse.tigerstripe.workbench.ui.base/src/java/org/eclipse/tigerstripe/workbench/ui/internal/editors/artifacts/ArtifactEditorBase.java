@@ -33,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorUndoManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
@@ -174,6 +175,9 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
+
+		getUndoManager().editorSaved();
+
 		if (getActivePage() != sourcePageIndex) {
 			updateTextEditorFromArtifact();
 		} else {
@@ -368,6 +372,11 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	private void setIgnoreResourceChange(boolean ignoreResourceChange) {
 		this.ignoreResourceChange = ignoreResourceChange;
+	}
+
+	@Override
+	protected EditorUndoManager createUndoManager() {
+		return new ArtifactEditorUndoManager(this);
 	}
 
 }

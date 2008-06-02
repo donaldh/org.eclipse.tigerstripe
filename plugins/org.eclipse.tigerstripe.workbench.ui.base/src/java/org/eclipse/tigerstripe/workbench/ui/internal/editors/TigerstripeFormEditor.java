@@ -28,6 +28,20 @@ import org.eclipse.ui.part.FileEditorInput;
 public abstract class TigerstripeFormEditor extends FormEditor implements
 		IViewPartInputProvider, IResourceChangeListener {
 
+	private EditorUndoManager undoManager;
+
+	public TigerstripeFormEditor() {
+		undoManager = createUndoManager();
+	}
+
+	public EditorUndoManager getUndoManager() {
+		return this.undoManager;
+	}
+
+	protected EditorUndoManager createUndoManager() {
+		return new EditorUndoManager(this);
+	}
+
 	@Override
 	public void doSaveAs() {
 		// empty, not allowed

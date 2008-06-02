@@ -301,6 +301,7 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.eclipse.tigerstripe.workbench.internal.core.util.messages,
  org.eclipse.tigerstripe.workbench.internal.modelManager;x-friends:="org.eclipse.tigerstripe.workbench.base.test",
  org.eclipse.tigerstripe.workbench.internal.startup,
+ org.eclipse.tigerstripe.workbench.internal.tools;x-friends:="org.eclipse.tigerstripe.workbench.ui.base,org.eclipse.tigerstripe.workbench.base.test",
  org.eclipse.tigerstripe.workbench.internal.tools.compare,
  org.eclipse.tigerstripe.workbench.model,
  org.eclipse.tigerstripe.workbench.model.deprecated_,

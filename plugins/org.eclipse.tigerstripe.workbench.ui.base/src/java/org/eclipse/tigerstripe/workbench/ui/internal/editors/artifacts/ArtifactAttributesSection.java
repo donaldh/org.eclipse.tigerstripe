@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import java.util.Arrays;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -44,6 +45,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
@@ -55,7 +57,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.undo.ModelUndoableEdit;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -65,8 +69,8 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public class ArtifactAttributesSection extends ArtifactSectionPart
-		implements IFormPart {
+public class ArtifactAttributesSection extends ArtifactSectionPart implements
+		IFormPart {
 
 	protected DetailsPart detailsPart;
 
@@ -159,9 +163,9 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 
 	// ====================================================================
 	private TableViewer viewer;
-	
+
 	TableColumn nameColumn;
-	
+
 	private ViewerSorter nameSorter;
 
 	private Button addAttributeButton;
@@ -171,7 +175,7 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 	private Button upAttributeButton;
 
 	private Button downAttributeButton;
-	
+
 	public TableViewer getViewer() {
 		return this.viewer;
 	}
@@ -201,19 +205,18 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 		fd.width = 100;
 		t.setLayoutData(fd);
 
-
 		// Make a header for the table
 		nameColumn = new TableColumn(t, SWT.NULL);
 		nameColumn.setText("Name");
-		nameColumn.setWidth(250);		
-	
+		nameColumn.setWidth(250);
+
 		nameColumn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				// determine new sort column and direction
 				TableColumn sortColumn = viewer.getTable().getSortColumn();
 				TableColumn currentColumn = (TableColumn) e.widget;
 				int dir = viewer.getTable().getSortDirection();
-				
+
 				if (sortColumn == currentColumn) {
 					dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
 				} else {
@@ -234,7 +237,7 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 				markPageModified();
 			}
 		});
-		
+
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
 		addAttributeButton.setEnabled(!getIArtifact().isReadonly());
@@ -252,10 +255,8 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 				// empty
 			}
 		});
-		
 
-		upAttributeButton = toolkit.createButton(sectionClient, "Up",
-				SWT.PUSH);
+		upAttributeButton = toolkit.createButton(sectionClient, "Up", SWT.PUSH);
 		upAttributeButton.setEnabled(!getIArtifact().isReadonly());
 		fd = new FormData();
 		fd.top = new FormAttachment(addAttributeButton, 5);
@@ -271,7 +272,7 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 				// empty
 			}
 		});
-		
+
 		downAttributeButton = toolkit.createButton(sectionClient, "Down",
 				SWT.PUSH);
 		downAttributeButton.setEnabled(!getIArtifact().isReadonly());
@@ -289,7 +290,7 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 				// empty
 			}
 		});
-		
+
 		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
 				SWT.PUSH);
 		removeAttributeButton.setEnabled(!getIArtifact().isReadonly());
@@ -309,8 +310,8 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 			}
 		});
 
-		
-		// This label keeps the "List" part shorter than the "Details" part to the RHS
+		// This label keeps the "List" part shorter than the "Details" part to
+		// the RHS
 
 		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
 		fd = new FormData();
@@ -377,11 +378,13 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 		newField.setRefBy(IField.REFBY_VALUE);
 		newField.setVisibility(EVisibility.PUBLIC);
 
-		//getIArtifact().addField(newField);
-		
-		// Add the item after the current selection (if there is one, and its not the last thing in the table.)
-		if (viewer.getTable().getSelectionCount() == 0 || 
-				viewer.getTable().getSelectionIndex() == viewer.getTable().getItemCount()){
+		// getIArtifact().addField(newField);
+
+		// Add the item after the current selection (if there is one, and its
+		// not the last thing in the table.)
+		if (viewer.getTable().getSelectionCount() == 0
+				|| viewer.getTable().getSelectionIndex() == viewer.getTable()
+						.getItemCount()) {
 			viewer.add(newField);
 			TableItem[] allItems = this.viewer.getTable().getItems();
 			IField[] newFields = new IField[allItems.length];
@@ -389,29 +392,42 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 				newFields[i] = (IField) allItems[i].getData();
 			}
 			getIArtifact().setFields(Arrays.asList(newFields));
-			
+
 		} else {
 			int position = viewer.getTable().getSelectionIndex();
 			TableItem[] allItems = this.viewer.getTable().getItems();
-			
+
 			IField[] allFields = new IField[allItems.length];
-			IField[] newFields = new IField[allItems.length+1];
+			IField[] newFields = new IField[allItems.length + 1];
 			for (int i = 0; i <= position; i++) {
 				newFields[i] = (IField) allItems[i].getData();
 			}
-			newFields[position+1] = newField;
-			
-			for (int i = position+2; i < newFields.length; i++) {
-				newFields[i] = (IField) allItems[i-1].getData();
+			newFields[position + 1] = newField;
+
+			for (int i = position + 2; i < newFields.length; i++) {
+				newFields[i] = (IField) allItems[i - 1].getData();
 			}
 			getIArtifact().setFields(Arrays.asList(newFields));
 		}
-		
+
 		refresh();
 
 		viewer.setSelection(new StructuredSelection(newField), true);
 		markPageModified();
 		updateMaster();
+
+		// Record Add Edit
+		try {
+			URI artURI = (URI) getIArtifact().getAdapter(URI.class);
+			URI attrURI = artURI.appendFragment(newFieldName);
+			ModelUndoableEdit edit = new ModelUndoableEdit(artURI,
+					IModelChangeDelta.ADD, newField.getClass().getSimpleName(),
+					null, attrURI, getIArtifact().getProject());
+			((TigerstripeFormEditor) getPage().getEditor()).getUndoManager()
+					.addEdit(edit);
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
 	}
 
 	protected void markPageModified() {
@@ -427,7 +443,6 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 				.getWorkbenchProfileSession().getActiveProfile();
 		return profile.getDefaultPrimitiveTypeString();
 	}
-
 
 	/**
 	 * Triggered when the remove button is pushed
@@ -457,31 +472,48 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 			viewer.remove(selectedFields);
 			getIArtifact().removeFields(Arrays.asList(selectedFields));
 			markPageModified();
+
+			URI artURI = (URI) getIArtifact().getAdapter(URI.class);
+			for (IField field : selectedFields) {
+				// Record Add Edit
+				try {
+					URI attrURI = (URI) field.getAdapter(URI.class);
+					ModelUndoableEdit edit = new ModelUndoableEdit(artURI,
+							IModelChangeDelta.REMOVE, field.getClass()
+									.getSimpleName(), attrURI, null,
+							getIArtifact().getProject());
+					((TigerstripeFormEditor) getPage().getEditor())
+							.getUndoManager().addEdit(edit);
+				} catch (TigerstripeException e) {
+					EclipsePlugin.log(e);
+				}
+
+			}
 		}
 		updateMaster();
 	}
 
-	
 	/**
 	 * Triggered when the up button is pushed
 	 * 
 	 */
 	protected void upButtonSelected(SelectionEvent event) {
-		
-		// If you go up/down then the sort order ion the viewer has to be removed!
+
+		// If you go up/down then the sort order ion the viewer has to be
+		// removed!
 		viewer.setSorter(null);
-		
+
 		TableItem[] selectedItems = viewer.getTable().getSelection();
 		IField[] selectedFields = new IField[selectedItems.length];
-		
+
 		for (int i = 0; i < selectedItems.length; i++) {
 			selectedFields[i] = (IField) selectedItems[i].getData();
 		}
 		TableItem[] allItems = this.viewer.getTable().getItems();
-		
+
 		IField[] allFields = new IField[allItems.length];
 		IField[] newFields = new IField[allItems.length];
-		
+
 		for (int i = 0; i < allFields.length; i++) {
 			newFields[i] = (IField) allItems[i].getData();
 			if (allItems[i].getData().equals(selectedFields[0]) && i != 0) {
@@ -489,34 +521,35 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 				newFields[i - 1] = (IField) allItems[i].getData();
 			}
 		}
-		
+
 		// TODO - This should be wrapped in case of error?
-		selIndex = selIndex -1;
+		selIndex = selIndex - 1;
 		getIArtifact().setFields(Arrays.asList(newFields));
 		markPageModified();
 		refresh();
 		updateMaster();
 	}
-	
+
 	/**
 	 * Triggered when the down button is pushed
 	 * 
 	 */
 	protected void downButtonSelected(SelectionEvent event) {
-		// If you go up/down then the sort order ion the viewer has to be removed!
+		// If you go up/down then the sort order ion the viewer has to be
+		// removed!
 		viewer.setSorter(null);
-		
+
 		TableItem[] selectedItems = viewer.getTable().getSelection();
 		IField[] selectedFields = new IField[selectedItems.length];
-		
+
 		for (int i = 0; i < selectedItems.length; i++) {
 			selectedFields[i] = (IField) selectedItems[i].getData();
 		}
 		TableItem[] allItems = this.viewer.getTable().getItems();
-		
+
 		IField[] allFields = new IField[allItems.length];
 		IField[] newFields = new IField[allItems.length];
-		
+
 		for (int i = allFields.length - 1; i > -1; i--) {
 			newFields[i] = (IField) allItems[i].getData();
 			if (allItems[i].getData().equals(selectedFields[0])
@@ -525,16 +558,15 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 				newFields[i + 1] = (IField) allItems[i].getData();
 			}
 		}
-		
+
 		// TODO - This should be wrapped in case of error?
-		selIndex = selIndex +1;
+		selIndex = selIndex + 1;
 		getIArtifact().setFields(Arrays.asList(newFields));
 		markPageModified();
 		refresh();
 		updateMaster();
 	}
-	
-	
+
 	/**
 	 * Updates the current state of the master
 	 * 
@@ -549,17 +581,17 @@ public class ArtifactAttributesSection extends ArtifactSectionPart
 			removeAttributeButton.setEnabled(false);
 
 		}
-		
-		upAttributeButton.setEnabled( 
-				   viewer.getTable().getSelectionIndex() > 0
+
+		upAttributeButton.setEnabled(viewer.getTable().getSelectionIndex() > 0
 				&& viewer.getTable().getSelectionCount() == 1
 				&& !getIArtifact().isReadonly());
 
-		downAttributeButton.setEnabled( 
-				   (viewer.getTable().getSelectionIndex() < viewer.getTable().getItems().length - 1)
-				&& viewer.getTable().getSelectionCount() == 1
-				&& !getIArtifact().isReadonly());
-		
+		downAttributeButton
+				.setEnabled((viewer.getTable().getSelectionIndex() < viewer
+						.getTable().getItems().length - 1)
+						&& viewer.getTable().getSelectionCount() == 1
+						&& !getIArtifact().isReadonly());
+
 	}
 
 	protected void registerPages(DetailsPart detailsPart) {

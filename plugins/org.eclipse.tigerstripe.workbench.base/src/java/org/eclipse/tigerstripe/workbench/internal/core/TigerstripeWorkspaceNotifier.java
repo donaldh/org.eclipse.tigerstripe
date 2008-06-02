@@ -177,6 +177,19 @@ public class TigerstripeWorkspaceNotifier {
 		notifyModelChanged.schedule();
 	}
 
+	public void signalModelChange(final IModelChangeDelta[] deltas) {
+		Job notifyModelChanged = new Job("Handle Tigerstripe Model Change") {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				broadcastModelChange(deltas);
+				return Status.OK_STATUS;
+			}
+		};
+
+		notifyModelChanged.schedule();
+	}
+
 	private void broadcastModelChange(final IModelChangeDelta[] deltas) {
 		for (final FilteredListener listener : listeners) {
 			if (listener.select(ITigerstripeChangeListener.MODEL))

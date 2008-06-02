@@ -16,6 +16,7 @@ import java.util.Collection;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
@@ -31,6 +32,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
@@ -48,7 +50,9 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.CheckButtonEditListener;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
@@ -328,6 +332,11 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 				.createButton(parent, "isAbstract", SWT.CHECK);
 		isAbstractButton.setEnabled(!this.isReadonly());
 		isAbstractButton.addSelectionListener(new GeneralInfoPageListener());
+		CheckButtonEditListener editListener = new CheckButtonEditListener(
+				(TigerstripeFormEditor) getPage().getEditor(), "abstract",
+				IModelChangeDelta.SET, (URI) getIArtifact().getAdapter(
+						URI.class));
+		isAbstractButton.addSelectionListener(editListener);
 		toolkit.createLabel(parent, "");
 	}
 

@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -47,6 +48,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
@@ -73,10 +75,15 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMult
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.ArgumentEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.MethodReturnDetailsEditDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener.IURIBaseProviderPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
@@ -88,9 +95,26 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.FileEditorInput;
 
-public class ArtifactMethodDetailsPage implements IDetailsPage {
+public class ArtifactMethodDetailsPage implements IDetailsPage,
+		IURIBaseProviderPage {
+
+	private TextEditListener nameEditListener;
 
 	private StereotypeSectionManager stereotypeMgr;
+
+	public URI getBaseURI() {
+		return (URI) getMethod().getAdapter(URI.class);
+	}
+
+	public ITigerstripeModelProject getProject() {
+		try {
+			if (getMethod() != null)
+				return getMethod().getProject();
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+		return null;
+	}
 
 	private Section section;
 
@@ -286,6 +310,11 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				| GridData.BEGINNING));
 		nameText.addModifyListener(adapter);
 		nameText.addKeyListener(adapter);
+		TigerstripeFormEditor editor = (TigerstripeFormEditor) ((TigerstripeFormPage) getForm()
+				.getContainer()).getEditor();
+		nameEditListener = new TextEditListener(editor, "name",
+				IModelChangeDelta.SET, this);
+		nameText.addModifyListener(nameEditListener);
 
 		label = toolkit.createLabel(sectionClient, "");
 
@@ -827,6 +856,9 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 
 	public void selectionChanged(IFormPart part, ISelection selection) {
 		if (part instanceof ArtifactMethodsSection) {
+			if (nameEditListener != null)
+				nameEditListener.reset();
+
 			master = (ArtifactMethodsSection) part;
 			Table methodsTable = master.getViewer().getTable();
 
@@ -869,17 +901,17 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		// to be set here. (RC comment)
 		// Except that we need it if the instance methods are not allowed!
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-		.getWorkbenchProfileSession().getActiveProfile().getProperty(
-				IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
+						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 		boolean enabled = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_INSTANCEMETHOD);
-				
-		boolean exceptionsAllowed = !isReadOnly && (!getMethod().isInstanceMethod() || 
-				!enabled  );
-		exceptionViewer.getTable().setEnabled( exceptionsAllowed );
-		addExceptionButton.setEnabled(exceptionsAllowed );
-		removeExceptionButton.setEnabled(exceptionsAllowed );
+
+		boolean exceptionsAllowed = !isReadOnly
+				&& (!getMethod().isInstanceMethod() || !enabled);
+		exceptionViewer.getTable().setEnabled(exceptionsAllowed);
+		addExceptionButton.setEnabled(exceptionsAllowed);
+		removeExceptionButton.setEnabled(exceptionsAllowed);
 
 		if (optionalButton != null)
 			optionalButton.setSelection(getMethod().isOptional());
@@ -960,7 +992,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 			returnValueLabel.setEnabled(!isReadOnly);
 			if (getMethod().getReturnType().getTypeMultiplicity().isArray()) {
 				orderedButton.setEnabled(true);
-				uniqueButton.setEnabled(true);	
+				uniqueButton.setEnabled(true);
 			} else {
 				orderedButton.setEnabled(false);
 				orderedButton.setSelection(false);
@@ -969,7 +1001,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 				uniqueButton.setSelection(true);
 				getMethod().setUnique(true);
 			}
-			
+
 		} else {
 			defaultReturnValue.clearSelection();
 			defaultReturnValue.setText("");
@@ -1200,7 +1232,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 	// }
 	// }
 
-
 	private void addArgButtonPressed() {
 		IType type = getMethod().makeType();
 		try {
@@ -1221,7 +1252,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage {
 		ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
 		String newArgName = nameFactory.getNewArgumentName(getMethod());
 
-		
 		newArg.setName(newArgName);
 		newArg.setType(type);
 
