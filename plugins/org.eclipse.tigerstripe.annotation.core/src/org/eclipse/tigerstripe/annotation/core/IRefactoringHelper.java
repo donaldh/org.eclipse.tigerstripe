@@ -16,27 +16,24 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 
 /**
- * Default implementation of the <code>IRefactoringSupport</code>
- * 
  * @author Yuri Strot
+ *
  */
-public class RefactoringSupport implements IRefactoringSupport {
+public interface IRefactoringHelper {
 	
-	private IRefactoringHelper helper;
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringSupport#setRefactoringHelper(org.eclipse.tigerstripe.annotation.core.IRefactoringHelper)
+	/**
+	 * Notify that annotable components changed and some
+	 * annotations can lost they places
 	 */
-	public void setRefactoringHelper(IRefactoringHelper helper) {
-		this.helper = helper;
-	}
+	public void containerUpdated();
 	
-	protected void fireContainerUpdated() {
-		helper.containerUpdated();
-	}
-	
-	protected void fireRefactoringPerformed(Map<URI, URI> changes) {
-		helper.refactoringPerformed(changes);
-	}
+	/**
+	 * Notify that some annotable objects renamed,
+	 * moved or changed in another way. Method provide old and
+	 * new URI values
+	 * 
+	 * @param changes - map of the changed URI
+	 */
+	public void refactoringPerformed(Map<URI, URI> changes);
 
 }

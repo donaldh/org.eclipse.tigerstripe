@@ -20,19 +20,10 @@ package org.eclipse.tigerstripe.annotation.core;
  * @author Yuri Strot
  */
 public interface IRefactoringSupport {
-
-	/**
-	 * Add refactoring listener
-	 * 
-	 * @param listener
-	 */
-	public void addRefactoringListener(IRefactoringListener listener);
 	
 	/**
-	 * Remove refactoring listener
-	 * 
-	 * @param listener
+	 * @param helper
 	 */
-	public void removeRefactoringListener(IRefactoringListener listener);
+	public void setRefactoringHelper(IRefactoringHelper helper);
 
 }

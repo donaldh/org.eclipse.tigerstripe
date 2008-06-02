@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.CompositeRefactorListener;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
+import org.eclipse.tigerstripe.annotation.core.IRefactoringHelper;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.core.ProviderContext;
@@ -43,7 +44,7 @@ import org.eclipse.tigerstripe.annotation.core.ProviderContext;
  * @see IAnnotationManager
  * @author Yuri Strot
  */
-public class AnnotationManager extends AnnotationStorage implements IAnnotationManager, IRefactoringListener {
+public class AnnotationManager extends AnnotationStorage implements IAnnotationManager, IRefactoringHelper {
 	
 	private static final String REFACTORING_SUPPORT_EXTPT	=
 		"org.eclipse.tigerstripe.annotation.core.refactoringSupport";
@@ -115,6 +116,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	}
 
 	public void containerUpdated() {
+		refactorListener.containerUpdated();
     }
 
 	public void refactoringPerformed(Map<URI, URI> changes) {
@@ -124,6 +126,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	        URI oldUri = changes.get(newUri);
 	        setUri(newUri, oldUri);
         }
+		refactorListener.refactoringPerformed(changes);
     }
 	
 	protected void checkUnique(URI uri, EObject content) {
@@ -155,14 +158,13 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
         		if (REFACTORING_NAME.equals(config.getName())) {
     	            IRefactoringSupport provider = 
     	            	(IRefactoringSupport)config.createExecutableExtension(ANNOTATION_ATTR_CLASS);
-    	            provider.addRefactoringListener(refactorListener);
+    	            provider.setRefactoringHelper(this);
         		}
             }
             catch (CoreException e) {
 	            e.printStackTrace();
             }
         }
-        refactorListener.addListener(this);
 	}
 	
 	public void setUri(URI oldUri, URI newUri) {
