@@ -115,11 +115,11 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		return getProviderManager().getProviderByType(type);
 	}
 
-	public void fireContainerUpdated() {
+	public void containerUpdated() {
 		refactorListener.containerUpdated();
     }
 
-	public void fireRefactoringPerformed(Map<URI, URI> changes) {
+	public void refactoringPerformed(Map<URI, URI> changes) {
 		Iterator<URI> keys = changes.keySet().iterator();
 		while (keys.hasNext()) {
 	        URI newUri = (URI) keys.next();

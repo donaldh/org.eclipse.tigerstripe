@@ -26,7 +26,7 @@ public interface IRefactoringHelper {
 	 * Notify that annotable components changed and some
 	 * annotations can lost they places
 	 */
-	public void fireContainerUpdated();
+	public void containerUpdated();
 	
 	/**
 	 * Notify that some annotable objects renamed,
@@ -35,6 +35,6 @@ public interface IRefactoringHelper {
 	 * 
 	 * @param changes - map of the changed URI
 	 */
-	public void fireRefactoringPerformed(Map<URI, URI> changes);
+	public void refactoringPerformed(Map<URI, URI> changes);
 
 }

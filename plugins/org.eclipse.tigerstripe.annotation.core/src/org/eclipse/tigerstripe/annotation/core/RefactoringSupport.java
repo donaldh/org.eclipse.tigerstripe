@@ -31,12 +31,12 @@ public class RefactoringSupport implements IRefactoringSupport {
 		this.helper = helper;
 	}
 	
-	protected void fireContainerUpdated() {
-		helper.fireContainerUpdated();
+	protected void containerUpdated() {
+		helper.containerUpdated();
 	}
 	
-	protected void fireRefactoringPerformed(Map<URI, URI> changes) {
-		helper.fireRefactoringPerformed(changes);
+	protected void refactoringPerformed(Map<URI, URI> changes) {
+		helper.refactoringPerformed(changes);
 	}
 
 }

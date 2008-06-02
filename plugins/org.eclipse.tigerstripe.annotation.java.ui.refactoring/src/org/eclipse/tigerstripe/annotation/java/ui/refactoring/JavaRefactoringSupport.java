@@ -78,7 +78,7 @@ public class JavaRefactoringSupport extends RefactoringSupport {
 				//TODO need to implement
 			}
 			else if (changes != null && changes.length == 1) {
-				fireRefactoringPerformed(changes[0].getChanges(getNewElement()));
+				refactoringPerformed(changes[0].getChanges(getNewElement()));
 			}
 			renameResult = null;
 			changes = null;
@@ -95,7 +95,7 @@ public class JavaRefactoringSupport extends RefactoringSupport {
 				Map<URI, URI> changes = new HashMap<URI, URI>();
 				IResource newResource = ResourcesPlugin.getWorkspace().getRoot().findMember(newPath);
 				collectChanges(newResource, resource.getFullPath(), changes);
-				fireRefactoringPerformed(changes);
+				refactoringPerformed(changes);
 			}
 			resource = null;
 		}
@@ -115,7 +115,7 @@ public class JavaRefactoringSupport extends RefactoringSupport {
 					IResource newResource = ResourcesPlugin.getWorkspace().getRoot().findMember(newPath);
 					allChanges.putAll(changes[i].getChanges(newResource));
                 }
-				fireRefactoringPerformed(allChanges);
+				refactoringPerformed(allChanges);
 			}
 			changes = null;
 		}
