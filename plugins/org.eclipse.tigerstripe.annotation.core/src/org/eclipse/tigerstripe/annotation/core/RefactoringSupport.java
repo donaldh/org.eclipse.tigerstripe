@@ -27,16 +27,16 @@ public class RefactoringSupport implements IRefactoringSupport {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringSupport#setRefactoringHelper(org.eclipse.tigerstripe.annotation.core.IRefactoringHelper)
 	 */
-	public void setRefactoringHelper(IRefactoringHelper helper) {
+	public void initRefactoringHelper(IRefactoringHelper helper) {
 		this.helper = helper;
 	}
 	
 	protected void fireContainerUpdated() {
-		helper.containerUpdated();
+		helper.fireContainerUpdated();
 	}
 	
 	protected void fireRefactoringPerformed(Map<URI, URI> changes) {
-		helper.refactoringPerformed(changes);
+		helper.fireRefactoringPerformed(changes);
 	}
 
 }

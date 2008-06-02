@@ -12,9 +12,9 @@
 package org.eclipse.tigerstripe.annotation.core;
 
 /**
- * An refactoring support class provide a way to listen refactoring changes.
+ * An refactoring support class provide a way to notify framework about changes.
  * Refactoring support should be registered with
- * the <code>org.eclipse.tigerstripe.annotation.ui.workbenchAnnotationProvider</code>
+ * the <code>org.eclipse.tigerstripe.annotation.core.refactoringSupport</code>
  * extension point.
  * 
  * @author Yuri Strot
@@ -22,8 +22,10 @@ package org.eclipse.tigerstripe.annotation.core;
 public interface IRefactoringSupport {
 	
 	/**
+	 * Initialize refactoring helper
+	 * 
 	 * @param helper
 	 */
-	public void setRefactoringHelper(IRefactoringHelper helper);
+	public void initRefactoringHelper(IRefactoringHelper helper);
 
 }

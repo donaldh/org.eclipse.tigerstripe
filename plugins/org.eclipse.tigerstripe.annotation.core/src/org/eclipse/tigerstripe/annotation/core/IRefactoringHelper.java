@@ -16,8 +16,9 @@ import java.util.Map;
 import org.eclipse.emf.common.util.URI;
 
 /**
+ * Interface for notifing about refactoring changes.
+ * 
  * @author Yuri Strot
- *
  */
 public interface IRefactoringHelper {
 	
@@ -25,7 +26,7 @@ public interface IRefactoringHelper {
 	 * Notify that annotable components changed and some
 	 * annotations can lost they places
 	 */
-	public void containerUpdated();
+	public void fireContainerUpdated();
 	
 	/**
 	 * Notify that some annotable objects renamed,
@@ -34,6 +35,6 @@ public interface IRefactoringHelper {
 	 * 
 	 * @param changes - map of the changed URI
 	 */
-	public void refactoringPerformed(Map<URI, URI> changes);
+	public void fireRefactoringPerformed(Map<URI, URI> changes);
 
 }
