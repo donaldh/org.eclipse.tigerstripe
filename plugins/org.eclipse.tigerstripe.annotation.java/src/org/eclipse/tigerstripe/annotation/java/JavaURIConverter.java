@@ -64,7 +64,7 @@ public class JavaURIConverter {
 		return toURI(element, null);
 	}
 	
-	public static URI toURI(IJavaElement element, String newName) {
+	public static IPath toPath(IJavaElement element, String newName) {
 		IPath path = element.getPath();
 		IType jType = null;
 		String type = null;
@@ -150,6 +150,11 @@ public class JavaURIConverter {
 			if (name != null)
 				path = path.append(name);
 		}
+		return path;
+	}
+	
+	public static URI toURI(IJavaElement element, String newName) {
+		IPath path = toPath(element, newName);
 		return toURI(path);
 	}
 	

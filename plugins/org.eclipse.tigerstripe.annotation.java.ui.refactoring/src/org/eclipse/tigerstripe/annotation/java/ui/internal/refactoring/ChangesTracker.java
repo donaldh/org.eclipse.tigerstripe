@@ -9,16 +9,21 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.java.ui.refactoring;
+package org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
@@ -30,25 +35,64 @@ import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 import org.eclipse.ltk.core.refactoring.history.IRefactoringExecutionListener;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
-import org.eclipse.tigerstripe.annotation.core.RefactoringSupport;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
+import org.eclipse.tigerstripe.annotation.java.ui.refactoring.IElementChanges;
+import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
+import org.eclipse.tigerstripe.annotation.java.ui.refactoring.IRefactoringChangesListener;
+import org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaChanges;
+import org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaElementTree;
 import org.eclipse.tigerstripe.annotation.resource.ResourceURIConverter;
 
 /**
  * @author Yuri Strot
  *
  */
-public class JavaRefactoringSupport extends RefactoringSupport {
+public class ChangesTracker {
 	
 	private RefactoringUtil.RenameJavaResult renameResult;
 	private IElementChanges[] changes;
-	private IResource resource;
 	
-	public JavaRefactoringSupport() {
-		addListeners();
+	private ListenerList listeners = new ListenerList();
+	
+	private boolean blockDeletion = false;
+	
+	private ChangesTracker() {
+		startChangesTracking();
 	}
 	
-	protected void addListeners() {
+	private static ChangesTracker tracker;
+	
+	public static ChangesTracker getInstance() {
+		if (tracker == null)
+			tracker = new ChangesTracker();
+		return tracker;
+	}
+	
+	public void addListener(IRefactoringChangesListener listener) {
+		listeners.add(listener);
+	}
+	
+	public void removeListener(IRefactoringChangesListener listener) {
+		listeners.remove(listener);
+	}
+	
+	protected void fireDeleted(ILazyObject path) {
+		for (Object object : listeners.getListeners()) {
+			IRefactoringChangesListener listener = (IRefactoringChangesListener)object;
+			listener.deleted(path);
+		}
+	}
+	
+	protected void fireChanged(ILazyObject oldPath, ILazyObject newPath, int kind) {
+		for (Object object : listeners.getListeners()) {
+			IRefactoringChangesListener listener = (IRefactoringChangesListener)object;
+			listener.changed(oldPath, newPath, kind);
+		}
+	}
+	
+	protected void startChangesTracking() {
 		RefactoringCore.getHistoryService().addExecutionListener(new IRefactoringExecutionListener() {
 			
 			public void executionNotification(RefactoringExecutionEvent event) {
@@ -65,15 +109,49 @@ public class JavaRefactoringSupport extends RefactoringSupport {
 			}
 		
 		});
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
+			
+			public void resourceChanged(IResourceChangeEvent event) {
+				try {
+					event.getDelta().accept(new IResourceDeltaVisitor() {
+						
+						public boolean visit(IResourceDelta delta) throws CoreException {
+							switch (delta.getKind()) {
+								case IResourceDelta.ADDED:
+									return false;
+								case IResourceDelta.CHANGED:
+									return true;
+								case IResourceDelta.REMOVED:
+									deleted(delta.getResource());
+									return true;
+								default:
+									return true;
+							}
+						}
+					});
+				} catch (CoreException e) {
+					e.printStackTrace();
+				}
+			}
+		
+		});
 	}
+	
+	protected void deleted(IResource resource) {
+		if (!blockDeletion)
+			fireDeleted(new LazyObject(resource));
+	}
+	
 	
 	protected void processRename(RenameJavaElementDescriptor des, int eventType) {
 		if (eventType == RefactoringExecutionEvent.ABOUT_TO_PERFORM) {
+			blockDeletion = true;
 			renameResult = RefactoringUtil.getElement(des);
 			changes = new IElementChanges[] { new JavaChanges(
 					renameResult.getElement()) };
 		}
-		else if ((eventType == RefactoringExecutionEvent.PERFORMED) && renameResult != null){
+		else if ((eventType == RefactoringExecutionEvent.PERFORMED)){
+			blockDeletion = false;
 			if (renameResult.isTypeParameter()) {
 				//TODO need to implement
 			}
@@ -85,27 +163,44 @@ public class JavaRefactoringSupport extends RefactoringSupport {
 		}
 	}
 	
+	protected void refactoringPerformed(Map<URI, URI> uris) {
+		IRefactoringSupport rs = AnnotationPlugin.getManager().getRefactoringSupport();
+		for (URI newUri : uris.keySet()) {
+			rs.changed(newUri, uris.get(newUri));
+		}
+	}
+	
 	public void processResourceRename(RefactoringDescriptor rrd, int eventType) {
-		if (eventType == RefactoringExecutionEvent.ABOUT_TO_PERFORM) {
-			resource = RefactoringUtil.getResource(rrd);
+		IPath path = RefactoringUtil.getResourcePath(rrd);
+		if (path == null)
+			return;
+		IPath newPath = RefactoringUtil.getNewPath(path, rrd);
+		if (newPath == null)
+			return;
+		int kind = -1;
+		switch (eventType) {
+			case RefactoringExecutionEvent.ABOUT_TO_PERFORM:
+				kind = IRefactoringChangesListener.ABOUT_TO_CHANGE;
+				blockDeletion = true;
+				break;
+			case RefactoringExecutionEvent.PERFORMED:
+				kind = IRefactoringChangesListener.CHANGED;
+				blockDeletion = false;
+				break;
+			default:
+				break;
 		}
-		else if (eventType == RefactoringExecutionEvent.PERFORMED && resource != null){
-			IPath newPath = RefactoringUtil.getNewPath(resource, rrd);
-			if (newPath != null) {
-				Map<URI, URI> changes = new HashMap<URI, URI>();
-				IResource newResource = ResourcesPlugin.getWorkspace().getRoot().findMember(newPath);
-				collectChanges(newResource, resource.getFullPath(), changes);
-				refactoringPerformed(changes);
-			}
-			resource = null;
-		}
+		if (kind != -1)
+			fireChanged(new ResourceLazyObject(path), new ResourceLazyObject(newPath), kind);
 	}
 	
 	public void processMove(RefactoringDescriptor des, int eventType) {
 		if (eventType == RefactoringExecutionEvent.ABOUT_TO_PERFORM) {
+			blockDeletion = true;
 			changes = RefactoringUtil.getResources(des);
 		}
-		else if (eventType == RefactoringExecutionEvent.PERFORMED && changes != null){
+		else if (eventType == RefactoringExecutionEvent.PERFORMED){
+			blockDeletion = false;
 			IResource destination = RefactoringUtil.getDestination(des);
 			if (destination != null) {
 				Map<URI, URI> allChanges = new HashMap<URI, URI>();

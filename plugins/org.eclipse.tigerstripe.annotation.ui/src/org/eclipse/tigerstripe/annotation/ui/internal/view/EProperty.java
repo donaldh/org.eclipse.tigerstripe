@@ -184,8 +184,7 @@ public class EProperty implements IProperty {
 		return object.eGet(feature);
     }
 
-	@SuppressWarnings("unchecked")
-    public void setValue(Object value) {
+	public void setValue(Object value) {
 		if (feature.getEType().getInstanceClass().equals(int.class)) {
 			if (value == null) value = new Integer(0);
 			else {

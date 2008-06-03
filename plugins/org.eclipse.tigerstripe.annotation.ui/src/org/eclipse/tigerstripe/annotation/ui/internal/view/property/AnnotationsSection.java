@@ -11,9 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
-import java.util.Map;
-
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -32,6 +29,7 @@ import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
+import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RefreshAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAllAnnotationAction;
@@ -204,13 +202,13 @@ public class AnnotationsSection extends AbstractPropertySection implements IAnno
 		
 		});
 	}
-
-	public void containerUpdated() {
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringListener#refactoringPerformed(org.eclipse.tigerstripe.annotation.core.RefactoringChange)
+	 */
+	public void refactoringPerformed(RefactoringChange change) {
 		refreshTable();
-    }
-
-	public void refactoringPerformed(Map<URI, URI> changes) {
-    }
+	}
 
 	public void annotationAdded(Annotation annotation) {
 		updateTable();

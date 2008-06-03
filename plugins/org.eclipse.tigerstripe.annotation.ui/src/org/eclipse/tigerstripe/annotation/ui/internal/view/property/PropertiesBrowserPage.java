@@ -14,10 +14,8 @@ package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -48,6 +46,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
+import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationWizardAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAnnotationAction;
@@ -163,13 +162,13 @@ public class PropertiesBrowserPage
 	 */
 	public void annotationsLoaded(Annotation[] annotations) {
 	}
-
-	public void containerUpdated() {
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringListener#refactoringPerformed(org.eclipse.tigerstripe.annotation.core.RefactoringChange)
+	 */
+	public void refactoringPerformed(RefactoringChange change) {
 		updateSelection();
-    }
-
-	public void refactoringPerformed(Map<URI, URI> changes) {
-    }
+	}
 
 
 	/* (non-Javadoc)

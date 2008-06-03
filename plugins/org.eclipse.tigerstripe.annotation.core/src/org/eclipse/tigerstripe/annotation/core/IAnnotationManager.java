@@ -144,6 +144,13 @@ public interface IAnnotationManager {
 	public String[] getAnnotatedObjectTypes();
 	
 	/**
+	 * TODO update documentation
+	 * 
+	 * @return
+	 */
+	public IRefactoringSupport getRefactoringSupport();
+	
+	/**
 	 * Return provider which support this type
 	 * 
 	 * @param type

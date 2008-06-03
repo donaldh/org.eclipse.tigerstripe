@@ -9,32 +9,21 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.core;
+package org.eclipse.tigerstripe.annotation.java.ui.refactoring;
 
-import java.util.Map;
-
-import org.eclipse.emf.common.util.URI;
 
 /**
- * Interface for notifing about refactoring changes.
- * 
  * @author Yuri Strot
+ *
  */
-public interface IRefactoringHelper {
+public interface IRefactoringChangesListener {
 	
-	/**
-	 * Notify that annotable components changed and some
-	 * annotations can lost they places
-	 */
-	public void containerUpdated();
+	public static final int ABOUT_TO_CHANGE = 1;
 	
-	/**
-	 * Notify that some annotable objects renamed,
-	 * moved or changed in another way. Method provide old and
-	 * new URI values
-	 * 
-	 * @param changes - map of the changed URI
-	 */
-	public void refactoringPerformed(Map<URI, URI> changes);
+	public static final int CHANGED = 2;
+	
+	public void deleted(ILazyObject path);
+	
+	public void changed(ILazyObject oldPath, ILazyObject newPath, int kind);
 
 }

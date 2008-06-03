@@ -12,9 +12,7 @@
 package org.eclipse.tigerstripe.annotation.internal.core;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -31,10 +29,10 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.CompositeRefactorListener;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
-import org.eclipse.tigerstripe.annotation.core.IRefactoringHelper;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.core.ProviderContext;
+import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 
 /**
  * This is implementation of the <code>IAnnotationManager</code>.
@@ -44,10 +42,7 @@ import org.eclipse.tigerstripe.annotation.core.ProviderContext;
  * @see IAnnotationManager
  * @author Yuri Strot
  */
-public class AnnotationManager extends AnnotationStorage implements IAnnotationManager, IRefactoringHelper {
-	
-	private static final String REFACTORING_SUPPORT_EXTPT	=
-		"org.eclipse.tigerstripe.annotation.core.refactoringSupport";
+public class AnnotationManager extends AnnotationStorage implements IAnnotationManager, IRefactoringSupport {
 	
 	private static final String ANNOTATION_TYPE_EXTPT = 
 		"org.eclipse.tigerstripe.annotation.core.annotationType";
@@ -57,8 +52,6 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	
 	private static final String ANNOTATION_PROVIDER_EXTPT = 
 		"org.eclipse.tigerstripe.annotation.core.annotationProvider";
-	
-	private static final String REFACTORING_NAME = "refactoringSupport";
 	
 	private static final String ANNOTATION_ATTR_CLASS = "class";
 	
@@ -71,20 +64,16 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	private List<Adapter> adapters;
 	private ProviderManager providerManager;
 	
-	private CompositeRefactorListener refactorListener;
+	private CompositeRefactorListener refactorListener = new CompositeRefactorListener();
 	
 	public AnnotationManager() {
 	}
 	
 	public void addRefactoringListener(IRefactoringListener listener) {
-		if (refactorListener == null)
-			loadProviders();
 		refactorListener.addListener(listener);
 	}
 	
 	public void removeRefactoringListener(IRefactoringListener listener) {
-		if (refactorListener == null)
-			loadProviders();
 		refactorListener.removeListener(listener);
 	}
 
@@ -114,20 +103,6 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	public ProviderContext getProvider(String type) {
 		return getProviderManager().getProviderByType(type);
 	}
-
-	public void containerUpdated() {
-		refactorListener.containerUpdated();
-    }
-
-	public void refactoringPerformed(Map<URI, URI> changes) {
-		Iterator<URI> keys = changes.keySet().iterator();
-		while (keys.hasNext()) {
-	        URI newUri = (URI) keys.next();
-	        URI oldUri = changes.get(newUri);
-	        setUri(newUri, oldUri);
-        }
-		refactorListener.refactoringPerformed(changes);
-    }
 	
 	protected void checkUnique(URI uri, EObject content) {
 		boolean unique = true;
@@ -148,23 +123,19 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		}
 	}
 	
-	protected void loadProviders() {
-        refactorListener = new CompositeRefactorListener();
-		
-		IConfigurationElement[] configs = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(REFACTORING_SUPPORT_EXTPT);
-        for (IConfigurationElement config : configs) {
-        	try {
-        		if (REFACTORING_NAME.equals(config.getName())) {
-    	            IRefactoringSupport provider = 
-    	            	(IRefactoringSupport)config.createExecutableExtension(ANNOTATION_ATTR_CLASS);
-    	            provider.initRefactoringHelper(this);
-        		}
-            }
-            catch (CoreException e) {
-	            e.printStackTrace();
-            }
-        }
+	public void changed(URI newUri, URI oldUri) {
+        setUri(newUri, oldUri);
+        refactorListener.refactoringPerformed(new RefactoringChange(
+        		newUri, oldUri));
+	}
+	
+	public void deleted(URI uri) {
+		refactorListener.refactoringPerformed(
+				new RefactoringChange(uri));
+	}
+	
+	public IRefactoringSupport getRefactoringSupport() {
+		return this;
 	}
 	
 	public void setUri(URI oldUri, URI newUri) {

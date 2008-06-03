@@ -9,22 +9,27 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.core;
+package org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring;
 
-import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
 
 /**
- * An refactoring support class provide a way to notify framework about changes.
- * Refactoring support should be registered with
- * the <code>org.eclipse.tigerstripe.annotation.core.refactoringSupport</code>
- * extension point.
- * 
  * @author Yuri Strot
+ *
  */
-public interface IRefactoringSupport {
+public class LazyObject implements ILazyObject {
 	
-	public void deleted(URI uri);
+	private Object object;
 	
-	public void changed(URI newUri, URI oldUri);
+	public LazyObject(Object object) {
+		this.object = object;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject#getObject()
+	 */
+	public Object getObject() {
+		return object;
+	}
 
 }

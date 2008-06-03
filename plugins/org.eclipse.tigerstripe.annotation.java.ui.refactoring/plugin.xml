@@ -3,10 +3,32 @@
 <plugin>
 
 	<extension
-			point="org.eclipse.tigerstripe.annotation.core.refactoringSupport">
-		<refactoringSupport
-			id="org.eclipse.tigerstripe.annotation.java.refactoring"
-        	class="org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaRefactoringSupport"/>
+			point="org.eclipse.ltk.core.refactoring.renameParticipants">
+		<renameParticipant
+			class="org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.RenameParticipant"
+			id="org.eclipse.tigerstripe.annotation.java.ui.refactoring.renameParticipant"
+			name="TAF JDT Rename Participant">
+		</renameParticipant>
+	</extension>
+
+	<extension
+			point="org.eclipse.ltk.core.refactoring.moveParticipants">
+		<moveParticipant
+			class="org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.MoveParticipant"
+			id="org.eclipse.tigerstripe.annotation.java.ui.refactoring.moveParticipant"
+			name="TAF JDT Move Participant">
+			<enablement/>
+		</moveParticipant>
+	</extension>
+	
+	<extension
+			point="org.eclipse.ltk.core.refactoring.deleteParticipants">
+		<deleteParticipant
+			class="org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.DeleteParticipant"
+			id="org.eclipse.tigerstripe.annotation.java.ui.refactoring.deleteParticipant"
+			name="TAF JDT Delete Participant">
+			<enablement/>
+		</deleteParticipant>
 	</extension>
 
 </plugin>

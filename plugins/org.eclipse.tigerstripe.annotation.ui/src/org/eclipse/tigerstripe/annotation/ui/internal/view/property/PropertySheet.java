@@ -11,17 +11,15 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
-import java.util.Map;
-
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.PlatformObject;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
+import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.core.ISelectionFilter;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AsyncExecUtil;
@@ -289,19 +287,19 @@ public class PropertySheet extends PageBookView
 		}
 		return null;
 	}
-
-	public void containerUpdated() {
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringListener#refactoringPerformed(org.eclipse.tigerstripe.annotation.core.RefactoringChange)
+	 */
+	public void refactoringPerformed(RefactoringChange change) {
 		AsyncExecUtil.run(getPageBook(), new Runnable() {
-		
+			
 			public void run() {
 				selectionChanged(null, AnnotationUIPlugin.getManager().getSelection());
 			}
 		
 		});
-    }
-
-	public void refactoringPerformed(Map<URI, URI> changes) {
-    }
+	}
 
 	public boolean select(IWorkbenchPart part, ISelection selection) {
 		return part != this;

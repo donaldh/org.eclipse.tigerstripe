@@ -11,10 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core;
 
-import java.util.Map;
-
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.emf.common.util.URI;
 
 /**
  * Composite refactoring listener
@@ -36,19 +33,14 @@ public class CompositeRefactorListener implements IRefactoringListener {
 		listeners.remove(listener);
 	}
 	
-	public void containerUpdated() {
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringListener#refactoringPerformed(org.eclipse.tigerstripe.annotation.core.RefactoringChange)
+	 */
+	public void refactoringPerformed(RefactoringChange change) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
 			IRefactoringListener listener = (IRefactoringListener)objects[i];
-			listener.containerUpdated();
-        }
-	}
-	
-	public void refactoringPerformed(Map<URI, URI> changes) {
-		Object[] objects = listeners.getListeners();
-		for (int i = 0; i < objects.length; i++) {
-			IRefactoringListener listener = (IRefactoringListener)objects[i];
-			listener.refactoringPerformed(changes);
+			listener.refactoringPerformed(change);
         }
 	}
 	

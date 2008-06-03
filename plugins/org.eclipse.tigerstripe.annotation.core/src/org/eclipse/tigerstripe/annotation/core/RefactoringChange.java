@@ -11,32 +11,45 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core;
 
-import java.util.Map;
-
 import org.eclipse.emf.common.util.URI;
 
 /**
- * Default implementation of the <code>IRefactoringSupport</code>
- * 
+ *
  * @author Yuri Strot
  */
-public class RefactoringSupport implements IRefactoringSupport {
+public class RefactoringChange {
 	
-	private IRefactoringHelper helper;
+	public static final int URI_CHANGED = 1;
+	public static final int URI_DELETED = 1;
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringSupport#setRefactoringHelper(org.eclipse.tigerstripe.annotation.core.IRefactoringHelper)
+	private URI oldUri;
+	private URI newUri;
+	private int kind;
+	
+	public RefactoringChange(URI newUri, URI oldUri) {
+		this.oldUri = oldUri;
+		this.newUri = newUri;
+		kind = URI_CHANGED;
+	}
+	
+	public RefactoringChange(URI uri) {
+		this.oldUri = uri;
+		kind = URI_DELETED;
+	}
+	
+	public URI getOldUri() {
+		return oldUri;
+	}
+	
+	public URI getNewUri() {
+		return newUri;
+	}
+	
+	/**
+	 * @return the kind
 	 */
-	public void initRefactoringHelper(IRefactoringHelper helper) {
-		this.helper = helper;
-	}
-	
-	protected void containerUpdated() {
-		helper.containerUpdated();
-	}
-	
-	protected void refactoringPerformed(Map<URI, URI> changes) {
-		helper.refactoringPerformed(changes);
+	public int getKind() {
+		return kind;
 	}
 
 }
