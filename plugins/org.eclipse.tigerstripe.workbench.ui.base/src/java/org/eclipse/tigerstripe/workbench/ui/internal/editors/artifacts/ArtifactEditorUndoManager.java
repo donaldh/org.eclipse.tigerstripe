@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
@@ -39,7 +40,7 @@ public class ArtifactEditorUndoManager extends EditorUndoManager {
 
 	protected void postDeltas() {
 		reducedDeltas.clear();
-		Collection<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
+		List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
 
 		Collection<UndoableEdit> edits = getEditsSinceLastSave();
 		for (UndoableEdit edit : edits) {

@@ -13,24 +13,20 @@ package org.eclipse.tigerstripe.workbench.internal;
 import org.apache.log4j.Level;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdapterFactory;
-import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.annotations.AnnotableAdapterFactory;
+import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeRefactoringSupport;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.osgi.framework.BundleContext;
 
 public class BasePlugin extends Plugin {
@@ -63,6 +59,7 @@ public class BasePlugin extends Plugin {
 
 		extensionPointRegistered();
 
+		startAnnotationRefactoringSupport();
 		startWorkspaceListener();
 	}
 
@@ -71,6 +68,10 @@ public class BasePlugin extends Plugin {
 		super.stop(context);
 
 		stopWorkspaceListener();
+	}
+
+	private void startAnnotationRefactoringSupport() {
+		TigerstripeRefactoringSupport.INSTANCE.start();
 	}
 
 	private void extensionPointRegistered() {
