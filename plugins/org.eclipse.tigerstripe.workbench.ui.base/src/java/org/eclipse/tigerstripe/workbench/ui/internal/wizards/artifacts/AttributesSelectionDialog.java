@@ -48,6 +48,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -448,15 +451,25 @@ public class AttributesSelectionDialog extends TSMessageDialog {
 	}
 
 	private void createRefByControl(Composite composite, int nColumns) {
-		LayoutUtil.setHorizontalSpan(fRefByButtons.getLabelControl(composite),
-				1);
 
-		Control control = fRefByButtons.getSelectionButtonsGroup(composite);
-		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-		gd.horizontalSpan = nColumns - 2;
-		control.setLayoutData(gd);
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
+		.getWorkbenchProfileSession().getActiveProfile().getProperty(
+				IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
-		DialogField.createEmptySpace(composite);
+		if (prop
+				.getPropertyValue(IOssjLegacySettigsProperty.USEREFBY_MODIFIERS)) {
+			LayoutUtil.setHorizontalSpan(fRefByButtons.getLabelControl(composite),
+					1);
+
+			Control control = fRefByButtons.getSelectionButtonsGroup(composite);
+			GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+			gd.horizontalSpan = nColumns - 2;
+			control.setLayoutData(gd);
+
+			DialogField.createEmptySpace(composite);
+		}
+		
+		
 	}
 
 	private void createCommentControl(Composite composite, int nColumns) {
