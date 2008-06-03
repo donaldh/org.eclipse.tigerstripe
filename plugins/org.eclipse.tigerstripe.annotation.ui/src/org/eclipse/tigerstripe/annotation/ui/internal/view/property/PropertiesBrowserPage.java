@@ -397,10 +397,10 @@ public class PropertiesBrowserPage
 	
 	private Annotation[] getAnnotation(ISelection selection) {
 		Object object = AnnotationUtils.getAnnotableElement(selection);
-		if (object == null)
-			return null;
 		if (object instanceof Annotation)
 			return new Annotation[] { (Annotation)object };
+		if (object == null || AdaptableUtil.getTypes(object).length == 0)
+			return null;
 		Annotation[] annotations = AdaptableUtil.getAllAnnotations(object);
 		if (annotations != null)
 			return annotations;

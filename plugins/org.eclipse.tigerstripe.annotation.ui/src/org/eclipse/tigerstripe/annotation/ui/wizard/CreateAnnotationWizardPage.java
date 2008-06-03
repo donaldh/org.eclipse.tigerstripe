@@ -116,10 +116,13 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		}
 		
 		public void updateDescription() {
-			type = types[combo.getSelectionIndex()];
-			String d = type.getDesciption();
-			if (d == null) d = "";
-			setMessage(d);
+			int index = combo.getSelectionIndex();
+			if (index >= 0 && types.length < index) {
+				type = types[combo.getSelectionIndex()];
+				String d = type.getDesciption();
+				if (d == null) d = "";
+				setMessage(d);
+			}
 		}
 	
 	}
