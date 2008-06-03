@@ -117,7 +117,7 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		
 		public void updateDescription() {
 			int index = combo.getSelectionIndex();
-			if (index >= 0 && types.length < index) {
+			if (index >= 0 && index < types.length) {
 				type = types[combo.getSelectionIndex()];
 				String d = type.getDesciption();
 				if (d == null) d = "";
