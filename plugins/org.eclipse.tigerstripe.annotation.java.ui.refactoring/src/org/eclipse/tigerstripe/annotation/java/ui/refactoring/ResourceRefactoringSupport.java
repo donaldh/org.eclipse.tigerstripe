@@ -49,9 +49,9 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 	}
 	
 	protected void changed(Map<URI, URI> uris) {
+		//inform annotation framework about changes
 		for (URI uri : uris.keySet())
 			AnnotationPlugin.getManager().getRefactoringSupport().changed(uri, uris.get(uri));
-			//inform annotation framework changes
 	}
 
 	/* (non-Javadoc)

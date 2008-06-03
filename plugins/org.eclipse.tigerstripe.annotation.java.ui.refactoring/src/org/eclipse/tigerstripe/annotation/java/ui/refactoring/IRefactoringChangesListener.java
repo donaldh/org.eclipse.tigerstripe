@@ -11,10 +11,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.java.ui.refactoring;
 
-
 /**
+ * Refactoring changes listener
+ * 
  * @author Yuri Strot
- *
  */
 public interface IRefactoringChangesListener {
 	

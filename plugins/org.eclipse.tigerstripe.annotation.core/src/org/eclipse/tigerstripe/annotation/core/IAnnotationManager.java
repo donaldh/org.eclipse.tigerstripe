@@ -16,10 +16,12 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * An annotation manager provide operations for annotation creation, removing, changing and others.
+ * This class also providing access to annotation types, providers, refactoring support, etc.
  * Annotation manager works with adaptable objects which should be adapted to the <code>IAnnotable</code> class.
  * 
  * @see AnnotationType
  * @see IAnnotationProvider
+ * @see IRefactoringSupport
  * @author Yuri Strot
  */
 public interface IAnnotationManager {
