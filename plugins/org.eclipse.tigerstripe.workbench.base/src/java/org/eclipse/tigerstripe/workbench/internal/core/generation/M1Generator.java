@@ -426,19 +426,19 @@ public class M1Generator {
 				try {
 					ref.resolve();
 				} catch (UnknownPluginException e) {
-					// Bug 219954
-					// this means the tigerstripe.xml descriptor is referencing
-					// a plugin that is not deployed.
-					PluginRunStatus res = new PluginRunStatus(ref, project,
-							config, project.getActiveFacet());
-					Status status = new Status(IStatus.WARNING,
-							BasePlugin.PLUGIN_ID, "While generating project '"
-									+ config.getTargetProject()
-											.getProjectLabel()
-									+ "', couldn't resolve generator plugin '"
-									+ ref.getPluginId() + "' (not deployed).");
-					res.add(status);
-					result.add(res);
+//					// Bug 219954
+//					// this means the tigerstripe.xml descriptor is referencing
+//					// a plugin that is not deployed.
+//					PluginRunStatus res = new PluginRunStatus(ref, project,
+//							config, project.getActiveFacet());
+//					Status status = new Status(IStatus.WARNING,
+//							BasePlugin.PLUGIN_ID, "While generating project '"
+//									+ config.getTargetProject()
+//											.getProjectLabel()
+//									+ "', couldn't resolve generator plugin '"
+//									+ ref.getPluginId() + "' (not deployed).");
+//					res.add(status);
+//					result.add(res);
 					continue;
 				}
 				// we're using clones of the actual pluginConfigs, so we need to
