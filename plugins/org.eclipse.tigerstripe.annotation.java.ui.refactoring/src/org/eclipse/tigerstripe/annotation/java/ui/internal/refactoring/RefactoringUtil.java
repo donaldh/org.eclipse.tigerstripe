@@ -34,6 +34,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.IElementChanges;
+import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaChanges;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ResourceChanges;
 
@@ -46,11 +47,11 @@ public class RefactoringUtil {
 	public static class RenameJavaResult {
 		
 		private boolean typeParameter;
-		private IJavaElement element;
+		private ILazyObject element;
 		private String name;
 		private String parameter;
 		
-		public RenameJavaResult(boolean typeParameter, IJavaElement element, 
+		public RenameJavaResult(boolean typeParameter, ILazyObject element, 
 				String name, String parameter) {
 	        this.typeParameter = typeParameter;
 	        this.element = element;
@@ -58,7 +59,7 @@ public class RefactoringUtil {
 	        this.parameter = parameter;
         }
 		
-		public IJavaElement getElement() {
+		public ILazyObject getElement() {
 	        return element;
         }
 		
@@ -73,6 +74,31 @@ public class RefactoringUtil {
 		public String getParameter() {
 	        return parameter;
         }
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			RenameJavaResult res = (RenameJavaResult)obj;
+			if (typeParameter != res.typeParameter)
+				return false;
+			if (!name.equals(res.name))
+				return false;
+			if (!parameter.equals(res.parameter))
+				return false;
+			if (!element.equals(res.element))
+				return false;
+			return true;
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			return element.hashCode() >> 16 ^ name.hashCode();
+		}
 		
 	}
 	
@@ -161,12 +187,48 @@ public class RefactoringUtil {
 		
 		String name = (String)attrs.get(ATTRIBUTE_NAME);
 		String parameter = (String)attrs.get(ATTRIBUTE_PARAMETER);
-		IJavaElement element = null;
+		ILazyObject element = null;
 		String path = (String)attrs.get(ATTRIBUTE_INPUT);
 		if (path != null)
-			element = getJavaElement(project, path);
+			element = new JavaLazyObject(project, path);
 		boolean typeParameter = des.getID().equals(IJavaRefactorings.RENAME_TYPE_PARAMETER);
 		return new RenameJavaResult(typeParameter, element, name, parameter);
+		
+	}
+	
+	private static class JavaLazyObject implements ILazyObject {
+		
+		private String project;
+		private String path;
+		
+		public JavaLazyObject(String project, String path) {
+			this.project = project;
+			this.path = path;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject#getObject()
+		 */
+		public Object getObject() {
+			return getJavaElement(project, path);
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			JavaLazyObject jzo = (JavaLazyObject)obj;
+			return project.equals(jzo.project) && path.equals(jzo.path);
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			return project.hashCode() >> 16 ^ path.hashCode();
+		}
 		
 	}
 	

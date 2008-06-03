@@ -155,6 +155,8 @@ public class JavaURIConverter {
 	
 	public static URI toURI(IJavaElement element, String newName) {
 		IPath path = toPath(element, newName);
+		if (path == null)
+			return null;
 		return toURI(path);
 	}
 	

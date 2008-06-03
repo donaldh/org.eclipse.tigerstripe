@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
-import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ResourceRefactoringSupport;
 
 /**
  *
@@ -56,7 +55,7 @@ public class MoveParticipant extends org.eclipse.ltk.core.refactoring.participan
 	 */
 	@Override
 	protected boolean initialize(Object element) {
-		ResourceRefactoringSupport.initialize();
+		ChangesTracker.initialize();
 		return false;
 	}
 

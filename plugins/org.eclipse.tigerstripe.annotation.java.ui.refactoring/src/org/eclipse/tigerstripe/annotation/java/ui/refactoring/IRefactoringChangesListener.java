@@ -22,8 +22,8 @@ public interface IRefactoringChangesListener {
 	
 	public static final int CHANGED = 2;
 	
-	public void deleted(ILazyObject path);
+	public void deleted(ILazyObject object);
 	
-	public void changed(ILazyObject oldPath, ILazyObject newPath, int kind);
+	public void changed(ILazyObject objObject, ILazyObject newObject, int kind);
 
 }

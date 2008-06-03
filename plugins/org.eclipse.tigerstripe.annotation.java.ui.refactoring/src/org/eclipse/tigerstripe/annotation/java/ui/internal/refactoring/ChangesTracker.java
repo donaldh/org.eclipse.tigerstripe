@@ -38,11 +38,13 @@ import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
+import org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.RefactoringUtil.RenameJavaResult;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.IElementChanges;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.IRefactoringChangesListener;
-import org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaChanges;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaElementTree;
+import org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaRefactoringSupport;
+import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ResourceRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.resource.ResourceURIConverter;
 
 /**
@@ -51,8 +53,8 @@ import org.eclipse.tigerstripe.annotation.resource.ResourceURIConverter;
  */
 public class ChangesTracker {
 	
-	private RefactoringUtil.RenameJavaResult renameResult;
 	private IElementChanges[] changes;
+	private ILazyObject lazyObject; 
 	
 	private ListenerList listeners = new ListenerList();
 	
@@ -64,18 +66,9 @@ public class ChangesTracker {
 	
 	private static ChangesTracker tracker;
 	
-	public static ChangesTracker getInstance() {
+	public static void initialize() {
 		if (tracker == null)
 			tracker = new ChangesTracker();
-		return tracker;
-	}
-	
-	public void addListener(IRefactoringChangesListener listener) {
-		listeners.add(listener);
-	}
-	
-	public void removeListener(IRefactoringChangesListener listener) {
-		listeners.remove(listener);
 	}
 	
 	protected void fireDeleted(ILazyObject path) {
@@ -92,7 +85,13 @@ public class ChangesTracker {
 		}
 	}
 	
+	protected void initializeListeners() {
+		listeners.add(new JavaRefactoringSupport());
+		listeners.add(new ResourceRefactoringSupport());
+	}
+	
 	protected void startChangesTracking() {
+		initializeListeners();
 		RefactoringCore.getHistoryService().addExecutionListener(new IRefactoringExecutionListener() {
 			
 			public void executionNotification(RefactoringExecutionEvent event) {
@@ -145,21 +144,18 @@ public class ChangesTracker {
 	
 	protected void processRename(RenameJavaElementDescriptor des, int eventType) {
 		if (eventType == RefactoringExecutionEvent.ABOUT_TO_PERFORM) {
+			RenameJavaResult result = RefactoringUtil.getElement(des);
+			IJavaElement jElement = (IJavaElement)result.getElement().getObject();
+			lazyObject = new JavaLazyObject(jElement, result.getName());
+			if (result == null || result.isTypeParameter())
+				return;
 			blockDeletion = true;
-			renameResult = RefactoringUtil.getElement(des);
-			changes = new IElementChanges[] { new JavaChanges(
-					renameResult.getElement()) };
+			fireChanged(result.getElement(), lazyObject, IRefactoringChangesListener.ABOUT_TO_CHANGE);
 		}
 		else if ((eventType == RefactoringExecutionEvent.PERFORMED)){
 			blockDeletion = false;
-			if (renameResult.isTypeParameter()) {
-				//TODO need to implement
-			}
-			else if (changes != null && changes.length == 1) {
-				refactoringPerformed(changes[0].getChanges(getNewElement()));
-			}
-			renameResult = null;
-			changes = null;
+			RenameJavaResult result = RefactoringUtil.getElement(des);
+			fireChanged(result.getElement(), lazyObject, IRefactoringChangesListener.CHANGED);
 		}
 	}
 	
@@ -177,21 +173,16 @@ public class ChangesTracker {
 		IPath newPath = RefactoringUtil.getNewPath(path, rrd);
 		if (newPath == null)
 			return;
-		int kind = -1;
-		switch (eventType) {
-			case RefactoringExecutionEvent.ABOUT_TO_PERFORM:
-				kind = IRefactoringChangesListener.ABOUT_TO_CHANGE;
-				blockDeletion = true;
-				break;
-			case RefactoringExecutionEvent.PERFORMED:
-				kind = IRefactoringChangesListener.CHANGED;
-				blockDeletion = false;
-				break;
-			default:
-				break;
+		if (eventType == RefactoringExecutionEvent.ABOUT_TO_PERFORM) {
+			blockDeletion = true;
+			fireChanged(new ResourceLazyObject(path), new ResourceLazyObject(newPath),
+					IRefactoringChangesListener.ABOUT_TO_CHANGE);
 		}
-		if (kind != -1)
-			fireChanged(new ResourceLazyObject(path), new ResourceLazyObject(newPath), kind);
+		else if (eventType == RefactoringExecutionEvent.PERFORMED) {
+			blockDeletion = false;
+			fireChanged(new ResourceLazyObject(path), new ResourceLazyObject(newPath),
+					IRefactoringChangesListener.CHANGED);
+		}
 	}
 	
 	public void processMove(RefactoringDescriptor des, int eventType) {
@@ -216,11 +207,43 @@ public class ChangesTracker {
 		}
 	}
 	
-	protected IJavaElement getNewElement() {
-		URI newUri = JavaURIConverter.toURI(renameResult.getElement(), renameResult.getName());
-		if (newUri != null)
-			return JavaURIConverter.toJava(newUri);
-		return null;
+	private static class JavaLazyObject implements ILazyObject {
+		
+		private IJavaElement element;
+		private String name;
+		
+		public JavaLazyObject(IJavaElement element, String name) {
+			this.element = element;
+			this.name = name;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject#getObject()
+		 */
+		public Object getObject() {
+			URI newUri = JavaURIConverter.toURI(element, name);
+			if (newUri != null)
+				return JavaURIConverter.toJava(newUri);
+			return null;
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			JavaLazyObject jlo = (JavaLazyObject)obj;
+			return jlo.element.equals(element) && jlo.name.equals(name);
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			return element.hashCode() >> 16 ^ name.hashCode();
+		}
+		
 	}
 	
 	protected static void collectChanges(IJavaElement element, JavaElementTree tree, Map<URI, URI> changes) {

@@ -14,36 +14,36 @@ package org.eclipse.tigerstripe.annotation.java.ui.refactoring;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.resource.ResourceURIConverter;
+import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
 
 /**
  * @author Yuri Strot
  *
  */
-public class ResourceRefactoringSupport implements IRefactoringChangesListener {
+public class JavaRefactoringSupport implements IRefactoringChangesListener {
 	
-	private Map<ILazyObject, ResourceChanges> changes = new HashMap<ILazyObject, ResourceChanges>();
+	private Map<ILazyObject, JavaChanges> changes = new HashMap<ILazyObject, JavaChanges>();
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.jdt.refactoring.IRefactoringChangesListener#changed(org.eclipse.core.runtime.IPath, org.eclipse.core.runtime.IPath, int)
+	 * @see org.eclipse.tigerstripe.annotation.java.ui.refactoring.IRefactoringChangesListener#changed(org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject, org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject, int)
 	 */
-	public void changed(ILazyObject oldObject, ILazyObject newObject, int kind) {
+	public void changed(ILazyObject oldPath, ILazyObject newPath, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
-			IResource resource = getResource(oldObject);
-			if (resource != null) {
-				ResourceChanges change = new ResourceChanges(resource);
-				changes.put(oldObject, change);
+			IJavaElement element = getJavaElement(oldPath);
+			if (element != null) {
+				JavaChanges change = new JavaChanges(element);
+				changes.put(oldPath, change);
 			}
 		}
 		else if (kind == CHANGED) {
-			IResource newResource = getResource(newObject);
-			ResourceChanges change = changes.get(oldObject);
-			if (newResource != null && change != null) {
-				changed( change.getChanges(newResource));
+			IJavaElement newElement = getJavaElement(newPath);
+			JavaChanges change = changes.get(oldPath);
+			if (newElement != null && change != null) {
+				changed( change.getChanges(newElement));
 			}
 		}
 	}
@@ -51,24 +51,23 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 	protected void changed(Map<URI, URI> uris) {
 		for (URI uri : uris.keySet())
 			AnnotationPlugin.getManager().getRefactoringSupport().changed(uri, uris.get(uri));
-			//inform annotation framework changes
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.jdt.refactoring.IRefactoringChangesListener#deleted(org.eclipse.core.runtime.IPath)
 	 */
 	public void deleted(ILazyObject object) {
-		IResource resource = getResource(object);
-		if (resource != null) {
-			URI uri = ResourceURIConverter.toURI(resource);
+		IJavaElement element = getJavaElement(object);
+		if (element != null) {
+			URI uri = JavaURIConverter.toURI(element);
 			if (uri != null)
 				AnnotationPlugin.getManager().getRefactoringSupport().deleted(uri);
 		}
 	}
 	
-	protected IResource getResource(ILazyObject object) {
+	protected IJavaElement getJavaElement(ILazyObject object) {
 		Object obj = object.getObject();
-		return (IResource)Platform.getAdapterManager().getAdapter(obj, IResource.class);
+		return (IJavaElement)Platform.getAdapterManager().getAdapter(obj, IJavaElement.class);
 	}
 
 }
