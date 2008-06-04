@@ -191,7 +191,9 @@ public class EMFDatabase implements IEMFDatabase {
 			for (int i = 0; i < objects.length; i++) {
 				EObject candidate = objects[i];
 				if (EcoreUtil.equals(candidate, object)) {
-					Resource resource = getResource(candidate);
+					Resource resource = candidate.eResource();
+					if (resource == null)
+						resource = getResource(candidate);
 					getResourceHelper().removeAndSave(resource, candidate);
 					if (resource.getContents().size() == 0 && !isDefaultUri(resource.getURI())) {
 						getResourceList().getResourceUris().remove(resource.getURI());

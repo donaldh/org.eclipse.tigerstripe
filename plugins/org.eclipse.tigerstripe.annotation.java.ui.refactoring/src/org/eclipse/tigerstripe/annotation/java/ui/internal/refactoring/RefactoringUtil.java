@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -20,23 +21,16 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.WorkingCopyOwner;
 import org.eclipse.jdt.core.refactoring.IJavaRefactorings;
 import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
-import org.eclipse.tigerstripe.annotation.java.ui.refactoring.IElementChanges;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
-import org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaChanges;
-import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ResourceChanges;
 
 /**
  * @author Yuri Strot
@@ -196,43 +190,7 @@ public class RefactoringUtil {
 		
 	}
 	
-	private static class JavaLazyObject implements ILazyObject {
-		
-		private String project;
-		private String path;
-		
-		public JavaLazyObject(String project, String path) {
-			this.project = project;
-			this.path = path;
-		}
-
-		/* (non-Javadoc)
-		 * @see org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject#getObject()
-		 */
-		public Object getObject() {
-			return getJavaElement(project, path);
-		}
-		
-		/* (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
-		@Override
-		public boolean equals(Object obj) {
-			JavaLazyObject jzo = (JavaLazyObject)obj;
-			return project.equals(jzo.project) && path.equals(jzo.path);
-		}
-		
-		/* (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
-		@Override
-		public int hashCode() {
-			return project.hashCode() >> 16 ^ path.hashCode();
-		}
-		
-	}
-	
-	public static IElementChanges[] getResources(RefactoringDescriptor des) {
+	public static ILazyObject[] getResources(RefactoringDescriptor des) {
 		RefactoringContribution contr = RefactoringCore.getRefactoringContribution(des.getID());
 		String project = des.getProject();
 		Map<?, ?> fArguments = contr.retrieveArgumentMap(des);
@@ -243,7 +201,7 @@ public class RefactoringUtil {
 		if (fDestination == null)
 			fDestination= JavaRefactoringDescriptorUtil.getResourcePath(fArguments, ATTRIBUTE_TARGET, project);
 		
-		List<IElementChanges> changes = new ArrayList<IElementChanges>();
+		List<ILazyObject> changes = new ArrayList<ILazyObject>();
 		
 		if (POLICY_MOVE_RESOURCES.equals(fMovePolicy)) {
 			int offset= 1;
@@ -253,38 +211,27 @@ public class RefactoringUtil {
 			IPath[] fFolders= JavaRefactoringDescriptorUtil.getResourcePathArray(fArguments, ATTRIBUTE_FOLDERS, ATTRIBUTE_ELEMENT, offset, project);
 			changes.addAll(toChanges(fFolders));
 			offset+= fFolders.length;
-			ICompilationUnit[] units = (ICompilationUnit[]) JavaRefactoringDescriptorUtil.getJavaElementArray(fArguments, ATTRIBUTE_UNITS, ATTRIBUTE_ELEMENT, offset, project, ICompilationUnit.class);
-			changes.addAll(toChanges(units));
+			ILazyObject[] units = JavaRefactoringDescriptorUtil.getJavaElementArray(fArguments, ATTRIBUTE_UNITS, ATTRIBUTE_ELEMENT, offset, project);
+			changes.addAll(Arrays.asList(units));
 		} else if (POLICY_MOVE_ROOTS.equals(fMovePolicy)) {
-			IPackageFragmentRoot[] roots = (IPackageFragmentRoot[]) JavaRefactoringDescriptorUtil.getJavaElementArray(fArguments, ATTRIBUTE_ROOTS, ATTRIBUTE_ELEMENT, 1, project, IPackageFragmentRoot.class);
-			changes.addAll(toChanges(roots));
+			ILazyObject[] roots = (ILazyObject[]) JavaRefactoringDescriptorUtil.getJavaElementArray(fArguments, ATTRIBUTE_ROOTS, ATTRIBUTE_ELEMENT, 1, project);
+			changes.addAll(Arrays.asList(roots));
 		} else if (POLICY_MOVE_PACKAGES.equals(fMovePolicy)) {
-			IPackageFragment[] fragments = (IPackageFragment[]) JavaRefactoringDescriptorUtil.getJavaElementArray(fArguments, ATTRIBUTE_FRAGMENTS, ATTRIBUTE_ELEMENT, 1, project, IPackageFragment.class);
-			changes.addAll(toChanges(fragments));
+			ILazyObject[] fragments = (ILazyObject[]) JavaRefactoringDescriptorUtil.getJavaElementArray(fArguments, ATTRIBUTE_FRAGMENTS, ATTRIBUTE_ELEMENT, 1, project);
+			changes.addAll(Arrays.asList(fragments));
 		}
 //		TODO: members ignored
 //		else if (POLICY_MOVE_MEMBERS.equals(fMovePolicy)) {
 //			IMember[] fMembers= (IMember[]) JavaRefactoringDescriptorUtil.getJavaElementArray(fArguments, ATTRIBUTE_MEMBERS, ATTRIBUTE_ELEMENT, 1, project, IMember.class);
 //		}
 		
-		return changes.toArray(new IElementChanges[changes.size()]);
+		return changes.toArray(new ILazyObject[changes.size()]);
 	}
 	
-	protected static List<IElementChanges> toChanges(IPath[] paths) {
-		List<IElementChanges> changes = new ArrayList<IElementChanges>();
-		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+	protected static List<ILazyObject> toChanges(IPath[] paths) {
+		List<ILazyObject> changes = new ArrayList<ILazyObject>();
 		for (int i = 0; i < paths.length; i++) {
-			IResource resource = root.findMember(paths[i]);
-			if (resource != null)
-				changes.add(new ResourceChanges(resource));
-		}
-		return changes;
-	}
-	
-	protected static List<IElementChanges> toChanges(IJavaElement[] elements) {
-		ArrayList<IElementChanges> changes = new ArrayList<IElementChanges>();
-		for (int i = 0; i < elements.length; i++) {
-			changes.add(new JavaChanges(elements[i]));
+			changes.add(new ResourceLazyObject(paths[i]));
 		}
 		return changes;
 	}
@@ -343,27 +290,26 @@ public class RefactoringUtil {
 		return null;
 	}
 	
-	public static IResource getDestination(RefactoringDescriptor des) {
+	public static ILazyObject getDestination(RefactoringDescriptor des) {
 		RefactoringContribution contr = RefactoringCore.getRefactoringContribution(des.getID());
 		String project = des.getProject();
 		Map<?, ?> attrs = contr.retrieveArgumentMap(des);
-		IResource resource = null;
+		ILazyObject element = null;
 		String destination = (String)attrs.get(ATTRIBUTE_DESTINATION);
 		if (destination != null) {
-			IJavaElement element = getJavaElement(project, destination);
-			if (element != null)
-				resource = (IResource)Platform.getAdapterManager().getAdapter(element, IResource.class);
+			element = new JavaLazyObject(project, destination);
 		}
 		
-		if (resource != null) return resource;
+		if (element != null)
+			return element;
 		
 		String target = (String)attrs.get(ATTRIBUTE_TARGET);
-		if (target != null)
-			//target resource can be not in the same project.
-			//Therefor project parameter is null 
-			resource = getResource(null, target);
-		
-		return resource;
+		if (target != null) {
+			IPath path = getResourcePath(null, target);
+			if (path != null)
+				element = new ResourceLazyObject(path);
+		}
+		return element;
 	}
 	
 	public static IPath getResourcePath(RefactoringDescriptor rrd) {

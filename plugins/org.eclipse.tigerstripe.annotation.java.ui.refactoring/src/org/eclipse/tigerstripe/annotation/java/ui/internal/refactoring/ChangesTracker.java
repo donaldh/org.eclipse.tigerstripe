@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
@@ -39,7 +38,6 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
 import org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.RefactoringUtil.RenameJavaResult;
-import org.eclipse.tigerstripe.annotation.java.ui.refactoring.IElementChanges;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.IRefactoringChangesListener;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaElementTree;
@@ -53,7 +51,6 @@ import org.eclipse.tigerstripe.annotation.resource.ResourceURIConverter;
  */
 public class ChangesTracker {
 	
-	private IElementChanges[] changes;
 	private ILazyObject lazyObject; 
 	
 	private ListenerList listeners = new ListenerList();
@@ -82,6 +79,13 @@ public class ChangesTracker {
 		for (Object object : listeners.getListeners()) {
 			IRefactoringChangesListener listener = (IRefactoringChangesListener)object;
 			listener.changed(oldPath, newPath, kind);
+		}
+	}
+	
+	protected void fireMoved(ILazyObject[] objects, ILazyObject destination, int kind) {
+		for (Object object : listeners.getListeners()) {
+			IRefactoringChangesListener listener = (IRefactoringChangesListener)object;
+			listener.moved(objects, destination, kind);
 		}
 	}
 	
@@ -186,24 +190,15 @@ public class ChangesTracker {
 	}
 	
 	public void processMove(RefactoringDescriptor des, int eventType) {
+		ILazyObject[] objects = RefactoringUtil.getResources(des);
+		ILazyObject destination = RefactoringUtil.getDestination(des);
 		if (eventType == RefactoringExecutionEvent.ABOUT_TO_PERFORM) {
 			blockDeletion = true;
-			changes = RefactoringUtil.getResources(des);
+			fireMoved(objects, destination, IRefactoringChangesListener.ABOUT_TO_CHANGE);
 		}
 		else if (eventType == RefactoringExecutionEvent.PERFORMED){
 			blockDeletion = false;
-			IResource destination = RefactoringUtil.getDestination(des);
-			if (destination != null) {
-				Map<URI, URI> allChanges = new HashMap<URI, URI>();
-				for (int i = 0; i < changes.length; i++) {
-					IPath oldPath = changes[i].getPath();
-					IPath newPath = destination.getFullPath().append(oldPath.lastSegment());
-					IResource newResource = ResourcesPlugin.getWorkspace().getRoot().findMember(newPath);
-					allChanges.putAll(changes[i].getChanges(newResource));
-                }
-				refactoringPerformed(allChanges);
-			}
-			changes = null;
+			fireMoved(objects, destination, IRefactoringChangesListener.CHANGED);
 		}
 	}
 	

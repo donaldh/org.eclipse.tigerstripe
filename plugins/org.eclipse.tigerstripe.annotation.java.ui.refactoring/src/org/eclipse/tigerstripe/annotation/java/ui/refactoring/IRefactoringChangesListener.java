@@ -25,5 +25,7 @@ public interface IRefactoringChangesListener {
 	public void deleted(ILazyObject object);
 	
 	public void changed(ILazyObject objObject, ILazyObject newObject, int kind);
+	
+	public void moved(ILazyObject[] objects, ILazyObject destination, int kind);
 
 }

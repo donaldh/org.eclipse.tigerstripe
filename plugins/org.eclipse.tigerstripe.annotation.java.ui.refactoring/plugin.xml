@@ -8,6 +8,7 @@
 			class="org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.RenameParticipant"
 			id="org.eclipse.tigerstripe.annotation.java.ui.refactoring.renameParticipant"
 			name="TAF JDT Rename Participant">
+			<enablement/>
 		</renameParticipant>
 	</extension>
 

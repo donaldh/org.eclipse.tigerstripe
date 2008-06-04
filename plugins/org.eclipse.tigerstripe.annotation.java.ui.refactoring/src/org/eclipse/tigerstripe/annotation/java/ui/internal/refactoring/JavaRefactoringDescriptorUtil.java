@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -25,6 +24,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.WorkingCopyOwner;
+import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
 
 /**
  * @author Yuri Strot
@@ -163,7 +163,7 @@ public class JavaRefactoringDescriptorUtil {
 	 * @throws IllegalArgumentException if the attribute does not exist or is not a java element
 	 * @see #handleToElement(WorkingCopyOwner, String, String, boolean)
 	 */
-	public static IJavaElement getJavaElement(Map<?, ?> map, String attribute, String project)  throws IllegalArgumentException{
+	public static ILazyObject getJavaElement(Map<?, ?> map, String attribute, String project)  throws IllegalArgumentException{
 		return getJavaElement(map, attribute, project, false);
 	}
 
@@ -179,10 +179,10 @@ public class JavaRefactoringDescriptorUtil {
 	 * @throws IllegalArgumentException if the attribute does not existt
 	 * @see #handleToElement(WorkingCopyOwner, String, String, boolean)
 	 */
-	public static IJavaElement getJavaElement(Map<?, ?> map, String attribute, String project, boolean allowNull)  throws IllegalArgumentException{
+	public static ILazyObject getJavaElement(Map<?, ?> map, String attribute, String project, boolean allowNull)  throws IllegalArgumentException{
 		String handle= getString(map, attribute, allowNull);
 		if (handle != null)
-			return handleToElement(null, project, handle, false); //TODO: update Javadoc
+			return new JavaLazyObject(project, handle); //TODO: update Javadoc
 		return null;
 	}
 
@@ -199,21 +199,21 @@ public class JavaRefactoringDescriptorUtil {
 	 * 
 	 * @throws IllegalArgumentException if any of the attribute does not exist or is not a number
 	 */
-	public static IJavaElement[] getJavaElementArray(Map<?, ?> map, String countAttribute, String arrayAttribute, int offset, String project, Class<?> arrayClass)  throws IllegalArgumentException{
+	public static ILazyObject[] getJavaElementArray(Map<?, ?> map, String countAttribute, String arrayAttribute, int offset, String project)  throws IllegalArgumentException{
 		if (countAttribute != null) {
 			int count= getInt(map, countAttribute);
-			IJavaElement[] result= (IJavaElement[]) Array.newInstance(arrayClass, count);
+			ILazyObject[] result= new ILazyObject[count];
 			for (int i= 0; i < count; i++) {
 				result[i]= getJavaElement(map, getAttributeName(arrayAttribute, i + offset), project);
 			}
 			return result;
 		} else {
-			ArrayList<IJavaElement> result= new ArrayList<IJavaElement>();
-			IJavaElement element= null;
+			ArrayList<ILazyObject> result= new ArrayList<ILazyObject>();
+			ILazyObject element= null;
 			while ((element= getJavaElement(map, arrayAttribute, project, true)) != null){
 				result.add(element);
 			}
-			return (IJavaElement[]) result.toArray((Object[]) Array.newInstance(arrayClass, result.size()));
+			return (ILazyObject[]) result.toArray(new ILazyObject[result.size()]);
 		}
 	}
 
