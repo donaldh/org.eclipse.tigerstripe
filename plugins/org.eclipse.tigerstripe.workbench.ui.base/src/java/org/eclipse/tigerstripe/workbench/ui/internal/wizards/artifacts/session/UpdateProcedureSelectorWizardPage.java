@@ -136,12 +136,12 @@ public class UpdateProcedureSelectorWizardPage extends NewContainerWizardPage {
 		super(PAGE_NAME);
 
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IUpdateProcedureArtifactImpl.class.getName()).getLabel()
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel(null)
 				+ " Selection");
 		setDescription("Select "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 						IUpdateProcedureArtifactImpl.class.getName())
-						.getLabel()
+						.getLabel(null)
 				+ "(s) to be exposed through this new Session.");
 
 		QueryFieldsAdapter adapter = new QueryFieldsAdapter();
@@ -155,7 +155,7 @@ public class UpdateProcedureSelectorWizardPage extends NewContainerWizardPage {
 		queriesDialogField.setDialogFieldListener(adapter);
 		queriesDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
 				.getMetadata(IUpdateProcedureArtifactImpl.class.getName())
-				.getLabel());
+				.getLabel(null));
 		queriesDialogField.setRemoveButtonIndex(REMOVE_BUTTON_IDX);
 
 	}
@@ -326,15 +326,15 @@ public class UpdateProcedureSelectorWizardPage extends NewContainerWizardPage {
 				this.initialJElement, UpdateProcedureArtifact.MODEL);
 
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IUpdateProcedureArtifactImpl.class.getName()).getLabel()
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifacts");
 		dialog.setMessage("Select a set of "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 						IUpdateProcedureArtifactImpl.class.getName())
-						.getLabel()
+						.getLabel(null)
 				+ "(s) that will be available through this "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel());
+						ISessionArtifactImpl.class.getName()).getLabel(null));
 		AbstractArtifact[] selectedArtifacts = dialog.browseAvailableArtifacts(
 				getShell(), this.queriesDialogField.getElements(),
 				getTSRuntimeContext());

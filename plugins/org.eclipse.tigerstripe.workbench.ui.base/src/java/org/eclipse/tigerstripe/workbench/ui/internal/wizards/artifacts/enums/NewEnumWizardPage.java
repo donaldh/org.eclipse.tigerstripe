@@ -94,11 +94,11 @@ public class NewEnumWizardPage extends TSRuntimeBasedWizardPage implements
 		super(PAGE_NAME);
 
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEnumArtifactImpl.class.getName()).getLabel()
+				IEnumArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 		setDescription("Create a new "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IEnumArtifactImpl.class.getName()).getLabel()
+						IEnumArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact.");
 
 	}

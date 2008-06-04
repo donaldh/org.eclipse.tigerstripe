@@ -42,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.elements.ArtifactSelectorDi
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.IArtifactLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+
 @Deprecated
 public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 
@@ -162,10 +163,12 @@ public class OssjSessionQueriesSection extends OssjSessionElementsSection {
 				.getManagedForm().getForm().getShell(), labelProvider);
 
 		elsd.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IQueryArtifactImpl.class.getName()).getLabel() + " Artifacts");
-		elsd
-				.setMessage("Select a set of " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IQueryArtifactImpl.class.getName()).getLabel() + "(s) to be exposed through this session.");
+				IQueryArtifactImpl.class.getName()).getLabel(null)
+				+ " Artifacts");
+		elsd.setMessage("Select a set of "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IQueryArtifactImpl.class.getName()).getLabel(null)
+				+ "(s) to be exposed through this session.");
 
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
 		Object[] availableEntityOptions = getAvailableQueryOptionsList();

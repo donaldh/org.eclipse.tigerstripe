@@ -28,7 +28,7 @@ public class OpenNewNotificationArtifactWizardAction extends
 	@Override
 	protected void initAction() {
 		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEventArtifactImpl.class.getName()).getLabel());
+				IEventArtifactImpl.class.getName()).getLabel(null));
 		setImageDescriptor(Images.getDescriptor(Images.NOTIFICATION_ICON_NEW));
 	}
 

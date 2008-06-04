@@ -95,12 +95,12 @@ public class NewAssociationClassWizardPage extends NewArtifactWizardPage {
 		super(PAGE_NAME);
 
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IAssociationClassArtifactImpl.class.getName()).getLabel()
+				IAssociationClassArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 		setDescription("Create a new "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 						IAssociationClassArtifactImpl.class.getName())
-						.getLabel() + " Artifact.");
+						.getLabel(null) + " Artifact.");
 
 		EntityFieldsAdapter adapter = new EntityFieldsAdapter();
 
@@ -339,12 +339,12 @@ public class NewAssociationClassWizardPage extends NewArtifactWizardPage {
 							ExceptionArtifact.MODEL, EventArtifact.MODEL,
 							EnumArtifact.MODEL, AssociationClassArtifact.MODEL });
 			dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IAssociationClassArtifactImpl.class.getName()).getLabel()
+					IAssociationClassArtifactImpl.class.getName()).getLabel(null)
 					+ " End Type");
 			dialog.setMessage("Select the type of the "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationClassArtifactImpl.class.getName())
-							.getLabel() + " End.");
+							.getLabel(null) + " End.");
 
 			IAbstractArtifact[] selectedArtifacts = dialog
 					.browseAvailableArtifacts(getShell(), Arrays

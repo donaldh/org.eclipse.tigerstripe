@@ -51,29 +51,30 @@ public class OssjLegacySettingsProperty extends MultiPropertiesProfileProperty
 					"Managed Entities can be explicitly referenced on a "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())
-									.getLabel(),
+									.getLabel(null),
 					"false",
 					ArtifactMetadataFactory.INSTANCE.getMetadata(
-							ISessionArtifactImpl.class.getName()).getLabel()
+							ISessionArtifactImpl.class.getName())
+							.getLabel(null)
 							+ " Properties" },
 			{
 					USEEMITTEDNOTIFICATIONS_ONSESSION,
 					"Emitted Notifications can be explicitly referenced on a "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())
-									.getLabel(), "false", "" },
+									.getLabel(null), "false", "" },
 			{
 					USEEXPOSEDPROCEDURES_ONSESSION,
 					"Update Procedures can be explicitly referenced on a "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())
-									.getLabel(), "false", "" },
+									.getLabel(null), "false", "" },
 			{
 					USENAMEDQUERIES_ONSESSION,
 					"Named Queries can be explicitly referenced on a "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())
-									.getLabel(), "false", "" },
+									.getLabel(null), "false", "" },
 
 	/*
 	 * { ENABLE_JVT_PLUGIN, "Enable the legacy OSS/J Plugin for JVT Profile

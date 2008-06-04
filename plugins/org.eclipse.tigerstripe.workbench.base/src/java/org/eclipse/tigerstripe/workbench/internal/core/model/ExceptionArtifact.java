@@ -59,7 +59,7 @@ public class ExceptionArtifact extends AbstractArtifact implements
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IExceptionArtifactImpl.class.getName()).getLabel();
+				IExceptionArtifactImpl.class.getName()).getLabel(this);
 	}
 
 	@Override

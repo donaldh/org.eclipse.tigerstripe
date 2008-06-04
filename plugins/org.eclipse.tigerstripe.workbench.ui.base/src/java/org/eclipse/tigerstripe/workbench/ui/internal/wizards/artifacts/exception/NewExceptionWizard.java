@@ -37,7 +37,7 @@ public class NewExceptionWizard extends NewArtifactWizard {
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 		setWindowTitle("New "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IExceptionArtifactImpl.class.getName()).getLabel()
+						IExceptionArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 	}
 

@@ -68,12 +68,14 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 	public PrimitiveTypeDefsSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.EXPANDED);
-		setTitle("&" + ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IPrimitiveTypeImpl.class.getName())
-				.getLabel() + " Definitions");
-		setDescription("Define the " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IPrimitiveTypeImpl.class.getName())
-				.getLabel() + " available within this profile.");
+		setTitle("&"
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IPrimitiveTypeImpl.class.getName()).getLabel(null)
+				+ " Definitions");
+		setDescription("Define the "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IPrimitiveTypeImpl.class.getName()).getLabel(null)
+				+ " available within this profile.");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -324,20 +326,26 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 
 		String message = "Do you really want to remove ";
 		if (selectedFields.size() > 1) {
-			message = message + "these " + selectedFields.size()
-					+ " " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IPrimitiveTypeImpl.class.getName())
-							.getLabel() + " definitions ?";
+			message = message
+					+ "these "
+					+ selectedFields.size()
+					+ " "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IPrimitiveTypeImpl.class.getName()).getLabel(null)
+					+ " definitions ?";
 		} else {
-			message = message + "this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IPrimitiveTypeImpl.class.getName())
-					.getLabel() + " definition?";
+			message = message
+					+ "this "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IPrimitiveTypeImpl.class.getName()).getLabel(null)
+					+ " definition?";
 		}
 
 		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-				"Remove " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IPrimitiveTypeImpl.class.getName())
-						.getLabel() + " Definition", null, message,
+				"Remove "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IPrimitiveTypeImpl.class.getName()).getLabel(
+								null) + " Definition", null, message,
 				MessageDialog.QUESTION, new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == Window.OK) {
@@ -368,20 +376,19 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 			refresh();
 			markPageModified();
 		} catch (TigerstripeException e) {
-			MessageDialog
-					.openWarning(
-							getPage().getPartControl().getShell(),
-							"Default " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+			MessageDialog.openWarning(getPage().getPartControl().getShell(),
+					"Default "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
-									.getLabel() + " was not set. Check log for error info.",
-							e.getMessage());
+									.getLabel(null)
+							+ " was not set. Check log for error info.", e
+							.getMessage());
 			return;
 		}
 
 		MessageDialog.openInformation(getPage().getPartControl().getShell(),
 				ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IPrimitiveTypeImpl.class.getName())
-						.getLabel(),
+						IPrimitiveTypeImpl.class.getName()).getLabel(null),
 				"This profile must be made active for the changes "
 						+ "to take effect.");
 
@@ -430,8 +437,8 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 	@Override
 	protected String getDescription() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IPrimitiveTypeImpl.class.getName())
-				.getLabel() + "(s):";
+				IPrimitiveTypeImpl.class.getName()).getLabel(null)
+				+ "(s):";
 	}
 
 }

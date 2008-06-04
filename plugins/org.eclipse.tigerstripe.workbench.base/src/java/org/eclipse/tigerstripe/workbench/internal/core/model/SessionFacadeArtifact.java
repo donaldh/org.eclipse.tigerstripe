@@ -83,7 +83,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				ISessionArtifactImpl.class.getName()).getLabel();
+				ISessionArtifactImpl.class.getName()).getLabel(this);
 	}
 
 	@Override

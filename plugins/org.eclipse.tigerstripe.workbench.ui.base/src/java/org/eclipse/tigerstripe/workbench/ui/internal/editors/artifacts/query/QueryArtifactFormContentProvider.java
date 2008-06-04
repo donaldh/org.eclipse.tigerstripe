@@ -34,12 +34,12 @@ public class QueryArtifactFormContentProvider extends
 					.append("<li><a href=\"attributes\">Attributes</a>: The input parameters to this "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IQueryArtifactImpl.class.getName())
-									.getLabel() + ".</li>");
+									.getLabel(null) + ".</li>");
 			buf
 					.append("<li><a href=\"constants\">Constants</a>: Contants relevant in the context of this "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IQueryArtifactImpl.class.getName())
-									.getLabel() + ".</li>");
+									.getLabel(null) + ".</li>");
 			buf.append("</form>");
 
 			return buf.toString();
@@ -49,7 +49,7 @@ public class QueryArtifactFormContentProvider extends
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IQueryArtifactImpl.class.getName()).getLabel()
+					IQueryArtifactImpl.class.getName()).getLabel(null)
 					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;

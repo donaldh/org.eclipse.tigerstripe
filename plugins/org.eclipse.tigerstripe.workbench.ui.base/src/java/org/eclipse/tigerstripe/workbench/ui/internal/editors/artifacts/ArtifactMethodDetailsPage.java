@@ -1242,7 +1242,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 					"Default "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
-									.getLabel() + " For Parameter", e
+									.getLabel(null) + " For Parameter", e
 							.getMessage());
 			return;
 		}
@@ -1315,12 +1315,12 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 			// Type
 			// Bug # 124
 			dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IExceptionArtifactImpl.class.getName()).getLabel()
+					IExceptionArtifactImpl.class.getName()).getLabel(null)
 					+ " Selection for Method ");
 			dialog.setMessage("Select the "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IExceptionArtifactImpl.class.getName()).getLabel()
-					+ " for the method " + getMethod().getName());
+							IExceptionArtifactImpl.class.getName()).getLabel(
+							null) + " for the method " + getMethod().getName());
 
 			IAbstractArtifact[] artifacts = dialog.browseAvailableArtifacts(
 					master.getSection().getShell(), Arrays
@@ -1358,19 +1358,20 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 					+ selectedLabels.length
 					+ " "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IExceptionArtifactImpl.class.getName()).getLabel()
-					+ "(s)?";
+							IExceptionArtifactImpl.class.getName()).getLabel(
+							null) + "(s)?";
 		} else {
 			message = message
 					+ "this "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IExceptionArtifactImpl.class.getName()).getLabel();
+							IExceptionArtifactImpl.class.getName()).getLabel(
+							null);
 		}
 
 		MessageDialog msgDialog = new MessageDialog(master.getSection()
 				.getShell(), "Remove "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IExceptionArtifactImpl.class.getName()).getLabel(),
+						IExceptionArtifactImpl.class.getName()).getLabel(null),
 				null, message, MessageDialog.QUESTION, new String[] { "Yes",
 						"No" }, 1);
 

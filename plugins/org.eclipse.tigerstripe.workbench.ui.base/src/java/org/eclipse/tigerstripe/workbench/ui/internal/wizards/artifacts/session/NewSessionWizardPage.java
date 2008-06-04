@@ -42,11 +42,11 @@ public class NewSessionWizardPage extends NewArtifactWizardPage {
 		super(PAGE_NAME);
 
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				ISessionArtifactImpl.class.getName()).getLabel()
+				ISessionArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 		setDescription("Create a new "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel()
+						ISessionArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact.");
 	}
 

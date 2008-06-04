@@ -36,7 +36,7 @@ public class NewAssociationWizard extends NewArtifactWizard {
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 		setWindowTitle("New "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IAssociationArtifactImpl.class.getName()).getLabel()
+						IAssociationArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 	}
 

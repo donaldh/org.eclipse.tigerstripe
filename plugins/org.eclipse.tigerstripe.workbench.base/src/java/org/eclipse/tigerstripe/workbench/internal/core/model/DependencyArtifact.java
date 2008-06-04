@@ -31,7 +31,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -101,7 +100,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IDependencyArtifactImpl.class.getName()).getLabel();
+				IDependencyArtifactImpl.class.getName()).getLabel(this);
 	}
 
 	public IType makeType() {
@@ -223,9 +222,12 @@ public class DependencyArtifact extends AbstractArtifact implements
 							.getFullyQualifiedName().equals("String"))) {
 				result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 						ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IDependencyArtifactImpl.class.getName()).getLabel() + " End cannot be a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IDependencyArtifactImpl.class.getName())
+								.getLabel(this)
+								+ " End cannot be a "
+								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 										IPrimitiveTypeImpl.class.getName())
-										.getLabel() + "."));
+										.getLabel(null) + "."));
 			}
 
 			return result;
@@ -251,7 +253,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	public Collection<IRelationshipEnd> getRelationshipEnds() {
-		Collection<IRelationshipEnd>  relationshipEnds = new ArrayList<IRelationshipEnd>();
+		Collection<IRelationshipEnd> relationshipEnds = new ArrayList<IRelationshipEnd>();
 		relationshipEnds.add(getRelationshipAEnd());
 		relationshipEnds.add(getRelationshipZEnd());
 		return relationshipEnds;

@@ -45,7 +45,7 @@ public class SessionArtifactFormContentProvider extends
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE.getMetadata(
-					ISessionArtifactImpl.class.getName()).getLabel()
+					ISessionArtifactImpl.class.getName()).getLabel(null)
 					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;

@@ -172,8 +172,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.ManagedEntityArtifact_1003);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -193,8 +194,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.DatatypeArtifact_1005);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -214,8 +216,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.Enumeration_1006);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -235,8 +238,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.NotificationArtifact_1004);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -256,8 +260,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.NamedQueryArtifact_1001);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -277,8 +282,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.UpdateProcedureArtifact_1007);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -298,8 +304,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.ExceptionArtifact_1002);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -319,8 +326,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.SessionFacadeArtifact_1008);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -346,8 +354,9 @@ public class TigerstripePaletteFactory {
 		elementTypes.add(TigerstripeElementTypes.Attribute_2006);
 		elementTypes.add(TigerstripeElementTypes.Attribute_2009);
 		elementTypes.add(TigerstripeElementTypes.Attribute_2011);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -370,8 +379,9 @@ public class TigerstripePaletteFactory {
 		elementTypes.add(TigerstripeElementTypes.Method_2007);
 		elementTypes.add(TigerstripeElementTypes.Method_2010);
 		elementTypes.add(TigerstripeElementTypes.Method_2012);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -391,8 +401,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(TigerstripeElementTypes.Literal_2008);
-		ToolEntry result = new NodeToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage, elementTypes);
+		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, elementTypes);
 
 		return result;
 	}
@@ -432,9 +443,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
 		relationshipTypes.add(TigerstripeElementTypes.Association_3001);
-		ToolEntry result = new LinkToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage,
-				relationshipTypes);
+		ToolEntry result = new LinkToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, relationshipTypes);
 
 		return result;
 	}
@@ -454,9 +465,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
 		relationshipTypes.add(TigerstripeElementTypes.Dependency_3008);
-		ToolEntry result = new LinkToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage,
-				relationshipTypes);
+		ToolEntry result = new LinkToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, relationshipTypes);
 
 		return result;
 	}
@@ -495,9 +506,9 @@ public class TigerstripePaletteFactory {
 
 		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
 		relationshipTypes.add(TigerstripeElementTypes.AssociationClass_3010);
-		ToolEntry result = new LinkToolEntry(metadata.getLabel(), "Create new "
-				+ metadata.getLabel(), smallImage, largeImage,
-				relationshipTypes);
+		ToolEntry result = new LinkToolEntry(metadata.getLabel(null),
+				"Create new " + metadata.getLabel(null), smallImage,
+				largeImage, relationshipTypes);
 
 		return result;
 	}

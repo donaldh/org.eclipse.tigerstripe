@@ -48,13 +48,13 @@ public class NewDatatypeWizardPage extends NewArtifactWizardPage {
 		setTitle(ArtifactMetadataFactory.INSTANCE
 				.getMetadata(
 						org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
-								.getName()).getLabel()
+								.getName()).getLabel(null)
 				+ " Artifact");
 		setDescription("Create a new "
 				+ ArtifactMetadataFactory.INSTANCE
 						.getMetadata(
 								org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
-										.getName()).getLabel() + " Artifact.");
+										.getName()).getLabel(null) + " Artifact.");
 
 	}
 

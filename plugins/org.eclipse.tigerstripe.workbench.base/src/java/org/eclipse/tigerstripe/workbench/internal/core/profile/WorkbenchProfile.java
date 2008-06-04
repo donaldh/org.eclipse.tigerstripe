@@ -170,7 +170,7 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 
 			propertyElem.addCDATA(prop.serializeToString());
 		}
-		
+
 		OutputFormat format = new OutputFormat("  ", true);
 		StringWriter sWriter = new StringWriter();
 		XMLWriter xWriter = new XMLWriter(sWriter, format);
@@ -217,7 +217,7 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 					TigerstripeRuntime.logInfoMessage("Error while parsing "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
-									.getLabel() + "(s): " + e.getMessage());
+									.getLabel(null) + "(s): " + e.getMessage());
 				}
 			}
 		}
@@ -237,7 +237,7 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 					TigerstripeRuntime.logInfoMessage("Error while parsing "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
-									.getLabel() + "(s): " + e.getMessage());
+									.getLabel(null) + "(s): " + e.getMessage());
 				}
 			}
 		}
@@ -375,9 +375,10 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		if (primitiveTypeDefs.contains(primitiveTypeDef))
 			throw new TigerstripeException("Duplicate "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IPrimitiveTypeImpl.class.getName()).getLabel()
-					+ " '" + primitiveTypeDef.getName() + "' in profile '"
-					+ getName() + "'.");
+							IPrimitiveTypeImpl.class.getName()).getLabel(
+							primitiveTypeDef) + " '"
+					+ primitiveTypeDef.getName() + "' in profile '" + getName()
+					+ "'.");
 		else {
 			primitiveTypeDefs.add(primitiveTypeDef);
 		}
@@ -419,9 +420,10 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		} else
 			throw new TigerstripeException("Unknown "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IPrimitiveTypeImpl.class.getName()).getLabel()
-					+ "'" + primitiveTypeDef.getName() + "' in profile '"
-					+ getName() + "'.");
+							IPrimitiveTypeImpl.class.getName()).getLabel(
+							primitiveTypeDef) + "'"
+					+ primitiveTypeDef.getName() + "' in profile '" + getName()
+					+ "'.");
 	}
 
 	public void removePrimitiveTypeDefs(
@@ -440,8 +442,9 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 			if (this.primitiveTypeDefs.contains(primitiveTypeDef))
 				throw new TigerstripeException("Duplicate "
 						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IPrimitiveTypeImpl.class.getName()).getLabel()
-						+ "'" + primitiveTypeDef.getName() + "' in profile '"
+								IPrimitiveTypeImpl.class.getName()).getLabel(
+								primitiveTypeDef) + "'"
+						+ primitiveTypeDef.getName() + "' in profile '"
 						+ getName() + "'.");
 			else {
 				this.primitiveTypeDefs.add(primitiveTypeDef);
@@ -479,8 +482,8 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 					+ primitiveTypeDef.getName()
 					+ " has not been defined as a "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IPrimitiveTypeImpl.class.getName()).getLabel()
-					+ ".");
+							IPrimitiveTypeImpl.class.getName()).getLabel(
+							primitiveTypeDef) + ".");
 
 	}
 

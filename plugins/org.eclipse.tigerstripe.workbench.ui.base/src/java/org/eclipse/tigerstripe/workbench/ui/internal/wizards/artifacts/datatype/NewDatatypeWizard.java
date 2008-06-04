@@ -39,7 +39,7 @@ public class NewDatatypeWizard extends NewArtifactWizard {
 				+ ArtifactMetadataFactory.INSTANCE
 						.getMetadata(
 								org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
-										.getName()).getLabel() + " Artifact");
+										.getName()).getLabel(null) + " Artifact");
 	}
 
 	/*

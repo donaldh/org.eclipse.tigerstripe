@@ -41,8 +41,8 @@ public class PrimitiveTypesPage extends TigerstripeFormPage {
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 		form.setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IPrimitiveTypeImpl.class.getName())
-				.getLabel() + " Definitions");
+				IPrimitiveTypeImpl.class.getName()).getLabel(null)
+				+ " Definitions");
 		fillBody(managedForm, toolkit);
 		managedForm.refresh();
 	}

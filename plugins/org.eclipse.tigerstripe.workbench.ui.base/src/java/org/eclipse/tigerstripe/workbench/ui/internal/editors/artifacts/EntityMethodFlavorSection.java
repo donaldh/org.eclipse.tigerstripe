@@ -482,12 +482,13 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 	private void addExceptionButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
 				getIArtifact().getTigerstripeProject(), ExceptionArtifact.MODEL);
-		dialog.setMessage("Select " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IExceptionArtifactImpl.class.getName())
-				.getLabel() + " Artifacts to add.");
-		dialog.setTitle( ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IExceptionArtifactImpl.class.getName())
-				.getLabel() + " Artifact Selector");
+		dialog.setMessage("Select "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IExceptionArtifactImpl.class.getName()).getLabel(null)
+				+ " Artifacts to add.");
+		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
+				IExceptionArtifactImpl.class.getName()).getLabel(null)
+				+ " Artifact Selector");
 		try {
 			ArtifactManager mgr = ((AbstractArtifact) getIArtifact())
 					.getArtifactManager();

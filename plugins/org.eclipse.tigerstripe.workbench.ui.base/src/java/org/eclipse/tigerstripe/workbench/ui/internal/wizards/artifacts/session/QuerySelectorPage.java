@@ -65,18 +65,18 @@ public class QuerySelectorPage extends WizardPage {
 	public QuerySelectorPage(ISelection selection, ImageDescriptor image,
 			ArtifactManager artifactManager) {
 		super("wizardPage", ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IQueryArtifactImpl.class.getName()).getLabel()
+				IQueryArtifactImpl.class.getName()).getLabel(null)
 				+ " Selector", image);
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IQueryArtifactImpl.class.getName()).getLabel()
+				IQueryArtifactImpl.class.getName()).getLabel(null)
 				+ " Selector");
 
 		setDescription("Select one or more "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IQueryArtifactImpl.class.getName()).getLabel()
+						IQueryArtifactImpl.class.getName()).getLabel(null)
 				+ "(s) for this "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel() + ".");
+						ISessionArtifactImpl.class.getName()).getLabel(null) + ".");
 	}
 
 	private ArtifactManager getArtifactManager() {

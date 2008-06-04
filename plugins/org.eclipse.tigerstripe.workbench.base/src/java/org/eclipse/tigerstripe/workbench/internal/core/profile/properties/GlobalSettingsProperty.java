@@ -39,7 +39,7 @@ public class GlobalSettingsProperty extends MultiPropertiesProfileProperty
 					"Enable "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())
-									.getLabel(), "true", "Instance Diagrams" }, };
+									.getLabel(null), "true", "Instance Diagrams" }, };
 
 	@Override
 	protected String getPropertyLabel() {

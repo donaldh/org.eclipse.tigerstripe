@@ -58,7 +58,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IQueryArtifactImpl.class.getName()).getLabel();
+				IQueryArtifactImpl.class.getName()).getLabel(this);
 	}
 
 	@Override

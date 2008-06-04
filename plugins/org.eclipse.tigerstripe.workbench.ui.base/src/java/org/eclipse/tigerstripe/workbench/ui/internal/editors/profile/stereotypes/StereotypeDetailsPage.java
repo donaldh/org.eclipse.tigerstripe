@@ -123,7 +123,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 	private Button literalLevelButton;
 
 	private Button argumentLevelButton;
-	
+
 	private Button associationEndLevelButton;
 
 	class RequiresContentProvider implements IStructuredContentProvider {
@@ -289,7 +289,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 			details.setArgumentLevel(argumentLevelButton.getSelection());
 			pageModified();
 		} else if (e.getSource() == associationEndLevelButton) {
-			details.setAssociationEndLevel(associationEndLevelButton.getSelection());
+			details.setAssociationEndLevel(associationEndLevelButton
+					.getSelection());
 			pageModified();
 		}
 	}
@@ -364,8 +365,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		layout.numColumns = 5;
 		scopeComp.setLayout(layout);
 
-		methodLevelButton = toolkit.createButton(scopeComp, "Method",
-				SWT.CHECK);
+		methodLevelButton = toolkit
+				.createButton(scopeComp, "Method", SWT.CHECK);
 		methodLevelButton.setEnabled(ProfileEditor.isEditable());
 		methodLevelButton.addSelectionListener(adapter);
 		methodLevelButton
@@ -385,7 +386,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		literalLevelButton
 				.setToolTipText("Mark this stereotype applicable to any "
 						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IEnumArtifactImpl.class.getName()).getLabel()
+								IEnumArtifactImpl.class.getName()).getLabel(
+								null)
 						+ " Literal, regardless of containing Artifact Type");
 
 		argumentLevelButton = toolkit.createButton(scopeComp, "Argument",
@@ -395,8 +397,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		argumentLevelButton
 				.setToolTipText("Mark this stereotype applicable to any Method Argument, regardless of containing Artifact Type");
 
-		associationEndLevelButton = toolkit.createButton(scopeComp, "Assoc. End",
-				SWT.CHECK);
+		associationEndLevelButton = toolkit.createButton(scopeComp,
+				"Assoc. End", SWT.CHECK);
 		associationEndLevelButton.setEnabled(ProfileEditor.isEditable());
 		associationEndLevelButton.addSelectionListener(adapter);
 		associationEndLevelButton
@@ -607,7 +609,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 	}
 
 	protected void createExcludesDefinitions(Composite parent) {
-		
+
 	}
 
 	protected void addAttrButtonSelected(SelectionEvent event) {

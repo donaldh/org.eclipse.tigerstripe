@@ -44,12 +44,12 @@ public class EntityArtifactFormContentProvider extends
 			return "<form><p>Stewardship of "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IManagedEntityArtifactImpl.class.getName())
-							.getLabel()
+							.getLabel(null)
 					+ " Artifacts is established in the definition of a <b>Session Facade Artifact</b>.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IManagedEntityArtifactImpl.class.getName()).getLabel()
+					IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 					+ " Artifact";
 		return textId;
 	}

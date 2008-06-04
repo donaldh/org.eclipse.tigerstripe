@@ -109,7 +109,7 @@ public class MethodPropertiesDialog extends Dialog {
 
 		final Group optionsGroupTitle = new Group(container, SWT.NULL);
 		optionsGroupTitle.setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IManagedEntityArtifactImpl.class.getName()).getLabel());
+				IManagedEntityArtifactImpl.class.getName()).getLabel(null));
 		final GridLayout optionsGridTitleLayout = new GridLayout();
 		optionsGridTitleLayout.numColumns = 2;
 		optionsGroupTitle.setLayout(optionsGridTitleLayout);
@@ -190,7 +190,7 @@ public class MethodPropertiesDialog extends Dialog {
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IManagedEntityArtifactImpl.class.getName()).getLabel()
+				IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 				+ " Options");
 	}
 }

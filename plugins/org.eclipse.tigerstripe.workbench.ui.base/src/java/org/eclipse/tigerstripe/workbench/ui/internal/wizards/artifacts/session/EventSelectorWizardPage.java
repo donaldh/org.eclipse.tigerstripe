@@ -273,10 +273,10 @@ public class EventSelectorWizardPage extends NewContainerWizardPage {
 				this.initialJElement, EventArtifact.MODEL);
 
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEventArtifactImpl.class.getName()).getLabel() + " Artifacts");
+				IEventArtifactImpl.class.getName()).getLabel(null) + " Artifacts");
 		dialog
 				.setMessage("Select a set of " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IEventArtifactImpl.class.getName()).getLabel() + "(s) that will be emitted by this interface.");
+						IEventArtifactImpl.class.getName()).getLabel(null) + "(s) that will be emitted by this interface.");
 		AbstractArtifact[] selectedArtifacts = dialog.browseAvailableArtifacts(
 				getShell(), this.eventsDialogField.getElements(),
 				getTSRuntimeContext());

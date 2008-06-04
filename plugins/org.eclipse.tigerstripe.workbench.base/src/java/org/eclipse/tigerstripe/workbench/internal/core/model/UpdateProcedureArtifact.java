@@ -58,7 +58,7 @@ public class UpdateProcedureArtifact extends AbstractArtifact implements
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IUpdateProcedureArtifactImpl.class.getName()).getLabel();
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel(this);
 	}
 
 	@Override

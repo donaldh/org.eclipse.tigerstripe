@@ -439,7 +439,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 			// Bug # 124
 			dialog = new BrowseForArtifactDialog(getIArtifact()
 					.getTigerstripeProject(), getIArtifact());
-			String name = getIArtifact().getMetadata().getLabel();
+			String name = getIArtifact().getMetadata().getLabel(getIArtifact());
 			dialog.setTitle("Super " + name);
 			dialog.setMessage("Select the " + name + " to be extended.");
 

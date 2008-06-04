@@ -48,6 +48,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArti
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
+
 @Deprecated
 public class OssjQuerySpecificsSection extends ArtifactSectionPart {
 
@@ -82,9 +83,8 @@ public class OssjQuerySpecificsSection extends ArtifactSectionPart {
 			try {
 				handleWidgetSelected(e);
 			} catch (TigerstripeException ee) {
-				Status status = new Status(IStatus.WARNING,
-						EclipsePlugin.getPluginId(), 111,
-						"Unexpected Exception", ee);
+				Status status = new Status(IStatus.WARNING, EclipsePlugin
+						.getPluginId(), 111, "Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}
 		}
@@ -158,8 +158,10 @@ public class OssjQuerySpecificsSection extends ArtifactSectionPart {
 			FormToolkit toolkit) {
 		toolkit.createLabel(parent, "");
 		isSessionFactoryMethodsButton = toolkit.createButton(parent,
-				"Factory methods on " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel(), SWT.CHECK);
+				"Factory methods on "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								ISessionArtifactImpl.class.getName()).getLabel(
+								null), SWT.CHECK);
 		isSessionFactoryMethodsButton.setEnabled(!isReadonly());
 		isSessionFactoryMethodsButton
 				.addSelectionListener(new GeneralInfoPageListener());
@@ -220,8 +222,9 @@ public class OssjQuerySpecificsSection extends ArtifactSectionPart {
 
 	private void browseButtonPressed() throws TigerstripeException {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getTigerstripeProject(), new IAbstractArtifact[] {
-						ManagedEntityArtifact.MODEL, DatatypeArtifact.MODEL });
+				getIArtifact().getTigerstripeProject(),
+				new IAbstractArtifact[] { ManagedEntityArtifact.MODEL,
+						DatatypeArtifact.MODEL });
 		dialog.setTitle("Returned Type");
 		dialog.setMessage("Select the type of the returned artifacts.");
 

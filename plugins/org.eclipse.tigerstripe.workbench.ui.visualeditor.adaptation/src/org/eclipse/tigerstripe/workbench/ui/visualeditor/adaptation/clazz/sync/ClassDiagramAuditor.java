@@ -168,7 +168,6 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 	private IStatus auditModel(MultiStatus parentStatus, Map map,
 			IProgressMonitor monitor) throws TigerstripeException {
 
-
 		ITigerstripeModelProject tsProject = map
 				.getCorrespondingITigerstripeProject();
 		auditBasePackage(parentStatus, map, tsProject
@@ -185,7 +184,8 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 		MultiStatus assocResult = new MultiStatus(Activator.PLUGIN_ID, 222,
 				ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IAssociationArtifactImpl.class.getName()).getLabel()
+						IAssociationArtifactImpl.class.getName())
+						.getLabel(null)
 						+ "(s)", null);
 		List<Association> associations = map.getAssociations();
 		for (Association association : associations) {
@@ -196,7 +196,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 
 		MultiStatus depResult = new MultiStatus(Activator.PLUGIN_ID, 222,
 				ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IDependencyArtifactImpl.class.getName()).getLabel()
+						IDependencyArtifactImpl.class.getName()).getLabel(null)
 						+ "(s)", null);
 		List<Dependency> dependencies = map.getDependencies();
 		for (Dependency dependency : dependencies) {
@@ -216,7 +216,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				|| eDependency.getFullyQualifiedName().length() == 0) {
 			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
 					.getMetadata(IDependencyArtifactImpl.class.getName())
-					.getLabel()
+					.getLabel(eDependency)
 					+ " has no Fully Qualified Name");
 			return status;
 		}
@@ -227,7 +227,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		if (iArtifact == null) {
 			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
 					.getMetadata(IDependencyArtifactImpl.class.getName())
-					.getLabel()
+					.getLabel(eDependency)
 					+ " '"
 					+ eDependency.getFullyQualifiedName()
 					+ "' in diagram doesn't exist in model.");
@@ -262,7 +262,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				|| (eAEnd != null && !eAEnd.equals(iAEnd))) {
 			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
 					.getMetadata(IDependencyArtifactImpl.class.getName())
-					.getLabel()
+					.getLabel(eDependency)
 					+ " ends (A) don't match");
 			result.add(status);
 		}
@@ -271,7 +271,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				|| (eZEnd != null && !eZEnd.equals(iZEnd))) {
 			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
 					.getMetadata(IDependencyArtifactImpl.class.getName())
-					.getLabel()
+					.getLabel(eDependency)
 					+ " ends (Z) don't match");
 			result.add(status);
 		}
@@ -287,7 +287,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				|| eAssociation.getFullyQualifiedName().length() == 0) {
 			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
 					.getMetadata(IAssociationArtifactImpl.class.getName())
-					.getLabel()
+					.getLabel(eAssociation)
 					+ " has no Fully Qualified Name");
 			return status;
 		}
@@ -298,7 +298,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		if (iArtifact == null) {
 			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
 					.getMetadata(IAssociationArtifactImpl.class.getName())
-					.getLabel()
+					.getLabel(eAssociation)
 					+ " '"
 					+ eAssociation.getFullyQualifiedName()
 					+ "' in diagram doesn't exist in model.");
@@ -333,7 +333,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				|| (eAEnd != null && !eAEnd.equals(iAEnd))) {
 			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
 					.getMetadata(IAssociationArtifactImpl.class.getName())
-					.getLabel()
+					.getLabel(eAssociation)
 					+ " (A) ends don't match");
 			result.add(status);
 		}
@@ -342,7 +342,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				|| (eZEnd != null && !eZEnd.equals(iZEnd))) {
 			IStatus status = getErrorStatus(ArtifactMetadataFactory.INSTANCE
 					.getMetadata(IAssociationArtifactImpl.class.getName())
-					.getLabel()
+					.getLabel(eAssociation)
 					+ " (Z) ends don't match");
 			result.add(status);
 		}

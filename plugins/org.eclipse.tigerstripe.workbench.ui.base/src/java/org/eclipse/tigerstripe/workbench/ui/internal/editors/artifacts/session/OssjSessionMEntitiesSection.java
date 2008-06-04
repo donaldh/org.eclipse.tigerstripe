@@ -218,12 +218,12 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 				.getManagedForm().getForm().getShell(), labelProvider);
 
 		elsd.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IManagedEntityArtifactImpl.class.getName()).getLabel()
+				IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifacts");
 		elsd.setMessage("Select a set of "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IManagedEntityArtifactImpl.class.getName()).getLabel()
-				+ "(s) to be managed through this session.");
+						IManagedEntityArtifactImpl.class.getName()).getLabel(
+						null) + "(s) to be managed through this session.");
 
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
 		Object[] availableEntityOptions = getAvailableEntityOptionsList();
@@ -314,20 +314,20 @@ public class OssjSessionMEntitiesSection extends OssjSessionElementsSection {
 					+ " "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IManagedEntityArtifactImpl.class.getName())
-							.getLabel() + "(s)?";
+							.getLabel(null) + "(s)?";
 		} else {
 			message = message
 					+ "this "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IManagedEntityArtifactImpl.class.getName())
-							.getLabel() + "?";
+							.getLabel(null) + "?";
 		}
 
 		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
 				"Remove "
 						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 								IManagedEntityArtifactImpl.class.getName())
-								.getLabel() + "(s)", null, message,
+								.getLabel(null) + "(s)", null, message,
 				MessageDialog.QUESTION, new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {

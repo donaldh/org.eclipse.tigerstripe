@@ -57,7 +57,7 @@ public class EntityOptionsDialog extends Dialog {
 
 		final Group optionsGroupTitle = new Group(container, SWT.NULL);
 		optionsGroupTitle.setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IManagedEntityArtifactImpl.class.getName()).getLabel());
+				IManagedEntityArtifactImpl.class.getName()).getLabel(null));
 		final GridLayout optionsGridTitleLayout = new GridLayout();
 		optionsGridTitleLayout.numColumns = 2;
 		optionsGroupTitle.setLayout(optionsGridTitleLayout);
@@ -126,6 +126,6 @@ public class EntityOptionsDialog extends Dialog {
 	protected void configureSehll(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IManagedEntityArtifactImpl.class.getName()).getLabel() + " Options");
+				IManagedEntityArtifactImpl.class.getName()).getLabel(null) + " Options");
 	}
 }

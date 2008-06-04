@@ -128,7 +128,7 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 							+ "' -> invalid "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
-									.getLabel() + " names detected: "
+									.getLabel(IPrimitiveTypeImpl.class) + " names detected: "
 							+ badTypesList.toString());
 		}
 

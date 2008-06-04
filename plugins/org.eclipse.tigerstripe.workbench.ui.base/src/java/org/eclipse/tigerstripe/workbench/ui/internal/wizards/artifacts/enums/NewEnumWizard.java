@@ -36,7 +36,7 @@ public class NewEnumWizard extends NewArtifactWizard {
 
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 		setWindowTitle("New " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEnumArtifactImpl.class.getName()).getLabel() + " Artifact");
+				IEnumArtifactImpl.class.getName()).getLabel(null) + " Artifact");
 	}
 
 	/*

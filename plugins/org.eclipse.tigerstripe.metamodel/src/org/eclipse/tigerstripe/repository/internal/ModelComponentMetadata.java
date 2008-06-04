@@ -55,23 +55,23 @@ public class ModelComponentMetadata implements IModelComponentMetadata {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Class getSpecifiedClass() {
+	public Class getSpecifiedClass(Object context) {
 		return this.specifiedClass;
 	}
 
-	public URL getGreyedoutIconURL() {
+	public URL getGreyedoutIconURL(Object context) {
 		return artifactIcon_gs_URL;
 	}
 
-	public URL getIconURL() {
+	public URL getIconURL(Object context) {
 		return artifactIcon_URL;
 	}
 
-	public String getLabel() {
+	public String getLabel(Object context) {
 		return artifactLabel;
 	}
 
-	public URL getNewIconURL() {
+	public URL getNewIconURL(Object context) {
 		return artifactIcon_new_URL;
 	}
 

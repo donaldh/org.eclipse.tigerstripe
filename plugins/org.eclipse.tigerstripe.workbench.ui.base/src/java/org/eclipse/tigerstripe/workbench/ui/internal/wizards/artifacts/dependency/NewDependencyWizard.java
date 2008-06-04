@@ -36,7 +36,7 @@ public class NewDependencyWizard extends NewArtifactWizard {
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 		setWindowTitle("New "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IDependencyArtifactImpl.class.getName()).getLabel()
+						IDependencyArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 	}
 

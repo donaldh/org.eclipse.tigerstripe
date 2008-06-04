@@ -47,9 +47,9 @@ public class NewNotificationWizardPage extends NewArtifactWizardPage {
 		super(PAGE_NAME);
 
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEventArtifactImpl.class.getName()).getLabel() + " Artifact");
+				IEventArtifactImpl.class.getName()).getLabel(null) + " Artifact");
 		setDescription("Create a new " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEventArtifactImpl.class.getName()).getLabel() + " Artifact.");
+				IEventArtifactImpl.class.getName()).getLabel(null) + " Artifact.");
 
 	}
 

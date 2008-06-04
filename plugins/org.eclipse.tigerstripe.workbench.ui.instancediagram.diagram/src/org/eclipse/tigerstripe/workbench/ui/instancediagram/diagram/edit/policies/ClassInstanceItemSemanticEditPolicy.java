@@ -294,7 +294,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 				throw new OperationCanceledException(
 						ArtifactMetadataFactory.INSTANCE.getMetadata(
 								IAssociationArtifactImpl.class.getName())
-								.getLabel()
+								.getLabel(null)
 								+ " Instance Creation Cancelled");
 			IRelationship rel = ied.getSelectedRelationship();
 			if (rel == null)
@@ -302,7 +302,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 						"No relationship type selected; "
 								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 										IAssociationArtifactImpl.class
-												.getName()).getLabel()
+												.getName()).getLabel(null)
 								+ " Instance Creation Cancelled");
 			/*
 			 * check the multiplicity of the selected relationship, if it's
@@ -377,7 +377,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 												.getMetadata(
 														IAssociationClassArtifactImpl.class
 																.getName())
-												.getLabel()
+												.getLabel(instance)
 										+ " with '"
 										+ relationshipStr
 										+ "' multiplicity already exists between "
@@ -390,7 +390,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 												.getMetadata(
 														IAssociationClassArtifactImpl.class
 																.getName())
-												.getLabel()
+												.getLabel(instance)
 										+ " class with this one?";
 								String[] buttonLabels = new String[] { "OK",
 										"Cancel" };
@@ -401,7 +401,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 												.getMetadata(
 														IAssociationClassArtifactImpl.class
 																.getName())
-												.getLabel()
+												.getLabel(instance)
 												+ " replacement warning",
 										(Image) null, warningStr,
 										MessageDialog.WARNING, buttonLabels,
@@ -416,7 +416,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 													.getMetadata(
 															IAssociationArtifactImpl.class
 																	.getName())
-													.getLabel()
+													.getLabel(instance)
 													+ " Instance Replacement Cancelled");
 								// if here, then need to delete the existing
 								// association instance from the
@@ -487,7 +487,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 						String warningStr = "An "
 								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 										IAssociationArtifactImpl.class
-												.getName()).getLabel()
+												.getName()).getLabel(instance)
 								+ " with '" + relationshipStr
 								+ "' multiplicity already exists between ";
 						if (matchingLinkExists) {
@@ -504,14 +504,14 @@ public class ClassInstanceItemSemanticEditPolicy extends
 						warningStr += "; do you want to replace that "
 								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 										IAssociationArtifactImpl.class
-												.getName()).getLabel()
+												.getName()).getLabel(instance)
 								+ " with this one?";
 						String[] buttonLabels = new String[] { "OK", "Cancel" };
 						int defButtonIdx = 1;
 						MessageDialog warningDialog = new MessageDialog(shell,
 								ArtifactMetadataFactory.INSTANCE.getMetadata(
 										IAssociationArtifactImpl.class
-												.getName()).getLabel()
+												.getName()).getLabel(instance)
 										+ " replacement warning", (Image) null,
 								warningStr, MessageDialog.WARNING,
 								buttonLabels, defButtonIdx);
@@ -525,7 +525,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 											.getMetadata(
 													IAssociationArtifactImpl.class
 															.getName())
-											.getLabel()
+											.getLabel(instance)
 											+ " Instance Replacement Cancelled");
 						// if here, then need to delete the existing association
 						// instance from the

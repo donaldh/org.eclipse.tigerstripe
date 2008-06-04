@@ -820,7 +820,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 			MultiStatus result = new MultiStatus(BasePlugin.getPluginId(), 222,
 					ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IExceptionArtifactImpl.class.getName()).getLabel()
+							IExceptionArtifactImpl.class.getName()).getLabel(
+							this)
 							+ " validation", null);
 
 			// check the fully qualified name of the exception to ensure
@@ -841,7 +842,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 								+ "' is not a legal "
 								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 										IExceptionArtifactImpl.class.getName())
-										.getLabel() + " name"));
+										.getLabel(this) + " name"));
 			// check class name to ensure it is not a reserved keyword
 			else if (TigerstripeValidationUtils.keywordList.contains(className)) {
 				result
@@ -855,7 +856,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 												.getMetadata(
 														IExceptionArtifactImpl.class
 																.getName())
-												.getLabel() + " name"));
+												.getLabel(this) + " name"));
 			}
 
 			// check the IException package to ensure that it is a legal package
@@ -869,7 +870,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 								+ "' is not a legal "
 								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 										IExceptionArtifactImpl.class.getName())
-										.getLabel() + " package name"));
+										.getLabel(this) + " package name"));
 			else if (TigerstripeValidationUtils.keywordList
 					.contains(packageName)) {
 				result
@@ -883,7 +884,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 												.getMetadata(
 														IExceptionArtifactImpl.class
 																.getName())
-												.getLabel() + " package name"));
+												.getLabel(this)
+										+ " package name"));
 			}
 
 			return result;

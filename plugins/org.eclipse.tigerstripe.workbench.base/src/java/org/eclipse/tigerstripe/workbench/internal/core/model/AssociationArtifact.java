@@ -123,7 +123,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IAssociationArtifactImpl.class.getName()).getLabel();
+				IAssociationArtifactImpl.class.getName()).getLabel(this);
 	}
 
 	public String getArtifactType() {

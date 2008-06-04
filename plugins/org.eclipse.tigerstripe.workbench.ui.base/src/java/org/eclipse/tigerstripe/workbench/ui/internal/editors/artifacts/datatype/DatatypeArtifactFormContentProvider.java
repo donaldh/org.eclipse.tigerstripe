@@ -35,21 +35,21 @@ public class DatatypeArtifactFormContentProvider extends
 							+ ArtifactMetadataFactory.INSTANCE
 									.getMetadata(
 											org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
-													.getName()).getLabel()
+													.getName()).getLabel(null)
 							+ " Artifact.</li>");
 			buf
 					.append("<li><a href=\"constants\">Constants</a>: Contants related to this "
 							+ ArtifactMetadataFactory.INSTANCE
 									.getMetadata(
 											org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
-													.getName()).getLabel()
+													.getName()).getLabel(null)
 							+ " Artifact.</li>");
 			buf
 					.append("<li><a href=\"methods\">Methods</a>: Operations that are allowed on this "
 							+ ArtifactMetadataFactory.INSTANCE
 									.getMetadata(
 											org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
-													.getName()).getLabel()
+													.getName()).getLabel(null)
 							+ " Artifact.</li>");
 			buf.append("</form>");
 
@@ -59,17 +59,20 @@ public class DatatypeArtifactFormContentProvider extends
 			return "<form><p>As opposed to "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IManagedEntityArtifactImpl.class.getName())
-							.getLabel()
-					+ " Artifacts, " + ArtifactMetadataFactory.INSTANCE
+							.getLabel(null)
+					+ " Artifacts, "
+					+ ArtifactMetadataFactory.INSTANCE
 							.getMetadata(
 									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
-											.getName()).getLabel() + " Artifacts don't have a key.</p></form>";
+											.getName()).getLabel(null)
+					+ " Artifacts don't have a key.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE
-			.getMetadata(
-					org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
-							.getName()).getLabel() + " Artifact";
+					.getMetadata(
+							org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+									.getName()).getLabel(null)
+					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;
 	}

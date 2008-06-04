@@ -34,12 +34,14 @@ public class UpdateProcedureArtifactFormContentProvider extends
 					.append("<li><a href=\"attributes\">Attributes</a>: The input parameters to this "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IUpdateProcedureArtifactImpl.class
-											.getName()).getLabel() + ".</li>");
+											.getName()).getLabel(null)
+							+ ".</li>");
 			buf
 					.append("<li><a href=\"constants\">Constants</a>: Contants relevant in the context of this "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IUpdateProcedureArtifactImpl.class
-											.getName()).getLabel() + ".</li>");
+											.getName()).getLabel(null)
+							+ ".</li>");
 			buf.append("</form>");
 
 			return buf.toString();
@@ -49,7 +51,8 @@ public class UpdateProcedureArtifactFormContentProvider extends
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IUpdateProcedureArtifactImpl.class.getName()).getLabel()
+					IUpdateProcedureArtifactImpl.class.getName())
+					.getLabel(null)
 					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;

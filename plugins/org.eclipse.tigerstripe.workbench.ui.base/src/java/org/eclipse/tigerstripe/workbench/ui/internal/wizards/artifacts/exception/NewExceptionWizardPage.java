@@ -42,11 +42,11 @@ public class NewExceptionWizardPage extends NewArtifactWizardPage implements
 		super(PAGE_NAME);
 
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IExceptionArtifactImpl.class.getName()).getLabel()
+				IExceptionArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 		setDescription("Create a new "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IExceptionArtifactImpl.class.getName()).getLabel()
+						IExceptionArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact.");
 
 	}

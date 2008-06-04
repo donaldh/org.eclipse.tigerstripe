@@ -26,7 +26,7 @@ public class OpenNewAssociationArtifactWizardAction extends
 	@Override
 	protected void initAction() {
 		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IAssociationArtifactImpl.class.getName()).getLabel());
+				IAssociationArtifactImpl.class.getName()).getLabel(null));
 		setImageDescriptor(Images.getDescriptor(Images.ASSOCIATION_ICON_NEW));
 	}
 

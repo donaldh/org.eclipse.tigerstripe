@@ -113,7 +113,7 @@ public class AnnotateFromXMIWizardPage extends WizardPage {
 		entitiesDialogField.setDialogFieldListener(adapter);
 		entitiesDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
 				.getMetadata(IManagedEntityArtifactImpl.class.getName())
-				.getLabel()
+				.getLabel(null)
 				+ "(s).");
 		entitiesDialogField.setRemoveButtonIndex(REMOVE_BUTTON_IDX);
 
@@ -121,7 +121,7 @@ public class AnnotateFromXMIWizardPage extends WizardPage {
 				new AnnotableLabelProvider());
 		datatypesDialogField.setDialogFieldListener(adapter);
 		datatypesDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
-				.getMetadata(IDatatypeArtifactImpl.class.getName()).getLabel()
+				.getMetadata(IDatatypeArtifactImpl.class.getName()).getLabel(null)
 				+ "(s).");
 		datatypesDialogField.setRemoveButtonIndex(REMOVE_BUTTON_IDX);
 
@@ -131,7 +131,7 @@ public class AnnotateFromXMIWizardPage extends WizardPage {
 				new AnnotableLabelProvider());
 		enumerationsDialogField.setDialogFieldListener(adapter);
 		enumerationsDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
-				.getMetadata(IEnumArtifactImpl.class.getName()).getLabel()
+				.getMetadata(IEnumArtifactImpl.class.getName()).getLabel(null)
 				+ "(s).");
 		enumerationsDialogField.setRemoveButtonIndex(REMOVE_BUTTON_IDX);
 	}
@@ -470,17 +470,17 @@ public class AnnotateFromXMIWizardPage extends WizardPage {
 		if (field == entitiesDialogField) {
 			targetAnnotation = AnnotableElement.AS_ENTITY;
 			message = ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IManagedEntityArtifactImpl.class.getName()).getLabel()
+					IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 					+ " Artifacts.";
 		} else if (field == datatypesDialogField) {
 			targetAnnotation = AnnotableElement.AS_DATATYPE;
 			message = ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IDatatypeArtifactImpl.class.getName()).getLabel()
+					IDatatypeArtifactImpl.class.getName()).getLabel(null)
 					+ " Artifacts.";
 		} else if (field == enumerationsDialogField) {
 			targetAnnotation = AnnotableElement.AS_ENUMERATION;
 			message = ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IEnumArtifactImpl.class.getName()).getLabel()
+					IEnumArtifactImpl.class.getName()).getLabel(null)
 					+ " Artifacts.";
 		}
 

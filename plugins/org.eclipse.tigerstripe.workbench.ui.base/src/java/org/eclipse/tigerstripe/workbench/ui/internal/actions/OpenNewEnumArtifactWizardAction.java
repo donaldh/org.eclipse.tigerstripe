@@ -28,7 +28,7 @@ public class OpenNewEnumArtifactWizardAction extends
 	@Override
 	protected void initAction() {
 		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEnumArtifactImpl.class.getName()).getLabel());
+				IEnumArtifactImpl.class.getName()).getLabel(null));
 		setImageDescriptor(Images.getDescriptor(Images.ENUM_ICON_NEW));
 	}
 

@@ -550,7 +550,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 			IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IManagedEntityArtifactImpl.class.getName()).getLabel()
+						IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 				+ "(s).");
 		runGenerator(ENTITY_TEMPLATE, pageProperties, entities, monitor);
 	}
@@ -559,7 +559,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 			IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IDatatypeArtifactImpl.class.getName()).getLabel()
+						IDatatypeArtifactImpl.class.getName()).getLabel(null)
 				+ "(s).");
 		runGenerator(DATATYPE_TEMPLATE, pageProperties, datatypes, monitor);
 	}
@@ -568,7 +568,7 @@ public class ImportFromDBWizard extends Wizard implements INewWizard {
 			IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IEnumArtifactImpl.class.getName()).getLabel() + "(s).");
+						IEnumArtifactImpl.class.getName()).getLabel(null) + "(s).");
 		runGenerator(ENUM_TEMPLATE, pageProperties, enums, monitor);
 	}
 

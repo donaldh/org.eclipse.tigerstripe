@@ -69,19 +69,22 @@ public class ProfileValidator {
 	 * this could grow to other tests on primitive types in the future
 	 */
 	private void checkPrimitiveTypes(IWorkbenchProfile workbenchProfile) {
-		Collection<IPrimitiveTypeDef> primitiveTypes = workbenchProfile.getPrimitiveTypeDefs(false);
-		for (IPrimitiveTypeDef type: primitiveTypes) {
+		Collection<IPrimitiveTypeDef> primitiveTypes = workbenchProfile
+				.getPrimitiveTypeDefs(false);
+		for (IPrimitiveTypeDef type : primitiveTypes) {
 			if (!type.isValidName()) {
-				reportError("Invalid " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IPrimitiveTypeImpl.class.getName())
-						.getLabel() + " name '"
-						+ type.getName() + "' detected");
+				reportError("Invalid "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IPrimitiveTypeImpl.class.getName()).getLabel(
+								type) + " name '" + type.getName()
+						+ "' detected");
 			} else if (!type.isRecommendedName()) {
 				reportWarning("Type name '"
 						+ type.getName()
-						+ "' is not recommended as the name of a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IPrimitiveTypeImpl.class.getName())
-								.getLabel());
+						+ "' is not recommended as the name of a "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IPrimitiveTypeImpl.class.getName()).getLabel(
+								type));
 			}
 		}
 	}

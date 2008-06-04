@@ -29,7 +29,7 @@ public class OpenNewExceptionArtifactWizardAction extends
 	protected void initAction() {
 		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
 				IExceptionArtifactImpl.class.getName())
-				.getLabel());
+				.getLabel(null));
 		setImageDescriptor(Images.getDescriptor(Images.EXCEPTION_ICON_NEW));
 	}
 

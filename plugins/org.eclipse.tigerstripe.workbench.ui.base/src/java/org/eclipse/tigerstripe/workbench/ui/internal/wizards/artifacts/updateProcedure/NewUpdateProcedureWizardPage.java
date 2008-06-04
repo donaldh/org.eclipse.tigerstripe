@@ -41,12 +41,12 @@ public class NewUpdateProcedureWizardPage extends NewArtifactWizardPage {
 		super(PAGE_NAME);
 
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IUpdateProcedureArtifactImpl.class.getName()).getLabel()
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 		setDescription("Create a new "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 						IUpdateProcedureArtifactImpl.class.getName())
-						.getLabel() + " Artifact.");
+						.getLabel(null) + " Artifact.");
 
 	}
 

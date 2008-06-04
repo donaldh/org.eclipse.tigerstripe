@@ -37,7 +37,7 @@ public class NewAssociationClassWizard extends NewArtifactWizard {
 		setWindowTitle("New "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 						IAssociationClassArtifactImpl.class.getName())
-						.getLabel() + " Artifact");
+						.getLabel(null) + " Artifact");
 	}
 
 	/*

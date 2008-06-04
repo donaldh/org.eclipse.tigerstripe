@@ -327,7 +327,9 @@ public class ComponentNameProvider implements IComponentNameProvider{
 				.getMetadata(
 						MigrationHelper
 								.artifactMetadataMigrateClassname(artifactClass
-										.getName())).getLabel());
+										.getName())).getLabel(MigrationHelper
+												.artifactMetadataMigrateClassname(artifactClass
+														.getName())));
 		
 		IArtifactQuery allArtsByType = session.makeQuery(IQueryArtifactsByType.class
 				.getName());

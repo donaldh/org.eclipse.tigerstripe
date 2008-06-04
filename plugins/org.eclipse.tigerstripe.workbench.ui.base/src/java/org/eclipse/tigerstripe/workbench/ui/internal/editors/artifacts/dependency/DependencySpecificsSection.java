@@ -267,11 +267,11 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 				getIArtifact().getTigerstripeProject(),
 				new IAbstractArtifact[0]);
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IDependencyArtifactImpl.class.getName()).getLabel()
+				IDependencyArtifactImpl.class.getName()).getLabel(null)
 				+ " End Type");
 		dialog.setMessage("Select the type of the "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IDependencyArtifactImpl.class.getName()).getLabel()
+						IDependencyArtifactImpl.class.getName()).getLabel(null)
 				+ " End.");
 		dialog.setIncludePrimitiveTypes(false);
 

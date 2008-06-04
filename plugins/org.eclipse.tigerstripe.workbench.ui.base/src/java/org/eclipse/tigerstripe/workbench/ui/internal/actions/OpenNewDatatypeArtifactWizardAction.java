@@ -29,7 +29,7 @@ public class OpenNewDatatypeArtifactWizardAction extends
 		setText(ArtifactMetadataFactory.INSTANCE
 				.getMetadata(
 						org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
-								.getName()).getLabel());
+								.getName()).getLabel(null));
 		setImageDescriptor(Images.getDescriptor(Images.DATATYPE_ICON_NEW));
 	}
 

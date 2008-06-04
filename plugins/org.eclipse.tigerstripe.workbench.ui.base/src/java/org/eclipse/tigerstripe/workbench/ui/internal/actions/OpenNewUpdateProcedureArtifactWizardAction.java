@@ -28,7 +28,7 @@ public class OpenNewUpdateProcedureArtifactWizardAction extends
 	@Override
 	protected void initAction() {
 		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IUpdateProcedureArtifactImpl.class.getName()).getLabel());
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel(null));
 		setImageDescriptor(Images.getDescriptor(Images.UPDATEPROC_ICON_NEW));
 	}
 

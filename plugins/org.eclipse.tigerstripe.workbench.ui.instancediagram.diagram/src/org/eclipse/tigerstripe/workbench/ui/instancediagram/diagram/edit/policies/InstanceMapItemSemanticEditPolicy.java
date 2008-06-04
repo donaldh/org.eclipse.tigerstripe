@@ -158,22 +158,22 @@ public class InstanceMapItemSemanticEditPolicy extends
 				String warningStr = "Your profile does not allow for instantiation "
 						+ "of "
 						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								ISessionArtifactImpl.class.getName())
-								.getLabel()
+								ISessionArtifactImpl.class.getName()).getLabel(
+								artifact)
 						+ " objects; drag-and-drop operation cancelled";
 				String[] buttonLabels = new String[] { "OK" };
 				int defButtonIdx = 0;
 				MessageDialog warningDialog = new MessageDialog(shell,
 						ArtifactMetadataFactory.INSTANCE.getMetadata(
-								ISessionArtifactImpl.class.getName())
-								.getLabel()
+								ISessionArtifactImpl.class.getName()).getLabel(
+								artifact)
 								+ " detected", (Image) null, warningStr,
 						MessageDialog.WARNING, buttonLabels, defButtonIdx);
 				int retIdx = warningDialog.open();
 				throw new OperationCanceledException("Cannot Instantiate "
 						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								ISessionArtifactImpl.class.getName())
-								.getLabel());
+								ISessionArtifactImpl.class.getName()).getLabel(
+								artifact));
 			}
 			ClassInstanceEditDialog ied = new ClassInstanceEditDialog(shell,
 					artifact, mapEditPart);

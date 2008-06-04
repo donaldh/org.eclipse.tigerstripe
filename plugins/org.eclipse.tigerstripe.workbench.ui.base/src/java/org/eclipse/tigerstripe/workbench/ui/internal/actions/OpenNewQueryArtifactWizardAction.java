@@ -28,7 +28,7 @@ public class OpenNewQueryArtifactWizardAction extends
 	@Override
 	protected void initAction() {
 		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IQueryArtifactImpl.class.getName()).getLabel());
+				IQueryArtifactImpl.class.getName()).getLabel(null));
 		setImageDescriptor(Images.getDescriptor(Images.QUERY_ICON_NEW));
 	}
 

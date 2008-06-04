@@ -31,22 +31,29 @@ public class EventArtifactFormContentProvider extends
 
 			buf.append("<form>");
 			buf
-					.append("<li><a href=\"attributes\">Attributes</a>: Representing the payload for this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IEventArtifactImpl.class.getName()).getLabel() + ".</li>");
+					.append("<li><a href=\"attributes\">Attributes</a>: Representing the payload for this "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IEventArtifactImpl.class.getName())
+									.getLabel(null) + ".</li>");
 			buf
-					.append("<li><a href=\"constants\">Constants</a>: Constants relevant for this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IEventArtifactImpl.class.getName()).getLabel() + ".</li>");
+					.append("<li><a href=\"constants\">Constants</a>: Constants relevant for this "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IEventArtifactImpl.class.getName())
+									.getLabel(null) + ".</li>");
 			buf.append("</form>");
 
 			return buf.toString();
 		} else if (IArtifactFormContentProvider.ARTIFACT_CONTENT_DESCRIPTION
 				.equals(textId))
-			return "<form><p>Use the Descriptor to specify which attribute(s) can be used for " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IEventArtifactImpl.class.getName()).getLabel() + " filtering.</p></form>";
+			return "<form><p>Use the Descriptor to specify which attribute(s) can be used for "
+					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+							IEventArtifactImpl.class.getName()).getLabel(null)
+					+ " filtering.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IEventArtifactImpl.class.getName()).getLabel() + " Artifact";
+					IEventArtifactImpl.class.getName()).getLabel(null)
+					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;
 	}

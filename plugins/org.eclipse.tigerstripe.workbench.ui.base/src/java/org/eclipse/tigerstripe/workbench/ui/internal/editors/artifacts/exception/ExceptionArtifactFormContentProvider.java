@@ -39,8 +39,8 @@ public class ExceptionArtifactFormContentProvider extends
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IExceptionArtifactImpl.class.getName())
-					.getLabel() + " Artifact";
+					IExceptionArtifactImpl.class.getName()).getLabel(null)
+					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;
 	}

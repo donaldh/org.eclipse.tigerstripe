@@ -32,7 +32,7 @@ public class OpenNewEntityArtifactWizardAction extends
 	@Override
 	protected void initAction() {
 		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IManagedEntityArtifactImpl.class.getName()).getLabel());
+				IManagedEntityArtifactImpl.class.getName()).getLabel(null));
 		setImageDescriptor(Images.getDescriptor(Images.ENTITY_ICON_NEW));
 	}
 

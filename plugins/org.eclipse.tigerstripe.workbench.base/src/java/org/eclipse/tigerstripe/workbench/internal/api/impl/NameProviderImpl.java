@@ -65,7 +65,7 @@ public class NameProviderImpl implements INameProvider {
 						.getMetadata(
 								MigrationHelper
 										.artifactMetadataMigrateClassname(artifactType
-												.getName())).getLabel());
+												.getName())).getLabel(artifactType));
 
 		if (forceIncrement) {
 			targetCounter++;

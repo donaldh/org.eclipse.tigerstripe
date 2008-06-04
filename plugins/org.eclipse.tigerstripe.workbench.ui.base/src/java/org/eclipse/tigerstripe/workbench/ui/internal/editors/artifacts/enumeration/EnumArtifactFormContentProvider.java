@@ -41,7 +41,7 @@ public class EnumArtifactFormContentProvider extends
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IEnumArtifactImpl.class.getName()).getLabel()
+					IEnumArtifactImpl.class.getName()).getLabel(null)
 					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;

@@ -58,7 +58,7 @@ public class EventArtifact extends AbstractArtifact implements IEventArtifact {
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEventArtifactImpl.class.getName()).getLabel();
+				IEventArtifactImpl.class.getName()).getLabel(this);
 	}
 
 	@Override

@@ -36,7 +36,7 @@ public class DependencyArtifactAuditor extends AbstractArtifactAuditor
 		if (aEndType == null || aEndType.getFullyQualifiedName().length() == 0) {
 			TigerstripeProjectAuditor.reportError("Undefined "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IDependencyArtifactImpl.class.getName()).getLabel()
+							IDependencyArtifactImpl.class.getName()).getLabel(artifact)
 					+ " end (aEnd) in '" + artifact.getName() + "'.",
 					getIResource(), 222);
 		}
@@ -45,7 +45,7 @@ public class DependencyArtifactAuditor extends AbstractArtifactAuditor
 		if (zEndType == null || zEndType.getFullyQualifiedName().length() == 0) {
 			TigerstripeProjectAuditor.reportError("Undefined "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IDependencyArtifactImpl.class.getName()).getLabel()
+							IDependencyArtifactImpl.class.getName()).getLabel(artifact)
 					+ " end (zEnd) in '" + artifact.getName() + "'.",
 					getIResource(), 222);
 		}

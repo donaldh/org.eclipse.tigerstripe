@@ -62,7 +62,7 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 	}
 
 	public String getLabel() {
-		return getMetadata().getLabel();
+		return getMetadata().getLabel(this);
 	}
 
 	// public Collection getDerivedEntities() {

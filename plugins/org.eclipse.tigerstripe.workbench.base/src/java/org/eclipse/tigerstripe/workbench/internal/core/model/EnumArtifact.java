@@ -60,7 +60,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEnumArtifactImpl.class.getName()).getLabel();
+				IEnumArtifactImpl.class.getName()).getLabel(this);
 	}
 
 	@Override

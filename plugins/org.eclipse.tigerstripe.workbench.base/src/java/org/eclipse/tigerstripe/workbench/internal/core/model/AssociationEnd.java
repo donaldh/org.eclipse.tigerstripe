@@ -213,7 +213,7 @@ public class AssociationEnd extends ArtifactComponent implements
 					+ "' is a reserved keyword and cannot be used an "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationArtifactImpl.class.getName())
-							.getLabel() + " end name"));
+							.getLabel(getContainingAssociation()) + " end name"));
 		}
 
 		// check the validity of the type for this association end
@@ -228,11 +228,11 @@ public class AssociationEnd extends ArtifactComponent implements
 			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 					ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationArtifactImpl.class.getName())
-							.getLabel()
+							.getLabel(getContainingAssociation())
 							+ " End cannot be a "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
-									.getLabel() + "."));
+									.getLabel(null) + "."));
 		}
 
 		if (result.isOK())

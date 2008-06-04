@@ -84,7 +84,7 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IPrimitiveTypeImpl.class.getName()).getLabel();
+				IPrimitiveTypeImpl.class.getName()).getLabel(this);
 	}
 
 	public String getArtifactType() {
@@ -116,10 +116,10 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 		for (String[] rType : reservedPrimitiveTypes) {
 			String type = rType[0];
 			if (type.equals(getName()))
-				throw new TigerstripeException("Invalid " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IPrimitiveTypeImpl.class.getName())
-						.getLabel() + "'"
-						+ type + "' is a reserved type.");
+				throw new TigerstripeException("Invalid "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								IPrimitiveTypeImpl.class.getName()).getLabel(
+								this) + "'" + type + "' is a reserved type.");
 		}
 	}
 

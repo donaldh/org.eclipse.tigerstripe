@@ -65,7 +65,7 @@ public class DatatypeArtifact extends AbstractArtifact implements
 		return ArtifactMetadataFactory.INSTANCE
 				.getMetadata(
 						org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
-								.getName()).getLabel();
+								.getName()).getLabel(this);
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class NewQueryWizard extends NewArtifactWizard {
 
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 		setWindowTitle("New " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IQueryArtifactImpl.class.getName()).getLabel() + " Artifact");
+				IQueryArtifactImpl.class.getName()).getLabel(null) + " Artifact");
 	}
 
 	/*

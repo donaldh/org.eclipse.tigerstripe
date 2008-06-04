@@ -136,14 +136,14 @@ public class QuerySelectorWizardPage extends NewContainerWizardPage {
 		super(PAGE_NAME);
 
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IQueryArtifactImpl.class.getName()).getLabel()
+				IQueryArtifactImpl.class.getName()).getLabel(null)
 				+ " Selection");
 		setDescription("Select "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IQueryArtifactImpl.class.getName()).getLabel()
+						IQueryArtifactImpl.class.getName()).getLabel(null)
 				+ "(s) to be managed through this new "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel());
+						ISessionArtifactImpl.class.getName()).getLabel(null));
 
 		QueryFieldsAdapter adapter = new QueryFieldsAdapter();
 
@@ -155,7 +155,7 @@ public class QuerySelectorWizardPage extends NewContainerWizardPage {
 				new QueryListLabelProvider());
 		queriesDialogField.setDialogFieldListener(adapter);
 		queriesDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
-				.getMetadata(IQueryArtifactImpl.class.getName()).getLabel()
+				.getMetadata(IQueryArtifactImpl.class.getName()).getLabel(null)
 				+ "(s)");
 		queriesDialogField.setRemoveButtonIndex(REMOVE_BUTTON_IDX);
 
@@ -327,11 +327,11 @@ public class QuerySelectorWizardPage extends NewContainerWizardPage {
 				this.initialJElement, QueryArtifact.MODEL);
 
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IQueryArtifactImpl.class.getName()).getLabel() + " Artifacts");
+				IQueryArtifactImpl.class.getName()).getLabel(null) + " Artifacts");
 		dialog
 				.setMessage("Select a set of " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IQueryArtifactImpl.class.getName()).getLabel() + "(s) that will be available through this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-								ISessionArtifactImpl.class.getName()).getLabel());
+						IQueryArtifactImpl.class.getName()).getLabel(null) + "(s) that will be available through this " + ArtifactMetadataFactory.INSTANCE.getMetadata(
+								ISessionArtifactImpl.class.getName()).getLabel(null));
 		AbstractArtifact[] selectedArtifacts = dialog.browseAvailableArtifacts(
 				getShell(), this.queriesDialogField.getElements(),
 				getTSRuntimeContext());

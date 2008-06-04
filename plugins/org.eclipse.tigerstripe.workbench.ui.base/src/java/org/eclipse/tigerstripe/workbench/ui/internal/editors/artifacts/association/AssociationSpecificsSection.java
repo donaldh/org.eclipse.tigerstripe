@@ -12,8 +12,6 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.associat
 
 import java.util.Arrays;
 
-import org.eclipse.jface.viewers.ColumnLayoutData;
-import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.KeyEvent;
@@ -52,7 +50,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.Stereotyp
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class AssociationSpecificsSection extends ArtifactSectionPart {
 
@@ -845,11 +842,11 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 				new IAbstractArtifact[0]);
 		dialog.setIncludePrimitiveTypes(false);
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IAssociationArtifactImpl.class.getName()).getLabel()
+				IAssociationArtifactImpl.class.getName()).getLabel(null)
 				+ " End Type");
 		dialog.setMessage("Select the type of the "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IAssociationArtifactImpl.class.getName()).getLabel()
+						IAssociationArtifactImpl.class.getName()).getLabel(null)
 				+ " End.");
 
 		try {

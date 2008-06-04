@@ -567,10 +567,10 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 				ExceptionArtifact.MODEL);
 		dialog.setMessage("Select "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IExceptionArtifactImpl.class.getName()).getLabel()
-				+ " Artifacts to add.");
+						IExceptionArtifactImpl.class.getName()).getLabel(
+						managedEntity) + " Artifacts to add.");
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IExceptionArtifactImpl.class.getName()).getLabel()
+				IExceptionArtifactImpl.class.getName()).getLabel(managedEntity)
 				+ " Artifact Selector");
 		try {
 			ArtifactManager mgr = ((ManagedEntityDetails) managedEntity)

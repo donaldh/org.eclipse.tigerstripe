@@ -180,21 +180,21 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 			this.setTitleString("Edit "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationClassArtifactImpl.class.getName())
-							.getLabel() + " Properties");
+							.getLabel(association) + " Properties");
 			getShell().setText(
 					ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationClassArtifactImpl.class.getName())
-							.getLabel()
+							.getLabel(association)
 							+ " Property Editor");
 		} else {
 			this.setTitleString("Edit "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel() + " Properties");
+							IAssociationArtifactImpl.class.getName()).getLabel(
+							association) + " Properties");
 			getShell().setText(
 					ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel()
+							IAssociationArtifactImpl.class.getName()).getLabel(
+							association)
 							+ " Property Editor");
 		}
 		getShell().setMinimumSize(250, 200);

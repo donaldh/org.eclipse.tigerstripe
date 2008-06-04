@@ -17,7 +17,6 @@ import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
@@ -45,9 +44,10 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		if (aEndType == null || aEndType.getFullyQualifiedName().length() == 0) {
 			TigerstripeProjectAuditor.reportError("Undefined "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel() + " end (aEnd) in '"
-					+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
+							IAssociationArtifactImpl.class.getName()).getLabel(
+							artifact) + " end (aEnd) in '"
+					+ artifact.getFullyQualifiedName() + "'.", getIResource(),
+					222);
 		} else
 			aEndDefined = true;
 
@@ -56,9 +56,10 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		if (zEndType == null || zEndType.getFullyQualifiedName().length() == 0) {
 			TigerstripeProjectAuditor.reportError("Undefined "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel() + " end (zEnd) in '"
-					+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
+							IAssociationArtifactImpl.class.getName()).getLabel(
+							artifact) + " end (zEnd) in '"
+					+ artifact.getFullyQualifiedName() + "'.", getIResource(),
+					222);
 		} else
 			zEndDefined = true;
 
@@ -83,9 +84,10 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 				&& !artifact.getZEnd().isNavigable()) {
 			TigerstripeProjectAuditor.reportError("At least one "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel() + " End must be navigable in '"
-					+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
+							IAssociationArtifactImpl.class.getName()).getLabel(
+							artifact) + " End must be navigable in '"
+					+ artifact.getFullyQualifiedName() + "'.", getIResource(),
+					222);
 		}
 	}
 
@@ -98,7 +100,8 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 				&& artifact.getZEnd().getAggregation() != EAggregationEnum.NONE) {
 			TigerstripeProjectAuditor.reportError(
 					"Inconsistent Aggregation/Composition in '"
-							+ artifact.getFullyQualifiedName() + "'.", getIResource(), 222);
+							+ artifact.getFullyQualifiedName() + "'.",
+					getIResource(), 222);
 		}
 	}
 
@@ -158,7 +161,7 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 													.getMetadata(
 															IAssociationArtifactImpl.class
 																	.getName())
-													.getLabel()
+													.getLabel(artifact)
 											+ " navigability across projects: '"
 											+ artifact.getFullyQualifiedName()
 											+ "'. (Can't navigate from referenced project/Dependency)",

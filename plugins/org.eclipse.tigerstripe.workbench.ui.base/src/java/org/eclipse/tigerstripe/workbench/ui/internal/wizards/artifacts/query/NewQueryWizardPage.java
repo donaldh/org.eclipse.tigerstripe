@@ -78,11 +78,11 @@ public class NewQueryWizardPage extends NewArtifactWizardPage {
 		super(PAGE_NAME);
 
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IQueryArtifactImpl.class.getName()).getLabel()
+				IQueryArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 		setDescription("Create a new "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IQueryArtifactImpl.class.getName()).getLabel()
+						IQueryArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact.");
 
 		EntityFieldsAdapter adapter = new EntityFieldsAdapter();

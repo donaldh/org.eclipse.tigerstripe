@@ -35,7 +35,7 @@ public class NewUpdateProcedureWizard extends NewArtifactWizard {
 
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 		setWindowTitle("New " +ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IUpdateProcedureArtifactImpl.class.getName()).getLabel() + " Artifact");
+				IUpdateProcedureArtifactImpl.class.getName()).getLabel(null) + " Artifact");
 	}
 
 	/*

@@ -144,11 +144,11 @@ public class EntitySelectorWizardPage extends NewContainerWizardPage {
 		super(PAGE_NAME);
 
 		setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IManagedEntityArtifactImpl.class.getName()).getLabel()
+				IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 				+ " Selection");
 		setDescription("Select "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IManagedEntityArtifactImpl.class.getName()).getLabel()
+						IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 				+ ".");
 
 		EntityFieldsAdapter adapter = new EntityFieldsAdapter();
@@ -162,7 +162,7 @@ public class EntitySelectorWizardPage extends NewContainerWizardPage {
 		entitiesDialogField.setDialogFieldListener(adapter);
 		entitiesDialogField.setLabelText(ArtifactMetadataFactory.INSTANCE
 				.getMetadata(IManagedEntityArtifactImpl.class.getName())
-				.getLabel());
+				.getLabel(null));
 		entitiesDialogField.setRemoveButtonIndex(1);
 
 	}
@@ -325,11 +325,11 @@ public class EntitySelectorWizardPage extends NewContainerWizardPage {
 				new EntityOptionListLabelProvider());
 
 		elsd.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IManagedEntityArtifactImpl.class.getName()).getLabel()
+				IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifacts");
 		elsd.setMessage("Select a set of "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IManagedEntityArtifactImpl.class.getName()).getLabel()
+						IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 				+ "(s) to be managed through this interface.");
 		Object[] availableEntityOptions = getAvailableEntityOptionsList();
 		elsd.setElements(availableEntityOptions);

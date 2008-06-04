@@ -67,7 +67,7 @@
          <action
          	   class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactAnnotationsInEditorAction"
          	   id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action3a"
-         	   label="Edit Annotations"
+         	   label="Edit Stereotypes"
 		 />
          <action
                class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactInEditorAction"
@@ -82,7 +82,7 @@
          	<action
             	class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactAnnotationsInEditorAction"
             	id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action3b1"
-            	label="Edit Annotations"
+            	label="Edit Stereotypes"
       		/>
          	<action
             	class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactPartInEditorAction"
@@ -145,7 +145,7 @@
          <action
                class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.HideStereotypesToggleAction"
                id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action8"
-               label="Hide Annotations"
+               label="Hide Stereotypes"
                menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.hideShow/group1"
                style="toggle"/>
          <menu

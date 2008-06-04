@@ -36,7 +36,7 @@ public class NewEntityWizard extends NewArtifactWizard {
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 		setWindowTitle("New "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IManagedEntityArtifactImpl.class.getName()).getLabel()
+						IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 	}
 

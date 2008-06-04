@@ -33,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArti
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
+
 @Deprecated
 public class OssjDatatypeSpecificsSection extends ArtifactSectionPart {
 
@@ -134,8 +135,10 @@ public class OssjDatatypeSpecificsSection extends ArtifactSectionPart {
 		toolkit.createLabel(parent, "");
 		toolkit.createLabel(parent, "");
 		isSessionFactoryMethodsButton = toolkit.createButton(parent,
-				"Factory methods on " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel(), SWT.CHECK);
+				"Factory methods on "
+						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+								ISessionArtifactImpl.class.getName()).getLabel(
+								null), SWT.CHECK);
 		isSessionFactoryMethodsButton.setEnabled(!isReadonly());
 		isSessionFactoryMethodsButton
 				.setToolTipText("If checked, no factory method will be generated for the attribute types");

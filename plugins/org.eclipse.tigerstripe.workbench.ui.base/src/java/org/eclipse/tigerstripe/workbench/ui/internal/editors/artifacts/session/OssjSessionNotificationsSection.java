@@ -42,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.elements.ArtifactSelectorDi
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.IArtifactLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+
 @Deprecated
 public class OssjSessionNotificationsSection extends OssjSessionElementsSection {
 
@@ -163,10 +164,12 @@ public class OssjSessionNotificationsSection extends OssjSessionElementsSection 
 				.getManagedForm().getForm().getShell(), labelProvider);
 
 		elsd.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEventArtifactImpl.class.getName()).getLabel() + " Artifacts");
-		elsd
-				.setMessage("Select a set of "  +ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IEventArtifactImpl.class.getName()).getLabel() + "(s) to be emitted through this session.");
+				IEventArtifactImpl.class.getName()).getLabel(null)
+				+ " Artifacts");
+		elsd.setMessage("Select a set of "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IEventArtifactImpl.class.getName()).getLabel(null)
+				+ "(s) to be emitted through this session.");
 
 		ISessionArtifact session = (ISessionArtifact) getIArtifactFromEditor();
 		Object[] availableEntityOptions = getAvailableNotificationsList();

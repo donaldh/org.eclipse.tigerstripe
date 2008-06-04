@@ -599,7 +599,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 			IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IManagedEntityArtifactImpl.class.getName()).getLabel()
+						IManagedEntityArtifactImpl.class.getName()).getLabel(null)
 				+ "(s).");
 		runGenerator(ENTITY_TEMPLATE, pageProperties, entities, monitor);
 	}
@@ -608,7 +608,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 			IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IDatatypeArtifactImpl.class.getName()).getLabel()
+						IDatatypeArtifactImpl.class.getName()).getLabel(null)
 				+ "(s).");
 		runGenerator(DATATYPE_TEMPLATE, pageProperties, datatypes, monitor);
 	}
@@ -617,7 +617,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 			IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IEnumArtifactImpl.class.getName()).getLabel() + "(s).");
+						IEnumArtifactImpl.class.getName()).getLabel(null) + "(s).");
 		runGenerator(ENUM_TEMPLATE, pageProperties, enums, monitor);
 	}
 
@@ -625,7 +625,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 			IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IExceptionArtifactImpl.class.getName()).getLabel()
+						IExceptionArtifactImpl.class.getName()).getLabel(null)
 				+ "(s).");
 		runGenerator(EXCEPTION_TEMPLATE, pageProperties, exceptions, monitor);
 	}
@@ -635,7 +635,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 		monitor
 				.setTaskName("Creating "
 						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IEventArtifactImpl.class.getName()).getLabel()
+								IEventArtifactImpl.class.getName()).getLabel(null)
 						+ "(s).");
 		runGenerator(NOTIFICATION_TEMPLATE, pageProperties, notifications,
 				monitor);
@@ -646,7 +646,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 		monitor
 				.setTaskName("Creating "
 						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IQueryArtifactImpl.class.getName()).getLabel()
+								IQueryArtifactImpl.class.getName()).getLabel(null)
 						+ "(s).");
 		runGenerator(NAMEDQUERY_TEMPLATE, pageProperties, namedQueries, monitor);
 	}
@@ -657,7 +657,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 						IUpdateProcedureArtifactImpl.class.getName())
-						.getLabel() + "(s).");
+						.getLabel(null) + "(s).");
 		runGenerator(UPDATEPROC_TEMPLATE, pageProperties, updateProcedures,
 				monitor);
 	}
@@ -666,7 +666,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 			List sessionFacades, IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel()
+						ISessionArtifactImpl.class.getName()).getLabel(null)
 				+ "(s).");
 		runGenerator(SESSION_TEMPLATE, pageProperties, sessionFacades, monitor);
 	}
@@ -675,7 +675,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 			List associations, IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IAssociationArtifactImpl.class.getName()).getLabel()
+						IAssociationArtifactImpl.class.getName()).getLabel(null)
 				+ "(s).");
 		runGenerator(ASSOCIATION_TEMPLATE, pageProperties, associations,
 				monitor);
@@ -687,7 +687,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 						IAssociationClassArtifactImpl.class.getName())
-						.getLabel() + "(s).");
+						.getLabel(null) + "(s).");
 		runGenerator(ASSOCIATIONCLASS_TEMPLATE, pageProperties,
 				associationClasses, monitor);
 	}
@@ -696,7 +696,7 @@ public class ImportFromUML2Wizard extends Wizard implements INewWizard {
 			List dependencies, IProgressMonitor monitor) throws CoreException {
 		monitor.setTaskName("Creating "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IDependencyArtifactImpl.class.getName()).getLabel()
+						IDependencyArtifactImpl.class.getName()).getLabel(null)
 				+ "(s).");
 		runGenerator(DEPENDENCY_TEMPLATE, pageProperties, dependencies, monitor);
 	}

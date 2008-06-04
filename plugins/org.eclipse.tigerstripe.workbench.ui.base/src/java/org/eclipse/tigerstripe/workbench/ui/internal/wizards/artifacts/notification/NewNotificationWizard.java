@@ -37,7 +37,7 @@ public class NewNotificationWizard extends NewArtifactWizard {
 
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 		setWindowTitle("New " + ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IEventArtifactImpl.class.getName()).getLabel() + " Artifact");
+				IEventArtifactImpl.class.getName()).getLabel(null) + " Artifact");
 	}
 
 	/*

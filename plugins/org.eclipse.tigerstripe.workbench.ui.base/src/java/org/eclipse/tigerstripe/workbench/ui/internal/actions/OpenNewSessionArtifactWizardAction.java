@@ -28,7 +28,7 @@ public class OpenNewSessionArtifactWizardAction extends
 	@Override
 	protected void initAction() {
 		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				ISessionArtifactImpl.class.getName()).getLabel());
+				ISessionArtifactImpl.class.getName()).getLabel(null));
 		setImageDescriptor(Images.getDescriptor(Images.SESSION_ICON_NEW));
 	}
 

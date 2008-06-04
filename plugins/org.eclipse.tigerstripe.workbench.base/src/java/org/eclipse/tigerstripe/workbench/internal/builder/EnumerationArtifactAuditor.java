@@ -76,7 +76,7 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 											.getMetadata(
 													IEnumArtifactImpl.class
 															.getName())
-											.getLabel()
+											.getLabel(artifact)
 									+ " mismatched. Was expecting '"
 									+ extendedBaseTypeStr + "', found='"
 									+ baseTypeStr + "'.", getIResource(), 222);
@@ -109,7 +109,7 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 													.getMetadata(
 															IEnumArtifactImpl.class
 																	.getName())
-													.getLabel()
+													.getLabel(artifact)
 											+ " Artifact ( expected='"
 											+ baseType.getFullyQualifiedName()
 											+ "', found='" + labelFQN + "').",
@@ -136,8 +136,8 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 							+ "' "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IEnumArtifactImpl.class.getName())
-									.getLabel() + " Artifact.", getIResource(),
-							222);
+									.getLabel(artifact) + " Artifact.",
+							getIResource(), 222);
 				} else {
 					valueDefinitionMap.put(value, name);
 				}

@@ -80,7 +80,7 @@ public class PrimitiveTypeDef implements IPrimitiveTypeDef {
 		if (!"primitiveType".equals(element.getName()))
 			throw new TigerstripeException("Not a " + ArtifactMetadataFactory.INSTANCE.getMetadata(
 					IPrimitiveTypeImpl.class.getName())
-					.getLabel() + " element: "
+					.getLabel(element) + " element: "
 					+ element.getName());
 		setName(element.attributeValue("name"));
 		setDescription(element.element("description").getText());

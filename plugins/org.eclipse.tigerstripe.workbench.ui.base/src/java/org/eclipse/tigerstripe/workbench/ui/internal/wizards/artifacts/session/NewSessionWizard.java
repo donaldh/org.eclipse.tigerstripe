@@ -46,7 +46,7 @@ public class NewSessionWizard extends NewArtifactWizard {
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 		setWindowTitle("New "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ISessionArtifactImpl.class.getName()).getLabel()
+						ISessionArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact");
 	}
 

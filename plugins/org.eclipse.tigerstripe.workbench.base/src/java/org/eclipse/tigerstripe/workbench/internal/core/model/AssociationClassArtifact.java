@@ -90,7 +90,7 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	@Override
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IAssociationClassArtifactImpl.class.getName()).getLabel();
+				IAssociationClassArtifactImpl.class.getName()).getLabel(this);
 	}
 
 	@Override

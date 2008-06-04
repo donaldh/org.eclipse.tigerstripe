@@ -40,12 +40,12 @@ public class AssociationArtifactFormContentProvider extends
 			buf.append("<form>");
 			buf.append("<li><a href=\"aEnd\">aEnd</a>: one of the "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel() + " ends.</li>");
+							IAssociationArtifactImpl.class.getName()).getLabel(
+							null) + " ends.</li>");
 			buf.append("<li><a href=\"zEnd\">zEnd</a>: the other "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel() + " end.</li>");
+							IAssociationArtifactImpl.class.getName()).getLabel(
+							null) + " end.</li>");
 			buf.append("</form>");
 
 			return buf.toString();
@@ -53,13 +53,13 @@ public class AssociationArtifactFormContentProvider extends
 				.equals(textId))
 			return "<form><p>An "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel()
+							IAssociationArtifactImpl.class.getName()).getLabel(
+							null)
 					+ " Artifact explicitly models an association between two Artifacts.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IAssociationArtifactImpl.class.getName()).getLabel()
+					IAssociationArtifactImpl.class.getName()).getLabel(null)
 					+ " Artifact";
 
 		return textId;

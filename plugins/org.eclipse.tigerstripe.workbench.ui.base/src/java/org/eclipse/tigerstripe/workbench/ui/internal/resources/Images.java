@@ -222,124 +222,124 @@ public class Images {
 
 		// Managed Entity
 		createManaged(ENTITY_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(ENTITY_ICON).getIconURL());
+				.getMetadata(ENTITY_ICON).getIconURL(null));
 		createManaged(ENTITY_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(ENTITY_ICON).getNewIconURL());
+				.getMetadata(ENTITY_ICON).getNewIconURL(null));
 		createManaged(ENTITY_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(ENTITY_ICON).getGreyedoutIconURL());
+				.getMetadata(ENTITY_ICON).getGreyedoutIconURL(null));
 
 		// Datatype
 		createManaged(DATATYPE_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(DATATYPE_ICON).getIconURL());
+				.getMetadata(DATATYPE_ICON).getIconURL(null));
 		createManaged(DATATYPE_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(DATATYPE_ICON).getNewIconURL());
+				.getMetadata(DATATYPE_ICON).getNewIconURL(null));
 		createManaged(DATATYPE_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(DATATYPE_ICON).getGreyedoutIconURL());
+				.getMetadata(DATATYPE_ICON).getGreyedoutIconURL(null));
 
 		// Primitive Type
 		createManaged(PRIMITIVE_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(PRIMITIVE_ICON).getIconURL());
+				.getMetadata(PRIMITIVE_ICON).getIconURL(null));
 		createManaged(PRIMITIVE_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(PRIMITIVE_ICON).getNewIconURL());
+				.getMetadata(PRIMITIVE_ICON).getNewIconURL(null));
 		createManaged(PRIMITIVE_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(PRIMITIVE_ICON).getGreyedoutIconURL());
+				.getMetadata(PRIMITIVE_ICON).getGreyedoutIconURL(null));
 
 		// Association
 		createManaged(ASSOCIATION_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(ASSOCIATION_ICON).getIconURL());
+				.getMetadata(ASSOCIATION_ICON).getIconURL(null));
 		createManaged(ASSOCIATION_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(ASSOCIATION_ICON).getNewIconURL());
+				.getMetadata(ASSOCIATION_ICON).getNewIconURL(null));
 		createManaged(ASSOCIATION_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(ASSOCIATION_ICON).getGreyedoutIconURL());
+				.getMetadata(ASSOCIATION_ICON).getGreyedoutIconURL(null));
 
 		// Dependency
 		createManaged(DEPENDENCY_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(DEPENDENCY_ICON).getIconURL());
+				.getMetadata(DEPENDENCY_ICON).getIconURL(null));
 		createManaged(DEPENDENCY_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(DEPENDENCY_ICON).getNewIconURL());
+				.getMetadata(DEPENDENCY_ICON).getNewIconURL(null));
 		createManaged(DEPENDENCY_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(DEPENDENCY_ICON).getGreyedoutIconURL());
+				.getMetadata(DEPENDENCY_ICON).getGreyedoutIconURL(null));
 
 		// Association Class
 		createManaged(ASSOCIATIONCLASS_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(ASSOCIATIONCLASS_ICON).getIconURL());
+				.getMetadata(ASSOCIATIONCLASS_ICON).getIconURL(null));
 		createManaged(ASSOCIATIONCLASS_ICON_NEW,
 				ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ASSOCIATIONCLASS_ICON).getNewIconURL());
+						ASSOCIATIONCLASS_ICON).getNewIconURL(null));
 		createManaged(ASSOCIATIONCLASS_ICON_GS,
 				ArtifactMetadataFactory.INSTANCE.getMetadata(
-						ASSOCIATIONCLASS_ICON).getGreyedoutIconURL());
+						ASSOCIATIONCLASS_ICON).getGreyedoutIconURL(null));
 
 		// Query
 		createManaged(QUERY_ICON, ArtifactMetadataFactory.INSTANCE.getMetadata(
-				QUERY_ICON).getIconURL());
+				QUERY_ICON).getIconURL(null));
 		createManaged(QUERY_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(QUERY_ICON).getNewIconURL());
+				.getMetadata(QUERY_ICON).getNewIconURL(null));
 		createManaged(QUERY_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(QUERY_ICON).getGreyedoutIconURL());
+				.getMetadata(QUERY_ICON).getGreyedoutIconURL(null));
 
 		// Update Procedure
 		createManaged(UPDATEPROC_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(UPDATEPROC_ICON).getIconURL());
+				.getMetadata(UPDATEPROC_ICON).getIconURL(null));
 		createManaged(UPDATEPROC_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(UPDATEPROC_ICON).getNewIconURL());
+				.getMetadata(UPDATEPROC_ICON).getNewIconURL(null));
 		createManaged(UPDATEPROC_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(UPDATEPROC_ICON).getGreyedoutIconURL());
+				.getMetadata(UPDATEPROC_ICON).getGreyedoutIconURL(null));
 
 		// Update Procedure
 		createManaged(NOTIFICATION_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(NOTIFICATION_ICON).getIconURL());
+				.getMetadata(NOTIFICATION_ICON).getIconURL(null));
 		createManaged(NOTIFICATION_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(NOTIFICATION_ICON).getNewIconURL());
+				.getMetadata(NOTIFICATION_ICON).getNewIconURL(null));
 		createManaged(NOTIFICATION_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(NOTIFICATION_ICON).getGreyedoutIconURL());
+				.getMetadata(NOTIFICATION_ICON).getGreyedoutIconURL(null));
 
 		// Update Procedure
 		createManaged(ENUM_ICON, ArtifactMetadataFactory.INSTANCE.getMetadata(
-				ENUM_ICON).getIconURL());
+				ENUM_ICON).getIconURL(null));
 		createManaged(ENUM_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(ENUM_ICON).getNewIconURL());
+				.getMetadata(ENUM_ICON).getNewIconURL(null));
 		createManaged(ENUM_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(ENUM_ICON).getGreyedoutIconURL());
+				.getMetadata(ENUM_ICON).getGreyedoutIconURL(null));
 
 		// Exception
 		createManaged(EXCEPTION_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(EXCEPTION_ICON).getIconURL());
+				.getMetadata(EXCEPTION_ICON).getIconURL(null));
 		createManaged(EXCEPTION_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(EXCEPTION_ICON).getNewIconURL());
+				.getMetadata(EXCEPTION_ICON).getNewIconURL(null));
 		createManaged(EXCEPTION_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(EXCEPTION_ICON).getGreyedoutIconURL());
+				.getMetadata(EXCEPTION_ICON).getGreyedoutIconURL(null));
 
 		// Session
 		createManaged(SESSION_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(SESSION_ICON).getIconURL());
+				.getMetadata(SESSION_ICON).getIconURL(null));
 		createManaged(SESSION_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(SESSION_ICON).getNewIconURL());
+				.getMetadata(SESSION_ICON).getNewIconURL(null));
 		createManaged(SESSION_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(SESSION_ICON).getGreyedoutIconURL());
+				.getMetadata(SESSION_ICON).getGreyedoutIconURL(null));
 
 		// Field
 		createManaged(FIELD_ICON, ArtifactMetadataFactory.INSTANCE.getMetadata(
-				FIELD_ICON).getIconURL());
+				FIELD_ICON).getIconURL(null));
 		createManaged(FIELD_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(FIELD_ICON).getNewIconURL());
+				.getMetadata(FIELD_ICON).getNewIconURL(null));
 		createManaged(FIELD_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(FIELD_ICON).getGreyedoutIconURL());
+				.getMetadata(FIELD_ICON).getGreyedoutIconURL(null));
 
 		// Method
 		createManaged(METHOD_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(METHOD_ICON).getIconURL());
+				.getMetadata(METHOD_ICON).getIconURL(null));
 		createManaged(METHOD_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(METHOD_ICON).getNewIconURL());
+				.getMetadata(METHOD_ICON).getNewIconURL(null));
 		createManaged(METHOD_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(METHOD_ICON).getGreyedoutIconURL());
+				.getMetadata(METHOD_ICON).getGreyedoutIconURL(null));
 
 		// Literal
 		createManaged(LITERAL_ICON, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(LITERAL_ICON).getIconURL());
+				.getMetadata(LITERAL_ICON).getIconURL(null));
 		createManaged(LITERAL_ICON_NEW, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(LITERAL_ICON).getNewIconURL());
+				.getMetadata(LITERAL_ICON).getNewIconURL(null));
 		createManaged(LITERAL_ICON_GS, ArtifactMetadataFactory.INSTANCE
-				.getMetadata(LITERAL_ICON).getGreyedoutIconURL());
+				.getMetadata(LITERAL_ICON).getGreyedoutIconURL(null));
 	}
 }

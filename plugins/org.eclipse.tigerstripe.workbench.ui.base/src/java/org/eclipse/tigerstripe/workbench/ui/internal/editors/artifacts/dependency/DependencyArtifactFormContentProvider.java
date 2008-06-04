@@ -36,12 +36,12 @@ public class DependencyArtifactFormContentProvider extends
 			buf.append("<form>");
 			buf.append("<li><a href=\"aEnd\">aEnd</a>: one of the "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IDependencyArtifactImpl.class.getName()).getLabel()
-					+ " ends.</li>");
+							IDependencyArtifactImpl.class.getName()).getLabel(
+							null) + " ends.</li>");
 			buf.append("<li><a href=\"zEnd\">zEnd</a>: the other "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IDependencyArtifactImpl.class.getName()).getLabel()
-					+ " end.</li>");
+							IDependencyArtifactImpl.class.getName()).getLabel(
+							null) + " end.</li>");
 			buf.append("</form>");
 
 			return buf.toString();
@@ -49,15 +49,16 @@ public class DependencyArtifactFormContentProvider extends
 				.equals(textId))
 			return "<form><p>A "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IDependencyArtifactImpl.class.getName()).getLabel()
+							IDependencyArtifactImpl.class.getName()).getLabel(
+							null)
 					+ " Artifact explicitly models a "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IDependencyArtifactImpl.class.getName()).getLabel()
-					+ " between two Artifacts.</p></form>";
+							IDependencyArtifactImpl.class.getName()).getLabel(
+							null) + " between two Artifacts.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IDependencyArtifactImpl.class.getName()).getLabel()
+					IDependencyArtifactImpl.class.getName()).getLabel(null)
 					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;

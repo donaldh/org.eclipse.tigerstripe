@@ -26,7 +26,7 @@ public class OpenNewDependencyArtifactWizardAction extends
 	@Override
 	protected void initAction() {
 		setText(ArtifactMetadataFactory.INSTANCE.getMetadata(
-				IDependencyArtifactImpl.class.getName()).getLabel());
+				IDependencyArtifactImpl.class.getName()).getLabel(null));
 		setImageDescriptor(Images.getDescriptor(Images.DEPENDENCY_ICON_NEW));
 	}
 

@@ -368,7 +368,7 @@ public class ArtifactAttributesSection extends ArtifactSectionPart implements
 					"Default "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
-									.getLabel() + " For Parameter", e
+									.getLabel(null) + " For Parameter", e
 							.getMessage());
 			return;
 		}

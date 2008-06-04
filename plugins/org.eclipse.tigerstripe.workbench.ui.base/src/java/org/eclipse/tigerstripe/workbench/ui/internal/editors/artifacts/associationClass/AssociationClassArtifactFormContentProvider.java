@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.associationClass;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
@@ -43,11 +42,11 @@ public class AssociationClassArtifactFormContentProvider extends
 			buf.append("<li><a href=\"aEnd\">aEnd</a>: one of the "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationClassArtifactImpl.class.getName())
-							.getLabel() + " ends.</li>");
+							.getLabel(null) + " ends.</li>");
 			buf.append("<li><a href=\"zEnd\">zEnd</a>: the other "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationClassArtifactImpl.class.getName())
-							.getLabel() + " end.</li>");
+							.getLabel(null) + " end.</li>");
 			buf
 					.append("<li><a href=\"attributes\">Attributes</a>: a list of attributes for this Association.</li>");
 			buf.append("</form>");
@@ -58,12 +57,13 @@ public class AssociationClassArtifactFormContentProvider extends
 			return "<form><p>An "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 							IAssociationClassArtifactImpl.class.getName())
-							.getLabel()
+							.getLabel(null)
 					+ " Artifact explicitly models an association between two Artifacts.</p></form>";
 		else if (IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE
 				.equals(textId))
 			return ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IAssociationClassArtifactImpl.class.getName()).getLabel()
+					IAssociationClassArtifactImpl.class.getName()).getLabel(
+					null)
 					+ " Artifact";
 		// Annoyance 14 - removed welcome section (js)
 		return textId;

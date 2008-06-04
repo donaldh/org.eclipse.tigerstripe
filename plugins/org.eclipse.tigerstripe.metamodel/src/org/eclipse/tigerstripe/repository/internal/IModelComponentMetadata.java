@@ -13,12 +13,13 @@ package org.eclipse.tigerstripe.repository.internal;
 import java.net.URL;
 
 public interface IModelComponentMetadata {
-	public URL getIconURL();
+	
+	public URL getIconURL(Object context);
 
-	public URL getGreyedoutIconURL();
+	public URL getGreyedoutIconURL(Object context);
 
-	public URL getNewIconURL();
+	public URL getNewIconURL(Object context);
 
-	public String getLabel();
+	public String getLabel(Object context);
 
 }

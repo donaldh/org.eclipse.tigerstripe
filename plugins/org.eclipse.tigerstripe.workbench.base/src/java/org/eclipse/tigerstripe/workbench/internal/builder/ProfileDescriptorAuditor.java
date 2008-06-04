@@ -27,21 +27,23 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class ProfileDescriptorAuditor implements IFileExtensionBasedAuditor{
+public class ProfileDescriptorAuditor implements IFileExtensionBasedAuditor {
 
-/*	private IProject project;
+	/*
+	 * private IProject project;
+	 * 
+	 * public ProfileDescriptorAuditor(IProject project) { this.project =
+	 * project; }
+	 */
 
-	public ProfileDescriptorAuditor(IProject project) {
-		this.project = project;
-	}*/
-	
 	String extension = IWorkbenchProfile.FILE_EXTENSION;
-	
-	public String getFileExtension(){
+
+	public String getFileExtension() {
 		return extension;
 	}
 
-	public void run(IProject project, List<IResource> resources, IProgressMonitor monitor) {
+	public void run(IProject project, List<IResource> resources,
+			IProgressMonitor monitor) {
 
 		if (resources == null || resources.size() == 0)
 			return;
@@ -67,7 +69,8 @@ public class ProfileDescriptorAuditor implements IFileExtensionBasedAuditor{
 			monitor.done();
 		} else {
 			TigerstripeProjectAuditor.reportError("Project '"
-					+ project.getName() + "' contains invalid profile", project, 222);
+					+ project.getName() + "' contains invalid profile",
+					project, 222);
 		}
 	}
 
@@ -85,16 +88,16 @@ public class ProfileDescriptorAuditor implements IFileExtensionBasedAuditor{
 			if (!prim.isValidName()) {
 				TigerstripeProjectAuditor.reportError("Invalid "
 						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IPrimitiveTypeImpl.class.getName()).getLabel()
-						+ " name '" + prim.getName() + "' detected", iresource,
-						222);
+								IPrimitiveTypeImpl.class.getName()).getLabel(
+								prim) + " name '" + prim.getName()
+						+ "' detected", iresource, 222);
 			} else if (!prim.isRecommendedName()) {
 				TigerstripeProjectAuditor.reportWarning("Type name '"
 						+ prim.getName()
 						+ "' is not recommended as the name of a "
 						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IPrimitiveTypeImpl.class.getName()).getLabel(),
-						iresource, 222);
+								IPrimitiveTypeImpl.class.getName()).getLabel(
+								prim), iresource, 222);
 			}
 		}
 	}
