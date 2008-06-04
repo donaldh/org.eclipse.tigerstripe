@@ -42,12 +42,12 @@ public class TigerstripeRefactoringSupport implements
 	public void modelChanged(IModelChangeDelta[] deltas) {
 		for (IModelChangeDelta delta : deltas) {
 			if (delta.getType() == IModelChangeDelta.REMOVE) {
-				refactor.deleted(delta.getAffectedModelComponentURI());
+				refactor.deleted(delta.getAffectedModelComponentURI(), true);
 			} else if (delta.getType() == IModelChangeDelta.SET
 					&& "name".equals(delta.getFeature())) {
 				URI oldUri = (URI) delta.getOldValue();
 				URI newUri = (URI) delta.getNewValue();
-				refactor.changed(oldUri, newUri);
+				refactor.changed(oldUri, newUri, true);
 			}
 		}
 	}
