@@ -1,0 +1,3 @@
+#foreach ($artifact in $artifacts)
+	$artifact.Name
+#end

@@ -8,12 +8,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.workbench.ui.base,
  org.junit,
  org.eclipse.core.resources,
- org.eclipse.jface,
+ com.instantiations.common.core,
  org.eclipse.ui,
- org.eclipse.tigerstripe.workbench.base,
- org.eclipse.ui.ide,
- org.eclipse.ui.views,
- org.eclipse.ui.forms,
- org.eclipse.jdt.ui,
- org.eclipse.jdt.core
+ com.instantiations.eclipse.debug,
+ com.instantiations.eclipse.util,
+ com.windowtester.swt.runtime,
+ org.eclipse.ui.forms
 Eclipse-LazyStart: true
