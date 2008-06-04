@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackageImpl.java,v 1.2 2008/05/27 09:40:44 ystrot Exp $
+ * $Id: ModelPackageImpl.java,v 1.3 2008/06/04 09:12:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.impl;
 
@@ -269,26 +269,6 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		// Create resource
 		createResource(eNS_URI);
-
-		// Create annotations
-		// org.eclipse.tigerstripe.annotation
-		createOrgAnnotations();
-	}
-
-	/**
-	 * Initializes the annotations for <b>org.eclipse.tigerstripe.annotation</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createOrgAnnotations() {
-		String source = "org.eclipse.tigerstripe.annotation";		
-		addAnnotation
-		  (authorEClass, 
-		   source, 
-		   new String[] {
-			 "unique", "false"
-		   });
 	}
 
 } //ModelPackageImpl

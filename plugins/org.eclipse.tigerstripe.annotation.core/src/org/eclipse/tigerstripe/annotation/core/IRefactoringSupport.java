@@ -27,7 +27,7 @@ public interface IRefactoringSupport {
 	 * 
 	 * @param uri URI of the deleted object
 	 */
-	public void deleted(URI uri);
+	public void deleted(URI uri, boolean affectChildren);
 	
 	/**
 	 * Notify framework about object's URI change
@@ -35,6 +35,6 @@ public interface IRefactoringSupport {
 	 * @param oldUri old object URI
 	 * @param newUri new object URI
 	 */
-	public void changed(URI oldUri, URI newUri);
+	public void changed(URI oldUri, URI newUri, boolean affectChildren);
 
 }

@@ -97,6 +97,13 @@
                </appInfo>
             </annotation>
          </attribute>
+         <attribute name="unique" type="boolean" use="default" value="true">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

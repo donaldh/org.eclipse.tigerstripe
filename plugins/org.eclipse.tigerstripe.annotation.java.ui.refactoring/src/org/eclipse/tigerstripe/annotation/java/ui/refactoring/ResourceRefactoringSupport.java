@@ -78,7 +78,7 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 	protected void changed(Map<URI, URI> uris) {
 		//inform annotation framework about changes
 		for (URI uri : uris.keySet())
-			AnnotationPlugin.getManager().getRefactoringSupport().changed(uri, uris.get(uri));
+			AnnotationPlugin.getManager().getRefactoringSupport().changed(uri, uris.get(uri), true);
 	}
 
 	/* (non-Javadoc)
@@ -89,7 +89,7 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 		if (resource != null) {
 			URI uri = ResourceURIConverter.toURI(resource);
 			if (uri != null)
-				AnnotationPlugin.getManager().getRefactoringSupport().deleted(uri);
+				AnnotationPlugin.getManager().getRefactoringSupport().deleted(uri, true);
 		}
 	}
 	

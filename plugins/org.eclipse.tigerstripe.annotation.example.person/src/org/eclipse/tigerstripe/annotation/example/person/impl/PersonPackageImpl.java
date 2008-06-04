@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: PersonPackageImpl.java,v 1.3 2008/05/12 04:57:19 ystrot Exp $
+ * $Id: PersonPackageImpl.java,v 1.4 2008/06/04 09:12:47 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.person.impl;
 
@@ -319,26 +319,6 @@ public class PersonPackageImpl extends EPackageImpl implements PersonPackage {
 
 		// Create resource
 		createResource(eNS_URI);
-
-		// Create annotations
-		// org.eclipse.tigerstripe.annotation
-		createOrgAnnotations();
-	}
-
-				/**
-	 * Initializes the annotations for <b>org.eclipse.tigerstripe.annotation</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createOrgAnnotations() {
-		String source = "org.eclipse.tigerstripe.annotation";		
-		addAnnotation
-		  (personEClass, 
-		   source, 
-		   new String[] {
-			 "unique", "false"
-		   });
 	}
 
 } //PersonPackageImpl

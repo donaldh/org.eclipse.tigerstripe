@@ -12,7 +12,9 @@
 package org.eclipse.tigerstripe.annotation.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.ecore.EClass;
@@ -38,6 +40,7 @@ public class AnnotationType {
 	
 	private static final String ELEMENT_TARGET = "target";
 	private static final String ATTR_TARGET_TYPE = "type";
+	private static final String ATTR_TARGET_UNIQUE = "unique";
 	
 	private String id;
 	private String name;
@@ -45,6 +48,8 @@ public class AnnotationType {
 	private EClass clazz;
 	
 	private String[] targets;
+	
+	private Map<String, Boolean> uniques = new HashMap<String, Boolean>();
 	
 	public AnnotationType(IConfigurationElement definition) {
 		name = definition.getAttribute(ATTR_NAME);
@@ -61,6 +66,10 @@ public class AnnotationType {
 			IConfigurationElement target = children[i];
 			if (ELEMENT_TARGET.equals(target.getName())) {
 				String type = target.getAttribute(ATTR_TARGET_TYPE);
+				String unique = target.getAttribute(ATTR_TARGET_UNIQUE);
+				Boolean value = unique == null ?
+						Boolean.TRUE : Boolean.valueOf(unique);
+				uniques.put(type, value);
 				if (type != null)
 					targets.add(type);
 			}
@@ -104,6 +113,10 @@ public class AnnotationType {
 	public String getId() {
 	    return id;
     }
+	
+	public boolean isTargetUnique(String type) {
+		return uniques.get(type).booleanValue();
+	}
 	
 	/**
 	 * Return anotation type description

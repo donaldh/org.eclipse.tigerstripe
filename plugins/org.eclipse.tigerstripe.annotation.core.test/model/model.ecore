@@ -4,9 +4,6 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="model"
     nsURI="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore" nsPrefix="org.eclipse.tigerstripe.annotation.core.test.model">
   <eClassifiers xsi:type="ecore:EClass" name="Author">
-    <eAnnotations source="org.eclipse.tigerstripe.annotation">
-      <details key="unique" value="false"/>
-    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lastName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="date" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>

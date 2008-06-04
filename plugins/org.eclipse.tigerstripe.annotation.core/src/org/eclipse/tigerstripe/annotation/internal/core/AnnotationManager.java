@@ -19,7 +19,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -55,9 +54,6 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	
 	private static final String ANNOTATION_ATTR_CLASS = "class";
 	
-	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
-	private static final String ANNOTATION_UNIQUE = "unique";
-	
 	private static AnnotationManager instance;
 	
 	private AnnotationType[] types;
@@ -80,7 +76,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	public Annotation addAnnotation(Object object, EObject content) {
 		URI uri = getUri(object);
 		if (uri != null) {
-			checkUnique(uri, content);
+			checkUnique(object, uri, content);
 			Annotation annotation = AnnotationFactory.eINSTANCE.createAnnotation();
 			annotation.setUri(uri);
 			annotation.setContent(content);
@@ -104,15 +100,8 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		return getProviderManager().getProviderByType(type);
 	}
 	
-	protected void checkUnique(URI uri, EObject content) {
-		boolean unique = true;
-		EAnnotation annotation = content.eClass().getEAnnotation(ANNOTATION_MARKER);
-		if (annotation != null) {
-			String value = annotation.getDetails().get(ANNOTATION_UNIQUE);
-			if (value != null && !Boolean.valueOf(value))
-				unique = false;
-		}
-		if (unique) {
+	protected void checkUnique(Object object, URI uri, EObject content) {
+		if (isUnique(object, content)) {
 			List<Annotation> annotations = getAnnotations(uri);
 			for (Annotation annot : annotations) {
 				Class<?> clazz = annot.getContent().getClass();
@@ -123,13 +112,36 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		}
 	}
 	
-	public void changed(URI oldUri, URI newUri) {
+	protected boolean isUnique(Object object, EObject content) {
+		AnnotationType[] types = getTypes();
+		for (AnnotationType annotationType : types) {
+			//find annotation type for the content
+			if (annotationType.getClazz().equals(content.eClass())) {
+				String[] targets = annotationType.getTargets();
+				for (String target : targets) {
+					//find target object for the content
+					if (isApplicable(object, target)) {
+						return annotationType.isTargetUnique(target);
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringSupport#changed(org.eclipse.emf.common.util.URI, org.eclipse.emf.common.util.URI, boolean)
+	 */
+	public void changed(URI oldUri, URI newUri, boolean affectChildren) {
         setUri(oldUri, newUri);
         refactorListener.refactoringPerformed(
         		new RefactoringChange(oldUri, newUri));
 	}
 	
-	public void deleted(URI uri) {
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringSupport#deleted(org.eclipse.emf.common.util.URI, boolean)
+	 */
+	public void deleted(URI uri, boolean affectChildren) {
 		refactorListener.refactoringPerformed(
 				new RefactoringChange(uri));
 	}

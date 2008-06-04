@@ -34,8 +34,6 @@ import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 import org.eclipse.ltk.core.refactoring.history.IRefactoringExecutionListener;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
 import org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.RefactoringUtil.RenameJavaResult;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
@@ -126,7 +124,7 @@ public class ChangesTracker {
 									return true;
 								case IResourceDelta.REMOVED:
 									deleted(delta.getResource());
-									return true;
+									return false;
 								default:
 									return true;
 							}
@@ -160,13 +158,6 @@ public class ChangesTracker {
 			blockDeletion = false;
 			RenameJavaResult result = RefactoringUtil.getElement(des);
 			fireChanged(result.getElement(), lazyObject, IRefactoringChangesListener.CHANGED);
-		}
-	}
-	
-	protected void refactoringPerformed(Map<URI, URI> uris) {
-		IRefactoringSupport rs = AnnotationPlugin.getManager().getRefactoringSupport();
-		for (URI newUri : uris.keySet()) {
-			rs.changed(newUri, uris.get(newUri));
 		}
 	}
 	
