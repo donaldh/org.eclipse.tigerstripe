@@ -123,10 +123,10 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		}
 	}
 	
-	public void changed(URI newUri, URI oldUri) {
-        setUri(newUri, oldUri);
-        refactorListener.refactoringPerformed(new RefactoringChange(
-        		newUri, oldUri));
+	public void changed(URI oldUri, URI newUri) {
+        setUri(oldUri, newUri);
+        refactorListener.refactoringPerformed(
+        		new RefactoringChange(oldUri, newUri));
 	}
 	
 	public void deleted(URI uri) {

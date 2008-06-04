@@ -20,13 +20,13 @@ import org.eclipse.emf.common.util.URI;
 public class RefactoringChange {
 	
 	public static final int URI_CHANGED = 1;
-	public static final int URI_DELETED = 1;
+	public static final int URI_DELETED = 2;
 	
 	private URI oldUri;
 	private URI newUri;
 	private int kind;
 	
-	public RefactoringChange(URI newUri, URI oldUri) {
+	public RefactoringChange(URI oldUri, URI newUri) {
 		this.oldUri = oldUri;
 		this.newUri = newUri;
 		kind = URI_CHANGED;

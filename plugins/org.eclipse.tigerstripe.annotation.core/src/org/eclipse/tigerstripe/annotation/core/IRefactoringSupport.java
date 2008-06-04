@@ -32,9 +32,9 @@ public interface IRefactoringSupport {
 	/**
 	 * Notify framework about object's URI change
 	 * 
-	 * @param newUri new object URI
 	 * @param oldUri old object URI
+	 * @param newUri new object URI
 	 */
-	public void changed(URI newUri, URI oldUri);
+	public void changed(URI oldUri, URI newUri);
 
 }
