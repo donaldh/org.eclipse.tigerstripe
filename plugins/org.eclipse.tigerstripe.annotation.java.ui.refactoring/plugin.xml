@@ -31,5 +31,10 @@
 			<enablement/>
 		</deleteParticipant>
 	</extension>
+	
+	<extension
+	      point="org.eclipse.ui.startup">
+    	<startup class="org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.Startup"/>
+	</extension>
 
 </plugin>
