@@ -346,6 +346,7 @@ public class StereotypeDetailsPage implements IDetailsPage {
 				| SWT.MULTI | SWT.V_SCROLL);
 		descriptionText.setEnabled(ProfileEditor.isEditable());
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.widthHint = 0;
 		gd.heightHint = 60;
 		descriptionText.setLayoutData(gd);
 		descriptionText.addModifyListener(adapter);
