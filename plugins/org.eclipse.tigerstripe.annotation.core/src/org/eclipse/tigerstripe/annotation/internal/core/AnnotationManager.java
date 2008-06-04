@@ -133,9 +133,30 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringSupport#changed(org.eclipse.emf.common.util.URI, org.eclipse.emf.common.util.URI, boolean)
 	 */
 	public void changed(URI oldUri, URI newUri, boolean affectChildren) {
-        setUri(oldUri, newUri);
-        refactorListener.refactoringPerformed(
-        		new RefactoringChange(oldUri, newUri));
+		if (affectChildren) {
+			List<URI> uris = new ArrayList<URI>();
+			List<Annotation> annotations = getPostfixAnnotations(oldUri);
+			for (Annotation annotation : annotations) {
+				if (!uris.contains(annotation.getUri()))
+					uris.add(annotation.getUri());
+			}
+			for (URI uri : uris) {
+				try {
+					URI nUri = URIUtil.replacePrefix(uri, oldUri, newUri);
+					setUri(uri, nUri);
+			        refactorListener.refactoringPerformed(
+			        		new RefactoringChange(oldUri, newUri));
+				}
+				catch (Exception e) {
+					AnnotationPlugin.log(e);
+				}
+			}
+		}
+		else {
+	        setUri(oldUri, newUri);
+	        refactorListener.refactoringPerformed(
+	        		new RefactoringChange(oldUri, newUri));
+		}
 	}
 	
 	/* (non-Javadoc)

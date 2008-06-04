@@ -14,9 +14,7 @@ package org.eclipse.tigerstripe.annotation.java.ui.refactoring;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
@@ -52,21 +50,21 @@ public class ResourceChanges implements IElementChanges {
 	
 	protected static void collectChanges(IResource resource, IPath oldPath, Map<URI, URI> changes) {
 		changes.put(ResourceURIConverter.toURI(oldPath), ResourceURIConverter.toURI(resource));
-		if (resource instanceof IContainer) {
-			IContainer container = (IContainer)resource;
-			try {
-				//TODO how we going on to work with phantom and team private resources?
-	            IResource[] members = container.members(0);
-	            for (int i = 0; i < members.length; i++) {
-	            	IResource child = members[i];
-	            	IPath childOldPath = oldPath.append(child.getFullPath().lastSegment());
-	            	collectChanges(child, childOldPath, changes);
-                }
-            }
-            catch (CoreException e) {
-	            e.printStackTrace();
-            }
-		}
+//		if (resource instanceof IContainer) {
+//			IContainer container = (IContainer)resource;
+//			try {
+//				//TODO how we going on to work with phantom and team private resources?
+//	            IResource[] members = container.members(0);
+//	            for (int i = 0; i < members.length; i++) {
+//	            	IResource child = members[i];
+//	            	IPath childOldPath = oldPath.append(child.getFullPath().lastSegment());
+//	            	collectChanges(child, childOldPath, changes);
+//                }
+//            }
+//            catch (CoreException e) {
+//	            e.printStackTrace();
+//            }
+//		}
 	}
 
 }

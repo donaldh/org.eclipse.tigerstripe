@@ -2,9 +2,12 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RBTreeImpl.java,v 1.2 2008/05/27 09:40:51 ystrot Exp $
+ * $Id: RBTreeImpl.java,v 1.3 2008/06/04 10:52:46 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.core.tree.impl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -471,6 +474,35 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
                 p = p.getRight();
         }
         return null;
+    }
+    
+    public EObject[] getPostfixes(Object key) {
+		List<EObject> objects = new ArrayList<EObject>();
+    	if (root != null && key != null)
+        	collectPostfixes(root, key, objects);
+        return objects.toArray(new EObject[objects.size()]);
+    }
+    
+    private void collectPostfixes(RBNode node, Object key, List<EObject> objects) {
+    	Object key2 = geNodeKey(node);
+    	if (isPrefix(key, key2)) {
+    		objects.addAll(node.getObjects());
+    	}
+    	if (node.getLeft() != null)
+    		collectPostfixes(node.getLeft(), key, objects);
+    	if (node.getRight() != null)
+    		collectPostfixes(node.getRight(), key, objects);
+    }
+    
+    /**
+     * @param key1
+     * @param key2
+     * @return true if key1 prefix of key2 and false otherwise
+     */
+    private boolean isPrefix(Object key1, Object key2) {
+    	if (key1 == null || key2 == null)
+    		return false;
+    	return key2.toString().startsWith(key1.toString());
     }
 	
 	private Object getKey(EObject item) {

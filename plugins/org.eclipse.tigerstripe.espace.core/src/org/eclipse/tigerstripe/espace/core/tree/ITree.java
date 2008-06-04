@@ -20,6 +20,8 @@ public interface ITree {
     
     public EObject[] find( Object key );
     
+    public EObject[] getPostfixes( Object key );
+    
     public void clear();
     
     public boolean isEmpty();

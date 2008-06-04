@@ -45,6 +45,15 @@ public class FeatureIndexer extends AbstractIndexer {
 		return EMPTY;
 	}
 	
+	public EObject[] readPostfixes(EStructuralFeature feature, Object value) {
+		Resource res = getResource(feature, false);
+		if (res != null) {
+			RBTree tree = (RBTree)getContainer(res, feature);
+			return tree.getPostfixes(value);
+		}
+		return EMPTY;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.resources.core.AbstractIndexer#resolve(org.eclipse.emf.ecore.EObject, java.lang.Object)
 	 */

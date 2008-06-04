@@ -82,7 +82,7 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 	
 	protected void changed(Map<URI, URI> uris) {
 		for (URI uri : uris.keySet())
-			AnnotationPlugin.getManager().getRefactoringSupport().changed(uri, uris.get(uri), true);
+			AnnotationPlugin.getManager().getRefactoringSupport().changed(uri, uris.get(uri), false);
 	}
 
 	/* (non-Javadoc)

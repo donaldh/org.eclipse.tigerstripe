@@ -94,6 +94,15 @@ public class AnnotationStorage {
 		return list;
 	}
 	
+	public List<Annotation> getPostfixAnnotations(URI uri) {
+		EObject[] objects = database.getPostfixes(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
+		List<Annotation> list = new ArrayList<Annotation>();
+		for (EObject object : objects)
+			if (object instanceof Annotation)
+				list.add((Annotation)object);
+		return list;
+	}
+	
 	public Annotation[] getAnnotations() {
 		ArrayList<Annotation> allAnnotations = new ArrayList<Annotation>();
 		Iterator<List<Annotation>> list = getAnnotationMap().values().iterator();

@@ -47,6 +47,15 @@ public interface IEMFDatabase {
 	public EObject[] get(EStructuralFeature feature, Object value);
 	
 	/**
+	 * Return EMF objects which value started with the specified feature value
+	 * 
+	 * @param feature
+	 * @param value
+	 * @return objects started with the specified feature value
+	 */
+	public EObject[] getPostfixes(EStructuralFeature feature, Object value);
+	
+	/**
 	 * Return all stored objects of the passed classifier
 	 * 
 	 * @param classifier classifier of the objects should be found

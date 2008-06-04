@@ -187,7 +187,7 @@ public class EMFDatabase implements IEMFDatabase {
 	public void remove(EObject object) {
 		EStructuralFeature feature = getIDFeature(object);
 		if (feature != null) {
-			EObject[] objects = doGet(feature, object.eGet(feature));
+			EObject[] objects = doGet(feature, object.eGet(feature), false);
 			for (int i = 0; i < objects.length; i++) {
 				EObject candidate = objects[i];
 				if (EcoreUtil.equals(candidate, object)) {
@@ -308,24 +308,28 @@ public class EMFDatabase implements IEMFDatabase {
 		return false;
 	}
 	
-	protected EObject[] doGet(EStructuralFeature feature, Object value) {
+	protected EObject[] doGet(EStructuralFeature feature, Object value, boolean postfixes) {
 		if (getFeatureIndexer().isFeatureIndexed(feature)) {
-		    return getFeatureIndexer().read(feature, value);
+		    return postfixes ? getFeatureIndexer().readPostfixes(feature, value) : 
+		    	getFeatureIndexer().read(feature, value);
 		}
 		else {
 			List<EObject> list = new ArrayList<EObject>();
-			EClass clazz = ((EClass)feature.eContainer());
+			EClass clazz = (EClass)feature.eContainer();
 			EObject[] objects = read();
 			for (int i = 0; i < objects.length; i++) {
 	            if (objects[i].eClass().equals(clazz)) {
 	            	try {
 		            	Object oValue = objects[i].eGet(feature);
 		            	if (value == null) {
-		            		if (oValue == null)
+		            		if (oValue == null && !postfixes)
 		            			list.add(objects[i]);
 		            	}
-		            	else if (value.equals(oValue)){
-		            		list.add(objects[i]);
+		            	else {
+		            		if (!postfixes && value.equals(oValue))
+			            		list.add(objects[i]);
+		            		if (postfixes && oValue.toString().startsWith(value.toString()))
+			            		list.add(objects[i]);
 		            	}
 	            	}
 	            	catch (Exception e) {
@@ -340,7 +344,14 @@ public class EMFDatabase implements IEMFDatabase {
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	public EObject[] get(EStructuralFeature feature, Object value) {
-		return copy(doGet(feature, value));
+		return copy(doGet(feature, value, false));
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#getPostfixes(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 */
+	public EObject[] getPostfixes(EStructuralFeature feature, Object value) {
+		return copy(doGet(feature, value, true));
 	}
 	
 	public EObject[] read() {
