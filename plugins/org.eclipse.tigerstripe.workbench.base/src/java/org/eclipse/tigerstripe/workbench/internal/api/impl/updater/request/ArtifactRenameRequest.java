@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.StringTokenizer;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -37,7 +36,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
@@ -309,8 +307,9 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 		}
 	}
 
+	@Override
 	public IModelChangeDelta getCorrespondingDelta() {
-		ModelChangeDelta delta = makeDelta(IModelChangeDelta.SET);
+		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.SET);
 
 		try {
 			AbstractArtifact comp = (AbstractArtifact) getMgrSession()
@@ -330,6 +329,9 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 							.segments(), null, null);
 			delta.setNewValue(newUri);
 			delta.setOldValue(oldUri);
+
+			delta.setSource(this);
+			delta.setProject(comp.getProject());
 
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
