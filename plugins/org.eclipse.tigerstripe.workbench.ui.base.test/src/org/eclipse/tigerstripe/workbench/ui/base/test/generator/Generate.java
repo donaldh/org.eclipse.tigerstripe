@@ -50,13 +50,25 @@ public class Generate extends UITestCaseSWT {
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("Generate Result"));
 		ui.wait(new ShellDisposedCondition("Generate Tigerstripe Project"));
+		
+		// OUTPUT FOR GLOBAL RUlE
+		
 		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_PROJECT_NAME+"/target/tigerstripe.gen/allArtifacts.txt",
+				TestingConstants.NEW_PROJECT_NAME+"/target/tigerstripe.gen/"+TestingConstants.GLOBAL_RULE_OUTPUT_FILE_NAME,
 						new ViewLocator(
 								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		
 		// Need to check contents!
 
+		// OUTPUT FOR Artifact Rule
+		
+		ui.click(new TreeItemLocator(
+				TestingConstants.NEW_PROJECT_NAME+"/target/tigerstripe.gen/"+TestingConstants.ENTITY_NAMES[0]+".txt",
+						new ViewLocator(
+								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+		
+		// Need to check contents!
+		
 	}
 
 }

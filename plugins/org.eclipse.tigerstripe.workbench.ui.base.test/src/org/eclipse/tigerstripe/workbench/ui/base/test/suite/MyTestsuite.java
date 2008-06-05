@@ -12,6 +12,8 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.generator.SaveAndDeployPlu
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.CreateProfile;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.SaveAndDeployProfile;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.TestActiveProfile;
+import org.eclipse.tigerstripe.workbench.ui.base.test.project.CloseProject;
+import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewEntity;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
 
 public class MyTestsuite extends TestCase
@@ -67,15 +69,14 @@ public class MyTestsuite extends TestCase
         
         // creates a new Project and add artifact(s)
         suite.addTestSuite(NewProject.class);
+        suite.addTestSuite(NewEntity.class);
         
         
-
-
         // turn on plugin in Project and generate
         suite.addTestSuite(Generate.class);
         
-        
-
+        // close Project
+        suite.addTestSuite(CloseProject.class);
         
         return suite;
     }
