@@ -41,65 +41,76 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * 
  */
 public class TSModelURIConverter {
-	
+
 	private static final String SCHEME_TS = "tigerstripe";
-	
+
 	/**
 	 * Returns the value <code>true</code> if the supplied URI is for the same
 	 * scheme as that converted by an instance of this converter
-	 * @param uri the URI whose scheme we wish to test for compatibility with
-	 * an instance of this converter.
+	 * 
+	 * @param uri
+	 *            the URI whose scheme we wish to test for compatibility with an
+	 *            instance of this converter.
 	 * @return the value <code>true</code> if the supplied URI is for the same
-	 * scheme as that converted by an instance of this converter
+	 *         scheme as that converted by an instance of this converter
 	 */
 	public static boolean isRelated(URI uri) {
 		return SCHEME_TS.equals(uri.scheme());
 	}
-	
+
 	/**
-	 * Returns a URI that identifies the target of an annotation and which allows that target
-	 * to be looked up in the Tigerstripe workbench
-	 * @param element the <code>IModelComponent</code> for which we require a URI
-	 * @return a URI that identifies the target of an annotation and which allows that target
-	 * to be looked up in the Tigerstripe workbench
+	 * Returns a URI that identifies the target of an annotation and which
+	 * allows that target to be looked up in the Tigerstripe workbench
+	 * 
+	 * @param element
+	 *            the <code>IModelComponent</code> for which we require a URI
+	 * @return a URI that identifies the target of an annotation and which
+	 *         allows that target to be looked up in the Tigerstripe workbench
 	 * @throws TigerstripeException
 	 */
-	public static URI toURI(IModelComponent element) throws TigerstripeException
-	{
+	public static URI toURI(IModelComponent element)
+			throws TigerstripeException {
 		return toURI(element, null);
 	}
-	
+
 	/**
-	 * Returns a URI that identifies the target of an annotation and which allows that target
-	 * to be looked up in the Tigerstripe workbench, but accepts a second argument whose
-	 * content will replace a part of the URI that is appropriate to the type of
-	 * <code>IModelComponent</code> supplied
-	 * @param element the <code>IModelComponent</code> for which we require a URI
-	 * @param newName the new fragment that will replace a part of the URI that is appropriate
-	 * to the type of <code>IModelComponent</code> supplied
-	 * @return a URI that identifies the target of an annotation and which allows that target
-	 * to be looked up in the Tigerstripe workbench
+	 * Returns a URI that identifies the target of an annotation and which
+	 * allows that target to be looked up in the Tigerstripe workbench, but
+	 * accepts a second argument whose content will replace a part of the URI
+	 * that is appropriate to the type of <code>IModelComponent</code>
+	 * supplied
+	 * 
+	 * @param element
+	 *            the <code>IModelComponent</code> for which we require a URI
+	 * @param newName
+	 *            the new fragment that will replace a part of the URI that is
+	 *            appropriate to the type of <code>IModelComponent</code>
+	 *            supplied
+	 * @return a URI that identifies the target of an annotation and which
+	 *         allows that target to be looked up in the Tigerstripe workbench
 	 * @throws TigerstripeException
 	 */
-	public static URI toURI(IModelComponent component, String newName)
-	{
-//		System.out.println("toURI: "+component+" / "+newName);
+	public static URI toURI(IModelComponent component, String newName) {
+		// System.out.println("toURI: "+component+" / "+newName);
 		IAbstractArtifact art = getArtifact(component);
 		IPath artifactPath = getArtifactPath(art, newName);
-		
+
 		String fragment = null;
-		
+
 		if (component instanceof IField) {
-			fragment = newName == null ? ((IField) component).getName() : newName;
+			fragment = newName == null ? ((IField) component).getName()
+					: newName;
 		} else if (component instanceof IMethod) {
 			IMethod method = ((IMethod) component);
 			fragment = method.getMethodId();
 		} else if (component instanceof ILiteral) {
-			fragment = newName == null ? ((ILiteral) component).getName() : newName;
+			fragment = newName == null ? ((ILiteral) component).getName()
+					: newName;
 		} else if (component instanceof IAssociationEnd) {
 			IAssociationEnd end = (IAssociationEnd) component;
 			IAssociationArtifact assoc = end.getContainingAssociation();
-			StringBuilder b = new StringBuilder(newName == null ? assoc.getName() : newName);
+			StringBuilder b = new StringBuilder(newName == null ? assoc
+					.getName() : newName);
 			if (assoc.getAEnd() == end) {
 				b.append(";aEnd");
 			} else {
@@ -110,56 +121,58 @@ public class TSModelURIConverter {
 
 		return toURI(artifactPath, fragment);
 	}
-	
+
 	/**
-	 * Returns the <code>IModelComponent</code> that is identified by the supplied
-	 * URI
-	 * @param uri the URI for which the <code>IModelComponent</code> it identifies is
-	 * required
-	 * @return the <code>IModelComponent</code> that is identified by the supplied
-	 * URI
+	 * Returns the <code>IModelComponent</code> that is identified by the
+	 * supplied URI
+	 * 
+	 * @param uri
+	 *            the URI for which the <code>IModelComponent</code> it
+	 *            identifies is required
+	 * @return the <code>IModelComponent</code> that is identified by the
+	 *         supplied URI
 	 */
 	public static IModelComponent toComponent(URI uri) {
 		IPath path = new Path(uri.path());
 		String fqn = toFQN(path);
 		path = path.removeLastSegments(1);
-//		System.out.println("TSModelURIConverter.toComponent(...): "+uri+" / "+fqn);
+		// System.out.println("TSModelURIConverter.toComponent(...): "+uri+" /
+		// "+fqn);
 		try {
-			IAbstractTigerstripeProject tsp = TigerstripeProjectLocator.getProject(path.lastSegment());
-//			IAbstractTigerstripeProject tsp = TigerstripeCore.findProject(path);
-//
-			IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject)tsp).getArtifactManagerSession();
-			IAbstractArtifact artifact = artifactManagerSession.getArtifactByFullyQualifiedName(fqn);
+			IAbstractTigerstripeProject tsp = TigerstripeProjectLocator
+					.getProject(path.lastSegment());
+			// IAbstractTigerstripeProject tsp =
+			// TigerstripeCore.findProject(path);
+			//
+			IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject) tsp)
+					.getArtifactManagerSession();
+			IAbstractArtifact artifact = artifactManagerSession
+					.getArtifactByFullyQualifiedName(fqn);
 			String fragment = uri.fragment();
-//			System.out.println("URI again: "+uri+" / "+fragment);
-			if(fragment != null)
-			{
-				if(fragment.contains(";") && artifact instanceof IAssociationArtifact)
-				{
-					System.out.println("Association: "+artifact+" / "+artifact.getClass().getName()+" / Association-end: "+fragment);
-					IAssociationArtifact assoc = (IAssociationArtifact)artifact;
-					if(fragment.endsWith(";aEnd"))
+			// System.out.println("URI again: "+uri+" / "+fragment);
+			if (fragment != null) {
+				if (fragment.contains(";")
+						&& artifact instanceof IAssociationArtifact) {
+					System.out.println("Association: " + artifact + " / "
+							+ artifact.getClass().getName()
+							+ " / Association-end: " + fragment);
+					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
+					if (fragment.endsWith(";aEnd"))
 						return assoc.getAEnd();
-					else if(fragment.endsWith(";zEnd"))
+					else if (fragment.endsWith(";zEnd"))
 						return assoc.getZEnd();
-				}
-				else if(fragment.endsWith(")") && fragment.contains("("))
-				{
-					for(IMethod m : artifact.getMethods())
-					{
-						if(m.getMethodId().equals(fragment))
+				} else if (fragment.endsWith(")") && fragment.contains("(")) {
+					for (IMethod m : artifact.getMethods()) {
+						if (m.getMethodId().equals(fragment))
 							return m;
 					}
-				}
-				else
-				{
-					for(IField f : artifact.getFields())
-					{
-						if(f.getName().equals(fragment))
+				} else {
+					for (IField f : artifact.getFields()) {
+						if (f.getName().equals(fragment))
 							return f;
 					}
 				}
-				
+
 			}
 			return artifact;
 		} catch (TigerstripeException e) {
@@ -169,11 +182,14 @@ public class TSModelURIConverter {
 	}
 
 	/**
-	 * Returns the fully-qualified name extracted from the supplied <code>IPath</code>
-	 * of the <code>IModelComponent</code> located by the path. The fully-qualified name
-	 * forms the last segment of the <code>IPath</code> 
-	 * @param artifactPath the <code>IPath</code> from which to extract the fully-qualified
-	 * name of an <code>IModelComponent</code>
+	 * Returns the fully-qualified name extracted from the supplied
+	 * <code>IPath</code> of the <code>IModelComponent</code> located by the
+	 * path. The fully-qualified name forms the last segment of the
+	 * <code>IPath</code>
+	 * 
+	 * @param artifactPath
+	 *            the <code>IPath</code> from which to extract the
+	 *            fully-qualified name of an <code>IModelComponent</code>
 	 * @return
 	 */
 	public static String toFQN(IPath artifactPath) {
@@ -181,24 +197,25 @@ public class TSModelURIConverter {
 	}
 
 	/**
-	 * Returns the <code>IModelComponent</code> that is associated with the supplied
-	 * <code>Object</code> which must implement the interface <code>IJavaElement</code>
-	 * for a non-null value to be returned
-	 * @param firstElement the <code>Object</code> for which the corresponding
-	 * <code>IModelComponent</code> is required
+	 * Returns the <code>IModelComponent</code> that is associated with the
+	 * supplied <code>Object</code> which must implement the interface
+	 * <code>IJavaElement</code> for a non-null value to be returned
+	 * 
+	 * @param firstElement
+	 *            the <code>Object</code> for which the corresponding
+	 *            <code>IModelComponent</code> is required
 	 */
 	public static IModelComponent toModelComponent(Object firstElement) {
-//		System.out.println("get the component for: "+firstElement);
-		if(!(firstElement instanceof IJavaElement))
-				return null;
-		IJavaElement element = (IJavaElement)firstElement;
+		// System.out.println("get the component for: "+firstElement);
+		if (!(firstElement instanceof IJavaElement))
+			return null;
+		IJavaElement element = (IJavaElement) firstElement;
 		IJavaProject jp = element.getJavaProject();
 		try {
-			IAbstractTigerstripeProject tsp = TigerstripeCore.findProject(jp.getProject().getLocation());
-			if(tsp instanceof ITigerstripeModelProject)
-			{
-				switch(element.getElementType())
-				{
+			IAbstractTigerstripeProject tsp = TigerstripeCore.findProject(jp
+					.getProject().getLocation());
+			if (tsp instanceof ITigerstripeModelProject) {
+				switch (element.getElementType()) {
 				case JAVA_MODEL:
 				case JAVA_PROJECT:
 				case PACKAGE_FRAGMENT_ROOT:
@@ -206,15 +223,22 @@ public class TSModelURIConverter {
 					break;
 				case COMPILATION_UNIT:
 				case CLASS_FILE:
-				IPath elementPath = element.getPath();
-				IPath rootPath    = element.getAncestor(PACKAGE_FRAGMENT_ROOT).getPath();
-				IPath typePath = element.getAncestor(COMPILATION_UNIT).getPath();
-				IPath artifactPath = typePath.removeFirstSegments(rootPath.segmentCount());
-				String fqn = artifactPath.removeTrailingSeparator().toPortableString();
-				fqn = fqn.substring(0,fqn.lastIndexOf('.')).replace('/', '.');
-				IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject)tsp).getArtifactManagerSession();
-				IAbstractArtifact artifact = artifactManagerSession.getArtifactByFullyQualifiedName(fqn, true);
-				return artifact;
+					IPath elementPath = element.getPath();
+					IPath rootPath = element.getAncestor(PACKAGE_FRAGMENT_ROOT)
+							.getPath();
+					IPath typePath = element.getAncestor(COMPILATION_UNIT)
+							.getPath();
+					IPath artifactPath = typePath.removeFirstSegments(rootPath
+							.segmentCount());
+					String fqn = artifactPath.removeTrailingSeparator()
+							.toPortableString();
+					fqn = fqn.substring(0, fqn.lastIndexOf('.')).replace('/',
+							'.');
+					IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject) tsp)
+							.getArtifactManagerSession();
+					IAbstractArtifact artifact = artifactManagerSession
+							.getArtifactByFullyQualifiedName(fqn, true);
+					return artifact;
 				default:
 				}
 			}
@@ -223,21 +247,27 @@ public class TSModelURIConverter {
 		}
 		return null;
 	}
-	
-	private static IPath getArtifactPath(IAbstractArtifact art, String newName) //throws TigerstripeException
+
+	private static IPath getArtifactPath(IAbstractArtifact art, String newName) // throws
+	// TigerstripeException
 	{
 		try {
-			IPath path = new Path(art.getProject().getProjectDetails().getName());
-			path = path.append(newName == null ? art.getFullyQualifiedName() : newName);
-			return path;
+			ITigerstripeModelProject pro = art.getProject(); // null if art
+			// in module
+			if (pro != null) {
+				IPath path = new Path(art.getProject().getProjectDetails()
+						.getName());
+				path = path.append(newName == null ? art
+						.getFullyQualifiedName() : newName);
+				return path;
+			}
 		} catch (TigerstripeException e) {
 			AnnotationPlugin.log(e);
-			return null;
 		}
+		return null;
 	}
 
-	private static IAbstractArtifact getArtifact(IModelComponent component)
-	{
+	private static IAbstractArtifact getArtifact(IModelComponent component) {
 		IAbstractArtifact art = null;
 		if (component instanceof IAbstractArtifact) {
 			art = (IAbstractArtifact) component;
@@ -252,17 +282,18 @@ public class TSModelURIConverter {
 		}
 		return art;
 	}
-	
-	private static URI toURI(IPath path, String fragment)
-	{
+
+	private static URI toURI(IPath path, String fragment) {
 		try {
-			URI uri = URI.createHierarchicalURI(SCHEME_TS, null, null, path.segments(), null, fragment);
-//			System.out.println("Created-URI: "+uri);
-			return uri;
-        }
-        catch (IllegalArgumentException e) {
-	        e.printStackTrace();
-        }
-        return null;
+			if (path != null) {
+				URI uri = URI.createHierarchicalURI(SCHEME_TS, null, null, path
+						.segments(), null, fragment);
+				// System.out.println("Created-URI: "+uri);
+				return uri;
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

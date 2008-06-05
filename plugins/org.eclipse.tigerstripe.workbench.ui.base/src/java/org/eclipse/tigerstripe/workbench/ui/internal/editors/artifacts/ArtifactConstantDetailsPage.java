@@ -218,9 +218,11 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 		nameText.addModifyListener(adapter);
 		TigerstripeFormEditor editor = (TigerstripeFormEditor) ((TigerstripeFormPage) getForm()
 				.getContainer()).getEditor();
-		nameEditListener = new TextEditListener(editor, "name",
-				IModelChangeDelta.SET, this);
-		nameText.addModifyListener(nameEditListener);
+		if (!isReadOnly) {
+			nameEditListener = new TextEditListener(editor, "name",
+					IModelChangeDelta.SET, this);
+			nameText.addModifyListener(nameEditListener);
+		}
 
 		label = toolkit.createLabel(sectionClient, "");
 

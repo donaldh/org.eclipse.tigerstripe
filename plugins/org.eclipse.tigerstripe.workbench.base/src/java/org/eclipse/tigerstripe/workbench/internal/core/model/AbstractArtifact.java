@@ -1643,7 +1643,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			try {
 				return getIResource();
 			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
+//				BasePlugin.log(e);
 			}
 		}
 

@@ -332,11 +332,14 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 				.createButton(parent, "isAbstract", SWT.CHECK);
 		isAbstractButton.setEnabled(!this.isReadonly());
 		isAbstractButton.addSelectionListener(new GeneralInfoPageListener());
-		CheckButtonEditListener editListener = new CheckButtonEditListener(
-				(TigerstripeFormEditor) getPage().getEditor(), "abstract",
-				IModelChangeDelta.SET, (URI) getIArtifact().getAdapter(
-						URI.class));
-		isAbstractButton.addSelectionListener(editListener);
+
+		if (!isReadonly()) {
+			CheckButtonEditListener editListener = new CheckButtonEditListener(
+					(TigerstripeFormEditor) getPage().getEditor(), "abstract",
+					IModelChangeDelta.SET, (URI) getIArtifact().getAdapter(
+							URI.class));
+			isAbstractButton.addSelectionListener(editListener);
+		}
 		toolkit.createLabel(parent, "");
 	}
 
