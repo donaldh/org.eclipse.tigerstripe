@@ -131,7 +131,9 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 						return null;
 
 				} catch (TigerstripeException e) {
-					BasePlugin.log(e);
+					// This means we couldn't parse it. Must some kind of other
+					// file (not pojo artifact)
+					// just ignore
 					return null;
 				}
 			} else
