@@ -145,6 +145,16 @@
                style="push"
                toolbarPath="Normal/additions"
                tooltip="Generate current Project"/>
+         <action
+               allowLabelUpdate="true"
+               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewSessionArtifactWizardAction"
+               disabledIcon="src/icons/archive/new_session_gs.gif"
+               icon="src/icons/archive/new_session.gif"
+               id="org.eclipse.tigerstripe.eclipse.newInterfaceAction"
+               label="New Interface"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Create a new Interface Specification with Tigerstripe"/>
          <menu
                label="Tigerstripe"
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu">
@@ -257,6 +267,15 @@
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
                style="push"
                tooltip="Create new Tigerstripe Project"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.NewArtifactDropDownAction"
+               disabledIcon="src/icons/archive/new_entity_gs.gif"
+               icon="src/icons/archive/new_entity.gif"
+               id="org.eclipse.tigerstripe.eclipse.newArtifactAction"
+               label="New artifact"
+               style="pulldown"
+               toolbarPath="Normal/additions"
+               tooltip="Create new Tigerstripe Artifacts"/>
          <action
                class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewProjectWizardAction"
                icon="src/icons/new_project.gif"
