@@ -33,6 +33,7 @@ public class LiteralSetRequest extends BaseArtifactElementRequest implements
 	private String literalName;
 
 	private URI literalURI;
+	private URI newLiteralURI;
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
@@ -70,6 +71,7 @@ public class LiteralSetRequest extends BaseArtifactElementRequest implements
 					literalURI = (URI) iLiteral.getAdapter(URI.class);
 					if (NAME_FEATURE.equals(featureId)) {
 						iLiteral.setName(newValue);
+						newLiteralURI = (URI) iLiteral.getAdapter(URI.class);
 						needSave = true;
 					} else if (VALUE_FEATURE.equals(featureId)) {
 						iLiteral.setValue(newValue);
@@ -107,8 +109,14 @@ public class LiteralSetRequest extends BaseArtifactElementRequest implements
 					.getArtifactByFullyQualifiedName(getArtifactFQN());
 			delta.setAffectedModelComponentURI(literalURI);
 			delta.setFeature(this.featureId);
-			delta.setNewValue(this.newValue);
-			delta.setOldValue(this.oldValue);
+			if ("name".equals(featureId)) {
+				// Bug 235928 need to put in the URI here
+				delta.setOldValue(literalURI);
+				delta.setNewValue(newLiteralURI);
+			} else {
+				delta.setNewValue(this.newValue);
+				delta.setOldValue(this.oldValue);
+			}
 			delta.setProject(art.getProject());
 			delta.setSource(this);
 			return delta;

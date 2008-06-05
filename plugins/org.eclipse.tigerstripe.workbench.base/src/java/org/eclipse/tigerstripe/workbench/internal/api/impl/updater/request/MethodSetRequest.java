@@ -38,6 +38,7 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 	private IMethod iMethod;
 
 	private URI methodURI;
+	private URI newMethodURI;
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
@@ -75,6 +76,7 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 					methodURI = (URI) iMethod.getAdapter(URI.class);
 					if (NAME_FEATURE.equals(featureId)) {
 						iMethod.setName(newValue);
+						newMethodURI = (URI) iMethod.getAdapter(URI.class);
 						needSave = true;
 					} else if (TYPE_FEATURE.equals(featureId)) {
 						IType type = iMethod.makeType();
@@ -150,8 +152,15 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 					.getArtifactByFullyQualifiedName(getArtifactFQN());
 			delta.setAffectedModelComponentURI(methodURI);
 			delta.setFeature(this.featureId);
-			delta.setNewValue(this.newValue);
-			delta.setOldValue(this.oldValue);
+
+			if ("name".equals(featureId)) {
+				// Bug 235928 need to put in the URI here
+				delta.setOldValue(methodURI);
+				delta.setNewValue(newMethodURI);
+			} else {
+				delta.setNewValue(this.newValue);
+				delta.setOldValue(this.oldValue);
+			}
 			delta.setProject(art.getProject());
 			delta.setSource(this);
 			return delta;
