@@ -23,8 +23,13 @@ public class TestingConstants {
 	public static String NEW_GLOBAL_RULE_NAME = "AllArtifacts";
 	public static String GLOBAL_RULE_TEMPLATE_NAME = "allArtifacts.vm";
 	public static String GLOBAL_RULE_OUTPUT_FILE_NAME = "allArtifacts.txt";
+	public static String GLOBAL_RULE_DESCRIPTION = "A global rule for testing";
+	
 	
 	public static String NEW_ARTIFACT_RULE_NAME = "ArtifactRule";
+	public static String ARTIFACT_RULE_TEMPLATE_NAME = "artifact.vm";
+	public static String ARTIFACT_RULE_OUTPUT_FILE_NAME = "${artifact.Name}.txt";
+	public static String ARTIFACT_RULE_DESCRIPTION = "An artifact rule for testing";
 	
 	
 	// Profile constants

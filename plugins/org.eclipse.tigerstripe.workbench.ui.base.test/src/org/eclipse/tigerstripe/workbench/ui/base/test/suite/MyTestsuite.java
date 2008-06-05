@@ -6,6 +6,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.workbench.ui.base.test.generator.Generate;
 import org.eclipse.tigerstripe.workbench.ui.base.test.generator.NewArtifactRule;
+import org.eclipse.tigerstripe.workbench.ui.base.test.generator.NewGlobalRule;
 import org.eclipse.tigerstripe.workbench.ui.base.test.generator.NewPluginProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.generator.SaveAndDeployPlugin;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.CreateProfile;
@@ -51,13 +52,17 @@ public class MyTestsuite extends TestCase
         // Make sure it appears correctly in the menu
         suite.addTestSuite(TestActiveProfile.class);
         
-        // create a new Plugin and add a global rule
+        // create a new Plugin
         suite.addTestSuite(NewPluginProject.class);
-        // Save/Deploy it
-        suite.addTestSuite(SaveAndDeployPlugin.class);
-        // Check what happens with other rules - audit checks etc
+        
+        // Check what happens with rules - audit checks etc
+        suite.addTestSuite(NewGlobalRule.class);
+        
         suite.addTestSuite(NewArtifactRule.class);
         
+        
+        // Save/Deploy it
+        suite.addTestSuite(SaveAndDeployPlugin.class);
 
         
         // creates a new Project and add artifact(s)

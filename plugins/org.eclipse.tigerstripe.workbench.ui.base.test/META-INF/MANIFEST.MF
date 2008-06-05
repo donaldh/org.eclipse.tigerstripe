@@ -1,9 +1,6 @@
-Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Test Plug-in
-Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base.test
 Bundle-Version: 1.0.0
-Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.base.test.Activator
+Manifest-Version: 1.0
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.workbench.ui.base,
  org.junit,
@@ -13,5 +10,12 @@ Require-Bundle: org.eclipse.core.runtime,
  com.instantiations.eclipse.debug,
  com.instantiations.eclipse.util,
  com.windowtester.swt.runtime,
- org.eclipse.ui.forms
+ org.eclipse.ui.forms,
+ com.windowtester.runtime,
+ com.windowtester.swing.runtime,
+ org.eclipse.jface,
+ org.eclipse.swt
+Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.base.test.Activator
 Eclipse-LazyStart: true
+Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base.test
+Bundle-Name: Test Plug-in

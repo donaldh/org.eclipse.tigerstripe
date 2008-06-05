@@ -5,6 +5,7 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
+import com.windowtester.runtime.locator.XYLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
@@ -55,6 +56,12 @@ public class NewProject extends UITestCaseSWT {
 			
 		// Now set some other project details
 		//TODO
+		
+		
+		// Close the descriptor
+		//ui.click(new XYLocator(new CTabItemLocator(
+		//	TestingConstants.NEW_PROJECT_NAME+"/tigerstripe.xml"), 169, 13));
+		
 	}
 	
 	/**
@@ -184,13 +191,7 @@ public class NewProject extends UITestCaseSWT {
 	public void testCloseEditor() throws Exception{
 		ui = getUI();
 		GuiUtils.maxminTab(ui, TestingConstants.ENTITY_NAMES[0]);
-		/*
-		 * SUPPORT 
-		 * 
-		 * I wanted to close the editor, but the following line fails saying that
-		 * it can't open the pop-up.
-		 */
-		//GuiUtils.closeTab(ui, TestingConstants.ENTITY_NAMES[0]);
+		ui.click(new XYLocator(new CTabItemLocator(TestingConstants.ENTITY_NAMES[0]), 70, 12));
 		
 	}
 	

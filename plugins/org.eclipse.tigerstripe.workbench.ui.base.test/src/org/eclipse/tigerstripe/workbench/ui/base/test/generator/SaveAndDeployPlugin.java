@@ -3,10 +3,14 @@ package org.eclipse.tigerstripe.workbench.ui.base.test.generator;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 
 import com.windowtester.runtime.IUIContext;
+import com.windowtester.runtime.condition.IsEnabledCondition;
+import com.windowtester.runtime.locator.ILocator;
+import com.windowtester.runtime.locator.XYLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
+import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.MenuItemLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
@@ -19,14 +23,14 @@ public class SaveAndDeployPlugin extends UITestCaseSWT {
 		IUIContext ui = getUI();
 		
 		// Save the Project
+		ui.click(new CTabItemLocator(".*"+TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		TreeItemLocator treeItem = new TreeItemLocator(
+				TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml",
+				new ViewLocator(
+						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
 		
-		ui.contextClick(
-				new TreeItemLocator(
-						TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml",
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
-				"Plugin/Deploy");
+		ui.contextClick( treeItem,	"Plugin/Deploy");
 		
 		ui.wait(new ShellShowingCondition("Deploy new plugin"));
 		ui.click(new ButtonLocator("OK"));
@@ -42,6 +46,12 @@ public class SaveAndDeployPlugin extends UITestCaseSWT {
 		ui.click(new TableItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME+"("+TestingConstants.NEW_PLUGIN_PROJECT_VERSION+")"));
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("Deployed Tigerstripe Plugins"));
+		
+		
+		// Close the editor
+		ui.click(new XYLocator(
+				new CTabItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml"),
+				195, 14));
 	}
 
 }

@@ -23,16 +23,14 @@ public class CleanWorkspace extends UITestCaseSWT {
 		IUIContext ui = getUI();
 		ui.click(new XYLocator(new CTabItemLocator("Welcome"), 79, 11));
 		ui.click(new XYLocator(new CTabItemLocator("Outline"), 79, 11));
-	}
 
-	/** 
+
+	/* 
 	 * This is required to set the profile to defaults before we start.
 	 * Otherwise we don't know for sure that the profile will be applied properly!
 	 * 
-	 * @throws Exception
 	 */
-	public void testClearProfile() throws Exception {
-		IUIContext ui = getUI();
+
 		ui.click(new MenuItemLocator("Tigerstripe/Active Profile Details..."));
 		ui.wait(new ShellShowingCondition("Active Profile Details"));
 		ui.click(new ButtonLocator("Reset Profile")); 
@@ -42,21 +40,18 @@ public class CleanWorkspace extends UITestCaseSWT {
 		ui.click(new ButtonLocator("OK"));
 		
 		LabeledTextLocator name = new LabeledTextLocator("Name");
-		System.out.println(name.getText(ui));
 		assertEquals("Factory DefaultProfile was not applied", "NO_NAME", name.getText(ui));
 		
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("Active Profile Details"));
-	}
+
 	
-	/** 
+	/*
 	 * This is required to undeploy our test plugin before we start.
 	 * Otherwise we don't know for sure that the plugin deployed properly!
 	 * 
-	 * @throws Exception
 	 */
-	public void testClearPlugin() throws Exception {
-		IUIContext ui = getUI();
+
 		
 		// This is disabled because when the "undeploy" bit happens,
 		// The Deployed Plugins Shell loses focus and I can't seem to get it back!

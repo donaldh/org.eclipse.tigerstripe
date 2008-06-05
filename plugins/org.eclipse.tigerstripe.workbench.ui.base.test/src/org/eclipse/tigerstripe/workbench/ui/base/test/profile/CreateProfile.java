@@ -82,12 +82,10 @@ public class CreateProfile extends UITestCaseSWT {
 		// create some stereotypes
 		ui.click(new CTabItemLocator("Stereotypes"));
 		com.windowtester.runtime.locator.IWidgetLocator[] allAdds = ui.findAll(new ButtonLocator("Add"));
-		System.out.println(allAdds.length);
 		ui.click(allAdds[0]);
 		
 		// There's another one now!
         allAdds = ui.findAll(new ButtonLocator("Add"));
-		System.out.println(allAdds.length);
 		ui.click(allAdds[0]); // This one works
 		ui.click(allAdds[1]); // This one seems to be out of view!
 		
