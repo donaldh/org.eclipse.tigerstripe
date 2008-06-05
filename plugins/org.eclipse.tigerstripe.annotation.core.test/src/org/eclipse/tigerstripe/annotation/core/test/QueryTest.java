@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.test.model.Author;
+import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelPackage;
 
@@ -45,17 +45,17 @@ public class QueryTest extends AbstractResourceTestCase {
 	}
 	
 	public void testQuery() {
-		Author person1 = createAuthor("Yuri", "Strot");
-		Author person2 = createAuthor("John", "Adams");
-		Author person3 = createAuthor(null, null);
+		MimeType type1 = createMimeType("text/html");
+		MimeType type2 = createMimeType("text/plain");
+		MimeType type3 = createMimeType(null);
 		
 		try {
-			AnnotationPlugin.getManager().addAnnotation(project1, person1);
-			AnnotationPlugin.getManager().addAnnotation(project1, person2);
-			AnnotationPlugin.getManager().addAnnotation(project2, person3);
+			AnnotationPlugin.getManager().addAnnotation(project1, type1);
+			AnnotationPlugin.getManager().addAnnotation(project1, type2);
+			AnnotationPlugin.getManager().addAnnotation(project2, type3);
 			
 			checkQuery(AnnotationPackage.eINSTANCE.getAnnotation(), 3);
-			checkQuery(ModelPackage.eINSTANCE.getAuthor(), 3);
+			checkQuery(ModelPackage.eINSTANCE.getMimeType(), 3);
 		}
 		finally {
 			AnnotationPlugin.getManager().removeAnnotations(project1);
@@ -63,11 +63,10 @@ public class QueryTest extends AbstractResourceTestCase {
 		}
 	}
 	
-	private Author createAuthor(String firstName, String lastName) {
-		Author person = ModelFactory.eINSTANCE.createAuthor();
-		person.setFirstName(firstName);
-		person.setLastName(lastName);
-		return person;
+	private MimeType createMimeType(String type) {
+		MimeType mimeType = ModelFactory.eINSTANCE.createMimeType();
+		mimeType.setMimeType(type);
+		return mimeType;
 	}
 	
 	private void checkQuery(EClassifier classifier, int size) {

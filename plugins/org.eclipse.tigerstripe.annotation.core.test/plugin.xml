@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.4 2008/06/04 09:12:38 ystrot Exp $
+ $Id: plugin.xml,v 1.5 2008/06/05 06:47:13 ystrot Exp $
 -->
 
 <plugin>
@@ -35,7 +35,7 @@
            description="Hibernate Annotation"
            eclass="Hibernate">
          <target
-               type="org.eclipse.jdt.core.IJavaElement" unique="false"/>
+               type="org.eclipse.jdt.core.IJavaElement"/>
      </definition>
   </extension>
   
@@ -47,7 +47,7 @@
            description="MIME Type Annotation"
            eclass="MimeType">
          <target
-               type="org.eclipse.core.resources.IResource"/>
+               type="org.eclipse.core.resources.IResource" unique="false"/>
      </definition>
   </extension>
 	

@@ -43,13 +43,13 @@ public class AddRemoveAnnotationTest extends AbstractResourceTestCase {
 	
 	public void testAddRemove() {
 		IAnnotationManager manager = AnnotationPlugin.getManager();
-		Annotation annotation1 = manager.addAnnotation(project1, ModelFactory.eINSTANCE.createAuthor());
+		Annotation annotation1 = manager.addAnnotation(project1, ModelFactory.eINSTANCE.createMimeType());
 		assertNotNull(annotation1);
 		
-		Annotation annotation2 = manager.addAnnotation(project1, ModelFactory.eINSTANCE.createAuthor());
+		Annotation annotation2 = manager.addAnnotation(project1, ModelFactory.eINSTANCE.createMimeType());
 		assertNotNull(annotation2);
 		
-		Annotation annotation3 = manager.addAnnotation(project2, ModelFactory.eINSTANCE.createAuthor());
+		Annotation annotation3 = manager.addAnnotation(project2, ModelFactory.eINSTANCE.createMimeType());
 		assertNotNull(annotation3);
 		
 		assertEquals(annotation1.getUri(), annotation2.getUri());

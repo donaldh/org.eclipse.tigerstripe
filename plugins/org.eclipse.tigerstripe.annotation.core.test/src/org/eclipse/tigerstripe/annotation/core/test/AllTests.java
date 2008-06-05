@@ -26,6 +26,7 @@ public class AllTests {
 		suite.addTestSuite(ChangeRecordingTest.class);
 		suite.addTestSuite(DelegatesTest.class);
 		suite.addTestSuite(TargetsTest.class);
+		suite.addTestSuite(URIPrefixReplacingTest.class);
 		// $JUnit-END$
 		return suite;
 	}
