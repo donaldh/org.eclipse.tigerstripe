@@ -77,7 +77,7 @@ public class IndexStorage {
 	protected String getFeatureName(File file) {
 		String name = file.getName();
 		if (name.toLowerCase().endsWith(".xml")) {
-			return name.substring(0, name.length() - 5);
+			return name.substring(0, name.length() - 4);
 		}
 		return null;
 	}
