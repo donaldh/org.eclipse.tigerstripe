@@ -56,6 +56,24 @@ public class IndexStorage {
 		}
 	}
 	
+	public void removeIndex() {
+		map = new HashMap<String, Resource>();
+		File indexDirectory = new File(ResourcesPlugin.getDefault(
+				).getStateLocation().toFile(), INDEX_DIRECTORY);
+		if (!indexDirectory.exists())
+			return;
+		File[] files = indexDirectory.listFiles();
+		for (int i = 0; i < files.length; i++) {
+			try {
+				if (getFeatureName(files[i]) != null)
+					files[i].delete();
+			}
+			catch (Exception e) {
+				//ignore
+			}
+		}
+	}
+	
 	protected String getFeatureName(File file) {
 		String name = file.getName();
 		if (name.toLowerCase().endsWith(".xml")) {

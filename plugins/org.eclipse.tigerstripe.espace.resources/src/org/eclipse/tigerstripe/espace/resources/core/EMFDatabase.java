@@ -184,6 +184,11 @@ public class EMFDatabase implements IEMFDatabase {
 		}
     }
 	
+	public void rebuildIndex() {
+		EObject[] objects = read();
+		getResourceHelper().rebuildIndex(objects);
+	}
+	
 	public void remove(EObject object) {
 		EStructuralFeature feature = getIDFeature(object);
 		if (feature != null) {

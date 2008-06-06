@@ -46,6 +46,14 @@ public class ResourceHelper {
 		indexer.save();
 	}
 	
+	public void rebuildIndex(EObject[] objects) {
+		indexer.removeIndex();
+		for (int i = 0; i < objects.length; i++)
+			readReferences(objects[i], ADD_INDEX);
+		indexer.applyChanges();
+		indexer.save();
+	}
+	
 	public void removeAndSave(Resource resource, EObject object) {
 		indexer.clear();
 		readReferences(object, REMOVE_INDEX);

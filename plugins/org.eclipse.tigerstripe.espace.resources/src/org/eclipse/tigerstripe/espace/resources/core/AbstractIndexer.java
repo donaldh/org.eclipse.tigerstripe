@@ -70,6 +70,13 @@ public abstract class AbstractIndexer implements IIndexer {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#removeIndex()
+	 */
+	public void removeIndex() {
+		storage.removeIndex();
+	}
+	
 	protected abstract Object[] getTargets(EObject object);
 	
 	/* (non-Javadoc)

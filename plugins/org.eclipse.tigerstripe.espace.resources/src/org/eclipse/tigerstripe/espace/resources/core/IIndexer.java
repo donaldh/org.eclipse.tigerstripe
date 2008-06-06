@@ -25,6 +25,8 @@ public interface IIndexer {
 	
 	public void resolve();
 	
+	public void removeIndex();
+	
 	public void applyChanges();
 	
 	public void save();

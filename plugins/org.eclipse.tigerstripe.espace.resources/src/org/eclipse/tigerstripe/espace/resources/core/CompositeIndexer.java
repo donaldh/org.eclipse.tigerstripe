@@ -86,5 +86,16 @@ public class CompositeIndexer implements IIndexer {
 			break;
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#removeIndex()
+	 */
+	public void removeIndex() {
+		for (IIndexer indexer : indexers) {
+			//every indexer remove all indexes
+			indexer.removeIndex();
+			break;
+		}
+	}
 
 }

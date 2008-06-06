@@ -71,6 +71,10 @@ public class AnnotationStorage {
 		return database.query(classifier);
 	}
 	
+	public void rebuildIndex() {
+		database.rebuildIndex();
+	}
+	
 	public List<Annotation> getAnnotations(URI uri) {
 		List<Annotation> list = doGetAnnotations(uri);
 		return list;
