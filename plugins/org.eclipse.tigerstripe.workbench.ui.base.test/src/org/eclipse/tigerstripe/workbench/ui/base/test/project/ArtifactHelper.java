@@ -1,5 +1,8 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.project;
 
+import java.util.ArrayList;
+
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
@@ -7,36 +10,27 @@ import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
+import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.SectionLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
+import com.windowtester.swt.UIContext;
 
 public class ArtifactHelper extends UITestCaseSWT{
 
-	public void newAttribute(IUIContext ui, String artifactName) throws Exception {
+	public String newAttribute(IUIContext ui, String artifactName, String thisAttributeName) throws Exception {
+		thisAttributeName = artifactName.toLowerCase()+"_"+thisAttributeName;
 		
-		// Select the Entity Editor and maximise
-		// Have to do this to get the Attributes Section visible
-		// TODO Should not be needed?
-		/*
-		 * SUPPORT ....
-		 * 
-		 * I needed to maximise my window here, because otherwise the "Attributes" section
-		 * is not visible and the tester will not scroll to bring it into view.
-		 * The tester uses the co-ordinates within the form, and ends up clicking on the error view, as that
-		 * is covering that part of the form.
-		 * 
-		 * Is there a way to force the section to come into view?
-		 *  
-		 */
-		GuiUtils.maxminTab(ui, artifactName);
+		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "&Attributes");
+		// expand the Attributes sections
+		ui.click(sectionLabel);
 		
 		SectionLocator attributesSection = new SectionLocator("&Attributes");
 		
+		
 		// Make an Attribute
-		String thisAttributeName = TestingConstants.ATRIBUTE_NAMES[0];
 		ui.click(new ButtonLocator("Add", attributesSection));
 		LabeledTextLocator name = new LabeledTextLocator("Name: ");
 		GuiUtils.clearText(ui, name);
@@ -52,7 +46,8 @@ public class ArtifactHelper extends UITestCaseSWT{
 		
 		//TODO - Extract these into a a generic attribute handling class
 		LabeledTextLocator type  = new LabeledTextLocator("Type: ");
-		assertEquals("Default Type of Attribute not respected", "String", type.getText(ui));
+		String typeValue = type.getText(ui);
+		assertEquals("Default Type of Attribute not respected", "String", typeValue);
 	
 		/*
 		 * 
@@ -71,26 +66,91 @@ public class ArtifactHelper extends UITestCaseSWT{
 		
 		ButtonLocator readOnly = new ButtonLocator("Readonly");
 		assertFalse("Default 'false' readOnly is not respected",readOnly.isSelected(ui));
-		
-		
-		// Should check the item is in the explorer!
-		// Exception thrown if widget not found!
-		String pathToEntity = TestingConstants.NEW_PROJECT_NAME+
-								"/src/"+
-								TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
-								artifactName+"/"+
-								TestingConstants.ATRIBUTE_NAMES[0];
-		try {
-			TreeItemLocator treeItem = new TreeItemLocator(
-				pathToEntity,
-				new ViewLocator(
-						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
-		} catch (Exception e){
-			fail("Attribute is not in the Explorer view");
-		}		
-		
-		
-		
+				
+		// collapse the Attributes sections
+		ui.click(sectionLabel);
+		return thisAttributeName+"::"+typeValue;
 	}
 
+	public String newLiteral(IUIContext ui, String artifactName, String thisLiteralName) throws Exception {
+		thisLiteralName = artifactName.toLowerCase()+"_"+thisLiteralName;
+		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "Constants");
+		
+		// expand the section
+		ui.click(sectionLabel);
+		
+		SectionLocator constantsSection = new SectionLocator("Constants");
+		// Make a Literal
+
+		ui.click(new ButtonLocator("Add", constantsSection));
+		LabeledTextLocator name = new LabeledTextLocator("Name: ");
+		GuiUtils.clearText(ui, name);
+		ui.click(name);
+		ui.enterText(thisLiteralName);
+		//Save it
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		
+		
+		TableItemLocator literalNameInTable = new TableItemLocator(thisLiteralName);
+		ui.click(literalNameInTable);
+		assertEquals("Literal Name  changed on save", thisLiteralName, name.getText(ui));
+		
+		LabeledTextLocator value  = new LabeledTextLocator("Value: ");
+		String valueValue = value.getText(ui);
+				
+		// collapse the section
+		ui.click(sectionLabel);
+		return thisLiteralName+"="+valueValue;
+	}
+
+	public String newMethod(IUIContext ui, String artifactName, String thisMethodName) throws Exception {
+		thisMethodName = artifactName.toLowerCase()+"_"+thisMethodName;
+		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "Methods");
+		
+		// expand the section
+		ui.click(sectionLabel);
+		
+		SectionLocator constantsSection = new SectionLocator("Methods");
+		// Make a Literal
+
+		ui.click(new ButtonLocator("Add", constantsSection));
+		LabeledTextLocator name = new LabeledTextLocator("Name: ");
+		GuiUtils.clearText(ui, name);
+		ui.click(name);
+		ui.enterText(thisMethodName);
+		//Save it
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		
+		String methodSignature = thisMethodName+"()::void";
+		TableItemLocator methodNameInTable = new TableItemLocator(methodSignature);
+		ui.click(methodNameInTable);
+		assertEquals("Method Name  changed on save", thisMethodName, name.getText(ui));	
+		
+		// collapse the section
+		ui.click(sectionLabel);
+		return methodSignature;
+	}
+	
+	public void checkItemsInExplorer (IUIContext ui,String artifactName, ArrayList<String> items ){
+		for (String item : items){
+
+			String pathToItem = TestingConstants.NEW_PROJECT_NAME+
+			"/src/"+
+			TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
+			artifactName+"/"+
+			item;
+
+			try {	
+				TreeItemLocator treeItem = new TreeItemLocator(
+						pathToItem,
+					new ViewLocator(
+							"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+				ui.click(treeItem);
+			} catch (Exception e){
+				fail("Item '"+ pathToItem+ "' is not in the Explorer view");
+			}
+		}
+		
+	}
+	
 }
