@@ -114,22 +114,24 @@ public class ChangesTracker {
 			
 			public void resourceChanged(IResourceChangeEvent event) {
 				try {
-					event.getDelta().accept(new IResourceDeltaVisitor() {
-						
-						public boolean visit(IResourceDelta delta) throws CoreException {
-							switch (delta.getKind()) {
-								case IResourceDelta.ADDED:
-									return false;
-								case IResourceDelta.CHANGED:
-									return true;
-								case IResourceDelta.REMOVED:
-									deleted(delta.getResource());
-									return false;
-								default:
-									return true;
+					if (event.getDelta() != null) {
+						event.getDelta().accept(new IResourceDeltaVisitor() {
+							
+							public boolean visit(IResourceDelta delta) throws CoreException {
+								switch (delta.getKind()) {
+									case IResourceDelta.ADDED:
+										return false;
+									case IResourceDelta.CHANGED:
+										return true;
+									case IResourceDelta.REMOVED:
+										deleted(delta.getResource());
+										return false;
+									default:
+										return true;
+								}
 							}
-						}
-					});
+						});
+					}
 				} catch (CoreException e) {
 					e.printStackTrace();
 				}
