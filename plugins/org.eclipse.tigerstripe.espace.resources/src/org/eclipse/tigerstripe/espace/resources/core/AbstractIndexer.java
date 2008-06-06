@@ -122,8 +122,7 @@ public abstract class AbstractIndexer implements IIndexer {
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#save()
 	 */
 	public void save() {
-		for (Resource resource : resources)
-			save(resource);
+		storage.saveAll();
 		resources = new ArrayList<Resource>();
 	}
 	

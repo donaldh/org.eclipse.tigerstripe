@@ -215,7 +215,7 @@ public class EMFDatabase implements IEMFDatabase {
 	
 	protected void removeResource(Resource resource) {
 		try {
-			Path path = new Path(resource.getURI().toPlatformString(false));
+			Path path = new Path(resource.getURI().toString());
 			IResource res = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot().findMember(path);
 			if (res != null)
 				res.delete(true, new NullProgressMonitor());

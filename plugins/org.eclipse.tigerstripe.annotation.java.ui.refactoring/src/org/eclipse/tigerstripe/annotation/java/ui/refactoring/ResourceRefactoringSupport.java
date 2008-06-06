@@ -95,6 +95,8 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 	
 	protected IResource getResource(ILazyObject object) {
 		Object obj = object.getObject();
+		if (obj == null)
+			return null;
 		return (IResource)Platform.getAdapterManager().getAdapter(obj, IResource.class);
 	}
 

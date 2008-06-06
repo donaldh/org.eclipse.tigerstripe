@@ -30,7 +30,9 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 
 /**
  * @author Yuri Strot
@@ -164,6 +166,44 @@ public class JavaURIConverter {
 		String nPath = path.replaceAll("\\.", "/");
 		return new Path(nPath);
 	}
+	
+	private static IType getType(ITypeRoot root, String className) throws JavaModelException {
+		String[] parts = className.split("\\$");
+		if (parts.length == 0)
+			return root.findPrimaryType();
+
+		IType type = root.findPrimaryType();
+		//IType[] types = type.getTypes();
+		for (int j = 1; type != null && j < parts.length; j++) {
+			try {
+				int number = Integer.parseInt(parts[j]);
+				type = type.getType("", number);
+			}
+			catch (NumberFormatException e) {
+				type = type.getType(parts[j]);
+			}
+        }
+		return type;
+	}
+	
+	private static IType getType(String path, String name) {
+		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(path));
+		if (res != null) {
+			IJavaElement element = (IJavaElement)Platform.getAdapterManager().getAdapter(res, IJavaElement.class);
+			if (element instanceof ITypeRoot) {
+				try {
+					return getType((ITypeRoot)element, name);
+				}
+				catch (Exception e) {
+					//ignore
+				}
+			}
+		}
+		else {
+			return findType(name, new NullProgressMonitor());
+		}
+		return null;
+	}
 
 	public static IType findType(String className, IProgressMonitor monitor) {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -209,17 +249,19 @@ public class JavaURIConverter {
 		}
 		if (sourceIndex >= 0) {
 			int next = path.indexOf('/', sourceIndex);
-			if (next >= 0 && path.length() > next + 1) {
-				path = path.substring(next + 1);
-				int b = path.indexOf('/');
+			int first = path.indexOf('/');
+			if (next >= 0 && path.length() > next + 1 && first >= 0) {
+				String newPath = path.substring(next + 1);
+				String allPath = path.substring(first + 1, next);
+				int b = newPath.indexOf('/');
 				if (b < 0) {
 					//this is type
-					return findType(path, new NullProgressMonitor());
+					return getType(allPath, newPath);
 				}
 				else {
-					String type = path.substring(0, b);
-					String name = path.substring(b + 1);
-					IType classType = findType(type, new NullProgressMonitor());
+					String type = newPath.substring(0, b);
+					String name = newPath.substring(b + 1);
+					IType classType = getType(allPath, type);
 					if (classType == null) return null;
 					int bc = name.indexOf("(");
 					if (bc >= 0) {

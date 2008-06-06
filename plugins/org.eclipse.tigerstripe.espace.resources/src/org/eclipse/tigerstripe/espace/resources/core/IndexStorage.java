@@ -47,12 +47,21 @@ public class IndexStorage {
 		File[] files = indexDirectory.listFiles();
 		for (int i = 0; i < files.length; i++) {
 			try {
-				initResource(files[i]);
+				if (getFeatureName(files[i]) != null)
+					initResource(files[i]);
 			}
 			catch (Exception e) {
 				//ignore
 			}
 		}
+	}
+	
+	protected String getFeatureName(File file) {
+		String name = file.getName();
+		if (name.toLowerCase().endsWith(".xml")) {
+			return name.substring(0, name.length() - 5);
+		}
+		return null;
 	}
 	
 	protected void initResource(File file) {
@@ -68,6 +77,7 @@ public class IndexStorage {
             	//ignore exception
             }
     		EcoreUtil.resolveAll(resource);
+    		map.put(getFeatureName(file), resource);
 		}
 	}
 	
@@ -99,6 +109,17 @@ public class IndexStorage {
 			map.put(featureName, res);
 		}
 		return res;
+	}
+	
+	public void saveAll() {
+		for (Resource resource : map.values()) {
+	    	try {
+	            resource.save(null);
+	        }
+	        catch (IOException e) {
+	        	ResourcesPlugin.log(e);
+	        }
+		}
 	}
 
 }

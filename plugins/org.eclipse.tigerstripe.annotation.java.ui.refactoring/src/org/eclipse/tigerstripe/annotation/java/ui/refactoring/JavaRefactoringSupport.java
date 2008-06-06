@@ -99,11 +99,15 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 	
 	protected IJavaElement getJavaElement(ILazyObject object) {
 		Object obj = object.getObject();
+		if (obj == null)
+			return null;
 		return (IJavaElement)Platform.getAdapterManager().getAdapter(obj, IJavaElement.class);
 	}
 	
 	protected IResource getResource(ILazyObject object) {
 		Object obj = object.getObject();
+		if (obj == null)
+			return null;
 		return (IResource)Platform.getAdapterManager().getAdapter(obj, IResource.class);
 	}
 

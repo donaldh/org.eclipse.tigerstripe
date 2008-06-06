@@ -80,8 +80,11 @@ public class CompositeIndexer implements IIndexer {
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#save()
 	 */
 	public void save() {
-		for (IIndexer indexer : indexers)
+		for (IIndexer indexer : indexers) {
+			//every indexer save all resources
 			indexer.save();
+			break;
+		}
 	}
 
 }
