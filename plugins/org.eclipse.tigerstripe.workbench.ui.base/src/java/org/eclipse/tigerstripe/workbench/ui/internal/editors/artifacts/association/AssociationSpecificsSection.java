@@ -168,7 +168,8 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 			Composite parent, FormToolkit toolkit) {
 		super(page, parent, toolkit, null, null, ExpandableComposite.TITLE_BAR
 				| ExpandableComposite.EXPANDED);
-		setTitle("&Details");
+		//Bug 236219 - Chaned the "End Details" to avoid clash with existing "Detaiuls" section 
+		setTitle("End &Details");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
