@@ -167,8 +167,8 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 	public AssociationSpecificsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit) {
 		super(page, parent, toolkit, null, null, ExpandableComposite.TITLE_BAR
-				| ExpandableComposite.EXPANDED);
-		//Bug 236219 - Chaned the "End Details" to avoid clash with existing "Detaiuls" section 
+				| ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		//Bug 236219 - Changed the name to "End Details" to avoid clash with existing "Details" section 
 		setTitle("End &Details");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
