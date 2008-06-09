@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesPackageImpl.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
+ * $Id: ResourcesPackageImpl.java,v 1.5 2008/06/09 10:42:24 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.tigerstripe.espace.resources.EObjectList;
 import org.eclipse.tigerstripe.espace.resources.ResourceList;
+import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
 import org.eclipse.tigerstripe.espace.resources.ResourcesFactory;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPackage;
 
@@ -51,6 +52,13 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 	 * @generated
 	 */
 	private EClass resourceListEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass resourceLocationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -162,8 +170,35 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getResourceList_ResourceUris() {
-		return (EAttribute)resourceListEClass.getEStructuralFeatures().get(0);
+	public EReference getResourceList_Locations() {
+		return (EReference)resourceListEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getResourceLocation() {
+		return resourceLocationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getResourceLocation_Uri() {
+		return (EAttribute)resourceLocationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getResourceLocation_TimeStamp() {
+		return (EAttribute)resourceLocationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -207,7 +242,11 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 		createEReference(eObjectListEClass, EOBJECT_LIST__OBJECTS);
 
 		resourceListEClass = createEClass(RESOURCE_LIST);
-		createEAttribute(resourceListEClass, RESOURCE_LIST__RESOURCE_URIS);
+		createEReference(resourceListEClass, RESOURCE_LIST__LOCATIONS);
+
+		resourceLocationEClass = createEClass(RESOURCE_LOCATION);
+		createEAttribute(resourceLocationEClass, RESOURCE_LOCATION__URI);
+		createEAttribute(resourceLocationEClass, RESOURCE_LOCATION__TIME_STAMP);
 
 		// Create data types
 		uriEDataType = createEDataType(URI);
@@ -250,7 +289,11 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 		initEReference(getEObjectList_Objects(), theEcorePackage.getEObject(), null, "objects", null, 0, -1, EObjectList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resourceListEClass, ResourceList.class, "ResourceList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getResourceList_ResourceUris(), this.getURI(), "resourceUris", null, 0, -1, ResourceList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResourceList_Locations(), this.getResourceLocation(), null, "locations", null, 0, -1, ResourceList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(resourceLocationEClass, ResourceLocation.class, "ResourceLocation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getResourceLocation_Uri(), this.getURI(), "uri", null, 0, 1, ResourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getResourceLocation_TimeStamp(), ecorePackage.getELong(), "timeStamp", null, 0, 1, ResourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(uriEDataType, org.eclipse.emf.common.util.URI.class, "URI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

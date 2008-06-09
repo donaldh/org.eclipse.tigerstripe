@@ -13,7 +13,11 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference resources.ecore#//EObjectList/objects"/>
     </genClasses>
     <genClasses ecoreClass="resources.ecore#//ResourceList">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute resources.ecore#//ResourceList/resourceUris"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference resources.ecore#//ResourceList/locations"/>
+    </genClasses>
+    <genClasses ecoreClass="resources.ecore#//ResourceLocation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute resources.ecore#//ResourceLocation/uri"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute resources.ecore#//ResourceLocation/timeStamp"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

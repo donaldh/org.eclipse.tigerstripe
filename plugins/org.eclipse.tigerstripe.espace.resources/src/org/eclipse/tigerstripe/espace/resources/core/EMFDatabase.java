@@ -11,20 +11,14 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.core;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -39,8 +33,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
-import org.eclipse.tigerstripe.espace.resources.ResourceList;
-import org.eclipse.tigerstripe.espace.resources.ResourcesFactory;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 
 /**
@@ -49,20 +41,14 @@ import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
  */
 public class EMFDatabase implements IEMFDatabase {
 	
-	protected static final String DEFAULT_STORAGE = "defaultStorage.xml";
-	protected static final String RESOURCES_STORAGE = "resources.xml";
-	
 	private static final String ROUTER_EXTPT = "org.eclipse.tigerstripe.annotation.core.router";
 	private static final String ROUTER_ATTR_CLASS = "class";
 	
 	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
 	private static final String ANNOTATION_ID = "id";
 	
-	private DefaultObjectRouter resourcesStorage;
-	private DefaultObjectRouter defaultRouter;
 	private EObjectRouter[] routers;
 	private ResourceSet resourceSet;
-	private ResourceList resourceList;
 	private ResourceHelper resourceHelper;
 	
 	private IndexStorage indexStorage;
@@ -70,9 +56,9 @@ public class EMFDatabase implements IEMFDatabase {
 	private ClassifierIndexer cIndexer;
 	private CompositeIndexer indexer;
 	
+	private ResourceStorage resourceStorage;
+	
 	public EMFDatabase() {
-		IPath path = ResourcesPlugin.getDefault().getStateLocation();
-		defaultRouter = new DefaultObjectRouter(new File(path.toFile(), DEFAULT_STORAGE));
 	}
 	
 	protected ResourceSet getResourceSet() {
@@ -80,6 +66,13 @@ public class EMFDatabase implements IEMFDatabase {
 			resourceSet = new ResourceSetImpl();
 		}
 		return resourceSet;
+	}
+	
+	protected ResourceStorage getResourceStorage() {
+		if (resourceStorage == null) {
+			resourceStorage = new ResourceStorage(getResourceHelper());
+		}
+		return resourceStorage;
 	}
 	
 	protected IndexStorage getIndexStorage() {
@@ -114,7 +107,7 @@ public class EMFDatabase implements IEMFDatabase {
 	
 	protected ResourceHelper getResourceHelper() {
 		if (resourceHelper == null)
-			resourceHelper = new ResourceHelper(getIndexer());
+			resourceHelper = new ResourceHelper(getIndexer(), getResourceSet());
 		return resourceHelper;
 	}
 	
@@ -148,18 +141,6 @@ public class EMFDatabase implements IEMFDatabase {
 		return this.routers;
 	}
 	
-	protected boolean addToUris(URI uri) {
-		if (isDefaultUri(uri))
-			return false;
-		if (getResourceList().getResourceUris().contains(uri))
-			return false;
-		return true;
-	}
-	
-	private boolean isDefaultUri(URI uri) {
-		return defaultRouter.getUri().equals(uri);
-	}
-	
 	public EObject[] query(EClassifier classifier) {
 		return copy(getClassifierIndexer().read(classifier));
 	}
@@ -176,12 +157,7 @@ public class EMFDatabase implements IEMFDatabase {
 	public void write(EObject object) {
 		object = EcoreUtil.copy(object);
 		Resource resource = getResource(object);
-		getResourceHelper().addAndSave(resource, object, true);
-		
-		if (addToUris(resource.getURI())) {
-			getResourceList().getResourceUris().add(resource.getURI());
-			ResourceHelper.save(getResource(resourcesStorage.getUri()));
-		}
+		getResourceStorage().addResource(resource, object);
     }
 	
 	public void rebuildIndex() {
@@ -198,14 +174,8 @@ public class EMFDatabase implements IEMFDatabase {
 				if (EcoreUtil.equals(candidate, object)) {
 					Resource resource = candidate.eResource();
 					if (resource == null)
-						resource = getResource(candidate);
-					getResourceHelper().removeAndSave(resource, candidate);
-					if (resource.getContents().size() == 0 && !isDefaultUri(resource.getURI())) {
-						getResourceList().getResourceUris().remove(resource.getURI());
-						removeResource(resource);
-						ResourceHelper.save(getResource(resourcesStorage.getUri()));
-					}
-					return;
+						resource = getResource(object);
+					getResourceStorage().removeAndSave(candidate, resource);
 				}
 			}
 		}
@@ -218,38 +188,8 @@ public class EMFDatabase implements IEMFDatabase {
 		return null;
 	}
 	
-	protected void removeResource(Resource resource) {
-		try {
-			Path path = new Path(resource.getURI().toString());
-			IResource res = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot().findMember(path);
-			if (res != null)
-				res.delete(true, new NullProgressMonitor());
-        }
-        catch (Exception e) {
-	        e.printStackTrace();
-        }
-		
-	}
-	
 	protected Resource getResource(EObject object) {
-		return getResource(getUri(object));
-	}
-	
-	protected Resource getResource(URI uri) {
-		Resource resource = getResourceSet().getResource(uri, false);
-		if (resource == null) {
-			resource = getResourceSet().createResource(uri);
-		}
-		if (resource != null) {
-			try {
-	            resource.load(null);
-            }
-            catch (IOException e) {
-            	//ignore exception
-            }
-    		EcoreUtil.resolveAll(resource);
-		}
-		return resource;
+		return getResourceHelper().getResource(getUri(object));
 	}
 	
 	protected URI getUri(EObject object) {
@@ -265,42 +205,7 @@ public class EMFDatabase implements IEMFDatabase {
 	        	ResourcesPlugin.log(e);
 			}
         }
-		return defaultRouter.route(object);
-	}
-	
-	protected ResourceList getResourceList() {
-		if (resourceList == null) {
-			IPath path = ResourcesPlugin.getDefault().getStateLocation();
-			resourcesStorage = new DefaultObjectRouter(new File(path.toFile(), RESOURCES_STORAGE));
-			Resource resource = getResource(resourcesStorage.getUri());
-			try {
-				resource.load(null);
-            }
-            catch (IOException e) {
-            	//ignore
-            }
-            if (resource.getContents().size() > 0) {
-            	resourceList = (ResourceList)resource.getContents().get(0);
-            }
-            else {
-            	resourceList = ResourcesFactory.eINSTANCE.createResourceList();
-            	resource.getContents().add(resourceList);
-            	getResourceHelper().addAndSave(resource, resourceList);
-            }
-		}
-		return resourceList;
-	}
-	
-	protected Resource[] loadResources() {
-		ArrayList<Resource> resources = new ArrayList<Resource>();
-    	Iterator<URI> iter = getResourceList().getResourceUris().iterator();
-    	while (iter.hasNext()) {
-            Resource newResource = getResource(iter.next());
-            if (newResource != null)
-            	resources.add(newResource);
-        }
-        resources.add(getResource(defaultRouter.getUri()));
-		return resources.toArray(new Resource[resources.size()]);
+		return getResourceStorage().defaultRoute(object);
 	}
 
 	public boolean isIDFeature(EStructuralFeature feature) {
@@ -361,7 +266,7 @@ public class EMFDatabase implements IEMFDatabase {
 	
 	public EObject[] read() {
 		ArrayList<EObject> contents = new ArrayList<EObject>();
-		Resource[] resources = loadResources();
+		Resource[] resources = getResourceStorage().loadResources();
 		for (int i = 0; i < resources.length; i++) {
 			try {
 	            resources[i].load(null);

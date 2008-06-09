@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesAdapterFactory.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
+ * $Id: ResourcesAdapterFactory.java,v 1.5 2008/06/09 10:42:24 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.util;
 
@@ -91,6 +91,10 @@ public class ResourcesAdapterFactory extends AdapterFactoryImpl {
 				return createResourceListAdapter();
 			}
 			@Override
+			public Adapter caseResourceLocation(ResourceLocation object) {
+				return createResourceLocationAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -135,6 +139,20 @@ public class ResourcesAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createResourceListAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.espace.resources.ResourceLocation <em>Resource Location</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.espace.resources.ResourceLocation
+	 * @generated
+	 */
+	public Adapter createResourceLocationAdapter() {
 		return null;
 	}
 

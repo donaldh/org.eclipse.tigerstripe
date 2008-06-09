@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesFactoryImpl.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
+ * $Id: ResourcesFactoryImpl.java,v 1.5 2008/06/09 10:42:24 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
@@ -76,6 +76,7 @@ public class ResourcesFactoryImpl extends EFactoryImpl implements ResourcesFacto
 		switch (eClass.getClassifierID()) {
 			case ResourcesPackage.EOBJECT_LIST: return createEObjectList();
 			case ResourcesPackage.RESOURCE_LIST: return createResourceList();
+			case ResourcesPackage.RESOURCE_LOCATION: return createResourceLocation();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -136,8 +137,19 @@ public class ResourcesFactoryImpl extends EFactoryImpl implements ResourcesFacto
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ResourceLocation createResourceLocation() {
+		ResourceLocationImpl resourceLocation = new ResourceLocationImpl();
+		return resourceLocation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public URI createURIFromString(EDataType eDataType, String initialValue) {
-		return (URI)super.createFromString(eDataType, initialValue);
+        //auto generated URI creation removed because it doesn't work
+    	return URI.createURI(initialValue);
 	}
 
 	/**

@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesPackage.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
+ * $Id: ResourcesPackage.java,v 1.5 2008/06/09 10:42:24 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources;
 
@@ -110,13 +110,13 @@ public interface ResourcesPackage extends EPackage {
 	int RESOURCE_LIST = 1;
 
 	/**
-	 * The feature id for the '<em><b>Resource Uris</b></em>' attribute list.
+	 * The feature id for the '<em><b>Locations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_LIST__RESOURCE_URIS = 0;
+	int RESOURCE_LIST__LOCATIONS = 0;
 
 	/**
 	 * The number of structural features of the '<em>Resource List</em>' class.
@@ -128,6 +128,43 @@ public interface ResourcesPackage extends EPackage {
 	int RESOURCE_LIST_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl <em>Resource Location</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl
+	 * @see org.eclipse.tigerstripe.espace.resources.impl.ResourcesPackageImpl#getResourceLocation()
+	 * @generated
+	 */
+	int RESOURCE_LOCATION = 2;
+
+	/**
+	 * The feature id for the '<em><b>Uri</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_LOCATION__URI = 0;
+
+	/**
+	 * The feature id for the '<em><b>Time Stamp</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_LOCATION__TIME_STAMP = 1;
+
+	/**
+	 * The number of structural features of the '<em>Resource Location</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_LOCATION_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '<em>URI</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -135,7 +172,7 @@ public interface ResourcesPackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.espace.resources.impl.ResourcesPackageImpl#getURI()
 	 * @generated
 	 */
-	int URI = 2;
+	int URI = 3;
 
 
 	/**
@@ -170,15 +207,47 @@ public interface ResourcesPackage extends EPackage {
 	EClass getResourceList();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.tigerstripe.espace.resources.ResourceList#getResourceUris <em>Resource Uris</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.tigerstripe.espace.resources.ResourceList#getLocations <em>Locations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Resource Uris</em>'.
-	 * @see org.eclipse.tigerstripe.espace.resources.ResourceList#getResourceUris()
+	 * @return the meta object for the containment reference list '<em>Locations</em>'.
+	 * @see org.eclipse.tigerstripe.espace.resources.ResourceList#getLocations()
 	 * @see #getResourceList()
 	 * @generated
 	 */
-	EAttribute getResourceList_ResourceUris();
+	EReference getResourceList_Locations();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.espace.resources.ResourceLocation <em>Resource Location</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Resource Location</em>'.
+	 * @see org.eclipse.tigerstripe.espace.resources.ResourceLocation
+	 * @generated
+	 */
+	EClass getResourceLocation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.espace.resources.ResourceLocation#getUri <em>Uri</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Uri</em>'.
+	 * @see org.eclipse.tigerstripe.espace.resources.ResourceLocation#getUri()
+	 * @see #getResourceLocation()
+	 * @generated
+	 */
+	EAttribute getResourceLocation_Uri();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.espace.resources.ResourceLocation#getTimeStamp <em>Time Stamp</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Time Stamp</em>'.
+	 * @see org.eclipse.tigerstripe.espace.resources.ResourceLocation#getTimeStamp()
+	 * @see #getResourceLocation()
+	 * @generated
+	 */
+	EAttribute getResourceLocation_TimeStamp();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.common.util.URI <em>URI</em>}'.
@@ -242,12 +311,38 @@ public interface ResourcesPackage extends EPackage {
 		EClass RESOURCE_LIST = eINSTANCE.getResourceList();
 
 		/**
-		 * The meta object literal for the '<em><b>Resource Uris</b></em>' attribute list feature.
+		 * The meta object literal for the '<em><b>Locations</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute RESOURCE_LIST__RESOURCE_URIS = eINSTANCE.getResourceList_ResourceUris();
+		EReference RESOURCE_LIST__LOCATIONS = eINSTANCE.getResourceList_Locations();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl <em>Resource Location</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl
+		 * @see org.eclipse.tigerstripe.espace.resources.impl.ResourcesPackageImpl#getResourceLocation()
+		 * @generated
+		 */
+		EClass RESOURCE_LOCATION = eINSTANCE.getResourceLocation();
+
+		/**
+		 * The meta object literal for the '<em><b>Uri</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RESOURCE_LOCATION__URI = eINSTANCE.getResourceLocation_Uri();
+
+		/**
+		 * The meta object literal for the '<em><b>Time Stamp</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RESOURCE_LOCATION__TIME_STAMP = eINSTANCE.getResourceLocation_TimeStamp();
 
 		/**
 		 * The meta object literal for the '<em>URI</em>' data type.

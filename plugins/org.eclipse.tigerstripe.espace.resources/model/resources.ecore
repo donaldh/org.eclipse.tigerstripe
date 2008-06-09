@@ -8,8 +8,12 @@
         eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResourceList">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="resourceUris" upperBound="-1"
-        eType="#//URI"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locations" upperBound="-1"
+        eType="#//ResourceLocation" containment="true" resolveProxies="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceLocation">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="#//URI"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="org.eclipse.emf.common.util.URI"/>
 </ecore:EPackage>

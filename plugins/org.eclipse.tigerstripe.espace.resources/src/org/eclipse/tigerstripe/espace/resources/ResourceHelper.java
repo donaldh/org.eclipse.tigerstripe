@@ -11,10 +11,19 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources;
 
+import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.resources.core.IIndexer;
 
 /**
@@ -28,9 +37,11 @@ public class ResourceHelper {
 	private static final int REMOVE_INDEX = 2;
 	
 	private IIndexer indexer;
+	private ResourceSet resourceSet;
 	
-	public ResourceHelper(IIndexer indexer) {
+	public ResourceHelper(IIndexer indexer, ResourceSet resourceSet) {
 		this.indexer = indexer;
+		this.resourceSet = resourceSet;
 	}
 	
 	public void addAndSave(Resource resource, EObject object) {
@@ -88,5 +99,64 @@ public class ResourceHelper {
         	readReferences(child, indexStyle);
         }
     }
+	
+	public static File getFile(Resource resource) {
+		URI uri = resource.getURI();
+		String pString = uri.toPlatformString(false);
+		if (pString != null) {
+			Path path = new Path(pString);
+			IResource res = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot().findMember(path);
+			if (res != null) {
+				IPath absolutePath = res.getLocation();
+				if (absolutePath != null) {
+					return absolutePath.toFile();
+				}
+			}
+		}
+		String fString = uri.toFileString();
+		if (fString != null) {
+			return new File(fString);
+		}
+		return null;
+	}
+	
+	public static void delete(Resource resource) {
+		URI uri = resource.getURI();
+		String pString = uri.toPlatformString(false);
+		if (pString != null) {
+			Path path = new Path(pString);
+			IResource res = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot().findMember(path);
+			if (res != null) {
+				try {
+					res.delete(true, new NullProgressMonitor());
+				} catch (CoreException e) {
+					//ignore
+				}
+				return;
+			}
+		}
+		String fString = uri.toFileString();
+		if (fString != null) {
+			File file = new File(fString);
+			file.delete();
+		}
+	}
+	
+	public Resource getResource(URI uri) {
+		Resource resource = resourceSet.getResource(uri, false);
+		if (resource == null) {
+			resource = resourceSet.createResource(uri);
+		}
+		if (resource != null) {
+			try {
+	            resource.load(null);
+            }
+            catch (IOException e) {
+            	//ignore exception
+            }
+    		EcoreUtil.resolveAll(resource);
+		}
+		return resource;
+	}
 
 }

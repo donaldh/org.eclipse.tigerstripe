@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.core;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,7 +19,6 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 
 /**
  * @author Yuri Strot
@@ -131,15 +129,6 @@ public abstract class AbstractIndexer implements IIndexer {
 	public void save() {
 		storage.saveAll();
 		resources = new ArrayList<Resource>();
-	}
-	
-	public static void save(Resource resource) {
-    	try {
-            resource.save(null);
-        }
-        catch (IOException e) {
-        	ResourcesPlugin.log(e);
-        }
 	}
 	
 	protected Resource getResource(Object object, boolean create) {

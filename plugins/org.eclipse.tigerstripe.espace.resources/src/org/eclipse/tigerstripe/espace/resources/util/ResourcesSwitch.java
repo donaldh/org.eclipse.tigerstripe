@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesSwitch.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
+ * $Id: ResourcesSwitch.java,v 1.5 2008/06/09 10:42:24 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.util;
 
@@ -110,6 +110,12 @@ public class ResourcesSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ResourcesPackage.RESOURCE_LOCATION: {
+				ResourceLocation resourceLocation = (ResourceLocation)theEObject;
+				T result = caseResourceLocation(resourceLocation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -141,6 +147,21 @@ public class ResourcesSwitch<T> {
 	 * @generated
 	 */
 	public T caseResourceList(ResourceList object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Resource Location</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Resource Location</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseResourceLocation(ResourceLocation object) {
 		return null;
 	}
 

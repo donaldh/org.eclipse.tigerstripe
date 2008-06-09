@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesFactory.java,v 1.4 2008/05/27 09:41:03 ystrot Exp $
+ * $Id: ResourcesFactory.java,v 1.5 2008/06/09 10:42:24 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources;
 
@@ -53,6 +53,15 @@ public interface ResourcesFactory extends EFactory {
 	 * @generated
 	 */
 	ResourceList createResourceList();
+
+	/**
+	 * Returns a new object of class '<em>Resource Location</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Resource Location</em>'.
+	 * @generated
+	 */
+	ResourceLocation createResourceLocation();
 
 	/**
 	 * Returns the package supported by this factory.
