@@ -7,6 +7,8 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
+import com.windowtester.runtime.WidgetSearchException;
+import com.windowtester.runtime.locator.IWidgetLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
@@ -16,7 +18,6 @@ import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
-import com.windowtester.swt.UIContext;
 
 public class ArtifactHelper extends UITestCaseSWT{
 
@@ -110,10 +111,10 @@ public class ArtifactHelper extends UITestCaseSWT{
 		// expand the section
 		ui.click(sectionLabel);
 		
-		SectionLocator constantsSection = new SectionLocator("Methods");
+		SectionLocator methodsSection = new SectionLocator("Methods");
 		// Make a Literal
 
-		ui.click(new ButtonLocator("Add", constantsSection));
+		ui.click(new ButtonLocator("Add", methodsSection));
 		LabeledTextLocator name = new LabeledTextLocator("Name: ");
 		GuiUtils.clearText(ui, name);
 		ui.click(name);
@@ -129,6 +130,101 @@ public class ArtifactHelper extends UITestCaseSWT{
 		// collapse the section
 		ui.click(sectionLabel);
 		return methodSignature;
+	}
+	
+	public ArrayList<String> associationEndNames(IUIContext ui, String artifactName){
+		ArrayList<String> ends = new ArrayList<String>();
+		/*
+		 * We are not really adding them in this case - just getting the name and 
+		 * Types so we can validate against the explorer 
+		 */
+		try {
+
+			SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "End &Details");
+
+			// expand the section
+			ui.click(sectionLabel);			
+
+			SectionLocator endsSection = new SectionLocator("End &Details");
+			//TODO - This gets the same end twice
+			
+			// Note need to disambiguate the two ends
+			LabeledTextLocator aName = new LabeledTextLocator("Name:", 1, endsSection);
+			String aNameText = aName.getText(ui);
+			LabeledTextLocator aType = new LabeledTextLocator("Type", 1, endsSection);
+			String aTypeText = aType.getText(ui);
+			if (aTypeText.contains(".")){
+				aTypeText = aTypeText.substring(aTypeText.lastIndexOf(".")+1);
+			}
+			ends.add(aNameText+"::"+aTypeText);
+
+
+			LabeledTextLocator zName = new LabeledTextLocator("Name:", 2, endsSection);
+			String zNameText = zName.getText(ui);
+			LabeledTextLocator zType = new LabeledTextLocator("Type", 2, endsSection);
+			String zTypeText = zType.getText(ui);
+			if (zTypeText.contains(".")){
+				zTypeText = zTypeText.substring(zTypeText.lastIndexOf(".")+1);
+			}
+			
+			//TODO - This gets the same end twice
+			// Take this out for now as It always works if the aEnd did!
+			ends.add(zNameText+"::"+zTypeText);
+
+			// collapse the section
+			ui.click(sectionLabel);
+
+		} catch (WidgetSearchException wse){
+			fail("Did not find widgets '"+wse.getMessage()+"' for ends of "+artifactName);
+		}
+		
+		
+		return ends;
+	}
+	
+	public ArrayList<String> dependencyEndNames(IUIContext ui, String artifactName){
+		ArrayList<String> ends = new ArrayList<String>();
+		/*
+		 * We are not really adding them in this case - just getting the name and 
+		 * Types so we can validate against the explorer 
+		 */
+		try {
+
+			SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "End &Details");
+
+			// expand the section
+			ui.click(sectionLabel);			
+
+			SectionLocator endsSection = new SectionLocator("End &Details");
+			
+			// Note need to disambiguate the two ends
+			
+			LabeledTextLocator aType = new LabeledTextLocator("Type", 1, endsSection);
+			String aTypeText = aType.getText(ui);
+			if (aTypeText.contains(".")){
+				aTypeText = aTypeText.substring(aTypeText.lastIndexOf(".")+1);
+			}
+			ends.add("aEnd::"+aTypeText);
+			
+			LabeledTextLocator zType = new LabeledTextLocator("Type", 2, endsSection);
+			String zTypeText = zType.getText(ui);
+			if (zTypeText.contains(".")){
+				zTypeText = zTypeText.substring(zTypeText.lastIndexOf(".")+1);
+			}
+			
+			//TODO - This gets the same end twice
+			// Take this out for now as It never works!
+			ends.add("zEnd::"+zTypeText);
+
+			// collapse the section
+			ui.click(sectionLabel);
+
+		} catch (WidgetSearchException wse){
+			fail("Did not find widgets '"+wse.getMessage()+"' for ends of "+artifactName);
+		}
+		
+		
+		return ends;
 	}
 	
 	public void checkItemsInExplorer (IUIContext ui,String artifactName, ArrayList<String> items ){

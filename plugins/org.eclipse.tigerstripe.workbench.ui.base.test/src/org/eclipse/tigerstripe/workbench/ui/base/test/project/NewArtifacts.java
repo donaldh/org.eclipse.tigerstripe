@@ -30,6 +30,8 @@ public class NewArtifacts extends UITestCaseSWT {
 	
 	public void testAll() throws Exception {
 		testNewArtifactDefaults("Entity", TestingConstants.ENTITY_NAMES[0], true, true, true, false);
+		// Add a second entity, so that the associations etc can be better checked
+		testNewArtifactDefaults("Entity", TestingConstants.ENTITY_NAMES[1], true, true, true, false);
 		testNewArtifactDefaults("Datatype", TestingConstants.DATATYPE_NAMES[0], true, true, true, false);
 		testNewArtifactDefaults("Enumeration", TestingConstants.ENUMERATION_NAMES[0], false, true, false, false);
 		testNewArtifactDefaults("Query", TestingConstants.QUERY_NAMES[0], true, true, false, false);
@@ -37,9 +39,9 @@ public class NewArtifacts extends UITestCaseSWT {
 		testNewArtifactDefaults("Exception", TestingConstants.EXCEPTION_NAMES[0], true, false, false, false);
 		testNewArtifactDefaults("Notification", TestingConstants.EVENT_NAMES[0], true, true, false, false);
 		testNewArtifactDefaults("Session Facade", TestingConstants.SESSION_NAMES[0], false, false,true, false);
-//		testNewArtifactDefaults("Association", TestingConstants.ASSOCIATION_NAMES[0], false, false,false, true);
-//		testNewArtifactDefaults("Association Class", TestingConstants.ASSOCIATION_CLASS_NAMES[0], true, false,false, true);
-//		testNewArtifactDefaults("Dependency Class", TestingConstants.DEPENDENCY_NAMES[0], true, false,false, true);
+		testNewArtifactDefaults("Association", TestingConstants.ASSOCIATION_NAMES[0], false, false,false, true);
+		testNewArtifactDefaults("Association Class", TestingConstants.ASSOCIATION_CLASS_NAMES[0], true, false,true, true);
+		testNewArtifactDefaults("Dependency", TestingConstants.DEPENDENCY_NAMES[0], false, false,false, true);
 	}
 	
 	/**
@@ -66,9 +68,9 @@ public class NewArtifacts extends UITestCaseSWT {
 		LabeledTextLocator artifactPackage = new LabeledTextLocator("Artifact Package:");
 		assertEquals("Default package for new "+myType+" Wizard is not that set for the project",TestingConstants.DEFAULT_ARTIFACT_PACKAGE, artifactPackage.getText(ui));
 		
-		// TODO Add some more entities to chewck against
+		// TODO Add some more entities to check against
 		// Validate the right stuff is in the list!
-		// Then chck in teh tree view
+		// Then check in the tree view
 		
 		if (hasEnds){
 			ui.click(new LabeledLocator(Button.class, "aEnd Type"));
@@ -80,7 +82,7 @@ public class NewArtifacts extends UITestCaseSWT {
 			ui.click(new LabeledLocator(Button.class, "zEnd Type"));
 			ui.wait(new ShellShowingCondition(myType+" End Type"));
 			ui.click(new TableItemLocator(TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+
-					TestingConstants.ENTITY_NAMES[0]));
+					TestingConstants.ENTITY_NAMES[1]));
 			ui.click(new ButtonLocator("OK"));
 			ui.wait(new ShellDisposedCondition(myType+" End Type"));
 		}
@@ -132,9 +134,8 @@ public class NewArtifacts extends UITestCaseSWT {
 		// Maximise before we go to do the components
 		GuiUtils.maxminTab(ui, thisArtifactName);
 		// collapse the Section which is open by default sections - for consistent use in the helper
-		// TODO - This gets multiple sections!
 		if (hasEnds){
-			SWTWidgetLocator detailsSection = new SWTWidgetLocator(Label.class, "Details");
+			SWTWidgetLocator detailsSection = new SWTWidgetLocator(Label.class, "End &Details");
 			ui.click(detailsSection);
 		} else if (hasAttributes){
 			SWTWidgetLocator attributesSection = new SWTWidgetLocator(Label.class, "&Attributes");
@@ -151,12 +152,17 @@ public class NewArtifacts extends UITestCaseSWT {
 		helper = new ArtifactHelper();
 		ArrayList<String> items = new ArrayList<String>();
 		
+		if (hasEnds && (myType.equals("Association") || myType.equals("Association Class")) )
+			items.addAll(helper.associationEndNames(ui,thisArtifactName));
+		if (hasEnds && myType.equals("Dependency")  )
+			items.addAll(helper.dependencyEndNames(ui,thisArtifactName));
 		if (hasAttributes)
 			items.add(helper.newAttribute(ui,thisArtifactName, TestingConstants.ATTRIBUTE_NAMES[0]));
 		if (hasLiterals)
 			items.add(helper.newLiteral(ui,thisArtifactName, TestingConstants.LITERAL_NAMES[0]));
 		if( hasMethods)
 			items.add(helper.newMethod(ui,thisArtifactName, TestingConstants.METHOD_NAMES[0]));
+
 		
 		GuiUtils.maxminTab(ui, thisArtifactName);
 		
