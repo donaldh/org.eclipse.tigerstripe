@@ -82,8 +82,8 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 	public DependencySpecificsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit) {
 		super(page, parent, toolkit, null, null, ExpandableComposite.TITLE_BAR
-				| ExpandableComposite.TWISTIE | ExpandableComposite.COMPACT);
-		setTitle("&Details");
+				| ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		setTitle("End &Details");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
