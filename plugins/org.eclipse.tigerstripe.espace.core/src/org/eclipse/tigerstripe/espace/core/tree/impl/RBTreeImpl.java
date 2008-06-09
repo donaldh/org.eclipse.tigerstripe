@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RBTreeImpl.java,v 1.3 2008/06/04 10:52:46 ystrot Exp $
+ * $Id: RBTreeImpl.java,v 1.4 2008/06/09 07:15:24 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.core.tree.impl;
 
@@ -365,7 +365,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
 	public void clear() {
         modCount++;
         size = 0;
-        root = null;
+        setRoot(null);
     }
 
 	public EObject[] find(Object key) {
@@ -387,8 +387,9 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
         if (t == null) {
         	size = 1;
         	modCount++;
-            root = TreeFactory.eINSTANCE.createRBNode();
-            root.getObjects().add(item);
+        	RBNode newRoot = TreeFactory.eINSTANCE.createRBNode();
+        	newRoot.getObjects().add(item);
+            setRoot(newRoot);
             return;
        }
         
@@ -463,7 +464,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
      *                  <tt>null</tt> keys.
      */
     private RBNode getEntry(Object key) {
-    	RBNode p = root;
+    	RBNode p = getRoot();
         while (p != null) {
             int cmp = compare(key, geNodeKey(p));
             if (cmp == 0)
@@ -478,8 +479,8 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
     
     public EObject[] getPostfixes(Object key) {
 		List<EObject> objects = new ArrayList<EObject>();
-    	if (root != null && key != null)
-        	collectPostfixes(root, key, objects);
+    	if (getRoot() != null && key != null)
+        	collectPostfixes(getRoot(), key, objects);
         return objects.toArray(new EObject[objects.size()]);
     }
     
@@ -548,7 +549,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
                 // Link replacement to parent
                 //replacement.setParent(p.getParent());
                 if (p.getParent() == null)
-                    root = replacement;
+                    setRoot(replacement);
                 else if (p == p.getParent().getLeft())
                     p.getParent().setLeft(replacement);
                 else
@@ -563,7 +564,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
                 if (p.getColor() == RBNode.BLACK)
                     fixAfterDeletion(replacement);
             } else if (p.getParent() == null) { // return if we are the only node.
-                root = null;
+                setRoot(null);
             } else { //  No children. Use self as phantom replacement and unlink.
                 if (p.getColor() == RBNode.BLACK)
                     fixAfterDeletion(p);
@@ -580,7 +581,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
     }
     /** From CLR **/
     private void fixAfterDeletion(RBNode x) {
-        while (x != root && colorOf(x) == RBNode.BLACK) {
+        while (x != getRoot() && colorOf(x) == RBNode.BLACK) {
             if (x == leftOf(parentOf(x))) {
             	RBNode sib = rightOf(parentOf(x));
 
@@ -606,7 +607,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
                     setColor(parentOf(x), RBNode.BLACK);
                     setColor(rightOf(sib), RBNode.BLACK);
                     rotateLeft(parentOf(x));
-                    x = root;
+                    x = getRoot();
                 }
             } else { // symmetric
             	RBNode sib = leftOf(parentOf(x));
@@ -633,7 +634,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
                     setColor(parentOf(x), RBNode.BLACK);
                     setColor(leftOf(sib), RBNode.BLACK);
                     rotateRight(parentOf(x));
-                    x = root;
+                    x = getRoot();
                 }
             }
         }
@@ -681,7 +682,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
     private void fixAfterInsertion(RBNode x) {
     	x.setColor(RBNode.RED);
 
-        while (x != null && x != root && x.getParent().getColor() == RBNode.RED) {
+        while (x != null && x != getRoot() && x.getParent().getColor() == RBNode.RED) {
             if (parentOf(x) == leftOf(parentOf(parentOf(x)))) {
             	RBNode y = rightOf(parentOf(parentOf(x)));
                 if (colorOf(y) == RBNode.RED) {
@@ -718,7 +719,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
                 }
             }
         }
-        root.setColor(RBNode.BLACK);
+        getRoot().setColor(RBNode.BLACK);
     }
 
     private static void setColor(RBNode p, int c) {
@@ -742,7 +743,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
 //            r.getLeft().setParent(p);
         //r.setParent(p.getParent());
         if (p.getParent() == null)
-            root = r;
+            setRoot(r);
         else if (p.getParent().getLeft() == p)
             p.getParent().setLeft(r);
         else
@@ -755,15 +756,16 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
     private void rotateRight(RBNode p) {
     	RBNode l = p.getLeft();
         p.setLeft(l.getRight());
-        //if (l.getRight() != null) l.getRight().setParent(p);
-        //l.setParent(p.getParent());
+//        if (l.getRight() != null)
+//        	l.getRight().setParent(p);
+//        l.setParent(p.getParent());
         if (p.getParent() == null)
-            root = l;
+            setRoot(l);
         else if (p.getParent().getRight() == p)
             p.getParent().setRight(l);
         else p.getParent().setLeft(l);
         l.setRight(p);
-        //p.setParent(l);
+//        p.setParent(l);
     }
 
     private static RBNode parentOf(RBNode p) {
