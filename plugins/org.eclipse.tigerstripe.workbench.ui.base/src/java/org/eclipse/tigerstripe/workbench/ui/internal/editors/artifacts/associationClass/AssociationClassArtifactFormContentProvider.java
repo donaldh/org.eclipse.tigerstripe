@@ -48,7 +48,19 @@ public class AssociationClassArtifactFormContentProvider extends
 							IAssociationClassArtifactImpl.class.getName())
 							.getLabel(null) + " end.</li>");
 			buf
-					.append("<li><a href=\"attributes\">Attributes</a>: a list of attributes for this Association.</li>");
+					.append("<li><a href=\"attributes\">Attributes</a>: a list of attributes for this "
+					+ ArtifactMetadataFactory.INSTANCE
+							.getMetadata(
+									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+											.getName()).getLabel(null)
+					+ " Artifact.</li>");
+			buf
+			.append("<li><a href=\"methods\">Methods</a>: Operations that are allowed on this "
+					+ ArtifactMetadataFactory.INSTANCE
+							.getMetadata(
+									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+											.getName()).getLabel(null)
+					+ " Artifact.</li>");
 			buf.append("</form>");
 
 			return buf.toString();
