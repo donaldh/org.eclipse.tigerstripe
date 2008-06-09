@@ -61,9 +61,9 @@ public class AnnotationStorage {
 	}
 	
 	public void remove(Annotation annotation) {
-		removeFromList(annotation, annotation.getUri());
 		changes.remove(annotation);
 		database.remove(annotation);
+		removeFromList(annotation, annotation.getUri());
 		fireAnnotationsRemoved( new Annotation[] { annotation } );
 	}
 	
@@ -108,11 +108,8 @@ public class AnnotationStorage {
 					trackChanges(annotation);
 				}
 			}
-			List<Annotation> oldList = getAnnotationMap().get(uri);
-			if (oldList == null || !oldList.equals(list)) {
-				getAnnotationMap().put(uri, list);
-	    		fireAnnotationLoaded(list.toArray(new Annotation[list.size()]));
-			}
+			getAnnotationMap().put(uri, list);
+			fireAnnotationLoaded(list.toArray(new Annotation[list.size()]));
 			return list;
 		}
 	}

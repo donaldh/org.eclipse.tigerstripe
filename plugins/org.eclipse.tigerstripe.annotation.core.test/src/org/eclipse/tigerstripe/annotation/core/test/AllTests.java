@@ -27,6 +27,8 @@ public class AllTests {
 		suite.addTestSuite(DelegatesTest.class);
 		suite.addTestSuite(TargetsTest.class);
 		suite.addTestSuite(URIPrefixReplacingTest.class);
+		suite.addTestSuite(IndexRebuldingTest.class);
+		suite.addTestSuite(RebuildIndexTest.class);
 		// $JUnit-END$
 		return suite;
 	}
