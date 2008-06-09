@@ -12,6 +12,10 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.session;
 
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactFormContentProviderBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormContentProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormContentProvider;
@@ -27,15 +31,40 @@ public class SessionArtifactFormContentProvider extends
 	public String getText(String textId) {
 		if (IArtifactFormContentProvider.ARTIFACT_CONTENT_COMPONENTS
 				.equals(textId)) {
+			
+			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
+			.getWorkbenchProfileSession().getActiveProfile().getProperty(
+					IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+
+			
 			StringBuffer buf = new StringBuffer();
 
 			buf.append("<form>");
 			buf
-					.append("<li><b>Managed Entities</b>: establishing stewardship for entity artifacts.</li>");
-			buf
-					.append("<li><b>Named Queries</b>: the queries exposed through this session.</li>");
-			buf
-					.append("<li><b>Notifications</b>: notifications emitted by this session.</li>");
+			.append("<li><a href=\"methods\">Methods</a>: Operations that are allowed on this "
+					+ ArtifactMetadataFactory.INSTANCE
+							.getMetadata(
+									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+											.getName()).getLabel(null)
+					+ " Artifact.</li>");
+			
+			if (prop
+					.getPropertyValue(IOssjLegacySettigsProperty.USEMANAGEDENTITIES_ONSESSION)) {
+			buf.append("<li><b>Managed Entities</b>: establishing stewardship for entity artifacts.</li>");
+			}
+			if (prop
+					.getPropertyValue(IOssjLegacySettigsProperty.USENAMEDQUERIES_ONSESSION)) {
+			
+			buf.append("<li><b>Named Queries</b>: queries exposed through this session.</li>");
+			}
+			if (prop
+					.getPropertyValue(IOssjLegacySettigsProperty.USEEMITTEDNOTIFICATIONS_ONSESSION)) {
+			buf.append("<li><b>Notifications</b>: notifications emitted by this session.</li>");
+			}
+			if (prop
+					.getPropertyValue(IOssjLegacySettigsProperty.USEEXPOSEDPROCEDURES_ONSESSION)) {
+			buf.append("<li><b>Update Procedures</b>: update procedures exposed by this session.</li>");
+			}
 			buf.append("</form>");
 
 			return buf.toString();

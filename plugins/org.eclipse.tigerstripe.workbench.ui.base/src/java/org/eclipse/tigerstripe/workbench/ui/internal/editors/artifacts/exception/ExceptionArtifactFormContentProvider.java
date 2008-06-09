@@ -30,6 +30,13 @@ public class ExceptionArtifactFormContentProvider extends
 			StringBuffer buf = new StringBuffer();
 
 			buf.append("<form>");
+			buf
+			.append("<li><a href=\"attributes\">Attributes</a>: Containing the detailed information for this "
+					+ ArtifactMetadataFactory.INSTANCE
+							.getMetadata(
+									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+											.getName()).getLabel(null)
+					+ " Artifact.</li>");
 			buf.append("</form>");
 
 			return buf.toString();
