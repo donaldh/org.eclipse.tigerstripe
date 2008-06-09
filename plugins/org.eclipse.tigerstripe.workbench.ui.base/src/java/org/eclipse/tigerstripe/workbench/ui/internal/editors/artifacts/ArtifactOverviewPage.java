@@ -124,7 +124,6 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		if (getEditor() instanceof EntityArtifactEditor
 				|| getEditor() instanceof DatatypeArtifactEditor
 				|| getEditor() instanceof ExceptionArtifactEditor
-				|| getEditor() instanceof AssociationClassArtifactEditor
 				|| getEditor() instanceof QueryArtifactEditor
 				|| getEditor() instanceof UpdateProcedureArtifactEditor
 				|| getEditor() instanceof EventArtifactEditor) {
