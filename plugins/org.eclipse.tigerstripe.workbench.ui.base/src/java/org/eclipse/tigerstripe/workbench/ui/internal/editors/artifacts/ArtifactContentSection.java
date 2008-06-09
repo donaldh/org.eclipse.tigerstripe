@@ -15,6 +15,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.association.AssociationSpecificsSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.dependency.DependencySpecificsSection;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
@@ -136,11 +137,26 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 							scrolledForm.setOrigin(origin);
 							// Then select the appropriate end.
 							oacd.selectEndByEnd(e.getHref().toString());
+						} else {
+							if (i instanceof DependencySpecificsSection) {
+								DependencySpecificsSection oadd = (DependencySpecificsSection) i;
+								oadd.getSection().setExpanded(true);
+								oadd.getSection().forceFocus();
+								// determine where the section is and scroll so that
+								// it is visible
+								Point origin = oadd.getSection()
+										.getLocation();
+								ScrolledForm scrolledForm = page
+										.getManagedForm().getForm();
+								scrolledForm.setOrigin(origin);
+								// Then select the appropriate end.
+								oadd.selectEndByEnd(e.getHref().toString());
+							}
 						}
 					}
 				}
 			}
-		});
+			});
 
 	}
 

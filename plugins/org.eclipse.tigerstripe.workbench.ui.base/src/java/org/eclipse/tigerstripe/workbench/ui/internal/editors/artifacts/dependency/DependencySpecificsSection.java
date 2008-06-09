@@ -185,6 +185,20 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 		}
 	}
 
+	/*
+	 * used to select the text in the "end type" widgets based on a match in
+	 * the end - A or Z - used by the details hyperlinks ...
+	 */
+	public void selectEndByEnd(String end) {
+		if (end.equals("aEnd")) {
+			aEndTypeText.selectAll();
+			aEndTypeText.setFocus();
+		} else if (end.equals("zEnd")) {
+			zEndTypeText.selectAll();
+			zEndTypeText.setFocus();
+		}
+	}
+	
 	/**
 	 * Set the silent update flag
 	 * 
