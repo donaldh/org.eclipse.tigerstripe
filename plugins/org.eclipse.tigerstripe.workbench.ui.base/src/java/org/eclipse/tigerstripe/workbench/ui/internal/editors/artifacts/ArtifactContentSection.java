@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.association.AssociationSpecificsSection;
@@ -19,17 +20,21 @@ import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class ArtifactContentSection extends ArtifactSectionPart {
 
+	private TigerstripeFormPage page;
+	
 	public ArtifactContentSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
 			IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(page, parent, toolkit, labelProvider, contentProvider, SWT.NONE);
 		setTitle("Details");
+		this.page = page;
 		createContent();
 	}
 
@@ -65,6 +70,7 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
+				
 				if ("attributes".equals(e.getHref())) {
 					IFormPart[] ifp = getManagedForm().getParts();
 					for (IFormPart i : ifp) {
@@ -72,6 +78,13 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 							ArtifactAttributesSection oaas = (ArtifactAttributesSection) i;
 							oaas.getSection().setExpanded(true);
 							oaas.getSection().forceFocus();
+							// determine where the section is and scroll so that
+							// it is visible
+							Point origin = oaas.getSection()
+									.getLocation();
+							ScrolledForm scrolledForm = page
+									.getManagedForm().getForm();
+							scrolledForm.setOrigin(origin);
 						}
 					}
 				} else if ("methods".equals(e.getHref())) {
@@ -81,6 +94,13 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 							ArtifactMethodsSection oamd = (ArtifactMethodsSection) i;
 							oamd.getSection().setExpanded(true);
 							oamd.getSection().forceFocus();
+							// determine where the section is and scroll so that
+							// it is visible
+							Point origin = oamd.getSection()
+									.getLocation();
+							ScrolledForm scrolledForm = page
+									.getManagedForm().getForm();
+							scrolledForm.setOrigin(origin);
 						}
 					}
 				} else if ("constants".equals(e.getHref())) {
@@ -90,6 +110,13 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 							ArtifactConstantsSection oacd = (ArtifactConstantsSection) i;
 							oacd.getSection().setExpanded(true);
 							oacd.getSection().forceFocus();
+							// determine where the section is and scroll so that
+							// it is visible
+							Point origin = oacd.getSection()
+									.getLocation();
+							ScrolledForm scrolledForm = page
+									.getManagedForm().getForm();
+							scrolledForm.setOrigin(origin);
 						}
 					}
 				} else if ("aEnd".equals(e.getHref())
@@ -100,6 +127,15 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 							AssociationSpecificsSection oacd = (AssociationSpecificsSection) i;
 							oacd.getSection().setExpanded(true);
 							oacd.getSection().forceFocus();
+							// determine where the section is and scroll so that
+							// it is visible
+							Point origin = oacd.getSection()
+									.getLocation();
+							ScrolledForm scrolledForm = page
+									.getManagedForm().getForm();
+							scrolledForm.setOrigin(origin);
+							// Then select the appropriate end.
+							oacd.selectEndByEnd(e.getHref().toString());
 						}
 					}
 				}
