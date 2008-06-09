@@ -28,10 +28,10 @@ public class ResourceRouter implements EObjectRouter {
 	private static final String ANNOTATIONS_FILE_NAME = ".annotations";
 	
 	protected URI getUri(IResource res) {
-		IPath path = res.getProject().getFullPath();
+		IPath path = res.getProject().getLocation();
 		if (path != null) {
 			path = path.append(ANNOTATIONS_FILE_NAME);
-			return URI.createPlatformResourceURI(path.toString(), false);
+			return URI.createFileURI(path.toFile().getAbsolutePath());
 		}
 		return null;
 	}

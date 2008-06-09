@@ -54,6 +54,30 @@ public class ResourceStorage {
 		return defaultRouter.route(object);
 	}
 	
+	public boolean needUpdate() {
+		for (ResourceLocation location : getResourceList().getLocations()) {
+			Resource resource = helper.getResource(location.getUri());
+			File file = ResourceHelper.getFile(resource);
+			if (file != null && resource != null) {
+				if (file.lastModified() != location.getTimeStamp()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public void updateTimes() {
+		for (ResourceLocation location : getResourceList().getLocations()) {
+			Resource resource = helper.getResource(location.getUri());
+			File file = ResourceHelper.getFile(resource);
+			if (file != null && resource != null) {
+				location.setTimeStamp(file.lastModified());
+			}
+		}
+		ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
+	}
+	
 	protected ResourceList getResourceList() {
 		if (resourceList == null) {
 			IPath path = ResourcesPlugin.getDefault().getStateLocation();

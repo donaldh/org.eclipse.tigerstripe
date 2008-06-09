@@ -35,6 +35,10 @@ public interface IEMFDatabase {
 	 */
 	public void write(EObject object);
 	
+	/**
+	 * @param object
+	 * @param changes
+	 */
 	public void update(EObject object, ChangeDescription changes);
 	
 	/**
@@ -77,6 +81,9 @@ public interface IEMFDatabase {
 	 */
 	public EObject[] read();
 	
+	/**
+	 * 
+	 */
 	public void rebuildIndex();
 
 }

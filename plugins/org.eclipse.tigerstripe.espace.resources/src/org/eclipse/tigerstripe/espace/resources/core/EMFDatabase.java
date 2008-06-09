@@ -102,7 +102,6 @@ public class EMFDatabase implements IEMFDatabase {
 			indexer.addIndexer(getClassifierIndexer());
 		}
 		return indexer;
-		
 	}
 	
 	protected ResourceHelper getResourceHelper() {
@@ -115,10 +114,11 @@ public class EMFDatabase implements IEMFDatabase {
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#update(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.change.ChangeDescription)
 	 */
 	public void update(EObject object, ChangeDescription changes) {
+		update();
 		changes.applyAndReverse();
-		remove(object);
+		doRemove(object);
 		changes.apply();
-		write(object);
+		doWrite(object);
 	}
 	
 	protected EObjectRouter[] getRouters() {
@@ -142,6 +142,7 @@ public class EMFDatabase implements IEMFDatabase {
 	}
 	
 	public EObject[] query(EClassifier classifier) {
+		update();
 		return copy(getClassifierIndexer().read(classifier));
 	}
 	
@@ -153,19 +154,47 @@ public class EMFDatabase implements IEMFDatabase {
 		Collection<EObject> copy = EcoreUtil.copyAll(collection);
 		return copy.toArray(new EObject[copy.size()]);
 	}
+	
+	protected void update() {
+		if (getResourceStorage().needUpdate())
+			rebuildIndex();
+	}
 
 	public void write(EObject object) {
+		update();
+		doWrite(object);
+    }
+	
+	protected void doWrite(EObject object) {
 		object = EcoreUtil.copy(object);
 		Resource resource = getResource(object);
 		getResourceStorage().addResource(resource, object);
-    }
+	}
 	
 	public void rebuildIndex() {
-		EObject[] objects = read();
+		getIndexStorage().removeIndex();
+		clear();
+		EObject[] objects = doRead();
 		getResourceHelper().rebuildIndex(objects);
+		getResourceStorage().updateTimes();
+	}
+	
+	protected void clear() {
+		resourceSet = null;
+		resourceHelper = null;
+		indexStorage = null;
+		fIndexer = null;
+		cIndexer = null;
+		indexer = null;
+		resourceStorage = null;
 	}
 	
 	public void remove(EObject object) {
+		update();
+		doRemove(object);
+	}
+	
+	protected void doRemove(EObject object) {
 		EStructuralFeature feature = getIDFeature(object);
 		if (feature != null) {
 			EObject[] objects = doGet(feature, object.eGet(feature), false);
@@ -226,7 +255,7 @@ public class EMFDatabase implements IEMFDatabase {
 		else {
 			List<EObject> list = new ArrayList<EObject>();
 			EClass clazz = (EClass)feature.eContainer();
-			EObject[] objects = read();
+			EObject[] objects = doRead();
 			for (int i = 0; i < objects.length; i++) {
 	            if (objects[i].eClass().equals(clazz)) {
 	            	try {
@@ -254,6 +283,7 @@ public class EMFDatabase implements IEMFDatabase {
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	public EObject[] get(EStructuralFeature feature, Object value) {
+		update();
 		return copy(doGet(feature, value, false));
 	}
 	
@@ -261,10 +291,11 @@ public class EMFDatabase implements IEMFDatabase {
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#getPostfixes(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	public EObject[] getPostfixes(EStructuralFeature feature, Object value) {
+		update();
 		return copy(doGet(feature, value, true));
 	}
 	
-	public EObject[] read() {
+	protected EObject[] doRead() {
 		ArrayList<EObject> contents = new ArrayList<EObject>();
 		Resource[] resources = getResourceStorage().loadResources();
 		for (int i = 0; i < resources.length; i++) {
@@ -277,6 +308,11 @@ public class EMFDatabase implements IEMFDatabase {
 			contents.addAll(resources[i].getContents());
         }
 	    return contents.toArray(new EObject[contents.size()]);
+	}
+	
+	public EObject[] read() {
+		update();
+		return doRead();
 	}
 
 }
