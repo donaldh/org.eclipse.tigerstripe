@@ -44,8 +44,6 @@ public class PropertySheet extends PageBookView
 	
 	public static final String ID = "org.eclipse.tigerstripe.annotation.view.property";
 	
-	private PropertiesBrowserPage page;
-	
 	private Action saveAction;
 	private Action saveAllAction;
 	private Action revertAction;
@@ -106,7 +104,7 @@ public class PropertySheet extends PageBookView
         // Try to get a custom property sheet page.
 //        IPropertySheetPage page = (IPropertySheetPage) getAdapter(part,
 //                IPropertySheetPage.class, false);
-    	page = new PropertiesBrowserPage(
+    	PropertiesBrowserPage page = new PropertiesBrowserPage(
     			new ITabbedPropertySheetPageContributor() {
 		
 			public String getContributorId() {
@@ -133,8 +131,6 @@ public class PropertySheet extends PageBookView
         IPropertySheetPage page = (IPropertySheetPage) rec.page;
         page.dispose();
         rec.dispose();
-        if (page == this.page)
-        	this.page = null;
     }
 
     /* (non-Javadoc)
@@ -149,6 +145,13 @@ public class PropertySheet extends PageBookView
         } 
         return null;
     }
+    
+    protected PropertiesBrowserPage getPage() {
+    	IPage page = getCurrentPage();
+    	if (page instanceof PropertiesBrowserPage)
+    		return (PropertiesBrowserPage)page;
+    	return null;
+    }
 
     /* (non-Javadoc)
      * Method declared on IViewPart.
@@ -158,6 +161,7 @@ public class PropertySheet extends PageBookView
         
         saveAction = new Action("Save") {
         	public void run() {
+        		PropertiesBrowserPage page = getPage();
         		if (page != null)
         			page.saveAnnotation();
         	}
@@ -167,6 +171,7 @@ public class PropertySheet extends PageBookView
         
         saveAllAction = new Action("Save All") {
         	public void run() {
+        		PropertiesBrowserPage page = getPage();
         		if (page != null)
         			page.saveAllAnnotations();
         	}
@@ -176,6 +181,7 @@ public class PropertySheet extends PageBookView
         
         revertAction = new Action("Revert") {
         	public void run() {
+        		PropertiesBrowserPage page = getPage();
         		if (page != null)
         			page.revertAnnotation();
         	}
@@ -185,6 +191,7 @@ public class PropertySheet extends PageBookView
         
         revertAllAction = new Action("Revert All") {
         	public void run() {
+        		PropertiesBrowserPage page = getPage();
         		if (page != null)
         			page.revertAllAnnotations();
         	}
