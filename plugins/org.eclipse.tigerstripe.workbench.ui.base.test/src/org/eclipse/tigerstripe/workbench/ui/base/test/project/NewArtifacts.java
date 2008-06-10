@@ -26,22 +26,96 @@ import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 public class NewArtifacts extends UITestCaseSWT {
 
 	private ArtifactHelper helper;
+	private ArtifactAuditHelper auditHelper;
 	
 	
 	public void testAll() throws Exception {
-		testNewArtifactDefaults("Entity", TestingConstants.ENTITY_NAMES[0], true, true, true, false);
-		// Add a second entity, so that the associations etc can be better checked
-		testNewArtifactDefaults("Entity", TestingConstants.ENTITY_NAMES[1], true, true, true, false);
-		testNewArtifactDefaults("Datatype", TestingConstants.DATATYPE_NAMES[0], true, true, true, false);
-		testNewArtifactDefaults("Enumeration", TestingConstants.ENUMERATION_NAMES[0], false, true, false, false);
-		testNewArtifactDefaults("Query", TestingConstants.QUERY_NAMES[0], true, true, false, false);
-		testNewArtifactDefaults("Update Procedure", TestingConstants.UPDATE_NAMES[0], true, true, false, false);
-		testNewArtifactDefaults("Exception", TestingConstants.EXCEPTION_NAMES[0], true, false, false, false);
-		testNewArtifactDefaults("Notification", TestingConstants.EVENT_NAMES[0], true, true, false, false);
-		testNewArtifactDefaults("Session Facade", TestingConstants.SESSION_NAMES[0], false, false,true, false);
-		testNewArtifactDefaults("Association", TestingConstants.ASSOCIATION_NAMES[0], false, false,false, true);
-		testNewArtifactDefaults("Association Class", TestingConstants.ASSOCIATION_CLASS_NAMES[0], true, false,true, true);
-		testNewArtifactDefaults("Dependency", TestingConstants.DEPENDENCY_NAMES[0], false, false,false, true);
+		IUIContext ui= getUI();
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[0], true, true, true, false));
+//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Datatype", TestingConstants.DATATYPE_NAMES[0], true, true, true, false));
+//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Enumeration", TestingConstants.ENUMERATION_NAMES[0], false, true, false, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Query", TestingConstants.QUERY_NAMES[0], true, true, false, false));
+//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Update Procedure", TestingConstants.UPDATE_NAMES[0], true, true, false, false));
+//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Exception", TestingConstants.EXCEPTION_NAMES[0], true, false, false, false));
+//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Notification", TestingConstants.EVENT_NAMES[0], true, true, false, false));
+//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Session Facade", TestingConstants.SESSION_NAMES[0], false, false,true, false));
+
+//		// Add a second entity, so that the associations etc can be better checked
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[1], true, true, true, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Association", TestingConstants.ASSOCIATION_NAMES[0], false, false,false, true));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Association Class", TestingConstants.ASSOCIATION_CLASS_NAMES[0], true, false,true, true));
+//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Dependency", TestingConstants.DEPENDENCY_NAMES[0], false, false,false, true));
+		
+		
+		// Let the auditor run
+		Thread.sleep(500);
+		// Some artifacts have errors on creation that we need to correct.
+		// First check we get them
+		auditHelper = new ArtifactAuditHelper(ui);
+		String queryName = TestingConstants.QUERY_NAMES[0];
+
+		// Just be sure we actually created the query!
+		if (ProjectRecord.getArtifactList().containsValue(queryName)){
+			auditHelper.checkUndefinedReturnType(queryName,true);
+
+			// Update the returned type of our Query
+			String pathToEntity = TestingConstants.NEW_PROJECT_NAME+
+			"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
+			queryName;
+
+			TreeItemLocator treeItem = new TreeItemLocator(
+					pathToEntity,
+					new ViewLocator(
+					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+			ui.click(2, treeItem);
+			CTabItemLocator artifactEditor = new CTabItemLocator(
+					queryName);
+			ui.click(artifactEditor);
+			ui.click(new CTabItemLocator("Details"));
+			ui.click(new LabeledLocator(Button.class, "Returned Type: "));
+			ui.wait(new ShellShowingCondition("Returned Type"));
+			ui.click(new TableItemLocator(TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+
+					TestingConstants.ENTITY_NAMES[0]));
+			ui.click(new ButtonLocator("OK"));
+			ui.wait(new ShellDisposedCondition("Returned Type"));
+			//Save it
+			ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+
+			// Let the auditor run
+			Thread.sleep(500);
+			auditHelper.checkUndefinedReturnType(queryName,false);
+		}
+		String[] assocs = {TestingConstants.ASSOCIATION_NAMES[0], TestingConstants.ASSOCIATION_CLASS_NAMES[0]};
+		for (String assoc : assocs){
+			if (ProjectRecord.getArtifactList().containsValue(assoc)){
+				// This rule uses FQN!
+				auditHelper.checkAssociationEndNeedsNavigation(TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+assoc,true);
+				// Update one of the ends
+				String pathToEntity = TestingConstants.NEW_PROJECT_NAME+
+				"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
+				assoc;
+
+				TreeItemLocator treeItem = new TreeItemLocator(
+						pathToEntity,
+						new ViewLocator(
+						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+				ui.click(2, treeItem);
+				CTabItemLocator artifactEditor = new CTabItemLocator(
+						queryName);
+				ui.click(artifactEditor);
+				GuiUtils.maxminTab(ui, assoc);
+				// Need to disambiguate
+		//TODO		ui.click(new ButtonLocator("isNavigable"));
+				//Save it
+				ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+
+				// Let the auditor run
+				Thread.sleep(500);
+		//		auditHelper.checkAssociationEndNeedsNavigation(TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+assoc,false);
+			}
+		}
+		
+		
 	}
 	
 	/**
@@ -49,11 +123,11 @@ public class NewArtifacts extends UITestCaseSWT {
 	 * We need to check the defaults are properly created.
 	 * @throws Exception
 	 */
-	public void testNewArtifactDefaults(String myType, String thisArtifactName, boolean hasAttributes,
+	public String testNewArtifactDefaults(IUIContext ui,String myType, String thisArtifactName, boolean hasAttributes,
 			boolean hasLiterals, boolean hasMethods, boolean hasEnds) throws Exception	{
 		
 		
-		IUIContext ui= getUI();
+		
 		ui.click(new TreeItemLocator(
 				TestingConstants.NEW_PROJECT_NAME,
 				new ViewLocator(
@@ -68,7 +142,6 @@ public class NewArtifacts extends UITestCaseSWT {
 		LabeledTextLocator artifactPackage = new LabeledTextLocator("Artifact Package:");
 		assertEquals("Default package for new "+myType+" Wizard is not that set for the project",TestingConstants.DEFAULT_ARTIFACT_PACKAGE, artifactPackage.getText(ui));
 		
-		// TODO Add some more entities to check against
 		// Validate the right stuff is in the list!
 		// Then check in the tree view
 		
@@ -130,7 +203,10 @@ public class NewArtifacts extends UITestCaseSWT {
 			ui.click(treeItem);
 		} catch (Exception e){
 			fail(""+myType+" is not in the Explorer view");
-		}		
+		}
+		
+		
+		
 		// Maximise before we go to do the components
 		GuiUtils.maxminTab(ui, thisArtifactName);
 		// collapse the Section which is open by default sections - for consistent use in the helper
@@ -169,6 +245,7 @@ public class NewArtifacts extends UITestCaseSWT {
 		helper.checkItemsInExplorer(ui,thisArtifactName,items);
 		
 		ui.click(new XYLocator(new CTabItemLocator(thisArtifactName), 70, 12));
+		return thisArtifactName;
 	}
 
 }

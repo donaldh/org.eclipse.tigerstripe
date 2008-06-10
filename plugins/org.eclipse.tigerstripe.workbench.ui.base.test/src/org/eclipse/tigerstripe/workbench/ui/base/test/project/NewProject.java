@@ -18,6 +18,7 @@ import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 public class NewProject extends UITestCaseSWT {
 
 	private IUIContext ui;
+	private ProjectAuditHelper auditHelper;
 	/**
 	 * Main test method.
 	 */
@@ -50,7 +51,29 @@ public class NewProject extends UITestCaseSWT {
 		assertEquals(TestingConstants.DEFAULT_ARTIFACT_PACKAGE, defaultPackage.getText(ui));
 			
 		// Now set some other project details
-		//TODO
+		auditHelper = new ProjectAuditHelper(ui);
+		auditHelper.checkUndefinedProjectVersion(TestingConstants.NEW_PROJECT_NAME,true);
+		auditHelper.checkUndefinedProjectDescription(TestingConstants.NEW_PROJECT_NAME,true);
+		
+		// now set the things
+		LabeledTextLocator version = new LabeledTextLocator("Version: ");
+		GuiUtils.clearText(ui, version);
+		ui.click(version);
+		ui.enterText(TestingConstants.NEW_PROJECT_VERSION);
+		
+		LabeledTextLocator description = new LabeledTextLocator("Description: ");
+		GuiUtils.clearText(ui, description);
+		ui.click(description);
+		ui.enterText(TestingConstants.NEW_PROJECT_DESCRIPTION);
+		
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		
+		// Let the auditor run
+		Thread.sleep(500);
+		auditHelper.checkUndefinedProjectVersion(TestingConstants.NEW_PROJECT_NAME,false);
+		auditHelper.checkUndefinedProjectDescription(TestingConstants.NEW_PROJECT_NAME,false);
+		
+		
 		
 		
 		

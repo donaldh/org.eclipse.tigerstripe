@@ -5,6 +5,8 @@ public class TestingConstants {
 	// project constants
 	public static String NEW_PROJECT_NAME = "New Project";
 	public static String DEFAULT_ARTIFACT_PACKAGE = "org.eclipse";
+	public static String NEW_PROJECT_VERSION = "1.0";
+	public static String NEW_PROJECT_DESCRIPTION = "A model project for testing";
 	
 	// Entity Names
 	public static String[] ENTITY_NAMES = new String[]{"Entity1", "Entity2", "Entity3"};

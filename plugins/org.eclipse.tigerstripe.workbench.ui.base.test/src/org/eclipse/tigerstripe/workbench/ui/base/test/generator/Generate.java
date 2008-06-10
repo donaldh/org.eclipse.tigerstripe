@@ -1,6 +1,7 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.generator;
 
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.tigerstripe.workbench.ui.base.test.project.ProjectRecord;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 
 import com.windowtester.runtime.IUIContext;
@@ -61,13 +62,14 @@ public class Generate extends UITestCaseSWT {
 		// Need to check contents!
 
 		// OUTPUT FOR Artifact Rule
-		
-		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_PROJECT_NAME+"/target/tigerstripe.gen/"+TestingConstants.ENTITY_NAMES[0]+".txt",
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		
-		// Need to check contents!
+		for (String artifact : ProjectRecord.getArtifactList().keySet()){
+			ui.click(new TreeItemLocator(
+					TestingConstants.NEW_PROJECT_NAME+"/target/tigerstripe.gen/"+ProjectRecord.getArtifactList().get(artifact)+".txt",
+					new ViewLocator(
+					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+
+			// Need to check contents!
+		}
 		
 	}
 
