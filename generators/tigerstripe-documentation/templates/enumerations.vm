@@ -1,0 +1,44 @@
+## Copyright (c) 2008 Cisco Systems, Inc. 
+## All rights reserved. This program and the accompanying materials 
+## are made available under the terms of the Eclipse Public License v1.0 
+## which accompanies this distribution, and is available at
+## http://www.eclipse.org/legal/epl-v10.html 
+## 
+## Contributors: 
+## Cisco Systems, Inc. - dkeysell
+$castUtils.setPluginRef($pluginConfig)##
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Enumerations</title>
+<link rel="stylesheet" type="text/css" href="../css/styles.css">
+</head>
+<body>
+<h1>Enumerations</h1>
+<p class="small">
+<a href="index.html">back to index</a>
+</p>
+#foreach($enum in ${docUtils.sortByName($castUtils.toModel($allEnumerations))} )
+<table width="100%" cellspacing="8" border="1" >
+<tr class="enum">
+<td width="80%" valign="top">
+<b>#bookmark($enum)</b><br/><font size="-1">#docs($enum)		</font>
+</td>
+<td width="20%" valign="top">#stereos($enum)</td>
+</tr>
+#foreach($lit in $enum.literals)
+<tr>
+<td>
+$lit.name<br/>#docs($lit)	
+</td>
+<td>
+#stereos($lit)
+</td>
+</tr>
+#end
+</table>
+<p/>
+#end
+<div id="footer-copyright">&copy; $tsProjectHandle.getProjectDetails().getProperty("copyrightNotice","")</div>
+</body>
+</html>

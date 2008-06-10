@@ -1,0 +1,195 @@
+## Copyright (c) 2008 Cisco Systems, Inc. 
+## All rights reserved. This program and the accompanying materials 
+## are made available under the terms of the Eclipse Public License v1.0 
+## which accompanies this distribution, and is available at
+## http://www.eclipse.org/legal/epl-v10.html 
+## 
+## Contributors: 
+## Cisco Systems, Inc. - dkeysell
+##set ($hash=${docUtils.getHash($package.fullyQualifiedName)})
+##Now collect all the classes and associations in the package
+#set ($assocs = [])
+#set ($classes = [])
+#set ($intf = [])
+#set($dep = [])
+#set($dat = [])
+#set($exc = [])
+#set($enu = [])
+#set($que = [])
+#set($upd = [])
+#set($not = [])
+#set ($all = [] )
+#foreach($el in $package.ownedElements)
+#if ( $el.association)
+#set ( $t = $assocs.add($el))
+#set ( $t = $all.add($el))
+#end
+#if($el.managedEntity)
+#set ($t = $classes.add($el))
+#set ( $t = $all.add($el))
+#end
+#if($el.Interface)
+#set ($t = $intf.add($el))
+#set ( $t = $all.add($el))
+#end
+#if($el.dependency)
+#set ($t = $dep.add($el))
+#set ( $t = $all.add($el))
+#end
+#if($el.dataType)
+#set ($t = $dat.add($el))
+#set ( $t = $all.add($el))
+#end
+#if($el.exception)
+#set ($t = $exc.add($el))
+#set ( $t = $all.add($el))
+#end
+#if($el.enumeration)
+#set ($t = $enu.add($el))
+#set ( $t = $all.add($el))
+#end
+#if($el.query)
+#set ($t = $que.add($el))
+#set ( $t = $all.add($el))
+#end
+#if($el.update)
+#set ($t = $upd.add($el))
+#set ( $t = $all.add($el))
+#end
+#if($el.notification)
+#set ($t = $not.add($el))
+#set ( $t = $all.add($el))
+#end
+#end
+#if(!$all.empty)
+##set ( $generatedFile = "webdocs/pack${hash}.html")
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Package : $package.fullyQualifiedName</title>
+<link rel="stylesheet" type="text/css" href="../css/styles.css">
+</head>
+<body>
+<h1>Package: $package.fullyQualifiedName</h1>
+<p class="small">
+<a href="index.html">back to index</a>
+</p>
+#if(!$package.subPackages.empty)
+<h2> Contained Packages</h2>
+<ul>
+#foreach($pack in $package.subPackages)
+<li>#phref($pack)</li>
+#end
+</ul>
+#end
+## And construct the summary
+## classes
+#if ($classes.size()>0)
+<h2>Classes</h2>
+<ul>
+#foreach($el in $classes )
+<li>#lhref($el)</li>
+#if (!$el.navigableConnectingEnds.empty)
+<ul>
+#foreach($e in $el.navigableConnectingEnds)
+<li>$e.name links to #href($e.type) by #href($e.association)</li>
+#end
+</ul>
+#end
+#end
+</ul>
+#end
+## associations
+#if ($assocs.size()>0)
+<h2>Associations</h2>
+<ul>
+#foreach($el in $assocs )
+<li>#lhref($el)</li>
+#end
+</ul>
+#end
+## Interfaces
+#if ($intf.size()>0)
+<h2>Interfaces</h2>
+<ul>
+#foreach($el in $intf )
+<li>#lhref($el)</li>
+#end
+</ul>
+#end
+## Dependencies
+#if ($dep.size()>0)
+<h2>Dependencies</h2>
+<ul>
+#foreach($el in $dep )
+<li>#lhref($el)</li>
+#end
+</ul>
+#end
+## dataType
+#if ($dat.size()>0)
+<h2>Complex Types</h2>
+<ul>
+#foreach($el in $dat )
+<li>#lhref($el)</li>
+#end
+</ul>
+#end
+## Exceptions
+#if ($exc.size()>0)
+<h2>Exceptions</h2>
+<ul>
+#foreach($el in $exc )
+<li>#lhref($el)</li>
+#end
+</ul>
+#end
+## Enumerations
+#if ($enu.size()>0)
+<h2>Enumerations</h2>
+<ul>
+#foreach($el in $enu )
+<li>#lhref($el)</li>
+#end
+</ul>
+#end
+## Queries
+#if ($que.size()>0)
+<h2>Queries</h2>
+<ul>
+#foreach($el in $que )
+<li>#lhref($el)</li>
+#end
+</ul>
+#end
+## Update Procedures
+#if ($upd.size()>0)
+<h2>Update procedures</h2>
+<ul>
+#foreach($el in $upd )
+<li>#lhref($el)</li>
+#end
+</ul>
+#end
+## Notifications
+#if ($not.size()>0)
+<h2>Notifications</h2>
+<ul>
+#foreach($el in $not )
+<li>#lhref($el)</li>
+#end
+</ul>
+#end
+## details
+#if ($all.size()>0)
+<h2>Details</h3>
+#foreach($el in ${docUtils.sortByName($all)} )
+<p/>
+<table cellspacing="8" border="1" width="100%">
+#artiDetails($el)
+#end
+#end
+<div id="footer-copyright">&copy; $tsProjectHandle.getProjectDetails().getProperty("copyrightNotice","")</div>
+</body>
+</html>
+		#end

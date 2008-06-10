@@ -1,0 +1,14 @@
+h1           { font-family: Arial; color: White; background-color: Silver; }
+.small       {font-size: 8pt }
+.ct   { font-family: Arial; color: Blue; background-color: LightSteelblue; font-style: bold;}
+.enum   { font-family: Arial; color: Blue; background-color: LightSteelblue; font-style: bold;}
+h2           { font-family: Arial; font-style: italic; }
+h3           { font-family: Arial;color: Black; font-style: bold; }
+h4           { font-family: Arial;color: Black; font-style: bold; }
+body         { background-color: White; margin-top:0 }
+.local       { background-color: Lavender }
+.nlocal     { background-color: White }
+.propHigh {color: red;}
+.assoc       { font-family: Arial; color: Blue; background-color: LightGreen; font-style: bold; }
+.intf        { font-family: Arial; color: Blue; background-color: LightSalmon; font-style: bold;}
+.classNorm   { font-family: Arial; color: Blue; background-color: LightSteelblue; font-style: bold;}

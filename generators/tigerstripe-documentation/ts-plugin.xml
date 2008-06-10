@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ts_plugin version="1.2">
+<project name="tigerstripe-documentation">
+<outputDirectory/>
+<version>3.1</version>
+<description>3.1 First open source version.&#13;
+3.0.2 Entity Services xml parsing&#13;
+3.0.1 Exception thrown on invalid directories (TSPLUG-40)&#13;
+3.0.1 Updated cisco-commons&#13;
+3.0  First Open source compatible version</description>
+<provider>Cisco Systems</provider>
+</project>
+<pluginNature type="Generic"/>
+<logger defautLevel="3" isEnabled="true" logPath="cisco-documentation.log" maxRoll="9"/>
+<globalProperties>
+<property name="outputDir" tipToolText="" type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">tigerstripe-documentation</property>
+</globalProperties>
+<globalRules>
+<rule description="Creates the documenation index page." enabled="true" name="index" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.CastUtils" entry="castUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringUtils" entry="stringUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringEscapeUtils" entry="stringEscapeUtils"/>
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.DocUtils" entry="docUtils"/>
+<body outputFile="${ppProp.outputDir}/webdocs/index.html" overwriteFiles="true" suppressFiles="true" template="templates/index.vm">
+<library name="templates\report.vm"/>
+<library name="templates\indexMacros.vm"/>
+</body>
+</rule>
+<rule description="Creates a page documenting the models enumerationas and their literals." enabled="true" name="enumerations" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.DocUtils" entry="docUtils"/>
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.CastUtils" entry="castUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringUtils" entry="stringUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringEscapeUtils" entry="stringEscapeUtils"/>
+<body outputFile="${ppProp.outputDir}/webdocs/enumerations.html" overwriteFiles="true" suppressFiles="true" template="templates/enumerations.vm">
+<library name="templates\report.vm"/>
+<library name="templates\indexMacros.vm"/>
+</body>
+</rule>
+<rule description="" enabled="true" name="complexTypes" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.DocUtils" entry="docUtils"/>
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.CastUtils" entry="castUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringUtils" entry="stringUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringEscapeUtils" entry="stringEscapeUtils"/>
+<body outputFile="${ppProp.outputDir}/webdocs/cTypes.html" overwriteFiles="true" suppressFiles="true" template="templates/cTypes.vm">
+<library name="templates\report.vm"/>
+<library name="templates\indexMacros.vm"/>
+</body>
+</rule>
+<rule description="" enabled="true" name="xRef" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.DocUtils" entry="docUtils"/>
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.CastUtils" entry="castUtils"/>
+<body outputFile="${ppProp.outputDir}/webdocs/xref.xml" overwriteFiles="true" suppressFiles="true" template="templates/xref.vm"/>
+</rule>
+<rule description="" enabled="true" name="copyStyles" type="org.eclipse.tigerstripe.workbench.plugins.ICopyRule">
+<body copyFrom="0" filesetMatch="resources\styles.css" toDirectory="${ppProp.outputDir}/css"/>
+</rule>
+<rule description="" enabled="true" name="notifications" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.CastUtils" entry="castUtils"/>
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.DocUtils" entry="docUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringEscapeUtils" entry="stringEscapeUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringUtils" entry="stringUtils"/>
+<body outputFile="${ppProp.outputDir}/webdocs/notifications.html" overwriteFiles="true" suppressFiles="true" template="templates/notifications.vm">
+<library name="templates\index.vm"/>
+<library name="templates\report.vm"/>
+</body>
+</rule>
+<rule description="" enabled="true" name="exceptions" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.CastUtils" entry="castUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringUtils" entry="stringUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringEscapeUtils" entry="stringEscapeUtils"/>
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.DocUtils" entry="docUtils"/>
+<body outputFile="${ppProp.outputDir}/webdocs/exceptions.html" overwriteFiles="true" suppressFiles="true" template="templates\exceptions.vm">
+<library name="templates\report.vm"/>
+<library name="templates\indexMacros.vm"/>
+</body>
+</rule>
+<rule description="" enabled="true" name="updates" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.DocUtils" entry="docUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringEscapeUtils" entry="stringEscapeUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringUtils" entry="stringUtils"/>
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.CastUtils" entry="castUtils"/>
+<body outputFile="${ppProp.outputDir}/webdocs/updates.html" overwriteFiles="true" suppressFiles="true" template="templates\updates.vm">
+<library name="templates\indexMacros.vm"/>
+<library name="templates\report.vm"/>
+</body>
+</rule>
+<rule description="" enabled="true" name="queries" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.CastUtils" entry="castUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringUtils" entry="stringUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringEscapeUtils" entry="stringEscapeUtils"/>
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.DocUtils" entry="docUtils"/>
+<body outputFile="${ppProp.outputDir}/webdocs/queries.html" overwriteFiles="true" suppressFiles="true" template="templates\queries.vm">
+<library name="templates\indexMacros.vm"/>
+<library name="templates\report.vm"/>
+</body>
+</rule>
+</globalRules>
+<artifactRules>
+<rule description="" enabled="true" name="package" type="org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.generators.utils.DocUtils" entry="docUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringUtils" entry="stringUtils"/>
+<contextEntry classname="org.apache.commons.lang.StringEscapeUtils" entry="stringEscapeUtils"/>
+<body artifactFilterClass="org.eclipse.tigerstripe.generators.utils.LegacyFilter" artifactType="Any Artifact" includeDependencies="true" modelClass="org.eclipse.tigerstripe.generators.models.PackageModel" modelClassName="package" outputFile="${ppProp.outputDir}/webdocs/pack${package.Hash}.html" overwriteFiles="false" suppressFiles="true" template="templates/package.vm">
+<library name="templates\report.vm"/>
+</body>
+</rule>
+</artifactRules>
+<classpathEntries>
+<entry relativePath="commons-lang-2.1.zip"/>
+</classpathEntries>
+<additionalFiles>
+<includeEntry relativePath="resources/"/>
+</additionalFiles>
+<advanced/>
+</ts_plugin>

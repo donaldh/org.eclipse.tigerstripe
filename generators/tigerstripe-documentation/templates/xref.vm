@@ -1,0 +1,36 @@
+## Copyright (c) 2008 Cisco Systems, Inc. 
+## All rights reserved. This program and the accompanying materials 
+## are made available under the terms of the Eclipse Public License v1.0 
+## which accompanies this distribution, and is available at
+## http://www.eclipse.org/legal/epl-v10.html 
+## 
+## Contributors: 
+## Cisco Systems, Inc. - dkeysell
+$castUtils.setPluginRef($pluginConfig)##
+<elementXref>
+#foreach( $el in $castUtils.toModel($allArtifacts))
+#set ($hash=${docUtils.getHash($el.package)})
+#set ($url= "pack${hash}.html#${el.name}")
+#if($el.ManagedEntity)
+#set($type="entity")
+#elseif($el.DataType)
+#set($type="complextype")
+#elseif($el.AssociationClass)
+#set($type="associationclass")
+#elseif($el.Association)
+#set($type="association")
+#elseif($el.Enumeration)
+#set($type="enumeration")
+#elseif($el.Interface)
+#set($type="interface")
+#else
+#set($type="error - type not known")
+#end
+<xref>
+  <type>$type</type>
+  <name>$el.name</name>
+  <fqn>$el.fullyQualifiedName</fqn>
+  <url>$url</url>
+</xref>
+#end
+</elementXref>

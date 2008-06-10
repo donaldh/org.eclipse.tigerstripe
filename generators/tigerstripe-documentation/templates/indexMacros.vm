@@ -1,0 +1,35 @@
+## Copyright (c) 2008 Cisco Systems, Inc. 
+## All rights reserved. This program and the accompanying materials 
+## are made available under the terms of the Eclipse Public License v1.0 
+## which accompanies this distribution, and is available at
+## http://www.eclipse.org/legal/epl-v10.html 
+## 
+## Contributors: 
+## Cisco Systems, Inc. - dkeysell
+#############################################
+## recurse package stucture
+#############################################
+#macro(package $p1)
+#if ($p1.hasElements())
+#set ($hash=${docUtils.getHash($p1.fullyQualifiedName)})
+<li><a href="pack${hash}.html">$p1.name</a></li>
+#else
+<li>$p1.name</li>
+#end
+#if ($p1.subPackages)
+<ul>
+#foreach($p2 in $p1.subPackages)
+#package($p2)
+#end
+</ul>
+#end
+#end
+#############################################
+## folllow generalization
+#############################################
+#macro(generals $e)
+#if($e.generalization)
+... #href($e.generalization)
+#generals($e.generalization)
+#end
+#end

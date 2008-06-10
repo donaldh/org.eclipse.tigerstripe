@@ -1,0 +1,344 @@
+## Copyright (c) 2008 Cisco Systems, Inc. 
+## All rights reserved. This program and the accompanying materials 
+## are made available under the terms of the Eclipse Public License v1.0 
+## which accompanies this distribution, and is available at
+## http://www.eclipse.org/legal/epl-v10.html 
+## 
+## Contributors: 
+## Cisco Systems, Inc. - dkeysell
+#####################################
+## construct a hyperlink for a package
+#####################################
+#macro(phref $p)
+#set ($do = false )
+#foreach($el in $p.ownedElements)
+#if ($el.association)
+#set ( $do = true)
+#end
+is it managedent $el.ManagedEntity
+#if($el.ManagedEntity)
+#set ( $do = true)
+#end
+#if($el.Interface)
+#set ( $do = true)
+#end
+#end
+#if ($do)
+#set ($hash=${docUtils.getHash($p.fullyQualifiedName)})
+<a href="pack${hash}.html">$p.name</a>
+#else
+$p.name
+#end
+#end
+#####################################
+## construct a hyperlink for an el
+#####################################
+#macro(href $el)
+#set($bm="$el.name")
+#if ($el.Method || $el.Field )
+#set($bm="${el.owner.name}_${el.name}")
+#end
+#set ($hash="${docUtils.getHash($el.package)}")
+#set ($pf = "pack${hash}.html")
+<a href="$pf#${bm}">
+#if($el.abstract)
+<i>$el.name</i>
+#else
+$el.name
+#end
+</a>
+#end
+#####################################
+## construct a local hyperlink for an el
+#####################################
+#macro(lhref $el)
+<a href="#${el.name}">
+#if($el.abstract)
+<i>$el.name</i>
+#else
+$el.name
+#end
+</a>
+#end
+#####################################
+## construct a bookmark for an el
+#####################################
+#macro(bookmark $el)
+<a name="${el.name}">
+#if($el.abstract)
+<i>$el.name</i>
+#else
+$el.name
+#end
+</a>
+#end
+#####################################
+## construct a bookmark for an op or an attr
+#####################################
+#macro(opAttrBookmark $op)
+<a name="${op.owner.name}_${op.name}">$op.name</a>
+#end
+#####################################
+## construct a bookmark for a blocking op 
+#####################################
+#macro(opBlockingBookmark $op)
+#set ($opName = $stringUtils.capitalize(${op.name}))
+<a name="${op.owner.name}_blocking${opName}">blocking${opName}</a>
+#end
+#####################################
+## dump stereotypes for element
+#####################################
+#macro (stereos $el)
+#foreach ( $s in $el.stereotypeInstances )
+$s.name
+#foreach ($at in $s.CharacterizingStereotype.Attributes)
+#if($at.Array)
+#set ($ts=$el.findTaggedValues($s.name))
+#if (!$ts.empty)
+:
+#set($comma="")
+#foreach($t in $ts)
+$comma $t
+#set ($comma=",")
+#end
+#end
+#else
+#set ($ts=$el.findTaggedValue($s.name))
+#if ($ts.length == 0)##
+#else
+: $ts
+#end
+#end
+#end
+<br/>
+#end
+#end
+#####################################
+## docs for an element
+#####################################
+#macro (docs $el)
+#if(!${stringUtils.isEmpty($el.getDocumentation("",64,false))})
+#set ($doc = $stringEscapeUtils.escapeXml($el.getDocumentation("",64,false)))
+<i>		$doc		</i>
+#end
+#end
+#####################################
+## spit out a type
+#####################################
+#macro (spitType $el)
+#set ($tp1 = $el.Type)
+#if ($tp1.enum)
+<a href="enumerations.html#${tp1.name}">
+$tp1.name	</a>
+#elseif($tp1.Datatype)
+<a href="cTypes.html#${tp1.name}">
+$tp1.name	#if($el.isMany())	#end
+</a>
+#else
+	$tp1.name	#if($el.isMany())		#end
+#end
+#end
+#####################################
+## handle an operation return
+#####################################
+#macro (returnType $op)
+#set ($tp1 = $op.returnType)
+#if ($tp1.enumeration)
+<a href="enumerations.html#${tp1.name}">
+$tp1.name	#if($op.returnIsMany())	[]	#end
+</a>
+#elseif($tp1.Datatype)
+<a href="cTypes.html#${tp1.name}">
+$tp1.name	#if($op.returnIsMany())	[]	#end
+</a>
+#else
+	$tp1.name	#if($op.returnIsMany())	[]	#end
+#end
+#end
+#####################################
+## handle artifact details
+#####################################
+#macro (artiDetails $ct)
+<table cellspacing="8" border="1" width="100%">
+<tr class="ct">
+<td>
+<b>
+#bookmark($ct)
+</b>
+<br/>
+Type: $ct.artifactType
+<br/>
+Package: $ct.package
+#if ($ct.generalization)
+<br/>
+Superclass: #href($ct.generalization)
+#end
+#if (!$ct.realizations.empty)
+<br/>
+Specializations:
+#set ($comma = "")
+#foreach ($c in $ct.realizations)
+ $comma #href($c)
+#set ($comma = ",")
+#end
+#end
+#if($ct.query)
+#if($ct.returnedType)
+<br/>
+Return Type: $ct.returnedType
+#end
+#end
+</td>
+<td width="20%">#stereos($ct)</td>
+</tr>
+<tr>
+<td colspan="2">
+#docs($ct)
+</td>
+</tr>
+	
+	#if($ct.association)
+	#foreach($end in $ct.AssociationEnds)
+	<tr>
+	<td colspan="2">
+	<table width="100%">	<tr>
+	<td>
+	<b>Name: $end.Name</b>
+	Type: $end.Type.FullyQualifiedName, Visible: $end.VisibilityStr, Multiplicity: $end.DocMultiplicity, Aggregation: $end.EAggregation, Changeable: $end.changeable, Navigable: $end.Navigable, #if($end.many)Ordered: $end.ordered, Unique: $end.unique#end
+	<br/>
+	#docs($end)
+	</td>
+	<td width="20%" valign="top" >
+	#stereos($end)
+	</td>
+		</tr>	</table>
+	</td>
+	</tr>
+	#end
+	#end
+	
+	#if($ct.dependency)
+	<tr>
+	<td colspan="2">
+	<table width="100%">	<tr>
+	<td>
+	AEnd Artifact: $ct.AEndType
+	<br/>
+	ZEnd Artifact: $ct.ZEndType
+	<br/>
+	</td>
+		</tr>	</table>
+	</td>
+	</tr>
+	#end
+
+#if(!$ct.getAttributes(true).empty)
+		<tr>
+		<td bgcolor="Silver" colspan="2"><b>Attributes</b> (Local attributes on 
+		lavender background) </td>
+	</tr>
+	#foreach($att in $ct.getAttributes(true))
+	#if($att.owner.equals($ct))
+	<tr class="local">
+	#else
+	<tr class="nlocal">
+	#end
+	<td colspan="2">
+	<table width="100%">	<tr>
+	<td>
+	<b>$att.name:</b>
+	#spitType($att), $att.visibilityStr, Multiplicity: $att.multiplicity#if($att.isMany())#if($att.unique), unique#end#if($att.ordered), ordered#end	#end#if($att.readOnly), readOnly#end#if($att.DefaultValuePresent), Default value: $att.defaultValue#end
+	<br/>
+	#docs($att)
+	</td>
+	<td width="20%" valign="top" >
+	#stereos($att)
+	</td>
+		</tr>	</table>
+	</td>
+	</tr>
+	#end
+	#end
+	#if(!$ct.getLiterals(true).empty)
+		<tr>
+		<td bgcolor="Silver" colspan="2"><b>Literals</b> (Local literals on 
+		lavender background) </td>
+	</tr>
+	#foreach($lit in $ct.getLiterals(true))
+	#if($lit.owner.equals($ct))
+	<tr class="local">
+	#else
+	<tr class="nlocal">
+	#end
+	<td colspan="2">
+	<table width="100%">	<tr>
+	<td>
+	<b>$lit.name:</b>
+	$lit.visibilityStr, $lit.IextType.fullyQualifiedName, $docUtils.encode($lit.Value)
+	<br/>
+	#docs($lit)
+	</td>
+	<td width="20%" valign="top" >
+	#stereos($lit)
+	</td>
+		</tr>	</table>
+	</td>
+	</tr>
+	#end
+	#end
+	#if(!$ct.getOperations(true).empty)
+		<tr>
+		<td bgcolor="Silver" colspan="2"><b>Methods</b> (Local methods on 
+		lavender background) </td>
+	</tr>
+	#foreach($op in $ct.getOperations(true))
+	#if($op.owner.equals($ct))
+	<tr class="local">
+	#else
+	<tr class="nlocal">
+	#end
+	<td colspan="2">
+	<table width="100%">	<tr>
+	<td>
+	#if($op.abstract)<i>#end<b>$op.name:</b>
+	$op.visibilityStr $op.signature::#if($op.void)void#else$op.returnType.name $op.returnMultiplicity #if($op.returnMultiMany)#if($op.Unique) unique#end#if($op.Ordered) ordered#end#end#if($op.returnName.length() > 0) returnName: $op.returnName#end#if($op.defaultReturnValue.length() > 0) defaultReturnValue: $docUtils.encode($op.defaultReturnValue)#end#end
+	#if($op.abstract)</i>#end
+	<br/>
+	#docs($op)
+	</td>
+	<td width="20%" valign="top" >
+	#stereos($op)
+	</td></tr>
+	#if(!$op.arguments.empty)
+	<tr><td>
+	<b>Arguments</b></td>
+	</tr>
+	#foreach($arg in $op.parameters)
+	<tr><td>
+	<b>$arg.name</b>: $arg.type.name $arg.multiplicity#if($arg.many)#if($arg.ordered) ordered#end#if($arg.unique) unique#end#end $docUtils.encode($arg.defaultValue)
+	<br/>
+	#if($arg.comment.length() == 0)##
+	#else
+	<b>Description:</b> #docs($arg)
+	#end
+	</td>
+	<td width="20%" valign="top" >
+	#stereos($arg)
+	#end
+	</td></tr>
+	#end
+	#if($op.exceptionsPresent)
+	</br>
+	<tr><td>
+	<b>Exceptions:</b> $op.exceptionList
+	</td></tr>
+	#end
+		</table>
+	</td>
+	</tr>
+	#end
+	#end
+</table>
+<p/>
+#end
+		
