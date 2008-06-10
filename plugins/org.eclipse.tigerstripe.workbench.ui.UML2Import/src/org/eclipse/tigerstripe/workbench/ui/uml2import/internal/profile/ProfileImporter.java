@@ -76,6 +76,7 @@ public class ProfileImporter {
 		File logFile = new File(source + "/TSLoadprofile.log");
 
 		try {
+			loadUMLPrimitives(handle);
 			Utilities.setupPaths();
 			this.out = new PrintWriter(new FileOutputStream(logFile));
 			File[] fList = source.listFiles();
@@ -126,6 +127,35 @@ public class ProfileImporter {
 
 	}
 
+	private void loadUMLPrimitives(WorkbenchProfile handle){
+		// We need to add String as its a UMLPrimitive that might get used
+		// We have to lower case the first letter for TS reasons.
+		// Other built-ins - Boolean and Integer are there already 
+		
+		ArrayList existingDefs = new ArrayList();
+		Collection<IPrimitiveTypeDef> defs = handle.getPrimitiveTypeDefs(true);
+		for (IPrimitiveTypeDef prim :defs) {
+			existingDefs.add(prim.getName());
+		}
+		
+		IPrimitiveTypeDef prim = new PrimitiveTypeDef();
+		prim.setName("string");
+		prim.setPackageName("primitive");
+		prim.setDescription("Autocreated by UML profile import");
+		try {
+			if (!existingDefs.contains(prim.getName())) {
+				handle.addPrimitiveTypeDef(prim);
+				existingDefs.add(prim.getName());
+				this.out.println("INFO : Added primitive Type " + "string");
+			}
+		} catch (Exception e) {
+			String msgText = "Failed to add primitive Type " + "string";
+			addMessage(msgText, 0);
+			this.out.println("ERROR : " + msgText);
+			e.printStackTrace(this.out);
+		}
+	}
+	
 	private void loadUMLModel(Model model, WorkbenchProfile handle,
 			SubProgressMonitor subMonitor) {
 		ArrayList existingDefs = new ArrayList();
@@ -147,12 +177,14 @@ public class ProfileImporter {
 				IPrimitiveTypeDef prim = new PrimitiveTypeDef();
 				primName = pType.getName();
 				subMonitor.setTaskName("Processing UML Classes : " + primName);
+				primName = unCapitalize(primName);
 				prim.setName(primName);
 				prim.setPackageName("primitive");
 				prim.setDescription("Imported from " + model.getName());
 				try {
 					if (!existingDefs.contains(prim.getName())) {
 						handle.addPrimitiveTypeDef(prim);
+						existingDefs.add(prim.getName());
 						this.out.println("INFO : Added primitive Type " + primName);
 					}
 				} catch (Exception e) {
@@ -470,6 +502,16 @@ public class ProfileImporter {
 		}
 
 	}
+	
+	private String unCapitalize(String in){
+		String out = in.substring(0,1).toLowerCase();
+		out = out+in.substring(1);
+		if (! out.equals(in)){
+			this.out.println("Warning :  primitiveType '"+in+"' mapped to '"+out+"'");
+		}
+		return out;
+	}
+	
 	public void addMessage(String msgText, int severity) {
 			Message newMsg = new Message();
 			newMsg.setMessage(msgText);

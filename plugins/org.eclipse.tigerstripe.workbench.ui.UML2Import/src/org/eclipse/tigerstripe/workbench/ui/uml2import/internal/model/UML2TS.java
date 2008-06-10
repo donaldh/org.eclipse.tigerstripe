@@ -46,7 +46,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEnumSpecifics;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
+import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -77,6 +79,7 @@ import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.PackageImport;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
+import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.ProfileApplication;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
@@ -663,7 +666,17 @@ public class UML2TS {
 						LiteralString lit = (LiteralString) spec;
 						iLiteral.setValue(lit.getValue());
 					} else {
-						out.println("WARN : Literal type unknown ("+spec.getLabel()+") : defaulting to String ");
+						if (spec != null){
+							if (spec.getLabel() != null){
+								out.println("WARN : Literal type unknown ("+spec.getLabel()+") : defaulting to String ");
+							} else if (spec.getName() != null){
+								out.println("WARN : Literal type unknown ("+spec.getName()+") : defaulting to String ");
+							} else {
+								out.println("WARN : Literal type unknown : defaulting to String ");
+							}
+						} else {
+							out.println("WARN : Literal type unknown : defaulting to String ");
+						}
 						type.setFullyQualifiedName("String");
 						// If unknown type, set the label to the name by default
 						iLiteral.setValue("\"" + iLiteral.getName() + "\"");
@@ -757,7 +770,7 @@ public class UML2TS {
 			if (enumArtifact.getLiterals().size()>0){
 				ILiteral firstLit = enumArtifact.getLiterals().iterator().next();
 				enumArtifact.setBaseType(firstLit.getType());
-				System.out.println(enumArtifact.getBaseTypeStr());
+				//System.out.println(enumArtifact.getBaseTypeStr());
 			} else {
 				// Leave as the default - we have no idea!
 			}
@@ -937,16 +950,24 @@ public class UML2TS {
 				out.println("ERROR : " + msgText);
 				return false;
 			}
-			// Need to determine if this is a primitive type that we know about
-			String pTypeFQN = convertToFQN(uType.getQualifiedName());
-			
-			if (uType.getQualifiedName().startsWith(this.modelLibrary)) {
-				if (!checkReservedPrimitive(pTypeFQN)) {
-					pTypeFQN = PRIMITIVE_PREFIX + pTypeFQN;
+				
+			// Need to determine if this is a primitive type 
+			if (uType instanceof PrimitiveType){
+				String pTypeFQN = uType.getName();
+				String prim = checkPrimitives(pTypeFQN);
+				if (!prim.equals("")) {
+					iType.setFullyQualifiedName(prim);
+				} else {
+					String msgText = "Neither a model nor a known primitive type : " + location + " Skipping...";
+					addMessage(msgText, 0);
+					out.println("ERROR : " + msgText);;
+					return false;
 				}
+				
+			} else {
+				iType.setFullyQualifiedName(convertToFQN(uType.getQualifiedName()));
 			}
-
-			iType.setFullyQualifiedName(pTypeFQN);
+			
 			if (setMulti) {
 				// optional = setMultiplicityNew(iType, param);
 				iType.setTypeMultiplicity(EMultiplicity
@@ -1427,11 +1448,44 @@ public class UML2TS {
 				// System.out.println("profApp" + pack.getQualifiedName());
 
 			} else {
-				System.out.println("Something else " + o.getClass());
+				//System.out.println("Something else " + o.getClass());
 			}
 		}
 	}
 
+	/** 
+	 * See if this is a known primitive. We may need to lower case the first letter?
+	 * 
+	 * @param name
+	 * @return
+	 */
+	private String  checkPrimitives(String name) {
+		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
+		Collection<IPrimitiveTypeDef> typeDefs = profile.getPrimitiveTypeDefs(true);
+		for (IPrimitiveTypeDef def : typeDefs){
+			
+			// Special handling for Integer -> "int"
+			if (name.equals("Integer")){
+				return "int";
+			}
+			
+			String pack = def.getPackageName();
+			if (pack.equals(IPrimitiveTypeArtifact.RESERVED)){
+				pack = "";
+			} else {
+				pack = pack+".";
+			}
+			
+			if (def.getName().equals(name)){
+				return pack+name;
+			}
+			if (def.getName().equals(unCapitalize(name))){
+				return pack+unCapitalize(name);
+			}
+		}
+		return "";
+	}
+	
 	private boolean checkReservedPrimitive(String name) {
 
 		String[][] res = IPrimitiveTypeArtifact.reservedPrimitiveTypes;
@@ -1519,6 +1573,15 @@ public class UML2TS {
 			this.messages.addMessage(newMsg);
 		}
 
+	}
+	
+	private String unCapitalize(String in){
+		String out = in.substring(0,1).toLowerCase();
+		out = out+in.substring(1);
+		if (! out.equals(in)){
+			this.out.println("Warning :  primitiveType '"+in+"' mapped to '"+out+"'");
+		}
+		return out;
 	}
 
 
