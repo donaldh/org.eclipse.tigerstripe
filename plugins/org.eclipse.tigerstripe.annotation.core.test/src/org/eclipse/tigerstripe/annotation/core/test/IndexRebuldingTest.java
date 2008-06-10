@@ -12,6 +12,11 @@
 package org.eclipse.tigerstripe.annotation.core.test;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
@@ -46,10 +51,11 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 	}
 	
 	public void test1() {
+		//Test is INDEX will be rebuilt after annotation file deletion
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
 			manager.addAnnotation(project1, createMimeType("text/html"));
-			removeProjectFile(project1);
+			removeAnnotationFile(project1);
 			Annotation[] annotations = manager.getAnnotations(project1, false);
 			assertEquals(annotations.length, 0);
 		}
@@ -58,15 +64,100 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 		}
 	}
 	
-	private void removeProjectFile(IProject project) {
+	public void test2() {
+		//Test is annotations would be kept after another annotations
+		//file will be corrupted
+		IAnnotationManager manager = AnnotationPlugin.getManager();
+		try {
+			manager.addAnnotation(project1, createMimeType("text/html"));
+			manager.addAnnotation(project2, createMimeType("text/xml"));
+			manager.addAnnotation(project2, createMimeType("text/plain"));
+			removeAnnotationFile(project1);
+			Annotation[] annotations = manager.getAnnotations(project1, false);
+			assertEquals(annotations.length, 0);
+			annotations = manager.getAnnotations(project2, false);
+			assertEquals(annotations.length, 2);
+		}
+		finally {
+			manager.removeAnnotations(project1);
+			manager.removeAnnotations(project2);
+		}
+	}
+	
+	public void test3() throws Exception {
+		//Test is INDEX will be rebuilt after annotation file modification
+		IAnnotationManager manager = AnnotationPlugin.getManager();
+		try {
+			manager.addAnnotation(project1, createMimeType("text/html"));
+			manager.addAnnotation(project2, createMimeType("text/xml"));
+			manager.addAnnotation(project2, createMimeType("text/plain"));
+			replaceAnnotationFile(project1, project2);
+			Annotation[] annotations = manager.getAnnotations(project1, false);
+			assertEquals(annotations.length, 2);
+			annotations = manager.getAnnotations(project2, false);
+			assertEquals(annotations.length, 2);
+		}
+		finally {
+			manager.removeAnnotations(project1);
+			manager.removeAnnotations(project2);
+		}
+	}
+	
+	/**
+	 * Remove annotations file from the project
+	 * 
+	 * @param project
+	 */
+	private void removeAnnotationFile(IProject project) {
+		File file = getAnnotationFile(project);
+		if (file != null) {
+			file.delete();
+		}
+	}
+	
+	/**
+	 * Replace project1 annotations file with project2 annotations file
+	 * (with URI replacing) 
+	 * 
+	 * @param project1
+	 * @param project2
+	 * @throws IOException
+	 */
+	private void replaceAnnotationFile(IProject project1, IProject project2) throws IOException {
+		File file1 = getAnnotationFile(project1);
+		File file2 = getAnnotationFile(project2);
+		if (file1 == null || file2 == null)
+			return;
+		String content = getContent(file2);
+		content = content.replaceAll("resource:/project2", "resource:/project1");
+		saveContent(content, file1);
+	}
+	
+	private File getAnnotationFile(IProject project) {
 		IPath path = project.getLocation();
 		if (path != null) {
 			path = path.append(".annotations");
-			File file = path.toFile();
-			if (file != null) {
-				file.delete();
-			}
+			return path.toFile();
 		}
+		return null;
+	}
+	
+	private String getContent(File file) throws IOException {
+		InputStream stream = new FileInputStream(file);
+		StringBuffer content = new StringBuffer();
+		byte[] buffer = new byte[1024 * 1024];
+		int size = 0;
+		while((size = stream.read(buffer)) >= 0) {
+			content.append(new String(buffer, 0, size));
+		}
+		stream.close();
+		return content.toString();
+	}
+	
+	private void saveContent(String content, File file) throws IOException {
+		OutputStream stream = new FileOutputStream(file);
+		stream.write(content.getBytes());
+		stream.close();
 	}
 	
 	private MimeType createMimeType(String text) {
