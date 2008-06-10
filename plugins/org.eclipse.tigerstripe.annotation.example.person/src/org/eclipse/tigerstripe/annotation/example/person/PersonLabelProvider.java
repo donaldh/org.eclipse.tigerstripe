@@ -48,7 +48,7 @@ public class PersonLabelProvider extends LabelProvider {
 	 */
 	@Override
 	public Image getImage(Object element) {
-		ImageDescriptor des = PersonExamplePlugin.createImage("icons/person.gif");
+		ImageDescriptor des = PersonExamplePlugin.createImage("icons/person.png");
 		return des == null ? null : des.createImage();
 	}
 

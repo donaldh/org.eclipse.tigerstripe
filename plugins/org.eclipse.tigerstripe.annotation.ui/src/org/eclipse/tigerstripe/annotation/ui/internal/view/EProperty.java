@@ -33,8 +33,6 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 
 /**
  * @author Yuri Strot
@@ -44,7 +42,6 @@ public class EProperty implements IProperty {
 	
 	private EObject object;
 	private EStructuralFeature feature;
-	private Annotation annotation;
 	
 	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
 	private static final String ANNOTATION_MULTILINE = "multiline";
@@ -54,10 +51,9 @@ public class EProperty implements IProperty {
 	
 	private CellEditor cellEditor;
 	
-	public EProperty(EObject object, EStructuralFeature feature, Annotation annotation) {
+	public EProperty(EObject object, EStructuralFeature feature) {
 		this.object = object;
 		this.feature = feature;
-		this.annotation = annotation;
 	}
 
 	public void applyEditorValue() {
@@ -212,7 +208,7 @@ public class EProperty implements IProperty {
 		if (value instanceof EDataTypeUniqueEList)
 			return;
 		object.eSet(feature, value);
-		AnnotationPlugin.getManager().save(annotation);
+		//AnnotationPlugin.getManager().save(annotation);
     }
 
     /*

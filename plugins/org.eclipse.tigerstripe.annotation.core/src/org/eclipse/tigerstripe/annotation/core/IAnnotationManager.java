@@ -95,6 +95,13 @@ public interface IAnnotationManager {
 	public void save(Annotation annotation);
 	
 	/**
+	 * Revert annotation changes to the last state when it was saved
+	 * 
+	 * @param annotation annotation to revert
+	 */
+	public void revert(Annotation annotation);
+	
+	/**
 	 * Add annotation listener
 	 * 
 	 * @param listener

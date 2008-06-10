@@ -20,19 +20,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
 
 /**
  * @author Yuri Strot
  *
  */
 public class PropertyContentProvider implements ITreeContentProvider {
-	
-	private Annotation annotation;
-	
-	public PropertyContentProvider(Annotation annotation) {
-		this.annotation = annotation;
-	}
 
 	public void dispose() {
     }
@@ -56,7 +49,7 @@ public class PropertyContentProvider implements ITreeContentProvider {
 			Iterator<EStructuralFeature> attrs = object.eClass().getEAllStructuralFeatures().iterator();
 			while (attrs.hasNext()) {
 				EStructuralFeature feature = (EStructuralFeature) attrs.next();
-				children.add(new EProperty(object, feature, annotation));
+				children.add(new EProperty(object, feature));
 			}
 		}
 	    return children.toArray(new EProperty[children.size()]);

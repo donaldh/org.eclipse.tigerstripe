@@ -126,7 +126,7 @@ public class PropertiesSection extends AbstractPropertySection {
 	protected void updateView(final ISelection selection) {
 		Annotation annotation = getAnnotation(selection);
 		if (annotation != null) {
-			viewer.setContentProvider(new PropertyContentProvider(annotation));
+			viewer.setContentProvider(new PropertyContentProvider());
 			viewer.setInput(annotation.getContent());
 		}
 		else {

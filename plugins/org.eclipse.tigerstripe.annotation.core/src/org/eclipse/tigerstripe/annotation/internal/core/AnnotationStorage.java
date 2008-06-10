@@ -81,37 +81,18 @@ public class AnnotationStorage {
 	}
 	
 	protected List<Annotation> doGetAnnotations(URI uri) {
-		if (false) {
-			List<Annotation> list = getAnnotationMap().get(uri);
-			if (list == null) {
-				EObject[] objects = database.get(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
-				list = new ArrayList<Annotation>();
-				for (int i = 0; i < objects.length; i++) {
-					if (objects[i] instanceof Annotation) {
-						Annotation annotation = (Annotation)objects[i];
-						list.add(annotation);
-						trackChanges(annotation);
-					}
-				}
-				getAnnotationMap().put(uri, list);
-	    		fireAnnotationLoaded(list.toArray(new Annotation[list.size()]));
+		EObject[] objects = database.get(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
+		List<Annotation> list = new ArrayList<Annotation>();
+		for (int i = 0; i < objects.length; i++) {
+			if (objects[i] instanceof Annotation) {
+				Annotation annotation = (Annotation)objects[i];
+				list.add(annotation);
+				trackChanges(annotation);
 			}
-			return list;
 		}
-		else {
-			EObject[] objects = database.get(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
-			List<Annotation> list = new ArrayList<Annotation>();
-			for (int i = 0; i < objects.length; i++) {
-				if (objects[i] instanceof Annotation) {
-					Annotation annotation = (Annotation)objects[i];
-					list.add(annotation);
-					trackChanges(annotation);
-				}
-			}
-			getAnnotationMap().put(uri, list);
-			fireAnnotationLoaded(list.toArray(new Annotation[list.size()]));
-			return list;
-		}
+		getAnnotationMap().put(uri, list);
+		fireAnnotationLoaded(list.toArray(new Annotation[list.size()]));
+		return list;
 	}
 	
 	public List<Annotation> getPostfixAnnotations(URI uri) {
@@ -215,6 +196,12 @@ public class AnnotationStorage {
 		database.update(annotation, changes);
 		if (changed)
 			fireAnnotationsChanged(new Annotation[] { annotation });
+	}
+	
+	public void revert(Annotation annotation) {
+		ChangeRecorder recorder = changes.get(annotation);
+		ChangeDescription changes = recorder.summarize();
+		changes.apply();
 	}
 	
 	protected Map<URI, List<Annotation>> getAnnotationMap() {

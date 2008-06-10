@@ -34,9 +34,9 @@ public class LabelProvider extends org.eclipse.jface.viewers.LabelProvider {
 	
 	protected ImageDescriptor getDescriptor(Object element) {
 		if (element instanceof MimeType)
-			return Activator.createImage("icons/mimetype.gif");
+			return Activator.createImage("icons/mimetype.png");
 		if (element instanceof Author)
-			return Activator.createImage("icons/author.gif");
+			return Activator.createImage("icons/author.png");
 		if (element instanceof Hibernate) {
 			return Activator.createImage("icons/hibernate.gif");
 		}

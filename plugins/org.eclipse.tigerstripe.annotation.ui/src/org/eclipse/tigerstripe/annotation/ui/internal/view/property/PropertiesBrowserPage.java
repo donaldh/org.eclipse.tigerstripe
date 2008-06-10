@@ -12,10 +12,14 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -40,6 +44,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
@@ -54,6 +60,7 @@ import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotatio
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AsyncExecUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
+import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
@@ -90,15 +97,22 @@ public class PropertiesBrowserPage
 	private static Annotation NULL_ANNOTATION = AnnotationFactory.eINSTANCE.createAnnotation();
 
 	private StructuredSelection EMPTY_SELECTION = new StructuredSelection();
+	
+	private Map<Annotation, DirtyAdapter> adapters = new HashMap<Annotation, DirtyAdapter>();
+	
+	private IAnnotationEditorListener listener;
+	private boolean block = false;
 
 	/**
 	 * Constructor
 	 * @param contributor the <code>ITabbedPropertySheetPageContributor</code> 
 	 *  for this property sheet page
 	 */
-	public PropertiesBrowserPage(ITabbedPropertySheetPageContributor contributor) {
+	public PropertiesBrowserPage(ITabbedPropertySheetPageContributor contributor,
+			IAnnotationEditorListener listener) {
 		super(contributor);
 		this.contributor = contributor;
+		this.listener = listener;
 	}
 
 	/* (non-Javadoc)
@@ -262,8 +276,69 @@ public class PropertiesBrowserPage
 		return null;
 	}
 	
+	private void save(Annotation annotation) {
+		DirtyAdapter adapter = adapters.get(annotation);
+		if (adapter == null || adapter.isDirty()) {
+			block = true;
+			AnnotationPlugin.getManager().save(annotation);
+			if (adapter != null) adapter.clear();
+			block = false;
+		}
+	}
+	
+	private void revert(Annotation annotation) {
+		DirtyAdapter adapter = adapters.get(annotation);
+		block = true;
+		AnnotationPlugin.getManager().revert(annotation);
+		block = false;
+		if (adapter != null)
+			adapter.clear();
+	}
+	
+	public void saveAnnotation() {
+		Annotation annotation = getSelectedAnnotation();
+		if (annotation != null) {
+			save(annotation);
+		}
+	}
+	
+	public void saveAllAnnotations() {
+		if (currentSelection != null) {
+			for (int i = 0; i < currentSelection.length; i++) {
+				save(currentSelection[i]);
+			}
+		}
+	}
+	
+	public void revertAnnotation() {
+		Annotation annotation = getSelectedAnnotation();
+		if (annotation != null) {
+			revert(annotation);
+		}
+		updatePageSelection();
+	}
+	
+	private void updatePageSelection() {
+		Annotation annotation = getSelectedAnnotation();
+		if (annotation != null) {
+			super.selectionChanged(part, new StructuredSelection(annotation) {
+				public boolean equals(Object o) {
+					return false;
+				}
+			});
+		}
+	}
+	
+	public void revertAllAnnotations() {
+		if (currentSelection != null) {
+			for (int i = 0; i < currentSelection.length; i++) {
+				revert(currentSelection[i]);
+			}
+		}
+		updatePageSelection();
+	}
+	
 	protected void createNavigateMenu(Composite parent, TabbedPropertySheetWidgetFactory factory) {
-		
 		Composite composite = createTitle(parent, factory);
 		FormLayout formLayout = new FormLayout();
 		formLayout.marginTop = 4;
@@ -283,8 +358,10 @@ public class PropertiesBrowserPage
 			
 			public void onSelection() {
 				Annotation annotation = getSelectedAnnotation();
-				if (annotation != null)
+				if (annotation != null) {
 					setPageSelection(annotation);
+					updateStatus();
+				}
 			}
 		
 		});
@@ -326,7 +403,17 @@ public class PropertiesBrowserPage
 		super.selectionChanged(part, new StructuredSelection(NULL_ANNOTATION));
 	}
 	
+	protected void adapt(int index) {
+		EObject content = currentSelection[index].getContent();
+		if (content != null) {
+			DirtyAdapter adapter = new DirtyAdapter(index);
+			content.eAdapters().add(adapter);
+			adapters.put(currentSelection[index], adapter);
+		}
+	}
+	
 	protected void updatePage() {
+		listener.dirtyChanged(IAnnotationEditorListener.NO_CHANGES);
 		currentSelection = getAnnotation(selectedElements);
 		int newSelection = list.getSelectionIndex();
 		list.removeAll();
@@ -334,6 +421,7 @@ public class PropertiesBrowserPage
 		if (showPage) {
 			for (int i = 0; i < currentSelection.length; i++) {
 				list.add(getDisplayName(currentSelection[i]));
+				adapt(i);
             }
 			int index = getAnnotationIndex();
 			if (index >= 0) {
@@ -355,6 +443,61 @@ public class PropertiesBrowserPage
 		}
 		leftPart.setVisible(showPage);
 		composite.layout();
+	}
+	
+	private void updateStatus() {
+		int status = IAnnotationEditorListener.NO_CHANGES;
+		if (currentSelection != null) {
+			Annotation selected = getSelectedAnnotation();
+			for (int i = 0; i < currentSelection.length; i++) {
+				DirtyAdapter adapter = adapters.get(currentSelection[i]);
+				if (adapter != null && adapter.isDirty()) {
+					if (selected == currentSelection[i]) {
+						status = IAnnotationEditorListener.SELECTION_CHANGES;
+						break;
+					}
+					status = IAnnotationEditorListener.NON_SELECTION_CHANGES;
+				}
+			}
+		}
+		listener.dirtyChanged(status);
+	}
+	
+	private class DirtyAdapter extends AdapterImpl {
+		
+		private int index;
+		private boolean dirty;
+		
+		public DirtyAdapter(int index) {
+			this.index = index;
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.eclipse.emf.common.notify.impl.AdapterImpl#notifyChanged(org.eclipse.emf.common.notify.Notification)
+		 */
+		@Override
+		public void notifyChanged(Notification msg) {
+			if (msg.getEventType() == Notification.RESOLVE || 
+					msg.getEventType() == Notification.REMOVING_ADAPTER)
+				return;
+			list.setItem(index, "*" + getDisplayName(
+					currentSelection[index]));
+			if (!dirty) {
+				dirty = true;
+				updateStatus();
+			}
+		}
+		
+		public void clear() {
+			dirty = false;
+			list.setItem(index, getDisplayName(currentSelection[index]));
+			updateStatus();
+		}
+		
+		public boolean isDirty() {
+			return dirty;
+		}
+		
 	}
 	
 	protected String getDisplayName(Annotation annotation) {
@@ -412,10 +555,43 @@ public class PropertiesBrowserPage
 	    return composite;
 	}
 	
+	protected void disposeSelection() {
+		List<Annotation> dirties = new ArrayList<Annotation>(); 
+		if (currentSelection != null) {
+			for (Annotation annotation : currentSelection) {
+				EObject content = annotation.getContent();
+				DirtyAdapter adapter = adapters.get(annotation);
+				if (content != null && adapter != null) {
+					if (adapter.isDirty())
+						dirties.add(annotation);
+					content.eAdapters().remove(adapter);
+				}
+			}
+		}
+		adapters = new HashMap<Annotation, DirtyAdapter>();
+		if (dirties.size() > 0) {
+			block = true;
+			Shell shell = WorkbenchUtil.getShell();
+			if (shell != null) {
+				Annotation[] annotations = dirties.toArray(new Annotation[dirties.size()]);
+				MessageBox message = new MessageBox(shell, SWT.ICON_QUESTION | SWT.YES | SWT.NO);
+				message.setMessage("Annotations have been modified. Save changes?");
+				message.setText("Save Annotations");
+				if (message.open() == SWT.YES)
+					for (Annotation annotation : annotations)
+						AnnotationPlugin.getManager().save(annotation);
+			}
+			block = false;
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	protected void updateSelection() {
+		if (block)
+			return;
+		disposeSelection();
 		AsyncExecUtil.run(composite, new Runnable() {
 			
 			public void run() {
@@ -432,6 +608,7 @@ public class PropertiesBrowserPage
 	 * @see org.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		disposeSelection();
 		if (selection instanceof IStructuredSelection)
 			selectedElements = (IStructuredSelection) selection;
 		this.part = part;

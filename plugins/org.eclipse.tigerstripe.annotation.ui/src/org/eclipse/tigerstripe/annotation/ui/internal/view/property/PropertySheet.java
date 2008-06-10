@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.PlatformObject;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
@@ -39,9 +40,16 @@ import org.eclipse.ui.views.properties.PropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 
 public class PropertySheet extends PageBookView 
-	implements ISelectionListener, IRefactoringListener, ISelectionFilter {
+	implements ISelectionListener, IRefactoringListener, ISelectionFilter, IAnnotationEditorListener {
 	
 	public static final String ID = "org.eclipse.tigerstripe.annotation.view.property";
+	
+	private PropertiesBrowserPage page;
+	
+	private Action saveAction;
+	private Action saveAllAction;
+	private Action revertAction;
+	private Action revertAllAction;
 
     /**
      * Creates a property sheet view.
@@ -98,14 +106,14 @@ public class PropertySheet extends PageBookView
         // Try to get a custom property sheet page.
 //        IPropertySheetPage page = (IPropertySheetPage) getAdapter(part,
 //                IPropertySheetPage.class, false);
-    	IPropertySheetPage page = new PropertiesBrowserPage(
+    	page = new PropertiesBrowserPage(
     			new ITabbedPropertySheetPageContributor() {
 		
 			public String getContributorId() {
 				return "org.eclipse.tigerstripe.annotation.ui.properties";
 			}
 		
-		});
+		}, this);
         if (page != null) {
             if (page instanceof IPageBookViewPage) {
 				initPage((IPageBookViewPage) page);
@@ -125,6 +133,8 @@ public class PropertySheet extends PageBookView
         IPropertySheetPage page = (IPropertySheetPage) rec.page;
         page.dispose();
         rec.dispose();
+        if (page == this.page)
+        	this.page = null;
     }
 
     /* (non-Javadoc)
@@ -145,6 +155,68 @@ public class PropertySheet extends PageBookView
      */
     public void init(IViewSite site) throws PartInitException {
         super.init(site);
+        
+        saveAction = new Action("Save") {
+        	public void run() {
+        		if (page != null)
+        			page.saveAnnotation();
+        	}
+        };
+        saveAction.setImageDescriptor(AnnotationUIPlugin.createImageDescriptor("icons/save.gif"));
+        getViewSite().getActionBars().getToolBarManager().add(saveAction);
+        
+        saveAllAction = new Action("Save All") {
+        	public void run() {
+        		if (page != null)
+        			page.saveAllAnnotations();
+        	}
+        };
+        saveAllAction.setImageDescriptor(AnnotationUIPlugin.createImageDescriptor("icons/save_all.gif"));
+        getViewSite().getActionBars().getToolBarManager().add(saveAllAction);
+        
+        revertAction = new Action("Revert") {
+        	public void run() {
+        		if (page != null)
+        			page.revertAnnotation();
+        	}
+        };
+        revertAction.setImageDescriptor(AnnotationUIPlugin.createImageDescriptor("icons/revert.gif"));
+        getViewSite().getActionBars().getToolBarManager().add(revertAction);
+        
+        revertAllAction = new Action("Revert All") {
+        	public void run() {
+        		if (page != null)
+        			page.revertAllAnnotations();
+        	}
+        };
+        revertAllAction.setImageDescriptor(AnnotationUIPlugin.createImageDescriptor("icons/revert_all.gif"));
+        getViewSite().getActionBars().getToolBarManager().add(revertAllAction);
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.tigerstripe.annotation.ui.internal.view.property.IAnnotationEditorListener#dirtyChanged(int)
+     */
+    public void dirtyChanged(int status) {
+    	switch (status) {
+			case NO_CHANGES:
+				saveAction.setEnabled(false);
+				saveAllAction.setEnabled(false);
+				revertAction.setEnabled(false);
+				revertAllAction.setEnabled(false);
+				break;
+			case NON_SELECTION_CHANGES:
+				saveAction.setEnabled(false);
+				saveAllAction.setEnabled(true);
+				revertAction.setEnabled(false);
+				revertAllAction.setEnabled(true);
+				break;
+			case SELECTION_CHANGES:
+				saveAction.setEnabled(true);
+				saveAllAction.setEnabled(true);
+				revertAction.setEnabled(true);
+				revertAllAction.setEnabled(true);
+				break;
+		}
     }
 
     /* (non-Javadoc)
