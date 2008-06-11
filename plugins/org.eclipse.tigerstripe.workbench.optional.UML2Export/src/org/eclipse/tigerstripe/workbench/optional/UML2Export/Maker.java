@@ -485,6 +485,7 @@ public class Maker {
 				int end2UpperBound = Utilities.getUpperBound(end2.getMultiplicity());
 
 				Association newAssoc = UMLFactory.eINSTANCE.createAssociation();
+				newAssoc.setPackage(modelPackage);
 
 				Property aEnd = newAssoc.createOwnedEnd(end1Name, type1);
 				Property zEnd = newAssoc.createOwnedEnd(end2Name, type2);

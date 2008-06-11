@@ -259,9 +259,10 @@ public class TS2UML {
 
 		this.out.println();
 		monitor.beginTask("Adding Relationships :", projectArtifacts.size());
-
+		this.out.println("**************************************************\nAdding Relationships :");
 		// Need another pass for assocs & dependencies
 		for (IAbstractArtifact artifact : projectArtifacts) {
+			try {
 			if (artifact instanceof IAssociationClassArtifact) {
 				this.out.println("Relationships to AssociationClass "
 						+ artifact.getFullyQualifiedName());
@@ -281,7 +282,7 @@ public class TS2UML {
 					addOperations(artifact, ((Class) typeMap.get(umlClassName)));
 				}
 			} else if (artifact instanceof IAssociationArtifact) {
-				this.out.println("Realtionship to Association  "
+				this.out.println("Relationship to Association  "
 						+ artifact.getFullyQualifiedName());
 
 				Association association = maker.makeOrFindAssociation(artifact);
@@ -357,11 +358,16 @@ public class TS2UML {
 				addComponentStereotype(artifact, intf);
 			}
 			monitor.worked(1);
+			} catch (Exception t){
+				this.out.println("ERROR : "+artifact.getName()+" "+artifact.getLabel());
+				t.printStackTrace(this.out);
+			}
 		}
 		monitor.done();
 
 		this.out.println();
 		monitor.beginTask("Adding Attributes etc :", projectArtifacts.size());
+		this.out.println("**************************************************\nAdding Attributes etc :");
 		// Re-pass to add Attributes etc Can't do this until we have created all
 		// classes
 		// in case of references
