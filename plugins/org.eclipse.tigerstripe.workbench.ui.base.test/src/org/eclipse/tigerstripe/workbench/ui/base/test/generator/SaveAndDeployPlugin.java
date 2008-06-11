@@ -49,9 +49,8 @@ public class SaveAndDeployPlugin extends UITestCaseSWT {
 		
 		
 		// Close the editor
-		ui.click(new XYLocator(
-				new CTabItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml"),
-				195, 14));
+		ui.close(
+				new CTabItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml"));
 	}
 
 }

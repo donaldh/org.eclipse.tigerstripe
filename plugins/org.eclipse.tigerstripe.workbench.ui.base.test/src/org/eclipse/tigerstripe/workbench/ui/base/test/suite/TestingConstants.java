@@ -9,18 +9,18 @@ public class TestingConstants {
 	public static String NEW_PROJECT_DESCRIPTION = "A model project for testing";
 	
 	// Entity Names
-	public static String[] ENTITY_NAMES = new String[]{"Entity1", "Entity2", "Entity3"};
-	public static String[] DATATYPE_NAMES = new String[]{"Datatype1", "Datatype2", "Datatype3"};
-	public static String[] ENUMERATION_NAMES = new String[]{"Enumeration1", "Enumeration2", "Enumeration3"};
-	public static String[] QUERY_NAMES = new String[]{"Query1", "Query2", "Query3"};
-	public static String[] EXCEPTION_NAMES = new String[]{"Exception1", "Exception2", "Exception3"};
-	public static String[] EVENT_NAMES = new String[]{"Event1", "Event2", "Event3"};
-	public static String[] UPDATE_NAMES = new String[]{"Update1", "Update2", "Update3"};
-	public static String[] SESSION_NAMES = new String[]{"Session1", "Session2", "Session3"};
+	public static String[] ENTITY_NAMES       = new String[]{"Entity1", "Entity2", "Entity3"};
+	public static String[] DATATYPE_NAMES     = new String[]{"Dataty1", "Dataty2", "Dataty3"};
+	public static String[] ENUMERATION_NAMES  = new String[]{"Enumer1", "Enumer2", "Enumer3"};
+	public static String[] QUERY_NAMES        = new String[]{"Queryy1", "Queryy2", "Queryy3"};
+	public static String[] EXCEPTION_NAMES    = new String[]{"Except1", "Except2", "Except3"};
+	public static String[] EVENT_NAMES        = new String[]{"Eventt1", "Eventt2", "Eventt3"};
+	public static String[] UPDATE_NAMES       = new String[]{"Update1", "Update2", "Update3"};
+	public static String[] SESSION_NAMES      = new String[]{"Sessio1", "Sessio2", "Sessio3"};
 	
-	public static String[] ASSOCIATION_NAMES = new String[]{"Assoc1", "Assoc2", "Assoc3"};
-	public static String[] ASSOCIATION_CLASS_NAMES = new String[]{"AssocClass1", "AssocClass2", "AssocClass3"};
-	public static String[] DEPENDENCY_NAMES = new String[]{"Dependency1", "Dependency2", "Dependency3"};
+	public static String[] ASSOCIATION_NAMES  = new String[]{"Associ1", "Associ2", "Associ3"};
+	public static String[] ASSOCIATION_CLASS_NAMES = new String[]{"AssocC1", "AssocC2", "AssocCl3"};
+	public static String[] DEPENDENCY_NAMES   = new String[]{"Depend1", "Depend2", "Depend3"};
 	
 	// Attribute Names
 	public static String[] ATTRIBUTE_NAMES = new String[]{"testField1", "testField2", "testField3"};

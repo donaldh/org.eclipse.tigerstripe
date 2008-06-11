@@ -13,7 +13,7 @@ public class CloseProject extends UITestCaseSWT {
 
 	public void testCloseProject() throws Exception {
 		IUIContext ui = getUI();
-		ui.click(new XYLocator(new CTabItemLocator(
-			TestingConstants.NEW_PROJECT_NAME+"/tigerstripe.xml"), 169, 13));
+		ui.close(new CTabItemLocator(
+			TestingConstants.NEW_PROJECT_NAME+"/tigerstripe.xml"));
 	}
 }

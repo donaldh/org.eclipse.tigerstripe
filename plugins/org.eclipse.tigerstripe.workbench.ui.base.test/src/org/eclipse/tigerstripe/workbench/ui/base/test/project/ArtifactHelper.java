@@ -169,7 +169,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 			
 			//TODO - This gets the same end twice
 			// Take this out for now as It always works if the aEnd did!
-			ends.add(zNameText+"::"+zTypeText);
+			//ends.add(zNameText+"::"+zTypeText);
 
 			// collapse the section
 			ui.click(sectionLabel);
@@ -214,7 +214,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 			
 			//TODO - This gets the same end twice
 			// Take this out for now as It never works!
-			ends.add("zEnd::"+zTypeText);
+			//ends.add("zEnd::"+zTypeText);
 
 			// collapse the section
 			ui.click(sectionLabel);

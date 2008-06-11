@@ -8,6 +8,7 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
+import com.windowtester.runtime.locator.IWidgetLocator;
 import com.windowtester.runtime.locator.XYLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
@@ -22,6 +23,7 @@ import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.PullDownMenuItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
+import com.windowtester.runtime.swt.locator.forms.HyperlinkLocator;
 
 public class NewArtifacts extends UITestCaseSWT {
 
@@ -32,19 +34,19 @@ public class NewArtifacts extends UITestCaseSWT {
 	public void testAll() throws Exception {
 		IUIContext ui= getUI();
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[0], true, true, true, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Datatype", TestingConstants.DATATYPE_NAMES[0], true, true, true, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Enumeration", TestingConstants.ENUMERATION_NAMES[0], false, true, false, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Datatype", TestingConstants.DATATYPE_NAMES[0], true, true, true, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Enumeration", TestingConstants.ENUMERATION_NAMES[0], false, true, false, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Query", TestingConstants.QUERY_NAMES[0], true, true, false, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Update Procedure", TestingConstants.UPDATE_NAMES[0], true, true, false, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Exception", TestingConstants.EXCEPTION_NAMES[0], true, false, false, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Notification", TestingConstants.EVENT_NAMES[0], true, true, false, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Session Facade", TestingConstants.SESSION_NAMES[0], false, false,true, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Update Procedure", TestingConstants.UPDATE_NAMES[0], true, true, false, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Exception", TestingConstants.EXCEPTION_NAMES[0], true, false, false, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Notification", TestingConstants.EVENT_NAMES[0], true, true, false, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Session Facade", TestingConstants.SESSION_NAMES[0], false, false,true, false));
 
-//		// Add a second entity, so that the associations etc can be better checked
-		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[1], true, true, true, false));
+//		// Add a second entity, so that the associations etc can be better checked - No need to add and attributes etc
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[1], false, false, false, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Association", TestingConstants.ASSOCIATION_NAMES[0], false, false,false, true));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Association Class", TestingConstants.ASSOCIATION_CLASS_NAMES[0], true, false,true, true));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Dependency", TestingConstants.DEPENDENCY_NAMES[0], false, false,false, true));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Dependency", TestingConstants.DEPENDENCY_NAMES[0], false, false,false, true));
 		
 		
 		// Let the auditor run
@@ -84,10 +86,13 @@ public class NewArtifacts extends UITestCaseSWT {
 			// Let the auditor run
 			Thread.sleep(500);
 			auditHelper.checkUndefinedReturnType(queryName,false);
+			ui.close(new CTabItemLocator(queryName));
 		}
 		String[] assocs = {TestingConstants.ASSOCIATION_NAMES[0], TestingConstants.ASSOCIATION_CLASS_NAMES[0]};
 		for (String assoc : assocs){
 			if (ProjectRecord.getArtifactList().containsValue(assoc)){
+				// Let the auditor run
+				Thread.sleep(500);
 				// This rule uses FQN!
 				auditHelper.checkAssociationEndNeedsNavigation(TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+assoc,true);
 				// Update one of the ends
@@ -101,17 +106,22 @@ public class NewArtifacts extends UITestCaseSWT {
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
 				ui.click(2, treeItem);
 				CTabItemLocator artifactEditor = new CTabItemLocator(
-						queryName);
+						assoc);
 				ui.click(artifactEditor);
 				GuiUtils.maxminTab(ui, assoc);
+				ui.click(new HyperlinkLocator("aEnd"));
+				IWidgetLocator[] allNavs = ui.findAll(new ButtonLocator("isNavigable"));
 				// Need to disambiguate
-		//TODO		ui.click(new ButtonLocator("isNavigable"));
+				ui.click(allNavs[0]);
+				
 				//Save it
 				ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-
+				
+				GuiUtils.maxminTab(ui, assoc);
 				// Let the auditor run
 				Thread.sleep(500);
-		//		auditHelper.checkAssociationEndNeedsNavigation(TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+assoc,false);
+				auditHelper.checkAssociationEndNeedsNavigation(TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+assoc,false);
+				ui.close(new CTabItemLocator(assoc));
 			}
 		}
 		
@@ -243,8 +253,8 @@ public class NewArtifacts extends UITestCaseSWT {
 		GuiUtils.maxminTab(ui, thisArtifactName);
 		
 		helper.checkItemsInExplorer(ui,thisArtifactName,items);
-		
-		ui.click(new XYLocator(new CTabItemLocator(thisArtifactName), 70, 12));
+		// Close the editor
+		ui.close(new CTabItemLocator(thisArtifactName));
 		return thisArtifactName;
 	}
 

@@ -99,10 +99,11 @@ public class NewArtifactRule extends UITestCaseSWT {
 		
 		ui.click(new CTabItemLocator(".*"+TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml"));
 		
-		// Set Entity Type
-		ui.click(new CComboItemLocator("Entity"));
+		// Set Artifact Type
+		ui.click(new CComboItemLocator("Any Artifact"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		// Make sure rule has been cleared
+		Thread.sleep(500);
 		helper.checkArtifactTypeUndefinedRule(TestingConstants.NEW_ARTIFACT_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
 		
 		// Set the template
@@ -113,6 +114,7 @@ public class NewArtifactRule extends UITestCaseSWT {
 		ui.wait(new ShellDisposedCondition("Select Velocity Template"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		// Make sure rule has been cleared
+		Thread.sleep(500);
 		helper.checkNoTemplateRule(TestingConstants.NEW_ARTIFACT_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
 		
 		// Set the output File
@@ -127,6 +129,7 @@ public class NewArtifactRule extends UITestCaseSWT {
 		ui.enterText(TestingConstants.ARTIFACT_RULE_DESCRIPTION);
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		// Make sure rule has been cleared
+		Thread.sleep(500);
 		helper.checkNoDescriptionRule(TestingConstants.NEW_ARTIFACT_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
 		
 		// Close this section

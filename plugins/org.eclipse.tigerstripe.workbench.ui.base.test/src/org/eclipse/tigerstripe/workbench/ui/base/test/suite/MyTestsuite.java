@@ -47,24 +47,24 @@ public class MyTestsuite extends TestCase
         TestSuite suite = new TestSuite(); 
         suite.addTestSuite(CleanWorkspace.class);
         
-//        // Create a profile
-//        suite.addTestSuite(CreateProfile.class);
-//        // Save/Deploy it
-//        suite.addTestSuite(SaveAndDeployProfile.class);
-//        // Make sure it appears correctly in the menu
-//        suite.addTestSuite(TestActiveProfile.class);
-//        
-//        // create a new Plugin
-//        suite.addTestSuite(NewPluginProject.class);
-//        
-//        // Check what happens with rules - audit checks etc
-//        suite.addTestSuite(NewGlobalRule.class);
-//        
-//        suite.addTestSuite(NewArtifactRule.class);
-//        
-//        
-//        // Save/Deploy it
-//        suite.addTestSuite(SaveAndDeployPlugin.class);
+        // Create a profile
+        suite.addTestSuite(CreateProfile.class);
+        // Save/Deploy it
+        suite.addTestSuite(SaveAndDeployProfile.class);
+        // Make sure it appears correctly in the menu
+        suite.addTestSuite(TestActiveProfile.class);
+        
+        // create a new Plugin
+        suite.addTestSuite(NewPluginProject.class);
+        
+        // Check what happens with rules - audit checks etc
+        suite.addTestSuite(NewGlobalRule.class);
+        
+        suite.addTestSuite(NewArtifactRule.class);
+        
+        
+        // Save/Deploy it
+        suite.addTestSuite(SaveAndDeployPlugin.class);
 
         
         // creates a new Project and add artifacts
@@ -73,9 +73,9 @@ public class MyTestsuite extends TestCase
                 
         
         
-//        // turn on plugin in Project and generate
-//        suite.addTestSuite(Generate.class);
-//        
+        // turn on plugin in Project and generate
+        suite.addTestSuite(Generate.class);
+        
         // close Project
         suite.addTestSuite(CloseProject.class);
         
