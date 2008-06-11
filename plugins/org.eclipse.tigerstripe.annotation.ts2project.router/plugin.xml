@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+   <extension-point id="org.eclipse.tigerstripe.annotation.ts2project.explicitFileRouter" name="Explicit Router for Tigerstripe Annotations" schema="schema/org.eclipse.tigerstripe.annotation.ts2project.explicitFileRouter.exsd"/>
    <extension
          point="org.eclipse.tigerstripe.annotation.core.router">
       <router
