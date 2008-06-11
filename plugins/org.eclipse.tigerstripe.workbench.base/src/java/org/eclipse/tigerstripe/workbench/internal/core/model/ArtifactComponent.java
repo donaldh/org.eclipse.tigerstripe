@@ -367,11 +367,22 @@ public abstract class ArtifactComponent implements IModelComponent,
 				.artifactMetadataMigrateClassname(this.getClass().getName()));
 	}
 
+	public List<Object> getAnnotations() {
+		IAnnotationManager mgr = AnnotationPlugin.getManager();
+		List<Object> annotations = new LinkedList<Object>();
+		Annotation[] all = mgr.getAnnotations(this, false);
+		for (Annotation a : all) {
+			annotations.add(a.getContent());
+		}
+		return Collections.unmodifiableList(annotations);
+	}
+
 	public List<Object> getAnnotations(String schemeID) {
 		IAnnotationManager mgr = AnnotationPlugin.getManager();
 		List<Object> annotations = new LinkedList<Object>();
 		Annotation[] all = mgr.getAnnotations(this, false);
 		for (Annotation a : all) {
+			String e = a.getUri().scheme();
 			if (a.getUri().scheme().equals(schemeID)) {
 				annotations.add(a.getContent());
 			}
@@ -416,6 +427,10 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return Collections.unmodifiableList(annotations);
 	}
 
+	public boolean hasAnnotations() {
+		return !getAnnotations().isEmpty();
+	}
+	
 	public boolean hasAnnotations(String schemeID) {
 		return !getAnnotations(schemeID).isEmpty();
 	}
