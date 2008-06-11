@@ -14,9 +14,9 @@ package org.eclipse.tigerstripe.espace.resources;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
@@ -100,24 +100,22 @@ public class ResourceHelper {
         }
     }
 	
-	public static File getFile(Resource resource) {
+	public static long getLastModification(Resource resource) {
 		URI uri = resource.getURI();
 		String pString = uri.toPlatformString(false);
 		if (pString != null) {
 			Path path = new Path(pString);
-			IResource res = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot().findMember(path);
-			if (res != null) {
-				IPath absolutePath = res.getLocation();
-				if (absolutePath != null) {
-					return absolutePath.toFile();
-				}
+			IFile file = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			if (file != null) {
+				return file.getLocalTimeStamp();
 			}
 		}
 		String fString = uri.toFileString();
 		if (fString != null) {
-			return new File(fString);
+			File file = new File(fString);
+			return file.lastModified();
 		}
-		return null;
+		return IResource.NULL_STAMP;
 	}
 	
 	public static void delete(Resource resource) {
@@ -125,10 +123,10 @@ public class ResourceHelper {
 		String pString = uri.toPlatformString(false);
 		if (pString != null) {
 			Path path = new Path(pString);
-			IResource res = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot().findMember(path);
-			if (res != null) {
+			IFile file = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			if (file != null) {
 				try {
-					res.delete(true, new NullProgressMonitor());
+					file.delete(true, new NullProgressMonitor());
 				} catch (CoreException e) {
 					//ignore
 				}

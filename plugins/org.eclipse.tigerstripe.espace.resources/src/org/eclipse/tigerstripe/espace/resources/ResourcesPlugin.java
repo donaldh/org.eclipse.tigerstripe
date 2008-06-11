@@ -11,6 +11,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources;
 
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.ISavedState;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
@@ -23,6 +27,7 @@ public class ResourcesPlugin extends Plugin {
 
 	// The shared instance
 	private static ResourcesPlugin plugin;
+	private static SaveManager manager;
 	
 	/**
 	 * The constructor
@@ -37,6 +42,20 @@ public class ResourcesPlugin extends Plugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		manager = new SaveManager();
+		ISavedState state = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().addSaveParticipant(this, manager);
+		if (state != null) {
+			state.processResourceChangeEvents(new IResourceChangeListener() {
+				
+				public void resourceChanged(IResourceChangeEvent event) {
+					IResourceDelta delta = event.getDelta();
+					if (delta != null) {
+						//implementation do not need?..
+					}
+				}
+			
+			});
+		}
 	}
 
 	/*

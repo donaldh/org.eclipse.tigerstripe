@@ -17,6 +17,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -56,9 +61,12 @@ public class EMFDatabase implements IEMFDatabase {
 	private ClassifierIndexer cIndexer;
 	private CompositeIndexer indexer;
 	
+	private int ignoreChanges;
+	
 	private ResourceStorage resourceStorage;
 	
 	public EMFDatabase() {
+		addResourceDeltaListener();
 	}
 	
 	protected ResourceSet getResourceSet() {
@@ -110,15 +118,123 @@ public class EMFDatabase implements IEMFDatabase {
 		return resourceHelper;
 	}
 	
+	private void lockChanges() {
+		ignoreChanges++;
+	}
+	
+	private void unlockChanges() {
+		ignoreChanges--;
+	}
+	
+	private boolean isLocked() {
+		return ignoreChanges > 0;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#update(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.change.ChangeDescription)
 	 */
 	public void update(EObject object, ChangeDescription changes) {
-		update();
-		changes.applyAndReverse();
-		doRemove(object);
-		changes.apply();
-		doWrite(object);
+		lockChanges();
+		try {
+			update();
+			changes.applyAndReverse();
+			doRemove(object);
+			changes.apply();
+			doWrite(object);
+		}
+		finally {
+			unlockChanges();
+		}
+	}
+	
+	public EObject[] query(EClassifier classifier) {
+		lockChanges();
+		try {
+			update();
+			return copy(getClassifierIndexer().read(classifier));
+		}
+		finally {
+			unlockChanges();
+		}
+	}
+
+	public void write(EObject object) {
+		lockChanges();
+		try {
+			update();
+			doWrite(object);
+		}
+		finally {
+			unlockChanges();
+		}
+    }
+	
+	public void remove(EObject object) {
+		lockChanges();
+		try {
+			update();
+			doRemove(object);
+		}
+		finally {
+			unlockChanges();
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 */
+	public EObject[] get(EStructuralFeature feature, Object value) {
+		lockChanges();
+		try {
+			update();
+			return copy(doGet(feature, value, false));
+		}
+		finally {
+			unlockChanges();
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#getPostfixes(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
+	 */
+	public EObject[] getPostfixes(EStructuralFeature feature, Object value) {
+		lockChanges();
+		try {
+			update();
+			return copy(doGet(feature, value, true));
+		}
+		finally {
+			unlockChanges();
+		}
+	}
+	
+	public EObject[] read() {
+		lockChanges();
+		try {
+			update();
+			return doRead();
+		}
+		finally {
+			unlockChanges();
+		}
+	}
+	
+	public void rebuildIndex() {
+		lockChanges();
+		try {
+			doRebuildIndex();
+		}
+		finally {
+			unlockChanges();
+		}
+	}
+	
+	protected void doRebuildIndex() {
+		getIndexStorage().removeIndex();
+		clear();
+		EObject[] objects = doRead();
+		getResourceHelper().rebuildIndex(objects);
+		getResourceStorage().updateTimes();
 	}
 	
 	protected EObjectRouter[] getRouters() {
@@ -141,11 +257,6 @@ public class EMFDatabase implements IEMFDatabase {
 		return this.routers;
 	}
 	
-	public EObject[] query(EClassifier classifier) {
-		update();
-		return copy(getClassifierIndexer().read(classifier));
-	}
-	
 	protected EObject[] copy(EObject[] objects) {
 		return copy(Arrays.asList(objects));
 	}
@@ -157,26 +268,13 @@ public class EMFDatabase implements IEMFDatabase {
 	
 	protected void update() {
 		if (getResourceStorage().needUpdate())
-			rebuildIndex();
+			doRebuildIndex();
 	}
-
-	public void write(EObject object) {
-		update();
-		doWrite(object);
-    }
 	
 	protected void doWrite(EObject object) {
 		object = EcoreUtil.copy(object);
 		Resource resource = getResource(object);
 		getResourceStorage().addResource(resource, object);
-	}
-	
-	public void rebuildIndex() {
-		getIndexStorage().removeIndex();
-		clear();
-		EObject[] objects = doRead();
-		getResourceHelper().rebuildIndex(objects);
-		getResourceStorage().updateTimes();
 	}
 	
 	protected void clear() {
@@ -187,11 +285,6 @@ public class EMFDatabase implements IEMFDatabase {
 		cIndexer = null;
 		indexer = null;
 		resourceStorage = null;
-	}
-	
-	public void remove(EObject object) {
-		update();
-		doRemove(object);
 	}
 	
 	protected void doRemove(EObject object) {
@@ -247,6 +340,45 @@ public class EMFDatabase implements IEMFDatabase {
 		return false;
 	}
 	
+	protected void addResourceDeltaListener() {
+		org.eclipse.core.resources.ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
+			
+			public void resourceChanged(IResourceChangeEvent event) {
+				try {
+					if (event.getDelta() != null) {
+						event.getDelta().accept(new IResourceDeltaVisitor() {
+							
+							public boolean visit(IResourceDelta delta) throws CoreException {
+								IResource resource = delta.getResource();
+								switch (delta.getKind()) {
+									case IResourceDelta.ADDED:
+										updateResource(resource, true);
+										break;
+									case IResourceDelta.CHANGED:
+										break;
+									case IResourceDelta.REMOVED:
+										updateResource(resource, false);
+										break;
+								}
+								return true;
+							}
+						});
+					}
+				} catch (CoreException e) {
+					e.printStackTrace();
+				}
+			}
+		
+		});
+	}
+	
+	protected void updateResource(IResource resource, boolean added) {
+		if (!isLocked() && resource.getName().equals(".ann")) {
+			getResourceStorage().updateResource(resource, added);
+			doRebuildIndex();
+		}
+	}
+	
 	protected EObject[] doGet(EStructuralFeature feature, Object value, boolean postfixes) {
 		if (getFeatureIndexer().isFeatureIndexed(feature)) {
 		    return postfixes ? getFeatureIndexer().readPostfixes(feature, value) : 
@@ -279,22 +411,6 @@ public class EMFDatabase implements IEMFDatabase {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
-	 */
-	public EObject[] get(EStructuralFeature feature, Object value) {
-		update();
-		return copy(doGet(feature, value, false));
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#getPostfixes(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
-	 */
-	public EObject[] getPostfixes(EStructuralFeature feature, Object value) {
-		update();
-		return copy(doGet(feature, value, true));
-	}
-	
 	protected EObject[] doRead() {
 		ArrayList<EObject> contents = new ArrayList<EObject>();
 		Resource[] resources = getResourceStorage().loadResources();
@@ -308,11 +424,6 @@ public class EMFDatabase implements IEMFDatabase {
 			contents.addAll(resources[i].getContents());
         }
 	    return contents.toArray(new EObject[contents.size()]);
-	}
-	
-	public EObject[] read() {
-		update();
-		return doRead();
 	}
 
 }

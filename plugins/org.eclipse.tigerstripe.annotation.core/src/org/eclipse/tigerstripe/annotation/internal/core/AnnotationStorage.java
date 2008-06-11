@@ -131,14 +131,21 @@ public class AnnotationStorage {
 	}
 	
 	public void remove(URI uri) {
+		Annotation[] annotations = doRemove(uri);
+		if (annotations != null && annotations.length > 0)
+			fireAnnotationsRemoved(annotations);
+	}
+	
+	protected Annotation[] doRemove(URI uri) {
 		List<Annotation> list = doGetAnnotations(uri);
 		if (list.size() > 0) {
 			Annotation[] array = list.toArray(new Annotation[list.size()]);
 			for (int i = 0; i < array.length; i++)
 				database.remove(array[i]);
 			list.clear();
-			fireAnnotationsRemoved(array);
+			return array;
 		}
+		return null;
 	}
 	
 	public void addAnnotationListener(IAnnotationListener listener) {

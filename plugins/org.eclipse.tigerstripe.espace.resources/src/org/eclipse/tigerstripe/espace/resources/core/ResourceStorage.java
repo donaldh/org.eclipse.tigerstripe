@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -57,11 +58,9 @@ public class ResourceStorage {
 	public boolean needUpdate() {
 		for (ResourceLocation location : getResourceList().getLocations()) {
 			Resource resource = helper.getResource(location.getUri());
-			File file = ResourceHelper.getFile(resource);
-			if (file != null && resource != null) {
-				if (file.lastModified() != location.getTimeStamp()) {
-					return true;
-				}
+			if (resource != null && ResourceHelper.getLastModification(
+					resource) != location.getTimeStamp()) {
+				return true;
 			}
 		}
 		return false;
@@ -70,10 +69,8 @@ public class ResourceStorage {
 	public void updateTimes() {
 		for (ResourceLocation location : getResourceList().getLocations()) {
 			Resource resource = helper.getResource(location.getUri());
-			File file = ResourceHelper.getFile(resource);
-			if (file != null && resource != null) {
-				location.setTimeStamp(file.lastModified());
-			}
+			if (resource != null)
+				location.setTimeStamp(ResourceHelper.getLastModification(resource));
 		}
 		ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
 	}
@@ -113,16 +110,33 @@ public class ResourceStorage {
 		helper.addAndSave(resource, object, true);
 		if (isDefaultUri(resource.getURI()))
 			return;
+		addLocation(resource);
+	}
+	
+	protected void addLocation(Resource resource) {
+		boolean modified = false;
 		ResourceLocation location = getLocation(resource);
 		if (location == null) {
+			modified = true;
 			location = ResourcesFactory.eINSTANCE.createResourceLocation();
 			location.setUri(resource.getURI());
 			getResourceList().getLocations().add(location);
 		}
-		File file = ResourceHelper.getFile(resource);
-		if (file != null)
-			location.setTimeStamp(file.lastModified());
-		ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
+		long newStamp = ResourceHelper.getLastModification(resource);
+		if (newStamp != location.getTimeStamp()) {
+			location.setTimeStamp(newStamp);
+			modified = true;
+		}
+		if (modified)
+			ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
+	}
+	
+	protected void removeLocation(Resource resource) {
+		ResourceLocation location = getLocation(resource);
+		if (location != null) {
+			getResourceList().getLocations().remove(location);
+			ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
+		}
 	}
 	
 	public void removeResourceIfEmpty(Resource resource) {
@@ -133,6 +147,14 @@ public class ResourceStorage {
 		else
 			updateResource(resource);
 		ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
+	}
+	
+	protected void updateResource(IResource resource, boolean added) {
+		URI uri = URI.createPlatformResourceURI(
+				resource.getFullPath().toString(), false);
+		Resource res = helper.getResource(uri);
+		if (added) addLocation(res);
+		else removeLocation(res);
 	}
 	
 	protected ResourceLocation getLocation(Resource resource) {
@@ -156,10 +178,7 @@ public class ResourceStorage {
 	protected void updateResource(Resource resource) {
 		ResourceLocation location = getLocation(resource);
 		if (location != null) {
-			File file = ResourceHelper.getFile(resource);
-			if (file != null) {
-				location.setTimeStamp(file.lastModified());
-			}
+			location.setTimeStamp(ResourceHelper.getLastModification(resource));
 		}
 	}
 	

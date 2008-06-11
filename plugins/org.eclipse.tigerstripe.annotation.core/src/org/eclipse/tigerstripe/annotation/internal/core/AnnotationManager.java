@@ -163,8 +163,20 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringSupport#deleted(org.eclipse.emf.common.util.URI, boolean)
 	 */
 	public void deleted(URI uri, boolean affectChildren) {
-		refactorListener.refactoringPerformed(
-				new RefactoringChange(uri));
+		if (affectChildren) {
+			List<URI> uris = new ArrayList<URI>();
+			List<Annotation> annotations = getPostfixAnnotations(uri);
+			for (Annotation annotation : annotations) {
+				if (!uris.contains(annotation.getUri()))
+					uris.add(annotation.getUri());
+			}
+			for (URI childUri : uris) {
+				remove(childUri);
+			}
+		}
+		else {
+			remove(uri);
+		}
 	}
 	
 	public IRefactoringSupport getRefactoringSupport() {

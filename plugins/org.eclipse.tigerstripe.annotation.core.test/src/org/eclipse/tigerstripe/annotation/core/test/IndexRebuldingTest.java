@@ -11,15 +11,14 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.test;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
@@ -50,7 +49,7 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 		deleteProject(project2);
 	}
 	
-	public void test1() {
+	public void test1() throws CoreException {
 		//Test is INDEX will be rebuilt after annotation file deletion
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
@@ -64,7 +63,7 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 		}
 	}
 	
-	public void test2() {
+	public void test2() throws CoreException {
 		//Test is annotations would be kept after another annotations
 		//file will be corrupted
 		IAnnotationManager manager = AnnotationPlugin.getManager();
@@ -107,11 +106,12 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 	 * Remove annotations file from the project
 	 * 
 	 * @param project
+	 * @throws CoreException 
 	 */
-	private void removeAnnotationFile(IProject project) {
-		File file = getAnnotationFile(project);
+	private void removeAnnotationFile(IProject project) throws CoreException {
+		IFile file = getAnnotationFile(project);
 		if (file != null) {
-			file.delete();
+			file.delete(true, new NullProgressMonitor());
 		}
 	}
 	
@@ -123,9 +123,9 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 	 * @param project2
 	 * @throws IOException
 	 */
-	private void replaceAnnotationFile(IProject project1, IProject project2) throws IOException {
-		File file1 = getAnnotationFile(project1);
-		File file2 = getAnnotationFile(project2);
+	private void replaceAnnotationFile(IProject project1, IProject project2) throws Exception {
+		IFile file1 = getAnnotationFile(project1);
+		IFile file2 = getAnnotationFile(project2);
 		if (file1 == null || file2 == null)
 			return;
 		String content = getContent(file2);
@@ -133,17 +133,12 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 		saveContent(content, file1);
 	}
 	
-	private File getAnnotationFile(IProject project) {
-		IPath path = project.getLocation();
-		if (path != null) {
-			path = path.append(".annotations");
-			return path.toFile();
-		}
-		return null;
+	private IFile getAnnotationFile(IProject project) {
+		return project.getFile(".ann");
 	}
 	
-	private String getContent(File file) throws IOException {
-		InputStream stream = new FileInputStream(file);
+	private String getContent(IFile file) throws IOException, CoreException {
+		InputStream stream = file.getContents();
 		StringBuffer content = new StringBuffer();
 		byte[] buffer = new byte[1024 * 1024];
 		int size = 0;
@@ -154,10 +149,9 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 		return content.toString();
 	}
 	
-	private void saveContent(String content, File file) throws IOException {
-		OutputStream stream = new FileOutputStream(file);
-		stream.write(content.getBytes());
-		stream.close();
+	private void saveContent(String content, IFile file) throws CoreException {
+		file.setContents(new ByteArrayInputStream(content.getBytes()),
+				true, true, new NullProgressMonitor());
 	}
 	
 	private MimeType createMimeType(String text) {
