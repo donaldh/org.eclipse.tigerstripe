@@ -439,18 +439,6 @@
       <category
             id="org.eclipse.tigerstripe.importWizardCategory"
             name="Tigerstripe"/>
-      <wizard
-            category="org.eclipse.tigerstripe.importWizardCategory"
-            class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.imports.uml2.ImportUML2ProfileWizard"
-            icon="src/icons/archive/importExport.gif.gif"
-            id="org.eclipse.tigerstripe.workbench.ui.base.wizard5"
-            name="Import UML2 Profile"/>
-      <wizard
-            category="org.eclipse.tigerstripe.importWizardCategory"
-            class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.imports.uml2.ImportFromUML2Wizard"
-            icon="src/icons/archive/importExport.gif.gif"
-            id="org.eclipse.tigerstripe.workbench.ui.base.wizard6"
-            name="Import UML2 Model"/>
    </extension>
    <extension
          point="org.eclipse.ui.exportWizards">
@@ -460,6 +448,7 @@
       <wizard
             category="org.eclipse.tigerstripe.exportWizardCategory"
             class="org.eclipse.tigerstripe.workbench.ui.internal.gmf.export.wizards.AllDiagramsExportWizard"
+            icon="src/icons/archive/importExport.gif.gif"
             id="org.eclipse.tigerstripe.workbench.ui.base.gmf.export.allDiagrams"
             name="All Diagrams">
          <description>
@@ -469,6 +458,7 @@
       <wizard
             category="org.eclipse.tigerstripe.exportWizardCategory"
             class="org.eclipse.tigerstripe.workbench.ui.internal.export.ModuleExportWizard"
+            icon="src/icons/archive/importExport.gif.gif"
             id="org.eclipse.tigerstripe.workbench.ui.base.moduleExportWizard"
             name="Tigerstripe Module">
          <description>
