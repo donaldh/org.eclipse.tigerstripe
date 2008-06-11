@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http:///org/eclipse/tigerstripe/annotation/example/designNotes.ecore" 
+       class = "org.eclipse.tigerstripe.annotation.example.designNotes.DesignNotesPackage"
+       genModel = "model/designNotes.genmodel" /> 
+  </extension>
+   <extension
+         point="org.eclipse.tigerstripe.annotation.core.annotationType">
+      <definition
+            description="Design Notes"
+            eclass="Note"
+            epackage-uri="http:///org/eclipse/tigerstripe/annotation/example/designNotes.ecore"
+            id="org.eclipse.tigerstripe.annotation.example.designNotes.note"
+            name="Design Notes">
+         <target
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"
+               unique="false">
+         </target>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.annotation.core.annotationType">
+      <definition
+            description="TODO Notes"
+            eclass="TODO"
+            epackage-uri="http:///org/eclipse/tigerstripe/annotation/example/designNotes.ecore"
+            id="org.eclipse.tigerstripe.annotation.example.designNotes.todo"
+            name="TODO">
+         <target
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"
+               unique="false">
+         </target>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider">
+      <provider
+            class="org.eclipse.tigerstripe.annotation.example.designNotes.NoteLabelProvider"
+            typeID="org.eclipse.tigerstripe.annotation.example.designNotes.note">
+      </provider>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider">
+      <provider
+            class="org.eclipse.tigerstripe.annotation.example.designNotes.TODOLabelProvider"
+            typeID="org.eclipse.tigerstripe.annotation.example.designNotes.todo">
+      </provider>
+   </extension>
+</plugin>
