@@ -1,0 +1,24 @@
+Bundle-ManifestVersion: 2
+Bundle-Version: 1.0.0
+Manifest-Version: 1.0
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.tigerstripe.workbench.ui.visualeditor,
+ org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation,
+ org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram,
+ org.eclipse.tigerstripe.workbench.ui.visualeditor.edit,
+ org.junit,
+ com.windowtester.runtime,
+ com.windowtester.swt.runtime,
+ com.windowtester.swing.runtime,
+ com.instantiations.eclipse.debug,
+ org.eclipse.jface,
+ com.instantiations.common.core,
+ com.instantiations.eclipse.util,
+ com.windowtester.swt.runtime.gef,
+ org.eclipse.swt,
+ org.eclipse.tigerstripe.workbench.ui.base.test
+Bundle-Activator: org.eclipse.tigerstripe.ui.visualeditor.test.Activator
+Eclipse-LazyStart: true
+Bundle-SymbolicName: org.eclipse.tigerstripe.workebnch.ui.visualeditor.test
+Bundle-Name: Class Diagram Test Plug-in
