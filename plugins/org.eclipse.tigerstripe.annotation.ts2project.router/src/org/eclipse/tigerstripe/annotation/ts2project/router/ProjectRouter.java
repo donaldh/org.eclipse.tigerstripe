@@ -44,7 +44,7 @@ public class ProjectRouter implements EObjectRouter {
 			IPath path = getTargetPath(annotation);
 			if (path == null)
 				return null;
-			return URI.createFileURI(path.toString());
+			return URI.createPlatformResourceURI(path.toString(), true);
 		}
 		return null;
 	}
@@ -78,7 +78,8 @@ public class ProjectRouter implements EObjectRouter {
 
 			if (annotable instanceof IModelComponent) {
 				IModelComponent comp = (IModelComponent) annotable;
-				IPath path = comp.getProject().getLocation();
+				IPath path = new Path(comp.getProject().getProjectLabel());
+
 				// See if there's an explicit definition
 				IPath explicitPath = explicitRoutersMap.get(nsURIStr);
 				if (explicitPath != null)
