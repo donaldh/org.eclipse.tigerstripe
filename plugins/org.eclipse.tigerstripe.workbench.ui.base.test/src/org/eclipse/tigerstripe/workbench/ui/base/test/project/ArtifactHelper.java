@@ -21,7 +21,7 @@ import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class ArtifactHelper extends UITestCaseSWT{
 
-	public String newAttribute(IUIContext ui, String artifactName, String thisAttributeName) throws Exception {
+	public static String newAttribute(IUIContext ui, String artifactName, String thisAttributeName) throws Exception {
 		thisAttributeName = artifactName.toLowerCase()+"_"+thisAttributeName;
 		
 		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "&Attributes");
@@ -73,7 +73,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 		return thisAttributeName+"::"+typeValue;
 	}
 
-	public String newLiteral(IUIContext ui, String artifactName, String thisLiteralName) throws Exception {
+	public static String newLiteral(IUIContext ui, String artifactName, String thisLiteralName) throws Exception {
 		thisLiteralName = artifactName.toLowerCase()+"_"+thisLiteralName;
 		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "Constants");
 		
@@ -104,7 +104,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 		return thisLiteralName+"="+valueValue;
 	}
 
-	public String newMethod(IUIContext ui, String artifactName, String thisMethodName) throws Exception {
+	public static String newMethod(IUIContext ui, String artifactName, String thisMethodName) throws Exception {
 		thisMethodName = artifactName.toLowerCase()+"_"+thisMethodName;
 		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "Methods");
 		
@@ -132,7 +132,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 		return methodSignature;
 	}
 	
-	public ArrayList<String> associationEndNames(IUIContext ui, String artifactName){
+	public static ArrayList<String> associationEndNames(IUIContext ui, String artifactName){
 		ArrayList<String> ends = new ArrayList<String>();
 		/*
 		 * We are not really adding them in this case - just getting the name and 
@@ -182,7 +182,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 		return ends;
 	}
 	
-	public ArrayList<String> dependencyEndNames(IUIContext ui, String artifactName){
+	public static ArrayList<String> dependencyEndNames(IUIContext ui, String artifactName){
 		ArrayList<String> ends = new ArrayList<String>();
 		/*
 		 * We are not really adding them in this case - just getting the name and 
@@ -227,7 +227,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 		return ends;
 	}
 	
-	public void checkItemsInExplorer (IUIContext ui,String artifactName, ArrayList<String> items ){
+	public static void checkItemsInExplorer (IUIContext ui,String artifactName, ArrayList<String> items ){
 		for (String item : items){
 
 			String pathToItem = TestingConstants.NEW_PROJECT_NAME+

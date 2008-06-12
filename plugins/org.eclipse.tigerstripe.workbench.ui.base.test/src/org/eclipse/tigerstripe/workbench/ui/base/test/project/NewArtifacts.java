@@ -199,22 +199,11 @@ public class NewArtifacts extends UITestCaseSWT {
 		LabeledTextLocator description = new LabeledTextLocator("Description: ");
 		assertEquals("Description for "+myType+" should be empty on create","", description.getText(ui));
 		
-		// See if it is in the tree view.
-		// Exception thrown if widget not found!
-		String pathToEntity = TestingConstants.NEW_PROJECT_NAME+
-								"/src/"+
-								TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
-								thisArtifactName;
-		try {
-			TreeItemLocator treeItem = new TreeItemLocator(
-				pathToEntity,
-				new ViewLocator(
-						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
-			ui.click(treeItem);
-		} catch (Exception e){
-			fail(""+myType+" is not in the Explorer view");
-		}
+		ArrayList<String> artifacts = new ArrayList<String>();
+		artifacts.add(thisArtifactName);
 		
+		ProjectHelper.checkArtifactsInExplorer(ui, artifacts);
+
 		
 		
 		// Maximise before we go to do the components
@@ -235,24 +224,24 @@ public class NewArtifacts extends UITestCaseSWT {
 		}
 		
 		
-		helper = new ArtifactHelper();
+
 		ArrayList<String> items = new ArrayList<String>();
 		
 		if (hasEnds && (myType.equals("Association") || myType.equals("Association Class")) )
-			items.addAll(helper.associationEndNames(ui,thisArtifactName));
+			items.addAll(ArtifactHelper.associationEndNames(ui,thisArtifactName));
 		if (hasEnds && myType.equals("Dependency")  )
-			items.addAll(helper.dependencyEndNames(ui,thisArtifactName));
+			items.addAll(ArtifactHelper.dependencyEndNames(ui,thisArtifactName));
 		if (hasAttributes)
-			items.add(helper.newAttribute(ui,thisArtifactName, TestingConstants.ATTRIBUTE_NAMES[0]));
+			items.add(ArtifactHelper.newAttribute(ui,thisArtifactName, TestingConstants.ATTRIBUTE_NAMES[0]));
 		if (hasLiterals)
-			items.add(helper.newLiteral(ui,thisArtifactName, TestingConstants.LITERAL_NAMES[0]));
+			items.add(ArtifactHelper.newLiteral(ui,thisArtifactName, TestingConstants.LITERAL_NAMES[0]));
 		if( hasMethods)
-			items.add(helper.newMethod(ui,thisArtifactName, TestingConstants.METHOD_NAMES[0]));
+			items.add(ArtifactHelper.newMethod(ui,thisArtifactName, TestingConstants.METHOD_NAMES[0]));
 
 		
 		GuiUtils.maxminTab(ui, thisArtifactName);
 		
-		helper.checkItemsInExplorer(ui,thisArtifactName,items);
+		ArtifactHelper.checkItemsInExplorer(ui,thisArtifactName,items);
 		// Close the editor
 		ui.close(new CTabItemLocator(thisArtifactName));
 		return thisArtifactName;
