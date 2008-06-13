@@ -57,6 +57,7 @@ public class Tigerstripe implements IApplication {
 			e.printStackTrace();
 			return new Integer(1);
 		}
+		System.out.println("Generation complete");
 		return EXIT_OK;
 	}
 
@@ -78,7 +79,6 @@ public class Tigerstripe implements IApplication {
 				projects.add(split[1]);
 			}
 			if(split[0].equals(GENERATION_PROJECT_ARG)) {
-				System.out.println("Generating " + split[0]);
 				generationProject = split[1];
 			}
 		}
@@ -91,8 +91,8 @@ public class Tigerstripe implements IApplication {
 		for (String project : projects) {
 			importProjectToWorkspace(project);
 			System.out.println("Imported " + project + " into workspace.");
-			System.out.println("Generation project: " + generationProject);
 		}	
+		System.out.println("Generation project: " + generationProject);
 	}
 	
 	private void printProfile() {
