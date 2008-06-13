@@ -3,15 +3,19 @@ package org.eclipse.tigerstripe.workbench.ui.base.test.project;
 import java.util.ArrayList;
 
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
+import abbot.tester.swt.TextTester;
+
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.WidgetSearchException;
-import com.windowtester.runtime.locator.IWidgetLocator;
+import com.windowtester.runtime.locator.IWidgetReference;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
+import com.windowtester.runtime.swt.locator.NamedWidgetLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.SectionLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
@@ -159,17 +163,22 @@ public class ArtifactHelper extends UITestCaseSWT{
 			ends.add(aNameText+"::"+aTypeText);
 
 
-			LabeledTextLocator zName = new LabeledTextLocator("Name:", 2, endsSection);
-			String zNameText = zName.getText(ui);
-			LabeledTextLocator zType = new LabeledTextLocator("Type", 2, endsSection);
-			String zTypeText = zType.getText(ui);
-			if (zTypeText.contains(".")){
-				zTypeText = zTypeText.substring(zTypeText.lastIndexOf(".")+1);
+			
+			IWidgetReference nameRef = (IWidgetReference)ui.find(new NamedWidgetLocator("zEndNameText")); 
+			Text zNameWidget = (Text) nameRef.getWidget();
+			String zNameTextValue = new abbot.tester.swt.TextTester().getText(zNameWidget);
+			
+			IWidgetReference typeRef = (IWidgetReference)ui.find(new NamedWidgetLocator("zEndTypeText")); 
+			Text zTypeWidget = (Text) typeRef.getWidget();
+			String zTypeTextValue = new abbot.tester.swt.TextTester().getText(zTypeWidget);
+			
+			if (zTypeTextValue.contains(".")){
+				zTypeTextValue = zTypeTextValue.substring(zTypeTextValue.lastIndexOf(".")+1);
 			}
 			
 			//TODO - This gets the same end twice
 			// Take this out for now as It always works if the aEnd did!
-			//ends.add(zNameText+"::"+zTypeText);
+			ends.add(zNameTextValue+"::"+zTypeTextValue);
 
 			// collapse the section
 			ui.click(sectionLabel);
