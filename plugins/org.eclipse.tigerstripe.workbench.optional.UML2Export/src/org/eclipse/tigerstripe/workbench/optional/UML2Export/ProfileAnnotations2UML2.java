@@ -120,6 +120,10 @@ public class ProfileAnnotations2UML2 {
 		org.eclipse.uml2.uml.Class classMetaclass = (org.eclipse.uml2.uml.Class) umlMetamodel
 				.getOwnedType(UMLPackage.Literals.CLASS.getName());
 		profile.createMetaclassReference(classMetaclass);
+		
+		org.eclipse.uml2.uml.Class datatypeMetaclass = (org.eclipse.uml2.uml.Class) umlMetamodel
+		.getOwnedType(UMLPackage.Literals.DATA_TYPE.getName());
+			profile.createMetaclassReference(datatypeMetaclass);
 
 		org.eclipse.uml2.uml.Class associationMetaclass = (org.eclipse.uml2.uml.Class) umlMetamodel
 				.getOwnedType(UMLPackage.Literals.ASSOCIATION.getName());
@@ -276,7 +280,7 @@ public class ProfileAnnotations2UML2 {
 		Stereotype dataStereotype = profile.createOwnedStereotype(
 				"tigerstripe_datatype", false);
 		stereotypeMap.put(dataStereotype.getName(), dataStereotype);
-		dataStereotype.createExtension(classMetaclass, false);
+		dataStereotype.createExtension(datatypeMetaclass, false);
 
 		Stereotype notifStereotype = profile.createOwnedStereotype(
 				"tigerstripe_notification", false);

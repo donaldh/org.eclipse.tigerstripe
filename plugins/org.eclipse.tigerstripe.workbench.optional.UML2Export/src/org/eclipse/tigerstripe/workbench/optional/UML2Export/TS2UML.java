@@ -68,7 +68,9 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Comment;
+import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
@@ -81,7 +83,6 @@ import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
-import org.eclipse.uml2.uml.StructuredClassifier;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.VisibilityKind;
@@ -230,14 +231,15 @@ public class TS2UML {
 			// for example, and Dependencies don't map at all
 
 			if (artifact instanceof IManagedEntityArtifact
-					|| artifact instanceof IDatatypeArtifact
+	//				|| artifact instanceof IDatatypeArtifact
 					|| artifact instanceof IQueryArtifact
 					|| artifact instanceof IEventArtifact
 					|| artifact instanceof IUpdateProcedureArtifact
 					|| artifact instanceof IExceptionArtifact) {
 				Class clazz = maker.makeOrFindClass(artifact);
 				this.out.println("    Class : " + clazz.getQualifiedName());
-
+			} else if (artifact instanceof IDatatypeArtifact){
+				DataType datatype = maker.makeOrFindDatatype(artifact);
 			} else if (artifact instanceof ISessionArtifact) {
 				Interface intf = maker.makeOrFindInterface(artifact);
 			}
@@ -277,7 +279,7 @@ public class TS2UML {
 
 					String className = artifact.getFullyQualifiedName();
 					String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
-					addAttributes(artifact, ((StructuredClassifier) typeMap
+					addAttributes(artifact, ((Classifier) typeMap
 							.get(umlClassName)));
 					addOperations(artifact, ((Class) typeMap.get(umlClassName)));
 				}
@@ -378,21 +380,26 @@ public class TS2UML {
 
 			Package modelPackage = maker.makeOrFindPackage(artifact);
 
+			Classifier clazz = null;
 			if (artifact instanceof IManagedEntityArtifact
-					|| artifact instanceof IDatatypeArtifact
+					//	|| artifact instanceof IDatatypeArtifact
 					|| artifact instanceof IQueryArtifact
 					|| artifact instanceof IEventArtifact
 					|| artifact instanceof IUpdateProcedureArtifact
 					|| artifact instanceof IExceptionArtifact) {
-				Class clazz = maker.makeOrFindClass(artifact);
-				out.println("Class : " + clazz.getQualifiedName());
+				clazz = maker.makeOrFindClass(artifact); 
+			}else if (artifact instanceof IDatatypeArtifact){
+				clazz = maker.makeOrFindDatatype(artifact);
+			}
+			if (clazz != null){
+
+				out.println("Classifier : " + clazz.getQualifiedName());
 				String className = artifact.getFullyQualifiedName();
 				String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName() );
-				addAttributes(artifact, ((StructuredClassifier) typeMap
+				addAttributes(artifact, ((Classifier) typeMap
 						.get(umlClassName)));
-				addOperations(artifact, ((Class) typeMap.get(umlClassName)));
+				addOperations(artifact, ((Classifier) typeMap.get(umlClassName)));
 				if (artifact instanceof IManagedEntityArtifact) {
-					EList as = clazz.getApplicableStereotypes();
 					Stereotype meS = clazz.getApplicableStereotype(tsProfile
 							.getQualifiedName()
 							+ "::tigerstripe_managedEntity");
@@ -603,14 +610,17 @@ public class TS2UML {
 	/**
 	 * Add operations
 	 */
-	private void addOperations(IAbstractArtifact artifact, Class clazz) {
+	private void addOperations(IAbstractArtifact artifact, Classifier clazz) {
 		for (IMethod method : artifact.getMethods()) {
 			//Operation operation = clazz.createOwnedOperation(method.getName(),
 			//		null, null);
 			Operation operation = UMLFactory.eINSTANCE.createOperation();
 			operation.setName(method.getName());
-			operation.setClass_(clazz);
-			
+			if (clazz instanceof Class){
+				operation.setClass_((Class) clazz);
+			} else if (clazz instanceof DataType){
+				operation.setDatatype((DataType) clazz);
+			}
 			doOperationDetails(artifact, operation, method);
 			
 		}
@@ -723,9 +733,9 @@ public class TS2UML {
 	 * Add attributes
 	 */
 	private void addAttributes(IAbstractArtifact artifact,
-			StructuredClassifier classifier) {
+			Classifier classifier) {
 		for (IField field : artifact.getFields()) {
-			Property attribute;
+			Property attribute = null;
 			Type type = maker.getUMLType(field.getType());
 			if (type != null) {
 				int lowerBound = Utilities.getLowerBound(field.getType()
@@ -733,8 +743,14 @@ public class TS2UML {
 				int upperBound = Utilities.getUpperBound(field.getType()
 						.getTypeMultiplicity());
 				this.out.println("Bounds " + lowerBound + " " + upperBound);
-				attribute = classifier.createOwnedAttribute(field.getName(),
+				if (classifier instanceof Class){
+				attribute = ((Class) classifier).createOwnedAttribute(field.getName(),
 						type, lowerBound, upperBound);
+				} else if (classifier instanceof DataType){
+					attribute = ((DataType) classifier).createOwnedAttribute(field.getName(),
+							type, lowerBound, upperBound);
+				}
+				if ( attribute != null){
 				attribute.setIsOrdered(field.isOrdered());
 				attribute.setIsUnique(field.isUnique());
 				if (field.getDefaultValue() != null) {
@@ -756,6 +772,7 @@ public class TS2UML {
 				}
 
 				out.println("     Added attribute : " + field.getName());
+				}
 			} else {
 				// No type for this.
 				String msgText = "No type info for :" + artifact.getName()

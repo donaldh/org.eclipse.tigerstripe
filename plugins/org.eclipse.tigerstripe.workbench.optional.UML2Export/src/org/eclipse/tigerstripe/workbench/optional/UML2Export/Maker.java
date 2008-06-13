@@ -19,6 +19,7 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Comment;
+import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.EnumerationLiteral;
@@ -276,6 +277,46 @@ public class Maker {
 			Class clazz = modelPackage.createOwnedClass(artifact.getName(),
 					artifact.isAbstract());
 			this.out.println("Made a new class " + clazz.getQualifiedName());
+
+			Comment comment = clazz.createOwnedComment();
+			comment.setBody(artifact.getComment());
+
+			clazz.setIsAbstract(artifact.isAbstract());
+			typeMap.put(clazz.getQualifiedName(), clazz);
+			return clazz;
+		} catch (Exception e) {
+			String msgText = artifact.getName() + e.getMessage();
+			out.println("ERROR :" + msgText);
+			TS2UML.addMessage(msgText, 0);
+			e.printStackTrace(this.out);
+			return null;
+		}
+	}
+	
+	/**
+	 * Find a class if it exists, or make one if it doesn't.
+	 */
+	protected DataType makeOrFindDatatype(IAbstractArtifact artifact) {
+		try {
+			String packageName = artifact.getPackage();
+			String className = artifact.getFullyQualifiedName();
+			String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
+
+			Package modelPackage = makeOrFindPackage(artifact);
+			EList classList = modelPackage.getOwnedMembers();
+			for (Object cl : classList) {
+				if (cl instanceof DataType) {
+					DataType aClass = (DataType) cl;
+					if (aClass.getQualifiedName().equals(umlClassName))
+						return aClass;
+				}
+			}
+
+			DataType clazz = UMLFactory.eINSTANCE.createDataType();
+			
+			clazz.setPackage(modelPackage);
+			clazz.setName(artifact.getName());
+			this.out.println("Made a new DataType " + clazz.getQualifiedName());
 
 			Comment comment = clazz.createOwnedComment();
 			comment.setBody(artifact.getComment());
