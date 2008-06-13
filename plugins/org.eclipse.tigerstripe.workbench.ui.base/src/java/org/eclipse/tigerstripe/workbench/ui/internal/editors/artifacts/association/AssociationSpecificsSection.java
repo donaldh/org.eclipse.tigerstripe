@@ -401,6 +401,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		l.setLayoutData(gd);
 		l = toolkit.createLabel(body, "Name:");
 		l.setEnabled(!getIArtifact().isReadonly());
+		
 		zEndNameText = toolkit.createText(body, "");
 		tgd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
 		zEndNameText.setEnabled(!getIArtifact().isReadonly());
@@ -559,6 +560,11 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 				(ArtifactEditorBase) getPage().getEditor());
 		zStereotypeManager.delegate();
 
+		aEndTypeText.setData("name", "aEndTypeText");
+		aEndNameText.setData("name", "aEndNameText");
+		zEndTypeText.setData("name", "zEndTypeText");
+		zEndNameText.setData("name", "zEndNameText");
+		
 		updateForm();
 
 		getSection().setClient(body);
