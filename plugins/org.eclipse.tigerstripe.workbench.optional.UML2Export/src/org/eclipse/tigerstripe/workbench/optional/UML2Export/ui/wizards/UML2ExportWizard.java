@@ -168,6 +168,7 @@ public class UML2ExportWizard extends Wizard implements INewWizard {
 
 		} catch (Exception e) {
 			TigerstripeRuntime.logErrorMessage("Exception detected", e);
+			e.printStackTrace(out);
 			out.close();
 			monitor.done();
 			return false;
