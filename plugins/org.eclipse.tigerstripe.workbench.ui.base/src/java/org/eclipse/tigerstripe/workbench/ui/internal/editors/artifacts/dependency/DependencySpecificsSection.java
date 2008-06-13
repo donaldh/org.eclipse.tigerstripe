@@ -159,6 +159,9 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 		zEndTypeBrowseButton.addSelectionListener(listener);
 		toolkit.createLabel(body, "    ");
 
+		aEndTypeText.setData("name", "aEndTypeText");
+		zEndTypeText.setData("name", "zEndTypeText");
+		
 		updateForm();
 
 		getSection().setClient(body);
