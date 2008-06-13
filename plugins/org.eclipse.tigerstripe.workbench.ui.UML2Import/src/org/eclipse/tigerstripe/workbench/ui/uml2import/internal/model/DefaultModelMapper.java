@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
@@ -24,6 +25,7 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
@@ -53,6 +55,8 @@ public class DefaultModelMapper implements IModelMapper {
 				classMap.put( eObject, IEnumArtifact.class.getName());
 			} else if (eObject instanceof Interface) {
 				classMap.put( eObject,  ISessionArtifact.class.getName());
+			} else if (eObject instanceof DataType){
+				classMap.put( eObject,  IDatatypeArtifact.class.getName());
 			} else if (eObject instanceof Class) {
 				// We cannot determine "Class" types - could be Entity, Datatype, Exception etc
 				classMap.put( eObject, "");

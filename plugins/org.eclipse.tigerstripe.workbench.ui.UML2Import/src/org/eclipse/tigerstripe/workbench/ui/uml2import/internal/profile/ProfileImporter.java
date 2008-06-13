@@ -311,6 +311,8 @@ public class ProfileImporter {
 									.add(IManagedEntityArtifact.class.getName());
 							typeList.add(IDatatypeArtifact.class.getName());
 							typeList.add(IExceptionArtifact.class.getName());
+						} else if (sc.equals("DataType")){
+							typeList.add(IDatatypeArtifact.class.getName());
 						} else if (sc.equals("Enumeration")) {
 							typeList.add(IEnumArtifact.class.getName());
 						} else if (sc.equals("Association")) {
