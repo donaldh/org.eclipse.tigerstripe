@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -373,9 +374,12 @@ public class EMFDatabase implements IEMFDatabase {
 	}
 	
 	protected void updateResource(IResource resource, boolean added) {
-		if (!isLocked() && resource.getName().equals(".ann")) {
-			getResourceStorage().updateResource(resource, added);
-			doRebuildIndex();
+		if (resource instanceof IFile) {
+			IFile file = (IFile)resource;
+			if (!isLocked() && file.getFileExtension().toLowerCase().equals(".ann")) {
+				getResourceStorage().updateResource(resource, added);
+				doRebuildIndex();
+			}
 		}
 	}
 	
