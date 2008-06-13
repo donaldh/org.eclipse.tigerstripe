@@ -78,11 +78,9 @@ public class Tigerstripe implements IApplication {
 				projects.add(split[1]);
 			}
 			if(split[0].equals(GENERATION_PROJECT_ARG)) {
+				System.out.println("Generating " + split[0]);
 				generationProject = split[1];
 			}
-		}
-		if (projects.size() == 0) {
-			throw new TigerstripeException("Must have (at least) one project defined.");
 		}
 		if (generationProject == null) {
 			throw new TigerstripeException("Must have the generation project defined.");
