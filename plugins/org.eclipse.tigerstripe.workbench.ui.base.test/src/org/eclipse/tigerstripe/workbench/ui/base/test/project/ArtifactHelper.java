@@ -149,35 +149,36 @@ public class ArtifactHelper extends UITestCaseSWT{
 			// expand the section
 			ui.click(sectionLabel);			
 
-			SectionLocator endsSection = new SectionLocator("End &Details");
-			//TODO - This gets the same end twice
+			SectionLocator endsSection = new SectionLocator("End &Details");	
+
+			IWidgetReference aNameRef = (IWidgetReference)ui.find(new NamedWidgetLocator("aEndNameText")); 
+			Text aNameWidget = (Text) aNameRef.getWidget();
+			String aNameTextValue = new abbot.tester.swt.TextTester().getText(aNameWidget);
 			
-			// Note need to disambiguate the two ends
-			LabeledTextLocator aName = new LabeledTextLocator("Name:", 1, endsSection);
-			String aNameText = aName.getText(ui);
-			LabeledTextLocator aType = new LabeledTextLocator("Type", 1, endsSection);
-			String aTypeText = aType.getText(ui);
-			if (aTypeText.contains(".")){
-				aTypeText = aTypeText.substring(aTypeText.lastIndexOf(".")+1);
+			IWidgetReference aTypeRef = (IWidgetReference)ui.find(new NamedWidgetLocator("aEndTypeText")); 
+			Text aTypeWidget = (Text) aTypeRef.getWidget();
+			String aTypeTextValue = new abbot.tester.swt.TextTester().getText(aTypeWidget);
+			
+			
+			if (aTypeTextValue.contains(".")){
+				aTypeTextValue = aTypeTextValue.substring(aTypeTextValue.lastIndexOf(".")+1);
 			}
-			ends.add(aNameText+"::"+aTypeText);
+			ends.add(aNameTextValue+"::"+aTypeTextValue);
 
 
 			
-			IWidgetReference nameRef = (IWidgetReference)ui.find(new NamedWidgetLocator("zEndNameText")); 
-			Text zNameWidget = (Text) nameRef.getWidget();
+			IWidgetReference zNameRef = (IWidgetReference)ui.find(new NamedWidgetLocator("zEndNameText")); 
+			Text zNameWidget = (Text) zNameRef.getWidget();
 			String zNameTextValue = new abbot.tester.swt.TextTester().getText(zNameWidget);
 			
-			IWidgetReference typeRef = (IWidgetReference)ui.find(new NamedWidgetLocator("zEndTypeText")); 
-			Text zTypeWidget = (Text) typeRef.getWidget();
+			IWidgetReference zTypeRef = (IWidgetReference)ui.find(new NamedWidgetLocator("zEndTypeText")); 
+			Text zTypeWidget = (Text) zTypeRef.getWidget();
 			String zTypeTextValue = new abbot.tester.swt.TextTester().getText(zTypeWidget);
 			
 			if (zTypeTextValue.contains(".")){
 				zTypeTextValue = zTypeTextValue.substring(zTypeTextValue.lastIndexOf(".")+1);
 			}
 			
-			//TODO - This gets the same end twice
-			// Take this out for now as It always works if the aEnd did!
 			ends.add(zNameTextValue+"::"+zTypeTextValue);
 
 			// collapse the section
@@ -206,25 +207,26 @@ public class ArtifactHelper extends UITestCaseSWT{
 
 			SectionLocator endsSection = new SectionLocator("End &Details");
 			
-			// Note need to disambiguate the two ends
+			IWidgetReference aTypeRef = (IWidgetReference)ui.find(new NamedWidgetLocator("aEndTypeText")); 
+			Text aTypeWidget = (Text) aTypeRef.getWidget();
+			String aTypeTextValue = new abbot.tester.swt.TextTester().getText(aTypeWidget);
 			
-			LabeledTextLocator aType = new LabeledTextLocator("Type", 1, endsSection);
-			String aTypeText = aType.getText(ui);
-			if (aTypeText.contains(".")){
-				aTypeText = aTypeText.substring(aTypeText.lastIndexOf(".")+1);
-			}
-			ends.add("aEnd::"+aTypeText);
 			
-			LabeledTextLocator zType = new LabeledTextLocator("Type", 2, endsSection);
-			String zTypeText = zType.getText(ui);
-			if (zTypeText.contains(".")){
-				zTypeText = zTypeText.substring(zTypeText.lastIndexOf(".")+1);
+			if (aTypeTextValue.contains(".")){
+				aTypeTextValue = aTypeTextValue.substring(aTypeTextValue.lastIndexOf(".")+1);
 			}
 			
-			//TODO - This gets the same end twice
-			// Take this out for now as It never works!
-			//ends.add("zEnd::"+zTypeText);
-
+			ends.add("aEnd::"+aTypeTextValue);
+			
+			IWidgetReference zTypeRef = (IWidgetReference)ui.find(new NamedWidgetLocator("zEndTypeText")); 
+			Text zTypeWidget = (Text) zTypeRef.getWidget();
+			String zTypeTextValue = new abbot.tester.swt.TextTester().getText(zTypeWidget);
+			
+			if (zTypeTextValue.contains(".")){
+				zTypeTextValue = zTypeTextValue.substring(zTypeTextValue.lastIndexOf(".")+1);
+			}
+			ends.add("zEnd::"+zTypeTextValue);
+			
 			// collapse the section
 			ui.click(sectionLabel);
 
