@@ -1,11 +1,11 @@
 !==TEST MAP=========================================
 
-feature@org.eclipse.tigerstripe.base.test_feature=v200806130619,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.base.test-feature
+feature@org.eclipse.tigerstripe.base.test_feature=v200806141003,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.base.test-feature
 
-plugin@org.eclipse.tigerstripe.workbench.base.test=v200806130619,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.base.test
+plugin@org.eclipse.tigerstripe.workbench.base.test=v200806141003,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.base.test
 
 !==========================================
 ! Annotation - JUnit testing
-plugin@org.eclipse.tigerstripe.annotation.core.test=v200806130619,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.core.test
+plugin@org.eclipse.tigerstripe.annotation.core.test=v200806141003,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.core.test
 
-feature@org.eclipse.tigerstripe.annotation.core.test_feature=v200806130619,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.annotation.core.test-feature
+feature@org.eclipse.tigerstripe.annotation.core.test_feature=v200806141003,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.annotation.core.test-feature
