@@ -30,7 +30,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
  */
 public class ProjectRouter implements EObjectRouter {
 
-	private final static String ANN_EXT = "ann";
 	private final static String BASE_DIR = "annotations";
 
 	private Map<String, IPath> explicitRoutersMap = null;
@@ -96,7 +95,8 @@ public class ProjectRouter implements EObjectRouter {
 					name += segment;
 				}
 				path = path.append(name);
-				path = path.addFileExtension(ANN_EXT);
+				path = path
+						.addFileExtension(EObjectRouter.ANNOTATION_FILE_EXTENSION);
 				return path;
 			}
 		} catch (TigerstripeException e) {
