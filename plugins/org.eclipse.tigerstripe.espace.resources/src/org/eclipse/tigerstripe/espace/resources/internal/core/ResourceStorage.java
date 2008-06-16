@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.espace.resources.core;
+package org.eclipse.tigerstripe.espace.resources.internal.core;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.espace.resources.ResourceList;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
 import org.eclipse.tigerstripe.espace.resources.ResourcesFactory;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
+import org.eclipse.tigerstripe.espace.resources.core.DefaultObjectRouter;
 
 /**
  * @author Yuri Strot
@@ -149,7 +150,7 @@ public class ResourceStorage {
 		ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
 	}
 	
-	protected void updateResource(IResource resource, boolean added) {
+	public void updateResource(IResource resource, boolean added) {
 		URI uri = URI.createPlatformResourceURI(
 				resource.getFullPath().toString(), false);
 		Resource res = helper.getResource(uri);

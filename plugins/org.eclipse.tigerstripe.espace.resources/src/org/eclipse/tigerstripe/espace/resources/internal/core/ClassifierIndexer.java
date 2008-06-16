@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.espace.resources.core;
+package org.eclipse.tigerstripe.espace.resources.internal.core;
 
 import java.util.ArrayList;
 import java.util.List;

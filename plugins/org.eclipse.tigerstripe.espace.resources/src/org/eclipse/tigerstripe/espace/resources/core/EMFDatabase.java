@@ -40,6 +40,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
+import org.eclipse.tigerstripe.espace.resources.internal.core.ClassifierIndexer;
+import org.eclipse.tigerstripe.espace.resources.internal.core.CompositeIndexer;
+import org.eclipse.tigerstripe.espace.resources.internal.core.FeatureIndexer;
+import org.eclipse.tigerstripe.espace.resources.internal.core.IndexStorage;
+import org.eclipse.tigerstripe.espace.resources.internal.core.ResourceStorage;
 
 /**
  * @author Yuri Strot
@@ -376,7 +381,8 @@ public class EMFDatabase implements IEMFDatabase {
 	protected void updateResource(IResource resource, boolean added) {
 		if (resource instanceof IFile) {
 			IFile file = (IFile)resource;
-			if (!isLocked() && file.getFileExtension().toLowerCase().equals("ann")) {
+			if (!isLocked() && file.getFileExtension().toLowerCase().equals(
+					EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
 				getResourceStorage().updateResource(resource, added);
 				doRebuildIndex();
 			}

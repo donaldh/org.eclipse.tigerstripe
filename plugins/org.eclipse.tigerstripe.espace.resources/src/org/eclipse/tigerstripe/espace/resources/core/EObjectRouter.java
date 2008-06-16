@@ -25,6 +25,14 @@ import org.eclipse.emf.ecore.EObject;
 public interface EObjectRouter {
 	
 	/**
+	 * The annotation file extension (value <code>"ann"</code>).
+	 * All Eclipse Platform files with the following extension monitored
+	 * by Annotation Framework and can be moved, transfered through CVS
+	 * and so on without annotations data loss.
+	 */
+	public static final String ANNOTATION_FILE_EXTENSION = "ann";
+	
+	/**
 	 * Route object to some URI. If this object can not be routed, this
 	 * method shall return null. This URI will be used to get resource with
 	 * <code>ResourceSet.createResource(URI)</code> and

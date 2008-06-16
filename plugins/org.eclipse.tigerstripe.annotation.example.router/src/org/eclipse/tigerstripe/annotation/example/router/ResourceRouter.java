@@ -31,12 +31,10 @@ import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
  */
 public class ResourceRouter implements EObjectRouter {
 	
-	private static final String ANNOTATIONS_FILE_NAME = ".ann";
-	
 	protected URI getUri(IResource res) {
 		IPath path = res.getProject().getFullPath();
 		if (path != null) {
-			path = path.append(ANNOTATIONS_FILE_NAME);
+			path = path.append("." + ANNOTATION_FILE_EXTENSION);
 			create(path);
 			return URI.createPlatformResourceURI(path.toString(), false);
 		}
