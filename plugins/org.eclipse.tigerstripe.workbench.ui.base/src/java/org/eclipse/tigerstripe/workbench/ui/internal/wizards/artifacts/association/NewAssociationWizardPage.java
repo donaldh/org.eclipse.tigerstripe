@@ -372,15 +372,15 @@ public class NewAssociationWizardPage extends NewArtifactWizardPage {
 		result.put("aEndIsOrdered", "false");
 		result.put("aEndAggregation", "none");
 		result.put("aEndChangeable", "none");
-		result.put("aEndMultiplicity", "0..1");
+		result.put("aEndMultiplicity", "1");
 
 		result.put("zEndType", zEndTypeClassDialogField.getText().trim());
 		result.put("zEndName", "_zEnd");
-		result.put("zEndIsNavigable", "false");
+		result.put("zEndIsNavigable", "true");
 		result.put("zEndIsOrdered", "false");
 		result.put("zEndAggregation", "none");
 		result.put("zEndChangeable", "none");
-		result.put("zEndMultiplicity", "0..1");
+		result.put("zEndMultiplicity", "1");
 		return result;
 	}
 
