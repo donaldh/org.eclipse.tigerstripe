@@ -55,7 +55,7 @@ public class MyTestsuite extends TestCase
         suite.addTestSuite(TestActiveProfile.class);
         
         // create a new Plugin
-        suite.addTestSuite(NewPluginProject.class);
+       suite.addTestSuite(NewPluginProject.class);
         
         // Check what happens with rules - audit checks etc
         suite.addTestSuite(NewGlobalRule.class);
