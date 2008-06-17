@@ -1,8 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2008 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Cisco Systems, Inc. - Initial Version
+ *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model;
 
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -24,8 +35,7 @@ public interface IComponentNameProvider {
 	
 	/**
 	 * This version should be used to get the new name for an
-	 * artifact - the name will be based on the class, and potentially on the
-	 * ends of associations. 
+	 * artifact - the name will be based on the class
 	 * 
 	 * The "target" packageName is provided in case naming rule needs to ensure artifact
 	 * uniqueness within a package.
@@ -36,6 +46,25 @@ public interface IComponentNameProvider {
 	 * @return
 	 */
 	public String getNewArtifactName(Class artifactClass, ITigerstripeModelProject project, String packageName);
+	
+	
+	/**
+	 * This version should be used to get the new name for an
+	 * artifact - the name will be based on the class, and potentially on the
+	 * ends of associations. 
+	 * 
+	 * The "target" packageName is provided in case naming rule needs to ensure artifact
+	 * uniqueness within a package.
+	 * 
+	 * @param artifactClass - should only be used for Association & AssociationClass
+	 * @param project
+	 * @param packageName
+	 * @param aEndType - the FQN of type of the artifact at the aEnd of the relationship
+	 * @param zEndType - the FQN of type of the artifact at the aEnd of the relationship
+	 * @return
+	 */
+	public String getNewRelationshipName(Class artifactClass, ITigerstripeModelProject project, String packageName,
+			String aEndTypeFQN, String zEndTypeFQN);
 	
 	/**
 	 * This version should be used to select a name of 

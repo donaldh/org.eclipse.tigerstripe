@@ -60,6 +60,7 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -77,6 +78,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -176,15 +178,7 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 		} else if (eObject instanceof Enumeration) {
 			defaultUniqueName = nameFactory.getNewArtifactName(
 					IEnumArtifact.class,tsProject,defaultPackage);
-		} else if (eObject instanceof AssociationClass) {
-			defaultUniqueName = nameFactory.getNewArtifactName(
-					IAssociationClassArtifact.class, tsProject,defaultPackage);
-		} else if (eObject instanceof Association) {
-			defaultUniqueName = nameFactory.getNewArtifactName(
-					IAssociationArtifact.class, tsProject,defaultPackage);
-		} else if (eObject instanceof Dependency) {
-			defaultUniqueName = nameFactory.getNewArtifactName(
-					IDependencyArtifact.class, tsProject,defaultPackage);
+		
 		} else if (eObject instanceof NamedQueryArtifact) {
 			defaultUniqueName = nameFactory.getNewArtifactName(
 					IQueryArtifact.class,tsProject,defaultPackage);
@@ -200,6 +194,17 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 		} else if (eObject instanceof NotificationArtifact) {
 			defaultUniqueName = nameFactory.getNewArtifactName(
 					IEventArtifact.class, tsProject,defaultPackage);
+			
+			// Note these last three will potentially be overwritten below
+		} else if (eObject instanceof Dependency) {
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IDependencyArtifact.class, tsProject,defaultPackage);
+		} else if (eObject instanceof AssociationClass) {
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IAssociationClassArtifact.class, tsProject,defaultPackage);
+		} else if (eObject instanceof Association) {
+			defaultUniqueName = nameFactory.getNewArtifactName(
+					IAssociationArtifact.class, tsProject,defaultPackage);
 		}
 
 		if (defaultUniqueName != null) {
@@ -225,10 +230,47 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			Association assoc = (Association) eObject;	
 			
 			IAbstractArtifact iArtifact = assoc.getCorrespondingIArtifact();
+
+			if (iArtifact instanceof IAssociationArtifact){
+				IAssociationArtifact iAssoc = (IAssociationArtifact) iArtifact;
+				IType aEndType = iAssoc.getAEnd().getType();
+				IType zEndType = iAssoc.getZEnd().getType();
+				if (aEndType != null && zEndType != null){
+					Class artifactType;
+					if (iAssoc instanceof IAssociationClassArtifact){
+						artifactType = IAssociationClassArtifact.class;
+					} else {
+						artifactType = IAssociationArtifact.class;
+					}
+					String newName = nameFactory.getNewRelationshipName(
+							artifactType, tsProject, defaultPackage, 
+							aEndType.getFullyQualifiedName(), 
+							zEndType.getFullyQualifiedName());
+					 assoc.setName(newName);
+				}
+			}
 			String aName = nameFactory.getNewAssociationEndName(iArtifact, AEND);
 			String zName = nameFactory.getNewAssociationEndName(iArtifact, ZEND);
 			assoc.setAEndName(aName);
 			assoc.setZEndName(zName);
+			
+			
+		} else if (eObject instanceof Dependency){
+			Dependency dep = (Dependency) eObject;
+			IAbstractArtifact iArtifact = dep.getCorrespondingIArtifact();
+
+			if (iArtifact instanceof IDependencyArtifact){
+				IDependencyArtifact iDep = (IDependencyArtifact) iArtifact;
+				IType aEndType = iDep.getAEndType();
+				IType zEndType = iDep.getZEndType();
+				if (aEndType != null && zEndType != null){
+					String newName = nameFactory.getNewRelationshipName(
+							IDependencyArtifact.class, tsProject, defaultPackage, 
+							aEndType.getFullyQualifiedName(), 
+							zEndType.getFullyQualifiedName());
+					 dep.setName(newName);
+				}
+			}
 			
 		}
 	}

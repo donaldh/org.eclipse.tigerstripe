@@ -119,6 +119,57 @@ public class ComponentNameProvider implements IComponentNameProvider{
 	}
 
 	
+	/** 
+	 * This version calls out to the extension, but of nothing is found, it uses
+	 * the basic artifact name - not anything to do with ends!
+	 */
+	public String getNewRelationshipName(Class artifactClass,
+			ITigerstripeModelProject project, String packageName,
+			String aEndTypeFQN, String zEndTypeFQN) {
+		/*
+		 * If there is something provided through the extension point...
+		 * call it safely.
+		 */
+		if (extension != null){
+			String extensionName = null;
+			final Class aClass = artifactClass;
+			final ITigerstripeModelProject tsProject = project;
+			final String pName = packageName;
+			final String aFQN = aEndTypeFQN;
+			final String zFQN = zEndTypeFQN;
+			
+			final class RunnableWithResult implements ISafeRunnable {
+				private String  result;
+				public void handleException(Throwable exception) {
+					BasePlugin.log(exception);
+				}
+
+				public void run() throws Exception {
+					  result = extension.getNewRelationshipName(aClass,tsProject,pName, aFQN, zFQN);
+				}
+				
+				public String getResult(){
+					return this.result;
+				}
+				
+			}
+			
+			RunnableWithResult myRunnable = new RunnableWithResult();
+			
+			SafeRunner.run(myRunnable);
+			
+			extensionName = myRunnable.getResult();
+			
+			if (extensionName != null){
+				return extensionName;
+			}
+		}
+		// Otherwise call the local (default) version
+		return getLocalArtifactName(artifactClass,project,packageName);
+
+	}
+
+
 	/**
 	 * Use the factory if it exists! If not call a local version.
 	 *
