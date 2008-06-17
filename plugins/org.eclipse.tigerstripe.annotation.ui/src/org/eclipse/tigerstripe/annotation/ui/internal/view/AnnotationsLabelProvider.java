@@ -12,14 +12,13 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.view;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
-import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
+import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 /**
  * @author Yuri Strot
@@ -29,7 +28,7 @@ public class AnnotationsLabelProvider extends LabelProvider implements ITableLab
 
 	public Image getColumnImage(Object element, int columnIndex) {
 		if (element instanceof Annotation && columnIndex == 0)
-			return getImage((Annotation)element);
+			return DisplayAnnotationUtil.getImage((Annotation)element);
 	    return null;
     }
 
@@ -47,13 +46,5 @@ public class AnnotationsLabelProvider extends LabelProvider implements ITableLab
 		}
 	    return null;
     }
-	
-	private Image getImage(Annotation annotation) {
-		AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
-		ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
-		if (provider != null)
-			return provider.getImage(annotation.getContent());
-		return null;
-	}
 
 }

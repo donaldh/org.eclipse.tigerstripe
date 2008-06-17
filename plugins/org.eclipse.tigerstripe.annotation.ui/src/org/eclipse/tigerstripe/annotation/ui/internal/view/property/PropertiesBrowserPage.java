@@ -60,6 +60,7 @@ import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotatio
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AsyncExecUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
+import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
@@ -420,7 +421,7 @@ public class PropertiesBrowserPage
 		boolean showPage = currentSelection != null;
 		if (showPage) {
 			for (int i = 0; i < currentSelection.length; i++) {
-				list.add(getDisplayName(currentSelection[i]));
+				list.add(DisplayAnnotationUtil.getText(currentSelection[i]));
 				adapt(i);
             }
 			int index = getAnnotationIndex();
@@ -480,7 +481,7 @@ public class PropertiesBrowserPage
 			if (msg.getEventType() == Notification.RESOLVE || 
 					msg.getEventType() == Notification.REMOVING_ADAPTER)
 				return;
-			list.setItem(index, "*" + getDisplayName(
+			list.setItem(index, "*" + DisplayAnnotationUtil.getText(
 					currentSelection[index]));
 			if (!dirty) {
 				dirty = true;
@@ -490,7 +491,8 @@ public class PropertiesBrowserPage
 		
 		public void clear() {
 			dirty = false;
-			list.setItem(index, getDisplayName(currentSelection[index]));
+			list.setItem(index, DisplayAnnotationUtil.getText(
+					currentSelection[index]));
 			updateStatus();
 		}
 		
@@ -498,22 +500,6 @@ public class PropertiesBrowserPage
 			return dirty;
 		}
 		
-	}
-	
-	protected String getDisplayName(Annotation annotation) {
-		EObject content = annotation.getContent();
-		if (content == null) {
-			return "<no content>";
-		}
-		else {
-			AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
-			if (type != null) {
-				ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
-				if (provider != null)
-					return provider.getText(content);
-			}
-			return content.eClass().getName() + "@" + Integer.toHexString(content.hashCode());
-		}
 	}
 	
 	private int getAnnotationIndex() {

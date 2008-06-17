@@ -11,10 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -29,8 +27,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.AnnotationType;
-import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
+import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 /**
  * @author Yuri Strot
@@ -96,7 +93,7 @@ public class SaveAllDialogs extends Dialog {
 		table.setLinesVisible(false);
 		for (int i = 0; i < annotations.length; i++) {
 			TableItem item = new TableItem(table, SWT.NONE);
-			item.setText(getDisplayName(annotations[i]));
+			item.setText(DisplayAnnotationUtil.getText(annotations[i]));
 			item.setData(annotations[i]);
 		}
 	}
@@ -149,22 +146,6 @@ public class SaveAllDialogs extends Dialog {
 		}
 		setButtonLayoutData(button);
 		return button;
-	}
-	
-	protected String getDisplayName(Annotation annotation) {
-		EObject content = annotation.getContent();
-		if (content == null) {
-			return "<no content>";
-		}
-		else {
-			AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
-			if (type != null) {
-				ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
-				if (provider != null)
-					return provider.getText(content);
-			}
-			return content.eClass().getName() + "@" + Integer.toHexString(content.hashCode());
-		}
 	}
 
 }
