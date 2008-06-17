@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension point="org.eclipse.gmf.runtime.emf.type.core.elementTypes">
+        <elementTypeFactory
+               factory="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.factories.AnnotationTypeFactory"
+               kind = "org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType"
+               params = "semanticHint">
+        </elementTypeFactory>
+        <specializationType
+                id="org.eclipse.tigerstripe.annotation.ui.diagram.presentation.annotation"     
+                icon="icons/annotation.gif"
+                name="Annotation"
+                kind="org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType">
+             <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+             <param name="semanticHint" value="Annotation"/> 
+        </specializationType>
+        <specializationType
+                id="org.eclipse.tigerstripe.annotation.ui.diagram.presentation.connection"     
+                icon="icons/connection.gif"
+                name="Connection"
+                kind="org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType"> 
+             <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+             <param name="semanticHint" value="AnnotationConnection"/> 
+        </specializationType>
+   </extension>
+   
+	<extension id="presentationPaletteProvider" name="Palette Provider" point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders">
+      <paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
+         <Priority name="Lowest">
+         </Priority>
+         <editor class="org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor">
+         </editor>
+         <contribution factoryClass="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.factories.DiagramPaletteFactory">
+            <entry label="Annotations" kind="drawer" description="Annotations" path="/standardGroup/" id="annotationStack">
+            </entry>
+            <entry label="Annotation" kind="tool" description="Create Annotation" path="/standardGroup/annotationStack/" large_icon="icons/annotation.gif" small_icon="icons/annotation.gif" id="annotationTool">
+            </entry>
+            <entry label="Connection" kind="tool" description="Create Connection" path="/standardGroup/annotationStack/" large_icon="icons/connection.gif" small_icon="icons/connection.gif" id="annotationConnectionTool">
+            </entry>
+         </contribution>
+      </paletteProvider>
+   </extension>
+
+   <extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders">
+      <viewProvider class="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.factories.AnnotationViewProvider">
+         <Priority name="Lowest"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="Annotation"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="AnnotationConnection"/>
+      </viewProvider>
+   </extension>
+   
+   <extension point="org.eclipse.gmf.runtime.diagram.ui.editpartProviders">
+      <editpartProvider class="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.factories.AnnotationProvider">
+         <Priority name="Lowest"/>
+      </editpartProvider>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.eclipse.tigerstripe.annotation.gmf.add_annotations"
+            class="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.AnnotationsCreator">
+      </handler>
+   </extension>
+	 
+	<extension point="org.eclipse.ui.commands">
+		<command
+			name="Add Annotations"
+			description="Add Annotations"
+			id="org.eclipse.tigerstripe.annotation.gmf.add_annotations"/>
+	</extension>
+	
+	<extension point="org.eclipse.ui.bindings">
+		<key
+			sequence="M1+M2+A"
+			contextId="org.eclipse.ui.globalScope"
+			commandId="org.eclipse.tigerstripe.annotation.gmf.add_annotations"
+			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/>
+	</extension>
+
+</plugin>

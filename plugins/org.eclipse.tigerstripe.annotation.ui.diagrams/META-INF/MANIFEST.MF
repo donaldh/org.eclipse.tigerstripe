@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tigerstripe Annotation Diagrams Plug-in
+Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.ui.diagrams;singleton:=true
+Bundle-Version: 0.3.0
+Bundle-Activator: org.eclipse.tigerstripe.annotation.ui.diagrams.AnnotationDiagramPlugin
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.gmf.runtime.diagram.ui,
+ org.eclipse.gmf.runtime.diagram.ui.providers,
+ org.eclipse.tigerstripe.annotation.core,
+ org.eclipse.tigerstripe.annotation.ui
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.tigerstripe.annotation.ui.diagrams
