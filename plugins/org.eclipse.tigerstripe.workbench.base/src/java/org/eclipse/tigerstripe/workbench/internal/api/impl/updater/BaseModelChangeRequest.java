@@ -52,6 +52,10 @@ public abstract class BaseModelChangeRequest implements IModelChangeRequest {
 		return true;
 	}
 
+	protected void setMgrSession(IArtifactManagerSession mgrSession) {
+		this.mgrSession = mgrSession;
+	}
+
 	protected IArtifactManagerSession getMgrSession() {
 		return this.mgrSession;
 	}

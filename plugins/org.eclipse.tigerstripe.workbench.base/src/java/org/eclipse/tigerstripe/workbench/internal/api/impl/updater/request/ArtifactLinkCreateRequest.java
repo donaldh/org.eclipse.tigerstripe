@@ -65,7 +65,8 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
-		super.execute(mgrSession);
+
+		setMgrSession(mgrSession);
 		IAbstractArtifact artifact = mgrSession.makeArtifact(getArtifactType());
 		artifact.setFullyQualifiedName(getFullyQualifiedName());
 
@@ -78,9 +79,9 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			aEnd.setName(aEndName);
 			aEnd.setNavigable(aEndNavigability);
 			aEnd.setMultiplicity(IModelComponent.EMultiplicity.ONE); // FIXME
-																		// this
-																		// should
-																		// be
+			// this
+			// should
+			// be
 			// translated from
 			// Diagram
 			assoc.setAEnd(aEnd);
@@ -92,9 +93,9 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			zEnd.setName(zEndName);
 			zEnd.setNavigable(zEndNavigability);
 			zEnd.setMultiplicity(IModelComponent.EMultiplicity.ONE); // FIXME
-																		// this
-																		// should
-																		// be
+			// this
+			// should
+			// be
 			// translated from
 			// Diagram
 			assoc.setZEnd(zEnd);
@@ -115,9 +116,9 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			aEnd.setName(aEndName);
 			aEnd.setNavigable(aEndNavigability);
 			aEnd.setMultiplicity(IModelComponent.EMultiplicity.ONE); // FIXME
-																		// this
-																		// should
-																		// be
+			// this
+			// should
+			// be
 			// translated from
 			// Diagram
 			assocClass.setAEnd(aEnd);
@@ -128,9 +129,9 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			zEnd.setType(zType);
 			zEnd.setName(zEndName);
 			zEnd.setMultiplicity(IModelComponent.EMultiplicity.ONE); // FIXME
-																		// this
-																		// should
-																		// be
+			// this
+			// should
+			// be
 			// translated from
 			// Diagram
 			zEnd.setNavigable(zEndNavigability);
