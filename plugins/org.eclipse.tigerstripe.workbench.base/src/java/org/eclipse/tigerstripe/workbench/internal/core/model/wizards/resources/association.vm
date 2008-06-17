@@ -31,8 +31,8 @@ public abstract class $wizard.get("artifactName")
 	 *    aggregation = "$!wizard.get("aEndAggregation")"
 	 *    changeable = "$!wizard.get("aEndChangeable")"
 	 *    multiplicity = "$!wizard.get("aEndMultiplicity")"
-	 *    iOrdered = "$!wizard.get("aEndIsOrdered")"
-	 *    iNavigable = "$!wizard.get("aEndIsNavigable")"
+	 *    isOrdered = "$!wizard.get("aEndIsOrdered")"
+	 *    isNavigable = "$!wizard.get("aEndIsNavigable")"
 	 *
 	 */	
 	public static $!wizard.get("aEndType") $!wizard.get("aEndName") = null;
