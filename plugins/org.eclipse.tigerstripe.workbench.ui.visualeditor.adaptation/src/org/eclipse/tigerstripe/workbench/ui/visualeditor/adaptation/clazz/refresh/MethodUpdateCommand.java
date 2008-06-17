@@ -81,10 +81,11 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 			IAbstractArtifact iArtifact) {
 		migrateMultiplicities(eArtifact);
 
-		if (! ClassDiagramUtils.checkMethodOrder(eArtifact, iArtifact.getMethods())){
+		if (!ClassDiagramUtils.checkMethodOrder(eArtifact, iArtifact
+				.getMethods())) {
 			eArtifact.getMethods().clear();
 		}
-		
+
 		// go thru methods in the EMF domain
 		List<Method> eMethods = eArtifact.getMethods();
 		List<Method> toDelete = new ArrayList<Method>();
@@ -139,7 +140,7 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 					meth.setDefaultValue(iMethod.getDefaultReturnValue());
 					meth.setIsOrdered(iMethod.isOrdered());
 					meth.setIsUnique(iMethod.isUnique());
-					
+
 					meth.setMethod(iMethod);
 
 					if (iMethod.isVoid()) {
@@ -165,6 +166,10 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 								.mapTypeMultiplicity(arg.getType()
 										.getTypeMultiplicity()));
 						meth.getParameters().add(param);
+						for (IStereotypeInstance st : arg
+								.getStereotypeInstances()) {
+							param.getStereotypes().add(st.getName());
+						}
 					}
 
 					for (IStereotypeInstance instance : iMethod
@@ -181,8 +186,9 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 			} else {
 				// The method with that signature exists but we need to check
 				// that all attributes are correct
-				
-				if (theMethod.getMethod() == null || !theMethod.getMethod().equals(iMethod)){
+
+				if (theMethod.getMethod() == null
+						|| !theMethod.getMethod().equals(iMethod)) {
 					theMethod.setMethod(iMethod);
 				}
 				if (theMethod.getVisibility() != ClassDiagramUtils
@@ -210,12 +216,64 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 							.mapTypeMultiplicity(iMethodType
 									.getTypeMultiplicity()));
 
+				// Need to check that all params have the same Stereotypes
+				List<Parameter> theParams = new ArrayList<Parameter>();
+				Iterator<Parameter> paramIter = theMethod.getParameters()
+						.iterator();
+				boolean needLabelRefresh = false;
+				for (Iterator<IArgument> iterArg = iMethod.getArguments()
+						.iterator(); iterArg.hasNext();) {
+					boolean needUpdate = false;
+					Parameter param = paramIter.next();
+					IArgument arg = iterArg.next();
+					if (param.getStereotypes().size() == arg
+							.getStereotypeInstances().size()) {
+						// check them one by one
+						int index = 0;
+						for (IStereotypeInstance inst : arg
+								.getStereotypeInstances()) {
+							if (!param.getStereotypes().get(index).equals(
+									inst.getName())) {
+								needUpdate = true;
+								break;
+							}
+							index++;
+						}
+					} else {
+						needUpdate = true;
+					}
+					
+					if (needUpdate) {
+						// refresh
+						param.getStereotypes().clear();
+						for (IStereotypeInstance inst : arg
+								.getStereotypeInstances()) {
+							param.getStereotypes().add(inst.getName());
+						}
+						needLabelRefresh = true;
+					}
+					
+					theParams.add(param);
+				}
+
+				if (needLabelRefresh) {
+					theMethod.getParameters().clear();
+					theMethod.getParameters().addAll(theParams);
+					theMethod.setName(iMethod.getName());// Bug 219454: this
+					// is a hack to
+					// force the diagram to go dirty as the stereotype add
+					// doesn't??????
+				}
+
 				if (theMethod.getStereotypes().size() != iMethod
 						.getStereotypeInstances().size()) {
-					// not even the same number of stereotypes, let's redo the list
+					// not even the same number of stereotypes, let's redo the
+					// list
 					theMethod.getStereotypes().clear();
-					theMethod.setName(iMethod.getName());// Bug 219454: this is a hack to 
-					// force the diagram to go dirty as the stereotype add doesn't??????
+					theMethod.setName(iMethod.getName());// Bug 219454: this
+					// is a hack to
+					// force the diagram to go dirty as the stereotype add
+					// doesn't??????
 
 					for (IStereotypeInstance stereo : iMethod
 							.getStereotypeInstances()) {
@@ -225,32 +283,37 @@ public class MethodUpdateCommand extends AbstractArtifactUpdateCommand {
 					// same number of stereotypes let's see if they all match
 					List<String> eStereotypes = theMethod.getStereotypes();
 					Iterator<String> eStereo = eStereotypes.iterator();
-					Collection<IStereotypeInstance> iStereotypes = iMethod.getStereotypeInstances();
+					Collection<IStereotypeInstance> iStereotypes = iMethod
+							.getStereotypeInstances();
 					boolean updateNeeded = false;
 					for (IStereotypeInstance iStereo : iStereotypes) {
 						String eStereotypeName = eStereo.next();
 						String iStereotypeName = iStereo.getName();
-						
+
 						if (!eStereotypeName.equals(iStereotypeName)) {
 							updateNeeded = true;
 							break;
 						}
 
 					}
-					if (updateNeeded){
-						// Bug 215646 - Just redo the whole list as the order is relevant -
+					if (updateNeeded) {
+						// Bug 215646 - Just redo the whole list as the order is
+						// relevant -
 						// You can confuse the diagram
 						theMethod.getStereotypes().clear();
 						for (IStereotypeInstance stereo : iMethod
 								.getStereotypeInstances()) {
 							theMethod.getStereotypes().add(stereo.getName());
 						}
-							
-						theMethod.setName(iMethod.getName());// Bug 219454: this is a hack to 
-						// force the diagram to go dirty as the stereotype add doesn't??????
-						
+
+						theMethod.setName(iMethod.getName());// Bug 219454:
+						// this is a
+						// hack to
+						// force the diagram to go dirty as the stereotype add
+						// doesn't??????
+
 					}
-				
+
 				}
 			}
 		}
