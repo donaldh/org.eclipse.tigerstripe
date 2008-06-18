@@ -124,7 +124,15 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
         }
 
         return super.getPreferredValue(feature);
-    } 
+    }
+    
+    /* (non-Javadoc)
+     * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#refreshVisibility()
+     */
+    @Override
+    protected void refreshVisibility() {
+    	super.refreshVisibility();
+    }
     
     private class ResourceListener extends ResourceSetListenerImpl{
         private WeakReference resourceRef = null; 

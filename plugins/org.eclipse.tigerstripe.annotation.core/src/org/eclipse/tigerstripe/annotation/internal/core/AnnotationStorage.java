@@ -25,6 +25,7 @@ import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.espace.resources.core.EMFDatabase;
 
@@ -159,32 +160,52 @@ public class AnnotationStorage {
 	protected void fireAnnotationAdded(Annotation annotation) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
-			IAnnotationListener listener = (IAnnotationListener)objects[i];
-			listener.annotationAdded(annotation);
+			try {
+				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				listener.annotationAdded(annotation);
+			}
+			catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
 		}
 	}
 	
 	protected void fireAnnotationsRemoved(Annotation[] annotations) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
-			IAnnotationListener listener = (IAnnotationListener)objects[i];
-			listener.annotationsRemoved(annotations);
+			try {
+				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				listener.annotationsRemoved(annotations);
+			}
+			catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
 		}
 	}
 	
 	protected void fireAnnotationsChanged(Annotation[] annotations) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
-			IAnnotationListener listener = (IAnnotationListener)objects[i];
-			listener.annotationsChanged(annotations);
+			try {
+				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				listener.annotationsChanged(annotations);
+			}
+			catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
 		}
 	}
 	
 	protected void fireAnnotationLoaded(Annotation[] annotations) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
-			IAnnotationListener listener = (IAnnotationListener)objects[i];
-			listener.annotationsLoaded(annotations);
+			try {
+				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				listener.annotationsLoaded(annotations);
+			}
+			catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
 		}
 	}
 	

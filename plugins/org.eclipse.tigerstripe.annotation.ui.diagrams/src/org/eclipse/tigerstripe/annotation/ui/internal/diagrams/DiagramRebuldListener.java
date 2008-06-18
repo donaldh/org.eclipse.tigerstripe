@@ -11,10 +11,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.diagrams;
 
-import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
+import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
 
 /**
  * @author Yuri Strot
@@ -22,9 +23,9 @@ import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
  */
 public class DiagramRebuldListener implements IAnnotationListener {
 	
-	private IDiagramWorkbenchPart editor;
+	private DiagramEditor editor;
 	
-	public DiagramRebuldListener(IDiagramWorkbenchPart editor) {
+	public DiagramRebuldListener(DiagramEditor editor) {
 		this.editor = editor;
 		initialize();
 	}
@@ -38,7 +39,13 @@ public class DiagramRebuldListener implements IAnnotationListener {
 	}
 	
 	protected void update() {
-		DiagramRebuildUtils.rebuld(editor);
+		AsyncExecUtil.run(editor.getSite().getShell(), new Runnable() {
+		
+			public void run() {
+				DiagramRebuildUtils.rebuld(editor);
+			}
+		
+		});
 	}
 
 	/* (non-Javadoc)

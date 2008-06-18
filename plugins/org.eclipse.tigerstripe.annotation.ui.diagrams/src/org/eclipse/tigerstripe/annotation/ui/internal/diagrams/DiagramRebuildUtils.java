@@ -35,7 +35,7 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.internal.editparts.DescriptionCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.internal.properties.Properties;
-import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest.ConnectionViewDescriptor;
@@ -50,7 +50,6 @@ import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationC
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationEditPart;
 import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
-import org.eclipse.ui.part.EditorPart;
 
 /**
  * @author Yuri Strot
@@ -58,7 +57,7 @@ import org.eclipse.ui.part.EditorPart;
  */
 public class DiagramRebuildUtils {
 	
-	public static void rebuld(IDiagramWorkbenchPart editor) {
+	public static void rebuld(DiagramEditor editor) {
 		DiagramEditPart root = editor.getDiagramEditPart();
 		
 		Map<EObject, EditPart> elements = new HashMap<EObject, EditPart>();
@@ -68,10 +67,7 @@ public class DiagramRebuildUtils {
 			EditPart part = elements.get(object);
 			updateAnnotations(editor, part);
 		}
-		if (editor instanceof EditorPart) {
-			EditorPart epart = (EditorPart)editor;
-			epart.doSave(new NullProgressMonitor());
-		}
+		editor.doSave(new NullProgressMonitor());
 	}
 	
 	protected static void collectElements(EditPart part, Map<EObject, EditPart> elements) {
@@ -190,7 +186,7 @@ public class DiagramRebuildUtils {
 		return "";
 	}
 	
-	protected static void updateAnnotations(IDiagramWorkbenchPart editor, EditPart part) {
+	protected static void updateAnnotations(DiagramEditor editor, EditPart part) {
 		EditPart container = part.getParent();
 		if (container != null) {
 			Annotation[] annotations = getAnnotations(part);
@@ -242,7 +238,7 @@ public class DiagramRebuildUtils {
 		}
 	}
 	
-	protected static EditPart createConnection(IDiagramWorkbenchPart editor, EditPart source, EditPart target) {
+	protected static EditPart createConnection(DiagramEditor editor, EditPart source, EditPart target) {
 		IGraphicalEditPart sourceEditPart = (IGraphicalEditPart) source;
 		IGraphicalEditPart targetEditPart = (IGraphicalEditPart) target;
 

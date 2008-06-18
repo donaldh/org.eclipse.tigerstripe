@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.diagrams;
 
-import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 
 /**
  * @author Yuri Strot
@@ -19,8 +19,8 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
  */
 public interface IDiagramListener {
 	
-	public void diagramOpened(IDiagramWorkbenchPart editor);
+	public void diagramOpened(DiagramEditor editor);
 	
-	public void diagramClosed(IDiagramWorkbenchPart editor);
+	public void diagramClosed(DiagramEditor editor);
 
 }

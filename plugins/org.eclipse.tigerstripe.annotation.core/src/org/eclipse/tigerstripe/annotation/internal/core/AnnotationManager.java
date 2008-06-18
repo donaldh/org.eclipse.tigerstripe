@@ -144,8 +144,6 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 				try {
 					URI nUri = URIUtil.replacePrefix(uri, oldUri, newUri);
 					setUri(uri, nUri);
-			        refactorListener.refactoringPerformed(
-			        		new RefactoringChange(oldUri, newUri));
 				}
 				catch (Exception e) {
 					AnnotationPlugin.log(e);
@@ -154,8 +152,6 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		}
 		else {
 	        setUri(oldUri, newUri);
-	        refactorListener.refactoringPerformed(
-	        		new RefactoringChange(oldUri, newUri));
 		}
 	}
 	
@@ -183,8 +179,15 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		return this;
 	}
 	
-	public void setUri(URI oldUri, URI newUri) {
+	protected void setUri(URI oldUri, URI newUri) {
 		uriChanged(oldUri, newUri);
+		try {
+	        refactorListener.refactoringPerformed(
+	        		new RefactoringChange(oldUri, newUri));
+		}
+		catch (Exception e) {
+			AnnotationPlugin.log(e);
+		}
 	}
 	
 	/* (non-Javadoc)

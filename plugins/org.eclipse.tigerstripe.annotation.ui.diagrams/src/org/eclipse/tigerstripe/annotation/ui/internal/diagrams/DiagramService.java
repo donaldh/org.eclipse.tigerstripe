@@ -12,7 +12,7 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.diagrams;
 
 import org.eclipse.core.runtime.ListenerList;
-import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.IDiagramListener;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.IDiagramService;
 import org.eclipse.ui.IPartListener;
@@ -40,7 +40,7 @@ public class DiagramService implements IDiagramService, IPartListener {
 			window.getPartService().addPartListener(this);
 	}
 	
-	protected void fireDaigramOpened(IDiagramWorkbenchPart editor) {
+	protected void fireDaigramOpened(DiagramEditor editor) {
 		Object[] objects = listeners.getListeners();
 		for (Object object : objects) {
 			IDiagramListener listener = (IDiagramListener)object;
@@ -48,7 +48,7 @@ public class DiagramService implements IDiagramService, IPartListener {
 		}
 	}
 	
-	protected void fireDaigramClosed(IDiagramWorkbenchPart editor) {
+	protected void fireDaigramClosed(DiagramEditor editor) {
 		Object[] objects = listeners.getListeners();
 		for (Object object : objects) {
 			IDiagramListener listener = (IDiagramListener)object;
@@ -72,8 +72,8 @@ public class DiagramService implements IDiagramService, IPartListener {
 	 * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partClosed(IWorkbenchPart part) {
-		if (part instanceof IDiagramWorkbenchPart)
-			fireDaigramClosed((IDiagramWorkbenchPart)part);
+		if (part instanceof DiagramEditor)
+			fireDaigramClosed((DiagramEditor)part);
 	}
 	
 	/* (non-Javadoc)
@@ -86,8 +86,8 @@ public class DiagramService implements IDiagramService, IPartListener {
 	 * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partOpened(IWorkbenchPart part) {
-		if (part instanceof IDiagramWorkbenchPart)
-			fireDaigramOpened((IDiagramWorkbenchPart)part);
+		if (part instanceof DiagramEditor)
+			fireDaigramOpened((DiagramEditor)part);
 	}
 
 	/* (non-Javadoc)

@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.core.ISelectionFilter;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AsyncExecUtil;
+import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
 import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IViewSite;

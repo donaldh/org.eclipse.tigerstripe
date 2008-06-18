@@ -30,7 +30,7 @@ import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationActi
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RefreshAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAllAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAnnotationAction;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AsyncExecUtil;
+import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
 import org.eclipse.ui.part.ViewPart;
 
 /**

@@ -34,8 +34,8 @@ import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationActi
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RefreshAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAllAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAnnotationAction;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AsyncExecUtil;
 import org.eclipse.tigerstripe.annotation.ui.internal.view.AnnotationsTable;
+import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;

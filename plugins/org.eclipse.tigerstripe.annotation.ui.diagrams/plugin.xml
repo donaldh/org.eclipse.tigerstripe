@@ -27,17 +27,14 @@
    
 	<extension id="presentationPaletteProvider" name="Palette Provider" point="org.eclipse.gmf.runtime.diagram.ui.paletteProviders">
       <paletteProvider class="org.eclipse.gmf.runtime.diagram.ui.providers.DefaultPaletteProvider">
-         <Priority name="Lowest">
-         </Priority>
-         <editor class="org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor">
-         </editor>
+         <Priority name="Lowest"/>
+         <editor class="org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor"/>
          <contribution factoryClass="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.factories.DiagramPaletteFactory">
-            <entry label="Annotations" kind="drawer" description="Annotations" path="/standardGroup/" id="annotationStack">
-            </entry>
-            <entry label="Annotation" kind="tool" description="Create Annotation" path="/standardGroup/annotationStack/" large_icon="icons/annotation.gif" small_icon="icons/annotation.gif" id="annotationTool">
-            </entry>
-            <entry label="Connection" kind="tool" description="Create Connection" path="/standardGroup/annotationStack/" large_icon="icons/connection.gif" small_icon="icons/connection.gif" id="annotationConnectionTool">
-            </entry>
+            <entry label="Annotations" kind="drawer" description="Annotations" path="/standardGroup/" id="annotationStack"/>
+            <entry label="Annotation" kind="tool" description="Create Annotation" path="/standardGroup/annotationStack/"
+            	large_icon="icons/annotation.gif" small_icon="icons/annotation.gif" id="annotationTool"/>
+            <entry label="Connection" kind="tool" description="Create Connection" path="/standardGroup/annotationStack/"
+            	large_icon="icons/connection.gif" small_icon="icons/connection.gif" id="annotationConnectionTool"/>
          </contribution>
       </paletteProvider>
    </extension>

@@ -14,7 +14,7 @@ package org.eclipse.tigerstripe.annotation.ui.internal.diagrams;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.IDiagramListener;
 
 /**
@@ -23,13 +23,13 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.IDiagramListener;
  */
 public class AnnotationDiagramBuilder implements IDiagramListener {
 	
-	private Map<IDiagramWorkbenchPart, DiagramRebuldListener> map = 
-		new HashMap<IDiagramWorkbenchPart, DiagramRebuldListener>();
+	private Map<DiagramEditor, DiagramRebuldListener> map = 
+		new HashMap<DiagramEditor, DiagramRebuldListener>();
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.IDiagramListener#diagramClosed(org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart)
 	 */
-	public void diagramClosed(IDiagramWorkbenchPart editor) {
+	public void diagramClosed(DiagramEditor editor) {
 		DiagramRebuldListener listener = map.remove(editor);
 		if (listener != null)
 			listener.dispose();
@@ -38,7 +38,7 @@ public class AnnotationDiagramBuilder implements IDiagramListener {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.IDiagramListener#diagramOpened(org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart)
 	 */
-	public void diagramOpened(IDiagramWorkbenchPart editor) {
+	public void diagramOpened(DiagramEditor editor) {
 		map.put(editor, new DiagramRebuldListener(editor));
 		DiagramRebuildUtils.rebuld(editor);
 	}
