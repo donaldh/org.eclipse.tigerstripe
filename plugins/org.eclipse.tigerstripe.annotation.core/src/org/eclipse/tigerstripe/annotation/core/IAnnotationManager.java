@@ -130,7 +130,7 @@ public interface IAnnotationManager {
 	 */
 	public AnnotationType getType(Annotation annotation);
 	
-	public Annotation getAnnotationById(int id);
+	public Annotation getAnnotationById(String id);
 	
 	/**
 	 * Add refactoring listener

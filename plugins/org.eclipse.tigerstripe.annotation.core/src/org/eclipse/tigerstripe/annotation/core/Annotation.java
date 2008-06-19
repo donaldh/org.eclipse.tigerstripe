@@ -90,7 +90,7 @@ public interface Annotation extends EObject {
 	/**
 	 * @model annotation="org.eclipse.tigerstripe.annotation indexed='true'"
 	 */
-	int getId();
+	String getId();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.Annotation#getId <em>Id</em>}' attribute.
@@ -100,6 +100,6 @@ public interface Annotation extends EObject {
 	 * @see #getId()
 	 * @generated
 	 */
-	void setId(int value);
+	void setId(String value);
 
 } // Annotation

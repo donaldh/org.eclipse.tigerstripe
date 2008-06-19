@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface IIdentifyManager {
 	
-	public int getId(EObject object);
+	public String getId(EObject object);
 	
-	public void setId(EObject object, int id);
+	public void setId(EObject object, String id);
 
 }

@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationImpl.java,v 1.4 2008/06/19 10:45:57 ystrot Exp $
+ * $Id: AnnotationImpl.java,v 1.5 2008/06/19 11:23:40 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.impl;
 
@@ -86,7 +86,7 @@ public class AnnotationImpl extends EObjectImpl implements Annotation {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int ID_EDEFAULT = 0;
+	protected static final String ID_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
@@ -96,7 +96,7 @@ public class AnnotationImpl extends EObjectImpl implements Annotation {
 	 * @generated
 	 * @ordered
 	 */
-	protected int id = ID_EDEFAULT;
+	protected String id = ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -186,7 +186,7 @@ public class AnnotationImpl extends EObjectImpl implements Annotation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -195,8 +195,8 @@ public class AnnotationImpl extends EObjectImpl implements Annotation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setId(int newId) {
-		int oldId = id;
+	public void setId(String newId) {
+		String oldId = id;
 		id = newId;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, AnnotationPackage.ANNOTATION__ID, oldId, id));
@@ -229,7 +229,7 @@ public class AnnotationImpl extends EObjectImpl implements Annotation {
 			case AnnotationPackage.ANNOTATION__CONTENT:
 				return getContent();
 			case AnnotationPackage.ANNOTATION__ID:
-				return new Integer(getId());
+				return getId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -249,7 +249,7 @@ public class AnnotationImpl extends EObjectImpl implements Annotation {
 				setContent((EObject)newValue);
 				return;
 			case AnnotationPackage.ANNOTATION__ID:
-				setId(((Integer)newValue).intValue());
+				setId((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -289,7 +289,7 @@ public class AnnotationImpl extends EObjectImpl implements Annotation {
 			case AnnotationPackage.ANNOTATION__CONTENT:
 				return content != null;
 			case AnnotationPackage.ANNOTATION__ID:
-				return id != ID_EDEFAULT;
+				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -319,7 +319,11 @@ public class AnnotationImpl extends EObjectImpl implements Annotation {
 	public boolean equals(Object obj) {
 		if (obj instanceof Annotation) {
 			Annotation ann = (Annotation)obj;
-			return ann.getId() == getId();
+			if (ann == null)
+				return false;
+			if (ann.getId() == null)
+				return getId() == null;
+			return ann.getId().equals(getId());
 		}
 		return false;
 	}

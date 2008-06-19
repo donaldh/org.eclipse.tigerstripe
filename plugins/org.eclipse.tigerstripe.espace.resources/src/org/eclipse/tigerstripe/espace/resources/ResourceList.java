@@ -19,21 +19,6 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  */
 public interface ResourceList extends EObject {
-	
-	/**
-	 * @model default="1"
-	 */
-	public int getCurrentId();
-	
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.espace.resources.ResourceList#getCurrentId <em>Current Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Current Id</em>' attribute.
-	 * @see #getCurrentId()
-	 * @generated
-	 */
-	void setCurrentId(int value);
 
 	/**
 	 * @model containment="true"

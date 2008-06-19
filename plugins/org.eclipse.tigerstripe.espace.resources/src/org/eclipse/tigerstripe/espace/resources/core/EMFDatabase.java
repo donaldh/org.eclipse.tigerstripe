@@ -267,45 +267,37 @@ public class EMFDatabase implements IEMFDatabase {
 	}
 	
 	protected void createID(EObject object) {
-		int id = getResourceStorage().getResourceList().getCurrentId();
 		List<Resource> resources = new ArrayList<Resource>();
 		while(object.eContainer() != null)
 			object = object.eContainer();
-		idManager.setId(object, ++id);
+		idManager.setId(object, EcoreUtil.generateUUID());
 		if (object.eResource() != null)
 			resources.add(object.eResource());
-		saveAfterIdChanges(id, resources);
+		saveAfterIdChanges(resources);
 	}
 	
 	protected void updateIDs(EObject[] objects) {
 		List<Resource> resources = new ArrayList<Resource>();
-		int id = getResourceStorage().getResourceList().getCurrentId();
 		for (int i = 0; i < objects.length; i++) {
 			EObject cur = objects[i];
 			while(cur.eContainer() != null)
 				cur = cur.eContainer();
-			int oldId = idManager.getId(cur);
-			if (oldId <= 0) {
-				idManager.setId(cur, ++id);
+			String oldId = idManager.getId(cur);
+			if (oldId == null) {
+				idManager.setId(cur, EcoreUtil.generateUUID());
 				Resource res = cur.eResource();
 				if (res != null && !resources.contains(res))
 					resources.add(res);
 			}
 		}
-		saveAfterIdChanges(id, resources);
+		saveAfterIdChanges(resources);
 	}
 	
-	protected void saveAfterIdChanges(int id, List<Resource> resources) {
+	protected void saveAfterIdChanges(List<Resource> resources) {
 		if (resources.size() > 0) {
 			for (Resource resource : resources) {
 				ResourceHelper.save(resource);
 			}
-		}
-		if (id != getResourceStorage().getResourceList().getCurrentId()) {
-			getResourceStorage().getResourceList().setCurrentId(id);
-			Resource resource = getResourceStorage().getResourceList().eResource();
-			if (resource != null)
-				ResourceHelper.save(resource);
 		}
 	}
 	

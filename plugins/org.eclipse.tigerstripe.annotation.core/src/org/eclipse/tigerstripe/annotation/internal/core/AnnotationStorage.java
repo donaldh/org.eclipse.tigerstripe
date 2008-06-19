@@ -60,17 +60,17 @@ public class AnnotationStorage implements IIdentifyManager {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#getId(org.eclipse.emf.ecore.EObject)
 	 */
-	public int getId(EObject object) {
+	public String getId(EObject object) {
 		if (object instanceof Annotation) {
 			return ((Annotation)object).getId();
 		}
-		return -1;
+		return null;
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#setId(org.eclipse.emf.ecore.EObject, int)
 	 */
-	public void setId(EObject object, int id) {
+	public void setId(EObject object, String id) {
 		if (object instanceof Annotation) {
 			((Annotation)object).setId(id);
 		}
@@ -101,7 +101,7 @@ public class AnnotationStorage implements IIdentifyManager {
 		return list;
 	}
 	
-	public Annotation getAnnotationById(int id) {
+	public Annotation getAnnotationById(String id) {
 		EObject[] objects = database.get(AnnotationPackage.eINSTANCE.getAnnotation_Id(), id);
 		List<Annotation> list = new ArrayList<Annotation>();
 		for (int i = 0; i < objects.length; i++) {

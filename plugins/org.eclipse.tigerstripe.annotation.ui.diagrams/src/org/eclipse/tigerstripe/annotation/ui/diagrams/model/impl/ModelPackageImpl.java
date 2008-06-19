@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackageImpl.java,v 1.1 2008/06/19 10:46:01 ystrot Exp $
+ * $Id: ModelPackageImpl.java,v 1.2 2008/06/19 11:23:41 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl;
 
@@ -208,7 +208,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(annotationNodeEClass, AnnotationNode.class, "AnnotationNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getAnnotationNode_AnnotationId(), ecorePackage.getEInt(), "annotationId", null, 0, 1, AnnotationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnnotationNode_AnnotationId(), ecorePackage.getEString(), "annotationId", null, 0, 1, AnnotationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(annotationEDataType, Annotation.class, "Annotation", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

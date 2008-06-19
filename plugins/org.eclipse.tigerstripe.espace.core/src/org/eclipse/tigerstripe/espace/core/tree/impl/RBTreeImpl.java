@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RBTreeImpl.java,v 1.4 2008/06/09 07:15:24 ystrot Exp $
+ * $Id: RBTreeImpl.java,v 1.5 2008/06/19 11:23:37 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.core.tree.impl;
 
@@ -517,7 +517,7 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
 	
 	@SuppressWarnings("unchecked")
     private int compare(Object key1, Object key2) {
-		if (key1 instanceof Comparable) {
+		if (key1 instanceof Comparable && key2 != null) {
 			return ((Comparable)key1).compareTo(key2);
 		}
 		String s1 = key1 == null ? "" : key1.toString();

@@ -23,7 +23,7 @@ public interface AnnotationNode extends Node {
 	/**
 	 * @model
 	 */
-	public int getAnnotationId();
+	public String getAnnotationId();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode#getAnnotationId <em>Annotation Id</em>}' attribute.
@@ -33,7 +33,7 @@ public interface AnnotationNode extends Node {
 	 * @see #getAnnotationId()
 	 * @generated
 	 */
-	void setAnnotationId(int value);
+	void setAnnotationId(String value);
 	
 	/**
 	 * @return annotation
