@@ -148,7 +148,7 @@ public class ProfileAnnotations2UML2 {
 		Map<String, org.eclipse.uml2.uml.Class> scopeLookup = new HashMap<String, org.eclipse.uml2.uml.Class>();
 
 		scopeLookup.put(IManagedEntityArtifact.class.getName(), classMetaclass);
-		scopeLookup.put(IDatatypeArtifact.class.getName(), classMetaclass);
+		scopeLookup.put(IDatatypeArtifact.class.getName(), datatypeMetaclass);
 		scopeLookup.put(IQueryArtifact.class.getName(), classMetaclass);
 		scopeLookup.put(IUpdateProcedureArtifact.class.getName(),
 				classMetaclass);
@@ -229,16 +229,20 @@ public class ProfileAnnotations2UML2 {
 
 			if (scopeDetails.isMethodLevel()) {
 				stereotype.createExtension(operationMetaclass, false);
+				out.println("     Added scope : Method");
 			}
 			if (scopeDetails.isLiteralLevel()) {
 				stereotype.createExtension(enumLiteralMetaclass, false);
+				out.println("     Added scope : Literal");
 			}
 			if (scopeDetails.isAttributeLevel()) {
 				stereotype.createExtension(propertyMetaclass, false);
+				out.println("     Added scope : Property");
 			}
 
 			if (scopeDetails.isArgumentLevel()) {
 				stereotype.createExtension(argumentMetaclass, false);
+				out.println("     Added scope : Argument");
 			}
 
 			String[] artifactScopes = scopeDetails.getArtifactLevelTypes();
@@ -261,9 +265,6 @@ public class ProfileAnnotations2UML2 {
 					out.println("artifactScope not set " + artifactScopes[ii]);
 				}
 			}
-
-			// Not yet implemented
-			scopeDetails.isArgumentLevel();
 
 			stereotypeMap.put(stereo.getName(), stereotype);
 		}

@@ -743,35 +743,45 @@ public class TS2UML {
 				int upperBound = Utilities.getUpperBound(field.getType()
 						.getTypeMultiplicity());
 				this.out.println("Bounds " + lowerBound + " " + upperBound);
+				if (lowerBound == 0 && upperBound == 0){
+					// This is bad
+					String msgText = "Illegal multiplicity :" + artifact.getName()
+					+ ":" + field.getName() + ":"
+					+ lowerBound + "-" + upperBound;
+					this.out.println("ERROR : " + msgText);
+					addMessage(msgText, 1);
+					continue;
+				} else {
 				if (classifier instanceof Class){
-				attribute = ((Class) classifier).createOwnedAttribute(field.getName(),
-						type, lowerBound, upperBound);
+					attribute = ((Class) classifier).createOwnedAttribute(field.getName(),
+							type, lowerBound, upperBound);
 				} else if (classifier instanceof DataType){
 					attribute = ((DataType) classifier).createOwnedAttribute(field.getName(),
 							type, lowerBound, upperBound);
 				}
 				if ( attribute != null){
-				attribute.setIsOrdered(field.isOrdered());
-				attribute.setIsUnique(field.isUnique());
-				if (field.getDefaultValue() != null) {
-					attribute.setDefault(field.getDefaultValue());
-				}
-				switch (field.getVisibility()) {
-				case PACKAGE:
-					attribute.setVisibility(VisibilityKind.PACKAGE_LITERAL);
-					break;
-				case PRIVATE:
-					attribute.setVisibility(VisibilityKind.PRIVATE_LITERAL);
-					break;
-				case PROTECTED:
-					attribute.setVisibility(VisibilityKind.PROTECTED_LITERAL);
-					break;
-				case PUBLIC:
-					attribute.setVisibility(VisibilityKind.PUBLIC_LITERAL);
-					break;
-				}
+					attribute.setIsOrdered(field.isOrdered());
+					attribute.setIsUnique(field.isUnique());
+					if (field.getDefaultValue() != null) {
+						attribute.setDefault(field.getDefaultValue());
+					}
+					switch (field.getVisibility()) {
+					case PACKAGE:
+						attribute.setVisibility(VisibilityKind.PACKAGE_LITERAL);
+						break;
+					case PRIVATE:
+						attribute.setVisibility(VisibilityKind.PRIVATE_LITERAL);
+						break;
+					case PROTECTED:
+						attribute.setVisibility(VisibilityKind.PROTECTED_LITERAL);
+						break;
+					case PUBLIC:
+						attribute.setVisibility(VisibilityKind.PUBLIC_LITERAL);
+						break;
+					}
 
-				out.println("     Added attribute : " + field.getName());
+					out.println("     Added attribute : " + field.getName());
+				}
 				}
 			} else {
 				// No type for this.
@@ -808,14 +818,18 @@ public class TS2UML {
 									Arrays.asList(inst
 											.getAttributeValues(stAttr
 													.getName())));
-							out
-									.println("     Added Stereotype Array attribute : "
+							out.println("     Added Stereotype Array attribute : "
 											+ stAttr.getName());
 						} else {
-							attribute.setValue(stereotype, stAttr.getName(),
-									inst.getAttributeValue(stAttr.getName()));
-							out.println("     Added Stereotype attribute : "
-									+ stAttr.getName());
+							String val = inst.getAttributeValue(stAttr.getName());
+							if (val.length() != 0){
+								attribute.setValue(stereotype, stAttr.getName(),
+										inst.getAttributeValue(stAttr.getName()));
+								out.println("     Added Stereotype attribute : "
+										+ stAttr.getName());
+							} else {
+								out.println("     Added Stereotype attribute : had no value");
+							}
 						}
 					} catch (TigerstripeException t) {
 						// / oops
