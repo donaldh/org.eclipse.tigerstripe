@@ -33,7 +33,6 @@ import org.eclipse.gmf.runtime.diagram.core.util.ViewType;
 import org.eclipse.gmf.runtime.diagram.ui.commands.CreateCommand;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
-import org.eclipse.gmf.runtime.diagram.ui.internal.editparts.DescriptionCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.internal.properties.Properties;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest;
@@ -41,6 +40,7 @@ import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest.ConnectionViewDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest.ViewDescriptor;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
+import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -49,7 +49,6 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationConnectionEditPart;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationEditPart;
 import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
-import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 /**
  * @author Yuri Strot
@@ -65,6 +64,8 @@ public class DiagramRebuildUtils {
 		
 		for (EObject object : elements.keySet()) {
 			EditPart part = elements.get(object);
+			if (part instanceof AnnotationEditPart)
+				continue;
 			updateAnnotations(editor, part);
 		}
 		editor.doSave(new NullProgressMonitor());
@@ -158,32 +159,13 @@ public class DiagramRebuildUtils {
 	}
 	
 	protected static Annotation getEqualsAnnotation(List<Annotation> annotations, AnnotationEditPart part) {
-		if (part != null) {
-			for (Annotation annotation : annotations) {
-				String text1 = getDescription(part);
-				String text2 = DisplayAnnotationUtil.getText(annotation);
-				if (text1 == null) {
-					if (text2 == null)
-						return annotation;
-				}
-				else {
-					if (text2 != null && text1.equals(text2))
-						return annotation;
-				}
-			}
+		Annotation ann = part.getAnnotation();
+		if (ann == null) return null;
+		for (Annotation annotation : annotations) {
+			if (annotation.getId() == ann.getId())
+				return annotation;
 		}
 		return null;
-	}
-	
-	protected static String getDescription(AnnotationEditPart part) {
-		List<?> children = part.getChildren();
-		for (Object object : children) {
-			if (object instanceof DescriptionCompartmentEditPart) {
-				DescriptionCompartmentEditPart description = (DescriptionCompartmentEditPart)object;
-				return description.getLabel().getText();
-			}
-		}
-		return "";
 	}
 	
 	protected static void updateAnnotations(DiagramEditor editor, EditPart part) {
@@ -191,19 +173,19 @@ public class DiagramRebuildUtils {
 		if (container != null) {
 			Annotation[] annotations = getAnnotations(part);
 			for (Annotation annotation : annotations) {
-				EditPart annotationPart = createAnnotation(container);
+				EditPart annotationPart = createAnnotation(container, annotation);
 				if (annotationPart != null) {
-					setText(annotationPart, DisplayAnnotationUtil.getText(annotation));
+					//setText(annotationPart, DisplayAnnotationUtil.getText(annotation));
 					createConnection(editor, annotationPart, part);
 				}
 			}
 		}
 	}
 	
-	protected static EditPart createAnnotation(EditPart part) {
-		IAnnotationType type = DiagramAnnotationType.ANNOTATION;
+	protected static EditPart createAnnotation(EditPart part, Annotation annotation) {
+		IHintedType type = DiagramAnnotationType.ANN;
 		String hint = type.getSemanticHint();
-		ViewDescriptor viewDescriptor = new ViewDescriptor(null,
+		ViewDescriptor viewDescriptor = new ViewDescriptor(new EObjectAdapter(annotation),
 			Node.class, hint, PreferencesHint.USE_DEFAULTS);
 		CreateCommand command = new CreateCommand(((IGraphicalEditPart)part).getEditingDomain(),
 				viewDescriptor, (View)part.getModel());

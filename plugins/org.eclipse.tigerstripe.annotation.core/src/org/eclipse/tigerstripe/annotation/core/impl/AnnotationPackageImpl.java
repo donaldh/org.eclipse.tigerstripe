@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationPackageImpl.java,v 1.3 2008/05/27 09:41:10 ystrot Exp $
+ * $Id: AnnotationPackageImpl.java,v 1.4 2008/06/19 10:45:58 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.impl;
 
@@ -152,6 +152,15 @@ public class AnnotationPackageImpl extends EPackageImpl implements AnnotationPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getAnnotation_Id() {
+		return (EAttribute)annotationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getURI() {
 		return uriEDataType;
 	}
@@ -187,6 +196,7 @@ public class AnnotationPackageImpl extends EPackageImpl implements AnnotationPac
 		annotationEClass = createEClass(ANNOTATION);
 		createEAttribute(annotationEClass, ANNOTATION__URI);
 		createEReference(annotationEClass, ANNOTATION__CONTENT);
+		createEAttribute(annotationEClass, ANNOTATION__ID);
 
 		// Create data types
 		uriEDataType = createEDataType(URI);
@@ -228,6 +238,7 @@ public class AnnotationPackageImpl extends EPackageImpl implements AnnotationPac
 		initEClass(annotationEClass, Annotation.class, "Annotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAnnotation_Uri(), this.getURI(), "uri", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAnnotation_Content(), theEcorePackage.getEObject(), null, "content", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAnnotation_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Annotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(uriEDataType, org.eclipse.emf.common.util.URI.class, "URI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
@@ -255,6 +266,12 @@ public class AnnotationPackageImpl extends EPackageImpl implements AnnotationPac
              "indexed", "true",
              "id", "true"
            });
+		addAnnotation
+		  (getAnnotation_Id(), 
+		   source, 
+		   new String[] {
+			 "indexed", "true"
+		   });
     }
 
 } //AnnotationPackageImpl

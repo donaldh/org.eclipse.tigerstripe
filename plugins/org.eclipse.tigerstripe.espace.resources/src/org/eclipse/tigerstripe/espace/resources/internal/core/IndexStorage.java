@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.espace.resources.internal.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -129,8 +130,12 @@ public class IndexStorage {
 		return res;
 	}
 	
+	public Collection<Resource> getResources() {
+		return map.values();
+	}
+	
 	public void saveAll() {
-		for (Resource resource : map.values()) {
+		for (Resource resource : getResources()) {
 	    	try {
 	            resource.save(null);
 	        }

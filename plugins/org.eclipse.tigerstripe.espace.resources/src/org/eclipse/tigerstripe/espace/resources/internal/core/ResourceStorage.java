@@ -76,7 +76,7 @@ public class ResourceStorage {
 		ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
 	}
 	
-	protected ResourceList getResourceList() {
+	public ResourceList getResourceList() {
 		if (resourceList == null) {
 			IPath path = ResourcesPlugin.getDefault().getStateLocation();
 			resourcesStorage = new DefaultObjectRouter(new File(path.toFile(), RESOURCES_STORAGE));

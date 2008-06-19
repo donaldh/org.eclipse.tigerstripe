@@ -4,6 +4,7 @@
 package org.eclipse.tigerstripe.annotation.ui.diagrams;
 
 import org.eclipse.gmf.runtime.emf.type.core.AbstractElementTypeEnumerator;
+import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
 
 /**
  * Element types and semantic hints for annotation elements.
@@ -16,6 +17,11 @@ public class DiagramAnnotationType
 	/**
 	 * the annotation semantic hint
 	 */
+	public static String ANN_TYPE = "ann"; //$NON-NLS-1$
+	
+	/**
+	 * the annotation semantic hint
+	 */
 	public static String ANNOTATION_TYPE = "Annotation"; //$NON-NLS-1$
 	/**
 	 * the connection semantic hint
@@ -23,9 +29,13 @@ public class DiagramAnnotationType
 	public static String CONNECTION_TYPE = "AnnotationConnection"; //$NON-NLS-1$
 	
 	public static final IAnnotationType ANNOTATION =
-		(IAnnotationType) getElementType("org.eclipse.tigerstripe.annotation.ui.diagram.presentation.annotation"); //$NON-NLS-1$
+		(IAnnotationType) getElementType("org.eclipse.tigerstripe.annotation.ui.diagram.presentation.annotation");
 
 	public static final IAnnotationType CONNECTION =
-		(IAnnotationType) getElementType("org.eclipse.tigerstripe.annotation.ui.diagram.presentation.connection"); //$NON-NLS-1$
+		(IAnnotationType) getElementType("org.eclipse.tigerstripe.annotation.ui.diagram.presentation.connection");
+	
+	public static final IHintedType ANN =
+		(IHintedType) getElementType("org.eclipse.tigerstripe.annotation.ui.diagram.presentation.ann");
+	
 
 }

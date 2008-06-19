@@ -28,20 +28,21 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.espace.resources.core.EMFDatabase;
+import org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager;
 
 /**
  * This class provide mechanism for loading, saving and caching <code>Annotation</code> objects.
  * 
  * @author Yuri Strot
  */
-public class AnnotationStorage {
+public class AnnotationStorage implements IIdentifyManager {
 	
 	protected Map<URI, List<Annotation>> annotations; 
 	
 	protected static Annotation[] EMPTY_ARRAY = new Annotation[0];
 	
 	protected ListenerList listeners = new ListenerList();
-	protected EMFDatabase database = new EMFDatabase();
+	protected EMFDatabase database = new EMFDatabase(this);
 	
 	protected Map<Annotation, ChangeRecorder> changes =
 		new HashMap<Annotation, ChangeRecorder>();
@@ -54,6 +55,25 @@ public class AnnotationStorage {
 		trackChanges(annotation);
 		database.write(annotation);
 		fireAnnotationAdded(annotation);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#getId(org.eclipse.emf.ecore.EObject)
+	 */
+	public int getId(EObject object) {
+		if (object instanceof Annotation) {
+			return ((Annotation)object).getId();
+		}
+		return -1;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#setId(org.eclipse.emf.ecore.EObject, int)
+	 */
+	public void setId(EObject object, int id) {
+		if (object instanceof Annotation) {
+			((Annotation)object).setId(id);
+		}
 	}
 	
 	protected void trackChanges(Annotation annotation) {
@@ -79,6 +99,21 @@ public class AnnotationStorage {
 	public List<Annotation> getAnnotations(URI uri) {
 		List<Annotation> list = doGetAnnotations(uri);
 		return list;
+	}
+	
+	public Annotation getAnnotationById(int id) {
+		EObject[] objects = database.get(AnnotationPackage.eINSTANCE.getAnnotation_Id(), id);
+		List<Annotation> list = new ArrayList<Annotation>();
+		for (int i = 0; i < objects.length; i++) {
+			if (objects[i] instanceof Annotation) {
+				Annotation annotation = (Annotation)objects[i];
+				list.add(annotation);
+				trackChanges(annotation);
+				fireAnnotationLoaded(list.toArray(new Annotation[list.size()]));
+				return annotation;
+			}
+		}
+		return null;
 	}
 	
 	protected List<Annotation> doGetAnnotations(URI uri) {

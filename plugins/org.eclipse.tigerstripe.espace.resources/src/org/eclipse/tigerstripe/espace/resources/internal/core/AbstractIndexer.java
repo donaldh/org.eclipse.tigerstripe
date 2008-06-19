@@ -123,6 +123,13 @@ public abstract class AbstractIndexer implements IIndexer {
         }
 	}
 	
+	/**
+	 * @return the storage
+	 */
+	public IndexStorage getStorage() {
+		return storage;
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#save()
 	 */

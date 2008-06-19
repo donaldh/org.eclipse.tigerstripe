@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationPackage.java,v 1.4 2008/05/27 09:41:10 ystrot Exp $
+ * $Id: AnnotationPackage.java,v 1.5 2008/06/19 10:45:58 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core;
 
@@ -100,13 +100,22 @@ public interface AnnotationPackage extends EPackage {
 	int ANNOTATION__CONTENT = 1;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANNOTATION__ID = 2;
+
+	/**
 	 * The number of structural features of the '<em>Annotation</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANNOTATION_FEATURE_COUNT = 2;
+	int ANNOTATION_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '<em>URI</em>' data type.
@@ -150,6 +159,17 @@ public interface AnnotationPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getAnnotation_Content();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.annotation.Annotation#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.Annotation#getId()
+	 * @see #getAnnotation()
+	 * @generated
+	 */
+	EAttribute getAnnotation_Id();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.common.util.URI <em>URI</em>}'.
@@ -209,6 +229,14 @@ public interface AnnotationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ANNOTATION__CONTENT = eINSTANCE.getAnnotation_Content();
+
+		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ANNOTATION__ID = eINSTANCE.getAnnotation_Id();
 
 		/**
 		 * The meta object literal for the '<em>URI</em>' data type.

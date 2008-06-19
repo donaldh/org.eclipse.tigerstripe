@@ -9,35 +9,35 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.espace.resources;
+package org.eclipse.tigerstripe.annotation.ui.diagrams.model;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmf.runtime.notation.Node;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 
 /**
  * @author Yuri Strot
  * @model
  */
-public interface ResourceList extends EObject {
+public interface AnnotationNode extends Node {
 	
 	/**
-	 * @model default="1"
+	 * @model
 	 */
-	public int getCurrentId();
-	
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.espace.resources.ResourceList#getCurrentId <em>Current Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Current Id</em>' attribute.
-	 * @see #getCurrentId()
-	 * @generated
-	 */
-	void setCurrentId(int value);
+	public int getAnnotationId();
 
 	/**
-	 * @model containment="true"
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode#getAnnotationId <em>Annotation Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Annotation Id</em>' attribute.
+	 * @see #getAnnotationId()
+	 * @generated
 	 */
-	EList<ResourceLocation> getLocations();
+	void setAnnotationId(int value);
+	
+	/**
+	 * @return annotation
+	 */
+	public Annotation getAnnotation();
 
 }

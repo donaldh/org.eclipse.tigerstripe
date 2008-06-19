@@ -9,35 +9,18 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.espace.resources;
+package org.eclipse.tigerstripe.espace.resources.core;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
  * @author Yuri Strot
- * @model
+ *
  */
-public interface ResourceList extends EObject {
+public interface IIdentifyManager {
 	
-	/**
-	 * @model default="1"
-	 */
-	public int getCurrentId();
+	public int getId(EObject object);
 	
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.espace.resources.ResourceList#getCurrentId <em>Current Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Current Id</em>' attribute.
-	 * @see #getCurrentId()
-	 * @generated
-	 */
-	void setCurrentId(int value);
-
-	/**
-	 * @model containment="true"
-	 */
-	EList<ResourceLocation> getLocations();
+	public void setId(EObject object, int id);
 
 }

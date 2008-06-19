@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link org.eclipse.tigerstripe.annotation.Annotation#getUri <em>Uri</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.annotation.Annotation#getContent <em>Content</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.annotation.Annotation#getId <em>Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -45,7 +46,7 @@ public interface Annotation extends EObject {
 	 * @see #setUri(URI)
 	 * @see org.eclipse.tigerstripe.annotation.AnnotationPackage#getAnnotation_Uri()
 	 * @model dataType="org.eclipse.tigerstripe.annotation.URI"
-	 *        annotation="org.eclipse.tigerstripe.annotation indexed='true'"
+	 *        annotation="org.eclipse.tigerstripe.annotation indexed='true' id='true'"
 	 * @generated
 	 */
 	URI getUri();
@@ -85,5 +86,20 @@ public interface Annotation extends EObject {
 	 * @generated
 	 */
 	void setContent(EObject value);
+	
+	/**
+	 * @model annotation="org.eclipse.tigerstripe.annotation indexed='true'"
+	 */
+	int getId();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.Annotation#getId <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Id</em>' attribute.
+	 * @see #getId()
+	 * @generated
+	 */
+	void setId(int value);
 
 } // Annotation

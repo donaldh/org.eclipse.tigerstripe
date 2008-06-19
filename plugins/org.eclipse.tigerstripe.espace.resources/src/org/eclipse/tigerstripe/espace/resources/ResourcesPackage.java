@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesPackage.java,v 1.5 2008/06/09 10:42:24 ystrot Exp $
+ * $Id: ResourcesPackage.java,v 1.6 2008/06/19 10:46:03 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources;
 
@@ -119,13 +119,22 @@ public interface ResourcesPackage extends EPackage {
 	int RESOURCE_LIST__LOCATIONS = 0;
 
 	/**
+	 * The feature id for the '<em><b>Current Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_LIST__CURRENT_ID = 1;
+
+	/**
 	 * The number of structural features of the '<em>Resource List</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_LIST_FEATURE_COUNT = 1;
+	int RESOURCE_LIST_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl <em>Resource Location</em>}' class.
@@ -216,6 +225,17 @@ public interface ResourcesPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getResourceList_Locations();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.espace.resources.ResourceList#getCurrentId <em>Current Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Current Id</em>'.
+	 * @see org.eclipse.tigerstripe.espace.resources.ResourceList#getCurrentId()
+	 * @see #getResourceList()
+	 * @generated
+	 */
+	EAttribute getResourceList_CurrentId();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.espace.resources.ResourceLocation <em>Resource Location</em>}'.
@@ -317,6 +337,14 @@ public interface ResourcesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference RESOURCE_LIST__LOCATIONS = eINSTANCE.getResourceList_Locations();
+
+		/**
+		 * The meta object literal for the '<em><b>Current Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RESOURCE_LIST__CURRENT_ID = eINSTANCE.getResourceList_CurrentId();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl <em>Resource Location</em>}' class.

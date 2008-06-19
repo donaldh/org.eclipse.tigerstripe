@@ -20,6 +20,7 @@ public class AnnotationViewProvider extends AbstractViewProvider {
 	/** list of supported shape views. */
     static private final Map<String, Class<?>> map = new HashMap<String, Class<?>>();
 	static {
+		map.put(DiagramAnnotationType.ANN_TYPE, AnnotationViewFactory.class);
 		map.put(DiagramAnnotationType.ANNOTATION_TYPE, AnnotationViewFactory.class);
 		map.put(DiagramAnnotationType.CONNECTION_TYPE, ConnectionViewFactory.class);
 	}

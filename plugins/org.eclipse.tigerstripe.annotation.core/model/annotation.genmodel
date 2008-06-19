@@ -11,6 +11,7 @@
     <genClasses ecoreClass="annotation.ecore#//Annotation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute annotation.ecore#//Annotation/uri"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference annotation.ecore#//Annotation/content"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute annotation.ecore#//Annotation/id"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

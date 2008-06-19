@@ -70,9 +70,11 @@ public class EMFDatabase implements IEMFDatabase {
 	private int ignoreChanges;
 	
 	private ResourceStorage resourceStorage;
+	private IIdentifyManager idManager;
 	
-	public EMFDatabase() {
+	public EMFDatabase(IIdentifyManager idManager) {
 		addResourceDeltaListener();
+		this.idManager = idManager;
 	}
 	
 	protected ResourceSet getResourceSet() {
@@ -168,6 +170,7 @@ public class EMFDatabase implements IEMFDatabase {
 		lockChanges();
 		try {
 			update();
+			createID(object);
 			doWrite(object);
 		}
 		finally {
@@ -263,7 +266,51 @@ public class EMFDatabase implements IEMFDatabase {
 		return this.routers;
 	}
 	
+	protected void createID(EObject object) {
+		int id = getResourceStorage().getResourceList().getCurrentId();
+		List<Resource> resources = new ArrayList<Resource>();
+		while(object.eContainer() != null)
+			object = object.eContainer();
+		idManager.setId(object, ++id);
+		if (object.eResource() != null)
+			resources.add(object.eResource());
+		saveAfterIdChanges(id, resources);
+	}
+	
+	protected void updateIDs(EObject[] objects) {
+		List<Resource> resources = new ArrayList<Resource>();
+		int id = getResourceStorage().getResourceList().getCurrentId();
+		for (int i = 0; i < objects.length; i++) {
+			EObject cur = objects[i];
+			while(cur.eContainer() != null)
+				cur = cur.eContainer();
+			int oldId = idManager.getId(cur);
+			if (oldId <= 0) {
+				idManager.setId(cur, ++id);
+				Resource res = cur.eResource();
+				if (res != null && !resources.contains(res))
+					resources.add(res);
+			}
+		}
+		saveAfterIdChanges(id, resources);
+	}
+	
+	protected void saveAfterIdChanges(int id, List<Resource> resources) {
+		if (resources.size() > 0) {
+			for (Resource resource : resources) {
+				ResourceHelper.save(resource);
+			}
+		}
+		if (id != getResourceStorage().getResourceList().getCurrentId()) {
+			getResourceStorage().getResourceList().setCurrentId(id);
+			Resource resource = getResourceStorage().getResourceList().eResource();
+			if (resource != null)
+				ResourceHelper.save(resource);
+		}
+	}
+	
 	protected EObject[] copy(EObject[] objects) {
+		updateIDs(objects);
 		return copy(Arrays.asList(objects));
 	}
 	

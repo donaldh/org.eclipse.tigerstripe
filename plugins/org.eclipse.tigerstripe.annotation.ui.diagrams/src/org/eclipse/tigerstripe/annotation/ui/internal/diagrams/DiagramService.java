@@ -16,6 +16,7 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.IDiagramListener;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.IDiagramService;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -34,10 +35,32 @@ public class DiagramService implements IDiagramService, IPartListener {
 	
 	protected void initialize() {
 		addDaigramListener(new AnnotationDiagramBuilder());
-		IWorkbenchWindow window = PlatformUI.getWorkbench(
-			).getActiveWorkbenchWindow();
-		if (window != null)
-			window.getPartService().addPartListener(this);
+		IWorkbenchWindow[] windows = PlatformUI.getWorkbench(
+			).getWorkbenchWindows();
+		if (windows == null || windows.length == 0) {
+			PlatformUI.getWorkbench().addWindowListener(new IWindowListener() {
+				
+				public void windowOpened(IWorkbenchWindow window) {
+					window.getPartService().addPartListener(DiagramService.this);
+				}
+			
+				public void windowDeactivated(IWorkbenchWindow window) {
+				}
+			
+				public void windowClosed(IWorkbenchWindow window) {
+					window.getPartService().removePartListener(DiagramService.this);
+				}
+			
+				public void windowActivated(IWorkbenchWindow window) {
+				}
+			
+			});
+		}
+		else {
+			for (int i = 0; i < windows.length; i++) {
+				windows[i].getPartService().addPartListener(this);
+			}
+		}
 	}
 	
 	protected void fireDaigramOpened(DiagramEditor editor) {

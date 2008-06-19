@@ -6,7 +6,9 @@ package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
@@ -17,14 +19,12 @@ import org.eclipse.emf.transaction.ResourceSetChangeEvent;
 import org.eclipse.emf.transaction.ResourceSetListenerImpl;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
-import org.eclipse.gmf.runtime.common.ui.services.parser.CommonParserHint;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.OpenDiagramEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.ViewComponentEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.internal.editpolicies.DiagramLinkDragDropEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.internal.editpolicies.NonSemanticEditPolicy;
-import org.eclipse.gmf.runtime.diagram.ui.internal.properties.Properties;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
 import org.eclipse.gmf.runtime.draw2d.ui.mapmode.IMapMode;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
@@ -32,6 +32,12 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationAdapter;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
+import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 /**
  * @author Yuri Strot
@@ -43,6 +49,8 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
     private ResourceListener listener = null;
     
     private boolean diagramLinkMode = false;
+    
+    private IAnnotationListener annotationListener; 
 
 	/**
 	 * constructor
@@ -50,6 +58,40 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 	 */
 	public AnnotationEditPart(View view) {
 		super(view);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#activate()
+	 */
+	@Override
+	public void activate() {
+		annotationListener = new AnnotationAdapter() {
+		
+			@Override
+			public void annotationsChanged(Annotation[] annotations) {
+				Annotation ann = getAnnotation();
+				if (ann != null) {
+					for (Annotation annotation : annotations) {
+						if (ann.equals(annotation)) {
+							refreshVisuals();
+						}
+					}
+				}
+			}
+		
+		};
+		AnnotationPlugin.getManager().addAnnotationListener(annotationListener);
+		super.activate();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#deactivate()
+	 */
+	@Override
+	public void deactivate() {
+		super.deactivate();
+		if (annotationListener != null)
+			AnnotationPlugin.getManager().removeAnnotationListener(annotationListener);
 	}
 
 	/**
@@ -59,18 +101,33 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 		IMapMode mm = getMapMode();
 		Insets insets = new Insets(mm.DPtoLP(5), mm.DPtoLP(5), mm.DPtoLP(5), mm.DPtoLP(14));
 		AnnotationFigure noteFigure = new AnnotationFigure(mm.DPtoLP(100), mm.DPtoLP(56), insets);
-		Object model = getModel();
-		if (model!=null && model instanceof View){
-			View notationView = (View)model;
-			if ( notationView!=null && 
-				 (notationView.getEAnnotation(Properties.DIAGRAMLINK_ANNOTATION)!=null ||
-				  notationView.getType() == null ||
-				  notationView.getType().length() == 0)){
-                diagramLinkMode = true;
-				noteFigure.setDiagramLinkMode(true);
-            }
-		}
+		Label label = new Label();
+		noteFigure.add(label);
 		return noteFigure;
+	}
+	
+	public Annotation getAnnotation() {
+		AnnotationNode node = (AnnotationNode)getModel();
+		return node.getAnnotation();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeEditPart#refreshVisuals()
+	 */
+	@Override
+	protected void refreshVisuals() {
+		super.refreshVisuals();
+		if (getFigure() != null) {
+			List<?> children = getFigure().getChildren();
+			if (children != null && children.size() > 0) {
+				Label label = (Label)children.get(children.size() - 1);
+				Annotation annotation = getAnnotation();
+				if (annotation != null)
+					label.setText(DisplayAnnotationUtil.getText(annotation));
+				else
+					label.setText("");
+			}
+		}
 	}
 
 	/** Adds support for diagram links. */
@@ -104,7 +161,7 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 	 * @return the primary child view inside this edit part
 	 */
 	public EditPart getPrimaryChildEditPart(){
-		return getChildBySemanticHint(CommonParserHint.DESCRIPTION);
+		return null;//getChildBySemanticHint(CommonParserHint.DESCRIPTION);
 	}
     
     public Object getPreferredValue(EStructuralFeature feature) {

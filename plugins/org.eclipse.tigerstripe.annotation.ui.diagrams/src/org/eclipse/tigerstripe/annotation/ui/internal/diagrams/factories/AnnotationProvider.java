@@ -21,7 +21,8 @@ public class AnnotationProvider extends AbstractEditPartProvider {
 	@Override
 	protected Class getNodeEditPartClass(View view) {
 		String type = view.getType();
-		if (DiagramAnnotationType.ANNOTATION_TYPE.equals(type)) {
+		if (DiagramAnnotationType.ANNOTATION_TYPE.equals(type) || 
+				DiagramAnnotationType.ANN_TYPE.equals(type)) {
 			return AnnotationEditPart.class;
 		}
 	    return null;

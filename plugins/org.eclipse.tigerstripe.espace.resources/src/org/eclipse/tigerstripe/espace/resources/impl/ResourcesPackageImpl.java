@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesPackageImpl.java,v 1.5 2008/06/09 10:42:24 ystrot Exp $
+ * $Id: ResourcesPackageImpl.java,v 1.6 2008/06/19 10:46:03 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
@@ -179,6 +179,15 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getResourceList_CurrentId() {
+		return (EAttribute)resourceListEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getResourceLocation() {
 		return resourceLocationEClass;
 	}
@@ -243,6 +252,7 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 
 		resourceListEClass = createEClass(RESOURCE_LIST);
 		createEReference(resourceListEClass, RESOURCE_LIST__LOCATIONS);
+		createEAttribute(resourceListEClass, RESOURCE_LIST__CURRENT_ID);
 
 		resourceLocationEClass = createEClass(RESOURCE_LOCATION);
 		createEAttribute(resourceLocationEClass, RESOURCE_LOCATION__URI);
@@ -290,6 +300,7 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 
 		initEClass(resourceListEClass, ResourceList.class, "ResourceList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getResourceList_Locations(), this.getResourceLocation(), null, "locations", null, 0, -1, ResourceList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getResourceList_CurrentId(), ecorePackage.getEInt(), "currentId", "1", 0, 1, ResourceList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resourceLocationEClass, ResourceLocation.class, "ResourceLocation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getResourceLocation_Uri(), this.getURI(), "uri", null, 0, 1, ResourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
