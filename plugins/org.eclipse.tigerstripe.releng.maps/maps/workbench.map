@@ -27,7 +27,7 @@ plugin@org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation=v20080617
 !==========================================
 ! Optional Import/Export Stuff
 plugin@org.eclipse.tigerstripe.workbench.optional.bulkImport=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.optional.bulkImport
-plugin@org.eclipse.tigerstripe.workbench.optional.UML2Export=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.optional.UML2Export
+plugin@org.eclipse.tigerstripe.workbench.optional.UML2Export=v200806201225,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.optional.UML2Export
 plugin@org.eclipse.tigerstripe.workbench.ui.UML2Import=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.UML2Import
 
 !==========================================
