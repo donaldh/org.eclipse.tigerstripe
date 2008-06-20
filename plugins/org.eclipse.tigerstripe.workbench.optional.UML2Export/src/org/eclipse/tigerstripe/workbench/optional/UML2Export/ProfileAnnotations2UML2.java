@@ -64,6 +64,8 @@ public class ProfileAnnotations2UML2 {
 	private PrintWriter out;
 	private Profile profile;
 	private Map<String, Stereotype> stereotypeMap;
+	
+	private boolean useTigerstripeAnnotations = false;
 
 	private Model umlMetamodel;
 
@@ -272,7 +274,7 @@ public class ProfileAnnotations2UML2 {
 		// make some Tigerstripe specific sterotypes - per artifact
 
 		// =======
-
+		if (useTigerstripeAnnotations){
 		Stereotype meStereotype = profile.createOwnedStereotype(
 				"tigerstripe_managedEntity", false);
 		stereotypeMap.put(meStereotype.getName(), meStereotype);
@@ -340,6 +342,8 @@ public class ProfileAnnotations2UML2 {
 		stereotypeMap.put(sessStereotype.getName(), sessStereotype);
 		sessStereotype.createExtension(interfaceMetaclass, false);
 
+		}
+		
 		URI fileUri = URI.createFileURI(exportDir.getAbsolutePath());
 
 		String msgText = "Created " + stereotypeMap.size() + " stereotypes";
@@ -357,11 +361,11 @@ public class ProfileAnnotations2UML2 {
 		messages.addMessage(message);
 		out.println(msgText);
 
+		profile.define();
+		
 		save(profile, fileUri.appendSegment("umlProfile").appendSegment(
 				exportFilename + ".Profile").appendFileExtension(
 				UMLResource.FILE_EXTENSION));
-
-		profile.define();
 
 		return profile;
 

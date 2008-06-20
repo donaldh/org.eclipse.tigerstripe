@@ -29,6 +29,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Text;
@@ -48,6 +49,8 @@ public class UML2ExportWizardPage extends WizardPage {
 	protected StringButtonDialogField project;
 	protected StringButtonDialogField exportDir;
 	// protected StringButtonDialogField exportFile;
+	
+	private Button includeTigerstripeStereotypes;
 
 	/** The source of artifacts */
 	private ITigerstripeModelProject sourceProject;

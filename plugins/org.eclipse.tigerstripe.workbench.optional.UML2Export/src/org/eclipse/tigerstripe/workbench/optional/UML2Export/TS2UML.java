@@ -114,6 +114,9 @@ public class TS2UML {
 	private Profile tsProfile;
 	private Maker maker;
 	private String msgText;
+	
+	
+	private boolean useTigerstripeAnnotations = false;
 
 	/** constructor */
 	public TS2UML(PrintWriter out, MessageList messages,
@@ -248,10 +251,12 @@ public class TS2UML {
 				Enumeration enumer = maker.makeOrFindEnum(artifact);
 				if (enumer != null) {
 					this.out.println("    Enum : " + enumer.getQualifiedName());
-					Stereotype eS = enumer.getApplicableStereotype(tsProfile
-							.getQualifiedName()
-							+ "::tigerstripe_enumeration");
-					enumer.applyStereotype(eS);
+					if (useTigerstripeAnnotations){
+						Stereotype eS = enumer.getApplicableStereotype(tsProfile
+								.getQualifiedName()
+								+ "::tigerstripe_enumeration");
+						enumer.applyStereotype(eS);
+					}
 					addComponentStereotype(artifact, enumer);
 				}
 			}
@@ -270,11 +275,13 @@ public class TS2UML {
 						+ artifact.getFullyQualifiedName());
 				AssociationClass associationClass = maker.makeOrFindAssociationClass(artifact);
 				if (associationClass != null) {
+					if (useTigerstripeAnnotations){
 					Stereotype aS = associationClass
 							.getApplicableStereotype(tsProfile
 									.getQualifiedName()
 									+ "::tigerstripe_associationClass");
 					associationClass.applyStereotype(aS);
+					}
 					addComponentStereotype(artifact, associationClass);
 
 					String className = artifact.getFullyQualifiedName();
@@ -289,30 +296,36 @@ public class TS2UML {
 
 				Association association = maker.makeOrFindAssociation(artifact);
 				if (association != null) {
+					if (useTigerstripeAnnotations){
 					Stereotype aS = association
 							.getApplicableStereotype(tsProfile
 									.getQualifiedName()
 									+ "::tigerstripe_association");
 					association.applyStereotype(aS);
+					}
 					addComponentStereotype(artifact, association);
 				}
 			} else if (artifact instanceof IDependencyArtifact) {
 				Dependency dep = maker.makeDependency(artifact);
 				if (dep != null) {
+					if (useTigerstripeAnnotations){
 					Stereotype depS = dep.getApplicableStereotype(tsProfile
 							.getQualifiedName()
 							+ "::tigerstripe_dependency");
 					dep.applyStereotype(depS);
+					}
 					addComponentStereotype(artifact, dep);
 				}
 			} else if (artifact instanceof ISessionArtifact) {
 				this.out.println("Interface Settings  "
 						+ artifact.getFullyQualifiedName());
 				Interface intf = maker.makeOrFindInterface(artifact);
+				if (useTigerstripeAnnotations){
 				Stereotype iS = intf.getApplicableStereotype(tsProfile
 						.getQualifiedName()
 						+ "::tigerstripe_session");
 				intf.applyStereotype(iS);
+				
 				ArrayList emitList = new ArrayList();
 				for (IEmittedEvent emitted : ((ISessionArtifact) artifact)
 						.getEmittedEvents()) {
@@ -352,7 +365,7 @@ public class TS2UML {
 					}
 				}
 				intf.setValue(iS, "exposes", exposesList);
-				
+				}
 				String className = artifact.getFullyQualifiedName();
 				String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
 				addOperations(artifact, ((Interface) typeMap.get(umlClassName)));
@@ -400,20 +413,26 @@ public class TS2UML {
 						.get(umlClassName)));
 				addOperations(artifact, ((Classifier) typeMap.get(umlClassName)));
 				if (artifact instanceof IManagedEntityArtifact) {
+					if (useTigerstripeAnnotations){
 					Stereotype meS = clazz.getApplicableStereotype(tsProfile
 							.getQualifiedName()
 							+ "::tigerstripe_managedEntity");
 					clazz.applyStereotype(meS);
+					}
 				} else if (artifact instanceof IDatatypeArtifact) {
+					if (useTigerstripeAnnotations){
 					Stereotype dS = clazz.getApplicableStereotype(tsProfile
 							.getQualifiedName()
 							+ "::tigerstripe_datatype");
 					clazz.applyStereotype(dS);
+					}
 				} else if (artifact instanceof IQueryArtifact) {
+					if (useTigerstripeAnnotations){
 					Stereotype qS = clazz.getApplicableStereotype(tsProfile
 							.getQualifiedName()
 							+ "::tigerstripe_query");
 					clazz.applyStereotype(qS);
+					
 					IType rType = ((IQueryArtifact) artifact).getReturnedType();
 					Type type = maker.getUMLType(rType);
 					if (type != null) {
@@ -424,21 +443,28 @@ public class TS2UML {
 								+ ((IQueryArtifact) artifact).getReturnedType()
 										.getFullyQualifiedName());
 					}
+					}
 				} else if (artifact instanceof IEventArtifact) {
+					if (useTigerstripeAnnotations){
 					Stereotype nS = clazz.getApplicableStereotype(tsProfile
 							.getQualifiedName()
 							+ "::tigerstripe_notification");
 					clazz.applyStereotype(nS);
+					}
 				} else if (artifact instanceof IUpdateProcedureArtifact) {
+					if (useTigerstripeAnnotations){
 					Stereotype dS = clazz.getApplicableStereotype(tsProfile
 							.getQualifiedName()
 							+ "::tigerstripe_updateProcedure");
 					clazz.applyStereotype(dS);
+					}
 				} else if (artifact instanceof IExceptionArtifact) {
+					if (useTigerstripeAnnotations){
 					Stereotype exS = clazz.getApplicableStereotype(tsProfile
 							.getQualifiedName()
 							+ "::tigerstripe_exception");
 					clazz.applyStereotype(exS);
+					}
 
 				}
 				addComponentStereotype(artifact, clazz);
