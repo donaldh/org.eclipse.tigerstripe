@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackageImpl.java,v 1.2 2008/06/19 11:23:41 ystrot Exp $
+ * $Id: ModelPackageImpl.java,v 1.3 2008/06/24 09:40:13 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl;
 
@@ -10,13 +10,17 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ModelFactory;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ModelPackage;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,6 +35,27 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass annotationNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass metaAnnotationNodeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass typeStatusEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass viewTypesStatusEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -134,6 +159,78 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getMetaAnnotationNode() {
+		return metaAnnotationNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMetaAnnotationNode_ViewsTypeStatuses() {
+		return (EReference)metaAnnotationNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getTypeStatus() {
+		return typeStatusEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTypeStatus_Type() {
+		return (EAttribute)typeStatusEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTypeStatus_ShowAll() {
+		return (EAttribute)typeStatusEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getViewTypesStatus() {
+		return viewTypesStatusEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getViewTypesStatus_View() {
+		return (EReference)viewTypesStatusEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getViewTypesStatus_Statuses() {
+		return (EReference)viewTypesStatusEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EDataType getAnnotation() {
 		return annotationEDataType;
 	}
@@ -168,6 +265,17 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		// Create classes and their features
 		annotationNodeEClass = createEClass(ANNOTATION_NODE);
 		createEAttribute(annotationNodeEClass, ANNOTATION_NODE__ANNOTATION_ID);
+
+		metaAnnotationNodeEClass = createEClass(META_ANNOTATION_NODE);
+		createEReference(metaAnnotationNodeEClass, META_ANNOTATION_NODE__VIEWS_TYPE_STATUSES);
+
+		typeStatusEClass = createEClass(TYPE_STATUS);
+		createEAttribute(typeStatusEClass, TYPE_STATUS__TYPE);
+		createEAttribute(typeStatusEClass, TYPE_STATUS__SHOW_ALL);
+
+		viewTypesStatusEClass = createEClass(VIEW_TYPES_STATUS);
+		createEReference(viewTypesStatusEClass, VIEW_TYPES_STATUS__VIEW);
+		createEReference(viewTypesStatusEClass, VIEW_TYPES_STATUS__STATUSES);
 
 		// Create data types
 		annotationEDataType = createEDataType(ANNOTATION);
@@ -205,10 +313,22 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		// Add supertypes to classes
 		annotationNodeEClass.getESuperTypes().add(theNotationPackage.getNode());
+		metaAnnotationNodeEClass.getESuperTypes().add(theNotationPackage.getNode());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(annotationNodeEClass, AnnotationNode.class, "AnnotationNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAnnotationNode_AnnotationId(), ecorePackage.getEString(), "annotationId", null, 0, 1, AnnotationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(metaAnnotationNodeEClass, MetaAnnotationNode.class, "MetaAnnotationNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMetaAnnotationNode_ViewsTypeStatuses(), this.getViewTypesStatus(), null, "viewsTypeStatuses", null, 0, -1, MetaAnnotationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(typeStatusEClass, TypeStatus.class, "TypeStatus", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTypeStatus_Type(), ecorePackage.getEString(), "type", null, 0, 1, TypeStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getTypeStatus_ShowAll(), ecorePackage.getEBoolean(), "showAll", null, 0, 1, TypeStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(viewTypesStatusEClass, ViewTypesStatus.class, "ViewTypesStatus", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getViewTypesStatus_View(), theNotationPackage.getView(), null, "view", null, 0, 1, ViewTypesStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getViewTypesStatus_Statuses(), this.getTypeStatus(), null, "statuses", null, 0, -1, ViewTypesStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(annotationEDataType, Annotation.class, "Annotation", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

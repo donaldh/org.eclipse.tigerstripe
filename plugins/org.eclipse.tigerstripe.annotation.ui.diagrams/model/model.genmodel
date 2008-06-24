@@ -12,5 +12,16 @@
     <genClasses ecoreClass="model.ecore#//AnnotationNode">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//AnnotationNode/annotationId"/>
     </genClasses>
+    <genClasses ecoreClass="model.ecore#//MetaAnnotationNode">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//MetaAnnotationNode/viewsTypeStatuses"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//TypeStatus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//TypeStatus/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//TypeStatus/showAll"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//ViewTypesStatus">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ViewTypesStatus/view"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ViewTypesStatus/statuses"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

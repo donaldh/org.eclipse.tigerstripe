@@ -49,6 +49,8 @@ import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.DiagramAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ModelPackage;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationConnectionEditPart;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationEditPart;
 import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
@@ -121,6 +123,7 @@ public class DiagramRebuildUtils {
 	
 	public static void showAnnotations(DiagramEditor editor, EditPart part, AnnotationStatus[] annotations) {
 		if (part.getParent() != null) {
+			//getMetaInfo(editor);
 			List<View> views = new ArrayList<View>();
 			for (AnnotationStatus status : annotations) {
 				switch (status.getStatus()) {
@@ -142,6 +145,7 @@ public class DiagramRebuildUtils {
 	
 	public static void hideAnnotations(DiagramEditor editor, EditPart part, AnnotationStatus[] annotations) {
 		if (part.getParent() != null) {
+			//getMetaInfo(editor);
 			List<View> views = new ArrayList<View>();
 			for (AnnotationStatus status : annotations) {
 				switch (status.getStatus()) {
@@ -156,6 +160,29 @@ public class DiagramRebuildUtils {
 			}
 			setViewsVisible(editor.getEditingDomain(), views.toArray(new View[views.size()]), false);
 		}
+	}
+	
+	protected static MetaAnnotationNode getMetaInfo(final DiagramEditor editor) {
+		List<?> children = editor.getDiagram().getChildren();
+		for (Object object : children) {
+			if (object instanceof MetaAnnotationNode) {
+				return (MetaAnnotationNode)object;
+			}
+		}
+		final MetaAnnotationNode[] nodes = new MetaAnnotationNode[1];
+		try {
+			editor.getEditingDomain().runExclusive(new Runnable() {
+			
+				public void run() {
+					nodes[0] = (MetaAnnotationNode)editor.getDiagram(
+					).createChild(ModelPackage.eINSTANCE.getMetaAnnotationNode());
+				}
+			
+			});
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return nodes[0];
 	}
 	
 	protected static void setViewsVisible(final TransactionalEditingDomain domain,

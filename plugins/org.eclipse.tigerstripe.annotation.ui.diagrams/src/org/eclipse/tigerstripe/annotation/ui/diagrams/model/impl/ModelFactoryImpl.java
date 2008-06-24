@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactoryImpl.java,v 1.1 2008/06/19 10:46:01 ystrot Exp $
+ * $Id: ModelFactoryImpl.java,v 1.2 2008/06/24 09:40:14 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl;
 
@@ -63,6 +63,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ModelPackage.ANNOTATION_NODE: return createAnnotationNode();
+			case ModelPackage.META_ANNOTATION_NODE: return createMetaAnnotationNode();
+			case ModelPackage.TYPE_STATUS: return createTypeStatus();
+			case ModelPackage.VIEW_TYPES_STATUS: return createViewTypesStatus();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -106,6 +109,36 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public AnnotationNode createAnnotationNode() {
 		AnnotationNodeImpl annotationNode = new AnnotationNodeImpl();
 		return annotationNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MetaAnnotationNode createMetaAnnotationNode() {
+		MetaAnnotationNodeImpl metaAnnotationNode = new MetaAnnotationNodeImpl();
+		return metaAnnotationNode;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public TypeStatus createTypeStatus() {
+		TypeStatusImpl typeStatus = new TypeStatusImpl();
+		return typeStatus;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ViewTypesStatus createViewTypesStatus() {
+		ViewTypesStatusImpl viewTypesStatus = new ViewTypesStatusImpl();
+		return viewTypesStatus;
 	}
 
 	/**

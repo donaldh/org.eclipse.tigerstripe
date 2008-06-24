@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelAdapterFactory.java,v 1.1 2008/06/19 10:46:01 ystrot Exp $
+ * $Id: ModelAdapterFactory.java,v 1.2 2008/06/24 09:40:14 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.util;
 
@@ -80,6 +80,18 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createAnnotationNodeAdapter();
 			}
 			@Override
+			public Adapter caseMetaAnnotationNode(MetaAnnotationNode object) {
+				return createMetaAnnotationNodeAdapter();
+			}
+			@Override
+			public Adapter caseTypeStatus(TypeStatus object) {
+				return createTypeStatusAdapter();
+			}
+			@Override
+			public Adapter caseViewTypesStatus(ViewTypesStatus object) {
+				return createViewTypesStatusAdapter();
+			}
+			@Override
 			public Adapter caseEModelElement(EModelElement object) {
 				return createEModelElementAdapter();
 			}
@@ -122,6 +134,48 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAnnotationNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode <em>Meta Annotation Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode
+	 * @generated
+	 */
+	public Adapter createMetaAnnotationNodeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus <em>Type Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus
+	 * @generated
+	 */
+	public Adapter createTypeStatusAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus <em>View Types Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus
+	 * @generated
+	 */
+	public Adapter createViewTypesStatusAdapter() {
 		return null;
 	}
 

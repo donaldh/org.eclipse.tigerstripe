@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelSwitch.java,v 1.1 2008/06/19 10:46:01 ystrot Exp $
+ * $Id: ModelSwitch.java,v 1.2 2008/06/24 09:40:14 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.util;
 
@@ -100,6 +100,27 @@ public class ModelSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ModelPackage.META_ANNOTATION_NODE: {
+				MetaAnnotationNode metaAnnotationNode = (MetaAnnotationNode)theEObject;
+				T result = caseMetaAnnotationNode(metaAnnotationNode);
+				if (result == null) result = caseNode(metaAnnotationNode);
+				if (result == null) result = caseView(metaAnnotationNode);
+				if (result == null) result = caseEModelElement(metaAnnotationNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.TYPE_STATUS: {
+				TypeStatus typeStatus = (TypeStatus)theEObject;
+				T result = caseTypeStatus(typeStatus);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelPackage.VIEW_TYPES_STATUS: {
+				ViewTypesStatus viewTypesStatus = (ViewTypesStatus)theEObject;
+				T result = caseViewTypesStatus(viewTypesStatus);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -116,6 +137,51 @@ public class ModelSwitch<T> {
 	 * @generated
 	 */
 	public T caseAnnotationNode(AnnotationNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Meta Annotation Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Meta Annotation Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMetaAnnotationNode(MetaAnnotationNode object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Type Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Type Status</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTypeStatus(TypeStatus object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>View Types Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>View Types Status</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseViewTypesStatus(ViewTypesStatus object) {
 		return null;
 	}
 
