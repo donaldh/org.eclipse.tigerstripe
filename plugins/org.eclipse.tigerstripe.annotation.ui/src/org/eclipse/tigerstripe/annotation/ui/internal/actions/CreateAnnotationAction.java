@@ -19,6 +19,7 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
+import org.eclipse.ui.IFileEditorInput;
 
 
 /**
@@ -63,7 +64,8 @@ public class CreateAnnotationAction extends DelegateAction {
 	protected void adaptSelection(ISelection selection) {
 		types = null;
 		object = getSelected(selection);
-		if (object != null)
+		//TODO: remove this hack!!!
+		if (object != null && !(object instanceof IFileEditorInput))
 			types = AdaptableUtil.getTypes(object);
 		setEnabled(types != null && types.length > 0);
 	}

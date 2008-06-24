@@ -63,18 +63,20 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 	}
 	
 	private void addChangeListener() {
-		annotationListener = new AnnotationAdapter() {
-			
-			@Override
-			public void annotationsChanged(Annotation[] annotations) {
-				if (getNotationView().isVisible() && 
-						isAnnotationChanged(annotations)) {
-					updatePart();
+		if (annotationListener == null) {
+			annotationListener = new AnnotationAdapter() {
+				
+				@Override
+				public void annotationsChanged(Annotation[] annotations) {
+					if (getNotationView().isVisible() && 
+							isAnnotationChanged(annotations)) {
+						updatePart();
+					}
 				}
-			}
-		
-		};
-		AnnotationPlugin.getManager().addAnnotationListener(annotationListener);
+			
+			};
+			AnnotationPlugin.getManager().addAnnotationListener(annotationListener);
+		}
 	}
 	
 	protected boolean isAnnotationChanged(Annotation[] changedAnnotations) {
@@ -101,8 +103,10 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 	}
 	
 	private void removeChangeListener() {
-		if (annotationListener != null)
+		if (annotationListener != null) {
 			AnnotationPlugin.getManager().removeAnnotationListener(annotationListener);
+			annotationListener = null;
+		}
 	}
 	
 	/* (non-Javadoc)

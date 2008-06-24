@@ -255,10 +255,8 @@ public class AnnotationStorage implements IIdentifyManager {
 	public void save(Annotation annotation) {
 		ChangeRecorder recorder = changes.get(annotation);
 		ChangeDescription changes = recorder.summarize();
-		boolean changed = changes.getObjectChanges().size() > 0;
 		database.update(annotation, changes);
-		if (changed)
-			fireAnnotationsChanged(new Annotation[] { annotation });
+		fireAnnotationsChanged(new Annotation[] { annotation });
 	}
 	
 	public void revert(Annotation annotation) {
