@@ -34,5 +34,5 @@ public class AnnotationConnectionEditPart extends ConnectionNodeEditPart {
 		PolylineConnectionEx conn = new PolylineConnectionEx();
 		conn.setLineStyle(Graphics.LINE_DOT);
 		return conn;
-	}	
+	}
 }

@@ -51,6 +51,7 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
     private boolean diagramLinkMode = false;
     
     private IAnnotationListener annotationListener; 
+    private ConnectionCollector collector;
 
 	/**
 	 * constructor
@@ -58,6 +59,7 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 	 */
 	public AnnotationEditPart(View view) {
 		super(view);
+		collector = new ConnectionCollector(view);
 	}
 	
 	private void addChangeListener() {
@@ -65,18 +67,37 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 			
 			@Override
 			public void annotationsChanged(Annotation[] annotations) {
-				Annotation ann = getAnnotation();
-				if (ann != null) {
-					for (Annotation annotation : annotations) {
-						if (ann.equals(annotation)) {
-							refreshVisuals();
-						}
-					}
+				if (getNotationView().isVisible() && 
+						isAnnotationChanged(annotations)) {
+					updatePart();
 				}
 			}
 		
 		};
 		AnnotationPlugin.getManager().addAnnotationListener(annotationListener);
+	}
+	
+	protected boolean isAnnotationChanged(Annotation[] changedAnnotations) {
+		Annotation ann = getAnnotation();
+		if (ann != null) {
+			for (Annotation annotation : changedAnnotations) {
+				if (ann.equals(annotation))
+					return true;
+			}
+		}
+		return false;
+	}
+	
+	private void updatePart() {
+		try {
+			getEditingDomain().runExclusive(new Runnable() {
+				public void run() {
+					refreshVisuals();
+				}
+			});
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void removeChangeListener() {
@@ -139,6 +160,40 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 					label.setText("");
 			}
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshSourceConnections()
+	 */
+	@Override
+	protected void refreshSourceConnections() {
+		collector.start();
+		super.refreshSourceConnections();
+		collector.refresh();
+		collector.finish();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#refreshTargetConnections()
+	 */
+	@Override
+	protected void refreshTargetConnections() {
+		collector.start();
+		super.refreshTargetConnections();
+		collector.refresh();
+		collector.finish();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gef.editparts.AbstractEditPart#createChild(java.lang.Object)
+	 */
+	@Override
+	protected EditPart createChild(Object model) {
+		EditPart part = super.createChild(model);
+		if (part instanceof AnnotationConnectionEditPart) {
+			collector.addConnection((AnnotationConnectionEditPart)part);
+		}
+		return part;
 	}
 
 	/** Adds support for diagram links. */
