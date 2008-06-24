@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationPackageImpl.java,v 1.5 2008/06/19 11:23:40 ystrot Exp $
+ * $Id: AnnotationPackageImpl.java,v 1.6 2008/06/24 05:16:59 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.impl;
 
@@ -263,14 +263,14 @@ public class AnnotationPackageImpl extends EPackageImpl implements AnnotationPac
           (getAnnotation_Uri(), 
            source, 
            new String[] {
-             "indexed", "true",
-             "id", "true"
+             "indexed", "true"
            });
 		addAnnotation
 		  (getAnnotation_Id(), 
 		   source, 
 		   new String[] {
-			 "indexed", "true"
+			 "indexed", "true",
+             "id", "true"
 		   });
     }
 

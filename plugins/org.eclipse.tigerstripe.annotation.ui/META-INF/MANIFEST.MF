@@ -14,5 +14,6 @@ Require-Bundle: org.eclipse.core.runtime,
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.tigerstripe.annotation.ui,
  org.eclipse.tigerstripe.annotation.ui.core,
+ org.eclipse.tigerstripe.annotation.ui.internal.actions,
  org.eclipse.tigerstripe.annotation.ui.util,
  org.eclipse.tigerstripe.annotation.ui.wizard

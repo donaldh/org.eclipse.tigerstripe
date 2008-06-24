@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationImpl.java,v 1.5 2008/06/19 11:23:40 ystrot Exp $
+ * $Id: AnnotationImpl.java,v 1.6 2008/06/24 05:16:59 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.impl;
 
@@ -326,6 +326,16 @@ public class AnnotationImpl extends EObjectImpl implements Annotation {
 			return ann.getId().equals(getId());
 		}
 		return false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		if (getId() == null)
+			return super.hashCode();
+		return getId().hashCode();
 	}
 
 } //AnnotationImpl

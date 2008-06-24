@@ -29,23 +29,26 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand;
 import org.eclipse.gmf.runtime.diagram.core.commands.SetPropertyCommand;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
-import org.eclipse.gmf.runtime.diagram.core.util.ViewType;
 import org.eclipse.gmf.runtime.diagram.ui.commands.CreateCommand;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
-import org.eclipse.gmf.runtime.diagram.ui.internal.properties.Properties;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest.ConnectionViewDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest.ViewDescriptor;
+import org.eclipse.gmf.runtime.emf.commands.core.command.CompositeTransactionalCommand;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
+import org.eclipse.gmf.runtime.emf.core.util.PackageUtil;
 import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
+import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.Node;
+import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.DiagramAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationConnectionEditPart;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationEditPart;
 import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
@@ -92,6 +95,110 @@ public class DiagramRebuildUtils {
 		}
 	}
 	
+	public static AnnotationStatus[] getPartAnnotations(EditPart part) {
+		Annotation[] annotations = AdaptableUtil.getAllAnnotations(part);
+		if (annotations.length == 0)
+			return new AnnotationStatus[0];
+		
+		Map<Annotation, AnnotationNode> parts = new HashMap<Annotation, AnnotationNode>();
+		
+		GraphicalEditPart gep = (GraphicalEditPart)part;
+		View view = (View)gep.getModel();
+		addAllAnnotations(parts, view.getSourceEdges(), false);
+		addAllAnnotations(parts, view.getTargetEdges(), true);
+		
+		AnnotationStatus[] statuses = new AnnotationStatus[annotations.length];
+		for (int i = 0; i < annotations.length; i++) {
+			AnnotationNode node = parts.get(annotations[i]);
+			if (node != null)
+				statuses[i] = new AnnotationStatus(node);
+			else
+				statuses[i] = new AnnotationStatus(annotations[i]);
+		}
+		
+		return statuses;
+	}
+	
+	public static void showAnnotations(DiagramEditor editor, EditPart part, AnnotationStatus[] annotations) {
+		if (part.getParent() != null) {
+			List<View> views = new ArrayList<View>();
+			for (AnnotationStatus status : annotations) {
+				switch (status.getStatus()) {
+					case AnnotationStatus.STATUS_NON_EXIST:
+						EditPart annotationPart = createAnnotation(part.getParent(), status.getAnnotation());
+						if (annotationPart != null)
+							createConnection(editor, annotationPart, part);
+						break;
+					case AnnotationStatus.STATUS_VISIBLE:
+						break;
+					case AnnotationStatus.STATUS_HIDDEN:
+						views.add(status.getNode());
+						break;
+				}
+			}
+			setViewsVisible(editor.getEditingDomain(), views.toArray(new View[views.size()]), true);
+		}
+	}
+	
+	public static void hideAnnotations(DiagramEditor editor, EditPart part, AnnotationStatus[] annotations) {
+		if (part.getParent() != null) {
+			List<View> views = new ArrayList<View>();
+			for (AnnotationStatus status : annotations) {
+				switch (status.getStatus()) {
+					case AnnotationStatus.STATUS_NON_EXIST:
+						break;
+					case AnnotationStatus.STATUS_VISIBLE:
+						views.add(status.getNode());
+						break;
+					case AnnotationStatus.STATUS_HIDDEN:
+						break;
+				}
+			}
+			setViewsVisible(editor.getEditingDomain(), views.toArray(new View[views.size()]), false);
+		}
+	}
+	
+	protected static void setViewsVisible(final TransactionalEditingDomain domain,
+			final View[] views, final boolean visible) {
+		List<SetPropertyCommand> commands = new ArrayList<SetPropertyCommand>(views.length);
+		for (int i = 0; i < views.length; i++) {
+			EObjectAdapter adapter = new EObjectAdapter(views[i]);
+			SetPropertyCommand command = new SetPropertyCommand(domain, adapter,
+					PackageUtil.getID(NotationPackage.eINSTANCE.getView_Visible()),
+					"visible", Boolean.valueOf(visible));
+			commands.add(command);
+		}
+		CompositeTransactionalCommand command = new CompositeTransactionalCommand(domain,
+					"Set views visible", commands);
+		if (command.canExecute()) {
+			try {
+				command.execute(new NullProgressMonitor(), null);
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	protected static void setViewVisible(final TransactionalEditingDomain domain,
+			final View view, final boolean visible) {
+		
+		EObjectAdapter adapter = new EObjectAdapter(view);
+		SetPropertyCommand command = new SetPropertyCommand(domain, adapter,
+				PackageUtil.getID(NotationPackage.eINSTANCE.getView_Visible()),
+				"visible", Boolean.valueOf(visible));
+		CompositeTransactionalCommand cc = new CompositeTransactionalCommand(domain,
+				"Some label");
+		cc.add(command);
+		if (command.canExecute()) {
+			try {
+				command.execute(new NullProgressMonitor(), null);
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	protected static Annotation[] getAnnotations(EditPart part) {
 		List<Annotation> annotations = new ArrayList<Annotation>();
 		
@@ -125,6 +232,28 @@ public class DiagramRebuildUtils {
 		for (Object object : new ArrayList<Object>(parts)) {
 			if (object instanceof EditPart)
 				removeExist(annotations, (EditPart)object);
+		}
+	}
+	
+	protected static void addAllAnnotations(Map<Annotation, AnnotationNode> annotations, 
+			List<?> edges, boolean source) {
+		for (Object object : edges) {
+			if (object instanceof Edge) {
+				Edge edge = (Edge)object;
+				if (source)
+					addAnnotation(annotations, edge.getSource());
+				else
+					addAnnotation(annotations, edge.getTarget());
+			}
+		}
+	}
+	
+	protected static void addAnnotation(Map<Annotation, AnnotationNode> annotations, View view) {
+		if (view instanceof AnnotationNode) {
+			AnnotationNode node = (AnnotationNode)view;
+			Annotation annotation = node.getAnnotation();
+			if (annotation != null)
+				annotations.put(annotation, node);
 		}
 	}
 	
@@ -171,14 +300,8 @@ public class DiagramRebuildUtils {
 	protected static void updateAnnotations(DiagramEditor editor, EditPart part) {
 		EditPart container = part.getParent();
 		if (container != null) {
-			Annotation[] annotations = getAnnotations(part);
-			for (Annotation annotation : annotations) {
-				EditPart annotationPart = createAnnotation(container, annotation);
-				if (annotationPart != null) {
-					//setText(annotationPart, DisplayAnnotationUtil.getText(annotation));
-					createConnection(editor, annotationPart, part);
-				}
-			}
+			AnnotationStatus[] annotations = getPartAnnotations(part);
+			showAnnotations(editor, part, annotations);
 		}
 	}
 	
@@ -204,20 +327,6 @@ public class DiagramRebuildUtils {
 			}
 		}
 		return null;
-	}
-	
-	protected static void setText(EditPart part, String newText) {
-		TransactionalEditingDomain domain = ((IGraphicalEditPart)part).getEditingDomain();
-		EObjectAdapter adapter = new EObjectAdapter((View)part.getModel());
-		SetPropertyCommand command = new SetPropertyCommand(domain, adapter,
-                Properties.ID_DESCRIPTION, ViewType.TEXT, newText);
-		if (command.canExecute()) {
-			try {
-				command.execute(new NullProgressMonitor(), null);
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	protected static EditPart createConnection(DiagramEditor editor, EditPart source, EditPart target) {

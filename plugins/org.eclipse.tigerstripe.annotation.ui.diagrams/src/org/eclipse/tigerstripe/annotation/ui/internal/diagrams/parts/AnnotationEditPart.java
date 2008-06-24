@@ -60,13 +60,9 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 		super(view);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#activate()
-	 */
-	@Override
-	public void activate() {
+	private void addChangeListener() {
 		annotationListener = new AnnotationAdapter() {
-		
+			
 			@Override
 			public void annotationsChanged(Annotation[] annotations) {
 				Annotation ann = getAnnotation();
@@ -81,6 +77,19 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 		
 		};
 		AnnotationPlugin.getManager().addAnnotationListener(annotationListener);
+	}
+	
+	private void removeChangeListener() {
+		if (annotationListener != null)
+			AnnotationPlugin.getManager().removeAnnotationListener(annotationListener);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#activate()
+	 */
+	@Override
+	public void activate() {
+		addChangeListener();
 		super.activate();
 	}
 	
@@ -90,8 +99,7 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 	@Override
 	public void deactivate() {
 		super.deactivate();
-		if (annotationListener != null)
-			AnnotationPlugin.getManager().removeAnnotationListener(annotationListener);
+		removeChangeListener();
 	}
 
 	/**
@@ -106,9 +114,12 @@ public class AnnotationEditPart extends ShapeNodeEditPart {
 		return noteFigure;
 	}
 	
+	protected AnnotationNode getAnnotationModel() {
+		return (AnnotationNode)getModel();
+	}
+	
 	public Annotation getAnnotation() {
-		AnnotationNode node = (AnnotationNode)getModel();
-		return node.getAnnotation();
+		return getAnnotationModel().getAnnotation();
 	}
 	
 	/* (non-Javadoc)

@@ -266,11 +266,15 @@ public class EMFDatabase implements IEMFDatabase {
 		return this.routers;
 	}
 	
+	protected static String generateID() {
+		return EcoreUtil.generateUUID();
+	}
+	
 	protected void createID(EObject object) {
 		List<Resource> resources = new ArrayList<Resource>();
 		while(object.eContainer() != null)
 			object = object.eContainer();
-		idManager.setId(object, EcoreUtil.generateUUID());
+		idManager.setId(object, generateID());
 		if (object.eResource() != null)
 			resources.add(object.eResource());
 		saveAfterIdChanges(resources);
@@ -284,7 +288,7 @@ public class EMFDatabase implements IEMFDatabase {
 				cur = cur.eContainer();
 			String oldId = idManager.getId(cur);
 			if (oldId == null) {
-				idManager.setId(cur, EcoreUtil.generateUUID());
+				idManager.setId(cur, generateID());
 				Resource res = cur.eResource();
 				if (res != null && !resources.contains(res))
 					resources.add(res);
@@ -338,12 +342,10 @@ public class EMFDatabase implements IEMFDatabase {
 			EObject[] objects = doGet(feature, object.eGet(feature), false);
 			for (int i = 0; i < objects.length; i++) {
 				EObject candidate = objects[i];
-				if (EcoreUtil.equals(candidate, object)) {
-					Resource resource = candidate.eResource();
-					if (resource == null)
-						resource = getResource(object);
-					getResourceStorage().removeAndSave(candidate, resource);
-				}
+				Resource resource = candidate.eResource();
+				if (resource == null)
+					resource = getResource(object);
+				getResourceStorage().removeAndSave(candidate, resource);
 			}
 		}
 	}

@@ -16,6 +16,7 @@ import junit.framework.TestCase;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
+import org.eclipse.tigerstripe.annotation.core.test.model.ModelPackage;
 import org.eclipse.tigerstripe.espace.core.tree.RBTree;
 import org.eclipse.tigerstripe.espace.core.tree.TreeFactory;
 
@@ -52,6 +53,23 @@ public class TreeTest extends TestCase {
 		objects = tree.find("text/html");
 		assertNotNull(objects);
 		assertEquals(objects.length, 0);
+	}
+	
+	public void testManyInsert() {
+		int i = 0;
+		try {
+			RBTree tree = TreeFactory.eINSTANCE.createRBTree();
+			tree.setFeature(ModelPackage.eINSTANCE.getMimeType_MimeType());
+			for (; i < 1000; i++) {
+				String value = i + "";
+				MimeType type = ModelFactory.eINSTANCE.createMimeType();
+				type.setMimeType(value);
+				tree.insert(type);
+			}
+		}
+		finally {
+			System.out.println(i);
+		}
 	}
 
 }

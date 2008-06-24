@@ -35,15 +35,16 @@
                path="additions"
                id="org.eclipse.tigerstripe.annotation.ui.mainmenu">
             <separator
-                  name="group1">
-            </separator>
+                  name="modification"/>
+            <separator
+                  name="concealment"/>
          </menu>
          <action
                class="org.eclipse.tigerstripe.annotation.ui.internal.actions.CreateAnnotationAction"
                enablesFor="1"
                id="org.eclipse.tigerstripe.annotation.ui.resource.actions.create"
                label="Create"
-               menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/group1"
+               menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/modification"
                style="pulldown"
                tooltip="Add Annotation">
          </action>
@@ -52,7 +53,7 @@
                enablesFor="1"
                id="org.eclipse.tigerstripe.annotation.ui.resource.actions.remove"
                label="Remove"
-               menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/group1"
+               menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/modification"
                style="push"
                tooltip="Remove Annotation">
          </action>

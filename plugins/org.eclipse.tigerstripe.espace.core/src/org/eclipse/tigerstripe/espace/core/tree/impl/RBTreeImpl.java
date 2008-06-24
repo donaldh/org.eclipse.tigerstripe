@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: RBTreeImpl.java,v 1.5 2008/06/19 11:23:37 ystrot Exp $
+ * $Id: RBTreeImpl.java,v 1.6 2008/06/24 05:16:51 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.core.tree.impl;
 
@@ -737,35 +737,62 @@ public class RBTreeImpl extends EObjectImpl implements RBTree {
 
     /** From CLR **/
     private void rotateLeft(RBNode p) {
+    	RBNode t = p.getParent();
     	RBNode r = p.getRight();
-        p.setRight(r.getLeft());
-//        if (r.getLeft() != null)
-//            r.getLeft().setParent(p);
-        //r.setParent(p.getParent());
-        if (p.getParent() == null)
-            setRoot(r);
-        else if (p.getParent().getLeft() == p)
-            p.getParent().setLeft(r);
-        else
-            p.getParent().setRight(r);
-        r.setLeft(p);
-        //p.setParent(r);
+    	RBNode a = r.getLeft();
+    	
+		boolean left = false;
+    	if (t != null) {
+    		if (t.getLeft() == p) {
+    			left = true;
+        		t.setLeft(null);
+    		}
+    		else {
+    			t.setRight(null);
+    		}
+    	}
+		p.setRight(null);
+		r.setLeft(null);
+		
+		if (t == null)
+			setRoot(r);
+		else if (left)
+			t.setLeft(r);
+		else
+			t.setRight(r);
+		
+		r.setLeft(p);
+		p.setRight(a);
     }
 
     /** From CLR **/
     private void rotateRight(RBNode p) {
+    	RBNode t = p.getParent();
     	RBNode l = p.getLeft();
-        p.setLeft(l.getRight());
-//        if (l.getRight() != null)
-//        	l.getRight().setParent(p);
-//        l.setParent(p.getParent());
-        if (p.getParent() == null)
-            setRoot(l);
-        else if (p.getParent().getRight() == p)
-            p.getParent().setRight(l);
-        else p.getParent().setLeft(l);
-        l.setRight(p);
-//        p.setParent(l);
+    	RBNode a = l.getRight();
+    	
+		boolean left = false;
+    	if (t != null) {
+    		if (t.getLeft() == p) {
+    			left = true;
+        		t.setLeft(null);
+    		}
+    		else {
+    			t.setRight(null);
+    		}
+    	}
+		p.setLeft(null);
+		l.setRight(null);
+		
+		if (t == null)
+			setRoot(l);
+		else if (left)
+			t.setLeft(l);
+		else
+			t.setRight(l);
+		
+		l.setRight(p);
+		p.setLeft(a);
     }
 
     private static RBNode parentOf(RBNode p) {

@@ -100,4 +100,32 @@
 			genModel = "model/model.genmodel" /> 
 	</extension>
 
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="org.eclipse.tigerstripe.annotation.ui.diagrams.parts"
+            nameFilter="*"
+            objectClass="org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart">
+         <action
+               class="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions.ShowAnnotationTypes"
+               enablesFor="+"
+               id="org.eclipse.tigerstripe.annotation.ui.diagrams.show.types"
+               label="Show Annotation Types"
+               menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/concealment"
+               style="pulldown"
+               tooltip="Show Annotation Types">
+         </action>
+         <action
+               class="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions.HideAnnotationTypes"
+               enablesFor="+"
+               id="org.eclipse.tigerstripe.annotation.ui.diagrams.hide.types"
+               label="Hide Annotation Types"
+               menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/concealment"
+               style="pulldown"
+               tooltip="Hide Annotation Types">
+         </action>
+      </objectContribution>
+   </extension>
+
 </plugin>

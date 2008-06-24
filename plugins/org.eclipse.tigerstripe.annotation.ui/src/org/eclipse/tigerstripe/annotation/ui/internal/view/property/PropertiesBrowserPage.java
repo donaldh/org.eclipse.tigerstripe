@@ -412,36 +412,38 @@ public class PropertiesBrowserPage
 	}
 	
 	protected void updatePage() {
-		listener.dirtyChanged(IAnnotationEditorListener.NO_CHANGES);
-		currentSelection = getAnnotation(selectedElements);
-		int newSelection = list.getSelectionIndex();
-		list.removeAll();
-		boolean showPage = currentSelection != null;
-		if (showPage) {
-			for (int i = 0; i < currentSelection.length; i++) {
-				list.add(DisplayAnnotationUtil.getText(currentSelection[i]));
-				adapt(i);
-            }
-			int index = getAnnotationIndex();
-			if (index >= 0) {
-				newSelection = index;
-			}
-			else if (newSelection < 0 || newSelection >= list.getItemCount()) {
-				newSelection = 0;
-			}
-			if (newSelection >= 0 && list.getItemCount() > newSelection) {
-				list.select(newSelection);
-				setPageSelection(currentSelection[newSelection]);
+		if (list != null && !list.isDisposed()) {
+			listener.dirtyChanged(IAnnotationEditorListener.NO_CHANGES);
+			currentSelection = getAnnotation(selectedElements);
+			int newSelection = list.getSelectionIndex();
+			list.removeAll();
+			boolean showPage = currentSelection != null;
+			if (showPage) {
+				for (int i = 0; i < currentSelection.length; i++) {
+					list.add(DisplayAnnotationUtil.getText(currentSelection[i]));
+					adapt(i);
+	            }
+				int index = getAnnotationIndex();
+				if (index >= 0) {
+					newSelection = index;
+				}
+				else if (newSelection < 0 || newSelection >= list.getItemCount()) {
+					newSelection = 0;
+				}
+				if (newSelection >= 0 && list.getItemCount() > newSelection) {
+					list.select(newSelection);
+					setPageSelection(currentSelection[newSelection]);
+				}
+				else {
+					setPageEmpty();
+				}
 			}
 			else {
-				setPageEmpty();
+				super.selectionChanged(null, EMPTY_SELECTION);
 			}
+			leftPart.setVisible(showPage);
+			composite.layout();
 		}
-		else {
-			super.selectionChanged(null, EMPTY_SELECTION);
-		}
-		leftPart.setVisible(showPage);
-		composite.layout();
 	}
 	
 	private void updateStatus() {

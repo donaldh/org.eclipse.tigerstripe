@@ -12,9 +12,6 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
 import org.eclipse.gmf.runtime.draw2d.ui.mapmode.MapModeUtil;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Yuri Strot
@@ -23,8 +20,6 @@ import org.eclipse.swt.widgets.Display;
 public class AnnotationFigure extends DefaultSizeNodeFigure {
 
 	private boolean diagrsamLinkMode = false;;
-
-
 	private boolean withDanglingCorner = true;
 	private int lineWidth = 1;  
 
@@ -42,21 +37,6 @@ public class AnnotationFigure extends DefaultSizeNodeFigure {
 	 * the clip margin constant in device coordinates
 	 */
 	static public final int CLIP_MARGIN_DP = 14;
-	
-	private Color bColor;
-	private Color fColor;
-	
-	private void setColor(Color newColor) {
-		bColor = getBackgroundColor();
-		fColor = getForegroundColor();
-		setBackgroundColor(newColor);
-		setForegroundColor(newColor);
-	}
-	
-	private void backColors() {
-		setBackgroundColor(bColor);
-		setForegroundColor(fColor);
-	}
 		
 	/**
 	 * Constructor
@@ -104,8 +84,6 @@ public class AnnotationFigure extends DefaultSizeNodeFigure {
 	}
 
 	protected void paintBorder(Graphics g) {
-		setColor(Display.getCurrent().getSystemColor(SWT.COLOR_BLACK));
-		
 		if (!isDiagramLinkMode()) {
 			Rectangle r = getBounds();
 			
@@ -121,18 +99,14 @@ public class AnnotationFigure extends DefaultSizeNodeFigure {
 				g.drawPolyline(corner);			
 			}
 		}
-		
-		backColors();
 	}
 
 
 	protected void paintFigure(Graphics g) {
-		setColor(Display.getCurrent().getSystemColor(SWT.COLOR_RED));
 		super.paintFigure(g);
 		Rectangle r = getBounds();
 		PointList p = getPointList(r);
 		g.fillPolygon(p);
-		backColors();
 	}
 
 	/**
