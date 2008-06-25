@@ -18,6 +18,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.annotation.core,
  org.eclipse.emf.ecore.change,
  org.eclipse.ui.workbench,
- org.eclipse.tigerstripe.espace.core
+ org.eclipse.tigerstripe.espace.core,
+ org.eclipse.emf.validation
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.tigerstripe.annotation.core.test.Activator

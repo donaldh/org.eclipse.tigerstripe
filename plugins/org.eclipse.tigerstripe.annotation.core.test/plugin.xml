@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.5 2008/06/05 06:47:13 ystrot Exp $
+ $Id: plugin.xml,v 1.6 2008/06/25 08:11:08 ystrot Exp $
 -->
 
 <plugin>
@@ -81,5 +81,33 @@
                type="org.eclipse.tigerstripe.annotation.core.test.provider.IResourcePath"/>
       </factory>
 	</extension>
+   <extension
+         point="org.eclipse.emf.validation.constraintProviders">
+      <constraintProvider cache="true">
+         <package namespaceUri="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore"/>
+         <constraints categories="org.eclipse.tigerstripe.annotation.validation.category">
+            <constraint
+                  lang="Java"
+                  class="org.eclipse.tigerstripe.annotation.core.test.validation.MimeTypeValidator"
+                  severity="ERROR"
+                  mode="Live"
+                  name="Valid Mime Type"
+                  id="org.eclipse.tigerstripe.annotation.core.test.validMimeType"
+                  statusCode="1">
+               <description>
+                  Invalid mime type
+               </description>
+               <message>
+                  Invalid mime type: text/plain
+               </message>
+               <target class="MimeType">
+                  <event name="Set">
+                     <feature name="mimeType"/>
+                  </event>
+               </target>
+            </constraint>
+         </constraints>
+      </constraintProvider>
+   </extension>
 
 </plugin>
