@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.validation.model.EvaluationMode;
 import org.eclipse.emf.validation.service.ILiveValidator;
 import org.eclipse.emf.validation.service.ModelValidationService;
+import org.eclipse.emf.validation.util.FilteredCollection;
 
 /**
  * @author Yuri Strot
@@ -45,6 +46,17 @@ public class ValidationAdapter extends AdapterImpl {
 		if (validator == null) {
 			validator = (ILiveValidator) ModelValidationService
 					.getInstance().newValidator(EvaluationMode.LIVE);
+			validator.setNotificationFilter(new FilteredCollection.Filter() {
+			
+				public boolean accept(Object element) {
+					if (element instanceof Notification) {
+						Notification notification = (Notification)element;
+						return notification.getNotifier() instanceof EObject;
+					}
+					return false;
+				}
+			
+			});
 		}
 		return validator;
 	}

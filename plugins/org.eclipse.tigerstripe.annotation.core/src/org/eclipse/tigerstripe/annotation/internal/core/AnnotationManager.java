@@ -245,11 +245,14 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		return instance;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.internal.core.AnnotationStorage#trackChanges(org.eclipse.tigerstripe.annotation.core.Annotation)
+	 */
 	@Override
-	protected void addToList(Annotation annotation, URI uri) {
+	protected void trackChanges(Annotation annotation) {
+		super.trackChanges(annotation);
 		if (annotation.getContent() != null)
 			annotation.getContent().eAdapters().addAll(getAdapters());
-	    super.addToList(annotation, uri);
 	}
 	
 	protected URI getUri(Object object) {
