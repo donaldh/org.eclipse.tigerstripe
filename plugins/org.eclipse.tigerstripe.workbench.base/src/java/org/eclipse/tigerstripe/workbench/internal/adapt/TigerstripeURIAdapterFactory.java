@@ -44,7 +44,21 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		return new Class<?>[] { IModelComponent.class, };
 	}
 
-	protected IModelComponent uriToComponent(URI uri) {
+	/**
+	 * Returns the value <code>true</code> if the supplied URI is for the same
+	 * scheme as that converted by an instance of this converter
+	 * 
+	 * @param uri
+	 *            the URI whose scheme we wish to test for compatibility with an
+	 *            instance of this converter.
+	 * @return the value <code>true</code> if the supplied URI is for the same
+	 *         scheme as that converted by an instance of this converter
+	 */
+	public static boolean isRelated(URI uri) {
+		return SCHEME_TS.equals(uri.scheme());
+	}
+	
+	public static IModelComponent uriToComponent(URI uri) {
 		IPath path = new Path(uri.path());
 		String fqn = path.lastSegment();
 		path = path.removeLastSegments(1);
@@ -158,8 +172,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	// TigerstripeException
 	{
 		try {
-			IPath path = new Path(art.getProject().getProjectDetails()
-					.getName());
+			IPath path = new Path(art.getProject().getProjectLabel());
 			path = path.append(newName == null ? art.getFullyQualifiedName()
 					: newName);
 			return path;

@@ -14,6 +14,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 
 /**
@@ -23,14 +24,16 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 public class TSModelAnnotationProvider implements IAnnotationProvider {
 
 	public Object getObject(URI uri) {
-		return TSModelURIConverter.isRelated(uri) ? TSModelURIConverter
-				.toComponent(uri) : null;
+		return TigerstripeURIAdapterFactory.isRelated(uri) ? TigerstripeURIAdapterFactory
+				.uriToComponent(uri)
+				: null;
 	}
 
 	public URI getUri(Object object) {
 		try {
 			if (object instanceof IModelComponent)
-				return TSModelURIConverter.toURI((IModelComponent) object);
+				return TigerstripeURIAdapterFactory
+						.toURI((IModelComponent) object);
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 		}

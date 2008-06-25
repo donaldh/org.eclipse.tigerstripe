@@ -52,6 +52,7 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.eclipse.tigerstripe.workbench,
  org.eclipse.tigerstripe.workbench.generation,
  org.eclipse.tigerstripe.workbench.internal,
+ org.eclipse.tigerstripe.workbench.internal.adapt;x-friends:="org.eclipse.tigerstripe.annotation.tsmodel",
  org.eclipse.tigerstripe.workbench.internal.api;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.api.external.plugins,
