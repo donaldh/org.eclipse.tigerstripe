@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelAdapterFactory.java,v 1.2 2008/06/24 09:40:14 ystrot Exp $
+ * $Id: ModelAdapterFactory.java,v 1.3 2008/06/25 06:38:15 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.util;
 
@@ -84,12 +84,8 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createMetaAnnotationNodeAdapter();
 			}
 			@Override
-			public Adapter caseTypeStatus(TypeStatus object) {
-				return createTypeStatusAdapter();
-			}
-			@Override
-			public Adapter caseViewTypesStatus(ViewTypesStatus object) {
-				return createViewTypesStatusAdapter();
+			public Adapter caseMetaViewAnnotations(MetaViewAnnotations object) {
+				return createMetaViewAnnotationsAdapter();
 			}
 			@Override
 			public Adapter caseEModelElement(EModelElement object) {
@@ -152,30 +148,16 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus <em>Type Status</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations <em>Meta View Annotations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations
 	 * @generated
 	 */
-	public Adapter createTypeStatusAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus <em>View Types Status</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus
-	 * @generated
-	 */
-	public Adapter createViewTypesStatusAdapter() {
+	public Adapter createMetaViewAnnotationsAdapter() {
 		return null;
 	}
 

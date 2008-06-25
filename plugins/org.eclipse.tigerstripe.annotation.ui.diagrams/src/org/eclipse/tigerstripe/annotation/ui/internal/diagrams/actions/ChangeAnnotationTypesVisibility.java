@@ -101,10 +101,9 @@ public class ChangeAnnotationTypesVisibility extends Action implements IActionDe
 		for (AnnotationType type : tree.getTypes()) {
 			AnnotationTypeNode node = tree.getNode(type);
 			if ((show ? node.canBeShown() : node.canBeHidden())) {
-				ChangeAnnotationsVisibility action = new ChangeAnnotationsVisibility(
-						node.getNodes(), show);
 				for (EditPartNode epNode : node.getNodes()) {
-					EditPartNode newEPNode = nodes.get(epNode.getPart());
+					EditPart part = epNode.getPart();
+					EditPartNode newEPNode = nodes.get(part);
 					if (newEPNode == null) {
 						newEPNode = new EditPartNode(epNode);
 						nodes.put(epNode.getPart(), newEPNode);
@@ -113,6 +112,8 @@ public class ChangeAnnotationTypesVisibility extends Action implements IActionDe
 						newEPNode.addAnnotations(epNode.getAnnotations());
 					}
 				}
+				ChangeAnnotationsVisibility action = new ChangeAnnotationsVisibility(
+						node.getNodes(), show);
 				action.setText(type.getName());
 				list.add(action);
 			}

@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -52,6 +53,7 @@ import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
+import org.eclipse.tigerstripe.annotation.ui.core.TestActionManager;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationWizardAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotationAction;
@@ -223,6 +225,20 @@ public class PropertiesBrowserPage
 	    	RemoveAnnotationAction action = new RemoveAnnotationAction(annotation);
 		    ActionContributionItem item = new ActionContributionItem(action);
 		    item.fill(menu, -1);
+		    
+		    Action sAction = TestActionManager.getAction(annotation, true);
+		    if (sAction.isEnabled()) {
+			    sAction.setText("Show at diagram");
+			    ActionContributionItem item2 = new ActionContributionItem(sAction);
+			    item2.fill(menu, -1);
+		    }
+		    
+		    Action hAction = TestActionManager.getAction(annotation, false);
+		    if (hAction.isEnabled()) {
+			    hAction.setText("Hide at diagram");
+			    ActionContributionItem item2 = new ActionContributionItem(hAction);
+			    item2.fill(menu, -1);
+		    }
 	    }
 	    
 	    if (annotable != null) {

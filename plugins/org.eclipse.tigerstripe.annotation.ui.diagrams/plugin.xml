@@ -16,6 +16,20 @@
              <param name="semanticHint" value="Annotation"/> 
         </specializationType>
         <specializationType
+                id="org.eclipse.tigerstripe.annotation.ui.diagram.presentation.meta"     
+                name="MetaAnnotation"
+                kind="org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType">
+             <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+             <param name="semanticHint" value="MetaAnnotation"/> 
+        </specializationType>
+        <specializationType
+                id="org.eclipse.tigerstripe.annotation.ui.diagram.presentation.metaView"     
+                name="MetaViewAnnotation"
+                kind="org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType">
+             <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+             <param name="semanticHint" value="MetaViewAnnotation"/> 
+        </specializationType>
+        <specializationType
                 id="org.eclipse.tigerstripe.annotation.ui.diagram.presentation.connection"     
                 icon="icons/connection.gif"
                 name="Connection"
@@ -55,6 +69,8 @@
          <Priority name="Lowest"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="ann"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="Annotation"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="MetaAnnotation"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="MetaViewAnnotation"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="AnnotationConnection"/>
       </viewProvider>
    </extension>

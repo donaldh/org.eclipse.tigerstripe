@@ -14,6 +14,7 @@ import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.DiagramAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ModelFactory;
 
@@ -23,6 +24,8 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ModelFactory;
  */
 public class AnnotationViewFactory
 	extends TextShapeViewFactory {
+	
+	private String semanticHint;
 
 	/**
 	 * Method NoteView. creation constructor
@@ -35,6 +38,7 @@ public class AnnotationViewFactory
 	 */
 	public View createView(IAdaptable semanticAdapter, View containerView,
 			String semanticHint, int index, boolean persisted, final PreferencesHint preferencesHint) {
+		this.semanticHint = semanticHint;
 		View view = super.createView(semanticAdapter, containerView, semanticHint,
 			index, persisted, preferencesHint);
 		if (view.getElement() instanceof Annotation && 
@@ -51,6 +55,12 @@ public class AnnotationViewFactory
 	 */
 	@Override
 	protected Node createNode() {
+		if (semanticHint != null) {
+			if (semanticHint.equals(DiagramAnnotationType.META_ANNOTATION_TYPE))
+				return ModelFactory.eINSTANCE.createMetaAnnotationNode();
+			if (semanticHint.equals(DiagramAnnotationType.META_VIEW_ANNOTATION_TYPE))
+				return ModelFactory.eINSTANCE.createMetaViewAnnotations();
+		}
 		return ModelFactory.eINSTANCE.createAnnotationNode();
 	}
 

@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ViewTypesStatusImpl.java,v 1.1 2008/06/24 09:40:14 ystrot Exp $
+ * $Id: MetaViewAnnotationsImpl.java,v 1.1 2008/06/25 06:38:15 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl;
 
@@ -16,31 +16,31 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
 import org.eclipse.gmf.runtime.notation.View;
 
+import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
+
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ModelPackage;
-import org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus;
-import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>View Types Status</b></em>'.
+ * An implementation of the model object '<em><b>Meta View Annotations</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ViewTypesStatusImpl#getView <em>View</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ViewTypesStatusImpl#getStatuses <em>Statuses</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.MetaViewAnnotationsImpl#getView <em>View</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.MetaViewAnnotationsImpl#getTypes <em>Types</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ViewTypesStatusImpl extends EObjectImpl implements ViewTypesStatus {
+public class MetaViewAnnotationsImpl extends NodeImpl implements MetaViewAnnotations {
 	/**
 	 * The cached value of the '{@link #getView() <em>View</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -52,21 +52,21 @@ public class ViewTypesStatusImpl extends EObjectImpl implements ViewTypesStatus 
 	protected View view;
 
 	/**
-	 * The cached value of the '{@link #getStatuses() <em>Statuses</em>}' reference list.
+	 * The cached value of the '{@link #getTypes() <em>Types</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getStatuses()
+	 * @see #getTypes()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<TypeStatus> statuses;
+	protected EList<String> types;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ViewTypesStatusImpl() {
+	protected MetaViewAnnotationsImpl() {
 		super();
 	}
 
@@ -77,7 +77,7 @@ public class ViewTypesStatusImpl extends EObjectImpl implements ViewTypesStatus 
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return ModelPackage.Literals.VIEW_TYPES_STATUS;
+		return ModelPackage.Literals.META_VIEW_ANNOTATIONS;
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class ViewTypesStatusImpl extends EObjectImpl implements ViewTypesStatus 
 			view = (View)eResolveProxy(oldView);
 			if (view != oldView) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.VIEW_TYPES_STATUS__VIEW, oldView, view));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackage.META_VIEW_ANNOTATIONS__VIEW, oldView, view));
 			}
 		}
 		return view;
@@ -115,7 +115,7 @@ public class ViewTypesStatusImpl extends EObjectImpl implements ViewTypesStatus 
 		View oldView = view;
 		view = newView;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.VIEW_TYPES_STATUS__VIEW, oldView, view));
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.META_VIEW_ANNOTATIONS__VIEW, oldView, view));
 	}
 
 	/**
@@ -123,11 +123,11 @@ public class ViewTypesStatusImpl extends EObjectImpl implements ViewTypesStatus 
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<TypeStatus> getStatuses() {
-		if (statuses == null) {
-			statuses = new EObjectResolvingEList<TypeStatus>(TypeStatus.class, this, ModelPackage.VIEW_TYPES_STATUS__STATUSES);
+	public EList<String> getTypes() {
+		if (types == null) {
+			types = new EDataTypeUniqueEList<String>(String.class, this, ModelPackage.META_VIEW_ANNOTATIONS__TYPES);
 		}
-		return statuses;
+		return types;
 	}
 
 	/**
@@ -138,11 +138,11 @@ public class ViewTypesStatusImpl extends EObjectImpl implements ViewTypesStatus 
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.VIEW_TYPES_STATUS__VIEW:
+			case ModelPackage.META_VIEW_ANNOTATIONS__VIEW:
 				if (resolve) return getView();
 				return basicGetView();
-			case ModelPackage.VIEW_TYPES_STATUS__STATUSES:
-				return getStatuses();
+			case ModelPackage.META_VIEW_ANNOTATIONS__TYPES:
+				return getTypes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -156,12 +156,12 @@ public class ViewTypesStatusImpl extends EObjectImpl implements ViewTypesStatus 
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.VIEW_TYPES_STATUS__VIEW:
+			case ModelPackage.META_VIEW_ANNOTATIONS__VIEW:
 				setView((View)newValue);
 				return;
-			case ModelPackage.VIEW_TYPES_STATUS__STATUSES:
-				getStatuses().clear();
-				getStatuses().addAll((Collection<? extends TypeStatus>)newValue);
+			case ModelPackage.META_VIEW_ANNOTATIONS__TYPES:
+				getTypes().clear();
+				getTypes().addAll((Collection<? extends String>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -175,11 +175,11 @@ public class ViewTypesStatusImpl extends EObjectImpl implements ViewTypesStatus 
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.VIEW_TYPES_STATUS__VIEW:
+			case ModelPackage.META_VIEW_ANNOTATIONS__VIEW:
 				setView((View)null);
 				return;
-			case ModelPackage.VIEW_TYPES_STATUS__STATUSES:
-				getStatuses().clear();
+			case ModelPackage.META_VIEW_ANNOTATIONS__TYPES:
+				getTypes().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -193,12 +193,28 @@ public class ViewTypesStatusImpl extends EObjectImpl implements ViewTypesStatus 
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.VIEW_TYPES_STATUS__VIEW:
+			case ModelPackage.META_VIEW_ANNOTATIONS__VIEW:
 				return view != null;
-			case ModelPackage.VIEW_TYPES_STATUS__STATUSES:
-				return statuses != null && !statuses.isEmpty();
+			case ModelPackage.META_VIEW_ANNOTATIONS__TYPES:
+				return types != null && !types.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //ViewTypesStatusImpl
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (types: ");
+		result.append(types);
+		result.append(')');
+		return result.toString();
+	}
+
+} //MetaViewAnnotationsImpl

@@ -22,6 +22,8 @@ public class AnnotationViewProvider extends AbstractViewProvider {
 	static {
 		map.put(DiagramAnnotationType.ANN_TYPE, AnnotationViewFactory.class);
 		map.put(DiagramAnnotationType.ANNOTATION_TYPE, AnnotationViewFactory.class);
+		map.put(DiagramAnnotationType.META_ANNOTATION_TYPE, AnnotationViewFactory.class);
+		map.put(DiagramAnnotationType.META_VIEW_ANNOTATION_TYPE, AnnotationViewFactory.class);
 		map.put(DiagramAnnotationType.CONNECTION_TYPE, ConnectionViewFactory.class);
 	}
 

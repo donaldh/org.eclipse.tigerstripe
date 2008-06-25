@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactory.java,v 1.2 2008/06/24 09:40:14 ystrot Exp $
+ * $Id: ModelFactory.java,v 1.3 2008/06/25 06:38:15 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model;
 
@@ -44,22 +44,13 @@ public interface ModelFactory extends EFactory {
 	MetaAnnotationNode createMetaAnnotationNode();
 
 	/**
-	 * Returns a new object of class '<em>Type Status</em>'.
+	 * Returns a new object of class '<em>Meta View Annotations</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Type Status</em>'.
+	 * @return a new object of class '<em>Meta View Annotations</em>'.
 	 * @generated
 	 */
-	TypeStatus createTypeStatus();
-
-	/**
-	 * Returns a new object of class '<em>View Types Status</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>View Types Status</em>'.
-	 * @generated
-	 */
-	ViewTypesStatus createViewTypesStatus();
+	MetaViewAnnotations createMetaViewAnnotations();
 
 	/**
 	 * Returns the package supported by this factory.

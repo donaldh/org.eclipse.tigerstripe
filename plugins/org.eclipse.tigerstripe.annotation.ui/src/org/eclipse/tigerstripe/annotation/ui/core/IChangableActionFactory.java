@@ -9,14 +9,17 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.diagrams.model;
+package org.eclipse.tigerstripe.annotation.ui.core;
 
-import org.eclipse.gmf.runtime.notation.Node;
+import org.eclipse.jface.action.Action;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 
 /**
  * @author Yuri Strot
- * @model
+ *
  */
-public interface MetaAnnotationNode extends Node {
+public interface IChangableActionFactory {
+	
+	public Action create(Annotation annotation, boolean show);
 
 }

@@ -12,22 +12,22 @@
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
  * @author Yuri Strot
  * @model
  */
-public interface ViewTypesStatus extends EObject {
+public interface MetaViewAnnotations extends Node {
 	
 	/**
 	 * @model
 	 */
 	public View getView();
-	
+
 	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus#getView <em>View</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations#getView <em>View</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>View</em>' reference.
@@ -37,8 +37,8 @@ public interface ViewTypesStatus extends EObject {
 	void setView(View value);
 
 	/**
-	 * @model containment="true"
+	 * @model
 	 */
-	public EList<TypeStatus> getStatuses();
+	public EList<String> getTypes();
 
 }

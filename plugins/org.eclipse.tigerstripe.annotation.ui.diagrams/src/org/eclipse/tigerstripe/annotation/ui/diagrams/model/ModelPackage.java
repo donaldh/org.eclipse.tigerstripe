@@ -2,15 +2,15 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackage.java,v 1.2 2008/06/24 09:40:14 ystrot Exp $
+ * $Id: ModelPackage.java,v 1.3 2008/06/25 06:38:15 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 
 /**
@@ -197,7 +197,6 @@ public interface ModelPackage extends EPackage {
 	 */
 	int ANNOTATION_NODE_FEATURE_COUNT = NotationPackage.NODE_FEATURE_COUNT + 1;
 
-
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.MetaAnnotationNodeImpl <em>Meta Annotation Node</em>}' class.
 	 * <!-- begin-user-doc -->
@@ -317,32 +316,41 @@ public interface ModelPackage extends EPackage {
 	int META_ANNOTATION_NODE__LAYOUT_CONSTRAINT = NotationPackage.NODE__LAYOUT_CONSTRAINT;
 
 	/**
-	 * The feature id for the '<em><b>Views Type Statuses</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int META_ANNOTATION_NODE__VIEWS_TYPE_STATUSES = NotationPackage.NODE_FEATURE_COUNT + 0;
-
-	/**
 	 * The number of structural features of the '<em>Meta Annotation Node</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int META_ANNOTATION_NODE_FEATURE_COUNT = NotationPackage.NODE_FEATURE_COUNT + 1;
+	int META_ANNOTATION_NODE_FEATURE_COUNT = NotationPackage.NODE_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.TypeStatusImpl <em>Type Status</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.MetaViewAnnotationsImpl <em>Meta View Annotations</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.TypeStatusImpl
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ModelPackageImpl#getTypeStatus()
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.MetaViewAnnotationsImpl
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ModelPackageImpl#getMetaViewAnnotations()
 	 * @generated
 	 */
-	int TYPE_STATUS = 2;
+	int META_VIEW_ANNOTATIONS = 2;
+
+	/**
+	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META_VIEW_ANNOTATIONS__EANNOTATIONS = NotationPackage.NODE__EANNOTATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Visible</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META_VIEW_ANNOTATIONS__VISIBLE = NotationPackage.NODE__VISIBLE;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -351,35 +359,88 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_STATUS__TYPE = 0;
+	int META_VIEW_ANNOTATIONS__TYPE = NotationPackage.NODE__TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Show All</b></em>' attribute.
+	 * The feature id for the '<em><b>Mutable</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_STATUS__SHOW_ALL = 1;
+	int META_VIEW_ANNOTATIONS__MUTABLE = NotationPackage.NODE__MUTABLE;
 
 	/**
-	 * The number of structural features of the '<em>Type Status</em>' class.
+	 * The feature id for the '<em><b>Source Edges</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_STATUS_FEATURE_COUNT = 2;
+	int META_VIEW_ANNOTATIONS__SOURCE_EDGES = NotationPackage.NODE__SOURCE_EDGES;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ViewTypesStatusImpl <em>View Types Status</em>}' class.
+	 * The feature id for the '<em><b>Target Edges</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ViewTypesStatusImpl
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ModelPackageImpl#getViewTypesStatus()
 	 * @generated
+	 * @ordered
 	 */
-	int VIEW_TYPES_STATUS = 3;
+	int META_VIEW_ANNOTATIONS__TARGET_EDGES = NotationPackage.NODE__TARGET_EDGES;
+
+	/**
+	 * The feature id for the '<em><b>Persisted Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META_VIEW_ANNOTATIONS__PERSISTED_CHILDREN = NotationPackage.NODE__PERSISTED_CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Styles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META_VIEW_ANNOTATIONS__STYLES = NotationPackage.NODE__STYLES;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META_VIEW_ANNOTATIONS__ELEMENT = NotationPackage.NODE__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Diagram</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META_VIEW_ANNOTATIONS__DIAGRAM = NotationPackage.NODE__DIAGRAM;
+
+	/**
+	 * The feature id for the '<em><b>Transient Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META_VIEW_ANNOTATIONS__TRANSIENT_CHILDREN = NotationPackage.NODE__TRANSIENT_CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Layout Constraint</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META_VIEW_ANNOTATIONS__LAYOUT_CONSTRAINT = NotationPackage.NODE__LAYOUT_CONSTRAINT;
 
 	/**
 	 * The feature id for the '<em><b>View</b></em>' reference.
@@ -388,35 +449,25 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VIEW_TYPES_STATUS__VIEW = 0;
+	int META_VIEW_ANNOTATIONS__VIEW = NotationPackage.NODE_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Statuses</b></em>' reference list.
+	 * The feature id for the '<em><b>Types</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VIEW_TYPES_STATUS__STATUSES = 1;
+	int META_VIEW_ANNOTATIONS__TYPES = NotationPackage.NODE_FEATURE_COUNT + 1;
 
 	/**
-	 * The number of structural features of the '<em>View Types Status</em>' class.
+	 * The number of structural features of the '<em>Meta View Annotations</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VIEW_TYPES_STATUS_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '<em>Annotation</em>' data type.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.tigerstripe.annotation.core.Annotation
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ModelPackageImpl#getAnnotation()
-	 * @generated
-	 */
-	int ANNOTATION = 4;
+	int META_VIEW_ANNOTATIONS_FEATURE_COUNT = NotationPackage.NODE_FEATURE_COUNT + 2;
 
 
 	/**
@@ -451,90 +502,36 @@ public interface ModelPackage extends EPackage {
 	EClass getMetaAnnotationNode();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode#getViewsTypeStatuses <em>Views Type Statuses</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations <em>Meta View Annotations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Views Type Statuses</em>'.
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode#getViewsTypeStatuses()
-	 * @see #getMetaAnnotationNode()
+	 * @return the meta object for class '<em>Meta View Annotations</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations
 	 * @generated
 	 */
-	EReference getMetaAnnotationNode_ViewsTypeStatuses();
+	EClass getMetaViewAnnotations();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus <em>Type Status</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Type Status</em>'.
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus
-	 * @generated
-	 */
-	EClass getTypeStatus();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus#getType <em>Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Type</em>'.
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus#getType()
-	 * @see #getTypeStatus()
-	 * @generated
-	 */
-	EAttribute getTypeStatus_Type();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus#isShowAll <em>Show All</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Show All</em>'.
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.TypeStatus#isShowAll()
-	 * @see #getTypeStatus()
-	 * @generated
-	 */
-	EAttribute getTypeStatus_ShowAll();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus <em>View Types Status</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>View Types Status</em>'.
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus
-	 * @generated
-	 */
-	EClass getViewTypesStatus();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus#getView <em>View</em>}'.
+	 * Returns the meta object for the reference '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations#getView <em>View</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>View</em>'.
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus#getView()
-	 * @see #getViewTypesStatus()
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations#getView()
+	 * @see #getMetaViewAnnotations()
 	 * @generated
 	 */
-	EReference getViewTypesStatus_View();
+	EReference getMetaViewAnnotations_View();
 
 	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus#getStatuses <em>Statuses</em>}'.
+	 * Returns the meta object for the attribute list '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations#getTypes <em>Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Statuses</em>'.
-	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewTypesStatus#getStatuses()
-	 * @see #getViewTypesStatus()
+	 * @return the meta object for the attribute list '<em>Types</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations#getTypes()
+	 * @see #getMetaViewAnnotations()
 	 * @generated
 	 */
-	EReference getViewTypesStatus_Statuses();
-
-	/**
-	 * Returns the meta object for data type '{@link org.eclipse.tigerstripe.annotation.core.Annotation <em>Annotation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for data type '<em>Annotation</em>'.
-	 * @see org.eclipse.tigerstripe.annotation.core.Annotation
-	 * @model instanceClass="org.eclipse.tigerstripe.annotation.core.Annotation"
-	 * @generated
-	 */
-	EDataType getAnnotation();
+	EAttribute getMetaViewAnnotations_Types();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -587,48 +584,14 @@ public interface ModelPackage extends EPackage {
 		EClass META_ANNOTATION_NODE = eINSTANCE.getMetaAnnotationNode();
 
 		/**
-		 * The meta object literal for the '<em><b>Views Type Statuses</b></em>' reference list feature.
+		 * The meta object literal for the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.MetaViewAnnotationsImpl <em>Meta View Annotations</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.MetaViewAnnotationsImpl
+		 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ModelPackageImpl#getMetaViewAnnotations()
 		 * @generated
 		 */
-		EReference META_ANNOTATION_NODE__VIEWS_TYPE_STATUSES = eINSTANCE.getMetaAnnotationNode_ViewsTypeStatuses();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.TypeStatusImpl <em>Type Status</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.TypeStatusImpl
-		 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ModelPackageImpl#getTypeStatus()
-		 * @generated
-		 */
-		EClass TYPE_STATUS = eINSTANCE.getTypeStatus();
-
-		/**
-		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TYPE_STATUS__TYPE = eINSTANCE.getTypeStatus_Type();
-
-		/**
-		 * The meta object literal for the '<em><b>Show All</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TYPE_STATUS__SHOW_ALL = eINSTANCE.getTypeStatus_ShowAll();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ViewTypesStatusImpl <em>View Types Status</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ViewTypesStatusImpl
-		 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ModelPackageImpl#getViewTypesStatus()
-		 * @generated
-		 */
-		EClass VIEW_TYPES_STATUS = eINSTANCE.getViewTypesStatus();
+		EClass META_VIEW_ANNOTATIONS = eINSTANCE.getMetaViewAnnotations();
 
 		/**
 		 * The meta object literal for the '<em><b>View</b></em>' reference feature.
@@ -636,25 +599,15 @@ public interface ModelPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference VIEW_TYPES_STATUS__VIEW = eINSTANCE.getViewTypesStatus_View();
+		EReference META_VIEW_ANNOTATIONS__VIEW = eINSTANCE.getMetaViewAnnotations_View();
 
 		/**
-		 * The meta object literal for the '<em><b>Statuses</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Types</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference VIEW_TYPES_STATUS__STATUSES = eINSTANCE.getViewTypesStatus_Statuses();
-
-		/**
-		 * The meta object literal for the '<em>Annotation</em>' data type.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.tigerstripe.annotation.core.Annotation
-		 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ModelPackageImpl#getAnnotation()
-		 * @generated
-		 */
-		EDataType ANNOTATION = eINSTANCE.getAnnotation();
+		EAttribute META_VIEW_ANNOTATIONS__TYPES = eINSTANCE.getMetaViewAnnotations_Types();
 
 	}
 

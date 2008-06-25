@@ -40,7 +40,7 @@ public class AnnotationDiagramBuilder implements IDiagramListener {
 	 */
 	public void diagramOpened(DiagramEditor editor) {
 		map.put(editor, new DiagramRebuldListener(editor));
-		//DiagramRebuildUtils.rebuld(editor);
+		DiagramRebuildUtils.rebuld(editor);
 	}
 
 }

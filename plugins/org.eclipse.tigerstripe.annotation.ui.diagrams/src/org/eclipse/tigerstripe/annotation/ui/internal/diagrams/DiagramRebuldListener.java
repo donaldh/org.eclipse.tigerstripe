@@ -42,7 +42,7 @@ public class DiagramRebuldListener implements IAnnotationListener {
 		AsyncExecUtil.run(editor.getSite().getShell(), new Runnable() {
 		
 			public void run() {
-				//DiagramRebuildUtils.rebuld(editor);
+				DiagramRebuildUtils.rebuld(editor);
 			}
 		
 		});

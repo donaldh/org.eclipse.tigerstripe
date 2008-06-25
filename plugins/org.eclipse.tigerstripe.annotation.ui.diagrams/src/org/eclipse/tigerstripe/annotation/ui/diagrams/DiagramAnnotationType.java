@@ -23,6 +23,16 @@ public class DiagramAnnotationType
 	 * the annotation semantic hint
 	 */
 	public static String ANNOTATION_TYPE = "Annotation"; //$NON-NLS-1$
+	
+	/**
+	 * the annotation semantic hint
+	 */
+	public static String META_ANNOTATION_TYPE = "MetaAnnotation"; //$NON-NLS-1$
+	
+	/**
+	 * the annotation semantic hint
+	 */
+	public static String META_VIEW_ANNOTATION_TYPE = "MetaViewAnnotation"; //$NON-NLS-1$
 	/**
 	 * the connection semantic hint
 	 */
@@ -33,6 +43,12 @@ public class DiagramAnnotationType
 
 	public static final IAnnotationType CONNECTION =
 		(IAnnotationType) getElementType("org.eclipse.tigerstripe.annotation.ui.diagram.presentation.connection");
+
+	public static final IAnnotationType META_ANNOTATION =
+		(IAnnotationType) getElementType("org.eclipse.tigerstripe.annotation.ui.diagram.presentation.meta");
+
+	public static final IAnnotationType META_VIEW_ANNOTATION =
+		(IAnnotationType) getElementType("org.eclipse.tigerstripe.annotation.ui.diagram.presentation.metaView");
 	
 	public static final IHintedType ANN =
 		(IHintedType) getElementType("org.eclipse.tigerstripe.annotation.ui.diagram.presentation.ann");

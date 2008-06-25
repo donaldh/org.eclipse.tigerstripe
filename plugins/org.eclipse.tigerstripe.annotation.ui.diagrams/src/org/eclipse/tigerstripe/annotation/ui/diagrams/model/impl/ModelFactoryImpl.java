@@ -2,12 +2,11 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactoryImpl.java,v 1.2 2008/06/24 09:40:14 ystrot Exp $
+ * $Id: ModelFactoryImpl.java,v 1.3 2008/06/25 06:38:15 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -15,7 +14,6 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.*;
 
 /**
@@ -64,40 +62,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 		switch (eClass.getClassifierID()) {
 			case ModelPackage.ANNOTATION_NODE: return createAnnotationNode();
 			case ModelPackage.META_ANNOTATION_NODE: return createMetaAnnotationNode();
-			case ModelPackage.TYPE_STATUS: return createTypeStatus();
-			case ModelPackage.VIEW_TYPES_STATUS: return createViewTypesStatus();
+			case ModelPackage.META_VIEW_ANNOTATIONS: return createMetaViewAnnotations();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Object createFromString(EDataType eDataType, String initialValue) {
-		switch (eDataType.getClassifierID()) {
-			case ModelPackage.ANNOTATION:
-				return createAnnotationFromString(eDataType, initialValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		}
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String convertToString(EDataType eDataType, Object instanceValue) {
-		switch (eDataType.getClassifierID()) {
-			case ModelPackage.ANNOTATION:
-				return convertAnnotationToString(eDataType, instanceValue);
-			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -126,37 +93,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TypeStatus createTypeStatus() {
-		TypeStatusImpl typeStatus = new TypeStatusImpl();
-		return typeStatus;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ViewTypesStatus createViewTypesStatus() {
-		ViewTypesStatusImpl viewTypesStatus = new ViewTypesStatusImpl();
-		return viewTypesStatus;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Annotation createAnnotationFromString(EDataType eDataType, String initialValue) {
-		return (Annotation)super.createFromString(eDataType, initialValue);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String convertAnnotationToString(EDataType eDataType, Object instanceValue) {
-		return super.convertToString(eDataType, instanceValue);
+	public MetaViewAnnotations createMetaViewAnnotations() {
+		MetaViewAnnotationsImpl metaViewAnnotations = new MetaViewAnnotationsImpl();
+		return metaViewAnnotations;
 	}
 
 	/**

@@ -11,6 +11,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.diagrams;
 
+import org.eclipse.jface.action.Action;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.ui.core.IChangableActionFactory;
+import org.eclipse.tigerstripe.annotation.ui.core.TestActionManager;
+import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions.ChangeAnnotationVisibility;
 import org.eclipse.ui.IStartup;
 
 /**
@@ -25,6 +30,16 @@ public class Startup implements IStartup {
 	 * @see org.eclipse.ui.IStartup#earlyStartup()
 	 */
 	public void earlyStartup() {
+		TestActionManager.setAction(new IChangableActionFactory() {
+		
+			/* (non-Javadoc)
+			 * @see org.eclipse.tigerstripe.annotation.ui.core.IChangableActionFactory#create(org.eclipse.tigerstripe.annotation.core.Annotation, boolean)
+			 */
+			public Action create(Annotation annotation, boolean show) {
+				return new ChangeAnnotationVisibility(annotation, show);
+			}
+		
+		});
 	}
 
 }

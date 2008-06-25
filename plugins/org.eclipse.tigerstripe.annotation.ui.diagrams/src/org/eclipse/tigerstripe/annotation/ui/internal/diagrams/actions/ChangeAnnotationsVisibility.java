@@ -46,11 +46,13 @@ public class ChangeAnnotationsVisibility extends Action {
 				EditPart ePart = node.getPart();
 				AnnotationStatus[] annotations = node.getAnnotations();
 				if (show)
-					DiagramRebuildUtils.showAnnotations(editor, 
-							ePart, annotations);
+					DiagramRebuildUtils.showAnnotations(
+							editor, ePart, annotations);
 				else
-					DiagramRebuildUtils.hideAnnotations(editor, 
-							ePart, annotations);
+					DiagramRebuildUtils.hideAnnotations(
+							editor, ePart, annotations);
+				DiagramRebuildUtils.updateMetaInfo(
+						editor, ePart, annotations, show);
 			}
 		}
 	}

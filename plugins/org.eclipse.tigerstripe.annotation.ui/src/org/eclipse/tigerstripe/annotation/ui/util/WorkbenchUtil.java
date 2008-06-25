@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.annotation.ui.util;
 
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchSite;
@@ -41,6 +42,11 @@ public class WorkbenchUtil {
 	public static IWorkbenchPart getPart() {
 		IWorkbenchPage page = getPage();
 		return page != null ? page.getActivePart() : null;
+	}
+	
+	public static IEditorPart getEditor() {
+		IWorkbenchPage page = getPage();
+		return page != null ? page.getActiveEditor() : null;
 	}
 	
 	public static IWorkbenchSite getSite() {

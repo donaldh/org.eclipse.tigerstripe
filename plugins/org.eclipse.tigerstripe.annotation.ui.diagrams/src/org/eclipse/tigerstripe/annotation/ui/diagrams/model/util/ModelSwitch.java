@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelSwitch.java,v 1.2 2008/06/24 09:40:14 ystrot Exp $
+ * $Id: ModelSwitch.java,v 1.3 2008/06/25 06:38:15 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.util;
 
@@ -109,15 +109,12 @@ public class ModelSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelPackage.TYPE_STATUS: {
-				TypeStatus typeStatus = (TypeStatus)theEObject;
-				T result = caseTypeStatus(typeStatus);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelPackage.VIEW_TYPES_STATUS: {
-				ViewTypesStatus viewTypesStatus = (ViewTypesStatus)theEObject;
-				T result = caseViewTypesStatus(viewTypesStatus);
+			case ModelPackage.META_VIEW_ANNOTATIONS: {
+				MetaViewAnnotations metaViewAnnotations = (MetaViewAnnotations)theEObject;
+				T result = caseMetaViewAnnotations(metaViewAnnotations);
+				if (result == null) result = caseNode(metaViewAnnotations);
+				if (result == null) result = caseView(metaViewAnnotations);
+				if (result == null) result = caseEModelElement(metaViewAnnotations);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -156,32 +153,17 @@ public class ModelSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Type Status</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Meta View Annotations</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Type Status</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Meta View Annotations</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseTypeStatus(TypeStatus object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>View Types Status</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>View Types Status</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseViewTypesStatus(ViewTypesStatus object) {
+	public T caseMetaViewAnnotations(MetaViewAnnotations object) {
 		return null;
 	}
 
