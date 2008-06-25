@@ -285,7 +285,7 @@ public class ClasspathUpdater {
 				// patterns
 				ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
 				null, null, null, // specific output folder
-				false, ClasspathEntry.NO_ACCESS_RULES, false, // no access
+				true, ClasspathEntry.NO_ACCESS_RULES, false, // no access
 				// rules to
 				// combine
 				ClasspathEntry.NO_EXTRA_ATTRIBUTES);
