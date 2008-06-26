@@ -12,7 +12,6 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.diagrams;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,8 +57,8 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.AnnotationEditPart;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationConnectionEditPart;
-import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationEditPart;
 import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 
 /**
@@ -281,43 +280,6 @@ public class DiagramRebuildUtils {
 		}
 	}
 
-	protected static Annotation[] getAnnotations(EditPart part) {
-		List<Annotation> annotations = new ArrayList<Annotation>();
-
-		Annotation[] array = AdaptableUtil.getAllAnnotations(part);
-		annotations.addAll(Arrays.asList(array));
-
-		if (part.getModel() instanceof View) {
-			View view = (View) part.getModel();
-			if (!DiagramAnnotationType.ANNOTATION_TYPE.equals(view.getType())) {
-				EObject element = view.getElement();
-				if (element != null) {
-					array = AdaptableUtil.getAllAnnotations(element);
-					for (int i = 0; i < array.length; i++) {
-						if (!annotations.contains(array[i]))
-							annotations.add(array[i]);
-					}
-				}
-			}
-		}
-
-		if (part instanceof GraphicalEditPart) {
-			GraphicalEditPart gep = (GraphicalEditPart) part;
-			removeAllExist(annotations, gep.getSourceConnections());
-			removeAllExist(annotations, gep.getTargetConnections());
-		}
-
-		return annotations.toArray(new Annotation[annotations.size()]);
-	}
-
-	protected static void removeAllExist(List<Annotation> annotations,
-			List<?> parts) {
-		for (Object object : new ArrayList<Object>(parts)) {
-			if (object instanceof EditPart)
-				removeExist(annotations, (EditPart) object);
-		}
-	}
-
 	protected static void addAllAnnotations(
 			Map<Annotation, AnnotationNode> annotations, List<?> edges,
 			boolean source) {
@@ -366,24 +328,6 @@ public class DiagramRebuildUtils {
 				return (AnnotationEditPart) connection.getSource();
 		}
 		return null;
-	}
-
-	protected static void removeExist(List<Annotation> annotations,
-			EditPart part) {
-		AnnotationEditPart annotationPart = getAnnotationEditPart(part);
-		Annotation annotation = getEqualsAnnotation(annotations, annotationPart);
-		if (annotation != null)
-			annotations.remove(annotation);
-		else {
-			View view = (View) annotationPart.getModel();
-			DeleteCommand command = new DeleteCommand(view);
-			if (command.canExecute())
-				try {
-					command.execute(new NullProgressMonitor(), null);
-				} catch (ExecutionException e) {
-					e.printStackTrace();
-				}
-		}
 	}
 
 	protected static Annotation getEqualsAnnotation(
@@ -478,7 +422,7 @@ public class DiagramRebuildUtils {
 	}
 
 	protected static EditPart createAnnotation(EditPart part, Annotation annotation) {
-		Node node = createNode(DiagramAnnotationType.ANN_TYPE, new EObjectAdapter(annotation), 
+		Node node = createNode(DiagramAnnotationType.ANNOTATION_TYPE, new EObjectAdapter(annotation), 
 				((IGraphicalEditPart) part).getEditingDomain(), (View) part.getModel());
 		if (node != null) {
 			Object object = part.getViewer().getEditPartRegistry()

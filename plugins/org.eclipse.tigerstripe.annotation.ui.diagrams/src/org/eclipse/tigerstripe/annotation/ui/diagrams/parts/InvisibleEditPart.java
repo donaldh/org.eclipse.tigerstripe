@@ -9,17 +9,12 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts;
+package org.eclipse.tigerstripe.annotation.ui.diagrams.parts;
 
 import org.eclipse.draw2d.geometry.Insets;
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
-import org.eclipse.gmf.runtime.diagram.ui.editpolicies.OpenDiagramEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.ViewComponentEditPolicy;
-import org.eclipse.gmf.runtime.diagram.ui.internal.editpolicies.DiagramLinkDragDropEditPolicy;
-import org.eclipse.gmf.runtime.diagram.ui.internal.editpolicies.NonSemanticEditPolicy;
 import org.eclipse.gmf.runtime.draw2d.ui.mapmode.IMapMode;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.View;
@@ -52,34 +47,11 @@ public class InvisibleEditPart extends ShapeNodeEditPart {
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
 
-		// Remove semantic edit policy and install a non-semantic edit policy
-		removeEditPolicy(EditPolicyRoles.SEMANTIC_ROLE);
-		installEditPolicy(EditPolicyRoles.SEMANTIC_ROLE,
-			new NonSemanticEditPolicy());
-
-		// Add Note support for diagram links
-		// The following two edit policies support the links.		
-		installEditPolicy(
-			EditPolicyRoles.DRAG_DROP_ROLE,
-			new DiagramLinkDragDropEditPolicy());
-		
-		installEditPolicy(
-			EditPolicyRoles.OPEN_ROLE,
-			new OpenDiagramEditPolicy());
-
 		// This View doesn't have semantic elements so use a component edit
 		// policy that only gets a command to delete the view
 		installEditPolicy(
 			EditPolicy.COMPONENT_ROLE,
 			new ViewComponentEditPolicy());
-	}
-	
-	/**
-	 * this method will return the primary child EditPart  inside this edit part
-	 * @return the primary child view inside this edit part
-	 */
-	public EditPart getPrimaryChildEditPart(){
-		return null;//getChildBySemanticHint(CommonParserHint.DESCRIPTION);
 	}
 	
 	/* (non-Javadoc)

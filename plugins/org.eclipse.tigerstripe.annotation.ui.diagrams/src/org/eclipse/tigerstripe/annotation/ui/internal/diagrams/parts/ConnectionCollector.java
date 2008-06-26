@@ -19,8 +19,10 @@ import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.View;
 
 /**
+ * The connection collector refresh all corresponding views when annotation was created.
+ * It needs when annotation view visibility set to "false" value.
+ * 
  * @author Yuri Strot
- *
  */
 public class ConnectionCollector {
 	

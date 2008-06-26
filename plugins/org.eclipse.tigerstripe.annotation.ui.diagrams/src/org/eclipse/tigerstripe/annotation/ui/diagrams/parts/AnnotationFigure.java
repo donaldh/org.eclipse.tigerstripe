@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts;
+package org.eclipse.tigerstripe.annotation.ui.diagrams.parts;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.MarginBorder;
@@ -19,7 +19,6 @@ import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
  */
 public class AnnotationFigure extends DefaultSizeNodeFigure {
 
-	private boolean diagrsamLinkMode = false;;
 	private boolean withDanglingCorner = true;
 	private int lineWidth = 1;  
 
@@ -84,20 +83,18 @@ public class AnnotationFigure extends DefaultSizeNodeFigure {
 	}
 
 	protected void paintBorder(Graphics g) {
-		if (!isDiagramLinkMode()) {
-			Rectangle r = getBounds();
-			
-			PointList p = getPointList(r);
-			g.setLineWidth(lineWidth);  
-			g.drawPolyline(p);
-	
-			if (withDanglingCorner) {
-				PointList corner = new PointList();
-				corner.addPoint(r.x + r.width - getClipWidth(), r.y + r.height);
-				corner.addPoint(r.x + r.width - getClipWidth(), r.y + r.height - getClipHeight());
-				corner.addPoint(r.x + r.width, r.y + r.height - getClipHeight());
-				g.drawPolyline(corner);			
-			}
+		Rectangle r = getBounds();
+		
+		PointList p = getPointList(r);
+		g.setLineWidth(lineWidth);  
+		g.drawPolyline(p);
+
+		if (withDanglingCorner) {
+			PointList corner = new PointList();
+			corner.addPoint(r.x + r.width - getClipWidth(), r.y + r.height);
+			corner.addPoint(r.x + r.width - getClipWidth(), r.y + r.height - getClipHeight());
+			corner.addPoint(r.x + r.width, r.y + r.height - getClipHeight());
+			g.drawPolyline(corner);			
 		}
 	}
 
@@ -116,31 +113,6 @@ public class AnnotationFigure extends DefaultSizeNodeFigure {
 		return super.getPreferredSize(wHint, hHint).getUnioned(new Dimension(
 								MapModeUtil.getMapMode(this).DPtoLP(100), 
 								MapModeUtil.getMapMode(this).DPtoLP(50)));
-	}
-	
-	/**
-	 * sets or resets the diagram link mode, in diagram link mode the note
-	 * will not paint a border or background for itself
-	 * @param diagramLinkMode , the new diagram link mode state
-	 * @return the old diagram Link mode state
-	 */
-	public boolean setDiagramLinkMode(boolean diagramLinkMode) {
-		boolean bOldDiagramLinkMode = this.diagrsamLinkMode;
-		ConstrainedToolbarLayout layout = (ConstrainedToolbarLayout)getLayoutManager();
-		if (diagramLinkMode){
-			layout.setMinorAlignment(ConstrainedToolbarLayout.ALIGN_CENTER);
-		}else {
-			layout.setMinorAlignment(ConstrainedToolbarLayout.ALIGN_TOPLEFT);
-		}
-		this.diagrsamLinkMode = diagramLinkMode;
-		return bOldDiagramLinkMode;
-	}
-	
-	/**
-	 * @return true is in diagram Link mode, otherwise false
-	 */
-	public boolean isDiagramLinkMode() {
-		return diagrsamLinkMode;
 	}
 
 }
