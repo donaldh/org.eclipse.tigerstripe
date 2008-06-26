@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
@@ -19,10 +20,10 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.action.Action;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.AnnotationStatus;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.DiagramRebuildUtils;
-import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -84,9 +85,10 @@ public class ChangeAnnotationVisibility extends Action {
 		for (Object object : list) {
 			if (object instanceof EditPart) {
 				EditPart child = (EditPart)object;
-				Annotation[] annotations = AdaptableUtil.getAllAnnotations(child);
-				for (int i = 0; i < annotations.length; i++) {
-					if (annotations[i].equals(annotation))
+				List<Annotation> annotations = new ArrayList<Annotation>();
+				AnnotationUtils.getAllAnnotations(object, annotations);
+				for (Annotation annotation : annotations) {
+					if (annotation.equals(this.annotation))
 						return child;
 				}
 			}

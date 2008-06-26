@@ -28,10 +28,12 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.CompositeRefactorListener;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationTarget;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.core.ProviderContext;
 import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
+import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 
 /**
  * This is implementation of the <code>IAnnotationManager</code>.
@@ -87,17 +89,32 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
     }
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getAnnotatedObjectTypes()
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getProviderTargets()
 	 */
-	public String[] getAnnotatedObjectTypes() {
-		return getProviderManager().getAllTypes();
+	public ProviderTarget[] getProviderTargets() {
+		ProviderContext[] contexts = getProviderManager().getProviders();
+		ProviderTarget[] targets = new ProviderTarget[contexts.length];
+		for (int i = 0; i < contexts.length; i++) {
+			targets[i] = contexts[i].getTarget();
+		}
+		return targets;
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getProvider(java.lang.String)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getAnnotationTargets(java.lang.Object)
 	 */
-	public ProviderContext getProvider(String type) {
-		return getProviderManager().getProviderByType(type);
+	public TargetAnnotationType[] getAnnotationTargets(Object object) {
+		ProviderTarget[] targets = getProviderTargets();
+		AnnotationType[] types = getTypes();
+		List<TargetAnnotationType> list = new ArrayList<TargetAnnotationType>();
+		for (int i = 0; i < types.length; i++) {
+			AnnotationType type = types[i];
+			IAnnotationTarget[] annotationTargets = type.getTargets(object, targets);
+			if (annotationTargets.length > 0) {
+				list.add(new TargetAnnotationType(type, annotationTargets));
+			}
+		}
+		return list.toArray(new TargetAnnotationType[list.size()]);
 	}
 	
 	protected void checkUnique(Object object, URI uri, EObject content) {
@@ -265,7 +282,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	protected ProviderContext getProvider(Object object) {
 		ProviderContext[] providers = getProviderManager().getProviders();
 		for (ProviderContext providerContext : providers) {
-			if (isApplicable(object, providerContext.getType())) {
+			if (isApplicable(object, providerContext.getTarget().getClassName())) {
 				return providerContext;
 			}
 		}
@@ -282,7 +299,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		for (int i = 0; i < delegates.length; i++) {
 			ProviderContext newContext = providerManager.getProviderByType(delegates[i]);
 			if (newContext != null) {
-				Object adapted = getAdapted(object, delegates[i]);
+				Object adapted = newContext.getTarget().adapt(object);
 				if (adapted != null)
 					collectAllAnnotations(annotations, newContext, adapted);
 			}

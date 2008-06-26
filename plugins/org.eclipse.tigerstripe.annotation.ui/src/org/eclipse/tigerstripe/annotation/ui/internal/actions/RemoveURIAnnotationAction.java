@@ -11,13 +11,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
+import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -30,8 +33,14 @@ public class RemoveURIAnnotationAction extends DelegateAction {
 	
 	public RemoveURIAnnotationAction(Object object) {
 		this();
-		annotations = AdaptableUtil.getAllAnnotations(object);
-		setEnabled(annotations != null && annotations.length > 0);
+		annotations = getAnnotations(object);
+		setEnabled(annotations.length > 0);
+	}
+	
+	protected Annotation[] getAnnotations(Object object) {
+		List<Annotation> annotations = new ArrayList<Annotation>();
+		AnnotationUtils.getAllAnnotations(object, annotations);
+		return annotations.toArray(new Annotation[annotations.size()]);
 	}
 	
 	public RemoveURIAnnotationAction() {
@@ -55,7 +64,7 @@ public class RemoveURIAnnotationAction extends DelegateAction {
 		annotations = null;
 		Object object = getSelected(selection);
 		if (object != null) {
-			annotations = AdaptableUtil.getAllAnnotations(object);
+			annotations = getAnnotations(object);
 		}
 		setEnabled(annotations != null && annotations.length > 0);
 	}

@@ -24,9 +24,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 
 
 /**
@@ -36,8 +37,8 @@ import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 public class CreateAnnotationWizardPage extends WizardPage {
 	
 	private static final String TITLE = "Select Annotation Type";
-	private AnnotationType type;
-	private AnnotationType[] types;
+	private TargetAnnotationType type;
+	private TargetAnnotationType[] types;
 	private Table combo;
 	private Object object;
 	
@@ -49,7 +50,7 @@ public class CreateAnnotationWizardPage extends WizardPage {
 	    this.object = object;
     }
 	
-	public AnnotationType getType() {
+	public TargetAnnotationType getType() {
 		return type;
 	}
 
@@ -73,15 +74,14 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		Label label = new Label(parent, SWT.TOP);
 		label.setText("Type: ");
 		label.setLayoutData(new GridData(GridData.FILL_VERTICAL));
-
-		types = object == null ? new AnnotationType[0] : 
-			AdaptableUtil.getTypes(object);
+		
+		types = AnnotationPlugin.getManager().getAnnotationTargets(object);
 		
 		combo = new Table(parent, SWT.BORDER);
 		combo.setHeaderVisible(false);
 		combo.setLinesVisible(false);
 		for (int i = 0; i < types.length; i++) {
-			AnnotationType type = types[i];
+			AnnotationType type = types[i].getType();
 			TableItem item = new TableItem(combo, SWT.NONE);
 			item.setText(type.getName());
 			ILabelProvider provider = AnnotationUIPlugin.getManager(
@@ -119,7 +119,7 @@ public class CreateAnnotationWizardPage extends WizardPage {
 			int index = combo.getSelectionIndex();
 			if (index >= 0 && index < types.length) {
 				type = types[combo.getSelectionIndex()];
-				String d = type.getDesciption();
+				String d = type.getType().getDesciption();
 				if (d == null) d = "";
 				setMessage(d);
 			}

@@ -52,6 +52,7 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.DiagramAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
@@ -59,7 +60,6 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.AnnotationEditPart;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationConnectionEditPart;
-import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 
 /**
  * @author Yuri Strot
@@ -106,9 +106,8 @@ public class DiagramRebuildUtils {
 	}
 
 	public static AnnotationStatus[] getPartAnnotations(EditPart part) {
-		Annotation[] annotations = AdaptableUtil.getAllAnnotations(part);
-		if (annotations.length == 0)
-			return new AnnotationStatus[0];
+		List<Annotation> annotations = new ArrayList<Annotation>();
+		AnnotationUtils.getAllAnnotations(part, annotations);
 
 		Map<Annotation, AnnotationNode> parts = new HashMap<Annotation, AnnotationNode>();
 
@@ -117,15 +116,16 @@ public class DiagramRebuildUtils {
 		addAllAnnotations(parts, view.getSourceEdges(), false);
 		addAllAnnotations(parts, view.getTargetEdges(), true);
 
-		AnnotationStatus[] statuses = new AnnotationStatus[annotations.length];
-		for (int i = 0; i < annotations.length; i++) {
-			AnnotationNode node = parts.get(annotations[i]);
+		AnnotationStatus[] statuses = new AnnotationStatus[annotations.size()];
+		int i = 0;
+		for (Annotation annotation : annotations) {
+			AnnotationNode node = parts.get(annotation);
 			if (node != null)
 				statuses[i] = new AnnotationStatus(node);
 			else
-				statuses[i] = new AnnotationStatus(annotations[i]);
+				statuses[i] = new AnnotationStatus(annotation);
+			i++;
 		}
-
 		return statuses;
 	}
 

@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.annotation.core.Annotation;
  * @author Yuri Strot
  *
  */
-public class AnnotationUtils {
+public class AnnotationSelectionUtils {
 	
 	public static Object getAnnotableElement(ISelection selection) {
 		if (selection instanceof IStructuredSelection) {

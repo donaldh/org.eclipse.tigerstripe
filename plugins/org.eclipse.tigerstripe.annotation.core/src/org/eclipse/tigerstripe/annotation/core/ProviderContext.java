@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.tigerstripe.annotation.internal.core.ProviderTarget;
 
 /**
  * @author Yuri Strot
@@ -25,8 +26,7 @@ public class ProviderContext {
 	
 	private IAnnotationProvider provider;
 	private String id;
-	private String type;
-	private String targetDescription;
+	private ProviderTarget target;
 	private String[] delegates;
 	
 	private static final String ANNOTATION_ATTR_CLASS = "class";
@@ -42,8 +42,9 @@ public class ProviderContext {
 	public ProviderContext(IConfigurationElement config) throws CoreException {
         provider = (IAnnotationProvider)config.createExecutableExtension(ANNOTATION_ATTR_CLASS);
         id = config.getAttribute(ANNOTATION_ATTR_ID);
-        type = config.getAttribute(ANNOTATION_ATTR_TYPE);
-        targetDescription = config.getAttribute(ANNOTATION_ATTR_TARGET_DESCRIPTION);
+        String type = config.getAttribute(ANNOTATION_ATTR_TYPE);
+        String targetDescription = config.getAttribute(ANNOTATION_ATTR_TARGET_DESCRIPTION);
+        target = new ProviderTarget(type, targetDescription);
         initDelegates(config);
 	}
 	
@@ -57,13 +58,6 @@ public class ProviderContext {
 			}
 		}
 		delegates = list.toArray(new String[list.size()]);
-	}
-	
-	/**
-	 * @return the targetDescription
-	 */
-	public String getTargetDescription() {
-		return targetDescription;
 	}
 	
 	/**
@@ -81,10 +75,10 @@ public class ProviderContext {
 	}
 	
 	/**
-	 * @return the type
+	 * @return the target
 	 */
-	public String getType() {
-		return type;
+	public ProviderTarget getTarget() {
+		return target;
 	}
 	
 	/**

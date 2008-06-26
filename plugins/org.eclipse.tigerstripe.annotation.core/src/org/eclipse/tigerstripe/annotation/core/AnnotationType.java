@@ -20,6 +20,8 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.tigerstripe.annotation.internal.core.AnnotationTarget;
+import org.eclipse.tigerstripe.annotation.internal.core.ProviderTarget;
 
 
 /**
@@ -141,6 +143,82 @@ public class AnnotationType {
 	 */
 	public String[] getTargets() {
 		return targets;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof AnnotationType) {
+			AnnotationType type = (AnnotationType)obj;
+			return getId().equals(type.getId());
+		}
+		return false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
+	
+	public IAnnotationTarget[] getTargets(Object object, ProviderTarget[] targets) {
+		Map<ProviderTarget, Object> map = new HashMap<ProviderTarget, Object>();
+		for (int i = 0; i < targets.length; i++) {
+			ProviderTarget target = targets[i];
+			Object adapted = target.adapt(object);
+			if (adapted != null) {
+				map.put(target, adapted);
+			}
+		}
+		List<IAnnotationTarget> annotationTargets =
+			new ArrayList<IAnnotationTarget>();
+		
+		if (this.targets.length == 0) {
+			for (ProviderTarget target : map.keySet()) {
+				Object adapted = map.get(target);
+				AnnotationTarget annotationTarget = new AnnotationTarget(
+						adapted, target.getDescription(), this);
+				annotationTargets.add(annotationTarget);
+			}
+		}
+		else {
+			for (int i = 0; i < this.targets.length; i++) {
+				String className = this.targets[i];
+				for (ProviderTarget target : map.keySet()) {
+					Object adapted = map.get(target);
+					if (isSuperClass(className, adapted)) {
+						AnnotationTarget annotationTarget = new AnnotationTarget(
+								adapted, target.getDescription(), this);
+						annotationTargets.add(annotationTarget);
+					}
+				}
+			}
+		}
+		return annotationTargets.toArray(
+				new IAnnotationTarget[annotationTargets.size()]);
+	}
+	
+	private static boolean isSuperClass(String className, Object object) {
+		try {
+			Class<?> clazz = object.getClass();
+			Class<?> parentClass = Class.forName(className, true, clazz.getClassLoader());
+			return parentClass.isAssignableFrom(clazz);
+		}
+		catch (Exception e) {
+		}
+		return false;
 	}
 
 }

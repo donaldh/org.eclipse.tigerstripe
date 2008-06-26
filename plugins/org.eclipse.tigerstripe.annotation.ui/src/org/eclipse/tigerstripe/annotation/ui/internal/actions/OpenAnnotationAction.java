@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationUtils;
+import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationSelectionUtils;
 
 /**
  * @author Yuri Strot
@@ -37,7 +37,7 @@ public class OpenAnnotationAction extends DelegateAction {
 	@Override
 	protected void adaptSelection(ISelection selection) {
 		object = null;
-		Annotation annotation = AnnotationUtils.getAnnotation(selection);
+		Annotation annotation = AnnotationSelectionUtils.getAnnotation(selection);
 		if (annotation != null)
 			object = AnnotationPlugin.getManager().getAnnotatedObject(annotation);
 		setEnabled(object != null);

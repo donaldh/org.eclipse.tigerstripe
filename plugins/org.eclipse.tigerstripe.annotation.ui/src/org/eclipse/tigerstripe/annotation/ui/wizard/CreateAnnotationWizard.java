@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.annotation.ui.wizard;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.CreateSpecificTypeAnnotationAction;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -46,14 +46,14 @@ public class CreateAnnotationWizard extends Wizard implements INewWizard {
 
 	@Override
     public boolean performFinish() {
-		AnnotationType type = page.getType();
+		TargetAnnotationType type = page.getType();
 		addContent(type);
 		return true;
     }
 	
-	protected void addContent(AnnotationType type) {
+	protected void addContent(TargetAnnotationType type) {
 		if (object != null) {
-			new CreateSpecificTypeAnnotationAction(object, type).run();
+			new CreateSpecificTypeAnnotationAction(type).run();
 		}
 	}
 

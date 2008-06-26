@@ -32,7 +32,7 @@ public class ProviderManager {
 	
 	public void addProvider(ProviderContext context) {
 		ids.put(context.getId(), context);
-		types.put(context.getType(), context);
+		types.put(context.getTarget().getClassName(), context);
 	}
 	
 	public ProviderContext[] getProviders() {
@@ -45,10 +45,6 @@ public class ProviderManager {
 	
 	public ProviderContext getProviderByType(String type) {
 		return types.get(type);
-	}
-	
-	public String[] getAllTypes() {
-		return types.keySet().toArray(new String[types.size()]);
 	}
 
 }

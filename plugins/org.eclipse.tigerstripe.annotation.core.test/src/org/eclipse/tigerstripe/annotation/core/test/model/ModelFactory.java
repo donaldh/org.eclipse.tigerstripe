@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactory.java,v 1.2 2008/05/27 09:40:44 ystrot Exp $
+ * $Id: ModelFactory.java,v 1.3 2008/06/26 12:46:46 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model;
 
@@ -51,6 +51,15 @@ public interface ModelFactory extends EFactory {
 	 * @generated
 	 */
 	MimeType createMimeType();
+
+	/**
+	 * Returns a new object of class '<em>Project Description</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Project Description</em>'.
+	 * @generated
+	 */
+	ProjectDescription createProjectDescription();
 
 	/**
 	 * Returns the package supported by this factory.

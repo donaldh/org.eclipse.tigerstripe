@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelAdapterFactory.java,v 1.2 2008/05/27 09:40:44 ystrot Exp $
+ * $Id: ModelAdapterFactory.java,v 1.3 2008/06/26 12:46:47 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.util;
 
@@ -84,6 +84,10 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createMimeTypeAdapter();
 			}
 			@Override
+			public Adapter caseProjectDescription(ProjectDescription object) {
+				return createProjectDescriptionAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -142,6 +146,20 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMimeTypeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.core.test.model.ProjectDescription <em>Project Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.ProjectDescription
+	 * @generated
+	 */
+	public Adapter createProjectDescriptionAdapter() {
 		return null;
 	}
 

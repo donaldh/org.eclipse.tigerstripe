@@ -11,9 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -22,7 +19,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.tigerstripe.annotation.core.ProviderContext;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationTarget;
+import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 
 /**
  * @author Yuri Strot
@@ -30,8 +28,7 @@ import org.eclipse.tigerstripe.annotation.core.ProviderContext;
  */
 public class TypesControl extends Composite {
 	
-	private Map<Object, ProviderContext> map;
-	private ArrayList<Object> collection = new ArrayList<Object>();
+	private TargetAnnotationType targetType;
 	private List list;
 	private Object selected;
 
@@ -39,9 +36,9 @@ public class TypesControl extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public TypesControl(Map<Object, ProviderContext> map, Composite parent, int style) {
+	public TypesControl(TargetAnnotationType targetType, Composite parent, int style) {
 		super(parent, style);
-		this.map = map;
+		this.targetType = targetType;
 		init();
 	}
 	
@@ -52,9 +49,9 @@ public class TypesControl extends Composite {
 				"Annotation should be added for this object as for: ");
 		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		list = new List(this, SWT.MULTI | SWT.BORDER);
-		for (Object object : map.keySet()) {
-			collection.add(object);
-			list.add(map.get(object).getTargetDescription());
+		
+		for (IAnnotationTarget target : targetType.getTargets()) {
+			list.add(target.getDescription());
 		}
 		list.setLayoutData(new GridData(GridData.FILL_BOTH));
 		list.addSelectionListener(new SelectionListener() {
@@ -68,12 +65,16 @@ public class TypesControl extends Composite {
 			}
 			
 			public void updateSelection() {
-				selected = collection.get(list.getSelectionIndex());
+				int index = list.getSelectionIndex();
+				if (index >= 0) {
+					IAnnotationTarget[] targets = targetType.getTargets();
+					selected =  targets[index].getAdaptedObject();
+				}
 			}
 		
 		});
 		list.select(0);
-		selected = collection.get(0);
+		selected = targetType.getTargets()[0].getAdaptedObject();
 	}
 	
 	public Object getSelected() {

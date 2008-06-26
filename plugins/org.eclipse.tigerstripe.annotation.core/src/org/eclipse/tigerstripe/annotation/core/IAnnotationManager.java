@@ -147,12 +147,17 @@ public interface IAnnotationManager {
 	public void removeRefactoringListener(IRefactoringListener listener);
 	
 	/**
-	 * Return list of the annotated object class names, for example
-	 * [org.eclipse.core.resources.IResource, org.eclipse.jdt.core.IJavaElement] 
+	 * Return list of the provided targets
 	 * 
-	 * @return list of the annotated object class names
+	 * @return list of the provided targets
 	 */
-	public String[] getAnnotatedObjectTypes();
+	public IProviderTarget[] getProviderTargets();
+	
+	/**
+	 * @param object
+	 * @return
+	 */
+	public TargetAnnotationType[] getAnnotationTargets(Object object); 
 	
 	/**
 	 * TODO update documentation
@@ -160,13 +165,5 @@ public interface IAnnotationManager {
 	 * @return
 	 */
 	public IRefactoringSupport getRefactoringSupport();
-	
-	/**
-	 * Return provider which support this type
-	 * 
-	 * @param type
-	 * @return
-	 */
-	public ProviderContext getProvider(String type);
 
 }

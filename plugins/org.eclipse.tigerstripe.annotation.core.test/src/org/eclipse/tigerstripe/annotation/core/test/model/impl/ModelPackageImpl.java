@@ -2,21 +2,20 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackageImpl.java,v 1.3 2008/06/04 09:12:38 ystrot Exp $
+ * $Id: ModelPackageImpl.java,v 1.4 2008/06/26 12:46:46 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.tigerstripe.annotation.core.test.model.Author;
 import org.eclipse.tigerstripe.annotation.core.test.model.Hibernate;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelPackage;
+import org.eclipse.tigerstripe.annotation.core.test.model.ProjectDescription;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,6 +44,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass mimeTypeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass projectDescriptionEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -191,6 +197,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getProjectDescription() {
+		return projectDescriptionEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getProjectDescription_Description() {
+		return (EAttribute)projectDescriptionEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ModelFactory getModelFactory() {
 		return (ModelFactory)getEFactoryInstance();
 	}
@@ -224,6 +248,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		mimeTypeEClass = createEClass(MIME_TYPE);
 		createEAttribute(mimeTypeEClass, MIME_TYPE__MIME_TYPE);
+
+		projectDescriptionEClass = createEClass(PROJECT_DESCRIPTION);
+		createEAttribute(projectDescriptionEClass, PROJECT_DESCRIPTION__DESCRIPTION);
 	}
 
 	/**
@@ -266,6 +293,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		initEClass(mimeTypeEClass, MimeType.class, "MimeType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getMimeType_MimeType(), ecorePackage.getEString(), "mimeType", null, 0, 1, MimeType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(projectDescriptionEClass, ProjectDescription.class, "ProjectDescription", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProjectDescription_Description(), ecorePackage.getEString(), "description", null, 0, 1, ProjectDescription.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

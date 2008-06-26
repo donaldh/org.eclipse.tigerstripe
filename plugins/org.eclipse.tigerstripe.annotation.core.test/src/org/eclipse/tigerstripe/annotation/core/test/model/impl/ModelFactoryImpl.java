@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactoryImpl.java,v 1.2 2008/05/27 09:40:44 ystrot Exp $
+ * $Id: ModelFactoryImpl.java,v 1.3 2008/06/26 12:46:47 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.impl;
 
@@ -63,6 +63,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 			case ModelPackage.AUTHOR: return createAuthor();
 			case ModelPackage.HIBERNATE: return createHibernate();
 			case ModelPackage.MIME_TYPE: return createMimeType();
+			case ModelPackage.PROJECT_DESCRIPTION: return createProjectDescription();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -96,6 +97,16 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public MimeType createMimeType() {
 		MimeTypeImpl mimeType = new MimeTypeImpl();
 		return mimeType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProjectDescription createProjectDescription() {
+		ProjectDescriptionImpl projectDescription = new ProjectDescriptionImpl();
+		return projectDescription;
 	}
 
 	/**

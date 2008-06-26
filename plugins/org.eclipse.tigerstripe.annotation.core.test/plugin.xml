@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.6 2008/06/25 08:11:08 ystrot Exp $
+ $Id: plugin.xml,v 1.7 2008/06/26 12:46:47 ystrot Exp $
 -->
 
 <plugin>
@@ -36,6 +36,18 @@
            eclass="Hibernate">
          <target
                type="org.eclipse.jdt.core.IJavaElement"/>
+     </definition>
+  </extension>
+  
+  <extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
+     <definition
+           id="org.eclipse.tigerstripe.annotation.core.test.projectDescription"
+           name="Project Description"
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore"
+           description="Project Description Annotation"
+           eclass="ProjectDescription">
+         <target
+               type="org.eclipse.core.resources.IProject"/>
      </definition>
   </extension>
   

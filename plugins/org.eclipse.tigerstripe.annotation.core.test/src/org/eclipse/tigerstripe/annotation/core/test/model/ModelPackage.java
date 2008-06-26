@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackage.java,v 1.2 2008/05/27 09:40:44 ystrot Exp $
+ * $Id: ModelPackage.java,v 1.3 2008/06/26 12:46:46 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model;
 
@@ -162,6 +162,34 @@ public interface ModelPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.tigerstripe.annotation.core.test.model.impl.ProjectDescriptionImpl <em>Project Description</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ProjectDescriptionImpl
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ModelPackageImpl#getProjectDescription()
+	 * @generated
+	 */
+	int PROJECT_DESCRIPTION = 3;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT_DESCRIPTION__DESCRIPTION = 0;
+
+	/**
+	 * The number of structural features of the '<em>Project Description</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROJECT_DESCRIPTION_FEATURE_COUNT = 1;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.core.test.model.Author <em>Author</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -245,6 +273,27 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMimeType_MimeType();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.core.test.model.ProjectDescription <em>Project Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Project Description</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.ProjectDescription
+	 * @generated
+	 */
+	EClass getProjectDescription();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.annotation.core.test.model.ProjectDescription#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.ProjectDescription#getDescription()
+	 * @see #getProjectDescription()
+	 * @generated
+	 */
+	EAttribute getProjectDescription_Description();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -337,6 +386,24 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute MIME_TYPE__MIME_TYPE = eINSTANCE.getMimeType_MimeType();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.tigerstripe.annotation.core.test.model.impl.ProjectDescriptionImpl <em>Project Description</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ProjectDescriptionImpl
+		 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ModelPackageImpl#getProjectDescription()
+		 * @generated
+		 */
+		EClass PROJECT_DESCRIPTION = eINSTANCE.getProjectDescription();
+
+		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROJECT_DESCRIPTION__DESCRIPTION = eINSTANCE.getProjectDescription_Description();
 
 	}
 

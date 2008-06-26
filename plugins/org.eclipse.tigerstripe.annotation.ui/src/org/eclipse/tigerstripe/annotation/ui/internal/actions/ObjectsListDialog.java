@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
-import java.util.Map;
-
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -20,7 +18,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.annotation.core.ProviderContext;
+import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 
 /**
  * @author Yuri Strot
@@ -28,15 +26,15 @@ import org.eclipse.tigerstripe.annotation.core.ProviderContext;
  */
 public class ObjectsListDialog extends Dialog {
 	
-	private Map<Object, ProviderContext> map;
+	private TargetAnnotationType targetType;
 	private TypesControl control;
 
 	/**
 	 * @param parentShell
 	 */
-	public ObjectsListDialog(Map<Object, ProviderContext> map, Shell parentShell) {
+	public ObjectsListDialog(TargetAnnotationType targetType, Shell parentShell) {
 		super(parentShell);
-		this.map = map;
+		this.targetType = targetType;
 	}
 	
 	/* (non-Javadoc)
@@ -45,7 +43,7 @@ public class ObjectsListDialog extends Dialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		parent.setLayout(new GridLayout());
-		control = new TypesControl(map, parent, SWT.NONE);
+		control = new TypesControl(targetType, parent, SWT.NONE);
 		control.setLayoutData(new GridData(GridData.FILL_BOTH));
 		return control;
 	}

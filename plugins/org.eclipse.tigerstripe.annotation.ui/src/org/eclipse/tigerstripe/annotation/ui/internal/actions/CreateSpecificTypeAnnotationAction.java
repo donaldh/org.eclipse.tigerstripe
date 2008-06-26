@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
-import java.util.HashMap;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -22,9 +20,9 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
-import org.eclipse.tigerstripe.annotation.core.ProviderContext;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationTarget;
+import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
 
 /**
  * @author Yuri Strot
@@ -32,19 +30,18 @@ import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
  */
 public class CreateSpecificTypeAnnotationAction extends Action {
 	
-	private Object object;
-	private AnnotationType type;
+	private TargetAnnotationType targetType;
 	
-	public CreateSpecificTypeAnnotationAction(Object object, AnnotationType type) {
-		super(type.getName());
+	public CreateSpecificTypeAnnotationAction(TargetAnnotationType targetType) {
+		super(targetType.getType().getName());
+		AnnotationType type = targetType.getType();
 		ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
 		if (provider != null) {
 			Image image = provider.getImage(type.createInstance());
 			if (image != null)
 				setImageDescriptor(ImageDescriptor.createFromImage(image));
 		}
-		this.object = object;
-		this.type = type;
+		this.targetType = targetType;
 	}
 	
 	/* (non-Javadoc)
@@ -52,29 +49,20 @@ public class CreateSpecificTypeAnnotationAction extends Action {
 	 */
 	@Override
 	public void run() {
-		HashMap<Object, ProviderContext> objects = new HashMap<Object, ProviderContext>();
-		String[] targets = AdaptableUtil.getTargets(object, type);
-		for (int i = 0; i < targets.length; i++) {
-			ProviderContext provider = AnnotationPlugin.getManager().getProvider(targets[i]);
-			Object adapted = AdaptableUtil.getAdapted(object, targets[i]);
-			if (provider != null && adapted != null) {
-				objects.put(adapted, provider);
-			}
-		}
-		
+		IAnnotationTarget[] targets = targetType.getTargets();
 		Object selected = null;
-		if (objects.size() == 1) {
-			selected = objects.keySet().toArray()[0];
+		if (targets.length == 1) {
+			selected = targets[0].getAdaptedObject();
 		}
-		else if (objects.size() > 1) {
-			ObjectsListDialog dialog = new ObjectsListDialog(objects, new Shell(SWT.RESIZE));
+		else if (targets.length > 1) {
+			ObjectsListDialog dialog = new ObjectsListDialog(targetType, new Shell(SWT.RESIZE));
 			if (dialog.open() == Dialog.OK) {
 				selected = dialog.getSelected();
 			}
 		}
 		if (selected != null) {
 			AnnotationPlugin.getManager().addAnnotation(
-					selected, type.createInstance());
+					selected, targetType.getType().createInstance());
 		}
 	}
 

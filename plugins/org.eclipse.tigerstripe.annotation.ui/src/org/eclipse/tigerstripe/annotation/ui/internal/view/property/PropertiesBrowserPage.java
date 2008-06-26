@@ -52,13 +52,13 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
+import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.core.TestActionManager;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationWizardAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotationAction;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationUtils;
-import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
+import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationSelectionUtils;
 import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
@@ -90,8 +90,6 @@ public class PropertiesBrowserPage
 	private Composite leftPart;
 	
 	private org.eclipse.swt.widgets.List list;
-	
-	private Annotation[] EMPTY_ARRAY = new Annotation[0];
 	
 	private Annotation[] currentSelection;
 	
@@ -519,7 +517,7 @@ public class PropertiesBrowserPage
 	}
 	
 	private int getAnnotationIndex() {
-		Annotation annotation = AnnotationUtils.getAnnotation(selectedElements);
+		Annotation annotation = AnnotationSelectionUtils.getAnnotation(selectedElements);
 		for (int i = 0; i < currentSelection.length; i++) {
 	        if (currentSelection[i].equals(annotation))
 	        	return i;
@@ -530,7 +528,7 @@ public class PropertiesBrowserPage
 	private Object getAnnotableElement() {
 		Object annotable = null;
 		if (selectedElements != null) {
-			annotable = AnnotationUtils.getAnnotableElement(selectedElements);
+			annotable = AnnotationSelectionUtils.getAnnotableElement(selectedElements);
 			if (annotable instanceof Annotation) {
 				Annotation annotation = (Annotation)annotable;
 				annotable = AnnotationPlugin.getManager(
@@ -541,15 +539,15 @@ public class PropertiesBrowserPage
 	}
 	
 	private Annotation[] getAnnotation(ISelection selection) {
-		Object object = AnnotationUtils.getAnnotableElement(selection);
+		Object object = AnnotationSelectionUtils.getAnnotableElement(selection);
 		if (object instanceof Annotation)
 			return new Annotation[] { (Annotation)object };
-		if (object == null || AdaptableUtil.getTypes(object).length == 0)
+		if (object == null)
 			return null;
-		Annotation[] annotations = AdaptableUtil.getAllAnnotations(object);
-		if (annotations != null)
-			return annotations;
-		return EMPTY_ARRAY;
+		List<Annotation> annotations = new ArrayList<Annotation>();
+		if (!AnnotationUtils.getAllAnnotations(object, annotations))
+			return null;
+		return annotations.toArray(new Annotation[annotations.size()]);
 	}
 	
 	@Override

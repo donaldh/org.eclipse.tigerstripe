@@ -17,9 +17,8 @@ import java.util.List;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.tigerstripe.annotation.core.AnnotationType;
-import org.eclipse.tigerstripe.annotation.ui.util.AdaptableUtil;
-import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 
 
 /**
@@ -31,7 +30,7 @@ public class CreateAnnotationAction extends DelegateAction {
 	private Object object;
 	private List<Object> list;
 	private MenuCreator menu;
-	private AnnotationType[] types;
+	private TargetAnnotationType[] types;
 	
 	public CreateAnnotationAction() {
 		list = new ArrayList<Object>();
@@ -56,7 +55,7 @@ public class CreateAnnotationAction extends DelegateAction {
     	list.add(new Separator());
     	
 		for (int i = 0; i < types.length; i++) {
-			list.add(new CreateSpecificTypeAnnotationAction(object, types[i]));
+			list.add(new CreateSpecificTypeAnnotationAction(types[i]));
         }
 	}
 	
@@ -64,9 +63,9 @@ public class CreateAnnotationAction extends DelegateAction {
 	protected void adaptSelection(ISelection selection) {
 		types = null;
 		object = getSelected(selection);
-		//TODO: remove this hack!!!
-		if (object != null && !(object instanceof IFileEditorInput))
-			types = AdaptableUtil.getTypes(object);
+		if (object != null) {
+			types = AnnotationPlugin.getManager().getAnnotationTargets(object);
+		}
 		setEnabled(types != null && types.length > 0);
 	}
 

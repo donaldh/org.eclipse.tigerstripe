@@ -11,15 +11,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
-import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationTarget;
+import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
+import org.eclipse.tigerstripe.annotation.core.test.model.ModelPackage;
 import org.eclipse.tigerstripe.annotation.core.test.provider.IResourcePath;
 import org.eclipse.tigerstripe.annotation.core.test.provider.ResourcePath;
 
@@ -47,46 +43,22 @@ public class TargetsTest extends AbstractResourceTestCase {
 	}
 	
 	public void testTargets() {
-		IAnnotationManager manager = AnnotationPlugin.getManager();
-		try {
-			Annotation annotation1 = manager.addAnnotation(project,
-					ModelFactory.eINSTANCE.createAuthor());
-			assertNotNull(annotation1);
-			
-			Annotation annotation2 = manager.addAnnotation(path,
-					ModelFactory.eINSTANCE.createAuthor());
-			assertNotNull(annotation2);
-			
-			List<String> targets = getTargets(project);
-			assertTrue(targets.contains(IResourcePath.class.getName()));
-		}
-		finally {
-			manager.removeAnnotations(project);
-			manager.removeAnnotations(path);
-		}
-	}
-	
-	public static List<String> getTargets(Object object) {
-		List<String> resultTypes = new ArrayList<String>();
-		String[] targets = AnnotationPlugin.getManager().getAnnotatedObjectTypes();
-		for (int i = 0; i < targets.length; i++) {
-			if (getAdapted(object, targets[i]) != null) {
-				resultTypes.add(targets[i]);
+		TargetAnnotationType[] types = AnnotationPlugin.getManager().getAnnotationTargets(project);
+
+		boolean adaptedToResourcePath = false;
+		boolean projectDescription = false;
+		for (int i = 0; i < types.length; i++) {
+			if (types[i].getType().getClazz().equals(ModelPackage.eINSTANCE.getProjectDescription())) {
+				projectDescription = true;
+			}
+			IAnnotationTarget[] targets = types[i].getTargets();
+			for (IAnnotationTarget annotationTarget : targets) {
+				if (annotationTarget.getAdaptedObject() instanceof IResourcePath)
+					adaptedToResourcePath = true;
 			}
 		}
-		return resultTypes;
-	}
-	
-	public static Object getAdapted(Object object, String className) {
-		Object adapted = Platform.getAdapterManager().loadAdapter(object, className);
-		if (adapted != null)
-			return adapted;
-		try {
-			Class<?> clazz = Class.forName(className, true, object.getClass().getClassLoader());
-			return Platform.getAdapterManager().getAdapter(object, clazz);
-		} catch (ClassNotFoundException e) {
-		}
-		return null;
+		assertTrue(adaptedToResourcePath);
+		assertTrue(projectDescription);
 	}
 
 }
