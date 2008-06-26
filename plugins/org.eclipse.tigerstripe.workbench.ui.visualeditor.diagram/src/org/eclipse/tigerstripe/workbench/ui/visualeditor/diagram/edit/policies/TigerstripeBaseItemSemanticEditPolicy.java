@@ -207,7 +207,53 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 					IAssociationArtifact.class, tsProject,defaultPackage);
 		}
 
-		if (defaultUniqueName != null) {
+
+		// Additional Specific stuff for Enumeration
+		if (eObject instanceof Enumeration) {
+			if (defaultUniqueName != null) {
+				Enumeration en = (Enumeration) eObject;
+				en.setName(defaultUniqueName);
+				en.setPackage(defaultPackage);
+				en.setBaseType("int");
+			} else
+				throw new TigerstripeException("Couldn't set default values on "
+						+ eObject);
+		} else if (eObject instanceof Association) {
+			Association assoc = (Association) eObject;
+			
+
+			Class<?> artifactType;
+
+			if (eObject instanceof AssociationClass){
+				artifactType = IAssociationClassArtifact.class;
+			} else {
+				artifactType = IAssociationArtifact.class;
+			}
+			String newName = nameFactory.getNewRelationshipName(
+					artifactType, tsProject, defaultPackage, 
+					assoc.getAEnd().getFullyQualifiedName(), 
+					assoc.getZEnd().getFullyQualifiedName());
+			assoc.setName(newName);
+			assoc.setPackage(defaultPackage);
+
+			IAbstractArtifact iArtifact = assoc.getCorrespondingIArtifact();
+			String aName = nameFactory.getNewAssociationEndName(iArtifact, AEND);
+			String zName = nameFactory.getNewAssociationEndName(iArtifact, ZEND);
+			assoc.setAEndName(aName);
+			assoc.setZEndName(zName);
+			
+			
+		} else if (eObject instanceof Dependency){
+			Dependency dep = (Dependency) eObject;
+
+			String newName = nameFactory.getNewRelationshipName(
+					IDependencyArtifact.class, tsProject, defaultPackage, 
+					dep.getAEnd().getFullyQualifiedName(), 
+					dep.getFullyQualifiedName());
+			dep.setName(newName);
+			dep.setPackage(defaultPackage);
+			
+		} else if (defaultUniqueName != null) {
 			if (eObject instanceof QualifiedNamedElement) {
 				QualifiedNamedElement art = (QualifiedNamedElement) eObject;
 				art.setName(defaultUniqueName);
@@ -221,58 +267,6 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 		} else
 			throw new TigerstripeException("Couldn't set default values on "
 					+ eObject);
-
-		// Additional Specific stuff for Enumeration
-		if (eObject instanceof Enumeration) {
-			Enumeration en = (Enumeration) eObject;
-			en.setBaseType("int");
-		} else if (eObject instanceof Association) {
-			Association assoc = (Association) eObject;	
-			
-			IAbstractArtifact iArtifact = assoc.getCorrespondingIArtifact();
-
-			if (iArtifact instanceof IAssociationArtifact){
-				IAssociationArtifact iAssoc = (IAssociationArtifact) iArtifact;
-				IType aEndType = iAssoc.getAEnd().getType();
-				IType zEndType = iAssoc.getZEnd().getType();
-				if (aEndType != null && zEndType != null){
-					Class artifactType;
-					if (iAssoc instanceof IAssociationClassArtifact){
-						artifactType = IAssociationClassArtifact.class;
-					} else {
-						artifactType = IAssociationArtifact.class;
-					}
-					String newName = nameFactory.getNewRelationshipName(
-							artifactType, tsProject, defaultPackage, 
-							aEndType.getFullyQualifiedName(), 
-							zEndType.getFullyQualifiedName());
-					 assoc.setName(newName);
-				}
-			}
-			String aName = nameFactory.getNewAssociationEndName(iArtifact, AEND);
-			String zName = nameFactory.getNewAssociationEndName(iArtifact, ZEND);
-			assoc.setAEndName(aName);
-			assoc.setZEndName(zName);
-			
-			
-		} else if (eObject instanceof Dependency){
-			Dependency dep = (Dependency) eObject;
-			IAbstractArtifact iArtifact = dep.getCorrespondingIArtifact();
-
-			if (iArtifact instanceof IDependencyArtifact){
-				IDependencyArtifact iDep = (IDependencyArtifact) iArtifact;
-				IType aEndType = iDep.getAEndType();
-				IType zEndType = iDep.getZEndType();
-				if (aEndType != null && zEndType != null){
-					String newName = nameFactory.getNewRelationshipName(
-							IDependencyArtifact.class, tsProject, defaultPackage, 
-							aEndType.getFullyQualifiedName(), 
-							zEndType.getFullyQualifiedName());
-					 dep.setName(newName);
-				}
-			}
-			
-		}
 	}
 
 	private final static int AEND = 0;
