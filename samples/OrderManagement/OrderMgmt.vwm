@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:DatatypeArtifact" name="Address" package="com.mycompany">
+    <attributes name="street" type="String" isUnique="true"/>
+    <attributes name="city" type="String" isUnique="true"/>
+    <attributes name="state" type="String" isUnique="true"/>
+    <attributes name="zipCode" type="String" isUnique="true"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Customer" package="com.mycompany">
+    <attributes name="name" type="String" isUnique="true"/>
+    <attributes name="address" type="com.mycompany.Address" isUnique="true"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Order" package="com.mycompany">
+    <attributes name="id" type="String" isUnique="true"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="OrderItem" package="com.mycompany">
+    <attributes name="name" type="String" isUnique="true"/>
+    <attributes name="description" type="String" isUnique="true"/>
+    <attributes name="price" type="String" isUnique="true"/>
+  </artifacts>
+  <associations name="CustomerOrders" package="com.mycompany" aEnd="//@artifacts.1" aEndName="customer" aEndIsUnique="true" zEnd="//@artifacts.2" zEndName="orders" zEndMultiplicity="0..*" zEndIsNavigable="true" zEndIsUnique="true"/>
+  <associations name="OrderItems" package="com.mycompany" aEnd="//@artifacts.2" aEndName="order" aEndIsUnique="true" zEnd="//@artifacts.3" zEndName="orderItems" zEndMultiplicity="1..*" zEndIsNavigable="true" zEndIsUnique="true"/>
+  <associations name="CustomerAddress" package="com.mycompany" aEnd="//@artifacts.1" aEndName="customer" aEndIsUnique="true" zEnd="//@artifacts.0" zEndName="address" zEndIsNavigable="true" zEndIsUnique="true"/>
+</null:Map>
