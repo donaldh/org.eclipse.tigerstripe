@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 /**
  * @author Yuri Strot
@@ -63,21 +64,27 @@ public class EProperty implements IProperty {
 	
 	@SuppressWarnings("unchecked")
     public String getDisplayName() {
-		if (feature.isMany()) {
-			List<Object> list = (List<Object>)getValue();
-			Iterator<Object> it = list.iterator();
+		return getValueDisplayName(getValue());
+	}
+	
+	protected String getValueDisplayName(Object value) {
+		if (value instanceof List<?>) {
+			List<?> list = (List<?>)value;
+			Iterator<?> it = list.iterator();
 			StringBuffer buffer = new StringBuffer();
-			if (it.hasNext()) buffer.append(it.next());
+			if (it.hasNext())
+				buffer.append(getValueDisplayName(it.next()));
 			while (it.hasNext()) {
-				Object elem = it.next();
 				buffer.append(", ");
-				buffer.append(elem);
+				buffer.append(getValueDisplayName(it.next()));
 			}
 			return buffer.toString();
 		}
-		Object value = getValue();
 		if (value == null)
 			return "";
+		if (value instanceof EObject) {
+			return DisplayAnnotationUtil.getText((EObject)value);
+		}
 		return value.toString();
 	}
 	

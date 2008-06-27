@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.tigerstripe.annotation.ui" id="annotationLabelProvider" name="annotationLabelProvider"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         This extension point provide an JFace label provider for specified annotation type using in the Create Annotation Wizard, Annotations View, etc.
       </documentation>
    </annotation>
 
@@ -18,21 +18,21 @@
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  a fully qualified identifier of the target extension point
                </documentation>
             </annotation>
          </attribute>
          <attribute name="id" type="string">
             <annotation>
                <documentation>
-                  
+                  an optional identifier of the extension instance
                </documentation>
             </annotation>
          </attribute>
          <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+                  an optional name of the extension instance
                </documentation>
                <appInfo>
                   <meta.attribute translatable="true"/>
@@ -47,7 +47,7 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  ILabelProvider class name that will be used to display this annotation type
                </documentation>
                <appInfo>
                   <meta.attribute kind="java" basedOn=":org.eclipse.jface.viewers.ILabelProvider"/>
@@ -57,7 +57,7 @@
          <attribute name="typeID" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  an annotation type identifier
                </documentation>
             </annotation>
          </attribute>
@@ -69,7 +69,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         0.3
       </documentation>
    </annotation>
 
@@ -78,7 +78,14 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         [Enter extension point usage example here.]
+         Example of the Person annotation label provider declaration:
+&lt;pre&gt;
+  &lt;extension point=&quot;org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider&quot;&gt;
+    &lt;provider
+        class=&quot;org.eclipse.tigerstripe.annotation.example.person.PersonLabelProvider&quot;
+        typeID=&quot;org.eclipse.tigerstripe.annotation.example.person&quot;/&gt;
+  &lt;/extension&gt;
+&lt;/pre&gt;
       </documentation>
    </annotation>
 
@@ -87,7 +94,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         
       </documentation>
    </annotation>
 
@@ -96,7 +103,7 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         
       </documentation>
    </annotation>
 
@@ -105,7 +112,13 @@
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         
+         Copyright (c) 2008 xored software, Inc.&lt;br&gt;
+
+All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 
+which accompanies this distribution, and is available at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;&lt;br&gt;
+
+Contributors:&lt;br&gt;
+&amp;nbsp;&amp;nbsp;xored software, Inc. - initial API and Implementation (Yuri Strot)
       </documentation>
    </annotation>
 

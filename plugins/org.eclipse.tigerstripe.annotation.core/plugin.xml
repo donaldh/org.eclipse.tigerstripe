@@ -5,7 +5,6 @@
 	<extension-point id="router" name="router" schema="schema/router.exsd"/>
 	<extension-point id="annotationType" name="annotationType" schema="schema/annotationType.exsd"/>
 	<extension-point id="annotationAdapter" name="annotationAdapter" schema="schema/annotationAdapter.exsd"/>
- <extension-point id="refactoringSupport" name="refactoringSupport" schema="schema/refactoringSupport.exsd"/>
 
 	<extension point="org.eclipse.emf.ecore.generated_package">
 		<package 

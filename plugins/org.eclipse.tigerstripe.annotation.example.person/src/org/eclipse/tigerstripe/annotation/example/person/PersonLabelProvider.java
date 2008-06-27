@@ -26,9 +26,17 @@ public class PersonLabelProvider extends LabelProvider {
 	 */
 	@Override
 	public String getText(Object element) {
-		Person person = (Person)element;
-		StringBuffer buffer = new StringBuffer("Person");
-		Name name = person.getName();
+		StringBuffer buffer = new StringBuffer();
+		Name name = null;
+		if (element instanceof Person) {
+			buffer.append("Person");
+			Person person = (Person)element;
+			name = person.getName();
+		}
+		if (element instanceof Name) {
+			buffer.append("Name");
+			name = (Name)element;
+		}
 		if (name != null) {
 			buffer.append(" (");
 			if (name.getFirstName() != null && name.getFirstName().length() > 0)

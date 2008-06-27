@@ -6,7 +6,9 @@
          <meta.schema plugin="org.eclipse.tigerstripe.annotation.core" id="router" name="router"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         This extension point provide configuration to setting where annotations can be saved.
+
+Annotation routers map annotation object to corresponding storage. If there is no one router specify for the annotation it will be saved in the default annotations location (located in the plug-in metadata).
       </documentation>
    </annotation>
 
@@ -18,21 +20,21 @@
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  a fully qualified identifier of the target extension point
                </documentation>
             </annotation>
          </attribute>
          <attribute name="id" type="string">
             <annotation>
                <documentation>
-                  
+                  an optional identifier of the extension instance
                </documentation>
             </annotation>
          </attribute>
          <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+                  an optional name of the extension instance
                </documentation>
                <appInfo>
                   <meta.attribute translatable="true"/>
@@ -47,7 +49,7 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  an annotation router class
                </documentation>
                <appInfo>
                   <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.espace.resources.core.EObjectRouter"/>
@@ -62,7 +64,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         0.3
       </documentation>
    </annotation>
 
@@ -71,7 +73,14 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         [Enter extension point usage example here.]
+         Example of the resource router declaration:
+&lt;pre&gt;
+  &lt;extension
+      point=&quot;org.eclipse.tigerstripe.annotation.core.router&quot;&gt;
+    &lt;router
+        class=&quot;org.eclipse.tigerstripe.annotation.example.router.ResourceRouter&quot;/&gt;
+  &lt;/extension&gt;
+&lt;/pre&gt;
       </documentation>
    </annotation>
 
@@ -80,7 +89,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         
       </documentation>
    </annotation>
 
@@ -89,7 +98,7 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         
       </documentation>
    </annotation>
 
@@ -98,7 +107,13 @@
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         
+         Copyright (c) 2008 xored software, Inc.&lt;br&gt;
+
+All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 
+which accompanies this distribution, and is available at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;&lt;br&gt;
+
+Contributors:&lt;br&gt;
+&amp;nbsp;&amp;nbsp;xored software, Inc. - initial API and Implementation (Yuri Strot)
       </documentation>
    </annotation>
 

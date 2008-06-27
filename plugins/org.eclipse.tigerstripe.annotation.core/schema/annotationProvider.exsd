@@ -6,7 +6,9 @@
          <meta.schema plugin="org.eclipse.tigerstripe.annotation" id="annotationProvider" name="annotationProvider"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         This extension point allows clients to contribute new annotable objects class (class of the objects which can be identified with the URI).
+
+By default, framework provide two types of the annotable objects. There are resources (files, folders, etc.) and java elements (packages, classes, methods, etc.)
       </documentation>
    </annotation>
 
@@ -18,21 +20,21 @@
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  a fully qualified identifier of the target extension point
                </documentation>
             </annotation>
          </attribute>
          <attribute name="id" type="string">
             <annotation>
                <documentation>
-                  
+                  an optional identifier of the extension instance
                </documentation>
             </annotation>
          </attribute>
          <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+                  an optional name of the extension instance
                </documentation>
                <appInfo>
                   <meta.attribute translatable="true"/>
@@ -50,7 +52,7 @@
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  an annotation provider class
                </documentation>
                <appInfo>
                   <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.annotation.core.IAnnotationProvider"/>
@@ -60,14 +62,14 @@
          <attribute name="id" type="string">
             <annotation>
                <documentation>
-                  
+                  a unique name that will be used to identify this annotation provider
                </documentation>
             </annotation>
          </attribute>
          <attribute name="type" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  class name of the annotable objects which will be annotated with this annotation provider
                </documentation>
                <appInfo>
                   <meta.attribute kind="java"/>
@@ -77,7 +79,7 @@
          <attribute name="targetDescription" type="string" use="required">
             <annotation>
                <documentation>
-                  Short human-readable description of the objects provided by this annotation provider.
+                  short human-readable description of the objects provided by this annotation provider
                </documentation>
             </annotation>
          </attribute>
@@ -89,7 +91,7 @@
          <attribute name="type" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  delegated annotation provider type
                </documentation>
                <appInfo>
                   <meta.attribute kind="java"/>
@@ -104,7 +106,7 @@
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         [Enter the first release in which this extension point appears.]
+         0.3
       </documentation>
    </annotation>
 
@@ -113,7 +115,18 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         [Enter extension point usage example here.]
+         Example of the resource annotation provider declaration:
+&lt;pre&gt;
+  &lt;extension
+      point=&quot;org.eclipse.tigerstripe.annotation.core.annotationProvider&quot;&gt;
+    &lt;provider
+        id=&quot;org.eclipse.tigerstripe.annotation.resource.provider&quot;
+        class=&quot;org.eclipse.tigerstripe.annotation.resource.ResourceAnnotationProvider&quot;
+        targetDescription=&quot;Resource&quot;
+        type=&quot;org.eclipse.core.resources.IResource&quot;/&gt;
+  &lt;/extension&gt;
+&lt;/pre&gt;
+
       </documentation>
    </annotation>
 
@@ -122,7 +135,7 @@
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
-         [Enter API information here.]
+         
       </documentation>
    </annotation>
 
@@ -131,7 +144,7 @@
          <meta.section type="implementation"/>
       </appInfo>
       <documentation>
-         [Enter information about supplied implementation of this extension point.]
+         
       </documentation>
    </annotation>
 
@@ -140,7 +153,13 @@
          <meta.section type="copyright"/>
       </appInfo>
       <documentation>
-         
+         Copyright (c) 2008 xored software, Inc.&lt;br&gt;
+
+All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 
+which accompanies this distribution, and is available at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;&lt;br&gt;
+
+Contributors:&lt;br&gt;
+&amp;nbsp;&amp;nbsp;xored software, Inc. - initial API and Implementation (Yuri Strot)
       </documentation>
    </annotation>
 

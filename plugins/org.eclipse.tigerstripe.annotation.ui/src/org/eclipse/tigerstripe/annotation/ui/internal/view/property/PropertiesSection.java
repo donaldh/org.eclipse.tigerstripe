@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellEditorListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -265,7 +268,14 @@ public class PropertiesSection extends AbstractPropertySection {
 		}
         IProperty entry = (IProperty) treeItem.getData();
         entry.applyEditorValue();
-        viewer.refresh(entry);
+        List<Object> data = new ArrayList<Object>();
+        while(treeItem != null) {
+            data.add(treeItem.getData());
+        	treeItem = treeItem.getParentItem();
+        }
+        for (Object object : data) {
+            viewer.refresh(object);
+		}
     }
 
     /**

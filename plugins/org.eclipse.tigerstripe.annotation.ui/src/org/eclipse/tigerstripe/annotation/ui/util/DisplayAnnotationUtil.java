@@ -25,16 +25,40 @@ import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
  */
 public class DisplayAnnotationUtil {
 	
+	public static ILabelProvider getProvider(Annotation annotation) {
+		AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
+		if (type != null) {
+			return AnnotationUIPlugin.getManager().getLabelProvider(type);
+		}
+		return null;
+	}
+	
+	public static String getText(EObject object) {
+		EObject root = object;
+		ILabelProvider provider = null;
+		while(root != null) {
+			if (root instanceof Annotation) {
+				provider = getProvider((Annotation)root);
+				break;
+			}
+			root = root.eContainer();
+		}
+		if (provider != null) {
+			try {
+				return provider.getText(object);
+			}
+			catch (Exception e) {
+				AnnotationUIPlugin.log(e);
+				return "";
+			}
+		}
+		return object.eClass().getName();
+	}
+	
 	public static String getText(Annotation annotation) {
 		EObject content = annotation.getContent();
 		if (content != null) {
-			AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
-			if (type != null) {
-				ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
-				if (provider != null)
-					return provider.getText(content);
-			}
-			return content.eClass().getName();
+			return getText(content);
 		}
 		return "<no content>";
 	}
@@ -42,8 +66,14 @@ public class DisplayAnnotationUtil {
 	public static Image getImage(Annotation annotation) {
 		AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
 		ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
-		if (provider != null)
-			return provider.getImage(annotation.getContent());
+		if (provider != null) {
+			try {
+				return provider.getImage(annotation.getContent());
+			}
+			catch (Exception e) {
+				AnnotationUIPlugin.log(e);
+			}
+		}
 		return null;
 	}
 
