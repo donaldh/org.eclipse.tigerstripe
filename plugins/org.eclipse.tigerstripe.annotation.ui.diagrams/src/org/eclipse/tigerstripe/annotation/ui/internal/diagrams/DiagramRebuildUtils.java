@@ -128,31 +128,55 @@ public class DiagramRebuildUtils {
 		}
 		return statuses;
 	}
-
-	public static void updateMetaInfo(final DiagramEditor editor,
-			final EditPart part, final AnnotationStatus[] statuses, final boolean show) {
+	
+	protected static MetaViewAnnotations getMetaViewAnnotations(
+			final DiagramEditor editor, final EditPart part) {
 		final MetaAnnotationNode node = getMetaInfo(editor);
+		List<?> list = node.getChildren();
+		final View view = (View)part.getModel();
+		MetaViewAnnotations partMeta = null;
+		for (Object object : list) {
+			if (object instanceof MetaViewAnnotations) {
+				MetaViewAnnotations mva = (MetaViewAnnotations)object;
+				if (view == mva.getView()) {
+					partMeta = mva;
+					break;
+				}
+			}
+		}
+		if (partMeta == null) {
+			partMeta = (MetaViewAnnotations)createNode(
+					DiagramAnnotationType.META_VIEW_ANNOTATION_TYPE, null,
+					editor.getEditingDomain(), node);
+			partMeta.setView(view);
+		}
+		return partMeta;
+	}
+
+	public static void addToExclusion(final DiagramEditor editor,
+			final EditPart part, final AnnotationStatus status) {
 		modify(editor.getEditingDomain(), new Runnable() {
 		
 			public void run() {
-				List<?> list = node.getChildren();
-				final View view = (View)part.getModel();
-				MetaViewAnnotations partMeta = null;
-				for (Object object : list) {
-					if (object instanceof MetaViewAnnotations) {
-						MetaViewAnnotations mva = (MetaViewAnnotations)object;
-						if (view == mva.getView()) {
-							partMeta = mva;
-							break;
-						}
-					}
+				MetaViewAnnotations partMeta = getMetaViewAnnotations(editor, part);
+				Annotation annotation = status.getAnnotation();
+				if (annotation != null) {
+					String id = annotation.getId();
+					List<String> exclusion = partMeta.getExclusionAnnotations();
+					if (!exclusion.contains(id))
+						exclusion.add(id);
 				}
-				if (partMeta == null) {
-					partMeta = (MetaViewAnnotations)createNode(
-							DiagramAnnotationType.META_VIEW_ANNOTATION_TYPE, null,
-							editor.getEditingDomain(), node);
-					partMeta.setView(view);
-				}
+			}
+		
+		});
+	}
+
+	public static void updateMetaInfo(final DiagramEditor editor,
+			final EditPart part, final AnnotationStatus[] statuses, final boolean show) {
+		modify(editor.getEditingDomain(), new Runnable() {
+		
+			public void run() {
+				MetaViewAnnotations partMeta = getMetaViewAnnotations(editor, part);
 				for (int i = 0; i < statuses.length; i++) {
 					String id = getTypeId(statuses[i]);
 					if (id != null) {
@@ -163,6 +187,11 @@ public class DiagramRebuildUtils {
 						else {
 							partMeta.getTypes().remove(id);
 						}
+					}
+					Annotation annotation = statuses[i].getAnnotation();
+					if (annotation != null) {
+						partMeta.getExclusionAnnotations().remove(
+								annotation.getId());
 					}
 				}
 			}
@@ -355,9 +384,13 @@ public class DiagramRebuildUtils {
 						EList<String> types = mva.getTypes();
 						List<AnnotationStatus> statuses = new ArrayList<AnnotationStatus>();
 						for (AnnotationStatus annotationStatus : annotations) {
+							String annId = annotationStatus.getAnnotation().getId();
+							List<String> exlusionAnnotations = mva.getExclusionAnnotations();
 							String id = getTypeId(annotationStatus);
 							if (id != null) {
-								if (types.contains(id))
+								boolean inTypes = types.contains(id);
+								boolean inExlusion = exlusionAnnotations.contains(annId);
+								if ((inTypes && !inExlusion) || (!inTypes && inExlusion))
 									statuses.add(annotationStatus);
 							}
 						}

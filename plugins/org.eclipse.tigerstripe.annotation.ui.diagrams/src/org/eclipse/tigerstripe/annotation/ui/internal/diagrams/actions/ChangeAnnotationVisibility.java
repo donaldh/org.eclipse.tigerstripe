@@ -35,7 +35,7 @@ public class ChangeAnnotationVisibility extends Action {
 	
 	private DiagramEditor editor; 
 	private EditPart ref;
-	private AnnotationStatus[] statuses;
+	private AnnotationStatus status;
 	
 	private Annotation annotation;
 	private boolean show;
@@ -53,11 +53,10 @@ public class ChangeAnnotationVisibility extends Action {
 			ref = getPart(editor);
 			if (ref != null) {
 				AnnotationNode node = getNode(editor);
-				AnnotationStatus status = node == null ? new AnnotationStatus(annotation) :
+				status = node == null ? new AnnotationStatus(annotation) :
 					new AnnotationStatus(node);
 				if ((status.getStatus() != AnnotationStatus.STATUS_VISIBLE || !show) &&
 						(status.getStatus() == AnnotationStatus.STATUS_VISIBLE || show)) {
-					statuses = new AnnotationStatus[] { status };
 					setEnabled(true);
 					return;
 				}
@@ -71,12 +70,15 @@ public class ChangeAnnotationVisibility extends Action {
 	 */
 	@Override
 	public void run() {
+		AnnotationStatus[] statuses = 
+			new AnnotationStatus[] { status };
 		if (show)
 			DiagramRebuildUtils.showAnnotations(editor, 
 					ref, statuses);
 		else
 			DiagramRebuildUtils.hideAnnotations(editor, 
 					ref, statuses);
+		DiagramRebuildUtils.addToExclusion(editor, ref, status);
 	}
 	
 	protected EditPart getPart(DiagramEditor editor) {

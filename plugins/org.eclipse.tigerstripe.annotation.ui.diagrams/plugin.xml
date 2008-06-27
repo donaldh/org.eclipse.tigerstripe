@@ -45,7 +45,7 @@
    <extension point="org.eclipse.gmf.runtime.diagram.core.viewProviders">
       <viewProvider class="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.factories.AnnotationViewProvider">
          <Priority name="Lowest"/>
-         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="ann"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="Annotation"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="MetaAnnotation"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="MetaViewAnnotation"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="AnnotationConnection"/>

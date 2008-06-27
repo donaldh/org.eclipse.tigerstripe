@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackage.java,v 1.3 2008/06/25 06:38:15 ystrot Exp $
+ * $Id: ModelPackage.java,v 1.4 2008/06/27 12:12:11 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model;
 
@@ -461,13 +461,22 @@ public interface ModelPackage extends EPackage {
 	int META_VIEW_ANNOTATIONS__TYPES = NotationPackage.NODE_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Exclusion Annotations</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int META_VIEW_ANNOTATIONS__EXCLUSION_ANNOTATIONS = NotationPackage.NODE_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Meta View Annotations</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int META_VIEW_ANNOTATIONS_FEATURE_COUNT = NotationPackage.NODE_FEATURE_COUNT + 2;
+	int META_VIEW_ANNOTATIONS_FEATURE_COUNT = NotationPackage.NODE_FEATURE_COUNT + 3;
 
 
 	/**
@@ -532,6 +541,17 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMetaViewAnnotations_Types();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations#getExclusionAnnotations <em>Exclusion Annotations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Exclusion Annotations</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations#getExclusionAnnotations()
+	 * @see #getMetaViewAnnotations()
+	 * @generated
+	 */
+	EAttribute getMetaViewAnnotations_ExclusionAnnotations();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -608,6 +628,14 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute META_VIEW_ANNOTATIONS__TYPES = eINSTANCE.getMetaViewAnnotations_Types();
+
+		/**
+		 * The meta object literal for the '<em><b>Exclusion Annotations</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute META_VIEW_ANNOTATIONS__EXCLUSION_ANNOTATIONS = eINSTANCE.getMetaViewAnnotations_ExclusionAnnotations();
 
 	}
 

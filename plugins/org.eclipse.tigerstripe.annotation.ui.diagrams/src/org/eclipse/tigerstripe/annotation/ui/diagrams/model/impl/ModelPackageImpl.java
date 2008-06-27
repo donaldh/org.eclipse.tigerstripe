@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackageImpl.java,v 1.4 2008/06/25 06:38:15 ystrot Exp $
+ * $Id: ModelPackageImpl.java,v 1.5 2008/06/27 12:12:11 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl;
 
@@ -181,6 +181,15 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getMetaViewAnnotations_ExclusionAnnotations() {
+		return (EAttribute)metaViewAnnotationsEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ModelFactory getModelFactory() {
 		return (ModelFactory)getEFactoryInstance();
 	}
@@ -212,6 +221,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		metaViewAnnotationsEClass = createEClass(META_VIEW_ANNOTATIONS);
 		createEReference(metaViewAnnotationsEClass, META_VIEW_ANNOTATIONS__VIEW);
 		createEAttribute(metaViewAnnotationsEClass, META_VIEW_ANNOTATIONS__TYPES);
+		createEAttribute(metaViewAnnotationsEClass, META_VIEW_ANNOTATIONS__EXCLUSION_ANNOTATIONS);
 	}
 
 	/**
@@ -258,6 +268,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEClass(metaViewAnnotationsEClass, MetaViewAnnotations.class, "MetaViewAnnotations", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMetaViewAnnotations_View(), theNotationPackage.getView(), null, "view", null, 0, 1, MetaViewAnnotations.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetaViewAnnotations_Types(), ecorePackage.getEString(), "types", null, 0, -1, MetaViewAnnotations.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getMetaViewAnnotations_ExclusionAnnotations(), ecorePackage.getEString(), "exclusionAnnotations", null, 0, -1, MetaViewAnnotations.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

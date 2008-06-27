@@ -40,5 +40,10 @@ public interface MetaViewAnnotations extends Node {
 	 * @model
 	 */
 	public EList<String> getTypes();
+	
+	/**
+	 * @model
+	 */
+	public EList<String> getExclusionAnnotations();
 
 }

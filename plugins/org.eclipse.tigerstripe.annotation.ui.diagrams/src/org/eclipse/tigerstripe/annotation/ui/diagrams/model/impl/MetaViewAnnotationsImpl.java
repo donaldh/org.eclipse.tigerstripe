@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: MetaViewAnnotationsImpl.java,v 1.1 2008/06/25 06:38:15 ystrot Exp $
+ * $Id: MetaViewAnnotationsImpl.java,v 1.2 2008/06/27 12:12:11 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl;
 
@@ -35,6 +35,7 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ModelPackage;
  * <ul>
  *   <li>{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.MetaViewAnnotationsImpl#getView <em>View</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.MetaViewAnnotationsImpl#getTypes <em>Types</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.MetaViewAnnotationsImpl#getExclusionAnnotations <em>Exclusion Annotations</em>}</li>
  * </ul>
  * </p>
  *
@@ -60,6 +61,16 @@ public class MetaViewAnnotationsImpl extends NodeImpl implements MetaViewAnnotat
 	 * @ordered
 	 */
 	protected EList<String> types;
+
+	/**
+	 * The cached value of the '{@link #getExclusionAnnotations() <em>Exclusion Annotations</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExclusionAnnotations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> exclusionAnnotations;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -135,6 +146,18 @@ public class MetaViewAnnotationsImpl extends NodeImpl implements MetaViewAnnotat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<String> getExclusionAnnotations() {
+		if (exclusionAnnotations == null) {
+			exclusionAnnotations = new EDataTypeUniqueEList<String>(String.class, this, ModelPackage.META_VIEW_ANNOTATIONS__EXCLUSION_ANNOTATIONS);
+		}
+		return exclusionAnnotations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -143,6 +166,8 @@ public class MetaViewAnnotationsImpl extends NodeImpl implements MetaViewAnnotat
 				return basicGetView();
 			case ModelPackage.META_VIEW_ANNOTATIONS__TYPES:
 				return getTypes();
+			case ModelPackage.META_VIEW_ANNOTATIONS__EXCLUSION_ANNOTATIONS:
+				return getExclusionAnnotations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -163,6 +188,10 @@ public class MetaViewAnnotationsImpl extends NodeImpl implements MetaViewAnnotat
 				getTypes().clear();
 				getTypes().addAll((Collection<? extends String>)newValue);
 				return;
+			case ModelPackage.META_VIEW_ANNOTATIONS__EXCLUSION_ANNOTATIONS:
+				getExclusionAnnotations().clear();
+				getExclusionAnnotations().addAll((Collection<? extends String>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -181,6 +210,9 @@ public class MetaViewAnnotationsImpl extends NodeImpl implements MetaViewAnnotat
 			case ModelPackage.META_VIEW_ANNOTATIONS__TYPES:
 				getTypes().clear();
 				return;
+			case ModelPackage.META_VIEW_ANNOTATIONS__EXCLUSION_ANNOTATIONS:
+				getExclusionAnnotations().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -197,6 +229,8 @@ public class MetaViewAnnotationsImpl extends NodeImpl implements MetaViewAnnotat
 				return view != null;
 			case ModelPackage.META_VIEW_ANNOTATIONS__TYPES:
 				return types != null && !types.isEmpty();
+			case ModelPackage.META_VIEW_ANNOTATIONS__EXCLUSION_ANNOTATIONS:
+				return exclusionAnnotations != null && !exclusionAnnotations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -213,6 +247,8 @@ public class MetaViewAnnotationsImpl extends NodeImpl implements MetaViewAnnotat
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (types: ");
 		result.append(types);
+		result.append(", exclusionAnnotations: ");
+		result.append(exclusionAnnotations);
 		result.append(')');
 		return result.toString();
 	}
