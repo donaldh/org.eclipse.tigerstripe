@@ -12,4 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.tigerstripe.annotation.core,
  org.eclipse.tigerstripe.annotation.ui
 Eclipse-LazyStart: true
-Export-Package: org.eclipse.tigerstripe.annotation.ui.diagrams
+Export-Package: org.eclipse.tigerstripe.annotation.ui.diagrams,
+ org.eclipse.tigerstripe.annotation.ui.diagrams.model,
+ org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl,
+ org.eclipse.tigerstripe.annotation.ui.diagrams.model.util,
+ org.eclipse.tigerstripe.annotation.ui.diagrams.parts

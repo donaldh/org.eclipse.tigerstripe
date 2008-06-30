@@ -60,18 +60,20 @@ public class DisplayAnnotationUtil {
 		if (content != null) {
 			return getText(content);
 		}
-		return "<no content>";
+		return "<unknown annotation>";
 	}
 	
 	public static Image getImage(Annotation annotation) {
 		AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
-		ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
-		if (provider != null) {
-			try {
-				return provider.getImage(annotation.getContent());
-			}
-			catch (Exception e) {
-				AnnotationUIPlugin.log(e);
+		if (type != null) {
+			ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
+			if (provider != null) {
+				try {
+					return provider.getImage(annotation.getContent());
+				}
+				catch (Exception e) {
+					AnnotationUIPlugin.log(e);
+				}
 			}
 		}
 		return null;

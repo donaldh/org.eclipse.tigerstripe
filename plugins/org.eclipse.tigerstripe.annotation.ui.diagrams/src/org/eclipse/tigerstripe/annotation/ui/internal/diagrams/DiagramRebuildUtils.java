@@ -59,7 +59,6 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.AnnotationEditPart;
-import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationConnectionEditPart;
 
 /**
  * @author Yuri Strot
@@ -289,26 +288,6 @@ public class DiagramRebuildUtils {
 
 	}
 
-	protected static void setViewVisible(
-			final TransactionalEditingDomain domain, final View view,
-			final boolean visible) {
-
-		EObjectAdapter adapter = new EObjectAdapter(view);
-		SetPropertyCommand command = new SetPropertyCommand(domain, adapter,
-				PackageUtil.getID(NotationPackage.eINSTANCE.getView_Visible()),
-				"visible", Boolean.valueOf(visible));
-		CompositeTransactionalCommand cc = new CompositeTransactionalCommand(
-				domain, "Some label");
-		cc.add(command);
-		if (command.canExecute()) {
-			try {
-				command.execute(new NullProgressMonitor(), null);
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	protected static void addAllAnnotations(
 			Map<Annotation, AnnotationNode> annotations, List<?> edges,
 			boolean source) {
@@ -344,31 +323,6 @@ public class DiagramRebuildUtils {
 				}
 			}
 		}
-	}
-
-	protected static AnnotationEditPart getAnnotationEditPart(EditPart part) {
-		if (part instanceof AnnotationEditPart)
-			return (AnnotationEditPart) part;
-		if (part instanceof AnnotationConnectionEditPart) {
-			AnnotationConnectionEditPart connection = (AnnotationConnectionEditPart) part;
-			if (connection.getTarget() instanceof AnnotationEditPart)
-				return (AnnotationEditPart) connection.getTarget();
-			if (connection.getSource() instanceof AnnotationEditPart)
-				return (AnnotationEditPart) connection.getSource();
-		}
-		return null;
-	}
-
-	protected static Annotation getEqualsAnnotation(
-			List<Annotation> annotations, AnnotationEditPart part) {
-		Annotation ann = part.getAnnotation();
-		if (ann == null)
-			return null;
-		for (Annotation annotation : annotations) {
-			if (annotation.getId() == ann.getId())
-				return annotation;
-		}
-		return null;
 	}
 
 	protected static void updateAnnotations(DiagramEditor editor, EditPart part) {

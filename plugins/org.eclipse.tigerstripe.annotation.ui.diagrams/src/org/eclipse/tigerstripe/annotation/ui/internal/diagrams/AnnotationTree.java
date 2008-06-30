@@ -36,6 +36,8 @@ public class AnnotationTree {
 			for (int i = 0; i < statuses.length; i++) {
 				AnnotationStatus ann = statuses[i];
 				AnnotationType type = AnnotationPlugin.getManager().getType(ann.getAnnotation());
+				if (type == null)
+					continue;
 				AnnotationTypeNode node = tree.getNode(type);
 				if (node == null) {
 					node = new AnnotationTypeNode();
