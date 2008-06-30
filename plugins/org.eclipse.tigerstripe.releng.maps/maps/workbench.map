@@ -1,52 +1,52 @@
 !===========================================
 
-feature@org.eclipse.tigerstripe.workbench=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.workbench
-feature@org.eclipse.tigerstripe.base=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.base
-feature@org.eclipse.tigerstripe.headless=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.headless
+feature@org.eclipse.tigerstripe.workbench=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.workbench
+feature@org.eclipse.tigerstripe.base=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.base
+feature@org.eclipse.tigerstripe.headless=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.headless
 
 
 !==========================================
 ! The base Stuff
-plugin@org.eclipse.tigerstripe.workbench.base=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.base
-plugin@org.eclipse.tigerstripe.workbench.ui.base=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.base
+plugin@org.eclipse.tigerstripe.workbench.base=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.base
+plugin@org.eclipse.tigerstripe.workbench.ui.base=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.base
 
 !==========================================
 ! Class Diagram Stuff
-plugin@org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation
-plugin@org.eclipse.tigerstripe.workbench.ui.visualeditor=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor
-plugin@org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram
-plugin@org.eclipse.tigerstripe.workbench.ui.visualeditor.edit=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.edit
+plugin@org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation
+plugin@org.eclipse.tigerstripe.workbench.ui.visualeditor=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor
+plugin@org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram
+plugin@org.eclipse.tigerstripe.workbench.ui.visualeditor.edit=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.edit
 
 !==========================================
 ! Instance Diagram Stuff
-plugin@org.eclipse.tigerstripe.workbench.ui.instancediagram=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram
-plugin@org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram
-plugin@org.eclipse.tigerstripe.workbench.ui.instancediagram.edit=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.edit
-plugin@org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation
+plugin@org.eclipse.tigerstripe.workbench.ui.instancediagram=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram
+plugin@org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram
+plugin@org.eclipse.tigerstripe.workbench.ui.instancediagram.edit=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.edit
+plugin@org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation
 
 !==========================================
 ! Optional Import/Export Stuff
-plugin@org.eclipse.tigerstripe.workbench.optional.bulkImport=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.optional.bulkImport
-plugin@org.eclipse.tigerstripe.workbench.optional.UML2Export=v200806201225,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.optional.UML2Export
-plugin@org.eclipse.tigerstripe.workbench.ui.UML2Import=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.UML2Import
+plugin@org.eclipse.tigerstripe.workbench.optional.bulkImport=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.optional.bulkImport
+plugin@org.eclipse.tigerstripe.workbench.optional.UML2Export=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.optional.UML2Export
+plugin@org.eclipse.tigerstripe.workbench.ui.UML2Import=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.UML2Import
 
 !==========================================
 ! Misc Stuff
-plugin@org.eclipse.tigerstripe.workbench.branding=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.branding
-plugin@org.eclipse.tigerstripe.workbench.headless=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.headless
-plugin@org.eclipse.tigerstripe.workbench.help=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.help
-plugin@org.eclipse.tigerstripe.workbench.ui.diagramrendering=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.diagramrendering
-plugin@org.eclipse.tigerstripe.workbench.ui.resources=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.resources
+plugin@org.eclipse.tigerstripe.workbench.branding=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.branding
+plugin@org.eclipse.tigerstripe.workbench.headless=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.headless
+plugin@org.eclipse.tigerstripe.workbench.help=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.help
+plugin@org.eclipse.tigerstripe.workbench.ui.diagramrendering=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.diagramrendering
+plugin@org.eclipse.tigerstripe.workbench.ui.resources=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.workbench.ui.resources
 
 !==========================================
 ! Metamodel Stuff
-plugin@org.eclipse.tigerstripe.metamodel=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.metamodel
-plugin@org.eclipse.tigerstripe.repository.core=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.repository.core
+plugin@org.eclipse.tigerstripe.metamodel=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.metamodel
+plugin@org.eclipse.tigerstripe.repository.core=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.repository.core
 
 !==========================================
 ! Annotations Stuff
-plugin@org.eclipse.tigerstripe.annotation.ts2project.router=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.ts2project.router
-plugin@org.eclipse.tigerstripe.annotation.tsmodel=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.tsmodel
-plugin@org.eclipse.tigerstripe.annotation.tsmodel.ui=v200806171237,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.tsmodel.ui
+plugin@org.eclipse.tigerstripe.annotation.ts2project.router=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.ts2project.router
+plugin@org.eclipse.tigerstripe.annotation.tsmodel=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.tsmodel
+plugin@org.eclipse.tigerstripe.annotation.tsmodel.ui=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.tsmodel.ui
 
 
