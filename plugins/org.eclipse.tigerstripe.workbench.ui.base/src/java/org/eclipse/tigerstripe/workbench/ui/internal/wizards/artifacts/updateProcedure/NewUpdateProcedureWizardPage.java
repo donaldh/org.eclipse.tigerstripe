@@ -90,7 +90,7 @@ public class NewUpdateProcedureWizardPage extends NewArtifactWizardPage {
 		layout.numColumns = nColumns;
 		composite.setLayout(layout);
 
-		createArtifactControls(composite, nColumns, true, false);
+		createArtifactControls(composite, nColumns, true, false,true);
 
 		setControl(composite);
 		Dialog.applyDialogFont(composite);

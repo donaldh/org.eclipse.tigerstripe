@@ -24,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
@@ -83,6 +84,10 @@ public class ArtifactAuditorFactory {
 				auditorsMap.put(artifact.getClass(), auditor);
 			} else if (artifact instanceof IDependencyArtifact) {
 				auditor = new DependencyArtifactAuditor(project, artifact);
+				auditorsMap.put(artifact.getClass(), auditor);
+			} else if (artifact instanceof IPackageArtifact) {
+				auditor = new PackageArtifactAuditor(project, artifact);
+				auditorsMap.put(artifact.getClass(), auditor);
 			} else
 				throw new TigerstripeException(
 						"Internal Error, can't find artifact auditor.");

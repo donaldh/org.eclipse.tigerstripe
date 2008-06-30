@@ -29,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 
@@ -309,4 +310,11 @@ public class DependencyArtifact extends AbstractArtifact implements
 		return objects;
 	}
 
+	@Override
+	public Collection<IModelComponent> getContainedModelComponents() {
+		Collection<IModelComponent> ownedComponents = new ArrayList<IModelComponent>();
+		ownedComponents.addAll(super.getContainedModelComponents());
+		//ownedComponents.addAll(this.getRelationshipEnds());
+		return ownedComponents;
+	}
 }

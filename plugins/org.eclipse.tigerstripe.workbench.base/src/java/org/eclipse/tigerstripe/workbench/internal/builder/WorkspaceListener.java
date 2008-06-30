@@ -38,12 +38,14 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactDeleteRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
@@ -52,10 +54,13 @@ import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReferenc
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.IWorkbench;
@@ -232,9 +237,21 @@ public class WorkspaceListener implements IElementChangedListener,
 				IPackageFragment packFragment = (IPackageFragment) element.fromElement;
 				if (element.toElement == null)
 					removeFragmentContent(packFragment);
-				else
+				else {
+					// If we are handling package artifacts, rename the package artifact
+					IWorkbenchProfile profile = TigerstripeCore
+					.getWorkbenchProfileSession().getActiveProfile();
+					CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
+					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+					if (prop.getDetailsForType(
+							IPackageArtifact.class.getName()).isEnabled()) {
+						renameArtifact((IPackageFragment) element.fromElement,
+								(IPackageFragment) element.toElement);
+					}
 					renameFragmentContent(packFragment,
 							(IPackageFragment) element.toElement);
+					
+				}
 			} else if (element.fromElement instanceof ICompilationUnit) {
 				if (element.toElement != null) {
 					renameArtifact((ICompilationUnit) element.fromElement,
@@ -307,6 +324,36 @@ public class WorkspaceListener implements IElementChangedListener,
 		}
 	}
 
+	
+	
+	private void renameArtifact(IPackageFragment fromPack,
+			IPackageFragment toPack) {
+		IJavaProject jProject = fromPack.getJavaProject();
+		if (jProject != null) {
+			IProject project = jProject.getProject();
+			IAbstractTigerstripeProject atsProject = (IAbstractTigerstripeProject) project
+					.getAdapter(IAbstractTigerstripeProject.class);
+			if (atsProject instanceof ITigerstripeModelProject) {
+				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) atsProject;
+				try {
+					IArtifactManagerSession session = tsProject
+							.getArtifactManagerSession();
+					String fqn = fromPack.getElementName();
+					IAbstractArtifact artifact = session
+							.getArtifactByFullyQualifiedName(fqn, false);
+					if (artifact != null) {
+						TigerstripeRuntime.logInfoMessage("Detected rename: "
+								+ fromPack.getElementName() + " to "
+								+ toPack.getElementName());
+						session.renameArtifact(artifact, toPack.getElementName());
+					}
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Returns the FQN corresponding to the given unit to be used for the
 	 * Artifact Mgr

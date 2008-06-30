@@ -25,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
@@ -38,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
@@ -58,7 +60,8 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 			IAssociationClassArtifact.class.getName(),
 			IAssociationArtifact.class.getName(),
 			IDependencyArtifact.class.getName(),
-			IPrimitiveTypeArtifact.class.getName() };
+			IPrimitiveTypeArtifact.class.getName(),
+			IPackageArtifact.class.getName()};
 
 	private static String[] implArtifactTypes = {
 			ManagedEntityArtifact.class.getName(),
@@ -70,7 +73,8 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 			AssociationClassArtifact.class.getName(),
 			AssociationArtifact.class.getName(),
 			DependencyArtifact.class.getName(),
-			PrimitiveTypeArtifact.class.getName() };
+			PrimitiveTypeArtifact.class.getName(),
+			PackageArtifact.class.getName()};
 
 	private String artifactType;
 

@@ -49,6 +49,7 @@ public interface AbstractArtifactTag {
 	public final static String ASSOCIATIONCLASS = "associationClass";
 	public final static String PRIMITIVE = "primitive";
 	public final static String DEPENDENCY = "dependency";
+	public final static String PACKAGE = "package";
 
 	// ===========================
 }

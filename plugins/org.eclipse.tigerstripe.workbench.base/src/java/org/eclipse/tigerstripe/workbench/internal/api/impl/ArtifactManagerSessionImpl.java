@@ -46,6 +46,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
@@ -63,6 +64,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
@@ -95,7 +97,8 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 				ISessionArtifact.class, IEnumArtifact.class,
 				IUpdateProcedureArtifact.class, IAssociationArtifact.class,
 				IAssociationClassArtifact.class, IPrimitiveTypeArtifact.class,
-				IDependencyArtifact.class };
+				IDependencyArtifact.class,
+				IPackageArtifact.class };
 
 		ArrayList<Class> result = new ArrayList<Class>();
 
@@ -198,6 +201,8 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			return new PrimitiveTypeArtifact(getArtifactManager());
 		else if (artifact instanceof IDependencyArtifact)
 			return new DependencyArtifact(getArtifactManager());
+		else if (artifact instanceof IPackageArtifact)
+			return new PackageArtifact(getArtifactManager());
 		throw new IllegalArgumentException();
 	}
 
@@ -228,6 +233,8 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			return new PrimitiveTypeArtifact(getArtifactManager());
 		else if (IDependencyArtifact.class.getName().equals(type))
 			return new DependencyArtifact(getArtifactManager());
+		else if (IPackageArtifact.class.getName().equals(type))
+			return new PackageArtifact(getArtifactManager());
 		else
 			throw new IllegalArgumentException("Unknown artifact type: " + type);
 	}

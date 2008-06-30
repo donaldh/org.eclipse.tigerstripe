@@ -40,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
@@ -149,6 +150,12 @@ public abstract class TemplateBasedRule extends Rule implements
 				.filter(artifactMgr.getArtifactsByModel(
 						AssociationClassArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
+		
+		Collection<IAbstractArtifact> packages = ArtifactFilter
+		.filter(artifactMgr.getArtifactsByModel(
+				PackageArtifact.MODEL, false,
+				new NullProgressMonitor()), filter);
+
 
 		// Bug 928: removed ArtifactFilter that was used to filter all lists
 		// below
@@ -197,6 +204,11 @@ public abstract class TemplateBasedRule extends Rule implements
 		Collection<IAbstractArtifact> allAssociationClasses = artifactMgr
 				.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
 						false, new NullProgressMonitor());
+		
+		Collection<IAbstractArtifact> allPackages = ArtifactFilter
+		.filter(artifactMgr.getArtifactsByModel(
+				PackageArtifact.MODEL, true, false,
+				new NullProgressMonitor()), filter);
 
 		Collection<IAbstractArtifact> artifacts = artifactMgr.getAllArtifacts(
 				false, new NullProgressMonitor());
@@ -217,6 +229,7 @@ public abstract class TemplateBasedRule extends Rule implements
 		defaultVContext.put("associationClasses", associationClasses);
 		defaultVContext.put("dependencies", dependencies);
 		defaultVContext.put("sessions", sessions);
+		defaultVContext.put("packages", packages);
 
 		defaultVContext.put("allEntities", allEntities);
 		defaultVContext.put("allDatatypes", allDatatypes);
@@ -229,6 +242,7 @@ public abstract class TemplateBasedRule extends Rule implements
 		defaultVContext.put("allAssociationClasses", allAssociationClasses);
 		defaultVContext.put("allDependencies", allDependencies);
 		defaultVContext.put("allSessions", allSessions);
+		defaultVContext.put("allPackages", allPackages);
 
 		defaultVContext.put("pluginConfig", pluginConfig);
 		defaultVContext.put("runtime", TigerstripeRuntime.getInstance());

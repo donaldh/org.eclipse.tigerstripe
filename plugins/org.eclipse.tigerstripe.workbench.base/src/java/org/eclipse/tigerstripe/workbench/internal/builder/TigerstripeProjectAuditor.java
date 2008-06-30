@@ -68,6 +68,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
@@ -238,7 +239,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		}
 		return false;
 	}
-
+	
+	
 	private boolean refreshPackageFor(String packageName,
 			IProgressMonitor monitor) {
 
@@ -285,6 +287,11 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					boolean success = false;
 					if (executedRequest instanceof IArtifactCreateRequest) {
 						IArtifactCreateRequest req = (IArtifactCreateRequest) executedRequest;
+						
+						if (req.getArtifactType().equals(IPackageArtifact.class.getName())){
+							success = refreshPackageFor(req.getArtifactPackage()+"."+req.getArtifactName(),
+									monitor);
+						} else 
 						success = refreshPackageFor(req.getArtifactPackage(),
 								monitor);
 					} else if (executedRequest instanceof IArtifactRenameRequest) {

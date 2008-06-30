@@ -40,7 +40,11 @@ public interface IArtifactFormContentProvider {
 	public boolean hasConstants();
 
 	public boolean hasSpecifics();
+	
+	public boolean hasExtends();
 
+	public boolean hasAbstract();
+	
 	public boolean hasImplements();
 
 	public TigerstripeSectionPart getSpecifics(TigerstripeFormPage page,

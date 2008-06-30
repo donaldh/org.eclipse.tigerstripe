@@ -29,15 +29,18 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
@@ -47,10 +50,13 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IStandardSpecifics;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
@@ -125,6 +131,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	/** The artifact referenced by the extends clause */
 	private AbstractArtifact extendsArtifact;
+	
+	/** The components owned by this artifact  */
+	Collection<IModelComponent> containedComponents = new ArrayList<IModelComponent>();
+
+	/** 
+	 *  The artifact containing this artifact 
+	 *  Note that In this case it is always an artifact (a package Artifact to be precise)
+	 *  This might be empty if Packages are disabled.
+	 */
+	private IModelComponent containingModelComponent;
 
 	/** The artifacts referenced by the "implements" clause */
 	private List<IAbstractArtifact> implementedArtifacts = new ArrayList<IAbstractArtifact>();
@@ -248,7 +264,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 */
 	public void setPackage(String packageName) {
 		this._package = packageName;
-		this._fullyQualifiedName = this._package + "." + getName();
+		if (this._package.equals("")){
+			this._fullyQualifiedName =  getName();
+		} else 
+			this._fullyQualifiedName = this._package + "." + getName();
 	}
 
 	/**
@@ -290,7 +309,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	public void setName(String name) {
 		super.setName(name);
-		this._fullyQualifiedName = this._package + "." + getName();
+		//if (this._package.equals("")){
+		//	this._fullyQualifiedName =  getName();
+		//} else 
+			this._fullyQualifiedName = this._package + "." + getName();
 	}
 
 	/**
@@ -325,7 +347,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	protected void buildModel(JavaClass clazz, IProgressMonitor monitor) {
 
 		setName(clazz.getName());
-		setPackage(clazz.getPackage());
+		if (clazz.getPackage() != null){
+			setPackage(clazz.getPackage());
+		} else {
+			// This can be the case for "top-level" packages
+			setPackage("");
+		}
 		setComment(xmlEncode.decode(clazz.getComment()));
 
 		// Start with class-level tags
@@ -435,6 +462,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				setExtendedArtifact(art);
 			}
 		}
+		this.containedComponents = new ArrayList<IModelComponent>();
+		containedComponents.addAll(this.getFields());
+		containedComponents.addAll(this.getMethods());
+		containedComponents.addAll(this.getLiterals());
 	}
 
 	/**
@@ -499,7 +530,22 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		resolveExtendedArtifact(monitor);
 		resolveImplementedArtifacts(monitor);
 
-		// Resolve of athe inheritedFields so we don't have to walk
+		// May need to sets the containing/contained stuff by package.
+		IWorkbenchProfile profile = TigerstripeCore
+			.getWorkbenchProfileSession()
+			.getActiveProfile();
+		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
+			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+		if (prop.getDetailsForType(
+				IPackageArtifact.class.getName())
+				.isEnabled()) {
+
+	
+				resolvePackageContainment(monitor);
+
+		}
+
+		// Resolve of the inheritedFields so we don't have to walk
 		// the inheritance hierarchy over and over
 		// resolveInheritedFields(); Lazy-build the list 945
 		// resolveInheritedLabels(); Lazy-build the list 945
@@ -507,6 +553,40 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// createUniqueFieldTypeList(); Lazy-build the list #945
 	}
 
+	
+	public void resolvePackageContainment(IProgressMonitor monitor)throws TigerstripeException {
+		if (getPackage() != ""){
+			// Any *real* artifacts will be properly loaded.
+			// Any that we need to spoof should be made here - but not saved!
+			
+			AbstractArtifact existingArtifact = getArtifactManager()
+				.getArtifactByFullyQualifiedName(getPackage(), true, monitor);
+			if (existingArtifact != null){
+				this.setContainingModelComponent(existingArtifact);
+				existingArtifact.addContainedModelComponent(this);
+				
+			} else {
+
+				if (this.getProject()!= null && !getPackage().equals("primitive")) {
+					IArtifactManagerSession mgr = this.getProject()
+						.getArtifactManagerSession();
+					IPackageArtifact newPackageArtifact = PackageArtifact.makeVolatileArtifactForPackage(mgr, getPackage());
+					mgr.addArtifact(newPackageArtifact);
+					this.setContainingModelComponent(newPackageArtifact);
+					newPackageArtifact.addContainedModelComponent(this);
+
+				}
+				
+			}
+		}
+	}
+
+	void removePackageContainment() {
+		IModelComponent container = getContainingModelComponent();
+		if (container != null)
+		container.removeContainedModelComponent(this);
+	}
+	
 	/**
 	 * #386 Upon first extraction a dummy copy an artifact is created is the
 	 * corresponding definition has not been read yet.
@@ -539,6 +619,34 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		implementedArtifacts.addAll(newList);
 	}
 
+	
+	/** 
+	 * Remove references TO this object(only to used as a precursor to delete!
+	 * References FROM the artifact will be destroyed by the delete.
+	 * 
+	 */
+	protected void removeReferences(){
+		// Need to look at the containing Model Component.
+		// May need to sets the containing/contained stuff by package.
+		IWorkbenchProfile profile = TigerstripeCore
+			.getWorkbenchProfileSession()
+			.getActiveProfile();
+		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
+			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+		if (prop.getDetailsForType(
+				IPackageArtifact.class.getName())
+					.isEnabled()) {
+			// Remove the ref to this in my "Container"
+			IModelComponent container = this.getContainingModelComponent();
+			if (container != null){
+				container.removeContainedModelComponent(this);			
+			
+			}
+		}
+		
+	}
+	
+	
 	/**
 	 * Sometimes it is necessary to save large textual information (description
 	 * i.e.) that won't fit in a property because of ", ', or CR etc...
@@ -906,6 +1014,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
 		facetFilteredFields = null;
+		try {
+			this.resolvePackageContainment(new NullProgressMonitor());
+		} catch (TigerstripeException t){
+			// ignore
+			
+		}
+		
 	}
 
 	public IField makeField() {
@@ -942,6 +1057,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
 		facetFilteredLiterals = null;
+		try {
+			this.resolvePackageContainment(new NullProgressMonitor());
+		} catch (TigerstripeException t){
+			// ignore
+			
+		}
 	}
 
 	public ILiteral makeLiteral() {
@@ -984,6 +1105,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
 		facetFilteredMethods = null;
+		try {
+			this.resolvePackageContainment(new NullProgressMonitor());
+		} catch (TigerstripeException t){
+			// ignore
+			
+		}
 	}
 
 	public void setMethods(Collection<IMethod> methods) {
@@ -1186,44 +1313,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 */
 	public String getArtifactPath() throws TigerstripeException {
 		// Determine the path for this artifact
+		// This needs to be overridden for Package Artifacts
+		
 		String packageName = getPackage().replace('.', File.separatorChar);
-
+		String baseDir = getTSProject().getBaseDir().toString();
+		
 		if (getTSProject() == null || getTSProject().getBaseDir() == null)
 			return null; // this is part of a module
 
-		String baseDir = getTSProject().getBaseDir().toString();
-
-		// issue#22/Bug 412
-		// We need to extract the location of the Artifact Repository. Please
-		// note we can only support 1 single location.
-		// It can include only 1 'includes' statment that must follow a defined
-		// pattern:
-		// xxx/xxx/xxx/**/*.java
-		// We will explicitly look for **/*.java and take the prefix as the
-		// repository location.
-		// List<ArtifactRepository> repositories = (List<ArtifactRepository>)
-		// getTSProject()
-		// .getArtifactRepositories();
-		// if (repositories == null || repositories.size() == 0) {
-		// throw new TigerstripeException(
-		// "No defined Artifact repository in tigerstripe.xml");
-		// }
-		//
-		// ArtifactRepository repo = repositories.get(0);
-		// if (repo.getIncludes().length == 0) {
-		// throw new TigerstripeException(
-		// "No 'includes' defined for repository "
-		// + repo.getBaseDirectory());
-		// }
-		//
-		// String repoLocation = repo.getIncludes()[0];
-		// int index = repoLocation.indexOf("**/*.java");
-		// if (index == -1) {
-		// throw new TigerstripeException(
-		// "Incorrect 'includes' clause for repository: '"
-		// + repoLocation + "'. Must follow xxx/yyy/**/*.java");
-		// }
-		// repoLocation = repoLocation.substring(0, index);
 		String repoLocation = getTSProject().getRepositoryLocation();
 
 		// Make sure the package dir exists
@@ -1241,57 +1338,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	private void doSave(boolean notify, IProgressMonitor monitor)
 			throws TigerstripeException {
-
-		// Determine the path for this artifact
-		String packageName = getPackage().replace('.', File.separatorChar);
 		String baseDir = getTSProject().getBaseDir().toString();
 
-		// issue#22/Bug 412
-		// We need to extract the location of the Artifact Repository. Please
-		// note we can only support 1 single location.
-		// It can include only 1 'includes' statment that must follow a defined
-		// pattern:
-		// xxx/xxx/xxx/**/*.java
-		// We will explicitly look for **/*.java and take the prefix as the
-		// repository location.
-		// List<ArtifactRepository> repositories = (List<ArtifactRepository>)
-		// getTSProject()
-		// .getArtifactRepositories();
-		// if (repositories == null || repositories.size() == 0) {
-		// throw new TigerstripeException(
-		// "No defined Artifact repository in tigerstripe.xml");
-		// }
-		//
-		// ArtifactRepository repo = repositories.get(0);
-		// if (repo.getIncludes().length == 0) {
-		// throw new TigerstripeException(
-		// "No 'includes' defined for repository "
-		// + repo.getBaseDirectory());
-		// }
-		//
-		// String repoLocation = repo.getIncludes()[0];
-		// int index = repoLocation.indexOf("**/*.java");
-		// if (index == -1) {
-		// throw new TigerstripeException(
-		// "Incorrect 'includes' clause for repository: '"
-		// + repoLocation + "'. Must follow xxx/yyy/**/*.java");
-		// }
-		// repoLocation = repoLocation.substring(0, index);
-		String repoLocation = getTSProject().getRepositoryLocation();
-
-		// Make sure the package dir exists
-		File dir = new File(baseDir + File.separator + repoLocation
-				+ File.separator + packageName);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-
-		String artifactPath = baseDir + File.separator + repoLocation
-				+ File.separator + packageName + File.separator + getName()
-				+ ".java";
-
 		try {
-			Writer writer = new FileWriter(artifactPath);
+			Writer writer = new FileWriter(baseDir+File.separator+getArtifactPath());
 			AbstractArtifactPersister persister = getPersister(writer);
 			persister.applyTemplate();
 		} catch (IOException e) {
@@ -1306,6 +1356,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			getArtifactManager().notifyArtifactSaved(this, monitor);
 		}
 	}
+	
+	
 
 	public String asText() throws TigerstripeException {
 		StringWriter writer = new StringWriter();
@@ -1391,6 +1443,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	// =================================================================
 	// Methods to satisfy the IArtifact interface
 
+	
+	
+	
 	public Collection<IField> getFields(boolean filterFacetExcludedFields) {
 		Collection<IField> fields = getFields();
 		if (filterFacetExcludedFields) {
@@ -1672,5 +1727,42 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			throw new TigerstripeException("Unknown path for "
 					+ getFullyQualifiedName());
 		return iProject.findMember(artifactPath);
+	}
+
+	// Default implementation is for 
+	// all Fields, Methods, Literals
+	public Collection<IModelComponent> getContainedModelComponents() {
+		return containedComponents;
+	}
+
+	public void addContainedModelComponents(Collection<IModelComponent> components){
+		for (IModelComponent component : components){
+			addContainedModelComponent(component);
+		}
+
+	}
+	
+	public void addContainedModelComponent(IModelComponent component){
+		// Don't add if its already there.
+		if (! containedComponents.contains(component)){
+			containedComponents.add(component);
+		}
+	}
+	
+	
+	public void removeContainedModelComponent(IModelComponent component) {
+		if (containedComponents.contains(component)){
+			containedComponents.remove(component);
+		}
+		
+	}
+
+	public IModelComponent getContainingModelComponent() {
+		return this.containingModelComponent;
+	}
+	
+	public void  setContainingModelComponent(IModelComponent containingComponent) {
+		this.containingModelComponent = containingComponent;
+		return ;
 	}
 }

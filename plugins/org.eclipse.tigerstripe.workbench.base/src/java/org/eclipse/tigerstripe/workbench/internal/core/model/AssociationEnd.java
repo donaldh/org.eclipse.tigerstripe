@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.IStatus;
@@ -22,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
@@ -35,13 +39,18 @@ import com.thoughtworks.qdox.model.JavaField;
 public class AssociationEnd extends ArtifactComponent implements
 		IAssociationEnd {
 
+	
+	public String getLabel() {
+		return "Association End";
+	}
+
 	public final static String AEND_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.ASSOCIATION + "-aEnd";
 
 	public final static String ZEND_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.ASSOCIATION + "-zEnd";
 
-	private AssociationArtifact containingAssociation;
+	private IModelComponent containingModelComponent;
 
 	private Type type;
 
@@ -174,18 +183,59 @@ public class AssociationEnd extends ArtifactComponent implements
 		this.type = type;
 	}
 
-	public void setContainingAssociation(AssociationArtifact artifact) {
-		this.containingAssociation = artifact;
+	public void setContainingAssociation(IAssociationArtifact artifact) {
+		this.containingModelComponent = artifact;
 	}
 
-	public AssociationArtifact getContainingAssociation() {
-		return this.containingAssociation;
+	public IAssociationArtifact getContainingAssociation() {
+		return (IAssociationArtifact) this.containingModelComponent;
 	}
 
+	public void setContainingArtifact(AbstractArtifact artifact) {
+		this.containingModelComponent = artifact;
+	}
+
+	
 	public IAbstractArtifact getContainingArtifact() {
-		return this.containingAssociation;
+		if (this.containingModelComponent instanceof IAssociationArtifact)
+			return (IAbstractArtifact) this.containingModelComponent;
+		else
+			return null;
 	}
 
+	public Collection<IModelComponent> getContainedModelComponents() {
+		// Ends don't contain anything
+		return Collections.unmodifiableCollection( new ArrayList<IModelComponent>());
+	}
+
+	public void addContainedModelComponent(IModelComponent component) throws TigerstripeException {
+		throw new TigerstripeException("Association Ends  cannot contain any Components");
+	}
+
+	public void addContainedModelComponents(
+			Collection<IModelComponent> components) throws TigerstripeException{
+		throw new TigerstripeException("Association Ends  cannot contain any Components");
+	}
+	
+	public void removeContainedModelComponent(IModelComponent component) {
+		return ;	
+	}
+	
+	public IModelComponent getContainingModelComponent() {
+		if (this.containingModelComponent instanceof IAssociationArtifact)
+			return (IAbstractArtifact) this.containingModelComponent;
+		else
+			return null;
+	}
+	
+
+	public void setContainingModelComponent(IModelComponent containingComponent) throws TigerstripeException {
+		if (containingComponent instanceof IAssociationArtifact)
+			this.containingModelComponent = containingComponent;
+		else 
+			throw new TigerstripeException("Association Ends can only be contained by Association Artifacts");
+	}
+	
 	public IType makeType() {
 		return new Type(getArtifactManager());
 	}

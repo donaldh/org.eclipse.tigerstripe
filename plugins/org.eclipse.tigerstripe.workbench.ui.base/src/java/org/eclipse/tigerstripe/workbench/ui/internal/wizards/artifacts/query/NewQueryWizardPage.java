@@ -336,7 +336,7 @@ public class NewQueryWizardPage extends NewArtifactWizardPage {
 		layout.numColumns = nColumns;
 		composite.setLayout(layout);
 
-		createArtifactControls(composite, nColumns, true, false);
+		createArtifactControls(composite, nColumns, true, false,true);
 		createSeparator(composite, nColumns);
 		createReturnedTypeControls(composite, nColumns);
 

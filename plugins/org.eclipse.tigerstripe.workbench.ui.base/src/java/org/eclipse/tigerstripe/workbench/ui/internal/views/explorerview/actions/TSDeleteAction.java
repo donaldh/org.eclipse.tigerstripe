@@ -24,24 +24,31 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.internal.ui.refactoring.reorg.DeleteAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.action.LogicalNodeDeleteAction;
@@ -73,6 +80,7 @@ public class TSDeleteAction extends DeleteAction {
 		iAbstractArtifactComponentSelected = false;
 		logicalNodeSelected = false;
 
+		
 		if (selection != null) {
 			for (Iterator iter = selection.iterator(); iter.hasNext();) {
 				Object obj = iter.next();
@@ -148,6 +156,7 @@ public class TSDeleteAction extends DeleteAction {
 
 	@Override
 	public void run(IStructuredSelection selection) {
+		
 		if (logicalNodeSelected) {
 
 			String msg = "Do you really want to delete ";
@@ -180,6 +189,20 @@ public class TSDeleteAction extends DeleteAction {
 							if (artifact != null) {
 								ElementArtifactPair pair = new ElementArtifactPair();
 								pair.element = jElem;
+								pair.artifact = artifact;
+								selectedResources.add(pair);
+							}
+						}
+					} else if (obj instanceof IPackageFragment){
+						// We are deleting a package so might need to do the same for 
+						// package artifacts
+						IPackageFragment pack = (IPackageFragment) obj;
+						if (pack != null) {
+							IAbstractArtifact artifact = TSExplorerUtils
+									.getArtifactFor(pack);
+							if (artifact != null) {
+								ElementArtifactPair pair = new ElementArtifactPair();
+								pair.element = pack;
 								pair.artifact = artifact;
 								selectedResources.add(pair);
 							}
@@ -312,44 +335,5 @@ public class TSDeleteAction extends DeleteAction {
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
-		// for (IRelationship toDelete : toDeletes) {
-		// try {
-		// AbstractArtifact art = (AbstractArtifact) toDelete;
-		// ArtifactManager mgr = art.getArtifactManager();
-		// IextAbstractTigerstripeProject aProject = API
-		// .getDefaultProjectSession().makeTigerstripeProject(
-		// mgr.getTSProject().getBaseDir().toURI());
-		// if (aProject instanceof ITigerstripeProject) {
-		// IArtifactManagerSession session = ((ITigerstripeProject) aProject)
-		// .getArtifactManagerSession();
-		// IModelUpdater updater = session.getIModelUpdater();
-		//
-		// IArtifactDeleteRequest request = (IArtifactDeleteRequest) updater
-		// .getRequestFactory().makeRequest(
-		// IArtifactDeleteRequest.class.getName());
-		// ((IArtifactDeleteRequest) request)
-		// .setArtifactName(((IAbstractArtifact) toDelete)
-		// .getName());
-		// ((IArtifactDeleteRequest) request)
-		// .setArtifactPackage(((IAbstractArtifact) toDelete)
-		// .getPackage());
-		// updater.handleChangeRequest(request);
-		//
-		// IResource res = TSExplorerUtils
-		// .getIResourceForArtifact(((IAbstractArtifact) toDelete));
-		//
-		// if (res != null) {
-		// try {
-		// res.delete(true, new NullProgressMonitor());
-		// } catch (CoreException e) {
-		// EclipsePlugin.log(e);
-		// }
-		// }
-		//
-		// }
-		// } catch (TigerstripeException e) {
-		// EclipsePlugin.log(e);
-		// }
-		// }
 	}
 }

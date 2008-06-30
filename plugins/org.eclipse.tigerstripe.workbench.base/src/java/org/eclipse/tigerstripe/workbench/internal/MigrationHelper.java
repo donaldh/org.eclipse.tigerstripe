@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IFieldImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ILiteralImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IMethodImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IPackageImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
@@ -38,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Literal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
@@ -56,6 +58,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
@@ -161,6 +164,9 @@ public class MigrationHelper {
 		else if ("com.tigerstripesoftware.api.artifacts.model.IPrimitiveTypeArtifact"
 				.equals(scope))
 			return IPrimitiveTypeArtifact.class.getName();
+		else if ("com.tigerstripesoftware.api.artifacts.model.ossj.IPackageArtifact"
+				.equals(scope))
+			return IPackageArtifact.class.getName();
 
 		assertDefined(scope);
 		return scope;
@@ -192,6 +198,9 @@ public class MigrationHelper {
 		else if (EventArtifact.class.getName().equals(classname)
 				|| IEventArtifact.class.getName().equals(classname))
 			return IEventArtifactImpl.class.getName();
+		else if (PackageArtifact.class.getName().equals(classname)
+				|| IPackageImpl.class.getName().equals(classname))
+			return IPackageImpl.class.getName();
 		else if (PrimitiveTypeArtifact.class.getName().equals(classname)
 				|| IPrimitiveTypeArtifact.class.getName().equals(classname))
 			return IPrimitiveTypeImpl.class.getName();

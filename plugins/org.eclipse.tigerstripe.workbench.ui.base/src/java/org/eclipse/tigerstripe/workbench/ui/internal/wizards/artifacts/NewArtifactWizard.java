@@ -99,6 +99,19 @@ public abstract class NewArtifactWizard extends NewTSElementWizard {
 		return true;
 	}
 
+	// Allow override for Packages
+	protected  String getFileName(String projectName, String srcDirectory, String packageName, String artifactName){
+		return projectName + File.separator + srcDirectory
+			+ File.separator
+			+packageName.replace('.', File.separatorChar)
+			+ File.separator + artifactName + ".java";
+	}
+	
+	// Allow override for Packages
+	protected String getPackageForArtifact(String packageName, String artifactName){
+		return packageName;
+	}
+	
 	private void runGenerator(Properties pageProperties,
 			IProgressMonitor monitor) throws CoreException {
 
@@ -110,12 +123,12 @@ public abstract class NewArtifactWizard extends NewTSElementWizard {
 				.getProperty(NewArtifactWizardPage.SRCDIRECTORY_NAME);
 		String packageName = pageProperties
 				.getProperty(NewArtifactWizardPage.PACKAGE_NAME);
-		String entityName = pageProperties
+		String artifactName = pageProperties
 				.getProperty(NewArtifactWizardPage.ARTIFACT_NAME);
 		String projectName = pageProperties
 				.getProperty(NewArtifactWizardPage.CONTAINER_PATH);
 
-		monitor.beginTask("Creating " + entityName, 2);
+		monitor.beginTask("Creating " + artifactName, 2);
 
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		IProject project = workspaceRoot.getProject(projectName);
@@ -124,13 +137,10 @@ public abstract class NewArtifactWizard extends NewTSElementWizard {
 		// + File.separator
 		// + packageName.replace('.', File.separatorChar));
 
-		createFolder(project, srcFolder, packageName);
+		createFolder(project, srcFolder, getPackageForArtifact(packageName,artifactName));
 
 		final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(
-				new Path(projectName + File.separator + srcDirectory
-						+ File.separator
-						+ packageName.replace('.', File.separatorChar)
-						+ File.separator + entityName + ".java"));
+				new Path( getFileName(projectName,srcDirectory,packageName,artifactName)));
 		try {
 			InputStream stream = openContentStream(pageProperties);
 			if (file.exists()) {

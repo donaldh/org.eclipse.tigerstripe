@@ -11,7 +11,7 @@
 *#
 			<enums>
 #foreach ($enum in $enums)
-				<enum	name = "$enum.FullyQualifiedName" >
+				<enum 	name = "$enum.FullyQualifiedName" >
 ##
 #set ($artifact = $enum)
 #parse("$resourceDir/Override.vm")

@@ -54,13 +54,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 */
 	public String getArtifactType();
 
-	/**
-	 * Returns the label for this Artifact Type that will be displayed in the
-	 * GUI
-	 * 
-	 * @since 1.2
-	 */
-	public String getLabel();
+
 
 	/**
 	 * Returns true if this Artifact is marked as abstract.

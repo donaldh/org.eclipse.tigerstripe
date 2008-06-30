@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
@@ -99,6 +100,10 @@ public class NewArtifactDropDownAction extends Action implements IMenuCreator,
 			CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 
+			if (prop.getDetailsForType(IPackageArtifact.class.getName())
+					.isEnabled()) {
+				actionsList.add(new OpenNewPackageArtifactWizardAction());
+			}
 			if (prop.getDetailsForType(IManagedEntityArtifact.class.getName())
 					.isEnabled()) {
 				actionsList.add(new OpenNewEntityArtifactWizardAction());
@@ -147,6 +152,7 @@ public class NewArtifactDropDownAction extends Action implements IMenuCreator,
 				actionsList.add(new OpenNewExceptionArtifactWizardAction());
 			}
 
+			
 			for (Action action : actionsList) {
 				ActionContributionItem item = new ActionContributionItem(action);
 				item.fill(fMenu, -1);

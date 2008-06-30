@@ -29,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
@@ -48,7 +49,8 @@ public class CoreArtifactSettingsProperty extends BaseWorkbenchProfileProperty
 
 	private final static String[] coreArtifactsList = {
 			IManagedEntityArtifact.class.getName(),
-			IDatatypeArtifact.class.getName(), IEventArtifact.class.getName(),
+			IDatatypeArtifact.class.getName(),
+			IEventArtifact.class.getName(),
 			IQueryArtifact.class.getName(),
 			IUpdateProcedureArtifact.class.getName(),
 			ISessionArtifact.class.getName(),
@@ -56,7 +58,9 @@ public class CoreArtifactSettingsProperty extends BaseWorkbenchProfileProperty
 			IAssociationClassArtifact.class.getName(),
 			IExceptionArtifact.class.getName(),
 			IPrimitiveTypeArtifact.class.getName(),
-			IEnumArtifact.class.getName(), IDependencyArtifact.class.getName() };
+			IEnumArtifact.class.getName(), 
+			IDependencyArtifact.class.getName(),
+			IPackageArtifact.class.getName()};
 
 	private HashMap<String, ArtifactSettingDetails> details = new HashMap<String, ArtifactSettingDetails>();
 

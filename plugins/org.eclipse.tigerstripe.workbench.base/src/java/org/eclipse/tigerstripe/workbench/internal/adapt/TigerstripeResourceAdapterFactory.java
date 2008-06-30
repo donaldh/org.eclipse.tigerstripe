@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -34,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
@@ -138,6 +140,58 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 				}
 			} else
 				return null;
+		} else if (adaptableObject instanceof IPackageArtifact){
+			IPackageFragment fragment = (IPackageFragment) adaptableObject;
+			if (fragment != null){
+				try {
+					IAbstractTigerstripeProject aProject = TigerstripeCore
+					.findProject(fragment.getCorrespondingResource().getProject().getLocation()
+							.toFile().toURI());
+
+					if (aProject instanceof ITigerstripeModelProject) {
+						ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
+						IArtifactManagerSession mgr = project
+						.getArtifactManagerSession();
+
+						IAbstractArtifact artifact = ((ArtifactManagerSessionImpl) mgr)
+						.getArtifactManager().getArtifactByFullyQualifiedName(
+								fragment.getElementName(), false, new NullProgressMonitor());
+
+						if (artifact == null) {
+							try {
+								Object[] resources = fragment.getNonJavaResources();
+								for (Object o : resources){
+									if (o instanceof IFile){
+										IFile f = (IFile) o;
+										if (f.getName().equals(".package")){
+											InputStreamReader reader = new InputStreamReader(
+													f.getContents());
+											artifact = mgr.extractArtifact(reader,
+													new NullProgressMonitor());
+										}
+									}
+								}
+							} catch (CoreException e) {
+								BasePlugin.log(e);
+							}
+						}
+						if (artifact != null & adapterType.isInstance(artifact))
+							return artifact;
+						else
+							return null;
+					}else
+						return null;
+
+				} catch (Exception e) {
+					// This means we couldn't parse it. Must some kind of other
+					// file (not pojo artifact)
+					// just ignore
+					return null;
+				}
+
+			} else
+				return null;
+
 		} else
 			return null;
 	}

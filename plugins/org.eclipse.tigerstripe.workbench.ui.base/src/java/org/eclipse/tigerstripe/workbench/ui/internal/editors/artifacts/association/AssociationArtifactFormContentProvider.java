@@ -24,6 +24,14 @@ public class AssociationArtifactFormContentProvider extends
 		ArtifactFormContentProviderBase implements
 		IOssjArtifactFormContentProvider {
 
+	public boolean hasExtends() {
+		return true;
+	}
+
+	public boolean hasAbstract() {
+		return true;
+	}
+	
 	public boolean enabledInstanceMethods() {
 		return false;
 	}

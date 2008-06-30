@@ -11,7 +11,7 @@
 *#
 			<queries>
 #foreach ($query in $queries)
-				<query	name = "$query.FullyQualifiedName" >
+				<query	 name = "$query.FullyQualifiedName" >
 ##
 #set ($artifact = $query)
 #parse("$resourceDir/Override.vm")

@@ -29,6 +29,14 @@ public class AssociationClassArtifactFormContentProvider extends
 		return false;
 	}
 
+	public boolean hasExtends() {
+		return true;
+	}
+	
+	public boolean hasAbstract() {
+		return true;
+	}
+	
 	public boolean hasImplements() {
 		return true;
 	}

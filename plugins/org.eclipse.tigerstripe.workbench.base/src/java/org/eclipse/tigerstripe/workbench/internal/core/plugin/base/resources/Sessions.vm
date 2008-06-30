@@ -11,7 +11,7 @@
 *#
 			<sessions>
 #foreach ($session in $sessions)
-				<session	name = "$session.FullyQualifiedName" >
+				<session	 name = "$session.FullyQualifiedName" >
 ##
 #set ($artifact = $session)
 #parse("$resourceDir/Override.vm")

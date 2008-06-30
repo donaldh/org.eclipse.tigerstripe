@@ -43,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
@@ -136,6 +137,9 @@ public abstract class NewTSElementWizard extends Wizard implements INewWizard {
 						} else if (artifact instanceof DependencyArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.DEPENDENCY_EDITOR);
+						} else if (artifact instanceof PackageArtifact) {
+							page.openEditor(new FileEditorInput(resource),
+									TSOpenAction.PACKAGE_EDITOR);
 						}
 					} catch (PartInitException e) {
 						EclipsePlugin.log(e);

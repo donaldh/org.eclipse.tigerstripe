@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
@@ -124,6 +125,12 @@ public class AbstractArtifactLabelProvider implements ILabelProvider,
 				return Images.get(Images.DEPENDENCY_ICON);
 			else
 				return Images.get(Images.DEPENDENCY_ICON_GS);
+		} else if (element instanceof PackageArtifact) {
+			if (isInActiveFacet)
+				return Images.get(Images.PACKAGE_ICON);
+			else
+				return Images.get(Images.PACKAGE_ICON_GS);
+
 		} else if (element instanceof PrimitiveTypeArtifact)
 			// Bug 947: primite type artifacts are always in facet.
 			return Images.get(Images.PRIMITIVE_ICON);

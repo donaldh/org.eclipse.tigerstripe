@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -22,7 +23,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -38,8 +41,11 @@ import com.thoughtworks.qdox.model.JavaField;
  */
 public class Literal extends ArtifactComponent implements ILiteral {
 
-
-	private AbstractArtifact containingArtifact;
+	public String getLabel() {
+		return "Literal";
+	}
+	
+	private IModelComponent containingModelComponent;
 
 	private Type type;
 
@@ -101,13 +107,49 @@ public class Literal extends ArtifactComponent implements ILiteral {
 	}
 
 	public void setContainingArtifact(AbstractArtifact artifact) {
-		this.containingArtifact = artifact;
+		this.containingModelComponent = artifact;
 	}
 
-	public AbstractArtifact getContainingArtifact() {
-		return this.containingArtifact;
+	public IAbstractArtifact getContainingArtifact() {
+		if (this.containingModelComponent instanceof IAbstractArtifact)
+			return (IAbstractArtifact) this.containingModelComponent;
+		else
+			return null;
 	}
 
+	public Collection<IModelComponent> getContainedModelComponents() {
+		// Literals don't contain anything
+		return Collections.unmodifiableCollection( new ArrayList<IModelComponent>());
+	}
+
+	
+	public void addContainedModelComponent(IModelComponent component) throws TigerstripeException {
+		throw new TigerstripeException("Literals cannot contain any Components");
+	}
+
+	public void removeContainedModelComponent(IModelComponent component) {
+		return ;	
+	}
+	
+	public void addContainedModelComponents(
+			Collection<IModelComponent> components) throws TigerstripeException{
+		throw new TigerstripeException("Literals cannot contain any Components");
+	}
+	
+	public IModelComponent getContainingModelComponent() {
+		if (this.containingModelComponent instanceof IAbstractArtifact)
+			return (IAbstractArtifact) this.containingModelComponent;
+		else
+			return null;
+	}
+	
+
+	public void setContainingModelComponent(IModelComponent containingComponent) throws TigerstripeException {
+		if (containingComponent instanceof IAbstractArtifact)
+			this.containingModelComponent = containingComponent;
+		else 
+			throw new TigerstripeException("Fields can only be contained by Artifacts");
+	}
 	// ===============================================================
 	// To satisfy the ILiteral interface
 

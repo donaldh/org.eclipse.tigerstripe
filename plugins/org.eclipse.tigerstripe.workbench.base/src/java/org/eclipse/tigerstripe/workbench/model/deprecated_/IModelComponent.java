@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
@@ -318,5 +319,27 @@ public interface IModelComponent extends IStereotypeCapable, IAdaptable {
 	 *         not been stored in a Model Project
 	 */
 	public ITigerstripeModelProject getProject() throws TigerstripeException;
+	
+	public IModelComponent getContainingModelComponent();
+	
+	public void addContainedModelComponents(Collection<IModelComponent> components) throws TigerstripeException;
+	
+	public void addContainedModelComponent(IModelComponent component) throws TigerstripeException;
+	
+	public void removeContainedModelComponent(IModelComponent component);
+	
+	public Collection<IModelComponent> getContainedModelComponents();
+	
+	public void  setContainingModelComponent(IModelComponent containingComponent) throws TigerstripeException;
+	
+	/**
+	 * Returns the label for this Model Component 
+	 * That may be displayed in the GUI.
+	 * 
+	 * This is a generic thing eg "ManagedEntity", "Field"
+	 * 
+	 * @since 1.2
+	 */
+	public String getLabel();
 
 }

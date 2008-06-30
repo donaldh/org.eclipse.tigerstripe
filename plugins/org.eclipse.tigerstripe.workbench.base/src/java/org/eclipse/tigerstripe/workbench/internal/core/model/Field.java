@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -22,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
@@ -38,6 +40,11 @@ import com.thoughtworks.qdox.model.JavaField;
  */
 public class Field extends ArtifactComponent implements IField {
 
+	
+	public String getLabel() {
+		return "Field";
+	}
+
 	public static int refByFromLabel(String label) {
 		int result = IField.NON_APPLICABLE;
 		for (int i = 0; i < refByLabels.length; i++) {
@@ -49,7 +56,7 @@ public class Field extends ArtifactComponent implements IField {
 		return result;
 	}
 
-	private AbstractArtifact containingArtifact;
+	private IModelComponent containingModelComponent;
 
 	private String defaultValue;
 
@@ -175,19 +182,57 @@ public class Field extends ArtifactComponent implements IField {
 	}
 
 	public void setContainingArtifact(AbstractArtifact artifact) {
-		this.containingArtifact = artifact;
+		this.containingModelComponent = artifact;
 	}
 
-	public AbstractArtifact getContainingArtifact() {
-		return this.containingArtifact;
+	
+	public IAbstractArtifact getContainingArtifact() {
+		if (this.containingModelComponent instanceof IAbstractArtifact)
+			return (IAbstractArtifact) this.containingModelComponent;
+		else
+			return null;
 	}
+
+	public Collection<IModelComponent> getContainedModelComponents() {
+		// Fields don't contain anything
+		return Collections.unmodifiableCollection( new ArrayList<IModelComponent>());
+	}
+
+	public void addContainedModelComponent(IModelComponent component) throws TigerstripeException {
+		throw new TigerstripeException("Fields cannot contain any Components");
+	}
+
+	public void addContainedModelComponents(
+			Collection<IModelComponent> components) throws TigerstripeException{
+		throw new TigerstripeException("Fields cannot contain any Components");
+	}
+	
+	
+	
+	public void removeContainedModelComponent(IModelComponent component) {
+		return ;	
+	}
+
+	public IModelComponent getContainingModelComponent() {
+		if (this.containingModelComponent instanceof IAbstractArtifact)
+			return (IAbstractArtifact) this.containingModelComponent;
+		else
+			return null;
+	}
+	
+
+	public void setContainingModelComponent(IModelComponent containingComponent) throws TigerstripeException {
+		if (containingComponent instanceof IAbstractArtifact)
+			this.containingModelComponent = containingComponent;
+		else 
+			throw new TigerstripeException("Fields can only be contained by Artifacts");
+	}
+
 
 	// ==================================================================
 	// Methods to satisfy the IType interface
 
-	// ==================================================================
-	// Methods to satisfy the IType interface
-
+	
 	public IType getType() {
 		return this.type;
 	}
@@ -302,7 +347,7 @@ public class Field extends ArtifactComponent implements IField {
 			throw new IllegalStateException(
 					"Cannot clone field that doesn't belong to any artifact.");
 
-		IField result = getContainingArtifact().makeField();
+		IField result = ((AbstractArtifact) getContainingArtifact()).makeField();
 		result.setName(getName());
 		result.setComment(getComment());
 		result.setDefaultValue(getDefaultValue());
@@ -351,7 +396,7 @@ public class Field extends ArtifactComponent implements IField {
 	@Override
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		if (getContainingArtifact() != null)
-			return getContainingArtifact().getProject();
+			return ((AbstractArtifact)getContainingArtifact()) .getProject();
 
 		return null;
 	}

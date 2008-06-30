@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
+import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -24,7 +26,6 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -126,12 +127,71 @@ public class TSExplorerUtils {
 						new NullProgressMonitor());
 			} else
 				return null;
-		} else if (element instanceof IFile)
-			return getArtifactFor(JavaCore.create((IFile) element));
-		else
+		
+		} else if (element instanceof IPackageFragment){
+			IPackageFragment res = (IPackageFragment) element;
+			try {
+				IAbstractTigerstripeProject aProject = TigerstripeCore
+						.findProject(res.getCorrespondingResource().getProject().getLocation()
+								.toFile().toURI());
+
+				if (aProject instanceof ITigerstripeModelProject) {
+					ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
+					IArtifactManagerSession mgr = project
+							.getArtifactManagerSession();
+					// The FQN of the Artifact To get is the package name...
+					IAbstractArtifact artifact = ((ArtifactManagerSessionImpl) mgr)
+							.getArtifactManager().getArtifactByFullyQualifiedName(
+									res.getElementName(), 
+									false, new NullProgressMonitor());
+
+					return artifact;
+				} else
+					return null;
+
+			} catch (Exception e) {
+				EclipsePlugin.log(e);
+				return null;
+			}
+		} else if (element instanceof IFile){
+
+			IFile f = (IFile) element;
+			IAbstractArtifact artifact = null;
+			try {
+				IAbstractTigerstripeProject aProject = TigerstripeCore
+				.findProject(f.getProject().getLocation()
+						.toFile().toURI());
+
+				if (aProject instanceof ITigerstripeModelProject) {
+					ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
+					IArtifactManagerSession mgr = project
+					.getArtifactManagerSession();
+					
+					IPath location = f.getLocation();
+					if (location != null){
+					  File file = location.toFile();
+					
+
+					
+					artifact = ((ArtifactManagerSessionImpl) mgr)
+					.getArtifactManager().getArtifactByFilename(file.getAbsolutePath());
+					}
+				}
+			} catch (Exception e) {
+				EclipsePlugin.log(e);
+				return null;
+			}
+			//IAbstractArtifact artifact = getArtifactFor(JavaCore.create((IFile) element));
+			return artifact;
+
+
+		} else
 			return null;
 	}
 
+	
+	
+	
 	public static String getFQNfor(IClassFile classFile) {
 		String name = classFile.getElementName().replaceFirst("\\.class", "");
 		if (classFile.getParent() instanceof IPackageFragment) {

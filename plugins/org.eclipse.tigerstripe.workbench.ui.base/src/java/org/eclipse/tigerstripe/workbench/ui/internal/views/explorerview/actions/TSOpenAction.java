@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.ISourceReference;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.ui.actions.OpenAction;
@@ -26,7 +27,9 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
@@ -34,17 +37,22 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactAttributesSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantsSection;
@@ -55,6 +63,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ReadOnlyA
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.association.AssociationSpecificsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.dependency.DependencySpecificsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.ReadOnlyDescriptorEditorInput;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.ui.IEditorPart;
@@ -96,6 +105,9 @@ public class TSOpenAction extends OpenAction {
 
 	public final static String DEPENDENCY_EDITOR = "org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.dependencyEditor";
 
+	public final static String PACKAGE_EDITOR = "org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.packageEditor";
+
+	
 	public TSOpenAction(IWorkbenchSite site) {
 		super(site);
 	}
@@ -226,6 +238,30 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), DEPENDENCY_EDITOR);
 				}
+			} else if (element instanceof IPackageArtifact) {
+				if (((IAbstractArtifact) element).isReadonly()) {
+					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
+							null, (IAbstractArtifact) element);
+					return page.openEditor(input, PACKAGE_EDITOR);
+				} else {
+					IResource iResource = (IResource) ((IAbstractArtifact) element)
+					.getAdapter(IResource.class);
+					if (iResource == null){
+						// This was a volatile Package created on the fly!
+						// we need to do a proper create now
+						try {
+							ITigerstripeModelProject project = ((IAbstractArtifact) element).getProject();
+							IPackageArtifact artifact = PackageArtifact.makeArtifactForPackage(project.getArtifactManagerSession(), ((IAbstractArtifact) element).getFullyQualifiedName());
+							iResource = (IResource) artifact
+								.getAdapter(IResource.class);
+						} catch (Exception e){
+							TigerstripeLog.logError("Could not extract or create package artifact", e);
+						}
+					}
+				return page.openEditor(new FileEditorInput(
+						(IFile) iResource), PACKAGE_EDITOR);
+				}
+
 			} else if (element instanceof IStorage
 					&& ITigerstripeConstants.PROJECT_DESCRIPTOR
 							.equals(((IStorage) element).getName())) {
@@ -489,6 +525,7 @@ public class TSOpenAction extends OpenAction {
 			return false;
 		for (Iterator iter = selection.iterator(); iter.hasNext();) {
 			Object element = iter.next();
+						
 			if (element instanceof IJavaProject)
 				return false;
 			if (element instanceof ISourceReference)

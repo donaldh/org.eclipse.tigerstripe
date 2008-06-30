@@ -11,7 +11,7 @@
 *#
 			<notifications>
 #foreach ($notification in $notifications)
-				<notification	name = "$notification.FullyQualifiedName" >
+				<notification 	name = "$notification.FullyQualifiedName" >
 ##
 #set ($artifact = $notification)
 #parse("$resourceDir/Override.vm")

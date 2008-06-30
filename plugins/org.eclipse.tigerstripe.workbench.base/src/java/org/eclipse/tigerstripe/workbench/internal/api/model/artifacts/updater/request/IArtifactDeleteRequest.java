@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.r
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 
 /**
- * Artifact creation request
+ * Artifact delete request
  * 
  * @author Eric Dillon
  * 

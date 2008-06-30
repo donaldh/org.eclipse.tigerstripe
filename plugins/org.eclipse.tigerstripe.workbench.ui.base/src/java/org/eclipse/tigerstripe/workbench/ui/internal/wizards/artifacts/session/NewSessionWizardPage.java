@@ -90,7 +90,7 @@ public class NewSessionWizardPage extends NewArtifactWizardPage {
 		layout.numColumns = nColumns;
 		composite.setLayout(layout);
 
-		createArtifactControls(composite, nColumns, false, true);
+		createArtifactControls(composite, nColumns, false, true,true);
 
 		setControl(composite);
 		Dialog.applyDialogFont(composite);

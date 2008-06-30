@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.metamodel.IEventArtifact;
 import org.eclipse.tigerstripe.metamodel.IExceptionArtifact;
 import org.eclipse.tigerstripe.metamodel.IField;
 import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.metamodel.IPackage;
 import org.eclipse.tigerstripe.metamodel.IPrimitiveType;
 import org.eclipse.tigerstripe.metamodel.IQueryArtifact;
 import org.eclipse.tigerstripe.metamodel.ISessionArtifact;
@@ -41,6 +42,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IFieldImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ILiteralImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IMethodImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IPackageImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
@@ -71,8 +73,11 @@ public class ArtifactMetadataFactory {
 			IQueryArtifactImpl.class.getName(),
 			IUpdateProcedureArtifactImpl.class.getName(),
 			IEventArtifactImpl.class.getName(),
-			IPrimitiveTypeImpl.class.getName(), IFieldImpl.class.getName(),
-			IMethodImpl.class.getName(), ILiteralImpl.class.getName() };
+			IPrimitiveTypeImpl.class.getName(),
+			IFieldImpl.class.getName(),
+			IMethodImpl.class.getName(), 
+			ILiteralImpl.class.getName(),
+			IPackageImpl.class.getName()};
 
 	private final static IArtifactMetadata MANAGED_ENTITY_DEFAULT = new ArtifactMetadata(
 			IManagedEntityArtifact.class, true, true, true, "entity.gif",
@@ -117,9 +122,13 @@ public class ArtifactMetadataFactory {
 			"updateProc.gif", "updateProc_gs.gif", "updateProc_new.gif",
 			"Update Procedure");
 
+	private final static IArtifactMetadata PACKAGE_DEFAULT = new ArtifactMetadata(
+			IPackage.class, true, false, true, "field.gif",
+			"field_gs.gif", "field_new.gif", "Package");
+	
 	private final static IArtifactMetadata EVENT_DEFAULT = new ArtifactMetadata(
 			IEventArtifact.class, true, false, true, "event.gif",
-			"event_gs.gif", "event_new.gif", "Notification");
+			"event_gs.gif", "event_new.gif", "Event");
 
 	private final static IArtifactMetadata PRIMITIVE_DEFAULT = new ArtifactMetadata(
 			IPrimitiveType.class, false, false, false, "primitive.gif",
@@ -141,7 +150,8 @@ public class ArtifactMetadataFactory {
 			ENUM_DEFAULT, ASSOCIATION_DEFAULT, ASSOCIATIONCLASS_DEFAULT,
 			DEPENDENCY_DEFAULT, SESSION_DEFAULT, QUERY_DEFAULT,
 			UPDATEPROC_DEFAULT, EVENT_DEFAULT, PRIMITIVE_DEFAULT,
-			FIELD_DEFAULT, METHOD_DEFAULT, LITERAL_DEFAULT };
+			FIELD_DEFAULT, METHOD_DEFAULT, LITERAL_DEFAULT,
+			PACKAGE_DEFAULT};
 
 	private HashMap<String, IModelComponentMetadata> metadataRegistry = null;
 

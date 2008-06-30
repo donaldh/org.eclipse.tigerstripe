@@ -58,6 +58,10 @@ import com.thoughtworks.qdox.model.JavaParameter;
  */
 public class Method extends ArtifactComponent implements IOssjMethod {
 
+	public String getLabel() {
+		return "Method";
+	}
+	
 	private final static String EXPOSED_PROP_ID = "ossj.method";
 
 	private boolean isAbstract;
@@ -80,7 +84,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 	private Collection arguments;
 
-	private AbstractArtifact containingArtifact;
+	private IModelComponent containingModelComponent;
 
 	private Properties ossjMethodProperties;
 
@@ -591,7 +595,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		public String getComment() {
 			if (getRefCommentId() != null) {
-				AbstractArtifact art = parentMethod.getContainingArtifact();
+				AbstractArtifact art = (AbstractArtifact) parentMethod.getContainingArtifact();
 				RefComment rComment = art.getRefCommentById(getRefCommentId());
 				if (rComment != null)
 					return xmlEncode.decode(rComment.getContent());
@@ -605,7 +609,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					&& getRefCommentId() == null)
 				return;
 
-			AbstractArtifact art = parentMethod.getContainingArtifact();
+			AbstractArtifact art = (AbstractArtifact) parentMethod.getContainingArtifact();
 			if (getRefCommentId() == null) {
 				setRefCommentId(art.getUniqueRefCommentId());
 			}
@@ -897,14 +901,52 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 	}
 
-	public void setContainingArtifact(AbstractArtifact artifact) {
-		this.containingArtifact = artifact;
+	public void setContainingArtifact(IAbstractArtifact artifact) {
+		this.containingModelComponent = artifact;
 	}
 
-	public AbstractArtifact getContainingArtifact() {
-		return this.containingArtifact;
+	
+	public IAbstractArtifact getContainingArtifact() {
+		if (this.containingModelComponent instanceof IAbstractArtifact)
+			return (IAbstractArtifact) this.containingModelComponent;
+		else
+			return null;
 	}
 
+	public Collection<IModelComponent> getContainedModelComponents() {
+		// Fields don't contain anything
+		return Collections.unmodifiableCollection( new ArrayList<IModelComponent>());
+	}
+
+	public void addContainedModelComponent(IModelComponent component) throws TigerstripeException {
+		throw new TigerstripeException("Methods cannot contain any Components");
+	}
+
+	public void addContainedModelComponents(
+			Collection<IModelComponent> components) throws TigerstripeException{
+		throw new TigerstripeException("Methods cannot contain any Components");
+	}
+	
+	public void removeContainedModelComponent(IModelComponent component) {
+		return ;	
+	}
+	
+	public IModelComponent getContainingModelComponent() {
+		if (this.containingModelComponent instanceof IAbstractArtifact)
+			return (IAbstractArtifact) this.containingModelComponent;
+		else
+			return null;
+	}
+	
+
+	public void setContainingModelComponent(IModelComponent containingComponent) throws TigerstripeException {
+		if (containingComponent instanceof IAbstractArtifact)
+			this.containingModelComponent = containingComponent;
+		else 
+			throw new TigerstripeException("Methods can only be contained by Artifacts");
+	}
+
+	
 	// =======================================================================
 	// Methods to satisfy the IMethod interface
 
@@ -1099,7 +1141,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		String pojoFlavorDetails = getOssjMethodProperties().getProperty(
 				flavor.getPojoLabel());
 		if (pojoFlavorDetails != null)
-			return new EntityMethodFlavorDetails(getContainingArtifact(),
+			return new EntityMethodFlavorDetails((AbstractArtifact) getContainingArtifact(),
 					pojoFlavorDetails);
 		return null;
 	}
@@ -1218,19 +1260,19 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	public IEntityMethodFlavorDetails getEntityMethodFlavorDetails(
 			OssjEntityMethodFlavor flavor) throws TigerstripeException {
 
-		if (!(containingArtifact instanceof IManagedEntityArtifact))
+		if (!(containingModelComponent instanceof IManagedEntityArtifact))
 			throw new TigerstripeException("Not a Managed Entity Method");
 
 		String pojoFlavorDetails = getOssjMethodProperties().getProperty(
 				flavor.getPojoLabel());
 		if (pojoFlavorDetails != null)
-			return new EntityMethodFlavorDetails(getContainingArtifact(),
+			return new EntityMethodFlavorDetails((AbstractArtifact) getContainingArtifact(),
 					pojoFlavorDetails);
 		return null;
 	}
 
 	public IEntityMethodFlavorDetails makeEntityMethodFlavorDetails() {
-		return new EntityMethodFlavorDetails(this.containingArtifact);
+		return new EntityMethodFlavorDetails((AbstractArtifact) this.containingModelComponent);
 	}
 
 	public void setEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor,

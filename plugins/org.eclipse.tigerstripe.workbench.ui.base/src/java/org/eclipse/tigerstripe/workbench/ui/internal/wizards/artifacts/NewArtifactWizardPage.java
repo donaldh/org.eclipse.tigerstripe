@@ -439,7 +439,7 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 	}
 
 	protected void createArtifactControls(Composite composite, int nColumns) {
-		createArtifactControls(composite, nColumns, true, true);
+		createArtifactControls(composite, nColumns, true, true, true);
 	}
 
 	protected void createLabelControls(Composite composite, int nColumns) {
@@ -448,14 +448,16 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 	}
 
 	protected void createArtifactControls(Composite composite, int nColumns,
-			boolean createAttributeList, boolean createMethodList) {
+			boolean createAttributeList, boolean createMethodList, boolean createExtendsControl) {
 		createContainerControls(composite, nColumns);
 
 		createPackageControls(composite, nColumns);
 		createArtifactNameControls(composite, nColumns);
 
-		createSeparator(composite, nColumns);
-		createExtendedArtifactControls(composite, nColumns);
+		if (createExtendsControl){
+			createSeparator(composite, nColumns);
+			createExtendedArtifactControls(composite, nColumns);
+		}
 
 		// createModifiersButtonsControls(composite, nColumns);
 		if (createAttributeList) {

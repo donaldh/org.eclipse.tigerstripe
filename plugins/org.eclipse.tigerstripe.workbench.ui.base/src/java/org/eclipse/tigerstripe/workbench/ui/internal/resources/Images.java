@@ -28,6 +28,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IFieldImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ILiteralImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IMethodImpl;
+import org.eclipse.tigerstripe.metamodel.impl.IPackageImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
@@ -169,6 +170,12 @@ public class Images {
 	public static final String SESSION_ICON_NEW = SESSION_ICON + NEW_;
 	public static final String SESSION_ICON_GS = SESSION_ICON + GS_;
 
+	public static final String PACKAGE_ICON = IPackageImpl.class.getName();
+	public static final String PACKAGE_ICON_NEW = PACKAGE_ICON + NEW_;
+	public static final String PACKAGE_ICON_GS = PACKAGE_ICON + GS_;
+
+	
+	
 	public static final String FIELD_ICON = IFieldImpl.class.getName();
 	public static final String FIELD_ICON_NEW = FIELD_ICON + NEW_;
 	public static final String FIELD_ICON_GS = FIELD_ICON + GS_;
@@ -318,6 +325,14 @@ public class Images {
 		createManaged(SESSION_ICON_GS, ArtifactMetadataFactory.INSTANCE
 				.getMetadata(SESSION_ICON).getGreyedoutIconURL(null));
 
+		// PAckage
+		createManaged(PACKAGE_ICON, ArtifactMetadataFactory.INSTANCE
+				.getMetadata(PACKAGE_ICON).getIconURL(null));
+		createManaged(PACKAGE_ICON_NEW, ArtifactMetadataFactory.INSTANCE
+				.getMetadata(PACKAGE_ICON).getNewIconURL(null));
+		createManaged(PACKAGE_ICON_GS, ArtifactMetadataFactory.INSTANCE
+				.getMetadata(PACKAGE_ICON).getGreyedoutIconURL(null));
+		
 		// Field
 		createManaged(FIELD_ICON, ArtifactMetadataFactory.INSTANCE.getMetadata(
 				FIELD_ICON).getIconURL(null));

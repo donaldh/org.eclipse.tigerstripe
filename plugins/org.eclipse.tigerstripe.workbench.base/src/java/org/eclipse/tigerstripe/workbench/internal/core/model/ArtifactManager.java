@@ -63,6 +63,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
@@ -358,6 +359,11 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 					IAssociationClassArtifact.class.getName()).isEnabled()) {
 				registerDiscoverableArtifact(AssociationClassArtifact.MODEL);
 			}
+			if (prop.getDetailsForType(
+					IPackageArtifact.class.getName()).isEnabled()) {
+				registerDiscoverableArtifact(PackageArtifact.MODEL);
+			}
+
 			if (prop.getDetailsForType(IPrimitiveTypeArtifact.class.getName())
 					.isEnabled()) {
 				registerDiscoverableArtifact(PrimitiveTypeArtifact.MODEL);
@@ -414,6 +420,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				artifact.resolveReferences(monitor);
 			}
 
+			
 			long endTime = System.currentTimeMillis();
 			TigerstripeRuntime.logTraceMessage(" ["
 					+ getTSProject().getProjectLabel() + "] Validated ("
@@ -1028,7 +1035,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		if (rootFile != null && rootFile.isDirectory()) {
 			File[] content = rootFile.listFiles();
 			for (File file : content) {
-				if (file.isFile() && file.getName().endsWith(".java")) {
+				if (file.isFile() && (file.getName().endsWith(".java") || file.getName().equals(".package"))) {
 					foundResources.add(file.toString());
 				} else if (file.isDirectory()) {
 					listFilesRecursive(file, foundResources);
@@ -1148,8 +1155,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 		monitor.beginTask("Extracting POJOs", changedPojos.size());
 		for (PojoState state : changedPojos) {
-			// TigerstripeRuntime.logInfoMessage("Extracting " +
-			// state.getFilename());
+			 //System.out.println("Extracting " +
+			 //state.getFilename());
 
 			if (state.javaSource != null) {
 				monitor.subTask(state.javaSource.getURL().toString());
@@ -1282,7 +1289,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 			// At this point we need to update the PojoState for this artifact
 			// or else it will parsed again upon next refresh
-			updatePojoState(artifact);
+			ojoState(artifact);
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
@@ -1297,7 +1304,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * 
 	 * @param artifact
 	 */
-	private void updatePojoState(IAbstractArtifact artifact)
+	private void ojoState(IAbstractArtifact artifact)
 			throws TigerstripeException {
 		String path = ((AbstractArtifact) artifact).getArtifactPath();
 		if (path != null) {
@@ -1472,6 +1479,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	// ==================================================
 	// Artifact management
 
+	
 	/**
 	 * Adds an artifact to this manager and updates all the internal tables
 	 * 
@@ -1499,7 +1507,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 			artifact = (AbstractArtifact) iartifact;
 
-			// Validate it
 			artifact.resolveReferences(monitor);
 
 			AbstractArtifact model = artifact.getModel();
@@ -1550,6 +1557,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			// are updated properly
 			if (oldArtifact != null && oldArtifact != iartifact) {
 				oldArtifact.updateExtendingArtifacts(artifact);
+				oldArtifact.removePackageContainment();
 				oldArtifact.dispose();
 			}
 		} finally {
@@ -1601,6 +1609,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			removeFromNamedArtifactsMap(artifact);
 			removeFromSourceMap(artifact);
 			removeFromFilenameMap((AbstractArtifact) artifact);
+			
+			((AbstractArtifact) artifact).removeReferences();
 
 			if (artifact instanceof IRelationship) {
 				getRelationshipCache().removeRelationship(

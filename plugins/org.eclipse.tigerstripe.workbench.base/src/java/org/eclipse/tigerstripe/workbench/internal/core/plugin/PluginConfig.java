@@ -38,6 +38,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
@@ -526,7 +527,9 @@ public abstract class PluginConfig extends BaseContainerObject implements
 
 	public abstract IPluginConfig clone();
 
-	protected VelocityContext getDefaultContext() throws TigerstripeException {
+	
+	// This is NEVER called
+	/*protected VelocityContext getDefaultContext() throws TigerstripeException {
 		if (this.defaultVContext == null) {
 			this.defaultVContext = new VelocityContext();
 			VelocityContextUtil util = new VelocityContextUtil();
@@ -589,6 +592,11 @@ public abstract class PluginConfig extends BaseContainerObject implements
 				.filter(artifactMgr.getArtifactsByModel(
 						AssociationClassArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
+		
+		Collection<IAbstractArtifact> packages = ArtifactFilter
+		.filter(artifactMgr.getArtifactsByModel(
+				PackageArtifact.MODEL, false,
+				new NullProgressMonitor()), filter);
 
 		// Bug 928: removed ArtifactFilter that was used to filter all lists
 		// below
@@ -637,6 +645,10 @@ public abstract class PluginConfig extends BaseContainerObject implements
 		Collection<IAbstractArtifact> allAssociationClasses = artifactMgr
 				.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
 						false, new NullProgressMonitor());
+		
+		Collection<IAbstractArtifact> allPackages= artifactMgr
+		.getArtifactsByModel(PackageArtifact.MODEL, true,
+				false, new NullProgressMonitor());
 
 		Collection<IAbstractArtifact> artifacts = artifactMgr.getAllArtifacts(
 				false, new NullProgressMonitor());
@@ -657,6 +669,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 		defaultVContext.put("associationClasses", associationClasses);
 		defaultVContext.put("dependencies", dependencies);
 		defaultVContext.put("sessions", sessions);
+		defaultVContext.put("packages", packages);
 
 		defaultVContext.put("allEntities", allEntities);
 		defaultVContext.put("allDatatypes", allDatatypes);
@@ -669,6 +682,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 		defaultVContext.put("allAssociationClasses", allAssociationClasses);
 		defaultVContext.put("allDependencies", allDependencies);
 		defaultVContext.put("allSessions", allSessions);
+		defaultVContext.put("allPackages", allPackages);
 
 		defaultVContext.put("pluginConfig", this);
 		defaultVContext.put("runtime", TigerstripeRuntime.getInstance());
@@ -684,5 +698,5 @@ public abstract class PluginConfig extends BaseContainerObject implements
 		defaultVContext.put("pluginDir", getProject().getBaseDir());
 
 		return this.defaultVContext;
-	}
+	}*/
 }

@@ -11,7 +11,7 @@
 *#
 			<updateProcedures>
 #foreach ($updateProcedure in $updateProcedures)
-				<updateProcedure	name = "$updateProcedure.FullyQualifiedName" >
+				<updateProcedure 	name = "$updateProcedure.FullyQualifiedName" >
 ##
 #set ($artifact = $updateProcedure)
 #parse("$resourceDir/Override.vm")

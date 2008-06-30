@@ -108,22 +108,6 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 	}
 
 	@Override
-	public void resolveReferences(IProgressMonitor monitor)
-			throws TigerstripeException {
-		super.resolveReferences(monitor);
-
-		// // BUG 450 no need to extract that here anymore. The specifics are
-		// built at this stage
-		// Tag tag = getFirstTagByName(MARKING_TAG);
-		//
-		// if (tag != null) {
-		// Properties props = tag.getProperties();
-		// String strType = props.getProperty("return");
-		// setReturnedEntityType(new Type(strType, "", getArtifactManager()));
-		// }
-	}
-
-	@Override
 	protected AbstractArtifactPersister getPersister(Writer writer) {
 		return new QueryArtifactPersister(this, writer);
 	}

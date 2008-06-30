@@ -30,6 +30,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
@@ -75,6 +76,9 @@ public class ReportRunner {
 		Collection sessions = artifactMgr.getArtifactsByModel(
 				SessionFacadeArtifact.MODEL, false,
 				new NullProgressMonitor());
+		Collection packages = artifactMgr.getArtifactsByModel(
+				PackageArtifact.MODEL, false,
+				new NullProgressMonitor());
 
 		localContext.put("entities", entities);
 		localContext.put("datatypes", datatypes);
@@ -85,6 +89,7 @@ public class ReportRunner {
 		localContext.put("exceptions", exceptions);
 		localContext.put("sessions", sessions);
 		localContext.put("manager", artifactMgr);
+		localContext.put("packages", packages);
 
 		localContext.put("pluginConfigs", project.getPluginConfigs());
 		localContext.put("tsProject", project);

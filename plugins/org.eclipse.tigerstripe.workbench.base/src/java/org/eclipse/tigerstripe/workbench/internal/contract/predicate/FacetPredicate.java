@@ -43,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
@@ -285,6 +286,14 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			scope.add(artifact);
 		}
 
+		// Look upwards through the package list - 
+		
+		IModelComponent container = artifact.getContainingModelComponent();
+		if (container instanceof IAbstractArtifact){
+			addRelatedArtifacts(scope, (IAbstractArtifact) container, true, monitor);
+		}
+		
+		
 		// let explore from this artifact on now
 		if (artifact instanceof IDependencyArtifact) {
 			//

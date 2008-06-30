@@ -42,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
@@ -61,6 +62,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewEnumerationW
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewExceptionArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewInterfaceWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewNotificationArtifactWizardAction;
+import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewQueryArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewSessionArtifactWizardAction;
@@ -154,6 +156,12 @@ public class NewWizardsActionGroup extends ActionGroup {
 							newMenu.add(new Separator());
 
 							if (prop.getDetailsForType(
+									IPackageArtifact.class.getName())
+									.isEnabled()) {
+								newMenu
+										.add(new OpenNewPackageArtifactWizardAction());
+							}
+							if (prop.getDetailsForType(
 									IManagedEntityArtifact.class.getName())
 									.isEnabled()) {
 								newMenu
@@ -222,7 +230,17 @@ public class NewWizardsActionGroup extends ActionGroup {
 							addContributedActions(newMenu);
 
 							newMenu.add(new Separator());
-							newMenu.add(new OpenNewPackageWizardAction());
+							// If Package Artifacts are enabled - we call the new Package Artifact 
+							// dialog instead of the standard add package!
+							// Leave it here for consistency (even though it will be in the menu twice).
+							if (prop.getDetailsForType(
+									IPackageArtifact.class.getName())
+									.isEnabled()) {
+								newMenu
+								.add(new OpenNewPackageArtifactWizardAction());
+							} else {
+								newMenu.add(new OpenNewPackageWizardAction());
+							}
 							newMenu.add(new OpenBasicNewFolderWizardAction());
 							newMenu.add(new OpenBasicNewFileWizardAction());
 							newMenu.add(new Separator());

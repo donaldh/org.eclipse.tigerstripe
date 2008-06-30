@@ -325,6 +325,7 @@ public class ModuleDescriptorModel {
 						// type that was used when packaging the module
 						monitor.subTask(art.getFullyQualifiedName()
 								+ " (from module)");
+						// Don't resolve for the moment
 						artifactMgr.addArtifact(art, monitor);
 					}
 					if (monitor.isCanceled())

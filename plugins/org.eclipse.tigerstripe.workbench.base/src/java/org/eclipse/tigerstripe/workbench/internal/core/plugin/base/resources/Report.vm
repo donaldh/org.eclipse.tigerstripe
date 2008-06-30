@@ -51,6 +51,7 @@ $reportUtils.xMLComment($tsProject.ProjectDetails.Description)
 #parse("$resourceDir/Exceptions.vm")
 #parse("$resourceDir/Notifications.vm")
 #parse("$resourceDir/Sessions.vm")
+#parse("$resourceDir/Packages.vm")
 			</artifacts>
 	</projectDetails>
 

@@ -11,7 +11,7 @@
 *#
 			<datatypes>
 #foreach ($datatype in $datatypes)
-				<datatype	name = "$datatype.FullyQualifiedName" >
+				<datatype 	name = "$datatype.FullyQualifiedName" >
 ##
 #set ($artifact = $datatype)
 #parse("$resourceDir/Override.vm")

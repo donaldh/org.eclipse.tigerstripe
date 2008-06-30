@@ -11,7 +11,7 @@
 *#
 			<exceptions>
 #foreach ($exception in $exceptions)
-				<exception	name = "$exception.FullyQualifiedName" >
+				<exception	 name = "$exception.FullyQualifiedName" >
 ##
 #set ($artifact = $exception)
 #parse("$resourceDir/Override.vm")

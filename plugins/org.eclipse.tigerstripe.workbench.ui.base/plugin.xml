@@ -115,6 +115,13 @@
             icon="src/icons/useCase.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.useCaseEditor"
             name="Tigerstripe Contract Use Case Editor"/>
+      <editor
+            class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.packageArtifact.PackageArtifactEditor"
+            default="false"
+            icon="src/icons/archive/field_private_obj-large.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.packageEditor"
+            name="Tigerstripe Package Editor">
+      </editor>
    </extension>
    <extension
          point="org.eclipse.ui.actionSets">
@@ -186,7 +193,67 @@
                id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openExceptionProjectAction"
                label="Exception"
                menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"/> 
+               style="push"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.NewArtifactDropDownAction"
+               disabledIcon="src/icons/archive/new_entity_gs.gif"
+               icon="src/icons/archive/new_entity.gif"
+               id="org.eclipse.tigerstripe.eclipse.newArtifactAction"
+               label="New artifact"
+               style="pulldown"
+               toolbarPath="Normal/additions"
+               tooltip="Create new Tigerstripe Artifacts"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewProjectWizardAction"
+               icon="src/icons/new_project.gif"
+               id="org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"
+               label="Tigerstripe Project"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Create new Tigerstripe Project"/>
+         <menu
+         		label="Import..."
+         		path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content"
+         		id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu">
+         		<separator name="uml2"/>
+         </menu>
+         <menu
+               label="New..."
+               path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu">
+            <separator
+                  name="newGroup">
+            </separator>
+            <separator name="newGroup2"/>
+         </menu>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenGenerateInterfaceWizardAction"
+               disabledIcon="src/icons/run_tigerstripe_gs.gif"
+               icon="src/icons/run_tigerstripe.gif"
+               id="org.eclipse.tigerstripe.eclipse.generateAction2"
+               label="Generate"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content2"
+               style="push"
+               tooltip="Generate current Project"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenImportUML2ProfileWizardAction"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openImportUML@ProfileAction"
+               label="UML2 Profile"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
+               style="push"
+               tooltip="Import a UML2 Profile as a Tigerstripe Profile"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenImportFromUML2WizardAction"
+               id="org.eclipse.tigerstripe.workbench.ui.base.action2"
+               label="UML2 Model"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
+               style="push"/>
+         <menu
+               id="org.eclipse.tigerstripe.workbench.ui.base.menu1"
+               label="uml2..."
+               path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/uml2">
+            <separator name="content"/>
+         </menu>
          <action
                class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewNotificationArtifactWizardAction"
                disabledIcon="src/icons/archive/new_notification_gs.gif"
@@ -268,65 +335,15 @@
                style="push"
                tooltip="Create new Tigerstripe Project"/>
          <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.NewArtifactDropDownAction"
+               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageArtifactWizardAction"
                disabledIcon="src/icons/archive/new_entity_gs.gif"
                icon="src/icons/archive/new_entity.gif"
-               id="org.eclipse.tigerstripe.eclipse.newArtifactAction"
-               label="New artifact"
-               style="pulldown"
-               toolbarPath="Normal/additions"
-               tooltip="Create new Tigerstripe Artifacts"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewProjectWizardAction"
-               icon="src/icons/new_project.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"
-               label="Tigerstripe Project"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewPackageAction"
+               label="Package"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
                style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Create new Tigerstripe Project"/>
-         <menu
-         		label="Import..."
-         		path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content"
-         		id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu">
-         		<separator name="uml2"/>
-         </menu>
-         <menu
-               label="New..."
-               path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu">
-            <separator
-                  name="newGroup">
-            </separator>
-            <separator name="newGroup2"/>
-         </menu>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenGenerateInterfaceWizardAction"
-               disabledIcon="src/icons/run_tigerstripe_gs.gif"
-               icon="src/icons/run_tigerstripe.gif"
-               id="org.eclipse.tigerstripe.eclipse.generateAction2"
-               label="Generate"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content2"
-               style="push"
-               tooltip="Generate current Project"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenImportUML2ProfileWizardAction"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openImportUML@ProfileAction"
-               label="UML2 Profile"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
-               style="push"
-               tooltip="Import a UML2 Profile as a Tigerstripe Profile"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenImportFromUML2WizardAction"
-               id="org.eclipse.tigerstripe.workbench.ui.base.action2"
-               label="UML2 Model"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
-               style="push"/>
-         <menu
-               id="org.eclipse.tigerstripe.workbench.ui.base.menu1"
-               label="uml2..."
-               path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/uml2">
-            <separator name="content"/>
-         </menu>
+               tooltip="Create new Package Artifact">
+         </action>
       </actionSet>
    </extension>
    <extension

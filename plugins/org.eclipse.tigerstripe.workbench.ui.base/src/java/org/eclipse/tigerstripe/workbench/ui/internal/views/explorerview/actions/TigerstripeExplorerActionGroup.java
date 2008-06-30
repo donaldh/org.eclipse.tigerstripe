@@ -32,6 +32,7 @@ import org.eclipse.jface.viewers.OpenEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.ClassPathContainer;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeExplorerPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeFrameSource;
@@ -78,32 +79,19 @@ public class TigerstripeExplorerActionGroup extends CompositeActionGroup {
 		fPart = part;
 		TreeViewer viewer = part.getTreeViewer();
 
-		// IPropertyChangeListener workingSetListener = new
-		// IPropertyChangeListener() {
-		// public void propertyChange(PropertyChangeEvent event) {
-		// doWorkingSetChanged(event);
-		// }
-		// };
 		setGroups(new ActionGroup[] {
+				new PackageActionGroup(fPart.getSite()),
 				new NewWizardsActionGroup(fPart.getSite()),
 				fNavigateActionGroup = new TSNavigateActionGroup(fPart),
 				new TSCCPActionGroup(fPart),
 				// new GenerateBuildPathActionGroup(fPart),
 				// new GenerateActionGroup(fPart),
 				fRefactorActionGroup = new TSRefactorActionGroup(fPart),
-//				fPublishActionGroup = new TSPublishActionGroup(fPart),
-				new ImportActionGroup(fPart), new AuditActionGroup(fPart),
-				// new JavaSearchActionGroup(fPart),
+				new ImportActionGroup(fPart), 
+				new AuditActionGroup(fPart),
 				new ProjectActionGroup(fPart),
-				// fViewActionGroup = new ViewActionGroup(fPart.getRootMode(),
-				// workingSetListener, site),
-				// fCustomFiltersActionGroup = new
-				// CustomFiltersActionGroup(fPart,
-				// viewer),
 				new LayoutActionGroup(fPart),
-		// the working set action group must be created after the
-		// project action group
-		// new WorkingSetActionGroup(fPart)
+
 		});
 
 		// fViewActionGroup.fillFilters(viewer);
@@ -117,12 +105,6 @@ public class TigerstripeExplorerActionGroup extends CompositeActionGroup {
 		fForwardAction = new ForwardAction(fFrameList);
 		fUpAction = new UpAction(fFrameList);
 
-		// fGotoTypeAction = new GotoTypeAction(fPart);
-		// fGotoPackageAction = new GotoPackageAction(fPart);
-		// fGotoResourceAction = new GotoResourceAction(fPart);
-		// fCollapseAllAction = new CollapseAllAction(fPart);
-		// fToggleLinkingAction = new ToggleLinkingAction(fPart);
-		// fGotoRequiredProjectAction = new GotoRequiredProjectAction(fPart);
 	}
 
 	@Override
@@ -221,6 +203,9 @@ public class TigerstripeExplorerActionGroup extends CompositeActionGroup {
 		super.fillContextMenu(menu);
 	}
 
+	
+	
+	
 	private void addGotoMenu(IMenuManager menu, Object element, int size) {
 		boolean enabled = size == 1
 				&& fPart.getTreeViewer().isExpandable(element)

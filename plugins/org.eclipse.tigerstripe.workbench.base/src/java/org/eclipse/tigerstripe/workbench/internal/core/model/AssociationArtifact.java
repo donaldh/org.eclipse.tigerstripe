@@ -27,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -221,4 +222,14 @@ public class AssociationArtifact extends AbstractArtifact implements
 		return result;
 	}
 
+	@Override
+	public Collection<IModelComponent> getContainedModelComponents() {
+		Collection<IModelComponent> ownedComponents = new ArrayList<IModelComponent>();
+		ownedComponents.addAll(super.getContainedModelComponents());
+		ownedComponents.addAll(this.getAssociationEnds());
+		return ownedComponents;
+	}
+
+	
+	
 }

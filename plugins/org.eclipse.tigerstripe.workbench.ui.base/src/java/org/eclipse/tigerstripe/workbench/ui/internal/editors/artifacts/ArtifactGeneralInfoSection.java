@@ -156,8 +156,9 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 		createProjectName(getBody(), getToolkit());
 		createQualifiedName(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());
-		createExtendName(getBody(), getToolkit());
-
+		if (getContentProvider().hasExtends()){
+			createExtendName(getBody(), getToolkit());
+		}
 		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
 				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
@@ -168,8 +169,10 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 			createImplementsNames(getBody(), getToolkit());
 		}
 
-		createIsAbstractButton(getBody(), getToolkit());
-
+		if (getContentProvider().hasAbstract()){
+			createIsAbstractButton(getBody(), getToolkit());
+		}
+		
 		createStereotypes(getBody(), getToolkit());
 
 		updateForm();
@@ -541,13 +544,16 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 	protected void updateForm() {
 		setSilentUpdate(true);
 		descriptionText.setText(getIArtifact().getComment());
-		isAbstractButton.setSelection(getIArtifact().isAbstract());
-		if (getIArtifact().getExtendedArtifact() != null)
-			extendNameText.setText(getIArtifact().getExtendedArtifact()
-					.getFullyQualifiedName());
-		else
-			extendNameText.setText("");
-
+		if (getContentProvider().hasAbstract()){
+			isAbstractButton.setSelection(getIArtifact().isAbstract());
+		}
+		if (getContentProvider().hasExtends()){ 
+			if (getIArtifact().getExtendedArtifact() != null)
+				extendNameText.setText(getIArtifact().getExtendedArtifact()
+						.getFullyQualifiedName());
+			else
+				extendNameText.setText("");
+		}
 		if (getContentProvider().hasImplements() && implementsText != null) {
 			implementsText.setText(getIArtifact()
 					.getImplementedArtifactsAsStr());
