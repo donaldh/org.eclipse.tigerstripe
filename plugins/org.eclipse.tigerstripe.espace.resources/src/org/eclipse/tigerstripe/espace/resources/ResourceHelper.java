@@ -44,11 +44,11 @@ public class ResourceHelper {
 		this.resourceSet = resourceSet;
 	}
 	
-	public void addAndSave(Resource resource, EObject object) {
+	public void addAndSave(Resource resource, EObject object) throws IOException {
 		addAndSave(resource, object, false);
 	}
 	
-	public void addAndSave(Resource resource, EObject object, boolean indexing) {
+	public void addAndSave(Resource resource, EObject object, boolean indexing) throws IOException {
 		indexer.clear();
 		resource.getContents().add(object);
 		readReferences(object, indexing ? ADD_INDEX : NO_INDEX);
@@ -57,7 +57,7 @@ public class ResourceHelper {
 		indexer.save();
 	}
 	
-	public void rebuildIndex(EObject[] objects) {
+	public void rebuildIndex(EObject[] objects) throws IOException {
 		indexer.removeIndex();
 		for (int i = 0; i < objects.length; i++)
 			readReferences(objects[i], ADD_INDEX);
@@ -65,7 +65,7 @@ public class ResourceHelper {
 		indexer.save();
 	}
 	
-	public void removeAndSave(Resource resource, EObject object) {
+	public void removeAndSave(Resource resource, EObject object) throws IOException {
 		indexer.clear();
 		readReferences(object, REMOVE_INDEX);
 		indexer.resolve();

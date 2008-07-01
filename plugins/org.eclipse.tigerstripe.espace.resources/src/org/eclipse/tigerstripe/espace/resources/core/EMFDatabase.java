@@ -242,7 +242,12 @@ public class EMFDatabase implements IEMFDatabase {
 		getIndexStorage().removeIndex();
 		clear();
 		EObject[] objects = doRead();
-		getResourceHelper().rebuildIndex(objects);
+		try {
+			getResourceHelper().rebuildIndex(objects);
+		}
+		catch (IOException e) {
+			ResourcesPlugin.log(e);
+		}
 		getResourceStorage().updateTimes();
 	}
 	
@@ -323,7 +328,17 @@ public class EMFDatabase implements IEMFDatabase {
 	protected void doWrite(EObject object) {
 		object = EcoreUtil.copy(object);
 		Resource resource = getResource(object);
-		getResourceStorage().addResource(resource, object);
+		try {
+			getResourceStorage().addResource(resource, object);
+		}
+		catch (IOException exception) {
+			doRebuildIndex();
+			try {
+				getResourceStorage().addResource(resource, object);
+			} catch (IOException e) {
+				ResourcesPlugin.log(e);
+			}
+		}
 	}
 	
 	protected void clear() {
@@ -345,7 +360,17 @@ public class EMFDatabase implements IEMFDatabase {
 				Resource resource = candidate.eResource();
 				if (resource == null)
 					resource = getResource(object);
-				getResourceStorage().removeAndSave(candidate, resource);
+				try {
+					getResourceStorage().removeAndSave(candidate, resource);
+				}
+				catch (IOException exc) {
+					doRebuildIndex();
+					try {
+						getResourceStorage().addResource(resource, object);
+					} catch (IOException e) {
+						ResourcesPlugin.log(e);
+					}
+				}
 			}
 		}
 	}

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.internal.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class CompositeIndexer implements IIndexer {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#save()
 	 */
-	public void save() {
+	public void save() throws IOException {
 		for (IIndexer indexer : indexers) {
 			//every indexer save all resources
 			indexer.save();

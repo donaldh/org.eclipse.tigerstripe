@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.internal.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -133,7 +134,7 @@ public abstract class AbstractIndexer implements IIndexer {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.resources.core.IIndexer#save()
 	 */
-	public void save() {
+	public void save() throws IOException {
 		storage.saveAll();
 		resources = new ArrayList<Resource>();
 	}

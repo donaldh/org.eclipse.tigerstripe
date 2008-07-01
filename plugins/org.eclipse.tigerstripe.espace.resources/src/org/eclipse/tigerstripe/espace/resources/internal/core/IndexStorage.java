@@ -134,14 +134,9 @@ public class IndexStorage {
 		return map.values();
 	}
 	
-	public void saveAll() {
+	public void saveAll() throws IOException {
 		for (Resource resource : getResources()) {
-	    	try {
-	            resource.save(null);
-	        }
-	        catch (IOException e) {
-	        	ResourcesPlugin.log(e);
-	        }
+            resource.save(null);
 		}
 	}
 

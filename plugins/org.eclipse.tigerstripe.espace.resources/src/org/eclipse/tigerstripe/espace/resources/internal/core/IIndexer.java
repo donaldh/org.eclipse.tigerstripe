@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.internal.core;
 
+import java.io.IOException;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -29,7 +31,7 @@ public interface IIndexer {
 	
 	public void applyChanges();
 	
-	public void save();
+	public void save() throws IOException;
 	
 	public void clear();
 

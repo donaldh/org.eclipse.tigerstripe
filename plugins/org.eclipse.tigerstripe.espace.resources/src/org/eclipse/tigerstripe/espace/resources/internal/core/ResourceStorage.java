@@ -93,7 +93,12 @@ public class ResourceStorage {
             else {
             	resourceList = ResourcesFactory.eINSTANCE.createResourceList();
             	resource.getContents().add(resourceList);
-            	helper.addAndSave(resource, resourceList);
+            	try {
+                	helper.addAndSave(resource, resourceList);
+            	}
+            	catch (IOException e) {
+					ResourcesPlugin.log(e);
+				}
             }
 		}
 		return resourceList;
@@ -107,7 +112,7 @@ public class ResourceStorage {
 		return true;
 	}
 	
-	public void addResource(Resource resource, EObject object) {
+	public void addResource(Resource resource, EObject object) throws IOException {
 		helper.addAndSave(resource, object, true);
 		if (isDefaultUri(resource.getURI()))
 			return;
@@ -195,7 +200,7 @@ public class ResourceStorage {
 		return resources.toArray(new Resource[resources.size()]);
 	}
 	
-	public void removeAndSave(EObject object, Resource resource) {
+	public void removeAndSave(EObject object, Resource resource) throws IOException {
 		helper.removeAndSave(resource, object);
 		removeResourceIfEmpty(resource);
 	}
