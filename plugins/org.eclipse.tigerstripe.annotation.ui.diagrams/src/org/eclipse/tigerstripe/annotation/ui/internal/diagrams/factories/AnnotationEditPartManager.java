@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.AnnotationEditPart;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.IAnnotationEditPartProvider;
-import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.TextAnnotationEditPart;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.StructuredAnnotationEditPart;
 
 /**
  * @author Yuri Strot
@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.TextAnnotationEditPa
  */
 public class AnnotationEditPartManager {
 	
-	public static final Class<? extends AnnotationEditPart> DEFAULT_PART_CLASS = TextAnnotationEditPart.class;
+	public static final Class<? extends AnnotationEditPart> DEFAULT_PART_CLASS = StructuredAnnotationEditPart.class;
 	
 	private static final String PROVIDERS_EXTPT = 
 		"org.eclipse.tigerstripe.annotation.ui.diagrams.annotationEditpartProviders";

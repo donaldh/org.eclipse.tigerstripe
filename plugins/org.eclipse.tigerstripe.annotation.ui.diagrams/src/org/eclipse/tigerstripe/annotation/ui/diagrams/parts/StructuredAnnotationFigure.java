@@ -12,13 +12,16 @@
 package org.eclipse.tigerstripe.annotation.ui.diagrams.parts;
 
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.GridData;
+import org.eclipse.draw2d.GridLayout;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.ConstrainedToolbarLayout;
-import org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel;
 import org.eclipse.gmf.runtime.draw2d.ui.mapmode.MapModeUtil;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 
@@ -26,7 +29,7 @@ import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
  * @author Yuri Strot
  *
  */
-public class AnnotationFigure extends DefaultSizeNodeFigure {
+public class StructuredAnnotationFigure extends DefaultSizeNodeFigure {
 
 	private boolean withDanglingCorner = true;
 	private int lineWidth = 1;  
@@ -46,18 +49,10 @@ public class AnnotationFigure extends DefaultSizeNodeFigure {
 	 */
 	static public final int CLIP_MARGIN_DP = 14;
 	
-	private WrapLabel[] labels;
+	private Label[] top;
+	private Label[] bottom;
 	
-	/**
-	 * Constructor
-	 * 
-	 * @param width <code>int</code> value that is the default width in logical units
-	 * @param height <code>int</code> value that is the default height in logical units
-	 * @param insets <code>Insets</code> that is the empty margin inside the note figure in logical units
-	 */
-	public AnnotationFigure(int width, int height, Insets insets) {
-		this(width, height, insets, 1);
-	}
+	private EmptyFigure topPart;
 		
 	/**
 	 * Constructor
@@ -67,7 +62,8 @@ public class AnnotationFigure extends DefaultSizeNodeFigure {
 	 * @param insets <code>Insets</code> that is the empty margin inside the note figure in logical units
 	 * @param size <code>int</code> that is the children label count  
 	 */
-	public AnnotationFigure(int width, int height, Insets insets, int size) {
+	public StructuredAnnotationFigure(Label[] top, Label[] bottom, int width, int height,
+			Insets insets, int space) {
 		super(width, height);
 		setBorder(
 			new MarginBorder(insets.top, insets.left, insets.bottom, insets.right));
@@ -76,27 +72,53 @@ public class AnnotationFigure extends DefaultSizeNodeFigure {
 		layout.setMinorAlignment(ConstrainedToolbarLayout.ALIGN_TOPLEFT);
 		layout.setSpacing(insets.top);
 		setLayoutManager(layout);
-		labels = new WrapLabel[size];
-		for (int i = 0; i < labels.length; i++) {
-			labels[i] = new WrapLabel();
-			add(labels[i]);
+		this.top = top;
+		this.bottom = bottom;
+		initialize(top, bottom, space);
+	}
+	
+	public Label[] getTopLabels() {
+		return top;
+	}
+	
+	public Label[] getBottomLabels() {
+		return bottom;
+	}
+	
+	private void initialize(Label[] top, Label[] bottom, int space) {
+		GridLayout layout = new GridLayout();
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		layout.horizontalSpacing = 0;
+		layout.verticalSpacing = 0;
+		setLayoutManager(layout);
+		removeAll();
+		
+		topPart = new EmptyFigure();
+		addChildren(topPart, top, false, space);
+		add(topPart);
+		layout.setConstraint(topPart, new GridData(GridData.FILL_HORIZONTAL));
+		
+		if (bottom.length > 0) {
+			EmptyFigure bottomPart = new EmptyFigure();
+			addChildren(bottomPart, bottom, true, space);
+			add(bottomPart);
+			layout.setConstraint(bottomPart, new GridData(GridData.FILL_BOTH));
 		}
 	}
 	
-	public void setText(String text) {
-		setText(text, 0);
-	}
-	
-	public void setText(String text, int index) {
-		labels[index].setText(text);
-	}
-	
-	public String getText() {
-		return getText(0);
-	}
-	
-	public String getText(int index) {
-		return labels[index].getText();
+	private void addChildren(IFigure figure, Label[] it, boolean left, int spaceSize) {
+		GridLayout layout = new GridLayout(left ? 2 : 1, false);
+		figure.setLayoutManager(layout);
+		for (int i = 0; i < it.length; i++) {
+			if (left) {
+				EmptyFigure space = new EmptyFigure();
+				space.setPreferredSize(spaceSize, -1);
+				figure.add(space);
+				layout.setConstraint(space, new GridData(GridData.FILL_HORIZONTAL));
+			}
+			figure.add(it[i]);
+		}
 	}
 	
 	private int getClipHeight() {
@@ -142,12 +164,18 @@ public class AnnotationFigure extends DefaultSizeNodeFigure {
 		}
 	}
 
-
 	protected void paintFigure(Graphics g) {
 		super.paintFigure(g);
 		Rectangle r = getBounds();
 		PointList p = getPointList(r);
 		g.fillPolygon(p);
+		
+		int borderHeight = topPart.getSize().height;
+		Rectangle bounds = getBounds();
+		if (bounds.height > borderHeight && bottom.length > 0) {
+			g.drawLine(bounds.x, bounds.y + borderHeight, 
+					bounds.x + bounds.width, bounds.y + borderHeight);
+		}
 	}
 
 	/**

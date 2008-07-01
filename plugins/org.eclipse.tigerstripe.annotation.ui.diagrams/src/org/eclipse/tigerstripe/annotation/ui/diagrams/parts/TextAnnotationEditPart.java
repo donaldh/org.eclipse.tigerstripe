@@ -11,9 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.diagrams.parts;
 
-import java.util.List;
-
-import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.gmf.runtime.draw2d.ui.mapmode.IMapMode;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
@@ -40,10 +37,7 @@ public class TextAnnotationEditPart extends AnnotationEditPart {
 	protected NodeFigure createNodeFigure() {
 		IMapMode mm = getMapMode();
 		Insets insets = new Insets(mm.DPtoLP(5), mm.DPtoLP(5), mm.DPtoLP(5), mm.DPtoLP(14));
-		AnnotationFigure noteFigure = new AnnotationFigure(mm.DPtoLP(100), mm.DPtoLP(56), insets);
-		Label label = new Label();
-		noteFigure.add(label);
-		return noteFigure;
+		return new AnnotationFigure(mm.DPtoLP(100), mm.DPtoLP(56), insets);
 	}
 	
 	/* (non-Javadoc)
@@ -51,18 +45,12 @@ public class TextAnnotationEditPart extends AnnotationEditPart {
 	 */
 	@Override
 	protected void refreshVisuals() {
+		AnnotationFigure figure = (AnnotationFigure)getFigure();
+		Annotation annotation = getAnnotation();
+		String text = annotation == null ? "" : 
+			DisplayAnnotationUtil.getText(annotation);
+		figure.setText(text);
 		super.refreshVisuals();
-		if (getFigure() != null) {
-			List<?> children = getFigure().getChildren();
-			if (children != null && children.size() > 0) {
-				Label label = (Label)children.get(children.size() - 1);
-				Annotation annotation = getAnnotation();
-				if (annotation != null)
-					label.setText(DisplayAnnotationUtil.getText(annotation));
-				else
-					label.setText("");
-			}
-		}
 	}
 
 }
