@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tigerstripe Annotation EditpartProvider Plug-in
+Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.ui.example.editpartProvider;singleton:=true
+Bundle-Version: 0.3.0
+Bundle-Vendor: Eclipse.org
+Require-Bundle: org.eclipse.tigerstripe.annotation.ui.diagrams,
+ org.eclipse.tigerstripe.annotation.example.person,
+ org.eclipse.tigerstripe.annotation.core,
+ org.eclipse.gmf.runtime.diagram.ui,
+ org.eclipse.tigerstripe.annotation.ui,
+ org.eclipse.tigerstripe.workbench.ui.base
