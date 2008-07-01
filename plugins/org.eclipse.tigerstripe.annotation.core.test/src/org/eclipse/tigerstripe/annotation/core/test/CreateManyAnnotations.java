@@ -50,7 +50,6 @@ public class CreateManyAnnotations extends AbstractResourceTestCase {
 			}
 		}
 		finally {
-			System.out.println(i);
 			AnnotationPlugin.getManager().removeAnnotations(project1);
 		}
 	}

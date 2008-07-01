@@ -56,19 +56,13 @@ public class TreeTest extends TestCase {
 	}
 	
 	public void testManyInsert() {
-		int i = 0;
-		try {
-			RBTree tree = TreeFactory.eINSTANCE.createRBTree();
-			tree.setFeature(ModelPackage.eINSTANCE.getMimeType_MimeType());
-			for (; i < 1000; i++) {
-				String value = i + "";
-				MimeType type = ModelFactory.eINSTANCE.createMimeType();
-				type.setMimeType(value);
-				tree.insert(type);
-			}
-		}
-		finally {
-			System.out.println(i);
+		RBTree tree = TreeFactory.eINSTANCE.createRBTree();
+		tree.setFeature(ModelPackage.eINSTANCE.getMimeType_MimeType());
+		for (int i = 0; i < 1000; i++) {
+			String value = i + "";
+			MimeType type = ModelFactory.eINSTANCE.createMimeType();
+			type.setMimeType(value);
+			tree.insert(type);
 		}
 	}
 
