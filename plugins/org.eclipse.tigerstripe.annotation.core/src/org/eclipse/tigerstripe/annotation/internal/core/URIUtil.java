@@ -141,7 +141,7 @@ public class URIUtil {
 			return true;
 		}
 		
-		public URI toURI() throws InvalidURIReplacingException {
+		public URI toURI() throws InvalidReplaceException {
 			String scheme = null;
 			String authority = null;
 			String device = null;
@@ -153,17 +153,17 @@ public class URIUtil {
 				switch (part.getKind()) {
 					case SCHEME:
 						if (scheme != null)
-							throw new InvalidURIReplacingException("URI scheme should be only one");
+							throw new InvalidReplaceException("URI scheme should be only one");
 						scheme = part.getContent();
 						break;
 					case AUTHORITY:
 						if (authority != null)
-							throw new InvalidURIReplacingException("URI authority should be only one");
+							throw new InvalidReplaceException("URI authority should be only one");
 						authority = part.getContent();
 						break;
 					case DEVICE:
 						if (device != null)
-							throw new InvalidURIReplacingException("URI device should be only one");
+							throw new InvalidReplaceException("URI device should be only one");
 						device = part.getContent();
 						break;
 					case SEGMENT:
@@ -171,16 +171,16 @@ public class URIUtil {
 						break;
 					case QUERY:
 						if (query != null)
-							throw new InvalidURIReplacingException("URI query should be only one");
+							throw new InvalidReplaceException("URI query should be only one");
 						query = part.getContent();
 						break;
 					case FRAGMENT:
 						if (fragment != null)
-							throw new InvalidURIReplacingException("URI fragment should be only one");
+							throw new InvalidReplaceException("URI fragment should be only one");
 						fragment = part.getContent();
 						break;
 					default:
-						throw new InvalidURIReplacingException("Invalid part kind");
+						throw new InvalidReplaceException("Invalid part kind");
 				}
 			}
 			return URI.createHierarchicalURI(scheme, authority, device,
@@ -235,28 +235,28 @@ public class URIUtil {
 				uri.fragment());
 	}
 	
-	private static URI newReplace(URI uri, URI oldPrefix, URI newPrefix) throws InvalidURIReplacingException {
+	private static URI newReplace(URI uri, URI oldPrefix, URI newPrefix) throws InvalidReplaceException {
 		PartedURI pUri = PartedURI.fromURI(uri);
 		if (pUri == null)
-			throw new InvalidURIReplacingException(uri.toString() + " should be hierarchical");
+			throw new InvalidReplaceException(uri.toString() + " should be hierarchical");
 		PartedURI pOldPrefix = PartedURI.fromURI(oldPrefix);
 		if (pOldPrefix == null)
-			throw new InvalidURIReplacingException(oldPrefix.toString() + " should be hierarchical");
+			throw new InvalidReplaceException(oldPrefix.toString() + " should be hierarchical");
 		PartedURI pNewPrefix = PartedURI.fromURI(newPrefix);
 		if (pNewPrefix == null)
-			throw new InvalidURIReplacingException(newPrefix.toString() + " should be hierarchical");
+			throw new InvalidReplaceException(newPrefix.toString() + " should be hierarchical");
 		PartedURI postfix = pUri.cut(pOldPrefix);
 		if (postfix == null)
-			throw new InvalidURIReplacingException(oldPrefix.toString() + " is not a prefix of the " + 
+			throw new InvalidReplaceException(oldPrefix.toString() + " is not a prefix of the " + 
 					uri.toString());
 		PartedURI result = pNewPrefix.concat(postfix);
 		if (result == null)
-			throw new InvalidURIReplacingException("Replacing [" + oldPrefix + "] to the [" +
+			throw new InvalidReplaceException("Replacing [" + oldPrefix + "] to the [" +
 					newPrefix + "] in the [" + uri + "] is invalid");
 		return result.toURI();
 	}
 
-	public static URI replacePrefix(URI uri, URI oldPrefix, URI newPrefix) throws InvalidURIReplacingException {
+	public static URI replacePrefix(URI uri, URI oldPrefix, URI newPrefix) throws InvalidReplaceException {
 		return USE_OLD_VERSION ? oldReplace(uri, oldPrefix, newPrefix) :
 			newReplace(uri, oldPrefix, newPrefix);
 	}

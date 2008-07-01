@@ -12,7 +12,7 @@
 package org.eclipse.tigerstripe.annotation.core.test;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.tigerstripe.annotation.internal.core.InvalidURIReplacingException;
+import org.eclipse.tigerstripe.annotation.internal.core.InvalidReplaceException;
 import org.eclipse.tigerstripe.annotation.internal.core.URIUtil;
 
 import junit.framework.TestCase;
@@ -85,7 +85,7 @@ public class URIPrefixReplacingTest extends TestCase {
 		try {
 			URIUtil.replacePrefix(uri, oldPrefix, newPrefix);
 		}
-		catch (InvalidURIReplacingException e) {
+		catch (InvalidReplaceException e) {
 			gotException = true;
 		}
 		assertTrue(gotException);

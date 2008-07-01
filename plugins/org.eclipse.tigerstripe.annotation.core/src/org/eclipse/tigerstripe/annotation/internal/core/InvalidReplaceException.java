@@ -15,23 +15,23 @@ package org.eclipse.tigerstripe.annotation.internal.core;
  * @author Yuri Strot
  *
  */
-public class InvalidURIReplacingException extends Exception {
+public class InvalidReplaceException extends Exception {
 
 	private static final long serialVersionUID = -208449298829663012L;
 	
-    public InvalidURIReplacingException() {
+    public InvalidReplaceException() {
     	super();
     }
 
-    public InvalidURIReplacingException(String message) {
+    public InvalidReplaceException(String message) {
     	super(message);
     }
 
-    public InvalidURIReplacingException(String message, Throwable cause) {
+    public InvalidReplaceException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public InvalidURIReplacingException(Throwable cause) {
+    public InvalidReplaceException(Throwable cause) {
         super(cause);
     }
 
