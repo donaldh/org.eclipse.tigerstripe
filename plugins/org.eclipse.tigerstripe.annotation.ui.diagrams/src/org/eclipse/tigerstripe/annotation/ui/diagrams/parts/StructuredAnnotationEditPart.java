@@ -109,17 +109,6 @@ public class StructuredAnnotationEditPart extends AnnotationEditPart {
 		Annotation annotation = getAnnotation();
 		updateNameLabel(annotation, figure.getTopLabels()[0]);
 		updateFeatures(annotation, figure.getBottomLabels());
-		//figure.setDefaultSize(figure.getLayoutManager().getPreferredSize(figure, -1, -1));
-//		Annotation annotation = getAnnotation();
-//		AnnotationFigure figure = (AnnotationFigure)getFigure();
-//		List<EStructuralFeature> list = getFeatures(annotation);
-//		int count = 0;
-//		for (EStructuralFeature feature : list) {
-//			Object value = getFeatureValue(annotation, feature);
-//			String text = value == null ? "" : value.toString();
-//			figure.setText(feature.getName() + ": " + text, count++);
-//		}
-		
 		super.refreshVisuals();
 	}
 	
