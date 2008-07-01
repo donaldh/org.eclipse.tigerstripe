@@ -447,7 +447,8 @@ public class EMFDatabase implements IEMFDatabase {
 	protected void updateResource(IResource resource, boolean added) {
 		if (resource instanceof IFile) {
 			IFile file = (IFile)resource;
-			if (!isLocked() && file.getFileExtension().toLowerCase().equals(
+			String ext = file.getFileExtension();
+			if (!isLocked() && ext != null && ext.toLowerCase().equals(
 					EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
 				getResourceStorage().updateResource(resource, added);
 				doRebuildIndex();
