@@ -77,11 +77,11 @@ public class VisualeditorRelationshipUtils {
 		List<IRelationship> relList = null;
 		String artifactFQN = artifact.getFullyQualifiedName();
 		relList = artifactMgrSession.getOriginatingRelationshipForFQN(
-				artifactFQN, false);
+				artifactFQN, true);
 		if (relList != null && relList.size() > 0)
 			artifactAsSource.addAll(relList);
 		relList = artifactMgrSession.getTerminatingRelationshipForFQN(
-				artifactFQN, false);
+				artifactFQN, true);
 		if (relList != null && relList.size() > 0)
 			artifactAsTarget.addAll(relList);
 		// then loop through the artifacts in the diagram
@@ -100,7 +100,7 @@ public class VisualeditorRelationshipUtils {
 				// possible relationships in this diagram with the selected
 				// artifact as a source and this artifact as a target
 				relList = artifactMgrSession.getTerminatingRelationshipForFQN(
-						fqn, false);
+						fqn, true);
 				if (relList != null && relList.size() > 0) {
 					relSet = new HashSet<IRelationship>();
 					relSet.addAll(relList);
@@ -118,7 +118,7 @@ public class VisualeditorRelationshipUtils {
 				// possible relationships in this diagram with the selected
 				// artifact as a target and this artifact as a source
 				relList = artifactMgrSession.getOriginatingRelationshipForFQN(
-						fqn, false);
+						fqn, true);
 				if (relList != null && relList.size() > 0) {
 					relSet = new HashSet<IRelationship>();
 					relSet.addAll(relList);
@@ -163,14 +163,14 @@ public class VisualeditorRelationshipUtils {
 			String fqn = ((AbstractArtifact) art).getFullyQualifiedName();
 			nodesInMap.put(fqn, (QualifiedNamedElement) art);
 			relList = artifactMgrSession.getOriginatingRelationshipForFQN(fqn,
-					false);
+					true);
 			if (relList != null && relList.size() > 0) {
 				relSet = new HashSet<IRelationship>();
 				relSet.addAll(relList);
 				srcRelMap.put(fqn, relSet);
 			}
 			relList = artifactMgrSession.getTerminatingRelationshipForFQN(fqn,
-					false);
+					true);
 			if (relList != null && relList.size() > 0) {
 				relSet = new HashSet<IRelationship>();
 				relSet.addAll(relList);
@@ -373,7 +373,7 @@ public class VisualeditorRelationshipUtils {
 				// reference (unless it's a enumeration), this else clause
 				// handles those two cases
 				IAbstractArtifact artifact = artifactMgr
-						.getArtifactByFullyQualifiedName(typeName, false,
+						.getArtifactByFullyQualifiedName(typeName, true,
 								new NullProgressMonitor());
 				if (artifact instanceof IEnumArtifact) {
 					Attribute eAttribute = VisualeditorFactory.eINSTANCE
