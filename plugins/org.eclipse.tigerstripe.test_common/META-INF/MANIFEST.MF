@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe Test_common Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.test_common
-Bundle-Version: 0.3.0
+Bundle-Version: 0.4.0.qualifier
 Bundle-Activator: org.eclipse.tigerstripe.test_common.Activator
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.core.runtime,

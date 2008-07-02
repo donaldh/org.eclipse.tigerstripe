@@ -1,5 +1,5 @@
 Bundle-ManifestVersion: 2
-Bundle-Version: 1.0.0
+Bundle-Version: 0.4.0.qualifier
 Manifest-Version: 1.0
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.workbench.ui.base,
@@ -18,10 +18,11 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.base.test.Activator
 Eclipse-LazyStart: true
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base.test
-Bundle-Name: Test Plug-in
+Bundle-Name: UI Base Test Plug-in
 Export-Package: org.eclipse.tigerstripe.workbench.ui.base.test,
  org.eclipse.tigerstripe.workbench.ui.base.test.generator,
  org.eclipse.tigerstripe.workbench.ui.base.test.profile,
  org.eclipse.tigerstripe.workbench.ui.base.test.project,
  org.eclipse.tigerstripe.workbench.ui.base.test.suite,
  org.eclipse.tigerstripe.workbench.ui.base.test.utils
+Bundle-Vendor: Eclipse.org

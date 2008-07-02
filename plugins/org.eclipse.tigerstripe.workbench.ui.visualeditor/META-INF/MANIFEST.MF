@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Base Visual Editor Plugin (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.visualeditor; singleton:=true
-Bundle-Version: 0.3.0.qualifier
+Bundle-Version: 0.4.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
 Export-Package: org.eclipse.tigerstripe.workbench.ui.visualeditor,
