@@ -10,53 +10,32 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
-import java.io.StringReader;
 import java.util.Iterator;
-import java.util.Properties;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.ui.actions.OpenAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.tigerstripe.metamodel.impl.IPackageImpl;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
-import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.NewArtifactWizardPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.packageArtifact.NewPackageWizard;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.PlatformUI;
-
-import com.sun.xml.internal.bind.v2.runtime.reflect.Lister.Pack;
 
 public class OpenPackageArtifactEditorAction extends OpenAction {
 
 	public OpenPackageArtifactEditorAction(IWorkbenchSite site) {
 		super(site);
-	
+
 	}
 
 	// If we have got here, then we should
 	// Check that a .package file exists in this package.
 	// and if it does NOT:
-	// 	  create one
+	// create one
 	// Then
-	//    open the Package editor on that artifact
-	
-	
-	
-	
+	// open the Package editor on that artifact
+
 	@Override
 	public void run(IStructuredSelection selection) {
 		if (!checkEnabled(selection))
@@ -67,9 +46,9 @@ public class OpenPackageArtifactEditorAction extends OpenAction {
 	private boolean checkEnabled(IStructuredSelection selection) {
 		if (selection.isEmpty())
 			return false;
-		for (Iterator iter = selection.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = selection.iterator(); iter.hasNext();) {
 			Object element = iter.next();
-						
+
 			if (element instanceof IPackageFragment)
 				continue;
 		}
@@ -79,7 +58,7 @@ public class OpenPackageArtifactEditorAction extends OpenAction {
 	@Override
 	public void run(Object[] objects) {
 		IWorkbenchPage page = PlatformUI.getWorkbench()
-		.getActiveWorkbenchWindow().getActivePage();
+				.getActiveWorkbenchWindow().getActivePage();
 		if (page == null)
 			return;
 		for (int i = 0; i < objects.length; i++) {
@@ -87,40 +66,44 @@ public class OpenPackageArtifactEditorAction extends OpenAction {
 			// Should have a ".package" as the package Artifact....
 			// try to get the artifact form the manager
 			try {
-				IAbstractArtifact artifact = TSExplorerUtils.getArtifactFor(fragment);
-				if (artifact != null){
+				IAbstractArtifact artifact = TSExplorerUtils
+						.getArtifactFor(fragment);
+				if (artifact != null) {
 					TSOpenAction.openEditor(artifact, page);
-					// // This is noi longer used as we always create a "dummy" packge artifact
-//				} else {
-//				// The artifact may be null if it was not created using the wizards etc.
-//				// So create one and add it to the artifact manager.
-//					IAbstractTigerstripeProject aProject = TigerstripeCore
-//							.findProject(fragment.getCorrespondingResource().getProject().getLocation()
-//									.toFile().toURI());
-//
-//					if (aProject instanceof ITigerstripeModelProject) {
-//						ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
-//						IArtifactManagerSession mgr = project
-//								.getArtifactManagerSession();
-//
-//						String packageName = fragment.getElementName();
-//						artifact = PackageArtifact.makeArtifactForPackage(mgr, packageName);
-//						if (artifact != null){
-//							TSOpenAction.openEditor(artifact, page);
-//						}
-//						
-//						
-//					} 
+					// // This is noi longer used as we always create a "dummy"
+					// packge artifact
+					// } else {
+					// // The artifact may be null if it was not created using
+					// the wizards etc.
+					// // So create one and add it to the artifact manager.
+					// IAbstractTigerstripeProject aProject = TigerstripeCore
+					// .findProject(fragment.getCorrespondingResource().getProject().getLocation()
+					// .toFile().toURI());
+					//
+					// if (aProject instanceof ITigerstripeModelProject) {
+					// ITigerstripeModelProject project =
+					// (ITigerstripeModelProject) aProject;
+					// IArtifactManagerSession mgr = project
+					// .getArtifactManagerSession();
+					//
+					// String packageName = fragment.getElementName();
+					// artifact = PackageArtifact.makeArtifactForPackage(mgr,
+					// packageName);
+					// if (artifact != null){
+					// TSOpenAction.openEditor(artifact, page);
+					// }
+					//						
+					//						
+					// }
 
 				}
-				
-				
-			} catch (Exception e){
-				TigerstripeLog.logError("Could not extract or create package artifact", e);
+
+			} catch (Exception e) {
+				TigerstripeLog.logError(
+						"Could not extract or create package artifact", e);
 			}
 		}
-		
+
 	}
-	
-	
+
 }
