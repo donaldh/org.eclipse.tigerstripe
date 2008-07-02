@@ -80,10 +80,5 @@ public interface IEMFDatabase {
 	 * @return previously saved EMF objects or empty array if none
 	 */
 	public EObject[] read();
-	
-	/**
-	 * 
-	 */
-	public void rebuildIndex();
 
 }
