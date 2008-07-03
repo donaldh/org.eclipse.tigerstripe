@@ -100,7 +100,7 @@ public class EProperty implements IProperty {
 		}
 		EClassifier classifier = feature.getEType();
 		Class<?> clazz = classifier.getInstanceClass();
-		if (clazz.equals(boolean.class)) {
+		if (clazz != null && clazz.equals(boolean.class)) {
 			cellEditor = createBooleanCellEditor(parent);
 			return cellEditor;
 		}
@@ -155,7 +155,7 @@ public class EProperty implements IProperty {
 			cellEditor = createDialogCellEditor(parent, feature, (List<String>)getValue());
 			return cellEditor;
 		}
-		if (clazz.equals(String.class) || clazz.equals(int.class)) {
+		if (clazz != null && (clazz.equals(String.class) || clazz.equals(int.class))) {
 	    	EAnnotation annotation = feature.getEAnnotation(ANNOTATION_MARKER);
 	    	if (annotation != null) {
 				String value = annotation.getDetails().get(ANNOTATION_MULTILINE);
