@@ -45,6 +45,7 @@ import org.eclipse.tigerstripe.espace.resources.internal.core.CompositeIndexer;
 import org.eclipse.tigerstripe.espace.resources.internal.core.FeatureIndexer;
 import org.eclipse.tigerstripe.espace.resources.internal.core.IndexStorage;
 import org.eclipse.tigerstripe.espace.resources.internal.core.ResourceStorage;
+import org.eclipse.tigerstripe.espace.resources.internal.format.MetaResourceFactory;
 
 /**
  * @author Yuri Strot
@@ -70,18 +71,25 @@ public class EMFDatabase implements IEMFDatabase {
 	private int ignoreChanges;
 	
 	private ResourceStorage resourceStorage;
-	private IIdentifyManager idManager;
+	private IDatabaseConfiguration idManager;
 	
-	public EMFDatabase(IIdentifyManager idManager) {
-		addResourceDeltaListener();
+	public EMFDatabase(IDatabaseConfiguration idManager) {
 		this.idManager = idManager;
+		addResourceDeltaListener();
 	}
 	
 	protected ResourceSet getResourceSet() {
 		if (resourceSet == null) {
 			resourceSet = new ResourceSetImpl();
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+				    EObjectRouter.ANNOTATION_FILE_EXTENSION, getFactory());
+			
 		}
 		return resourceSet;
+	}
+	
+	protected Resource.Factory getFactory() {
+		return new MetaResourceFactory(idManager);
 	}
 	
 	protected ResourceStorage getResourceStorage() {

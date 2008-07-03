@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -28,14 +29,14 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.espace.resources.core.EMFDatabase;
-import org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager;
+import org.eclipse.tigerstripe.espace.resources.core.IDatabaseConfiguration;
 
 /**
  * This class provide mechanism for loading, saving and caching <code>Annotation</code> objects.
  * 
  * @author Yuri Strot
  */
-public class AnnotationStorage implements IIdentifyManager {
+public class AnnotationStorage implements IDatabaseConfiguration {
 	
 	protected Map<URI, List<Annotation>> annotations; 
 	
@@ -74,6 +75,30 @@ public class AnnotationStorage implements IIdentifyManager {
 		if (object instanceof Annotation) {
 			((Annotation)object).setId(id);
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#getPackages(org.eclipse.emf.ecore.EObject)
+	 */
+	public List<EPackage> getPackages(EObject object) {
+		List<EPackage> packages = new ArrayList<EPackage>();
+		if (object instanceof Annotation) {
+			EObject content = ((Annotation)object).getContent();
+			collectPackages(content, packages);
+		}
+		else {
+			collectPackages(object, packages);
+		}
+		return packages;
+	}
+	
+	protected void collectPackages(EObject object, List<EPackage> packages) {
+		EPackage pack = object.eClass().getEPackage();
+		if (!packages.contains(pack))
+			packages.add(pack);
+        for(EObject child : object.eContents()){
+        	collectPackages(child, packages);
+        }
 	}
 	
 	protected void trackChanges(Annotation annotation) {
