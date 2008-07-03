@@ -89,7 +89,7 @@ public class FeatureIndexer extends AbstractIndexer {
 	protected String getFeatureName(Object object) {
 		EStructuralFeature feature = (EStructuralFeature)object;
 		EClass container = (EClass)feature.eContainer();
-		return container.getInstanceClassName() + "." + feature.getName();
+		return getInstanceClassName(container) + FILE_PART_SEPARATOR + feature.getName();
 	}
 	
 	/* (non-Javadoc)

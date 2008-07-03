@@ -64,7 +64,8 @@ public class ClassifierIndexer extends AbstractIndexer {
 	 */
 	@Override
 	protected String getFeatureName(Object object) {
-		return ((EClass)object).getInstanceClassName();
+		EClass eclass = (EClass)object;
+		return getInstanceClassName(eclass);
 	}
 	
 	/* (non-Javadoc)

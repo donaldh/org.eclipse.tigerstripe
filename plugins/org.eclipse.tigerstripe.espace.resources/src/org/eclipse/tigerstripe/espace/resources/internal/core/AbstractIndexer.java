@@ -18,7 +18,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 
 /**
@@ -34,6 +36,7 @@ public abstract class AbstractIndexer implements IIndexer {
 	private IndexStorage storage;
 	
 	protected static EObject[] EMPTY = new EObject[0];
+	protected final static String FILE_PART_SEPARATOR = ".";
 	
 	public AbstractIndexer(IndexStorage storage) {
 		resources = new ArrayList<Resource>();
@@ -142,6 +145,16 @@ public abstract class AbstractIndexer implements IIndexer {
 	protected Resource getResource(Object object, boolean create) {
 		String featureName = getFeatureName(object);
 		return storage.getResource(featureName, create);
+	}
+	
+	protected static String getInstanceClassName(EClass eclass) {
+		String featureName = eclass.getInstanceClassName();
+		if (featureName == null) {
+			EPackage pack = eclass.getEPackage();
+			String nsPrefix = pack.getNsPrefix();
+			featureName = nsPrefix + FILE_PART_SEPARATOR + eclass.getName();
+		}
+		return featureName;
 	}
 	
 	protected abstract String getFeatureName(Object object);
