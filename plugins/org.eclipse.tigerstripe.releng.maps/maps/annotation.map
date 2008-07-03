@@ -7,6 +7,7 @@ feature@org.eclipse.tigerstripe.annotation.feature=v200806301336,:pserver:anonym
 ! The base annotation Stuff
 plugin@org.eclipse.tigerstripe.annotation.core=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.core
 plugin@org.eclipse.tigerstripe.annotation.ui=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.ui
+plugin@org.eclipse.tigerstripe.annotation.ui.diagrams=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.ui.diagrams
 plugin@org.eclipse.tigerstripe.espace.core=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.core
 plugin@org.eclipse.tigerstripe.espace.resources=v200806301336,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.resources
 
