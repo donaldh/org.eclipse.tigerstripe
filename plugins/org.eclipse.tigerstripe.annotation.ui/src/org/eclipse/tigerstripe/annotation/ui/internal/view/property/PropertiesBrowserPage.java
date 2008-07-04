@@ -226,14 +226,14 @@ public class PropertiesBrowserPage
 		    
 		    Action sAction = TestActionManager.getAction(annotation, true);
 		    if (sAction.isEnabled()) {
-			    sAction.setText("Show at diagram");
+			    sAction.setText("Show on diagram");
 			    ActionContributionItem item2 = new ActionContributionItem(sAction);
 			    item2.fill(menu, -1);
 		    }
 		    
 		    Action hAction = TestActionManager.getAction(annotation, false);
 		    if (hAction.isEnabled()) {
-			    hAction.setText("Hide at diagram");
+			    hAction.setText("Hide on diagram");
 			    ActionContributionItem item2 = new ActionContributionItem(hAction);
 			    item2.fill(menu, -1);
 		    }
