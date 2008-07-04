@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.annotation.ui.internal.util;
 
 import java.util.Iterator;
 
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -37,12 +39,27 @@ public class AnnotationSelectionUtils {
 			Iterator<?> it = sel.iterator();
 			while (it.hasNext()) {
 	            Object element = it.next();
-	            if (element instanceof Annotation) {
-	            	return (Annotation)element;
-	            }
+	            Annotation annotation = getAnnotation(element);
+	            if (annotation != null)
+	            	return annotation;
             }
 		}
 		return null;
+	}
+	
+	public static Annotation getAnnotation(Object element) {
+		Annotation annotation = null;
+        if (element instanceof Annotation) {
+        	annotation = (Annotation)element;
+        }
+        else {
+        	annotation = (Annotation)Platform.getAdapterManager(
+        			).getAdapter(element, Annotation.class);
+        	if (annotation == null && element instanceof IAdaptable) {
+        		annotation = (Annotation)((IAdaptable)element).getAdapter(Annotation.class);
+        	}
+        }
+        return annotation;
 	}
 
 }

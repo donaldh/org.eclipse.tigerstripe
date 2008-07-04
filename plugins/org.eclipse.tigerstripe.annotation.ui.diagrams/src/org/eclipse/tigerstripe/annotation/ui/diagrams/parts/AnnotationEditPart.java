@@ -36,6 +36,14 @@ public abstract class AnnotationEditPart extends ShapeNodeEditPart {
 		collector = new ConnectionCollector(view);
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object getAdapter(Class key) {
+		if (Annotation.class.isAssignableFrom(key))
+			return getAnnotation();
+		return super.getAdapter(key);
+	}
+	
 	private void addChangeListener() {
 		if (annotationListener == null) {
 			annotationListener = new AnnotationAdapter() {

@@ -75,7 +75,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
  */
 public class PropertiesBrowserPage
 	extends TabbedPropertySheetPage
-	implements IPropertyChangeListener, IAnnotationListener, IRefactoringListener {
+	implements IPropertyChangeListener, IAnnotationListener,
+	IRefactoringListener {
 
 	/**
 	 * the contributor for this property sheet page
@@ -528,9 +529,8 @@ public class PropertiesBrowserPage
 	private Object getAnnotableElement() {
 		Object annotable = null;
 		if (selectedElements != null) {
-			annotable = AnnotationSelectionUtils.getAnnotableElement(selectedElements);
-			if (annotable instanceof Annotation) {
-				Annotation annotation = (Annotation)annotable;
+			Annotation annotation = AnnotationSelectionUtils.getAnnotation(selectedElements);
+			if (annotation != null) {
 				annotable = AnnotationPlugin.getManager(
 						).getAnnotatedObject(annotation);
 			}
@@ -540,10 +540,11 @@ public class PropertiesBrowserPage
 	
 	private Annotation[] getAnnotation(ISelection selection) {
 		Object object = AnnotationSelectionUtils.getAnnotableElement(selection);
-		if (object instanceof Annotation)
-			return new Annotation[] { (Annotation)object };
 		if (object == null)
 			return null;
+		Annotation annotation = AnnotationSelectionUtils.getAnnotation(object);
+		if (annotation != null)
+			return new Annotation[] { annotation };
 		List<Annotation> annotations = new ArrayList<Annotation>();
 		if (!AnnotationUtils.getAllAnnotations(object, annotations))
 			return null;

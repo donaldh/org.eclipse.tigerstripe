@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.emf.common.ui,
  org.eclipse.debug.core,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ org.eclipse.core.expressions
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.tigerstripe.annotation.ui,
  org.eclipse.tigerstripe.annotation.ui.core,

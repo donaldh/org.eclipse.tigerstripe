@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
@@ -24,12 +27,14 @@ import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.core.ISelectionFilter;
 import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.IContributedContentsView;
 import org.eclipse.ui.part.IPage;
 import org.eclipse.ui.part.IPageBookViewPage;
@@ -152,13 +157,36 @@ public class PropertySheet extends PageBookView
     		return (PropertiesBrowserPage)page;
     	return null;
     }
-
+    
+    private void hookGlobalActions(final Action save, final Action saveAll) {
+    	IActionBars bars = getViewSite().getActionBars();
+    	bars.clearGlobalActionHandlers();
+    	IHandlerService service = (IHandlerService) getSite().getService(
+    			IHandlerService.class);
+    	service.activateHandler("org.eclipse.ui.file.save",
+    			new AbstractHandler() {
+					public Object execute(ExecutionEvent arg0)
+							throws ExecutionException {
+						if (save.isEnabled())
+							save.run();
+						return null;
+					}
+				});     	
+    	service.activateHandler("org.eclipse.ui.file.saveAll",
+    			new AbstractHandler() {
+					public Object execute(ExecutionEvent arg0)
+							throws ExecutionException {
+						if (saveAll.isEnabled())
+							saveAll.run();
+						return null;
+					}
+				});
+   }
     /* (non-Javadoc)
      * Method declared on IViewPart.
      */
     public void init(IViewSite site) throws PartInitException {
         super.init(site);
-        
         saveAction = new Action("Save") {
         	public void run() {
         		PropertiesBrowserPage page = getPage();
@@ -179,6 +207,8 @@ public class PropertySheet extends PageBookView
         saveAllAction.setImageDescriptor(AnnotationUIPlugin.createImageDescriptor("icons/save_all.gif"));
         getViewSite().getActionBars().getToolBarManager().add(saveAllAction);
         
+        hookGlobalActions(saveAction, saveAllAction);
+        
         revertAction = new Action("Revert") {
         	public void run() {
         		PropertiesBrowserPage page = getPage();
@@ -198,6 +228,7 @@ public class PropertySheet extends PageBookView
         };
         revertAllAction.setImageDescriptor(AnnotationUIPlugin.createImageDescriptor("icons/revert_all.gif"));
         getViewSite().getActionBars().getToolBarManager().add(revertAllAction);
+        getViewSite().getActionBars().updateActionBars();
     }
     
     /* (non-Javadoc)
