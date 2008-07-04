@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.jdt.internal.ui.JavaPluginImages;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
@@ -34,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlCl
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.ClassNode;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.DependencyNode;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.Node;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.PackageNode;
 
 
 public class UmlClassesTreeLabelProvider extends LabelProvider {
@@ -138,6 +138,9 @@ public class UmlClassesTreeLabelProvider extends LabelProvider {
 				return errorImage;
 			}
 			}
+		} else if (node instanceof PackageNode){
+				return Images.get(Images.PACKAGE_ICON);
+
 		}
 		return JavaPluginImages.get(JavaPluginImages.IMG_OBJS_HELP);
 	}

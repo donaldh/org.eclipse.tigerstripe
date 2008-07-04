@@ -36,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IEntryListStereotypeAttribute;
@@ -305,10 +306,11 @@ public class ProfileImporter {
 					ArrayList<String> typeList = new ArrayList<String>();
 					while (scopeIt.hasNext()) {
 						String sc = (String) scopeIt.next();
-
-						if (sc.equals("Class")) {
+						if (sc.equals("Package")){
+							typeList.add(IPackageArtifact.class.getName());
+						} else if (sc.equals("Class")) {
 							typeList
-									.add(IManagedEntityArtifact.class.getName());
+							.add(IManagedEntityArtifact.class.getName());
 							typeList.add(IDatatypeArtifact.class.getName());
 							typeList.add(IExceptionArtifact.class.getName());
 						} else if (sc.equals("DataType")){

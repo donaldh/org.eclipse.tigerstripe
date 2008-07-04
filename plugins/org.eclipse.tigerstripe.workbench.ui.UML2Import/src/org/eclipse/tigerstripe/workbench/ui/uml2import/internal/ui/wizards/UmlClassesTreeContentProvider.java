@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.model.UML2TS;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
 import org.eclipse.uml2.uml.Classifier;
@@ -245,6 +246,9 @@ public class UmlClassesTreeContentProvider extends ArrayContentProvider
 				nodes.add(node);
 			} else if (elem instanceof Dependency){
 				DependencyNode node = new DependencyNode(null, (Dependency) elem);
+				nodes.add(node);
+			} else if (elem instanceof org.eclipse.uml2.uml.Package){
+				PackageNode node = new PackageNode(null, UML2TS.convertToFQN(((org.eclipse.uml2.uml.Package) elem).getQualifiedName(), null, null));
 				nodes.add(node);
 			}
 				

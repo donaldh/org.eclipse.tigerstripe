@@ -20,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArti
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
@@ -31,6 +32,7 @@ import org.eclipse.uml2.uml.Enumeration;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
 
 public class DefaultModelMapper implements IModelMapper {
 
@@ -47,6 +49,11 @@ public class DefaultModelMapper implements IModelMapper {
 		while (t.hasNext()) {
 				
 			EObject eObject = (EObject) t.next();
+			// TODO - is this meaningful ?
+			
+			if (eObject instanceof Package){
+				classMap.put( eObject, IPackageArtifact.class.getName());
+			} 
 			if (eObject instanceof AssociationClass) {
 				classMap.put( eObject, IAssociationClassArtifact.class.getName());
 			} else if (eObject instanceof Association) {

@@ -50,6 +50,7 @@ import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.AssociationNode;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.ClassNode;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.DependencyNode;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards.UmlClassesTreeContentProvider.PackageNode;
 
 public class UmlClassesMenuListener implements IMenuListener {
 
@@ -355,11 +356,13 @@ public class UmlClassesMenuListener implements IMenuListener {
 		boolean classNodeSelected = false;
 		boolean dependencySelected = false;
 		boolean associationSelected = false;
+		boolean packageSelected = false;
 
 		for (Object obj : ssel.toArray()) {
 			classNodeSelected = obj instanceof ClassNode;
 			dependencySelected = obj instanceof DependencyNode;
 			associationSelected = obj instanceof AssociationNode;
+			packageSelected = obj instanceof PackageNode;
 		}
 		if (classNodeSelected) {
 			manager.add(new DontAnnotateAction());
@@ -402,6 +405,8 @@ public class UmlClassesMenuListener implements IMenuListener {
 			if (typeList.contains(IAssociationClassArtifact.class.getName())) {
 				manager.add(new AsAssociationClassAction());
 			}
+		} else if (packageSelected) {
+			
 		}
 	}
 
