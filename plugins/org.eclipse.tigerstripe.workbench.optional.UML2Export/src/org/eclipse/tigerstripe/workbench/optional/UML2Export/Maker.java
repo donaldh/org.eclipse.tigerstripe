@@ -12,8 +12,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.AssociationClass;
@@ -159,7 +159,7 @@ public class Maker {
 
 		return null;
 	}
-	
+		
 	
 	/**
 	 * Find a package if it exists, or make one if it doesn't.
@@ -196,7 +196,6 @@ public class Maker {
 		return newPackage;
 	}
 	
-	
 	/**
 	 * Find a package if it exists, or make one if it doesn't.
 	 * 
@@ -206,7 +205,12 @@ public class Maker {
 	 * @return
 	 */
 	protected Package makeOrFindPackage(IAbstractArtifact artifact) {
-		String packageName = artifact.getPackage();
+		String packageName;
+		if (artifact instanceof IPackageArtifact){
+			packageName = artifact.getFullyQualifiedName();
+		} else {
+			packageName = artifact.getPackage();
+		}
 
 		// Look for a model with the right name!
 		// We don't know which of the models this could be in - eg Dependency or Reference
@@ -215,7 +219,7 @@ public class Maker {
 			modelName = artifact.getProjectDescriptor().getIProjectDetails().getName();
 		} catch (TigerstripeException e){
 			// ignore - already set to unknown
-			out.println("Tigerstripe Excpetion dealing with artifact :"+artifact.getFullyQualifiedName());
+			out.println("Tigerstripe Exception dealing with artifact :"+artifact.getFullyQualifiedName());
 		}
 		
 		Model modelToUse = null;

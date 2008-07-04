@@ -49,6 +49,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
@@ -223,9 +224,36 @@ public class TS2UML {
 				+ " Project Artifacts ";
 		addMessage(msgText, 2);
 		out.println(msgText);
+		
+		// Handle the creation of new packages
+		// This can vary depending on whether PackageArtifacts are enabled or not.
+		// There is no guarantee that we get the PackageArtifact BEFORE
+		// any artifacts in it, not that we have the parent before any of
+		// its children.
+		this.out.println("**************************************************\nBuilding Packages :");
+		for (IAbstractArtifact artifact : projectArtifacts) {
+			try {
+				if (artifact instanceof IPackageArtifact){
+					Package modelPackage = maker.makeOrFindPackage((IPackageArtifact) artifact);
+					// set the details of the package based on this artifact.
+					addComponentStereotype(artifact, modelPackage);
+					Comment comment = modelPackage.createOwnedComment();
+					comment.setBody(artifact.getComment());
+				}
+			} catch (Exception t){
+				this.out.println("ERROR : "+artifact.getName()+" "+artifact.getLabel());
+				t.printStackTrace(this.out);
+			}
+		}
+		
+		
 		for (IAbstractArtifact artifact : projectArtifacts) {
 			this.out.println("================================================\nProcessing " + artifact.getFullyQualifiedName());
 			monitor.setTaskName("Creating UML Classes : " + artifact.getName());
+			
+
+			
+			
 			
 			Package modelPackage = maker.makeOrFindPackage(artifact);
 

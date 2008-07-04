@@ -38,6 +38,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
@@ -101,6 +102,10 @@ public class ProfileAnnotations2UML2 {
 
 		// Possible metaClasses for scope
 
+		org.eclipse.uml2.uml.Class packageMetaclass = (org.eclipse.uml2.uml.Class) umlMetamodel
+				.getOwnedType(UMLPackage.Literals.PACKAGE.getName());
+		profile.createMetaclassReference(packageMetaclass);
+		
 		org.eclipse.uml2.uml.Class operationMetaclass = (org.eclipse.uml2.uml.Class) umlMetamodel
 				.getOwnedType(UMLPackage.Literals.OPERATION.getName());
 		profile.createMetaclassReference(operationMetaclass);
@@ -149,6 +154,7 @@ public class ProfileAnnotations2UML2 {
 
 		Map<String, org.eclipse.uml2.uml.Class> scopeLookup = new HashMap<String, org.eclipse.uml2.uml.Class>();
 
+		scopeLookup.put(IPackageArtifact.class.getName(), packageMetaclass);
 		scopeLookup.put(IManagedEntityArtifact.class.getName(), classMetaclass);
 		scopeLookup.put(IDatatypeArtifact.class.getName(), datatypeMetaclass);
 		scopeLookup.put(IQueryArtifact.class.getName(), classMetaclass);
