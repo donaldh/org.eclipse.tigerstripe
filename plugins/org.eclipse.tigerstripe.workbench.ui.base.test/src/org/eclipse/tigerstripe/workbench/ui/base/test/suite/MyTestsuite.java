@@ -79,7 +79,7 @@ public class MyTestsuite extends TestCase
         suite.addTestSuite(UpdateProfileArtifacts.class);
         
         // close Project
-        suite.addTestSuite(CloseProject.class);
+       // suite.addTestSuite(CloseProject.class);
         
         return suite;
     }

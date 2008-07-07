@@ -69,6 +69,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 			// This should not be valid any more!
 			try {
 				ui.click(treeItem);
+				// TODO This is a known BUG 219575
 				//	fail("Artifact is still being shown although disabled in Profile : "+name);
 			} catch (Exception noWidget){
 				// This is what we want to happen!

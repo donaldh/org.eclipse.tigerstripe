@@ -58,20 +58,23 @@ public class CleanWorkspace extends UITestCaseSWT {
 		
 		ui.click(new MenuItemLocator("Tigerstripe/Plugins..."));
 		ui.wait(new ShellShowingCondition("Deployed Tigerstripe Plugins"));
-//		try {
-//			ui.contextClick(new TableItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME+"("+TestingConstants.NEW_PLUGIN_PROJECT_VERSION+")"),
-//			"Un-deploy");
-//			ui.wait(new ShellShowingCondition("Un-Deploy Tigerstripe Plugin?"));
-//			ui.click(new ButtonLocator("OK"));
-//			ui.wait(new ShellDisposedCondition("Un-Deploy Tigerstripe Plugin?"));
-//			
-//			
-//		} catch (com.windowtester.runtime.WidgetNotFoundException notFound){
-//			// Not an issue as this just means the workspace didn't have the plugin in.
-//			// And we were trying to remove it anyway!
-//		}
-		ui.close(new SWTWidgetLocator(Shell.class,"Deployed Tigerstripe Plugins"));
+		try {
+			ui.contextClick(new TableItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME+"("+TestingConstants.NEW_PLUGIN_PROJECT_VERSION+")"),
+			"Un-deploy");
+			ui.wait(new ShellShowingCondition("Un-Deploy Tigerstripe Plugin?"));
+			ui.click(new ButtonLocator("OK"));
+			ui.wait(new ShellDisposedCondition("Un-Deploy Tigerstripe Plugin?"));
+			ui.click(new ButtonLocator("OK"));
+
+			
+			
+		} catch (com.windowtester.runtime.WidgetNotFoundException notFound){
+			// Not an issue as this just means the workspace didn't have the plugin in.
+			// And we were trying to remove it anyway!
+			
+		}
 		ui.wait(new ShellDisposedCondition("Deployed Tigerstripe Plugins"));
+		
 	}
 	
 	

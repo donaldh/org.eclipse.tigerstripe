@@ -1,15 +1,10 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.generator;
 
-import org.eclipse.jface.menus.IWidget;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ProjectRecord;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 
 import com.windowtester.runtime.IUIContext;
-import com.windowtester.runtime.locator.IWidgetLocator;
-import com.windowtester.runtime.locator.IWidgetReference;
-import com.windowtester.runtime.locator.WidgetReference;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
@@ -20,7 +15,6 @@ import com.windowtester.runtime.swt.locator.SectionLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
-import com.windowtester.swt.WidgetRef;
 
 public class GenerateHelper extends UITestCaseSWT {
 

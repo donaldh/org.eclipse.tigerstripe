@@ -3,9 +3,6 @@ package org.eclipse.tigerstripe.workbench.ui.base.test.generator;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 
 import com.windowtester.runtime.IUIContext;
-import com.windowtester.runtime.condition.IsEnabledCondition;
-import com.windowtester.runtime.locator.ILocator;
-import com.windowtester.runtime.locator.XYLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
@@ -40,7 +37,7 @@ public class SaveAndDeployPlugin extends UITestCaseSWT {
 		ui.wait(new ShellDisposedCondition(TestingConstants.NEW_PLUGIN_PROJECT_NAME+" Plugin"));	
 		
 		
-		// See if its in the menu..
+		// See if its in the list of deployed plugins..
 		ui.click(new MenuItemLocator("Tigerstripe/Plugins..."));
 		ui.wait(new ShellShowingCondition("Deployed Tigerstripe Plugins"));
 		ui.click(new TableItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME+"("+TestingConstants.NEW_PLUGIN_PROJECT_VERSION+")"));
