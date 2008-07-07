@@ -34,11 +34,17 @@ public abstract class ArtifactFilter {
 	public static List<IAbstractArtifact> filter(
 			List<IAbstractArtifact> artifactList, ArtifactFilter filter) {
 
-		// Little acceleration for performance
-		if (filter == null || filter instanceof ArtifactNoFilter)
-			return artifactList;
-
 		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+		
+		// Little acceleration for performance
+		if (filter == null || filter instanceof ArtifactNoFilter){
+			if (artifactList != null){
+				return artifactList;
+			} else {
+				return result;
+			}
+		}
+			
 
 		for (Iterator iter = artifactList.iterator(); iter.hasNext();) {
 			IAbstractArtifact artifact = (IAbstractArtifact) iter.next();
