@@ -152,7 +152,7 @@ public abstract class TemplateBasedRule extends Rule implements
 						new NullProgressMonitor()), filter);
 		
 		Collection<IAbstractArtifact> packages = ArtifactFilter
-		.filter(artifactMgr.getArtifactsByModel(
+			.filter(artifactMgr.getArtifactsByModel(
 				PackageArtifact.MODEL, false,
 				new NullProgressMonitor()), filter);
 
@@ -205,10 +205,9 @@ public abstract class TemplateBasedRule extends Rule implements
 				.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
 						false, new NullProgressMonitor());
 		
-		Collection<IAbstractArtifact> allPackages = ArtifactFilter
-		.filter(artifactMgr.getArtifactsByModel(
-				PackageArtifact.MODEL, true, false,
-				new NullProgressMonitor()), filter);
+		Collection<IAbstractArtifact> allPackages = artifactMgr
+				.getArtifactsByModel(PackageArtifact.MODEL, true, 
+						false, new NullProgressMonitor());
 
 		Collection<IAbstractArtifact> artifacts = artifactMgr.getAllArtifacts(
 				false, new NullProgressMonitor());

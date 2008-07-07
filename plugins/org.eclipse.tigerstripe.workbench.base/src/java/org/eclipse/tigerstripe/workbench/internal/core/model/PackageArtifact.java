@@ -95,7 +95,7 @@ public class PackageArtifact extends AbstractArtifact implements
 	
 	/**
 	 * This just makes one without creating the .package file
-	 * It is NOT added to the ArtifactManager
+	 * It is NOT added to the ArtifactManager - WHY NOT?
 	 * 
 	 * @param mgr
 	 * @param packageName

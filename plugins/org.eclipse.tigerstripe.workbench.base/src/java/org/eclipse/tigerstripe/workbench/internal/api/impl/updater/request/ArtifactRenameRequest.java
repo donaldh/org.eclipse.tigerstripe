@@ -36,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
@@ -166,7 +167,42 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 					artifact.setImplementedArtifacts(implemented);
 					needSave = true;
 				}
+				
+				// take care of containing artifacts same way
+				// This is looking UPWARDS
+				IModelComponent containing = artifact
+						.getContainingModelComponent();
+				boolean containingChanged = false;
+				
+				if (containing instanceof IAbstractArtifact){
+					IAbstractArtifact containingArt = (IAbstractArtifact) containing;
+					if (containingArt.getFullyQualifiedName().equals(oldFQN)
+							|| containingArt.getFullyQualifiedName().equals(newName)) {
+						artifact.setContainingModelComponent(referencedArtifact);
+						needSave = true;
+					}
+				}
+				
+				
+				// take care of contained artifacts same way
+				// This is looking DOWNWARDS
+				Collection<IModelComponent> contains = artifact
+						.getContainedModelComponents();
+				boolean containsChanged = false;
+				for (IModelComponent cont : contains) {
 
+					if (cont instanceof IAbstractArtifact){
+						IAbstractArtifact containedArt = (IAbstractArtifact) cont;
+						if (containedArt.getFullyQualifiedName().equals(oldFQN)
+								|| containedArt.getFullyQualifiedName().equals(newName)) {
+							artifact.removeContainedModelComponent(cont);
+							artifact.addContainedModelComponent(referencedArtifact);
+							needSave = true;
+						}
+					}
+				}
+
+				
 				for (IField field : artifact.getFields()) {
 					if (field.getType() != null
 							&& field.getType().getFullyQualifiedName().equals(
