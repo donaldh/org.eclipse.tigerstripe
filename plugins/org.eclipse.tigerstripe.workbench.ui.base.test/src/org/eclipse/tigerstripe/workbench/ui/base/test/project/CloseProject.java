@@ -14,6 +14,6 @@ public class CloseProject extends UITestCaseSWT {
 	public void testCloseProject() throws Exception {
 		IUIContext ui = getUI();
 		ui.close(new CTabItemLocator(
-			TestingConstants.NEW_PROJECT_NAME+"/tigerstripe.xml"));
+			TestingConstants.NEW_MODEL_PROJECT_NAME+"/tigerstripe.xml"));
 	}
 }

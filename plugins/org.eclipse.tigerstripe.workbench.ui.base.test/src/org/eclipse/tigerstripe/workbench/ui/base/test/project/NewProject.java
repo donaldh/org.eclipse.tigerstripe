@@ -28,7 +28,7 @@ public class NewProject extends UITestCaseSWT {
 				"org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"));
 		ui.wait(new ShellShowingCondition("New Tigerstripe Project"));
 		ui.click(new LabeledTextLocator("&Project Name:"));
-		ui.enterText(TestingConstants.NEW_PROJECT_NAME);
+		ui.enterText(TestingConstants.NEW_MODEL_PROJECT_NAME);
 		LabeledTextLocator artifactPackage = new LabeledTextLocator("Artifacts Package:");
 		GuiUtils.clearText(ui, artifactPackage);
 		ui.click(artifactPackage);
@@ -38,7 +38,7 @@ public class NewProject extends UITestCaseSWT {
 		
 		// Make sure what we put in the wizard made it to the project 
 		CTabItemLocator descriptorEditor = new CTabItemLocator(
-				TestingConstants.NEW_PROJECT_NAME+
+				TestingConstants.NEW_MODEL_PROJECT_NAME+
 				"/tigerstripe.xml");
 		try {
 			ui.click(descriptorEditor);
@@ -52,26 +52,26 @@ public class NewProject extends UITestCaseSWT {
 			
 		// Now set some other project details
 		auditHelper = new ProjectAuditHelper(ui);
-		auditHelper.checkUndefinedProjectVersion(TestingConstants.NEW_PROJECT_NAME,true);
-		auditHelper.checkUndefinedProjectDescription(TestingConstants.NEW_PROJECT_NAME,true);
+		auditHelper.checkUndefinedProjectVersion(TestingConstants.NEW_MODEL_PROJECT_NAME,true);
+		auditHelper.checkUndefinedProjectDescription(TestingConstants.NEW_MODEL_PROJECT_NAME,true);
 		
 		// now set the things
 		LabeledTextLocator version = new LabeledTextLocator("Version: ");
 		GuiUtils.clearText(ui, version);
 		ui.click(version);
-		ui.enterText(TestingConstants.NEW_PROJECT_VERSION);
+		ui.enterText(TestingConstants.NEW_MODEL_PROJECT_VERSION);
 		
 		LabeledTextLocator description = new LabeledTextLocator("Description: ");
 		GuiUtils.clearText(ui, description);
 		ui.click(description);
-		ui.enterText(TestingConstants.NEW_PROJECT_DESCRIPTION);
+		ui.enterText(TestingConstants.NEW_MODEL_PROJECT_DESCRIPTION);
 		
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		
 		// Let the auditor run
 		Thread.sleep(500);
-		auditHelper.checkUndefinedProjectVersion(TestingConstants.NEW_PROJECT_NAME,false);
-		auditHelper.checkUndefinedProjectDescription(TestingConstants.NEW_PROJECT_NAME,false);
+		auditHelper.checkUndefinedProjectVersion(TestingConstants.NEW_MODEL_PROJECT_NAME,false);
+		auditHelper.checkUndefinedProjectDescription(TestingConstants.NEW_MODEL_PROJECT_NAME,false);
 		
 		
 		

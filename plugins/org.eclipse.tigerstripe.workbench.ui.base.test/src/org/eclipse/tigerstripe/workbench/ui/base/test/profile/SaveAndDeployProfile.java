@@ -22,7 +22,7 @@ public class SaveAndDeployProfile extends UITestCaseSWT {
 		
 		
 		// Make active
-		ui.contextClick(new TreeItemLocator(TestingConstants.NEW_PROJECT_NAME+"/"+
+		ui.contextClick(new TreeItemLocator(TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
 				TestingConstants.NEW_PROFILE_NAME+".wbp",
 				new ViewLocator("org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 				"Profile/Set as active profile.");
@@ -34,7 +34,7 @@ public class SaveAndDeployProfile extends UITestCaseSWT {
 		ui.wait(new ShellDisposedCondition("Success"));
 		
 		// Close the editor
-		ui.close(new CTabItemLocator(TestingConstants.NEW_PROJECT_NAME+"/"+
+		ui.close(new CTabItemLocator(TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
 				TestingConstants.NEW_PROFILE_NAME+".wbp"));
 	}
 	

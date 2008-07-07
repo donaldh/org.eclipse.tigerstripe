@@ -15,7 +15,7 @@ public class ProjectHelper  extends UITestCaseSWT {
 	public static void checkArtifactsInExplorer (IUIContext ui, ArrayList<String> artifacts ){
 		for (String artifact : artifacts){
 
-			String pathToItem = TestingConstants.NEW_PROJECT_NAME+
+			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
 			"/src/"+
 			TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
 			artifact;
@@ -30,6 +30,26 @@ public class ProjectHelper  extends UITestCaseSWT {
 				fail("Artifact '"+ pathToItem+ "' is not in the Explorer view");
 			}
 		}
+		
+	}
+	
+	public static void checkPackageInExplorer (IUIContext ui, String packageName ){
+
+			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
+			"/src/"+
+			TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+
+			packageName;
+
+			try {	
+				TreeItemLocator treeItem = new TreeItemLocator(
+						pathToItem,
+					new ViewLocator(
+							"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+				ui.click(treeItem);
+			} catch (Exception e){
+				fail("Package '"+ pathToItem+ "' is not in the Explorer view");
+			}
+		
 		
 	}
 	

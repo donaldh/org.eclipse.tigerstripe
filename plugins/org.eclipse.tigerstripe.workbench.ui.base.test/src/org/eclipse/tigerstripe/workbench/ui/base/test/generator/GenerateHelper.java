@@ -27,7 +27,7 @@ public class GenerateHelper extends UITestCaseSWT {
 
 	public void enablePlugin() throws Exception {
 		ui.click(2, new TreeItemLocator(
-				TestingConstants.NEW_PROJECT_NAME+"/tigerstripe.xml",
+				TestingConstants.NEW_MODEL_PROJECT_NAME+"/tigerstripe.xml",
 				new ViewLocator(
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.click(new CTabItemLocator("Plugin Settings"));
@@ -47,7 +47,7 @@ public class GenerateHelper extends UITestCaseSWT {
 	public void runGenerate() throws Exception {
 		
 		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_PROJECT_NAME,
+				TestingConstants.NEW_MODEL_PROJECT_NAME,
 				new ViewLocator(
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.click(new ContributedToolItemLocator(
@@ -64,7 +64,7 @@ public class GenerateHelper extends UITestCaseSWT {
 //		OUTPUT FOR GLOBAL RUlE
 
 		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_PROJECT_NAME+"/target/tigerstripe.gen/"+TestingConstants.GLOBAL_RULE_OUTPUT_FILE_NAME,
+				TestingConstants.NEW_MODEL_PROJECT_NAME+"/target/tigerstripe.gen/"+TestingConstants.GLOBAL_RULE_OUTPUT_FILE_NAME,
 				new ViewLocator(
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 
@@ -75,7 +75,7 @@ public class GenerateHelper extends UITestCaseSWT {
 		// OUTPUT FOR Artifact Rule
 		for (String artifact : ProjectRecord.getArtifactList().keySet()){
 			ui.click(new TreeItemLocator(
-					TestingConstants.NEW_PROJECT_NAME+"/target/tigerstripe.gen/"+ProjectRecord.getArtifactList().get(artifact)+".txt",
+					TestingConstants.NEW_MODEL_PROJECT_NAME+"/target/tigerstripe.gen/"+ProjectRecord.getArtifactList().get(artifact)+".txt",
 					new ViewLocator(
 					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 

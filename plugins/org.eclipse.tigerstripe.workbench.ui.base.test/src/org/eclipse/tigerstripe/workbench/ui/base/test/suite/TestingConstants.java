@@ -3,33 +3,35 @@ package org.eclipse.tigerstripe.workbench.ui.base.test.suite;
 public class TestingConstants {
 
 	// project constants
-	public static String NEW_PROJECT_NAME = "New Project";
+	public static String NEW_MODEL_PROJECT_NAME = "New Project";
+	public static String NEW_MODEL_PROJECT_VERSION = "1.0";
+	public static String NEW_MODEL_PROJECT_DESCRIPTION = "A model project for testing";
+	
 	public static String DEFAULT_ARTIFACT_PACKAGE = "org.eclipse";
-	public static String NEW_PROJECT_VERSION = "1.0";
-	public static String NEW_PROJECT_DESCRIPTION = "A model project for testing";
 	
-	// Entity Names
-	public static String[] ENTITY_NAMES       = new String[]{"Entity1", "Entity2", "Entity3"};
-	public static String[] DATATYPE_NAMES     = new String[]{"Dataty1", "Dataty2", "Dataty3"};
-	public static String[] ENUMERATION_NAMES  = new String[]{"Enumer1", "Enumer2", "Enumer3"};
-	public static String[] QUERY_NAMES        = new String[]{"Queryy1", "Queryy2", "Queryy3"};
-	public static String[] EXCEPTION_NAMES    = new String[]{"Except1", "Except2", "Except3"};
-	public static String[] EVENT_NAMES        = new String[]{"Eventt1", "Eventt2", "Eventt3"};
-	public static String[] UPDATE_NAMES       = new String[]{"Update1", "Update2", "Update3"};
-	public static String[] SESSION_NAMES      = new String[]{"Sessio1", "Sessio2", "Sessio3"};
+	// Artifact Names
+	public static String[] PACKAGE_NAMES      = new String[]{"Package0", "Package1", "Package2"};
+	public static String[] ENTITY_NAMES       = new String[]{"Entity0", "Entity1", "Entity2"};
+	public static String[] DATATYPE_NAMES     = new String[]{"Datatype0", "Datatype12", "Datatype2"};
+	public static String[] ENUMERATION_NAMES  = new String[]{"Enumeration0", "Enumeration1", "Enumeration2"};
+	public static String[] QUERY_NAMES        = new String[]{"Query0", "Query1", "Query2"};
+	public static String[] EXCEPTION_NAMES    = new String[]{"Exception0", "Exception1", "Exception2"};
+	public static String[] EVENT_NAMES        = new String[]{"Event0", "Event1", "Event2"};
+	public static String[] UPDATE_NAMES       = new String[]{"Update0", "Update1", "Update1"};
+	public static String[] SESSION_NAMES      = new String[]{"Session0", "Session1", "Session2"};
 	
-	public static String[] ASSOCIATION_NAMES  = new String[]{"Associ1", "Associ2", "Associ3"};
-	public static String[] ASSOCIATION_CLASS_NAMES = new String[]{"AssocC1", "AssocC2", "AssocCl3"};
-	public static String[] DEPENDENCY_NAMES   = new String[]{"Depend1", "Depend2", "Depend3"};
+	public static String[] ASSOCIATION_NAMES  = new String[]{"Association0", "Association1", "Association2"};
+	public static String[] ASSOCIATION_CLASS_NAMES = new String[]{"AssocClass0", "AssocClass1", "AssocClass2"};
+	public static String[] DEPENDENCY_NAMES   = new String[]{"Dependency0", "Dependency1", "Dependency2"};
 	
 	// Attribute Names
-	public static String[] ATTRIBUTE_NAMES = new String[]{"testField1", "testField2", "testField3"};
+	public static String[] ATTRIBUTE_NAMES = new String[]{"testField0", "testField1", "testField2"};
 	
 	// Literal Names
-	public static String[] LITERAL_NAMES = new String[]{"testLiteral1", "testLiteral2", "testLiteral3"};
+	public static String[] LITERAL_NAMES = new String[]{"testLiteral0", "testLiteral1", "testLiteral2"};
 	
 	// Literal Names
-	public static String[] METHOD_NAMES = new String[]{"testMethod1", "testMethod2", "testMethod3"};
+	public static String[] METHOD_NAMES = new String[]{"testMethod0", "testMethod1", "testMethod2"};
 	
 	public static String NEW_CLASS_DIAGRAM_NAME = "testClassDiagram";
 	

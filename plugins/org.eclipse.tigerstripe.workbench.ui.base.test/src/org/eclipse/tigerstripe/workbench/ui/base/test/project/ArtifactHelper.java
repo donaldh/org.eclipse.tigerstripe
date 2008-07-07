@@ -241,7 +241,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 	public static void checkItemsInExplorer (IUIContext ui,String artifactName, ArrayList<String> items ){
 		for (String item : items){
 
-			String pathToItem = TestingConstants.NEW_PROJECT_NAME+
+			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
 			"/src/"+
 			TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
 			artifactName+"/"+

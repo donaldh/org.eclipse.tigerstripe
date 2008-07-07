@@ -22,13 +22,13 @@ public class CreateProfile extends UITestCaseSWT {
 		IUIContext ui = getUI();
 		ui
 		.click(new TreeItemLocator(
-				TestingConstants.NEW_PROJECT_NAME,
+				TestingConstants.NEW_MODEL_PROJECT_NAME,
 				new ViewLocator(
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui
 		.contextClick(
 				new TreeItemLocator(
-						TestingConstants.NEW_PROJECT_NAME,
+						TestingConstants.NEW_MODEL_PROJECT_NAME,
 						new ViewLocator(
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 		"New/Other...");
@@ -42,7 +42,7 @@ public class CreateProfile extends UITestCaseSWT {
 		ui.click(new ButtonLocator("&Next >"));
 		
 		// Make sure the parent is selected.
-		ui.click(new TreeItemLocator(TestingConstants.NEW_PROJECT_NAME));
+		ui.click(new TreeItemLocator(TestingConstants.NEW_MODEL_PROJECT_NAME));
 		
 		LabeledTextLocator profileName = new LabeledTextLocator("File na&me:");
 		GuiUtils.clearText(ui, profileName);
@@ -56,7 +56,7 @@ public class CreateProfile extends UITestCaseSWT {
 						"New Tigerstripe Workbench Profile"));
 		
 		CTabItemLocator profileEditor = new CTabItemLocator(
-				TestingConstants.NEW_PROJECT_NAME+"/"+
+				TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
 				TestingConstants.NEW_PROFILE_NAME+
 				".wbp");
 		try {

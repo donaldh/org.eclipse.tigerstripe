@@ -30,6 +30,7 @@ public class NewArtifacts extends UITestCaseSWT {
 	
 	public void testAll() throws Exception {
 		IUIContext ui= getUI();
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Package", TestingConstants.PACKAGE_NAMES[0], false, false, false, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[0], true, true, true, false));
 //		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Datatype", TestingConstants.DATATYPE_NAMES[0], true, true, true, false));
 //		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Enumeration", TestingConstants.ENUMERATION_NAMES[0], false, true, false, false));
@@ -58,7 +59,7 @@ public class NewArtifacts extends UITestCaseSWT {
 			auditHelper.checkUndefinedReturnType(queryName,true);
 
 			// Update the returned type of our Query
-			String pathToEntity = TestingConstants.NEW_PROJECT_NAME+
+			String pathToEntity = TestingConstants.NEW_MODEL_PROJECT_NAME+
 			"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
 			queryName;
 
@@ -136,7 +137,7 @@ public class NewArtifacts extends UITestCaseSWT {
 		
 		
 		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_PROJECT_NAME,
+				TestingConstants.NEW_MODEL_PROJECT_NAME,
 				new ViewLocator(
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.click(new PullDownMenuItemLocator(myType,
@@ -181,7 +182,7 @@ public class NewArtifacts extends UITestCaseSWT {
 		
 		// See if it has the right details
 		LabeledTextLocator project = new LabeledTextLocator("Project: ");
-		assertEquals("Project for "+myType+" is incorrect",TestingConstants.NEW_PROJECT_NAME, project.getText(ui));
+		assertEquals("Project for "+myType+" is incorrect",TestingConstants.NEW_MODEL_PROJECT_NAME, project.getText(ui));
 		
 		LabeledTextLocator fqn = new LabeledTextLocator("Qualified Name: ");
 		assertEquals("FQN for "+myType+" is incorrect",TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+thisArtifactName, fqn.getText(ui));
@@ -189,6 +190,8 @@ public class NewArtifacts extends UITestCaseSWT {
 		LabeledTextLocator extend = new LabeledTextLocator("Extends: ");
 		if (myType.equals("Exception")){
 			assertEquals("Extends for "+myType+" should be fixed on create","java.lang.Exception", extend.getText(ui));
+		}else if (myType.equals("Package")){
+			// Packages have no extends!
 		}else {
 			assertEquals("Extends for "+myType+" should be empty on create","", extend.getText(ui));
 		}
@@ -199,8 +202,9 @@ public class NewArtifacts extends UITestCaseSWT {
 		ArrayList<String> artifacts = new ArrayList<String>();
 		artifacts.add(thisArtifactName);
 		
-		ProjectHelper.checkArtifactsInExplorer(ui, artifacts);
-
+		if (myType.equals("Package")){
+			ProjectHelper.checkPackageInExplorer(ui, thisArtifactName);
+		}
 		
 		
 		// Maximise before we go to do the components

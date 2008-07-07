@@ -33,7 +33,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 	public void disableArtifactType(IUIContext ui, int index, String name) throws Exception {	
 		ui.click(2,
 				new TreeItemLocator(
-						TestingConstants.NEW_PROJECT_NAME+"/"+
+						TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
 								TestingConstants.NEW_PROFILE_NAME+".wbp",
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
@@ -43,7 +43,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		ui.contextClick(
 						new TreeItemLocator(
-								TestingConstants.NEW_PROJECT_NAME+"/"+
+								TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
 								TestingConstants.NEW_PROFILE_NAME+".wbp",
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
@@ -58,7 +58,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 		
 		// Just be sure we actually created the thing in the first place!
 		if (ProjectRecord.getArtifactList().containsValue(name)){
-			String pathToEntity = TestingConstants.NEW_PROJECT_NAME+
+			String pathToEntity = TestingConstants.NEW_MODEL_PROJECT_NAME+
 			"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
 			name;
 
