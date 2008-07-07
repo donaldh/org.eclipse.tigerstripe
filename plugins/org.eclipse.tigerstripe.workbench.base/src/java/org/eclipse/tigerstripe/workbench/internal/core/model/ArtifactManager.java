@@ -281,6 +281,10 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * 
 	 */
 	public void reset(IProgressMonitor monitor) {
+		
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		clearExtractedMap();
 		this.namedArtifactsMap.clear();
 		this.filenameMap = new HashMap();
@@ -295,6 +299,10 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public void updateDependenciesContentCache(IProgressMonitor monitor) {
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
+		
 		// This is called by the TigerstripeProject each time the list of
 		// dependencies is changed.
 		this.depContentCache.updateCache(monitor);
@@ -410,6 +418,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	private void validateArtifacts(IProgressMonitor monitor)
 			throws TigerstripeException {
 
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		try {
 			writeLock.lock();
 			long startTime = System.currentTimeMillis();
@@ -475,6 +486,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			boolean includeDependencies, boolean overridePredicate,
 			IProgressMonitor monitor) {
 
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		try {
 			readLock.lock();
 			List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
@@ -538,6 +552,10 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 */
 	public List<IAbstractArtifact> getAllArtifacts(boolean includeDependencies,
 			boolean isOverridePredicate, IProgressMonitor monitor) {
+
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		try {
 			readLock.lock();
 			List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
@@ -609,18 +627,29 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public Collection<IAbstractArtifact> getAllArtifacts(
 			boolean includeDependencies, IProgressMonitor monitor) {
+
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		return getAllArtifacts(includeDependencies, shouldOverridePredicate(),
 				monitor);
 	}
 
 	public Collection getModelArtifacts(boolean includeDependencies,
 			IProgressMonitor monitor) {
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		return getModelArtifacts(includeDependencies,
 				shouldOverridePredicate(), monitor);
 	}
 
 	public Collection getModelArtifacts(boolean includeDependencies,
 			boolean overridePredicate, IProgressMonitor monitor) {
+
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		try {
 			readLock.lock();
 			Collection result = new ArrayList();
@@ -682,6 +711,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
 			boolean includeDependencies, IProgressMonitor monitor) {
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		return getArtifactByFullyQualifiedName(name, includeDependencies,
 				shouldOverridePredicate(), monitor);
 	}
@@ -689,6 +721,10 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
 			boolean includeDependencies, boolean isOverridePredicate,
 			IProgressMonitor monitor) {
+
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		try {
 			readLock.lock();
 			AbstractArtifact local = null;
@@ -852,6 +888,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	public synchronized void refresh(boolean forceReload,
 			IProgressMonitor monitor) {
 
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		// The underlying project for this Artifact Manager may have been
 		// deleted manually, in which case the directory structure will
 		// have disappeared.
@@ -926,6 +965,10 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public synchronized void refreshReferences(IProgressMonitor monitor) {
+
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		for (ITigerstripeModelProject project : getTSProject()
 				.getReferencedProjects()) {
 			try {
@@ -939,6 +982,10 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public synchronized void updateCaches(IProgressMonitor monitor) {
+
+		if ( monitor == null ) 
+			monitor = new NullProgressMonitor();
+
 		updateDependenciesContentCache(monitor);
 		relationshipCache.updateCache(monitor);
 		updateLocalTimeStamp();
