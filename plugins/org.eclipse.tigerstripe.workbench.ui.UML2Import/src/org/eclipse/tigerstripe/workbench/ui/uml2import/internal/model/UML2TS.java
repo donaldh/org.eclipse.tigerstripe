@@ -1519,13 +1519,14 @@ public class UML2TS {
 			String dottedName = "";
 			String[] segments = name.split("::");
 			for (int i=0;i<segments.length-1;i++){
+				String segmentName = segments[i];
                 // Make sure the packages all start with a lower case letter
-				String segmentName =  segments[i].substring(0,1).toLowerCase()+segments[i].substring(1);
-				if (! segmentName.substring(0,1).equals(segments[i].substring(0,1)) && i!=0){
-					String msgText = " Package Name Segment mapped : " + segments[i] + " -> " + segmentName;
-					addMessage(msgText, 1, messages);
-					out.println("WARN :" + msgText);
-				}
+//				String segmentName =  segments[i].substring(0,1).toLowerCase()+segments[i].substring(1);
+//				if (! segmentName.substring(0,1).equals(segments[i].substring(0,1)) && i!=0){
+//					String msgText = " Package Name Segment mapped : " + segments[i] + " -> " + segmentName;
+//					addMessage(msgText, 1, messages);
+//					out.println("WARN :" + msgText);
+//				}
 				if (i==0){
 					//dottedName = nameCheck(segmentName);
 					dottedName = segmentName;
