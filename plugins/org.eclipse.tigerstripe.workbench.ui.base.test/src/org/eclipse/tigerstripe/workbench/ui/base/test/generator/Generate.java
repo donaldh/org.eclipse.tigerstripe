@@ -23,53 +23,14 @@ public class Generate extends UITestCaseSWT {
 	 */
 	public void testGenerate() throws Exception {
 		IUIContext ui = getUI();
-		ui.click(2, new TreeItemLocator(
-						TestingConstants.NEW_PROJECT_NAME+"/tigerstripe.xml",
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		ui.click(new CTabItemLocator("Plugin Settings"));
+		GenerateHelper helper = new GenerateHelper(ui);
 		
-		SWTWidgetLocator pluginLocator = new SWTWidgetLocator(Label.class,
-				TestingConstants.NEW_PLUGIN_PROJECT_NAME+
-				"("+TestingConstants.NEW_PLUGIN_PROJECT_VERSION +
-				") (disabled) [Generic]");
-		ui.click(pluginLocator);
-		ui.click(new ButtonLocator("Enable", new SectionLocator(
-				TestingConstants.NEW_PLUGIN_PROJECT_NAME+
-				"("+TestingConstants.NEW_PLUGIN_PROJECT_VERSION +
-				") (disabled) [Generic]")));
-		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_PROJECT_NAME,
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		ui.click(new ContributedToolItemLocator(
-				"org.eclipse.tigerstripe.eclipse.generateAction"));
-		ui.wait(new ShellShowingCondition("Generate Tigerstripe Project"));
-		ui.click(new ButtonLocator("&Finish"));
-		ui.wait(new ShellShowingCondition("Generate Result"));
-		ui.click(new ButtonLocator("OK"));
-		ui.wait(new ShellDisposedCondition("Generate Result"));
-		ui.wait(new ShellDisposedCondition("Generate Tigerstripe Project"));
+		helper.enablePlugin();
 		
-		// OUTPUT FOR GLOBAL RUlE
-		
-		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_PROJECT_NAME+"/target/tigerstripe.gen/"+TestingConstants.GLOBAL_RULE_OUTPUT_FILE_NAME,
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		
-		// Need to check contents!
-
-		// OUTPUT FOR Artifact Rule
-		for (String artifact : ProjectRecord.getArtifactList().keySet()){
-			ui.click(new TreeItemLocator(
-					TestingConstants.NEW_PROJECT_NAME+"/target/tigerstripe.gen/"+ProjectRecord.getArtifactList().get(artifact)+".txt",
-					new ViewLocator(
-					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-
-			// Need to check contents!
-		}
+		helper.runGenerate();
+		helper.checkGlobal();
+		helper.checkArtifact();
+		helper.checkExtras();
 		
 	}
 

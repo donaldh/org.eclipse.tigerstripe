@@ -11,6 +11,9 @@ public class ProjectRecord {
 		return artifactList;
 	}
 	
+	public static int getArtifactCount(){
+		return artifactList.size();
+	}
 	
 	public static void addArtifact(String newArtifact){
 		String name = newArtifact;
@@ -18,6 +21,28 @@ public class ProjectRecord {
 			name = newArtifact.substring(newArtifact.lastIndexOf(".")+1);
 		}
 		artifactList.put(newArtifact, name);
+	}
+	
+	public static void removeArtifact(String oldArtifact){
+		String name = oldArtifact;
+		if (oldArtifact.contains(".")){
+			name = oldArtifact.substring(oldArtifact.lastIndexOf(".")+1);
+		}
+		if (artifactList.containsKey(oldArtifact)){
+			artifactList.remove(oldArtifact);
+		}
+	}
+	
+	public static void removeArtifactbyName(String oldArtifact){
+		if (artifactList.containsValue(oldArtifact)){
+			for (String key : artifactList.keySet()){
+				String val = artifactList.get(key);
+				if (val.equals(oldArtifact)){
+					artifactList.remove(oldArtifact);
+					return;
+				}
+			}
+		}
 	}
 	
 }

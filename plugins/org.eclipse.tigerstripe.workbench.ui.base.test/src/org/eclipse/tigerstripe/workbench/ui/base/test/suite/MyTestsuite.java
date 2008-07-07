@@ -12,6 +12,7 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.generator.SaveAndDeployPlu
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.CreateProfile;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.SaveAndDeployProfile;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.TestActiveProfile;
+import org.eclipse.tigerstripe.workbench.ui.base.test.profile.UpdateProfileArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.CloseProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
@@ -47,8 +48,11 @@ public class MyTestsuite extends TestCase
         TestSuite suite = new TestSuite(); 
         suite.addTestSuite(CleanWorkspace.class);
         
+        // creates a new Project - do this so we are in the TES perspective
+        suite.addTestSuite(NewProject.class);
+        
         // Create a profile
-        suite.addTestSuite(CreateProfile.class);
+       suite.addTestSuite(CreateProfile.class);
         // Save/Deploy it
         suite.addTestSuite(SaveAndDeployProfile.class);
         // Make sure it appears correctly in the menu
@@ -67,14 +71,12 @@ public class MyTestsuite extends TestCase
         suite.addTestSuite(SaveAndDeployPlugin.class);
 
         
-        // creates a new Project and add artifacts
-        suite.addTestSuite(NewProject.class);
+        //  add artifacts to our project
         suite.addTestSuite(NewArtifacts.class);
-                
-        
-        
         // turn on plugin in Project and generate
         suite.addTestSuite(Generate.class);
+
+        suite.addTestSuite(UpdateProfileArtifacts.class);
         
         // close Project
         suite.addTestSuite(CloseProject.class);

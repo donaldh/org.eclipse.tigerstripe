@@ -22,15 +22,21 @@ public class CreateProfile extends UITestCaseSWT {
 	 */
 	public void testCreateProfile() throws Exception {
 		IUIContext ui = getUI();
-		// Create a holder project for the profile.
-		ui.click(new MenuItemLocator("File/New/Java Project"));
-		ui.wait(new ShellShowingCondition("New Java Project"));
-		ui.enterText("Profiles");
-		ui.click(new ButtonLocator("&Finish"));
-		ui.wait(new ShellDisposedCondition("New Java Project"));
-		
+		ui
+		.click(new TreeItemLocator(
+				TestingConstants.NEW_PROJECT_NAME,
+				new ViewLocator(
+				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+		ui
+		.contextClick(
+				new TreeItemLocator(
+						TestingConstants.NEW_PROJECT_NAME,
+						new ViewLocator(
+						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
+		"New/Other...");
+
 		// Create the profile itself
-		ui.click(new MenuItemLocator("File/New/Other..."));
+
 		ui.wait(new ShellShowingCondition("New"));
 		ui.click(1, new TreeItemLocator("Java"), WT.SHIFT);
 		ui.click(1, new TreeItemLocator("Tigerstripe/Workbench Profile"),
@@ -38,7 +44,7 @@ public class CreateProfile extends UITestCaseSWT {
 		ui.click(new ButtonLocator("&Next >"));
 		
 		// Make sure the parent is selected.
-		ui.click(new TreeItemLocator("Profiles"));
+		ui.click(new TreeItemLocator(TestingConstants.NEW_PROJECT_NAME));
 		
 		LabeledTextLocator profileName = new LabeledTextLocator("File na&me:");
 		GuiUtils.clearText(ui, profileName);
@@ -52,7 +58,7 @@ public class CreateProfile extends UITestCaseSWT {
 						"New Tigerstripe Workbench Profile"));
 		
 		CTabItemLocator profileEditor = new CTabItemLocator(
-				"Profiles/"+
+				TestingConstants.NEW_PROJECT_NAME+"/"+
 				TestingConstants.NEW_PROFILE_NAME+
 				".wbp");
 		try {

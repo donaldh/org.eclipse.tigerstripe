@@ -101,21 +101,21 @@ public class NewGlobalRule extends UITestCaseSWT {
 		ui.wait(new ShellDisposedCondition("Select Velocity Template"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		// Make sure rule has been cleared
-		helper.checkNoTemplateRule(TestingConstants.NEW_ARTIFACT_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
+		helper.checkNoTemplateRule(TestingConstants.NEW_GLOBAL_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
 		
 		// Set the output File
 		ui.click(new LabeledTextLocator("Output File:"));
 		ui.enterText(TestingConstants.GLOBAL_RULE_OUTPUT_FILE_NAME);
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		// Make sure rule has been cleared
-		helper.checkNoOutputFileRule(TestingConstants.NEW_ARTIFACT_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
+		helper.checkNoOutputFileRule(TestingConstants.NEW_GLOBAL_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
 		
 		// Set the description
 		ui.click(new LabeledTextLocator("Description: "));
 		ui.enterText(TestingConstants.GLOBAL_RULE_DESCRIPTION);
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		// Make sure rule has been cleared
-		helper.checkNoDescriptionRule(TestingConstants.NEW_ARTIFACT_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
+		helper.checkNoDescriptionRule(TestingConstants.NEW_GLOBAL_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
 		
 		// Close this section
 		ui.click(new SWTWidgetLocator(Label.class, "&Global Rules"));
