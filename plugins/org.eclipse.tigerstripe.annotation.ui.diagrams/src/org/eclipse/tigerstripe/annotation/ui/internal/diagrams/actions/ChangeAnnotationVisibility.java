@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.action.Action;
@@ -82,9 +81,12 @@ public class ChangeAnnotationVisibility extends Action {
 	}
 	
 	protected EditPart getPart(DiagramEditor editor) {
-		DiagramEditPart part = editor.getDiagramEditPart();
-		List<?> list = part.getChildren();
-		for (Object object : list) {
+		List<?> parts = editor.getDiagramGraphicalViewer().getSelectedEditParts();
+		return foundPart(parts);
+	}
+	
+	protected EditPart foundPart(List<?> parts) { 
+		for (Object object : parts) {
 			if (object instanceof EditPart) {
 				EditPart child = (EditPart)object;
 				List<Annotation> annotations = new ArrayList<Annotation>();

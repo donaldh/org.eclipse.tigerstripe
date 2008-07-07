@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.annotation.ui.internal.diagrams;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,26 +21,32 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
+import org.eclipse.gmf.runtime.common.core.util.ObjectAdapter;
 import org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand;
 import org.eclipse.gmf.runtime.diagram.core.commands.SetPropertyCommand;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.ui.commands.CreateCommand;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.internal.services.layout.LayoutNode;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest.ConnectionViewDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest.ViewDescriptor;
+import org.eclipse.gmf.runtime.diagram.ui.services.layout.LayoutService;
+import org.eclipse.gmf.runtime.diagram.ui.services.layout.LayoutType;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
 import org.eclipse.gmf.runtime.emf.commands.core.command.CompositeTransactionalCommand;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
@@ -49,6 +56,7 @@ import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
@@ -227,9 +235,27 @@ public class DiagramRebuildUtils {
 				switch (status.getStatus()) {
 				case AnnotationStatus.STATUS_NON_EXIST:
 					EditPart annotationPart = createAnnotation(
-							part.getParent(), status.getAnnotation());
-					if (annotationPart != null)
+							editor.getDiagramEditPart(), status.getAnnotation());
+					if (annotationPart != null) {
 						createConnection(editor, annotationPart, part);
+//						final List<GraphicalEditPart> nodes = new ArrayList<GraphicalEditPart>();
+//						if (false) {
+//							DiagramEditPart dep = editor.getDiagramEditPart();
+//							List<?> children = dep.getChildren();
+//							for (Object object : children) {
+//								if (object instanceof GraphicalEditPart) {
+//									nodes.add((GraphicalEditPart)object);
+//								}
+//							}
+//						}
+//						else {
+//							if (part instanceof GraphicalEditPart) {
+//								nodes.add((GraphicalEditPart)part);
+//							}
+//						}
+//						layout(nodes, editor.getDiagramEditPart());
+						//LayoutService.getInstance().layoutNodes(nodes, false, LayoutType.DEFAULT);
+					}
 					break;
 				case AnnotationStatus.STATUS_VISIBLE:
 					break;
@@ -241,6 +267,36 @@ public class DiagramRebuildUtils {
 			setViewsVisible(editor.getEditingDomain(), views
 					.toArray(new View[views.size()]), true);
 		}
+	}
+	
+	protected static void layout(List<GraphicalEditPart> nodes, DiagramEditPart diagramEP) {
+        Shell shell = new Shell();
+        try {
+            List<Object> hints = new ArrayList<Object>(2);
+            hints.add(LayoutType.DEFAULT);
+            hints.add(diagramEP);
+            IAdaptable layoutHint = new ObjectAdapter(hints);
+            final Runnable layoutRun = LayoutService.getInstance()
+                .layoutLayoutNodes(getLayoutNodes(nodes), true,
+                    layoutHint);
+            layoutRun.run();
+        } finally {
+            shell.dispose();
+        }
+	}
+	
+	protected static List<LayoutNode> getLayoutNodes(List<GraphicalEditPart> nodes) {
+        List<LayoutNode> layoutNodes = new ArrayList<LayoutNode>(nodes.size());
+        Iterator<GraphicalEditPart> it = nodes.iterator();
+        while (it.hasNext()) {
+            GraphicalEditPart part = it.next();
+            Object model = part.getModel();
+            if (model instanceof Node) {
+                Dimension size = part.getFigure().getBounds().getSize();
+                layoutNodes.add(new LayoutNode((Node)model, size.width, size.height));
+            }
+        }
+        return layoutNodes;
 	}
 
 	public static void hideAnnotations(DiagramEditor editor, EditPart part,
@@ -407,18 +463,38 @@ public class DiagramRebuildUtils {
 		}
 		return null;
 	}
-
-	protected static EditPart createAnnotation(EditPart part, Annotation annotation) {
-		Node node = createNode(DiagramAnnotationType.ANNOTATION_TYPE, new EObjectAdapter(annotation), 
-				((IGraphicalEditPart) part).getEditingDomain(), (View) part.getModel());
-		if (node != null) {
-			Object object = part.getViewer().getEditPartRegistry()
-					.get(node);
-			if (object instanceof EditPart) {
-				return (EditPart) object;
+	
+	protected static TransactionalEditingDomain getDomain(EditPart part) {
+		if (part instanceof IGraphicalEditPart) {
+			return ((IGraphicalEditPart) part).getEditingDomain();
+		}
+		if (part instanceof RootEditPart) {
+			EditPart content = ((RootEditPart)part).getContents();
+			if (content instanceof IGraphicalEditPart) {
+				return ((IGraphicalEditPart) content).getEditingDomain();
 			}
 		}
 		return null;
+	}
+
+	protected static EditPart createAnnotation(EditPart part, Annotation annotation) {
+		TransactionalEditingDomain domain = getDomain(part);
+		if (domain != null) {
+			Node node = createNode(DiagramAnnotationType.ANNOTATION_TYPE, new EObjectAdapter(annotation), 
+					domain, (View) part.getModel());
+			if (node != null) {
+				Object object = part.getViewer().getEditPartRegistry()
+						.get(node);
+				if (object instanceof EditPart) {
+					return (EditPart) object;
+				}
+			}
+		}
+		return null;
+	}
+	
+	protected static Point getLocation(IGraphicalEditPart part) {
+		return part.getFigure().getBounds().getCenter();
 	}
 
 	protected static EditPart createConnection(DiagramEditor editor,
@@ -430,7 +506,7 @@ public class DiagramRebuildUtils {
 
 		connectionRequest.setTargetEditPart(sourceEditPart);
 		connectionRequest.setType(RequestConstants.REQ_CONNECTION_START);
-		connectionRequest.setLocation(new Point(0, 0));
+		connectionRequest.setLocation(getLocation(sourceEditPart));
 
 		// only if the connection is supported will we get a non null
 		// command from the sourceEditPart
@@ -439,7 +515,7 @@ public class DiagramRebuildUtils {
 			connectionRequest.setSourceEditPart(sourceEditPart);
 			connectionRequest.setTargetEditPart(targetEditPart);
 			connectionRequest.setType(RequestConstants.REQ_CONNECTION_END);
-			connectionRequest.setLocation(new Point(0, 0));
+			connectionRequest.setLocation(getLocation(targetEditPart));
 
 			Command command = targetEditPart.getCommand(connectionRequest);
 
