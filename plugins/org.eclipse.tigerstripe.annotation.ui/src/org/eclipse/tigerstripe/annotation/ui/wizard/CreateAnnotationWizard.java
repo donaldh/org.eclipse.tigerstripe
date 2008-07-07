@@ -43,6 +43,14 @@ public class CreateAnnotationWizard extends Wizard implements INewWizard {
 		page = new CreateAnnotationWizardPage(object);
 		addPage(page);
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.wizard.Wizard#canFinish()
+	 */
+	@Override
+	public boolean canFinish() {
+		return super.canFinish() && page.canFinish();
+	}
 
 	@Override
     public boolean performFinish() {

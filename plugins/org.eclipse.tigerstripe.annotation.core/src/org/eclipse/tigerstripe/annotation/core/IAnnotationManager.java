@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 
@@ -34,6 +35,16 @@ public interface IAnnotationManager {
 	 * @return created annotation or null, if passed object do not annotable
 	 */
 	public Annotation addAnnotation(Object object, EObject content);
+	
+	/**
+	 * Check is it possible to add annotation to the annotable object
+	 * with the following <code>EClass</code>
+	 * 
+	 * @param object annotable object
+	 * @param eclass content <code>EClass</code>
+	 * @return true, if it's possible and false if not
+	 */
+	public boolean isPossibleToAdd(Object object, EClass eclass);
 	
 	/**
 	 * Remove annotation

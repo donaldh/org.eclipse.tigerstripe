@@ -529,7 +529,8 @@ public class PropertiesBrowserPage
 	private Object getAnnotableElement() {
 		Object annotable = null;
 		if (selectedElements != null) {
-			Annotation annotation = AnnotationSelectionUtils.getAnnotation(selectedElements);
+			annotable = AnnotationSelectionUtils.getAnnotableElement(selectedElements);
+			Annotation annotation = AnnotationSelectionUtils.getAnnotation(annotable);
 			if (annotation != null) {
 				annotable = AnnotationPlugin.getManager(
 						).getAnnotatedObject(annotation);

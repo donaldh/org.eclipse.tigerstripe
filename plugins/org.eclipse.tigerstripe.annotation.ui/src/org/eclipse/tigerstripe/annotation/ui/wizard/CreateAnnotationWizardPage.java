@@ -56,6 +56,7 @@ public class CreateAnnotationWizardPage extends WizardPage {
 
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
+		setMessage("No possible types");
 		
 		Composite composite= new Composite(parent, SWT.NONE);
 		composite.setFont(parent.getFont());
@@ -69,6 +70,10 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		setControl(composite);
 		Dialog.applyDialogFont(composite);
     }
+	
+	public boolean canFinish() {
+		return combo != null && !combo.isDisposed() && combo.getItemCount() > 0;
+	}
 	
 	protected void createTypeControls(Composite parent) {
 		Label label = new Label(parent, SWT.TOP);
@@ -100,7 +105,8 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		
 		comboListener = new ComboListener();
 		combo.addSelectionListener(comboListener);
-		combo.select(0);
+		if (combo.getItemCount() > 0)
+			combo.select(0);
 		combo.forceFocus();
 		comboListener.updateDescription();
 	}

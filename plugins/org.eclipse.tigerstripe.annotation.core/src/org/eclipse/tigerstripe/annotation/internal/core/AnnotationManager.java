@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -78,7 +79,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	public Annotation addAnnotation(Object object, EObject content) {
 		URI uri = getUri(object);
 		if (uri != null) {
-			checkUnique(object, uri, content);
+			checkUnique(object, uri, content.eClass());
 			Annotation annotation = AnnotationFactory.eINSTANCE.createAnnotation();
 			annotation.setUri(uri);
 			annotation.setContent(content);
@@ -117,23 +118,37 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		return list.toArray(new TargetAnnotationType[list.size()]);
 	}
 	
-	protected void checkUnique(Object object, URI uri, EObject content) {
-		if (isUnique(object, content)) {
+	public boolean isPossibleToAdd(Object object, EClass clazz) {
+		if (isUnique(object, clazz)) {
+			URI uri = getUri(object);
+			if (uri == null)
+				return false;
 			List<Annotation> annotations = getAnnotations(uri);
 			for (Annotation annot : annotations) {
-				Class<?> clazz = annot.getContent().getClass();
-				if (content.getClass().equals(clazz)) {
+				if (clazz.equals(annot.getContent().eClass())) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	protected void checkUnique(Object object, URI uri, EClass clazz) {
+		if (isUnique(object, clazz)) {
+			List<Annotation> annotations = getAnnotations(uri);
+			for (Annotation annot : annotations) {
+				if (clazz.equals(annot.getContent().eClass())) {
 					throw new RuntimeException("Can't create more tham one annotation for the unique class");
 				}
 			}
 		}
 	}
 	
-	protected boolean isUnique(Object object, EObject content) {
+	protected boolean isUnique(Object object, EClass clazz) {
 		AnnotationType[] types = getTypes();
 		for (AnnotationType annotationType : types) {
 			//find annotation type for the content
-			if (annotationType.getClazz().equals(content.eClass())) {
+			if (annotationType.getClazz().equals(clazz)) {
 				String[] targets = annotationType.getTargets();
 				for (String target : targets) {
 					//find target object for the content

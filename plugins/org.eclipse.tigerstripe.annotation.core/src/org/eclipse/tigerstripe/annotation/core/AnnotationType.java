@@ -188,9 +188,11 @@ public class AnnotationType {
 		if (this.targets.length == 0) {
 			for (ProviderTarget target : map.keySet()) {
 				Object adapted = map.get(target);
-				AnnotationTarget annotationTarget = new AnnotationTarget(
-						adapted, target.getDescription(), this);
-				annotationTargets.add(annotationTarget);
+				if (AnnotationPlugin.getManager().isPossibleToAdd(adapted, getClazz())) {
+					AnnotationTarget annotationTarget = new AnnotationTarget(
+							adapted, target.getDescription(), this);
+					annotationTargets.add(annotationTarget);
+				}
 			}
 		}
 		else {
@@ -198,7 +200,8 @@ public class AnnotationType {
 				String className = this.targets[i];
 				for (ProviderTarget target : map.keySet()) {
 					Object adapted = map.get(target);
-					if (isSuperClass(className, adapted)) {
+					if (AnnotationPlugin.getManager().isPossibleToAdd(adapted, getClazz()) &&
+							isSuperClass(className, adapted)) {
 						AnnotationTarget annotationTarget = new AnnotationTarget(
 								adapted, target.getDescription(), this);
 						annotationTargets.add(annotationTarget);
