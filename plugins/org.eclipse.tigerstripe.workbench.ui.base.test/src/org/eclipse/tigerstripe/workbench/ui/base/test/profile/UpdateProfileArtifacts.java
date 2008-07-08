@@ -25,9 +25,40 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 	 */
 	public void testUpdateArtifacts() throws Exception {
 		IUIContext ui = getUI();
-		// TODO  This is based on positions in the list! Nasty
-		//disableArtifactType(ui, 0, TestingConstants.SESSION_NAMES[0]);
-		disableArtifactType(ui, 1, TestingConstants.QUERY_NAMES[0]);
+		// This is based on positions in the list which is aplhabetical based on the full Name
+		// eg ManagedEntity, not Entity! 
+
+		
+		disableArtifactType(ui, 0, TestingConstants.ASSOCIATION_NAMES[0]);
+		disableArtifactType(ui, 1, TestingConstants.ASSOCIATION_CLASS_NAMES[0]);
+		disableArtifactType(ui, 2, TestingConstants.DATATYPE_NAMES[0]);
+		disableArtifactType(ui, 3, TestingConstants.DEPENDENCY_NAMES[0]);
+		disableArtifactType(ui, 4, TestingConstants.ENUMERATION_NAMES[0]);
+		disableArtifactType(ui, 5, TestingConstants.EXCEPTION_NAMES[0]);
+		disableArtifactType(ui, 6, TestingConstants.ENTITY_NAMES[0]);
+		disableArtifactType(ui, 7, TestingConstants.EVENT_NAMES[0]);
+		disableArtifactType(ui, 8, TestingConstants.PACKAGE_NAMES[0]);
+		// Don't do for Primitive Types
+		disableArtifactType(ui, 10, TestingConstants.QUERY_NAMES[0]);
+		disableArtifactType(ui, 12, TestingConstants.SESSION_NAMES[0]);
+		disableArtifactType(ui, 12, TestingConstants.UPDATE_NAMES[0]);
+
+		// When complete just need to do one more deploy to make sure everything turned back on.
+		
+		ui.contextClick(
+				new TreeItemLocator(
+						TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
+						TestingConstants.NEW_PROFILE_NAME+".wbp",
+						new ViewLocator(
+						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
+		"Profile/Set as active profile.");
+		ui.wait(new ShellShowingCondition("Save as Active Profile"));
+		ui.click(new ButtonLocator("OK"));
+		ui.wait(new ShellDisposedCondition("Save as Active Profile"));
+		ui.wait(new ShellShowingCondition("Success"));
+		ui.click(new ButtonLocator("OK"));
+		ui.wait(new ShellDisposedCondition("Success"));
+
 	}
 
 	public void disableArtifactType(IUIContext ui, int index, String name) throws Exception {	
@@ -38,6 +69,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.click(new CTabItemLocator("Artifacts"));
+		// Select the type
 		ui.click(new TableItemLocator("", index, new SWTWidgetLocator(
 						Table.class)));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
@@ -86,7 +118,18 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 			helper.checkExtras();
 			
 		}
-		
+		// re-enable the type in the profile.
+		ui.click(2,
+				new TreeItemLocator(
+						TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
+								TestingConstants.NEW_PROFILE_NAME+".wbp",
+								new ViewLocator(
+										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+		ui.click(new CTabItemLocator("Artifacts"));
+		// Select the type
+		ui.click(new TableItemLocator("", index, new SWTWidgetLocator(
+						Table.class)));
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		
 		
 	}
