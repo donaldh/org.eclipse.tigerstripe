@@ -62,6 +62,10 @@ public class CoreArtifactSettingsProperty extends BaseWorkbenchProfileProperty
 			IDependencyArtifact.class.getName(),
 			IPackageArtifact.class.getName()};
 
+	// Note thst this is used to get them in the same order in the UI.
+	// however ythe osring is done by the Full Name, not the label
+	// eg ManageedEntity rather than Entity
+	//    Notification rather than Event
 	private TreeMap<String, ArtifactSettingDetails> details = new TreeMap<String, ArtifactSettingDetails>();
 
 	public CoreArtifactSettingsProperty() {
