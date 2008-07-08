@@ -1316,11 +1316,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// This needs to be overridden for Package Artifacts
 		
 		String packageName = getPackage().replace('.', File.separatorChar);
-		String baseDir = getTSProject().getBaseDir().toString();
+		
 		
 		if (getTSProject() == null || getTSProject().getBaseDir() == null)
 			return null; // this is part of a module
 
+		String baseDir = getTSProject().getBaseDir().toString();
 		String repoLocation = getTSProject().getRepositoryLocation();
 
 		// Make sure the package dir exists
