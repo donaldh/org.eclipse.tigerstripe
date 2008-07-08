@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.internal.core.profile.properties;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.TreeMap;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentFactory;
@@ -62,7 +62,7 @@ public class CoreArtifactSettingsProperty extends BaseWorkbenchProfileProperty
 			IDependencyArtifact.class.getName(),
 			IPackageArtifact.class.getName()};
 
-	private HashMap<String, ArtifactSettingDetails> details = new HashMap<String, ArtifactSettingDetails>();
+	private TreeMap<String, ArtifactSettingDetails> details = new TreeMap<String, ArtifactSettingDetails>();
 
 	public CoreArtifactSettingsProperty() {
 		checkDefaults();
