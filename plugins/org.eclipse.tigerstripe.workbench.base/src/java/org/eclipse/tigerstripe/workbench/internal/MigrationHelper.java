@@ -167,7 +167,9 @@ public class MigrationHelper {
 		else if ("com.tigerstripesoftware.api.artifacts.model.ossj.IPackageArtifact"
 				.equals(scope))
 			return IPackageArtifact.class.getName();
-
+		else if ("Any Artifact".equals(scope))
+			return scope;
+		
 		assertDefined(scope);
 		return scope;
 	}
