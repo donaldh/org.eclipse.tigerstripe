@@ -16,6 +16,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactDeleteRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactFQRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactLinkCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactRemoveFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactRenameRequest;
@@ -41,7 +42,7 @@ public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 	LITERAL_CREATE, LITERAL_REMOVE, LITERAL_SET,
 
 	ARTIFACT_SET_FEATURE, ARTIFACT_ADD_FEATURE, ARTIFACT_REMOVE_FEATURE,
-			ARTIFACT_RENAME, ARTIFACT_DELETE,
+			ARTIFACT_RENAME, ARTIFACT_FQRENAME, ARTIFACT_DELETE,
 
 			METHOD_CREATE, METHOD_SET, METHOD_REMOVE,
 
@@ -58,7 +59,7 @@ public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 
 			ArtifactSetFeatureRequest.class, ArtifactAddFeatureRequest.class,
 			ArtifactRemoveFeatureRequest.class, ArtifactRenameRequest.class,
-			ArtifactDeleteRequest.class,
+			ArtifactFQRenameRequest.class, ArtifactDeleteRequest.class,
 
 			MethodCreateRequest.class, MethodSetRequest.class,
 			MethodRemoveRequest.class,

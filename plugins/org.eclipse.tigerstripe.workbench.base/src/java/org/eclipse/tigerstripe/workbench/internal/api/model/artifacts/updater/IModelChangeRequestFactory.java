@@ -14,6 +14,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactDeleteRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactLinkCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactRemoveFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactRenameRequest;
@@ -39,6 +40,8 @@ public interface IModelChangeRequestFactory {
 	public final static String ARTIFACT_CREATE = IArtifactCreateRequest.class
 			.getName();
 	public final static String ARTIFACT_RENAME = IArtifactRenameRequest.class
+			.getName();
+	public final static String ARTIFACT_FQRENAME = IArtifactFQRenameRequest.class
 			.getName();
 	public final static String ARTIFACT_DELETE = IArtifactDeleteRequest.class
 			.getName();

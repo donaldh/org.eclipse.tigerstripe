@@ -124,7 +124,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 	 * 
 	 * @param mgrSession
 	 */
-	private void updateReferences(IArtifactManagerSession mgrSession,
+	protected void updateReferences(IArtifactManagerSession mgrSession,
 			IAbstractArtifact referencedArtifact, String oldFQN) {
 		IQueryAllArtifacts query = (IQueryAllArtifacts) mgrSession
 				.makeQuery(IQueryAllArtifacts.class.getName());
