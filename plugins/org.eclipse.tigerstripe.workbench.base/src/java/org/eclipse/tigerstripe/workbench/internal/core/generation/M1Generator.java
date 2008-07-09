@@ -145,16 +145,6 @@ public class M1Generator {
 				initializeConfig();
 			}
 
-			// First look at the modules to be generated.
-			if (config.isGenerateModules()) {
-				PluginRunStatus[] subResult = generateModules(monitor);
-				overallResult.addAll(Arrays.asList(subResult));
-			}
-
-			if (config.isGenerateRefProjects()) {
-				PluginRunStatus[] subResult = generateRefProjects(monitor);
-				overallResult.addAll(Arrays.asList(subResult));
-			}
 
 			// Attempt to clear the directory if requested
 			if (config.isClearDirectoryBeforeGenerate()) {
@@ -182,6 +172,17 @@ public class M1Generator {
 										+ ")");
 					}
 				}
+			}
+
+			// First look at the modules to be generated.
+			if (config.isGenerateModules()) {
+				PluginRunStatus[] subResult = generateModules(monitor);
+				overallResult.addAll(Arrays.asList(subResult));
+			}
+
+			if (config.isGenerateRefProjects()) {
+				PluginRunStatus[] subResult = generateRefProjects(monitor);
+				overallResult.addAll(Arrays.asList(subResult));
 			}
 
 			// Iterate over all facets unless specified
@@ -801,7 +802,8 @@ public class M1Generator {
 
 	private PluginRunStatus[] generateRefProjects(IProgressMonitor monitor)
 			throws TigerstripeException {
-		PluginRunStatus[] result = new PluginRunStatus[0];
+		List<PluginRunStatus> overallResult = new ArrayList<PluginRunStatus>();
+
 		ITigerstripeModelProject[] refProjects = project
 				.getReferencedProjects();
 
@@ -814,15 +816,17 @@ public class M1Generator {
 					+ File.separator + refProject.getProjectLabel();
 			refConfig.setAbsoluteOutputDir(absDir);
 			M1Generator gen = new M1Generator(refProject, refConfig);
-			result = gen.run();
-			for (PluginRunStatus res : result) {
+			PluginRunStatus[] subResult = gen.run();
+			for (PluginRunStatus res : subResult) {
 				res.setContext("Referenced Project");
 			}
+			overallResult.addAll(Arrays.asList(subResult));
 			monitor.worked(1);
 		}
 
 		monitor.done();
-		return result;
+		return overallResult.toArray(new PluginRunStatus[overallResult
+		                             					.size()]);
 	}
 
 	private PluginRunStatus[] generateModules(IProgressMonitor monitor)
