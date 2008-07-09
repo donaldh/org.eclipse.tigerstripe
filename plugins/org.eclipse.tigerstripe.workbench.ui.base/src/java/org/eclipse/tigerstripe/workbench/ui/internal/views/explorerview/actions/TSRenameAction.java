@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
@@ -21,7 +20,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactRenameRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
@@ -81,14 +80,12 @@ public class TSRenameAction extends RenameAction {
 					IArtifactManagerSession mgr = packageArtifact.getProject().getArtifactManagerSession();
 					IModelUpdater updater = mgr.getIModelUpdater();
 					
-					IArtifactRenameRequest request = (IArtifactRenameRequest) updater
+					IArtifactFQRenameRequest request = (IArtifactFQRenameRequest) updater
 					.getRequestFactory().makeRequest(
-							IModelChangeRequestFactory.ARTIFACT_RENAME);
+							IModelChangeRequestFactory.ARTIFACT_FQRENAME);
 					request.setArtifactFQN(packageArtifact.getFullyQualifiedName());
 					
-					// TODO FIX THIS FOR THE FULL FQN VERSION
-					String name = fqn.substring(fqn.lastIndexOf(".")+1);
-					request.setNewName(name);
+					request.setNewFQName(fqn);
 					
 					updater.handleChangeRequest(request);
 					
