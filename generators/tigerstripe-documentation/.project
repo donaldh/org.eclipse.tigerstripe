@@ -11,13 +11,13 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.tigerstripe.workbench.ui.base.pluggablePluginProjectAuditor</name>
+			<name>org.eclipse.tigerstripe.workbench.base.pluggablePluginProjectAuditor</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginProject</nature>
+		<nature>org.eclipse.tigerstripe.workbench.base.tigerstripePluginProject</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>

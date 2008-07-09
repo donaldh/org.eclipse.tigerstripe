@@ -19,25 +19,7 @@ $castUtils.setPluginRef($pluginConfig)##
 <a href="index.html">back to index</a>
 </p>
 #foreach($enum in ${docUtils.sortByName($castUtils.toModel($allEnumerations))} )
-<table width="100%" cellspacing="8" border="1" >
-<tr class="enum">
-<td width="80%" valign="top">
-<b>#bookmark($enum)</b><br/><font size="-1">#docs($enum)		</font>
-</td>
-<td width="20%" valign="top">#stereos($enum)</td>
-</tr>
-#foreach($lit in $enum.literals)
-<tr>
-<td>
-$lit.name<br/>#docs($lit)	
-</td>
-<td>
-#stereos($lit)
-</td>
-</tr>
-#end
-</table>
-<p/>
+#artiDetails($enum)
 #end
 <div id="footer-copyright">&copy; $tsProjectHandle.getProjectDetails().getProperty("copyrightNotice","")</div>
 </body>

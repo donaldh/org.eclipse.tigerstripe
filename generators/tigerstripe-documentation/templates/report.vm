@@ -127,6 +127,7 @@ $comma $t
 #####################################
 #macro (spitType $el)
 #set ($tp1 = $el.Type)
+#if($tp1.isArtifact() && ${tp1.getArtifact().getTigerstripeProject()})
 #if ($tp1.enum)
 <a href="enumerations.html#${tp1.name}">
 $tp1.name	</a>
@@ -134,8 +135,14 @@ $tp1.name	</a>
 <a href="cTypes.html#${tp1.name}">
 $tp1.name	#if($el.isMany())	#end
 </a>
+#elseif($tp1.isEntityType())
+#set($e1= $tp1.getArtifact())
+#href($e1)
 #else
 	$tp1.name	#if($el.isMany())		#end
+	#end
+#else
+$tp1.name	#if($el.isMany())		#end
 #end
 #end
 #####################################
@@ -171,7 +178,7 @@ Type: $ct.artifactType
 Package: $ct.package
 #if ($ct.generalization)
 <br/>
-Superclass: #href($ct.generalization)
+Superclass: #if($ct.generalization.project)#href($ct.generalization)#else$ct.generalization.fullyQualifiedName#end
 #end
 #if (!$ct.realizations.empty)
 <br/>
@@ -300,8 +307,8 @@ Return Type: $ct.returnedType
 	<td colspan="2">
 	<table width="100%">	<tr>
 	<td>
-	#if($op.abstract)<i>#end<b>$op.name:</b>
-	$op.visibilityStr $op.signature::#if($op.void)void#else$op.returnType.name $op.returnMultiplicity #if($op.returnMultiMany)#if($op.Unique) unique#end#if($op.Ordered) ordered#end#end#if($op.returnName.length() > 0) returnName: $op.returnName#end#if($op.defaultReturnValue.length() > 0) defaultReturnValue: $docUtils.encode($op.defaultReturnValue)#end#end
+	#if($op.abstract)<i>#end<b><a name="${ct.name}_${op.name}">$op.name:</a></b>
+	$op.visibilityStr $op.signature::#if($op.void)void#else$op.returnType.fullyQualifiedName $op.returnMultiplicity #if($op.returnMultiMany)#if($op.Unique) unique#end#if($op.Ordered) ordered#end#end#if($op.returnName.length() > 0) returnName: $op.returnName#end#if($op.defaultReturnValue.length() > 0) defaultReturnValue: $docUtils.encode($op.defaultReturnValue)#end#end
 	#if($op.abstract)</i>#end
 	<br/>
 	#docs($op)

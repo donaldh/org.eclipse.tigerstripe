@@ -63,9 +63,10 @@ public class DocUtils
 			Collection allArtifacts = session.queryArtifact(query);
 			// Filter out legacy artifacts
 			for (Object art : allArtifacts){
-				LegacyFilter filter = new LegacyFilter();
+				//LegacyFilter filter = new LegacyFilter();
 				IAbstractArtifact localArtifact = (IAbstractArtifact) art;
-				if (filter.select(localArtifact) && ! localArtifact.getPackage().equals("primitive")){
+				//if (filter.select(localArtifact) && ! localArtifact.getPackage().equals("primitive")){
+				if (localArtifact.getTigerstripeProject() != null && ! localArtifact.getPackage().equals("primitive")){
 				String localPackageName = localArtifact.getPackage();
 				DocPackage myPackage;
 				if (! packageMap.containsKey(localPackageName)){

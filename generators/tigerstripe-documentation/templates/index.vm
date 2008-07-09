@@ -79,6 +79,48 @@ A list of the services available from ${tsProjectHandle.ProjectDetails.Name}.
 </li>
 #end
 #end
+#foreach($s in $docUtils.sortByName($castUtils.toModel($allSessions)))
+#if(${s.getArtifact().ManagedEntityDetails.size()}>0)
+#href($s) has operations:
+<ul>
+#foreach($o in $docUtils.sortByName($s.operations))
+   <li>#href($o)</li>
+#end
+</ul>
+<b>Exposes:</b>
+#foreach($e in ${s.getArtifact().ManagedEntityDetails})
+#foreach($a in $docUtils.sortByName($castUtils.toModel($allEntities)))
+#if($a.fullyQualifiedName.equals($e.fullyQualifiedName))
+#if($a.project)
+<li>#href($a) has operations
+<ul>
+#else
+<li>$a.fullyQualifiedName has operations
+<ul>
+#end
+#foreach($op in $docUtils.sortByName($a.operations))
+   <li>#href($op)</li>
+#end
+</ul>
+<b>Emits Events:</b>
+<ul>
+#end
+#end
+#end
+#foreach($n in ${s.getArtifact().EmittedEvents})
+#foreach($a in $docUtils.sortByName($castUtils.toModel($allEvents)))
+#if($a.fullyQualifiedName.equals($n.fullyQualifiedName))
+#if($a.project)
+   <li>#href($a)
+#else
+   <li>$a.fullyQualifiedName
+#end
+#end
+#end
+#end
+</ul>
+#end
+#end
 </ul>
 <p/>
 <div id="footer-copyright">&copy; $tsProjectHandle.getProjectDetails().getProperty("copyrightNotice","")</div>

@@ -26,7 +26,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
+import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
+import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryRelationshipsByArtifact;
 import org.apache.commons.lang.StringUtils;
@@ -495,4 +498,16 @@ public class AbstractClassModel extends AbstractComponentModel implements IArtif
     public boolean hasExtends(){
     	return this.artifact.hasExtends();
     }
+    
+    public ITigerstripeModelProject  getProject(){
+    	ITigerstripeModelProject pd =null;
+    	try{
+    	pd= this.artifact.getProject();
+    	}
+    	catch (TigerstripeException t){   
+    		PluginLog.logError("Failure to find project.");
+    	}
+    	return pd;
+    }
+    
 }

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <ts_plugin version="1.2">
 <project name="tigerstripe-documentation">
-<outputDirectory/>
-<version>3.1</version>
-<description>3.1 First open source version.&#13;
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>3.2</version>
+<description>3.2 Bugzilla 239395&#13;
+3.1 First open source version.&#13;
 3.0.2 Entity Services xml parsing&#13;
 3.0.1 Exception thrown on invalid directories (TSPLUG-40)&#13;
 3.0.1 Updated cisco-commons&#13;
@@ -11,7 +12,7 @@
 <provider>Cisco Systems</provider>
 </project>
 <pluginNature type="Generic"/>
-<logger defautLevel="3" isEnabled="true" logPath="cisco-documentation.log" maxRoll="9"/>
+<logger defautLevel="3" isEnabled="true" logPath="ts-documentation.log" maxRoll="9"/>
 <globalProperties>
 <property name="outputDir" tipToolText="" type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">tigerstripe-documentation</property>
 </globalProperties>
@@ -100,7 +101,7 @@
 <contextEntry classname="org.eclipse.tigerstripe.generators.utils.DocUtils" entry="docUtils"/>
 <contextEntry classname="org.apache.commons.lang.StringUtils" entry="stringUtils"/>
 <contextEntry classname="org.apache.commons.lang.StringEscapeUtils" entry="stringEscapeUtils"/>
-<body artifactFilterClass="org.eclipse.tigerstripe.generators.utils.LegacyFilter" artifactType="Any Artifact" includeDependencies="true" modelClass="org.eclipse.tigerstripe.generators.models.PackageModel" modelClassName="package" outputFile="${ppProp.outputDir}/webdocs/pack${package.Hash}.html" overwriteFiles="false" suppressFiles="true" template="templates/package.vm">
+<body artifactFilterClass="" artifactType="Any Artifact" includeDependencies="true" modelClass="org.eclipse.tigerstripe.generators.models.PackageModel" modelClassName="package" outputFile="${ppProp.outputDir}/webdocs/pack${package.Hash}.html" overwriteFiles="false" suppressFiles="true" template="templates/package.vm">
 <library name="templates\report.vm"/>
 </body>
 </rule>
