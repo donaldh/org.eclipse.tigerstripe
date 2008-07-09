@@ -33,7 +33,7 @@
 			<xs:attribute name="name" type="xs:string" use="required"/>
 			<xs:attribute name="extendedArtifact" type="xs:string" use="optional"/>
 			<xs:attribute name="artifactType" type="xs:string" use="optional"/>
-			<xs:attribute name="isAbstract" type="xs:boolean" use="required"/>
+			<xs:attribute name="isAbstract" type="xs:boolean" use="optional"/>
 			<!-- The name and extendedArtifact are the FQNs of the artifacts not the simple name -->
 		</xs:complexType>
 	</xs:element>

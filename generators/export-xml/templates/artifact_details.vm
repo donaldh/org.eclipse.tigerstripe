@@ -3,7 +3,10 @@
                  extendedArtifact="$artifact.Extends.FullyQualifiedName"
 #end
                  artifactType="$artifact.ArtifactType"
-                 isAbstract="$artifact.Abstract">
+#if ($artifact.ArtifactType == "org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact")
+                 isAbstract="$artifact.Abstract"
+#end
+                 >
 #if(!$artifact.getImplementedArtifacts().isEmpty())
         <ts:implements>
 #foreach ($interface in $artifact.getImplementedArtifacts())

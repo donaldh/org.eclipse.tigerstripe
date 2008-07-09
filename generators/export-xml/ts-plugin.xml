@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <ts_plugin version="1.2">
 <project name="export-xml">
-<outputDirectory/>
-<version>3.2</version>
-<description>3.2 Fix for XML escape characters bug and schema sequence order issue.&#13;
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>3.3</version>
+<description>3.3 Support for Package Artifacts - small change to schema to make isAbstract Optional&#13;
+3.2 Fix for XML escape characters bug and schema sequence order issue.&#13;
 3.1 First Open Source version - removal of OSS/J specifics.&#13;
 This version of the Export Plugin can export a Tigerstripe Project in a single XML file or as one XML file per artifact (with an additional file giving summary details of the export).&#13;
 &#13;
@@ -15,7 +16,7 @@ Version 1.2.0 supprts meta model changes from Tigerstripe 2.2</description>
 <provider>Cisco Systems</provider>
 </project>
 <pluginNature type="Generic"/>
-<logger defautLevel="0" isEnabled="false" logPath="Full_Export.log" maxRoll="9"/>
+<logger defautLevel="0" isEnabled="true" logPath="Full_Export.log" maxRoll="9"/>
 <globalProperties>
 <property name="xmldir" tipToolText="Directory to which export xml files are generated" type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">xml</property>
 <property name="singleFile" tipToolText="Create single XML file (true) or one per artifact (false)" type="org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty">true</property>
