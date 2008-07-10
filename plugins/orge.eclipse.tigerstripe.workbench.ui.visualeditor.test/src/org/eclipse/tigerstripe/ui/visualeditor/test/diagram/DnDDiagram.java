@@ -8,10 +8,6 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.project.ProjectRecord;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 
 import com.windowtester.runtime.IUIContext;
-import com.windowtester.runtime.WT;
-import com.windowtester.runtime.gef.locator.FigureClassLocator;
-import com.windowtester.runtime.gef.locator.LRLocator;
-import com.windowtester.runtime.locator.XYLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
@@ -34,7 +30,7 @@ public class DnDDiagram extends UITestCaseSWT {
 		IUIContext ui = getUI();
 		ui.contextClick(
 						new TreeItemLocator(
-								TestingConstants.NEW_PROJECT_NAME+"/src/org.eclipse",
+								TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/org.eclipse",
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 						"New/new Class Diagram...");
@@ -83,7 +79,7 @@ public class DnDDiagram extends UITestCaseSWT {
 		
 		
 		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_PROJECT_NAME,
+				TestingConstants.NEW_MODEL_PROJECT_NAME,
 				new ViewLocator(
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.click(new PullDownMenuItemLocator(myType,

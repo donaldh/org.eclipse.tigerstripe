@@ -4,5 +4,6 @@ public class DiagramConstants {
 
 	public static String CREATE_DIAGRAM = "PaletteCreate";
 	public static String DND_DIAGRAM    = "DnD";
+	public static String COMPONENTS_DIAGRAM    = "Components";
 	
 }

@@ -39,7 +39,7 @@ public class CreateDiagram extends UITestCaseSWT {
 		IUIContext ui = getUI();
 		ui.contextClick(
 						new TreeItemLocator(
-								TestingConstants.NEW_PROJECT_NAME+"/src/org.eclipse",
+								TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/org.eclipse",
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 						"New/new Class Diagram...");

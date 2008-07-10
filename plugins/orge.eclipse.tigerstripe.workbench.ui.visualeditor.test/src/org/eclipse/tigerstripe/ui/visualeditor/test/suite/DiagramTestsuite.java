@@ -4,8 +4,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.DnDDiagram;
-import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.DropOn;
+import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.ComponentsDiagram;
 import org.eclipse.tigerstripe.ui.visualeditor.test.project.CreatePackage;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.CloseProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
@@ -42,8 +41,10 @@ public class DiagramTestsuite extends TestCase
         // The CreateDiagram is a place for Creating Artifacts!
         //suite.addTestSuite(CreateDiagram.class);
         
-        suite.addTestSuite(DnDDiagram.class);
-       // suite.addTestSuite(DropOn.class);
+        //suite.addTestSuite(DnDDiagram.class);
+        //suite.addTestSuite(DropOn.class);
+      
+        suite.addTestSuite(ComponentsDiagram.class);
         
         return suite;
     }
