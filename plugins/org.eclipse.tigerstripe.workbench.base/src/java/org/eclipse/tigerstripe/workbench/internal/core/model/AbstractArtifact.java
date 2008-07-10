@@ -1342,9 +1342,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		String baseDir = getTSProject().getBaseDir().toString();
 
 		try {
+
 			Writer writer = new FileWriter(baseDir+File.separator+getArtifactPath());
 			AbstractArtifactPersister persister = getPersister(writer);
 			persister.applyTemplate();
+
 		} catch (IOException e) {
 			throw new TigerstripeException("Error while saving "
 					+ getFullyQualifiedName() + ": " + e.getLocalizedMessage(),

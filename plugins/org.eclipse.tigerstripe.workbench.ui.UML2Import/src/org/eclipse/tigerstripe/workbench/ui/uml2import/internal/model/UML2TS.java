@@ -366,7 +366,7 @@ public class UML2TS {
 		if (element.getName() == null){
 			String msText = "UML Class with null name - defaulting";
 			addMessage(msText, 0, messages);
-			this.out.println("Error :" + msText);
+			this.out.println("ERROR :" + msText);
 			eleName = "element"+Integer.toString(nullClassCounter);
 			nullClassCounter++;
 			hasTempName = true;
@@ -476,14 +476,23 @@ public class UML2TS {
 				if (artifact instanceof IAssociationArtifact) {
 					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 					setAssociationEnds(assoc, element);
-					if (hasTempName){
-						// the make a new name based on the names of the classes on the ends
-						String aEndClassName = assoc.getAEnd().getType().getName();
-						String bEndClassName = assoc.getZEnd().getType().getName();
+					if (assoc.getAEnd() != null && assoc.getZEnd() != null){
+						if (hasTempName){
+							// the make a new name based on the names of the classes on the ends
 
-						String newName = aEndClassName+"To"+bEndClassName;
-						assoc.setFullyQualifiedName(assoc.getPackage()+"."+newName);
+							String aEndClassName = assoc.getAEnd().getType().getName();
+							String bEndClassName = assoc.getZEnd().getType().getName();
 
+							String newName = aEndClassName+"To"+bEndClassName;
+							assoc.setFullyQualifiedName(assoc.getPackage()+"."+newName);
+						} 
+					} else {
+						// this was a bad import - drop it now.
+						String msgText = "Failed to extract association to artifact (missing end information) :"
+							+ eleName;
+						addMessage(msgText, 0, messages);
+						out.println( "ERROR : "+msgText);
+						return null;
 					}
 				}
 				if (element instanceof Classifier){
@@ -520,8 +529,7 @@ public class UML2TS {
 			while (mEndTypesIt.hasNext()) {
 
 				Property mEnd = (Property) mEndTypesIt.next();
-				this.out.println("INFO : Association End " + mEnd.getName() + " "
-						+ mEnd.getType().getName());
+				this.out.println("INFO : Association End " + mEnd.getName() );
 				IAssociationEnd end = assocArtifact.makeAssociationEnd();
 
 				end.setName(nameCheck(mEnd.getName(),messages,out));
@@ -593,13 +601,15 @@ public class UML2TS {
 				}
 
 			}
+			if (assocArtifact.getAEnd() != null && assocArtifact.getZEnd() != null){
+				
 			// Swap the aggregation  over....!!!!!!!!!!!!!
-
 			EAggregationEnum temp = assocArtifact.getAEnd().getAggregation();
 		
 			((IAssociationEnd) (assocArtifact.getAEnd())).setAggregation(assocArtifact.getZEnd().getAggregation());
 			((IAssociationEnd) assocArtifact.getZEnd()).setAggregation(temp);
 
+			}
 		}
 
 	}
@@ -1513,7 +1523,7 @@ public class UML2TS {
 	 * map naming to TS compatible style
 	 * 
 	 */
-	public static String convertToFQN(String name,MessageList messages, PrintWriter out) {
+	public static String convertToFQN(String name, MessageList messages, PrintWriter out) {
 		if (name != null) {
 
 			String dottedName = "";
@@ -1565,10 +1575,14 @@ public class UML2TS {
 				inName = inName.replaceAll("\\.", "_");
 			}
 
-			if (!inName.equals(name)) {
+			if (!inName.equals(name) ) {
 				String msgText = " Name mapped : " + name + " -> " + inName;
-				addMessage(msgText, 1, messages);
-				out.println("WARN:" + msgText);
+				if (messages != null){
+					addMessage(msgText, 1, messages);
+				}
+				if (out != null){
+					out.println("WARN:" + msgText);
+				}
 			}
 
 			return inName;
@@ -1578,12 +1592,12 @@ public class UML2TS {
 	}
 
 	public static void addMessage(String msgText, int severity, MessageList messages) {
-
+		if (messages != null){
 			Message newMsg = new Message();
 			newMsg.setMessage(msgText);
 			newMsg.setSeverity(severity);
 			messages.addMessage(newMsg);
-
+		}
 	}
 	
 	private String unCapitalize(String in){

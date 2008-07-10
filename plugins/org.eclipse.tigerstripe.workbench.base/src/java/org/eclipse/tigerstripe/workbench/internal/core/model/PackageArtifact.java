@@ -216,7 +216,7 @@ public class PackageArtifact extends AbstractArtifact implements
 
 		// Make sure the package dir exists
 		File dir = new File(baseDir + File.separator + repoLocation
-				+ File.separator + packageName);
+				+ File.separator + packageName+ File.separator+getName());
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
