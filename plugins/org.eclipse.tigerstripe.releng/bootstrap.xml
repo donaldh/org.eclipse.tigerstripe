@@ -43,7 +43,7 @@
 		<get src="${eclipseBaseURL}.${archiveType}${mirror}" dest="${local.eclipse.sdk.repository}/${eclipseArchiveName}.${archiveType}" verbose="true" usetimestamp="true" />
 	</target>
 
-	<!-- EMF SDO Runtime  				-->
+	<!-- EMF Runtime  				-->
 	<target name="get_emf.runtime">
 		<available file="${local.eclipse.dependencies.repository}/$(emfArchiveName}" property="emf.runtime_present" />
 		<antcall target="download_emf.runtime" />
@@ -51,6 +51,16 @@
 
 	<target name="download_emf.runtime" depends="init" unless="emf.runtime_present">
 		<get src="${emfURL}${mirror}" dest="${local.eclipse.dependencies.repository}/${emfArchiveName}" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- SDO Runtime  				-->
+	<target name="get_sdo.runtime">
+		<available file="${local.eclipse.dependencies.repository}/$(sdoArchiveName}" property="sdo.runtime_present" />
+		<antcall target="download_sdo.runtime" />
+	</target>
+
+	<target name="download_sdo.runtime" depends="init" unless="sdo.runtime_present">
+		<get src="${sdoURL}${mirror}" dest="${local.eclipse.dependencies.repository}/${sdoArchiveName}" verbose="true" usetimestamp="true" />
 	</target>
 
 	<!-- EMF Transaction Runtime  				-->
@@ -158,6 +168,7 @@
 		<antcall target="get_gef.runtime" />
 		<antcall target="get_gmf.runtime" />
 		<antcall target="get_emf.runtime" />
+		<antcall target="get_sdo.runtime" />
 		<antcall target="get_emfTransaction.runtime" />
 		<antcall target="get_emfQuery.runtime" />
 		<antcall target="get_emfValidation.runtime" />

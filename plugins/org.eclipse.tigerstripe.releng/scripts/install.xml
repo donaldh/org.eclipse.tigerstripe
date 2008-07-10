@@ -17,6 +17,11 @@
 	<property file="../build.properties" />
 
 	<!-- All the details for each required plugin -->
+	<target name="install-emf" if="target.emf">
+		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.emf}.zip" />
+		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.emf}.zip</concat>
+	</target>
+
 	<target name="install-emf-sdo" if="target.emf.sdo">
 		<unzip dest="${destination}" src="${local.eclipse.dependencies.repository}/${target.emf.sdo}.zip" />
 		<concat destfile="${dependencies.file}" append="true" fixlastline="true">${target.emf.sdo}.zip</concat>
@@ -108,6 +113,8 @@
 		<property name="destination" value="${buildDirectory}" />
 		<property name="dependencies.file" value="${buildDirectory}/${buildLabel}/plugin-dependencies-${buildId}.txt" />
 		<delete file="${dependencies.file}" failonerror="false" quiet="true" />
+		<!-- EMF -->
+		<antcall target="install-emf" />
 		<!-- EMF SDO -->
 		<antcall target="install-emf-sdo" />
 		<!-- EMF Transaction -->

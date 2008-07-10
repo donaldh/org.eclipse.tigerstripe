@@ -23,7 +23,7 @@
 		<property name="time" value="${env.TSTIME}" />
 		<property name="timestamp" value="${date}${time}" />
 		<property name="buildType" value="N" />
-		<property name="buildId" value="${buildType}${timestamp}_incubation" />
+		<property name="buildId" value="v${timestamp}_incubation" />
 		<property name="component" value="nightly" />
 		<property name="mapsCheckoutTag" value="HEAD" />
 		<property name="stream" value="0.3.0" />
@@ -38,7 +38,7 @@
 	</target>
 
 	<target name="main" depends="init">
-		<echo message="Building Workbench for Europa..." />
+		<echo message="Building Workbench for Ganymede..." />
 		<ant antfile="build.xml" dir="${pde.build}/scripts">
 			<property name="scripts" value="${basedir}/scripts" />
 			<property name="legal" value="${basedir}/legal" />
