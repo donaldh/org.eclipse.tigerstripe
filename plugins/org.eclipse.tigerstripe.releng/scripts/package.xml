@@ -56,6 +56,9 @@
 		<property name="tmpBundle" value="${buildDirectory}/tmpBundle" />
 		<unzip src="${buildDirectory}/${buildLabel}/${archiveName}" dest="${tmpBundle}" />
 
+		<ant antfile="${scripts}/install.xml" target="install-emf" inheritall="true">
+			<property name="destination" value="${tmpBundle}" />
+		</ant>
 		<ant antfile="${scripts}/install.xml" target="install-emf-sdo" inheritall="true">
 			<property name="destination" value="${tmpBundle}" />
 		</ant>
