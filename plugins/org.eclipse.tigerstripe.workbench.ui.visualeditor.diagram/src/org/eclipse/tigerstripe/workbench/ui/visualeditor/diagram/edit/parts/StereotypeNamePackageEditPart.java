@@ -18,7 +18,7 @@ import java.util.WeakHashMap;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
-import org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel;
+import org.eclipse.gmf.runtime.draw2d.ui.figures.WrappingLabel;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.mapmode.IMapModeHolder;
 import org.eclipse.gmf.runtime.draw2d.ui.mapmode.IMapMode;
 import org.eclipse.gmf.runtime.draw2d.ui.mapmode.MapModeUtil;
@@ -35,7 +35,7 @@ public abstract class StereotypeNamePackageEditPart extends
 		AbstractLabelEditPart implements ITextAwareEditPart,
 		NamePackageInterface {
 
-	protected WrapLabel figure;
+	protected WrappingLabel figure;
 
 	private static final String _ellipse = "..."; //$NON-NLS-1$
 
@@ -185,8 +185,8 @@ public abstract class StereotypeNamePackageEditPart extends
 		public abstract int getNumberofIcons();
 
 		/**
-		 * @return the <code>Dimension</code> that is the total size of all
-		 *         the icons.
+		 * @return the <code>Dimension</code> that is the total size of all the
+		 *         icons.
 		 */
 		public abstract Dimension getTotalIconSize(IMapMode mapMode);
 

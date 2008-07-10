@@ -24,8 +24,9 @@ public interface ITigerstripeChangeListener {
 
 	public final static int PROJECT = 0x1;
 	public final static int MODEL = 0x2;
+	public final static int ANNOTATION = 0x4;
 
-	public final static int ALL = PROJECT | MODEL;
+	public final static int ALL = PROJECT | MODEL | ANNOTATION;
 
 	/**
 	 * Notification that a Tigerstripe project was added to the workspace
@@ -58,4 +59,6 @@ public interface ITigerstripeChangeListener {
 	 * @param delta
 	 */
 	public void modelChanged(IModelChangeDelta[] delta);
+
+	public void annotationChanged(IModelAnnotationChangeDelta[] delta);
 }

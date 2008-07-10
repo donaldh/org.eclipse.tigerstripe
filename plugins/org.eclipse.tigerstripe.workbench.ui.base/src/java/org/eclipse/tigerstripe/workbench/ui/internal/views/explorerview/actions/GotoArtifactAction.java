@@ -15,9 +15,6 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.SearchEngine;
-import org.eclipse.jdt.internal.corext.util.Messages;
-import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
-import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 import org.eclipse.jdt.ui.IJavaElementSearchConstants;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.action.Action;
@@ -30,7 +27,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerMessages;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeExplorerPart;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 
 class GotoTypeAction extends Action {
@@ -42,8 +38,6 @@ class GotoTypeAction extends Action {
 		setText(TSExplorerMessages.GotoType_action_label);
 		setDescription(TSExplorerMessages.GotoType_action_description);
 		fPackageExplorer = part;
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(this,
-				IJavaHelpContextIds.GOTO_TYPE_ACTION);
 	}
 
 	@Override
@@ -53,11 +47,9 @@ class GotoTypeAction extends Action {
 		try {
 			dialog = JavaUI.createTypeDialog(shell, new ProgressMonitorDialog(
 					shell), SearchEngine.createWorkspaceScope(),
-					IJavaElementSearchConstants.CONSIDER_TYPES, false);
+					IJavaElementSearchConstants.CONSIDER_ALL_TYPES, false);
 		} catch (JavaModelException e) {
-			String title = getDialogTitle();
-			String message = TSExplorerMessages.GotoType_error_message;
-			ExceptionHandler.handle(e, title, message);
+			EclipsePlugin.log(e);
 			return;
 		}
 
@@ -93,14 +85,9 @@ class GotoTypeAction extends Action {
 			if (view != null) {
 				view.selectReveal(new StructuredSelection(element));
 				if (!element.equals(getSelectedElement(view))) {
-					MessageDialog
-							.openInformation(
-									fPackageExplorer.getSite().getShell(),
-									getDialogTitle(),
-									Messages
-											.format(
-													TSExplorerMessages.PackageExplorer_element_not_present,
-													element.getElementName()));
+					MessageDialog.openInformation(fPackageExplorer.getSite()
+							.getShell(), getDialogTitle(),
+							"Element not present: " + element.getElementName());
 				}
 			}
 		}

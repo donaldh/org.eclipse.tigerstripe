@@ -221,8 +221,7 @@ public class NewEntityWizardPage extends NewArtifactWizardPage {
 		if (field == primaryKeyClassDialogField) {
 			IType type = choosePrimaryKeyType();
 			if (type != null) {
-				primaryKeyClassDialogField.setText(JavaModelUtil
-						.getFullyQualifiedName(type));
+				primaryKeyClassDialogField.setText(type.getFullyQualifiedName());
 			}
 		}
 	}

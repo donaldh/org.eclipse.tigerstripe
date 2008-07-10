@@ -199,4 +199,19 @@ public interface IAssociationEnd extends IModelComponent, IRelationshipEnd {
 	 */
 	public IType makeType();
 
+	/**
+	 * Returns a String that describes the AssociationEnd.
+	 * 
+	 * This is the presentation used in the Explorer view.
+	 * 
+	 * The format is : 
+	 * 		name::typeName[]
+	 * 		name::typeName
+	 * 
+	 * 
+	 * @return formatted string
+	 */
+	public String getLabelString();
+
+
 }

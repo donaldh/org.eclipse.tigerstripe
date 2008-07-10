@@ -1,0 +1,8 @@
+#Wed Jul 02 15:34:15 PDT 2008
+eclipse.preferences.version=1
+gmf_dashboard/domainGenerationModel=platform\:/resource/org.eclipse.tigerstripe.workbench.ui.visualeditor/model/tigerstripe.genmodel
+gmf_dashboard/domainModel=platform\:/resource/org.eclipse.tigerstripe.workbench.ui.visualeditor/model/tigerstripe.ecore
+gmf_dashboard/generationModel=platform\:/resource/org.eclipse.tigerstripe.workbench.ui.visualeditor/model/tigerstripe.gmfgen
+gmf_dashboard/graphicalDefinitionModel=platform\:/resource/org.eclipse.tigerstripe.workbench.ui.visualeditor/model/tigerstripe.gmfgraph
+gmf_dashboard/mappingModel=platform\:/resource/org.eclipse.tigerstripe.workbench.ui.visualeditor/model/tigerstripe.gmfmap
+gmf_dashboard/toolingDefinitionModel=platform\:/resource/org.eclipse.tigerstripe.workbench.ui.visualeditor/model/tigerstripe.gmftool

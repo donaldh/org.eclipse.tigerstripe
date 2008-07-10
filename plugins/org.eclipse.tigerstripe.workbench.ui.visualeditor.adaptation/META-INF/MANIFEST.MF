@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptatio
 Bundle-Version: 0.4.0.qualifier
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.Activator
 Bundle-Vendor: 
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -32,7 +31,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.tigerstripe.workbench.base,
  org.eclipse.tigerstripe.workbench.ui.base,
  org.eclipse.tigerstripe.workbench.ui.visualeditor
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter,
  org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation,
  org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.dnd,

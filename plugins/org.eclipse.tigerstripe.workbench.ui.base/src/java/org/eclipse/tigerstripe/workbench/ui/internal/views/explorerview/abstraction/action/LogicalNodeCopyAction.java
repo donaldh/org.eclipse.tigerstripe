@@ -214,7 +214,8 @@ public class LogicalNodeCopyAction extends AbstractLogicalNodeAction {
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.core.runtime.jobs.Job#belongsTo(java.lang.Object)
+			 * @see
+			 * org.eclipse.core.runtime.jobs.Job#belongsTo(java.lang.Object)
 			 */
 			@Override
 			public boolean belongsTo(Object family) {

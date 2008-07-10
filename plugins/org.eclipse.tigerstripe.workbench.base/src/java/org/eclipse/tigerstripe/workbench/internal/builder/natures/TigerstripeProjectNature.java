@@ -31,20 +31,20 @@ public class TigerstripeProjectNature implements IProjectNature {
 
 	public void configure() throws CoreException {
 		TigerstripeProjectAuditor.addBuilderToProject(project);
-		new Job("Tigerstripe Project Audit") {
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				try {
-					project
-							.build(IncrementalProjectBuilder.FULL_BUILD,
-									TigerstripeProjectAuditor.BUILDER_ID, null,
-									monitor);
-				} catch (CoreException e) {
-					BasePlugin.log(e);
-				}
-				return org.eclipse.core.runtime.Status.OK_STATUS;
-			}
-		}.schedule();
+//		new Job("Tigerstripe Project Audit") {
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
+//				try {
+//					project
+//							.build(IncrementalProjectBuilder.FULL_BUILD,
+//									TigerstripeProjectAuditor.BUILDER_ID, null,
+//									monitor);
+//				} catch (CoreException e) {
+//					BasePlugin.log(e);
+//				}
+//				return org.eclipse.core.runtime.Status.OK_STATUS;
+//			}
+//		}.schedule();
 	}
 
 	public void deconfigure() throws CoreException {

@@ -12,7 +12,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.ui,
  org.eclipse.tigerstripe.workbench.ui.base;visibility:=reexport,
  org.eclipse.ui.ide
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.ui.uml2import.internal.model,
  org.eclipse.tigerstripe.workbench.ui.uml2import.internal.profile
 Bundle-Vendor: Eclipse.org
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

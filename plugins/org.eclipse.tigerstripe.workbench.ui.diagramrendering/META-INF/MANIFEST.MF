@@ -4,7 +4,6 @@ Bundle-Name: Diagram Rendering Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.diagramrendering;singleton:=true
 Bundle-Version: 0.4.0.qualifier
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.rendererplugin.Activator
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.emf.common.ui,
@@ -22,5 +21,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.edit,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Vendor: 
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

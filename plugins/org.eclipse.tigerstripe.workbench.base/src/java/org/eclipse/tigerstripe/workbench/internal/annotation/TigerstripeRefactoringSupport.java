@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.annotation;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
+import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -60,4 +61,7 @@ public class TigerstripeRefactoringSupport implements
 		// do nothing
 	}
 
+	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
+		// do nothing
+	}
 }

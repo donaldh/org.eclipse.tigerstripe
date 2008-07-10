@@ -22,15 +22,20 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.window.Window;
+import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorUndoManager;
@@ -45,7 +50,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 
 public abstract class ArtifactEditorBase extends TigerstripeFormEditor
-		implements IArtifactChangeListener, IActiveFacetChangeListener {
+		implements IArtifactChangeListener, IActiveFacetChangeListener,
+		ITigerstripeChangeListener {
 
 	private boolean ignoreResourceChange = false;
 
@@ -58,6 +64,11 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	private ArtifactSourcePage sourcePage;
 
 	private Collection<TigerstripeFormPage> modelPages = new ArrayList<TigerstripeFormPage>();
+
+	public ArtifactEditorBase() {
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
+				this, ITigerstripeChangeListener.ALL);
+	}
 
 	public IAbstractArtifact getIArtifact() {
 		return artifact;
@@ -344,6 +355,9 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				artifact.getTigerstripeProject().getArtifactManagerSession()
 						.removeArtifactChangeListener(this);
 			}
+
+			TigerstripeWorkspaceNotifier.INSTANCE
+					.removeTigerstripeChangeListener(this);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -377,6 +391,26 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	@Override
 	protected EditorUndoManager createUndoManager() {
 		return new ArtifactEditorUndoManager(this);
+	}
+
+	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
+		AbstractArtifactLabelProvider prov = new AbstractArtifactLabelProvider();
+		setTitleImage(prov.getImage(getIArtifact()));
+	}
+
+	public void modelChanged(IModelChangeDelta[] delta) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void projectAdded(IAbstractTigerstripeProject project) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void projectDeleted(String projectName) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

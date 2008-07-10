@@ -32,8 +32,6 @@ import org.eclipse.jface.viewers.OpenEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.ClassPathContainer;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeExplorerPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeFrameSource;
 import org.eclipse.ui.IActionBars;
@@ -72,13 +70,9 @@ public class TigerstripeExplorerActionGroup extends CompositeActionGroup {
 
 	private CustomFiltersActionGroup fCustomFiltersActionGroup;
 
-	private IAction fGotoRequiredProjectAction;
-
 	public TigerstripeExplorerActionGroup(TigerstripeExplorerPart part) {
 		super();
 		fPart = part;
-		TreeViewer viewer = part.getTreeViewer();
-
 		setGroups(new ActionGroup[] {
 				new PackageActionGroup(fPart.getSite()),
 				new NewWizardsActionGroup(fPart.getSite()),
@@ -191,10 +185,6 @@ public class TigerstripeExplorerActionGroup extends CompositeActionGroup {
 				.getSelection();
 		int size = selection.size();
 		Object element = selection.getFirstElement();
-
-		if (element instanceof ClassPathContainer.RequiredProjectWrapper)
-			menu.appendToGroup(IContextMenuConstants.GROUP_SHOW,
-					fGotoRequiredProjectAction);
 
 		addGotoMenu(menu, element, size);
 

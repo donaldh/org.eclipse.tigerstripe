@@ -153,14 +153,12 @@ public class NewDependencyWizardPage extends NewArtifactWizardPage {
 		if (field == aEndTypeClassDialogField) {
 			IType type = chooseReturnedType();
 			if (type != null) {
-				aEndTypeClassDialogField.setText(JavaModelUtil
-						.getFullyQualifiedName(type));
+				aEndTypeClassDialogField.setText(type.getFullyQualifiedName());
 			}
 		} else if (field == zEndTypeClassDialogField) {
 			IType type = chooseReturnedType();
 			if (type != null) {
-				zEndTypeClassDialogField.setText(JavaModelUtil
-						.getFullyQualifiedName(type));
+				zEndTypeClassDialogField.setText(type.getFullyQualifiedName());
 			}
 		}
 	}

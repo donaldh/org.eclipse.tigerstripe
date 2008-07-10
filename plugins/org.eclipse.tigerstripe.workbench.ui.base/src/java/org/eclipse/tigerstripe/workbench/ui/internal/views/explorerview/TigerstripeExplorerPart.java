@@ -16,23 +16,15 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
-import org.eclipse.jdt.internal.ui.dnd.DelegatingDropAdapter;
-import org.eclipse.jdt.internal.ui.dnd.JdtViewerDragAdapter;
-import org.eclipse.jdt.internal.ui.dnd.ResourceTransferDragAdapter;
 import org.eclipse.jdt.internal.ui.filters.LibraryFilter;
 import org.eclipse.jdt.internal.ui.filters.OutputFolderFilter;
-import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
-import org.eclipse.jdt.internal.ui.packageview.SelectionTransferDragAdapter;
-import org.eclipse.jdt.internal.ui.packageview.SelectionTransferDropAdapter;
-import org.eclipse.jdt.internal.ui.util.JavaUIHelp;
 import org.eclipse.jdt.internal.ui.viewsupport.AppearanceAwareLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.DecoratingJavaLabelProvider;
-import org.eclipse.jdt.internal.ui.viewsupport.JavaElementImageProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.ProblemTreeViewer;
 import org.eclipse.jdt.internal.ui.viewsupport.StatusBarUpdater;
 import org.eclipse.jdt.internal.ui.workingsets.WorkingSetModel;
@@ -41,39 +33,36 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.util.TransferDragSourceListener;
-import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IOpenListener;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.OpenEvent;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.FileTransfer;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TSElementSorter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TigerstripeExplorerActionGroup;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.dnd.FileTransferDragAdapter;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.dnd.FileTransferDropAdapter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.ClasspathContainerFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.DottedFilesFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.EmptyDefaultPackageFilter;
@@ -85,10 +74,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.part.ISetSelectionTarget;
 import org.eclipse.ui.part.IShowInTarget;
-import org.eclipse.ui.part.ResourceTransfer;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 
 /**
  * This is the Artifact Explorer view.
@@ -100,7 +87,7 @@ import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
  * 
  */
 public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
-		ISetSelectionTarget, IShowInTarget {
+		ISetSelectionTarget, IShowInTarget, ITigerstripeChangeListener {
 
 	public boolean show(ShowInContext context) {
 		if (context.getSelection() instanceof IStructuredSelection) {
@@ -153,43 +140,21 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 	private NewTigerstripeExplorerContentProvider contentProvider;
 
-	private TigerstripeExplorerLabelProviderWrapper labelProviderWrapper;
+	private TigerstripeExplorerLabelProvider labelProvider;
 
-	private ActiveFacetManager activeFacetManager = null;
-
-	private ISelectionChangedListener fPostSelectionListener;
+	private ActiveFacetDecorationDelegate facetDecorationDelegate = null;
 
 	public TigerstripeExplorerPart() {
-		this.contentProvider = new NewTigerstripeExplorerContentProvider(true);
-		PackageExplorerLabelProvider labelProvider = new PackageExplorerLabelProvider(
-				this.contentProvider);
-		// then, pass that instance into the constructor for the
-		// TigerstripeExplorerLabelProviderWrapper
-		// class (creating an instance of the wrapper class that can be used
-		// here)
-		this.labelProviderWrapper = new TigerstripeExplorerLabelProviderWrapper(
-				AppearanceAwareLabelProvider.DEFAULT_TEXTFLAGS
-						| JavaElementLabels.P_COMPRESSED,
-				AppearanceAwareLabelProvider.DEFAULT_IMAGEFLAGS
-						| JavaElementImageProvider.SMALL_ICONS, labelProvider);
+		this.contentProvider = new NewTigerstripeExplorerContentProvider();
+		this.labelProvider = new TigerstripeExplorerLabelProvider(
+				contentProvider);
 
-		this.activeFacetManager = new ActiveFacetManager(this);
+		facetDecorationDelegate = new ActiveFacetDecorationDelegate(this);
+		facetDecorationDelegate.start();
 
-		fPostSelectionListener = new ISelectionChangedListener() {
-			public void selectionChanged(SelectionChangedEvent event) {
-				handlePostSelectionChanged(event);
-			}
-		};
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
+				this, ITigerstripeChangeListener.ANNOTATION);
 
-	}
-
-	/**
-	 * Handles post selection changed in viewer.
-	 * 
-	 * Links to editor (if option enabled).
-	 */
-	private void handlePostSelectionChanged(SelectionChangedEvent event) {
-		// TODO: see PackageExplorerPart
 	}
 
 	/**
@@ -216,8 +181,6 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 			return;
 		ISelection javaSelection = convertSelection(selection);
 		treeViewer.setSelection(javaSelection, true);
-		NewTigerstripeExplorerContentProvider provider = (NewTigerstripeExplorerContentProvider) getTreeViewer()
-				.getContentProvider();
 		ISelection cs = treeViewer.getSelection();
 		// If we have Pending changes and the element could not be selected then
 		// we try it again on more time by posting the select and reveal
@@ -314,7 +277,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 				| SWT.V_SCROLL);
 		treeViewer.setContentProvider(contentProvider);
 		treeViewer.setLabelProvider(new DecoratingJavaLabelProvider(
-				labelProviderWrapper, false));
+				labelProvider, false));
 
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);
@@ -342,8 +305,6 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		initFrameActions();
 		initKeyListener();
 
-		treeViewer.addPostSelectionChangedListener(fPostSelectionListener);
-
 		treeViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
 				fActionSet.handleDoubleClick(event);
@@ -367,9 +328,6 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		// if (fMemento != null)
 		// restoreUIState(fMemento);
 		// fMemento= null;
-
-		// Set help for the view
-		JavaUIHelp.setHelp(treeViewer, IJavaHelpContextIds.PACKAGES_VIEW);
 
 		fillActionBars();
 
@@ -430,33 +388,28 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 	}
 
 	private void initDrag() {
-		int ops = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK;
-		Transfer[] transfers = new Transfer[] {
-				LocalSelectionTransfer.getInstance(),
-				ResourceTransfer.getInstance(), FileTransfer.getInstance() };
-		TransferDragSourceListener[] dragListeners = new TransferDragSourceListener[] {
-				new SelectionTransferDragAdapter(treeViewer),
-				new ResourceTransferDragAdapter(treeViewer),
-				new FileTransferDragAdapter(treeViewer) };
-		treeViewer.addDragSupport(ops, transfers, new JdtViewerDragAdapter(
-				treeViewer, dragListeners));
+		new TigerstripeViewerDragSupport(getTreeViewer()).start();
 	}
 
 	private void initDrop() {
-		int ops = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK
-				| DND.DROP_DEFAULT;
-		Transfer[] transfers = new Transfer[] {
-				LocalSelectionTransfer.getInstance(),
-				FileTransfer.getInstance() };
-		TransferDropTargetListener[] dropListeners = new TransferDropTargetListener[] {
-				new ArtifactComponentTransferDropAdapter(treeViewer),
-				new LogicalExplorerNodeTransferDropAdapter(treeViewer),
-				new SelectionTransferDropAdapter(treeViewer),
-				new FileTransferDropAdapter(treeViewer),
-		// new WorkingSetDropAdapter(this)
-		};
-		treeViewer.addDropSupport(ops, transfers, new DelegatingDropAdapter(
-				dropListeners));
+		TigerstripeViewerDropSupport dropSupport = new TigerstripeViewerDropSupport(
+				getTreeViewer());
+		dropSupport.start();
+		// int ops = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK
+		// | DND.DROP_DEFAULT;
+		// Transfer[] transfers = new Transfer[] {
+		// LocalSelectionTransfer.getInstance(),
+		// FileTransfer.getInstance() };
+		// TransferDropTargetListener[] dropListeners = new
+		// TransferDropTargetListener[] {
+		// new ArtifactComponentTransferDropAdapter(treeViewer),
+		// new LogicalExplorerNodeTransferDropAdapter(treeViewer),
+		// new SelectionTransferDropAdapter(treeViewer),
+		// new FileTransferDropAdapter(treeViewer),
+		// // new WorkingSetDropAdapter(this)
+		// };
+		// treeViewer.addDropSupport(ops, transfers, new DelegatingDropAdapter(
+		// dropListeners));
 	}
 
 	@Override
@@ -492,7 +445,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		saveLayoutState(null);
 
 		contentProvider.setIsFlatLayout(isFlatLayout());
-		labelProviderWrapper.setIsFlatLayout(isFlatLayout());
+		labelProvider.setIsFlatLayout(isFlatLayout());
 
 		treeViewer.getControl().setRedraw(false);
 		treeViewer.refresh();
@@ -507,7 +460,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		if (element instanceof IJavaElement)
 			return ((IJavaElement) element).getElementName();
 		else
-			return labelProviderWrapper.getText(element);
+			return labelProvider.getText(element);
 	}
 
 	/**
@@ -526,7 +479,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 			} else if (element instanceof WorkingSetModel) {
 				result = TSExplorerMessages.PackageExplorerPart_workingSetModel;
 			} else {
-				result = labelProviderWrapper.getText(element);
+				result = labelProvider.getText(element);
 			}
 		} else {
 			IPath path = ((IResource) element).getFullPath();
@@ -538,24 +491,10 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		}
 
 		return result;
-		// // if (fWorkingSetName == null)
-		// // return result;
-		//
-		// String wsstr=
-		// Messages.format(TSExplorerMessages.PackageExplorer_toolTip, new
-		// String[] { fWorkingSetName });
-		// if (result.length() == 0)
-		// return wsstr;
-		// return Messages.format(TSExplorerMessages.PackageExplorer_toolTip2,
-		// new String[] { result, fWorkingSetName });
 	}
 
 	public int getRootMode() {
 		return fRootMode;
-	}
-
-	public boolean showProjects() {
-		return fRootMode == org.eclipse.jdt.internal.ui.workingsets.ViewActionGroup.SHOW_PROJECTS;
 	}
 
 	/**
@@ -613,4 +552,38 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 			selectReveal(ssel);
 		}
 	}
+
+	// ITigerstripeChangeListener
+
+	/**
+	 * Trigger a refresh of the labels in explorer for all elements related to
+	 * annotations as they change
+	 */
+	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
+		for (IModelAnnotationChangeDelta d : delta) {
+			URI uri = d.getAffectedModelComponentURI();
+			IModelComponent comp = TigerstripeURIAdapterFactory
+					.uriToComponent(uri);
+			if (comp instanceof IAbstractArtifact) {
+				IJavaElement elem = (IJavaElement) comp
+						.getAdapter(IJavaElement.class);
+				if (elem != null) {
+					treeViewer.refresh(elem, true);
+				}
+			}
+		}
+	}
+
+	public void modelChanged(IModelChangeDelta[] delta) {
+		// Never called since registration on Annotation changes only
+	}
+
+	public void projectAdded(IAbstractTigerstripeProject project) {
+		// Never called since registration on Annotation changes only
+	}
+
+	public void projectDeleted(String projectName) {
+		// Never called since registration on Annotation changes only
+	}
+
 }

@@ -24,6 +24,8 @@ package org.eclipse.tigerstripe.workbench.plugins;
  */
 public interface IArtifactBasedTemplateRule extends ITemplateBasedRule {
 
+	public final static String ANY_ARTIFACT_LABEL = "Any Artifact";
+
 	/**
 	 * Returns the Fully Qualified Name of the Model to instantiate
 	 * 

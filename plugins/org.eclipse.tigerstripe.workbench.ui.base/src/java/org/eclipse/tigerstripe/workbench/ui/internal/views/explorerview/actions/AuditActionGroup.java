@@ -15,9 +15,7 @@ import org.eclipse.jdt.ui.IContextMenuConstants;
 import org.eclipse.jdt.ui.actions.RefreshAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenGenerateInterfaceWizardAction;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewPart;
@@ -46,8 +44,8 @@ public class AuditActionGroup extends ActionGroup {
 	private RefreshAction fRefreshAction;
 
 	/**
-	 * Creates a new <code>BuildActionGroup</code>. The group requires that
-	 * the selection provided by the view part's selection provider is of type
+	 * Creates a new <code>BuildActionGroup</code>. The group requires that the
+	 * selection provided by the view part's selection provider is of type
 	 * <code>org.eclipse.jface.viewers.IStructuredSelection</code>.
 	 * 
 	 * @param part
@@ -55,10 +53,9 @@ public class AuditActionGroup extends ActionGroup {
 	 */
 	public AuditActionGroup(IViewPart part) {
 		fSite = part.getSite();
-		Shell shell = fSite.getShell();
 		ISelectionProvider provider = fSite.getSelectionProvider();
 
-		fBuildAction = new AuditAction(shell,
+		fBuildAction = new AuditAction(fSite,
 				IncrementalProjectBuilder.CLEAN_BUILD);
 		fBuildAction.setText("Clean Audit Now");
 		fBuildAction
@@ -99,8 +96,6 @@ public class AuditActionGroup extends ActionGroup {
 	 */
 	@Override
 	public void fillContextMenu(IMenuManager menu) {
-		ISelection selection = getContext().getSelection();
-
 		appendToGroup(menu, fBuildAction);
 		appendToGroup(menu, fGenerateAction);
 		appendToGroup(menu, fRefreshAction);

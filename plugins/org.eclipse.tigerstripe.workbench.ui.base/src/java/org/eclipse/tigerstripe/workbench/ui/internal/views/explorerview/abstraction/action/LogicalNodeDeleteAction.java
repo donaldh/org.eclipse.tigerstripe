@@ -31,8 +31,8 @@ import org.eclipse.core.runtime.jobs.MultiRule;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
-import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 
 public class LogicalNodeDeleteAction extends AbstractLogicalNodeAction {
 
@@ -104,10 +104,10 @@ public class LogicalNodeDeleteAction extends AbstractLogicalNodeAction {
 	 * 
 	 * @return
 	 */
-	protected List getActualResources() {
-		List orig = super.getSelectedNonResources();
-		List result = new ArrayList();
-		for (Iterator iter = orig.iterator(); iter.hasNext();) {
+	protected List<IResource> getActualResources() {
+		List<?> orig = super.getSelectedNonResources();
+		List<IResource> result = new ArrayList<IResource>();
+		for (Iterator<?> iter = orig.iterator(); iter.hasNext();) {
 			Object obj = iter.next();
 			if (obj instanceof AbstractLogicalExplorerNode) {
 				AbstractLogicalExplorerNode node = (AbstractLogicalExplorerNode) obj;
@@ -125,7 +125,7 @@ public class LogicalNodeDeleteAction extends AbstractLogicalNodeAction {
 	 *            The list of exceptions that occurred (may be empty)
 	 * @return The result status for the deletion
 	 */
-	private IStatus createResult(List exceptions) {
+	private IStatus createResult(List<CoreException> exceptions) {
 		if (exceptions.isEmpty())
 			return Status.OK_STATUS;
 		final int exceptionCount = exceptions.size();
@@ -143,8 +143,8 @@ public class LogicalNodeDeleteAction extends AbstractLogicalNodeAction {
 		String title = outOfSync ? "Resource is out of sync with the file system. Refresh and try again."
 				: "Multiple problems occurred while deleting resources.";
 
-		final MultiStatus multi = new MultiStatus(
-				IDEWorkbenchPlugin.IDE_WORKBENCH, 0, title, null);
+		final MultiStatus multi = new MultiStatus(EclipsePlugin.PLUGIN_ID, 0,
+				title, null);
 		for (int i = 0; i < exceptionCount; i++) {
 			CoreException exception = children[i];
 			IStatus status = exception.getStatus();
@@ -159,7 +159,7 @@ public class LogicalNodeDeleteAction extends AbstractLogicalNodeAction {
 	 */
 	private void delete(IResource[] resourcesToDelete, IProgressMonitor monitor)
 			throws CoreException {
-		final List exceptions = new ArrayList();
+		final List<CoreException> exceptions = new ArrayList<CoreException>();
 		forceOutOfSyncDelete = false;
 		monitor.beginTask("", resourcesToDelete.length); //$NON-NLS-1$
 		try {

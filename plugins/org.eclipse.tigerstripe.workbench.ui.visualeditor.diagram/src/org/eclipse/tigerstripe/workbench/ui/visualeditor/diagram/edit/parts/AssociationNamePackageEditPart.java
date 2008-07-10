@@ -723,7 +723,9 @@ public class AssociationNamePackageEditPart extends
 
 			this.setText("<...>");
 			this.setFont(ASSOCIATIONNAMEFIGURE_FONT);
-			this.setTextWrapAlignment(PositionConstants.CENTER);
+			this.setTextAlignment(PositionConstants.CENTER);
+			this.setTextJustification(PositionConstants.CENTER);
+			this.setTextWrap(true);
 			createContents();
 		}
 

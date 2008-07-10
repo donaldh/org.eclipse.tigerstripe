@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.jdt.internal.ui.refactoring.reorg.CutAction;
 import org.eclipse.jdt.internal.ui.refactoring.reorg.PasteAction;
 import org.eclipse.jdt.ui.IContextMenuConstants;
@@ -21,7 +18,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.dnd.Clipboard;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchSite;
@@ -100,39 +96,8 @@ public class TSCCPActionGroup extends ActionGroup {
 	}
 
 	private SelectionDispatchAction getCutActionInstance() {
-		try {
-			Class clazz = CutAction.class;
-			Constructor[] constructorArray = clazz.getDeclaredConstructors();
-			for (Constructor constructor : constructorArray) {
-				Class[] parameterTypes = constructor.getParameterTypes();
-				if (parameterTypes.length == 3
-						&& parameterTypes[0] == IWorkbenchSite.class
-						&& parameterTypes[1] == Clipboard.class
-						&& parameterTypes[2] == SelectionDispatchAction.class) {
-					Object[] argList = new Object[3];
-					argList[0] = fSite;
-					argList[1] = fClipboard;
-					argList[2] = fPasteAction;
-					return ((SelectionDispatchAction) constructor
-							.newInstance(argList));
-				} else if (parameterTypes.length == 2
-						&& parameterTypes[0] == IWorkbenchSite.class
-						&& parameterTypes[1] == Clipboard.class) {
-					Object[] argList = new Object[2];
-					argList[0] = fSite;
-					argList[1] = fClipboard;
-					return ((SelectionDispatchAction) constructor
-							.newInstance(argList));
-				}
-			}
-		} catch (InstantiationException e) {
-			EclipsePlugin.log(e);
-		} catch (InvocationTargetException e) {
-			EclipsePlugin.log(e);
-		} catch (IllegalAccessException e) {
-			EclipsePlugin.log(e);
-		}
-		return null;
+		CutAction action = new CutAction(fSite);
+		return action;
 	}
 
 	private void registerActionsAsSelectionChangeListeners() {
@@ -152,8 +117,8 @@ public class TSCCPActionGroup extends ActionGroup {
 	/**
 	 * Returns the delete action managed by this action group.
 	 * 
-	 * @return the delete action. Returns <code>null</code> if the group
-	 *         doesn't provide any delete action
+	 * @return the delete action. Returns <code>null</code> if the group doesn't
+	 *         provide any delete action
 	 */
 	public IAction getDeleteAction() {
 		return fDeleteAction;

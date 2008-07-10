@@ -45,7 +45,8 @@ public class ModelChangeReducer {
 				continue;
 			} else {
 
-				if (!previous.getProject().equals(delta.getProject())) {
+				if ((previous.getProject() == null || delta.getProject() == null)
+						|| (!previous.getProject().equals(delta.getProject()))) {
 					result.addFirst(delta);
 					previous = delta;
 					continue;

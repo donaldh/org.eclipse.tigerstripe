@@ -24,12 +24,17 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
+import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.annotation.AnnotationUtils;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
-public class TigerstripeWorkspaceNotifier {
+public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 
 	public static TigerstripeWorkspaceNotifier INSTANCE = new TigerstripeWorkspaceNotifier();
 
@@ -69,6 +74,8 @@ public class TigerstripeWorkspaceNotifier {
 		// this is a singleton
 
 		readExtensionPoints();
+
+		AnnotationPlugin.getManager().addAnnotationListener(this);
 	}
 
 	private void readExtensionPoints() {
@@ -201,6 +208,68 @@ public class TigerstripeWorkspaceNotifier {
 
 					public void run() throws Exception {
 						listener.getListener().modelChanged(deltas);
+					}
+
+				});
+		}
+	}
+
+	public void annotationAdded(Annotation annotation) {
+
+		if (!AnnotationUtils.isModelAnnotation(annotation))
+			return;
+
+		ModelAnnotationChangeDelta delta = new ModelAnnotationChangeDelta(
+				IModelAnnotationChangeDelta.ADD,
+				new Annotation[] { annotation });
+		broadcastModelAnnotationChange(new IModelAnnotationChangeDelta[] { delta });
+	}
+
+	public void annotationsChanged(Annotation[] annotations) {
+
+		Annotation[] filteredAnnotations = AnnotationUtils
+				.extractModelAnnotations(annotations);
+
+		if (filteredAnnotations.length != 0) {
+			ModelAnnotationChangeDelta delta = new ModelAnnotationChangeDelta(
+					IModelAnnotationChangeDelta.CHANGED, filteredAnnotations);
+			broadcastModelAnnotationChange(new IModelAnnotationChangeDelta[] { delta });
+		}
+	}
+
+	public void annotationsLoaded(Annotation[] annotations) {
+//		Annotation[] filteredAnnotations = AnnotationUtils
+//				.extractModelAnnotations(annotations);
+//
+//		if (filteredAnnotations.length != 0) {
+//			ModelAnnotationChangeDelta delta = new ModelAnnotationChangeDelta(
+//					IModelAnnotationChangeDelta.LOADED, filteredAnnotations);
+//			broadcastModelAnnotationChange(new IModelAnnotationChangeDelta[] { delta });
+//		}
+	}
+
+	public void annotationsRemoved(Annotation[] annotations) {
+		Annotation[] filteredAnnotations = AnnotationUtils
+				.extractModelAnnotations(annotations);
+		if (filteredAnnotations.length != 0) {
+			ModelAnnotationChangeDelta delta = new ModelAnnotationChangeDelta(
+					IModelAnnotationChangeDelta.REMOVE, filteredAnnotations);
+			broadcastModelAnnotationChange(new IModelAnnotationChangeDelta[] { delta });
+		}
+	}
+
+	private void broadcastModelAnnotationChange(
+			final IModelAnnotationChangeDelta[] deltas) {
+		for (final FilteredListener listener : listeners) {
+			if (listener.select(ITigerstripeChangeListener.ANNOTATION))
+				SafeRunner.run(new ISafeRunnable() {
+
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
+
+					public void run() throws Exception {
+						listener.getListener().annotationChanged(deltas);
 					}
 
 				});

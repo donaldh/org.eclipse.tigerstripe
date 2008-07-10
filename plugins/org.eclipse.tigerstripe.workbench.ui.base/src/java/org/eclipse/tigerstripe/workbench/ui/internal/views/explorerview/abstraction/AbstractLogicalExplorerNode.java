@@ -114,8 +114,8 @@ public abstract class AbstractLogicalExplorerNode extends ResourceMapping {
 	/**
 	 * This method is called to perform the actual rename action
 	 * 
-	 * @param newName -
-	 *            the new name for the node
+	 * @param newName
+	 *            - the new name for the node
 	 */
 	public abstract void performRename(String newName, IProgressMonitor monitor)
 			throws CoreException, TigerstripeException;
@@ -164,6 +164,7 @@ public abstract class AbstractLogicalExplorerNode extends ResourceMapping {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
 		// if ( adapter == IResource.class ) {
 		// return getKeyResource();

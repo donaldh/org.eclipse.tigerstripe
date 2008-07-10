@@ -25,13 +25,16 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.ui.packageview.SelectionTransferDropAdapter;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -48,24 +51,28 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 
-public class ArtifactComponentTransferDropAdapter extends
-		SelectionTransferDropAdapter {
+public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
+		implements TransferDropTargetListener {
 
-	private List selectedElements;
-
-	private static final long DROP_TIME_DIFF_TRESHOLD = 150;
+	private List<?> selectedElements;
+	private int internalCurrentOperation; // needed to duplicate as no setter in
 
 	public ArtifactComponentTransferDropAdapter(StructuredViewer viewer) {
 		super(viewer);
 	}
 
-	private boolean tooFast(DropTargetEvent event) {
-		return Math.abs(LocalSelectionTransfer.getInstance()
-				.getSelectionSetTime()
-				- (event.time & 0xFFFFFFFFL)) < DROP_TIME_DIFF_TRESHOLD;
+	/**
+	 * @see ViewerDropAdapter#performDrop
+	 */
+	public boolean performDrop(Object data) {
+		// should never be called, since we override the drop() method.
+		return false;
 	}
 
-	@Override
+	public Transfer getTransfer() {
+		return LocalSelectionTransfer.getInstance();
+	}
+
 	public boolean isEnabled(DropTargetEvent event) {
 		initializeSelection();
 		IModelComponent[] nodes = getIModelComponents();
@@ -73,14 +80,14 @@ public class ArtifactComponentTransferDropAdapter extends
 	}
 
 	@Override
-	public void drop(Object target, DropTargetEvent event) {
+	public void drop(DropTargetEvent event) {
 		try {
-			switch (event.detail) {
+			switch (internalCurrentOperation) {
 			case DND.DROP_MOVE:
-				handleDropMove(target, event);
+				handleDropMove(getCurrentTarget(), event);
 				break;
 			case DND.DROP_COPY:
-				handleDropCopy(target, event);
+				handleDropCopy(getCurrentTarget(), event);
 				break;
 			}
 		} catch (InvocationTargetException e) {
@@ -107,17 +114,12 @@ public class ArtifactComponentTransferDropAdapter extends
 				for (IModelComponent component : components) {
 					if (component instanceof IField) {
 						IField field = (IField) component;
-						IField clonedField = field.clone();
 						targetArtifact.addField(field.clone());
 					} else if (component instanceof IMethod) {
 						IMethod method = (IMethod) component;
-						IAbstractArtifact srcArtifact = (IAbstractArtifact) method
-								.getContainingArtifact();
 						targetArtifact.addMethod(method.clone());
 					} else if (component instanceof ILiteral) {
 						ILiteral lit = (ILiteral) component;
-						IAbstractArtifact srcArtifact = (IAbstractArtifact) lit
-								.getContainingArtifact();
 						targetArtifact.addLiteral(lit.clone());
 					}
 				}
@@ -237,43 +239,43 @@ public class ArtifactComponentTransferDropAdapter extends
 	}
 
 	@Override
-	public void validateDrop(Object target, DropTargetEvent event, int operation) {
-		event.detail = DND.DROP_NONE;
-
-		if (tooFast(event))
-			return;
+	public boolean validateDrop(Object target, int operation,
+			TransferData transferType) {
+		internalCurrentOperation = DND.DROP_NONE;
 
 		initializeSelection();
 
 		// Can only DnD logical nodes together with other logical nodes at this
 		// point.
 		if (getIModelComponents().length != selectedElements.size())
-			return;
+			return false;
 		switch (operation) {
 		case DND.DROP_DEFAULT:
-			event.detail = handleValidateDefault(target, event);
+			internalCurrentOperation = handleValidateDefault(target,
+					DND.DROP_MOVE | DND.DROP_COPY);
 			break;
 		case DND.DROP_COPY:
-			event.detail = handleValidateCopy(target, event);
+			internalCurrentOperation = handleValidateCopy(target);
 			break;
 		case DND.DROP_MOVE:
-			event.detail = handleValidateMove(target, event);
+			internalCurrentOperation = handleValidateMove(target);
 			break;
 		}
+		return true;
 	}
 
-	private int handleValidateDefault(Object target, DropTargetEvent event) {
+	private int handleValidateDefault(Object target, int operations) {
 		if (target == null)
 			return DND.DROP_NONE;
 
-		if ((event.operations & DND.DROP_MOVE) != 0)
-			return handleValidateMove(target, event);
-		if ((event.operations & DND.DROP_COPY) != 0)
-			return handleValidateCopy(target, event);
+		if ((operations & DND.DROP_MOVE) != 0)
+			return handleValidateMove(target);
+		if ((operations & DND.DROP_COPY) != 0)
+			return handleValidateCopy(target);
 		return DND.DROP_NONE;
 	}
 
-	private int handleValidateCopy(Object target, DropTargetEvent event) {
+	private int handleValidateCopy(Object target) {
 		if (target == null)
 			return DND.DROP_NONE;
 
@@ -285,7 +287,7 @@ public class ArtifactComponentTransferDropAdapter extends
 			return DND.DROP_NONE;
 	}
 
-	private int handleValidateMove(Object target, DropTargetEvent event) {
+	private int handleValidateMove(Object target) {
 		if (target == null)
 			return DND.DROP_NONE;
 
@@ -409,7 +411,6 @@ public class ArtifactComponentTransferDropAdapter extends
 		return true;
 	}
 
-	@Override
 	protected void initializeSelection() {
 		ISelection s = LocalSelectionTransfer.getInstance().getSelection();
 		if (!(s instanceof IStructuredSelection))

@@ -10,12 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
-import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.internal.ui.actions.ActionMessages;
 import org.eclipse.jdt.ui.IContextMenuConstants;
 import org.eclipse.jdt.ui.actions.IJavaEditorActionDefinitionIds;
@@ -26,11 +23,6 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.actions.OpenWithMenu;
@@ -86,21 +78,10 @@ public class TSNavigateActionGroup extends NavigateActionGroup {
 
 		IAdaptable element = (IAdaptable) o;
 		Object resource = element.getAdapter(IResource.class);
-		
-//		// if we are allowing package artifacts, then a right click
-//		// option should be to open the editor on the artifact
-//		IWorkbenchProfile profile = TigerstripeCore
-//			.getWorkbenchProfileSession()
-//			.getActiveProfile();
-//		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
-//			 .getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-//		boolean packagesAllowed = (prop.getDetailsForType(
-//				IPackageArtifact.class.getName())
-//				.isEnabled()&& o instanceof IPackageFragment)  ;
-//		
+
 		if (!(resource instanceof IFile))
 			return;
-		
+
 		// Create a menu.
 		IMenuManager submenu = new MenuManager(
 				ActionMessages.OpenWithMenu_label);

@@ -4,7 +4,6 @@ Bundle-Name: Tigerstripe workbench Bulk Import (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.optional.bulkImport;singleton:=true
 Bundle-Version: 0.4.0.qualifier
 Bundle-Activator: org.eclipse.tigerstripe.workbench.optional.bulkImport.BulkImportPlugin
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -21,4 +20,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.uml2.uml.resources,
  org.eclipse.tigerstripe.workbench.base,
  org.eclipse.tigerstripe.workbench.ui.base
-Eclipse-AutoStart: true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

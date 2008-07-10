@@ -1,19 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.tigerstripe.metamodel">
+<schema targetNamespace="org.eclipse.tigerstripe.metamodel" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appInfo>
+      <appinfo>
          <meta.schema plugin="org.eclipse.tigerstripe.metamodel" id="customArtifactMetadata" name="Custom Artifact Metadata"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          This extension point allows to customize the Artifact Metadata used in Tigerstripe.
       </documentation>
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
       <complexType>
          <choice minOccurs="1" maxOccurs="unbounded">
             <element ref="artifactMetadata"/>
+            <element ref="modelComponentIconProvider"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -34,9 +40,9 @@
                <documentation>
                   
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute translatable="true"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
@@ -44,9 +50,9 @@
 
    <element name="artifactMetadata">
       <annotation>
-         <appInfo>
+         <appinfo>
             <meta.element labelAttribute="userLabel" icon="icon"/>
-         </appInfo>
+         </appinfo>
       </annotation>
       <complexType>
          <attribute name="artifactType" type="string" use="required">
@@ -54,9 +60,9 @@
                <documentation>
                   
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java" basedOn="org.eclipse.tigerstripe.metamodel.impl.IAbstractArtifactImpl:"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
          <attribute name="userLabel" type="string" use="required">
@@ -92,9 +98,9 @@
                <documentation>
                   
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="resource"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
          <attribute name="icon_new" type="string">
@@ -102,9 +108,9 @@
                <documentation>
                   
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="resource"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
          <attribute name="icon_gs" type="string">
@@ -112,57 +118,80 @@
                <documentation>
                   
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="resource"/>
-               </appInfo>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="modelComponentIconProvider">
+      <annotation>
+         <documentation>
+            Define a custom dynamic icon provider for a specific type of Artifact.
+For example this can be used to change the appearance of an artifact icon based on annotations.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="artifactType" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The target type of Artifact to use this provider for
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn="org.eclipse.tigerstripe.metamodel.impl.IAbstractArtifactImpl:"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="provider" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The provide to use.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.repository.metamodel.providers.IModelComponentIconProvider"/>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="since"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter the first release in which this extension point appears.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="examples"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter extension point usage example here.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="apiInfo"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter API information here.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="implementation"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter information about supplied implementation of this extension point.]
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="copyright"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
 </schema>

@@ -130,9 +130,9 @@ public abstract class AbstractLogicalNodeAction extends SelectionListenerAction 
 	}
 
 	protected AbstractLogicalExplorerNode[] getSelectedNodes() {
-		List orig = super.getSelectedNonResources();
+		List<?> orig = super.getSelectedNonResources();
 		List<AbstractLogicalExplorerNode> result = new ArrayList<AbstractLogicalExplorerNode>();
-		for (Iterator iter = orig.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = orig.iterator(); iter.hasNext();) {
 			Object obj = iter.next();
 			if (obj instanceof AbstractLogicalExplorerNode) {
 				result.add((AbstractLogicalExplorerNode) obj);

@@ -18,6 +18,7 @@ import org.eclipse.core.commands.operations.IUndoContext;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.PerformanceStats;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.actions.ActionMessages;
 import org.eclipse.jdt.internal.ui.actions.ActionUtil;
@@ -27,6 +28,7 @@ import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaTextSelection;
 import org.eclipse.jdt.internal.ui.refactoring.RefactoringMessages;
 import org.eclipse.jdt.ui.IContextMenuConstants;
+import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jdt.ui.actions.ConvertAnonymousToNestedAction;
 import org.eclipse.jdt.ui.actions.ConvertNestedToTopAction;
 import org.eclipse.jdt.ui.actions.IJavaEditorActionDefinitionIds;
@@ -161,10 +163,10 @@ public class TSRefactorActionGroup extends ActionGroup {
 	private Action fNoActionAvailable = new NoActionAvailable();
 
 	/**
-	 * Creates a new <code>RefactorActionGroup</code>. The group requires
-	 * that the selection provided by the part's selection provider is of type
-	 * <code>
-	 * org.eclipse.jface.viewers.IStructuredSelection</code>.
+	 * Creates a new <code>RefactorActionGroup</code>. The group requires that
+	 * the selection provided by the part's selection provider is of type <code>
+	 * org.eclipse.jface.viewers.IStructuredSelection</code>
+	 * .
 	 * 
 	 * @param part
 	 *            the view part that owns this action group
@@ -179,10 +181,10 @@ public class TSRefactorActionGroup extends ActionGroup {
 	}
 
 	/**
-	 * Creates a new <code>RefactorActionGroup</code>. The action requires
-	 * that the selection provided by the page's selection provider is of type
-	 * <code>
-	 * org.eclipse.jface.viewers.IStructuredSelection</code>.
+	 * Creates a new <code>RefactorActionGroup</code>. The action requires that
+	 * the selection provided by the page's selection provider is of type <code>
+	 * org.eclipse.jface.viewers.IStructuredSelection</code>
+	 * .
 	 * 
 	 * @param page
 	 *            the page that owns this action group
@@ -257,93 +259,107 @@ public class TSRefactorActionGroup extends ActionGroup {
 		// fEditorActions.add(fConvertArtifactAction);
 
 		// fPullUpAction= new PullUpAction(editor);
-		// fPullUpAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.PULL_UP);
+		// fPullUpAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.
+		// PULL_UP);
 		// fPullUpAction.update(selection);
 		// editor.setAction("PullUp", fPullUpAction); //$NON-NLS-1$
 		// fEditorActions.add(fPullUpAction);
 
 		// fPushDownAction= new PushDownAction(editor);
-		// fPushDownAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.PUSH_DOWN);
+		// fPushDownAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.
+		// PUSH_DOWN);
 		// fPushDownAction.update(selection);
 		// editor.setAction("PushDown", fPushDownAction); //$NON-NLS-1$
 		// fEditorActions.add(fPushDownAction);
 
 		// fExtractInterfaceAction= new ExtractInterfaceAction(editor);
-		// fExtractInterfaceAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.EXTRACT_INTERFACE);
+		// fExtractInterfaceAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.EXTRACT_INTERFACE);
 		// fExtractInterfaceAction.update(selection);
 		// editor.setAction("ExtractInterface", fExtractInterfaceAction);
 		// //$NON-NLS-1$
 		// fEditorActions.add(fExtractInterfaceAction);
 
 		// fChangeTypeAction= new ChangeTypeAction(editor);
-		// fChangeTypeAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.CHANGE_TYPE);
+		//fChangeTypeAction.setActionDefinitionId(IJavaEditorActionDefinitionIds
+		// .CHANGE_TYPE);
 		// initAction(fChangeTypeAction, provider, selection);
 		// editor.setAction("ChangeType", fChangeTypeAction); //$NON-NLS-1$
 		// fEditorActions.add(fChangeTypeAction);
 
 		// fUseSupertypeAction= new UseSupertypeAction(editor);
-		// fUseSupertypeAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.USE_SUPERTYPE);
+		// fUseSupertypeAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.USE_SUPERTYPE);
 		// fUseSupertypeAction.update(selection);
 		// editor.setAction("UseSupertype", fUseSupertypeAction); //$NON-NLS-1$
 		// fEditorActions.add(fUseSupertypeAction);
 
 		// fInferTypeArgumentsAction= new InferTypeArgumentsAction(editor);
-		// fInferTypeArgumentsAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.INFER_TYPE_ARGUMENTS_ACTION);
+		// fInferTypeArgumentsAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.INFER_TYPE_ARGUMENTS_ACTION);
 		// fInferTypeArgumentsAction.update(selection);
 		// editor.setAction("InferTypeArguments", fInferTypeArgumentsAction);
 		// //$NON-NLS-1$
 		// fEditorActions.add(fInferTypeArgumentsAction);
 
 		// fInlineAction= new InlineAction(editor);
-		// fInlineAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.INLINE);
+		// fInlineAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.
+		// INLINE);
 		// fInlineAction.update(selection);
 		// editor.setAction("Inline", fInlineAction); //$NON-NLS-1$
 		// fEditorActions.add(fInlineAction);
 
 		// fExtractMethodAction= new ExtractMethodAction(editor);
-		// fExtractMethodAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.EXTRACT_METHOD);
+		// fExtractMethodAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.EXTRACT_METHOD);
 		// initAction(fExtractMethodAction, provider, selection);
 		// editor.setAction("ExtractMethod", fExtractMethodAction);
 		// //$NON-NLS-1$
 		// fEditorActions.add(fExtractMethodAction);
 
 		// fExtractTempAction= new ExtractTempAction(editor);
-		// fExtractTempAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.EXTRACT_LOCAL_VARIABLE);
+		//fExtractTempAction.setActionDefinitionId(IJavaEditorActionDefinitionIds
+		// .EXTRACT_LOCAL_VARIABLE);
 		// initAction(fExtractTempAction, provider, selection);
 		// editor.setAction("ExtractLocalVariable", fExtractTempAction);
 		// //$NON-NLS-1$
 		// fEditorActions.add(fExtractTempAction);
 
 		// fExtractConstantAction= new ExtractConstantAction(editor);
-		// fExtractConstantAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.EXTRACT_CONSTANT);
+		// fExtractConstantAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.EXTRACT_CONSTANT);
 		// initAction(fExtractConstantAction, provider, selection);
 		// editor.setAction("ExtractConstant", fExtractConstantAction);
 		// //$NON-NLS-1$
 		// fEditorActions.add(fExtractConstantAction);
 
 		// fIntroduceParameterAction= new IntroduceParameterAction(editor);
-		// fIntroduceParameterAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.INTRODUCE_PARAMETER);
+		// fIntroduceParameterAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.INTRODUCE_PARAMETER);
 		// initAction(fIntroduceParameterAction, provider, selection);
 		// editor.setAction("IntroduceParameter", fIntroduceParameterAction);
 		// //$NON-NLS-1$
 		// fEditorActions.add(fIntroduceParameterAction);
 
 		// fIntroduceFactoryAction= new IntroduceFactoryAction(editor);
-		// fIntroduceFactoryAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.INTRODUCE_FACTORY);
+		// fIntroduceFactoryAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.INTRODUCE_FACTORY);
 		// initAction(fIntroduceFactoryAction, provider, selection);
 		// editor.setAction("IntroduceFactory", fIntroduceFactoryAction);
 		// //$NON-NLS-1$
 		// fEditorActions.add(fIntroduceFactoryAction);
 
 		// fConvertLocalToFieldAction= new ConvertLocalToFieldAction(editor);
-		// fConvertLocalToFieldAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.PROMOTE_LOCAL_VARIABLE);
+		// fConvertLocalToFieldAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.PROMOTE_LOCAL_VARIABLE);
 		// initAction(fConvertLocalToFieldAction, provider, selection);
 		// editor.setAction("PromoteTemp", fConvertLocalToFieldAction);
 		// //$NON-NLS-1$
 		// fEditorActions.add(fConvertLocalToFieldAction);
 
 		// fSelfEncapsulateField= new SelfEncapsulateFieldAction(editor);
-		// fSelfEncapsulateField.setActionDefinitionId(IJavaEditorActionDefinitionIds.SELF_ENCAPSULATE_FIELD);
+		// fSelfEncapsulateField.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.SELF_ENCAPSULATE_FIELD);
 		// fSelfEncapsulateField.update(selection);
 		// editor.setAction("SelfEncapsulateField", fSelfEncapsulateField);
 		// //$NON-NLS-1$
@@ -383,27 +399,34 @@ public class TSRefactorActionGroup extends ActionGroup {
 		initAction(fModifyParametersAction, provider, selection);
 
 		// fConvertArtifactAction = new ConvertArtifactAction(site);
-		// fConvertArtifactAction.setActionDefinitionId("org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.actions.ConvertArtifactAction");
+		// fConvertArtifactAction.setActionDefinitionId(
+		// "org.eclipse.tigerstripe.workbench.ui.eclipse.views.explorerview.actions.ConvertArtifactAction"
+		// );
 		// initAction(fConvertArtifactAction, provider, selection);
 
 		// fPullUpAction= new PullUpAction(fSite);
-		// fPullUpAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.PULL_UP);
+		// fPullUpAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.
+		// PULL_UP);
 		// initAction(fPullUpAction, provider, selection);
 
 		// fPushDownAction= new PushDownAction(fSite);
-		// fPushDownAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.PUSH_DOWN);
+		// fPushDownAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.
+		// PUSH_DOWN);
 		// initAction(fPushDownAction, provider, selection);
 
 		// fSelfEncapsulateField= new SelfEncapsulateFieldAction(fSite);
-		// fSelfEncapsulateField.setActionDefinitionId(IJavaEditorActionDefinitionIds.SELF_ENCAPSULATE_FIELD);
+		// fSelfEncapsulateField.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.SELF_ENCAPSULATE_FIELD);
 		// initAction(fSelfEncapsulateField, provider, selection);
 
 		// fExtractInterfaceAction= new ExtractInterfaceAction(fSite);
-		// fExtractInterfaceAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.EXTRACT_INTERFACE);
+		// fExtractInterfaceAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.EXTRACT_INTERFACE);
 		// initAction(fExtractInterfaceAction, provider, selection);
 
 		// fChangeTypeAction= new ChangeTypeAction(fSite);
-		// fChangeTypeAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.CHANGE_TYPE);
+		//fChangeTypeAction.setActionDefinitionId(IJavaEditorActionDefinitionIds
+		// .CHANGE_TYPE);
 		// initAction(fChangeTypeAction, provider, selection);
 
 		fConvertNestedToTopAction = new ConvertNestedToTopAction(fSite);
@@ -412,19 +435,23 @@ public class TSRefactorActionGroup extends ActionGroup {
 		initAction(fConvertNestedToTopAction, provider, selection);
 
 		// fUseSupertypeAction= new UseSupertypeAction(fSite);
-		// fUseSupertypeAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.USE_SUPERTYPE);
+		// fUseSupertypeAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.USE_SUPERTYPE);
 		// initAction(fUseSupertypeAction, provider, selection);
 
 		// fInferTypeArgumentsAction= new InferTypeArgumentsAction(fSite);
-		// fInferTypeArgumentsAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.INFER_TYPE_ARGUMENTS_ACTION);
+		// fInferTypeArgumentsAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.INFER_TYPE_ARGUMENTS_ACTION);
 		// initAction(fInferTypeArgumentsAction, provider, selection);
 
 		// fInlineAction= new InlineAction(fSite);
-		// fInlineAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.INLINE);
+		// fInlineAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.
+		// INLINE);
 		// initAction(fInlineAction, provider, selection);
 
 		// fIntroduceFactoryAction= new IntroduceFactoryAction(fSite);
-		// fIntroduceFactoryAction.setActionDefinitionId(IJavaEditorActionDefinitionIds.INTRODUCE_FACTORY);
+		// fIntroduceFactoryAction.setActionDefinitionId(
+		// IJavaEditorActionDefinitionIds.INTRODUCE_FACTORY);
 		// initAction(fIntroduceFactoryAction, provider, selection);
 
 		fConvertAnonymousToNestedAction = new ConvertAnonymousToNestedAction(
@@ -454,14 +481,16 @@ public class TSRefactorActionGroup extends ActionGroup {
 	@Override
 	public void fillActionBars(IActionBars actionBars) {
 		super.fillActionBars(actionBars);
-		// actionBars.setGlobalActionHandler(JdtActionConstants.SELF_ENCAPSULATE_FIELD,
+		// actionBars.setGlobalActionHandler(JdtActionConstants.
+		// SELF_ENCAPSULATE_FIELD,
 		// fSelfEncapsulateField);
 		actionBars.setGlobalActionHandler(JdtActionConstants.MOVE, fMoveAction);
 		actionBars.setGlobalActionHandler(JdtActionConstants.RENAME,
 				fRenameAction);
 		actionBars.setGlobalActionHandler(JdtActionConstants.MODIFY_PARAMETERS,
 				fModifyParametersAction);
-		// actionBars.setGlobalActionHandler("org.eclipse.tigerstripe.eclise.ui.actions.Rename",
+		// actionBars.setGlobalActionHandler(
+		// "org.eclipse.tigerstripe.eclise.ui.actions.Rename",
 		// fConvertArtifactAction);
 		// actionBars.setGlobalActionHandler(JdtActionConstants.PULL_UP,
 		// fPullUpAction);
@@ -469,27 +498,33 @@ public class TSRefactorActionGroup extends ActionGroup {
 		// fPushDownAction);
 		// actionBars.setGlobalActionHandler(JdtActionConstants.EXTRACT_TEMP,
 		// fExtractTempAction);
-		// actionBars.setGlobalActionHandler(JdtActionConstants.EXTRACT_CONSTANT,
+		//actionBars.setGlobalActionHandler(JdtActionConstants.EXTRACT_CONSTANT,
 		// fExtractConstantAction);
-		// actionBars.setGlobalActionHandler(JdtActionConstants.INTRODUCE_PARAMETER,
+		// actionBars.setGlobalActionHandler(JdtActionConstants.
+		// INTRODUCE_PARAMETER,
 		// fIntroduceParameterAction);
-		// actionBars.setGlobalActionHandler(JdtActionConstants.INTRODUCE_FACTORY,
+		//actionBars.setGlobalActionHandler(JdtActionConstants.INTRODUCE_FACTORY
+		// ,
 		// fIntroduceFactoryAction);
 		// actionBars.setGlobalActionHandler(JdtActionConstants.EXTRACT_METHOD,
 		// fExtractMethodAction);
 		// actionBars.setGlobalActionHandler(JdtActionConstants.INLINE,
 		// fInlineAction);
-		// actionBars.setGlobalActionHandler(JdtActionConstants.EXTRACT_INTERFACE,
+		//actionBars.setGlobalActionHandler(JdtActionConstants.EXTRACT_INTERFACE
+		// ,
 		// fExtractInterfaceAction);
 		// actionBars.setGlobalActionHandler(JdtActionConstants.CHANGE_TYPE,
 		// fChangeTypeAction);
-		// actionBars.setGlobalActionHandler(JdtActionConstants.CONVERT_NESTED_TO_TOP,
+		// actionBars.setGlobalActionHandler(JdtActionConstants.
+		// CONVERT_NESTED_TO_TOP,
 		// fConvertNestedToTopAction);
 		// actionBars.setGlobalActionHandler(JdtActionConstants.USE_SUPERTYPE,
 		// fUseSupertypeAction);
-		// actionBars.setGlobalActionHandler(JdtActionConstants.INFER_TYPE_ARGUMENTS,
+		// actionBars.setGlobalActionHandler(JdtActionConstants.
+		// INFER_TYPE_ARGUMENTS,
 		// fInferTypeArgumentsAction);
-		// actionBars.setGlobalActionHandler(JdtActionConstants.CONVERT_LOCAL_TO_FIELD,
+		// actionBars.setGlobalActionHandler(JdtActionConstants.
+		// CONVERT_LOCAL_TO_FIELD,
 		// fConvertLocalToFieldAction);
 		actionBars.setGlobalActionHandler(
 				JdtActionConstants.CONVERT_ANONYMOUS_TO_NESTED,
@@ -657,9 +692,8 @@ public class TSRefactorActionGroup extends ActionGroup {
 		}
 	}
 
-	private IJavaElement getEditorInput() {
-		return JavaPlugin.getDefault().getWorkingCopyManager().getWorkingCopy(
-				fEditor.getEditorInput());
+	private ITypeRoot getEditorInput() {
+		return JavaUI.getEditorInputTypeRoot(fEditor.getEditorInput());
 	}
 
 	private IDocument getDocument() {

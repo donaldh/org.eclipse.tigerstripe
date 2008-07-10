@@ -21,6 +21,7 @@ import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
@@ -35,9 +36,8 @@ import org.eclipse.ui.actions.BuildAction;
 
 public class AuditAction extends BuildAction {
 
-	public AuditAction(Shell shell, int type) {
-		super(shell, type);
-		// TODO Auto-generated constructor stub
+	public AuditAction(IShellProvider provider, int type) {
+		super(provider, type);
 	}
 
 	/**
@@ -78,9 +78,11 @@ public class AuditAction extends BuildAction {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void run() {
-		for (Iterator i = getSelectedResources().iterator(); i.hasNext();) {
-			IResource resource = (IResource) i.next();
+		for (Iterator<IResource> i = getSelectedResources().iterator(); i
+				.hasNext();) {
+			IResource resource = i.next();
 			IProject project = resource.getProject();
 			if (project != null) {
 				try {

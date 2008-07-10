@@ -62,8 +62,7 @@ public class EProperty implements IProperty {
 			setValue(cellEditor.getValue());
     }
 	
-	@SuppressWarnings("unchecked")
-    public String getDisplayName() {
+	public String getDisplayName() {
 		return getValueDisplayName(getValue());
 	}
 	

@@ -10,9 +10,5 @@
  *******************************************************************************/
 package com.mycompany;
 
-import org.apache.commons.lang.BooleanUtils;
-
 public class M0Helper {
-
-	public static BooleanUtils utils = new BooleanUtils();
 }

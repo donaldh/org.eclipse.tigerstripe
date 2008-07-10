@@ -100,10 +100,13 @@ public class MigrationHelper {
 	 * 
 	 * @param type
 	 */
+	@SuppressWarnings("static-access")
 	private static void assertDefined(String type) {
 		// This is just in place to ensure we are migrating everything
 		try {
-			Class theClass = MigrationHelper.class.forName(type);
+			if (!IArtifactBasedTemplateRule.ANY_ARTIFACT_LABEL.equals(type)) {
+				MigrationHelper.class.forName(type);
+			}
 		} catch (ClassNotFoundException e) {
 			BasePlugin.log(new Status(IStatus.WARNING, BasePlugin.PLUGIN_ID,
 					"Couldn't migrate profile property type: " + type, e));

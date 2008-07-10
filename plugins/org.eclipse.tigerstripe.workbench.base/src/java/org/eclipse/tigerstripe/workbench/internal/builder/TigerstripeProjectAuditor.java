@@ -400,31 +400,31 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	private void runAuditorsByFileExtensions(int kind, IProgressMonitor monitor) {
 
 		
-		// Run any custom rules that are defined in the extension point.
-		try {
-			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
-			.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.fileExtensionBasedAuditor");
-			for (IConfigurationElement element : elements){
-				final IFileExtensionBasedAuditor customRule  = (IFileExtensionBasedAuditor) element.createExecutableExtension("auditorClass");
-				final IProgressMonitor finalMonitor = monitor;
-				SafeRunner.run(new ISafeRunnable() {
-					public void handleException(Throwable exception) {
-						BasePlugin.log(exception);
-					}
-
-					public void run() throws Exception {
-						String extension = customRule.getFileExtension();
-						List<IResource> resources = null;
-						resources = findAll(getProject(), extension);
-						customRule.run(getProject(), resources, finalMonitor);
-					}
-
-				});
-			}
-		}catch (CoreException e ){
-			TigerstripeProjectAuditor.reportError(
-					"Invalid custom audit definitions.", getProject(), 222);
-		}
+//		// Run any custom rules that are defined in the extension point.
+//		try {
+//			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
+//			.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.fileExtensionBasedAuditor");
+//			for (IConfigurationElement element : elements){
+//				final IFileExtensionBasedAuditor customRule  = (IFileExtensionBasedAuditor) element.createExecutableExtension("auditorClass");
+//				final IProgressMonitor finalMonitor = monitor;
+//				SafeRunner.run(new ISafeRunnable() {
+//					public void handleException(Throwable exception) {
+//						BasePlugin.log(exception);
+//					}
+//
+//					public void run() throws Exception {
+//						String extension = customRule.getFileExtension();
+//						List<IResource> resources = null;
+//						resources = findAll(getProject(), extension);
+//						customRule.run(getProject(), resources, finalMonitor);
+//					}
+//
+//				});
+//			}
+//		}catch (CoreException e ){
+//			TigerstripeProjectAuditor.reportError(
+//					"Invalid custom audit definitions.", getProject(), 222);
+//		}
 
 	}
 

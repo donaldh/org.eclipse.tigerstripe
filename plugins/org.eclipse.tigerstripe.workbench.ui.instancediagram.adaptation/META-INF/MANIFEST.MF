@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.instancediagram.adapta
 Bundle-Version: 0.4.0.qualifier
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.Activator
 Bundle-Vendor: 
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -32,8 +31,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.tigerstripe.workbench.base,
  org.eclipse.tigerstripe.workbench.ui.base,
  org.eclipse.tigerstripe.workbench.ui.instancediagram
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.commands,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.dnd,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

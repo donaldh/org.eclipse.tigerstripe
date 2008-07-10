@@ -64,8 +64,6 @@ public class ArtifactBasedRule extends TemplateBasedRule implements
 
 	private final static String REPORTTEMPLATE = "IArtifactBasedTemplateRunRule.vm";
 
-	public final static String ANY_ARTIFACT_LABEL = "Any Artifact";
-
 	private boolean includeDependencies = false;
 
 	public final static String LABEL = "Artifact Model Run Rule";

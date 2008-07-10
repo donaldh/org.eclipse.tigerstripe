@@ -13,12 +13,15 @@ package org.eclipse.tigerstripe.repository.internal;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.eclipse.tigerstripe.repository.metamodel.providers.IModelComponentIconProvider;
 
 public class ModelComponentMetadata implements IModelComponentMetadata {
 
 	private URL artifactIcon_URL = null;
 	private URL artifactIcon_gs_URL = null;
 	private URL artifactIcon_new_URL = null;
+
+	private IModelComponentIconProvider provider;
 
 	private String artifactLabel = null;
 
@@ -54,25 +57,50 @@ public class ModelComponentMetadata implements IModelComponentMetadata {
 		this.artifactLabel = artifactLabel;
 	}
 
+	public void setIconProvider(IModelComponentIconProvider provider) {
+		this.provider = provider;
+	}
+
 	@SuppressWarnings("unchecked")
 	public Class getSpecifiedClass(Object context) {
 		return this.specifiedClass;
 	}
 
 	public URL getGreyedoutIconURL(Object context) {
+		if (provider != null) {
+			URL result = provider.getGreyedoutIconURL(context);
+			if (result != null) {
+				return result;
+			}
+		}
 		return artifactIcon_gs_URL;
 	}
 
 	public URL getIconURL(Object context) {
+		if (provider != null) {
+			URL result = provider.getIconURL(context);
+			if (result != null)
+				return result;
+		}
 		return artifactIcon_URL;
 	}
 
 	public String getLabel(Object context) {
+		if (provider != null) {
+			String result = provider.getCreationToolLabel(context);
+			if (result != null)
+				return result;
+		}
+
 		return artifactLabel;
 	}
 
 	public URL getNewIconURL(Object context) {
+		if (provider != null) {
+			URL result = provider.getCreationToolIconURL(context);
+			if (result != null)
+				return result;
+		}
 		return artifactIcon_new_URL;
 	}
-
 }

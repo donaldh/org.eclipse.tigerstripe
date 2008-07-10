@@ -13,9 +13,10 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.debug.core,
  org.eclipse.ui.ide,
  org.eclipse.core.expressions
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.annotation.ui,
  org.eclipse.tigerstripe.annotation.ui.core,
  org.eclipse.tigerstripe.annotation.ui.internal.actions,
  org.eclipse.tigerstripe.annotation.ui.util,
  org.eclipse.tigerstripe.annotation.ui.wizard
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

@@ -14,4 +14,5 @@ Require-Bundle: org.eclipse.tigerstripe.annotation.ui,
  org.eclipse.ui.workbench,
  org.eclipse.ui.ide,
  org.eclipse.ui.navigator.resources
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

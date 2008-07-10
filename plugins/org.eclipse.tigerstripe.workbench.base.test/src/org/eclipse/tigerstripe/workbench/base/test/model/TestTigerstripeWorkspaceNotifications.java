@@ -12,18 +12,13 @@ package org.eclipse.tigerstripe.workbench.base.test.model;
 
 import junit.framework.TestCase;
 
+import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.base.test.utils.M1ProjectHelper;
 import org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TestTigerstripeWorkspaceNotifications extends TestCase implements
 		ITigerstripeChangeListener {
@@ -73,63 +68,63 @@ public class TestTigerstripeWorkspaceNotifications extends TestCase implements
 		unregisterSelf();
 	}
 
-//	public void testModelNotifications() throws Exception {
-//
-//		resetNotifications();
-//		registerSelf(MODEL);
-//
-//		ITigerstripeModelProject mProj = ModelProjectHelper
-//				.createModelProject("testModelNotifications");
-//
-//		IArtifactManagerSession session = mProj.getArtifactManagerSession();
-//		IAbstractArtifact art = session
-//				.makeArtifact(IManagedEntityArtifact.class.getName());
-//		art.setFullyQualifiedName("com.mycompany.Test");
-//		art.doSave(null);
-//		assertTrue(checkDeltas());
-//
-//		IModelChangeDelta delta = deltas[0];
-//		assertTrue(delta.getAddedArtifacts().length == 1);
-//		assertTrue(delta.getDeletedArtifacts().length == 0);
-//		assertTrue(delta.getRenamedArtifacts().length == 0);
-//		assertTrue(delta.getChangedArtifacts().length == 0);
-//
-//		session.renameArtifact(art, "com.mycompany.Truc");
-//		assertTrue(checkDeltas());
-//
-//		delta = deltas[0];
-//		assertTrue(delta.getAddedArtifacts().length == 0);
-//		assertTrue(delta.getDeletedArtifacts().length == 0);
-//		assertTrue(delta.getRenamedArtifacts().length == 1);
-//		assertTrue(delta.getChangedArtifacts().length == 0);
-//		
-//		IField field = art.makeField();
-//		field.setName("f");
-//		IType type = field.makeType();
-//		type.setFullyQualifiedName("int");
-//		field.setType(type);
-//		art.addField(field);
-//		art.doSave(null);
-//		assertTrue(checkDeltas());
-//
-//		delta = deltas[0];
-//		assertTrue(delta.getAddedArtifacts().length == 0);
-//		assertTrue(delta.getDeletedArtifacts().length == 0);
-//		assertTrue(delta.getRenamedArtifacts().length == 0);
-//		assertTrue(delta.getChangedArtifacts().length == 1);
-//
-//		session.removeArtifact(art);
-//		assertTrue(checkDeltas());
-//
-//		delta = deltas[0];
-//		assertTrue(delta.getAddedArtifacts().length == 0);
-//		assertTrue(delta.getDeletedArtifacts().length == 1);
-//		assertTrue(delta.getRenamedArtifacts().length == 0);
-//		assertTrue(delta.getChangedArtifacts().length == 0);
-//		
-//		mProj.delete(true, null);
-//		unregisterSelf();
-//	}
+	// public void testModelNotifications() throws Exception {
+	//
+	// resetNotifications();
+	// registerSelf(MODEL);
+	//
+	// ITigerstripeModelProject mProj = ModelProjectHelper
+	// .createModelProject("testModelNotifications");
+	//
+	// IArtifactManagerSession session = mProj.getArtifactManagerSession();
+	// IAbstractArtifact art = session
+	// .makeArtifact(IManagedEntityArtifact.class.getName());
+	// art.setFullyQualifiedName("com.mycompany.Test");
+	// art.doSave(null);
+	// assertTrue(checkDeltas());
+	//
+	// IModelChangeDelta delta = deltas[0];
+	// assertTrue(delta.getAddedArtifacts().length == 1);
+	// assertTrue(delta.getDeletedArtifacts().length == 0);
+	// assertTrue(delta.getRenamedArtifacts().length == 0);
+	// assertTrue(delta.getChangedArtifacts().length == 0);
+	//
+	// session.renameArtifact(art, "com.mycompany.Truc");
+	// assertTrue(checkDeltas());
+	//
+	// delta = deltas[0];
+	// assertTrue(delta.getAddedArtifacts().length == 0);
+	// assertTrue(delta.getDeletedArtifacts().length == 0);
+	// assertTrue(delta.getRenamedArtifacts().length == 1);
+	// assertTrue(delta.getChangedArtifacts().length == 0);
+	//		
+	// IField field = art.makeField();
+	// field.setName("f");
+	// IType type = field.makeType();
+	// type.setFullyQualifiedName("int");
+	// field.setType(type);
+	// art.addField(field);
+	// art.doSave(null);
+	// assertTrue(checkDeltas());
+	//
+	// delta = deltas[0];
+	// assertTrue(delta.getAddedArtifacts().length == 0);
+	// assertTrue(delta.getDeletedArtifacts().length == 0);
+	// assertTrue(delta.getRenamedArtifacts().length == 0);
+	// assertTrue(delta.getChangedArtifacts().length == 1);
+	//
+	// session.removeArtifact(art);
+	// assertTrue(checkDeltas());
+	//
+	// delta = deltas[0];
+	// assertTrue(delta.getAddedArtifacts().length == 0);
+	// assertTrue(delta.getDeletedArtifacts().length == 1);
+	// assertTrue(delta.getRenamedArtifacts().length == 0);
+	// assertTrue(delta.getChangedArtifacts().length == 0);
+	//		
+	// mProj.delete(true, null);
+	// unregisterSelf();
+	// }
 
 	protected void registerSelf(int level) {
 		TigerstripeCore.addTigerstripeChangeListener(this, level);
@@ -171,4 +166,10 @@ public class TestTigerstripeWorkspaceNotifications extends TestCase implements
 		Thread.sleep(SLEEPTIME);
 		return deltas != null;
 	}
+
+	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

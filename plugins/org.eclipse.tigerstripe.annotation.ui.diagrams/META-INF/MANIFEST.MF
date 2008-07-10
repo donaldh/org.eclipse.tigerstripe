@@ -11,9 +11,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gmf.runtime.diagram.ui.providers,
  org.eclipse.tigerstripe.annotation.core,
  org.eclipse.tigerstripe.annotation.ui
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.annotation.ui.diagrams,
  org.eclipse.tigerstripe.annotation.ui.diagrams.model,
  org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl,
  org.eclipse.tigerstripe.annotation.ui.diagrams.model.util,
  org.eclipse.tigerstripe.annotation.ui.diagrams.parts
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

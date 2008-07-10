@@ -12,8 +12,10 @@ package org.eclipse.tigerstripe.repository.internal;
 
 import java.net.URL;
 
+import org.eclipse.tigerstripe.repository.metamodel.providers.IModelComponentIconProvider;
+
 public interface IModelComponentMetadata {
-	
+
 	public URL getIconURL(Object context);
 
 	public URL getGreyedoutIconURL(Object context);
@@ -22,4 +24,5 @@ public interface IModelComponentMetadata {
 
 	public String getLabel(Object context);
 
+	public void setIconProvider(IModelComponentIconProvider provider);
 }

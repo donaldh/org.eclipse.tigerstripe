@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base;singleton:=true
 Bundle-Version: 0.4.0.qualifier
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.EclipsePlugin
 Bundle-Vendor: 
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
@@ -36,9 +35,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gmf.runtime.diagram.ui.resources.editor,
  org.eclipse.search,
  org.eclipse.tigerstripe.workbench.base;visibility:=reexport,
- org.apache.log4j,
  org.eclipse.osgi.services
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.ui,
  org.eclipse.tigerstripe.workbench.ui.internal.utils,
  org.eclipse.tigerstripe.workbench.ui.internal.actions,

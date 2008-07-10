@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts;
 
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -288,6 +289,8 @@ public class ManagedEntityArtifactEditPart extends TigerstripeShapeNodeEditPart
 		 */
 		private void createContents() {
 			org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel fig_0 = new org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel();
+			fig_0.setTextJustification(PositionConstants.CENTER);
+			fig_0.setTextAlignment(PositionConstants.CENTER);
 			fig_0.setText("<<...>>");
 
 			setFigureManagedEntityStereotypesFigure(fig_0);

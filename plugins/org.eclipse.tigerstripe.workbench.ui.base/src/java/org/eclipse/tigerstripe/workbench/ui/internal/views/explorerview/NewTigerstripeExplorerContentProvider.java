@@ -44,8 +44,8 @@ import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstract
 public class NewTigerstripeExplorerContentProvider extends
 		PackageExplorerContentProvider {
 
-	public NewTigerstripeExplorerContentProvider(boolean provideMembers) {
-		super(provideMembers);
+	public NewTigerstripeExplorerContentProvider() {
+		super(true);
 	}
 
 	@Override
@@ -59,7 +59,39 @@ public class NewTigerstripeExplorerContentProvider extends
 				IAbstractArtifact artifact = TSExplorerUtils
 						.getArtifactFor(parentElement);
 				if (artifact != null) {
-					rawChildren = artifact.getChildren().toArray();
+					List<Object> raw = new ArrayList<Object>();
+
+					raw.addAll(artifact.getChildren());
+
+					// This code adds the Association Ends below the artifact
+					// in the explorer.
+					// However, for this to function correctly, more refresh
+					// needs to be
+					// implemented so that the Explorer refreshes correctly when
+					// an assoc
+					// is dragged in a diagram.
+					// try {
+					// IArtifactManagerSession session = artifact.getProject()
+					// .getArtifactManagerSession();
+					// List<IRelationship> origs = session
+					// .getOriginatingRelationshipForFQN(artifact
+					// .getFullyQualifiedName(), true);
+					// for (IRelationship rel : origs) {
+					// raw.add(rel.getRelationshipAEnd());
+					// }
+					//
+					// List<IRelationship> terms = session
+					// .getTerminatingRelationshipForFQN(artifact
+					// .getFullyQualifiedName(), true);
+					// for (IRelationship rel : terms) {
+					// raw.add(rel.getRelationshipZEnd());
+					// }
+					//
+					//						
+					// } catch (TigerstripeException e) {
+					// EclipsePlugin.log(e);
+					// }
+					rawChildren = raw.toArray();
 				}
 			} else if (parentElement instanceof IJavaModel) {
 				rawChildren = getTigerstripeProjects((IJavaModel) parentElement);

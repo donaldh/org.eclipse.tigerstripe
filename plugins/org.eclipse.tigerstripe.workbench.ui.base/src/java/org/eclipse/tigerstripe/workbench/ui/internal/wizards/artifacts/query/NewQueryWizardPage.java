@@ -129,8 +129,7 @@ public class NewQueryWizardPage extends NewArtifactWizardPage {
 		if (field == returnedTypeClassDialogField) {
 			IType type = chooseReturnedType();
 			if (type != null) {
-				returnedTypeClassDialogField.setText(JavaModelUtil
-						.getFullyQualifiedName(type));
+				returnedTypeClassDialogField.setText(type.getFullyQualifiedName());
 			}
 		}
 	}

@@ -44,8 +44,8 @@ public class TSCopyToClipboadAction extends CopyToClipboardAction {
 	public TSCopyToClipboadAction(IWorkbenchSite site, Clipboard clipboard,
 			SelectionDispatchAction pasteAction) {
 		super(site, clipboard);
-		setText(ReorgMessages.CopyToClipboardAction_0);
-		setDescription(ReorgMessages.CopyToClipboardAction_1);
+		setText(ReorgMessages.CopyToClipboardAction_text);
+		setDescription(ReorgMessages.CopyToClipboardAction_description);
 		Assert.isNotNull(clipboard);
 		theClipboard = clipboard;
 		ISharedImages workbenchImages = getWorkbenchSharedImages();

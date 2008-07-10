@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -37,8 +36,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
-
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.StringStack;
 
 /**
  * Whenever a Plugin Project needs to be deployed/packaged up, the operation is

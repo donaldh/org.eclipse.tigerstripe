@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionContext;
 import org.eclipse.ui.actions.ActionGroup;
@@ -28,8 +27,6 @@ public class CompositeActionGroup extends ActionGroup {
 	}
 
 	protected void setGroups(ActionGroup[] groups) {
-		Assert.isTrue(fGroups == null);
-		Assert.isNotNull(groups);
 		fGroups = groups;
 	}
 

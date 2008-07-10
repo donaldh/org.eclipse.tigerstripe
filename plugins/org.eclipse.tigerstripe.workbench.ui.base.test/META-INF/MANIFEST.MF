@@ -15,9 +15,15 @@ Require-Bundle: org.eclipse.core.runtime,
  com.windowtester.swing.runtime,
  org.eclipse.jface,
  org.eclipse.swt
-Bundle-Version: 0.4.0.qualifier
-Export-Package: org.eclipse.tigerstripe.workbench.ui.base.test,org.eclipse.tigerstripe.workbench.ui.base.test.generator,org.eclipse.tigerstripe.workbench.ui.base.test.profile,org.eclipse.tigerstripe.workbench.ui.base.test.project,org.eclipse.tigerstripe.workbench.ui.base.test.suite,org.eclipse.tigerstripe.workbench.ui.base.test.utils
+Bundle-ActivationPolicy: lazy
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base.test
-Bundle-Name: UI Base Test Plug-in
+Bundle-Name: Base UI Test Plug-in
+Export-Package: org.eclipse.tigerstripe.workbench.ui.base.test,
+ org.eclipse.tigerstripe.workbench.ui.base.test.generator,
+ org.eclipse.tigerstripe.workbench.ui.base.test.profile,
+ org.eclipse.tigerstripe.workbench.ui.base.test.project,
+ org.eclipse.tigerstripe.workbench.ui.base.test.suite,
+ org.eclipse.tigerstripe.workbench.ui.base.test.utils
 Bundle-Vendor: Eclipse.org
-Eclipse-LazyStart: true
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Version: 0.4.0.qualifier

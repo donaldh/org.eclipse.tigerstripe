@@ -23,12 +23,15 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.ui.packageview.SelectionTransferDropAdapter;
+import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredViewer;
+import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
@@ -36,39 +39,35 @@ import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstract
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.action.LogicalNodeMoveAction;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 
-public class LogicalExplorerNodeTransferDropAdapter extends
-		SelectionTransferDropAdapter {
+public class LogicalExplorerNodeTransferDropAdapter extends ViewerDropAdapter
+		implements TransferDropTargetListener {
 
-	private List selectedElements;
+	private List<?> selectedElements;
+	private int internalCurrentOperation; // needed to duplicate as no setter in
 
-	private static final long DROP_TIME_DIFF_TRESHOLD = 150;
+	// parent class
 
 	public LogicalExplorerNodeTransferDropAdapter(StructuredViewer viewer) {
 		super(viewer);
 	}
 
-	private boolean tooFast(DropTargetEvent event) {
-		return Math.abs(LocalSelectionTransfer.getInstance()
-				.getSelectionSetTime()
-				- (event.time & 0xFFFFFFFFL)) < DROP_TIME_DIFF_TRESHOLD;
+	/**
+	 * @see ViewerDropAdapter#performDrop
+	 */
+	public boolean performDrop(Object data) {
+		// should never be called, since we override the drop() method.
+		return false;
 	}
 
 	@Override
-	public boolean isEnabled(DropTargetEvent event) {
-		initializeSelection();
-		AbstractLogicalExplorerNode[] nodes = getNodes();
-		return nodes.length != 0;
-	}
-
-	@Override
-	public void drop(Object target, DropTargetEvent event) {
+	public void drop(DropTargetEvent event) {
 		try {
-			switch (event.detail) {
+			switch (internalCurrentOperation) {
 			case DND.DROP_MOVE:
-				handleDropMove(target, event);
+				handleDropMove(getCurrentTarget(), event);
 				break;
 			case DND.DROP_COPY:
-				handleDropCopy(target, event);
+				handleDropCopy(getCurrentTarget(), event);
 				break;
 			}
 		} catch (InvocationTargetException e) {
@@ -99,6 +98,61 @@ public class LogicalExplorerNodeTransferDropAdapter extends
 		}
 	}
 
+	public Transfer getTransfer() {
+		return LocalSelectionTransfer.getInstance();
+	}
+
+	public boolean isEnabled(DropTargetEvent event) {
+		initializeSelection();
+		AbstractLogicalExplorerNode[] nodes = getNodes();
+		return nodes.length != 0;
+	}
+
+	@Override
+	public boolean validateDrop(Object target, int operation,
+			TransferData transferType) {
+		internalCurrentOperation = determineOperation(target, operation,
+				transferType, DND.DROP_MOVE | DND.DROP_LINK | DND.DROP_COPY);
+		return internalCurrentOperation != DND.DROP_NONE;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected int determineOperation(Object target, int operation,
+			TransferData transferType, int operations) {
+		int result = internalDetermineOperation(target, operation, operations);
+
+		if (result == DND.DROP_NONE) {
+			setSelectionFeedbackEnabled(false);
+		} else {
+			setSelectionFeedbackEnabled(true);
+		}
+
+		return result;
+	}
+
+	private int internalDetermineOperation(Object target, int operation,
+			int operations) {
+
+		initializeSelection();
+
+		if (target == null)
+			return DND.DROP_NONE;
+
+		switch (operation) {
+		case DND.DROP_DEFAULT:
+		case DND.DROP_NONE:
+			return handleValidateDefault(target, operations);
+		case DND.DROP_COPY:
+			return handleValidateCopy(target);
+		case DND.DROP_MOVE:
+			return handleValidateMove(target);
+		}
+
+		return DND.DROP_NONE;
+	}
+
 	private AbstractLogicalExplorerNode[] getNodes() {
 		List<AbstractLogicalExplorerNode> result = new ArrayList<AbstractLogicalExplorerNode>();
 		for (Object obj : selectedElements) {
@@ -125,50 +179,47 @@ public class LogicalExplorerNodeTransferDropAdapter extends
 		}
 	}
 
-	@Override
-	public void validateDrop(Object target, DropTargetEvent event, int operation) {
-		event.detail = DND.DROP_NONE;
-
-		if (tooFast(event))
-			return;
-
-		initializeSelection();
-
-		// Can only DnD logical nodes together with other logical nodes at this
-		// point.
-		if (getNodes().length != selectedElements.size())
-			return;
-		switch (operation) {
-		case DND.DROP_DEFAULT:
-			event.detail = handleValidateDefault(target, event);
-			break;
-		case DND.DROP_COPY:
-			event.detail = handleValidateCopy(target, event);
-			break;
-		case DND.DROP_MOVE:
-			event.detail = handleValidateMove(target, event);
-			break;
-		}
-	}
-
-	private int handleValidateDefault(Object target, DropTargetEvent event) {
+	// public void validateDrop(Object target, DropTargetEvent event, int
+	// operation) {
+	// event.detail = DND.DROP_NONE;
+	//
+	// initializeSelection();
+	//
+	// // Can only DnD logical nodes together with other logical nodes at this
+	// // point.
+	// if (getNodes().length != selectedElements.size())
+	// return;
+	// switch (operation) {
+	// case DND.DROP_DEFAULT:
+	// event.detail = handleValidateDefault(target, event.operations);
+	// break;
+	// case DND.DROP_COPY:
+	// event.detail = handleValidateCopy(target);
+	// break;
+	// case DND.DROP_MOVE:
+	// event.detail = handleValidateMove(target);
+	// break;
+	// }
+	// }
+	//
+	private int handleValidateDefault(Object target, int operations) {
 		if (target == null)
 			return DND.DROP_NONE;
 
-		if ((event.operations & DND.DROP_MOVE) != 0)
-			return handleValidateMove(target, event);
-		if ((event.operations & DND.DROP_COPY) != 0)
-			return handleValidateCopy(target, event);
+		if ((operations & DND.DROP_MOVE) != 0)
+			return handleValidateMove(target);
+		if ((operations & DND.DROP_COPY) != 0)
+			return handleValidateCopy(target);
 		return DND.DROP_NONE;
 	}
 
-	private int handleValidateCopy(Object target, DropTargetEvent event) {
+	private int handleValidateCopy(Object target) {
 		if (target == null)
 			return DND.DROP_NONE;
 
 		if ((target instanceof IContainer || target instanceof IJavaProject
 				|| target instanceof IPackageFragment || target instanceof IPackageFragmentRoot)
-				&& validateProjectReference(target, event))
+				&& validateProjectReference(target))
 			return DND.DROP_COPY;
 		else
 			return DND.DROP_NONE;
@@ -182,8 +233,7 @@ public class LogicalExplorerNodeTransferDropAdapter extends
 	 * @param event
 	 * @return
 	 */
-	private boolean validateProjectReference(Object target,
-			DropTargetEvent event) {
+	private boolean validateProjectReference(Object target) {
 		initializeSelection();
 		AbstractLogicalExplorerNode[] nodes = getNodes();
 		if (target instanceof IResource || target instanceof IJavaElement) {
@@ -218,19 +268,18 @@ public class LogicalExplorerNodeTransferDropAdapter extends
 		return true;
 	}
 
-	private int handleValidateMove(Object target, DropTargetEvent event) {
+	private int handleValidateMove(Object target) {
 		if (target == null)
 			return DND.DROP_NONE;
 
 		if ((target instanceof IContainer || target instanceof IJavaProject
 				|| target instanceof IPackageFragment || target instanceof IPackageFragmentRoot)
-				&& validateProjectReference(target, event))
+				&& validateProjectReference(target))
 			return DND.DROP_MOVE;
 		else
 			return DND.DROP_NONE;
 	}
 
-	@Override
 	protected void initializeSelection() {
 		ISelection s = LocalSelectionTransfer.getInstance().getSelection();
 		if (!(s instanceof IStructuredSelection))

@@ -10,31 +10,29 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
-import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 /**
- * The Active Facet Manager forces actions upon active Facet Changes in the
- * workspace
+ * For each ITigerstripeModelProject in the workspace, a listener is set up to
+ * trigger a refresh of the labels on the Tigerstripe Explorer.
  * 
  * This is a singleton that registers itself with all Tigerstripe model
  * projects.
@@ -42,7 +40,8 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
  * @author erdillon
  * 
  */
-public class ActiveFacetManager implements IResourceChangeListener {
+public class ActiveFacetDecorationDelegate implements
+		ITigerstripeChangeListener {
 
 	public class ActiveFacetListener implements IActiveFacetChangeListener {
 
@@ -66,64 +65,61 @@ public class ActiveFacetManager implements IResourceChangeListener {
 		}
 	}
 
+	private HashMap<String, ActiveFacetListener> listeners = new HashMap<String, ActiveFacetListener>();
+
 	private TigerstripeExplorerPart explorer;
 
-	public ActiveFacetManager(TigerstripeExplorerPart explorer) {
+	public ActiveFacetDecorationDelegate(TigerstripeExplorerPart explorer) {
 		this.explorer = explorer;
-		initialize();
 	}
 
-	private void initialize() {
+	public void start() {
 		// Discover all Tigerstripe Model Projects in the workspace and register
 		// self for facet updates.
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+
 		try {
-			checkProjectAdded(Arrays.asList(root.members()));
+			for (IResource proj : root.members()) {
+				ITigerstripeModelProject project = (ITigerstripeModelProject) proj
+						.getAdapter(ITigerstripeModelProject.class);
+				if (project != null)
+					watchProject(project, (IJavaProject) JavaCore.create(proj));
+			}
 		} catch (CoreException e) {
 			EclipsePlugin.log(e);
 		}
 
-		// register self for IResourceChanges so we can add/remove self as
-		// Tigerstripe model projects are created/deleted
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
+				this, ITigerstripeChangeListener.PROJECT);
 	}
 
-	public void resourceChanged(IResourceChangeEvent event) {
-		// Get the list of removed resources
-		Collection<IResource> removedResources = new HashSet<IResource>();
-		Collection<IResource> changedResources = new HashSet<IResource>();
-		Collection<IResource> addedResources = new HashSet<IResource>();
-		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
-				changedResources, addedResources);
-
-		checkProjectAdded(addedResources);
-		checkProjectRemoved(removedResources);
-	}
-
-	private void checkProjectAdded(Collection<IResource> addedResources) {
-		for (IResource res : addedResources) {
-			if (res instanceof IProject) {
-				IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) res
-						.getProject().getAdapter(
-								IAbstractTigerstripeProject.class);
-				if (tsProject instanceof ITigerstripeModelProject
-						&& tsProject.exists()) {
-					try {
-						IJavaProject project = JavaCore.create((IProject) res);
-						((ITigerstripeModelProject) tsProject)
-								.getArtifactManagerSession()
-								.addActiveFacetListener(
-										new ActiveFacetListener(project,
-												explorer));
-					} catch (TigerstripeException e) {
-						EclipsePlugin.log(e);
-					}
-				}
-			}
+	private void watchProject(ITigerstripeModelProject project,
+			IJavaProject jProject) {
+		try {
+			ActiveFacetListener listener = new ActiveFacetListener(jProject,
+					explorer);
+			listeners.put(project.getProjectLabel(), listener);
+			project.getArtifactManagerSession()
+					.addActiveFacetListener(listener);
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
 		}
 	}
 
-	private void checkProjectRemoved(Collection<IResource> removedResources) {
+	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
+		// never called
 	}
 
+	public void modelChanged(IModelChangeDelta[] delta) {
+		// never called
+	}
+
+	public void projectAdded(IAbstractTigerstripeProject project) {
+		watchProject((ITigerstripeModelProject) project, (IJavaProject) project
+				.getAdapter(IJavaProject.class));
+	}
+
+	public void projectDeleted(String projectName) {
+		listeners.remove(projectName);
+	}
 }

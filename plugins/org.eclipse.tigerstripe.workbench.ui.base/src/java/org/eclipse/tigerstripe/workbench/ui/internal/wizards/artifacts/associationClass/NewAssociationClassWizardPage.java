@@ -62,8 +62,8 @@ import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.NewArtifa
 /**
  * @author Eric Dillon
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
+ *         TODO To change the template for this generated type comment go to
+ *         Window - Preferences - Java - Code Style - Code Templates
  */
 public class NewAssociationClassWizardPage extends NewArtifactWizardPage {
 
@@ -154,14 +154,12 @@ public class NewAssociationClassWizardPage extends NewArtifactWizardPage {
 		if (field == aEndTypeClassDialogField) {
 			IType type = chooseReturnedType();
 			if (type != null) {
-				aEndTypeClassDialogField.setText(JavaModelUtil
-						.getFullyQualifiedName(type));
+				aEndTypeClassDialogField.setText(type.getFullyQualifiedName());
 			}
 		} else if (field == zEndTypeClassDialogField) {
 			IType type = chooseReturnedType();
 			if (type != null) {
-				zEndTypeClassDialogField.setText(JavaModelUtil
-						.getFullyQualifiedName(type));
+				zEndTypeClassDialogField.setText(type.getFullyQualifiedName());
 			}
 		}
 	}
@@ -339,7 +337,8 @@ public class NewAssociationClassWizardPage extends NewArtifactWizardPage {
 							ExceptionArtifact.MODEL, EventArtifact.MODEL,
 							EnumArtifact.MODEL, AssociationClassArtifact.MODEL });
 			dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IAssociationClassArtifactImpl.class.getName()).getLabel(null)
+					IAssociationClassArtifactImpl.class.getName()).getLabel(
+					null)
 					+ " End Type");
 			dialog.setMessage("Select the type of the "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(

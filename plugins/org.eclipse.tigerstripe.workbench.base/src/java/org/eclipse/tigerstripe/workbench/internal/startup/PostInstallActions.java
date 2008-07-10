@@ -15,8 +15,11 @@ import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 
+import org.eclipse.core.internal.resources.Workspace;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -224,7 +227,7 @@ public class PostInstallActions {
 		// The Core .jar
 		File rootDir = new File(this.baseBundleRoot);
 		File[] rootFiles = rootDir.listFiles();
-		if ( rootFiles == null )
+		if (rootFiles == null)
 			rootFiles = new File[0];
 		for (File rootFile : rootFiles) {
 			if (rootFile.getName().startsWith("ts-headless")) {
@@ -368,16 +371,13 @@ public class PostInstallActions {
 		try {
 			Bundle baseBundle = Platform
 					.getBundle(TigerstripeRuntime.BASEBUNDLE_ID);
-			String pathStr = installLocation.getURL().getPath()
-					+ File.separator
-					+ baseBundle.getLocation().substring(
-							baseBundle.getLocation().indexOf("@") + 1,
-							baseBundle.getLocation().length());
+			File bundleDir = FileLocator.getBundleFile(baseBundle);
+			String pathStr = bundleDir.getAbsolutePath();
 
 			ZipFilePackager packager = null;
 			try {
-				packager = new ZipFilePackager(pathStr + "ts-external-api.zip",
-						true);
+				packager = new ZipFilePackager(pathStr + File.separator
+						+ "ts-external-api.zip", true);
 				// the dir with all compiled artifact
 				String binDir = pathStr + File.separator + "bin";
 				File binDirFile = new File(binDir);
@@ -437,12 +437,12 @@ public class PostInstallActions {
 					ITigerstripeConstants.INTERNALAPI_LIB, internalPath, null);
 
 			// Add org.eclipse.equinox.common as a variable that can be
-			// referenced
-			// from Tigerstripe Plugin projects.
+			// referenced from Tigerstripe Plugin projects.
 			IPath equinoxPath = findEquinoxCommonJarPath(context);
 			JavaCore.setClasspathVariable(ITigerstripeConstants.EQUINOX_COMMON,
 					equinoxPath, null);
-
+		} catch (IOException e) {
+			BasePlugin.log(e);
 		} catch (JavaModelException e) {
 			BasePlugin.log(e);
 		}
@@ -516,10 +516,9 @@ public class PostInstallActions {
 	private IPath findEquinoxCommonJarPath(BundleContext context) {
 		Bundle b = Platform.getBundle("org.eclipse.equinox.common");
 		String location = b.getLocation();
-		int iFile = location.indexOf("file:");
-		String file = installLocation.getURL().getPath()
-				+ location.substring(iFile + 5, location.length() - 1);
-		return new Path(file);
+		int iFile = location.indexOf("reference:file:");
+		String file = location.substring(iFile + 15, location.length() );
+		return (new Path(file)).makeAbsolute();
 	}
 
 	private String findWorkbenchFeatureVersion(BundleContext context) {

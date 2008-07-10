@@ -39,7 +39,6 @@ import com.thoughtworks.qdox.model.JavaField;
 public class AssociationEnd extends ArtifactComponent implements
 		IAssociationEnd {
 
-	
 	public String getLabel() {
 		return "Association End";
 	}
@@ -195,7 +194,6 @@ public class AssociationEnd extends ArtifactComponent implements
 		this.containingModelComponent = artifact;
 	}
 
-	
 	public IAbstractArtifact getContainingArtifact() {
 		if (this.containingModelComponent instanceof IAssociationArtifact)
 			return (IAbstractArtifact) this.containingModelComponent;
@@ -205,37 +203,42 @@ public class AssociationEnd extends ArtifactComponent implements
 
 	public Collection<IModelComponent> getContainedModelComponents() {
 		// Ends don't contain anything
-		return Collections.unmodifiableCollection( new ArrayList<IModelComponent>());
+		return Collections
+				.unmodifiableCollection(new ArrayList<IModelComponent>());
 	}
 
-	public void addContainedModelComponent(IModelComponent component) throws TigerstripeException {
-		throw new TigerstripeException("Association Ends  cannot contain any Components");
+	public void addContainedModelComponent(IModelComponent component)
+			throws TigerstripeException {
+		throw new TigerstripeException(
+				"Association Ends  cannot contain any Components");
 	}
 
 	public void addContainedModelComponents(
-			Collection<IModelComponent> components) throws TigerstripeException{
-		throw new TigerstripeException("Association Ends  cannot contain any Components");
+			Collection<IModelComponent> components) throws TigerstripeException {
+		throw new TigerstripeException(
+				"Association Ends  cannot contain any Components");
 	}
-	
+
 	public void removeContainedModelComponent(IModelComponent component) {
-		return ;	
+		return;
 	}
-	
+
 	public IModelComponent getContainingModelComponent() {
 		if (this.containingModelComponent instanceof IAssociationArtifact)
 			return (IAbstractArtifact) this.containingModelComponent;
 		else
 			return null;
 	}
-	
 
-	public void setContainingModelComponent(IModelComponent containingComponent) throws TigerstripeException {
+	public void setContainingModelComponent(IModelComponent containingComponent)
+			throws TigerstripeException {
 		if (containingComponent instanceof IAssociationArtifact)
 			this.containingModelComponent = containingComponent;
-		else 
-			throw new TigerstripeException("Association Ends can only be contained by Association Artifacts");
+		else
+			throw new TigerstripeException(
+					"Association Ends can only be contained by Association Artifacts");
 	}
-	
+
 	public IType makeType() {
 		return new Type(getArtifactManager());
 	}
@@ -262,8 +265,8 @@ public class AssociationEnd extends ArtifactComponent implements
 					+ getName()
 					+ "' is a reserved keyword and cannot be used an "
 					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel(getContainingAssociation()) + " end name"));
+							IAssociationArtifactImpl.class.getName()).getLabel(
+							getContainingAssociation()) + " end name"));
 		}
 
 		// check the validity of the type for this association end
@@ -277,8 +280,8 @@ public class AssociationEnd extends ArtifactComponent implements
 						.getFullyQualifiedName().equals("String"))) {
 			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 					ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName())
-							.getLabel(getContainingAssociation())
+							IAssociationArtifactImpl.class.getName()).getLabel(
+							getContainingAssociation())
 							+ " End cannot be a "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
@@ -315,4 +318,14 @@ public class AssociationEnd extends ArtifactComponent implements
 
 		return null;
 	}
+
+	public String getLabelString() {
+		String result = getName() + "::" + getType().getName();
+		if (getMultiplicity() != IModelComponent.EMultiplicity.ONE) {
+			result = result + "[" + getMultiplicity().getLabel() + "]";
+		}
+
+		return result;
+	}
+
 }

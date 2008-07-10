@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.repository.internal;
 import java.net.URL;
 import java.util.HashMap;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -47,6 +48,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
+import org.eclipse.tigerstripe.repository.metamodel.providers.IModelComponentIconProvider;
 import org.osgi.framework.Bundle;
 
 /**
@@ -73,11 +75,9 @@ public class ArtifactMetadataFactory {
 			IQueryArtifactImpl.class.getName(),
 			IUpdateProcedureArtifactImpl.class.getName(),
 			IEventArtifactImpl.class.getName(),
-			IPrimitiveTypeImpl.class.getName(),
-			IFieldImpl.class.getName(),
-			IMethodImpl.class.getName(), 
-			ILiteralImpl.class.getName(),
-			IPackageImpl.class.getName()};
+			IPrimitiveTypeImpl.class.getName(), IFieldImpl.class.getName(),
+			IMethodImpl.class.getName(), ILiteralImpl.class.getName(),
+			IPackageImpl.class.getName() };
 
 	private final static IArtifactMetadata MANAGED_ENTITY_DEFAULT = new ArtifactMetadata(
 			IManagedEntityArtifact.class, true, true, true, "entity.gif",
@@ -106,8 +106,9 @@ public class ArtifactMetadataFactory {
 			"associationClass_new.gif", "Association Class");
 
 	private final static IArtifactMetadata DEPENDENCY_DEFAULT = new ArtifactMetadata(
-			IDependencyArtifact.class, false, false, false, "DependencyIcon-small.png",
-			"DependencyIcon-small_gs.png", "DependencyIcon-small_new.png", "Dependency");
+			IDependencyArtifact.class, false, false, false,
+			"DependencyIcon-small.png", "DependencyIcon-small_gs.png",
+			"DependencyIcon-small_new.png", "Dependency");
 
 	private final static IArtifactMetadata SESSION_DEFAULT = new ArtifactMetadata(
 			ISessionArtifact.class, false, true, true, "session.gif",
@@ -123,9 +124,9 @@ public class ArtifactMetadataFactory {
 			"Update Procedure");
 
 	private final static IArtifactMetadata PACKAGE_DEFAULT = new ArtifactMetadata(
-			IPackage.class, true, false, true, "field.gif",
-			"field_gs.gif", "field_new.gif", "Package");
-	
+			IPackage.class, true, false, true, "field.gif", "field_gs.gif",
+			"field_new.gif", "Package");
+
 	private final static IArtifactMetadata EVENT_DEFAULT = new ArtifactMetadata(
 			IEventArtifact.class, true, false, true, "event.gif",
 			"event_gs.gif", "event_new.gif", "Event");
@@ -150,8 +151,7 @@ public class ArtifactMetadataFactory {
 			ENUM_DEFAULT, ASSOCIATION_DEFAULT, ASSOCIATIONCLASS_DEFAULT,
 			DEPENDENCY_DEFAULT, SESSION_DEFAULT, QUERY_DEFAULT,
 			UPDATEPROC_DEFAULT, EVENT_DEFAULT, PRIMITIVE_DEFAULT,
-			FIELD_DEFAULT, METHOD_DEFAULT, LITERAL_DEFAULT,
-			PACKAGE_DEFAULT};
+			FIELD_DEFAULT, METHOD_DEFAULT, LITERAL_DEFAULT, PACKAGE_DEFAULT };
 
 	private HashMap<String, IModelComponentMetadata> metadataRegistry = null;
 
@@ -171,6 +171,52 @@ public class ArtifactMetadataFactory {
 		return metadataRegistry.get(classname);
 	}
 
+	/**
+	 * Returns the metadata relevant to the given element
+	 * 
+	 * @param element
+	 * @return
+	 */
+	public IModelComponentMetadata getMetadata(Object element) {
+		if (element.getClass().getName().contains("ManagedEntityArtifact")) {
+			return getMetadata(IManagedEntityArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains("DatatypeArtifact")) {
+			return getMetadata(IDatatypeArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains("ExceptionArtifact")) {
+			return getMetadata(IExceptionArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains("EnumArtifact")) {
+			return getMetadata(IEnumArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains("AssociationArtifact")) {
+			return getMetadata(IAssociationArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains(
+				"AssociationClassArtifact")) {
+			return getMetadata(IAssociationClassArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains("DependencyArtifact")) {
+			return getMetadata(IDependencyArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains("SessionArtifact")) {
+			return getMetadata(ISessionArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains("QueryArtifact")) {
+			return getMetadata(IQueryArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains(
+				"UpdateProcedureArtifact")) {
+			return getMetadata(IUpdateProcedureArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains("PackageArtifact")) {
+			return getMetadata(IPackageImpl.class.getName());
+		} else if (element.getClass().getName().contains("EventArtifact")) {
+			return getMetadata(IEventArtifactImpl.class.getName());
+		} else if (element.getClass().getName().contains("PrimitiveArtifact")) {
+			return getMetadata(IPrimitiveTypeImpl.class.getName());
+		} else if (element.getClass().getName().contains("Field")) {
+			return getMetadata(IFieldImpl.class.getName());
+		} else if (element.getClass().getName().contains("Method")) {
+			return getMetadata(IMethodImpl.class.getName());
+		} else if (element.getClass().getName().contains("Literal")) {
+			return getMetadata(ILiteralImpl.class.getName());
+		}
+
+		return null;
+	}
+
 	private void populateRegistry() {
 		metadataRegistry = new HashMap<String, IModelComponentMetadata>();
 
@@ -183,6 +229,31 @@ public class ArtifactMetadataFactory {
 				metadataRegistry.put(registryKeys[index],
 						registryDefaultRegistryEntries[index]);
 		}
+
+		registerIconProviders();
+	}
+
+	private void registerIconProviders() {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+
+		IConfigurationElement[] elements = registry
+				.getConfigurationElementsFor("org.eclipse.tigerstripe.metamodel.customArtifactMetadata");
+		for (IConfigurationElement element : elements) {
+			if ("modelComponentIconProvider".equals(element.getName())) {
+				String classname = element.getAttribute("artifactType");
+				try {
+					IModelComponentIconProvider provider = (IModelComponentIconProvider) element
+							.createExecutableExtension("provider");
+					IModelComponentMetadata metadata = metadataRegistry
+							.get(classname);
+					if (metadata != null) {
+						metadata.setIconProvider(provider);
+					}
+				} catch (CoreException e) {
+					Activator.log(e);
+				}
+			}
+		}
 	}
 
 	private void populateFromExtensionPoint() {
@@ -192,44 +263,46 @@ public class ArtifactMetadataFactory {
 		IConfigurationElement[] elements = registry
 				.getConfigurationElementsFor("org.eclipse.tigerstripe.metamodel.customArtifactMetadata");
 		for (IConfigurationElement element : elements) {
-			String classname = element.getAttribute("artifactType");
-			String userLabel = element.getAttribute("userLabel");
-			boolean hasFields = Boolean.parseBoolean(element
-					.getAttribute("hasFields"));
-			boolean hasMethods = Boolean.parseBoolean(element
-					.getAttribute("hasMethods"));
-			boolean hasLiterals = Boolean.parseBoolean(element
-					.getAttribute("hasLiterals"));
-			String icon = element.getAttribute("icon");
-			URL iconURL = null;
-			if (icon != null && icon.length() != 0) {
-				IContributor contributor = element.getContributor();
-				String bundleName = contributor.getName();
-				Bundle bundle = Platform.getBundle(bundleName);
-				iconURL = bundle.getEntry(icon);
-			}
+			if ("artifactMetadata".equals(element.getName())) {
+				String classname = element.getAttribute("artifactType");
+				String userLabel = element.getAttribute("userLabel");
+				boolean hasFields = Boolean.parseBoolean(element
+						.getAttribute("hasFields"));
+				boolean hasMethods = Boolean.parseBoolean(element
+						.getAttribute("hasMethods"));
+				boolean hasLiterals = Boolean.parseBoolean(element
+						.getAttribute("hasLiterals"));
+				String icon = element.getAttribute("icon");
+				URL iconURL = null;
+				if (icon != null && icon.length() != 0) {
+					IContributor contributor = element.getContributor();
+					String bundleName = contributor.getName();
+					Bundle bundle = Platform.getBundle(bundleName);
+					iconURL = bundle.getEntry(icon);
+				}
 
-			String icon_new = element.getAttribute("icon_new");
-			URL icon_newURL = null;
-			if (icon_new != null && icon_new.length() != 0) {
-				IContributor contributor = element.getContributor();
-				String bundleName = contributor.getName();
-				Bundle bundle = Platform.getBundle(bundleName);
-				icon_newURL = bundle.getEntry(icon_new);
-			}
+				String icon_new = element.getAttribute("icon_new");
+				URL icon_newURL = null;
+				if (icon_new != null && icon_new.length() != 0) {
+					IContributor contributor = element.getContributor();
+					String bundleName = contributor.getName();
+					Bundle bundle = Platform.getBundle(bundleName);
+					icon_newURL = bundle.getEntry(icon_new);
+				}
 
-			String icon_gs = element.getAttribute("icon_gs");
-			URL icon_gsURL = null;
-			if (icon_gs != null && icon_gs.length() != 0) {
-				IContributor contributor = element.getContributor();
-				String bundleName = contributor.getName();
-				Bundle bundle = Platform.getBundle(bundleName);
-				icon_gsURL = bundle.getEntry(icon_gs);
-			}
+				String icon_gs = element.getAttribute("icon_gs");
+				URL icon_gsURL = null;
+				if (icon_gs != null && icon_gs.length() != 0) {
+					IContributor contributor = element.getContributor();
+					String bundleName = contributor.getName();
+					Bundle bundle = Platform.getBundle(bundleName);
+					icon_gsURL = bundle.getEntry(icon_gs);
+				}
 
-			metadataRegistry.put(classname, new ArtifactMetadata(null,
-					hasFields, hasMethods, hasLiterals, iconURL, icon_gsURL,
-					icon_newURL, userLabel));
+				metadataRegistry.put(classname, new ArtifactMetadata(null,
+						hasFields, hasMethods, hasLiterals, iconURL,
+						icon_gsURL, icon_newURL, userLabel));
+			}
 		}
 	}
 }
