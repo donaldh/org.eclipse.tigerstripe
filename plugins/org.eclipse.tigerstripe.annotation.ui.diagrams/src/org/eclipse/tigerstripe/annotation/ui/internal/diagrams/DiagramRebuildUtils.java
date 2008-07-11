@@ -13,9 +13,11 @@ package org.eclipse.tigerstripe.annotation.ui.internal.diagrams;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -24,7 +26,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
@@ -66,53 +67,110 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations;
-import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.AnnotationEditPart;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode;
 
 /**
  * @author Yuri Strot
  * 
  */
 public class DiagramRebuildUtils {
-
-	public static void rebuld(DiagramEditor editor) {
-		DiagramEditPart root = editor.getDiagramEditPart();
-
-		Map<EObject, EditPart> elements = new HashMap<EObject, EditPart>();
-		collectElements(root, elements);
-
-		for (EObject object : elements.keySet()) {
-			EditPart part = elements.get(object);
-			if (part instanceof AnnotationEditPart)
+	
+	protected static void collectParts(DiagramEditor editor, View container, List<EditPart> parts, int level) {
+		List<?> children = container.getVisibleChildren();
+		HashSet<Edge> edges = new HashSet<Edge>();
+		for (Object child : children) {
+			View view = (View)child;
+			if (ignore(view))
 				continue;
-			updateAnnotations(editor, part);
+			lookForEdges(view, edges);
+			collectPart(editor, view, parts);
+			collectParts(editor, view, parts, level + 1);
 		}
-		editor.doSave(new NullProgressMonitor());
+		for (Edge edge : edges) {
+			collectPart(editor, edge, parts);
+			collectParts(editor, edge, parts, level + 1);
+		}
 	}
-
-	protected static void collectElements(EditPart part,
-			Map<EObject, EditPart> elements) {
-		List<?> list = part.getChildren();
-		for (Object object : list) {
-			if (object instanceof EditPart) {
-				EditPart child = (EditPart) object;
-				collectElement(child, elements);
-				collectElements(child, elements);
+	
+	protected static void collectPart(DiagramEditor editor, View view, List<EditPart> parts) {
+		Object value = editor.getDiagramGraphicalViewer().getEditPartRegistry().get(view);
+		if (value instanceof EditPart) {
+			EditPart part = (EditPart)value;
+			if (!parts.contains(part))
+				parts.add(part);
+		}
+	}
+	
+	public static Map<View, ViewLocationNode> getLocations(Diagram diagram) {
+		List<?> children = diagram.getChildren();
+		Map<View, ViewLocationNode> locations = new HashMap<View, ViewLocationNode>();
+		for (Object object : children) {
+			if (object instanceof ViewLocationNode) {
+				ViewLocationNode location = (ViewLocationNode)object;
+				View view = getView(location);
+				if (view != null) {
+					if (!locations.containsKey(view))
+						locations.put(view, location);
+				}
 			}
 		}
+		return locations;
 	}
-
-	protected static void collectElement(EditPart part,
-			Map<EObject, EditPart> elements) {
-		if (part.getModel() instanceof View) {
-			View view = (View) part.getModel();
-			EObject element = view.getElement();
-
-			if (element != null && elements.get(element) == null)
-				elements.put(element, part);
+	
+	public static View getView(ViewLocationNode location) {
+		return (View)location.getView();
+	}
+	
+	protected static boolean ignore(View view) {
+		if (view instanceof AnnotationNode || 
+				view instanceof MetaAnnotationNode ||
+				view instanceof MetaViewAnnotations ||
+				view instanceof ViewLocationNode) {
+			return true;
+		}
+		return false;
+	}
+	
+	protected static void lookForEdges(View view, Set<Edge> edges) {
+		lookForEdges(view.getSourceEdges(), edges);
+		lookForEdges(view.getTargetEdges(), edges);
+	}
+	
+	protected static void lookForEdges(List<?> list, Set<Edge> edges) {
+		for (Object object : list) {
+			Edge edge = (Edge)object;
+			if (edges.add(edge))
+				lookForEdges(edge, edges);
 		}
 	}
 
+	public static void rebuld(DiagramEditor editor) {
+		Diagram diagram = editor.getDiagram();
+		List<EditPart> parts = new ArrayList<EditPart>();
+		collectParts(editor, diagram, parts, 0);
+		
+		Map<View, ViewLocationNode> locations = getLocations(diagram);
+		for (View view : locations.keySet()) {
+			Map<?, ?> registry = editor.getDiagramGraphicalViewer().getEditPartRegistry();
+			Object from = registry.get(view);
+			Object to = registry.get(locations.get(view));
+			if (from instanceof EditPart && to instanceof EditPart) {
+				LocationAdapter.addLocationAdapter((EditPart)from, (EditPart)to);
+			}
+		}
+		for (EditPart part : parts) {
+			updateAnnotations(editor, locations, part);
+		}
+
+		editor.doSave(new NullProgressMonitor());
+	}
+	
 	public static AnnotationStatus[] getPartAnnotations(EditPart part) {
+		View view = (View)part.getModel();
+		return getPartAnnotations(part, getLocations(view.getDiagram()));
+	}
+
+	public static AnnotationStatus[] getPartAnnotations(EditPart part, Map<View, ViewLocationNode> locations) {
 		List<Annotation> annotations = new ArrayList<Annotation>();
 		AnnotationUtils.getAllAnnotations(part, annotations);
 
@@ -120,8 +178,11 @@ public class DiagramRebuildUtils {
 
 		GraphicalEditPart gep = (GraphicalEditPart) part;
 		View view = (View) gep.getModel();
-		addAllAnnotations(parts, view.getSourceEdges(), false);
-		addAllAnnotations(parts, view.getTargetEdges(), true);
+		ViewLocationNode location = locations.get(view);
+		if (location != null) {
+			addAllAnnotations(parts, location.getSourceEdges(), false);
+			addAllAnnotations(parts, location.getTargetEdges(), true);
+		}
 
 		AnnotationStatus[] statuses = new AnnotationStatus[annotations.size()];
 		int i = 0;
@@ -206,7 +267,7 @@ public class DiagramRebuildUtils {
 		});
 	}
 	
-	protected static void modify(TransactionalEditingDomain domain,
+	public static void modify(TransactionalEditingDomain domain,
 			final Runnable runnable) {
 		AbstractTransactionalCommand command = new AbstractTransactionalCommand(
 				domain, "General modification command", null) {
@@ -229,44 +290,26 @@ public class DiagramRebuildUtils {
 
 	public static void showAnnotations(DiagramEditor editor, EditPart part,
 			AnnotationStatus[] annotations) {
-		if (part.getParent() != null) {
-			List<View> views = new ArrayList<View>();
-			for (AnnotationStatus status : annotations) {
-				switch (status.getStatus()) {
-				case AnnotationStatus.STATUS_NON_EXIST:
-					EditPart annotationPart = createAnnotation(
-							editor.getDiagramEditPart(), status.getAnnotation());
-					if (annotationPart != null) {
-						createConnection(editor, annotationPart, part);
-//						final List<GraphicalEditPart> nodes = new ArrayList<GraphicalEditPart>();
-//						if (false) {
-//							DiagramEditPart dep = editor.getDiagramEditPart();
-//							List<?> children = dep.getChildren();
-//							for (Object object : children) {
-//								if (object instanceof GraphicalEditPart) {
-//									nodes.add((GraphicalEditPart)object);
-//								}
-//							}
-//						}
-//						else {
-//							if (part instanceof GraphicalEditPart) {
-//								nodes.add((GraphicalEditPart)part);
-//							}
-//						}
-//						layout(nodes, editor.getDiagramEditPart());
-						//LayoutService.getInstance().layoutNodes(nodes, false, LayoutType.DEFAULT);
-					}
-					break;
-				case AnnotationStatus.STATUS_VISIBLE:
-					break;
-				case AnnotationStatus.STATUS_HIDDEN:
-					views.add(status.getNode());
-					break;
-				}
+		List<View> views = new ArrayList<View>();
+		for (AnnotationStatus status : annotations) {
+			switch (status.getStatus()) {
+			case AnnotationStatus.STATUS_NON_EXIST:
+				EditPart annotationPart = createAnnotation(
+						editor.getDiagramEditPart(), status.getAnnotation());
+				EditPart viewLocation = createViewLocation(
+						editor.getDiagramEditPart(), part);
+				if (annotationPart != null && viewLocation != null)
+					createConnection(editor, annotationPart, viewLocation);
+				break;
+			case AnnotationStatus.STATUS_VISIBLE:
+				break;
+			case AnnotationStatus.STATUS_HIDDEN:
+				views.add(status.getNode());
+				break;
 			}
-			setViewsVisible(editor.getEditingDomain(), views
-					.toArray(new View[views.size()]), true);
 		}
+		setViewsVisible(editor.getEditingDomain(), views
+				.toArray(new View[views.size()]), true);
 	}
 	
 	protected static void layout(List<GraphicalEditPart> nodes, DiagramEditPart diagramEP) {
@@ -369,23 +412,60 @@ public class DiagramRebuildUtils {
 			if (annotation != null)
 				annotations.put(annotation, node);
 			else {
-				DeleteCommand command = new DeleteCommand(view);
-				if (command.canExecute()) {
-					try {
-						command.execute(new NullProgressMonitor(), null);
-					} catch (ExecutionException e) {
-						e.printStackTrace();
-					}
-				}
+				deleteAnnotation(view);
 			}
 		}
 	}
+	
+	protected static void deleteAnnotation(View view) {
+		List<View> views = getAnnotationEnd(view);
+		deleteView(view);
+		for (View view2 : views) {
+			deleteView(view2);
+		}
+	}
+	
+	protected static void deleteView(View view) {
+		DeleteCommand command = new DeleteCommand(view);
+		if (command.canExecute()) {
+			try {
+				command.execute(new NullProgressMonitor(), null);
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static List<View> getAnnotationEnd(View view) {
+		if (view instanceof AnnotationNode) {
+			return getSpecifiedEnd(view, ViewLocationNode.class);
+		}
+		else if (view instanceof ViewLocationNode) {
+			return getSpecifiedEnd(view, AnnotationNode.class);
+		}
+		return null;
+	}
+	
+	protected static List<View> getSpecifiedEnd(View view, Class<?> clazz) {
+		List<View> views = new ArrayList<View>();
+		for (Object object : view.getSourceEdges()) {
+			Edge edge = (Edge)object;
+			if (clazz.isInstance(edge.getTarget()))
+				views.add(edge.getTarget());
+		}
+		for (Object object : view.getTargetEdges()) {
+			Edge edge = (Edge)object;
+			if (clazz.isInstance(edge.getSource()))
+				views.add(edge.getSource());
+		}
+		return views;
+	}
 
-	protected static void updateAnnotations(DiagramEditor editor, EditPart part) {
+	protected static void updateAnnotations(DiagramEditor editor, Map<View, ViewLocationNode> locations, EditPart part) {
 		EditPart container = part.getParent();
 		View view = (View)part.getModel();
 		if (container != null) {
-			AnnotationStatus[] annotations = getPartAnnotations(part);
+			AnnotationStatus[] annotations = getPartAnnotations(part, locations);
 			MetaAnnotationNode node = getMetaInfo(editor);
 			for (Object object : node.getChildren()) {
 				if (object instanceof MetaViewAnnotations) {
@@ -486,6 +566,27 @@ public class DiagramRebuildUtils {
 				Object object = part.getViewer().getEditPartRegistry()
 						.get(node);
 				if (object instanceof EditPart) {
+					return (EditPart) object;
+				}
+			}
+		}
+		return null;
+	}
+
+	protected static EditPart createViewLocation(EditPart containerPart, EditPart viewPart) {
+		EditPart part = LocationAdapter.getAgentPart(viewPart);
+		if (part != null)
+			return part;
+		TransactionalEditingDomain domain = getDomain(containerPart);
+		if (domain != null) {
+			View view = (View)viewPart.getModel();
+			Node node = createNode(DiagramAnnotationType.VIEW_LOCATION_NODE_TYPE, new EObjectAdapter(view), 
+					domain, view.getDiagram());
+			if (node != null) {
+				Map<?, ?> registry = containerPart.getViewer().getEditPartRegistry();
+				Object object = registry.get(node);
+				if (object instanceof EditPart) {
+					LocationAdapter.addLocationAdapter(viewPart, (EditPart) object);
 					return (EditPart) object;
 				}
 			}

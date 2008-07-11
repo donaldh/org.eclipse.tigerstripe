@@ -4,6 +4,7 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.factories;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.ui.view.factories.TextShapeViewFactory;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
@@ -17,6 +18,7 @@ import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.DiagramAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ModelFactory;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode;
 
 /**
  * @author Yuri Strot
@@ -41,11 +43,17 @@ public class AnnotationViewFactory
 		this.semanticHint = semanticHint;
 		View view = super.createView(semanticAdapter, containerView, semanticHint,
 			index, persisted, preferencesHint);
-		if (view.getElement() instanceof Annotation && 
-				view instanceof AnnotationNode) {
+		EObject element = view.getElement();
+		if (element instanceof Annotation && view instanceof AnnotationNode) {
 			AnnotationNode node = (AnnotationNode)view;
 			Annotation annotation = (Annotation)view.getElement();
 			node.setAnnotationId(annotation.getId());
+			view.setElement(null);
+		}
+		if (view instanceof ViewLocationNode && element instanceof View) {
+			ViewLocationNode node = (ViewLocationNode)view;
+			node.setView(element);
+			view.setElement(null);
 		}
 		return view;
 	}
@@ -60,6 +68,8 @@ public class AnnotationViewFactory
 				return ModelFactory.eINSTANCE.createMetaAnnotationNode();
 			if (semanticHint.equals(DiagramAnnotationType.META_VIEW_ANNOTATION_TYPE))
 				return ModelFactory.eINSTANCE.createMetaViewAnnotations();
+			if (semanticHint.equals(DiagramAnnotationType.VIEW_LOCATION_NODE_TYPE))
+				return ModelFactory.eINSTANCE.createViewLocationNode();
 		}
 		return ModelFactory.eINSTANCE.createAnnotationNode();
 	}

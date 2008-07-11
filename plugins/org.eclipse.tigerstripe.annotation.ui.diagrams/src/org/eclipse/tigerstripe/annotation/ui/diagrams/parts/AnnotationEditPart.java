@@ -7,13 +7,13 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
-import org.eclipse.gmf.runtime.diagram.ui.editpolicies.ViewComponentEditPolicy;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationAdapter;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
+import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.AnnotationComponentEditPolicy;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationConnectionEditPart;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.ConnectionCollector;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.NonSemanticEditPolicy;
@@ -164,6 +164,6 @@ public abstract class AnnotationEditPart extends ShapeNodeEditPart {
 		// policy that only gets a command to delete the view
 		installEditPolicy(
 			EditPolicy.COMPONENT_ROLE,
-			new ViewComponentEditPolicy());
+			new AnnotationComponentEditPolicy());
 	}
 }

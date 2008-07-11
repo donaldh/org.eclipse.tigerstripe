@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelSwitch.java,v 1.3 2008/06/25 06:38:15 ystrot Exp $
+ * $Id: ModelSwitch.java,v 1.4 2008/07/11 06:34:48 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.util;
 
@@ -118,6 +118,15 @@ public class ModelSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ModelPackage.VIEW_LOCATION_NODE: {
+				ViewLocationNode viewLocationNode = (ViewLocationNode)theEObject;
+				T result = caseViewLocationNode(viewLocationNode);
+				if (result == null) result = caseNode(viewLocationNode);
+				if (result == null) result = caseView(viewLocationNode);
+				if (result == null) result = caseEModelElement(viewLocationNode);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -164,6 +173,21 @@ public class ModelSwitch<T> {
 	 * @generated
 	 */
 	public T caseMetaViewAnnotations(MetaViewAnnotations object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>View Location Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>View Location Node</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseViewLocationNode(ViewLocationNode object) {
 		return null;
 	}
 

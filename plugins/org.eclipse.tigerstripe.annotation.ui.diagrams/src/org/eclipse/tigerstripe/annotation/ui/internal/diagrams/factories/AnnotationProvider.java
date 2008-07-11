@@ -9,6 +9,7 @@ import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.DiagramAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.EmptyEditPart;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.InvisibleEditPart;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.UnknownAnnotationEditPart;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.parts.AnnotationConnectionEditPart;
@@ -36,6 +37,8 @@ public class AnnotationProvider extends AbstractEditPartProvider {
 		else if (DiagramAnnotationType.META_ANNOTATION_TYPE.equals(type) ||
 				DiagramAnnotationType.META_VIEW_ANNOTATION_TYPE.equals(type))
 			return InvisibleEditPart.class;
+		else if (DiagramAnnotationType.VIEW_LOCATION_NODE_TYPE.equals(type))
+			return EmptyEditPart.class;
 	    return null;
 	}
 	

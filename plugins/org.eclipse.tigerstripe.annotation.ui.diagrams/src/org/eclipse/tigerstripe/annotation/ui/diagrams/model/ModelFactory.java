@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactory.java,v 1.3 2008/06/25 06:38:15 ystrot Exp $
+ * $Id: ModelFactory.java,v 1.4 2008/07/11 06:34:47 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model;
 
@@ -51,6 +51,15 @@ public interface ModelFactory extends EFactory {
 	 * @generated
 	 */
 	MetaViewAnnotations createMetaViewAnnotations();
+
+	/**
+	 * Returns a new object of class '<em>View Location Node</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>View Location Node</em>'.
+	 * @generated
+	 */
+	ViewLocationNode createViewLocationNode();
 
 	/**
 	 * Returns the package supported by this factory.

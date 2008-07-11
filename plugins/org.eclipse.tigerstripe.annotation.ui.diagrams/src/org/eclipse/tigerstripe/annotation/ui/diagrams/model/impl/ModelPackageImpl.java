@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackageImpl.java,v 1.5 2008/06/27 12:12:11 ystrot Exp $
+ * $Id: ModelPackageImpl.java,v 1.6 2008/07/11 06:34:47 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl;
 
@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ModelFactory;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ModelPackage;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,6 +50,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass metaViewAnnotationsEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass viewLocationNodeEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -190,6 +198,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getViewLocationNode() {
+		return viewLocationNodeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getViewLocationNode_View() {
+		return (EReference)viewLocationNodeEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ModelFactory getModelFactory() {
 		return (ModelFactory)getEFactoryInstance();
 	}
@@ -222,6 +248,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEReference(metaViewAnnotationsEClass, META_VIEW_ANNOTATIONS__VIEW);
 		createEAttribute(metaViewAnnotationsEClass, META_VIEW_ANNOTATIONS__TYPES);
 		createEAttribute(metaViewAnnotationsEClass, META_VIEW_ANNOTATIONS__EXCLUSION_ANNOTATIONS);
+
+		viewLocationNodeEClass = createEClass(VIEW_LOCATION_NODE);
+		createEReference(viewLocationNodeEClass, VIEW_LOCATION_NODE__VIEW);
 	}
 
 	/**
@@ -249,6 +278,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		// Obtain other dependent packages
 		NotationPackage theNotationPackage = (NotationPackage)EPackage.Registry.INSTANCE.getEPackage(NotationPackage.eNS_URI);
+		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters
 
@@ -258,6 +288,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		annotationNodeEClass.getESuperTypes().add(theNotationPackage.getNode());
 		metaAnnotationNodeEClass.getESuperTypes().add(theNotationPackage.getNode());
 		metaViewAnnotationsEClass.getESuperTypes().add(theNotationPackage.getNode());
+		viewLocationNodeEClass.getESuperTypes().add(theNotationPackage.getNode());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(annotationNodeEClass, AnnotationNode.class, "AnnotationNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -269,6 +300,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEReference(getMetaViewAnnotations_View(), theNotationPackage.getView(), null, "view", null, 0, 1, MetaViewAnnotations.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetaViewAnnotations_Types(), ecorePackage.getEString(), "types", null, 0, -1, MetaViewAnnotations.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getMetaViewAnnotations_ExclusionAnnotations(), ecorePackage.getEString(), "exclusionAnnotations", null, 0, -1, MetaViewAnnotations.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(viewLocationNodeEClass, ViewLocationNode.class, "ViewLocationNode", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getViewLocationNode_View(), theEcorePackage.getEObject(), null, "view", null, 0, 1, ViewLocationNode.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

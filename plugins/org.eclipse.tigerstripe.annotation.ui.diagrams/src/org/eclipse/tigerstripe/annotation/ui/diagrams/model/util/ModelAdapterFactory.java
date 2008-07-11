@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelAdapterFactory.java,v 1.3 2008/06/25 06:38:15 ystrot Exp $
+ * $Id: ModelAdapterFactory.java,v 1.4 2008/07/11 06:34:48 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.util;
 
@@ -88,6 +88,10 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createMetaViewAnnotationsAdapter();
 			}
 			@Override
+			public Adapter caseViewLocationNode(ViewLocationNode object) {
+				return createViewLocationNodeAdapter();
+			}
+			@Override
 			public Adapter caseEModelElement(EModelElement object) {
 				return createEModelElementAdapter();
 			}
@@ -158,6 +162,20 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createMetaViewAnnotationsAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode <em>View Location Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode
+	 * @generated
+	 */
+	public Adapter createViewLocationNodeAdapter() {
 		return null;
 	}
 

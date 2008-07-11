@@ -27,6 +27,12 @@ public class DiagramAnnotationType
 	 * the annotation view meta information semantic hint
 	 */
 	public static String META_VIEW_ANNOTATION_TYPE = "MetaViewAnnotation"; //$NON-NLS-1$
+	
+	/**
+	 * the annotation view meta information semantic hint
+	 */
+	public static String VIEW_LOCATION_NODE_TYPE = "ViewLocationNode"; //$NON-NLS-1$
+	
 	/**
 	 * the annotation connection semantic hint
 	 */

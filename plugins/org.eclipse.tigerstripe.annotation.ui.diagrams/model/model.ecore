@@ -14,4 +14,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="exclusionAnnotations" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ViewLocationNode" eSuperTypes="platform:/plugin/org.eclipse.gmf.runtime.notation/model/notation.ecore#//Node">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="view" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EObject"/>
+  </eClassifiers>
 </ecore:EPackage>

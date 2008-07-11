@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactoryImpl.java,v 1.3 2008/06/25 06:38:15 ystrot Exp $
+ * $Id: ModelFactoryImpl.java,v 1.4 2008/07/11 06:34:47 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl;
 
@@ -63,6 +63,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 			case ModelPackage.ANNOTATION_NODE: return createAnnotationNode();
 			case ModelPackage.META_ANNOTATION_NODE: return createMetaAnnotationNode();
 			case ModelPackage.META_VIEW_ANNOTATIONS: return createMetaViewAnnotations();
+			case ModelPackage.VIEW_LOCATION_NODE: return createViewLocationNode();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -96,6 +97,16 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public MetaViewAnnotations createMetaViewAnnotations() {
 		MetaViewAnnotationsImpl metaViewAnnotations = new MetaViewAnnotationsImpl();
 		return metaViewAnnotations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ViewLocationNode createViewLocationNode() {
+		ViewLocationNodeImpl viewLocationNode = new ViewLocationNodeImpl();
+		return viewLocationNode;
 	}
 
 	/**

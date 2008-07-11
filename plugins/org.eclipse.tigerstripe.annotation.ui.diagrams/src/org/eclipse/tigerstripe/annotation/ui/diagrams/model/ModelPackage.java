@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackage.java,v 1.4 2008/06/27 12:12:11 ystrot Exp $
+ * $Id: ModelPackage.java,v 1.5 2008/07/11 06:34:47 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.ui.diagrams.model;
 
@@ -480,6 +480,143 @@ public interface ModelPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ViewLocationNodeImpl <em>View Location Node</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ViewLocationNodeImpl
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ModelPackageImpl#getViewLocationNode()
+	 * @generated
+	 */
+	int VIEW_LOCATION_NODE = 3;
+
+	/**
+	 * The feature id for the '<em><b>EAnnotations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__EANNOTATIONS = NotationPackage.NODE__EANNOTATIONS;
+
+	/**
+	 * The feature id for the '<em><b>Visible</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__VISIBLE = NotationPackage.NODE__VISIBLE;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__TYPE = NotationPackage.NODE__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Mutable</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__MUTABLE = NotationPackage.NODE__MUTABLE;
+
+	/**
+	 * The feature id for the '<em><b>Source Edges</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__SOURCE_EDGES = NotationPackage.NODE__SOURCE_EDGES;
+
+	/**
+	 * The feature id for the '<em><b>Target Edges</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__TARGET_EDGES = NotationPackage.NODE__TARGET_EDGES;
+
+	/**
+	 * The feature id for the '<em><b>Persisted Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__PERSISTED_CHILDREN = NotationPackage.NODE__PERSISTED_CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Styles</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__STYLES = NotationPackage.NODE__STYLES;
+
+	/**
+	 * The feature id for the '<em><b>Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__ELEMENT = NotationPackage.NODE__ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Diagram</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__DIAGRAM = NotationPackage.NODE__DIAGRAM;
+
+	/**
+	 * The feature id for the '<em><b>Transient Children</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__TRANSIENT_CHILDREN = NotationPackage.NODE__TRANSIENT_CHILDREN;
+
+	/**
+	 * The feature id for the '<em><b>Layout Constraint</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__LAYOUT_CONSTRAINT = NotationPackage.NODE__LAYOUT_CONSTRAINT;
+
+	/**
+	 * The feature id for the '<em><b>View</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE__VIEW = NotationPackage.NODE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>View Location Node</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VIEW_LOCATION_NODE_FEATURE_COUNT = NotationPackage.NODE_FEATURE_COUNT + 1;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode <em>Annotation Node</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -552,6 +689,27 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getMetaViewAnnotations_ExclusionAnnotations();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode <em>View Location Node</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>View Location Node</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode
+	 * @generated
+	 */
+	EClass getViewLocationNode();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode#getView <em>View</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>View</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode#getView()
+	 * @see #getViewLocationNode()
+	 * @generated
+	 */
+	EReference getViewLocationNode_View();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -636,6 +794,24 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute META_VIEW_ANNOTATIONS__EXCLUSION_ANNOTATIONS = eINSTANCE.getMetaViewAnnotations_ExclusionAnnotations();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ViewLocationNodeImpl <em>View Location Node</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ViewLocationNodeImpl
+		 * @see org.eclipse.tigerstripe.annotation.ui.diagrams.model.impl.ModelPackageImpl#getViewLocationNode()
+		 * @generated
+		 */
+		EClass VIEW_LOCATION_NODE = eINSTANCE.getViewLocationNode();
+
+		/**
+		 * The meta object literal for the '<em><b>View</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VIEW_LOCATION_NODE__VIEW = eINSTANCE.getViewLocationNode_View();
 
 	}
 

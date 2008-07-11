@@ -9,6 +9,13 @@
                params = "semanticHint">
         </elementTypeFactory>
         <specializationType
+                id="org.eclipse.tigerstripe.annotation.ui.diagram.presentation.viewLocation"     
+                name="ViewLocationNode"
+                kind="org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType">
+             <specializes id="org.eclipse.gmf.runtime.emf.type.core.null"/>
+             <param name="semanticHint" value="ViewLocationNode"/> 
+        </specializationType>
+        <specializationType
                 id="org.eclipse.tigerstripe.annotation.ui.diagram.presentation.meta"     
                 name="MetaAnnotation"
                 kind="org.eclipse.tigerstripe.annotation.ui.diagrams.IAnnotationType">
@@ -49,6 +56,7 @@
          <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="Annotation"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="MetaAnnotation"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="MetaViewAnnotation"/>
+         <context viewClass="org.eclipse.gmf.runtime.notation.Node" semanticHints="ViewLocationNode"/>
          <context viewClass="org.eclipse.gmf.runtime.notation.Edge" semanticHints="AnnotationConnection"/>
       </viewProvider>
    </extension>

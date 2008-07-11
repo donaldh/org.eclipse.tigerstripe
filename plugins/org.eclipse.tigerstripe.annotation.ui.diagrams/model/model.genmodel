@@ -17,5 +17,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute model.ecore#//MetaViewAnnotations/types"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//MetaViewAnnotations/exclusionAnnotations"/>
     </genClasses>
+    <genClasses ecoreClass="model.ecore#//ViewLocationNode">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//ViewLocationNode/view"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
