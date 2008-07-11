@@ -80,7 +80,7 @@ public class BasePlugin extends Plugin {
 				.getIDiagramRenderingSession();
 		IConfigurationElement[] configElements = Platform
 				.getExtensionRegistry().getConfigurationElementsFor(
-						"org.eclipse.tigerstripe.eclipse.diagramRendering");
+						"org.eclipse.tigerstripe.workbench.base.diagramRendering");
 		for (IConfigurationElement configElement : configElements) {
 			try {
 				IDiagramRenderer renderer = (IDiagramRenderer) configElement
