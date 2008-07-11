@@ -72,6 +72,29 @@ public class ChangeRecordingTest extends AbstractResourceTestCase {
 		}
 	}
 	
+	public void test2() {
+		try {
+			//create author
+			Author author = ModelFactory.eINSTANCE.createAuthor();
+			author.setFirstName("name");
+			author.setLastName("name2");
+			
+			//add and change annotation
+			Annotation annotation = AnnotationPlugin.getManager().addAnnotation(project, author);
+			author.setFirstName("name2");
+			
+			//save annotation
+			AnnotationPlugin.getManager().save(annotation);
+			
+			//read and check
+			author = read();
+			assertEquals(author.getFirstName(), "name2");
+		}
+		finally {
+			removeAnnotation();
+		}
+	}
+	
 	private void addAnnotation() {
 		Author author = ModelFactory.eINSTANCE.createAuthor();
 		AnnotationPlugin.getManager().addAnnotation(project, author);

@@ -53,8 +53,8 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	
 	public void add(Annotation annotation) {
 		addToList(annotation, annotation.getUri());
-		trackChanges(annotation);
 		database.write(annotation);
+		trackChanges(annotation);
 		fireAnnotationAdded(annotation);
 	}
 	
