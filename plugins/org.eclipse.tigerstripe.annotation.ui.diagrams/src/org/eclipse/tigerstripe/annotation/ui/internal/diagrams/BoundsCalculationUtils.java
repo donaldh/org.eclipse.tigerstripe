@@ -64,8 +64,13 @@ public class BoundsCalculationUtils {
 		IFigure figure = getFigure(node, viewer);
 		if (figure != null) {
 			IFigure parent = figure.getParent();
-			if (parent != null && parent.getLayoutManager() != null)
-				parent.getLayoutManager().layout(parent);
+			try {
+				if (parent != null && parent.getLayoutManager() != null)
+					parent.getLayoutManager().layout(parent);
+			}
+			catch (Exception e) {
+				//ignore
+			}
 		}
 	}
 	
@@ -85,7 +90,12 @@ public class BoundsCalculationUtils {
 		IFigure figure = getFigure(edge, viewer);
 		if (figure instanceof Connection) {
 			Connection connection = (Connection)figure;
-			connection.getConnectionRouter().route(connection);
+			try {
+				connection.getConnectionRouter().route(connection);
+			}
+			catch (Exception e) {
+				//ignore
+			}
 		}
 	}
 	
