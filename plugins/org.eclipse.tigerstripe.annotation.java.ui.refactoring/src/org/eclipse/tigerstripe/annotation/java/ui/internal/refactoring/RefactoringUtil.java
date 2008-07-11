@@ -30,6 +30,8 @@ import org.eclipse.jdt.core.refactoring.IJavaRefactorings;
 import org.eclipse.ltk.core.refactoring.RefactoringContribution;
 import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
+import org.eclipse.ltk.core.refactoring.resource.MoveResourcesDescriptor;
+import org.eclipse.ltk.core.refactoring.resource.RenameResourceDescriptor;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
 
 /**
@@ -349,6 +351,28 @@ public class RefactoringUtil {
 		if (project != null && !"".equals(project)) //$NON-NLS-1$
 			return root.getProject(project).findMember(path);
 		return root.findMember(path);
+	}
+	
+	public static ILazyObject getDestination(MoveResourcesDescriptor des) {
+		return new ResourceLazyObject(des.getDestinationPath());
+	}
+	
+	public static ILazyObject[] getResourcesPath(MoveResourcesDescriptor des) {
+		IPath[] paths = des.getResourcePathsToMove();
+		ResourceLazyObject[] objects = new ResourceLazyObject[paths.length];
+		for (int i = 0; i < objects.length; i++)
+			objects[i] = new ResourceLazyObject(paths[i]);
+		return objects;
+	}
+	
+	public static IPath getResourcePath(RenameResourceDescriptor rrd) {
+		return rrd.getResourcePath();
+	}
+	
+	public static IPath getNewPath(IPath path, RenameResourceDescriptor rrd) {
+		String name = rrd.getNewName();
+		IPath path2 = path.removeLastSegments(1).append(name);
+		return path2;
 	}
 
 }

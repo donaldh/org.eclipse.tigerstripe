@@ -34,6 +34,8 @@ import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 import org.eclipse.ltk.core.refactoring.history.IRefactoringExecutionListener;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
+import org.eclipse.ltk.core.refactoring.resource.MoveResourcesDescriptor;
+import org.eclipse.ltk.core.refactoring.resource.RenameResourceDescriptor;
 import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
 import org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.RefactoringUtil.RenameJavaResult;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
@@ -101,11 +103,14 @@ public class ChangesTracker {
 				if (des instanceof RenameJavaElementDescriptor) {
 					processRename((RenameJavaElementDescriptor)des, event.getEventType());
 				}
-				if ("org.eclipse.jdt.ui.rename.resource".equals(des.getID())) {
-					processResourceRename(des, event.getEventType());
-				}
-				if (des instanceof MoveDescriptor || "org.eclipse.jdt.ui.move".equals(des.getID())) {
+				if (des instanceof MoveDescriptor) {
 					processMove(des, event.getEventType());
+				}
+				if (des instanceof RenameResourceDescriptor) {
+					processRename((RenameResourceDescriptor)des, event.getEventType());
+				}
+				if (des instanceof MoveResourcesDescriptor) {
+					processMove((MoveResourcesDescriptor)des, event.getEventType());
 				}
 			}
 		
@@ -114,7 +119,7 @@ public class ChangesTracker {
 			
 			public void resourceChanged(IResourceChangeEvent event) {
 				try {
-					if (event.getDelta() != null) {
+					if (event != null && event.getDelta() != null) {
 						event.getDelta().accept(new IResourceDeltaVisitor() {
 							
 							public boolean visit(IResourceDelta delta) throws CoreException {
@@ -163,7 +168,7 @@ public class ChangesTracker {
 		}
 	}
 	
-	public void processResourceRename(RefactoringDescriptor rrd, int eventType) {
+	public void processRename(RenameResourceDescriptor rrd, int eventType) {
 		IPath path = RefactoringUtil.getResourcePath(rrd);
 		if (path == null)
 			return;
@@ -179,6 +184,19 @@ public class ChangesTracker {
 			blockDeletion = false;
 			fireChanged(new ResourceLazyObject(path), new ResourceLazyObject(newPath),
 					IRefactoringChangesListener.CHANGED);
+		}
+	}
+	
+	public void processMove(MoveResourcesDescriptor des, int eventType) {
+		ILazyObject[] objects = RefactoringUtil.getResourcesPath(des);
+		ILazyObject destination = RefactoringUtil.getDestination(des);
+		if (eventType == RefactoringExecutionEvent.ABOUT_TO_PERFORM) {
+			blockDeletion = true;
+			fireMoved(objects, destination, IRefactoringChangesListener.ABOUT_TO_CHANGE);
+		}
+		else if (eventType == RefactoringExecutionEvent.PERFORMED){
+			blockDeletion = false;
+			fireMoved(objects, destination, IRefactoringChangesListener.CHANGED);
 		}
 	}
 	
