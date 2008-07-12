@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.MenuCreator;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.AnnotationTree;
+import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.DiagramRebuildUtils;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.AnnotationTree.AnnotationTypeNode;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.AnnotationTree.EditPartNode;
 import org.eclipse.ui.IActionDelegate;
@@ -66,14 +67,9 @@ public class ChangeAnnotationTypesVisibility extends Action implements IActionDe
 			while (it.hasNext()) {
 				Object elem = it.next();
 				if (elem instanceof DiagramEditPart) {
-					List<?> children = ((DiagramEditPart)elem).getChildren();
-					for (Object object : children) {
-						if (object instanceof EditPart) {
-							if (!parts.contains((EditPart)object))
-								parts.add((EditPart)object);
-						}
-					}
-					parts.add((EditPart)elem);
+					DiagramEditPart part = (DiagramEditPart)elem;
+					DiagramRebuildUtils.collectParts(part.getViewer().getEditPartRegistry(), 
+							part.getDiagramView(), parts);
 				}
 				else if (elem instanceof EditPart) {
 					if (!parts.contains((EditPart)elem))

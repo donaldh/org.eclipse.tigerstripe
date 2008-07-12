@@ -77,7 +77,7 @@ public class ChangeAnnotationVisibility extends Action {
 		else
 			DiagramRebuildUtils.hideAnnotations(editor, 
 					ref, statuses);
-		DiagramRebuildUtils.addToExclusion(editor, ref, status);
+		DiagramRebuildUtils.addToExclusion(editor, ref, status, show);
 	}
 	
 	protected EditPart getPart(DiagramEditor editor) {

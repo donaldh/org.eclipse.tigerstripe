@@ -76,7 +76,7 @@ import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.locations.Locatio
  */
 public class DiagramRebuildUtils {
 	
-	protected static void collectParts(DiagramEditor editor, View container, List<EditPart> parts, int level) {
+	public static void collectParts(Map<?, ?> registry, View container, List<EditPart> parts) {
 		List<?> children = container.getVisibleChildren();
 		HashSet<Edge> edges = new HashSet<Edge>();
 		for (Object child : children) {
@@ -84,17 +84,17 @@ public class DiagramRebuildUtils {
 			if (ignore(view))
 				continue;
 			lookForEdges(view, edges);
-			collectPart(editor, view, parts);
-			collectParts(editor, view, parts, level + 1);
+			collectPart(registry, view, parts);
+			collectParts(registry, view, parts);
 		}
 		for (Edge edge : edges) {
-			collectPart(editor, edge, parts);
-			collectParts(editor, edge, parts, level + 1);
+			collectPart(registry, edge, parts);
+			collectParts(registry, edge, parts);
 		}
 	}
 	
-	protected static void collectPart(DiagramEditor editor, View view, List<EditPart> parts) {
-		Object value = editor.getDiagramGraphicalViewer().getEditPartRegistry().get(view);
+	protected static void collectPart(Map<?, ?> registry, View view, List<EditPart> parts) {
+		Object value = registry.get(view);
 		if (value instanceof EditPart) {
 			EditPart part = (EditPart)value;
 			if (!parts.contains(part))
@@ -148,7 +148,7 @@ public class DiagramRebuildUtils {
 	public static void rebuld(DiagramEditor editor) {
 		Diagram diagram = editor.getDiagram();
 		List<EditPart> parts = new ArrayList<EditPart>();
-		collectParts(editor, diagram, parts, 0);
+		collectParts(editor.getDiagramGraphicalViewer().getEditPartRegistry(), diagram, parts);
 		
 		Map<View, ViewLocationNode> locations = getLocations(diagram);
 		for (View view : locations.keySet()) {
@@ -223,17 +223,21 @@ public class DiagramRebuildUtils {
 	}
 
 	public static void addToExclusion(final DiagramEditor editor,
-			final EditPart part, final AnnotationStatus status) {
+			final EditPart part, final AnnotationStatus status, final boolean show) {
 		modify(editor.getEditingDomain(), new Runnable() {
 		
 			public void run() {
 				MetaViewAnnotations partMeta = getMetaViewAnnotations(editor, part);
-				Annotation annotation = status.getAnnotation();
-				if (annotation != null) {
-					String id = annotation.getId();
+				String annId = status.getAnnotation().getId();
+				String id = getTypeId(status);
+				if (id != null && annId != null) {
+					boolean inTypes = partMeta.getTypes().contains(id);
+					boolean addToExclusion = (inTypes && !show) || (!inTypes && show);
 					List<String> exclusion = partMeta.getExclusionAnnotations();
-					if (!exclusion.contains(id))
-						exclusion.add(id);
+					if (addToExclusion && !exclusion.contains(annId))
+						exclusion.add(annId);
+					if (!addToExclusion)
+						exclusion.remove(annId);
 				}
 			}
 		
