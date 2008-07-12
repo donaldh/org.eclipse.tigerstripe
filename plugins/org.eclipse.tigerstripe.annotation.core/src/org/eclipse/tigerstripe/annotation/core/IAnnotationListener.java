@@ -49,6 +49,7 @@ public interface IAnnotationListener {
      * Notifies this listener that an annotation was loaded from the storage.
      * 
 	 * @param annotation loaded annotation
+	 * @deprecated
 	 */
 	public void annotationsLoaded(Annotation[] annotation);
 

@@ -68,6 +68,7 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaAnnotationNode;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.MetaViewAnnotations;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode;
+import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.locations.LocationMapper;
 
 /**
  * @author Yuri Strot
@@ -155,7 +156,7 @@ public class DiagramRebuildUtils {
 			Object from = registry.get(view);
 			Object to = registry.get(locations.get(view));
 			if (from instanceof EditPart && to instanceof EditPart) {
-				LocationAdapter.addLocationAdapter((EditPart)from, (EditPart)to);
+				LocationMapper.mapLocation((EditPart)from, (EditPart)to);
 			}
 		}
 		for (EditPart part : parts) {
@@ -417,7 +418,7 @@ public class DiagramRebuildUtils {
 		}
 	}
 	
-	protected static void deleteAnnotation(View view) {
+	public static void deleteAnnotation(View view) {
 		List<View> views = getAnnotationEnd(view);
 		deleteView(view);
 		for (View view2 : views) {
@@ -574,7 +575,7 @@ public class DiagramRebuildUtils {
 	}
 
 	protected static EditPart createViewLocation(EditPart containerPart, EditPart viewPart) {
-		EditPart part = LocationAdapter.getAgentPart(viewPart);
+		EditPart part = LocationMapper.getLocationPart(viewPart);
 		if (part != null)
 			return part;
 		TransactionalEditingDomain domain = getDomain(containerPart);
@@ -586,7 +587,7 @@ public class DiagramRebuildUtils {
 				Map<?, ?> registry = containerPart.getViewer().getEditPartRegistry();
 				Object object = registry.get(node);
 				if (object instanceof EditPart) {
-					LocationAdapter.addLocationAdapter(viewPart, (EditPart) object);
+					LocationMapper.mapLocation(viewPart, (EditPart) object);
 					return (EditPart) object;
 				}
 			}

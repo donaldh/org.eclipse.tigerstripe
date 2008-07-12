@@ -134,7 +134,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 				Annotation annotation = (Annotation)objects[i];
 				list.add(annotation);
 				trackChanges(annotation);
-				fireAnnotationLoaded(list.toArray(new Annotation[list.size()]));
 				return annotation;
 			}
 		}
@@ -152,7 +151,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 			}
 		}
 		getAnnotationMap().put(uri, list);
-		fireAnnotationLoaded(list.toArray(new Annotation[list.size()]));
 		return list;
 	}
 	
@@ -249,19 +247,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 			try {
 				IAnnotationListener listener = (IAnnotationListener)objects[i];
 				listener.annotationsChanged(annotations);
-			}
-			catch (Exception e) {
-				AnnotationPlugin.log(e);
-			}
-		}
-	}
-	
-	protected void fireAnnotationLoaded(Annotation[] annotations) {
-		Object[] objects = listeners.getListeners();
-		for (int i = 0; i < objects.length; i++) {
-			try {
-				IAnnotationListener listener = (IAnnotationListener)objects[i];
-				listener.annotationsLoaded(annotations);
 			}
 			catch (Exception e) {
 				AnnotationPlugin.log(e);

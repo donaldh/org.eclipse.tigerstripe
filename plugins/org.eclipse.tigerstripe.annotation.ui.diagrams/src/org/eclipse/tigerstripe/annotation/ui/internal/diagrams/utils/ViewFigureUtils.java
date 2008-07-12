@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.diagrams;
+package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.utils;
 
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.IFigure;
@@ -26,7 +26,14 @@ import org.eclipse.gmf.runtime.notation.View;
  * @author Yuri Strot
  *
  */
-public class BoundsCalculationUtils {
+public class ViewFigureUtils {
+	
+	public static IFigure getFigure(View view, EditPartViewer viewer) {
+		GraphicalEditPart part = (GraphicalEditPart)viewer.getEditPartRegistry().get(view);
+		if (part != null)
+			return part.getFigure();
+		return null;
+	}
 	
 	public static Rectangle getBounds(View view, EditPartViewer viewer) {
 		if (view instanceof Node)
@@ -37,41 +44,12 @@ public class BoundsCalculationUtils {
 		return null;
 	}
 	
-	public static void update(View view, EditPartViewer viewer) {
-		if (view instanceof Node)
-			update((Node)view, viewer);
-		if (view instanceof Edge) {
-			update((Edge)view, viewer);
-		}
-	}
-	
-	protected static IFigure getFigure(View view, EditPartViewer viewer) {
-		GraphicalEditPart part = (GraphicalEditPart)viewer.getEditPartRegistry().get(view);
-		if (part != null)
-			return part.getFigure();
-		return null;
-	}
-	
 	protected static Rectangle getBounds(Node node, EditPartViewer viewer) {
 		IFigure figure = getFigure(node, viewer);
 		if (figure != null) {
 			return figure.getBounds();
 		}
 		return null;
-	}
-	
-	protected static void update(Node node, EditPartViewer viewer) {
-		IFigure figure = getFigure(node, viewer);
-		if (figure != null) {
-			IFigure parent = figure.getParent();
-			try {
-				if (parent != null && parent.getLayoutManager() != null)
-					parent.getLayoutManager().layout(parent);
-			}
-			catch (Exception e) {
-				//ignore
-			}
-		}
 	}
 	
 	protected static Rectangle getBounds(Edge edge, EditPartViewer viewer) {
@@ -84,19 +62,6 @@ public class BoundsCalculationUtils {
 			}
 		}
 		return null;
-	}
-	
-	protected static void update(Edge edge, EditPartViewer viewer) {
-		IFigure figure = getFigure(edge, viewer);
-		if (figure instanceof Connection) {
-			Connection connection = (Connection)figure;
-			try {
-				connection.getConnectionRouter().route(connection);
-			}
-			catch (Exception e) {
-				//ignore
-			}
-		}
 	}
 	
 	protected static Point getCenter(Connection connection) {

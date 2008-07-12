@@ -9,19 +9,18 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.diagrams;
-
-import org.eclipse.emf.common.notify.Adapter;
-
+package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.locations;
 
 /**
+ * Interface for listening to <code>View</code> location changes.
+ * 
  * @author Yuri Strot
- *
  */
-public interface ILocationAdapter extends Adapter {
+public interface ILocationChangedListener {
 	
-	public void addAdapters();
-	
-	public void removeAdapters();
+	/**
+     * Notifies this listener that a view location changed.
+	 */
+	public void locationChanged();
 
 }
