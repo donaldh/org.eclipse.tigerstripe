@@ -47,46 +47,6 @@ public class NewArtifacts extends UITestCaseSWT {
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Dependency", TestingConstants.DEPENDENCY_NAMES[0], false, false,false, true));
 		
 		
-		// Let the auditor run
-		Thread.sleep(500);
-		// Some artifacts have errors on creation that we need to correct.
-		// First check we get them
-		auditHelper = new ArtifactAuditHelper(ui);
-		String queryName = TestingConstants.QUERY_NAMES[0];
-
-		// Just be sure we actually created the query!
-		if (ProjectRecord.getArtifactList().containsValue(queryName)){
-			auditHelper.checkUndefinedReturnType(queryName,true);
-
-			// Update the returned type of our Query
-			String pathToEntity = TestingConstants.NEW_MODEL_PROJECT_NAME+
-			"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
-			queryName;
-
-			TreeItemLocator treeItem = new TreeItemLocator(
-					pathToEntity,
-					new ViewLocator(
-					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
-			ui.click(2, treeItem);
-			CTabItemLocator artifactEditor = new CTabItemLocator(
-					queryName);
-			ui.click(artifactEditor);
-			ui.click(new CTabItemLocator("Details"));
-			ui.click(new LabeledLocator(Button.class, "Returned Type: "));
-			ui.wait(new ShellShowingCondition("Returned Type"));
-			ui.click(new TableItemLocator(TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+
-					TestingConstants.ENTITY_NAMES[0]));
-			ui.click(new ButtonLocator("OK"));
-			ui.wait(new ShellDisposedCondition("Returned Type"));
-			//Save it
-			ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-
-			// Let the auditor run
-			Thread.sleep(500);
-			auditHelper.checkUndefinedReturnType(queryName,false);
-			ui.close(new CTabItemLocator(queryName));
-		}
-		
 	}
 	
 	/**

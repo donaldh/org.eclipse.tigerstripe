@@ -33,6 +33,7 @@ public class TestingConstants {
 	// Literal Names
 	public static String[] METHOD_NAMES = new String[]{"testMethod0", "testMethod1", "testMethod2"};
 	
+	public static String DIAGRAM_PACKAGE = "diagram";
 	public static String NEW_CLASS_DIAGRAM_NAME = "testClassDiagram";
 	
 	// Generator test constants

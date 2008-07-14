@@ -13,6 +13,7 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.profile.CreateProfile;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.SaveAndDeployProfile;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.TestActiveProfile;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.UpdateProfileArtifacts;
+import org.eclipse.tigerstripe.workbench.ui.base.test.project.ClearExpectedAuditErrors;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.CloseProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
@@ -73,6 +74,7 @@ public class MyTestsuite extends TestCase
         
         //  add artifacts to our project
         suite.addTestSuite(NewArtifacts.class);
+        suite.addTestSuite(ClearExpectedAuditErrors.class);
         // turn on plugin in Project and generate
         suite.addTestSuite(Generate.class);
 

@@ -13,11 +13,15 @@ public class ProjectHelper  extends UITestCaseSWT {
 
 	
 	public static void checkArtifactsInExplorer (IUIContext ui, ArrayList<String> artifacts ){
+		checkArtifactsInExplorer(ui, TestingConstants.DEFAULT_ARTIFACT_PACKAGE,artifacts);
+	}
+	
+	public static void checkArtifactsInExplorer (IUIContext ui, String packageName, ArrayList<String> artifacts ){
 		for (String artifact : artifacts){
 
 			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
 			"/src/"+
-			TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
+			packageName+"/"+
 			artifact;
 
 			try {	

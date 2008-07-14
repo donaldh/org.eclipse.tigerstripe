@@ -144,7 +144,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 		"Delete");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Confirm Delete"));
-		ui.click(new ButtonLocator("&Yes"));
+		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("Confirm Delete"));
 		
 		

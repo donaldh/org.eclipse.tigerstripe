@@ -1,6 +1,8 @@
+Bundle-Vendor: Eclipse.org
 Bundle-ManifestVersion: 2
-Manifest-Version: 1.0
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.base.test.Activator
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Name: Base UI Test Plug-in
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.workbench.ui.base,
  org.junit,
@@ -16,14 +18,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface,
  org.eclipse.swt
 Bundle-ActivationPolicy: lazy
+Manifest-Version: 1.0
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base.test
-Bundle-Name: Base UI Test Plug-in
-Export-Package: org.eclipse.tigerstripe.workbench.ui.base.test,
- org.eclipse.tigerstripe.workbench.ui.base.test.generator,
- org.eclipse.tigerstripe.workbench.ui.base.test.profile,
- org.eclipse.tigerstripe.workbench.ui.base.test.project,
- org.eclipse.tigerstripe.workbench.ui.base.test.suite,
- org.eclipse.tigerstripe.workbench.ui.base.test.utils
-Bundle-Vendor: Eclipse.org
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Version: 0.4.0.qualifier
+Export-Package: org.eclipse.tigerstripe.workbench.ui.base.test,org.eclipse.tigerstripe.workbench.ui.base.test.generator,org.eclipse.tigerstripe.workbench.ui.base.test.profile,org.eclipse.tigerstripe.workbench.ui.base.test.project,org.eclipse.tigerstripe.workbench.ui.base.test.suite,org.eclipse.tigerstripe.workbench.ui.base.test.utils
