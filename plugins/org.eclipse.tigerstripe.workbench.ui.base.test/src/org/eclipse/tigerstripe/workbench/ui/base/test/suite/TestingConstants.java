@@ -11,7 +11,7 @@ public class TestingConstants {
 	
 	// Artifact Names
 	public static String[] PACKAGE_NAMES      = new String[]{"Package0", "Package1", "Package2"};
-	public static String[] ENTITY_NAMES       = new String[]{"Entity0", "Entity1", "Entity2"};
+	public static String[] ENTITY_NAMES       = new String[]{"Entity0", "Entity1", "Entity2", "Entity3"};
 	public static String[] DATATYPE_NAMES     = new String[]{"Datatype0", "Datatype12", "Datatype2"};
 	public static String[] ENUMERATION_NAMES  = new String[]{"Enumeration0", "Enumeration1", "Enumeration2"};
 	public static String[] QUERY_NAMES        = new String[]{"Query0", "Query1", "Query2"};

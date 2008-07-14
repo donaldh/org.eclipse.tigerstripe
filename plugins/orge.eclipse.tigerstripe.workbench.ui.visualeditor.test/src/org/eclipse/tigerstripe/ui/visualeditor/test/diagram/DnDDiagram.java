@@ -30,7 +30,7 @@ public class DnDDiagram extends UITestCaseSWT {
 		IUIContext ui = getUI();
 		ui.contextClick(
 						new TreeItemLocator(
-								TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/org.eclipse",
+								TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE,
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 						"New/new Class Diagram...");
@@ -45,32 +45,13 @@ public class DnDDiagram extends UITestCaseSWT {
 		ProjectRecord.addArtifact(addArtifact(ui,"Entity", TestingConstants.ENTITY_NAMES[0], false, false, false, false));
 		ProjectRecord.addArtifact(addArtifact(ui,"Entity", TestingConstants.ENTITY_NAMES[1], false, false, false, false));
 		ProjectRecord.addArtifact(addArtifact(ui,"Association", TestingConstants.ASSOCIATION_NAMES[0], false, false,false, true));
-		
-//		// Select the Entities
-//		ui.click(new TreeItemLocator(
-//				"New Project/src/org.eclipse/"+TestingConstants.ENTITY_NAMES[0],
-//				new ViewLocator(
-//						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-//		ui.click(1,	new TreeItemLocator(
-//						"New Project/src/org.eclipse/"+TestingConstants.ENTITY_NAMES[1],
-//						new ViewLocator(
-//								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
-//				WT.CTRL);
-//		
-//		ui.dragTo(new LRLocator(1, new CompartmentCollapseHandleLocator()));
-		
-		
-		// Save it
-		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-//		// Close it
-//		ui.close(new CTabItemLocator(DiagramConstants.DND_DIAGRAM+".wvd"));
+
 		
 	}
 
 	
 	/**
 	 * This is a simple create using just the name.
-	 * We need to check the defaults are properly created.
 	 * @throws Exception
 	 */
 	public String addArtifact(IUIContext ui,String myType, String thisArtifactName, boolean hasAttributes,
@@ -89,8 +70,6 @@ public class DnDDiagram extends UITestCaseSWT {
 		
 		ui.enterText(thisArtifactName);
 		
-		// Validate the right stuff is in the list!
-		// Then check in the tree view
 		
 		if (hasEnds){
 			ui.click(new LabeledLocator(Button.class, "aEnd Type"));

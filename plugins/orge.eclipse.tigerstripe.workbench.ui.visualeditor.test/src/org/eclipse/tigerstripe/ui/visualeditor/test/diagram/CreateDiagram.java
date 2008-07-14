@@ -39,7 +39,7 @@ public class CreateDiagram extends UITestCaseSWT {
 		IUIContext ui = getUI();
 		ui.contextClick(
 						new TreeItemLocator(
-								TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/org.eclipse",
+								TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE,
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 						"New/new Class Diagram...");
@@ -77,7 +77,7 @@ public class CreateDiagram extends UITestCaseSWT {
 		ui.enterText(TestingConstants.UPDATE_NAMES[2]);
 		artifacts.add(TestingConstants.UPDATE_NAMES[2]);
 		
-		ui.click(new PaletteItemLocator("Artifacts/Notification"));
+		ui.click(new PaletteItemLocator("Artifacts/Event"));
 		ui.click(new XYLocator(new DiagramEditPart$1Locator(),0,100));
 		ui.enterText(TestingConstants.EVENT_NAMES[2]);
 		artifacts.add(TestingConstants.EVENT_NAMES[2]);
@@ -94,10 +94,11 @@ public class CreateDiagram extends UITestCaseSWT {
 		
 		
 		// Now check they are all in the tree view
-		ProjectHelper.checkArtifactsInExplorer(ui, artifacts);
+		ProjectHelper.checkArtifactsInExplorer(ui, TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE, artifacts);
 		
 		
 		// Save it
+		ui.click(new CTabItemLocator("*"+DiagramConstants.CREATE_DIAGRAM+".wvd"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		// Close it
 		ui.close(new CTabItemLocator(DiagramConstants.CREATE_DIAGRAM+".wvd"));

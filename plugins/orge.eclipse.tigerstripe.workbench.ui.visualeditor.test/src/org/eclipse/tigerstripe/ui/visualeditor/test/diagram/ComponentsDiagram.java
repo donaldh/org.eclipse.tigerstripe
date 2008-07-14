@@ -81,7 +81,7 @@ public class ComponentsDiagram extends UITestCaseSWT {
 		IUIContext ui = getUI();
 		ui.contextClick(
 						new TreeItemLocator(
-								TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/org.eclipse/"+TestingConstants.DIAGRAM_PACKAGE,
+								TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE,
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 						"New/new Class Diagram...");
@@ -90,46 +90,46 @@ public class ComponentsDiagram extends UITestCaseSWT {
 		ui.click(new ButtonLocator("&Finish"));
 		ui.wait(new ShellDisposedCondition("New Tigerstripe Diagram"));
 		
-		// And check it made it to the Explorer
 		ArrayList<String> artifacts = new ArrayList<String>();
 		
 		ui.click(new PaletteItemLocator("Artifacts/Entity"));
 		ui.click(new XYLocator(new DiagramEditPart$1Locator(),0,-100));
-		ui.enterText(TestingConstants.ENTITY_NAMES[2]);
-		artifacts.add(TestingConstants.ENTITY_NAMES[2]);
+		ui.enterText(TestingConstants.ENTITY_NAMES[3]);
+		artifacts.add(TestingConstants.ENTITY_NAMES[3]);
 		
 		
 		// Now check they are all in the tree view
-		ProjectHelper.checkArtifactsInExplorer(ui, artifacts);
+		ProjectHelper.checkArtifactsInExplorer(ui, TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE, artifacts);
 		
 		
-		// Save it
+		// Save the diagram
+		ui.click(new CTabItemLocator("*"+DiagramConstants.COMPONENTS_DIAGRAM+".wvd"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		
-		ui.click(new LRLocator(0, new WrapLabelLocator()));
-		ui.click(new LRLocator(7, new MyFigureLocator()));
-		ui.click(new LRLocator(8, new MyFigureLocator()));
-		ui
-				.click(new TreeItemLocator(
-						"New Project/src/org.eclipse/Entity3",
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		ui.click(new PaletteItemLocator("Features/Field"));
-		ui.click(new LRLocator(0, new WrapLabelLocator()));
-		ui.click(new PaletteItemLocator("Features/Field"));
-		ui.click(new LRLocator(0, new WrapLabelLocator()));
-		ui.click(new PaletteItemLocator("Features/Method"));
-		ui.click(new LRLocator(8, new MyFigureLocator()));
-		ui
-				.click(new TreeItemLocator(
-						"New Project/src/org.eclipse/Entity3/AFIELD::String",
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		ui
-				.click(new TreeItemLocator(
-						"New Project/src/org.eclipse/Entity3/method0()::void",
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+//		ui.click(new LRLocator(0, new WrapLabelLocator()));
+//		ui.click(new LRLocator(7, new MyFigureLocator()));
+//		ui.click(new LRLocator(8, new MyFigureLocator()));
+//		ui
+//				.click(new TreeItemLocator(
+//						"New Project/src/org.eclipse/Entity3",
+//						new ViewLocator(
+//								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+//		ui.click(new PaletteItemLocator("Features/Field"));
+//		ui.click(new LRLocator(0, new WrapLabelLocator()));
+//		ui.click(new PaletteItemLocator("Features/Field"));
+//		ui.click(new LRLocator(0, new WrapLabelLocator()));
+//		ui.click(new PaletteItemLocator("Features/Method"));
+//		ui.click(new LRLocator(8, new MyFigureLocator()));
+//		ui
+//				.click(new TreeItemLocator(
+//						"New Project/src/org.eclipse/Entity3/AFIELD::String",
+//						new ViewLocator(
+//								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+//		ui
+//				.click(new TreeItemLocator(
+//						"New Project/src/org.eclipse/Entity3/method0()::void",
+//						new ViewLocator(
+//								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		
 		// Save it
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
