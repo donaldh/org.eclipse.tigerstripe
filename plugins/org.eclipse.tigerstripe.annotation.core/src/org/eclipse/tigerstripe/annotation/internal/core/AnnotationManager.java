@@ -12,7 +12,10 @@
 package org.eclipse.tigerstripe.annotation.internal.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -35,6 +38,7 @@ import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.core.ProviderContext;
 import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
+import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 
 /**
  * This is implementation of the <code>IAnnotationManager</code>.
@@ -59,7 +63,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	
 	private static AnnotationManager instance;
 	
-	private AnnotationType[] types;
+	private Map<String, AnnotationType> types;
 	private List<Adapter> adapters;
 	private ProviderManager providerManager;
 	
@@ -377,22 +381,31 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		return providerManager;
 	}
 	
-	public AnnotationType[] getTypes() {
+	public Map<String, AnnotationType> getTypesMap() {
 		if (this.types == null) {
-			List<AnnotationType> types = new ArrayList<AnnotationType>();
+			types = new HashMap<String, AnnotationType>();
 			IConfigurationElement[] configs = Platform.getExtensionRegistry(
 				).getConfigurationElementsFor(ANNOTATION_TYPE_EXTPT);
 	        for (IConfigurationElement config : configs) {
 	        	try {
-	        		types.add(new AnnotationType(config));
+	        		AnnotationType type = new AnnotationType(config);
+	        		types.put(AnnotationUtils.getInstanceClassName(type.getClazz()), type);
 	            }
 	            catch (Exception e) {
 	            	AnnotationPlugin.log(e);
 	            }
 	        }
-	        this.types = types.toArray(new AnnotationType[types.size()]);
 		}
-		return this.types;
+		return types;
+	}
+	
+	public AnnotationType[] getTypes() {
+		Collection<AnnotationType> types = getTypesMap().values();
+		return types.toArray(new AnnotationType[types.size()]);
+	}
+	
+	public AnnotationType getType(String epackage, String eclass) {
+		return getTypesMap().get(epackage + "." + eclass);
 	}
 	
 	public List<Adapter> getAdapters() {

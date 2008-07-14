@@ -14,6 +14,8 @@ package org.eclipse.tigerstripe.annotation.core.util;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IProviderTarget;
@@ -24,6 +26,24 @@ import org.eclipse.tigerstripe.annotation.core.IProviderTarget;
  *
  */
 public class AnnotationUtils {
+	
+	public static EClass getClass(String epackageUri, String eclass) {
+		EPackage pkg = getPackage(epackageUri);
+		return (EClass) pkg.getEClassifier(eclass);
+	}
+
+	public static EPackage getPackage(String uri) {
+		return EPackage.Registry.INSTANCE.getEPackage(uri);
+	}
+	
+	public static String getInstanceClassName(EClass eclass) {
+		String name = eclass.getInstanceClassName();
+		if (name == null) {
+			String nsPrefix = eclass.getEPackage().getNsPrefix();
+			name = nsPrefix + "." + eclass.getName();
+		}
+		return name;
+	}
 
 	/**
 	 * Return false if object can't be adapted to defined annotation types

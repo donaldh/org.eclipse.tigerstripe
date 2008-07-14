@@ -1,16 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.tigerstripe.annotation.ui">
+<schema targetNamespace="org.eclipse.tigerstripe.annotation.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appInfo>
+      <appinfo>
          <meta.schema plugin="org.eclipse.tigerstripe.annotation.ui" id="annotationType" name="annotationType"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          This extension point allows clients to contribute new annotation types class, i.e. define which EMF objects can be used as annotation content. It can be any EMF class, it need not implement any interface or something else.
       </documentation>
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="definition"/>
@@ -34,9 +39,9 @@
                <documentation>
                   an optional name of the extension instance
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute translatable="true"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
@@ -68,13 +73,6 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="id" type="string" use="required">
-            <annotation>
-               <documentation>
-                  A unique name that will be used to identify this annotation type
-               </documentation>
-            </annotation>
-         </attribute>
          <attribute name="description" type="string">
             <annotation>
                <documentation>
@@ -97,9 +95,9 @@
                <documentation>
                   target type
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
          <attribute name="unique" type="boolean" use="default" value="true">
@@ -113,18 +111,18 @@
    </element>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="since"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          0.3
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="examples"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          Example of the Person annotation type declaration:
 &lt;pre&gt;
@@ -140,32 +138,15 @@
     &lt;/definition&gt;
   &lt;/extension&gt;
 &lt;/pre&gt;
-
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="apiInfo"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
+
 
    <annotation>
-      <appInfo>
-         <meta.section type="implementation"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="copyright"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          Copyright (c) 2008 xored software, Inc.&lt;br&gt;
 

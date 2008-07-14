@@ -19,10 +19,13 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.core.IAnnotationUIManager;
 import org.eclipse.tigerstripe.annotation.ui.core.ISelectionConverter;
@@ -44,14 +47,15 @@ public class AnnotationUIManager implements IAnnotationUIManager {
 	
 	private static final String CONVERTOR_NAME = "selectionConverter";
 	private static final String ATTR_CLASS = "class";
-	private static final String ATTR_TYPE_ID = "typeID";
+	private static final String ATTR_ECLASS = "eclass";
+	private static final String ATTR_EPACKAGE = "epackage-uri";
 	
 	private static AnnotationUIManager instance;
 	
 	private AnnotationSelectionListener selectionListener;
 
 	private ISelectionConverter[] converters;
-	private Map<String, ILabelProvider> providers;
+	private Map<AnnotationType, ILabelProvider> providers;
 	
 	private AnnotationUIManager() {
 	}
@@ -84,19 +88,26 @@ public class AnnotationUIManager implements IAnnotationUIManager {
 	}
 	
 	public ILabelProvider getLabelProvider(AnnotationType type) {
-		return getProviderMap().get(type.getId());
+		return getProviderMap().get(type);
 	}
 	
-	protected Map<String, ILabelProvider> getProviderMap() {
+	protected Map<AnnotationType, ILabelProvider> getProviderMap() {
 		if (providers == null) {
-			providers = new HashMap<String, ILabelProvider>();
+			providers = new HashMap<AnnotationType, ILabelProvider>();
 			IConfigurationElement[] configs = Platform.getExtensionRegistry(
     			).getConfigurationElementsFor(ANNOTATION_LABEL_PROVIDER);
             for (IConfigurationElement config : configs) {
             	try {
             		ILabelProvider provider = (ILabelProvider)config.createExecutableExtension(ATTR_CLASS);
-            		String typeID = config.getAttribute(ATTR_TYPE_ID);
-            		providers.put(typeID, provider);
+            		String epackageUri = config.getAttribute(ATTR_EPACKAGE);
+            		String eclass = config.getAttribute(ATTR_ECLASS);
+            		EClass clazz = AnnotationUtils.getClass(epackageUri, eclass);
+            		AnnotationType type = AnnotationPlugin.getManager().getType(
+            				clazz.getEPackage().getNsPrefix(), clazz.getName());
+            		if (type == null)
+            			throw new NullPointerException("Annotation type with epackage-uri=" + epackageUri +
+            					" and eclass=" + eclass + " do not defined");
+            		providers.put(type, provider);
                 }
                 catch (Exception e) {
                 	AnnotationUIPlugin.log(e);

@@ -141,6 +141,25 @@ public interface IAnnotationManager {
 	 */
 	public AnnotationType getType(Annotation annotation);
 	
+	/**
+	 * Return type by EMF package name and class name. To get package by EPackage and EClass
+	 * you need to call:<br>
+	 * <code>
+	 *   getType(EPackage.getNsPrefix(), EClass.getName()); 
+	 * </code> 
+	 * 
+	 * @param epackage EPackage namespace
+	 * @param eclazz EClass name
+	 * @return
+	 */
+	public AnnotationType getType(String epackage, String eclazz);
+	
+	/**
+	 * Return annotation by id
+	 * 
+	 * @param id annotation id
+	 * @return annotation by specified id or null, if there is no annotations with this id
+	 */
 	public Annotation getAnnotationById(String id);
 	
 	/**

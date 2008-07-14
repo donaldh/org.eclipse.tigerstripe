@@ -19,7 +19,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.internal.core.AnnotationTarget;
 import org.eclipse.tigerstripe.annotation.internal.core.ProviderTarget;
 
@@ -38,13 +38,11 @@ public class AnnotationType {
 	private static final String ATTR_DESCRIPTION = "description";
 	private static final String ATTR_URI = "epackage-uri";
 	private static final String ATTR_TYPE = "eclass";
-	private static final String ATTR_ID = "id";
 	
 	private static final String ELEMENT_TARGET = "target";
 	private static final String ATTR_TARGET_TYPE = "type";
 	private static final String ATTR_TARGET_UNIQUE = "unique";
 	
-	private String id;
 	private String name;
 	private String desciption;
 	private EClass clazz;
@@ -55,7 +53,6 @@ public class AnnotationType {
 	
 	public AnnotationType(IConfigurationElement definition) {
 		name = definition.getAttribute(ATTR_NAME);
-		id = definition.getAttribute(ATTR_ID);
 		desciption = definition.getAttribute(ATTR_DESCRIPTION);
 		clazz = getClass(definition);
 		initTargets(definition);
@@ -82,12 +79,7 @@ public class AnnotationType {
 	private static EClass getClass(IConfigurationElement type) {
 		String uri = type.getAttribute(ATTR_URI);
 		String name = type.getAttribute(ATTR_TYPE);
-		EPackage pkg = getPackage(uri);
-		return (EClass) pkg.getEClassifier(name);
-	}
-
-	private static EPackage getPackage(String uri) {
-		return EPackage.Registry.INSTANCE.getEPackage(uri);
+		return AnnotationUtils.getClass(uri, name);
 	}
 	
 	/**
@@ -106,15 +98,6 @@ public class AnnotationType {
 	public EClass getClazz() {
 		return clazz;
 	}
-	
-	/**
-	 * Return annotation type id
-	 * 
-	 * @return
-	 */
-	public String getId() {
-	    return id;
-    }
 	
 	public boolean isTargetUnique(String type) {
 		return uniques.get(type).booleanValue();
@@ -145,6 +128,10 @@ public class AnnotationType {
 		return targets;
 	}
 	
+	public String getId() {
+		return AnnotationUtils.getInstanceClassName(getClazz());
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -160,7 +147,7 @@ public class AnnotationType {
 	public boolean equals(Object obj) {
 		if (obj instanceof AnnotationType) {
 			AnnotationType type = (AnnotationType)obj;
-			return getId().equals(type.getId());
+			return type.getClazz().equals(type.getClazz());
 		}
 		return false;
 	}
@@ -170,7 +157,7 @@ public class AnnotationType {
 	 */
 	@Override
 	public int hashCode() {
-		return getId().hashCode();
+		return getClazz().hashCode();
 	}
 	
 	public IAnnotationTarget[] getTargets(Object object, ProviderTarget[] targets) {

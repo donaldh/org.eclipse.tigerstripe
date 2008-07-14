@@ -22,7 +22,6 @@
             description="Entity Note"
             eclass="EntityNote"
             epackage-uri="http:///org/eclipse/tigerstripe/annotation/ui/example/entityNote.ecore"
-            id="org.eclipse.tigerstripe.annotation.ui.example.entityNote"
             name="Entity Note">
          <target
                type="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact"
@@ -35,8 +34,8 @@
          point="org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider">
       <provider
             class="org.eclipse.tigerstripe.annotation.ui.example.entityNote.EntityLabelProvider"
-            typeID="org.eclipse.tigerstripe.annotation.ui.example.entityNote">
-      </provider>
+            epackage-uri="http:///org/eclipse/tigerstripe/annotation/ui/example/entityNote.ecore"
+            eclass="EntityNote"/>
    </extension>
 
 </plugin>
