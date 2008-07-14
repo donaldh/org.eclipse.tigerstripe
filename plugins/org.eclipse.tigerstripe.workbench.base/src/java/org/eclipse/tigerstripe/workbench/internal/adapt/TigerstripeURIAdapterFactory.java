@@ -57,14 +57,25 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	public static boolean isRelated(URI uri) {
 		return SCHEME_TS.equals(uri.scheme());
 	}
-	
+
+	/**
+	 * The URI is expected to be something like:
+	 * 
+	 * tigerstripe:/project/FQN if artifact from project or
+	 * tigerstripe:/project/module-name/FQN if artifact from Module.
+	 * 
+	 * @param uri
+	 * @return
+	 */
 	public static IModelComponent uriToComponent(URI uri) {
 		IPath path = new Path(uri.path());
 		String fqn = path.lastSegment();
 		path = path.removeLastSegments(1);
+
+		String project = path.segments()[0];
 		try {
-			IAbstractTigerstripeProject tsp = TigerstripeCore.findProject(path
-					.lastSegment());
+			IAbstractTigerstripeProject tsp = TigerstripeCore
+					.findProject(project);
 
 			if (!(tsp instanceof ITigerstripeModelProject))
 				return null;
@@ -123,8 +134,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 * Returns a URI that identifies the target of an annotation and which
 	 * allows that target to be looked up in the Tigerstripe workbench, but
 	 * accepts a second argument whose content will replace a part of the URI
-	 * that is appropriate to the type of <code>IModelComponent</code>
-	 * supplied
+	 * that is appropriate to the type of <code>IModelComponent</code> supplied
 	 * 
 	 * @param element
 	 *            the <code>IModelComponent</code> for which we require a URI
@@ -168,10 +178,14 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		return toURI(artifactPath, fragment);
 	}
 
-	private static IPath getArtifactPath(IAbstractArtifact art, String newName) // throws
-	// TigerstripeException
-	{
+	private static IPath getArtifactPath(IAbstractArtifact art, String newName) {
 		try {
+
+			if (art.getProject() == null) {
+				// This is a module artifact
+				return null;
+			}
+
 			IPath path = new Path(art.getProject().getProjectLabel());
 			path = path.append(newName == null ? art.getFullyQualifiedName()
 					: newName);
@@ -199,6 +213,10 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	}
 
 	private static URI toURI(IPath path, String fragment) {
+
+		if (path == null)
+			return null;
+
 		try {
 			URI uri = URI.createHierarchicalURI(SCHEME_TS, null, null, path
 					.segments(), null, fragment);

@@ -969,7 +969,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	}
 
 	public String getLabelString() {
-		String result = getName() + "(" + getParamsString() + ")::";
+		String result = getName() + "(" + getParamsString() + "):";
 		String retType = getReturnType().getName();
 		if (isVoid()) {
 			retType = "void";

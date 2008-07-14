@@ -80,33 +80,23 @@ public class TSExplorerUtils {
 	public static IAbstractArtifact getArtifactFor(Object element) {
 		if (element instanceof ICompilationUnit) {
 			ICompilationUnit jElem = (ICompilationUnit) element;
+
+			IAbstractArtifact art = (IAbstractArtifact) jElem
+					.getAdapter(IAbstractArtifact.class);
+
+			// Now this may mean that the artifact hasn't been extracted yet,
+			// but we're trying to display the proper icon in the explorer
 			IResource res = jElem.getResource();
-			if (res != null) {
+			if (art == null && res != null) {
 				try {
-					IAbstractTigerstripeProject aProject = TigerstripeCore
-							.findProject(res.getProject().getLocation()
-									.toFile().toURI());
-
-					if (aProject instanceof ITigerstripeModelProject) {
-						ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
-						IArtifactManagerSession mgr = project
-								.getArtifactManagerSession();
-
-						IAbstractArtifact artifact = ((ArtifactManagerSessionImpl) mgr)
-								.getArtifactManager().getArtifactByFilename(
-										jElem.getCorrespondingResource()
-												.getLocation().toOSString());
-
-						if (artifact == null) {
-							StringReader reader = new StringReader(jElem
-									.getSource());
-							artifact = mgr.extractArtifact(reader,
-									new NullProgressMonitor());
-						}
-						return artifact;
-					} else
-						return null;
-
+					ITigerstripeModelProject project = (ITigerstripeModelProject) res
+							.getProject().getAdapter(
+									ITigerstripeModelProject.class);
+					IArtifactManagerSession mgr = project
+							.getArtifactManagerSession();
+					StringReader reader = new StringReader(jElem.getSource());
+					art = mgr
+							.extractArtifact(reader, new NullProgressMonitor());
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 					return null;
@@ -114,8 +104,9 @@ public class TSExplorerUtils {
 					EclipsePlugin.log(e);
 					return null;
 				}
-			} else
-				return null;
+			}
+			return art;
+
 		} else if (element instanceof IClassFile) {
 			IClassFile classFile = (IClassFile) element;
 			IDependency dep = getDependencyFor(classFile);
@@ -127,13 +118,13 @@ public class TSExplorerUtils {
 						new NullProgressMonitor());
 			} else
 				return null;
-		
-		} else if (element instanceof IPackageFragment){
+
+		} else if (element instanceof IPackageFragment) {
 			IPackageFragment res = (IPackageFragment) element;
 			try {
 				IAbstractTigerstripeProject aProject = TigerstripeCore
-						.findProject(res.getCorrespondingResource().getProject().getLocation()
-								.toFile().toURI());
+						.findProject(res.getCorrespondingResource()
+								.getProject().getLocation().toFile().toURI());
 
 				if (aProject instanceof ITigerstripeModelProject) {
 					ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
@@ -141,9 +132,10 @@ public class TSExplorerUtils {
 							.getArtifactManagerSession();
 					// The FQN of the Artifact To get is the package name...
 					IAbstractArtifact artifact = ((ArtifactManagerSessionImpl) mgr)
-							.getArtifactManager().getArtifactByFullyQualifiedName(
-									res.getElementName(), 
-									false, new NullProgressMonitor());
+							.getArtifactManager()
+							.getArtifactByFullyQualifiedName(
+									res.getElementName(), false,
+									new NullProgressMonitor());
 
 					return artifact;
 				} else
@@ -153,45 +145,47 @@ public class TSExplorerUtils {
 				EclipsePlugin.log(e);
 				return null;
 			}
-		} else if (element instanceof IFile){
+		} else if (element instanceof IFile) {
 
 			IFile f = (IFile) element;
-			IAbstractArtifact artifact = null;
-			try {
-				IAbstractTigerstripeProject aProject = TigerstripeCore
-				.findProject(f.getProject().getLocation()
-						.toFile().toURI());
+			IAbstractArtifact artifact = (IAbstractArtifact) f
+					.getAdapter(IAbstractArtifact.class);
 
-				if (aProject instanceof ITigerstripeModelProject) {
-					ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
-					IArtifactManagerSession mgr = project
-					.getArtifactManagerSession();
-					
-					IPath location = f.getLocation();
-					if (location != null){
-					  File file = location.toFile();
-					
-
-					
-					artifact = ((ArtifactManagerSessionImpl) mgr)
-					.getArtifactManager().getArtifactByFilename(file.getAbsolutePath());
-					}
-				}
-			} catch (Exception e) {
-				EclipsePlugin.log(e);
-				return null;
-			}
-			//IAbstractArtifact artifact = getArtifactFor(JavaCore.create((IFile) element));
 			return artifact;
-
+			// try {
+			// IAbstractTigerstripeProject aProject = TigerstripeCore
+			// .findProject(f.getProject().getLocation()
+			// .toFile().toURI());
+			//
+			// if (aProject instanceof ITigerstripeModelProject) {
+			// ITigerstripeModelProject project = (ITigerstripeModelProject)
+			// aProject;
+			// IArtifactManagerSession mgr = project
+			// .getArtifactManagerSession();
+			//					
+			// IPath location = f.getLocation();
+			// if (location != null){
+			// File file = location.toFile();
+			//					
+			//
+			//					
+			// artifact = ((ArtifactManagerSessionImpl) mgr)
+			//.getArtifactManager().getArtifactByFilename(file.getAbsolutePath()
+			// );
+			// }
+			// }
+			// } catch (Exception e) {
+			// EclipsePlugin.log(e);
+			// return null;
+			// }
+			// //IAbstractArtifact artifact =
+			// getArtifactFor(JavaCore.create((IFile) element));
+			// return artifact;
 
 		} else
 			return null;
 	}
 
-	
-	
-	
 	public static String getFQNfor(IClassFile classFile) {
 		String name = classFile.getElementName().replaceFirst("\\.class", "");
 		if (classFile.getParent() instanceof IPackageFragment) {

@@ -325,7 +325,7 @@ public class Field extends ArtifactComponent implements IField {
 	}
 
 	public String getLabelString() {
-		String result = getName() + "::" + getType().getName();
+		String result = getName() + ":" + getType().getName();
 		if (getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
 			result = result + "[" + getType().getTypeMultiplicity().getLabel()
 					+ "]";

@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
@@ -53,6 +54,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		implements IArtifactChangeListener, IActiveFacetChangeListener,
 		ITigerstripeChangeListener {
 
+	private AbstractArtifactLabelProvider prov = new AbstractArtifactLabelProvider();
+
 	private boolean ignoreResourceChange = false;
 
 	private IAbstractArtifact artifact;
@@ -75,6 +78,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	}
 
 	protected void setIArtifact(IAbstractArtifact artifact) {
+		if ( artifact == null)
+			System.out.println("arggg Null");
 		this.artifact = artifact;
 	}
 
@@ -394,8 +399,17 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	}
 
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
-		AbstractArtifactLabelProvider prov = new AbstractArtifactLabelProvider();
-		setTitleImage(prov.getImage(getIArtifact()));
+
+		if (getIArtifact() == null)
+			return;
+
+		// make sure we're in the UI thread
+		Display.getDefault().asyncExec(new Runnable() {
+
+			public void run() {
+				setTitleImage(prov.getImage(getIArtifact()));
+			}
+		});
 	}
 
 	public void modelChanged(IModelChangeDelta[] delta) {

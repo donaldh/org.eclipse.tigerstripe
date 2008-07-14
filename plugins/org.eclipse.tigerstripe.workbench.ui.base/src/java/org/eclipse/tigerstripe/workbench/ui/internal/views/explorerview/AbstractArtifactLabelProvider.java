@@ -46,10 +46,9 @@ public class AbstractArtifactLabelProvider implements ILabelProvider,
 	public Image getImage(Object element, boolean transparencySupported) {
 
 		transparencySupported = true; // transparency support removed because
-		// of
-		// problems with SWTHandles. This was introduced for support of better
-		// looking
-		// icons on Linux. Not needed for now. Will need a better solution.
+		// of problems with SWTHandles. This was introduced for support of
+		// better looking icons on Linux. Not needed for now. Will need a better
+		// solution.
 
 		boolean isInActiveFacet = true;
 		if (element instanceof IAbstractArtifact) {

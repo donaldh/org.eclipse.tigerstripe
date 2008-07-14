@@ -42,7 +42,12 @@ public abstract class TigerstripeShapeNodeEditPart extends ShapeNodeEditPart
 
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
 		EditPart part = getPrimaryChildEditPart();
-		part.refresh();
+		if (part != null)
+			part.refresh();
+		else {
+			System.out.println("class=" + this.getClass().getName());
+			System.out.println(delta);
+		}
 	}
 
 	public void modelChanged(IModelChangeDelta[] delta) {

@@ -115,8 +115,9 @@ public class ActiveFacetDecorationDelegate implements
 	}
 
 	public void projectAdded(IAbstractTigerstripeProject project) {
-		watchProject((ITigerstripeModelProject) project, (IJavaProject) project
-				.getAdapter(IJavaProject.class));
+		if (project instanceof ITigerstripeModelProject)
+			watchProject((ITigerstripeModelProject) project,
+					(IJavaProject) project.getAdapter(IJavaProject.class));
 	}
 
 	public void projectDeleted(String projectName) {

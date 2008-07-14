@@ -76,6 +76,9 @@ public class TigerstripeExplorerLabelProvider extends
 		} else if (element instanceof IModelComponent) {
 			string = TigerstripeUILabels.getStyledString(element,
 					TigerstripeUILabels.COLORIZE);
+		} else if (element instanceof IRelationshipEnd) {
+			string = TigerstripeUILabels.getStyledString(element,
+					TigerstripeUILabels.COLORIZE);
 		} else if (element instanceof AbstractLogicalExplorerNode) {
 			string = TigerstripeUILabels.getStyledString(element,
 					TigerstripeUILabels.COLORIZE);

@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
@@ -43,6 +44,8 @@ public class TigerstripeUILabels {
 
 		if (object instanceof IModelComponent) {
 			return getStyledString((IModelComponent) object, flags);
+		} else if (object instanceof IRelationshipEnd ) {
+			return getStyledString((IRelationshipEnd) object, flags);
 		} else if (object instanceof IAbstractTigerstripeProject) {
 			return getStyledString((IAbstractTigerstripeProject) object, flags);
 		} else if (object instanceof AbstractLogicalExplorerNode) {
@@ -52,6 +55,10 @@ public class TigerstripeUILabels {
 		return new StyledString();
 	}
 
+	private static StyledString getStyledString(IRelationshipEnd end, long flags ) {
+		return new StyledString( end.getType().getFullyQualifiedName());
+	}
+	
 	public static String getStringLabel(Object component, long flags) {
 		return getStyledString(component, flags).getString();
 	}
