@@ -33,8 +33,10 @@ public interface IAnnotationManager {
 	 * @param object annotable object
 	 * @param content annotation content
 	 * @return created annotation or null, if passed object do not annotable
+	 * @throws AnnotationException if there is no annotation type for the 
+	 * specified content or if there is illegal content for the specified object
 	 */
-	public Annotation addAnnotation(Object object, EObject content);
+	public Annotation addAnnotation(Object object, EObject content) throws AnnotationException;
 	
 	/**
 	 * Check is it possible to add annotation to the annotable object

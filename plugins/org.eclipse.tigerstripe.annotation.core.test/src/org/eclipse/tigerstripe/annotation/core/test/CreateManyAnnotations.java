@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.annotation.core.test;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
@@ -40,7 +41,7 @@ public class CreateManyAnnotations extends AbstractResourceTestCase {
 		deleteProject(project2);
 	}
 	
-	public void testManyAnnotationsCreation() {
+	public void testManyAnnotationsCreation() throws AnnotationException {
 		int i = 0;
 		try {
 			for (; i < 250; i++) {

@@ -14,6 +14,7 @@ package org.eclipse.tigerstripe.annotation.core.test;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
@@ -44,7 +45,7 @@ public class QueryTest extends AbstractResourceTestCase {
 		deleteProject(project2);
 	}
 	
-	public void testQuery() {
+	public void testQuery() throws AnnotationException {
 		MimeType type1 = createMimeType("text/html");
 		MimeType type2 = createMimeType("text/plain");
 		MimeType type3 = createMimeType(null);

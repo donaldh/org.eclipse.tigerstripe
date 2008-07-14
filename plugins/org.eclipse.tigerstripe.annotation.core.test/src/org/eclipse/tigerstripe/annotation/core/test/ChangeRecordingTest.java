@@ -14,6 +14,7 @@ package org.eclipse.tigerstripe.annotation.core.test;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.test.model.Author;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
@@ -43,7 +44,7 @@ public class ChangeRecordingTest extends AbstractResourceTestCase {
 		deleteProject(project);
 	}
 	
-	public void test1() {
+	public void test1() throws AnnotationException {
 		try {
 			//create
 			addAnnotation();
@@ -72,7 +73,7 @@ public class ChangeRecordingTest extends AbstractResourceTestCase {
 		}
 	}
 	
-	public void test2() {
+	public void test2() throws AnnotationException {
 		try {
 			//create author
 			Author author = ModelFactory.eINSTANCE.createAuthor();
@@ -95,7 +96,7 @@ public class ChangeRecordingTest extends AbstractResourceTestCase {
 		}
 	}
 	
-	private void addAnnotation() {
+	private void addAnnotation() throws AnnotationException {
 		Author author = ModelFactory.eINSTANCE.createAuthor();
 		AnnotationPlugin.getManager().addAnnotation(project, author);
 	}

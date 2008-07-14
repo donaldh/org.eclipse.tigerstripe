@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.annotation.core.test;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
@@ -41,7 +42,7 @@ public class AddRemoveAnnotationTest extends AbstractResourceTestCase {
 		deleteProject(project2);
 	}
 	
-	public void testAddRemove() {
+	public void testAddRemove() throws AnnotationException {
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		Annotation annotation1 = manager.addAnnotation(project1, ModelFactory.eINSTANCE.createMimeType());
 		assertNotNull(annotation1);

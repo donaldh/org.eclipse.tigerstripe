@@ -61,8 +61,13 @@ public class CreateSpecificTypeAnnotationAction extends Action {
 			}
 		}
 		if (selected != null) {
-			AnnotationPlugin.getManager().addAnnotation(
-					selected, targetType.getType().createInstance());
+			try {
+				AnnotationPlugin.getManager().addAnnotation(
+						selected, targetType.getType().createInstance());
+			}
+			catch (Exception e) {
+				AnnotationUIPlugin.log(e);
+			}
 		}
 	}
 

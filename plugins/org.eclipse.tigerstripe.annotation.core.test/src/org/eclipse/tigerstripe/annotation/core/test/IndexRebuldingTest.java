@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
@@ -49,7 +50,7 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 		deleteProject(project2);
 	}
 	
-	public void test1() throws CoreException {
+	public void test1() throws CoreException, AnnotationException {
 		//Test is INDEX will be rebuilt after annotation file deletion
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
@@ -63,7 +64,7 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 		}
 	}
 	
-	public void test2() throws CoreException {
+	public void test2() throws CoreException, AnnotationException {
 		//Test is annotations would be kept after another annotations
 		//file will be corrupted
 		IAnnotationManager manager = AnnotationPlugin.getManager();

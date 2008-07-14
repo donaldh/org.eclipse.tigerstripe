@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.annotation.core.test;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
@@ -40,7 +41,7 @@ public class ValidationTest extends AbstractResourceTestCase {
 		deleteProject(project1);
 	}
 	
-	public void testValidation() {
+	public void testValidation() throws AnnotationException {
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
 			manager.addAnnotation(project1, ModelFactory.eINSTANCE.createMimeType());

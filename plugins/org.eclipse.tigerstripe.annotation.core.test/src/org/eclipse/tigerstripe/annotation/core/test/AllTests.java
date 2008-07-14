@@ -30,6 +30,7 @@ public class AllTests {
 		suite.addTestSuite(IndexRebuldingTest.class);
 		suite.addTestSuite(CreateManyAnnotations.class);
 		suite.addTestSuite(ValidationTest.class);
+		suite.addTestSuite(AnnotationTypeTest.class);
 		// $JUnit-END$
 		return suite;
 	}

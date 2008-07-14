@@ -15,6 +15,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
@@ -42,7 +43,7 @@ public class DelegatesTest extends AbstractResourceTestCase {
 		deleteProject(project);
 	}
 	
-	public void testAddRemove() {
+	public void testAddRemove() throws AnnotationException {
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
 			Annotation annotation1 = manager.addAnnotation(project,

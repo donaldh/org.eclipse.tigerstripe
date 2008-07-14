@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
@@ -80,7 +81,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		refactorListener.removeListener(listener);
 	}
 
-	public Annotation addAnnotation(Object object, EObject content) {
+	public Annotation addAnnotation(Object object, EObject content) throws AnnotationException {
 		URI uri = getUri(object);
 		if (uri != null) {
 			checkUnique(object, uri, content.eClass());
@@ -137,12 +138,12 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		return true;
 	}
 	
-	protected void checkUnique(Object object, URI uri, EClass clazz) {
+	protected void checkUnique(Object object, URI uri, EClass clazz) throws AnnotationException {
 		if (isUnique(object, clazz)) {
 			List<Annotation> annotations = getAnnotations(uri);
 			for (Annotation annot : annotations) {
 				if (clazz.equals(annot.getContent().eClass())) {
-					throw new RuntimeException("Can't create more tham one annotation for the unique class");
+					throw new AnnotationException("Can't create more than one annotation for the unique class");
 				}
 			}
 		}
