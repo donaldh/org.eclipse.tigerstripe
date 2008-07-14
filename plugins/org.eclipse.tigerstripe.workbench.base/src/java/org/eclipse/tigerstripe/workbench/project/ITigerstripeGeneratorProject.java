@@ -119,4 +119,16 @@ public interface ITigerstripeGeneratorProject extends
 	 * @return
 	 */
 	public String getId() throws TigerstripeException;
+
+	public String[] getRequiredAnnotationPlugins() throws TigerstripeException;
+
+	public void setRequiredAnnotationPlugins(String[] pluginIds)
+			throws TigerstripeException;
+
+	public void addRequiredAnnotationPlugins(String[] pluginIds)
+			throws TigerstripeException;
+
+	public void removeRequiredAnnotationPlugins(String[] pluginIds)
+			throws TigerstripeException;
+
 }

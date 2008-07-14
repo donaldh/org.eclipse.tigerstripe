@@ -31,7 +31,8 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adaptableObject instanceof IJavaElement) {
 			IJavaElement element = (IJavaElement) adaptableObject;
-			return element.getResource().getAdapter(adapterType);
+			if (element.getResource() != null)
+				return element.getResource().getAdapter(adapterType);
 		}
 
 		return null;

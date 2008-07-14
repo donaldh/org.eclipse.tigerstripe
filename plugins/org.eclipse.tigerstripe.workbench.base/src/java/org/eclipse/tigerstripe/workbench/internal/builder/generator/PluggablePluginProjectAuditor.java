@@ -25,16 +25,27 @@ import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.annotation.AnnotationUtils;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 
 /**
  * This is the incremental auditor for a Pluggable Plugin Project.
@@ -166,6 +177,8 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 			for (ITemplateBasedRule rule : aRules) {
 				aRulesAuditor.audit(rule, monitor);
 			}
+
+			alignAnnotationPluginDependencies(pProject);
 
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
@@ -305,4 +318,59 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 		return project.findMember(path);
 	}
 
+	protected void alignAnnotationPluginDependencies(
+			ITigerstripeM1GeneratorProject pProject) {
+
+		IJavaProject jProject = JavaCore.create(getProject());
+
+		ArrayList<IClasspathEntry> newEntryList = new ArrayList<IClasspathEntry>();
+		try {
+			for (IClasspathEntry entry : jProject.getRawClasspath()) {
+				if (entry.getEntryKind() != IClasspathEntry.CPE_LIBRARY
+						&& entry.getEntryKind() != IClasspathEntry.CPE_VARIABLE) {
+					newEntryList.add(entry);
+				}
+			}
+		} catch (JavaModelException e) {
+			BasePlugin.log(e);
+		}
+		IResource projectDescriptor = getProject().findMember(
+				ITigerstripeConstants.PLUGIN_DESCRIPTOR);
+		if (projectDescriptor == null || !projectDescriptor.exists()) {
+			projectDescriptor = getProject();
+		}
+
+		try {
+
+			// All the classpath entries
+			for (IPluginClasspathEntry entry : pProject.getClasspathEntries()) {
+				IPath pPath = getProject().getFullPath().append(
+						entry.getRelativePath());
+				IClasspathEntry e = JavaCore.newLibraryEntry(pPath, null, null);
+				newEntryList.add(e);
+			}
+
+			// All the Annotation Plugins
+			String[] pluginIds = pProject.getRequiredAnnotationPlugins();
+			for (String pluginId : pluginIds) {
+				Bundle bundle = Platform.getBundle(pluginId);
+				if (bundle == null) {
+					reportError("Can't resolve required annotation plugin: '"
+							+ pluginId + "'", projectDescriptor, 222);
+				} else {
+					IPath pPath = new Path(pluginId);
+					IClasspathEntry entry = JavaCore.newVariableEntry(pPath,
+							null, null);
+					if (!newEntryList.contains(entry))
+						newEntryList.add(entry);
+				}
+			}
+			jProject.setRawClasspath(newEntryList
+					.toArray(new IClasspathEntry[newEntryList.size()]), null);
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		} catch (JavaModelException e) {
+			BasePlugin.log(e);
+		}
+	}
 }

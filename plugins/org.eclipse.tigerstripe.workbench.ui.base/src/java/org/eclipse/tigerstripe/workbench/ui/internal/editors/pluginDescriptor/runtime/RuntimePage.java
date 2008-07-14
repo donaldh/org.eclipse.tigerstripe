@@ -65,5 +65,6 @@ public class RuntimePage extends TigerstripeFormPage {
 		managedForm.addPart(new PluginLogSection(this, body, toolkit));
 		managedForm.addPart(new ClasspathEntrySection(this, body, toolkit));
 		managedForm.addPart(new IncludedFilesSection(this, body, toolkit));
+		managedForm.addPart(new AnnotationPluginsSection(this, body, toolkit));
 	}
 }

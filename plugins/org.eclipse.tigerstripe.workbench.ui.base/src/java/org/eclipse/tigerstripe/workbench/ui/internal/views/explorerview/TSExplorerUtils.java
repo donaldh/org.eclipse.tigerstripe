@@ -92,11 +92,14 @@ public class TSExplorerUtils {
 					ITigerstripeModelProject project = (ITigerstripeModelProject) res
 							.getProject().getAdapter(
 									ITigerstripeModelProject.class);
-					IArtifactManagerSession mgr = project
-							.getArtifactManagerSession();
-					StringReader reader = new StringReader(jElem.getSource());
-					art = mgr
-							.extractArtifact(reader, new NullProgressMonitor());
+					if (project != null) {
+						IArtifactManagerSession mgr = project
+								.getArtifactManagerSession();
+						StringReader reader = new StringReader(jElem
+								.getSource());
+						art = mgr.extractArtifact(reader,
+								new NullProgressMonitor());
+					}
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 					return null;

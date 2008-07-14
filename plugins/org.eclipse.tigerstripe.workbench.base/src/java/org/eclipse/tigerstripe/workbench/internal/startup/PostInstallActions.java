@@ -32,6 +32,7 @@ import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.annotation.AnnotationUtils;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
@@ -441,6 +442,14 @@ public class PostInstallActions {
 			IPath equinoxPath = findEquinoxCommonJarPath(context);
 			JavaCore.setClasspathVariable(ITigerstripeConstants.EQUINOX_COMMON,
 					equinoxPath, null);
+
+			// Create lib entries for each Annotation plugin so we can reference
+			// them directly
+			for (String pluginId : AnnotationUtils.getAnnotationPluginIds()) {
+
+				IPath pPath = AnnotationUtils.getAnnotationPluginPath(pluginId);
+				JavaCore.setClasspathVariable(pluginId, pPath, null);
+			}
 		} catch (IOException e) {
 			BasePlugin.log(e);
 		} catch (JavaModelException e) {
@@ -517,7 +526,7 @@ public class PostInstallActions {
 		Bundle b = Platform.getBundle("org.eclipse.equinox.common");
 		String location = b.getLocation();
 		int iFile = location.indexOf("reference:file:");
-		String file = location.substring(iFile + 15, location.length() );
+		String file = location.substring(iFile + 15, location.length());
 		return (new Path(file)).makeAbsolute();
 	}
 

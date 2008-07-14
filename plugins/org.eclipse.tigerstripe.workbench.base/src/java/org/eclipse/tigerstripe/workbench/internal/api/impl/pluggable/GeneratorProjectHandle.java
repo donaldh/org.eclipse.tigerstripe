@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.net.URI;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -44,6 +45,42 @@ public abstract class GeneratorProjectHandle extends
 			throws TigerstripeException {
 		// TODO Auto-generated method stub
 
+	}
+
+	// =========================================
+	public String[] getRequiredAnnotationPlugins() throws TigerstripeException {
+		List<String> list = getDescriptor().getRequiredAnnotationPlugins();
+		return list.toArray(new String[list.size()]);
+	}
+
+	public void setRequiredAnnotationPlugins(String[] pluginIds)
+			throws TigerstripeException {
+		assertSet();
+		getDescriptor().setRequiredAnnotationPlugins(pluginIds);
+	}
+
+	public void removeRequiredAnnotationPlugin(String pluginId)
+			throws TigerstripeException {
+		assertSet();
+		getDescriptor().removeRequiredAnnotationPlugin(pluginId);
+	}
+
+	public void removeRequiredAnnotationPlugins(String[] pluginIds)
+			throws TigerstripeException {
+		assertSet();
+		getDescriptor().removeRequiredAnnotationPlugins(pluginIds);
+	}
+
+	public void addRequiredAnnotationPlugin(String pluginId)
+			throws TigerstripeException {
+		assertSet();
+		getDescriptor().addRequiredAnnotationPlugin(pluginId);
+	}
+
+	public void addRequiredAnnotationPlugins(String[] pluginIds)
+			throws TigerstripeException {
+		assertSet();
+		getDescriptor().removeRequiredAnnotationPlugins(pluginIds);
 	}
 
 	@SuppressWarnings("unchecked")

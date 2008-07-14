@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable;
 
 import java.io.File;
 import java.net.URI;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;

@@ -20,7 +20,8 @@ import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
  * @author Eric Dillon
  * @since 0.3
  */
-public interface ITigerstripeM1GeneratorProject extends ITigerstripeGeneratorProject {
+public interface ITigerstripeM1GeneratorProject extends
+		ITigerstripeGeneratorProject {
 
 	// ==================================================
 	// Rules-related definitions

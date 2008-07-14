@@ -71,6 +71,7 @@ Export-Package: org.apache.log4j,
  org.eclipse.tigerstripe.workbench.generation,
  org.eclipse.tigerstripe.workbench.internal,
  org.eclipse.tigerstripe.workbench.internal.adapt;x-friends:="org.eclipse.tigerstripe.annotation.tsmodel",
+ org.eclipse.tigerstripe.workbench.internal.annotation,
  org.eclipse.tigerstripe.workbench.internal.api;
   uses:="org.eclipse.tigerstripe.core.generation,
    org.eclipse.tigerstripe.api.external.plugins,

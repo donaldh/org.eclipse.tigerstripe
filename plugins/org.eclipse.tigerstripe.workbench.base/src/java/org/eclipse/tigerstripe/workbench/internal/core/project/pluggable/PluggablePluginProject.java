@@ -135,6 +135,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 			// root.appendChild(buildDependenciesElement(document));
 			// root.appendChild(buildReferencesElement(document));
 			root.appendChild(buildAdvancedElement(document));
+			root.appendChild(buildAnnotationPluginsElement(document));
 		} catch (ParserConfigurationException e) {
 			TigerstripeRuntime.logErrorMessage(
 					"ParserConfigurationException detected", e);
@@ -176,6 +177,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 			// loadDependencies(document);
 			// loadReferences(document);
 			loadAdvancedProperties(document);
+			loadRequiredAnnotationPlugins(document);
 
 		} catch (SAXParseException spe) {
 			TigerstripeRuntime.logErrorMessage("SAXParseException detected",

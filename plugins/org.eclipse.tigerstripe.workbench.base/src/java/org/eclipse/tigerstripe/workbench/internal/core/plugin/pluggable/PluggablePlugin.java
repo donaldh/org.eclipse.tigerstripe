@@ -20,6 +20,11 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
@@ -35,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
+import org.osgi.framework.Bundle;
 
 /**
  * Housing for Pluggable plugin
@@ -62,8 +68,8 @@ public class PluggablePlugin extends BasePlugin {
 
 	/**
 	 * 
-	 * @param path -
-	 *            The path to the unzipped plugin directory
+	 * @param path
+	 *            - The path to the unzipped plugin directory
 	 */
 	public PluggablePlugin(String path, String zippedFile) {
 		this.path = path;
@@ -91,22 +97,20 @@ public class PluggablePlugin extends BasePlugin {
 		}
 	}
 
-	
-	private void logClassPath(ClassLoader loader){
-		//Get the URLs
-		if (loader instanceof URLClassLoader){
-			URL[] urls = ((URLClassLoader)loader).getURLs();
+	private void logClassPath(ClassLoader loader) {
+		// Get the URLs
+		if (loader instanceof URLClassLoader) {
+			URL[] urls = ((URLClassLoader) loader).getURLs();
 
-			for(int i=0; i< urls.length; i++)
-			{
-				PluginLog.logDebug("Classpath entry : "+urls[i].getFile());
+			for (int i = 0; i < urls.length; i++) {
+				PluginLog.logDebug("Classpath entry : " + urls[i].getFile());
 			}
-			if (loader.getParent() != null ){
+			if (loader.getParent() != null) {
 				logClassPath(loader.getParent());
 			}
 		}
 	}
-	
+
 	public void trigger(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 		this.report = new PluggablePluginReport(pluginConfig);
@@ -115,11 +119,11 @@ public class PluggablePlugin extends BasePlugin {
 		// Update the pluginConfig with any missing properties, and
 		// remove any that are not valid.
 
-		if (isLogEnabled()){
+		if (isLogEnabled()) {
 			// Add the classpath entries to the plugin log
 			logClassPath(getClassloader());
 		}
-		
+
 		Properties properties = pluginConfig.getProperties();
 		String[] definedProps = pluginConfig.getDefinedProperties();
 		Properties usableProps = new Properties();
@@ -152,7 +156,8 @@ public class PluggablePlugin extends BasePlugin {
 		 * for (int f=0;f<this.report.getChildReports().size();f++){ RuleReport
 		 * rr = ruleReports.get(f);
 		 * TigerstripeRuntime.logInfoMessage(rr.getClass()); if (rr != null){
-		 * TigerstripeRuntime.logInfoMessage("Template = "+rr.getTemplate()); } }
+		 * TigerstripeRuntime.logInfoMessage("Template = "+rr.getTemplate()); }
+		 * }
 		 */
 
 	}
@@ -303,6 +308,24 @@ public class PluggablePlugin extends BasePlugin {
 					File jarFile = new File(getPProject().getBaseDir(), entry
 							.getRelativePath());
 					urls.add(jarFile.toURL());
+				}
+
+				// All the annotation plugins
+				for (String pluginId : getPProject()
+						.getRequiredAnnotationPlugins()) {
+					Bundle b = Platform.getBundle(pluginId);
+					String location = b.getLocation();
+					int iFile = location.indexOf("reference:file:");
+					String file = location.substring(iFile + 15, location
+							.length());
+					IPath pPath = (new Path(file)).makeAbsolute();
+					URL url = null;
+					if (!"jar".equals(pPath.getFileExtension())) {
+						url = pPath.append("bin").toFile().toURL();
+					} else {
+						url = pPath.toFile().toURL();
+					}
+					urls.add(url);
 				}
 
 				classLoader = new URLClassLoader(urls.toArray(new URL[urls

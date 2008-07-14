@@ -63,6 +63,7 @@ public abstract class GeneratorProjectDescriptor extends
 	public static final String GLOBAL_PROPERTIES = "globalProperties";
 	public static final String CLASSPATH_ENTRIES = "classpathEntries";
 	public static final String ADDITIONAL_FILES = "additionalFiles";
+	public static final String REQUIRED_ANNOTATION_PLUGINS = "annotationPlugins";
 
 	public static final String GLOBAL_RULES = "globalRules";
 
@@ -87,6 +88,8 @@ public abstract class GeneratorProjectDescriptor extends
 
 	private List<IRule> globalRules;
 
+	private List<String> requiredAnnotationPlugins;
+
 	protected GeneratorProjectDescriptor(IContainer projectContainer,
 			String descriptorFilename) {
 		super(projectContainer.getLocation().toFile(), descriptorFilename);
@@ -95,6 +98,7 @@ public abstract class GeneratorProjectDescriptor extends
 		additionalFilesInclude = new ArrayList<String>();
 		additionalFilesExclude = new ArrayList<String>();
 		globalRules = new ArrayList<IRule>();
+		requiredAnnotationPlugins = new ArrayList<String>();
 	}
 
 	/**
@@ -109,6 +113,42 @@ public abstract class GeneratorProjectDescriptor extends
 		additionalFilesInclude = new ArrayList<String>();
 		additionalFilesExclude = new ArrayList<String>();
 		globalRules = new ArrayList<IRule>();
+		requiredAnnotationPlugins = new ArrayList<String>();
+	}
+
+	public List<String> getRequiredAnnotationPlugins() {
+		return requiredAnnotationPlugins;
+	}
+
+	public void addRequiredAnnotationPlugin(String pluginId) {
+		setDirty();
+		requiredAnnotationPlugins.add(pluginId);
+	}
+
+	public void removeRequiredAnnotationPlugin(String pluginId) {
+		setDirty();
+		requiredAnnotationPlugins.remove(pluginId);
+	}
+
+	public void setRequiredAnnotationPlugins(String[] pluginIds) {
+		setDirty();
+		requiredAnnotationPlugins.clear();
+		requiredAnnotationPlugins.addAll(Arrays.asList(pluginIds));
+	}
+
+	public void removeRequiredAnnotationPlugins(String[] pluginIds) {
+		setDirty();
+		for (String pluginId : pluginIds) {
+			requiredAnnotationPlugins.remove(pluginId);
+		}
+	}
+
+	public void addRequiredAnnotationPlugins(String[] pluginIds) {
+		setDirty();
+		for (String pluginId : pluginIds) {
+			if (!requiredAnnotationPlugins.contains(pluginId))
+				requiredAnnotationPlugins.add(pluginId);
+		}
 	}
 
 	public String[] getSupportedPluginPropertyLabels() {
@@ -473,6 +513,19 @@ public abstract class GeneratorProjectDescriptor extends
 
 	}
 
+	protected Element buildAnnotationPluginsElement(Document document) {
+		Element annotationPluginsElement = document
+				.createElement(REQUIRED_ANNOTATION_PLUGINS);
+
+		for (String entry : requiredAnnotationPlugins) {
+			Element propElm = document.createElement("annotation");
+			propElm.setAttribute("pluginId", entry);
+			annotationPluginsElement.appendChild(propElm);
+		}
+
+		return annotationPluginsElement;
+	}
+
 	protected Element buildGlobalRulesElement(Document document) {
 		Element globalProperties = document.createElement(GLOBAL_RULES);
 
@@ -629,6 +682,23 @@ public abstract class GeneratorProjectDescriptor extends
 			if (relPath != null && relPath.length() != 0) {
 				additionalFilesExclude.add(relPath);
 			}
+		}
+	}
+
+	protected void loadRequiredAnnotationPlugins(Document document) {
+		requiredAnnotationPlugins = new ArrayList<String>();
+
+		NodeList entryProps = document
+				.getElementsByTagName(REQUIRED_ANNOTATION_PLUGINS);
+		if (entryProps.getLength() != 1)
+			return;
+
+		Element entriesRoot = (Element) entryProps.item(0);
+		NodeList entries = entriesRoot.getElementsByTagName("annotation");
+		for (int index = 0; index < entries.getLength(); index++) {
+			Element entry = (Element) entries.item(index);
+			String pluginId = entry.getAttribute("pluginId");
+			requiredAnnotationPlugins.add(pluginId);
 		}
 	}
 
