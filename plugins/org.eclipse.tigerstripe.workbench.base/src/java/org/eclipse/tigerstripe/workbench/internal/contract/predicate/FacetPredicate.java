@@ -221,13 +221,13 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 	 * Adds recursively all the related artifacts to "artifact" in the given
 	 * scope
 	 * 
-	 * @param scope -
-	 *            the scope to add to
-	 * @param artifact -
-	 *            the artifact to find related artifacts for
-	 * @param ignoreParent -
-	 *            should the parent of this artifact be ignored for exploration
-	 *            or not.
+	 * @param scope
+	 *            - the scope to add to
+	 * @param artifact
+	 *            - the artifact to find related artifacts for
+	 * @param ignoreParent
+	 *            - should the parent of this artifact be ignored for
+	 *            exploration or not.
 	 */
 	protected void addRelatedArtifacts(Set<IAbstractArtifact> scope,
 			IAbstractArtifact artifact, boolean ignoreParent,
@@ -286,14 +286,14 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			scope.add(artifact);
 		}
 
-		// Look upwards through the package list - 
-		
+		// Look upwards through the package list -
+
 		IModelComponent container = artifact.getContainingModelComponent();
-		if (container instanceof IAbstractArtifact){
-			addRelatedArtifacts(scope, (IAbstractArtifact) container, true, monitor);
+		if (container instanceof IAbstractArtifact) {
+			addRelatedArtifacts(scope, (IAbstractArtifact) container, true,
+					monitor);
 		}
-		
-		
+
 		// let explore from this artifact on now
 		if (artifact instanceof IDependencyArtifact) {
 			//
@@ -367,8 +367,10 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		Collection<IRelationship> assocs = getAssociations(artifact, false);
 		for (IRelationship rel : assocs) {
 			IAbstractArtifact arti = (IAbstractArtifact) rel;
-			if (!arti.isAbstract() && !primaryPredicate.isExcluded(arti))
-
+			if (arti instanceof IAssociationClassArtifact
+					&& !primaryPredicate.isExcluded(arti)) {
+				addRelatedArtifacts(scope, arti, false, monitor);
+			} else if (!arti.isAbstract() && !primaryPredicate.isExcluded(arti))
 				addRelatedArtifacts(scope, arti, false, monitor);
 		}
 
