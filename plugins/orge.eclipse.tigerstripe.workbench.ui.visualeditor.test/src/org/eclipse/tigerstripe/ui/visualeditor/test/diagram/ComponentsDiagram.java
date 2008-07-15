@@ -4,7 +4,10 @@ package org.eclipse.tigerstripe.ui.visualeditor.test.diagram;
 
 import java.util.ArrayList;
 
+
+import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorFactory;
 import org.eclipse.tigerstripe.ui.visualeditor.test.suite.DiagramConstants;
+import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ProjectHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute3EditPart;
@@ -79,6 +82,7 @@ public class ComponentsDiagram extends UITestCaseSWT {
 	 */
 	public void testCreateArtifacts() throws Exception {
 		IUIContext ui = getUI();
+
 		ui.contextClick(
 						new TreeItemLocator(
 								TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE,
@@ -93,10 +97,15 @@ public class ComponentsDiagram extends UITestCaseSWT {
 		ArrayList<String> artifacts = new ArrayList<String>();
 		
 		ui.click(new PaletteItemLocator("Artifacts/Entity"));
-		ui.click(new XYLocator(new DiagramEditPart$1Locator(),0,-100));
+		ui.click(new XYLocator(new DiagramEditPart$1Locator(),-100,-100));
 		ui.enterText(TestingConstants.ENTITY_NAMES[3]);
 		artifacts.add(TestingConstants.ENTITY_NAMES[3]);
 		
+		
+		ui.click(new PaletteItemLocator("Artifacts/Entity"));
+		ui.click(new XYLocator(new DiagramEditPart$1Locator(),100,-100));
+		ui.enterText(TestingConstants.ENTITY_NAMES[2]);
+		artifacts.add(TestingConstants.ENTITY_NAMES[2]);
 		
 		// Now check they are all in the tree view
 		ProjectHelper.checkArtifactsInExplorer(ui, TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE, artifacts);
@@ -105,42 +114,34 @@ public class ComponentsDiagram extends UITestCaseSWT {
 		// Save the diagram
 		ui.click(new CTabItemLocator("*"+DiagramConstants.COMPONENTS_DIAGRAM+".wvd"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+
+		//Add some components to my Entities.
 		
-//		ui.click(new LRLocator(0, new WrapLabelLocator()));
-//		ui.click(new LRLocator(7, new MyFigureLocator()));
-//		ui.click(new LRLocator(8, new MyFigureLocator()));
-//		ui
-//				.click(new TreeItemLocator(
-//						"New Project/src/org.eclipse/Entity3",
-//						new ViewLocator(
-//								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-//		ui.click(new PaletteItemLocator("Features/Field"));
-//		ui.click(new LRLocator(0, new WrapLabelLocator()));
-//		ui.click(new PaletteItemLocator("Features/Field"));
-//		ui.click(new LRLocator(0, new WrapLabelLocator()));
-//		ui.click(new PaletteItemLocator("Features/Method"));
-//		ui.click(new LRLocator(8, new MyFigureLocator()));
-//		ui
-//				.click(new TreeItemLocator(
-//						"New Project/src/org.eclipse/Entity3/AFIELD::String",
-//						new ViewLocator(
-//								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-//		ui
-//				.click(new TreeItemLocator(
-//						"New Project/src/org.eclipse/Entity3/method0()::void",
-//						new ViewLocator(
-//								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+		IWidgetLocator ent3 = LocatorFactory.getInstance().getManagedEntityLocator(ui,TestingConstants.ENTITY_NAMES[3]);
+		IWidgetLocator ent2 = LocatorFactory.getInstance().getManagedEntityLocator(ui,TestingConstants.ENTITY_NAMES[2]);
 		
-		// Save it
+		ArrayList<String> items = new ArrayList<String>();
+		ui.click(new PaletteItemLocator("Features/Field"));
+		ui.click(ent3);
+		items.add("attribute0::String");
+		ArtifactHelper.checkItemsInExplorer(ui,
+				TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE,
+				TestingConstants.ENTITY_NAMES[3],items);
+		
+		ui.click(new PaletteItemLocator("Features/Method"));
+		ui.click(ent2);
+		items.clear();
+		items.add("method0()::void");
+		ArtifactHelper.checkItemsInExplorer(ui,
+				TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE,
+				TestingConstants.ENTITY_NAMES[2],items);
+		
+		// Save the diagram
+		ui.click(new CTabItemLocator("*"+DiagramConstants.COMPONENTS_DIAGRAM+".wvd"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		
-//		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute3EditPart$AttributeLabelFigure"));
-//		for (IWidgetLocator match : matches) {
-//		  new com.windowtester.runtime.gef.internal.helpers.GEFDebugHelper().printFigures(((IFigureReference)match).getFigure());
-//		}
+		// Now check the Explorer.
 		
-		AttributeFinder finder = new AttributeFinder(ui);
-		finder.getText();
 		
 		// Close it
 		ui.close(new CTabItemLocator(DiagramConstants.COMPONENTS_DIAGRAM+".wvd"));

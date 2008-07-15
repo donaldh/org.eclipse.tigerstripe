@@ -260,4 +260,26 @@ public class ArtifactHelper extends UITestCaseSWT{
 		
 	}
 	
+	public static void checkItemsInExplorer (IUIContext ui, String packageName, String artifactName, ArrayList<String> items ){
+		for (String item : items){
+
+			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
+			"/src/"+
+			packageName+"/"+
+			artifactName+"/"+
+			item;
+
+			try {	
+				TreeItemLocator treeItem = new TreeItemLocator(
+						pathToItem,
+					new ViewLocator(
+							"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+				ui.click(treeItem);
+			} catch (Exception e){
+				fail("Item '"+ pathToItem+ "' is not in the Explorer view");
+			}
+		}
+		
+	}
+	
 }
