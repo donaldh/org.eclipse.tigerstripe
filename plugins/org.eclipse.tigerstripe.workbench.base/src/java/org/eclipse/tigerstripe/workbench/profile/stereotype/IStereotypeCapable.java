@@ -13,6 +13,10 @@ package org.eclipse.tigerstripe.workbench.profile.stereotype;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+
 
 /**
  * Interface to be implemented by all components of the model that can be
@@ -54,6 +58,8 @@ public interface IStereotypeCapable {
 
 	public void removeStereotypeInstances(Collection<IStereotypeInstance> instances);
 
+	// Annotations API
+	
 	public List<Object> getAnnotations( String schemeID);
 
 	public Object getAnnotation( String schemeID, String annotationSpecificationID );
@@ -63,4 +69,46 @@ public interface IStereotypeCapable {
 	public boolean hasAnnotations( String schemeID);
 
 	public boolean hasAnnotations( String schemeID, String annotationSpecificationID );
+	
+	/**
+	 * Creates a new annotation and returns the content wrapped in an <code>Annotation</code>
+	 * instance
+	 * @param schemeID the scheme to which the annotation will be assigned
+	 * @param packij the package as a <code>String</code> to which the annotation content
+	 * belongs
+	 * @param clazz the class-name of annotation content required
+	 * @return the annotation content wrapped in an <code>Annotation</code> instance
+	 * @throws TigerstripeException
+	 */
+	public Annotation addAnnotation(String schemeID, String packij, String clazz)
+	    throws TigerstripeException;
+
+	/**
+	 * Creates a new annotation and returns the content wrapped in an <code>Annotation</code>
+	 * instance - the schemeID is assumed to be <em>"tigerstripe"</em>
+	 * @param packij the package as a <code>String</code> to which the annotation content
+	 * belongs
+	 * @param clazz the class-name of annotation content required
+	 * @return the annotation content wrapped in an <code>Annotation</code> instance
+	 * @throws TigerstripeException
+	 */
+	public Annotation addAnnotation(String packij, String clazz)
+	    throws TigerstripeException;
+	
+	/**
+	 * Creates a new annotation and returns the content wrapped in an <code>Annotation</code>
+	 * instance - the schemeID is assumed to be <em>"tigerstripe"</em>
+	 * @param clazz the type of the annotation content to be created as a <code>Class</code>
+	 * @return the annotation content wrapped in an <code>Annotation</code> instance
+	 * @throws TigerstripeException
+	 */
+	public Annotation addAnnotation(Class<? extends EObject> clazz)
+	    throws TigerstripeException;
+	
+	/**
+	 * Saves an instance of an <code>Annotation</code>, that is, ensures that any changes
+	 * to the content transmitted to the internal model and are made persistent
+	 * @param annotation the <code>Annotation</code> instance to be saved
+	 */
+	public void saveAnnotation(Annotation annotation);
 }

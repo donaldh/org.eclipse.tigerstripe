@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;

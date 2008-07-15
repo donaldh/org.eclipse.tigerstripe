@@ -21,6 +21,8 @@ import java.util.Properties;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -168,6 +170,31 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method return"));
 			return false;
+		}
+		
+		public Annotation addAnnotation(String scheme, String packij, String clazz)
+		{
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method return"));
+			return null;
+		}
+
+		public Annotation addAnnotation(String packij, String clazz)
+		{
+			return addAnnotation(TS_SCHEME, packij, clazz);
+		}
+
+		public Annotation addAnnotation(Class<? extends EObject> clazz)
+		{
+			BasePlugin.log(new TigerstripeException(
+			"Annotations not supported on Method return"));
+			return null;
+		}
+		
+		public void saveAnnotation(Annotation annotation)
+		{
+			BasePlugin.log(new TigerstripeException(
+			"Annotations not supported on Method return"));			
 		}
 	}
 
@@ -794,6 +821,31 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method Arguments"));
 			return false;
+		}
+		
+		public Annotation addAnnotation(String scheme, String packij, String clazz)
+		{
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method Arguments"));
+			return null;
+		}
+
+		public Annotation addAnnotation(String packij, String clazz)
+		{
+			return addAnnotation(TS_SCHEME, packij, clazz);
+		}
+
+		public Annotation addAnnotation(Class<? extends EObject> clazz)
+		{
+			BasePlugin.log(new TigerstripeException(
+			"Annotations not supported on Method Arguments"));
+			return null;
+		}
+		
+		public void saveAnnotation(Annotation annotation)
+		{
+			BasePlugin.log(new TigerstripeException(
+			"Annotations not supported on Method Arguments"));			
 		}
 	}
 
