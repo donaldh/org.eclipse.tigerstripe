@@ -10,16 +10,17 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.adapt;
 
+import java.io.File;
 import java.io.InputStreamReader;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -60,7 +61,8 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 			IExceptionArtifact.class, ISessionArtifact.class,
 			IUpdateProcedureArtifact.class, IEventArtifact.class,
 			IQueryArtifact.class, IAssociationArtifact.class,
-			IAssociationClassArtifact.class, IDependencyArtifact.class };
+			IAssociationClassArtifact.class, IDependencyArtifact.class,
+			IPackageArtifact.class };
 
 	protected boolean isArtifactType(Class<?> adapterType) {
 		for (Class<?> type : artifactTypes) {
@@ -102,12 +104,11 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 			IFile res = (IFile) adaptableObject;
 			if (res != null) {
 				try {
-					IAbstractTigerstripeProject aProject = TigerstripeCore
-							.findProject(res.getProject().getLocation()
-									.toFile().toURI());
+					ITigerstripeModelProject project = (ITigerstripeModelProject) res
+							.getProject().getAdapter(
+									ITigerstripeModelProject.class);
 
-					if (aProject instanceof ITigerstripeModelProject) {
-						ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
+					if (project != null) {
 						IArtifactManagerSession mgr = project
 								.getArtifactManagerSession();
 
@@ -140,48 +141,51 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 				}
 			} else
 				return null;
-		} else if (adaptableObject instanceof IPackageArtifact){
-			IPackageFragment fragment = (IPackageFragment) adaptableObject;
-			if (fragment != null){
+		} else if (adaptableObject instanceof IFolder) {
+			IFolder folder = (IFolder) adaptableObject;
+			if (folder != null) {
 				try {
-					IAbstractTigerstripeProject aProject = TigerstripeCore
-					.findProject(fragment.getCorrespondingResource().getProject().getLocation()
-							.toFile().toURI());
+					IProject project = folder.getProject();
+					ITigerstripeModelProject aProject = (ITigerstripeModelProject) project
+							.getAdapter(ITigerstripeModelProject.class);
+					if (aProject != null) {
 
-					if (aProject instanceof ITigerstripeModelProject) {
-						ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
-						IArtifactManagerSession mgr = project
-						.getArtifactManagerSession();
-
+						IArtifactManagerSession mgr = aProject
+								.getArtifactManagerSession();
 						IAbstractArtifact artifact = ((ArtifactManagerSessionImpl) mgr)
-						.getArtifactManager().getArtifactByFullyQualifiedName(
-								fragment.getElementName(), false, new NullProgressMonitor());
+								.getArtifactManager()
+								.getArtifactByFullyQualifiedName(
+										folder.getProjectRelativePath()
+												.removeFirstSegments(1)
+												.toOSString()
+												.replace(File.separatorChar,
+														'.'), false,
+										new NullProgressMonitor());
 
-						if (artifact == null) {
+						if (artifact != null)
+							return artifact;
+						else {
 							try {
-								Object[] resources = fragment.getNonJavaResources();
-								for (Object o : resources){
-									if (o instanceof IFile){
-										IFile f = (IFile) o;
-										if (f.getName().equals(".package")){
+								IResource[] resources = folder.members();
+								for (IResource res : resources) {
+									if (res instanceof IFile) {
+										IFile f = (IFile) res;
+										if (f.getName().equals(".package")) {
 											InputStreamReader reader = new InputStreamReader(
 													f.getContents());
-											artifact = mgr.extractArtifact(reader,
+											artifact = mgr.extractArtifact(
+													reader,
 													new NullProgressMonitor());
+											return artifact;
 										}
 									}
 								}
 							} catch (CoreException e) {
 								BasePlugin.log(e);
 							}
-						}
-						if (artifact != null & adapterType.isInstance(artifact))
-							return artifact;
-						else
 							return null;
-					}else
-						return null;
-
+						}
+					}
 				} catch (Exception e) {
 					// This means we couldn't parse it. Must some kind of other
 					// file (not pojo artifact)
@@ -194,6 +198,8 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 
 		} else
 			return null;
+
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

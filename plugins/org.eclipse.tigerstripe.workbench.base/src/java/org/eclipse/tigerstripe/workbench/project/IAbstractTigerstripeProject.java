@@ -39,7 +39,20 @@ public interface IAbstractTigerstripeProject extends IAdaptable, IWorkingCopy {
 	 */
 	public boolean exists();
 
+	/**
+	 * Returns the full absolute path of this project.
+	 * 
+	 * @return
+	 */
 	public IPath getLocation();
+
+	/**
+	 * Returns the full, absolute path of this project relative to the
+	 * workspace.
+	 * 
+	 * @return
+	 */
+	public IPath getFullPath();
 
 	public void delete(boolean force, IProgressMonitor monitor)
 			throws TigerstripeException;

@@ -4,11 +4,21 @@
 	<extension
 			point="org.eclipse.tigerstripe.annotation.core.annotationProvider">
 		<provider
-			id="org.eclipse.tigerstripe.annotation.tsmodel.provider"
+			id="org.eclipse.tigerstripe.annotation.tsmodel.provider.model"
 			class="org.eclipse.tigerstripe.annotation.tsmodel.TSModelAnnotationProvider"
-			targetDescription="Model Component"
+			targetDescription="Tigerstripe Model Component"
 			type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent">
 		  <delegate type="org.eclipse.jdt.core.IJavaElement"/>
+		</provider>
+   </extension>
+	<extension
+			point="org.eclipse.tigerstripe.annotation.core.annotationProvider">
+		<provider
+			id="org.eclipse.tigerstripe.annotation.tsmodel.provider.project"
+			class="org.eclipse.tigerstripe.annotation.tsmodel.TSModelAnnotationProvider"
+			targetDescription="Tigerstripe Project"
+			type="org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject">
+		  <delegate type="org.eclipse.jdt.core.IJavaProject"/>
 		</provider>
    </extension>
 </plugin>

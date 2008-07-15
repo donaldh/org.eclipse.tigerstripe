@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.adapt;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -35,6 +37,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adaptableObject instanceof URI) {
+			// try to adapt to Tigerstripe project
+			Object result = uriToProject((URI) adaptableObject);
+			if (result != null)
+				return result;
+
+			// then try to adapt to model component
 			return uriToComponent((URI) adaptableObject);
 		}
 		return null;
@@ -59,6 +67,33 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	}
 
 	/**
+	 * The URI for a Tigerstripe project is expected to be something like
+	 * 
+	 * tigerstripe:/project
+	 * 
+	 * where "project" is the label of the project.
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	public static IAbstractTigerstripeProject uriToProject(URI uri) {
+		if (!isRelated(uri))
+			return null;
+
+		IPath path = new Path(uri.path());
+		if (path.segmentCount() != 1)
+			return null;
+
+		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(
+				path);
+		if (res != null)
+			return (IAbstractTigerstripeProject) res
+					.getAdapter(IAbstractTigerstripeProject.class);
+
+		return null;
+	}
+
+	/**
 	 * The URI is expected to be something like:
 	 * 
 	 * tigerstripe:/project/FQN if artifact from project or
@@ -68,7 +103,16 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 * @return
 	 */
 	public static IModelComponent uriToComponent(URI uri) {
+
+		if (!isRelated(uri))
+			return null;
+
 		IPath path = new Path(uri.path());
+
+		// if URI is project URI, can't go any further
+		if (path.segmentCount() < 2)
+			return null;
+
 		String fqn = path.lastSegment();
 		path = path.removeLastSegments(1);
 
@@ -128,6 +172,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	public static URI toURI(IModelComponent element)
 			throws TigerstripeException {
 		return toURI(element, null);
+	}
+
+	public static URI toURI(IAbstractTigerstripeProject project)
+			throws TigerstripeException {
+		IPath path = project.getFullPath();
+		return toURI(path, null);
 	}
 
 	/**

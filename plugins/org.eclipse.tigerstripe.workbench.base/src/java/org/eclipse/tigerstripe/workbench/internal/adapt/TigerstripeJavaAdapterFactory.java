@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.adapt;
 
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
@@ -33,6 +34,10 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 			IJavaElement element = (IJavaElement) adaptableObject;
 			if (element.getResource() != null)
 				return element.getResource().getAdapter(adapterType);
+		} else if (adaptableObject instanceof IJavaProject) {
+			IJavaProject jProject = (IJavaProject) adaptableObject;
+			if (jProject.getResource() != null)
+				return jProject.getResource().getAdapter(adapterType);
 		}
 
 		return null;

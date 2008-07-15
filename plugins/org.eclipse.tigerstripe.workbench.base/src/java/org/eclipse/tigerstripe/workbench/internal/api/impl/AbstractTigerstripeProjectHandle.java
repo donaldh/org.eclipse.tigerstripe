@@ -78,6 +78,11 @@ public abstract class AbstractTigerstripeProjectHandle extends
 		return path;
 	}
 
+	public IPath getFullPath() {
+		return ResourcesPlugin.getWorkspace().getRoot().findMember(
+				getProjectLabel()).getFullPath();
+	}
+
 	public URI getURI() {
 		return getProjectContainerURI();
 	}

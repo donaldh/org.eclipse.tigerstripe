@@ -12,10 +12,8 @@ package org.eclipse.tigerstripe.workbench.internal.annotation;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IPath;
@@ -23,9 +21,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.osgi.framework.Bundle;
 
 public class AnnotationUtils {
@@ -34,6 +32,10 @@ public class AnnotationUtils {
 
 	public static boolean isModelAnnotation(Annotation annotation) {
 		URI uri = annotation.getUri();
+
+		if (!TigerstripeURIAdapterFactory.isRelated(uri))
+			return false;
+
 		IModelComponent component = TigerstripeURIAdapterFactory
 				.uriToComponent(uri);
 
@@ -73,8 +75,8 @@ public class AnnotationUtils {
 		int iFile = location.indexOf("reference:file:");
 		String file = location.substring(iFile + 15, location.length());
 		IPath pPath = (new Path(file)).makeAbsolute();
-		
-		if ( !"jar".equals(pPath.getFileExtension())) {
+
+		if (!"jar".equals(pPath.getFileExtension())) {
 			pPath = pPath.append("bin");
 		}
 		return pPath;
