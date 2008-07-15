@@ -12,7 +12,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.common.ui,
  org.eclipse.debug.core,
  org.eclipse.ui.ide,
- org.eclipse.core.expressions
+ org.eclipse.core.expressions,
+ org.eclipse.ui.editors,
+ org.eclipse.jface.text
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.annotation.ui,
  org.eclipse.tigerstripe.annotation.ui.core,

@@ -33,6 +33,8 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 /**
@@ -46,6 +48,7 @@ public class EProperty implements IProperty {
 	
 	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
 	private static final String ANNOTATION_MULTILINE = "multiline";
+	private static final String ANNOTATION_EDITOR = "editor";
 	
 	private static final String CREATE = "Create";
 	private static final String DESTROY = "Destroy";
@@ -66,6 +69,21 @@ public class EProperty implements IProperty {
 		return getValueDisplayName(getValue());
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.internal.view.IProperty#save()
+	 */
+	public void save() {
+		EObject current = object;
+		while(current != null) {
+			if (current instanceof Annotation) {
+				Annotation annotation = (Annotation)current;
+				AnnotationPlugin.getManager().save(annotation);
+				return;
+			}
+			current = current.eContainer();
+		}
+	}
+	
 	protected String getValueDisplayName(Object value) {
 		if (value instanceof List<?>) {
 			List<?> list = (List<?>)value;
@@ -84,7 +102,11 @@ public class EProperty implements IProperty {
 		if (value instanceof EObject) {
 			return DisplayAnnotationUtil.getText((EObject)value);
 		}
-		return value.toString();
+		String text = value.toString();
+		if (text == null) text = "";
+		if (text.length() > 17)
+			text = text.substring(0, 15) + "...";
+		return text;
 	}
 	
 	public EClassifier getEType() {
@@ -153,6 +175,17 @@ public class EProperty implements IProperty {
 		if (feature.isMany()) {
 			cellEditor = createDialogCellEditor(parent, feature, (List<String>)getValue());
 			return cellEditor;
+		}
+		if (clazz != null && (clazz.equals(String.class))) {
+	    	EAnnotation annotation = feature.getEAnnotation(ANNOTATION_MARKER);
+	    	if (annotation != null) {
+				String value = annotation.getDetails().get(ANNOTATION_EDITOR);
+				if (value != null) {
+					cellEditor = new OpenEditorCellEditor(parent,
+							this, value);
+					return cellEditor;
+				}
+	    	}
 		}
 		if (clazz != null && (clazz.equals(String.class) || clazz.equals(int.class))) {
 	    	EAnnotation annotation = feature.getEAnnotation(ANNOTATION_MARKER);

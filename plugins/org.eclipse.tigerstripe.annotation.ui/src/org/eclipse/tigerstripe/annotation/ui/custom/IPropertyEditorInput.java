@@ -9,32 +9,16 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.view;
+package org.eclipse.tigerstripe.annotation.ui.custom;
 
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IStorageEditorInput;
 
 /**
  * @author Yuri Strot
  *
  */
-public interface IProperty {
+public interface IPropertyEditorInput extends IStorageEditorInput {
 	
-	public String getName();
-	
-	public Object getValue();
-	
-	public String getDisplayName();
-	
-	public void save();
-	
-	public EClassifier getEType();
-	
-	public void setValue(Object value);
-	
-	public CellEditor getEditor(Composite parent);
-	
-	public void applyEditorValue();
+	public void setContent(String text);
 
 }
