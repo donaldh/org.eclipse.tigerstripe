@@ -22,6 +22,7 @@ import java.util.Properties;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
@@ -474,7 +475,11 @@ public abstract class ArtifactComponent implements IModelComponent,
 			throw new InvalidAnnotationTargetException("Target not allowed for AnnotationType");
 		// END questionable stuff
 		EObject content = type.createInstance();
-		return manager.addAnnotation(this, content);
+		try {
+			return manager.addAnnotation(this, content);
+		} catch (AnnotationException e) {
+			throw new TigerstripeException("Failed to add annotation of type: "+content.getClass().getName(), e);
+		}
 	}
 	
 	public Annotation addAnnotation(String packij, String clazz) throws TigerstripeException
