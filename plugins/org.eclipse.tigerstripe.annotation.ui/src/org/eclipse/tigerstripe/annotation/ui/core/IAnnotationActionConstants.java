@@ -9,16 +9,16 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.custom;
-
-import org.eclipse.ui.IStorageEditorInput;
+package org.eclipse.tigerstripe.annotation.ui.core;
 
 /**
  * @author Yuri Strot
  *
  */
-public interface IPropertyEditorInput extends IStorageEditorInput {
+public interface IAnnotationActionConstants {
 	
-	public void setContent(String text);
+	public static String ANNOTATION_PROPERTIES = "annotationProperties";
+	
+	public static String ANNOTATION_PROPERTIES_GROUP = "group." + ANNOTATION_PROPERTIES;
 
 }

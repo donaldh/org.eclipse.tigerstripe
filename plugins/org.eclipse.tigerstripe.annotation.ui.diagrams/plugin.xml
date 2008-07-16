@@ -106,5 +106,33 @@
          </action>
       </objectContribution>
    </extension>
+   
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="org.eclipse.tigerstripe.annotation.ui.diagram.annotations"
+            nameFilter="*"
+            objectClass="org.eclipse.tigerstripe.annotation.core.Annotation">
+         <action
+               class="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions.ShowAnnotationOnDiagram"
+               enablesFor="1"
+               id="org.eclipse.tigerstripe.annotation.ui.diagram.annotation.show"
+               label="Show on diagram"
+               menubarPath="annotationProperties"
+               style="push"
+               tooltip="Show annotation on diagram">
+         </action>
+         <action
+               class="org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions.HideAnnotationOnDiagram"
+               enablesFor="1"
+               id="org.eclipse.tigerstripe.annotation.ui.diagram.annotation.hide"
+               label="Hide on diagram"
+               menubarPath="annotationProperties"
+               style="push"
+               tooltip="Hide annotation on diagram">
+         </action>
+      </objectContribution>
+   </extension>
 
 </plugin>

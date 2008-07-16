@@ -9,25 +9,30 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.core;
+package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.ui.IActionDelegate;
 
 /**
  * @author Yuri Strot
  *
  */
-public class TestActionManager {
+public class ActionDelegate extends Action {
 	
-	private static IChangableActionFactory factory;
+	private IActionDelegate delegate;
 	
-	public static void setAction(IChangableActionFactory factory) {
-		TestActionManager.factory = factory;
+	public ActionDelegate(String text, IActionDelegate delegate) {
+		super(text);
+		this.delegate = delegate;
 	}
 	
-	public static Action getAction(Annotation annotation, boolean show) {
-		return factory.create(annotation, show);
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.action.Action#run()
+	 */
+	@Override
+	public void run() {
+		delegate.run(this);
 	}
 
 }

@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.custom;
+package org.eclipse.tigerstripe.annotation.ui.internal.editor;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

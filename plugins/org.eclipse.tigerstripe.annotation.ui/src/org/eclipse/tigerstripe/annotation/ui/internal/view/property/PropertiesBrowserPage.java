@@ -21,20 +21,23 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
+import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MenuEvent;
-import org.eclipse.swt.events.MenuListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -43,7 +46,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -54,11 +56,13 @@ import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.tigerstripe.annotation.ui.core.TestActionManager;
+import org.eclipse.tigerstripe.annotation.ui.core.IAnnotationActionConstants;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationWizardAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationSelectionUtils;
+import org.eclipse.tigerstripe.annotation.ui.internal.view.AnnotationDisplayLabelProvider;
+import org.eclipse.tigerstripe.annotation.ui.internal.view.LimitMenuManager;
 import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
@@ -90,7 +94,7 @@ public class PropertiesBrowserPage
 	private Composite composite;
 	private Composite leftPart;
 	
-	private org.eclipse.swt.widgets.List list;
+	private ListViewer viewer;
 	
 	private Annotation[] currentSelection;
 	
@@ -211,40 +215,40 @@ public class PropertiesBrowserPage
 		addListeners();
 	}
 	
-	private void fillMenu(Menu menu) {
+	private void initMenu(Control control, IMenuListener menuListener) {
+		MenuManager menuMgr = new LimitMenuManager(new String[] {
+				IAnnotationActionConstants.ANNOTATION_PROPERTIES,
+				IAnnotationActionConstants.ANNOTATION_PROPERTIES_GROUP});
+		menuMgr.setRemoveAllWhenShown(true);
+		menuMgr.addMenuListener(menuListener);
+		Menu menu = menuMgr.createContextMenu(control);
+		control.setMenu(menu);
+		listener.getSite().registerContextMenu(menuMgr, viewer);
+	}
+	
+	private void fillContentMenu(IMenuManager manager) {
+		String group = IAnnotationActionConstants.ANNOTATION_PROPERTIES_GROUP;
+		manager.add(new GroupMarker(group));
+		
 	    Annotation annotation = getSelectedAnnotation();
 	    Object annotable = getAnnotableElement();
 	    if (annotable != null) {
 			IAction action = new OpenAnnotationWizardAction(annotable, "Add");
 		    ActionContributionItem item = new ActionContributionItem(action);
-		    item.fill(menu, -1);
+		    manager.appendToGroup(group, item);
 	    }
 	    
 	    if (annotation != null) {
 	    	RemoveAnnotationAction action = new RemoveAnnotationAction(annotation);
 		    ActionContributionItem item = new ActionContributionItem(action);
-		    item.fill(menu, -1);
-		    
-		    Action sAction = TestActionManager.getAction(annotation, true);
-		    if (sAction.isEnabled()) {
-			    sAction.setText("Show on diagram");
-			    ActionContributionItem item2 = new ActionContributionItem(sAction);
-			    item2.fill(menu, -1);
-		    }
-		    
-		    Action hAction = TestActionManager.getAction(annotation, false);
-		    if (hAction.isEnabled()) {
-			    hAction.setText("Hide on diagram");
-			    ActionContributionItem item2 = new ActionContributionItem(hAction);
-			    item2.fill(menu, -1);
-		    }
+		    manager.appendToGroup(group, item);
 	    }
 	    
 	    if (annotable != null) {
 		    RemoveURIAnnotationAction removeAll = new RemoveURIAnnotationAction(annotable);
 		    if (removeAll.isEnabled()) {
 		    	ActionContributionItem item = new ActionContributionItem(removeAll);
-			    item.fill(menu, -1);
+			    manager.appendToGroup(group, item);
 		    }
 	    }
 	}
@@ -284,7 +288,7 @@ public class PropertiesBrowserPage
 	}
 	
 	private Annotation getSelectedAnnotation() {
-		int index = list.getSelectionIndex();
+		int index = viewer.getList().getSelectionIndex();
 		if (index >= 0 && index < currentSelection.length)
 			return currentSelection[index];
 		return null;
@@ -359,27 +363,7 @@ public class PropertiesBrowserPage
 		formLayout.marginRight = 4;
 		composite.setLayout(formLayout);
 		
-		list = new org.eclipse.swt.widgets.List(composite, SWT.BORDER);
-		list.addSelectionListener(new SelectionListener() {
-		
-			public void widgetSelected(SelectionEvent e) {
-				onSelection();
-			}
-		
-			public void widgetDefaultSelected(SelectionEvent e) {
-				onSelection();
-			}
-			
-			public void onSelection() {
-				Annotation annotation = getSelectedAnnotation();
-				if (annotation != null) {
-					setPageSelection(annotation);
-					updateStatus();
-				}
-			}
-		
-		});
-		
+		org.eclipse.swt.widgets.List list = new org.eclipse.swt.widgets.List(composite, SWT.BORDER);
 		factory.paintBordersFor(composite);
         
 		FormData formData = new FormData();
@@ -390,23 +374,25 @@ public class PropertiesBrowserPage
 		
 		list.setLayoutData(formData);
 		
-		Menu menu = new Menu(list);
-		list.setMenu(menu);
-		menu.addMenuListener(new MenuListener() {
+		viewer = new ListViewer(list);
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 		
-			public void menuShown(MenuEvent e) {
-				Menu menu = (Menu)e.widget;
-				MenuItem[] items = menu.getItems();
-				for (int i=0; i < items.length; i++)
-					items[i].dispose();
-				fillMenu(menu);
+			public void selectionChanged(SelectionChangedEvent event) {
+				Annotation annotation = getSelectedAnnotation();
+				if (annotation != null) {
+					setPageSelection(annotation);
+					updateStatus();
+				}
 			}
-		
-			public void menuHidden(MenuEvent e) {
-			}
-		
 		});
+		viewer.setContentProvider(new ArrayContentProvider());
+		viewer.setLabelProvider(new AnnotationDisplayLabelProvider());
 		
+		initMenu(list, new IMenuListener() {
+			public void menuAboutToShow(IMenuManager manager) {
+				fillContentMenu(manager);
+			}
+		});
 	}
 	
 	protected void setPageSelection(Annotation annotation) {
@@ -427,26 +413,26 @@ public class PropertiesBrowserPage
 	}
 	
 	protected void updatePage() {
-		if (list != null && !list.isDisposed()) {
+		if (viewer != null && !viewer.getList().isDisposed()) {
 			listener.dirtyChanged(IAnnotationEditorListener.NO_CHANGES);
 			currentSelection = getAnnotation(selectedElements);
-			int newSelection = list.getSelectionIndex();
-			list.removeAll();
+			int newSelection = viewer.getList().getSelectionIndex();
 			boolean showPage = currentSelection != null;
 			if (showPage) {
+				viewer.setInput(currentSelection);
 				for (int i = 0; i < currentSelection.length; i++) {
-					list.add(DisplayAnnotationUtil.getText(currentSelection[i]));
 					adapt(i);
 	            }
 				int index = getAnnotationIndex();
+				int itemCount = viewer.getList().getItemCount();
 				if (index >= 0) {
 					newSelection = index;
 				}
-				else if (newSelection < 0 || newSelection >= list.getItemCount()) {
+				else if (newSelection < 0 || newSelection >= itemCount) {
 					newSelection = 0;
 				}
-				if (newSelection >= 0 && list.getItemCount() > newSelection) {
-					list.select(newSelection);
+				if (newSelection >= 0 && itemCount > newSelection) {
+					viewer.getList().select(newSelection);
 					setPageSelection(currentSelection[newSelection]);
 				}
 				else {
@@ -496,7 +482,7 @@ public class PropertiesBrowserPage
 			if (msg.getEventType() == Notification.RESOLVE || 
 					msg.getEventType() == Notification.REMOVING_ADAPTER)
 				return;
-			list.setItem(index, "*" + DisplayAnnotationUtil.getText(
+			viewer.getList().setItem(index, "*" + DisplayAnnotationUtil.getText(
 					currentSelection[index]));
 			if (!dirty) {
 				dirty = true;
@@ -506,7 +492,7 @@ public class PropertiesBrowserPage
 		
 		public void clear() {
 			dirty = false;
-			list.setItem(index, DisplayAnnotationUtil.getText(
+			viewer.getList().setItem(index, DisplayAnnotationUtil.getText(
 					currentSelection[index]));
 			updateStatus();
 		}

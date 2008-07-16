@@ -9,24 +9,19 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
-
-import org.eclipse.ui.IWorkbenchPartSite;
+package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions;
 
 /**
  * @author Yuri Strot
  *
  */
-public interface IAnnotationEditorListener {
-	
-	public static final int NO_CHANGES = 0;
-	
-	public static final int NON_SELECTION_CHANGES = 1;
-	
-	public static final int SELECTION_CHANGES = 2;
-	
-	public void dirtyChanged(int status);
-	
-	public IWorkbenchPartSite getSite();
+public class HideAnnotationOnDiagram extends ChangeAnnotationVisibility {
+
+	/**
+	 * @param show
+	 */
+	public HideAnnotationOnDiagram() {
+		super(false);
+	}
 
 }

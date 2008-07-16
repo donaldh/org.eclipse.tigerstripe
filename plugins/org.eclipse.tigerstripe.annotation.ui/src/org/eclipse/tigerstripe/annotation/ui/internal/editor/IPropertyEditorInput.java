@@ -9,24 +9,16 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
+package org.eclipse.tigerstripe.annotation.ui.internal.editor;
 
-import org.eclipse.ui.IWorkbenchPartSite;
+import org.eclipse.ui.IStorageEditorInput;
 
 /**
  * @author Yuri Strot
  *
  */
-public interface IAnnotationEditorListener {
+public interface IPropertyEditorInput extends IStorageEditorInput {
 	
-	public static final int NO_CHANGES = 0;
-	
-	public static final int NON_SELECTION_CHANGES = 1;
-	
-	public static final int SELECTION_CHANGES = 2;
-	
-	public void dirtyChanged(int status);
-	
-	public IWorkbenchPartSite getSite();
+	public void setContent(String text);
 
 }

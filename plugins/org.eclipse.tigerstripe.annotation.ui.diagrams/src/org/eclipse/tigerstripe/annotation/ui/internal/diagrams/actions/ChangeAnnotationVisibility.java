@@ -14,13 +14,18 @@ package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.jface.action.Action;
+import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.diagrams.model.AnnotationNode;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode;
+import org.eclipse.tigerstripe.annotation.ui.diagrams.parts.AnnotationEditPart;
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.DelegateAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.AnnotationStatus;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.DiagramRebuildUtils;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
@@ -30,7 +35,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author Yuri Strot
  *
  */
-public class ChangeAnnotationVisibility extends Action {
+public class ChangeAnnotationVisibility extends DelegateAction {
 	
 	private DiagramEditor editor; 
 	private EditPart ref;
@@ -39,13 +44,24 @@ public class ChangeAnnotationVisibility extends Action {
 	private Annotation annotation;
 	private boolean show;
 	
-	public ChangeAnnotationVisibility(Annotation annotation, boolean show) {
-		this.annotation = annotation;
+	public ChangeAnnotationVisibility(boolean show) {
 		this.show = show;
-		init();
 	}
 	
-	protected void init() {
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.internal.actions.DelegateAction#adaptSelection(org.eclipse.jface.viewers.ISelection)
+	 */
+	@Override
+	protected void adaptSelection(ISelection selection) {
+		Object object = getSelected(selection);
+		if (object instanceof Annotation)
+			annotation = (Annotation)object;
+		else
+			annotation = null;
+		setEnabled(annotation != null && isEditorEnabled());
+	}
+	
+	protected boolean isEditorEnabled() {
 		IWorkbenchPart part = WorkbenchUtil.getEditor();
 		if (part instanceof DiagramEditor) {
 			editor = (DiagramEditor)part;
@@ -56,12 +72,11 @@ public class ChangeAnnotationVisibility extends Action {
 					new AnnotationStatus(node);
 				if ((status.getStatus() != AnnotationStatus.STATUS_VISIBLE || !show) &&
 						(status.getStatus() == AnnotationStatus.STATUS_VISIBLE || show)) {
-					setEnabled(true);
-					return;
+					return true;
 				}
 			}
 		}
-		setEnabled(false);
+		return false;
 	}
 	
 	/* (non-Javadoc)
@@ -94,6 +109,19 @@ public class ChangeAnnotationVisibility extends Action {
 				for (Annotation annotation : annotations) {
 					if (annotation.equals(this.annotation))
 						return child;
+				}
+				if (child instanceof AnnotationEditPart) {
+					AnnotationEditPart part = (AnnotationEditPart)child;
+					List<View> ends = DiagramRebuildUtils.getAnnotationEnd((View)part.getModel());
+					if (ends.size() > 0) {
+						View view = ends.get(0);
+						if (view instanceof ViewLocationNode) {
+							EObject targetView = ((ViewLocationNode)view).getView();
+							Object result = part.getViewer().getEditPartRegistry().get(targetView);
+							if (result instanceof EditPart)
+								return (EditPart)result;
+						}
+					}
 				}
 			}
 		}

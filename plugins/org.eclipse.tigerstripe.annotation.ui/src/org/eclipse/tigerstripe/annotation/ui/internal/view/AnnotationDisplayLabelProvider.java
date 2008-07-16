@@ -9,17 +9,28 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.core;
+package org.eclipse.tigerstripe.annotation.ui.internal.view;
 
-import org.eclipse.jface.action.Action;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 /**
  * @author Yuri Strot
  *
  */
-public interface IChangableActionFactory {
+public class AnnotationDisplayLabelProvider extends LabelProvider {
 	
-	public Action create(Annotation annotation, boolean show);
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.viewers.LabelProvider#getText(java.lang.Object)
+	 */
+	@Override
+	public String getText(Object element) {
+		if (element instanceof Annotation) {
+			Annotation annotation = (Annotation)element;
+			return DisplayAnnotationUtil.getText(annotation);
+		}
+		return super.getText(element);
+	}
 
 }

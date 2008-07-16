@@ -14,7 +14,7 @@ package org.eclipse.tigerstripe.annotation.ui.internal.view;
 import org.eclipse.emf.common.ui.celleditor.ExtendedDialogCellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.tigerstripe.annotation.ui.custom.PropertyEditorInput;
+import org.eclipse.tigerstripe.annotation.ui.internal.editor.PropertyEditorInput;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.ui.PartInitException;
 
