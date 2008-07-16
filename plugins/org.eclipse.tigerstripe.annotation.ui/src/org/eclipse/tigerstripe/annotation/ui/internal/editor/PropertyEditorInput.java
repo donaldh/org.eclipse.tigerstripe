@@ -14,7 +14,7 @@ package org.eclipse.tigerstripe.annotation.ui.internal.editor;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.tigerstripe.annotation.ui.internal.view.IProperty;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.ui.IPersistableElement;
 
 /**
@@ -24,9 +24,9 @@ import org.eclipse.ui.IPersistableElement;
 public class PropertyEditorInput implements IPropertyEditorInput {
 	
 	private PropertyStorage storage;
-	private IProperty property;
+	private EProperty property;
 	
-	public PropertyEditorInput(IProperty property) {
+	public PropertyEditorInput(EProperty property) {
 		storage = new PropertyStorage(property);
 		this.property = property;
 	}

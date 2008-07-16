@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.view;
+package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,6 +20,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
+import org.eclipse.tigerstripe.annotation.ui.internal.properties.PropertyRegistry;
 
 /**
  * @author Yuri Strot
@@ -34,13 +36,13 @@ public class PropertyContentProvider implements ITreeContentProvider {
     }
 
 	public Object[] getElements(Object inputElement) {
-		List<IProperty> children = new ArrayList<IProperty>();
+		List<EProperty> children = new ArrayList<EProperty>();
 		EObject object = null;
 		if (inputElement instanceof EObject) {
 			object = (EObject)inputElement;
 		}
-		if (inputElement instanceof IProperty) {
-			IProperty property = (IProperty)inputElement;
+		if (inputElement instanceof EProperty) {
+			EProperty property = (EProperty)inputElement;
 			if (property.getEType() instanceof EClass) {
 				object = (EObject)property.getValue();
 			}
@@ -49,7 +51,7 @@ public class PropertyContentProvider implements ITreeContentProvider {
 			Iterator<EStructuralFeature> attrs = object.eClass().getEAllStructuralFeatures().iterator();
 			while (attrs.hasNext()) {
 				EStructuralFeature feature = (EStructuralFeature) attrs.next();
-				children.add(new EProperty(object, feature));
+				children.add(PropertyRegistry.getProperty(object, feature));
 			}
 		}
 	    return children.toArray(new EProperty[children.size()]);
@@ -68,8 +70,8 @@ public class PropertyContentProvider implements ITreeContentProvider {
 		if (element instanceof EObject) {
 			object = (EObject)element;
 		}
-		if (element instanceof IProperty) {
-			IProperty property = (IProperty)element;
+		if (element instanceof EProperty) {
+			EProperty property = (EProperty)element;
 			if (property.getValue() instanceof EObject) {
 				object = (EObject)property.getValue();
 			}

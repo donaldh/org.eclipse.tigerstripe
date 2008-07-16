@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.view;
+package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.tigerstripe.annotation.core.Annotation;

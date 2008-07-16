@@ -9,32 +9,31 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.view;
-
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.jface.viewers.CellEditor;
-import org.eclipse.swt.widgets.Composite;
+package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
 /**
  * @author Yuri Strot
  *
  */
-public interface IProperty {
+public class StringWrapper {
 	
-	public String getName();
+	private String string;
 	
-	public Object getValue();
+	public StringWrapper() {
+		string = "";
+    }
 	
-	public String getDisplayName();
+	public void setString(String string) {
+	    this.string = string;
+    }
 	
-	public void save();
+	public String getString() {
+	    return string;
+    }
 	
-	public EClassifier getEType();
-	
-	public void setValue(Object value);
-	
-	public CellEditor getEditor(Composite parent);
-	
-	public void applyEditorValue();
+	@Override
+	public String toString() {
+	    return string;
+	}
 
 }

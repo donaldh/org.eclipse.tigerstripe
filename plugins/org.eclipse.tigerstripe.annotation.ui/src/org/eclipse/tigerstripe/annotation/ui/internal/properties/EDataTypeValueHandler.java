@@ -13,7 +13,7 @@
  *
  * </copyright>
  */
-package org.eclipse.tigerstripe.annotation.ui.internal.view;
+package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EDataType;

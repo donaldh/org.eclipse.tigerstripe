@@ -36,9 +36,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.tigerstripe.annotation.ui.internal.view.IProperty;
-import org.eclipse.tigerstripe.annotation.ui.internal.view.PropertyContentProvider;
-import org.eclipse.tigerstripe.annotation.ui.internal.view.PropertyLabelProvider;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 
 /**
  * @author Yuri Strot
@@ -178,7 +176,7 @@ public class PropertyTree {
         if (treeItem == null || treeItem.isDisposed()) {
 			return;
 		}
-        IProperty entry = (IProperty) treeItem.getData();
+        EProperty entry = (EProperty) treeItem.getData();
         entry.applyEditorValue();
         List<Object> data = new ArrayList<Object>();
         while(treeItem != null) {
@@ -212,7 +210,7 @@ public class PropertyTree {
 //            setErrorMessage(null);
         } else {
             Object object = sel[0].getData(); // assume single selection
-            if (object instanceof IProperty) {
+            if (object instanceof EProperty) {
                 // get the entry for this item
             	//IProperty activeEntry = (IProperty) object;
                 // activate a cell editor on the selection
@@ -232,7 +230,7 @@ public class PropertyTree {
         tree.showSelection();
         
         // Get the entry for this item
-        IProperty property = (IProperty) item.getData();
+        EProperty property = (EProperty) item.getData();
 
         // Get the cell editor for the entry.
         // Note that the editor parent must be the Tree control

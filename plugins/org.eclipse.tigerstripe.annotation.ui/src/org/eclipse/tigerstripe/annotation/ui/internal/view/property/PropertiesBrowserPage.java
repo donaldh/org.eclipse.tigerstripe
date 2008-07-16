@@ -61,8 +61,6 @@ import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationWiza
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotationAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationSelectionUtils;
-import org.eclipse.tigerstripe.annotation.ui.internal.view.AnnotationDisplayLabelProvider;
-import org.eclipse.tigerstripe.annotation.ui.internal.view.LimitMenuManager;
 import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;

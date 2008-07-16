@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.view;
+package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
 import java.util.Calendar;
 import java.util.Date;

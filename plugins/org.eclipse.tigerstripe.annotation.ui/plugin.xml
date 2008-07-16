@@ -3,6 +3,7 @@
 <plugin>
 	<extension-point id="workbenchAnnotationProvider" name="workbenchAnnotationProvider" schema="schema/workbenchAnnotationProvider.exsd"/>
  <extension-point id="annotationLabelProvider" name="annotationLabelProvider" schema="schema/annotationLabelProvider.exsd"/>
+ <extension-point id="propertyProvider" name="propertyProvider" schema="schema/propertyProvider.exsd"/>
 	
    <extension
          point="org.eclipse.ui.views">
@@ -106,10 +107,27 @@
 	
 	<extension
 	      point="org.eclipse.ui.editors.documentProviders">
-    <provider
-          class="org.eclipse.tigerstripe.annotation.ui.internal.editor.PropertyDocumentProvider"
-          inputTypes="org.eclipse.tigerstripe.annotation.ui.custom.IPropertyEditorInput"
-          id="org.eclipse.tigerstripe.annotation.ui.documentProvider"/>
+      <provider
+            class="org.eclipse.tigerstripe.annotation.ui.internal.editor.PropertyDocumentProvider"
+            inputTypes="org.eclipse.tigerstripe.annotation.ui.custom.IPropertyEditorInput"
+            id="org.eclipse.tigerstripe.annotation.ui.documentProvider"/>
 	</extension>
+	
+  <extension
+      point="org.eclipse.tigerstripe.annotation.ui.propertyProvider">
+    <provider
+        class="org.eclipse.tigerstripe.annotation.ui.internal.properties.GeneralPropertyProvider"
+        priority="0"/>
+    <provider
+        class="org.eclipse.tigerstripe.annotation.ui.internal.properties.PrimitivePropertyProvider"
+        priority="1"/>
+    <provider
+        class="org.eclipse.tigerstripe.annotation.ui.internal.properties.BooleanPropertyProvider"
+        priority="2"/>
+    <provider
+        class="org.eclipse.tigerstripe.annotation.ui.internal.properties.AnnotatedPropertyProvider"
+        priority="2"/>
+        
+  </extension>
 
 </plugin>

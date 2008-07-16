@@ -17,7 +17,7 @@ import java.io.InputStream;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.tigerstripe.annotation.ui.internal.view.IProperty;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 
 /**
  * @author Yuri Strot
@@ -25,9 +25,9 @@ import org.eclipse.tigerstripe.annotation.ui.internal.view.IProperty;
  */
 public class PropertyStorage implements IStorage {
 	
-	private IProperty property;
+	private EProperty property;
 	
-	public PropertyStorage(IProperty property) {
+	public PropertyStorage(EProperty property) {
 		this.property = property;
 	}
 

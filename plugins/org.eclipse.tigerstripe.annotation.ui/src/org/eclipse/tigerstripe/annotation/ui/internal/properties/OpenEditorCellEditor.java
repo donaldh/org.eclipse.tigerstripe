@@ -9,11 +9,12 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.view;
+package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
 import org.eclipse.emf.common.ui.celleditor.ExtendedDialogCellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.internal.editor.PropertyEditorInput;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.ui.PartInitException;
@@ -24,10 +25,10 @@ import org.eclipse.ui.PartInitException;
  */
 public class OpenEditorCellEditor extends ExtendedDialogCellEditor {
 
-	private IProperty property;
+	private EProperty property;
 	private String editorId;
 
-	public OpenEditorCellEditor(Composite composite, IProperty property,
+	public OpenEditorCellEditor(Composite composite, EProperty property,
 			String editorId) {
 		super(composite, new DefaultLabelProvider());
 		this.property = property;

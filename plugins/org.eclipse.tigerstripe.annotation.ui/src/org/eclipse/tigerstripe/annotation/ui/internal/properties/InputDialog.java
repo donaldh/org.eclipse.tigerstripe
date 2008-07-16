@@ -13,9 +13,9 @@
  *
  * </copyright>
  *
- * $Id: InputDialog.java,v 1.1 2008/05/11 12:42:05 ystrot Exp $
+ * $Id: InputDialog.java,v 1.1 2008/07/16 09:35:52 ystrot Exp $
  */
-package org.eclipse.tigerstripe.annotation.ui.internal.view;
+package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
