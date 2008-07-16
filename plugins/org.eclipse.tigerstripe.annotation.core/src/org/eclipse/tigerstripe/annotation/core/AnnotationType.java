@@ -129,7 +129,7 @@ public class AnnotationType {
 	}
 	
 	public String getId() {
-		return AnnotationUtils.getInstanceClassName(getClazz());
+		return AnnotationUtils.getInstanceClassName(getClazz()).getFullClassName();
 	}
 	
 	/* (non-Javadoc)

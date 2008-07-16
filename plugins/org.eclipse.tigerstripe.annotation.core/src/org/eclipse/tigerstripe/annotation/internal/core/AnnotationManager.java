@@ -390,7 +390,8 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	        for (IConfigurationElement config : configs) {
 	        	try {
 	        		AnnotationType type = new AnnotationType(config);
-	        		types.put(AnnotationUtils.getInstanceClassName(type.getClazz()), type);
+	        		types.put(AnnotationUtils.getInstanceClassName(
+	        				type.getClazz()).getFullClassName(), type);
 	            }
 	            catch (Exception e) {
 	            	AnnotationPlugin.log(e);

@@ -26,6 +26,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
+import org.eclipse.tigerstripe.annotation.core.util.ClassName;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.core.IAnnotationUIManager;
 import org.eclipse.tigerstripe.annotation.ui.core.ISelectionConverter;
@@ -102,8 +103,9 @@ public class AnnotationUIManager implements IAnnotationUIManager {
             		String epackageUri = config.getAttribute(ATTR_EPACKAGE);
             		String eclass = config.getAttribute(ATTR_ECLASS);
             		EClass clazz = AnnotationUtils.getClass(epackageUri, eclass);
+            		ClassName name = AnnotationUtils.getInstanceClassName(clazz);
             		AnnotationType type = AnnotationPlugin.getManager().getType(
-            				clazz.getEPackage().getNsPrefix(), clazz.getName());
+            				name.getPackage(), name.getClazz());
             		if (type == null)
             			throw new NullPointerException("Annotation type with epackage-uri=" + epackageUri +
             					" and eclass=" + eclass + " do not defined");

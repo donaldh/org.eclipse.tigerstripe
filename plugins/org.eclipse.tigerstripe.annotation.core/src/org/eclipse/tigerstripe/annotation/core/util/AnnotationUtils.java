@@ -36,13 +36,13 @@ public class AnnotationUtils {
 		return EPackage.Registry.INSTANCE.getEPackage(uri);
 	}
 	
-	public static String getInstanceClassName(EClass eclass) {
+	public static ClassName getInstanceClassName(EClass eclass) {
 		String name = eclass.getInstanceClassName();
-		if (name == null) {
-			String nsPrefix = eclass.getEPackage().getNsPrefix();
-			name = nsPrefix + "." + eclass.getName();
-		}
-		return name;
+		if (name == null)
+			return new ClassName(eclass.getEPackage().getNsPrefix(),
+					eclass.getName());
+		else
+			return new ClassName(name);
 	}
 
 	/**
