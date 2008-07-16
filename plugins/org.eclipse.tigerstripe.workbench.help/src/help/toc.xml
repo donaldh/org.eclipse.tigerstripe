@@ -12,7 +12,7 @@
 <?NLS TYPE="org.eclipse.help.toc"?>
 <?xml-stylesheet type="text/xsl" href="web.xsl"?>
 
-<toc label="Tigerstripe Workbench 2.x"
+<toc label="Tigerstripe Workbench"
 	topic="src/help/html/index.html">
 	<topic label="What's new" href="src/help/html/whatsnew.html" />
 	<topic label="Preface" href="src/help/html/preface.html" />
