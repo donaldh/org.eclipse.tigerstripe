@@ -63,63 +63,74 @@ A description of the segmentation of ${tsProjectHandle.ProjectDetails.Name}.
 <h2><a name="sd">Service Definitions</a></h2>
 A list of the services available from ${tsProjectHandle.ProjectDetails.Name}.
 <ul>
-#foreach ($c in $docUtils.sortByName($castUtils.toModel($allEntities)))
-#if($c.implements.size()>0)
-<li>#href($c) exposes 
+#foreach ($s in $docUtils.sortByName($castUtils.toModel($allSessions)))
+<li>#href($s) #if(${s.operations.size()}>0)has operations#end</li><ul>
+#foreach($o in $docUtils.sortByName(${s.operations}))
+    <li>#href($o)</li>
+#end
+</ul>
+#set($ec=false)
+#foreach($e in $castUtils.toModel($allEntities))
+#foreach($i in $e.implements)
+#if($i == $s)
+#set($ec = true)
+#end
+#end
+#end
+#if($ec==true)
+Interface $s.name is implemented by:
 <ul>
-#foreach ($i in $docUtils.sortByName($c.implements))
-<li>#href($i) with operations :</li>
-<ul>
-#foreach ($op in $docUtils.sortByName($i.operations))
-    <li>#href($op)</li>
+#foreach($e in $docUtils.sortByName($castUtils.toModel($allEntities)))
+#foreach($i in $e.implements)
+#if($i == $s)
+    <li>#href($e)#if(${e.operations.size()}>0)has operations#end</li><ul>
+#foreach($o in $docUtils.sortByName($e.operations))
+        <li>#href($o)</li>
+#end
+#end
 #end
 </ul>
 #end
 </ul>
-</li>
 #end
-#end
-#foreach($s in $docUtils.sortByName($castUtils.toModel($allSessions)))
 #if(${s.getArtifact().ManagedEntityDetails.size()}>0)
-#href($s) has operations:
+Interface $s.name is exposed by:
 <ul>
-#foreach($o in $docUtils.sortByName($s.operations))
-   <li>#href($o)</li>
-#end
-</ul>
-<b>Exposes:</b>
 #foreach($e in ${s.getArtifact().ManagedEntityDetails})
 #foreach($a in $docUtils.sortByName($castUtils.toModel($allEntities)))
 #if($a.fullyQualifiedName.equals($e.fullyQualifiedName))
 #if($a.project)
-<li>#href($a) has operations
-<ul>
+    <li>#href($a)#if(${a.operations.size()}>0)has operations#end</li><ul>
 #else
-<li>$a.fullyQualifiedName has operations
-<ul>
+<li>$a.fullyQualifiedName #if(${a.operations.size()}>0)has operations#end</li><ul>
 #end
-#foreach($op in $docUtils.sortByName($a.operations))
-   <li>#href($op)</li>
+#foreach($o in $a.operations)
+        <li>#href($o)</li>
 #end
 </ul>
-<b>Emits Events:</b>
+#end
+#end
+#end
+</ul>
+#end
+
+#if(${s.getArtifact().EmittedEvents.size()}>0)
+Interface $s.name emits:
 <ul>
-#end
-#end
-#end
-#foreach($n in ${s.getArtifact().EmittedEvents})
+#foreach($e in ${s.getArtifact().EmittedEvents})
 #foreach($a in $docUtils.sortByName($castUtils.toModel($allEvents)))
-#if($a.fullyQualifiedName.equals($n.fullyQualifiedName))
+#if($a.fullyQualifiedName.equals($e.fullyQualifiedName))
 #if($a.project)
-   <li>#href($a)
+    <li>#href($a)</li>
 #else
-   <li>$a.fullyQualifiedName
+<li>$a.fullyQualifiedName </li>
 #end
 #end
 #end
 #end
 </ul>
 #end
+
 #end
 </ul>
 <p/>
