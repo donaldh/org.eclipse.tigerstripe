@@ -347,3 +347,5 @@ Bundle-ClassPath: lib/dom4j-1.6.1.jar,
  lib/log4j-1.2.14.jar
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Activator: org.eclipse.tigerstripe.workbench.internal.BasePlugin
+Eclipse-BuddyPolicy: registered
+

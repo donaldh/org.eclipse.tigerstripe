@@ -15,16 +15,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
@@ -40,7 +34,6 @@ import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
-import org.osgi.framework.Bundle;
 
 /**
  * Housing for Pluggable plugin
@@ -50,7 +43,7 @@ import org.osgi.framework.Bundle;
  */
 public class PluggablePlugin extends BasePlugin {
 
-	private ClassLoader classLoader;
+	private URLClassLoader classLoader;
 
 	private String path;
 
@@ -308,24 +301,6 @@ public class PluggablePlugin extends BasePlugin {
 					File jarFile = new File(getPProject().getBaseDir(), entry
 							.getRelativePath());
 					urls.add(jarFile.toURL());
-				}
-
-				// All the annotation plugins
-				for (String pluginId : getPProject()
-						.getRequiredAnnotationPlugins()) {
-					Bundle b = Platform.getBundle(pluginId);
-					String location = b.getLocation();
-					int iFile = location.indexOf("reference:file:");
-					String file = location.substring(iFile + 15, location
-							.length());
-					IPath pPath = (new Path(file)).makeAbsolute();
-					URL url = null;
-					if (!"jar".equals(pPath.getFileExtension())) {
-						url = pPath.append("bin").toFile().toURL();
-					} else {
-						url = pPath.toFile().toURL();
-					}
-					urls.add(url);
 				}
 
 				classLoader = new URLClassLoader(urls.toArray(new URL[urls
