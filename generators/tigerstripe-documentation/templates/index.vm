@@ -94,7 +94,7 @@ Interface $s.name is implemented by:
 </ul>
 #end
 #if(${s.getArtifact().ManagedEntityDetails.size()}>0)
-Interface $s.name is exposed by:
+Interface $s.name is exposes:
 <ul>
 #foreach($e in ${s.getArtifact().ManagedEntityDetails})
 #foreach($a in $docUtils.sortByName($castUtils.toModel($allEntities)))
