@@ -36,7 +36,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.annotation.AnnotationUtils;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -45,7 +44,6 @@ import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
 
 /**
  * This is the incremental auditor for a Pluggable Plugin Project.
@@ -329,6 +327,14 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 				if (entry.getEntryKind() != IClasspathEntry.CPE_LIBRARY
 						&& entry.getEntryKind() != IClasspathEntry.CPE_VARIABLE) {
 					newEntryList.add(entry);
+				} else {
+					String entryP = entry.getPath().toOSString();
+					if (entry.getEntryKind() == IClasspathEntry.CPE_VARIABLE
+							&& (ITigerstripeConstants.EXTERNALAPI_LIB
+									.equals(entryP) || ITigerstripeConstants.EQUINOX_COMMON
+									.equals(entryP))) {
+						newEntryList.add(entry);
+					}
 				}
 			}
 		} catch (JavaModelException e) {
