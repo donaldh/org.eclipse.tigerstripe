@@ -11,23 +11,19 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.AnnotationPropertiesSection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * @author Yuri Strot
  *
  */
-public class PropertiesSection extends AbstractPropertySection {
+public class PropertiesSection extends AnnotationPropertiesSection {
 
     private PropertyTree tree;
 	  
@@ -53,38 +49,13 @@ public class PropertiesSection extends AbstractPropertySection {
         
         control.setLayoutData(data);
     }
-    
-    @Override
-    public boolean shouldUseExtraSpace() {
-        return true;
-    }
-    
-    @Override
-    public void setInput(IWorkbenchPart part, ISelection selection) {
-        super.setInput(part, selection);
-        updateView(selection);
-    }
 	
-	protected void updateView() {
-		ISelection selection = AnnotationUIPlugin.getManager().getSelection();
-		if (selection != null)
-			updateView(selection);
-	}
-	
-	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
-		updateView(selection);
-	}
-	
-	protected void updateView(final ISelection selection) {
-		Annotation annotation = getAnnotation(selection);
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.AnnotationPropertiesSection#updateSection(org.eclipse.tigerstripe.annotation.core.Annotation)
+	 */
+	@Override
+	protected void updateSection(Annotation annotation) {
 		tree.setContent(annotation == null ? null : annotation.getContent());
-	}
-	
-	private Annotation getAnnotation(ISelection selection) {
-		if (selection instanceof IStructuredSelection) {
-			return (Annotation )((IStructuredSelection)selection).getFirstElement();
-		}
-		return null;
 	}
 
 }

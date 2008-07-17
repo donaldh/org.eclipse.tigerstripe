@@ -66,6 +66,8 @@ import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.views.properties.tabbed.ISectionDescriptor;
+import org.eclipse.ui.views.properties.tabbed.ITabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
@@ -224,6 +226,20 @@ public class PropertiesBrowserPage
 		listener.getSite().registerContextMenu(menuMgr, viewer);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage#updateTabs(org.eclipse.ui.views.properties.tabbed.ITabDescriptor[])
+	 */
+	@Override
+	protected void updateTabs(ITabDescriptor[] descriptors) {
+		super.updateTabs(descriptors);
+	}
+	
+	protected List<ISectionDescriptor> getDescriptors(ISectionDescriptor descriptor) {
+		ArrayList<ISectionDescriptor> descriptors = new ArrayList<ISectionDescriptor>();
+		descriptors.add(descriptor);
+		return descriptors;
+	}
+	
 	private void fillContentMenu(IMenuManager manager) {
 		String group = IAnnotationActionConstants.ANNOTATION_PROPERTIES_GROUP;
 		manager.add(new GroupMarker(group));
@@ -337,7 +353,7 @@ public class PropertiesBrowserPage
 	private void updatePageSelection() {
 		Annotation annotation = getSelectedAnnotation();
 		if (annotation != null) {
-			super.selectionChanged(part, new StructuredSelection(annotation) {
+			superSelectionChanged(part, new StructuredSelection(annotation) {
 				public boolean equals(Object o) {
 					return false;
 				}
@@ -394,11 +410,11 @@ public class PropertiesBrowserPage
 	}
 	
 	protected void setPageSelection(Annotation annotation) {
-		super.selectionChanged(part, new StructuredSelection(annotation));
+		superSelectionChanged(part, new StructuredSelection(annotation));
 	}
 	
 	protected void setPageEmpty() {
-		super.selectionChanged(part, new StructuredSelection(NULL_ANNOTATION));
+		superSelectionChanged(part, new StructuredSelection(NULL_ANNOTATION));
 	}
 	
 	protected void adapt(int index) {
@@ -438,11 +454,18 @@ public class PropertiesBrowserPage
 				}
 			}
 			else {
-				super.selectionChanged(null, EMPTY_SELECTION);
+				superSelectionChanged(null, EMPTY_SELECTION);
 			}
 			leftPart.setVisible(showPage);
 			composite.layout();
 		}
+	}
+	
+	private void superSelectionChanged(IWorkbenchPart part, ISelection selection) {
+		Annotation annotation = getSelectedAnnotation();
+		if (annotation != null)
+			TabDescriptionManipulator.getInstance().update(annotation);
+		super.selectionChanged(part, selection);
 	}
 	
 	private void updateStatus() {

@@ -88,10 +88,10 @@
 		<propertySections contributorId="org.eclipse.tigerstripe.annotation.ui.properties">
 			<propertySection
 				class="org.eclipse.tigerstripe.annotation.ui.internal.view.property.PropertiesSection"
-				filter="org.eclipse.tigerstripe.annotation.ui.internal.view.property.AnnotationFilter"
+				filter="org.eclipse.tigerstripe.annotation.ui.internal.view.property.DefaultAnnotationFilter"
 				id="property.section.PropertiesPropertySection"
 				tab="property.tab.PropertiesPropertySection">
-			</propertySection>            
+			</propertySection>
 		</propertySections>
 	</extension>
 	
