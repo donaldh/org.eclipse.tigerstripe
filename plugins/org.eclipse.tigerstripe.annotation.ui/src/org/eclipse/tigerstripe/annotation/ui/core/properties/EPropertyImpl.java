@@ -27,13 +27,13 @@ import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
  * @author Yuri Strot
  *
  */
-public class AbstractProperty implements EProperty {
+public class EPropertyImpl implements EProperty {
 	
 	protected EObject object;
 	protected EStructuralFeature feature;
 	protected CellEditor cellEditor;
 	
-	public AbstractProperty(EObject object, EStructuralFeature feature) {
+	public EPropertyImpl(EObject object, EStructuralFeature feature) {
 		this.object = object;
 		this.feature = feature;
 	}

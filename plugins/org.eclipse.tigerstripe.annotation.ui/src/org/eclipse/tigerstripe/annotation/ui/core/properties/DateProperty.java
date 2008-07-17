@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
+import java.util.Date;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.CellEditor;
@@ -21,30 +23,22 @@ import org.eclipse.tigerstripe.annotation.ui.internal.properties.CellEditorFacto
  * @author Yuri Strot
  *
  */
-public class BooleanProperty extends EPropertyImpl {
+public class DateProperty extends EPropertyImpl {
 
 	/**
 	 * @param object
 	 * @param feature
 	 */
-	public BooleanProperty(EObject object, EStructuralFeature feature) {
+	public DateProperty(EObject object, EStructuralFeature feature) {
 		super(object, feature);
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.internal.properties.PrimitiveProperty#getEditor(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.AbstractProperty#createEditor(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
-	public CellEditor createEditor(Composite parent) {
-		return CellEditorFactory.createBooleanCellEditor(parent);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.internal.properties.PrimitiveProperty#setValue(java.lang.Object)
-	 */
-	@Override
-	public void setValue(Object value) {
-		super.setValue(value);
+	protected CellEditor createEditor(Composite parent) {
+		return CellEditorFactory.createDateTimeCellEditor(parent, feature, (Date)getValue());
 	}
 
 }

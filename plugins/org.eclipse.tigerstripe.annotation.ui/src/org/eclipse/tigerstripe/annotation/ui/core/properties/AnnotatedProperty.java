@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author Yuri Strot
  *
  */
-public abstract class AnnotatedProperty extends AbstractProperty {
+public abstract class AnnotatedProperty extends EPropertyImpl {
 	
 	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
 

@@ -29,7 +29,7 @@ public class AnnotatedPropertyProvider implements EPropertyProvider {
 	 */
 	public EProperty getProperty(EObject object, EStructuralFeature feature) {
 		Class<?> clazz = feature.getEType().getInstanceClass();
-		if (clazz != null && clazz.equals(String.class)) {
+		if (!feature.isMany() && clazz != null && clazz.equals(String.class)) {
 			String value = EditorProperty.getValue(feature, EditorProperty.ANNOTATION_EDITOR);
 			if (EditorProperty.isCorrectValue(value))
 				return new EditorProperty(object, feature);

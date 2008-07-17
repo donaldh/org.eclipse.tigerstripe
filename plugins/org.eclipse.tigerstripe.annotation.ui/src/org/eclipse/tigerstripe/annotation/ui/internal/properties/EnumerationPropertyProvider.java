@@ -11,26 +11,36 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
-import org.eclipse.tigerstripe.annotation.ui.core.properties.PrimitiveProperty;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EnumerationProperty;
 
 /**
  * @author Yuri Strot
  *
  */
-public class PrimitivePropertyProvider implements EPropertyProvider {
+public class EnumerationPropertyProvider implements EPropertyProvider {
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		Class<?> clazz = feature.getEType().getInstanceClass();
-		if (!feature.isMany() && clazz != null && (clazz.isPrimitive() || clazz.equals(String.class)))
-			return new PrimitiveProperty(object, feature);
+		if (feature.getEType() instanceof EDataType) {
+			EDataType type = (EDataType)feature.getEType();
+			if (!isEnumerationFacetEmpty(type) || type instanceof EEnum) {
+				return new EnumerationProperty(object, feature);
+			}
+		}
 		return null;
+	}
+	
+	protected boolean isEnumerationFacetEmpty(EDataType type) {
+		return ExtendedMetaData.INSTANCE.getEnumerationFacet(type).isEmpty();
 	}
 
 }

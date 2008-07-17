@@ -28,7 +28,7 @@ public class BooleanPropertyProvider implements EPropertyProvider {
 	 */
 	public EProperty getProperty(EObject object, EStructuralFeature feature) {
 		Class<?> clazz = feature.getEType().getInstanceClass();
-		if (clazz.equals(boolean.class))
+		if (!feature.isMany() && clazz != null && clazz.equals(boolean.class))
 			return new BooleanProperty(object, feature);
 		return null;
 	}

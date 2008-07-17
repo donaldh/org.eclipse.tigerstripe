@@ -11,25 +11,25 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EObjectProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
-import org.eclipse.tigerstripe.annotation.ui.core.properties.PrimitiveProperty;
 
 /**
  * @author Yuri Strot
  *
  */
-public class PrimitivePropertyProvider implements EPropertyProvider {
+public class EObjectPropertyProvider implements EPropertyProvider {
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		Class<?> clazz = feature.getEType().getInstanceClass();
-		if (!feature.isMany() && clazz != null && (clazz.isPrimitive() || clazz.equals(String.class)))
-			return new PrimitiveProperty(object, feature);
+		if (feature.getEType() instanceof EClass && !feature.isMany())
+			return new EObjectProperty(object, feature);
 		return null;
 	}
 

@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author Yuri Strot
  *
  */
-public class PrimitiveProperty extends AbstractProperty {
+public class PrimitiveProperty extends EPropertyImpl {
 
 	/**
 	 * @param object

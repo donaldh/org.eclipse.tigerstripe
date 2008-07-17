@@ -13,8 +13,8 @@ package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.tigerstripe.annotation.ui.core.properties.CompleteProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyImpl;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
 
 /**
@@ -27,7 +27,7 @@ public class GeneralPropertyProvider implements EPropertyProvider {
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		return new CompleteProperty(object, feature);
+		return new EPropertyImpl(object, feature);
 	}
 
 }

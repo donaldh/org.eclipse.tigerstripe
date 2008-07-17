@@ -122,12 +122,23 @@
         class="org.eclipse.tigerstripe.annotation.ui.internal.properties.PrimitivePropertyProvider"
         priority="1"/>
     <provider
+        class="org.eclipse.tigerstripe.annotation.ui.internal.properties.EObjectPropertyProvider"
+        priority="1"/>
+    <provider
+        class="org.eclipse.tigerstripe.annotation.ui.internal.properties.EnumerationPropertyProvider"
+        priority="1"/>
+    <provider
+        class="org.eclipse.tigerstripe.annotation.ui.internal.properties.StringListPropertyProvider"
+        priority="1"/>
+    <provider
         class="org.eclipse.tigerstripe.annotation.ui.internal.properties.BooleanPropertyProvider"
         priority="2"/>
     <provider
         class="org.eclipse.tigerstripe.annotation.ui.internal.properties.AnnotatedPropertyProvider"
         priority="2"/>
-        
+    <provider
+        class="org.eclipse.tigerstripe.annotation.ui.internal.properties.DatePropertyProvider"
+        priority="2"/>
   </extension>
 
 </plugin>

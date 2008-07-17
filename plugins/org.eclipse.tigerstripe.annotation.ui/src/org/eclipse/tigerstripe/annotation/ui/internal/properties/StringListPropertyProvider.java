@@ -11,25 +11,35 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
-import org.eclipse.tigerstripe.annotation.ui.core.properties.PrimitiveProperty;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.StringListProperty;
 
 /**
  * @author Yuri Strot
  *
  */
-public class PrimitivePropertyProvider implements EPropertyProvider {
+public class StringListPropertyProvider implements EPropertyProvider {
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		Class<?> clazz = feature.getEType().getInstanceClass();
-		if (!feature.isMany() && clazz != null && (clazz.isPrimitive() || clazz.equals(String.class)))
-			return new PrimitiveProperty(object, feature);
+		if (feature.isMany()) {
+			EGenericType type = feature.getEGenericType();
+			if (type != null) {
+				EClassifier classifier = type.getERawType();
+				if (classifier != null) {
+					Class<?> clazz = classifier.getInstanceClass();
+					if (clazz != null && clazz.equals(String.class))
+						return new StringListProperty(object, feature);
+				}
+			}
+		}
 		return null;
 	}
 

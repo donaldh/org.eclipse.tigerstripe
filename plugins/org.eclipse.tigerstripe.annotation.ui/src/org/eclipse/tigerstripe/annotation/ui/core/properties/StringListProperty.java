@@ -11,8 +11,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.annotation.ui.internal.properties.CellEditorFactory;
@@ -21,29 +24,32 @@ import org.eclipse.tigerstripe.annotation.ui.internal.properties.CellEditorFacto
  * @author Yuri Strot
  *
  */
-public class BooleanProperty extends EPropertyImpl {
+public class StringListProperty extends EPropertyImpl {
 
 	/**
 	 * @param object
 	 * @param feature
 	 */
-	public BooleanProperty(EObject object, EStructuralFeature feature) {
+	public StringListProperty(EObject object, EStructuralFeature feature) {
 		super(object, feature);
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.internal.properties.PrimitiveProperty#getEditor(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.AbstractProperty#createEditor(org.eclipse.swt.widgets.Composite)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public CellEditor createEditor(Composite parent) {
-		return CellEditorFactory.createBooleanCellEditor(parent);
+	protected CellEditor createEditor(Composite parent) {
+		return CellEditorFactory.createDialogCellEditor(parent, feature, (List<String>)getValue());
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.internal.properties.PrimitiveProperty#setValue(java.lang.Object)
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.AbstractProperty#setValue(java.lang.Object)
 	 */
 	@Override
 	public void setValue(Object value) {
+		if (value instanceof EDataTypeUniqueEList)
+			return;
 		super.setValue(value);
 	}
 
