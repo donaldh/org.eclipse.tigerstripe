@@ -396,6 +396,16 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return Collections.unmodifiableList(annotations);
 	}
 
+	public Object getAnnotation(String annotationSpecificationID) {
+		List<Object> all = getAnnotations(TS_SCHEME);
+		for (Object obj : all) {
+			if (isAnnotationMatch(annotationSpecificationID, obj))
+				return obj;
+		}
+
+		return null;
+	}
+	
 	public Object getAnnotation(String schemeID,
 			String annotationSpecificationID) {
 		List<Object> all = getAnnotations(schemeID);

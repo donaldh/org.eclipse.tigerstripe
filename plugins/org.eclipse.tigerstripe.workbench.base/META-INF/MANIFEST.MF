@@ -324,6 +324,7 @@ Export-Package: org.apache.log4j,
  org.eclipse.tigerstripe.workbench.internal.tools;x-friends:="org.eclipse.tigerstripe.workbench.ui.base,org.eclipse.tigerstripe.workbench.base.test",
  org.eclipse.tigerstripe.workbench.internal.tools.compare,
  org.eclipse.tigerstripe.workbench.model,
+ org.eclipse.tigerstripe.workbench.model.annotation,
  org.eclipse.tigerstripe.workbench.model.deprecated_,
  org.eclipse.tigerstripe.workbench.model.deprecated_.ossj;
   uses:="org.eclipse.tigerstripe.api.external.model,

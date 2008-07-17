@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -25,7 +26,7 @@ public interface IMethod extends IModelComponent {
 	public final static List<IMethod> EMPTY_LIST = new ArrayList<IMethod>();
 
 
-	public interface IArgument extends IStereotypeCapable {
+	public interface IArgument extends IStereotypeCapable, IAnnotationCapable {
 
 		/**
 		 * Returns the IArtifact that is the "container" for the Argument.

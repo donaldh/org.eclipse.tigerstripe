@@ -58,18 +58,6 @@ public interface IStereotypeCapable {
 
 	public void removeStereotypeInstances(Collection<IStereotypeInstance> instances);
 
-	// Annotations API
-	
-	public List<Object> getAnnotations( String schemeID);
-
-	public Object getAnnotation( String schemeID, String annotationSpecificationID );
-
-	public List<Object> getAnnotations( String schemeID, String annotationSpecificationID );
-
-	public boolean hasAnnotations( String schemeID);
-
-	public boolean hasAnnotations( String schemeID, String annotationSpecificationID );
-	
 	/**
 	 * Creates a new annotation and returns the content wrapped in an <code>Annotation</code>
 	 * instance
@@ -79,6 +67,7 @@ public interface IStereotypeCapable {
 	 * @param clazz the class-name of annotation content required
 	 * @return the annotation content wrapped in an <code>Annotation</code> instance
 	 * @throws TigerstripeException
+	 * @deprecated
 	 */
 	public Annotation addAnnotation(String schemeID, String packij, String clazz)
 	    throws TigerstripeException;
@@ -91,6 +80,7 @@ public interface IStereotypeCapable {
 	 * @param clazz the class-name of annotation content required
 	 * @return the annotation content wrapped in an <code>Annotation</code> instance
 	 * @throws TigerstripeException
+	 * @deprecated
 	 */
 	public Annotation addAnnotation(String packij, String clazz)
 	    throws TigerstripeException;
@@ -101,6 +91,7 @@ public interface IStereotypeCapable {
 	 * @param clazz the type of the annotation content to be created as a <code>Class</code>
 	 * @return the annotation content wrapped in an <code>Annotation</code> instance
 	 * @throws TigerstripeException
+	 * @deprecated
 	 */
 	public Annotation addAnnotation(Class<? extends EObject> clazz)
 	    throws TigerstripeException;
@@ -109,6 +100,7 @@ public interface IStereotypeCapable {
 	 * Saves an instance of an <code>Annotation</code>, that is, ensures that any changes
 	 * to the content transmitted to the internal model and are made persistent
 	 * @param annotation the <code>Annotation</code> instance to be saved
+	 * @deprecated
 	 */
 	public void saveAnnotation(Annotation annotation);
 }
