@@ -73,13 +73,14 @@ public class PackageModel implements IArtifactModel{
 	 * 
 	 * @return
 	 */
-	public Collection<AbstractClassModel> getOwnedElements(){
+	public Collection<AbstractClassModel> getOwnedElements(Collection<PackageModel> allArtifacts){
+		PluginLog.logDebug("does it make it here");
 		ArrayList<AbstractClassModel> ownedElements = new ArrayList<AbstractClassModel>();
 		try {
-			ITigerstripeModelProject project = artifact.getTigerstripeProject();
-			IArtifactManagerSession session = project.getArtifactManagerSession();
-			IArtifactQuery query = session.makeQuery(IQueryAllArtifacts.class.getName());
-			Collection allArtifacts = session.queryArtifact(query);
+			//ITigerstripeModelProject project = artifact.getTigerstripeProject();
+			//IArtifactManagerSession session = project.getArtifactManagerSession();
+			//IArtifactQuery query = session.makeQuery(IQueryAllArtifacts.class.getName());
+			//Collection allArtifacts = session.queryArtifact(query);
 			for (Object art : allArtifacts){
 				IAbstractArtifact localArtifact = (IAbstractArtifact) art;
 				if (localArtifact.getPackage().equals(getFullyQualifiedName())){
@@ -92,9 +93,9 @@ public class PackageModel implements IArtifactModel{
 			}
 		} catch (NullPointerException n){
 			PluginLog.logError("Failure to read package artifacts - no project");
-		} catch (TigerstripeException t){
-			PluginLog.logError("Failure to read package artifacts",t);
-		}
+		} //catch (TigerstripeException t){
+		//	PluginLog.logError("Failure to read package artifacts",t);
+		//}
 		return ownedElements;
 
 	}

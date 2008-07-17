@@ -2,8 +2,9 @@
 <ts_plugin version="1.2">
 <project name="tigerstripe-documentation">
 <outputDirectory>target/tigerstripe.gen</outputDirectory>
-<version>3.2</version>
-<description>3.2 Bugzilla 239395&#13;
+<version>3.3</version>
+<description>3.3 Second go at Bugzilla 239395&#13;
+3.2 Bugzilla 239395&#13;
 3.1 First open source version.&#13;
 3.0.2 Entity Services xml parsing&#13;
 3.0.1 Exception thrown on invalid directories (TSPLUG-40)&#13;
@@ -17,7 +18,7 @@
 <property name="outputDir" tipToolText="" type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">tigerstripe-documentation</property>
 </globalProperties>
 <globalRules>
-<rule description="Creates the documenation index page." enabled="true" name="index" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<rule description="Creates the documentation index page." enabled="true" name="index" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
 <contextEntry classname="org.eclipse.tigerstripe.generators.utils.CastUtils" entry="castUtils"/>
 <contextEntry classname="org.apache.commons.lang.StringUtils" entry="stringUtils"/>
 <contextEntry classname="org.apache.commons.lang.StringEscapeUtils" entry="stringEscapeUtils"/>

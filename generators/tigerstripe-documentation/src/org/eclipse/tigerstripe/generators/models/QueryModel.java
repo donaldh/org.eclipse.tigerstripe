@@ -32,8 +32,8 @@ public class QueryModel extends AbstractClassModel {
 	}
 	
 	public String getReturnedType(){
-		if (this.queryArtifact.getReturnedType() != null){
-			AbstractClassModel acm = ModelFactory.getInstance().getModel(this.queryArtifact.getExtendedArtifact());
+		if (this.queryArtifact.getReturnedType() != null ){
+			AbstractClassModel acm = ModelFactory.getInstance().getModel(this.queryArtifact.getReturnedType().getArtifact());
 			acm.setPluginRef(this.getPluginRef());
 			return acm.getFullyQualifiedName();
 		} else {

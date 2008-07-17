@@ -49,7 +49,7 @@ $castUtils.setPluginRef($pluginConfig)##
 <h2><a name="p">Package List</a></h2>
 A description of the segmentation of ${tsProjectHandle.ProjectDetails.Name}.
 <ul>
-#foreach ($p in $docUtils.getRootPackages($managerSession))
+#foreach ($p in $docUtils.getRootPackages($managerSession, $allArtifacts))
 #package($p)
 #end
 </ul>
@@ -99,11 +99,7 @@ Interface $s.name is exposed by:
 #foreach($e in ${s.getArtifact().ManagedEntityDetails})
 #foreach($a in $docUtils.sortByName($castUtils.toModel($allEntities)))
 #if($a.fullyQualifiedName.equals($e.fullyQualifiedName))
-#if($a.project)
     <li>#href($a)#if(${a.operations.size()}>0)has operations#end</li><ul>
-#else
-<li>$a.fullyQualifiedName #if(${a.operations.size()}>0)has operations#end</li><ul>
-#end
 #foreach($o in $a.operations)
         <li>#href($o)</li>
 #end
@@ -120,11 +116,7 @@ Interface $s.name emits:
 #foreach($e in ${s.getArtifact().EmittedEvents})
 #foreach($a in $docUtils.sortByName($castUtils.toModel($allEvents)))
 #if($a.fullyQualifiedName.equals($e.fullyQualifiedName))
-#if($a.project)
     <li>#href($a)</li>
-#else
-<li>$a.fullyQualifiedName </li>
-#end
 #end
 #end
 #end

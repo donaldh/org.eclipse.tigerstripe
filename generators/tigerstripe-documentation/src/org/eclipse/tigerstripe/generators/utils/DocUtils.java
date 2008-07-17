@@ -56,17 +56,18 @@ public class DocUtils
 		return Long.toHexString(h);
 	}
 
-	public static Collection<DocPackage> getRootPackages(IArtifactManagerSession session){
+	public static Collection<DocPackage> getRootPackages(IArtifactManagerSession session, Collection<Object> allArtifacts){
 		Map<String, DocPackage> packageMap = new HashMap<String, DocPackage>();
 		try {
-			IArtifactQuery query = session.makeQuery(IQueryAllArtifacts.class.getName());
-			Collection allArtifacts = session.queryArtifact(query);
+			//IArtifactQuery query = session.makeQuery(IQueryAllArtifacts.class.getName());
+			//Collection allArtifacts = session.queryArtifact(query);
 			// Filter out legacy artifacts
 			for (Object art : allArtifacts){
 				//LegacyFilter filter = new LegacyFilter();
 				IAbstractArtifact localArtifact = (IAbstractArtifact) art;
 				//if (filter.select(localArtifact) && ! localArtifact.getPackage().equals("primitive")){
-				if (localArtifact.getTigerstripeProject() != null && ! localArtifact.getPackage().equals("primitive")){
+				//if (localArtifact.getTigerstripeProject() != null && ! localArtifact.getPackage().equals("primitive")){
+				if (! localArtifact.getPackage().equals("primitive")){
 				String localPackageName = localArtifact.getPackage();
 				DocPackage myPackage;
 				if (! packageMap.containsKey(localPackageName)){

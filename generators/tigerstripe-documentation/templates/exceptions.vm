@@ -10,11 +10,11 @@ $castUtils.setPluginRef($pluginConfig)##
 <html>
 <head>
 <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Complex Types</title>
+<title>Exceptions</title>
 <link rel="stylesheet" type="text/css" href="../css/styles.css">
 </head>
 <body>
-<h1>Complex Types</h1>
+<h1>Exceptions</h1>
 <p class="small">
 <a href="index.html">back to index</a>
 </p>

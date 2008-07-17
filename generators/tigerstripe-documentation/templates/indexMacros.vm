@@ -29,11 +29,7 @@
 #############################################
 #macro(generals $e)
 #if($e.generalization)
-#if($e.generalization.project)
 ... #href($e.generalization)
-#else
-... $e.generalization.fullyQualifiedName
-#end
 #generals($e.generalization)
 #end
 #end

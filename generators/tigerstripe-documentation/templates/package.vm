@@ -19,7 +19,7 @@
 #set($upd = [])
 #set($not = [])
 #set ($all = [] )
-#foreach($el in $package.ownedElements)
+#foreach($el in $package.getOwnedElements($allArtifacts))
 #if ( $el.association)
 #set ( $t = $assocs.add($el))
 #set ( $t = $all.add($el))

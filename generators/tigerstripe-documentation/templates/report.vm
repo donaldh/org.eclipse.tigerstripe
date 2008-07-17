@@ -127,7 +127,7 @@ $comma $t
 #####################################
 #macro (spitType $el)
 #set ($tp1 = $el.Type)
-#if($tp1.isArtifact() && ${tp1.getArtifact().getTigerstripeProject()})
+#if(${tp1.isArtifact()})
 #if ($tp1.enum)
 <a href="enumerations.html#${tp1.name}">
 $tp1.name	</a>
