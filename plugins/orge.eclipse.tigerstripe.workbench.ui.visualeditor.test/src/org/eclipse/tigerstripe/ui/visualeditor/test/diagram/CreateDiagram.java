@@ -4,11 +4,13 @@ package org.eclipse.tigerstripe.ui.visualeditor.test.diagram;
 
 import java.util.ArrayList;
 
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorFactory;
 import org.eclipse.tigerstripe.ui.visualeditor.test.suite.DiagramConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ProjectHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
+import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.gef.locator.FigureClassLocator;
@@ -20,6 +22,7 @@ import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
 import com.windowtester.runtime.swt.locator.CTabItemLocator;
+import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
@@ -60,15 +63,16 @@ public class CreateDiagram extends UITestCaseSWT {
 		ui.enterText(TestingConstants.ENTITY_NAMES[2]);
 		artifacts.add(TestingConstants.ENTITY_NAMES[2]);
 		
+		
+		ui.click(new PaletteItemLocator("Artifacts/Enumeration"));
+		ui.click(new XYLocator(new DiagramEditPart$1Locator(),-200,-100));
+		ui.enterText(TestingConstants.ENUMERATION_NAMES[2]);
+		artifacts.add(TestingConstants.ENUMERATION_NAMES[2]);
+		
 		ui.click(new PaletteItemLocator("Artifacts/Datatype"));
 		ui.click(new XYLocator(new DiagramEditPart$1Locator(),-200,0));
 		ui.enterText(TestingConstants.DATATYPE_NAMES[2]);
 		artifacts.add(TestingConstants.DATATYPE_NAMES[2]);
-		
-		ui.click(new PaletteItemLocator("Artifacts/Enumeration"));
-		ui.click(new XYLocator(new DiagramEditPart$1Locator(),0,0));
-		ui.enterText(TestingConstants.ENUMERATION_NAMES[2]);
-		artifacts.add(TestingConstants.ENUMERATION_NAMES[2]);
 		
 		ui.click(new PaletteItemLocator("Artifacts/Query"));
 		ui.click(new XYLocator(new DiagramEditPart$1Locator(),200,0));
@@ -104,8 +108,14 @@ public class CreateDiagram extends UITestCaseSWT {
 		ui.click(new CTabItemLocator("*"+DiagramConstants.CREATE_DIAGRAM+".wvd"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		
+		// basic add on diagram
 		createAndCheckComponents(ui, TestingConstants.ENTITY_NAMES[2]);
 		createAndCheckLiterals(ui, TestingConstants.ENUMERATION_NAMES[2]);
+		
+		
+		editorCreateAttribute(ui, TestingConstants.ENTITY_NAMES[2], DiagramConstants.ATTRIBUTE_NAMES[0]);
+		editorCreateLiteral(ui, TestingConstants.ENUMERATION_NAMES[2], DiagramConstants.LITERAL_NAMES[0]);
+		editorCreateMethod(ui, TestingConstants.ENTITY_NAMES[2], DiagramConstants.METHOD_NAMES[0]);
 		
 		// Close it
 		ui.close(new CTabItemLocator(DiagramConstants.CREATE_DIAGRAM+".wvd"));
@@ -163,16 +173,78 @@ public class CreateDiagram extends UITestCaseSWT {
 	 * Add stuff in the editor and make sure it gets to the diagram.
 	 * 
 	 * @param ui
-	 * @param datatypeName
+	 * @param entityName
 	 */
-	private void editorCreateComponents(IUIContext ui, String datatypeName) throws Exception {
-		ArrayList<String> items = new ArrayList<String>(); 
-		items.add(ArtifactHelper.newAttribute(ui, datatypeName, TestingConstants.ATTRIBUTE_NAMES[1]));
-		IWidgetLocator datatype = LocatorFactory.getInstance().getEnumerationLocator(ui,datatypeName);
+	private void editorCreateAttribute(IUIContext ui, String entityName, String attributeName) throws Exception {
+		ArrayList<String> items = new ArrayList<String>();
 		
-		//TODO FInd the Attrubute Compartment for the Datatype, and get the contents!
+		IWidgetLocator entity = LocatorFactory.getInstance().getManagedEntityLocator(ui, entityName);
+
+		ui.contextClick(entity, "Open in Editor");
+		GuiUtils.maxminTab(ui, entityName);
+		SWTWidgetLocator attributesSection = new SWTWidgetLocator(Label.class, "&Attributes");
+		ui.click(attributesSection);
+		items.add(ArtifactHelper.newAttribute(ui, entityName, attributeName));
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		
-		
+		ui.click(new CTabItemLocator("*"+DiagramConstants.CREATE_DIAGRAM+".wvd"));
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		String attributeText = LocatorFactory.getInstance().getFieldString(ui,entityName,attributeName);
+		assertNotNull("Did not find attribute on diagram.", attributeText);
+		ui.close(new CTabItemLocator(entityName));
 		
 	}
+	
+	/**
+	 * Add stuff in the editor and make sure it gets to the diagram.
+	 * 
+	 * @param ui
+	 * @param enumName
+	 */
+	private void editorCreateLiteral(IUIContext ui, String enumName, String literalName) throws Exception {
+		ArrayList<String> items = new ArrayList<String>();
+		
+		IWidgetLocator entity = LocatorFactory.getInstance().getEnumerationLocator(ui, enumName);
+
+		ui.contextClick(entity, "Open in Editor");
+		GuiUtils.maxminTab(ui, enumName);
+		SWTWidgetLocator attributesSection = new SWTWidgetLocator(Label.class, "Constants");
+		ui.click(attributesSection);
+		items.add(ArtifactHelper.newLiteral(ui, enumName, literalName));
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		
+		ui.click(new CTabItemLocator("*"+DiagramConstants.CREATE_DIAGRAM+".wvd"));
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		String literalText = LocatorFactory.getInstance().getLiteralString(ui,enumName,literalName);
+		assertNotNull("Did not find literal on diagram.", literalText);
+		ui.close(new CTabItemLocator(enumName));
+	}
+	
+	/**
+	 * Add stuff in the editor and make sure it gets to the diagram.
+	 * 
+	 * @param ui
+	 * @param enumName
+	 */
+	private void editorCreateMethod(IUIContext ui, String entityName, String methodName) throws Exception {
+		ArrayList<String> items = new ArrayList<String>();
+		
+		IWidgetLocator entity = LocatorFactory.getInstance().getManagedEntityLocator(ui, entityName);
+
+		ui.contextClick(entity, "Open in Editor");
+		GuiUtils.maxminTab(ui, entityName);
+		// Note this is Attributes to close the default open section!
+		SWTWidgetLocator attributesSection = new SWTWidgetLocator(Label.class, "&Attributes");
+		ui.click(attributesSection);
+		items.add(ArtifactHelper.newMethod(ui, entityName, methodName));
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		
+		ui.click(new CTabItemLocator("*"+DiagramConstants.CREATE_DIAGRAM+".wvd"));
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		String attributeText = LocatorFactory.getInstance().getMethodString(ui,entityName,methodName);
+		assertNotNull("Did not find method on diagram.", attributeText);
+		ui.close(new CTabItemLocator(entityName));
+	}
+	
+	
 }

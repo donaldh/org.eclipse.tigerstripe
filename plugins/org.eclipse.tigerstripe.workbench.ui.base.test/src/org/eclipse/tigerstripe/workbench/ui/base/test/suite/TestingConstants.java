@@ -17,7 +17,7 @@ public class TestingConstants {
 	public static String[] QUERY_NAMES        = new String[]{"Query0", "Query1", "Query2"};
 	public static String[] EXCEPTION_NAMES    = new String[]{"Exception0", "Exception1", "Exception2"};
 	public static String[] EVENT_NAMES        = new String[]{"Event0", "Event1", "Event2"};
-	public static String[] UPDATE_NAMES       = new String[]{"Update0", "Update1", "Update1"};
+	public static String[] UPDATE_NAMES       = new String[]{"Update0", "Update1", "Update2"};
 	public static String[] SESSION_NAMES      = new String[]{"Session0", "Session1", "Session2"};
 	
 	public static String[] ASSOCIATION_NAMES  = new String[]{"Association0", "Association1", "Association2"};
