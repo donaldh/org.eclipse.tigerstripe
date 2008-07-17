@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.profile.stereotype;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
