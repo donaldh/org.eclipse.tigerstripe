@@ -303,8 +303,10 @@ public class PropertiesBrowserPage
 	
 	private Annotation getSelectedAnnotation() {
 		int index = viewer.getList().getSelectionIndex();
-		if (index >= 0 && index < currentSelection.length)
-			return currentSelection[index];
+		if (currentSelection != null) {
+			if (index >= 0 && index < currentSelection.length)
+				return currentSelection[index];
+		}
 		return null;
 	}
 	
