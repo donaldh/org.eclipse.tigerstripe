@@ -111,7 +111,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		border.setLayout(layout);
 		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL
 				| GridData.GRAB_VERTICAL);
-		gd.widthHint = 150;
+		gd.widthHint = 400;
 		border.setLayoutData(gd);
 
 		// we need to go thru the list of defined attributes for the stereotype

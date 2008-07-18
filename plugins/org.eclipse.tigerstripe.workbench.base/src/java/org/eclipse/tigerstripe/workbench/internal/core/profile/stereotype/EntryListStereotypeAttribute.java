@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.dom4j.Element;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IEntryListStereotypeAttribute;
@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute
 public class EntryListStereotypeAttribute extends BaseStereotypeAttribute
 		implements IEntryListStereotypeAttribute {
 
-	private List<String> entries = new ArrayList<String>();
+	private SortedSet<String> entries = new TreeSet<String>();
 
 	public EntryListStereotypeAttribute() {
 		super(IStereotypeAttribute.ENTRY_LIST_KIND);
