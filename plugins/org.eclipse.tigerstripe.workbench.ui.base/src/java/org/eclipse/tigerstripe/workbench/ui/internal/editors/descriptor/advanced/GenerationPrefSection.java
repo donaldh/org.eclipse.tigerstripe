@@ -62,6 +62,8 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	private Button generateContainedModules;
 
 	private Button generateRefProjects;
+	
+	private Button overrideSubProjectSettings;
 
 	private Button ignoreFacets;
 
@@ -423,6 +425,34 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 				}
 			}
 		});
+		
+		overrideSubProjectSettings = toolkit.createButton(parent,
+				"Override sub project plugin settings", SWT.CHECK);
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gd.horizontalSpan = 8;
+		overrideSubProjectSettings.setLayoutData(gd);
+		overrideSubProjectSettings.setEnabled(!this.isReadonly());
+		overrideSubProjectSettings.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+
+			public void widgetSelected(SelectionEvent e) {
+				if (!isSilentUpdate()) {
+					try {
+						IProjectDetails projectDetails = getTSProject()
+								.getProjectDetails();
+						projectDetails.getProperties().put(
+								IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS,
+								Boolean.toString(overrideSubProjectSettings
+										.getSelection()));
+						getTSProject().setProjectDetails(projectDetails);
+						markPageModified();
+					} catch (TigerstripeException ee) {
+						EclipsePlugin.log(ee);
+					}
+				}
+			}
+		});
 
 		processUseCases = toolkit.createButton(parent, "Process Use Cases",
 				SWT.CHECK);
@@ -687,6 +717,12 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 					.getProjectDetails().getProperty(
 							IProjectDetails.GENERATE_REFPROJECTS,
 							IProjectDetails.GENERATE_REFPROJECTS_DEFAULT)));
+			overrideSubProjectSettings
+				.setEnabled(handle.getReferencedProjects().length != 0);
+			overrideSubProjectSettings.setSelection("true".equalsIgnoreCase(handle
+					.getProjectDetails().getProperty(
+							IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS,
+							IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS_DEFAULT)));
 			processUseCases.setSelection("true".equalsIgnoreCase(handle
 					.getProjectDetails().getProperty(
 							IProjectDetails.PROCESS_USECASES,

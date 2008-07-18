@@ -44,6 +44,10 @@ public interface IProjectDetails  {
 	/* whether to generate referenced projects if any */
 	public final static String GENERATE_REFPROJECTS = "generateRefProjects";
 	public final static String GENERATE_REFPROJECTS_DEFAULT = "false";
+	
+	/* whether to override plugin settings for referenced projects and included modules */
+	public final static String OVERRIDE_SUBPROJECT_SETTINGS = "overrideSubProjectSettings";
+	public final static String OVERRIDE_SUBPROJECT_SETTINGS_DEFAULT = "true";
 
 	/* whether to merge all selected facets in one for a run */
 	public final static String MERGE_FACETS = "mergeFacets";

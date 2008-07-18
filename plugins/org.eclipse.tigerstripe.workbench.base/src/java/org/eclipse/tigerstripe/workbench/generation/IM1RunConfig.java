@@ -51,5 +51,10 @@ public interface IM1RunConfig {
 	public abstract boolean isGenerateRefProjects();
 
 	public abstract void setGenerateRefProjects(boolean generateRefProjects);
+	
+	public abstract boolean isOverrideSubprojectSettings();
+
+	public abstract void setOverrideSubprojectSettings(boolean overrideSubprojectSettings);
+	
 
 }

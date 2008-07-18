@@ -30,6 +30,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -62,6 +64,9 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * 
  */
 public class M1Generator {
+	
+	// number of ticks for each unit of work.
+	static private int WORK_UNIT = 30;
 
 	private ITigerstripeModelProject project = null;
 
@@ -101,6 +106,9 @@ public class M1Generator {
 		config.setGenerateRefProjects("true".equalsIgnoreCase(details
 				.getProperty(IProjectDetails.GENERATE_REFPROJECTS,
 						IProjectDetails.GENERATE_REFPROJECTS_DEFAULT)));
+		config.setOverrideSubprojectSettings("true".equalsIgnoreCase(details
+				.getProperty(IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS,
+						IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS)));
 		config.setProcessUseCases("true".equalsIgnoreCase(details.getProperty(
 				IProjectDetails.PROCESS_USECASES,
 				IProjectDetails.PROCESS_USECASES_DEFAULT)));
@@ -135,7 +143,27 @@ public class M1Generator {
 		List<PluginRunStatus> overallResult = new ArrayList<PluginRunStatus>();
 
 		try {
-			monitor.beginTask("Generating project", IProgressMonitor.UNKNOWN);
+			// work out progress count .. (Bugzilla 241405)
+			int workCount = 
+				// for setup...
+				WORK_UNIT+
+				// allocate 30 ticks for each plugin run against this project.
+				config.getPluginConfigs().length*WORK_UNIT + 
+				// allocate 40 ticks for each dependent project.
+				project.getDependencies().length*WORK_UNIT +
+				// for pre generation work
+				WORK_UNIT +
+				// allocate 40 ticks for each referenced project.
+				project.getReferencedProjects().length*WORK_UNIT +
+				// and another for stuff in internal run
+				WORK_UNIT+
+				// for post generation work
+				WORK_UNIT;
+			
+
+			
+			monitor.beginTask("Generating project", workCount);
+			monitor.subTask("Setup");
 			refreshAndSetupForGeneration();
 
 			if (project == null)
@@ -173,7 +201,8 @@ public class M1Generator {
 					}
 				}
 			}
-
+			monitor.worked(WORK_UNIT);
+			
 			// First look at the modules to be generated.
 			if (config.isGenerateModules()) {
 				PluginRunStatus[] subResult = generateModules(monitor);
@@ -185,32 +214,35 @@ public class M1Generator {
 				overallResult.addAll(Arrays.asList(subResult));
 			}
 
+			SubProgressMonitor preWork = new SubProgressMonitor(monitor,WORK_UNIT);
+			SubProgressMonitor postWork = new SubProgressMonitor(monitor,WORK_UNIT);
 			// Iterate over all facets unless specified
 			if (config.isIgnoreFacets()) {
+				preWork.beginTask("Preparing for generation", 1);
 				IFacetReference currentFacet = project.getActiveFacet();
-
 				if (currentFacet != null) {
-					monitor.beginTask("Resetting facets",
-							IProgressMonitor.UNKNOWN);
+					
+					preWork.subTask("Resetting facets");
 					project.resetActiveFacet();
-					monitor.done();
 				}
+				preWork.done();
 				PluginRunStatus[] subResult = internalRun(monitor, config);
 				overallResult.addAll(Arrays.asList(subResult));
-
+				
+				postWork.beginTask("Finishing generation", 10);
 				// Use case processing
 				if (config.isProcessUseCases()) {
 					overallResult.addAll(Arrays.asList(processor.run()));
 				}
-
+				postWork.worked(1);
 				if (currentFacet != null) {
-					monitor.beginTask("Reverting to active facet ("
-							+ currentFacet.resolve().getName() + ")",
-							IProgressMonitor.UNKNOWN);
-					project.setActiveFacet(currentFacet, monitor);
-					monitor.done();
+					postWork.subTask("Reverting to active facet ("
+							+ currentFacet.resolve().getName() + ")");
+					project.setActiveFacet(currentFacet, postWork);
 				}
+				postWork.done();
 			} else if (config.isUseCurrentFacet()) {
+				preWork.beginTask("Preparing for generation", 10);
 
 				IFacetReference facetRef = project.getActiveFacet();
 
@@ -218,8 +250,8 @@ public class M1Generator {
 				// In this case we need to reset the active
 				if (facetRef.needsToBeEvaluated()) {
 					project.resetActiveFacet();
-					facetRef.computeFacetPredicate(monitor);
-					project.setActiveFacet(facetRef, monitor);
+					facetRef.computeFacetPredicate(preWork);
+					project.setActiveFacet(facetRef, preWork);
 				}
 
 				if (facetRef.getFacetPredicate() != null
@@ -235,17 +267,20 @@ public class M1Generator {
 					}
 					overallResult.add(res);
 				}
-
+				preWork.done();
+				
 				PluginRunStatus[] subResult = internalRun(monitor, config);
+				postWork.beginTask("Preparing for generation", 10);
 				overallResult.addAll(Arrays.asList(subResult));
 
 				// Use case processing
 				if (config.isProcessUseCases()) {
 					overallResult.addAll(Arrays.asList(processor.run()));
 				}
+				postWork.done();
 			} else if (config.isUseProjectFacets()) {
-
 				if (project.getFacetReferences().length == 0) {
+					preWork.done();
 					// no Facet defined simply run plugins.
 					PluginRunStatus[] subResult = internalRun(monitor, config);
 					overallResult.addAll(Arrays.asList(subResult));
@@ -254,14 +289,17 @@ public class M1Generator {
 					if (config.isProcessUseCases()) {
 						overallResult.addAll(Arrays.asList(processor.run()));
 					}
+					postWork.done();
 				} else {
 
 					IFacetReference currentFacet = project.getActiveFacet();
 					if (config.isMergeFacets()) {
+						preWork.beginTask("Preparing for generation", 10);
 						PluginRunStatus[] facetResult = new PluginRunStatus[0];
 						IFacetReference mergedFacet = new MultiFacetReference(
 								project.getFacetReferences(), project);
-						project.setActiveFacet(mergedFacet, monitor);
+						project.setActiveFacet(mergedFacet, preWork);
+						preWork.done();
 						facetResult = internalRun(monitor, config);
 						overallResult.addAll(Arrays.asList(facetResult));
 
@@ -270,18 +308,19 @@ public class M1Generator {
 							overallResult
 									.addAll(Arrays.asList(processor.run()));
 						}
-
 					} else {
+						preWork.beginTask("Preparing for generation", project.getFacetReferences().length*WORK_UNIT);
 						// Now iterate over facets if any
 						for (IFacetReference facetRef : project
 								.getFacetReferences()) {
 
 							PluginRunStatus[] facetResult = new PluginRunStatus[0];
 							if (facetRef.canResolve()) {
-								monitor.beginTask("Setting active facet to: "
+								SubProgressMonitor fProgress = new SubProgressMonitor(preWork,WORK_UNIT);
+								fProgress.beginTask("Setting active facet to: "
 										+ facetRef.resolve().getName(),
 										IProgressMonitor.UNKNOWN);
-								project.setActiveFacet(facetRef, monitor);
+								project.setActiveFacet(facetRef, fProgress);
 								if (facetRef.getFacetPredicate() != null
 										&& !facetRef.getFacetPredicate()
 												.isConsistent()) {
@@ -298,7 +337,7 @@ public class M1Generator {
 									}
 									overallResult.add(res);
 								}
-								monitor.done();
+								fProgress.done();
 							}
 
 							facetResult = internalRun(monitor, config);
@@ -309,31 +348,29 @@ public class M1Generator {
 								overallResult.addAll(Arrays.asList(processor
 										.run()));
 							}
-
 						}
 					}
 					if (currentFacet != null) {
-						monitor.beginTask("Reverting to active facet ("
+						postWork.beginTask("Reverting to active facet ("
 								+ currentFacet.resolve().getName() + ")",
 								IProgressMonitor.UNKNOWN);
-						project.setActiveFacet(currentFacet, monitor);
-						monitor.done();
+						project.setActiveFacet(currentFacet, postWork);
+						postWork.done();
 					} else {
-						monitor.beginTask("Restoring initial state",
+						postWork.beginTask("Restoring initial state",
 								IProgressMonitor.UNKNOWN);
 						project.resetActiveFacet();
-						monitor.done();
+						postWork.done();
 					}
 				}
 			} else if (config.isUsePluginConfigFacets()) {
+				preWork.beginTask("Preparing for generation", WORK_UNIT);
 				IFacetReference currentFacet = project.getActiveFacet();
 
 				if (currentFacet != null) {
-					monitor.beginTask("Resetting facets",
-							IProgressMonitor.UNKNOWN);
 					project.resetActiveFacet();
-					monitor.done();
 				}
+				preWork.done();
 				PluginRunStatus[] subResult = internalRun(monitor, config);
 				overallResult.addAll(Arrays.asList(subResult));
 
@@ -341,19 +378,18 @@ public class M1Generator {
 				if (config.isProcessUseCases()) {
 					overallResult.addAll(Arrays.asList(processor.run()));
 				}
-
+				postWork.beginTask("Finishing generation", IProgressMonitor.UNKNOWN);
 				if (currentFacet != null) {
-					monitor.beginTask("Reverting to active facet ("
-							+ currentFacet.resolve().getName() + ")",
-							IProgressMonitor.UNKNOWN);
-					project.setActiveFacet(currentFacet, monitor);
-					monitor.done();
+					project.setActiveFacet(currentFacet, postWork);
 				}
+				postWork.done();
 
 			} else {
+				preWork.done();
 				// this is the case where there is no Facet whatsoever
 				PluginRunStatus[] subResult = internalRun(monitor, config);
 				overallResult.addAll(Arrays.asList(subResult));
+				postWork.done();
 			}
 
 			return overallResult.toArray(new PluginRunStatus[overallResult
@@ -409,12 +445,10 @@ public class M1Generator {
 		List<PluginRunStatus> result = new ArrayList<PluginRunStatus>();
 		IFacetReference facetToRestore = null;
 		boolean shouldRestoreFacet = false;
+		SubProgressMonitor irProgress = new SubProgressMonitor(monitor,WORK_UNIT);
 
 		try {
 			Collection<PluginReport> reports = new ArrayList<PluginReport>();
-
-			monitor.worked(3);
-			monitor.setTaskName("Refreshing project");
 
 			IPluginConfig[] plugins = config.getPluginConfigs();
 			boolean isFirstRef = true;
@@ -422,6 +456,8 @@ public class M1Generator {
 
 			// First run all validation plugins if any
 			for (IPluginConfig iRef : plugins) {
+				SubProgressMonitor pProgress = new SubProgressMonitor(monitor,WORK_UNIT);
+				pProgress.beginTask("Generating "+iRef.getPluginId(), IProgressMonitor.UNKNOWN);
 
 				PluginConfig ref = (PluginConfig) iRef;
 				try {
@@ -449,7 +485,7 @@ public class M1Generator {
 
 				if (shouldRestoreFacet) {
 					if (facetToRestore != null)
-						project.setActiveFacet(facetToRestore, monitor);
+						project.setActiveFacet(facetToRestore, pProgress);
 					else
 						project.resetActiveFacet();
 					shouldRestoreFacet = false;
@@ -472,7 +508,7 @@ public class M1Generator {
 						IFacetReference facetRef = ref.getFacetReference();
 						if (facetRef.canResolve()) {
 							facetToRestore = project.getActiveFacet();
-							project.setActiveFacet(facetRef, monitor);
+							project.setActiveFacet(facetRef, pProgress);
 							shouldRestoreFacet = true;
 						} else {
 							PluginRunStatus res = new PluginRunStatus(ref,
@@ -489,7 +525,7 @@ public class M1Generator {
 					}
 
 					ref.resetFailState();
-					internalPluginLoop(ref, result, reports, monitor);
+					internalPluginLoop(ref, result, reports, pProgress);
 					if (ref.validationFailed()) {
 						validationFailed = true;
 						PluginRunStatus res = new PluginRunStatus(ref, project,
@@ -508,7 +544,10 @@ public class M1Generator {
 						result.add(res);
 					}
 				}
+				pProgress.done();
 			}
+
+			irProgress.beginTask("Cleanup", IProgressMonitor.UNKNOWN);
 
 			if (!validationFailed) {
 				for (IPluginConfig iRef : plugins) {
@@ -529,7 +568,7 @@ public class M1Generator {
 
 					if (shouldRestoreFacet) {
 						if (facetToRestore != null)
-							project.setActiveFacet(facetToRestore, monitor);
+							project.setActiveFacet(facetToRestore, irProgress);
 						else
 							project.resetActiveFacet();
 						shouldRestoreFacet = false;
@@ -551,7 +590,7 @@ public class M1Generator {
 							IFacetReference facetRef = ref.getFacetReference();
 							if (facetRef.canResolve()) {
 								facetToRestore = project.getActiveFacet();
-								project.setActiveFacet(facetRef, monitor);
+								project.setActiveFacet(facetRef, irProgress);
 								shouldRestoreFacet = true;
 							} else {
 								PluginRunStatus res = new PluginRunStatus(ref,
@@ -570,12 +609,12 @@ public class M1Generator {
 								continue;
 							}
 						}
-						internalPluginLoop(ref, result, reports, monitor);
+						internalPluginLoop(ref, result, reports, irProgress);
 					}
 				}
 			}
 
-			generateRunReport(reports, monitor);
+			generateRunReport(reports, irProgress);
 
 		} finally {
 			// ((ArtifactManagerSessionImpl)
@@ -593,11 +632,12 @@ public class M1Generator {
 
 			if (shouldRestoreFacet) {
 				if (facetToRestore != null)
-					project.setActiveFacet(facetToRestore, monitor);
+					project.setActiveFacet(facetToRestore, irProgress);
 				else
 					project.resetActiveFacet();
 			}
 		}
+		irProgress.done();
 
 		return result.toArray(new PluginRunStatus[result.size()]);
 	}
@@ -807,10 +847,24 @@ public class M1Generator {
 		ITigerstripeModelProject[] refProjects = project
 				.getReferencedProjects();
 
-		monitor.beginTask("Generating Referenced Projects", refProjects.length);
+		SubProgressMonitor subMonitor = new SubProgressMonitor(monitor,refProjects.length*WORK_UNIT);
+		subMonitor.beginTask("Generating Referenced Projects", refProjects.length);
+
 		for (ITigerstripeModelProject refProject : refProjects) {
 
 			M1RunConfig refConfig = new M1RunConfig(refProject);
+			if (config.isOverrideSubprojectSettings()) {
+				IPluginConfig[] theConfigs = config.getPluginConfigs();
+				List<IPluginConfig> newConfigs = new ArrayList<IPluginConfig>();
+				for (IPluginConfig pc : theConfigs){
+					IPluginConfig pcCopy = pc.clone();
+					pcCopy.setProjectHandle(refProject);
+					newConfigs.add(pcCopy);
+				}
+				refConfig.setPluginConfigs(newConfigs.toArray(theConfigs));
+				refConfig.setGenerateModules(false);
+				refConfig.setGenerateRefProjects(false);
+			}
 			String absDir = project.getLocation().toOSString() + File.separator
 					+ project.getProjectDetails().getOutputDirectory()
 					+ File.separator + refProject.getProjectLabel();
@@ -821,10 +875,10 @@ public class M1Generator {
 				res.setContext("Referenced Project");
 			}
 			overallResult.addAll(Arrays.asList(subResult));
-			monitor.worked(1);
+			subMonitor.worked(1);
 		}
 
-		monitor.done();
+		subMonitor.done();
 		return overallResult.toArray(new PluginRunStatus[overallResult
 		                             					.size()]);
 	}
@@ -836,7 +890,8 @@ public class M1Generator {
 		PluginRunStatus[] result = new PluginRunStatus[0];
 		IDependency[] dependencies = project.getDependencies();
 
-		monitor.beginTask("Generating Dependencies", dependencies.length);
+		SubProgressMonitor subMonitor = new SubProgressMonitor(monitor,dependencies.length*WORK_UNIT);
+		subMonitor.beginTask("Generating Dependencies",dependencies.length);
 
 		// for each dependency we create an ITigerstripeProjectModule to which
 		// we had
@@ -862,6 +917,17 @@ public class M1Generator {
 			// deps are taken into
 			// account
 			M1RunConfig myConfig = new M1RunConfig();
+			if (config.isOverrideSubprojectSettings()) {
+				IPluginConfig[] theConfigs = config.getPluginConfigs();
+				List<IPluginConfig> newConfigs = new ArrayList<IPluginConfig>();
+				for (IPluginConfig pc : theConfigs){
+					IPluginConfig pcCopy = pc.clone();
+					pcCopy.setProjectHandle(modProj);
+					newConfigs.add(pcCopy);
+				}
+				myConfig.setPluginConfigs(newConfigs.toArray(theConfigs));
+
+			}
 			myConfig.setGenerateModules(false);
 			myConfig.setUseCurrentFacet(false);
 			myConfig.setIgnoreFacets(true);
@@ -875,10 +941,9 @@ public class M1Generator {
 			// module
 			// is clean
 			index++;
-			monitor.worked(1);
+			subMonitor.worked(1);
 		}
-
-		monitor.done();
+		subMonitor.done();
 		return result;
 	}
 }

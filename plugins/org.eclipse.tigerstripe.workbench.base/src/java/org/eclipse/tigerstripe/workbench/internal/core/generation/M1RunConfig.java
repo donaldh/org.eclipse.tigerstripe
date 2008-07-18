@@ -35,6 +35,9 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	private boolean generateModules = "true"
 			.equalsIgnoreCase(IProjectDetails.GENERATE_MODULES_DEFAULT);
 
+	private boolean overrideSubprojectSettings = "true"
+		.equalsIgnoreCase(IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS_DEFAULT);
+	
 	private boolean useCurrentFacet = false;
 
 	private boolean useProjectFacets = false;
@@ -113,7 +116,7 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 		this.processUseCaseExtension = processUseCaseExtension;
 	}
 
-	/* package */M1RunConfig(ITigerstripeModelProject tsProject) {
+	M1RunConfig(ITigerstripeModelProject tsProject) {
 		super(tsProject);
 		if (tsProject != null) {
 			try {
@@ -331,5 +334,14 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 				BasePlugin.log(e);
 			}
 		}
+	}
+
+	public boolean isOverrideSubprojectSettings() {
+		return this.overrideSubprojectSettings;
+	}
+
+	public void setOverrideSubprojectSettings(boolean overrideSubprojectSettings) {
+		this.overrideSubprojectSettings = overrideSubprojectSettings;
+		
 	}
 }
