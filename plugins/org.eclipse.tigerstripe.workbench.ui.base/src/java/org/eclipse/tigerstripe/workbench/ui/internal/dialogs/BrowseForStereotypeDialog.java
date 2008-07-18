@@ -12,6 +12,9 @@ package org.eclipse.tigerstripe.workbench.ui.internal.dialogs;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
@@ -27,7 +30,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 /**
  * @author Eric Dillon
  * 
- * A bunch of convience methods related to Entity Artifacts
+ *         A bunch of convience methods related to Entity Artifacts
  * 
  */
 public class BrowseForStereotypeDialog {
@@ -58,7 +61,7 @@ public class BrowseForStereotypeDialog {
 	 */
 	public BrowseForStereotypeDialog(IStereotypeCapable component,
 			Collection<IStereotypeInstance> existingInstances) {
-		this.existingInstances =  existingInstances;
+		this.existingInstances = existingInstances;
 		this.component = component;
 	}
 
@@ -102,9 +105,9 @@ public class BrowseForStereotypeDialog {
 	 */
 	private Object[] getAvailableStereotypesList() throws TigerstripeException {
 
-		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
-				.getActiveProfile();
-		Collection<IStereotype> stereotypes = new ArrayList<IStereotype>();
+		IWorkbenchProfile profile = TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile();
+		List<IStereotype> stereotypes = new ArrayList<IStereotype>();
 
 		if (component != null) {
 			stereotypes.addAll(profile
@@ -122,6 +125,14 @@ public class BrowseForStereotypeDialog {
 				stereotypes.remove(st);
 			}
 		}
+
+		Collections.sort(stereotypes, new Comparator<IStereotype>() {
+
+			public int compare(IStereotype o1, IStereotype o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+
+		});
 
 		return stereotypes.toArray();
 	}
