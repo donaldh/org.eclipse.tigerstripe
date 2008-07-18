@@ -166,9 +166,9 @@ h3 {
 <p>In an <b>Artifact Rule</b>, this is set to the current artifact. That is on each iteration of the rule over a different artifact in the <b>Tigerstripe</b> project, this will have a different value. If a specific artifact type was selected in the rule (the <i>AnyArtifact</i> option is not been selected), the actual artifact will be of that type (<i>IextManagedEntityArtifact</i>) and the object can be cast to the precise type for access to the specifics of that artifact type.</p>
 
 
-<p><b>$pluginRef</b> (IextPluginReference)</p>
+<p><b>$pluginConfig</b> (IPluginConfig)</p>
 
-<p>The plug-in reference gives access to the values of the plug-in <b>Global Properties</b>. For example,  <i>$pluginRef.Properties.getProperty(“propname”)</i></p>
+<p>The plug-in config gives access to the values of the plug-in <b>Global Properties</b>. For example,  <i>$pluginConfig.Properties.getProperty(“propname”)</i></p>
 
 <p><b>$tsProjectHandle</b> (IextTigerstripeProject)</p>
  
@@ -211,7 +211,7 @@ h3 {
 
 <p><b>$exp</b> (IExpander)</p>
 
-<p>A utility that can be used to simplify access to some model, plug-in, or project variables. The <i>currentArtifact</i> or <i>currentModel</i> must be set prior to use for artifact or model attributes, but the pluginRef is pre-set.</p>
+<p>A utility that can be used to simplify access to some model, plug-in, or project variables. The <i>currentArtifact</i> or <i>currentModel</i> must be set prior to use for artifact or model attributes, but the pluginConfig is pre-set.</p>
 
 <p>Example use : <i>$exp.expandVar($model.TargetNamespace)</i></p>
 
