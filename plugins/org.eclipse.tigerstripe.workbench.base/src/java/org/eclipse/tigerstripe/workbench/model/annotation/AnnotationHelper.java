@@ -155,6 +155,15 @@ public class AnnotationHelper
 	 * @param obj
 	 * @return
 	 */
+	private boolean isAnnotationMatch(String annotationSpecificationID,	Annotation obj) {
+		return isAnnotationMatch(annotationSpecificationID, obj.getContent());
+	}
+
+	/**
+	 * @param annotationSpecificationID
+	 * @param obj
+	 * @return
+	 */
 	private boolean isAnnotationMatch(String annotationSpecificationID,	Object obj) {
 		Class<?>[] interfaces = obj.getClass().getInterfaces();
 		for (int i = 0; i < interfaces.length; i++) {

@@ -434,7 +434,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 
 	public List<Object> getAnnotations(String schemeID,
 			String annotationSpecificationID) {
-		List<Object> annotations = getAnnotations(schemeID);
+		List<Object> annotations = new LinkedList<Object>(getAnnotations(schemeID));
 		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
 			if (!isAnnotationMatch(annotationSpecificationID, i.next()))
 				i.remove();
