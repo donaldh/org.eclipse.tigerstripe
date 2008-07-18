@@ -14,6 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.workbench.base.test.adapt.TestAdapters;
+import org.eclipse.tigerstripe.workbench.base.test.annotation.TestAnnotationCreationAPI;
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicM1ProjectAuditor;
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicModelProjectAuditor;
 import org.eclipse.tigerstripe.workbench.base.test.facet.BasicFacetTest;
@@ -90,6 +91,9 @@ public class AllTests {
 
 		// Profiles
 		suite.addTestSuite(TestProfileBasics.class);
+		
+		// Annotations
+		suite.addTestSuite(TestAnnotationCreationAPI.class);
 		
 		// $JUnit-END$
 		return suite;
