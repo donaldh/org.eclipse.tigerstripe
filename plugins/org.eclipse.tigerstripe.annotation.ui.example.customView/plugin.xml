@@ -5,9 +5,9 @@
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections contributorId="org.eclipse.tigerstripe.annotation.ui.properties">
 			<propertySection
-				class="org.eclipse.tigerstripe.annotation.ui.example.customview.CustomSection"
-				filter="org.eclipse.tigerstripe.annotation.ui.example.customview.CustomAnnotationFilter"
-				id="property.section.CustomSection"
+				class="org.eclipse.tigerstripe.annotation.ui.example.customview.FontSection"
+				filter="org.eclipse.tigerstripe.annotation.ui.example.customview.FontAnnotationFilter"
+				id="property.section.AnnotationFontSection"
 				tab="property.tab.PropertiesPropertySection">
 			</propertySection>
 		</propertySections>
@@ -19,20 +19,43 @@
 				contributorId="org.eclipse.tigerstripe.annotation.ui.properties">   
 			<propertyTab
 				category="Properties"
-				id="property.tab.ExampleSection"
-				label="Example Section"/>
+				id="property.tab.AnnotationColor"
+				label="Color"/>
 		</propertyTabs>
 	</extension>
  
 	<extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
 		<propertySections contributorId="org.eclipse.tigerstripe.annotation.ui.properties">
 			<propertySection
-				class="org.eclipse.tigerstripe.annotation.ui.example.customview.CustomSection2"
-				filter="org.eclipse.tigerstripe.annotation.ui.example.customview.CustomAnnotationFilter2"
-				id="property.section.ExampleSection"
-				tab="property.tab.ExampleSection">
+				class="org.eclipse.tigerstripe.annotation.ui.example.customview.ColorSection"
+				filter="org.eclipse.tigerstripe.annotation.ui.example.customview.ColorAnnotationFilter"
+				id="property.section.AnnotationColorSection"
+				tab="property.tab.AnnotationColor">
 			</propertySection>
 		</propertySections>
+	</extension>
+
+	<extension point="org.eclipse.emf.ecore.generated_package">
+		<package 
+			uri = "http:///org/eclipse/tigerstripe/annotation/ui/example/customview/styles.ecore" 
+			class = "org.eclipse.tigerstripe.annotation.ui.example.customview.styles.StylesPackage"
+			genModel = "model/styles.genmodel" /> 
+	</extension>
+  
+	<extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
+		<definition
+			name="Color"
+			epackage-uri="http:///org/eclipse/tigerstripe/annotation/ui/example/customview/styles.ecore"
+			description="Color"
+			eclass="Color"/>
+	</extension>
+  
+	<extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
+		<definition
+			name="Font"
+			epackage-uri="http:///org/eclipse/tigerstripe/annotation/ui/example/customview/styles.ecore"
+			description="Font"
+			eclass="Font"/>
 	</extension>
 
 </plugin>
