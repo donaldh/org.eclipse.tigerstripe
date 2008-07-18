@@ -15,11 +15,21 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
+ * Annotation properties provider
+ * 
  * @author Yuri Strot
- *
  */
 public interface EPropertyProvider {
 	
+	/**
+	 * Return property for the given EObject feature or null if this provider do not
+	 * provide properties for the specified EObject feature
+	 * 
+	 * @param object specified object
+	 * @param feature specified feature
+	 * @return annotation property or null if properties provider do not
+	 * provide properties for the specified EObject feature
+	 */
 	public EProperty getProperty(EObject object, EStructuralFeature feature);
 
 }

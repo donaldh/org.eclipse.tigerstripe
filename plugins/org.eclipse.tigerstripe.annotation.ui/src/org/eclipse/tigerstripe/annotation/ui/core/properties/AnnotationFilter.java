@@ -16,11 +16,20 @@ import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.ui.internal.view.property.TabDescriptionManipulator;
 
 /**
+ * Class determines if annotation section should be displayed
+ * 
  * @author Yuri Strot
- *
+ * @see AnnotationPropertiesSection
  */
 public abstract class AnnotationFilter implements IFilter {
 	
+	/**
+	 * Determines if the given annotation passes this filter
+	 * 
+	 * @param annotation specified annotation
+	 * @return true if annotation section should be displayed for the specified annotation
+	 * and false otherwise
+	 */
 	public abstract boolean select(Annotation annotation);
 
 	/* (non-Javadoc)

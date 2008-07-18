@@ -24,8 +24,9 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 /**
+ * Default implementation of the <code>EProperty</code>
+ * 
  * @author Yuri Strot
- *
  */
 public class EPropertyImpl implements EProperty {
 	

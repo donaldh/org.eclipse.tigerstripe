@@ -18,11 +18,17 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 
 /**
+ * Base class for annotation properties section
+ * 
  * @author Yuri Strot
- *
  */
 public class AnnotationPropertiesSection extends AbstractPropertySection {
     
+    /**
+     * Update section specified annotation selected
+     * 
+     * @param annotation
+     */
     protected void updateSection(Annotation annotation) {
     }
     

@@ -16,8 +16,10 @@ import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
 
 /**
+ * Annotation property. Clients should not implement this interface directly,
+ * but should extend <code>EPropertyImpl</code> implementation. 
+ * 
  * @author Yuri Strot
- *
  */
 public interface EProperty {
 	
