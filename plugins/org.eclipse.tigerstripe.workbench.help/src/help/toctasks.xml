@@ -66,7 +66,7 @@
 		</topic>
 		<topic label="Template Design Tasks"  href="src/help/html/tasks/pluginDesignTasks/templateDesignTasks/index.html">  
 		    <topic label="Default Velocity Context Details" href="src/help/html/tasks/pluginDesignTasks/templateDesignTasks/velocityContextDetails.html"/>
-		    <topic label="Using Models in Templates" href="src/help/html/tasks/pluginDesignTasks/templateDesignTasks/usingModelsInTemplates.html"/>
+		    <topic label="Using Wrappers in Templates" href="src/help/html/tasks/pluginDesignTasks/templateDesignTasks/usingWrappersInTemplates.html"/>
 		    <topic label="Using an Expander" href="src/help/html/tasks/pluginDesignTasks/templateDesignTasks/expander.html"/>
 		</topic>
 		<topic label="Setting up a Plug-in log"  href="src/help/html/tasks/pluginDesignTasks/pluginLogging.html"/>

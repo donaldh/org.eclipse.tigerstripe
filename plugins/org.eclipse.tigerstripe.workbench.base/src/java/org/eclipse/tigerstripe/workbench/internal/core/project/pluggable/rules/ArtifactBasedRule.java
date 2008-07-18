@@ -42,7 +42,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactWrapper;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
@@ -70,7 +70,7 @@ public class ArtifactBasedRule extends TemplateBasedRule implements
 
 	private String modelClass = "";
 
-	private String modelClassName = "model";
+	private String modelClassName = "wrapper";
 
 	private String filterClass = "";
 
@@ -341,24 +341,25 @@ public class ArtifactBasedRule extends TemplateBasedRule implements
 						continue;
 					}
 
-					IArtifactModel model = null;
+					
 					if (getModelClass() != null
 							&& getModelClass().length() != 0) {
 						Object modelObj = exec.getPlugin().getInstance(
 								getModelClass());
-						if (modelObj instanceof IArtifactModel) {
-							model = (IArtifactModel) modelObj;
-							model.setIArtifact(artifact);
-							model.setPluginConfig(pluginConfig);
+						if (modelObj instanceof IArtifactWrapper) {
+							IArtifactWrapper wrapper = null;
+							wrapper = (IArtifactWrapper) modelObj;
+							wrapper.setIArtifact(artifact);
+							wrapper.setPluginConfig(pluginConfig);
 
-							localContext.put(getModelClassName(), model);
+							localContext.put(getModelClassName(), wrapper);
 							expander
-									.setCurrentModel(model, getModelClassName());
+									.setCurrentWrapper(wrapper, getModelClassName());
 						} else {
 							TigerstripeRuntime
 									.logInfoMessage("Error: "
 											+ getModelClass()
-											+ " doesn't implement IArtifactModel, ignoring.");
+											+ " doesn't implement IArtifactWrapper, ignoring.");
 						}
 					}
 

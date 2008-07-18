@@ -17,11 +17,32 @@ import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
  * This is the interface that needs to be implemented by model classess attached
  * the an ArtifactBased rule run
  * 
- * @deprecated
- * @see IArtifactWrapper - This is basically a name change for clarity
- * @author Eric Dillon
- * @since 1.2
+ * 
+ * @author Richard Craddock
+ * 
  */
-public interface IArtifactModel extends IArtifactWrapper{
+public interface IArtifactWrapper {
 
+	/**
+	 * Initializes the artifact for this wrapper.
+	 * 
+	 * This method is called once right after creation of this object. The
+	 * argument corresponds to the current artifact being handled with the
+	 * context of an ArtifactBased rule.
+	 * 
+	 * @param artifact -
+	 *            IArtifact the artifact to initialize the wrapper with
+	 */
+	public void setIArtifact(IAbstractArtifact artifact);
+
+	/**
+	 * Initializes the plugin ref for this wrapper.
+	 * 
+	 * This method is called once right after creation of this object. The
+	 * argument corresponds to the current plugin reference.
+	 * 
+	 * @param pluginConfig -
+	 *            The current plugin Reference
+	 */
+	public void setPluginConfig(IPluginConfig pluginConfig);
 }

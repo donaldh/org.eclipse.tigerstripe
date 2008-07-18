@@ -121,8 +121,8 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 	}
 
 	protected void modelClassBrowsePressed(SelectionEvent e) {
-		String modelClass = chooseType("Model Class Selection",
-				"Please select the model class to instantiate for this rule.");
+		String modelClass = chooseType("Wrapper Class Selection",
+				"Please select the wrapper class to instantiate for this rule.");
 
 		if (modelClass != null) {
 			modelClassText.setText(modelClass);
@@ -333,7 +333,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 	}
 
 	protected void createModelDefinitions(Composite parent) {
-		Label label = form.getToolkit().createLabel(parent, "Model Class:");
+		Label label = form.getToolkit().createLabel(parent, "Wrapper Class:");
 
 		ArtifactBasedRuleDetailsPageListener adapter = new ArtifactBasedRuleDetailsPageListener();
 
@@ -352,7 +352,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 			modelClassBrowseButton.addSelectionListener(adapter);
 
 		Label nameLabel = form.getToolkit().createLabel(parent,
-				"Model Class Name:");
+				"Wrapper Class Name:");
 
 		modelClassNameText = form.getToolkit().createText(parent, "");
 		modelClassNameText.setEnabled(PluginDescriptorEditor.isEditable());

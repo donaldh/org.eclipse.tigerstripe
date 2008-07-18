@@ -43,6 +43,7 @@ public interface IExpander {
 	 * can be used to extract things like the TargetPackage from the model -
 	 * especially useful for making file names!
 	 * 
+	 * @deprecated  - use setCurrentWrapper instead.
 	 * @param currentModel
 	 */
 	public void setCurrentModel(IArtifactModel currentModel);
@@ -52,11 +53,30 @@ public interface IExpander {
 	 * can be used to extract things like the TargetPackage from the model -
 	 * especially useful for making file names! This variant is necessary in
 	 * case the model has been named something other than "model"
-	 * 
+	 *  @deprecated  - use setCurrentWrapper instead.
 	 * @param currentModel
 	 */
 	public void setCurrentModel(IArtifactModel currentModel, String modelName);
 
+	/**
+	 * As for current Artifact, can set a "Current Wrapper" for this expander This
+	 * can be used to extract things like the TargetPackage from the wrapper -
+	 * especially useful for making file names!
+	 * 
+	 * @param currentModel
+	 */
+	public void setCurrentWrapper(IArtifactWrapper wrapper);
+
+	/**
+	 * As for current Artifact, can set a "Current Wrapper" for this expander This
+	 * can be used to extract things like the TargetPackage from the wrapper -
+	 * especially useful for making file names! This variant is necessary in
+	 * case the wrapper has been named something other than "wrapper"
+	 * 
+	 * @param currentModel
+	 */
+	public void setCurrentWrapper(IArtifactWrapper wrapper, String modelName);
+	
 	/**
 	 * This does the actual expansion, using the syntax below.
 	 * 
@@ -92,13 +112,13 @@ public interface IExpander {
 	 * 
 	 * @param modelName
 	 */
-	public void setModelName(String modelName);
+	public void setWrapperName(String modelName);
 
 	/**
 	 * Get the "name" of the model.
 	 * 
 	 * @return
 	 */
-	public String getModelName();
+	public String getWrapperName();
 
 }

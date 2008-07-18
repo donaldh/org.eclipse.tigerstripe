@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactWrapper;
 import org.eclipse.tigerstripe.workbench.plugins.IExpander;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -34,11 +35,11 @@ public class Expander implements IExpander {
 	/** The tag that is used to identify a pluginProperty */
 	private final String PROP_TAG = "ppProp";
 
-	private String modelName = "model";
+	private String wrapperName = "model";
 
 	private IPluginConfig pluginConfig;
 	private IAbstractArtifact currentArtifact;
-	private IArtifactModel currentModel;
+	private IArtifactWrapper currentWrapper;
 
 	public Expander(PluginConfig pluginConfig) {
 		this.pluginConfig = pluginConfig;
@@ -70,10 +71,34 @@ public class Expander implements IExpander {
 	 * can be used to extract things like the TargetPackage from the model -
 	 * especially useful for making file names!
 	 * 
+	 * @deprecated
 	 * @param currentModel
 	 */
 	public void setCurrentModel(IArtifactModel currentModel) {
-		this.currentModel = currentModel;
+		setCurrentWrapper(currentModel);
+	}
+
+	/**
+	 * This variant is necessary in case the model has been named something
+	 * other than "model"
+	 * 
+	 * @deprecated
+	 * @param currentModel
+	 * @param modelName
+	 */
+	public void setCurrentModel(IArtifactModel currentModel, String modelName) {
+		setCurrentWrapper(currentModel, wrapperName);
+	}
+
+	/**
+	 * As for current Artifact, can set a "Current Model" for this expander This
+	 * can be used to extract things like the TargetPackage from the model -
+	 * especially useful for making file names!
+	 * 
+	 * @param currentModel
+	 */
+	public void setCurrentWrapper(IArtifactWrapper wrapper) {
+		this.currentWrapper = wrapper;
 	}
 
 	/**
@@ -81,13 +106,13 @@ public class Expander implements IExpander {
 	 * other than "model"
 	 * 
 	 * @param currentModel
-	 * @param modelName
+	 * @param wrapperName
 	 */
-	public void setCurrentModel(IArtifactModel currentModel, String modelName) {
-		this.currentModel = currentModel;
-		setModelName(modelName);
+	public void setCurrentWrapper(IArtifactWrapper wrapper, String wrapperName) {
+		this.currentWrapper = wrapper;
+		setWrapperName(wrapperName);
 	}
-
+	
 	/*
 	 * This is a bit "hairy"
 	 */
@@ -123,8 +148,8 @@ public class Expander implements IExpander {
 
 		if (currentArtifact != null)
 			outString = matchCurrentArtifact(outString);
-		if (currentModel != null)
-			outString = matchCurrentModel(outString);
+		if (currentWrapper != null)
+			outString = matchCurrentWrapper(outString);
 
 		// Handle "nested" examples of expander - especially important for model
 		// filenames that might have project references in
@@ -195,19 +220,19 @@ public class Expander implements IExpander {
 	}
 
 	/**
-	 * Matches variables against the current model
+	 * Matches variables against the current wrapper
 	 * 
-	 * Use the syntax ${model.variableName}
+	 * Use the syntax ${wrapper.variableName}
 	 * 
-	 * We don't know what variables exist in the model so have to be careful.
+	 * We don't know what variables exist in the wrapper so have to be careful.
 	 * This looks for fields (but they have to be public), or getXxx methods -
 	 * first letter must be capital
 	 * 
 	 * @param outString
 	 * @return
 	 */
-	protected String matchCurrentModel(String outString) {
-		Pattern modelPattern = Pattern.compile("\\$\\{" + getModelName()
+	protected String matchCurrentWrapper(String outString) {
+		Pattern modelPattern = Pattern.compile("\\$\\{" + getWrapperName()
 				+ "\\.[^\\}]*\\}");
 		Matcher modelPatternMt = modelPattern.matcher(outString);
 
@@ -221,18 +246,18 @@ public class Expander implements IExpander {
 		}
 		for (MatchResult result : results) {
 			// Get the varname
-			int tagLength = ("${" + getModelName() + ".").length();
+			int tagLength = ("${" + getWrapperName() + ".").length();
 			String varName = result.group().substring(tagLength,
 					result.group().length() - 1);
 
 			// look for a Field or a getMethod
 			try {
-				java.lang.reflect.Field varField = currentModel.getClass()
+				java.lang.reflect.Field varField = currentWrapper.getClass()
 						.getField(varName);
-				String value = varField.get(currentModel).toString();
+				String value = varField.get(currentWrapper).toString();
 				// Deal with $ characters in the output
 				String temp_value = Matcher.quoteReplacement(value);
-				outString = outString.replaceFirst("\\$\\{" + getModelName()
+				outString = outString.replaceFirst("\\$\\{" + getWrapperName()
 						+ "\\." + varName + "\\}", temp_value);
 				// Return the $ in the original original "replacement"
 				// We need this in case of nesting
@@ -243,14 +268,14 @@ public class Expander implements IExpander {
 				try {
 					String capVarName = varName.substring(0, 1).toUpperCase()
 							+ varName.substring(1);
-					Method varMethod = currentModel.getClass().getMethod(
+					Method varMethod = currentWrapper.getClass().getMethod(
 							"get" + capVarName);
-					String value = varMethod.invoke(currentModel).toString();
+					String value = varMethod.invoke(currentWrapper).toString();
 
 					// Deal with $ characters in the output
 					String temp_value = Matcher.quoteReplacement(value);
 					outString = outString.replaceFirst("\\$\\{"
-							+ getModelName() + "\\." + varName + "\\}",
+							+ getWrapperName() + "\\." + varName + "\\}",
 							temp_value);
 					// Return the $ in the original original "replacement"
 					// We need this in case of nesting
@@ -392,12 +417,12 @@ public class Expander implements IExpander {
 		return outString;
 	}
 
-	public String getModelName() {
-		return modelName;
+	public String getWrapperName() {
+		return wrapperName;
 	}
 
-	public void setModelName(String modelName) {
-		this.modelName = modelName;
+	public void setWrapperName(String wrapperName) {
+		this.wrapperName = wrapperName;
 	}
 
 }

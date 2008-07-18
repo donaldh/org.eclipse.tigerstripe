@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactWrapper;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
@@ -154,7 +154,7 @@ public class ArtifactBasedRuleAuditor extends BasePluggableProjectAuditor {
 							projectDescriptor, 222);
 				} else {
 					// The classname needs to be a class that implements
-					// IArtifactModel
+					// IArtifactWrapper
 					if (!type.isClass()) {
 						PluggablePluginProjectAuditor.reportError("The model ("
 								+ artifactModelClass + ") in "
@@ -175,20 +175,20 @@ public class ArtifactBasedRuleAuditor extends BasePluggableProjectAuditor {
 							// because this is what is returned by
 							// getSuperIntefaceNames().
 							// This should be changed to a test on the FQN.
-							if (IArtifactModel.class.getName().endsWith(intf)) {
+							if (IArtifactWrapper.class.getName().endsWith(intf)) {
 								found = true;
 							}
 						}
 						if (!found) {
 							PluggablePluginProjectAuditor.reportError(
-									"The artifact model ("
+									"The artifact wrapper ("
 											+ artifactModelClass
 											+ ") in "
 											+ aRule.getLabel()
 											+ " '"
 											+ aRule.getName()
 											+ "' must implement '"
-											+ IArtifactModel.class.getName()
+											+ IArtifactWrapper.class.getName()
 											+ "' in project '"
 											+ getPProject().getProjectDetails()
 													.getName() + "'",
