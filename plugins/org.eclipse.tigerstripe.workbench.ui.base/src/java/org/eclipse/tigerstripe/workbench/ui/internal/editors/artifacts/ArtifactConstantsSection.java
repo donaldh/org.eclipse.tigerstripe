@@ -173,9 +173,6 @@ public class ArtifactConstantsSection extends ArtifactSectionPart implements
 	private Button downAttributeButton;
 	private Button removeAttributeButton;
 
-	private ViewerSorter nameSorter;
-
-	private ViewerSorter valueSorter;
 
 	public TableViewer getViewer() {
 		return this.viewer;
