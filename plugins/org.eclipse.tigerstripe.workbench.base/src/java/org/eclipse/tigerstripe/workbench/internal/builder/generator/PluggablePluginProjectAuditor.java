@@ -38,6 +38,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
+import org.eclipse.tigerstripe.workbench.internal.core.project.PluginProjectCreator;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
@@ -60,6 +61,7 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
 
@@ -257,7 +259,7 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 		// Associate Builder with Project
 		ICommand newCmd = description.newCommand();
 		newCmd.setBuilderName(BUILDER_ID);
-		List newCmds = new ArrayList();
+		List<ICommand> newCmds = new ArrayList<ICommand>();
 		newCmds.addAll(Arrays.asList(cmds));
 		newCmds.add(newCmd);
 		description.setBuildSpec((ICommand[]) newCmds
@@ -296,7 +298,7 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 			return;
 
 		// Remove builder from project
-		List newCmds = new ArrayList();
+		List<ICommand> newCmds = new ArrayList<ICommand>();
 		newCmds.addAll(Arrays.asList(cmds));
 		newCmds.remove(index);
 		description.setBuildSpec((ICommand[]) newCmds
@@ -327,16 +329,14 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 				if (entry.getEntryKind() != IClasspathEntry.CPE_LIBRARY
 						&& entry.getEntryKind() != IClasspathEntry.CPE_VARIABLE) {
 					newEntryList.add(entry);
-				} else {
-					String entryP = entry.getPath().toOSString();
-					if (entry.getEntryKind() == IClasspathEntry.CPE_VARIABLE
-							&& (ITigerstripeConstants.EXTERNALAPI_LIB
-									.equals(entryP) || ITigerstripeConstants.EQUINOX_COMMON
-									.equals(entryP))) {
-						newEntryList.add(entry);
-					}
 				}
 			}
+
+			// then add the required ones
+			for (IClasspathEntry entry : PluginProjectCreator.REQUIRED_ENTRIES) {
+				newEntryList.add(entry);
+			}
+
 		} catch (JavaModelException e) {
 			BasePlugin.log(e);
 		}

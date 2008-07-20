@@ -127,7 +127,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 	 * @param artifact
 	 * @return
 	 */
-	public boolean isExcludedByAnnotation(IStereotypeCapable capable)
+	public boolean isExcludedByStereotype(IStereotypeCapable capable)
 			throws TigerstripeException {
 
 		// Bug 1014
@@ -176,8 +176,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		// that!
 
 		// Here we need to bypass the IArtifactManagerSession to ensure we are
-		// not going to
-		// hit an active facet
+		// not going to hit an active facet
 		Collection<IAbstractArtifact> artifacts = ((ArtifactManagerSessionImpl) tsProject
 				.getArtifactManagerSession()).getArtifactManager()
 				.getAllArtifacts(true, true, monitor);
@@ -190,7 +189,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			// We only take the "Class Artifacts" not the relationships.
 			if (!(artifact instanceof IRelationship)
 					&& primaryPredicate.evaluate(artifact)
-					&& !isExcludedByAnnotation(artifact)) {
+					&& !isExcludedByStereotype(artifact)) {
 				baseArtifacts.add(artifact);
 				// for (IArtifact arti : artifact.getAncestors()) {
 				// baseArtifacts.add((IAbstractArtifact) arti);
@@ -243,7 +242,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		// First of all ignore all that is excluded
 		if (primaryPredicate.isExcluded(artifact)
-				|| isExcludedByAnnotation(artifact)) {
+				|| isExcludedByStereotype(artifact)) {
 			TigerstripeRuntime.logTraceMessage("Excluding "
 					+ artifact.getFullyQualifiedName() + " per primary scope.");
 			return;
@@ -328,7 +327,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		if (!ignoreParent && artifact.getExtendedArtifact() != null) {
 			IAbstractArtifact parent = artifact.getExtendedArtifact();
 			if (primaryPredicate.isExcluded(parent)
-					|| isExcludedByAnnotation(parent)) {
+					|| isExcludedByStereotype(parent)) {
 				IStatus error = new Status(IStatus.ERROR, BasePlugin
 						.getPluginId(),
 						"Inconsistent type hierarchy: Parent of "
@@ -349,7 +348,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				scope.addAll(getAncestors(arti, false));
 			} else {
 				if (primaryPredicate.isExcluded(arti)
-						|| isExcludedByAnnotation(arti)) {
+						|| isExcludedByStereotype(arti)) {
 					IStatus error = new Status(IStatus.ERROR, BasePlugin
 							.getPluginId(),
 							"Inconsistent artifact: referenced artifact in "
@@ -407,12 +406,12 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 
 		for (IField field : artifact.getFields()) {
-			if (!isExcludedByAnnotation(field)) {
+			if (!isExcludedByStereotype(field)) {
 				IType type = field.getType();
 				IAbstractArtifact arti = (IAbstractArtifact) type.getArtifact();
 				if (!type.isPrimitive() && arti != null
 						&& !(arti instanceof IPrimitiveTypeArtifact)
-						&& !isExcludedByAnnotation(arti)
+						&& !isExcludedByStereotype(arti)
 						&& !primaryPredicate.isExcluded(arti)) {
 					result.add(arti);
 					result.addAll(getAncestors(arti, false));
@@ -421,7 +420,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		}
 
 		for (IMethod method : artifact.getMethods()) {
-			if (!isExcludedByAnnotation(method)) {
+			if (!isExcludedByStereotype(method)) {
 				// first the return type
 				IType returnType = method.getReturnType();
 				IAbstractArtifact arti = (IAbstractArtifact) returnType
@@ -429,9 +428,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				if (!method.isVoid() && !returnType.isPrimitive()
 						&& arti != null
 						&& !(arti instanceof IPrimitiveTypeArtifact)) {
-					if ((isExcludedByAnnotation(arti) || primaryPredicate
+					if ((isExcludedByStereotype(arti) || primaryPredicate
 							.isExcluded(arti))
-							&& !isExcludedByAnnotation(method)) {
+							&& !isExcludedByStereotype(method)) {
 						IStatus error = new Status(IStatus.ERROR, BasePlugin
 								.getPluginId(),
 								"Inconsistent facet: the return type ("
@@ -442,9 +441,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 										+ " is explicitly excluded from facet.");
 						errors.add(error);
 					}
-					if (!isExcludedByAnnotation(arti)
+					if (!isExcludedByStereotype(arti)
 							&& !primaryPredicate.isExcluded(arti)
-							&& !isExcludedByAnnotation(method)) {
+							&& !isExcludedByStereotype(method)) {
 						result.add(arti);
 						result.addAll(getAncestors(arti, false));
 					}
@@ -459,9 +458,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 							&& !(argArti instanceof IPrimitiveTypeArtifact)) {
 
 						// Check for consistency of the facet
-						if ((isExcludedByAnnotation(argArti) || primaryPredicate
+						if ((isExcludedByStereotype(argArti) || primaryPredicate
 								.isExcluded(argArti))
-								&& !isExcludedByAnnotation(arg)) {
+								&& !isExcludedByStereotype(arg)) {
 							IStatus error = new Status(
 									IStatus.ERROR,
 									BasePlugin.getPluginId(),
@@ -477,9 +476,9 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 											+ " is explicitly excluded from facet.");
 							errors.add(error);
 						}
-						if (!isExcludedByAnnotation(argArti)
+						if (!isExcludedByStereotype(argArti)
 								&& !primaryPredicate.isExcluded(argArti)
-								&& !isExcludedByAnnotation(arg)) {
+								&& !isExcludedByStereotype(arg)) {
 							result.add(argArti);
 							result.addAll(getAncestors(argArti, false));
 						}
@@ -493,7 +492,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 							.getArtifactByFullyQualifiedName(
 									exc.getFullyQualifiedName(), true, true,
 									new NullProgressMonitor());
-					if (isExcludedByAnnotation(excArti)
+					if (isExcludedByStereotype(excArti)
 							|| primaryPredicate.isExcluded(excArti)) {
 						IStatus error = new Status(IStatus.ERROR, BasePlugin
 								.getPluginId(), "Inconsistent facet: the "
@@ -506,7 +505,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 								+ ") is explicitly excluded from facet.");
 						errors.add(error);
 					}
-					if (!isExcludedByAnnotation(excArti)
+					if (!isExcludedByStereotype(excArti)
 							&& !primaryPredicate.isExcluded(excArti)) {
 						result.add(excArti);
 						result.addAll(getAncestors(excArti, false));
@@ -552,7 +551,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		ArtifactManager mgr = ((ArtifactManagerSessionImpl) session)
 				.getArtifactManager();
 
-		if (isExcludedByAnnotation(artifact)) {
+		if (isExcludedByStereotype(artifact)) {
 			TigerstripeRuntime.logTraceMessage("Excluding "
 					+ artifact.getFullyQualifiedName() + " by annotation.");
 			return result;
@@ -567,7 +566,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				IAbstractArtifact arti = mgr.getArtifactByFullyQualifiedName(
 						fqn, true, true, new NullProgressMonitor());
 				if (arti != null && !primaryPredicate.isExcluded(arti)
-						&& !isExcludedByAnnotation(arti)) {
+						&& !isExcludedByStereotype(arti)) {
 					result.add(arti);
 					for (IAbstractArtifact a : arti.getAncestors()) {
 						result.add((IAbstractArtifact) a);
@@ -581,7 +580,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				IAbstractArtifact arti = mgr.getArtifactByFullyQualifiedName(
 						fqn, true, true, new NullProgressMonitor());
 				if (arti != null && !primaryPredicate.isExcluded(arti)
-						&& !isExcludedByAnnotation(arti)) {
+						&& !isExcludedByStereotype(arti)) {
 					result.add(arti);
 					for (IAbstractArtifact a : arti.getAncestors()) {
 						result.add((IAbstractArtifact) a);
@@ -596,7 +595,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				IAbstractArtifact arti = mgr.getArtifactByFullyQualifiedName(
 						fqn, true, true, new NullProgressMonitor());
 				if (arti != null && !primaryPredicate.isExcluded(arti)
-						&& !isExcludedByAnnotation(arti)) {
+						&& !isExcludedByStereotype(arti)) {
 					result.add(arti);
 					for (IAbstractArtifact a : arti.getAncestors()) {
 						result.add((IAbstractArtifact) a);
@@ -611,7 +610,7 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 				IAbstractArtifact arti = mgr.getArtifactByFullyQualifiedName(
 						fqn, true, true, new NullProgressMonitor());
 				if (arti != null && !primaryPredicate.isExcluded(arti)
-						&& !isExcludedByAnnotation(arti)) {
+						&& !isExcludedByStereotype(arti)) {
 					result.add(arti);
 					for (IAbstractArtifact a : arti.getAncestors()) {
 						result.add((IAbstractArtifact) a);

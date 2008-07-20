@@ -22,8 +22,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeStereotypePattern;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeStereotypePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
@@ -236,11 +237,14 @@ public class ContractSegment extends VersionAwareElement implements
 				FacetReference ref = null;
 				if (uriStr != null) {
 					URI uri = new URI(uriStr);
-					ref = new FacetReference(uri, (ITigerstripeModelProject) this
-							.getContainingProject());
+					ref = new FacetReference(uri,
+							(ITigerstripeModelProject) this
+									.getContainingProject());
 				} else if (relPathStr != null) {
 					if (projectLabelStr != null) {
-						ref = new FacetReference(relPathStr, projectLabelStr,
+						ref = new FacetReference(
+								relPathStr,
+								projectLabelStr,
 								(ITigerstripeModelProject) getContainingProject());
 					} else {
 						TigerstripeProject proj = ((TigerstripeOssjProjectHandle) getContainingProject())
@@ -293,7 +297,9 @@ public class ContractSegment extends VersionAwareElement implements
 				} else if (relPathStr != null) {
 
 					if (projectLabelStr != null) {
-						ref = new UseCaseReference(relPathStr, projectLabelStr,
+						ref = new UseCaseReference(
+								relPathStr,
+								projectLabelStr,
 								(ITigerstripeModelProject) getContainingProject());
 					} else {
 						if (getContainingProject() instanceof ITigerstripeModelProject) {
@@ -323,13 +329,34 @@ public class ContractSegment extends VersionAwareElement implements
 			patternElement.addAttribute("type", String.valueOf(pattern.type));
 			patternElement.addText(pattern.pattern);
 		}
+
+		// "annotationPattern" should not be used anymore. It was used when
+		// "stereotypes" were named "annotations" in Tigerstripe.
+		// Now that we have the TAF, this is now deprecated.
+		// for (ScopeStereotypePattern pattern : getISegmentScope()
+		// .getStereotypePatterns()) {
+		// Element patternElement = scopeElement
+		// .addElement("annotationPattern");
+		// patternElement.addAttribute("type", String.valueOf(pattern.type));
+		// patternElement.addText(pattern.stereotypeName);
+		// }
+
 		for (ScopeStereotypePattern pattern : getISegmentScope()
 				.getStereotypePatterns()) {
 			Element patternElement = scopeElement
-					.addElement("annotationPattern");
+					.addElement("stereotypePattern");
 			patternElement.addAttribute("type", String.valueOf(pattern.type));
 			patternElement.addText(pattern.stereotypeName);
 		}
+
+		for (ScopeAnnotationPattern pattern : getISegmentScope()
+				.getAnnotationPatterns()) {
+			Element patternElement = scopeElement
+					.addElement("tsAnnotationPattern");
+			patternElement.addAttribute("type", String.valueOf(pattern.type));
+			patternElement.addText(pattern.annotationID);
+		}
+
 	}
 
 	private void parseScope(Element rootElement) throws TigerstripeException {
@@ -347,10 +374,24 @@ public class ContractSegment extends VersionAwareElement implements
 					pat.pattern = pattern;
 					scope.addPattern(pat);
 				} else if ("annotationPattern".equals(patternElement.getName())) {
+					// This tag is now deprecated, and only read for
+					// compatibility.
+					// the tag to use is now "stereotypePattern"
 					ScopeStereotypePattern pat = new ScopeStereotypePattern();
 					pat.type = type;
 					pat.stereotypeName = pattern;
 					scope.addStereotypePattern(pat);
+				} else if ("stereotypePattern".equals(patternElement.getName())) {
+					ScopeStereotypePattern pat = new ScopeStereotypePattern();
+					pat.type = type;
+					pat.stereotypeName = pattern;
+					scope.addStereotypePattern(pat);
+				} else if ("tsAnnotationPattern".equals(patternElement
+						.getName())) {
+					ScopeAnnotationPattern pat = new ScopeAnnotationPattern();
+					pat.type = type;
+					pat.annotationID = pattern;
+					scope.addAnnotationPattern(pat);
 				}
 			}
 		}

@@ -31,8 +31,13 @@ public class ModelProjectHelper {
 	public final static String AS1 = "com.mycompany.AS1";
 
 	/**
-	 * Creates a model project with the following content - 2 Managed entities
-	 * (com.mycompany.M1, com.mycompany.M2)
+	 * Creates a model project with the following content 
+	 * 
+	 *                   AS1
+	 *           AC1---------->M3
+	 *            |
+	 *      M1-------->M2
+	 *      
 	 * 
 	 * @param projectName
 	 * @return

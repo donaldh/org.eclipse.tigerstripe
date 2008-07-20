@@ -66,6 +66,8 @@ public class ScopePage extends TigerstripeFormPage {
 		body.setLayout(layout);
 
 		managedForm.addPart(new IncludeExcludeSection(this, body, toolkit));
+		managedForm.addPart(new AnnotationIncludeExcludeSection(this, body,
+				toolkit));
 	}
 
 	public ISegmentScope getScope() throws TigerstripeException {

@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.contract;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
 import org.eclipse.tigerstripe.workbench.internal.core.util.RegExpFQNSetPred;
 
@@ -31,6 +32,14 @@ public class ContractUtils {
 				pred.addIsIncludedPattern(mapFromUserPattern(pattern.pattern));
 			} else {
 				pred.addIsExcludedPattern(mapFromUserPattern(pattern.pattern));
+			}
+		}
+
+		for (ScopeAnnotationPattern pattern : scope.getAnnotationPatterns()) {
+			if (pattern.type == ISegmentScope.INCLUDES) {
+				pred.addIsIncludedByAnnotationPattern(pattern.annotationID);
+			} else {
+				pred.addIsExcludedByAnnotationPattern(pattern.annotationID);
 			}
 		}
 

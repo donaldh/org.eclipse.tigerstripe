@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -46,7 +45,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 /**
  * @author Eric Dillon
  * 
- * Any component of an artifact (method, field, tag)
+ *         Any component of an artifact (method, field, tag)
  */
 public abstract class ArtifactComponent implements IModelComponent,
 		IStereotypeCapable {
@@ -321,7 +320,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 			if (ref.getFacetPredicate() instanceof FacetPredicate) {
 				FacetPredicate predicate = (FacetPredicate) ref
 						.getFacetPredicate();
-				return !predicate.isExcludedByAnnotation(this);
+				return !predicate.isExcludedByStereotype(this);
 			} else
 				return true;
 		} else
@@ -446,7 +445,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 	public boolean hasAnnotations() {
 		return !getAnnotations().isEmpty();
 	}
-	
+
 	public boolean hasAnnotations(String schemeID) {
 		return !getAnnotations(schemeID).isEmpty();
 	}
@@ -462,27 +461,27 @@ public abstract class ArtifactComponent implements IModelComponent,
 	}
 
 	public Annotation addAnnotation(String scheme, String packij, String clazz)
-	    throws TigerstripeException
-	{
+			throws TigerstripeException {
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		AnnotationType type = manager.getType(packij, clazz);
-		if(type == null)
-			throw new InvalidAnnotationTargetException("No such AnnotationType");
+		if (type == null)
+			throw new InvalidAnnotationTargetException("No such AnnotationType (" + packij + ", " + clazz + ")");
 		// Questionable stuff: not sure this should be here
 		String[] targets = type.getTargets();
 		boolean ok = targets.length == 0;
-		if(!ok)
-		{
-			for(int t = 0; t < targets.length; t++)
-			{
+		if (!ok) {
+			for (int t = 0; t < targets.length; t++) {
 				try {
-					if(Class.forName(targets[t], false, this.getClass().getClassLoader()).isInstance(this))
+					if (Class.forName(targets[t], false,
+							this.getClass().getClassLoader()).isInstance(this))
 						ok = true;
-				} catch (ClassNotFoundException e) {/* Nothing */}
+				} catch (ClassNotFoundException e) {/* Nothing */
+				}
 			}
 		}
-		if(!ok)
-			throw new InvalidAnnotationTargetException("Target not allowed for AnnotationType");
+		if (!ok)
+			throw new InvalidAnnotationTargetException(
+					"Target not allowed for AnnotationType");
 		// END questionable stuff
 		EObject content = type.createInstance();
 		try {
@@ -491,22 +490,22 @@ public abstract class ArtifactComponent implements IModelComponent,
 			throw new TigerstripeException("Failed to add annotation of type: "+content.getClass().getName(), e);
 		}
 	}
-	
-	public Annotation addAnnotation(String packij, String clazz) throws TigerstripeException
-	{
+
+	public Annotation addAnnotation(String packij, String clazz)
+			throws TigerstripeException {
 		return addAnnotation(TS_SCHEME, packij, clazz);
 	}
-	
-	public Annotation addAnnotation(Class<? extends EObject> clazz) throws TigerstripeException
-	{
-		return addAnnotation(TS_SCHEME, clazz.getPackage().getName(), clazz.getName().substring(clazz.getName().lastIndexOf('.')+1));
+
+	public Annotation addAnnotation(Class<? extends EObject> clazz)
+			throws TigerstripeException {
+		return addAnnotation(TS_SCHEME, clazz.getPackage().getName(), clazz
+				.getName().substring(clazz.getName().lastIndexOf('.') + 1));
 	}
-	
-	public void saveAnnotation(Annotation annotation)
-	{
+
+	public void saveAnnotation(Annotation annotation) {
 		AnnotationPlugin.getManager().save(annotation);
 	}
-	
+
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		if (getParentArtifact() != null)
 			return getParentArtifact().getProject();

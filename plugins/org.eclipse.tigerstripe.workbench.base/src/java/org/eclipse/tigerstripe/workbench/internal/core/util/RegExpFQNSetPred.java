@@ -13,20 +13,31 @@ package org.eclipse.tigerstripe.workbench.internal.core.util;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 public class RegExpFQNSetPred implements Predicate {
 
 	private HashSet<Pattern> isIncludedExpSet = new HashSet<Pattern>();
 	private HashSet<Pattern> isExcludedExpSet = new HashSet<Pattern>();
+
+	private HashSet<String> isIncludedByAnnotation = new HashSet<String>();
+	private HashSet<String> isExcludedByAnnotation = new HashSet<String>();
+
 	private HashMap<String, Pattern> patternsByString = new HashMap<String, Pattern>();
+	private Set<String> annotationIds = new HashSet<String>();
 
 	public boolean isEmptyPredicate() {
-		return isIncludedExpSet.size() == 0 && isExcludedExpSet.size() == 0;
+		return isIncludedExpSet.size() == 0 && isExcludedExpSet.size() == 0
+				&& isIncludedByAnnotation.size() == 0
+				&& isExcludedByAnnotation.size() == 0;
 	}
 
 	public boolean evaluate(Object obj) {
@@ -34,12 +45,13 @@ public class RegExpFQNSetPred implements Predicate {
 			// if there are no rules for what's acceptable and what's not,
 			// accept anything
 			return true;
-		else if (isExcludedExpSet.size() == 0)
+		else if (isExcludedExpSet.size() == 0
+				&& isExcludedByAnnotation.size() == 0)
 			// else if there are no rules for what's unacceptable, look to the
-			// rules about what
-			// is acceptable to determine what to do
+			// rules about what is acceptable to determine what to do
 			return isIncluded(obj);
-		else if (isIncludedExpSet.size() == 0)
+		else if (isIncludedExpSet.size() == 0
+				&& isIncludedByAnnotation.size() == 0)
 			// else if there are no rules for what's acceptable, look to the
 			// rules about what
 			// is unacceptable to determine what to do
@@ -68,7 +80,7 @@ public class RegExpFQNSetPred implements Predicate {
 	}
 
 	/*
-	 * Note; in the two "add" methods for patterns (below), if the pattern
+	 * Note; in the four "add" methods for patterns (below), if the pattern
 	 * string already exists in this predicate (in either the included or
 	 * excluded patterns), then don't add it...it would either be a duplicate
 	 * pattern (which would be refused by the set) or create a conflict (since
@@ -89,6 +101,20 @@ public class RegExpFQNSetPred implements Predicate {
 		Pattern p = Pattern.compile(patternStr);
 		patternsByString.put(patternStr, p);
 		return isExcludedExpSet.add(p);
+	}
+
+	public boolean addIsIncludedByAnnotationPattern(String annotationId) {
+		if (containsAnnotationIdPattern(annotationId))
+			return false;
+		annotationIds.add(annotationId);
+		return isIncludedByAnnotation.add(annotationId);
+	}
+
+	public boolean addIsExcludedByAnnotationPattern(String annotationId) {
+		if (containsAnnotationIdPattern(annotationId))
+			return false;
+		annotationIds.add(annotationId);
+		return isExcludedByAnnotation.add(annotationId);
 	}
 
 	/*
@@ -139,13 +165,23 @@ public class RegExpFQNSetPred implements Predicate {
 
 	// Bug 731: needed that to be public for facet predicate
 	public boolean isIncluded(Object obj) {
-		if (!(obj instanceof AbstractArtifact))
+		if (!(obj instanceof IAbstractArtifact))
 			return false;
+
+		IAbstractArtifact artifact = (IAbstractArtifact) obj;
+
 		// look through the patterns...if matches any, then is included
 		for (Pattern p : isIncludedExpSet) {
-			Matcher m = p.matcher(((AbstractArtifact) obj)
-					.getFullyQualifiedName());
+			Matcher m = p.matcher(artifact.getFullyQualifiedName());
 			if (m.matches())
+				return true;
+		}
+
+		for (String annotationId : isIncludedByAnnotation) {
+
+			List<Object> annotations = artifact.getAnnotations("tigerstripe",
+					annotationId);
+			if (annotations.size() != 0)
 				return true;
 		}
 		return false;
@@ -153,13 +189,22 @@ public class RegExpFQNSetPred implements Predicate {
 
 	// Bug 731: needed that to be public for facet predicate
 	public boolean isExcluded(Object obj) {
-		if (!(obj instanceof AbstractArtifact))
+		if (!(obj instanceof IAbstractArtifact))
 			return false;
+
+		IAbstractArtifact artifact = (IAbstractArtifact) obj;
+
 		// look through the patterns...if matches any, then is excluded
 		for (Pattern p : isExcludedExpSet) {
-			Matcher m = p.matcher(((AbstractArtifact) obj)
-					.getFullyQualifiedName());
+			Matcher m = p.matcher(artifact.getFullyQualifiedName());
 			if (m.matches())
+				return true;
+		}
+
+		for (String annotationId : isExcludedByAnnotation) {
+			List<Object> annotations = artifact.getAnnotations("tigerstripe",
+					annotationId);
+			if (annotations.size() != 0)
 				return true;
 		}
 		return false;
@@ -173,6 +218,10 @@ public class RegExpFQNSetPred implements Predicate {
 		if (keySet != null && keySet.contains(patternStr))
 			return true;
 		return false;
+	}
+
+	private boolean containsAnnotationIdPattern(String annotationId) {
+		return annotationIds.contains(annotationId);
 	}
 
 }

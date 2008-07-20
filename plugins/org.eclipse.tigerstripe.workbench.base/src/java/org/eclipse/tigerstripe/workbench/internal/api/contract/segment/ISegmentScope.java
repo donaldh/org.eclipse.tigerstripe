@@ -68,6 +68,29 @@ public interface ISegmentScope {
 		}
 	}
 
+	public class ScopeAnnotationPattern {
+		public int type;
+
+		public String annotationID;
+
+		public ScopeAnnotationPattern() {
+
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof ScopeAnnotationPattern) {
+				ScopeAnnotationPattern other = (ScopeAnnotationPattern) obj;
+				if (other.annotationID == null)
+					return false;
+				return other.type == type
+						&& other.annotationID.equals(annotationID);
+			}
+			return false;
+		}
+
+	}
+
 	public class ScopeStereotypePattern {
 
 		public int type = INCLUDES;
@@ -107,6 +130,8 @@ public interface ISegmentScope {
 
 	public ScopeStereotypePattern[] getStereotypePatterns();
 
+	public ScopeAnnotationPattern[] getAnnotationPatterns();
+
 	/**
 	 * Returns all the ScopePatterns of the specified type
 	 * 
@@ -124,5 +149,11 @@ public interface ISegmentScope {
 	public void addStereotypePattern(ScopeStereotypePattern pattern);
 
 	public void removeStereotypePattern(ScopeStereotypePattern pattern);
+
+	public ScopeAnnotationPattern[] getAnnotationPatterns(int type);
+
+	public void addAnnotationPattern(ScopeAnnotationPattern pattern);
+
+	public void removeAnnotationPattern(ScopeAnnotationPattern pattern);
 
 }

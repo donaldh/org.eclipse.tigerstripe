@@ -16,6 +16,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFolder;
@@ -41,6 +43,12 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 
 public class PluginProjectCreator extends BaseProjectCreator implements
 		IProjectCreator {
+
+	public static IClasspathEntry[] REQUIRED_ENTRIES = {
+			JavaCore.newVariableEntry(new Path(
+					ITigerstripeConstants.EQUINOX_COMMON), null, null),
+			JavaCore.newVariableEntry(new Path(
+					ITigerstripeConstants.EXTERNALAPI_LIB), null, null) };
 
 	@SuppressWarnings("unchecked")
 	public IWorkspaceRunnable getRunnable(final IProjectDetails projectDetails,
@@ -92,12 +100,15 @@ public class PluginProjectCreator extends BaseProjectCreator implements
 			templateFolder.create(true, true, null);
 
 			// set the build path
-			IClasspathEntry[] buildPath = {
-					JavaCore.newSourceEntry(projectHandle.getFolder("src")
-							.getFullPath()),
-					JavaRuntime.getDefaultJREContainerEntry(),
-					JavaCore.newVariableEntry(new Path(
-							ITigerstripeConstants.EXTERNALAPI_LIB), null, null) };
+			List<IClasspathEntry> buildPathList = new ArrayList<IClasspathEntry>();
+			buildPathList.add(JavaCore.newSourceEntry(projectHandle.getFolder(
+					"src").getFullPath()));
+			buildPathList.add(JavaRuntime.getDefaultJREContainerEntry());
+			for (IClasspathEntry entry : REQUIRED_ENTRIES) {
+				buildPathList.add(entry);
+			}
+			IClasspathEntry[] buildPath = buildPathList
+					.toArray(new IClasspathEntry[buildPathList.size()]);
 
 			newJavaProject.setRawClasspath(buildPath, projectHandle
 					.getFullPath().append("bin"), null);
@@ -115,8 +126,8 @@ public class PluginProjectCreator extends BaseProjectCreator implements
 	/**
 	 * We will initialize file contents with a sample text.
 	 * 
-	 * @param pageProperties -
-	 *            the properties gathered through the wizard
+	 * @param pageProperties
+	 *            - the properties gathered through the wizard
 	 */
 	@Override
 	protected InputStream openContentStream(IProjectDetails projectDetails)

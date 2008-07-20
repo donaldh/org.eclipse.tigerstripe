@@ -19,9 +19,17 @@ public class SegmentScope implements ISegmentScope {
 
 	private List<ScopePattern> patterns = new ArrayList<ScopePattern>();
 
-	private List<ScopeStereotypePattern> annotationPatterns = new ArrayList<ScopeStereotypePattern>();
+	private List<ScopeStereotypePattern> stereotypePatterns = new ArrayList<ScopeStereotypePattern>();
+
+	private List<ScopeAnnotationPattern> annotationPatterns = new ArrayList<ScopeAnnotationPattern>();
 
 	public void addStereotypePattern(ScopeStereotypePattern pattern) {
+		if (!stereotypePatterns.contains(pattern)) {
+			stereotypePatterns.add(pattern);
+		}
+	}
+
+	public void addAnnotationPattern(ScopeAnnotationPattern pattern) {
 		if (!annotationPatterns.contains(pattern)) {
 			annotationPatterns.add(pattern);
 		}
@@ -34,8 +42,13 @@ public class SegmentScope implements ISegmentScope {
 	}
 
 	public ScopeStereotypePattern[] getStereotypePatterns() {
+		return stereotypePatterns
+				.toArray(new ScopeStereotypePattern[stereotypePatterns.size()]);
+	}
+
+	public ScopeAnnotationPattern[] getAnnotationPatterns() {
 		return annotationPatterns
-				.toArray(new ScopeStereotypePattern[annotationPatterns.size()]);
+				.toArray(new ScopeAnnotationPattern[annotationPatterns.size()]);
 	}
 
 	public ScopePattern[] getPatterns() {
@@ -44,12 +57,22 @@ public class SegmentScope implements ISegmentScope {
 
 	public ScopeStereotypePattern[] getStereotypePatterns(int type) {
 		List<ScopeStereotypePattern> subList = new ArrayList<ScopeStereotypePattern>();
-		for (ScopeStereotypePattern pattern : annotationPatterns) {
+		for (ScopeStereotypePattern pattern : stereotypePatterns) {
 			if (pattern.type == type) {
 				subList.add(pattern);
 			}
 		}
 		return subList.toArray(new ScopeStereotypePattern[subList.size()]);
+	}
+
+	public ScopeAnnotationPattern[] getAnnotationPatterns(int type) {
+		List<ScopeAnnotationPattern> subList = new ArrayList<ScopeAnnotationPattern>();
+		for (ScopeAnnotationPattern pattern : annotationPatterns) {
+			if (pattern.type == type) {
+				subList.add(pattern);
+			}
+		}
+		return subList.toArray(new ScopeAnnotationPattern[subList.size()]);
 	}
 
 	public ScopePattern[] getPatterns(int type) {
@@ -64,7 +87,7 @@ public class SegmentScope implements ISegmentScope {
 
 	public void clear() {
 		patterns.clear();
-		annotationPatterns.clear();
+		stereotypePatterns.clear();
 	}
 
 	public boolean isValid() {
@@ -79,6 +102,12 @@ public class SegmentScope implements ISegmentScope {
 	}
 
 	public void removeStereotypePattern(ScopeStereotypePattern pattern) {
+		if (stereotypePatterns.contains(pattern)) {
+			stereotypePatterns.remove(pattern);
+		}
+	}
+
+	public void removeAnnotationPattern(ScopeAnnotationPattern pattern) {
 		if (annotationPatterns.contains(pattern)) {
 			annotationPatterns.remove(pattern);
 		}
