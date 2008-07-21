@@ -19,6 +19,8 @@ public class ColorUtils {
 	public final static Color WHITE = new Color(null, 255, 255, 255);
 
 	public final static Color LIGHT_GREY = new Color(null, 128, 128, 128);
+	
+	public final static Color DARK_GREY = new Color(null, 100, 100, 200);
 
 	public final static Color TS_ORANGE = new Color(null, 232, 123, 20);
 

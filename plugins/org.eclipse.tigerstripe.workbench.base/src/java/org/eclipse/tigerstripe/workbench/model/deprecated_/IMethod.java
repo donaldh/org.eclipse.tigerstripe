@@ -269,9 +269,23 @@ public interface IMethod extends IModelComponent {
 	 * The format is:
 	 * 		name(argumentList)::returnTypeName
 	 * 
+	 * This is equivalent to getLabelString(true)
 	 * @return formatted String
 	 */
 	public String getLabelString();
+
+	/**
+	 * Returns a String containing the methodName+profile&returntype. This is
+	 * used for display on class diagrams e.g. but also to uniquely identify a
+	 * method within the context of an artifact.
+	 * 
+	 * The format is:
+	 * 		name(argumentList)::returnTypeName
+	 * 
+	 * @param includeArgStereotypes - <<xxx>> on args will be included if true
+	 * @return formatted String
+	 */
+	public String getLabelString(boolean includeArgStereotypes);
 
 	/**
 	 * Returns an identifier that uniquely identifies this method within the

@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.ColoringLabelProvider;
@@ -69,7 +68,8 @@ public class TigerstripeExplorerLabelProvider extends
 					// differently
 					if (jElem instanceof IClassFile) {
 						IClassFile cf = (IClassFile) jElem;
-						string = new StyledString(cf.getElementName().replaceFirst("\\.class", ""));
+						string = new StyledString(cf.getElementName()
+								.replaceFirst("\\.class", ""));
 					}
 				}
 			}

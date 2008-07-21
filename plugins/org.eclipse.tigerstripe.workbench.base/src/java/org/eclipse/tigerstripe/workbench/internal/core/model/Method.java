@@ -56,15 +56,15 @@ import com.thoughtworks.qdox.model.JavaParameter;
 /**
  * @author Eric Dillon
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
+ *         TODO To change the template for this generated type comment go to
+ *         Window - Preferences - Java - Code Style - Code Templates
  */
 public class Method extends ArtifactComponent implements IOssjMethod {
 
 	public String getLabel() {
 		return "Method";
 	}
-	
+
 	private final static String EXPOSED_PROP_ID = "ossj.method";
 
 	private boolean isAbstract;
@@ -98,7 +98,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	// Supported flavors for this method if any
 	private OssjEntityMethodFlavor[] supportedFlavors;
 
-	public class ReturnTypeWrapper implements IStereotypeCapable, IAnnotationCapable {
+	public class ReturnTypeWrapper implements IStereotypeCapable,
+			IAnnotationCapable {
 
 		private IMethod theMethod;
 
@@ -145,7 +146,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method return"));
 			return null;
 		}
-		
+
 		public Object getAnnotation(String schemeID,
 				String annotationSpecificationID) {
 			BasePlugin.log(new TigerstripeException(
@@ -158,7 +159,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method return"));
 			return null;
 		}
-		
+
 		public List<Object> getAnnotations(String schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method return"));
@@ -183,7 +184,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method return"));
 			return false;
 		}
-		
+
 		public boolean hasAnnotations(String schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method return"));
@@ -202,31 +203,49 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method return"));
 			return false;
 		}
-		
-		public Annotation addAnnotation(String scheme, String packij, String clazz)
-		{
+
+		public Annotation addAnnotation(String scheme, String packij,
+				String clazz) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method return"));
 			return null;
 		}
 
-		public Annotation addAnnotation(String packij, String clazz)
-		{
+		public Annotation addAnnotation(String packij, String clazz) {
 			return addAnnotation(TS_SCHEME, packij, clazz);
 		}
 
-		public Annotation addAnnotation(Class<? extends EObject> clazz)
-		{
+		public Annotation addAnnotation(Class<? extends EObject> clazz) {
 			BasePlugin.log(new TigerstripeException(
-			"Annotations not supported on Method return"));
+					"Annotations not supported on Method return"));
 			return null;
 		}
-		
-		public void saveAnnotation(Annotation annotation)
-		{
+
+		public void saveAnnotation(Annotation annotation) {
 			BasePlugin.log(new TigerstripeException(
-			"Annotations not supported on Method return"));			
+					"Annotations not supported on Method return"));
 		}
+
+		public String getStereotypeString() {
+
+			String result = "";
+			if (getStereotypeInstances().size() == 0)
+				return result;
+
+			for (IStereotypeInstance instance : getStereotypeInstances()) {
+				if (result.length() == 0) {
+					result += "<<";
+				} else {
+					result += ",";
+				}
+				result += instance.getName();
+			}
+
+			result += ">>";
+
+			return result;
+		}
+
 	}
 
 	public String getDefaultReturnValue() {
@@ -653,7 +672,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		public String getComment() {
 			if (getRefCommentId() != null) {
-				AbstractArtifact art = (AbstractArtifact) parentMethod.getContainingArtifact();
+				AbstractArtifact art = (AbstractArtifact) parentMethod
+						.getContainingArtifact();
 				RefComment rComment = art.getRefCommentById(getRefCommentId());
 				if (rComment != null)
 					return xmlEncode.decode(rComment.getContent());
@@ -667,7 +687,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					&& getRefCommentId() == null)
 				return;
 
-			AbstractArtifact art = (AbstractArtifact) parentMethod.getContainingArtifact();
+			AbstractArtifact art = (AbstractArtifact) parentMethod
+					.getContainingArtifact();
 			if (getRefCommentId() == null) {
 				setRefCommentId(art.getUniqueRefCommentId());
 			}
@@ -753,7 +774,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					.getContainingArtifact();
 		}
 
-		// =========================================================================
+		//======================================================================
+		// ===
 		// Stereotype handling
 
 		public Collection<IStereotypeInstance> getStereotypeInstances() {
@@ -826,7 +848,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method Arguments"));
 			return null;
 		}
-		
+
 		public Object getAnnotation(String schemeID,
 				String annotationSpecificationID) {
 			BasePlugin.log(new TigerstripeException(
@@ -839,7 +861,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method Arguments"));
 			return null;
 		}
-		
+
 		public List<Object> getAnnotations(String schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method Arguments"));
@@ -864,7 +886,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method Arguments"));
 			return false;
 		}
-		
+
 		public boolean hasAnnotations(String schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method Arguments"));
@@ -882,30 +904,47 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method Arguments"));
 			return false;
 		}
-		
-		public Annotation addAnnotation(String scheme, String packij, String clazz)
-		{
+
+		public Annotation addAnnotation(String scheme, String packij,
+				String clazz) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method Arguments"));
 			return null;
 		}
 
-		public Annotation addAnnotation(String packij, String clazz)
-		{
+		public Annotation addAnnotation(String packij, String clazz) {
 			return addAnnotation(TS_SCHEME, packij, clazz);
 		}
 
-		public Annotation addAnnotation(Class<? extends EObject> clazz)
-		{
+		public Annotation addAnnotation(Class<? extends EObject> clazz) {
 			BasePlugin.log(new TigerstripeException(
-			"Annotations not supported on Method Arguments"));
+					"Annotations not supported on Method Arguments"));
 			return null;
 		}
-		
-		public void saveAnnotation(Annotation annotation)
-		{
+
+		public void saveAnnotation(Annotation annotation) {
 			BasePlugin.log(new TigerstripeException(
-			"Annotations not supported on Method Arguments"));			
+					"Annotations not supported on Method Arguments"));
+		}
+
+		public String getStereotypeString() {
+
+			String result = "";
+			if (getStereotypeInstances().size() == 0)
+				return result;
+
+			for (IStereotypeInstance instance : getStereotypeInstances()) {
+				if (result.length() == 0) {
+					result += "<<";
+				} else {
+					result += ",";
+				}
+				result += instance.getName();
+			}
+
+			result += ">>";
+
+			return result;
 		}
 	}
 
@@ -1017,7 +1056,6 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		this.containingModelComponent = artifact;
 	}
 
-	
 	public IAbstractArtifact getContainingArtifact() {
 		if (this.containingModelComponent instanceof IAbstractArtifact)
 			return (IAbstractArtifact) this.containingModelComponent;
@@ -1027,38 +1065,40 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 	public Collection<IModelComponent> getContainedModelComponents() {
 		// Fields don't contain anything
-		return Collections.unmodifiableCollection( new ArrayList<IModelComponent>());
+		return Collections
+				.unmodifiableCollection(new ArrayList<IModelComponent>());
 	}
 
-	public void addContainedModelComponent(IModelComponent component) throws TigerstripeException {
+	public void addContainedModelComponent(IModelComponent component)
+			throws TigerstripeException {
 		throw new TigerstripeException("Methods cannot contain any Components");
 	}
 
 	public void addContainedModelComponents(
-			Collection<IModelComponent> components) throws TigerstripeException{
+			Collection<IModelComponent> components) throws TigerstripeException {
 		throw new TigerstripeException("Methods cannot contain any Components");
 	}
-	
+
 	public void removeContainedModelComponent(IModelComponent component) {
-		return ;	
+		return;
 	}
-	
+
 	public IModelComponent getContainingModelComponent() {
 		if (this.containingModelComponent instanceof IAbstractArtifact)
 			return (IAbstractArtifact) this.containingModelComponent;
 		else
 			return null;
 	}
-	
 
-	public void setContainingModelComponent(IModelComponent containingComponent) throws TigerstripeException {
+	public void setContainingModelComponent(IModelComponent containingComponent)
+			throws TigerstripeException {
 		if (containingComponent instanceof IAbstractArtifact)
 			this.containingModelComponent = containingComponent;
-		else 
-			throw new TigerstripeException("Methods can only be contained by Artifacts");
+		else
+			throw new TigerstripeException(
+					"Methods can only be contained by Artifacts");
 	}
 
-	
 	// =======================================================================
 	// Methods to satisfy the IMethod interface
 
@@ -1081,7 +1121,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	}
 
 	public String getLabelString() {
-		String result = getName() + "(" + getParamsString() + "):";
+		return getLabelString(true);
+	}
+
+	public String getLabelString(boolean includeArgStereotypes) {
+		String result = getName() + "("
+				+ getParamsString(includeArgStereotypes) + "):";
 		String retType = getReturnType().getName();
 		if (isVoid()) {
 			retType = "void";
@@ -1104,7 +1149,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return result;
 	}
 
-	private String getParamsString() {
+	private String getParamsString(boolean includeArgStereotypes) {
 		// get the list of method parameters from method
 		int numParams = getArguments().size();
 		// if the number of arguments is zero, just return an empty string
@@ -1115,6 +1160,11 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		StringBuffer paramBuffer = new StringBuffer();
 		int paramCount = 0;
 		for (IArgument iarg : getArguments()) {
+
+			if (includeArgStereotypes) {
+				paramBuffer.append(iarg.getStereotypeString());
+			}
+
 			String paramString = Util.nameOf(iarg.getType()
 					.getFullyQualifiedName());
 			paramBuffer.append(Misc.removeJavaLangString(paramString));
@@ -1253,7 +1303,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		String pojoFlavorDetails = getOssjMethodProperties().getProperty(
 				flavor.getPojoLabel());
 		if (pojoFlavorDetails != null)
-			return new EntityMethodFlavorDetails((AbstractArtifact) getContainingArtifact(),
+			return new EntityMethodFlavorDetails(
+					(AbstractArtifact) getContainingArtifact(),
 					pojoFlavorDetails);
 		return null;
 	}
@@ -1378,13 +1429,15 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		String pojoFlavorDetails = getOssjMethodProperties().getProperty(
 				flavor.getPojoLabel());
 		if (pojoFlavorDetails != null)
-			return new EntityMethodFlavorDetails((AbstractArtifact) getContainingArtifact(),
+			return new EntityMethodFlavorDetails(
+					(AbstractArtifact) getContainingArtifact(),
 					pojoFlavorDetails);
 		return null;
 	}
 
 	public IEntityMethodFlavorDetails makeEntityMethodFlavorDetails() {
-		return new EntityMethodFlavorDetails((AbstractArtifact) this.containingModelComponent);
+		return new EntityMethodFlavorDetails(
+				(AbstractArtifact) this.containingModelComponent);
 	}
 
 	public void setEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor,

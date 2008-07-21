@@ -58,6 +58,17 @@ public interface IStereotypeCapable {
 	public void removeStereotypeInstances(Collection<IStereotypeInstance> instances);
 
 	/**
+	 * 	Returns a String with the Stereotype lavel a-la-UML
+	 * 
+	 * <<steo, st2>>
+	 * 
+	 * or "" if no stereotype instance
+	 * 
+	 * @return
+	 */
+	public String getStereotypeString();
+	
+	/**
 	 * Creates a new annotation and returns the content wrapped in an <code>Annotation</code>
 	 * instance
 	 * @param schemeID the scheme to which the annotation will be assigned

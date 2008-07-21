@@ -419,6 +419,11 @@
             class="org.eclipse.tigerstripe.workbench.ui.internal.preferences.GenerationPreferencePage"
             id="org.eclipse.tigerstripe.ui.eclipse.preferences.GenerationPreferencePage"
             name="Generation"/>
+      <page
+            category="org.eclipse.tigerstripe.ui.eclipse.preferences.TopLevelPreferences"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage"
+            id="org.eclipse.tigerstripe.ui.eclipse.preferences.ExplorerPreferencePage"
+            name="Explorer"/>
    </extension>
    <extension
          point="org.eclipse.ui.propertyPages">

@@ -33,6 +33,8 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IOpenListener;
@@ -61,6 +63,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TSElementSorter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TigerstripeExplorerActionGroup;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.ClasspathContainerFilter;
@@ -87,7 +90,8 @@ import org.eclipse.ui.part.ViewPart;
  * 
  */
 public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
-		ISetSelectionTarget, IShowInTarget, ITigerstripeChangeListener {
+		ISetSelectionTarget, IShowInTarget, ITigerstripeChangeListener,
+		IPropertyChangeListener {
 
 	public boolean show(ShowInContext context) {
 		if (context.getSelection() instanceof IStructuredSelection) {
@@ -151,6 +155,9 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 		facetDecorationDelegate = new ActiveFacetDecorationDelegate(this);
 		facetDecorationDelegate.start();
+
+		EclipsePlugin.getDefault().getPreferenceStore()
+				.addPropertyChangeListener(this);
 
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
 				this, ITigerstripeChangeListener.ANNOTATION);
@@ -586,4 +593,20 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		// Never called since registration on Annotation changes only
 	}
 
+	public void propertyChange(PropertyChangeEvent event) {
+		if (event.getProperty().equals(
+				ExplorerPreferencePage.P_LABEL_STEREO_ARTIFACT)
+				|| event.getProperty().equals(
+						ExplorerPreferencePage.P_LABEL_STEREO_ATTR)
+				|| event.getProperty().equals(
+						ExplorerPreferencePage.P_LABEL_STEREO_METH)
+				|| event.getProperty().equals(
+						ExplorerPreferencePage.P_LABEL_STEREO_METHARGS)
+				|| event.getProperty().equals(
+						ExplorerPreferencePage.P_LABEL_STEREO_LIT)
+				|| event.getProperty().equals(
+						ExplorerPreferencePage.P_LABEL_STEREO_END)) {
+			treeViewer.refresh(true);
+		}
+	}
 }

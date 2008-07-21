@@ -417,7 +417,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 
 		return null;
 	}
-	
+
 	public Object getAnnotation(String schemeID,
 			String annotationSpecificationID) {
 		List<Object> all = getAnnotations(schemeID);
@@ -446,7 +446,8 @@ public abstract class ArtifactComponent implements IModelComponent,
 
 	public List<Object> getAnnotations(String schemeID,
 			String annotationSpecificationID) {
-		List<Object> annotations = new LinkedList<Object>(getAnnotations(schemeID));
+		List<Object> annotations = new LinkedList<Object>(
+				getAnnotations(schemeID));
 		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
 			if (!isAnnotationMatch(annotationSpecificationID, i.next()))
 				i.remove();
@@ -482,7 +483,8 @@ public abstract class ArtifactComponent implements IModelComponent,
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		AnnotationType type = manager.getType(packij, clazz);
 		if (type == null)
-			throw new InvalidAnnotationTargetException("No such AnnotationType (" + packij + ", " + clazz + ")");
+			throw new InvalidAnnotationTargetException(
+					"No such AnnotationType (" + packij + ", " + clazz + ")");
 		// Questionable stuff: not sure this should be here
 		String[] targets = type.getTargets();
 		boolean ok = targets.length == 0;
@@ -504,7 +506,8 @@ public abstract class ArtifactComponent implements IModelComponent,
 		try {
 			return manager.addAnnotation(this, content);
 		} catch (AnnotationException e) {
-			throw new TigerstripeException("Failed to add annotation of type: "+content.getClass().getName(), e);
+			throw new TigerstripeException("Failed to add annotation of type: "
+					+ content.getClass().getName(), e);
 		}
 	}
 
@@ -531,5 +534,25 @@ public abstract class ArtifactComponent implements IModelComponent,
 
 	public URI toURI() throws TigerstripeException {
 		return TigerstripeURIAdapterFactory.toURI(this);
+	}
+
+	public String getStereotypeString() {
+
+		String result = "";
+		if (getStereotypeInstances().size() == 0)
+			return result;
+
+		for (IStereotypeInstance instance : getStereotypeInstances()) {
+			if (result.length() == 0) {
+				result += "<<";
+			} else {
+				result += ",";
+			}
+			result += instance.getName();
+		}
+
+		result += ">>";
+
+		return result;
 	}
 }

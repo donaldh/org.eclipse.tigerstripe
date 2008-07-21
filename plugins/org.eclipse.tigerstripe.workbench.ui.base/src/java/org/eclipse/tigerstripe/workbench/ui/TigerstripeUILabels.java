@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui;
 
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -24,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 
@@ -44,7 +46,7 @@ public class TigerstripeUILabels {
 
 		if (object instanceof IModelComponent) {
 			return getStyledString((IModelComponent) object, flags);
-		} else if (object instanceof IRelationshipEnd ) {
+		} else if (object instanceof IRelationshipEnd) {
 			return getStyledString((IRelationshipEnd) object, flags);
 		} else if (object instanceof IAbstractTigerstripeProject) {
 			return getStyledString((IAbstractTigerstripeProject) object, flags);
@@ -55,10 +57,10 @@ public class TigerstripeUILabels {
 		return new StyledString();
 	}
 
-	private static StyledString getStyledString(IRelationshipEnd end, long flags ) {
-		return new StyledString( end.getType().getFullyQualifiedName());
+	private static StyledString getStyledString(IRelationshipEnd end, long flags) {
+		return new StyledString(end.getType().getFullyQualifiedName());
 	}
-	
+
 	public static String getStringLabel(Object component, long flags) {
 		return getStyledString(component, flags).getString();
 	}
@@ -94,7 +96,7 @@ public class TigerstripeUILabels {
 
 	public static class LabelStyler extends StyledString.Styler {
 
-		private Object component;
+		protected Object component;
 
 		public LabelStyler(Object component) {
 			this.component = component;
@@ -104,10 +106,13 @@ public class TigerstripeUILabels {
 		public void applyStyles(TextStyle textStyle) {
 			if (textStyle instanceof StyleRange) {
 				StyleRange range = (StyleRange) textStyle;
+
+				range.foreground = ColorUtils.BLACK;
+
 				if (component instanceof IAbstractArtifact) {
 					IAbstractArtifact artifact = (IAbstractArtifact) component;
 					if (artifact.isAbstract()) {
-						range.fontStyle = SWT.BOLD;
+						range.fontStyle = SWT.ITALIC;
 					}
 
 					try {
@@ -135,23 +140,65 @@ public class TigerstripeUILabels {
 		}
 	}
 
+	public static class StereotypeLabelStyler extends LabelStyler {
+
+		public StereotypeLabelStyler(Object component) {
+			super(component);
+		}
+
+		@Override
+		public void applyStyles(TextStyle textStyle) {
+			super.applyStyles(textStyle);
+
+			if (textStyle instanceof StyleRange) {
+				StyleRange range = (StyleRange) textStyle;
+				if (range.foreground == ColorUtils.BLACK) {
+					range.foreground = ColorUtils.DARK_GREY;
+				}
+			}
+		}
+	}
+
 	protected static StyledString getStyledString(IModelComponent component,
 			long flags) {
 
+		IPreferenceStore store = EclipsePlugin.getDefault()
+				.getPreferenceStore();
+
+		StyledString result = new StyledString("");
+
+		String label = component.getName();
+		String stereotypeString = component.getStereotypeString();
+		StereotypeLabelStyler stereoStyler = new StereotypeLabelStyler(
+				component);
+		StyledString stereoStyledString = new StyledString(stereotypeString,
+				stereoStyler);
+
+		String stereoPrefsLabel = null;
+
 		if (component instanceof IAbstractArtifact) {
-			IAbstractArtifact artifact = (IAbstractArtifact) component;
-			String name = artifact.getName();
-			return new StyledString(name, new LabelStyler(artifact));
+			stereoPrefsLabel = ExplorerPreferencePage.P_LABEL_STEREO_ARTIFACT;
 		} else if (component instanceof IMethod) {
-			return new StyledString(((IMethod) component).getLabelString());
+			boolean stereoArgs = store
+					.getBoolean(ExplorerPreferencePage.P_LABEL_STEREO_METHARGS);
+			label = ((IMethod) component).getLabelString(stereoArgs);
+			stereoPrefsLabel = ExplorerPreferencePage.P_LABEL_STEREO_METH;
 		} else if (component instanceof ILiteral) {
-			return new StyledString(((ILiteral) component).getLabelString());
+			label = ((ILiteral) component).getLabelString();
+			stereoPrefsLabel = ExplorerPreferencePage.P_LABEL_STEREO_LIT;
 		} else if (component instanceof IField) {
-			return new StyledString(((IField) component).getLabelString());
+			label = ((IField) component).getLabelString();
+			stereoPrefsLabel = ExplorerPreferencePage.P_LABEL_STEREO_ATTR;
 		} else if (component instanceof IAssociationEnd) {
-			return new StyledString(((IAssociationEnd) component)
-					.getLabelString());
+			label = ((IAssociationEnd) component).getLabelString();
+			stereoPrefsLabel = ExplorerPreferencePage.P_LABEL_STEREO_END;
 		}
-		return new StyledString();
+
+		if (store.getBoolean(stereoPrefsLabel)) {
+			result.append(stereoStyledString);
+		}
+
+		result.append(new StyledString(label, new LabelStyler(component)));
+		return result;
 	}
 }
