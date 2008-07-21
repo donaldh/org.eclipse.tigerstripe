@@ -70,6 +70,21 @@ public interface IAnnotationCapable {
 	public List<Object> getAnnotations(String annotationType);
 
 	/**
+	 * Returns the list of annotations defined against this object for the "tigerstripe"
+	 * scheme and annotationType
+	 * 
+	 * @param scheme -
+	 *            the scheme to match, e.g. "tigerstripe"
+	 * @param annotationType -
+	 *            the annotation type to match. Match is done on the fully
+	 *            qualified name of the annotation type using endsWidth(..), so
+	 *            "org.eclipse.tigerstripe.annotation.example.Person" or
+	 *            "Person" would work, e.g.
+	 * @return the list of annotations for the given scheme and annotationType
+	 */
+	public List<Object> getAnnotations(Class<?> annotationType);
+
+	/**
 	 * Returns the first annotation defined against this object for the given
 	 * scheme and annotationType
 	 * 
@@ -130,6 +145,19 @@ public interface IAnnotationCapable {
 	 * @return true - if there is any annotation defined against this object
 	 */
 	public boolean hasAnnotations(String annotationType);
+
+	/**
+	 * Returns true if there is any annotation defined against this object for
+	 * the "tigerstripe" scheme and given annotationType
+	 * 
+	 * @param annotationType -
+	 *            the annotation type to match. Match is done on the fully
+	 *            qualified name of the annotation type using endsWidth(..), so
+	 *            "org.eclipse.tigerstripe.annotation.example.Person" or
+	 *            "Person" would work, e.g.
+	 * @return true - if there is any annotation defined against this object
+	 */
+	public boolean hasAnnotations(Class<?> annotationType);
 
 	/**
 	 * Returns true if there is any annotation defined against this object for

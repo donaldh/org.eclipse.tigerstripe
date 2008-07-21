@@ -164,6 +164,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method return"));
 			return null;
 		}
+		
+		public List<Object> getAnnotations(Class<?> schemeID) {
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method return"));
+			return null;
+		}
 
 		public List<Object> getAnnotations(String schemeID,
 				String annotationSpecificationID) {
@@ -179,6 +185,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 		
 		public boolean hasAnnotations(String schemeID) {
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method return"));
+			return false;
+		}
+		
+		public boolean hasAnnotations(Class<?> schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method return"));
 			return false;
@@ -833,7 +845,13 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method Arguments"));
 			return null;
 		}
-
+		
+		public List<Object> getAnnotations(Class<?> schemeID) {
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method Arguments"));
+			return null;
+		}
+		
 		public List<Object> getAnnotations(String schemeID,
 				String annotationSpecificationID) {
 			BasePlugin.log(new TigerstripeException(
@@ -852,7 +870,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					"Annotations not supported on Method Arguments"));
 			return false;
 		}
-
+		
+		public boolean hasAnnotations(Class<?> schemeID) {
+			BasePlugin.log(new TigerstripeException(
+					"Annotations not supported on Method Arguments"));
+			return false;
+		}
 		public boolean hasAnnotations(String schemeID,
 				String annotationSpecificationID) {
 			BasePlugin.log(new TigerstripeException(

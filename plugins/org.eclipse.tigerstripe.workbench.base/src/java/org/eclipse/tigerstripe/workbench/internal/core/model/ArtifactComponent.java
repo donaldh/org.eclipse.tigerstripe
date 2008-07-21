@@ -394,6 +394,19 @@ public abstract class ArtifactComponent implements IModelComponent,
 		}
 		return Collections.unmodifiableList(annotations);
 	}
+	
+	public List<Object> getAnnotations(Class<?> type) {
+		IAnnotationManager mgr = AnnotationPlugin.getManager();
+		List<Object> annotations = new LinkedList<Object>();
+		Annotation[] all = mgr.getAnnotations(this, false);
+		for (Annotation a : all) {
+			String e = a.getUri().scheme();
+			if (a.getUri().scheme().equals(TS_SCHEME) && type.isInstance(a.getContent())) {
+				annotations.add(a.getContent());
+			}
+		}
+		return Collections.unmodifiableList(annotations);
+	}
 
 	public Object getAnnotation(String annotationSpecificationID) {
 		List<Object> all = getAnnotations(TS_SCHEME);
@@ -459,7 +472,11 @@ public abstract class ArtifactComponent implements IModelComponent,
 		}
 		return false;
 	}
-
+	
+	public boolean hasAnnotations(Class<?> annotationType) {
+		return !getAnnotations(annotationType).isEmpty();
+	}
+	
 	public Annotation addAnnotation(String scheme, String packij, String clazz)
 			throws TigerstripeException {
 		IAnnotationManager manager = AnnotationPlugin.getManager();
