@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.example.customview;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -25,6 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.AnnotationPropertiesSection;
+import org.eclipse.tigerstripe.annotation.ui.example.customview.styles.StylesPackage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
@@ -34,8 +36,145 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
  */
 public class FontSection extends AnnotationPropertiesSection {
 	
+	private static final String BOLD = "Bold";
+	private static final String ITALIC = "Italic";
+	private static final String NORMAL = "Normal";
+	
+	private FontProperty nameProperty;
+	private FontProperty heightProperty;
+	private FontProperty styleProperty;
+	
+	private Annotation annotation;
 	private CLabel preview;
 	private FontData data;
+	
+	private class FontProperty {
+		
+		private static final int NAME = 1;
+		private static final int HEIGHT = 2;
+		private static final int STYLE = 3;
+		
+		private int property;
+		private CCombo propertyCombo;
+		
+		public FontProperty(int property) {
+			this.property = property;
+		}
+		
+		private EAttribute getFeature() {
+			switch (property) {
+				case STYLE:
+					return StylesPackage.eINSTANCE.getFont_Style();
+				case HEIGHT:
+					return StylesPackage.eINSTANCE.getFont_Height();
+				default:
+					return StylesPackage.eINSTANCE.getFont_Name();
+			}
+		}
+		
+		private String getDefault() {
+			Font defaultFont = JFaceResources.getDefaultFont();
+			FontData defaultData = defaultFont.getFontData()[0];
+			switch (property) {
+				case STYLE:
+					return getOppositeValue(defaultData.getStyle());
+				case HEIGHT:
+					return getOppositeValue(defaultData.getHeight());
+				default:
+					return defaultData.getName();
+			}
+			
+		}
+		
+		private String getOppositeValue(int value) {
+			switch (property) {
+				case STYLE:
+					if (value == SWT.BOLD)
+						return BOLD;
+					if (value == SWT.ITALIC)
+						return ITALIC;
+					return NORMAL;
+				default:
+					return value + "";
+			}
+		}
+		
+		private int getValue(String value) {
+			switch (property) {
+				case STYLE:
+					if (value.equals(BOLD))
+						return SWT.BOLD;
+					if (value.equals(ITALIC))
+						return SWT.ITALIC;
+					return SWT.NORMAL;
+				default:
+					return Integer.parseInt(value);
+			}
+		}
+		
+		public void update() {
+			EAttribute attr = getFeature();
+			Object value = annotation.getContent().eGet(attr);
+			String text;
+			if ((value == null && attr.getDefaultValue() == null) ||
+					(value != null && attr.getDefaultValue() != null &&
+							value.equals(attr.getDefaultValue()))) {
+				text = getDefault();
+			}
+			else {
+				if (property == STYLE)
+					text = getOppositeValue( ((Integer)value).intValue() );
+				else
+					text = value.toString();
+			}
+			setPreview(text);
+			propertyCombo.setText(text);
+		}
+		
+		private void setPreview(String value) {
+			switch (property) {
+				case NAME:
+					data.setName(value);
+					break;
+				case HEIGHT:
+					data.setHeight(getValue(value));
+					break;
+				case STYLE:
+					data.setStyle(getValue(value));
+					break;
+			}
+			Font font = new Font(preview.getDisplay(), data);
+			preview.setFont(font);
+			preview.getParent().layout();
+		}
+		
+		private void set(String value) {
+			setPreview(value);
+			if (annotation != null) {
+				if (property == NAME)
+					annotation.getContent().eSet(getFeature(), value);
+				else {
+					annotation.getContent().eSet(
+							getFeature(), new Integer(getValue(value)));
+				}
+			}
+		}
+		
+		public void create(Composite parent, TabbedPropertySheetWidgetFactory factory, String[] items) {
+			propertyCombo = factory.createCCombo(parent, SWT.READ_ONLY | SWT.BORDER);
+			propertyCombo.setItems(items);
+			propertyCombo.addSelectionListener(new SelectionListener() {
+			
+				public void widgetSelected(SelectionEvent e) {
+					set(propertyCombo.getText());
+				}
+			
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			});
+		}
+		
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
@@ -45,8 +184,6 @@ public class FontSection extends AnnotationPropertiesSection {
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
 		parent.setLayout(new GridLayout());
-		Font defaultFont = JFaceResources.getDefaultFont();
-		FontData defaultData = defaultFont.getFontData()[0];
 		
 		TabbedPropertySheetWidgetFactory factory = tabbedPropertySheetPage.getWidgetFactory();
 		
@@ -54,73 +191,29 @@ public class FontSection extends AnnotationPropertiesSection {
 		group.setLayout(new GridLayout(3, false));
 		group.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		final CCombo fontCombo = factory.createCCombo(group, SWT.READ_ONLY | SWT.BORDER);
-		fontCombo.setItems(FontHelper.getFontNames());
-		fontCombo.addSelectionListener(new SelectionListener() {
+		nameProperty = new FontProperty(FontProperty.NAME);
+		nameProperty.create(group, factory, FontHelper.getFontNames());
 		
-			public void widgetSelected(SelectionEvent e) {
-				data.setName(fontCombo.getText());
-				Font font = new Font(preview.getDisplay(), data);
-				preview.setFont(font);
-			}
+		heightProperty = new FontProperty(FontProperty.HEIGHT);
+		heightProperty.create(group, factory, FontHelper.getFontSizes());
 		
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-		fontCombo.setText(defaultData.getName());
-		
-		final CCombo sizeCombo = factory.createCCombo(group, SWT.READ_ONLY | SWT.BORDER);
-		sizeCombo.setItems(FontHelper.getFontSizes());
-		sizeCombo.addSelectionListener(new SelectionListener() {
-			
-			public void widgetSelected(SelectionEvent e) {
-				data.setHeight(Integer.parseInt(sizeCombo.getText()));
-				Font font = new Font(preview.getDisplay(), data);
-				preview.setFont(font);
-			}
-		
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-		sizeCombo.setText(defaultData.getHeight() + "");
-		
-		final CCombo styleCombo = factory.createCCombo(group, SWT.READ_ONLY | SWT.BORDER);
-		styleCombo.setItems(new String[] { "Normal", "Bold", "Italic"});
-		styleCombo.addSelectionListener(new SelectionListener() {
-			
-			public void widgetSelected(SelectionEvent e) {
-				String text = styleCombo.getText();
-				int style = SWT.NORMAL;
-				if (text.equals("Bold")) {
-					style = SWT.BOLD;
-				}
-				if (text.equals("Italic")) {
-					style = SWT.ITALIC;
-				}
-				data.setStyle(style);
-				Font font = new Font(preview.getDisplay(), data);
-				preview.setFont(font);
-			}
-		
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-		styleCombo.setText(defaultData.getStyle() + "");
-		
+		styleProperty = new FontProperty(FontProperty.STYLE);
+		styleProperty.create(group, factory, new String[] { NORMAL, BOLD, ITALIC});
 		
 		preview = factory.createCLabel(group, "Example Text");
 		data = new FontData();
-		data.setHeight(defaultData.getHeight());
-		data.setName(defaultData.getName());
-		data.setStyle(defaultData.getStyle());
-		preview.setFont(new Font(preview.getDisplay(), data));
 		
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		GridData gridData = new GridData(GridData.FILL_BOTH);
 		gridData.horizontalSpan = 3;
+		gridData.verticalAlignment = SWT.BEGINNING;
 		preview.setLayoutData(gridData);
 	}
 	
 	protected void updateSection(Annotation annotation) {
+		this.annotation = annotation;
+		nameProperty.update();
+		heightProperty.update();
+		styleProperty.update();
 	}
 
 }

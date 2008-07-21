@@ -36,11 +36,66 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 public class ColorSection extends AnnotationPropertiesSection {
 	
 	private Composite right;
-	private Slider red;
-	private Slider green;
-	private Slider blue;
+	private EditorBunch red;
+	private EditorBunch green;
+	private EditorBunch blue;
 	
 	private Annotation annotation;
+	
+	private class EditorBunch {
+		
+		private Slider slider;
+		private Spinner spinner;
+		private String feature;
+		
+		public EditorBunch(Slider slider, Spinner spinner, String feature) {
+			this.slider = slider;
+			this.spinner = spinner;
+			this.feature = feature;
+			init();
+		}
+		
+		public void setSelection(int selection) {
+			if (slider.getSelection() != selection)
+				slider.setSelection(selection);
+			if (spinner.getSelection() != selection)
+				spinner.setSelection(selection);
+		}
+		
+		public int getSelection() {
+			return spinner.getSelection();
+		}
+		
+		private void init() {
+			slider.addSelectionListener(new SelectionListener() {
+				
+				public void widgetSelected(SelectionEvent e) {
+					int value = slider.getSelection();
+					if (spinner.getSelection() != value)
+						spinner.setSelection(value);
+					updateColor(feature, value);
+					updateColor();
+				}
+			
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			});
+			slider.setMinimum(0);
+			slider.setMaximum(255);
+			spinner.addModifyListener(new ModifyListener() {
+			
+				public void modifyText(ModifyEvent e) {
+					int value = spinner.getSelection();
+					if (value != slider.getSelection())
+						slider.setSelection(value);
+					updateColor(feature, value);
+					updateColor();
+				}
+			});
+			spinner.setMinimum(0);
+			spinner.setMaximum(255);
+		}
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.views.properties.tabbed.AbstractPropertySection#createControls(org.eclipse.swt.widgets.Composite, org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage)
@@ -63,39 +118,11 @@ public class ColorSection extends AnnotationPropertiesSection {
 		updateColor();
 	}
 	
-	protected Slider getColorSpinner(Composite parent, TabbedPropertySheetWidgetFactory factory,
+	protected EditorBunch getColorSpinner(Composite parent, TabbedPropertySheetWidgetFactory factory,
 			final String feature) {
 		factory.createLabel(parent, feature.substring(0, 1).toUpperCase() + feature.substring(1));
-		final Slider slider = new Slider(parent, SWT.NONE);
-		slider.setMinimum(0);
-		slider.setMaximum(255);
-		final Spinner spinner = new Spinner(parent, SWT.BORDER);
-		spinner.setMinimum(0);
-		spinner.setMaximum(255);
-		slider.addSelectionListener(new SelectionListener() {
-			
-			public void widgetSelected(SelectionEvent e) {
-				int value = slider.getSelection();
-				if (spinner.getSelection() != value)
-					spinner.setSelection(value);
-				updateColor(feature, value);
-				updateColor();
-			}
-		
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-		spinner.addModifyListener(new ModifyListener() {
-		
-			public void modifyText(ModifyEvent e) {
-				int value = spinner.getSelection();
-				if (value != slider.getSelection())
-					slider.setSelection(value);
-				updateColor(feature, value);
-				updateColor();
-			}
-		});
-		return slider;
+		return new EditorBunch(new Slider(parent, SWT.NONE),
+				new Spinner(parent, SWT.BORDER), feature);
 	}
 	
 	private void updateColor() {
@@ -107,7 +134,10 @@ public class ColorSection extends AnnotationPropertiesSection {
 	private void updateColor(String feature, int value) {
 		EStructuralFeature efeature = annotation.getContent(
 				).eClass().getEStructuralFeature(feature);
-		annotation.getContent().eSet(efeature, new Integer(value));
+		Object oldValue = annotation.getContent().eGet(efeature);
+		Object newValue = new Integer(value);
+		if (oldValue == null || !oldValue.equals(newValue))
+			annotation.getContent().eSet(efeature, newValue);
 	}
 	
 	private void updateColor(Annotation annotation) {
