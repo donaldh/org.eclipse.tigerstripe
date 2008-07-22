@@ -25,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
@@ -564,133 +565,148 @@ public class ComponentNameProvider implements IComponentNameProvider{
 			}
 		}
 		
-		IType aEndType = association.getAEnd().getType();
-		IType zEndType = association.getZEnd().getType();
+		IType sourceType = association.getAEnd().getType();
+		IType targetType = association.getZEnd().getType();
 		
 		int index = 0;
 
 		// compute aEnd name
-		String aEndName = unCapitalize(aEndType.getName());
-		String zEndName = unCapitalize(zEndType.getName());
+		String sourceName = unCapitalize(sourceType.getName());
+		String targetName = unCapitalize(targetType.getName());
+		
+		boolean selfReference = (targetType.getFullyQualifiedName().equals(sourceType.getFullyQualifiedName()));
 
+		boolean hasExistingReference = false;
+		
+		
 		try {
 			tsProject = artifact.getTigerstripeProject();
 			IArtifactManagerSession session = tsProject
 			.getArtifactManagerSession();
 
-			Set<IRelationship> existingA = new HashSet<IRelationship>();
-			existingA.addAll(session.getOriginatingRelationshipForFQN(
-					aEndType.getFullyQualifiedName(), true));
-			Set<IRelationship> existingZ = new HashSet<IRelationship>();
-			existingZ.addAll(session.getTerminatingRelationshipForFQN(
-					aEndType.getFullyQualifiedName(), true));
-
-			Collection<IField> fields = new ArrayList<IField>();
-			IAbstractArtifact aArtifact = session
-			.getArtifactByFullyQualifiedName(aEndType
-					.getFullyQualifiedName());
-			if (aArtifact != null) {
-				fields.addAll(aArtifact.getFields());
-				fields.addAll(aArtifact.getInheritedFields());
+			Set<IRelationshipEnd> ends = new HashSet<IRelationshipEnd>();
+			for (IRelationship rel : session.getOriginatingRelationshipForFQN(
+					sourceType.getFullyQualifiedName(), true)){
+				if (rel.getRelationshipZEnd().getType().equals(targetType) && !rel.equals(association)){
+					hasExistingReference = true;
+				}
+				// Now build a list of End Names
+				// Consider those that are from this to that! Or Self Refs
+				if (selfReference){
+					// Check everything - except myself!
+					if (! rel.equals(association)){
+						ends.add(rel.getRelationshipAEnd());
+											}
+				} else if ((rel.getRelationshipZEnd().getType().equals(targetType) ||
+						rel.getRelationshipAEnd().getType().equals(sourceType)) &&
+						! rel.equals(association)){
+					ends.add(rel.getRelationshipAEnd());
+				} 
+			
 			}
+			for (IRelationship rel : session.getTerminatingRelationshipForFQN(
+					sourceType.getFullyQualifiedName(), true)){
+				if (rel.getRelationshipAEnd().getType().equals(targetType) && !rel.equals(association)){
+					hasExistingReference = true;
+				}
+				
+				// Check everything - except myself!
+				if (! rel.equals(association)){
+					ends.add(rel.getRelationshipZEnd());
+				} else if ((rel.getRelationshipAEnd().getType().equals(targetType) ||
+						    rel.getRelationshipZEnd().getType().equals(targetType))&&
+						    ! rel.equals(association)){
+					ends.add(rel.getRelationshipZEnd());
+					
+				} 			
+			}
+
 
 			boolean found = false;
 
-			String tmpAName = aEndName;
-			do {
-				found = false;
-				for (IRelationship rel : existingA) {
-					// Check the *remote* End of any existing associations
-					if (tmpAName.equals(rel.getRelationshipAEnd().getName())) {
-						found = true;
-						tmpAName = aEndName + "_" + index++;
-					}
-				}
+			String tmpAName = sourceName;
+			//If this is self referencing we seed with some suffixes
+			// Check for self association
+			if (selfReference || hasExistingReference) {
+				tmpAName = sourceName + "_" + index++;
 
-				if (!found) {
-					for (IRelationship rel : existingZ) {
-						// Check the *remote* End of any existing
-						// associations
-						if (tmpAName.equals(rel.getRelationshipZEnd()
-								.getName())) {
+				do {
+					found = false;
+					for (IRelationshipEnd relEnd : ends) {
+						// Check the *local* End of any existing outgoing associations
+						if (tmpAName.equals(relEnd.getName())) {
 							found = true;
-							tmpAName = aEndName + "_" + index++;
-						}
-					}
-				}
-
-				if (!found) {
-					for (IField field : fields) {
-						if (tmpAName.equals(field.getName())) {
-							found = true;
-							tmpAName = aEndName + "_" + index++;
+							tmpAName = sourceName + "_" + index++;
 						}
 					}
 
-				}
 
-			} while (found);
-			aEndName = tmpAName;
+				} while (found);
+			}
+			sourceName = tmpAName;
+			
 		
 
-		// compute zEnd name
+			// compute zEnd name
+			if (whichEnd == ZEND){
 
-		// Check for self association
-		if (zEndType.getFullyQualifiedName().equals(aEndType.getFullyQualifiedName())) {
-			zEndName = zEndName + "_" + index++;
-		} else {
-			index = 0;
-		}
+				hasExistingReference = false;
+				ends.clear();
+				for (IRelationship rel : session.getOriginatingRelationshipForFQN(
+						targetType.getFullyQualifiedName(), true)){
+					if (rel.getRelationshipZEnd().getType().equals(sourceType) && !rel.equals(association)){
+						hasExistingReference = true;
+					}
+					if (selfReference){
+						// Check everything - except myself!
+						if (! rel.equals(association)){
+							ends.add(rel.getRelationshipAEnd());
+						}
+					} else if (rel.getRelationshipZEnd().getType().equals(sourceType) &&
+							! rel.equals(association)){
+						ends.add(rel.getRelationshipAEnd());
+
+					}
+				}
+				for (IRelationship rel : session.getTerminatingRelationshipForFQN(
+						targetType.getFullyQualifiedName(), true)){
+					if (rel.getRelationshipAEnd().getType().equals(sourceType) && !rel.equals(association)){
+						hasExistingReference = true;
+					}
+					// Check everything - except myself!
+					if (! rel.equals(association)){
+						ends.add(rel.getRelationshipZEnd());
+					} else if (rel.getRelationshipAEnd().getType().equals(sourceType) &&
+							! rel.equals(association)){
+						ends.add(rel.getRelationshipZEnd());
+					}
 
 
-			existingA = new HashSet<IRelationship>();
-			existingA.addAll(session.getOriginatingRelationshipForFQN(
-					zEndType.getFullyQualifiedName(), true));
-			existingZ = new HashSet<IRelationship>();
-			existingZ.addAll(session.getTerminatingRelationshipForFQN(
-					zEndType.getFullyQualifiedName(), true));
+				}
 
-			fields = new ArrayList<IField>();
-			IAbstractArtifact zArtifact = session
-			.getArtifactByFullyQualifiedName(aEndType
-					.getFullyQualifiedName());
-			if (zArtifact != null) {
-				fields.addAll(zArtifact.getFields());
-				fields.addAll(zArtifact.getInheritedFields());
-			}
 
-			found = false;
-
-			String tmpZName = zEndName;
-			do {
 				found = false;
-				for (IRelationship rel : existingZ) {
-					if (tmpZName.equals(rel.getRelationshipZEnd().getName())) {
-						found = true;
-						tmpZName = zEndName + "_" + index++;
-					}
-				}
-				if (!found) {
-					for (IRelationship rel : existingA) {
-						if (tmpZName.equals(rel.getRelationshipAEnd()
-								.getName())) {
-							found = true;
-							tmpZName = zEndName + "_" + index++;
-						}
-					}
-				}
 
-				if (!found) {
-					for (IField field : fields) {
-						if (tmpZName.equals(field.getName())) {
-							found = true;
-							tmpZName = zEndName + "_" + index++;
-						}
-					}
-				}
+				String tmpZName = targetName;
+				if (! selfReference)
+					index = 0;
+				// Check for self association
+				if (selfReference || hasExistingReference) {
+					tmpZName = targetName + "_" + index++;
+					do {
+						found = false;
+						for (IRelationshipEnd relEnd : ends) {
 
-			} while (found);
-			zEndName = tmpZName;
+							if (tmpZName.equals(relEnd.getName())) {
+								found = true;
+								tmpZName = targetName + "_" + index++;
+							}
+						}
+
+					} while (found);
+				}
+				targetName = tmpZName;
+			}
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 		}
@@ -698,11 +714,11 @@ public class ComponentNameProvider implements IComponentNameProvider{
 
 		switch (whichEnd) {
 		case AEND:
-			return aEndName;
+			return sourceName;
 		case ZEND:
-			return zEndName;
+			return targetName;
 		default:
-			return aEndName;
+			return sourceName;
 		}
 		
 	}
