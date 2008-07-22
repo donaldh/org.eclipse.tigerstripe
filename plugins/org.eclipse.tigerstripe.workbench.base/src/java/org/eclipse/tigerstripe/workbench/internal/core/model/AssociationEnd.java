@@ -320,7 +320,7 @@ public class AssociationEnd extends ArtifactComponent implements
 	}
 
 	public String getLabelString() {
-		String result = getName() + "::" + getType().getName();
+		String result = getName() + ":" + getType().getName();
 		if (getMultiplicity() != IModelComponent.EMultiplicity.ONE) {
 			result = result + "[" + getMultiplicity().getLabel() + "]";
 		}
