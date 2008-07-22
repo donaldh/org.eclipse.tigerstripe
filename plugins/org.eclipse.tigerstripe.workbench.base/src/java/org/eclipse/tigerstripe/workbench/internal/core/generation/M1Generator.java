@@ -205,11 +205,13 @@ public class M1Generator {
 			
 			// First look at the modules to be generated.
 			if (config.isGenerateModules()) {
+				monitor.subTask("Modules");
 				PluginRunStatus[] subResult = generateModules(monitor);
 				overallResult.addAll(Arrays.asList(subResult));
 			}
 
 			if (config.isGenerateRefProjects()) {
+				monitor.subTask("Referenced Projects");
 				PluginRunStatus[] subResult = generateRefProjects(monitor);
 				overallResult.addAll(Arrays.asList(subResult));
 			}
@@ -217,6 +219,7 @@ public class M1Generator {
 			SubProgressMonitor preWork = new SubProgressMonitor(monitor,WORK_UNIT);
 			SubProgressMonitor postWork = new SubProgressMonitor(monitor,WORK_UNIT);
 			// Iterate over all facets unless specified
+			monitor.subTask("Running Generators");
 			if (config.isIgnoreFacets()) {
 				preWork.beginTask("Preparing for generation", 1);
 				IFacetReference currentFacet = project.getActiveFacet();
@@ -876,6 +879,12 @@ public class M1Generator {
 			}
 			overallResult.addAll(Arrays.asList(subResult));
 			subMonitor.worked(1);
+			if (subMonitor.isCanceled()){
+				subMonitor.done();
+				return overallResult.toArray(new PluginRunStatus[overallResult
+					                             					.size()]);
+			}
+
 		}
 
 		subMonitor.done();
@@ -942,6 +951,10 @@ public class M1Generator {
 			// is clean
 			index++;
 			subMonitor.worked(1);
+			if (subMonitor.isCanceled()){
+				subMonitor.done();
+				return result;
+			}
 		}
 		subMonitor.done();
 		return result;
