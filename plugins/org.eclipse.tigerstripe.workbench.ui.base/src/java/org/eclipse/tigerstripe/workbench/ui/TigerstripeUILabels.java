@@ -58,7 +58,7 @@ public class TigerstripeUILabels {
 	}
 
 	private static StyledString getStyledString(IRelationshipEnd end, long flags) {
-		return new StyledString(end.getType().getFullyQualifiedName());
+		return new StyledString(end.getType().getName());
 	}
 
 	public static String getStringLabel(Object component, long flags) {
