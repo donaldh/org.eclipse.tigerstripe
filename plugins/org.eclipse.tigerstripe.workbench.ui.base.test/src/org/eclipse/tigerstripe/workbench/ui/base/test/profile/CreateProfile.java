@@ -84,14 +84,14 @@ public class CreateProfile extends UITestCaseSWT {
 		ui.enterText(TestingConstants.NEW_PRIMITIVE_TYPE_NAME);
 		
 		// create some stereotypes
-		ui.click(new CTabItemLocator("Stereotypes"));
-		com.windowtester.runtime.locator.IWidgetLocator[] allAdds = ui.findAll(new ButtonLocator("Add"));
-		ui.click(allAdds[0]);
+		// ui.click(new CTabItemLocator("Stereotypes"));
+		// com.windowtester.runtime.locator.IWidgetLocator[] allAdds = ui.findAll(new ButtonLocator("Add"));
+		// ui.click(allAdds[0]);
 		
 		// There's another one now!
-        allAdds = ui.findAll(new ButtonLocator("Add"));
-		ui.click(allAdds[0]); // This one works
-		ui.click(allAdds[1]); // This one seems to be out of view!
+        // allAdds = ui.findAll(new ButtonLocator("Add"));
+		// ui.click(allAdds[0]); // This one works
+		// ui.click(allAdds[1]); // This one seems to be out of view!
 		
 		/*ButtonLocator addAnnotationButton = new ButtonLocator("Add");
 		ui.click(addAnnotationButton);

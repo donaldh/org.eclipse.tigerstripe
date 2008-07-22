@@ -1,6 +1,9 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.suite;
 
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.locator.XYLocator;
@@ -11,15 +14,29 @@ import com.windowtester.runtime.swt.locator.ButtonLocator;
 import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
 import com.windowtester.runtime.swt.locator.MenuItemLocator;
-import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
 
 public class CleanWorkspace extends UITestCaseSWT {
 
+	static void maximizeWorkbench() {
+        Display.getDefault().syncExec(new Runnable()
+        {
+            public void run()
+            {
+                IWorkbench workbench = PlatformUI.getWorkbench();
+                IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+                window.getShell().setMaximized(true);
+            }
+        });
+}
+
+	
+	
 	/**
 	 * Main test method.
 	 */
 	public void testCleanWorkspace() throws Exception {
+		maximizeWorkbench();
 		IUIContext ui = getUI();
 		ui.click(new XYLocator(new CTabItemLocator("Welcome"), 79, 11));
 		ui.click(new XYLocator(new CTabItemLocator("Outline"), 79, 11));

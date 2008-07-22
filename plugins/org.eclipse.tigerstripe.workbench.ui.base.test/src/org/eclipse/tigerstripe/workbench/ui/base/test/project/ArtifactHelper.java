@@ -74,7 +74,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 				
 		// collapse the Attributes sections
 		ui.click(sectionLabel);
-		return thisAttributeName+"::"+typeValue;
+		return thisAttributeName+":"+typeValue;
 	}
 
 	public static String newLiteral(IUIContext ui, String artifactName, String thisLiteralName) throws Exception {
@@ -126,7 +126,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 		//Save it
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		
-		String methodSignature = thisMethodName+"()::void";
+		String methodSignature = thisMethodName+"():void";
 		TableItemLocator methodNameInTable = new TableItemLocator(methodSignature);
 		ui.click(methodNameInTable);
 		assertEquals("Method Name  changed on save", thisMethodName, name.getText(ui));	
@@ -163,7 +163,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 			if (aTypeTextValue.contains(".")){
 				aTypeTextValue = aTypeTextValue.substring(aTypeTextValue.lastIndexOf(".")+1);
 			}
-			ends.add(aNameTextValue+"::"+aTypeTextValue);
+			ends.add(aNameTextValue+":"+aTypeTextValue);
 
 
 			
@@ -179,7 +179,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 				zTypeTextValue = zTypeTextValue.substring(zTypeTextValue.lastIndexOf(".")+1);
 			}
 			
-			ends.add(zNameTextValue+"::"+zTypeTextValue);
+			ends.add(zNameTextValue+":"+zTypeTextValue);
 
 			// collapse the section
 			ui.click(sectionLabel);
@@ -216,7 +216,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 				aTypeTextValue = aTypeTextValue.substring(aTypeTextValue.lastIndexOf(".")+1);
 			}
 			
-			ends.add("aEnd::"+aTypeTextValue);
+			ends.add(aTypeTextValue);
 			
 			IWidgetReference zTypeRef = (IWidgetReference)ui.find(new NamedWidgetLocator("zEndTypeText")); 
 			Text zTypeWidget = (Text) zTypeRef.getWidget();
@@ -225,7 +225,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 			if (zTypeTextValue.contains(".")){
 				zTypeTextValue = zTypeTextValue.substring(zTypeTextValue.lastIndexOf(".")+1);
 			}
-			ends.add("zEnd::"+zTypeTextValue);
+			ends.add(zTypeTextValue);
 			
 			// collapse the section
 			ui.click(sectionLabel);
