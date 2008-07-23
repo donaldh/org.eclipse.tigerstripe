@@ -1031,10 +1031,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void setFields(Collection<IField> fields) {
 		this.fields.clear();
 		this.fields.addAll(fields);
+		Collection<IModelComponent> startingComponents = new ArrayList<IModelComponent>();
 		for (IModelComponent component: this.getContainedModelComponents()){
 			if (component instanceof IField){
-				this.removeContainedModelComponent(component);
+				startingComponents.add(component);
 			}
+		}
+		for (IModelComponent component: startingComponents){
+			this.removeContainedModelComponent(component);
 		}
 		for (IField field : fields) {
 			((Field) field).setContainingArtifact(this);
@@ -1076,11 +1080,17 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void setLiterals(Collection<ILiteral> literals) {
 		this.literals.clear();
 		this.literals.addAll(literals);
+		Collection<IModelComponent> startingComponents = new ArrayList<IModelComponent>();
 		for (IModelComponent component: this.getContainedModelComponents()){
 			if (component instanceof ILiteral){
-				this.removeContainedModelComponent(component);
+				startingComponents.add(component);
 			}
 		}
+		for (IModelComponent component: startingComponents){
+			this.removeContainedModelComponent(component);
+		}
+		
+		
 		for (ILiteral literal : literals) {
 			((Literal) literal).setContainingArtifact(this);
 		}
@@ -1119,10 +1129,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void setMethods(Collection<IMethod> methods) {
 		this.methods.clear();
 		this.methods.addAll(methods);
+		Collection<IModelComponent> startingComponents = new ArrayList<IModelComponent>();
 		for (IModelComponent component: this.getContainedModelComponents()){
 			if (component instanceof IMethod){
-				this.removeContainedModelComponent(component);
+				startingComponents.add(component);
 			}
+		}
+		for (IModelComponent component: startingComponents){
+			this.removeContainedModelComponent(component);
 		}
 		for (IMethod method : methods) {
 			((Method) method).setContainingArtifact(this);
