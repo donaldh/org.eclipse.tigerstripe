@@ -11,15 +11,10 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.WeakHashMap;
 
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
@@ -31,8 +26,8 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.viewers.ITigerstripeLabelDecorator;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecoratorManager;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.DiagramPropertiesHelper;
 
 /**
@@ -41,28 +36,6 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.DiagramPropertiesH
 public abstract class StereotypeNamePackageEditPart extends
 		AbstractLabelEditPart implements ITextAwareEditPart,
 		NamePackageInterface {
-
-	private static List<ITigerstripeLabelDecorator> decorators = new ArrayList<ITigerstripeLabelDecorator>();
-
-	static {
-		addTigerstripeLabelDecorators();
-	}
-
-	private static void addTigerstripeLabelDecorators() {
-		IConfigurationElement[] elements = Platform
-				.getExtensionRegistry()
-				.getConfigurationElementsFor(
-						"org.eclipse.tigerstripe.workbench.ui.base.labelDecorator");
-		for (IConfigurationElement element : elements) {
-			try {
-				ITigerstripeLabelDecorator deco = (ITigerstripeLabelDecorator) element
-						.createExecutableExtension("class");
-				decorators.add(deco);
-			} catch (CoreException e) {
-				EclipsePlugin.log(e);
-			}
-		}
-	}
 
 	protected WrappingLabel figure;
 
@@ -328,11 +301,10 @@ public abstract class StereotypeNamePackageEditPart extends
 	}
 
 	protected String decorateText(String text) {
-		String result = text;
-		for (ITigerstripeLabelDecorator decorator : decorators) {
-			result = decorator.decorateText(text, this.getParent());
-		}
-		return result;
+		return TigerstripeDecoratorManager.getDefault().decorateText(
+				text,
+				(IModelComponent) this.getParent().getAdapter(
+						IModelComponent.class));
 	}
 
 }

@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
@@ -43,6 +44,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorUndoManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecoratorManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.ui.IEditorInput;
@@ -78,7 +80,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	}
 
 	protected void setIArtifact(IAbstractArtifact artifact) {
-		if ( artifact == null)
+		if (artifact == null)
 			System.out.println("arggg Null");
 		this.artifact = artifact;
 	}
@@ -407,7 +409,9 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
-				setTitleImage(prov.getImage(getIArtifact()));
+				Image img = prov.getImage(getIArtifact());
+				setTitleImage(TigerstripeDecoratorManager.getDefault()
+						.decorateImage(img, getIArtifact()));
 			}
 		});
 	}

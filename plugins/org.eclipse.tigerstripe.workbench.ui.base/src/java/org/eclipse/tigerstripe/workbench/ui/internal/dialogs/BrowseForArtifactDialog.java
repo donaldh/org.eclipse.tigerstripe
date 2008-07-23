@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -25,10 +26,12 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifa
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
+import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecoratorManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.FilteredList.FilterMatcher;
@@ -37,7 +40,7 @@ import org.eclipse.ui.internal.misc.StringMatcher;
 /**
  * @author Eric Dillon
  * 
- * A bunch of convenience methods related to Entity Artifacts
+ *         A bunch of convenience methods related to Entity Artifacts
  * 
  */
 public class BrowseForArtifactDialog {
@@ -113,6 +116,16 @@ public class BrowseForArtifactDialog {
 					return " " + super.getText(element);
 				}
 				return super.getText(element);
+			}
+
+			@Override
+			public Image getImage(Object element) {
+				if (element instanceof IModelComponent) {
+					return TigerstripeDecoratorManager.getDefault()
+							.decorateImage(super.getImage(element),
+									(IModelComponent) element);
+				}
+				return super.getImage(element);
 			}
 		};
 		ElementListSelectionDialog elsd = new ElementListSelectionDialog(
@@ -213,7 +226,7 @@ public class BrowseForArtifactDialog {
 		// artifacts locally.
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 		List<String> nameList = new ArrayList<String>(); // used to avoid
-															// duplicates
+		// duplicates
 		for (Iterator iterArtifacts = artifacts.iterator(); iterArtifacts
 				.hasNext();) {
 			AbstractArtifact artifact = (AbstractArtifact) iterArtifacts.next();

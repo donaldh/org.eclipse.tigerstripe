@@ -14,11 +14,8 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
@@ -68,6 +65,7 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TSElementSorter;
+import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecoratorManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TigerstripeExplorerActionGroup;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.ClasspathContainerFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.DottedFilesFilter;
@@ -172,18 +170,9 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 	private void addTigerstripeLabelDecorators(
 			TigerstripeExplorerLabelProvider provider) {
-		IConfigurationElement[] elements = Platform
-				.getExtensionRegistry()
-				.getConfigurationElementsFor(
-						"org.eclipse.tigerstripe.workbench.ui.base.labelDecorator");
-		for (IConfigurationElement element : elements) {
-			try {
-				ITigerstripeLabelDecorator deco = (ITigerstripeLabelDecorator) element
-						.createExecutableExtension("class");
-				provider.addLabelDecorator(deco);
-			} catch (CoreException e) {
-				EclipsePlugin.log(e);
-			}
+		for (ITigerstripeLabelDecorator decorator : TigerstripeDecoratorManager
+				.getDefault().getDecorators()) {
+			provider.addLabelDecorator(decorator);
 		}
 	}
 
