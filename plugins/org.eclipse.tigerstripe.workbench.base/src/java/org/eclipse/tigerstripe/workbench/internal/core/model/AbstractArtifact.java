@@ -45,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactMana
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.util.ContainedProperties;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -575,7 +576,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 						&& !getPackage().equals("primitive")) {
 					IArtifactManagerSession mgr = this.getProject()
 							.getArtifactManagerSession();
-					IPackageArtifact newPackageArtifact = PackageArtifact
+					PackageArtifact newPackageArtifact = PackageArtifact
 							.makeVolatileArtifactForPackage(mgr, getPackage());
 					mgr.addArtifact(newPackageArtifact);
 					this.setContainingModelComponent(newPackageArtifact);
@@ -589,8 +590,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	void removePackageContainment() {
 		IModelComponent container = getContainingModelComponent();
-		if (container != null)
-			container.removeContainedModelComponent(this);
+		if (container instanceof PackageArtifact)
+			((PackageArtifact) container).removeContainedModelComponent(this);
 	}
 
 	/**
@@ -641,8 +642,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				.isEnabled()) {
 			// Remove the ref to this in my "Container"
 			IModelComponent container = this.getContainingModelComponent();
-			if (container != null) {
-				container.removeContainedModelComponent(this);
+			if (container instanceof PackageArtifact) {
+				((PackageArtifact) container).removeContainedModelComponent(this);
 
 			}
 		}
@@ -1000,7 +1001,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void addField(IField field) {
 		this.fields.add(field);
 		((Field) field).setContainingArtifact(this);
-
+		this.addContainedModelComponent(field);
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
 		facetFilteredFields = null;
@@ -1011,17 +1012,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		this.fields.removeAll(fields);
 		for (IField field : fields) {
 			((Field) field).setContainingArtifact(null);
+			this.removeContainedModelComponent(field);
 		}
-
+		
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
 		facetFilteredFields = null;
-		try {
-			this.resolvePackageContainment(new NullProgressMonitor());
-		} catch (TigerstripeException t) {
-			// ignore
 
-		}
 
 	}
 
@@ -1034,8 +1031,15 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void setFields(Collection<IField> fields) {
 		this.fields.clear();
 		this.fields.addAll(fields);
+		for (IModelComponent component: this.getContainedModelComponents()){
+			if (component instanceof IField){
+				this.removeContainedModelComponent(component);
+			}
+		}
 		for (IField field : fields) {
 			((Field) field).setContainingArtifact(this);
+			this.addContainedModelComponent(field);
+			
 		}
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
@@ -1045,7 +1049,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void addLiteral(ILiteral literal) {
 		this.literals.add(literal);
 		((Literal) literal).setContainingArtifact(this);
-
+		this.addContainedModelComponent(literal);
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
 		facetFilteredLiterals = null;
@@ -1055,16 +1059,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		this.literals.removeAll(literals);
 		for (ILiteral literal : literals) {
 			((Literal) literal).setContainingArtifact(null);
+			this.removeContainedModelComponent(literal);
 		}
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
 		facetFilteredLiterals = null;
-		try {
-			this.resolvePackageContainment(new NullProgressMonitor());
-		} catch (TigerstripeException t) {
-			// ignore
 
-		}
 	}
 
 	public ILiteral makeLiteral() {
@@ -1076,6 +1076,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void setLiterals(Collection<ILiteral> literals) {
 		this.literals.clear();
 		this.literals.addAll(literals);
+		for (IModelComponent component: this.getContainedModelComponents()){
+			if (component instanceof ILiteral){
+				this.removeContainedModelComponent(component);
+			}
+		}
 		for (ILiteral literal : literals) {
 			((Literal) literal).setContainingArtifact(this);
 		}
@@ -1093,7 +1098,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void addMethod(IMethod method) {
 		this.methods.add(method);
 		((Method) method).setContainingArtifact(this);
-
+		this.addContainedModelComponent(method);
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
 		facetFilteredMethods = null;
@@ -1103,21 +1108,22 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		this.methods.removeAll(methods);
 		for (IMethod method : methods) {
 			((Method) method).setContainingArtifact(null);
+			this.removeContainedModelComponent(method);
 		}
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
 		facetFilteredMethods = null;
-		try {
-			this.resolvePackageContainment(new NullProgressMonitor());
-		} catch (TigerstripeException t) {
-			// ignore
 
-		}
 	}
 
 	public void setMethods(Collection<IMethod> methods) {
 		this.methods.clear();
 		this.methods.addAll(methods);
+		for (IModelComponent component: this.getContainedModelComponents()){
+			if (component instanceof IMethod){
+				this.removeContainedModelComponent(component);
+			}
+		}
 		for (IMethod method : methods) {
 			((Method) method).setContainingArtifact(this);
 		}
@@ -1760,6 +1766,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
+	public void clearContainedModelComponents(){
+			containedComponents.clear();
+	}
+	
 	public void removeContainedModelComponent(IModelComponent component) {
 		if (containedComponents.contains(component)) {
 			containedComponents.remove(component);

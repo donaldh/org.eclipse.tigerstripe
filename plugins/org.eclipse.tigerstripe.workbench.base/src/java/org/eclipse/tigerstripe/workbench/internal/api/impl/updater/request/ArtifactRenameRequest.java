@@ -174,11 +174,13 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 						.getContainingModelComponent();
 				boolean containingChanged = false;
 				
+				AbstractArtifact aArtifact = (AbstractArtifact) artifact;
+				
 				if (containing instanceof IAbstractArtifact){
-					IAbstractArtifact containingArt = (IAbstractArtifact) containing;
+					AbstractArtifact containingArt = (AbstractArtifact) containing;
 					if (containingArt.getFullyQualifiedName().equals(oldFQN)
 							|| containingArt.getFullyQualifiedName().equals(newName)) {
-						artifact.setContainingModelComponent(referencedArtifact);
+						aArtifact.setContainingModelComponent(referencedArtifact);
 						needSave = true;
 					}
 				}
@@ -191,12 +193,12 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 				boolean containsChanged = false;
 				for (IModelComponent cont : contains) {
 
-					if (cont instanceof IAbstractArtifact){
-						IAbstractArtifact containedArt = (IAbstractArtifact) cont;
+					if (cont instanceof AbstractArtifact){
+						AbstractArtifact containedArt = (AbstractArtifact) cont;
 						if (containedArt.getFullyQualifiedName().equals(oldFQN)
 								|| containedArt.getFullyQualifiedName().equals(newName)) {
-							artifact.removeContainedModelComponent(cont);
-							artifact.addContainedModelComponent(referencedArtifact);
+							aArtifact.removeContainedModelComponent(cont);
+							aArtifact.addContainedModelComponent(referencedArtifact);
 							needSave = true;
 						}
 					}

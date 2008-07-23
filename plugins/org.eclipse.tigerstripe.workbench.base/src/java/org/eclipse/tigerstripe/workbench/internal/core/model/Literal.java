@@ -95,7 +95,12 @@ public class Literal extends ArtifactComponent implements ILiteral {
 
 
 	public void setType(IType type) {
-		this.type = (Type) type;
+		// Check for valid types
+		if (type.getName().equals("int") || type.getName().equals("String")){
+			this.type = (Type) type;
+		} else {
+//			throw new TigerstripeException("Invalid type set for Literal");
+		}
 	}
 
 	public String getValue() {

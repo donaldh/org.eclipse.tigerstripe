@@ -79,8 +79,9 @@ public class ArtifactCreateRequest extends BaseModelChangeRequest implements
 		artifact.setFullyQualifiedName(getFullyQualifiedName());
 
 		applyDefaults(artifact, mgrSession);
-		mgrSession.addArtifact(artifact);
 		artifact.doSave(new NullProgressMonitor());
+		mgrSession.addArtifact(artifact);
+		
 	}
 
 	// TODO: this should really live in the mgrSession itself

@@ -46,7 +46,7 @@ public class PackageArtifact extends AbstractArtifact implements
 	 * access a package.
 	 * @param packageName
 	 */
-	public static IPackageArtifact makeArtifactForPackage(IArtifactManagerSession mgr,String packageName) throws TigerstripeException {
+	public static PackageArtifact makeArtifactForPackage(IArtifactManagerSession mgr,String packageName) throws TigerstripeException {
 		// Split the "proper" package name up into 
 		// a package and name
 		String name = "";
@@ -82,7 +82,7 @@ public class PackageArtifact extends AbstractArtifact implements
 			updater.handleChangeRequest(createRequest);
 			
 			
-			return (IPackageArtifact) mgr.getArtifactByFullyQualifiedName(packageName);
+			return (PackageArtifact) mgr.getArtifactByFullyQualifiedName(packageName);
 			
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
@@ -102,7 +102,7 @@ public class PackageArtifact extends AbstractArtifact implements
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public static IPackageArtifact makeVolatileArtifactForPackage(IArtifactManagerSession mgr,String packageName) throws TigerstripeException {
+	public static PackageArtifact makeVolatileArtifactForPackage(IArtifactManagerSession mgr,String packageName) throws TigerstripeException {
 		// Split the "proper" package name up into 
 		// a package and name
 		String name = "";
@@ -115,7 +115,7 @@ public class PackageArtifact extends AbstractArtifact implements
 			falsePackageName = "";
 		}
 		
-		IPackageArtifact newArtifact = (IPackageArtifact) mgr.makeArtifact(IPackageArtifact.class.getName());
+		PackageArtifact newArtifact = (PackageArtifact) mgr.makeArtifact(IPackageArtifact.class.getName());
 		
 		newArtifact.setName(name);
 		newArtifact.setPackage(falsePackageName);

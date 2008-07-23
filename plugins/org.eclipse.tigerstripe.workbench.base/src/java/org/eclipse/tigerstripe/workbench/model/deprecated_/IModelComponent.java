@@ -242,15 +242,7 @@ public interface IModelComponent extends IStereotypeCapable, IAnnotationCapable,
 	
 	public IModelComponent getContainingModelComponent();
 	
-	public void addContainedModelComponents(Collection<IModelComponent> components) throws TigerstripeException;
-	
-	public void addContainedModelComponent(IModelComponent component) throws TigerstripeException;
-	
-	public void removeContainedModelComponent(IModelComponent component);
-	
 	public Collection<IModelComponent> getContainedModelComponents();
-	
-	public void  setContainingModelComponent(IModelComponent containingComponent) throws TigerstripeException;
 	
 	/**
 	 * Returns the label for this Model Component 

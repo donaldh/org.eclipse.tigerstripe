@@ -59,7 +59,6 @@ public class TSRenameAction extends RenameAction {
 			artifact = TSExplorerUtils.getArtifactFor(jElem);
 			if (artifact != null && artifact instanceof IPackageArtifact){
 				packageArtifact = (IPackageArtifact) artifact;
-				
 			}
 
 
@@ -96,7 +95,6 @@ public class TSRenameAction extends RenameAction {
 				}
 
 			}
-
 
 
 		} else
