@@ -101,7 +101,7 @@ public class XML2TS {
 		Element specificElement;
 	}
 
-	private String namespace = "http://org.eclipse.tigerstripe/xml/tigerstripeOutput/v1-0";
+	private String namespace = "http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0";
 
 	// private MessageList messages;
 	private int MESSAGE_LEVEL = 3;
@@ -149,7 +149,7 @@ public class XML2TS {
 				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
 						.findProject(projectURI);
 				this.mgrSession = tsProject.getArtifactManagerSession();
-				String msgText = " Source Project : "
+				String msgText = " Target Project : "
 						+ tsProject.getProjectLabel();
 				addMessage(messages, msgText, 2);
 				out.println("info : " + msgText);
@@ -176,7 +176,9 @@ public class XML2TS {
 			// TODO Validate against a schema internally or ine found in the
 			// same location?
 			File tsSchemaFile = new File(importFile.getParentFile()
-					+ File.separator + "tigerstripeOutputSchema.xsd");
+					+ File.separator + "tigerstripeExportSchema.xsd");
+			out.println(tsSchemaFile+" "+tsSchemaFile.exists());
+			
 			SchemaFactory scFactory = SchemaFactory
 					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema tsSchema = scFactory.newSchema(tsSchemaFile);
@@ -193,6 +195,7 @@ public class XML2TS {
 
 			String msgText = "XML Validated against schema";
 			addMessage(messages, msgText, 2);
+			out.println("info : " + msgText);
 
 			// TODO set the proper count in here
 			monitor.beginTask("Processing XML Classes ", 100);
@@ -211,6 +214,7 @@ public class XML2TS {
 					+ " artifacts in XML";
 
 			addMessage(messages, msgText, 2);
+			out.println("info : " + msgText);
 			monitor.done();
 
 		} catch (SAXException saxe) {
@@ -413,7 +417,7 @@ public class XML2TS {
 	}
 
 	/**
-	 * extract the artifacts from the importDoc Document thuis makes some
+	 * extract the artifacts from the importDoc Document this makes some
 	 * AbstractArtifacts (not attached to a session) which we can then compare
 	 * with the project concerned
 	 * 
@@ -424,7 +428,7 @@ public class XML2TS {
 
 		NodeList artifactNodes = doc.getElementsByTagNameNS(namespace,
 				"artifact");
-		String myText = "Found "+artifactNodes.getLength()+ " artifact modes "+namespace;
+		String myText = "Found "+artifactNodes.getLength()+ " artifact nodes "+namespace;
 		addMessage(messages, myText, 0);
 		out.println("Error : " + myText);
 		
@@ -433,8 +437,11 @@ public class XML2TS {
 			String artifactName = artifactElement.getAttribute("name");
 
 			// Need to determine the artifactType before creating one.
-			Specifics specificType = getArtifactType(artifactElement);
-			if (specificType == null) {
+			Specifics specificType = getArtifactSpecifics(artifactElement);
+			
+			String typeName = getArtifactTypeName(artifactElement);
+			
+			if (typeName == null) {
 				// Can't handle this artifact - Log a message and carry on
 				// This is actually invalid XML so should never happen!
 				String msgText = "Cannot determine Artifact Type "
@@ -444,7 +451,7 @@ public class XML2TS {
 			}
 
 			IAbstractArtifact inArtifact = mgrSession
-					.makeArtifact(specificType.artifactType);
+					.makeArtifact(typeName);
 			inArtifact.setFullyQualifiedName(artifactName);
 			out.println("Found Artifact in XML : "
 					+ inArtifact.getFullyQualifiedName());
@@ -456,7 +463,7 @@ public class XML2TS {
 			String extendedArtifact = artifactElement
 					.getAttribute("extendedArtifact");
 			IAbstractArtifact exArtifact = mgrSession
-					.makeArtifact(specificType.artifactType);
+					.makeArtifact(typeName);
 			exArtifact.setFullyQualifiedName(extendedArtifact);
 			inArtifact.setExtendedArtifact(exArtifact);
 
@@ -466,8 +473,9 @@ public class XML2TS {
 
 			// Must do specifics AFTER methods - as the flavor stuff refers back
 			// to methods.
-			setSpecifics(specificType.specificElement, inArtifact);
-
+			if (specificType != null){
+				setSpecifics(specificType.specificElement, inArtifact);
+			}
 			for (IStereotypeInstance st : getStereotypes(artifactElement, out,
 					messages)) {
 				inArtifact.addStereotypeInstance(st);
@@ -494,114 +502,115 @@ public class XML2TS {
 	private void setSpecifics(Element element, IAbstractArtifact artifact) {
 
 		String aType = artifact.getArtifactType();
-		if (aType.equals(IManagedEntityArtifact.class.getName())) {
-			// Only need primary Key
-			IManagedEntityArtifact entity = (IManagedEntityArtifact) artifact;
-			OssjEntitySpecifics specs = (OssjEntitySpecifics) entity
-					.getIStandardSpecifics();
-			specs.setPrimaryKey(element.getAttribute("primaryKeyName"));
-			Properties props = specs.getInterfaceProperties();
-			props.setProperty("package", element
-					.getAttribute("interfacePackage"));
-			props.setProperty("generate", element
-					.getAttribute("interfaceGenerate"));
-			specs.setInterfaceProperties(props);
-			// Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// check for their presence
-			if (element.hasAttribute("singleExtension")) {
-				specs.setSingleExtensionType(Boolean.parseBoolean(element
-						.getAttribute("singleExtension")));
-			}
-			if (element.hasAttribute("sessionFactoryMethods")) {
-				specs.setSessionFactoryMethods(Boolean.parseBoolean(element
-						.getAttribute("sessionFactoryMethods")));
-			}
-			// TODO What about the ManagedEntityDetails type of stuff...
-
-			NodeList entityDetailNodes = element.getElementsByTagNameNS(
-					namespace, "entityMethodDetails");
-			for (int med = 0; med < entityDetailNodes.getLength(); med++) {
-				Element detailElement = (Element) entityDetailNodes.item(med);
-				// get the method name from this element
-				String detailsMethodName = detailElement.getAttribute("name");
-
-				// Get the Flavor info
-				NodeList flavorNodes = detailElement.getElementsByTagNameNS(
-						namespace, "entityMethodFlavorDetails");
-				for (int flav = 0; flav < flavorNodes.getLength(); flav++) {
-					Element flavorElement = (Element) flavorNodes.item(flav);
-					// This name will be something like "simple"...
-					String flavorName = flavorElement
-							.getAttribute("flavorName");
-
-					IEntityMethodFlavorDetails flavorDetails = specs
-							.makeIEntityMethodFlavorDetails();
-
-					flavorDetails.setFlag(flavorElement.getAttribute("flag"));
-					flavorDetails.setComment(getComment(flavorElement));
-
-					ArrayList<String> flavorExceptions = new ArrayList<String>();
-					NodeList flavorExceptionNodes = flavorElement
-							.getElementsByTagNameNS(namespace, "exception");
-					for (int ex = 0; ex < flavorExceptionNodes.getLength(); ex++) {
-						Element exception = (Element) flavorExceptionNodes
-								.item(ex);
-						flavorDetails.addException(exception
-								.getAttribute("name"));
-					}
-
-					OssjEntityMethodFlavor flavEnum = OssjEntityMethodFlavor
-							.valueFromPojoLabel(flavorName);
-					// Now add the flav0r to the artifact or method...
-					if ("create".equals(detailsMethodName)) {
-						specs.setCRUDFlavorDetails(IOssjEntitySpecifics.CREATE,
-								flavEnum, flavorDetails);
-					} else if ("get".equals(detailsMethodName)) {
-						specs.setCRUDFlavorDetails(IOssjEntitySpecifics.GET,
-								flavEnum, flavorDetails);
-					} else if ("set".equals(detailsMethodName)) {
-						specs.setCRUDFlavorDetails(IOssjEntitySpecifics.SET,
-								flavEnum, flavorDetails);
-					} else if ("remove".equals(detailsMethodName)) {
-						specs.setCRUDFlavorDetails(IOssjEntitySpecifics.DELETE,
-								flavEnum, flavorDetails);
-					} else {
-						// Its on a method - need to find the method
-						boolean setone = false;
-						for (IMethod method : artifact.getMethods()) {
-							if (method.getName().equals(detailsMethodName)) {
-								try {
-									method.setEntityMethodFlavorDetails(
-											flavEnum, flavorDetails);
-									setone = true;
-								} catch (TigerstripeException t) {
-									String msgText = "Failed to set Flavor details for "
-											+ method.getName()
-											+ " on "
-											+ artifact.getFullyQualifiedName();
-									addMessage(messages, msgText, 0);
-									out.println("Error : " + msgText);
-									TigerstripeRuntime.logErrorMessage(
-											"TigerstripeException detected", t);
-									continue;
-								}
-							}
-						}
-						if (!setone) {
-							String msgText = "Failed to set Flavor details - couold not find method "
-									+ flavorName
-									+ " on "
-									+ artifact.getFullyQualifiedName();
-							addMessage(messages, msgText, 0);
-							out.println("Error : " + msgText);
-						}
-
-					}
-				}
-
-			}
-
-		} else if (aType.equals(IEnumArtifact.class.getName())) {
+//		if (aType.equals(IManagedEntityArtifact.class.getName())) {
+//			// Only need primary Key
+//			IManagedEntityArtifact entity = (IManagedEntityArtifact) artifact;
+//			OssjEntitySpecifics specs = (OssjEntitySpecifics) entity
+//					.getIStandardSpecifics();
+//			specs.setPrimaryKey(element.getAttribute("primaryKeyName"));
+//			Properties props = specs.getInterfaceProperties();
+//			props.setProperty("package", element
+//					.getAttribute("interfacePackage"));
+//			props.setProperty("generate", element
+//					.getAttribute("interfaceGenerate"));
+//			specs.setInterfaceProperties(props);
+//			// Things in the "Ossj section" are all "OPTIONAL", so we need to
+//			// check for their presence
+//			if (element.hasAttribute("singleExtension")) {
+//				specs.setSingleExtensionType(Boolean.parseBoolean(element
+//						.getAttribute("singleExtension")));
+//			}
+//			if (element.hasAttribute("sessionFactoryMethods")) {
+//				specs.setSessionFactoryMethods(Boolean.parseBoolean(element
+//						.getAttribute("sessionFactoryMethods")));
+//			}
+//			// TODO What about the ManagedEntityDetails type of stuff...
+//
+//			NodeList entityDetailNodes = element.getElementsByTagNameNS(
+//					namespace, "entityMethodDetails");
+//			for (int med = 0; med < entityDetailNodes.getLength(); med++) {
+//				Element detailElement = (Element) entityDetailNodes.item(med);
+//				// get the method name from this element
+//				String detailsMethodName = detailElement.getAttribute("name");
+//
+//				// Get the Flavor info
+//				NodeList flavorNodes = detailElement.getElementsByTagNameNS(
+//						namespace, "entityMethodFlavorDetails");
+//				for (int flav = 0; flav < flavorNodes.getLength(); flav++) {
+//					Element flavorElement = (Element) flavorNodes.item(flav);
+//					// This name will be something like "simple"...
+//					String flavorName = flavorElement
+//							.getAttribute("flavorName");
+//
+//					IEntityMethodFlavorDetails flavorDetails = specs
+//							.makeIEntityMethodFlavorDetails();
+//
+//					flavorDetails.setFlag(flavorElement.getAttribute("flag"));
+//					flavorDetails.setComment(getComment(flavorElement));
+//
+//					ArrayList<String> flavorExceptions = new ArrayList<String>();
+//					NodeList flavorExceptionNodes = flavorElement
+//							.getElementsByTagNameNS(namespace, "exception");
+//					for (int ex = 0; ex < flavorExceptionNodes.getLength(); ex++) {
+//						Element exception = (Element) flavorExceptionNodes
+//								.item(ex);
+//						flavorDetails.addException(exception
+//								.getAttribute("name"));
+//					}
+//
+//					OssjEntityMethodFlavor flavEnum = OssjEntityMethodFlavor
+//							.valueFromPojoLabel(flavorName);
+//					// Now add the flav0r to the artifact or method...
+//					if ("create".equals(detailsMethodName)) {
+//						specs.setCRUDFlavorDetails(IOssjEntitySpecifics.CREATE,
+//								flavEnum, flavorDetails);
+//					} else if ("get".equals(detailsMethodName)) {
+//						specs.setCRUDFlavorDetails(IOssjEntitySpecifics.GET,
+//								flavEnum, flavorDetails);
+//					} else if ("set".equals(detailsMethodName)) {
+//						specs.setCRUDFlavorDetails(IOssjEntitySpecifics.SET,
+//								flavEnum, flavorDetails);
+//					} else if ("remove".equals(detailsMethodName)) {
+//						specs.setCRUDFlavorDetails(IOssjEntitySpecifics.DELETE,
+//								flavEnum, flavorDetails);
+//					} else {
+//						// Its on a method - need to find the method
+//						boolean setone = false;
+//						for (IMethod method : artifact.getMethods()) {
+//							if (method.getName().equals(detailsMethodName)) {
+//								try {
+//									method.setEntityMethodFlavorDetails(
+//											flavEnum, flavorDetails);
+//									setone = true;
+//								} catch (TigerstripeException t) {
+//									String msgText = "Failed to set Flavor details for "
+//											+ method.getName()
+//											+ " on "
+//											+ artifact.getFullyQualifiedName();
+//									addMessage(messages, msgText, 0);
+//									out.println("Error : " + msgText);
+//									TigerstripeRuntime.logErrorMessage(
+//											"TigerstripeException detected", t);
+//									continue;
+//								}
+//							}
+//						}
+//						if (!setone) {
+//							String msgText = "Failed to set Flavor details - could not find method "
+//									+ flavorName
+//									+ " on "
+//									+ artifact.getFullyQualifiedName();
+//							addMessage(messages, msgText, 0);
+//							out.println("Error : " + msgText);
+//						}
+//
+//					}
+//				}
+//
+//			}
+//
+//		} else
+			if (aType.equals(IEnumArtifact.class.getName())) {
 			IEnumArtifact enumArt = (IEnumArtifact) artifact;
 			OssjEnumSpecifics specs = (OssjEnumSpecifics) enumArt
 					.getIStandardSpecifics();
@@ -609,64 +618,64 @@ public class XML2TS {
 			IType type = artifact.makeField().makeType();
 			type.setFullyQualifiedName(baseType);
 			specs.setBaseIType(type);
-			Properties props = specs.getInterfaceProperties();
-			props.setProperty("package", element
-					.getAttribute("interfacePackage"));
-			props.setProperty("generate", element
-					.getAttribute("interfaceGenerate"));
-			specs.setInterfaceProperties(props);
-			// Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// check for their presence
-			if (element.hasAttribute("extensible")) {
-				specs.setExtensible(Boolean.parseBoolean(element
-						.getAttribute("extensible")));
-			}
-
-		} else if (aType.equals(IEventArtifact.class.getName())) {
-			IEventArtifact eventArt = (IEventArtifact) artifact;
-			OssjEventSpecifics specs = (OssjEventSpecifics) eventArt
-					.getIStandardSpecifics();
-			Properties props = specs.getInterfaceProperties();
-			props.setProperty("package", element
-					.getAttribute("interfacePackage"));
-			props.setProperty("generate", element
-					.getAttribute("interfaceGenerate"));
-			specs.setInterfaceProperties(props);
-			// Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// check for their presence
-			if (element.hasAttribute("singleExtension")) {
-				specs.setSingleExtensionType(Boolean.parseBoolean(element
-						.getAttribute("singleExtension")));
-			}
-			// Get the event descriptor ELEMENTS
-			NodeList descriptorNodes = element.getElementsByTagNameNS(
-					namespace, "eventDescriptorEntry");
-			for (int an = 0; an < descriptorNodes.getLength(); an++) {
-				Element descriptorElement = (Element) descriptorNodes.item(an);
-				ArrayList<IEventDescriptorEntry> entries = new ArrayList<IEventDescriptorEntry>(
-						Arrays.asList(specs.getEventDescriptorEntries()));
-				EventDescriptorEntry ede = new EventDescriptorEntry(
-						descriptorElement.getAttribute("label"),
-						descriptorElement.getAttribute("primitiveType"));
-				entries.add(ede);
-				specs.setEventDescriptorEntries(entries
-						.toArray(new EventDescriptorEntry[0]));
-			}
-			NodeList customDescriptorNodes = element.getElementsByTagNameNS(
-					namespace, "customEventDescriptorEntry");
-			for (int an = 0; an < customDescriptorNodes.getLength(); an++) {
-				Element descriptorElement = (Element) customDescriptorNodes
-						.item(an);
-				ArrayList<IEventDescriptorEntry> entries = new ArrayList<IEventDescriptorEntry>(
-						Arrays.asList(specs.getCustomEventDescriptorEntries()));
-				EventDescriptorEntry ede = new EventDescriptorEntry(
-						descriptorElement.getAttribute("label"),
-						descriptorElement.getAttribute("primitiveType"));
-				entries.add(ede);
-				specs.setCustomEventDescriptorEntries(entries
-						.toArray(new EventDescriptorEntry[0]));
-			}
-
+//			Properties props = specs.getInterfaceProperties();
+//			props.setProperty("package", element
+//					.getAttribute("interfacePackage"));
+//			props.setProperty("generate", element
+//					.getAttribute("interfaceGenerate"));
+//			specs.setInterfaceProperties(props);
+//			// Things in the "Ossj section" are all "OPTIONAL", so we need to
+//			// check for their presence
+//			if (element.hasAttribute("extensible")) {
+//				specs.setExtensible(Boolean.parseBoolean(element
+//						.getAttribute("extensible")));
+//			}
+//
+//		} else if (aType.equals(IEventArtifact.class.getName())) {
+//			IEventArtifact eventArt = (IEventArtifact) artifact;
+//			OssjEventSpecifics specs = (OssjEventSpecifics) eventArt
+//					.getIStandardSpecifics();
+//			Properties props = specs.getInterfaceProperties();
+//			props.setProperty("package", element
+//					.getAttribute("interfacePackage"));
+//			props.setProperty("generate", element
+//					.getAttribute("interfaceGenerate"));
+//			specs.setInterfaceProperties(props);
+//			// Things in the "Ossj section" are all "OPTIONAL", so we need to
+//			// check for their presence
+//			if (element.hasAttribute("singleExtension")) {
+//				specs.setSingleExtensionType(Boolean.parseBoolean(element
+//						.getAttribute("singleExtension")));
+//			}
+//			// Get the event descriptor ELEMENTS
+//			NodeList descriptorNodes = element.getElementsByTagNameNS(
+//					namespace, "eventDescriptorEntry");
+//			for (int an = 0; an < descriptorNodes.getLength(); an++) {
+//				Element descriptorElement = (Element) descriptorNodes.item(an);
+//				ArrayList<IEventDescriptorEntry> entries = new ArrayList<IEventDescriptorEntry>(
+//						Arrays.asList(specs.getEventDescriptorEntries()));
+//				EventDescriptorEntry ede = new EventDescriptorEntry(
+//						descriptorElement.getAttribute("label"),
+//						descriptorElement.getAttribute("primitiveType"));
+//				entries.add(ede);
+//				specs.setEventDescriptorEntries(entries
+//						.toArray(new EventDescriptorEntry[0]));
+//			}
+//			NodeList customDescriptorNodes = element.getElementsByTagNameNS(
+//					namespace, "customEventDescriptorEntry");
+//			for (int an = 0; an < customDescriptorNodes.getLength(); an++) {
+//				Element descriptorElement = (Element) customDescriptorNodes
+//						.item(an);
+//				ArrayList<IEventDescriptorEntry> entries = new ArrayList<IEventDescriptorEntry>(
+//						Arrays.asList(specs.getCustomEventDescriptorEntries()));
+//				EventDescriptorEntry ede = new EventDescriptorEntry(
+//						descriptorElement.getAttribute("label"),
+//						descriptorElement.getAttribute("primitiveType"));
+//				entries.add(ede);
+//				specs.setCustomEventDescriptorEntries(entries
+//						.toArray(new EventDescriptorEntry[0]));
+//			}
+//
 		} else if (aType.equals(IAssociationArtifact.class.getName())
 				|| aType.equals(IAssociationClassArtifact.class.getName())) {
 			IAssociationArtifact assArt = (IAssociationArtifact) artifact;
@@ -699,86 +708,87 @@ public class XML2TS {
 								.parse(element
 										.getAttribute("returnedTypeMultiplicity")));
 			queryArt.setReturnedType((IType) type);
-			Properties props = specs.getInterfaceProperties();
-			props.setProperty("package", element
-					.getAttribute("interfacePackage"));
-			props.setProperty("generate", element
-					.getAttribute("interfaceGenerate"));
-			specs.setInterfaceProperties(props);
-			// Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// check for their presence
-			if (element.hasAttribute("singleExtension")) {
-				specs.setSingleExtensionType(Boolean.parseBoolean(element
-						.getAttribute("singleExtension")));
-			}
-			if (element.hasAttribute("sessionFactoryMethods")) {
-				specs.setSessionFactoryMethods(Boolean.parseBoolean(element
-						.getAttribute("sessionFactoryMethods")));
-			}
+//			Properties props = specs.getInterfaceProperties();
+//			props.setProperty("package", element
+//					.getAttribute("interfacePackage"));
+//			props.setProperty("generate", element
+//					.getAttribute("interfaceGenerate"));
+//			specs.setInterfaceProperties(props);
+//			// Things in the "Ossj section" are all "OPTIONAL", so we need to
+//			// check for their presence
+//			if (element.hasAttribute("singleExtension")) {
+//				specs.setSingleExtensionType(Boolean.parseBoolean(element
+//						.getAttribute("singleExtension")));
+//			}
+//			if (element.hasAttribute("sessionFactoryMethods")) {
+//				specs.setSessionFactoryMethods(Boolean.parseBoolean(element
+//						.getAttribute("sessionFactoryMethods")));
+//			}
 
 		} else if (aType.equals(ISessionArtifact.class.getName())) {
-			ISessionArtifact sessionArt = (ISessionArtifact) artifact;
-			IOssjArtifactSpecifics specs = (OssjArtifactSpecifics) sessionArt
-					.getIStandardSpecifics();
-			handleSession(element, sessionArt);
-			Properties props = specs.getInterfaceProperties();
-			props.setProperty("package", element
-					.getAttribute("interfacePackage"));
-			props.setProperty("generate", element
-					.getAttribute("interfaceGenerate"));
-			specs.setInterfaceProperties(props);
+//			ISessionArtifact sessionArt = (ISessionArtifact) artifact;
+//			IOssjArtifactSpecifics specs = (OssjArtifactSpecifics) sessionArt
+//					.getIStandardSpecifics();
+//			handleSession(element, sessionArt);
+//			Properties props = specs.getInterfaceProperties();
+//			props.setProperty("package", element
+//					.getAttribute("interfacePackage"));
+//			props.setProperty("generate", element
+//					.getAttribute("interfaceGenerate"));
+//			specs.setInterfaceProperties(props);
 
-		} else if (aType.equals(IExceptionArtifact.class.getName())) {
-			IAbstractArtifact art = (IAbstractArtifact) artifact;
-			IOssjArtifactSpecifics specs = (OssjArtifactSpecifics) art
-					.getIStandardSpecifics();
-			Properties props = specs.getInterfaceProperties();
-			props.setProperty("package", element
-					.getAttribute("interfacePackage"));
-			props.setProperty("generate", element
-					.getAttribute("interfaceGenerate"));
-			specs.setInterfaceProperties(props);
+//		} else if (aType.equals(IExceptionArtifact.class.getName())) {
+//			IAbstractArtifact art = (IAbstractArtifact) artifact;
+//			IOssjArtifactSpecifics specs = (OssjArtifactSpecifics) art
+//					.getIStandardSpecifics();
+//			Properties props = specs.getInterfaceProperties();
+//			props.setProperty("package", element
+//					.getAttribute("interfacePackage"));
+//			props.setProperty("generate", element
+//					.getAttribute("interfaceGenerate"));
+//			specs.setInterfaceProperties(props);
 
-		} else if (aType.equals(IDatatypeArtifact.class.getName())) {
-			IAbstractArtifact art = (IAbstractArtifact) artifact;
-			OssjDatatypeSpecifics specs = (OssjDatatypeSpecifics) art
-					.getIStandardSpecifics();
-			Properties props = specs.getInterfaceProperties();
-			props.setProperty("package", element
-					.getAttribute("interfacePackage"));
-			props.setProperty("generate", element
-					.getAttribute("interfaceGenerate"));
-			specs.setInterfaceProperties(props);
-			// Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// check for their presence
-			if (element.hasAttribute("singleExtension")) {
-				specs.setSingleExtensionType(Boolean.parseBoolean(element
-						.getAttribute("singleExtension")));
-			}
-			if (element.hasAttribute("sessionFactoryMethods")) {
-				specs.setSessionFactoryMethods(Boolean.parseBoolean(element
-						.getAttribute("sessionFactoryMethods")));
-			}
-		} else if (aType.equals(IUpdateProcedureArtifact.class.getName())) {
-			IAbstractArtifact art = (IAbstractArtifact) artifact;
-			OssjUpdateProcedureSpecifics specs = (OssjUpdateProcedureSpecifics) art
-					.getIStandardSpecifics();
-			Properties props = specs.getInterfaceProperties();
-			props.setProperty("package", element
-					.getAttribute("interfacePackage"));
-			props.setProperty("generate", element
-					.getAttribute("interfaceGenerate"));
-			specs.setInterfaceProperties(props);
-			// Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// check for their presence
-			if (element.hasAttribute("singleExtension")) {
-				specs.setSingleExtensionType(Boolean.parseBoolean(element
-						.getAttribute("singleExtension")));
-			}
-			if (element.hasAttribute("sessionFactoryMethods")) {
-				specs.setSessionFactoryMethods(Boolean.parseBoolean(element
-						.getAttribute("sessionFactoryMethods")));
-			}
+//		} else if (aType.equals(IDatatypeArtifact.class.getName())) {
+//			IAbstractArtifact art = (IAbstractArtifact) artifact;
+//			OssjDatatypeSpecifics specs = (OssjDatatypeSpecifics) art
+//					.getIStandardSpecifics();
+//			Properties props = specs.getInterfaceProperties();
+//			props.setProperty("package", element
+//					.getAttribute("interfacePackage"));
+//			props.setProperty("generate", element
+//					.getAttribute("interfaceGenerate"));
+//			specs.setInterfaceProperties(props);
+//			// Things in the "Ossj section" are all "OPTIONAL", so we need to
+//			// check for their presence
+//			if (element.hasAttribute("singleExtension")) {
+//				specs.setSingleExtensionType(Boolean.parseBoolean(element
+//						.getAttribute("singleExtension")));
+//			}
+//			if (element.hasAttribute("sessionFactoryMethods")) {
+//				specs.setSessionFactoryMethods(Boolean.parseBoolean(element
+//						.getAttribute("sessionFactoryMethods")));
+//			}
+			
+//		} else if (aType.equals(IUpdateProcedureArtifact.class.getName())) {
+//			IAbstractArtifact art = (IAbstractArtifact) artifact;
+//			OssjUpdateProcedureSpecifics specs = (OssjUpdateProcedureSpecifics) art
+//					.getIStandardSpecifics();
+//			Properties props = specs.getInterfaceProperties();
+//			props.setProperty("package", element
+//					.getAttribute("interfacePackage"));
+//			props.setProperty("generate", element
+//					.getAttribute("interfaceGenerate"));
+//			specs.setInterfaceProperties(props);
+//			// Things in the "Ossj section" are all "OPTIONAL", so we need to
+//			// check for their presence
+//			if (element.hasAttribute("singleExtension")) {
+//				specs.setSingleExtensionType(Boolean.parseBoolean(element
+//						.getAttribute("singleExtension")));
+//			}
+//			if (element.hasAttribute("sessionFactoryMethods")) {
+//				specs.setSessionFactoryMethods(Boolean.parseBoolean(element
+//						.getAttribute("sessionFactoryMethods")));
+//			}
 		}
 	}
 
@@ -857,7 +867,9 @@ public class XML2TS {
 					.getAttribute("optional")));
 			newField.setReadOnly(Boolean.parseBoolean(field
 					.getAttribute("readonly")));
-			newField.setRefBy(Integer.valueOf(field.getAttribute("refBy")));
+//			if (field.hasAttribute("refBy")) {
+//				newField.setRefBy(Integer.valueOf(field.getAttribute("refBy")));
+//			}
 			newField.setComment(getComment(field));
 
 			if (field.hasAttribute("ordered")) {
@@ -929,8 +941,12 @@ public class XML2TS {
 					.getAttribute("isVoid")));
 			newMethod.setAbstract(Boolean.parseBoolean(method
 					.getAttribute("isAbstract")));
-			newMethod.setReturnRefBy(Integer.valueOf(method
-					.getAttribute("returnRefBy")));
+			
+//			if (method.hasAttribute("returnRefBy")) {
+//				newMethod.setReturnRefBy(Integer.valueOf(method
+//					.getAttribute("returnRefBy")));
+//			}
+			
 			if (method.hasAttribute("ordered")) {
 				newMethod.setOrdered(Boolean.parseBoolean(method
 						.getAttribute("ordered")));
@@ -968,6 +984,10 @@ public class XML2TS {
 						newMethod.setReturnName(method
 								.getAttribute("methodReturnName"));
 					}
+					if (method.hasAttribute("defaultReturnValue")) {
+						newMethod.setDefaultReturnValue(method
+								.getAttribute("defaultReturnValue"));
+					}
 
 				} else {
 					String msgText = "Invalid Method defintion for "
@@ -990,8 +1010,10 @@ public class XML2TS {
 				Element argument = (Element) argumentNodes.item(a);
 				IArgument newArgument = newMethod.makeArgument();
 				newArgument.setName(argument.getAttribute("name"));
-				newArgument.setRefBy(Integer.valueOf(argument
-						.getAttribute("refBy")));
+//				if (argument.hasAttribute("refBy")){
+//					newArgument.setRefBy(Integer.valueOf(argument
+//							.getAttribute("refBy")));
+//				}
 				IType argType = newMethod.makeType();
 				argType.setFullyQualifiedName(argument.getAttribute("type"));
 
@@ -1303,11 +1325,17 @@ public class XML2TS {
 		return isis;
 	}
 
-	private Specifics getArtifactType(Element artifactElement) {
+	private String getArtifactTypeName(Element artifactElement) {
+		String artifactTypeName = artifactElement.getAttribute("artifactType");
+		return artifactTypeName;
+	}
+	
+	private Specifics getArtifactSpecifics(Element artifactElement) {
 		Specifics specifics = new Specifics();
 
 		NodeList artifactType;
-
+		
+		
 		artifactType = artifactElement.getElementsByTagNameNS(namespace,
 				"managedEntitySpecifics");
 		if (artifactType.getLength() > 0) {
