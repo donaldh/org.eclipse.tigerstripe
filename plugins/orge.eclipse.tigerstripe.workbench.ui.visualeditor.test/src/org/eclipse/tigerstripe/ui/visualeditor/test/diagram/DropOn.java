@@ -38,25 +38,29 @@ public class DropOn extends UITestCaseSWT {
 	 */
 	public void testDropOn() throws Exception {
 		IUIContext ui = getUI();
+		try {
 		ui
 				.click(new TreeItemLocator(
 						"New Project/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+
 						"/"+TestingConstants.ENTITY_NAMES[0],
 						new ViewLocator(
 								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		ui
-				.click(
-						1,
-						new TreeItemLocator(
-								"New Project/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+
-								"/"+TestingConstants.ENTITY_NAMES[1],
-								new ViewLocator(
-										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
-						WT.CTRL);
+//		ui
+//				.click(
+//						1,
+//						new TreeItemLocator(
+//								"New Project/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+
+//								"/"+TestingConstants.ENTITY_NAMES[1],
+//								new ViewLocator(
+//										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
+//						WT.CTRL);
 		ui.dragTo(new XYLocator(new DiagramEditPart$1Locator(),200,200));
 		// Save it
 		ui.click(new CTabItemLocator("*"+DiagramConstants.DND_DIAGRAM+".wvd"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		
 	}
 

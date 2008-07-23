@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui,
  com.instantiations.eclipse.util,
  com.windowtester.swt.runtime.gef,
  org.eclipse.swt,
- org.eclipse.tigerstripe.workbench.ui.base.test
+ org.eclipse.tigerstripe.workbench.ui.base.test,
+ org.eclipse.ui.forms
 Bundle-Activator: org.eclipse.tigerstripe.ui.visualeditor.test.Activator
 Eclipse-LazyStart: true
 Bundle-SymbolicName: org.eclipse.tigerstripe.workebnch.ui.visualeditor.test
