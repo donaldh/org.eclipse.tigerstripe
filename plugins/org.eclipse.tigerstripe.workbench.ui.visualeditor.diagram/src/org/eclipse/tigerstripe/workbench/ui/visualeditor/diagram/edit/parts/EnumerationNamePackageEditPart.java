@@ -252,7 +252,7 @@ public class EnumerationNamePackageEditPart extends AbstractNamePackageEditPart
 				text = newText;
 			}
 		}
-		return text;
+		return decorateText(text);
 	}
 
 	/**

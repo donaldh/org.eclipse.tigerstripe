@@ -5,6 +5,7 @@
    <extension-point id="closedDiagramSynchronizer" name="Closed Diagram Synchronizer" schema="schema/closedDiagramSynchronizer.exsd"/>
    <extension-point id="modelFileContentReader" name="Model Specific Content Reader" schema="schema/modelFileContentReader.exsd"/>
    <extension-point id="diagramAuditor" name="Diagram Auditor" schema="schema/diagramAuditor.exsd"/>
+   <extension-point id="labelDecorator" name="org.eclipse.tigerstripe.workbench.ui.labelDecorator" schema="schema/labelDecorator.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor

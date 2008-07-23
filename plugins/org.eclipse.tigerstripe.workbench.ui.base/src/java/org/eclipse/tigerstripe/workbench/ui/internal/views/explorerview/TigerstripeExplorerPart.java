@@ -14,8 +14,11 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
@@ -69,6 +72,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.ClasspathContainerFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.DottedFilesFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.EmptyDefaultPackageFilter;
+import org.eclipse.tigerstripe.workbench.ui.viewers.ITigerstripeLabelDecorator;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IWorkbenchPartSite;
@@ -156,12 +160,31 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		facetDecorationDelegate = new ActiveFacetDecorationDelegate(this);
 		facetDecorationDelegate.start();
 
+		addTigerstripeLabelDecorators(labelProvider);
+
 		EclipsePlugin.getDefault().getPreferenceStore()
 				.addPropertyChangeListener(this);
 
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
 				this, ITigerstripeChangeListener.ANNOTATION);
 
+	}
+
+	private void addTigerstripeLabelDecorators(
+			TigerstripeExplorerLabelProvider provider) {
+		IConfigurationElement[] elements = Platform
+				.getExtensionRegistry()
+				.getConfigurationElementsFor(
+						"org.eclipse.tigerstripe.workbench.ui.base.labelDecorator");
+		for (IConfigurationElement element : elements) {
+			try {
+				ITigerstripeLabelDecorator deco = (ITigerstripeLabelDecorator) element
+						.createExecutableExtension("class");
+				provider.addLabelDecorator(deco);
+			} catch (CoreException e) {
+				EclipsePlugin.log(e);
+			}
+		}
 	}
 
 	/**

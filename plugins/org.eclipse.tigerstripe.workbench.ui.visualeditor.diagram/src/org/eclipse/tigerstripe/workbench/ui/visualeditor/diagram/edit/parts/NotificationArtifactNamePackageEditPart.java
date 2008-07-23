@@ -253,7 +253,7 @@ public class NotificationArtifactNamePackageEditPart extends
 				text = newText;
 			}
 		}
-		return text;
+		return decorateText(text);
 	}
 
 	/**

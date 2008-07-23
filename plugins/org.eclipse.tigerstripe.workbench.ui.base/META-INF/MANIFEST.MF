@@ -40,7 +40,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.tigerstripe.annotation.core;bundle-version="0.4.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.ui,
- org.eclipse.tigerstripe.workbench.ui.internal.utils,
  org.eclipse.tigerstripe.workbench.ui.internal.actions,
  org.eclipse.tigerstripe.workbench.ui.internal.builder,
  org.eclipse.tigerstripe.workbench.ui.internal.dialogs,
@@ -86,6 +85,7 @@ Export-Package: org.eclipse.tigerstripe.workbench.ui,
  org.eclipse.tigerstripe.workbench.ui.internal.wizards.profile;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test",
  org.eclipse.tigerstripe.workbench.ui.internal.wizards.project;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test",
  org.eclipse.tigerstripe.workbench.ui.internal.wizards.segment;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test",
- org.eclipse.tigerstripe.workbench.ui.internal.wizards.useCase;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test"
+ org.eclipse.tigerstripe.workbench.ui.internal.wizards.useCase;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test",
+ org.eclipse.tigerstripe.workbench.ui.viewers
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

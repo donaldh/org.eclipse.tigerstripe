@@ -253,7 +253,7 @@ public class SessionFacadeArtifactNamePackageEditPart extends
 				text = newText;
 			}
 		}
-		return text;
+		return decorateText(text);
 	}
 
 	/**

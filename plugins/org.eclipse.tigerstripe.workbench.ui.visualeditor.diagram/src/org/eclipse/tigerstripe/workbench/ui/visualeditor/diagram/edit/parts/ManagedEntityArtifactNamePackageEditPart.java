@@ -253,7 +253,8 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 				text = newText;
 			}
 		}
-		return text;
+
+		return decorateText(text);
 	}
 
 	/**

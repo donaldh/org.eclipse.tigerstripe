@@ -253,7 +253,7 @@ public class DatatypeArtifactNamePackageEditPart extends
 				text = newText;
 			}
 		}
-		return text;
+		return decorateText(text);
 	}
 
 	/**

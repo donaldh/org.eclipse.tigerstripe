@@ -253,7 +253,7 @@ public class ExceptionArtifactNamePackageEditPart extends
 				text = newText;
 			}
 		}
-		return text;
+		return decorateText(text);
 	}
 
 	/**

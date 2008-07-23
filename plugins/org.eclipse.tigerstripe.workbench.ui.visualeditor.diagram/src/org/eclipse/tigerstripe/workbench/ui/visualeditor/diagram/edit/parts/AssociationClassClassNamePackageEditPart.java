@@ -253,7 +253,7 @@ public class AssociationClassClassNamePackageEditPart extends
 				text = newText;
 			}
 		}
-		return text;
+		return decorateText(text);
 	}
 
 	/**

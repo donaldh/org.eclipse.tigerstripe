@@ -253,7 +253,7 @@ public class UpdateProcedureArtifactNamePackageEditPart extends
 				text = newText;
 			}
 		}
-		return text;
+		return decorateText(text);
 	}
 
 	/**

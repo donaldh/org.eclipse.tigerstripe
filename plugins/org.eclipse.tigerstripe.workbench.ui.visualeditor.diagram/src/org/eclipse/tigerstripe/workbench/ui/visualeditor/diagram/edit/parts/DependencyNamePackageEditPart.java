@@ -247,6 +247,9 @@ public class DependencyNamePackageEditPart extends
 				text = newText;
 			}
 		}
+
+		text = decorateText(text);
+
 		// now add the stereotype string as a prefix...
 		DiagramPropertiesHelper helper = new DiagramPropertiesHelper(map);
 		try {
