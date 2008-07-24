@@ -44,8 +44,8 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.Tiger
  * @generated NOT
  */
 public class UpdateProcedureArtifactEditPart extends
-		TigerstripeShapeNodeEditPart implements ClassDiagramShapeNodeEditPart,
-		TigerstripeEditableEntityEditPart {
+		AdaptableTigerstripeShapeNodeEditPart implements
+		ClassDiagramShapeNodeEditPart, TigerstripeEditableEntityEditPart {
 
 	private ArtifactPropertyChangeHandler artifactPropertyChangeHandler;
 

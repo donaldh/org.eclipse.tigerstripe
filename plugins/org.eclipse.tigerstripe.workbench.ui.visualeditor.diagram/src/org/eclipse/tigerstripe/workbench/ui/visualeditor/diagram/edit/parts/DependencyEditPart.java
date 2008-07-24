@@ -18,7 +18,6 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.render.editparts.RenderedDiagramRootEditPart;
 import org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand;
@@ -33,8 +32,8 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.Tigerstrip
 /**
  * @generated NOT
  */
-public class DependencyEditPart extends ConnectionNodeEditPart implements
-		TigerstripeEditableEntityEditPart {
+public class DependencyEditPart extends AdaptableTigerstripeConnectionNodeEditPart
+		implements TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

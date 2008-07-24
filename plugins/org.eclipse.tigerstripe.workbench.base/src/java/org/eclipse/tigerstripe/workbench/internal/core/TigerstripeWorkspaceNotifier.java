@@ -64,7 +64,8 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 		public boolean equals(Object obj) {
 			if (obj instanceof FilteredListener) {
 				FilteredListener other = (FilteredListener) obj;
-				return listener == other.getListener();
+				return listener == other.getListener()
+						&& filter == other.filter;
 			}
 			return false;
 		}
@@ -102,7 +103,9 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 
 	public void addTigerstripeChangeListener(
 			ITigerstripeChangeListener listener, int filter) {
-		listeners.add(new FilteredListener(listener, filter));
+		FilteredListener fListener = new FilteredListener(listener, filter);
+		if (!listeners.contains(fListener))
+			listeners.add(fListener);
 	}
 
 	public void removeTigerstripeChangeListener(
@@ -238,14 +241,15 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 	}
 
 	public void annotationsLoaded(Annotation[] annotations) {
-//		Annotation[] filteredAnnotations = AnnotationUtils
-//				.extractModelAnnotations(annotations);
-//
-//		if (filteredAnnotations.length != 0) {
-//			ModelAnnotationChangeDelta delta = new ModelAnnotationChangeDelta(
-//					IModelAnnotationChangeDelta.LOADED, filteredAnnotations);
-//			broadcastModelAnnotationChange(new IModelAnnotationChangeDelta[] { delta });
-//		}
+		// Annotation[] filteredAnnotations = AnnotationUtils
+		// .extractModelAnnotations(annotations);
+		//
+		// if (filteredAnnotations.length != 0) {
+		// ModelAnnotationChangeDelta delta = new ModelAnnotationChangeDelta(
+		// IModelAnnotationChangeDelta.LOADED, filteredAnnotations);
+		// broadcastModelAnnotationChange(new IModelAnnotationChangeDelta[] {
+		// delta });
+		// }
 	}
 
 	public void annotationsRemoved(Annotation[] annotations) {

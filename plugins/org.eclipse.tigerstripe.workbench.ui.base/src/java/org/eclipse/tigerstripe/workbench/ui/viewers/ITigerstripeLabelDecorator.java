@@ -14,6 +14,12 @@ import org.eclipse.jface.viewers.ILabelDecorator;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 
+/**
+ * A label decorator used in the Tigerstripe Explorer and Diagrams
+ * 
+ * @author erdillon
+ * 
+ */
 public interface ITigerstripeLabelDecorator extends ILabelDecorator {
 
 	public Image decorateImage(Image image, IModelComponent component);

@@ -44,19 +44,23 @@ public class TSProblemTreeViewer extends ProblemTreeViewer {
 	@Override
 	protected void handleLabelProviderChanged(LabelProviderChangedEvent event) {
 		Object[] rawElements = event.getElements();
-		List<Object> filteredChildren = new ArrayList<Object>();
-		for (Object object : rawElements) {
-			Object node = LogicalExplorerNodeFactory.getInstance().getNode(
-					object);
-			if (node != null) {
-				filteredChildren.add(node);
-			}
-		}
 
-		LabelProviderChangedEvent filteredEvent = new LabelProviderChangedEvent(
-				(IBaseLabelProvider) event.getSource(), filteredChildren
-						.toArray(new Object[filteredChildren.size()]));
-		super.handleLabelProviderChanged(filteredEvent);
+		if (rawElements != null) {
+			List<Object> filteredChildren = new ArrayList<Object>();
+			for (Object object : rawElements) {
+				Object node = LogicalExplorerNodeFactory.getInstance().getNode(
+						object);
+				if (node != null) {
+					filteredChildren.add(node);
+				}
+			}
+
+			LabelProviderChangedEvent filteredEvent = new LabelProviderChangedEvent(
+					(IBaseLabelProvider) event.getSource(), filteredChildren
+							.toArray(new Object[filteredChildren.size()]));
+			super.handleLabelProviderChanged(filteredEvent);
+		} else
+			super.handleLabelProviderChanged(event);
 	}
 
 }

@@ -31,7 +31,6 @@ import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.gmf.TigerstripeShapeNodeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.EnumerationCanonicalEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.EnumerationGraphicalNodeEditPolicy;
@@ -43,8 +42,9 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.Tiger
 /**
  * @generated NOT
  */
-public class EnumerationEditPart extends TigerstripeShapeNodeEditPart implements
-		ClassDiagramShapeNodeEditPart, TigerstripeEditableEntityEditPart {
+public class EnumerationEditPart extends AdaptableTigerstripeShapeNodeEditPart
+		implements ClassDiagramShapeNodeEditPart,
+		TigerstripeEditableEntityEditPart {
 
 	private ArtifactPropertyChangeHandler artifactPropertyChangeHandler;
 

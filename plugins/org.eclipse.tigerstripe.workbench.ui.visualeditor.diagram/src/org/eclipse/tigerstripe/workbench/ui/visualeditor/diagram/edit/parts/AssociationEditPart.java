@@ -19,13 +19,13 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.render.editparts.RenderedDiagramRootEditPart;
 import org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.TigerstripeConnectionNodeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.DiagramProperty;
@@ -38,8 +38,8 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementProper
 /**
  * @generated NOT
  */
-public class AssociationEditPart extends ConnectionNodeEditPart implements
-		TigerstripeEditableEntityEditPart, PropertyAwarePart,
+public class AssociationEditPart extends AdaptableTigerstripeConnectionNodeEditPart
+		implements TigerstripeEditableEntityEditPart, PropertyAwarePart,
 		AssociationEnabledActionPart {
 
 	/**
@@ -90,7 +90,8 @@ public class AssociationEditPart extends ConnectionNodeEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionEditPart#refreshVisuals()
+	 * @seeorg.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionEditPart#
+	 * refreshVisuals()
 	 */
 	@Override
 	protected void refreshVisuals() {

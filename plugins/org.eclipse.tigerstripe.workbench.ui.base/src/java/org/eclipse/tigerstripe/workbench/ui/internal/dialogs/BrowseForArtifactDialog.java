@@ -115,7 +115,13 @@ public class BrowseForArtifactDialog {
 					// of the list when sorted)
 					return " " + super.getText(element);
 				}
-				return super.getText(element);
+
+				if (element instanceof IModelComponent) {
+					return TigerstripeDecoratorManager.getDefault()
+							.decorateText(super.getText(element),
+									(IModelComponent) element);
+				} else
+					return super.getText(element);
 			}
 
 			@Override

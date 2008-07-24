@@ -1,18 +1,18 @@
 /*******************************************************************************
- * Copyright (c) 2007 Cisco Systems, Inc.
+ * Copyright (c) 2008 Cisco Systems, Inc.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+ *    Cisco Systems, Inc. - erdillon
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.gmf;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
@@ -25,11 +25,11 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
-public abstract class TigerstripeShapeNodeEditPart extends ShapeNodeEditPart
-		implements ITigerstripeChangeListener {
+public abstract class TigerstripeConnectionNodeEditPart extends
+		ConnectionNodeEditPart implements ITigerstripeChangeListener {
 
-	public TigerstripeShapeNodeEditPart(View arg0) {
-		super(arg0);
+	public TigerstripeConnectionNodeEditPart(View view) {
+		super(view);
 	}
 
 	protected IModelComponent getModelComponent() {
@@ -113,16 +113,4 @@ public abstract class TigerstripeShapeNodeEditPart extends ShapeNodeEditPart
 		// Ignoring here
 	}
 
-	/**
-	 * A property for this artifact has been changed thru an action of the user
-	 * 
-	 * @param propertyKey
-	 */
-	public void artifactPropertyChanged(String propertyKey, String oldValue,
-			String newValue) {
-		handleArtifactPropertyChanged(propertyKey, oldValue, newValue);
-	}
-
-	protected abstract void handleArtifactPropertyChanged(String propertyKey,
-			String oldValue, String newValue);
 }

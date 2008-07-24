@@ -616,8 +616,8 @@ public class DependencyStereotypesEditPart extends LabelEditPart implements
 		 */
 		public DependencyStereotypesFigure() {
 
-			this.setText("<<...>>");
-			this.setFont(DEPENDENCYSTEREOTYPESFIGURE_FONT);
+//			this.setText("<<...>>");
+//			this.setFont(DEPENDENCYSTEREOTYPESFIGURE_FONT);
 			createContents();
 		}
 
