@@ -524,12 +524,13 @@ public class PostInstallActions {
 
 	private IPath findEquinoxCommonJarPath(BundleContext context) {
 		Bundle b = Platform.getBundle("org.eclipse.equinox.common");
-		String location = b.getLocation();
-		TigerstripeRuntime.logDebugMessage("EquinoxCommonJar location= "
-				+ location);
-		int iFile = location.indexOf("reference:file:");
-		String file = location.substring(iFile + 15, location.length());
-		return (new Path(file)).makeAbsolute();
+		try {
+			File bFile = FileLocator.getBundleFile(b);
+			return (new Path(bFile.getAbsolutePath())).makeAbsolute();
+		} catch (IOException e) {
+			BasePlugin.log(e);
+		}
+		return new Path("unknown_location_for_org.eclipse.equinox.common");
 	}
 
 	private String findWorkbenchFeatureVersion(BundleContext context) {

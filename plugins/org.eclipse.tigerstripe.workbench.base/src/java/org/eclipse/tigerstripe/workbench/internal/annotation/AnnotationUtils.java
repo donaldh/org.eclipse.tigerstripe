@@ -10,17 +10,22 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.annotation;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.EMFPlugin.EclipsePlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -71,14 +76,17 @@ public class AnnotationUtils {
 
 	public static IPath getAnnotationPluginPath(String pluginId) {
 		Bundle b = Platform.getBundle(pluginId);
-		String location = b.getLocation();
-		int iFile = location.indexOf("reference:file:");
-		String file = location.substring(iFile + 15, location.length());
-		IPath pPath = (new Path(file)).makeAbsolute();
+		try {
+			File bFile = FileLocator.getBundleFile(b);
+			IPath pPath = (new Path(bFile.getAbsolutePath())).makeAbsolute();
 
-		if (!"jar".equals(pPath.getFileExtension())) {
-			pPath = pPath.append("bin");
+			if (!"jar".equals(pPath.getFileExtension())) {
+				pPath = pPath.append("bin");
+			}
+			return pPath;
+		} catch (IOException e) {
+			BasePlugin.log(e);
 		}
-		return pPath;
+		return new Path("unknown_location_for_" + pluginId);
 	}
 }
