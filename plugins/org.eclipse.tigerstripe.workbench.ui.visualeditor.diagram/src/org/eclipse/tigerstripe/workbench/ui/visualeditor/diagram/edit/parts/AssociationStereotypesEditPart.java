@@ -615,8 +615,8 @@ public class AssociationStereotypesEditPart extends LabelEditPart implements
 		 */
 		public AssociationStereotypesFigure() {
 
-			this.setText("<<...>>");
-			this.setFont(ASSOCIATIONSTEREOTYPESFIGURE_FONT);
+//			this.setText("<<...>>");
+//			this.setFont(ASSOCIATIONSTEREOTYPESFIGURE_FONT);
 			createContents();
 		}
 
