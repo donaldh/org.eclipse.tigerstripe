@@ -868,10 +868,10 @@ public class M1Generator {
 				refConfig.setGenerateModules(false);
 				refConfig.setGenerateRefProjects(false);
 			}
-			String absDir = project.getLocation().toOSString() + File.separator
-					+ project.getProjectDetails().getOutputDirectory()
-					+ File.separator + refProject.getProjectLabel();
-			refConfig.setAbsoluteOutputDir(absDir);
+//			String absDir = project.getLocation().toOSString() + File.separator
+//					+ project.getProjectDetails().getOutputDirectory()
+//					+ File.separator + refProject.getProjectLabel();
+//			refConfig.setAbsoluteOutputDir(absDir);
 			M1Generator gen = new M1Generator(refProject, refConfig);
 			PluginRunStatus[] subResult = gen.run();
 			for (PluginRunStatus res : subResult) {
