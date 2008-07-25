@@ -364,6 +364,10 @@ public abstract class ArtifactComponent implements IModelComponent,
 				BasePlugin.log(e);
 			}
 		}
+		else if(adapter.isInstance(this))
+		{
+			return this;
+		}
 		return null;
 	}
 
