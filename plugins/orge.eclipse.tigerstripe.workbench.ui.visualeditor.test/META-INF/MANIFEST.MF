@@ -23,3 +23,9 @@ Bundle-Activator: org.eclipse.tigerstripe.ui.visualeditor.test.Activator
 Eclipse-LazyStart: true
 Bundle-SymbolicName: org.eclipse.tigerstripe.workebnch.ui.visualeditor.test
 Bundle-Name: Class Diagram Test Plug-in
+Export-Package: org.eclipse.tigerstripe.ui.visualeditor.test,
+ org.eclipse.tigerstripe.ui.visualeditor.test.diagram,
+ org.eclipse.tigerstripe.ui.visualeditor.test.finders,
+ org.eclipse.tigerstripe.ui.visualeditor.test.profile,
+ org.eclipse.tigerstripe.ui.visualeditor.test.project,
+ org.eclipse.tigerstripe.ui.visualeditor.test.suite

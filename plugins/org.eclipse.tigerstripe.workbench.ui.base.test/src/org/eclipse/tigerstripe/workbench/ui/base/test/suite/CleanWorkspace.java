@@ -38,8 +38,7 @@ public class CleanWorkspace extends UITestCaseSWT {
 	public void testCleanWorkspace() throws Exception {
 		maximizeWorkbench();
 		IUIContext ui = getUI();
-		ui.click(new XYLocator(new CTabItemLocator("Welcome"), 79, 11));
-		ui.click(new XYLocator(new CTabItemLocator("Outline"), 79, 11));
+		ui.close(new CTabItemLocator("Welcome"));
 
 
 	/* 

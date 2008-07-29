@@ -40,7 +40,7 @@ public class LocatorFactory {
 		return instance;
 	}
 
-	public String getFieldString(IUIContext ui, String nameToFind, String fieldName) {
+	public String getFieldString(IUIContext ui, String artifactName, String fieldName) {
 		
 //		IWidgetLocator[] allMatches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart$1"));
 //		for (IWidgetLocator match : allMatches) {
@@ -50,7 +50,7 @@ public class LocatorFactory {
 		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart$ManagedEntityArtifactFigure"));
 		for (IWidgetLocator match : matches) {
 			ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure attrib = (ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure) ((IFigureReference) match).getFigure();
-			if (attrib.getFigureManagedEntityNameFigure().getText().equals(nameToFind)){
+			if (attrib.getFigureManagedEntityNameFigure().getText().equals(artifactName)){
 				List children = attrib.getChildren();
 				for (Object child : children){
 //					System.out.println(child.getClass().getName());
@@ -76,7 +76,7 @@ public class LocatorFactory {
 //													System.out.println("                "+figChild.getClass().getName());
 													if (figChild instanceof Attribute3EditPart.AttributeLabelFigure ){
 														Attribute3EditPart.AttributeLabelFigure attribPart  = (Attribute3EditPart.AttributeLabelFigure) figChild;												
-														String matchPattern = "^[+-]"+nameToFind.toLowerCase()+"_"+fieldName+":.*";
+														String matchPattern = "^[+-]"+fieldName+":.*";
 //														System.out.println("                "+attribPart.getText()+" "+matchPattern);
 														if (attribPart.getText().matches(matchPattern)){
 															return attribPart.getText();
@@ -96,7 +96,7 @@ public class LocatorFactory {
 		return null;
 	}
 	
-	public String getMethodString(IUIContext ui, String nameToFind, String methodName) {
+	public String getMethodString(IUIContext ui, String artifactName, String methodName) {
 		
 //		IWidgetLocator[] allMatches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart$1"));
 //		for (IWidgetLocator match : allMatches) {
@@ -106,7 +106,7 @@ public class LocatorFactory {
 		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart$ManagedEntityArtifactFigure"));
 		for (IWidgetLocator match : matches) {
 			ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure attrib = (ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure) ((IFigureReference) match).getFigure();
-			if (attrib.getFigureManagedEntityNameFigure().getText().equals(nameToFind)){
+			if (attrib.getFigureManagedEntityNameFigure().getText().equals(artifactName)){
 				List children = attrib.getChildren();
 				for (Object child : children){
 //					System.out.println(child.getClass().getName());
@@ -132,7 +132,7 @@ public class LocatorFactory {
 //													System.out.println("                "+figChild.getClass().getName());
 													if (figChild instanceof MethodEditPart.MethodLabelFigure ){
 														MethodEditPart.MethodLabelFigure attribPart  = (MethodEditPart.MethodLabelFigure) figChild;												
-														String matchPattern = "^[+-]"+nameToFind.toLowerCase()+"_"+methodName+"\\(\\):.*";
+														String matchPattern = "^[+-]"+methodName+"\\(\\):.*";
 //														System.out.println("                "+attribPart.getText()+" "+matchPattern);
 														if (attribPart.getText().matches(matchPattern)){
 															return attribPart.getText();
@@ -153,7 +153,7 @@ public class LocatorFactory {
 	}
 	
 	
-public String getLiteralString(IUIContext ui, String nameToFind, String literalName) {
+public String getLiteralString(IUIContext ui, String enumerationName, String literalName) {
 		
 //		IWidgetLocator[] allMatches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart$1"));
 //		for (IWidgetLocator match : allMatches) {
@@ -163,7 +163,7 @@ public String getLiteralString(IUIContext ui, String nameToFind, String literalN
 		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationEditPart$EnumerationFigure"));
 		for (IWidgetLocator match : matches) {
 			EnumerationEditPart.EnumerationFigure attrib = (EnumerationEditPart.EnumerationFigure) ((IFigureReference) match).getFigure();
-			if (attrib.getFigureEnumerationNameFigure().getText().equals(nameToFind)){
+			if (attrib.getFigureEnumerationNameFigure().getText().equals(enumerationName)){
 				List children = attrib.getChildren();
 				for (Object child : children){
 //					System.out.println(child.getClass().getName());
@@ -189,7 +189,7 @@ public String getLiteralString(IUIContext ui, String nameToFind, String literalN
 //													System.out.println("                "+figChild.getClass().getName());
 													if (figChild instanceof LiteralEditPart.LiteralLabelFigure ){
 														LiteralEditPart.LiteralLabelFigure attribPart  = (LiteralEditPart.LiteralLabelFigure) figChild;												
-														String matchPattern = "^[+-]"+nameToFind.toLowerCase()+"_"+literalName+"=.*";
+														String matchPattern = "^[+-]"+literalName+"=.*";
 //														System.out.println("                "+attribPart.getText()+" "+matchPattern);
 														if (attribPart.getText().matches(matchPattern)){
 															return attribPart.getText();

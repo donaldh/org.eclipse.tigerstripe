@@ -28,12 +28,12 @@ public class NewArtifacts extends UITestCaseSWT {
 	private ArtifactAuditHelper auditHelper;
 	
 	
-	public void testAll() throws Exception {
+	public void testAllArtifactTypes() throws Exception {
 		IUIContext ui= getUI();
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Package", TestingConstants.PACKAGE_NAMES[0], false, false, false, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[0], true, true, true, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Datatype", TestingConstants.DATATYPE_NAMES[0], true, true, true, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Enumeration", TestingConstants.ENUMERATION_NAMES[0], false, true, false, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Enumeration", TestingConstants.ENUMERATION_NAMES[0], false, true, false, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Query", TestingConstants.QUERY_NAMES[0], true, true, false, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Update Procedure", TestingConstants.UPDATE_NAMES[0], true, true, false, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Exception", TestingConstants.EXCEPTION_NAMES[0], true, false, false, false));
@@ -42,6 +42,7 @@ public class NewArtifacts extends UITestCaseSWT {
 
 		// Add a second entity, so that the associations etc can be better checked - No need to add any attributes etc
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[1], false, false, false, false));
+		
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Association", TestingConstants.ASSOCIATION_NAMES[0], false, false,false, true));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Association Class", TestingConstants.ASSOCIATION_CLASS_NAMES[0], true, false,true, true));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Dependency", TestingConstants.DEPENDENCY_NAMES[0], false, false,false, true));
@@ -149,17 +150,17 @@ public class NewArtifacts extends UITestCaseSWT {
 		Thread.sleep(500);
 
 		ArrayList<String> items = new ArrayList<String>();
-		
+		String prefix = thisArtifactName.toLowerCase()+"_";
 		if (hasEnds && (myType.equals("Association") || myType.equals("Association Class")) )
 			items.addAll(ArtifactHelper.associationEndNames(ui,thisArtifactName));
 		if (hasEnds && myType.equals("Dependency")  )
 			items.addAll(ArtifactHelper.dependencyEndNames(ui,thisArtifactName));
 		if (hasAttributes)
-			items.add(ArtifactHelper.newAttribute(ui,thisArtifactName, TestingConstants.ATTRIBUTE_NAMES[0]));
+			items.add(ArtifactHelper.newAttribute(ui,thisArtifactName, prefix+TestingConstants.ATTRIBUTE_NAMES[0]));
 		if (hasLiterals)
-			items.add(ArtifactHelper.newLiteral(ui,thisArtifactName, TestingConstants.LITERAL_NAMES[0]));
+			items.add(ArtifactHelper.newLiteral(ui,thisArtifactName, prefix+TestingConstants.LITERAL_NAMES[0]));
 		if( hasMethods)
-			items.add(ArtifactHelper.newMethod(ui,thisArtifactName, TestingConstants.METHOD_NAMES[0]));
+			items.add(ArtifactHelper.newMethod(ui,thisArtifactName, prefix+TestingConstants.METHOD_NAMES[0]));
 
 		
 		GuiUtils.maxminTab(ui, thisArtifactName);

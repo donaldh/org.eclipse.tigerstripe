@@ -69,36 +69,36 @@ public class CreateDiagram extends UITestCaseSWT {
 		ui.enterText(TestingConstants.ENUMERATION_NAMES[2]);
 		artifacts.add(TestingConstants.ENUMERATION_NAMES[2]);
 		
-		ui.click(new PaletteItemLocator("Artifacts/Datatype"));
-		ui.click(new XYLocator(new DiagramEditPart$1Locator(),-250,0));
-		ui.enterText(TestingConstants.DATATYPE_NAMES[2]);
-		artifacts.add(TestingConstants.DATATYPE_NAMES[2]);
-		
-		ui.click(new PaletteItemLocator("Artifacts/Query"));
-		ui.click(new XYLocator(new DiagramEditPart$1Locator(),250,0));
-		ui.enterText(TestingConstants.QUERY_NAMES[2]);
-		artifacts.add(TestingConstants.QUERY_NAMES[2]);
-		
-		ui.click(new PaletteItemLocator("Artifacts/Update Procedure"));
-		ui.click(new XYLocator(new DiagramEditPart$1Locator(),-250,150));
-		ui.enterText(TestingConstants.UPDATE_NAMES[2]);
-		artifacts.add(TestingConstants.UPDATE_NAMES[2]);
-		
-		ui.click(new PaletteItemLocator("Artifacts/Event"));
-		ui.click(new XYLocator(new DiagramEditPart$1Locator(),0,150));
-		ui.enterText(TestingConstants.EVENT_NAMES[2]);
-		artifacts.add(TestingConstants.EVENT_NAMES[2]);
-		
-		ui.click(new PaletteItemLocator("Artifacts/Exception"));
-		ui.click(new XYLocator(new DiagramEditPart$1Locator(),250,150));
-		ui.enterText(TestingConstants.EXCEPTION_NAMES[2]);
-		artifacts.add(TestingConstants.EXCEPTION_NAMES[2]);
-		
-		ui.click(new PaletteItemLocator("Artifacts/Session Facade"));
-		ui.click(new XYLocator(new DiagramEditPart$1Locator(),250,-150));
-		ui.enterText(TestingConstants.SESSION_NAMES[2]);
-		artifacts.add(TestingConstants.SESSION_NAMES[2]);
-		
+//		ui.click(new PaletteItemLocator("Artifacts/Datatype"));
+//		ui.click(new XYLocator(new DiagramEditPart$1Locator(),-250,0));
+//		ui.enterText(TestingConstants.DATATYPE_NAMES[2]);
+//		artifacts.add(TestingConstants.DATATYPE_NAMES[2]);
+//		
+//		ui.click(new PaletteItemLocator("Artifacts/Query"));
+//		ui.click(new XYLocator(new DiagramEditPart$1Locator(),250,0));
+//		ui.enterText(TestingConstants.QUERY_NAMES[2]);
+//		artifacts.add(TestingConstants.QUERY_NAMES[2]);
+//		
+//		ui.click(new PaletteItemLocator("Artifacts/Update Procedure"));
+//		ui.click(new XYLocator(new DiagramEditPart$1Locator(),-250,150));
+//		ui.enterText(TestingConstants.UPDATE_NAMES[2]);
+//		artifacts.add(TestingConstants.UPDATE_NAMES[2]);
+//		
+//		ui.click(new PaletteItemLocator("Artifacts/Event"));
+//		ui.click(new XYLocator(new DiagramEditPart$1Locator(),0,150));
+//		ui.enterText(TestingConstants.EVENT_NAMES[2]);
+//		artifacts.add(TestingConstants.EVENT_NAMES[2]);
+//		
+//		ui.click(new PaletteItemLocator("Artifacts/Exception"));
+//		ui.click(new XYLocator(new DiagramEditPart$1Locator(),250,150));
+//		ui.enterText(TestingConstants.EXCEPTION_NAMES[2]);
+//		artifacts.add(TestingConstants.EXCEPTION_NAMES[2]);
+//		
+//		ui.click(new PaletteItemLocator("Artifacts/Session Facade"));
+//		ui.click(new XYLocator(new DiagramEditPart$1Locator(),250,-150));
+//		ui.enterText(TestingConstants.SESSION_NAMES[2]);
+//		artifacts.add(TestingConstants.SESSION_NAMES[2]);
+//		
 		
 		// Now check they are all in the tree view
 		ProjectHelper.checkArtifactsInExplorer(ui, TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE, artifacts);

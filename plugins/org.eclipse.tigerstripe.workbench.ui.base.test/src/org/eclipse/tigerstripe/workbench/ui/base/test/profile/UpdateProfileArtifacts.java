@@ -40,7 +40,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 		disableArtifactType(ui, 8, TestingConstants.PACKAGE_NAMES[0]);
 		// Don't do for Primitive Types
 		disableArtifactType(ui, 10, TestingConstants.QUERY_NAMES[0]);
-		disableArtifactType(ui, 12, TestingConstants.SESSION_NAMES[0]);
+		disableArtifactType(ui, 11, TestingConstants.SESSION_NAMES[0]);
 		disableArtifactType(ui, 12, TestingConstants.UPDATE_NAMES[0]);
 
 		// When complete just need to do one more deploy to make sure everything turned back on.

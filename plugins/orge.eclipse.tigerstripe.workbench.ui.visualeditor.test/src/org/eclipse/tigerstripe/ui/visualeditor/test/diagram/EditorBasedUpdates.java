@@ -129,6 +129,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		String attributeText = LocatorFactory.getInstance().getFieldString(ui,entityName,attributeName);
 		assertNotNull("Did not find attribute on diagram.", attributeText);
+		GuiUtils.maxminTab(ui, entityName);
 		ui.close(new CTabItemLocator(entityName));
 		
 	}
@@ -146,8 +147,8 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 
 		ui.contextClick(entity, "Open in Editor");
 		GuiUtils.maxminTab(ui, enumName);
-		SWTWidgetLocator attributesSection = new SWTWidgetLocator(Label.class, "Constants");
-		ui.click(attributesSection);
+		SWTWidgetLocator constantsSection = new SWTWidgetLocator(Label.class, "Constants");
+		ui.click(constantsSection);
 		items.add(ArtifactHelper.newLiteral(ui, enumName, literalName));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		
@@ -155,6 +156,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		String literalText = LocatorFactory.getInstance().getLiteralString(ui,enumName,literalName);
 		assertNotNull("Did not find literal on diagram.", literalText);
+		GuiUtils.maxminTab(ui, enumName);
 		ui.close(new CTabItemLocator(enumName));
 	}
 	
@@ -171,7 +173,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 
 		ui.contextClick(entity, "Open in Editor");
 		GuiUtils.maxminTab(ui, entityName);
-		// Note this is Attributes to close the default open section!
+		// Note this is Attributes ON PURPOSE to close the default open section!
 		SWTWidgetLocator attributesSection = new SWTWidgetLocator(Label.class, "&Attributes");
 		ui.click(attributesSection);
 		items.add(ArtifactHelper.newMethod(ui, entityName, methodName));
@@ -181,6 +183,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		String attributeText = LocatorFactory.getInstance().getMethodString(ui,entityName,methodName);
 		assertNotNull("Did not find method on diagram.", attributeText);
+		GuiUtils.maxminTab(ui, entityName);
 		ui.close(new CTabItemLocator(entityName));
 	}
 	

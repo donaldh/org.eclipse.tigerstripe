@@ -7,8 +7,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
-import abbot.tester.swt.TextTester;
-
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.WidgetSearchException;
 import com.windowtester.runtime.locator.IWidgetReference;
@@ -26,7 +24,7 @@ import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 public class ArtifactHelper extends UITestCaseSWT{
 
 	public static String newAttribute(IUIContext ui, String artifactName, String thisAttributeName) throws Exception {
-		thisAttributeName = artifactName.toLowerCase()+"_"+thisAttributeName;
+		
 		
 		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "&Attributes");
 		// expand the Attributes sections
@@ -78,7 +76,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 	}
 
 	public static String newLiteral(IUIContext ui, String artifactName, String thisLiteralName) throws Exception {
-		thisLiteralName = artifactName.toLowerCase()+"_"+thisLiteralName;
+
 		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "Constants");
 		
 		// expand the section
@@ -102,6 +100,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 		
 		LabeledTextLocator value  = new LabeledTextLocator("Value: ");
 		String valueValue = value.getText(ui);
+
 				
 		// collapse the section
 		ui.click(sectionLabel);
@@ -109,7 +108,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 	}
 
 	public static String newMethod(IUIContext ui, String artifactName, String thisMethodName) throws Exception {
-		thisMethodName = artifactName.toLowerCase()+"_"+thisMethodName;
+		
 		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "Methods");
 		
 		// expand the section

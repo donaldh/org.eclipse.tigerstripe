@@ -8,6 +8,8 @@ import com.windowtester.runtime.locator.XYLocator;
 import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
+import com.windowtester.runtime.swt.locator.TreeItemLocator;
+import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class GuiUtils {
 
@@ -26,5 +28,14 @@ public class GuiUtils {
 	public static void closeTab(IUIContext ui, String tabName) throws Exception	{
 		ui.click(new CTabItemLocator(tabName));
 		ui.contextClick(new SWTWidgetLocator(Form.class), "&Close");
+	}
+
+	public static void openExplorerItem(IUIContext ui, String diagramPath) throws Exception {
+		ui.click(2,
+				new TreeItemLocator(
+						diagramPath,
+						new ViewLocator(
+								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+		
 	}
 }
