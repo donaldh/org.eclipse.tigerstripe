@@ -102,6 +102,13 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 			} else {
 				target = mgrSession
 						.getArtifactByFullyQualifiedName(featureValue);
+				if (target == null){
+					// Bug 242521
+					// Maybe just not created yet!
+					// Make a throw away one.
+					target = mgrSession.makeArtifact(art.getArtifactType());
+					target.setFullyQualifiedName(featureValue);
+				}
 			}
 			artifact.setExtendedArtifact(target);
 			artifact.doSave(new NullProgressMonitor());
