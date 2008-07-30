@@ -30,6 +30,8 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 	private String methodType;
 	private String methodMultiplicity;
 	private IMethod method;
+	private String createdMethodLabel;
+
 
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
@@ -90,6 +92,7 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 				type
 						.setTypeMultiplicity(IModelComponent.EMultiplicity.ZERO_ONE);
 			method.setReturnType(type);
+			setCreatedMethodLabel(method.getLabelString());
 		}
 
 		art.addMethod(method);
@@ -122,6 +125,14 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 			BasePlugin.log(e);
 		}
 		return ModelChangeDelta.UNKNOWNDELTA;
+	}
+
+	public String getCreatedMethodLabel() {
+		return createdMethodLabel;
+	}
+
+	private void setCreatedMethodLabel(String createdMethodLabel) {
+		this.createdMethodLabel = createdMethodLabel;
 	}
 
 }

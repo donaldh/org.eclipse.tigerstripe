@@ -34,6 +34,10 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 	private String oldValue;
 
 	private String methodLabelBeforeChange;
+	
+	private String methodLabelAfterChange;
+
+	
 
 	private IMethod iMethod;
 
@@ -74,9 +78,16 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 						methodLabelBeforeChange)) {
 					iMethod = (IMethod) method;
 					methodURI = (URI) iMethod.getAdapter(URI.class);
-					if (NAME_FEATURE.equals(featureId)) {
+					if (COMMENT_FEATURE.equals(featureId)) {
+						iMethod.setComment(newValue);
+						needSave = true;
+					} else if (NAME_FEATURE.equals(featureId)) {
 						iMethod.setName(newValue);
 						newMethodURI = (URI) iMethod.getAdapter(URI.class);
+						needSave = true;
+					} else if (ISVOID_FEATURE.equals(featureId)) {
+						boolean bool = Boolean.parseBoolean(newValue);
+						iMethod.setVoid(bool);
 						needSave = true;
 					} else if (TYPE_FEATURE.equals(featureId)) {
 						IType type = iMethod.makeType();
@@ -94,13 +105,13 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 						iMethod.getReturnType().setTypeMultiplicity(mult);
 						needSave = true;
 					} else if (VISIBILITY_FEATURE.equals(featureId)) {
-						if ("PUBLIC".equals(newValue)) {
+						if ("PUBLIC".equalsIgnoreCase(newValue)) {
 							iMethod.setVisibility(EVisibility.PUBLIC);
-						} else if ("PROTECTED".equals(newValue)) {
+						} else if ("PROTECTED".equalsIgnoreCase(newValue)) {
 							iMethod.setVisibility(EVisibility.PROTECTED);
-						} else if ("PRIVATE".equals(newValue)) {
+						} else if ("PRIVATE".equalsIgnoreCase(newValue)) {
 							iMethod.setVisibility(EVisibility.PRIVATE);
-						} else if ("PACKAGE".equals(newValue)) {
+						} else if ("PACKAGE".equalsIgnoreCase(newValue)) {
 							iMethod.setVisibility(EVisibility.PACKAGE);
 						}
 						needSave = true;
@@ -119,7 +130,11 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 					} else if (DEFAULTRETURNVALUE_FEATURE.equals(featureId)) {
 						iMethod.setDefaultReturnValue(newValue);
 						needSave = true;
+					} else if (RETURNNAME_FEATURE.equals(featureId)) {
+						iMethod.setReturnName(newValue);
+						needSave = true;
 					}
+					setMethodLabelAfterChange(iMethod.getLabelString());
 				}
 			}
 			if (needSave)
@@ -142,7 +157,15 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 	public void setMethodLabelBeforeChange(String methodLabelBeforeChange) {
 		this.methodLabelBeforeChange = methodLabelBeforeChange;
 	}
+	
+	public String getMethodLabelAfterChange(){
+		return this.methodLabelAfterChange;
+	}
 
+	private void setMethodLabelAfterChange(String methodLabelAfterChange) {
+		this.methodLabelAfterChange = methodLabelAfterChange;
+	}
+	
 	@Override
 	public IModelChangeDelta getCorrespondingDelta() {
 		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.SET);

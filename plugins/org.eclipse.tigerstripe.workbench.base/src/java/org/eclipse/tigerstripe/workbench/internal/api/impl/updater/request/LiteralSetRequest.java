@@ -20,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 
 public class LiteralSetRequest extends BaseArtifactElementRequest implements
 		ILiteralSetRequest {
@@ -69,12 +70,29 @@ public class LiteralSetRequest extends BaseArtifactElementRequest implements
 				if (literal.getName().equals(literalName)) {
 					ILiteral iLiteral = (ILiteral) literal;
 					literalURI = (URI) iLiteral.getAdapter(URI.class);
-					if (NAME_FEATURE.equals(featureId)) {
+					if (COMMENT_FEATURE.equals(featureId)) {
+						iLiteral.setComment(newValue);
+						needSave = true;
+					} else if (NAME_FEATURE.equals(featureId)) {
 						iLiteral.setName(newValue);
 						newLiteralURI = (URI) iLiteral.getAdapter(URI.class);
 						needSave = true;
+					} else if (TYPE_FEATURE.equals(featureId)) {
+						iLiteral.getType().setFullyQualifiedName(newValue);
+						needSave = true;
 					} else if (VALUE_FEATURE.equals(featureId)) {
 						iLiteral.setValue(newValue);
+						needSave = true;
+					} else if (VISIBILITY_FEATURE.equals(featureId)) {
+						if ("PUBLIC".equalsIgnoreCase(newValue)) {
+							iLiteral.setVisibility(EVisibility.PUBLIC);
+						} else if ("PROTECTED".equalsIgnoreCase(newValue)) {
+							iLiteral.setVisibility(EVisibility.PROTECTED);
+						} else if ("PRIVATE".equalsIgnoreCase(newValue)) {
+							iLiteral.setVisibility(EVisibility.PRIVATE);
+						} else if ("PACKAGE".equalsIgnoreCase(newValue)) {
+							iLiteral.setVisibility(EVisibility.PACKAGE);
+						}
 						needSave = true;
 					}
 				}

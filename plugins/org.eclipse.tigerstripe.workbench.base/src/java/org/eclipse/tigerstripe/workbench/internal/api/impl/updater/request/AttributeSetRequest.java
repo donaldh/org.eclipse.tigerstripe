@@ -72,7 +72,10 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 				if (field.getName().equals(attributeName)) {
 					IField iField = (IField) field;
 					attributeURI = (URI) iField.getAdapter(URI.class);
-					if (NAME_FEATURE.equals(featureId)) {
+					if (COMMENT_FEATURE.equals(featureId)) {
+						iField.setComment(newValue);
+						needSave = true;
+					} else if (NAME_FEATURE.equals(featureId)) {
 						iField.setName(newValue);
 						newAttributeURI = (URI) iField.getAdapter(URI.class);
 						needSave = true;
@@ -85,13 +88,13 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 						iField.getType().setTypeMultiplicity(mult);
 						needSave = true;
 					} else if (VISIBILITY_FEATURE.equals(featureId)) {
-						if ("PUBLIC".equals(newValue)) {
+						if ("PUBLIC".equalsIgnoreCase(newValue)) {
 							iField.setVisibility(EVisibility.PUBLIC);
-						} else if ("PROTECTED".equals(newValue)) {
+						} else if ("PROTECTED".equalsIgnoreCase(newValue)) {
 							iField.setVisibility(EVisibility.PROTECTED);
-						} else if ("PRIVATE".equals(newValue)) {
+						} else if ("PRIVATE".equalsIgnoreCase(newValue)) {
 							iField.setVisibility(EVisibility.PRIVATE);
-						} else if ("PACKAGE".equals(newValue)) {
+						} else if ("PACKAGE".equalsIgnoreCase(newValue)) {
 							iField.setVisibility(EVisibility.PACKAGE);
 						}
 						needSave = true;
@@ -102,6 +105,10 @@ public class AttributeSetRequest extends BaseArtifactElementRequest implements
 					} else if (ISORDERED_FEATURE.equals(featureId)) {
 						boolean bool = Boolean.parseBoolean(newValue);
 						iField.setOrdered(bool);
+						needSave = true;
+					} else if (READONLY_FEATURE.equals(featureId)) {
+						boolean bool = Boolean.parseBoolean(newValue);
+						iField.setReadOnly(bool);
 						needSave = true;
 					} else if (DEFAULTVALUE_FEATURE.equals(featureId)) {
 						iField.setDefaultValue(newValue);

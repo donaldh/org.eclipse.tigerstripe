@@ -52,7 +52,9 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 			IAbstractArtifact art = mgrSession
 					.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-			if (EXTENDS_FEATURE.equals(featureId))
+			if (COMMENT_FEATURE.equals(featureId))
+				return art != null;
+			else if (EXTENDS_FEATURE.equals(featureId))
 				return art != null;
 			else if (ISABSTRACT_FEATURE.equals(featureId))
 				return art != null;
@@ -68,6 +70,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 					|| AENDVISIBILITY.equals(featureId)
 					|| AENDISUNIQUE.equals(featureId)
 					|| AENDMULTIPLICITY.equals(featureId)
+					|| AENDCOMMENT.equals(featureId)
 					|| ZEND.equals(featureId) || ZENDName.equals(featureId)
 					|| ZENDAGGREGATION.equals(featureId)
 					|| ZENDNAVIGABLE.equals(featureId)
@@ -75,7 +78,8 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 					|| ZENDISORDERED.equals(featureId)
 					|| ZENDMULTIPLICITY.equals(featureId)
 					|| ZENDVISIBILITY.equals(featureId)
-					|| ZENDISUNIQUE.equals(featureId))
+					|| ZENDISUNIQUE.equals(featureId)
+					|| ZENDCOMMENT.equals(featureId))
 				return (art instanceof IAssociationArtifact)
 						|| (art instanceof IDependencyArtifact)
 						&& featureValue != null;
@@ -92,11 +96,22 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 		super.execute(mgrSession);
 		IAbstractArtifact art = mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
-		if (EXTENDS_FEATURE.equals(featureId)) {
+		if( featureValue.equals("$user")){
+			// This was supposed to have been set by the user.
+			// We can assume the value was blank,
+			// and can thus ignore it.
+			// generally only applies to Extends..
+			return;
+		}
+		if (COMMENT_FEATURE.equals(featureId)) {
+			IAbstractArtifact artifact = (IAbstractArtifact) art;
+			artifact.setComment(featureValue);
+			artifact.doSave(new NullProgressMonitor());
+		} else if (EXTENDS_FEATURE.equals(featureId)) {
 			IAbstractArtifact artifact = (IAbstractArtifact) art;
 
 			IAbstractArtifact target = null;
-			if (featureValue == null) {
+			if (featureValue == null ) {
 				// this is to remove the extends
 				target = null;
 			} else {
@@ -145,7 +160,9 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 				|| AENDNAVIGABLE.equals(featureId)
 				|| AENDISORDERED.equals(featureId)
 				|| AENDISUNIQUE.equals(featureId)
-				|| AENDMULTIPLICITY.equals(featureId) || ZEND.equals(featureId)
+				|| AENDMULTIPLICITY.equals(featureId)
+				|| AENDCOMMENT.equals(featureId)
+				|| ZEND.equals(featureId)
 				|| ZENDName.equals(featureId)
 				|| ZENDISCHANGEABLE.equals(featureId)
 				|| ZENDNAVIGABLE.equals(featureId)
@@ -154,7 +171,8 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 				|| ZENDMULTIPLICITY.equals(featureId)
 				|| AENDVISIBILITY.equals(featureId)
 				|| ZENDVISIBILITY.equals(featureId)
-				|| ZENDISUNIQUE.equals(featureId)) {
+				|| ZENDISUNIQUE.equals(featureId)
+				|| ZENDCOMMENT.equals(featureId)) {
 			if (art instanceof IAssociationArtifact) {
 				IAssociationArtifact artifact = (IAssociationArtifact) art;
 				IAssociationEnd targetEnd = null;
@@ -192,6 +210,8 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 						targetEnd.setVisibility(EVisibility.PRIVATE);
 					else if ("PACKAGE".equals(featureValue))
 						targetEnd.setVisibility(EVisibility.PACKAGE);
+				} else if (featureId.endsWith("Comment")){
+					targetEnd.setComment(featureValue);
 				} else {
 					// It's the end itself that is changing!!
 					IType type = targetEnd.makeType();
