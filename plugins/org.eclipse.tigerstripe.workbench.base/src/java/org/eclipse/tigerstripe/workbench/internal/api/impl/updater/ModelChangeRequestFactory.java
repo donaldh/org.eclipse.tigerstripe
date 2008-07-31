@@ -68,6 +68,12 @@ public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 
 	private ModelUpdaterImpl modelUpdater;
 
+	// Bug 242340
+	// Adding a no argument version as the modelUpdater seems to 
+	// be unncessary.
+	public ModelChangeRequestFactory() {
+	}
+	
 	public ModelChangeRequestFactory(ModelUpdaterImpl modelUpdater) {
 		this.modelUpdater = modelUpdater;
 	}
@@ -85,7 +91,12 @@ public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 			try {
 				BaseModelChangeRequest request = (BaseModelChangeRequest) requestClass
 						.newInstance();
-				request.setTargetModelUpdater(modelUpdater);
+				
+				// Bug 242340 - Add a null check
+				if (modelUpdater != null){
+					request.setTargetModelUpdater(modelUpdater);
+				}
+				
 				return request;
 			} catch (InstantiationException e) {
 				throw new TigerstripeException(

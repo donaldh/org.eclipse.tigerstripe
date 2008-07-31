@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pattern:creationPattern patternName="org.eclipse.tigerstripe.workbench.base.Association" 
+						 uiLabel="Association"
+						 patternType="relation"
+						 iconURL="..."
+                       xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
+                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
+    <pattern:description>Create a new Association</pattern:description>
+    <ts:artifact name="$user"
+                 artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact"
+                 isAbstract="false"
+                 extendedArtifact="$user">
+                 
+        <ts:associationSpecifics>
+            <ts:associationEnd name="_aEnd" end="AEnd" type="$user" multiplicity="1" 
+                                       aggregation="none" changeable="none" navigable="false" 
+                                       ordered="false" visibility="PUBLIC"
+                                       unique="false">
+            </ts:associationEnd>
+            <ts:associationEnd name="_zEnd" end="ZEnd" type="$user" multiplicity="1" 
+                                       aggregation="none" changeable="none" navigable="true" 
+                                       ordered="false" visibility="PUBLIC"
+                                       unique="false">
+            </ts:associationEnd>
+        </ts:associationSpecifics>
+    </ts:artifact>
+</pattern:creationPattern>

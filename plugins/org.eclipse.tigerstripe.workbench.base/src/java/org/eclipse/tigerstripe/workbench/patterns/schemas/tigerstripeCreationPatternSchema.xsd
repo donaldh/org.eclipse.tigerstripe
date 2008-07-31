@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema  xmlns:tsa="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0" 
+			xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+			targetNamespace="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0" 
+			elementFormDefault="qualified" version="1.1">
+	<xs:import namespace="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0"
+            schemaLocation="tigerstripeExportSchema.xsd"/>
+			<xs:element name="creationPattern">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="description" type="xs:string" minOccurs="0"/>
+						<xs:element ref="tsa:artifact" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+					<xs:attribute name="patternName" use="required"/>
+					<xs:attribute name="patternType" use="required"/>
+					<xs:attribute name="uiLabel" use="required"/>
+					<xs:attribute name="iconURL" use="required"/>
+				</xs:complexType>
+			</xs:element>
+</xs:schema>

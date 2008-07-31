@@ -6,6 +6,7 @@
    <extension-point id="customArtifactAuditor" name="Tigerstripe Custom Artifact Auditor" schema="schema/customArtifactAuditor.exsd"/>
    <extension-point id="fileExtensionBasedAuditor" name="File Extension Based Auditor" schema="schema/fileExtensionBasedAuditor.exsd"/>
    <extension-point id="customComponentNaming" name="Tigerstripe Custom Component Naming" schema="schema/customComponentNaming.exsd"/>
+   <extension-point id="creationPatterns" name="Tigerstripe Patterns" schema="schema/creationPatterns.exsd"/>
 <!--   <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
@@ -316,6 +317,18 @@
             auditorClass="org.eclipse.tigerstripe.workbench.internal.builder.ContractSegmentAuditor"
             name="ContractSegmentAuditor">
       </fileExtensionBasedRule>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.workbench.base.creationPatterns">
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/managedEntity.xml">
+      </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/datatype.xml">
+      </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/association.xml">
+      </patternDefinition>
    </extension>
 
 </plugin>
