@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<pattern:creationPattern patternName="org.eclipse.tigerstripe.workbench.base.Datatype" 
+<pattern:creationPattern patternName="org.eclipse.tigerstripe.workbench.base.Enumeration" 
 				 		 patternType="node"
-						 uiLabel="Datatype"
+						 uiLabel="Enumeration"
 						 iconURL="..."
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
-    <pattern:description>Create a new Datatype</pattern:description>
+    <pattern:description>Create a new Enumeration</pattern:description>
     <ts:artifact name="$user"
-                 artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact"
+                 artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact"
                  isAbstract="false">
 
     </ts:artifact>

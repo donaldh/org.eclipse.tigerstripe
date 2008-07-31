@@ -329,6 +329,33 @@
       <patternDefinition
             patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/association.xml">
       </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/enumeration.xml">
+      </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/event.xml">
+      </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/exception.xml">
+      </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/package.xml">
+      </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/query.xml">
+      </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/session.xml">
+      </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/updateProcedure.xml">
+      </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/associationClass.xml">
+      </patternDefinition>
+      <patternDefinition
+            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/dependency.xml">
+      </patternDefinition>
    </extension>
 
 </plugin>

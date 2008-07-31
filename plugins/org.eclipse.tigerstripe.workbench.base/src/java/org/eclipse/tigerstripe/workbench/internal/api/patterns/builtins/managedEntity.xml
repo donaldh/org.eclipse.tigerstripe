@@ -9,8 +9,7 @@
     <pattern:description>Create a new Managed Entity</pattern:description>
     <ts:artifact name="$user"
                  artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact"
-                 isAbstract="false"
-                 extendedArtifact="$user">
+                 isAbstract="false">
 
     </ts:artifact>
 </pattern:creationPattern>

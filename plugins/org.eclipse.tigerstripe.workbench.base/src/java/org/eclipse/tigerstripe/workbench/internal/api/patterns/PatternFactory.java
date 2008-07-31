@@ -88,7 +88,7 @@ public class PatternFactory implements IPatternFactory {
 				
 				for (IConfigurationElement element : elements){
 					if (element.getName().equals("patternDefinition")){
-						// Need to get the file form the contributing plugin
+						// Need to get the file from the contributing plugin
 						String patternFileName  = element.getAttribute("patternFile");
 						IContributor contributor = ((IExtension) element.getParent()).getContributor();
 						Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
@@ -125,7 +125,14 @@ public class PatternFactory implements IPatternFactory {
 		factory.setNamespaceAware(true);
 
 		parser = factory.newDocumentBuilder();
-		patternDoc = parser.parse(patternURL.openStream());
+		try {
+			patternDoc = parser.parse(patternURL.openStream());
+		} catch (Exception e){
+			String msgText = "Could not open patternURL "
+				+ patternURL ;
+			//System.out.println("Error : " + msgText);
+			throw new TigerstripeException(msgText,e);
+		}
 		DOMSource patternSource = new DOMSource(patternDoc);
 
 		URL tsSchemaURL = baseBundle.getEntry(schemaLocation);
