@@ -94,16 +94,22 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 				session.doSave(new NullProgressMonitor());
 			}
 		} else if (art instanceof IManagedEntityArtifact) {
-			IManagedEntityArtifact me = (IManagedEntityArtifact) art;
-			Collection<IAbstractArtifact> arts = me.getImplementedArtifacts();
-			List<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
-			list.addAll(arts);
-			IAbstractArtifact target = mgrSession
+			if (IMPLEMENTS_FEATURE.equals(featureId)){
+				IManagedEntityArtifact me = (IManagedEntityArtifact) art;
+				Collection<IAbstractArtifact> arts = me.getImplementedArtifacts();
+				List<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
+				list.addAll(arts);
+				IAbstractArtifact target = mgrSession
 					.getArtifactByFullyQualifiedName(featureValue);
-			if (target != null) {
+				if (target == null) {
+					// Make a dummy one
+					target = mgrSession.makeArtifact(ISessionArtifact.class.getName());
+					target.setFullyQualifiedName(featureValue);
+				}
 				list.add(target);
 				me.setImplementedArtifacts(list);
 				me.doSave(new NullProgressMonitor());
+				
 			}
 		}
 	}
