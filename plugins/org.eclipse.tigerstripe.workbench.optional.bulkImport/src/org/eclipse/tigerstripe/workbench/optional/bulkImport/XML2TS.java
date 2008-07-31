@@ -14,11 +14,9 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -35,15 +33,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntry;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjArtifactSpecifics;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjDatatypeSpecifics;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEntitySpecifics;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEnumSpecifics;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEventSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjQuerySpecifics;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjUpdateProcedureSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
@@ -71,16 +63,11 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggr
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEmittedEvent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IExposedUpdateProcedure;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.INamedQuery;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IEventDescriptorEntry;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjArtifactSpecifics;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEntitySpecifics;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
@@ -121,18 +108,22 @@ public class XML2TS {
 	private MessageList messages;
 
 	private IWorkbenchProfileSession profileSession;
+	
+	private TigerstripeXMLParserUtils xmlParserUtils;
 
 	// default constructor
-	public XML2TS() {
+	public XML2TS(PrintWriter out, MessageList messages) {
+		this.out = out;
+		this.messages = messages;
+		
 		this.profileSession = TigerstripeCore.getWorkbenchProfileSession();
+		this.xmlParserUtils = new TigerstripeXMLParserUtils(namespace, out,  messages);
 	}
 
 	public ImportBundle loadXMLtoTigerstripe(File importFile,
-			String tSProjectName, PrintWriter out, MessageList messages,
+			String tSProjectName, 
 			IProgressMonitor monitor) throws TigerstripeException {
 
-		this.out = out;
-		this.messages = messages;
 		this.importFile = importFile;
 
 		Map<String, IAbstractArtifact> extractedArtifacts;
@@ -439,7 +430,7 @@ public class XML2TS {
 			// Need to determine the artifactType before creating one.
 			Specifics specificType = getArtifactSpecifics(artifactElement);
 			
-			String typeName = getArtifactTypeName(artifactElement);
+			String typeName = xmlParserUtils.getArtifactType(artifactElement);
 			
 			if (typeName == null) {
 				// Can't handle this artifact - Log a message and carry on
@@ -1325,10 +1316,6 @@ public class XML2TS {
 		return isis;
 	}
 
-	private String getArtifactTypeName(Element artifactElement) {
-		String artifactTypeName = artifactElement.getAttribute("artifactType");
-		return artifactTypeName;
-	}
 	
 	private Specifics getArtifactSpecifics(Element artifactElement) {
 		Specifics specifics = new Specifics();

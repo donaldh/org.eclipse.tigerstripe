@@ -487,9 +487,9 @@ public class BulkImportWizardPage extends WizardPage {
 
 			out.println("Loading file " + importFile.getName());
 			// Parse into TS
-			XML2TS xML2TS = new XML2TS();
+			XML2TS xML2TS = new XML2TS(out, messages);
 			bundle = xML2TS.loadXMLtoTigerstripe(importFile,
-					getTigerstripeName(), out, messages, monitor);
+					getTigerstripeName(),  monitor);
 
 			allXMLDiffs = xML2TS.compareExtractAndProject(bundle, monitor, out,
 					messages);
