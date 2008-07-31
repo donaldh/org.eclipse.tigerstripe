@@ -20,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
  */
 public interface IMethodSetRequest extends IModelChangeRequest {
 
+	public final static String COMMENT_FEATURE = "comment";
 	public final static String NAME_FEATURE = "name";
 	public final static String TYPE_FEATURE = "type";
 	public final static String MULTIPLICITY_FEATURE = "multiplicity";
@@ -28,6 +29,8 @@ public interface IMethodSetRequest extends IModelChangeRequest {
 	public final static String ISUNIQUE_FEATURE = "isUnique";
 	public final static String ISORDERED_FEATURE = "isOrdered";
 	public final static String DEFAULTRETURNVALUE_FEATURE = "defaultReturnValue";
+	public final static String ISVOID_FEATURE = "isVoid";
+	public final static String RETURNNAME_FEATURE = "returnName";
 
 	public void setArtifactFQN(String artifactFQN);
 

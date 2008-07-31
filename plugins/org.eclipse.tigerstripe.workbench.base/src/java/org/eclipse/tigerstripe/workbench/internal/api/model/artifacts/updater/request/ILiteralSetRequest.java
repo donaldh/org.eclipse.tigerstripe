@@ -20,8 +20,11 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
  */
 public interface ILiteralSetRequest extends IModelChangeRequest {
 
+	public final static String COMMENT_FEATURE = "comment";
 	public final static String NAME_FEATURE = "name";
 	public final static String VALUE_FEATURE = "value";
+	public final static String VISIBILITY_FEATURE = "visibility";
+	public final static String TYPE_FEATURE = "type";
 
 	public void setArtifactFQN(String artifactFQN);
 

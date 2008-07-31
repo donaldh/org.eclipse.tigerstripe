@@ -14,6 +14,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 
 public interface IArtifactSetFeatureRequest extends IModelChangeRequest {
 
+	public final static String COMMENT_FEATURE = "comment";
 	public final static String EXTENDS_FEATURE = "extends";
 	public final static String RETURNED_TYPE = "returnedType";
 	public final static String BASE_TYPE = "baseType";
@@ -28,6 +29,8 @@ public interface IArtifactSetFeatureRequest extends IModelChangeRequest {
 	public final static String AENDAGGREGATION = "aEndAggregation";
 	public final static String AENDMULTIPLICITY = "aEndMultiplicity";
 	public final static String AENDVISIBILITY = "aEndVisibility";
+	public final static String AENDCOMMENT = "aEndComment";
+	
 
 	public final static String ZEND = "zEnd";
 	public final static String ZENDName = "zEndName";
@@ -38,6 +41,7 @@ public interface IArtifactSetFeatureRequest extends IModelChangeRequest {
 	public final static String ZENDAGGREGATION = "zEndAggregation";
 	public final static String ZENDMULTIPLICITY = "zEndMultiplicity";
 	public final static String ZENDVISIBILITY = "zEndVisibility";
+	public final static String ZENDCOMMENT = "zEndComment";
 
 	public void setArtifactFQN(String artifactFQN);
 
