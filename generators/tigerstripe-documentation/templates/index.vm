@@ -64,8 +64,8 @@ A description of the segmentation of ${tsProjectHandle.ProjectDetails.Name}.
 A list of the services available from ${tsProjectHandle.ProjectDetails.Name}.
 <ul>
 #foreach ($s in $docUtils.sortByName($castUtils.toModel($allSessions)))
-<li>#href($s) #if(${s.operations.size()}>0)has operations#end</li><ul>
-#foreach($o in $docUtils.sortByName(${s.operations}))
+<li>#href($s) #if(${s.inheritedOperations.size()}>0)has operations#end</li><ul>
+#foreach($o in $docUtils.sortByName(${s.inheritedOperations}))
     <li>#href($o)</li>
 #end
 </ul>
@@ -83,8 +83,8 @@ Interface $s.name is implemented by:
 #foreach($e in $docUtils.sortByName($castUtils.toModel($allEntities)))
 #foreach($i in $e.implements)
 #if($i == $s)
-    <li>#href($e)#if(${e.operations.size()}>0)has operations#end</li><ul>
-#foreach($o in $docUtils.sortByName($e.operations))
+    <li>#href($e)#if(${e.inheritedOperations.size()}>0)has operations#end</li><ul>
+#foreach($o in $docUtils.sortByName($e.inheritedOperations))
         <li>#href($o)</li>
 #end
 #end
@@ -99,8 +99,8 @@ Interface $s.name exposes:
 #foreach($e in ${s.getArtifact().ManagedEntityDetails})
 #foreach($a in $docUtils.sortByName($castUtils.toModel($allEntities)))
 #if($a.fullyQualifiedName.equals($e.fullyQualifiedName))
-    <li>#href($a)#if(${a.operations.size()}>0)has operations#end</li><ul>
-#foreach($o in $a.operations)
+    <li>#href($a)#if(${a.inheritedOperations.size()}>0)has operations#end</li><ul>
+#foreach($o in $a.inheritedOperations)
         <li>#href($o)</li>
 #end
 </ul>
