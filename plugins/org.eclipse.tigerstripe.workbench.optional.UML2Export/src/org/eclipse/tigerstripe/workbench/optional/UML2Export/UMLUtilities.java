@@ -112,15 +112,18 @@ public class UMLUtilities {
 				.put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 
 		Map uriMap = resourceSet.getURIConverter().getURIMap();
-		// TODO - shouldn't need to hard code path & version surely?
-
+		
 		IPath eclipseHome = JavaCore.getClasspathVariable("ECLIPSE_HOME");
-		String t = Platform.getBundle("org.eclipse.uml2.uml.resources")
+		String uml2ResourcesRelLocation = Platform.getBundle("org.eclipse.uml2.uml.resources")
 				.getLocation();
-		String uml2ResourcesRelLocation = t.substring(t.indexOf("@") + 1, t
-				.length());
-		URI uri = URI.createURI("jar:file:/" + eclipseHome + "/"
-				+ uml2ResourcesRelLocation + "!/");
+
+		//String uml2ResourcesRelLocation = t;//.substring(t.indexOf("@") + 1, t.length());
+
+		//URI uri = URI.createURI("jar:file:/" + eclipseHome + "/"
+		//		+ uml2ResourcesRelLocation + "!/");
+		
+		URI uri = URI.createURI(uml2ResourcesRelLocation + "!/");
+		System.out.println(uri);
 		uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri
 				.appendSegment("libraries").appendSegment(""));
 		uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri
@@ -128,8 +131,8 @@ public class UMLUtilities {
 		uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), uri
 				.appendSegment("profiles").appendSegment(""));
 
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
-				"emx", UMLResource.Factory.INSTANCE);
+//		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
+//				"emx", UMLResource.Factory.INSTANCE);
 
 	}
 

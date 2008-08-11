@@ -71,24 +71,25 @@ public class ProfileAnnotations2UML2 {
 	private Model umlMetamodel;
 
 	/** constructor */
-	public ProfileAnnotations2UML2() {
+	public ProfileAnnotations2UML2(PrintWriter out) {
 		this.profileSession = TigerstripeCore.getWorkbenchProfileSession();
 		UMLUtilities.setupPaths();
 		try {
+			this.out = out;
 			this.umlMetamodel = UMLUtilities.openModelURI(URI
 					.createURI(UMLResource.UML_METAMODEL_URI));
 		} catch (Exception e) {
-
+			e.printStackTrace(out);
 		}
 
 	}
 
 	public Profile loadTSProfileAnnotationstoUML(File exportDir,
-			String exportFilename, PrintWriter out, MessageList messages,
+			String exportFilename,  MessageList messages,
 			IProgressMonitor monitor, Map<String, Type> primitiveTypeMap,
 			Model typesModel) throws TigerstripeException {
 
-		this.out = out;
+		
 		Map<String, Type> enumMap = new HashMap<String, Type>();
 		this.stereotypeMap = new HashMap<String, Stereotype>();
 
@@ -101,7 +102,7 @@ public class ProfileAnnotations2UML2 {
 				.getStereotypes();
 
 		// Possible metaClasses for scope
-
+		
 		org.eclipse.uml2.uml.Class packageMetaclass = (org.eclipse.uml2.uml.Class) umlMetamodel
 				.getOwnedType(UMLPackage.Literals.PACKAGE.getName());
 		profile.createMetaclassReference(packageMetaclass);

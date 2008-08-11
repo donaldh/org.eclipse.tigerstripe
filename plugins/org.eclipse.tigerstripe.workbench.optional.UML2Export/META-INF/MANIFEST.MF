@@ -19,6 +19,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.uml2,
  org.eclipse.uml2.uml.resources,
  org.eclipse.tigerstripe.workbench.base,
- org.eclipse.tigerstripe.workbench.ui.base
+ org.eclipse.tigerstripe.workbench.ui.base;bundle-version="0.4.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

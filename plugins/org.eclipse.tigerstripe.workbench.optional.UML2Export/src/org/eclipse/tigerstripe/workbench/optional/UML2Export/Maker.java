@@ -485,6 +485,7 @@ public class Maker {
 		try {
 
 			String className = artifact.getFullyQualifiedName();
+			//System.out.println("Look for "+className);
 			String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
 
 			Package modelPackage = makeOrFindPackage(artifact);
@@ -493,6 +494,7 @@ public class Maker {
 				if (as instanceof Association) {
 					Association aAssoc = (Association) as;
 					if (aAssoc.getQualifiedName().equals(umlClassName))
+						//System.out.println("Found UML Assoc "+className);
 						return aAssoc;
 				}
 			}
