@@ -27,22 +27,22 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisi
 public class MethodSetRequest extends BaseArtifactElementRequest implements
 		IMethodSetRequest {
 
-	private String featureId;
+	protected String featureId;
 
-	private String newValue;
+	protected String newValue;
 
-	private String oldValue;
+	protected String oldValue;
 
-	private String methodLabelBeforeChange;
+	protected String methodLabelBeforeChange;
 	
-	private String methodLabelAfterChange;
+	protected String methodLabelAfterChange;
 
 	
 
-	private IMethod iMethod;
+	protected IMethod iMethod;
 
-	private URI methodURI;
-	private URI newMethodURI;
+	protected URI methodURI;
+	protected URI newMethodURI;
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
@@ -162,7 +162,7 @@ public class MethodSetRequest extends BaseArtifactElementRequest implements
 		return this.methodLabelAfterChange;
 	}
 
-	private void setMethodLabelAfterChange(String methodLabelAfterChange) {
+	protected void setMethodLabelAfterChange(String methodLabelAfterChange) {
 		this.methodLabelAfterChange = methodLabelAfterChange;
 	}
 	

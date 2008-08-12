@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -261,6 +262,10 @@ public class PatternFactory implements IPatternFactory {
 			IMethodSetRequest.TYPE_FEATURE,
 			IMethodSetRequest.MULTIPLICITY_FEATURE));
 	
+	private static ArrayList<String> methodAddFeatures = new ArrayList<String>(Arrays.asList(
+			IMethodAddFeatureRequest.EXCEPTIONS_FEATURE,
+			IMethodAddFeatureRequest.ARGUMENTS_FEATURE));
+	
 	/**
 	 * This takes the artifactElement and generates a whole series of Modify actions.
 	 * These are all items that have NO inputs from the UI.
@@ -326,11 +331,39 @@ public class PatternFactory implements IPatternFactory {
 			createRequest.setMethodType((String) methodData.get(IMethodSetRequest.TYPE_FEATURE));
 			createRequest.setMethodMultiplicity((String) methodData.get(IMethodSetRequest.MULTIPLICITY_FEATURE));
 			pattern.requests.add(createRequest);
+			// Now any "Add" features -
+			//ARGUMENTS
+			if (methodData.containsKey(IMethodAddFeatureRequest.ARGUMENTS_FEATURE)){
+				Collection<Map<String,Object>> allArgumentData = (Collection<Map<String,Object>>) methodData.get(IMethodAddFeatureRequest.ARGUMENTS_FEATURE);
+				int argumentPostion = 0;
+				for (Map<String,Object> argumentData : allArgumentData){
+					for (String feature : argumentData.keySet()){
+						IMethodAddFeatureRequest addRequest = (IMethodAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_ADD_FEATURE);
+						addRequest.setFeatureId(feature);
+						addRequest.setNewValue((String) argumentData.get(feature));
+						addRequest.setArgumentPosition(argumentPostion);
+						pattern.requests.add(addRequest);
+					}
+				argumentPostion++;
+				}
+			}
+			//EXCEPTIONS
+			if (methodData.containsKey(IMethodAddFeatureRequest.EXCEPTIONS_FEATURE)){
+				Collection<String> exceptions = (Collection<String>) methodData.get(IMethodAddFeatureRequest.EXCEPTIONS_FEATURE);
+				for (String exceptionName : exceptions){
+					IMethodAddFeatureRequest addRequest = (IMethodAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_ADD_FEATURE);
+					addRequest.setFeatureId(IMethodAddFeatureRequest.EXCEPTIONS_FEATURE);
+					addRequest.setNewValue(exceptionName);
+					pattern.requests.add(addRequest);
+				}
+			}
+			
+			
 			// iterate over other features
 			for (String feature : methodData.keySet()){
-				if (!methodCreateFeatures.contains(feature)){
+				if (!methodCreateFeatures.contains(feature) && !methodAddFeatures.contains(feature)){
 					IMethodSetRequest setRequest =(IMethodSetRequest)requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_SET);	
-					// Note we can't set the *LABEL* here as it may be changeing as we go along
+					// Note we can't set the *LABEL* here as it may be changing as we go along
 					setRequest.setFeatureId(feature);
 					setRequest.setNewValue((String) methodData.get(feature));
 					pattern.requests.add(setRequest);

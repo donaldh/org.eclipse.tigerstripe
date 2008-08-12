@@ -131,7 +131,7 @@
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required"/>
 			<xs:attribute name="typeMultiplicity" type="xs:string" use="required"/>
-			<xs:attribute name="type" type="xs:string" use="optional"/>
+			<xs:attribute name="type" type="xs:string" use="required"/>
 			<xs:attribute name="unique" type="xs:boolean" use="required"/>
 			<xs:attribute name="ordered" type="xs:boolean" use="required"/>
 			<xs:attribute name="defaultValue" type="xs:string" use="optional"/>

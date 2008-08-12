@@ -10,6 +10,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
@@ -243,6 +244,10 @@ public class TigerstripeXMLParserUtils {
 				methodData.put(IMethodSetRequest.RETURNNAME_FEATURE,method.getAttribute("methodReturnName"));
 			}
 			
+			if (method.hasAttribute("defaultReturnValue")) {
+				methodData.put(IMethodSetRequest.DEFAULTRETURNVALUE_FEATURE,method.getAttribute("defaultReturnValue"));
+			}
+			
 			if (method.hasAttribute("ordered")) {
 				methodData.put(IMethodSetRequest.ISORDERED_FEATURE,method.getAttribute("ordered"));
 			}
@@ -255,6 +260,48 @@ public class TigerstripeXMLParserUtils {
 			if (comment != null){
 				methodData.put(IMethodSetRequest.COMMENT_FEATURE,comment);
 			}
+			
+			
+			Collection<Map<String,Object>> allArgumentData = new ArrayList<Map<String,Object>>();
+			NodeList argumentNodes = method
+				.getElementsByTagNameNS(namespace, "argument");
+			for (Integer en = 0; en < argumentNodes.getLength(); en++) {
+				Map<String,Object> argumentData = new HashMap<String,Object>();
+				Element argument = (Element) argumentNodes.item(en);
+				argumentData.put(IMethodAddFeatureRequest.ARGUMENT_NAME_FEATURE,argument.getAttribute("name"));
+				argumentData.put(IMethodAddFeatureRequest.ARGUMENT_TYPE_FEATURE,argument.getAttribute("type"));
+				argumentData.put(IMethodAddFeatureRequest.ARGUMENT_MULTIPLICITY_FEATURE,argument.getAttribute("typeMultiplicty"));
+				argumentData.put(IMethodAddFeatureRequest.ARGUMENT_ISUNIQUE_FEATURE,argument.getAttribute("unique"));
+				argumentData.put(IMethodAddFeatureRequest.ARGUMENT_ISORDERED_FEATURE,argument.getAttribute("ordered"));
+				if (argument.hasAttribute("defaultValue")){
+					argumentData.put(IMethodAddFeatureRequest.ARGUMENT_DEFAULTVALUE_FEATURE,argument.getAttribute("defaultValue"));
+				}
+				String argumentComment = getComment(argument);
+				if (argumentComment != null){
+					argumentData.put(IMethodAddFeatureRequest.ARGUMENT_COMMENT_FEATURE,argumentComment);
+				}
+				// This add should be used carefully to make sure the arguments are added in the correct order!
+				allArgumentData.add(argumentData);
+			}
+			if (allArgumentData.size() > 0){
+				methodData.put(IMethodAddFeatureRequest.ARGUMENTS_FEATURE,allArgumentData);
+			}
+
+			
+			Collection<String> exceptionData = new ArrayList<String>();
+			NodeList exceptionNodes = method
+				.getElementsByTagNameNS(namespace, "exception");
+			for (int en = 0; en < exceptionNodes.getLength(); en++) {
+				Element exception = (Element) exceptionNodes.item(en);
+				exceptionData.add(exception.getAttribute("name"));
+			}
+			if (exceptionData.size() > 0){
+				methodData.put(IMethodAddFeatureRequest.EXCEPTIONS_FEATURE,exceptionData);
+			}
+			
+			
+			
+			
 			
 			// TODO - These have no Updater FEATURES at the moment			
 //			

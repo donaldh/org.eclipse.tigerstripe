@@ -25,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
@@ -72,6 +73,9 @@ public interface IModelChangeRequestFactory {
 	public final static String METHOD_REMOVE = IMethodRemoveRequest.class
 			.getName();
 
+	public final static String METHOD_ADD_FEATURE = IMethodAddFeatureRequest.class
+			.getName();
+	
 	public final static String ARTIFACTLINK_CREATE = IArtifactLinkCreateRequest.class
 			.getName();
 
