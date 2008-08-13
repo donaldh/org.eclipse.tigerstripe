@@ -39,7 +39,8 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 
 		IAssociationArtifact artifact = (IAssociationArtifact) getArtifact();
 
-		IType aEndType = artifact.getAEnd().getType();
+		// Added test - Bug 244010
+		IType aEndType = artifact.getAEnd()!=null?artifact.getAEnd().getType():null;
 		boolean aEndDefined = false;
 		if (aEndType == null || aEndType.getFullyQualifiedName().length() == 0) {
 			TigerstripeProjectAuditor.reportError("Undefined "
@@ -51,7 +52,8 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		} else
 			aEndDefined = true;
 
-		IType zEndType = artifact.getZEnd().getType();
+		// Added test - Bug 244010
+		IType zEndType = artifact.getZEnd()!=null?artifact.getZEnd().getType():null;
 		boolean zEndDefined = false;
 		if (zEndType == null || zEndType.getFullyQualifiedName().length() == 0) {
 			TigerstripeProjectAuditor.reportError("Undefined "
