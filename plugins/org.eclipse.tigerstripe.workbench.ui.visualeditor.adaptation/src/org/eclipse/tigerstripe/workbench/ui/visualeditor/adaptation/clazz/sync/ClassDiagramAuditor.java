@@ -808,12 +808,11 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 					Iterator<IArgument> argumentIterator = iMethod
 							.getArguments().iterator();
 					for (int index = 0; index < parameters.size(); index++) {
-						boolean changed = false;
 						Parameter theParam = parameters.get(index);
 						IArgument theArg = argumentIterator.next();
 						if (!theArg.getName().equals(theParam.getName())) {
-							theParam.setName(theArg.getName());
-							changed = true;
+							methResult.add(getErrorStatus("Argument Name of '"
+									+ theParam.getName() + "' doesn't match (Expected '" + theArg.getName() + "'"));
 						}
 						String lclTypeName = theArg.getType()
 								.getFullyQualifiedName();
