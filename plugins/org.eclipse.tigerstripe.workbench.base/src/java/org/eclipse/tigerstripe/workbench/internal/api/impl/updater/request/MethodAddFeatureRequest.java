@@ -30,7 +30,6 @@ public class MethodAddFeatureRequest extends MethodSetRequest
 	
 	private int argumentPosition = 0;
 	
-	@Override
 	public void setArgumentPosition(int position) {
 		this.argumentPosition = position;
 		
