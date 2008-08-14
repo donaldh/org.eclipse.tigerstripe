@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.1 2008/07/18 01:07:18 jworrell Exp $
+ $Id: plugin.xml,v 1.2 2008/08/14 13:42:20 rcraddock Exp $
 -->
 
 <plugin>
@@ -49,6 +49,21 @@
            description="TestAnnot3..."
            eclass="TestAnnot3">
      </definition>
+  </extension>
+  <extension
+        point="org.eclipse.tigerstripe.workbench.base.creationPatterns">
+     <patternDefinition
+           patternFile="resources/patterns/irdEntity.xml">
+     </patternDefinition>
+     <patternDefinition
+           patternFile="resources/patterns/irdAssoc.xml">
+     </patternDefinition>
+     <patternDefinition
+           patternFile="resources/patterns/shouldNotAppear.xml">
+     </patternDefinition>
+     <disabledPattern
+           patternName="com.test.shouldNotAppear">
+     </disabledPattern>
   </extension>
 
 </plugin>
