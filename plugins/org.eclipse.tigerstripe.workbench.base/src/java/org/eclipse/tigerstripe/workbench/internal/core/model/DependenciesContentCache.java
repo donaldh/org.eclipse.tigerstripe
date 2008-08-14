@@ -13,7 +13,9 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -41,9 +43,9 @@ public class DependenciesContentCache {
 
 	private ArtifactManager manager;
 
-	private HashMap<IAbstractArtifact, List<IAbstractArtifact>> artifactsByModel;
+	private HashMap<IAbstractArtifact, Set<IAbstractArtifact>> artifactsByModel;
 
-	private List<IAbstractArtifact> allArtifacts;
+	private Set<IAbstractArtifact> allArtifacts;
 
 	private HashMap<String, IAbstractArtifact> artifactsByFqn;
 
@@ -69,8 +71,8 @@ public class DependenciesContentCache {
 	}
 
 	private void cleanCache() {
-		artifactsByModel = new HashMap<IAbstractArtifact, List<IAbstractArtifact>>();
-		allArtifacts = new ArrayList<IAbstractArtifact>();
+		artifactsByModel = new HashMap<IAbstractArtifact, Set<IAbstractArtifact>>();
+		allArtifacts = new HashSet<IAbstractArtifact>();
 		artifactsByFqn = new HashMap<String, IAbstractArtifact>();
 		allKnownArtifactsByFqn = new HashMap<String, List<IAbstractArtifact>>();
 	}
@@ -91,13 +93,13 @@ public class DependenciesContentCache {
 				.getRegisteredArtifacts();
 		monitor.beginTask("Cache update - Pass 1", registeredArtifacts.size());
 		for (IAbstractArtifact model : registeredArtifacts) {
-			List<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
+			Set<IAbstractArtifact> list = new HashSet<IAbstractArtifact>();
 			for (IDependency dependency : manager.getProjectDependencies()) {
 				Dependency dep = (Dependency) dependency;
 				if (dep != null && dep.getArtifactManager(monitor) != null)
 					list.addAll(dep.getArtifactManager(monitor)
 							.getArtifactsByModel((AbstractArtifact) model,
-									false, monitor));
+									true, monitor));
 			}
 
 			artifactsByModel.put(model, list);
@@ -107,7 +109,7 @@ public class DependenciesContentCache {
 	}
 
 	private void updateAllArtifacts(IProgressMonitor monitor) {
-		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 		for (IDependency dependency : manager.getProjectDependencies()) {
 			Dependency dep = (Dependency) dependency;
 			if (dep != null && dep.getArtifactManager(monitor) != null)
@@ -144,7 +146,7 @@ public class DependenciesContentCache {
 		}
 	}
 
-	public synchronized List<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
+	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
 			String fqn, IProgressMonitor monitor) {
 		if (!isInitialized) {
 			updateCache(monitor);
@@ -157,7 +159,7 @@ public class DependenciesContentCache {
 			return new ArrayList<IAbstractArtifact>();
 	}
 
-	public synchronized List<IAbstractArtifact> getArtifactsByModelInChained(
+	public synchronized Collection<IAbstractArtifact> getArtifactsByModelInChained(
 			AbstractArtifact model, IProgressMonitor monitor) {
 		if (!isInitialized)
 			updateCache(monitor);
@@ -166,7 +168,7 @@ public class DependenciesContentCache {
 				artifactFilter);
 	}
 
-	public synchronized List<IAbstractArtifact> getAllChainedArtifacts(
+	public synchronized Collection<IAbstractArtifact> getAllChainedArtifacts(
 			IProgressMonitor monitor) {
 		if (!isInitialized)
 			updateCache(monitor);

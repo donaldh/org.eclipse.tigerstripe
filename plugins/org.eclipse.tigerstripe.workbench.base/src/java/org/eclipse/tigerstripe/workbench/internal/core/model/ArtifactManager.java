@@ -1753,7 +1753,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 						.getArtifactManagerSession();
 				IArtifactQuery query = session
 						.makeQuery(IQueryAllArtifacts.class.getName());
-				query.setIncludeDependencies(false); // DO NOT INCLUDE
+				query.setIncludeDependencies(true); // DO NOT INCLUDE
 				// DEPENDENCIES
 				list.addAll(project.getArtifactManagerSession().queryArtifact(
 						query));
@@ -1799,7 +1799,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				IQueryArtifactsByType query = (IQueryArtifactsByType) session
 						.makeQuery(IQueryArtifactsByType.class.getName());
 				query.setArtifactType(model.getClass().getName());
-				query.setIncludeDependencies(false); // dependencies of
+				query.setIncludeDependencies(true); // dependencies of
 				// referenced project
 				// shall not be included
 
@@ -1853,7 +1853,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedNameInModules(
 			String fqn, IProgressMonitor monitor) {
 
-		List<IAbstractArtifact> list = depContentCache
+		Collection<IAbstractArtifact> list = depContentCache
 				.getAllKnownArtifactsByFullyQualifiedName(fqn, monitor);
 		return list;
 	}

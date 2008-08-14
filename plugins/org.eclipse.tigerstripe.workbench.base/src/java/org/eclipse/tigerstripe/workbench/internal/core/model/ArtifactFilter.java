@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,8 +32,8 @@ public abstract class ArtifactFilter {
 	 */
 	public abstract boolean select(IAbstractArtifact artifact);
 
-	public static List<IAbstractArtifact> filter(
-			List<IAbstractArtifact> artifactList, ArtifactFilter filter) {
+	public static Collection<IAbstractArtifact> filter(
+			Collection<IAbstractArtifact> artifactList, ArtifactFilter filter) {
 
 		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 		
