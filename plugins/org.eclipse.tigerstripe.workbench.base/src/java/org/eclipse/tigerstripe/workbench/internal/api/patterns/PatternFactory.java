@@ -483,7 +483,7 @@ public class PatternFactory implements IPatternFactory {
 			IArtifactSetFeatureRequest.ZENDMULTIPLICITY,
 			IArtifactSetFeatureRequest.ZENDNAVIGABLE));
 	/**
-	 * This takes the artifactElement and generates a LINL request then some set SET actions.
+	 * This takes the artifactElement and generates a LINK request then some set SET actions.
 	 * For the ends.
 	 * 
 	 * @param pattern
@@ -499,7 +499,17 @@ public class PatternFactory implements IPatternFactory {
 		createRequest.setZEndNavigability (Boolean.parseBoolean((String) endData.get(IArtifactSetFeatureRequest.ZENDNAVIGABLE)));
 		pattern.requests.add(createRequest);
 		for (String feature : endData.keySet()){
-			if (!endCreateFeatures.contains(feature)){
+			if (feature.equals(IStereotypeAddFeatureRequest.AEND_STEREOTYPE_FEATURE)){
+				IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
+				stereotypeAddRequest.setCapableClass(ECapableClass.AEND);
+				stereotypeAddRequest.setFeatureValue((IStereotypeInstance) endData.get(feature));
+				pattern.requests.add(stereotypeAddRequest);
+			} else if (feature.equals(IStereotypeAddFeatureRequest.ZEND_STEREOTYPE_FEATURE)){
+				IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
+				stereotypeAddRequest.setCapableClass(ECapableClass.ZEND);
+				stereotypeAddRequest.setFeatureValue((IStereotypeInstance) endData.get(feature));
+				pattern.requests.add(stereotypeAddRequest);
+			} else if (!endCreateFeatures.contains(feature)){
 				IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
 				setRequest.setFeatureId(feature);
 				setRequest.setFeatureValue((String) endData.get(feature));

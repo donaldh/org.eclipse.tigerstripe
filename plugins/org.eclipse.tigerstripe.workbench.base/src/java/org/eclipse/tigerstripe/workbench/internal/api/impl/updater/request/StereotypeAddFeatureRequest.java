@@ -18,6 +18,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -136,6 +137,21 @@ public class StereotypeAddFeatureRequest extends BaseArtifactElementRequest
 					if (match) 
 						return true;
 				}
+			} else if (getCapableClass().equals(ECapableClass.AEND)){
+				if (art instanceof AssociationArtifact){
+					AssociationArtifact assoc  = (AssociationArtifact) art;
+					return (null != assoc.getAEnd());
+				} else 
+					return false;
+
+
+			} else if (getCapableClass().equals(ECapableClass.ZEND)){
+				if (art instanceof AssociationArtifact){
+					AssociationArtifact assoc  = (AssociationArtifact) art;
+					return (null != assoc.getZEnd());
+				} else 
+					return false;
+
 			}
 			return false;
 		} catch (TigerstripeException t) {
@@ -207,6 +223,13 @@ public class StereotypeAddFeatureRequest extends BaseArtifactElementRequest
 					setFeatureId(IModelChangeDelta.LITERAL);
 				}
 			}
+		} else if (getCapableClass().equals(ECapableClass.AEND)){
+				AssociationArtifact assoc  = (AssociationArtifact) art;
+					addInstanceToCapable(assoc.getAEnd(),instance);
+
+		} else if (getCapableClass().equals(ECapableClass.ZEND)){
+			AssociationArtifact assoc  = (AssociationArtifact) art;
+				addInstanceToCapable(assoc.getZEnd(),instance);
 		}
 		
 		art.doSave(null);

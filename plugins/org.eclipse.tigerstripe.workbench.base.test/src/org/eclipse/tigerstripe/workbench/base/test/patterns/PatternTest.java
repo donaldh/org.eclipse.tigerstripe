@@ -107,15 +107,15 @@ public class PatternTest extends TestCase {
 		
 	}
 	
-//	public void testDatatypeArtifactPattern() throws Exception {
-//
-//		String targetPackage = "org.eclipse";
-//		String entityName = "mynewDatatype";
-//		String patternname = "org.eclipse.tigerstripe.workbench.base.Datatype";
-//
-//		testNodePatternArtifact( patternname, targetPackage,  entityName);
-//
-//	}
+	public void testDatatypeArtifactPattern() throws Exception {
+
+		String targetPackage = "org.eclipse";
+		String entityName = "mynewDatatype";
+		String patternname = "org.eclipse.tigerstripe.workbench.base.Datatype";
+
+		testNodePatternArtifact( patternname, targetPackage,  entityName);
+
+	}
 	
 	public void testEnumerationArtifactPattern() throws Exception {
 
@@ -181,41 +181,41 @@ public class PatternTest extends TestCase {
 
 	}
 	
-	public void testAssociationArtifactPattern() throws Exception {
-
-		String targetPackage = "org.eclipse";
-		String entityName = "mynewAssociation";
-		String patternname = "org.eclipse.tigerstripe.workbench.base.Association";
-		String aEndType = "org.eclipse.endAType";
-		String zEndType = "org.eclipse.endZType";
-
-		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
-
-	}
-	
-	public void testAssociationClassArtifactPattern() throws Exception {
-
-		String targetPackage = "org.eclipse";
-		String entityName = "mynewAssociationClass";
-		String patternname = "org.eclipse.tigerstripe.workbench.base.AssociationClass";
-		String aEndType = "org.eclipse.endAType";
-		String zEndType = "org.eclipse.endZType";
-
-		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
-
-	}
-	
-	public void testDependencyArtifactPattern() throws Exception {
-
-		String targetPackage = "org.eclipse";
-		String entityName = "mynewDependency";
-		String patternname = "org.eclipse.tigerstripe.workbench.base.Dependency";
-		String aEndType = "org.eclipse.endAType";
-		String zEndType = "org.eclipse.endZType";
-
-		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
-
-	}
+//	public void testAssociationArtifactPattern() throws Exception {
+//
+//		String targetPackage = "org.eclipse";
+//		String entityName = "mynewAssociation";
+//		String patternname = "org.eclipse.tigerstripe.workbench.base.Association";
+//		String aEndType = "org.eclipse.endAType";
+//		String zEndType = "org.eclipse.endZType";
+//
+//		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
+//
+//	}
+//	
+//	public void testAssociationClassArtifactPattern() throws Exception {
+//
+//		String targetPackage = "org.eclipse";
+//		String entityName = "mynewAssociationClass";
+//		String patternname = "org.eclipse.tigerstripe.workbench.base.AssociationClass";
+//		String aEndType = "org.eclipse.endAType";
+//		String zEndType = "org.eclipse.endZType";
+//
+//		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
+//
+//	}
+//	
+//	public void testDependencyArtifactPattern() throws Exception {
+//
+//		String targetPackage = "org.eclipse";
+//		String entityName = "mynewDependency";
+//		String patternname = "org.eclipse.tigerstripe.workbench.base.Dependency";
+//		String aEndType = "org.eclipse.endAType";
+//		String zEndType = "org.eclipse.endZType";
+//
+//		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
+//
+//	}
 	
 	private void testNodePatternArtifact(String patternname,String targetPackage, String entityName) throws Exception{
 		IPattern pattern = PatternFactory.getInstance().getPattern(patternname);
@@ -411,6 +411,9 @@ public class PatternTest extends TestCase {
 				if (association.getAEnd().getType() == null){
 					fail("AEnd Type not set");
 				}
+				assertEquals("Wrong number of Stereotypes on aEnd", 1,association.getAEnd().getStereotypeInstances().size());
+				assertNotNull(GENERAL_STEREOTYPE+" stereotype not present on aEnd",association.getAEnd().getStereotypeInstanceByName(GENERAL_STEREOTYPE));
+				
 			}
 			if (association.getZEnd() == null){
 				fail("ZEnd not set");
@@ -418,6 +421,8 @@ public class PatternTest extends TestCase {
 				if (association.getAEnd().getType() == null){
 					fail("ZEnd Type not set");
 				}
+				assertEquals("Wrong number of Stereotypes on zEnd", 1,association.getZEnd().getStereotypeInstances().size());
+				assertNotNull(ATTRIBUTED_STEREOTYPE+" stereotype not present on zEnd",association.getZEnd().getStereotypeInstanceByName(ATTRIBUTED_STEREOTYPE));
 			}
 			assertEquals("AEndType does not match", aEndType,association.getAEnd().getType().getFullyQualifiedName());
 			assertEquals("ZEndType does not match", zEndType,association.getZEnd().getType().getFullyQualifiedName());

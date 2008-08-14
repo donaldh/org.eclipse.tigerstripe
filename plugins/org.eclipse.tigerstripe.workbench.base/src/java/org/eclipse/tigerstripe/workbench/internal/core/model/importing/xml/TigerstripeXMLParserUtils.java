@@ -111,6 +111,10 @@ public class TigerstripeXMLParserUtils {
 				endData.put(IArtifactSetFeatureRequest.AENDISORDERED,endNode.getAttribute("ordered"));
 				endData.put(IArtifactSetFeatureRequest.AENDVISIBILITY,endNode.getAttribute("visibility"));
 				endData.put(IArtifactSetFeatureRequest.AENDISUNIQUE,endNode.getAttribute("unique"));
+				Collection<IStereotypeInstance> stereos = getStereotypes(endNode,"stereotypes");
+				for (IStereotypeInstance instance : stereos){
+					endData.put(IStereotypeAddFeatureRequest.AEND_STEREOTYPE_FEATURE,instance);
+				}
 				if (comment != null){
 					endData.put(IArtifactSetFeatureRequest.AENDCOMMENT,comment);
 				}
@@ -123,17 +127,15 @@ public class TigerstripeXMLParserUtils {
 				endData.put(IArtifactSetFeatureRequest.ZENDISORDERED,endNode.getAttribute("ordered"));
 				endData.put(IArtifactSetFeatureRequest.ZENDVISIBILITY,endNode.getAttribute("visibility"));
 				endData.put(IArtifactSetFeatureRequest.ZENDISUNIQUE,endNode.getAttribute("unique"));
+				Collection<IStereotypeInstance> stereos = getStereotypes(endNode,"stereotypes");
+				for (IStereotypeInstance instance : stereos){
+					endData.put(IStereotypeAddFeatureRequest.ZEND_STEREOTYPE_FEATURE,instance);
+				}
 				if (comment != null){
 					endData.put(IArtifactSetFeatureRequest.ZENDCOMMENT,comment);
 				}
 			}
 			
-			// TODO - These have no Updater FEATURES at the moment	
-
-//			Collection<IStereotypeInstance> stereos = getStereotypes(endNode);
-//			if (stereos.size() > 0){
-//				endData.put("stereotypes",stereos);
-//			}
 		}
 	
 		return endData;

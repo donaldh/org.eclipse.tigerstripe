@@ -17,12 +17,20 @@
                                        aggregation="none" changeable="none" navigable="false" 
                                        ordered="false" visibility="PUBLIC"
                                        unique="false">
+                                       <ts:stereotypes>
+             			  					<ts:stereotype name="General">
+             			  					</ts:stereotype>
+                      				   </ts:stereotypes>
                                        <ts:comment>The end at the Start</ts:comment>
             </ts:associationEnd>
             <ts:associationEnd name="wobble" end="ZEnd" type="com.cisco.wobble" multiplicity="1" 
                                        aggregation="none" changeable="none" navigable="true" 
                                        ordered="false" visibility="PUBLIC"
                                        unique="false">
+                                       <ts:stereotypes>
+             			  					<ts:stereotype name="WithAttribute">
+             			  					</ts:stereotype>
+                      				   </ts:stereotypes>
                                        <ts:comment>The end at the End</ts:comment>
             </ts:associationEnd>
         </ts:associationSpecifics>

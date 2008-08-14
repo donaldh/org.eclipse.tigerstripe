@@ -17,9 +17,11 @@ public interface IStereotypeAddFeatureRequest extends IModelChangeRequest {
 
 	public static String STEREOTYPE_FEATURE = "stereotype";
 	public static String RETURN_STEREOTYPE_FEATURE = "returnStereotype";
+	public static String AEND_STEREOTYPE_FEATURE = "aEndStereotype";
+	public static String ZEND_STEREOTYPE_FEATURE = "zEndStereotype";
 	
 	public enum ECapableClass{
-		ARTIFACT,END,FIELD,LITERAL,METHOD,METHODRETURN, METHODARGUMENT;
+		ARTIFACT,AEND, ZEND, FIELD,LITERAL,METHOD,METHODRETURN, METHODARGUMENT;
 	}
 	
 	public void setArtifactFQN(String artifactFQN);
