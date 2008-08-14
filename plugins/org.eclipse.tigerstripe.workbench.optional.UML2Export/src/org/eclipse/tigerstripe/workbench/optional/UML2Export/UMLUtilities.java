@@ -123,7 +123,7 @@ public class UMLUtilities {
 		//		+ uml2ResourcesRelLocation + "!/");
 		
 		URI uri = URI.createURI(uml2ResourcesRelLocation + "!/");
-		System.out.println(uri);
+
 		uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri
 				.appendSegment("libraries").appendSegment(""));
 		uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri

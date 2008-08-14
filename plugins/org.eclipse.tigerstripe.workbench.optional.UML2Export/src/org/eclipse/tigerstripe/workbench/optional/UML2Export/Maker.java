@@ -264,7 +264,7 @@ public class Maker {
 	 */
 	protected Class makeOrFindClass(IAbstractArtifact artifact) {
 		try {
-			String packageName = artifact.getPackage();
+			
 			String className = artifact.getFullyQualifiedName();
 			String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
 
