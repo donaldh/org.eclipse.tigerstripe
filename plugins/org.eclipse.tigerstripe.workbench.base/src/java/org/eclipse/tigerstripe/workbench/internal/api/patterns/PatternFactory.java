@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2008 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Cisco Systems, Inc. - rcraddoc
+ *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 
 import java.net.URL;
@@ -35,9 +45,12 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest.ECapableClass;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeInstance;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
@@ -48,6 +61,7 @@ import org.eclipse.tigerstripe.workbench.patterns.IPatternFactory;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -242,6 +256,17 @@ public class PatternFactory implements IPatternFactory {
 				setRequest.setFeatureValue(artifactElement.getAttribute("isAbstract"));
 				pattern.requests.add(setRequest);
 			}
+			// artifact Stereotypes
+			Collection<IStereotypeInstance> stereotypeInstances = xmlParserUtils.getStereotypes(artifactElement, "stereotypes");
+			if ( stereotypeInstances.size()>0){
+				for (IStereotypeInstance instance : stereotypeInstances){
+					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
+					stereotypeAddRequest.setCapableClass(ECapableClass.ARTIFACT);
+					stereotypeAddRequest.setFeatureValue(instance);
+					pattern.requests.add(stereotypeAddRequest);
+				}
+			}
+			
 			addComponentRequests(pattern,artifactElement);
 		}
 		
@@ -275,9 +300,7 @@ public class PatternFactory implements IPatternFactory {
 	 */
 	private static void addComponentRequests(Pattern pattern, Element artifactElement)throws TigerstripeException {
 		
-		//TODO - Comment. Stereotypes. Annotations.
-		
-		//TODO - Fields. Literals. Methods. - Missing things!
+		//TODO  Stereotypes. Annotations.
 		
 		// Do the fields
 		Collection<Map<String,Object>> allFieldData = xmlParserUtils.getArtifactFieldData(artifactElement);
@@ -290,7 +313,13 @@ public class PatternFactory implements IPatternFactory {
 			pattern.requests.add(createRequest);
 			// iterate over other features
 			for (String feature : fieldData.keySet()){
-				if (!fieldCreateFeatures.contains(feature)){
+				if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
+					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
+					stereotypeAddRequest.setCapableClass(ECapableClass.FIELD);
+					stereotypeAddRequest.setCapableName((String) fieldData.get(IAttributeSetRequest.NAME_FEATURE));
+					stereotypeAddRequest.setFeatureValue((IStereotypeInstance) fieldData.get(feature));
+					pattern.requests.add(stereotypeAddRequest);
+				} else if (!fieldCreateFeatures.contains(feature)){
 					IAttributeSetRequest setRequest =(IAttributeSetRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ATTRIBUTE_SET);
 					setRequest.setAttributeName((String) fieldData.get(IAttributeSetRequest.NAME_FEATURE));
 					setRequest.setFeatureId(feature);
@@ -298,25 +327,32 @@ public class PatternFactory implements IPatternFactory {
 					pattern.requests.add(setRequest);
 				}
 			}
+			// field Stereotypes
+			
 		}
 		
 		
 		// Do the literals
 		Collection<Map<String,Object>> allLiteralData = xmlParserUtils.getArtifactLiteralData(artifactElement);
-		for (Map<String,Object> fieldData : allLiteralData){
+		for (Map<String,Object> literalData : allLiteralData){
 			// Create the createRequest
 			ILiteralCreateRequest createRequest =(ILiteralCreateRequest)requestFactory.makeRequest(IModelChangeRequestFactory.LITERAL_CREATE);
-			createRequest.setLiteralName((String) fieldData.get(ILiteralSetRequest.NAME_FEATURE));
-			createRequest.setLiteralType((String) fieldData.get(ILiteralSetRequest.TYPE_FEATURE));
-			createRequest.setLiteralValue((String) fieldData.get(ILiteralSetRequest.VALUE_FEATURE));
+			createRequest.setLiteralName((String) literalData.get(ILiteralSetRequest.NAME_FEATURE));
+			createRequest.setLiteralType((String) literalData.get(ILiteralSetRequest.TYPE_FEATURE));
+			createRequest.setLiteralValue((String) literalData.get(ILiteralSetRequest.VALUE_FEATURE));
 			pattern.requests.add(createRequest);
 			// iterate over other features
-			for (String feature : fieldData.keySet()){
-				if (!literalCreateFeatures.contains(feature)){
+			for (String feature : literalData.keySet()){if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
+				IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
+				stereotypeAddRequest.setCapableClass(ECapableClass.LITERAL);
+				stereotypeAddRequest.setCapableName((String) literalData.get(ILiteralSetRequest.NAME_FEATURE));
+				stereotypeAddRequest.setFeatureValue((IStereotypeInstance) literalData.get(feature));
+				pattern.requests.add(stereotypeAddRequest);
+			} else	if (!literalCreateFeatures.contains(feature)){
 					ILiteralSetRequest setRequest =(ILiteralSetRequest)requestFactory.makeRequest(IModelChangeRequestFactory.LITERAL_SET);
-					setRequest.setLiteralName((String) fieldData.get(ILiteralSetRequest.NAME_FEATURE));
+					setRequest.setLiteralName((String) literalData.get(ILiteralSetRequest.NAME_FEATURE));
 					setRequest.setFeatureId(feature);
-					setRequest.setNewValue((String) fieldData.get(feature));
+					setRequest.setNewValue((String) literalData.get(feature));
 					pattern.requests.add(setRequest);
 				}
 			}
@@ -338,12 +374,20 @@ public class PatternFactory implements IPatternFactory {
 				int argumentPostion = 0;
 				for (Map<String,Object> argumentData : allArgumentData){
 					for (String feature : argumentData.keySet()){
-						IMethodAddFeatureRequest addRequest = (IMethodAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_ADD_FEATURE);
-						addRequest.setFeatureId(feature);
-						addRequest.setNewValue((String) argumentData.get(feature));
-						addRequest.setArgumentPosition(argumentPostion);
-						pattern.requests.add(addRequest);
+						if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
+							IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
+							stereotypeAddRequest.setCapableClass(ECapableClass.METHODARGUMENT);
+							stereotypeAddRequest.setArgumentPosition(argumentPostion);
+							stereotypeAddRequest.setFeatureValue((IStereotypeInstance) argumentData.get(feature));
+							pattern.requests.add(stereotypeAddRequest);
+						} else {
+							IMethodAddFeatureRequest addRequest = (IMethodAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_ADD_FEATURE);
+							addRequest.setFeatureId(feature);
+							addRequest.setNewValue((String) argumentData.get(feature));
+							addRequest.setArgumentPosition(argumentPostion);
+							pattern.requests.add(addRequest);
 					}
+				}
 				argumentPostion++;
 				}
 			}
@@ -361,7 +405,20 @@ public class PatternFactory implements IPatternFactory {
 			
 			// iterate over other features
 			for (String feature : methodData.keySet()){
-				if (!methodCreateFeatures.contains(feature) && !methodAddFeatures.contains(feature)){
+				System.out.println(feature);
+				if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
+					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
+					stereotypeAddRequest.setCapableClass(ECapableClass.METHOD);
+					//stereotypeAddRequest.setCapableName((String) methodData.get(IMethodSetRequest.NAME_FEATURE));
+					stereotypeAddRequest.setFeatureValue((IStereotypeInstance) methodData.get(feature));
+					pattern.requests.add(stereotypeAddRequest);
+				} else if (feature.equals(IStereotypeAddFeatureRequest.RETURN_STEREOTYPE_FEATURE)){
+					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
+					stereotypeAddRequest.setCapableClass(ECapableClass.METHODRETURN);
+					stereotypeAddRequest.setCapableName((String) methodData.get(IMethodSetRequest.NAME_FEATURE));
+					stereotypeAddRequest.setFeatureValue((IStereotypeInstance) methodData.get(feature));
+					pattern.requests.add(stereotypeAddRequest);
+				} else	if (!methodCreateFeatures.contains(feature) && !methodAddFeatures.contains(feature)){
 					IMethodSetRequest setRequest =(IMethodSetRequest)requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_SET);	
 					// Note we can't set the *LABEL* here as it may be changing as we go along
 					setRequest.setFeatureId(feature);

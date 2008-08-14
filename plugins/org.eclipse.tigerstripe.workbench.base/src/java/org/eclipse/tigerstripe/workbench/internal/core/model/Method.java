@@ -362,6 +362,23 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return Collections.unmodifiableCollection(methodReturnStereotypes);
 	}
 
+	public IStereotypeInstance getReturnStereotypeInstanceByName(String name) {
+		for (IStereotypeInstance inst : methodReturnStereotypes) {
+			if (inst.getName().equals(name)) {
+				return inst;
+			}
+		}
+		return null;
+	}
+	
+	public boolean hasReturnStereotypeInstance(String name) {
+		IStereotypeInstance inst = getReturnStereotypeInstanceByName(name);
+		if (inst == null)
+			return false;
+		else
+			return true;
+	}
+	
 	public void addReturnStereotypeInstance(IStereotypeInstance instance) {
 		if (!methodReturnStereotypes.contains(instance)) {
 			methodReturnStereotypes.add(instance);

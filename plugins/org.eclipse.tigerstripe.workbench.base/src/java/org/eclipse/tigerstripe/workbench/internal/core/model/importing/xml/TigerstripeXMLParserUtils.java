@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2008 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Cisco Systems, Inc. - rcraddoc
+ *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml;
 
 import java.io.PrintWriter;
@@ -12,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -169,10 +180,10 @@ public class TigerstripeXMLParserUtils {
 //					.getAttribute("readonly")));
 //			
 
-//			Collection<IStereotypeInstance> stereos = getStereotypes(field);
-//			if (stereos.size() > 0){
-//				fieldData.put("stereotypes",stereos);
-//			}
+			Collection<IStereotypeInstance> stereos = getStereotypes(field,"stereotypes");
+			for (IStereotypeInstance instance : stereos){
+				fieldData.put(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE,instance);
+			}
 			allFieldData.add(fieldData);
 		}
 		return allFieldData;
@@ -200,12 +211,11 @@ public class TigerstripeXMLParserUtils {
 				literalData.put(ILiteralSetRequest.COMMENT_FEATURE,comment);
 			}
 			
-			// TODO - These have no Updater FEATURES at the moment			
-
-//			Collection<IStereotypeInstance> stereos = getStereotypes(literal);
-//			if (stereos.size() > 0){
-//				literalData.put("stereotypes",stereos);
-//			}
+			Collection<IStereotypeInstance> stereos = getStereotypes(literal,"stereotypes");
+			for (IStereotypeInstance instance : stereos){
+				literalData.put(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE,instance);
+			}
+			
 			allLiteralData.add(literalData);
 		}
 		return allLiteralData;
@@ -280,6 +290,10 @@ public class TigerstripeXMLParserUtils {
 				if (argumentComment != null){
 					argumentData.put(IMethodAddFeatureRequest.ARGUMENT_COMMENT_FEATURE,argumentComment);
 				}
+				Collection<IStereotypeInstance> stereos = getStereotypes(argument,"stereotypes");
+				for (IStereotypeInstance instance : stereos){
+					argumentData.put(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE,instance);
+				}
 				// This add should be used carefully to make sure the arguments are added in the correct order!
 				allArgumentData.add(argumentData);
 			}
@@ -300,16 +314,16 @@ public class TigerstripeXMLParserUtils {
 			}
 			
 			
+			Collection<IStereotypeInstance> stereos = getStereotypes(method,"stereotypes");
+			for (IStereotypeInstance instance : stereos){
+				methodData.put(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE,instance);
+			}
 			
+			Collection<IStereotypeInstance> returnStereos = getStereotypes(method,"returnStereotypes");
+			for (IStereotypeInstance instance : returnStereos){
+				methodData.put(IStereotypeAddFeatureRequest.RETURN_STEREOTYPE_FEATURE,instance);
+			}
 			
-			
-			// TODO - These have no Updater FEATURES at the moment			
-//			
-//			
-//			Collection<IStereotypeInstance> stereos = getStereotypes(method);
-//			if (stereos.size() > 0){
-//				methodData.put("stereotypes",stereos);
-//			}
 			allMethodData.add(methodData);
 		}
 		return allMethodData;
@@ -334,20 +348,20 @@ public class TigerstripeXMLParserUtils {
 	 * Find the sterotypes for this "thing"
 	 * 
 	 * @param element
+	 * @param groupName - name of the containing Group - used to separate the returnSteeotypes
 	 * @return
 	 */
-	private Collection<IStereotypeInstance> getStereotypes(Element element) {
+	public Collection<IStereotypeInstance> getStereotypes(Element element, String groupName) {
 		Collection<IStereotypeInstance> isis = new ArrayList<IStereotypeInstance>();
 		NodeList groupNodes = element.getChildNodes();
 		for (int g = 0; g < groupNodes.getLength(); g++) {
 			// Assume valid XML - at most one comment element!
 			if (groupNodes.item(g) instanceof Element) {
 				Element groupElement = (Element) groupNodes.item(g);
-				if (groupElement.getLocalName().equals("stereotypes")) {
+				if (groupElement.getLocalName().equals(groupName)) {
 
 					NodeList childNodes = groupElement.getChildNodes();
 					for (int i = 0; i < childNodes.getLength(); i++) {
-						// Assume valid XML - at most one comment element!
 						if (childNodes.item(i) instanceof Element) {
 							Element stereoElement = (Element) childNodes
 									.item(i);
@@ -383,7 +397,6 @@ public class TigerstripeXMLParserUtils {
 													.getAttribute("name"));
 									if (att != null) {
 										try {
-											// / New stuff
 											NodeList stereotypeAttributeValueNodes = stereoAttributeElement
 													.getElementsByTagNameNS(
 															namespace, "value");
@@ -391,8 +404,6 @@ public class TigerstripeXMLParserUtils {
 											if ((Boolean
 													.parseBoolean(stereoAttributeElement
 															.getAttribute("array")))) {
-												// can be any number of value
-												// elements
 												String[] vals = new String[stereotypeAttributeValueNodes
 														.getLength()];
 												for (int sav = 0; sav < stereotypeAttributeValueNodes
@@ -417,8 +428,7 @@ public class TigerstripeXMLParserUtils {
 														.setAttributeValue(att,
 																val);
 											}
-											// / end of new stuff
-
+							
 										} catch (Exception e) {
 											String msgText = "Failed to set Stereotype Attribute :"
 													+ stereoAttributeElement

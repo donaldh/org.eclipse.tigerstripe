@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
  * @author Eric Dillon
  * 
  */
-public interface IMethodSetRequest extends IModelChangeRequest {
+public interface IMethodSetRequest extends IMethodChangeRequest {
 
 	public final static String COMMENT_FEATURE = "comment";
 	public final static String NAME_FEATURE = "name";
@@ -35,14 +35,6 @@ public interface IMethodSetRequest extends IModelChangeRequest {
 	public void setArtifactFQN(String artifactFQN);
 
 	public String getArtifactFQN();
-
-	/**
-	 * The method label to uniquely identify the target method BEFORE the change
-	 * is applied (so the match can happen!).
-	 * 
-	 * @param methodLabel
-	 */
-	public void setMethodLabelBeforeChange(String methodLabel);
 
 	public void setNewValue(String newValue);
 

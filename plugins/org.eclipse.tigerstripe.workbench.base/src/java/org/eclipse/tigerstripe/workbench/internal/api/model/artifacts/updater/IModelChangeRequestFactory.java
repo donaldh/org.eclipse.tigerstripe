@@ -29,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
 
 /**
  * A change request Factory
@@ -77,6 +78,9 @@ public interface IModelChangeRequestFactory {
 			.getName();
 	
 	public final static String ARTIFACTLINK_CREATE = IArtifactLinkCreateRequest.class
+			.getName();
+	
+	public final static String STEREOTYPE_ADD = IStereotypeAddFeatureRequest.class
 			.getName();
 
 	public String[] getSupportedRequestTypes();

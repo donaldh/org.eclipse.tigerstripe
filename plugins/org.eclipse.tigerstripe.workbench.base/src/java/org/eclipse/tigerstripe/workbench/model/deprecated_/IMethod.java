@@ -454,6 +454,21 @@ public interface IMethod extends IModelComponent {
 	 */
 	public Collection<IStereotypeInstance> getReturnStereotypeInstances();
 
+	/**
+	 * Returns true if the method has the named return Stereotype
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public boolean hasReturnStereotypeInstance(String name);
+	
+	/**
+	 * Returns the named stereotype instances for the return type of the method.
+	 * 
+	 * @return the named stereotype applied to the method return
+	 */
+	public IStereotypeInstance getReturnStereotypeInstanceByName(String name);
+	
 	/** 
 	 * Add a single stereotype to the return type.
 	 * 

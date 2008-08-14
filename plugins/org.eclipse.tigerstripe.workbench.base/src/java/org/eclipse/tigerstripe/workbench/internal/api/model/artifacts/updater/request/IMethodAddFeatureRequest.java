@@ -23,7 +23,6 @@ public interface IMethodAddFeatureRequest extends IModelChangeRequest {
 	public final static String EXCEPTIONS_FEATURE = "exception";
 	public final static String ARGUMENTS_FEATURE = "arguments";
 	public final static String ARGUMENT_NAME_FEATURE = "argument_name";
-	public final static String ARGUMENT_POSITION_FEATURE = "argument_position";  // This is neede to keep tihngs in order!
 	public final static String ARGUMENT_TYPE_FEATURE = "argument_type";
 	public final static String ARGUMENT_MULTIPLICITY_FEATURE = "argument_multiplicity";
 	public final static String ARGUMENT_COMMENT_FEATURE = "argument_comment";

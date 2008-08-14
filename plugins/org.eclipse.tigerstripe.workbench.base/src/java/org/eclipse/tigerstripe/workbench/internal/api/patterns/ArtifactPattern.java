@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2008 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Cisco Systems, Inc. - rcraddoc
+ *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 
 
@@ -9,12 +19,13 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.Artif
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactLinkCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.BaseArtifactElementRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.MethodCreateRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.MethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodChangeRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -49,7 +60,6 @@ public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 		for (IModelChangeRequest request : requests){
 			// Only the first one should be a create request.
 			String  fqn = packageName+"."+artifactName;
-			
 			
 			if (request instanceof IArtifactCreateRequest){
 				if (created){
@@ -87,9 +97,9 @@ public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 					elementRequest.setArtifactFQN(fqn);
 				} 
 				
-				if (request instanceof MethodSetRequest){
-					MethodSetRequest methodSetRequest = (MethodSetRequest)  request;
-					methodSetRequest.setMethodLabelBeforeChange(lastMethodLabel);
+				if (request instanceof IMethodChangeRequest){
+					IMethodChangeRequest methodChangeRequest = (IMethodChangeRequest)  request;
+					methodChangeRequest.setMethodLabelBeforeChange(lastMethodLabel);
 				}
 
 				try {
@@ -100,10 +110,9 @@ public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 						MethodCreateRequest methodCreateRequest = (MethodCreateRequest)  request;
 						lastMethodLabel = methodCreateRequest.getCreatedMethodLabel();
 
-					} else if (request instanceof MethodSetRequest){
-						MethodSetRequest methodSetRequest = (MethodSetRequest)  request;
-						lastMethodLabel = methodSetRequest.getMethodLabelAfterChange();
-
+					} else if (request instanceof IMethodChangeRequest){
+						IMethodChangeRequest methodChangeRequest = (IMethodChangeRequest)  request;
+						lastMethodLabel = methodChangeRequest.getMethodLabelAfterChange();
 					}
 					
 				} catch (TigerstripeException t){

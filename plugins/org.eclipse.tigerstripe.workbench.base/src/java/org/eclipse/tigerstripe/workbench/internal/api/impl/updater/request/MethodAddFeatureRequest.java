@@ -80,13 +80,13 @@ public class MethodAddFeatureRequest extends MethodSetRequest
 							// This is a change to an existing argument
 							argumentToChange = arguments[this.argumentPosition];
 						}
-						if (featureId.endsWith("name")){
-							if (newValue.equals("")){
-								// This is shorthand for a REMOVE argument
-								startList.remove(argumentToChange);
-							} else {
+						if (newValue == null){
+							// This is shorthand for a REMOVE argument
+							startList.remove(argumentToChange);
+						}
+						
+						if (featureId.endsWith("name")){						
 								argumentToChange.setName(newValue);
-							}
 						}
 						
 						
