@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.base.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.tigerstripe.workbench.base.test.startup.TestStartup;
+
 public class AllTests {
 
 	public static Test suite() {
@@ -21,7 +23,7 @@ public class AllTests {
 		// $JUnit-BEGIN$
 
 //		// Startup Tests
-//		suite.addTestSuite(TestStartup.class);
+		suite.addTestSuite(TestStartup.class);
 //
 //		suite.addTestSuite(TestTigerstripeCore.class);
 //
