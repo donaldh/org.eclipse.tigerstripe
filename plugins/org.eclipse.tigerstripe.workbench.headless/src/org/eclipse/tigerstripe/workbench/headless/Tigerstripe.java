@@ -146,7 +146,7 @@ public class Tigerstripe implements IApplication {
 
 		if (status.length != 0) {
 			for (PluginRunStatus pluginRunStatus : status) {
-				System.out.println(pluginRunStatus.getMessage());
+				System.out.println(pluginRunStatus);
 			}
 		}
 	}
