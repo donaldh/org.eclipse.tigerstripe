@@ -19,11 +19,11 @@ import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
+//import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.core.AnnotationException;
+//import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+//import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
@@ -49,8 +49,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  */
 public abstract class ArtifactComponent implements IModelComponent,
 		IStereotypeCapable {
-
-	public static final String TS_SCHEME = "tigerstripe";
 
 	/** the stereotypes attached to this component */
 	private ArrayList<IStereotypeInstance> stereotypeInstances = new ArrayList<IStereotypeInstance>();
@@ -381,18 +379,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 		List<Object> annotations = new LinkedList<Object>();
 		Annotation[] all = mgr.getAnnotations(this, false);
 		for (Annotation a : all) {
-			annotations.add(a.getContent());
-		}
-		return Collections.unmodifiableList(annotations);
-	}
-
-	public List<Object> getAnnotations(String schemeID) {
-		IAnnotationManager mgr = AnnotationPlugin.getManager();
-		List<Object> annotations = new LinkedList<Object>();
-		Annotation[] all = mgr.getAnnotations(this, false);
-		for (Annotation a : all) {
-			String e = a.getUri().scheme();
-			if (a.getUri().scheme().equals(schemeID)) {
+			if (a.getUri().scheme().equals(TS_SCHEME)) {
 				annotations.add(a.getContent());
 			}
 		}
@@ -404,7 +391,6 @@ public abstract class ArtifactComponent implements IModelComponent,
 		List<Object> annotations = new LinkedList<Object>();
 		Annotation[] all = mgr.getAnnotations(this, false);
 		for (Annotation a : all) {
-			String e = a.getUri().scheme();
 			if (a.getUri().scheme().equals(TS_SCHEME) && type.isInstance(a.getContent())) {
 				annotations.add(a.getContent());
 			}
@@ -413,18 +399,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 	}
 
 	public Object getAnnotation(String annotationSpecificationID) {
-		List<Object> all = getAnnotations(TS_SCHEME);
-		for (Object obj : all) {
-			if (isAnnotationMatch(annotationSpecificationID, obj))
-				return obj;
-		}
-
-		return null;
-	}
-
-	public Object getAnnotation(String schemeID,
-			String annotationSpecificationID) {
-		List<Object> all = getAnnotations(schemeID);
+		List<Object> all = getAnnotations();
 		for (Object obj : all) {
 			if (isAnnotationMatch(annotationSpecificationID, obj))
 				return obj;
@@ -448,10 +423,9 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return false;
 	}
 
-	public List<Object> getAnnotations(String schemeID,
-			String annotationSpecificationID) {
+	public List<Object> getAnnotations(String annotationSpecificationID) {
 		List<Object> annotations = new LinkedList<Object>(
-				getAnnotations(schemeID));
+				getAnnotations());
 		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
 			if (!isAnnotationMatch(annotationSpecificationID, i.next()))
 				i.remove();
@@ -464,13 +438,8 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return !getAnnotations().isEmpty();
 	}
 
-	public boolean hasAnnotations(String schemeID) {
-		return !getAnnotations(schemeID).isEmpty();
-	}
-
-	public boolean hasAnnotations(String schemeID,
-			String annotationSpecificationID) {
-		List<Object> annotations = getAnnotations(schemeID);
+	public boolean hasAnnotations(String annotationSpecificationID) {
+		List<Object> annotations = getAnnotations();
 		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
 			if (isAnnotationMatch(annotationSpecificationID, i.next()))
 				return true;
@@ -482,54 +451,6 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return !getAnnotations(annotationType).isEmpty();
 	}
 	
-	public Annotation addAnnotation(String scheme, String packij, String clazz)
-			throws TigerstripeException {
-		IAnnotationManager manager = AnnotationPlugin.getManager();
-		AnnotationType type = manager.getType(packij, clazz);
-		if (type == null)
-			throw new InvalidAnnotationTargetException(
-					"No such AnnotationType (" + packij + ", " + clazz + ")");
-		// Questionable stuff: not sure this should be here
-		String[] targets = type.getTargets();
-		boolean ok = targets.length == 0;
-		if (!ok) {
-			for (int t = 0; t < targets.length; t++) {
-				try {
-					if (Class.forName(targets[t], false,
-							this.getClass().getClassLoader()).isInstance(this))
-						ok = true;
-				} catch (ClassNotFoundException e) {/* Nothing */
-				}
-			}
-		}
-		if (!ok)
-			throw new InvalidAnnotationTargetException(
-					"Target not allowed for AnnotationType");
-		// END questionable stuff
-		EObject content = type.createInstance();
-		try {
-			return manager.addAnnotation(this, content);
-		} catch (AnnotationException e) {
-			throw new TigerstripeException("Failed to add annotation of type: "
-					+ content.getClass().getName(), e);
-		}
-	}
-
-	public Annotation addAnnotation(String packij, String clazz)
-			throws TigerstripeException {
-		return addAnnotation(TS_SCHEME, packij, clazz);
-	}
-
-	public Annotation addAnnotation(Class<? extends EObject> clazz)
-			throws TigerstripeException {
-		return addAnnotation(TS_SCHEME, clazz.getPackage().getName(), clazz
-				.getName().substring(clazz.getName().lastIndexOf('.') + 1));
-	}
-
-	public void saveAnnotation(Annotation annotation) {
-		AnnotationPlugin.getManager().save(annotation);
-	}
-
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		if (getParentArtifact() != null)
 			return getParentArtifact().getProject();

@@ -109,61 +109,61 @@ public class TestAnnotationCreationAPI extends AbstractTigerstripeTestCase {
 		}
 	}
 
-	public final void testAnnotateArtifactsArtifactIF() throws TigerstripeException
-	{
-		IAnnotationManager annotationManager = AnnotationPlugin.getManager();
-		try {
-			int count = 100;
-			for(IAbstractArtifact artifact : getArtifacts(project))
-			{
-				Annotation annotation = artifact.addAnnotation(TS_SCHEME, SOME_TEST_ANNOTS, "TestAnnot1");
-				TestAnnot1 type = (TestAnnot1)annotation.getContent();
-				type.setTwine("Hawser("+(++count)+")");
-				artifact.saveAnnotation(annotation);
-			}
-
-			for(IAbstractArtifact artifact : getArtifacts(project))
-			{
-//				TestAnnot3 type = (TestAnnot3)artifact.addAnnotation(TS_SCHEME, SOME_TEST_ANNOTS, "TestAnnot3");
-				Annotation annotation = artifact.addAnnotation(TestAnnot3.class);
-				TestAnnot3 type = (TestAnnot3)annotation.getContent();
-				type.setN(++count);
-				artifact.saveAnnotation(annotation);
-			}
-			
-			IAbstractArtifact mne = null;
-			IAbstractArtifact ass = null;
-			for(IAbstractArtifact artifact : getArtifacts(project))
-			{
-				System.out.println("Tigerstripe Annotations: "+artifact.getAnnotations(TS_SCHEME));
-				if(artifact instanceof IManagedEntityArtifact) mne = artifact;
-				if(artifact instanceof IAssociationArtifact) ass = artifact;
-			}
-			
-			TestAnnot2 type = (TestAnnot2)mne.addAnnotation(TS_SCHEME, SOME_TEST_ANNOTS, "TestAnnot2").getContent();
-			try
-			{
-				type = (TestAnnot2)ass.addAnnotation(TS_SCHEME, SOME_TEST_ANNOTS, "TestAnnot2").getContent();
-				fail("Should not be able to attach testAnnot2 to IAssociationArtifact");
-			}
-			catch(Exception e)
-			{
-//				System.out.println("Well here we are for invalid target: "+e.getMessage());
-			}
-			try
-			{
-				type = (TestAnnot2)mne.addAnnotation(TS_SCHEME, SOME_TEST_ANNOTS, "TestAnnot2").getContent();
-				fail("Should not be able to attach second TestAnnot2 to IManagedEntityArtifact");
-			}
-			catch(Exception e)
-			{
-//				System.out.println("Well here we are for broken uniqueness: "+e.getMessage());
-			}
-		}
-		finally {
-			removeAnnotations(project);
-		}
-	}
+//	public final void testAnnotateArtifactsArtifactIF() throws TigerstripeException
+//	{
+//		IAnnotationManager annotationManager = AnnotationPlugin.getManager();
+//		try {
+//			int count = 100;
+//			for(IAbstractArtifact artifact : getArtifacts(project))
+//			{
+//				Annotation annotation = artifact.addAnnotation(TS_SCHEME, SOME_TEST_ANNOTS, "TestAnnot1");
+//				TestAnnot1 type = (TestAnnot1)annotation.getContent();
+//				type.setTwine("Hawser("+(++count)+")");
+//				artifact.saveAnnotation(annotation);
+//			}
+//
+//			for(IAbstractArtifact artifact : getArtifacts(project))
+//			{
+////				TestAnnot3 type = (TestAnnot3)artifact.addAnnotation(TS_SCHEME, SOME_TEST_ANNOTS, "TestAnnot3");
+//				Annotation annotation = artifact.addAnnotation(TestAnnot3.class);
+//				TestAnnot3 type = (TestAnnot3)annotation.getContent();
+//				type.setN(++count);
+//				artifact.saveAnnotation(annotation);
+//			}
+//			
+//			IAbstractArtifact mne = null;
+//			IAbstractArtifact ass = null;
+//			for(IAbstractArtifact artifact : getArtifacts(project))
+//			{
+//				System.out.println("Tigerstripe Annotations: "+artifact.getAnnotations(TS_SCHEME));
+//				if(artifact instanceof IManagedEntityArtifact) mne = artifact;
+//				if(artifact instanceof IAssociationArtifact) ass = artifact;
+//			}
+//			
+//			TestAnnot2 type = (TestAnnot2)mne.addAnnotation(TS_SCHEME, SOME_TEST_ANNOTS, "TestAnnot2").getContent();
+//			try
+//			{
+//				type = (TestAnnot2)ass.addAnnotation(TS_SCHEME, SOME_TEST_ANNOTS, "TestAnnot2").getContent();
+//				fail("Should not be able to attach testAnnot2 to IAssociationArtifact");
+//			}
+//			catch(Exception e)
+//			{
+////				System.out.println("Well here we are for invalid target: "+e.getMessage());
+//			}
+//			try
+//			{
+//				type = (TestAnnot2)mne.addAnnotation(TS_SCHEME, SOME_TEST_ANNOTS, "TestAnnot2").getContent();
+//				fail("Should not be able to attach second TestAnnot2 to IManagedEntityArtifact");
+//			}
+//			catch(Exception e)
+//			{
+////				System.out.println("Well here we are for broken uniqueness: "+e.getMessage());
+//			}
+//		}
+//		finally {
+//			removeAnnotations(project);
+//		}
+//	}
 
 	public final void testAnnotationHelper() throws TigerstripeException
 	{
@@ -232,7 +232,7 @@ public class TestAnnotationCreationAPI extends AbstractTigerstripeTestCase {
 
 			for(IAbstractArtifact artifact : getArtifacts(project))
 			{
-				Object stuff = artifact.getAnnotations(IAnnotationCapable.TS_SCHEME, "TestAnnot1");
+				Object stuff = artifact.getAnnotations("TestAnnot1");
 				TestAnnot1 ta1 = (TestAnnot1)artifact.getAnnotation("TestAnnot1");
 				if(ta1 != null)
 				{

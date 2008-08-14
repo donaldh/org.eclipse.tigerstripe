@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopeAnnotationPattern;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
+import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -85,7 +86,8 @@ public class TestFacetWithAnnotations extends TestCase {
 		Assert.assertNotNull(m1);
 		EObject obj = annotationTypes[1].createInstance();
 		Annotation ann = AnnotationPlugin.getManager().addAnnotation(m2, obj);
-		m2.saveAnnotation(ann);
+//		m2.saveAnnotation(ann);
+		AnnotationHelper.getInstance().saveAnnotation(ann);
 
 		IFacetReference ref = project.makeFacetReference(facetFile
 				.getProjectRelativePath().toOSString());

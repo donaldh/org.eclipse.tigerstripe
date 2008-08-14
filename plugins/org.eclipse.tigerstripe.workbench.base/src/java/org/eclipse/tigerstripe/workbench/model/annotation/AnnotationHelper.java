@@ -34,7 +34,7 @@ public class AnnotationHelper
 {
 	private static AnnotationHelper instance;
 
-	private IAnnotationManager manager;
+//	private IAnnotationManager manager;
 	
 	static public AnnotationHelper getInstance()
 	{
@@ -48,7 +48,7 @@ public class AnnotationHelper
 	
 	protected AnnotationHelper()
 	{
-		manager = AnnotationPlugin.getManager();
+//		manager = AnnotationPlugin.getManager();
 	}
 	
 	/**
@@ -79,7 +79,7 @@ public class AnnotationHelper
 	public Annotation addAnnotation(IAnnotationCapable target, String packij, String clazz)
 	    throws TigerstripeException
 	{
-		AnnotationType type = manager.getType(packij, clazz);
+		AnnotationType type = AnnotationPlugin.getManager().getType(packij, clazz);
 		if(type == null)
 			throw new InvalidAnnotationTargetException("No such AnnotationType");
 		// Questionable stuff: not sure this should be here
@@ -100,7 +100,7 @@ public class AnnotationHelper
 		// END questionable stuff
 		EObject content = type.createInstance();
 		try {
-			return manager.addAnnotation(target, content);
+			return AnnotationPlugin.getManager().addAnnotation(target, content);
 		} catch (AnnotationException e) {
 			throw new TigerstripeException("Failed to add annotation of type: "+content.getClass().getName(), e);
 		}
@@ -126,7 +126,7 @@ public class AnnotationHelper
 	 */
 	public void saveAnnotation(Annotation annotation)
 	{
-		manager.save(annotation);
+		AnnotationPlugin.getManager().save(annotation);
 	}
 
 	public List<Annotation> getAnnotations(IAnnotationCapable target) {

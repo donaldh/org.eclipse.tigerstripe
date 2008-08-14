@@ -179,8 +179,7 @@ public class RegExpFQNSetPred implements Predicate {
 
 		for (String annotationId : isIncludedByAnnotation) {
 
-			List<Object> annotations = artifact.getAnnotations("tigerstripe",
-					annotationId);
+			List<Object> annotations = artifact.getAnnotations(annotationId);
 			if (annotations.size() != 0)
 				return true;
 		}
@@ -202,8 +201,7 @@ public class RegExpFQNSetPred implements Predicate {
 		}
 
 		for (String annotationId : isExcludedByAnnotation) {
-			List<Object> annotations = artifact.getAnnotations("tigerstripe",
-					annotationId);
+			List<Object> annotations = artifact.getAnnotations(annotationId);
 			if (annotations.size() != 0)
 				return true;
 		}

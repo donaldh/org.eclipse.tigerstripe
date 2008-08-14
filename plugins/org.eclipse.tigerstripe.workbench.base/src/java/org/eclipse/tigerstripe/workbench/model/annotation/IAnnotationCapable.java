@@ -98,7 +98,7 @@ public interface IAnnotationCapable {
 	 * @return the first annotation for the given scheme and annotationType
 	 * @deprecated
 	 */
-	public Object getAnnotation(String scheme, String annotationType);
+//	public Object getAnnotation(String scheme, String annotationType);
 
 	/**
 	 * Returns the list of annotations defined against this object for the given
@@ -114,7 +114,7 @@ public interface IAnnotationCapable {
 	 * @return the list of annotations for the given scheme and annotationType
 	 * @deprecated
 	 */
-	public List<Object> getAnnotations(String scheme, String annotationType);
+//	public List<Object> getAnnotations(String scheme, String annotationType);
 	
 	/**
 	 * Returns true if there is any annotation defined against this object
@@ -173,5 +173,5 @@ public interface IAnnotationCapable {
 	 * @return true - if there is any annotation defined against this object
 	 * @deprecated
 	 */
-	public boolean hasAnnotations(String scheme, String annotationType);
+//	public boolean hasAnnotations(String scheme, String annotationType);
 }

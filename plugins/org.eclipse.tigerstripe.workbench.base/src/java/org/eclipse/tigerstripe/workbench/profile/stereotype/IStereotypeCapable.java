@@ -68,49 +68,4 @@ public interface IStereotypeCapable {
 	 */
 	public String getStereotypeString();
 	
-	/**
-	 * Creates a new annotation and returns the content wrapped in an <code>Annotation</code>
-	 * instance
-	 * @param schemeID the scheme to which the annotation will be assigned
-	 * @param packij the package as a <code>String</code> to which the annotation content
-	 * belongs
-	 * @param clazz the class-name of annotation content required
-	 * @return the annotation content wrapped in an <code>Annotation</code> instance
-	 * @throws TigerstripeException
-	 * @deprecated
-	 */
-	public Annotation addAnnotation(String schemeID, String packij, String clazz)
-	    throws TigerstripeException;
-
-	/**
-	 * Creates a new annotation and returns the content wrapped in an <code>Annotation</code>
-	 * instance - the schemeID is assumed to be <em>"tigerstripe"</em>
-	 * @param packij the package as a <code>String</code> to which the annotation content
-	 * belongs
-	 * @param clazz the class-name of annotation content required
-	 * @return the annotation content wrapped in an <code>Annotation</code> instance
-	 * @throws TigerstripeException
-	 * @deprecated
-	 */
-	public Annotation addAnnotation(String packij, String clazz)
-	    throws TigerstripeException;
-	
-	/**
-	 * Creates a new annotation and returns the content wrapped in an <code>Annotation</code>
-	 * instance - the schemeID is assumed to be <em>"tigerstripe"</em>
-	 * @param clazz the type of the annotation content to be created as a <code>Class</code>
-	 * @return the annotation content wrapped in an <code>Annotation</code> instance
-	 * @throws TigerstripeException
-	 * @deprecated
-	 */
-	public Annotation addAnnotation(Class<? extends EObject> clazz)
-	    throws TigerstripeException;
-	
-	/**
-	 * Saves an instance of an <code>Annotation</code>, that is, ensures that any changes
-	 * to the content transmitted to the internal model and are made persistent
-	 * @param annotation the <code>Annotation</code> instance to be saved
-	 * @deprecated
-	 */
-	public void saveAnnotation(Annotation annotation);
 }
