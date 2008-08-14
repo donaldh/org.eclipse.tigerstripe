@@ -469,25 +469,31 @@ public class ArtifactAttributesSection extends ArtifactSectionPart implements
 				new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {
+
+			URI[] fieldURIs = new URI[selectedFields.length];
+			String[] fieldTypes = new String[selectedFields.length];
+			int index = 0;
+			for (IField field : selectedFields) {
+				fieldURIs[index] = (URI) field.getAdapter(URI.class);
+				fieldTypes[index] = field.getClass().getSimpleName();
+				index++;
+			}
+
 			viewer.remove(selectedFields);
 			getIArtifact().removeFields(Arrays.asList(selectedFields));
 			markPageModified();
 
 			URI artURI = (URI) getIArtifact().getAdapter(URI.class);
-			for (IField field : selectedFields) {
-				// Record Add Edit
+			for (int i = 0; i < selectedFields.length; i++) {
 				try {
-					URI attrURI = (URI) field.getAdapter(URI.class);
 					ModelUndoableEdit edit = new ModelUndoableEdit(artURI,
-							IModelChangeDelta.REMOVE, field.getClass()
-									.getSimpleName(), attrURI, null,
-							getIArtifact().getProject());
+							IModelChangeDelta.REMOVE, fieldTypes[i],
+							fieldURIs[i], null, getIArtifact().getProject());
 					((TigerstripeFormEditor) getPage().getEditor())
 							.getUndoManager().addEdit(edit);
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 				}
-
 			}
 		}
 		updateMaster();

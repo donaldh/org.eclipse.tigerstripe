@@ -50,6 +50,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.Literal;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
@@ -172,7 +173,6 @@ public class ArtifactConstantsSection extends ArtifactSectionPart implements
 	private Button upAttributeButton;
 	private Button downAttributeButton;
 	private Button removeAttributeButton;
-
 
 	public TableViewer getViewer() {
 		return this.viewer;
@@ -515,25 +515,31 @@ public class ArtifactConstantsSection extends ArtifactSectionPart implements
 				new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {
+
+			URI[] literalURIs = new URI[selectedLabels.length];
+			String[] literalTypes = new String[selectedLabels.length];
+			int index = 0;
+			for (ILiteral literal : selectedLabels) {
+				literalURIs[index] = (URI) literal.getAdapter(URI.class);
+				literalTypes[index] = literal.getClass().getSimpleName();
+				index++;
+			}
+
 			viewer.remove(selectedLabels);
 			getIArtifact().removeLiterals(Arrays.asList(selectedLabels));
 			markPageModified();
 
 			URI artURI = (URI) getIArtifact().getAdapter(URI.class);
-			for (ILiteral label : selectedLabels) {
-				// Record Add Edit
+			for (int i = 0; i < selectedLabels.length; i++) {
 				try {
-					URI attrURI = (URI) label.getAdapter(URI.class);
 					ModelUndoableEdit edit = new ModelUndoableEdit(artURI,
-							IModelChangeDelta.REMOVE, label.getClass()
-									.getSimpleName(), attrURI, null,
-							getIArtifact().getProject());
+							IModelChangeDelta.REMOVE, literalTypes[i],
+							literalURIs[i], null, getIArtifact().getProject());
 					((TigerstripeFormEditor) getPage().getEditor())
 							.getUndoManager().addEdit(edit);
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 				}
-
 			}
 		}
 		updateMaster();

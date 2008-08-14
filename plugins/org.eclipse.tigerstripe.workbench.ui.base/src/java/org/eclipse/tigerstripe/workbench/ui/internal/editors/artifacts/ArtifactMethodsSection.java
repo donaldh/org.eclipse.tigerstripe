@@ -426,25 +426,32 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 				new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {
+
+			URI[] methodURIs = new URI[selectedMethods.length];
+			String[] methodTypes = new String[selectedMethods.length];
+			int index = 0;
+			for (IMethod method : selectedMethods) {
+				methodURIs[index] = (URI) method.getAdapter(URI.class);
+				methodTypes[index] = method.getClass().getSimpleName();
+				index++;
+			}
+
 			// remove now
 			viewer.remove(selectedMethods);
 			getIArtifact().removeMethods(Arrays.asList(selectedMethods));
 			markPageModified();
+
 			URI artURI = (URI) getIArtifact().getAdapter(URI.class);
-			for (IMethod label : selectedMethods) {
-				// Record Add Edit
+			for (int i = 0; i < selectedMethods.length; i++) {
 				try {
-					URI attrURI = artURI.appendFragment(label.getName());
 					ModelUndoableEdit edit = new ModelUndoableEdit(artURI,
-							IModelChangeDelta.REMOVE, label.getClass()
-									.getSimpleName(), attrURI, null,
-							getIArtifact().getProject());
+							IModelChangeDelta.REMOVE, methodTypes[i],
+							methodURIs[i], null, getIArtifact().getProject());
 					((TigerstripeFormEditor) getPage().getEditor())
 							.getUndoManager().addEdit(edit);
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 				}
-
 			}
 		}
 		updateMaster();
