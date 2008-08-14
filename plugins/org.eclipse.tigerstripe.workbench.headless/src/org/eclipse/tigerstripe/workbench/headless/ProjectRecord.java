@@ -62,13 +62,14 @@ public class ProjectRecord {
 			
 			IPath path = new Path(projectSystemFile.getPath());
 			// if the file is in the default location, use the directory name as the project name
-			if (isDefaultLocation(path)) {
-				projectName = path.segment(path.segmentCount() - 2);
-				description = ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
-			} else {
+//			if (isDefaultLocation(path)) {
+//				projectName = path.segment(path.segmentCount() - 2);
+//				description = ResourcesPlugin.getWorkspace().newProjectDescription(projectName);
+//			} else {
 				projectName = projectSystemFile.getParentFile().getName();
 				description = ResourcesPlugin.getWorkspace().loadProjectDescription(path);
-			}
+				description.setLocationURI(null);
+//			}
 			
 		} catch (CoreException e) {
 			// no good couldn't get the name

@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -88,10 +89,10 @@ public class Tigerstripe implements IApplication {
 	}
 
 	private void initializeWorkspace() throws TigerstripeException {
-		for (String project : projects) {
-			importProjectToWorkspace(project);
+		importProjectsToWorkspace(projects);
+		for (String project : projects){
 			System.out.println("Imported " + project + " into workspace.");
-		}	
+		}
 		System.out.println("Generation project: " + generationProject);
 	}
 	
@@ -102,27 +103,26 @@ public class Tigerstripe implements IApplication {
 				+ profileSession.getActiveProfile().getVersion());
 	}
 
-	private boolean importProjectToWorkspace(final String project) {
+	private boolean importProjectsToWorkspace(final List<String> projects) {
 
 		IWorkspaceRunnable op = new IWorkspaceRunnable() {
 
 			public void run(IProgressMonitor monitor) throws CoreException {
-
-				ProjectRecord projectRecord;
-				projectRecord = new ProjectRecord(new File(project + File.separator + ".project"));
-
-				String projectName = projectRecord.getProjectName();
 				final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-				final IProject project = workspace.getRoot().getProject(projectName);
-				if (!project.exists()) {
-					try {
-						project.create(projectRecord.description, null);
-						project.open(IResource.BACKGROUND_REFRESH, null);
-						project.refreshLocal(IResource.DEPTH_INFINITE, null);
-					} catch (CoreException e) {
-						throw e;
+				for (String projectName: projects) {
+					ProjectRecord projectRecord = new ProjectRecord(new File(projectName + File.separator + ".project"));
+					final IProject project = workspace.getRoot().getProject(projectName);
+					if (!project.exists()) {
+						try {
+							project.create(projectRecord.description, null);
+							project.open(IResource.BACKGROUND_REFRESH, null);
+							project.refreshLocal(IResource.DEPTH_INFINITE, null);
+						} catch (CoreException e) {
+							throw e;
+						}
 					}
 				}
+				workspace.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
 			}
 		};
 
