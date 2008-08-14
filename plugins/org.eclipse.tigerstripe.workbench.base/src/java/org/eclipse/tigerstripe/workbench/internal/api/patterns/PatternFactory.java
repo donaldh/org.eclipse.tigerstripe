@@ -405,7 +405,7 @@ public class PatternFactory implements IPatternFactory {
 			
 			// iterate over other features
 			for (String feature : methodData.keySet()){
-				System.out.println(feature);
+
 				if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
 					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
 					stereotypeAddRequest.setCapableClass(ECapableClass.METHOD);
