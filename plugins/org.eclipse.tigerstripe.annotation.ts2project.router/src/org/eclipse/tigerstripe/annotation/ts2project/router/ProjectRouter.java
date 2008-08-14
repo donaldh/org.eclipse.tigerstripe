@@ -56,9 +56,23 @@ public class ProjectRouter implements EObjectRouter {
 					.getConfigurationElementsFor(
 							"org.eclipse.tigerstripe.annotation.ts2project.explicitFileRouter");
 			for (IConfigurationElement element : elements) {
-				String nsURI = element.getAttribute("nsURI");
+				String epackage = element.getAttribute("epackage");
+				String key = epackage;
+				if(epackage != null)
+				{
+					String eclass = element.getAttribute("eclass");
+					if(eclass != null)
+					{
+						key += "."+eclass;
+					}
+				}
+				else
+				{
+					String nsURI = element.getAttribute("nsURI");
+					key = nsURI;
+				}
 				IPath path = new Path(element.getAttribute("path"));
-				explicitRoutersMap.put(nsURI, path);
+				explicitRoutersMap.put(key, path);
 			}
 		}
 	}
@@ -70,6 +84,8 @@ public class ProjectRouter implements EObjectRouter {
 		try {
 			EObject content = ann.getContent();
 			String nsURIStr = content.eClass().getEPackage().getNsURI();
+			String epackage = content.eClass().getEPackage().getNsPrefix();
+			String eclass = epackage+"."+content.eClass().getName();
 
 			// Else revert to default algorithm
 			Object annotable = AnnotationPlugin.getManager()
@@ -80,7 +96,11 @@ public class ProjectRouter implements EObjectRouter {
 				IPath path = new Path(comp.getProject().getProjectLabel());
 
 				// See if there's an explicit definition
-				IPath explicitPath = explicitRoutersMap.get(nsURIStr);
+				IPath explicitPath = explicitRoutersMap.get(eclass);
+				if(explicitPath == null)
+					explicitPath = explicitRoutersMap.get(epackage);
+				if(explicitPath == null)
+					explicitPath = explicitRoutersMap.get(nsURIStr);				
 				if (explicitPath != null)
 					return path.append(explicitPath);
 
