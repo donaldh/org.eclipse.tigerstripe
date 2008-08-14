@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.headless;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -48,6 +49,7 @@ public class Tigerstripe implements IApplication {
 	@SuppressWarnings("unchecked")
 	public Object start(IApplicationContext context) throws Exception {
 
+		long start = System.currentTimeMillis();
 		printTigerstipeVersionInfo();
 		setPluginParams(context);
 		try {
@@ -58,7 +60,8 @@ public class Tigerstripe implements IApplication {
 			e.printStackTrace();
 			return new Integer(1);
 		}
-		System.out.println("Generation complete");
+		long finish = System.currentTimeMillis();
+		System.out.println("Generation complete. Took "+(finish- start)+" milliseconds.");
 		return EXIT_OK;
 	}
 
@@ -116,13 +119,14 @@ public class Tigerstripe implements IApplication {
 						try {
 							project.create(projectRecord.description, null);
 							project.open(IResource.BACKGROUND_REFRESH, null);
-							project.refreshLocal(IResource.DEPTH_INFINITE, null);
+//							project.refreshLocal(IResource.DEPTH_INFINITE, null);
 						} catch (CoreException e) {
 							throw e;
 						}
 					}
 				}
-				workspace.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
+				workspace.getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+//				workspace.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
 			}
 		};
 
