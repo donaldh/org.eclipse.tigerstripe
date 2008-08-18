@@ -10,9 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.patterns;
 
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import java.util.Collection;
 
 public interface IPattern {
+	
+	public interface IPatternAnnotation {
+		public String getAnnotationClass();
+		public String getNamespaceURI();
+		public String getTarget();
+		public String getFilename();
+	}
 	
 	public String getName();
 	
@@ -21,5 +28,7 @@ public interface IPattern {
 	public String getIconURL();
 	
 	public String getDescription();
+	
+	public Collection<IPatternAnnotation> getPatternAnnotations();
 	
 }

@@ -29,11 +29,14 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.ModelChangeRequestFactory;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAnnotationAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactLinkCreateRequest;
@@ -47,20 +50,19 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest.ECapableClass;
+import org.eclipse.tigerstripe.workbench.internal.api.patterns.Pattern.PatternAnnotation;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeInstance;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPatternFactory;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IPattern.IPatternAnnotation;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
@@ -93,8 +95,6 @@ public class PatternFactory implements IPatternFactory {
 			
 			xmlParserUtils = new TigerstripeXMLParserUtils(tigerstripeNamespace);
 			
-			
-			
 			// read any new Patterns form the extension.
 			try {
 				IConfigurationElement[] elements  = Platform.getExtensionRegistry()
@@ -107,8 +107,9 @@ public class PatternFactory implements IPatternFactory {
 						String patternFileName  = element.getAttribute("patternFile");
 						IContributor contributor = ((IExtension) element.getParent()).getContributor();
 						Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
-						URL patternURL = bundle.getEntry(patternFileName);
-						IPattern newPattern = parsePatternFile(patternURL);
+						
+						
+						IPattern newPattern = parsePatternFile(bundle,patternFileName);
 						if (!registeredPatterns.containsKey(newPattern.getName())){
 							registeredPatterns.put(newPattern.getName(), newPattern);
 						} else {
@@ -132,7 +133,8 @@ public class PatternFactory implements IPatternFactory {
 		return instance;
 	}
 	
-	private static IPattern parsePatternFile(URL patternURL) throws Exception {
+	private static IPattern parsePatternFile(Bundle bundle,String patternFileName) throws Exception {
+		URL patternURL = bundle.getEntry(patternFileName);
 		DocumentBuilderFactory factory = DocumentBuilderFactory
 			.newInstance();
 		factory.setIgnoringComments(true);
@@ -186,6 +188,8 @@ public class PatternFactory implements IPatternFactory {
 				description = descriptionElement.getTextContent();
 			}
 			
+			
+			
 	
 			if (patternType.equals("node")){
 				pattern = new NodePattern();
@@ -197,10 +201,29 @@ public class PatternFactory implements IPatternFactory {
 			} else {
 				throw new TigerstripeException("Invalid pattern Type in Extension Point");
 			}
+			
+			
+			
+			
 			pattern.setName(patternName);
 			pattern.setUILabel(uiLabel);
 			pattern.setIconURL(iconURL);
 			pattern.setDescription(description);
+			NodeList annotations = patternElement.getElementsByTagNameNS(patternNamespace,"annotation");
+			for (int an = 0; an < annotations.getLength(); an++) {
+				Element annotation = (Element) annotations.item(an);
+				String annotationClass = annotation.getAttribute("classname");
+				String namespaceURI = annotation.getAttribute("ns_URI");
+				String target = annotation.getAttribute("target");
+				String filename = annotation.getAttribute("filename");
+				PatternAnnotation anno = pattern.new PatternAnnotation();
+				anno.setAnnotationClass(annotationClass);
+				anno.setNamespaceURI(namespaceURI);
+				anno.setTarget(target);
+				anno.setFilename(filename);
+				Collection<IPatternAnnotation> annos = pattern.getPatternAnnotations();
+				annos.add(anno);
+			}
 			try {
 				// For a composite we can get several artifacts, so each one will go in a 
 				// seperate ArtifactPatterns and be assembled in the composite.
@@ -217,6 +240,12 @@ public class PatternFactory implements IPatternFactory {
 				} else {
 					// We can add "subPatterns" to a CompositePattern
 				}
+				// After all that, do the annotation requests
+				for (IPatternAnnotation anno : pattern.getPatternAnnotations()){
+					pattern.requests.add(createAnnotationRequest(bundle,patternFileName,anno));
+				}
+				
+				
 			} catch (Exception e){
 				// This means we failed to create the proper request
 				throw new TigerstripeException("Failed to build pattern from Extension Point",e);
@@ -519,6 +548,33 @@ public class PatternFactory implements IPatternFactory {
 		
 	}
 	
+	
+	public static IModelChangeRequest createAnnotationRequest(Bundle bundle,String patternFileName,IPatternAnnotation anno)throws TigerstripeException{
+
+		IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
+		annotationRequest.setAnnotationClass(anno.getAnnotationClass());
+		
+		if (anno.getTarget().contains("#")){
+			String[] bits = anno.getTarget().split("#");
+			annotationRequest.setArtifactFQN(bits[0]);
+			annotationRequest.setTarget(bits[1]);
+		} else {
+			// This is targeted at the artifact level
+			annotationRequest.setArtifactFQN(anno.getTarget());
+			annotationRequest.setTarget("");
+		}
+		
+		//the filename in the XML should be a relative path to the location of the XML.
+		
+		URI patternURI = URI.createURI(bundle.getEntry(patternFileName).toString());
+		patternURI = patternURI.trimSegments(1);
+		patternURI = patternURI.appendSegments(new String[]{""});
+		URI filenameURI = URI.createURI(patternURI.toString()+anno.getFilename());
+		
+		
+		annotationRequest.setFileURI(filenameURI);
+		return annotationRequest;
+	}
 	
 	public IPattern getPattern(String patternName) {
 		if (! disabledPatterns.contains(patternName)){

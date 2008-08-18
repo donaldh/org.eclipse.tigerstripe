@@ -23,7 +23,17 @@ public class Pattern implements IPattern {
 	protected String uiLabel;
 	protected String iconURL;
 	protected Collection<IModelChangeRequest> requests = new ArrayList<IModelChangeRequest>();
+	protected Collection<IPatternAnnotation> patternAnnotations = new ArrayList<IPatternAnnotation>();
 	
+	public Collection<IPatternAnnotation> getPatternAnnotations() {
+		return patternAnnotations;
+	}
+
+	public void setPatternAnnotations(
+			Collection<IPatternAnnotation> patternAnnotations) {
+		this.patternAnnotations = patternAnnotations;
+	}
+
 	protected void setName(String name){
 		this.name = name;
 	}
@@ -56,6 +66,51 @@ public class Pattern implements IPattern {
 		this.iconURL = iconURL;
 	}
 
-	
+	public class PatternAnnotation implements IPatternAnnotation{
+
+		private String annotationClass;
+		private String namespaceURI;
+		private String filename;
+		private String target;
+		
+		public String getNamespaceURI() {
+			return namespaceURI;
+		}
+
+		public void setNamespaceURI(String namespaceURI) {
+			this.namespaceURI = namespaceURI;
+		}
+		
+		public PatternAnnotation(){
+			
+		}
+		
+		public String getAnnotationClass() {
+			return annotationClass;
+		}
+
+		public void setAnnotationClass(String annotationClass) {
+			this.annotationClass = annotationClass;
+		}
+
+		public void setFilename(String filename) {
+			this.filename = filename;
+		}
+
+		public void setTarget(String target) {
+			this.target = target;
+		}
+
+		
+
+		public String getFilename() {
+			return this.filename;
+		}
+
+		public String getTarget() {
+			return this.target;
+		}
+		
+	}
 
 }

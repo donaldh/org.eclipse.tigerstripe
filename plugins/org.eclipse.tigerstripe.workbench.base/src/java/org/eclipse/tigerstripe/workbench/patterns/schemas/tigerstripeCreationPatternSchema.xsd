@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema  xmlns:tsa="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0" 
+<xs:schema  xmlns:tns="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0" 
+			xmlns:tsa="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0" 
 			xmlns:xs="http://www.w3.org/2001/XMLSchema" 
 			targetNamespace="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0" 
 			elementFormDefault="qualified" version="1.1">
@@ -9,12 +10,28 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="description" type="xs:string" minOccurs="0"/>
+						<xs:element ref="tns:annotations" minOccurs="0" maxOccurs="unbounded"/>
 						<xs:element ref="tsa:artifact" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
-					<xs:attribute name="patternName" use="required"/>
-					<xs:attribute name="patternType" use="required"/>
-					<xs:attribute name="uiLabel" use="required"/>
-					<xs:attribute name="iconURL" use="required"/>
+					<xs:attribute name="patternName" type="xs:string" use="required"/>
+					<xs:attribute name="patternType" type="xs:string" use="required"/>
+					<xs:attribute name="uiLabel" type="xs:string" use="required"/>
+					<xs:attribute name="iconURL" type="xs:string" use="required"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="annotations">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="tns:annotation" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="annotation">
+				<xs:complexType>
+					<xs:attribute name="ns_URI" type="xs:string" use="required"/>
+					<xs:attribute name="classname" type="xs:string" use="required"/>
+					<xs:attribute name="target" type="xs:string" use="required"/>
+					<xs:attribute name="filename" type="xs:string" use="required"/>
 				</xs:complexType>
 			</xs:element>
 </xs:schema>

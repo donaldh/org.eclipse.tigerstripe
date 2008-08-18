@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAnnotationAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactDeleteRequest;
@@ -82,6 +83,8 @@ public interface IModelChangeRequestFactory {
 	
 	public final static String STEREOTYPE_ADD = IStereotypeAddFeatureRequest.class
 			.getName();
+	public final static String ANNOTATION_ADD = IAnnotationAddFeatureRequest.class
+		.getName();
 
 	public String[] getSupportedRequestTypes();
 
