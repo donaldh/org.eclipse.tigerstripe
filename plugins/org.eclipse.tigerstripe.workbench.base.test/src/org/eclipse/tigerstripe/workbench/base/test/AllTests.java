@@ -13,6 +13,13 @@ package org.eclipse.tigerstripe.workbench.base.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.tigerstripe.workbench.base.test.adapt.TestAdapters;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestM0ProjectBasics;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestM0ProjectContents;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectBasics;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectContents;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestModelProjectLifecycle;
+import org.eclipse.tigerstripe.workbench.base.test.project.TestProjectManagement;
 import org.eclipse.tigerstripe.workbench.base.test.startup.TestStartup;
 
 public class AllTests {
@@ -28,13 +35,13 @@ public class AllTests {
 		suite.addTestSuite(TestTigerstripeCore.class);
 
 		// Basic project operations
-//		suite.addTestSuite(TestProjectManagement.class);
-//		suite.addTestSuite(TestModelProjectLifecycle.class);
-//		suite.addTestSuite(TestM1ProjectBasics.class);
-//		suite.addTestSuite(TestM1ProjectContents.class);
-//		suite.addTestSuite(TestM0ProjectBasics.class);
-//		suite.addTestSuite(TestM0ProjectContents.class);
-//		suite.addTestSuite(TestAdapters.class);
+		suite.addTestSuite(TestProjectManagement.class);
+		suite.addTestSuite(TestModelProjectLifecycle.class);
+		suite.addTestSuite(TestM1ProjectBasics.class);
+		suite.addTestSuite(TestM1ProjectContents.class);
+		suite.addTestSuite(TestM0ProjectBasics.class);
+		suite.addTestSuite(TestM0ProjectContents.class);
+		suite.addTestSuite(TestAdapters.class);
 //
 //		// Builder tests
 //		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
