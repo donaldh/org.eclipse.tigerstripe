@@ -88,6 +88,8 @@ public class PartAdapterFactory implements IAdapterFactory {
 					try {
 						IAbstractArtifact artifact = art
 								.getCorrespondingIArtifact();
+						if (artifact==null)
+							throw new TigerstripeException("Diagram includes reference to '"+art.getFullyQualifiedName()+"' which is not imported by this project.");
 						for (IField field : artifact.getFields()) {
 							if (field.getName().equals(attr.getName())) {
 								return field;
