@@ -38,6 +38,7 @@ public class AnnotationType {
 	private static final String ATTR_DESCRIPTION = "description";
 	private static final String ATTR_URI = "epackage-uri";
 	private static final String ATTR_TYPE = "eclass";
+	private static final String ATTR_UNIQUE = "unique";
 	
 	private static final String ELEMENT_TARGET = "target";
 	private static final String ATTR_TARGET_TYPE = "type";
@@ -46,6 +47,7 @@ public class AnnotationType {
 	private String name;
 	private String desciption;
 	private EClass clazz;
+	private boolean unique;
 	
 	private String[] targets;
 	
@@ -54,6 +56,7 @@ public class AnnotationType {
 	public AnnotationType(IConfigurationElement definition) {
 		name = definition.getAttribute(ATTR_NAME);
 		desciption = definition.getAttribute(ATTR_DESCRIPTION);
+		unique = Boolean.valueOf(definition.getAttribute(ATTR_UNIQUE));
 		clazz = getClass(definition);
 		initTargets(definition);
 	}
@@ -130,6 +133,16 @@ public class AnnotationType {
 	
 	public String getId() {
 		return AnnotationUtils.getInstanceClassName(getClazz()).getFullClassName();
+	}
+	
+	/**
+	 * Returns <code>false</code> if in the absence of 'targets' the annotation may beattached multiply,
+	 * or returns <code>true</code> otherwise (the default)
+	 * @return <code>false</code> if in the absence of 'targets' the annotation may beattached multiply,
+	 * or returns <code>true</code> otherwise
+	 */
+	public boolean isUnique() {
+		return unique;
 	}
 	
 	/* (non-Javadoc)

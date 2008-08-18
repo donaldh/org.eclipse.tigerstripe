@@ -155,6 +155,8 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 			//find annotation type for the content
 			if (annotationType.getClazz().equals(clazz)) {
 				String[] targets = annotationType.getTargets();
+				if(targets.length == 0)
+					return annotationType.isUnique();
 				for (String target : targets) {
 					//find target object for the content
 					if (isApplicable(object, target)) {

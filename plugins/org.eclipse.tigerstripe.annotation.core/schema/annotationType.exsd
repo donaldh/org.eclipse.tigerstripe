@@ -80,6 +80,15 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="unique" type="boolean" use="default" value="true">
+            <annotation>
+               <documentation>
+                  When set to &apos;true&apos; indicates that in the absence of target elements the annotation defined by the definition is unique, and when set &apos;false&apos; multiple instances of the annotation may be attached to a target.
+
+In the absence of this attribute and of target elements, it is assumed that the annotation is unique.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
