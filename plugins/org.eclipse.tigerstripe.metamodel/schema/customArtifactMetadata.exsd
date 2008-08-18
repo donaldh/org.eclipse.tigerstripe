@@ -6,7 +6,7 @@
          <meta.schema plugin="org.eclipse.tigerstripe.metamodel" id="customArtifactMetadata" name="Custom Artifact Metadata"/>
       </appinfo>
       <documentation>
-         This extension point allows to customize the Artifact Metadata used in Tigerstripe.
+         This extension point allows customization of the Artifact Metadata used in Tigerstripe.
       </documentation>
    </annotation>
 
@@ -18,8 +18,9 @@
       </annotation>
       <complexType>
          <choice minOccurs="1" maxOccurs="unbounded">
-            <element ref="artifactMetadata"/>
+            <element ref="artifactMetadata" minOccurs="1" maxOccurs="unbounded"/>
             <element ref="modelComponentIconProvider"/>
+            <element ref="artifactIcon" minOccurs="1" maxOccurs="unbounded"/>
          </choice>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -152,6 +153,53 @@ For example this can be used to change the appearance of an artifact icon based 
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.repository.metamodel.providers.IModelComponentIconProvider"/>
                </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="artifactIcon">
+      <annotation>
+         <documentation>
+            Override the standard icon defined for an artifact.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="icon" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The URL for the &apos;nornal&apos; icon. This should be a standard Eclipse 16x16 gif icon.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="icon_new" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The URL for the &apos;new&apos; icon. This should be a standard Eclipse 16x16 gif icon.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="icon_gs" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The URL for the &apos;grey state&apos; icon. This should be a standard Eclipse 16x16 gif icon.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="artifactName" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the artifact. For example, &apos;IEnumArtifact&apos;.
+               </documentation>
             </annotation>
          </attribute>
       </complexType>

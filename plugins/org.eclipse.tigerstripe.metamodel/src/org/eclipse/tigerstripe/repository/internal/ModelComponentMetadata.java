@@ -103,4 +103,16 @@ public class ModelComponentMetadata implements IModelComponentMetadata {
 		}
 		return artifactIcon_new_URL;
 	}
+
+	public void setNewIconURL(URL url) {
+		this.artifactIcon_new_URL = url;
+	}
+
+	public void setGreyedoutIconURL(URL url) {
+		this.artifactIcon_gs_URL = url;
+	}
+
+	public void setIconURL(URL url) {
+		this.artifactIcon_URL = url;
+	}
 }

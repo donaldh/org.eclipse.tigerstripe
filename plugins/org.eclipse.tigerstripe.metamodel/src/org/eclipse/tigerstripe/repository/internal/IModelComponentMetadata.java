@@ -25,4 +25,10 @@ public interface IModelComponentMetadata {
 	public String getLabel(Object context);
 
 	public void setIconProvider(IModelComponentIconProvider provider);
+
+	public void setNewIconURL(URL url);
+
+	public void setGreyedoutIconURL(URL url);
+
+	public void setIconURL(URL url);
 }

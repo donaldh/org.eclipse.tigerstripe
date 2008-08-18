@@ -26,7 +26,9 @@ import org.eclipse.tigerstripe.metamodel.IEnumArtifact;
 import org.eclipse.tigerstripe.metamodel.IEventArtifact;
 import org.eclipse.tigerstripe.metamodel.IExceptionArtifact;
 import org.eclipse.tigerstripe.metamodel.IField;
+import org.eclipse.tigerstripe.metamodel.ILiteral;
 import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.metamodel.IMethod;
 import org.eclipse.tigerstripe.metamodel.IPackage;
 import org.eclipse.tigerstripe.metamodel.IPrimitiveType;
 import org.eclipse.tigerstripe.metamodel.IQueryArtifact;
@@ -64,20 +66,20 @@ import org.osgi.framework.Bundle;
 public class ArtifactMetadataFactory {
 
 	private final static String[] registryKeys = {
-			IManagedEntityArtifactImpl.class.getName(),
-			IDatatypeArtifactImpl.class.getName(),
-			IExceptionArtifactImpl.class.getName(),
-			IEnumArtifactImpl.class.getName(),
-			IAssociationArtifactImpl.class.getName(),
-			IAssociationClassArtifactImpl.class.getName(),
-			IDependencyArtifactImpl.class.getName(),
-			ISessionArtifactImpl.class.getName(),
-			IQueryArtifactImpl.class.getName(),
-			IUpdateProcedureArtifactImpl.class.getName(),
-			IEventArtifactImpl.class.getName(),
-			IPrimitiveTypeImpl.class.getName(), IFieldImpl.class.getName(),
-			IMethodImpl.class.getName(), ILiteralImpl.class.getName(),
-			IPackageImpl.class.getName() };
+			IManagedEntityArtifact.class.getSimpleName(),
+			IDatatypeArtifact.class.getSimpleName(),
+			IExceptionArtifact.class.getSimpleName(),
+			IEnumArtifact.class.getSimpleName(),
+			IAssociationArtifact.class.getSimpleName(),
+			IAssociationClassArtifact.class.getSimpleName(),
+			IDependencyArtifact.class.getSimpleName(),
+			ISessionArtifact.class.getSimpleName(),
+			IQueryArtifact.class.getSimpleName(),
+			IUpdateProcedureArtifact.class.getSimpleName(),
+			IEventArtifact.class.getSimpleName(),
+			IPrimitiveType.class.getSimpleName(), IField.class.getSimpleName(),
+			IMethod.class.getSimpleName(), ILiteral.class.getSimpleName(),
+			IPackage.class.getSimpleName() };
 
 	private final static IArtifactMetadata MANAGED_ENTITY_DEFAULT = new ArtifactMetadata(
 			IManagedEntityArtifact.class, true, true, true, "entity.gif",
@@ -124,8 +126,8 @@ public class ArtifactMetadataFactory {
 			"Update Procedure");
 
 	private final static IArtifactMetadata PACKAGE_DEFAULT = new ArtifactMetadata(
-			IPackage.class, true, false, true, "field.gif", "field_gs.gif",
-			"field_new.gif", "Package");
+			IPackage.class, true, false, true, "package.gif", "package-gs.gif",
+			"package-new.gif", "Package");
 
 	private final static IArtifactMetadata EVENT_DEFAULT = new ArtifactMetadata(
 			IEventArtifact.class, true, false, true, "event.gif",
@@ -139,11 +141,11 @@ public class ArtifactMetadataFactory {
 			IField.class, "field.gif", "field_gs.gif", "field_new.gif", "Field");
 
 	private final static IModelComponentMetadata METHOD_DEFAULT = new ModelComponentMetadata(
-			IField.class, "method.gif", "method_gs.gif", "method_new.gif",
+			IMethod.class, "method.gif", "method_gs.gif", "method_new.gif",
 			"Method");
 
 	private final static IModelComponentMetadata LITERAL_DEFAULT = new ModelComponentMetadata(
-			IField.class, "literal.gif", "literal_gs.gif", "literal_new.gif",
+			ILiteral.class, "literal.gif", "literal_gs.gif", "literal_new.gif",
 			"Literal");
 
 	private final static IModelComponentMetadata[] registryDefaultRegistryEntries = {
@@ -168,7 +170,44 @@ public class ArtifactMetadataFactory {
 	 * @return
 	 */
 	public IModelComponentMetadata getMetadata(String classname) {
-		return metadataRegistry.get(classname);
+		
+	/* TODO a more explicit mechanism should be used here but there are 300+ uses of this method so will hack in for now */
+		if (classname.contains("ManagedEntityArtifact")) {
+			return metadataRegistry.get(IManagedEntityArtifact.class.getSimpleName());
+		} else if (classname.contains("DatatypeArtifact")) {
+			return metadataRegistry.get(IDatatypeArtifact.class.getSimpleName());
+		} else if (classname.contains("ExceptionArtifact")) {
+			return metadataRegistry.get(IExceptionArtifact.class.getSimpleName());
+		} else if (classname.contains("EnumArtifact")) {
+			return metadataRegistry.get(IEnumArtifact.class.getSimpleName());
+		} else if (classname.contains("AssociationArtifact")) {
+			return metadataRegistry.get(IAssociationArtifact.class.getSimpleName());
+		} else if (classname.contains(
+				"AssociationClassArtifact")) {
+			return metadataRegistry.get(IAssociationClassArtifact.class.getSimpleName());
+		} else if (classname.contains("DependencyArtifact")) {
+			return metadataRegistry.get(IDependencyArtifact.class.getSimpleName());
+		} else if (classname.contains("SessionArtifact")) {
+			return metadataRegistry.get(ISessionArtifact.class.getSimpleName());
+		} else if (classname.contains("QueryArtifact")) {
+			return metadataRegistry.get(IQueryArtifact.class.getSimpleName());
+		} else if (classname.contains(
+				"UpdateProcedureArtifact")) {
+			return metadataRegistry.get(IUpdateProcedureArtifact.class.getSimpleName());
+		} else if (classname.contains("Package")) {
+			return metadataRegistry.get(IPackage.class.getSimpleName());
+		} else if (classname.contains("EventArtifact")) {
+			return metadataRegistry.get(IEventArtifact.class.getSimpleName());
+		} else if (classname.contains("PrimitiveType")) {
+			return metadataRegistry.get(IPrimitiveType.class.getSimpleName());
+		} else if (classname.contains("Field")) {
+			return metadataRegistry.get(IField.class.getSimpleName());
+		} else if (classname.contains("Method")) {
+			return metadataRegistry.get(IMethod.class.getSimpleName());
+		} else if (classname.contains("Literal")) {
+			return metadataRegistry.get(ILiteral.class.getSimpleName());
+		}
+		return null;
 	}
 
 	/**
@@ -178,40 +217,40 @@ public class ArtifactMetadataFactory {
 	 * @return
 	 */
 	public IModelComponentMetadata getMetadata(Object element) {
-		if (element.getClass().getName().contains("ManagedEntityArtifact")) {
-			return getMetadata(IManagedEntityArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains("DatatypeArtifact")) {
-			return getMetadata(IDatatypeArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains("ExceptionArtifact")) {
-			return getMetadata(IExceptionArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains("EnumArtifact")) {
-			return getMetadata(IEnumArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains("AssociationArtifact")) {
-			return getMetadata(IAssociationArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains(
+		if (element.getClass().getSimpleName().contains("ManagedEntityArtifact")) {
+			return metadataRegistry.get(IManagedEntityArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("DatatypeArtifact")) {
+			return metadataRegistry.get(IDatatypeArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("ExceptionArtifact")) {
+			return metadataRegistry.get(IExceptionArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("EnumArtifact")) {
+			return metadataRegistry.get(IEnumArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("AssociationArtifact")) {
+			return metadataRegistry.get(IAssociationArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains(
 				"AssociationClassArtifact")) {
-			return getMetadata(IAssociationClassArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains("DependencyArtifact")) {
-			return getMetadata(IDependencyArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains("SessionArtifact")) {
-			return getMetadata(ISessionArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains("QueryArtifact")) {
-			return getMetadata(IQueryArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains(
+			return metadataRegistry.get(IAssociationClassArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("DependencyArtifact")) {
+			return metadataRegistry.get(IDependencyArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("SessionArtifact")) {
+			return metadataRegistry.get(ISessionArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("QueryArtifact")) {
+			return metadataRegistry.get(IQueryArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains(
 				"UpdateProcedureArtifact")) {
-			return getMetadata(IUpdateProcedureArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains("PackageArtifact")) {
-			return getMetadata(IPackageImpl.class.getName());
-		} else if (element.getClass().getName().contains("EventArtifact")) {
-			return getMetadata(IEventArtifactImpl.class.getName());
-		} else if (element.getClass().getName().contains("PrimitiveArtifact")) {
-			return getMetadata(IPrimitiveTypeImpl.class.getName());
-		} else if (element.getClass().getName().contains("Field")) {
-			return getMetadata(IFieldImpl.class.getName());
-		} else if (element.getClass().getName().contains("Method")) {
-			return getMetadata(IMethodImpl.class.getName());
-		} else if (element.getClass().getName().contains("Literal")) {
-			return getMetadata(ILiteralImpl.class.getName());
+			return metadataRegistry.get(IUpdateProcedureArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("Package")) {
+			return metadataRegistry.get(IPackage.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("EventArtifact")) {
+			return metadataRegistry.get(IEventArtifact.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("PrimitiveType")) {
+			return metadataRegistry.get(IPrimitiveType.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("Field")) {
+			return metadataRegistry.get(IField.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("Method")) {
+			return metadataRegistry.get(IMethod.class.getSimpleName());
+		} else if (element.getClass().getSimpleName().contains("Literal")) {
+			return metadataRegistry.get(ILiteral.class.getSimpleName());
 		}
 
 		return null;
@@ -229,8 +268,47 @@ public class ArtifactMetadataFactory {
 				metadataRegistry.put(registryKeys[index],
 						registryDefaultRegistryEntries[index]);
 		}
-
+		updateIconsFromExtensionPoint();
+		
 		registerIconProviders();
+	}
+
+	private void updateIconsFromExtensionPoint() {
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+
+		IConfigurationElement[] elements = registry
+		.getConfigurationElementsFor("org.eclipse.tigerstripe.metamodel.customArtifactMetadata");
+		for (IConfigurationElement element : elements) {
+			if ("artifactIcon".equals(element.getName())) {
+				String name = element.getAttribute("artifactName");
+				IModelComponentMetadata md = metadataRegistry.get(name);
+				if (md != null){
+					String icon = element.getAttribute("icon");
+					if (icon != null && icon.length() != 0) {
+						IContributor contributor = element.getContributor();
+						String bundleName = contributor.getName();
+						Bundle bundle = Platform.getBundle(bundleName);
+						md.setIconURL(bundle.getEntry(icon));
+					}
+
+					String icon_new = element.getAttribute("icon_new");
+					if (icon_new != null && icon_new.length() != 0) {
+						IContributor contributor = element.getContributor();
+						String bundleName = contributor.getName();
+						Bundle bundle = Platform.getBundle(bundleName);
+						md.setNewIconURL(bundle.getEntry(icon_new));
+					}
+
+					String icon_gs = element.getAttribute("icon_gs");
+					if (icon_gs != null && icon_gs.length() != 0) {
+						IContributor contributor = element.getContributor();
+						String bundleName = contributor.getName();
+						Bundle bundle = Platform.getBundle(bundleName);
+						md.setGreyedoutIconURL(bundle.getEntry(icon_gs));
+					}
+				}
+			}
+		}
 	}
 
 	private void registerIconProviders() {
