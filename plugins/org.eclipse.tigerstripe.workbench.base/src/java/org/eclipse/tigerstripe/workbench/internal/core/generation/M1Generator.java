@@ -49,6 +49,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginExcep
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportModel;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportRunner;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -164,8 +165,10 @@ public class M1Generator {
 			
 			monitor.beginTask("Generating project", workCount);
 			monitor.subTask("Setup");
+//			long before = System.currentTimeMillis();
 			refreshAndSetupForGeneration();
-
+//			long after = System.currentTimeMillis();
+//			System.out.println("Refresh of "+project.getProjectLabel()+" :"+(after-before));
 			if (project == null)
 				throw new TigerstripeException("Invalid project");
 
