@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pattern:creationPattern patternName="com.test.IRDAssoc" 
+						 uiLabel="IRDAssoc"
+						 patternType="relation"
+						 iconURL="..."
+                       xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
+                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
+    <pattern:description>Create a new IRD Association</pattern:description>
+    <ts:artifact name="com.cisco.wobble"
+                 artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact"
+                 isAbstract="true"
+                 extendedArtifact="com.cisco.wibble">
+                 <ts:comment>This is a specific Type of Association</ts:comment>
+        <ts:associationSpecifics>
+            <ts:associationEnd name="wibble" end="AEnd" type="com.cisco.wibble" multiplicity="1" 
+                                       aggregation="none" changeable="none" navigable="false" 
+                                       ordered="false" visibility="PUBLIC"
+                                       unique="false">
+                                       <ts:stereotypes>
+             			  					<ts:stereotype name="General">
+             			  					</ts:stereotype>
+                      				   </ts:stereotypes>
+                                       <ts:comment>The end at the Start</ts:comment>
+            </ts:associationEnd>
+            <ts:associationEnd name="wobble" end="ZEnd" type="com.cisco.wobble" multiplicity="1" 
+                                       aggregation="none" changeable="none" navigable="true" 
+                                       ordered="false" visibility="PUBLIC"
+                                       unique="false">
+                                       <ts:stereotypes>
+             			  					<ts:stereotype name="WithAttribute">
+             			  					</ts:stereotype>
+                      				   </ts:stereotypes>
+                                       <ts:comment>The end at the End</ts:comment>
+            </ts:associationEnd>
+        </ts:associationSpecifics>
+    </ts:artifact>
+</pattern:creationPattern>

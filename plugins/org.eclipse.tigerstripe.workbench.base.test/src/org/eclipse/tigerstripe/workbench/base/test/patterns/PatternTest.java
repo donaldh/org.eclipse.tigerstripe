@@ -10,8 +10,18 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.patterns;
 
+import java.io.IOException;
+
 import junit.framework.TestCase;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot3;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.base.test.model.ArtifactTestHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
@@ -20,6 +30,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeAttributeFactory;
+import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -47,6 +58,8 @@ public class PatternTest extends TestCase {
 	private final static String GENERAL_STEREOTYPE = "General";
 	private final static String ATTRIBUTED_STEREOTYPE = "WithAttribute";
 	private final static String STEREOTYPE_ATTRIBUTE_NAME= "value";
+	
+	private final static String SOME_TEST_ANNOTS = "org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots";
 
 	@Override
 	protected void setUp() throws Exception {
@@ -181,41 +194,41 @@ public class PatternTest extends TestCase {
 
 	}
 	
-//	public void testAssociationArtifactPattern() throws Exception {
-//
-//		String targetPackage = "org.eclipse";
-//		String entityName = "mynewAssociation";
-//		String patternname = "org.eclipse.tigerstripe.workbench.base.Association";
-//		String aEndType = "org.eclipse.endAType";
-//		String zEndType = "org.eclipse.endZType";
-//
-//		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
-//
-//	}
-//	
-//	public void testAssociationClassArtifactPattern() throws Exception {
-//
-//		String targetPackage = "org.eclipse";
-//		String entityName = "mynewAssociationClass";
-//		String patternname = "org.eclipse.tigerstripe.workbench.base.AssociationClass";
-//		String aEndType = "org.eclipse.endAType";
-//		String zEndType = "org.eclipse.endZType";
-//
-//		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
-//
-//	}
-//	
-//	public void testDependencyArtifactPattern() throws Exception {
-//
-//		String targetPackage = "org.eclipse";
-//		String entityName = "mynewDependency";
-//		String patternname = "org.eclipse.tigerstripe.workbench.base.Dependency";
-//		String aEndType = "org.eclipse.endAType";
-//		String zEndType = "org.eclipse.endZType";
-//
-//		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
-//
-//	}
+	public void testAssociationArtifactPattern() throws Exception {
+
+		String targetPackage = "org.eclipse";
+		String entityName = "mynewAssociation";
+		String patternname = "org.eclipse.tigerstripe.workbench.base.Association";
+		String aEndType = "org.eclipse.endAType";
+		String zEndType = "org.eclipse.endZType";
+
+		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
+
+	}
+	
+	public void testAssociationClassArtifactPattern() throws Exception {
+
+		String targetPackage = "org.eclipse";
+		String entityName = "mynewAssociationClass";
+		String patternname = "org.eclipse.tigerstripe.workbench.base.AssociationClass";
+		String aEndType = "org.eclipse.endAType";
+		String zEndType = "org.eclipse.endZType";
+
+		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
+
+	}
+	
+	public void testDependencyArtifactPattern() throws Exception {
+
+		String targetPackage = "org.eclipse";
+		String entityName = "mynewDependency";
+		String patternname = "org.eclipse.tigerstripe.workbench.base.Dependency";
+		String aEndType = "org.eclipse.endAType";
+		String zEndType = "org.eclipse.endZType";
+
+		testRelationPatternArtifact( patternname, targetPackage,  entityName, aEndType, zEndType);
+
+	}
 	
 	private void testNodePatternArtifact(String patternname,String targetPackage, String entityName) throws Exception{
 		IPattern pattern = PatternFactory.getInstance().getPattern(patternname);
@@ -368,6 +381,56 @@ public class PatternTest extends TestCase {
 			}
 			
 		}
+		
+//		boolean write = false;
+//		
+//		AnnotationHelper helper = AnnotationHelper.getInstance();
+//		
+//		
+//		ResourceSet resourceSet = new ResourceSetImpl();
+//		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().
+//			put("anno", new XMIResourceFactoryImpl());
+//	
+//		URI uri = URI.createURI("file:/c:/Documents and Settings/rcraddoc/Desktop/testAnno.anno");
+//		Resource resource = resourceSet.createResource(uri);
+//		
+//		int count = 7;
+//		if (write){
+//
+//			Annotation anno = created.addAnnotation(SOME_TEST_ANNOTS, "TestAnnot3");
+//			TestAnnot3 type = (TestAnnot3)anno.getContent();
+//			type.setN(count);
+//
+//			resource.getContents().add(anno.getContent());
+//			try
+//			{
+//				resource.save(null);
+//				System.out.println("saved");
+//			}
+//			catch (IOException e)
+//			{
+//				System.out.println("failed to write " + uri);
+//			}
+//		} else {
+//
+//			resource.load(null);
+//			EObject eo = resource.getContents().get(0);
+//			System.out.println("loaded: " + eo);
+//
+//			String className = TestAnnot3.class.getName();
+//
+//			Class annotationClass = ClassLoader.getSystemClassLoader().loadClass(className);
+//			Annotation anno = helper.addAnnotation(created, annotationClass);
+//			
+//
+//			anno.setContent(eo);
+//			created.saveAnnotation(anno);
+//			assertTrue("Created artifact is missing Annotation",created.hasAnnotations("tigerstripe","TestAnnot3"));
+//			assertEquals("Context not the same",count, ((TestAnnot3)created.getAnnotation("tigerstripe","TestAnnot3")).getN());
+//
+//
+//		}		
+		
 	}
 	
 	public void testIRDAssocPattern() throws Exception {	
