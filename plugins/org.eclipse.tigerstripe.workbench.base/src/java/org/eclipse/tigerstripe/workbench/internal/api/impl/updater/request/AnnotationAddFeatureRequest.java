@@ -207,7 +207,8 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 			resource.load(null);
 			EObject eo = resource.getContents().get(0);
 			anno.setContent(eo);
-			modelComponent.saveAnnotation(anno);
+			AnnotationHelper.getInstance().saveAnnotation(anno);
+			//modelComponent.saveAnnotation(anno);
 		} catch (Exception e){
 			e.printStackTrace();
 			throw new TigerstripeException("Exception adding annotation to component",e);
