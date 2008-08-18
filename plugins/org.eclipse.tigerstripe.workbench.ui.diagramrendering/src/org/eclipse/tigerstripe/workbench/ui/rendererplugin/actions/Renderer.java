@@ -70,20 +70,21 @@ public class Renderer implements IDiagramRenderer {
 	}
 
 	public void renderDiagram(String projectLabel, String diagRelPath,
-			final String pictType, final String imagePath) {
+			final String pictType, String outputProjectLabel, final String imagePath) {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IProject project = workspace.getRoot().getProject(projectLabel);
+		final IProject outputProject = workspace.getRoot().getProject(outputProjectLabel);
 		if (project != null) {
 			final IPath iPath = new Path(imagePath);
 			final IPath diagPath = project.getLocation().append(diagRelPath);
 			Display.getDefault().syncExec(new Runnable() {
 				public void run() {
 					try {
-						IFolder folder = project.getFolder(iPath
+						IFolder folder = outputProject.getFolder(iPath
 								.removeLastSegments(1));
 						ResourceUtils.createFolders(folder, null);
-						renderDiagram(diagPath, project.getLocation().append(
-								iPath), new NullProgressMonitor(),
+						renderDiagram(diagPath, outputProject.getLocation().append(
+								imagePath), new NullProgressMonitor(),
 								mapFormat(pictType));
 					} catch (CoreException e) {
 						EclipsePlugin.log(e);
@@ -93,6 +94,11 @@ public class Renderer implements IDiagramRenderer {
 				}
 			});
 		}
+	}
+
+	public void renderDiagram(String projectLabel, String diagRelPath,
+			final String pictType, final String imagePath) {
+		renderDiagram(projectLabel, diagRelPath, pictType, projectLabel, imagePath);
 	}
 
 	/**
