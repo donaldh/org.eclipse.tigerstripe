@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.rendering;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 
 /**
@@ -28,4 +29,7 @@ public interface IDiagramRenderer {
 
 	public void renderDiagram(String projectLabel, String diagRelPath,
 			String imageType, String imagePath) throws TigerstripeException;
+
+	public void renderDiagram(String projectLabel, String diagRelPath,
+			String imageType, String outputProjectLabel, String imagePath) throws TigerstripeException;
 }

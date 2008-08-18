@@ -44,6 +44,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.DiagramGenerator;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
@@ -256,6 +257,9 @@ public abstract class TemplateBasedRule extends Rule implements
 		defaultVContext.put("managerSession", session);
 		defaultVContext
 				.put("pluginDir", getContainingDescriptor().getBaseDir());
+		
+		// Added this - JKW
+		defaultVContext.put("diagramGenerator", new DiagramGenerator(handle));
 
 		return this.defaultVContext;
 	}
