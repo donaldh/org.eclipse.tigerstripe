@@ -15,6 +15,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.workbench.base.test.adapt.TestAdapters;
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicM1ProjectAuditor;
+import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicModelProjectAuditor;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM0ProjectBasics;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM0ProjectContents;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectBasics;
@@ -46,7 +47,7 @@ public class AllTests {
 //
 //		// Builder tests
 		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
-//		suite.addTestSuite(TestBasicModelProjectAuditor.class);
+		suite.addTestSuite(TestBasicModelProjectAuditor.class);
 //
 //		// Facet Tests
 //		suite.addTestSuite(BasicFacetTest.class);
