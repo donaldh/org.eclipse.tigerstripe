@@ -36,11 +36,11 @@ public class AllTests {
 
 		// Basic project operations
 		suite.addTestSuite(TestProjectManagement.class);
-//		suite.addTestSuite(TestModelProjectLifecycle.class);
-//		suite.addTestSuite(TestM1ProjectBasics.class);
-//		suite.addTestSuite(TestM1ProjectContents.class);
-//		suite.addTestSuite(TestM0ProjectBasics.class);
-//		suite.addTestSuite(TestM0ProjectContents.class);
+		suite.addTestSuite(TestModelProjectLifecycle.class);
+		suite.addTestSuite(TestM1ProjectBasics.class);
+		suite.addTestSuite(TestM1ProjectContents.class);
+		suite.addTestSuite(TestM0ProjectBasics.class);
+		suite.addTestSuite(TestM0ProjectContents.class);
 //		suite.addTestSuite(TestAdapters.class);
 //
 //		// Builder tests
