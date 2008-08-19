@@ -127,7 +127,7 @@ public class TigerstripeExplorerLabelProvider extends
 			try {
 				if (TigerstripeProjectNature.hasNature(iProject)) {
 					if (jElem.getElementType() == IJavaElement.COMPILATION_UNIT
-							|| jElem.getElementType() == IJavaElement.CLASS_FILE) {
+							|| jElem.getElementType() == IJavaElement.CLASS_FILE || jElem.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
 						IAbstractArtifact artifact = TSExplorerUtils
 								.getArtifactFor(element);
 						if (artifact != null)
