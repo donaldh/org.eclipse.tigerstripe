@@ -89,7 +89,7 @@ public class PostInstallActions {
 				baseBundleRoot = findBaseBundleRoot(context);
 				workbenchFeatureVersion = findWorkbenchFeatureVersion(context);
 
-				checkForUpgrade(workbenchFeatureVersion);
+//				checkForUpgrade(workbenchFeatureVersion);
 
 				setupTigerstripeVariables(context);
 				createPropertiesFileForHeadlessRun(context);
