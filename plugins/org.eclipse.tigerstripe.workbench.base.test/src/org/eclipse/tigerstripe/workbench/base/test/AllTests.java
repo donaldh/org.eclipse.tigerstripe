@@ -41,7 +41,7 @@ public class AllTests {
 		suite.addTestSuite(TestM1ProjectContents.class);
 		suite.addTestSuite(TestM0ProjectBasics.class);
 		suite.addTestSuite(TestM0ProjectContents.class);
-//		suite.addTestSuite(TestAdapters.class);
+		suite.addTestSuite(TestAdapters.class);
 //
 //		// Builder tests
 //		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
