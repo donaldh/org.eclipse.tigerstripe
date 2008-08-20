@@ -33,6 +33,7 @@
 			<property name="plugin-name" value="${plugin-name}" />
 			<property name="classname"
 				value="org.eclipse.tigerstripe.workbench.base.test.AllTests" />
+			<property name="vmargs" value="-Xmx512m -XX:MaxPermSize=128m"/>
 		</ant>
 	</target>
 
