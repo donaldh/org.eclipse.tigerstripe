@@ -12,11 +12,13 @@
  */
 package org.eclipse.tigerstripe.workbench.plugins;
 
+import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
+
 /**
  * @author jworrell
  *
  */
-public interface IDiagramDescriptor {
+public interface IDiagramDescriptor extends IAnnotationCapable {
 	
 	/**
 	 * This enum classifies the types of diagram that may be encountered. The types are:

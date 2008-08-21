@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.InvalidAnnotationTa
 
 /**
  * A helper class that provides tigerstripe specific mechanisms for manipulating annotations
- * <code>IAnnotationCapable</code> objects 
+ * <code>Object</code> objects 
  * @author jworrell
  *
  */
@@ -61,7 +61,7 @@ public class AnnotationHelper
 	 * @return the annotation content wrapped in an <code>Annotation</code> instance
 	 * @throws TigerstripeException
 	 */
-//	public Annotation addAnnotation(IAnnotationCapable target, String schemeID, String packij, String clazz)
+//	public Annotation addAnnotation(Object target, String schemeID, String packij, String clazz)
 //	    throws TigerstripeException
 //	{
 //		
@@ -76,7 +76,7 @@ public class AnnotationHelper
 	 * @return the annotation content wrapped in an <code>Annotation</code> instance
 	 * @throws TigerstripeException
 	 */
-	public Annotation addAnnotation(IAnnotationCapable target, String packij, String clazz)
+	public Annotation addAnnotation(Object target, String packij, String clazz)
 	    throws TigerstripeException
 	{
 		AnnotationType type = AnnotationPlugin.getManager().getType(packij, clazz);
@@ -113,7 +113,7 @@ public class AnnotationHelper
 	 * @return the annotation content wrapped in an <code>Annotation</code> instance
 	 * @throws TigerstripeException
 	 */
-	public Annotation addAnnotation(IAnnotationCapable target, Class<? extends EObject> clazz)
+	public Annotation addAnnotation(Object target, Class<? extends Object> clazz)
 	    throws TigerstripeException
 	{
 		return addAnnotation(target, clazz.getPackage().getName(), clazz.getName().substring(clazz.getName().lastIndexOf('.')+1));
@@ -129,13 +129,13 @@ public class AnnotationHelper
 		AnnotationPlugin.getManager().save(annotation);
 	}
 
-	public List<Annotation> getAnnotations(IAnnotationCapable target) {
+	public List<Annotation> getAnnotations(Object target) {
 		IAnnotationManager mgr = AnnotationPlugin.getManager();
 		List<Annotation> annotations = Arrays.asList(mgr.getAnnotations(target, false));
 		return Collections.unmodifiableList(annotations);
 	}
 
-	public Annotation getAnnotation(IAnnotationCapable target, String annotationSpecificationID) {
+	public Annotation getAnnotation(Object target, String annotationSpecificationID) {
 		List<Annotation> all = getAnnotations(target);
 		for (Annotation obj : all) {
 			if (isAnnotationMatch(annotationSpecificationID, obj))
@@ -145,7 +145,7 @@ public class AnnotationHelper
 		return null;
 	}
 
-	public Annotation getAnnotation(IAnnotationCapable target, Class<? extends EObject> clazz) throws TigerstripeException
+	public Annotation getAnnotation(Object target, Class<?> clazz) throws TigerstripeException
 	{
 		return getAnnotation(target, clazz.getName());
 	}
@@ -173,11 +173,23 @@ public class AnnotationHelper
 		return false;
 	}
 
-	public List<Annotation> getAnnotations(IAnnotationCapable target, String annotationSpecificationID) {
+	public List<Annotation> getAnnotations(Object target, String annotationSpecificationID) {
 		List<Annotation> annotations = getAnnotations(target);
 		for (Iterator<Annotation> i = annotations.iterator(); i.hasNext();) {
 			if (!isAnnotationMatch(annotationSpecificationID, i.next()))
 				i.remove();
+		}
+
+		return Collections.unmodifiableList(annotations);
+	}
+
+	public List<Annotation> getAnnotations(Object target, Class<?> type) {
+		List<Annotation> annotations = getAnnotations(target);
+		for (Iterator<Annotation> i = annotations.iterator(); i.hasNext();) {
+			Annotation a = i.next();
+			if (!a.getUri().scheme().equals(IAnnotationCapable.TS_SCHEME) || !type.isInstance(a.getContent())) {
+				i.remove();
+			}
 		}
 
 		return Collections.unmodifiableList(annotations);

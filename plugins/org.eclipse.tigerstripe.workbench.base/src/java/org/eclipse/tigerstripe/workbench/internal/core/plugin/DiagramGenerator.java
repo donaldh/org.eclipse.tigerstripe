@@ -12,6 +12,7 @@
  */
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -30,10 +31,13 @@ import org.eclipse.core.runtime.IPath;
 //import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
+import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IDiagramDescriptor;
 import org.eclipse.tigerstripe.workbench.plugins.IDiagramGenerator;
@@ -72,6 +76,8 @@ public class DiagramGenerator implements IDiagramGenerator {
 		 */
 		private DiagramType diagramType;
 
+		private IResource diagramResource;
+		
 		/**
 		 * @return the name
 		 */
@@ -106,16 +112,82 @@ public class DiagramGenerator implements IDiagramGenerator {
 		 * @param relativePath
 		 * @param diagramType
 		 */
-		protected DiagramDescriptor(String name, String projectLabel, String relativePath, DiagramType diagramType) {
+		protected DiagramDescriptor(String name, String projectLabel, String relativePath, DiagramType diagramType, IResource diagramResource) {
 			super();
 			this.name = name;
 			this.projectLabel = projectLabel;
 			this.relativePath = relativePath;
 			this.diagramType = diagramType;
+			this.diagramResource = diagramResource;
 		}
 
 		public String toString() {
 			return "DiagramDescriptor: (name: "+name+" projectLabel: "+projectLabel+" relativePath: "+relativePath+" diagramType: "+diagramType+")";
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable#getAnnotation(java.lang.String)
+		 */
+		public Object getAnnotation(String annotationType) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable#getAnnotations()
+		 */
+		public List<Object> getAnnotations() {
+			List<Object> annotations = new ArrayList<Object>();
+			for(Annotation annotation : AnnotationHelper.getInstance().getAnnotations(diagramResource.getAdapter(IDiagram.class)))
+			{
+				annotations.add(annotation.getContent());
+			}
+			return annotations;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable#getAnnotations(java.lang.Class)
+		 */
+		public List<Object> getAnnotations(Class<?> annotationType) {
+			List<Object> annotations = new ArrayList<Object>();
+			for(Annotation annotation : AnnotationHelper.getInstance().getAnnotations(diagramResource.getAdapter(IDiagram.class), annotationType))
+			{
+				annotations.add(annotation.getContent());
+			}
+			return annotations;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable#getAnnotations(java.lang.String)
+		 */
+		public List<Object> getAnnotations(String annotationType) {
+			List<Object> annotations = new ArrayList<Object>();
+			for(Annotation annotation : AnnotationHelper.getInstance().getAnnotations(diagramResource.getAdapter(IDiagram.class), annotationType))
+			{
+				annotations.add(annotation.getContent());
+			}
+			return annotations;
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable#hasAnnotations()
+		 */
+		public boolean hasAnnotations() {
+			return !getAnnotations().isEmpty();
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable#hasAnnotations(java.lang.Class)
+		 */
+		public boolean hasAnnotations(Class<?> annotationType) {
+			return !getAnnotations(annotationType).isEmpty();
+		}
+
+		/* (non-Javadoc)
+		 * @see org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable#hasAnnotations(java.lang.String)
+		 */
+		public boolean hasAnnotations(String annotationType) {
+			return !getAnnotations(annotationType).isEmpty();
 		}
 	}
 	
@@ -145,13 +217,13 @@ public class DiagramGenerator implements IDiagramGenerator {
 	 * @see org.eclipse.tigerstripe.workbench.plugins.IDiagramGenerator#generateDiagram(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public boolean generateDiagram(IDiagramDescriptor diagram, String outputPath, ImageType imageType) {
-		System.out.println("generateDiagram-args: diagram: ("+diagram+") outputPath: "+outputPath+" imageType: "+imageType);
+//		System.out.println("generateDiagram-args: diagram: ("+diagram+") outputPath: "+outputPath+" imageType: "+imageType);
 		try {
 			IDiagramRenderer renderer = InternalTigerstripeCore.getIDiagramRenderingSession().getRendererByName(RENDERER);
 //			IPath projectLocation = handle.getLocation();
 			IPath outputDir = new Path(handle.getProjectDetails().getOutputDirectory());
 			IPath targetLocation = outputDir.append(outputPath).append(diagram.getName()).addFileExtension(imageType.extension());
-			System.out.println("target location: "+targetLocation);
+//			System.out.println("target location: "+targetLocation);
 			renderer.renderDiagram(diagram.getProjectLabel(), diagram.getRelativePath(), imageType.extension(), handle.getProjectDetails().getName(), targetLocation.toString());
 			return true;
 		} catch (TigerstripeException e) {
@@ -186,34 +258,34 @@ public class DiagramGenerator implements IDiagramGenerator {
 	 * @see org.eclipse.tigerstripe.workbench.plugins.IDiagramGenerator#getAllDiagrams(boolean, org.eclipse.tigerstripe.workbench.plugins.IDiagramGenerator.DiagramTypeEnum, java.lang.String)
 	 */
 	public Collection<IDiagramDescriptor> getAllDiagrams(boolean includeDependencies, DiagramType diagramType, IPackageArtifact packij, String namePattern) {
-		System.out.println("getAllDiagrams-args: includeDependencies: "+includeDependencies+" diagramType: "+diagramType+" namePattern: "+namePattern);
+//		System.out.println("getAllDiagrams-args: includeDependencies: "+includeDependencies+" diagramType: "+diagramType+" namePattern: "+namePattern);
 		List<IContainer> containers = includeDependencies ? getAllRoots() : Collections.singletonList(getRoot());
 		Collection<IDiagramDescriptor> diagrams = new LinkedList<IDiagramDescriptor>();
 		Set<DiagramType> types = diagramType != null ? Collections.singleton(diagramType) : DIAGRAM_TYPES;
 		Pattern pattern = namePattern != null ? Pattern.compile(namePattern) : null;
 		for(DiagramType t : types)
 		{
-			System.out.println("DiagramType: "+t);
+//			System.out.println("DiagramType: "+t);
 			for(IContainer c : containers)
 			{
-				System.out.println("Container: "+c);
+//				System.out.println("Container: "+c);
 				List<IResource> diags = TigerstripeProjectAuditor.findAll(c, t.extension());
 				for(IResource d : diags)
 				{
 					IPath diagRelativePath = d.getProjectRelativePath();
 					String diagName = diagRelativePath.removeFileExtension().lastSegment();
-					System.out.println("DiagramName: "+diagName+" ("+diagRelativePath.toOSString()+")");
+//					System.out.println("DiagramName: "+diagName+" ("+diagRelativePath.toOSString()+")");
 					// Should we skip diagrams in bin?
 					try {
 						IPath packageArtifactPath = packij!=null?new Path(packij.getArtifactPath()).removeLastSegments(1):null;
-						System.out.println("ArtifactPath: "+packageArtifactPath+" ("+diagRelativePath.toOSString()+")");
+//						System.out.println("ArtifactPath: "+packageArtifactPath+" ("+diagRelativePath.toOSString()+")");
 //						if(packageArtifactPath == null || packageArtifactPath.isPrefixOf(diagRelativePath))
 						if(packageArtifactPath == null || packageArtifactPath.equals(diagRelativePath.removeLastSegments(1)))
 						{
 							if(pattern == null || pattern.matcher(diagName).matches())
 							{
-								System.out.println("Matched: "+diagName);
-								diagrams.add(new DiagramDescriptor(diagName, d.getProject().getName(), diagRelativePath.toOSString(), t));
+//								System.out.println("Matched: "+diagName);
+								diagrams.add(new DiagramDescriptor(diagName, d.getProject().getName(), diagRelativePath.toOSString(), t, d));
 							}
 						}
 					} catch (TigerstripeException e) {

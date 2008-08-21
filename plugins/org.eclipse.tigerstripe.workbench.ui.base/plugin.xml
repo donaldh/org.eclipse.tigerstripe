@@ -5,7 +5,7 @@
    <extension-point id="closedDiagramSynchronizer" name="Closed Diagram Synchronizer" schema="schema/closedDiagramSynchronizer.exsd"/>
    <extension-point id="modelFileContentReader" name="Model Specific Content Reader" schema="schema/modelFileContentReader.exsd"/>
    <extension-point id="diagramAuditor" name="Diagram Auditor" schema="schema/diagramAuditor.exsd"/>
-   <extension-point id="labelDecorator" name="org.eclipse.tigerstripe.workbench.ui.labelDecorator" schema="schema/labelDecorator.exsd"/>
+   <extension-point id="labelDecorator" name="Label Decorator" schema="schema/labelDecorator.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -635,5 +635,17 @@
             </run>
          </runtime>
       </extension>
-   
+      
+  <extension
+         name="Tigerstripe Diagram Adapter Factory"
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.core.resources.IResource"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.LogicalExplorerNodeFactory">
+         <adapter
+               type="org.eclipse.tigerstripe.workbench.diagram.IDiagram">
+         </adapter>
+         </factory>
+         </extension>
+
 </plugin>

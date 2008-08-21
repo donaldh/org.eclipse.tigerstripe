@@ -50,6 +50,7 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.dom4j.xpath,
  org.dom4j.xpp,
  org.eclipse.tigerstripe.workbench,
+ org.eclipse.tigerstripe.workbench.diagram,
  org.eclipse.tigerstripe.workbench.generation,
  org.eclipse.tigerstripe.workbench.internal,
  org.eclipse.tigerstripe.workbench.internal.adapt;x-friends:="org.eclipse.tigerstripe.annotation.tsmodel",

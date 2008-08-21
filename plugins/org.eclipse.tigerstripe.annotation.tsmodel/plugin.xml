@@ -21,4 +21,14 @@
 		  <delegate type="org.eclipse.jdt.core.IJavaProject"/>
 		</provider>
    </extension>
+	<extension
+			point="org.eclipse.tigerstripe.annotation.core.annotationProvider">
+		<provider
+			id="org.eclipse.tigerstripe.annotation.tsmodel.provider.diagram"
+			class="org.eclipse.tigerstripe.annotation.tsmodel.TSModelAnnotationProvider"
+			targetDescription="Tigerstripe Model Component"
+			type="org.eclipse.tigerstripe.workbench.diagram.IDiagram">
+		  <delegate type="org.eclipse.core.resources.IResource"/>
+		</provider>
+   </extension>
 </plugin>

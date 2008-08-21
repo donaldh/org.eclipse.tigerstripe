@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.annotation.tsmodel;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -32,7 +33,11 @@ public class TSModelAnnotationProvider implements IAnnotationProvider {
 				.uriToProject(uri);
 		if (project != null)
 			return project;
-		return TigerstripeURIAdapterFactory.uriToComponent(uri);
+		IModelComponent component = TigerstripeURIAdapterFactory.uriToComponent(uri);
+		if(component != null)
+			return component;
+		IDiagram diagram = TigerstripeURIAdapterFactory.uriToDiagram(uri);
+		return diagram;
 	}
 
 	public URI getUri(Object object) {
@@ -43,6 +48,11 @@ public class TSModelAnnotationProvider implements IAnnotationProvider {
 			else if (object instanceof IAbstractTigerstripeProject) {
 				return TigerstripeURIAdapterFactory
 						.toURI((IAbstractTigerstripeProject) object);
+			}
+			else if (object instanceof IDiagram)
+			{
+				return TigerstripeURIAdapterFactory
+				.toURI((IDiagram) object);				
 			}
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);

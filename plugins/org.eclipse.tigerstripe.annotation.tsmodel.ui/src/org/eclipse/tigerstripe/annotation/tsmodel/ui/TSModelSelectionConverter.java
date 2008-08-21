@@ -16,6 +16,8 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.tigerstripe.annotation.ui.core.ISelectionConverter;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
+import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
+import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeExplorerPart;
 import org.eclipse.ui.IViewPart;
@@ -36,13 +38,15 @@ public class TSModelSelectionConverter implements ISelectionConverter {
 	public void open(ISelection selection) {
 		// System.out.println("Entered TSModelSelectionConverter.open(...):
 		// selection: "+selection);
-		IModelComponent element = getElement(selection);
+//		IModelComponent element = getElement(selection);
+		Object element = getElement(selection);
 		if (element != null) {
 			openSelection(new StructuredSelection(element));
 		}
 	}
 
-	protected IModelComponent getElement(ISelection selection) {
+//	protected IModelComponent getElement(ISelection selection) {
+	protected Object getElement(ISelection selection) {
 		// System.out.println("Entered
 		// TSModelSelectionConverter.getElement(...)");
 
@@ -50,10 +54,11 @@ public class TSModelSelectionConverter implements ISelectionConverter {
 			Iterator<?> it = ((StructuredSelection) selection).iterator();
 			while (it.hasNext()) {
 				Object elem = (Object) it.next();
-				if (elem instanceof IModelComponent) {
+				if (elem instanceof IModelComponent || elem instanceof IDiagram) {
 					// System.out.println("TSModelSelectionConverter.getElement(...):
 					// element: "+elem);
-					return (IModelComponent) elem;
+//					return (IModelComponent) elem;
+					return elem;
 				}
 			}
 		}

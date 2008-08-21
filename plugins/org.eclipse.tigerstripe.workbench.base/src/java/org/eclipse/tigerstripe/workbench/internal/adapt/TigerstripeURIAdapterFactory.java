@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.adapt;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdapterFactory;
@@ -18,6 +19,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -49,7 +51,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	}
 
 	public Class<?>[] getAdapterList() {
-		return new Class<?>[] { IModelComponent.class, };
+		return new Class<?>[] { IModelComponent.class, IDiagram.class};
 	}
 
 	/**
@@ -92,7 +94,35 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 		return null;
 	}
+	/**
+	 * The URI for a Tigerstripe project is expected to be something like
+	 * 
+	 * tigerstripe:/project
+	 * 
+	 * where "project" is the label of the project.
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	public static IDiagram uriToDiagram(URI uri) {
+		if (!isRelated(uri))
+			return null;
 
+		IPath path = new Path(uri.path());
+//		if (path.segmentCount() != 1)
+//			return null;
+		if(!path.segment(1).equals("diagram"))
+			return null;
+
+		IPath resPath = new Path(path.segment(0));
+		resPath = resPath.append("src").append(path.segment(3).replace('.',IPath.SEPARATOR)).addFileExtension(path.segment(2));
+		System.out.println("Resource path: "+resPath);
+		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(resPath);
+		if (res != null)
+			return (IDiagram) res.getAdapter(IDiagram.class);
+
+		return null;
+	}
 	/**
 	 * The URI is expected to be something like:
 	 * 
@@ -129,7 +159,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			IAbstractArtifact artifact = artifactManagerSession
 					.getArtifactByFullyQualifiedName(fqn);
 			String fragment = uri.fragment();
-
+			
 			if (fragment != null) {
 				if (fragment.contains(";")
 						&& artifact instanceof IAssociationArtifact) {
@@ -179,7 +209,39 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IPath path = project.getFullPath();
 		return toURI(path, null);
 	}
+	/**
+	 * Returns a URI that identifies the target of an annotation and which
+	 * allows that target to be looked up in the Tigerstripe workbench
+	 * 
+	 * @param element
+	 *            the <code>IModelComponent</code> for which we require a URI
+	 * @return a URI that identifies the target of an annotation and which
+	 *         allows that target to be looked up in the Tigerstripe workbench
+	 * @throws TigerstripeException
+	 */
+	public static URI toURI(IDiagram element)
+			throws TigerstripeException {
+		IPath fullPath = element.getDiagramFile().getFullPath();
+		System.out.println("DiagramFile (location): "+element.getDiagramFile().getLocation()+" (fullpath): "+fullPath);
 
+		String project = fullPath.segment(0);
+		IPath truncated = fullPath.removeFirstSegments(2).removeFileExtension();
+		StringBuilder sb = new StringBuilder();
+		char delim = 0;
+		for(String segment : truncated.segments())
+		{
+			if(delim == 0)
+				delim = '.';
+			else
+				sb.append(delim);
+			sb.append(segment);
+		}
+		IPath result = new Path(project);
+		result = result.append("diagram").append(fullPath.getFileExtension()).append(sb.toString());
+		System.out.println("Final path: "+result.toString());
+		return toURI(result, null);
+	}
+	
 	/**
 	 * Returns a URI that identifies the target of an annotation and which
 	 * allows that target to be looked up in the Tigerstripe workbench, but

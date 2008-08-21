@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 
 /**
  * This factory is used to create relevant logical nodes for the explorer when
@@ -30,14 +32,15 @@ import org.eclipse.core.resources.IResource;
  * @author Eric Dillon
  * 
  */
-public class LogicalExplorerNodeFactory {
+public class LogicalExplorerNodeFactory implements IAdapterFactory {
+
 
 	private AbstractLogicalExplorerNode[] nodeModels = {
 			ClassDiagramLogicalNode.MODEL, InstanceDiagramLogicalNode.MODEL };
 
 	private static LogicalExplorerNodeFactory instance;
 
-	private LogicalExplorerNodeFactory() {
+	public LogicalExplorerNodeFactory() {
 
 	}
 
@@ -60,4 +63,23 @@ public class LogicalExplorerNodeFactory {
 		}
 		return element;
 	}
+	
+	// IAdapterFactory I/F
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapter(java.lang.Object, java.lang.Class)
+	 */
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if(adapterType.equals(IDiagram.class))
+			return getNode(adaptableObject);
+		else
+			return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapterList()
+	 */
+	public Class[] getAdapterList() {
+		return new Class[]{IResource.class};
+	}	
 }

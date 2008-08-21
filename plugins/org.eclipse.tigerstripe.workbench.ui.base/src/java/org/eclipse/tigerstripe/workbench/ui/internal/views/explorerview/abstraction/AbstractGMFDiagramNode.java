@@ -36,6 +36,7 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -54,7 +55,7 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 public abstract class AbstractGMFDiagramNode extends
-		AbstractLogicalExplorerNode {
+		AbstractLogicalExplorerNode implements IDiagram {
 
 	private IFile modelFile;
 
@@ -298,11 +299,18 @@ public abstract class AbstractGMFDiagramNode extends
 		return res.toArray(new IResource[res.size()]);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.IGMFDiagramNode#getModelFile()
+	 */
 	public IFile getModelFile() {
 		return this.modelFile;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.IGMFDiagramNode#getDiagramFile()
+	 */
 	public IFile getDiagramFile() {
 		return this.diagramFile;
 	}
+
 }
