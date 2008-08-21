@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request;
 
-import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 
 public interface IAnnotationAddFeatureRequest extends IModelChangeRequest {
@@ -20,10 +20,6 @@ public interface IAnnotationAddFeatureRequest extends IModelChangeRequest {
 	public void setArtifactFQN(String artifactFQN);
 	
 	public void setTarget(String target);
-
-	public void setAnnotationClass(String annotationClass);
 	
-	public void setNamespaceURI(String namespaceURI);
-	
-	public void setFileURI(URI fileURI);
+	public void setContent(EObject a);
 }

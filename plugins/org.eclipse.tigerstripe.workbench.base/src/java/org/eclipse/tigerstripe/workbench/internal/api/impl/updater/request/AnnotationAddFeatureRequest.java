@@ -40,26 +40,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 		implements IAnnotationAddFeatureRequest {
 
-	private String annotationClass;
-	private String namespaceURI;
-	private URI fileURI;
 	private String target;
-	
-	public void setNamespaceURI(String namespaceURI) {
-		this.namespaceURI = namespaceURI;
-	}
-
-
-	public void setAnnotationClass(String annotationClass) {
-		this.annotationClass = annotationClass;
-	}
-
-	/**
-	 * This should be the full path name
-	 */
-	public void setFileURI(URI fileURI) {
-		this.fileURI = fileURI;
-	}
+	private EObject content;
 
 	/**
 	 * The target is the part of the uri AFTER the '#'
@@ -68,7 +50,15 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 	 */
 	public void setTarget(String target) {
 		this.target = target;
+	}	
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(EObject content) {
+		this.content = content;
 	}
+
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
@@ -193,27 +183,15 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 
 	private void addAnnotationToComponent(IModelComponent modelComponent) throws TigerstripeException{
 		AnnotationHelper helper = AnnotationHelper.getInstance();
-		
-		
-		ResourceSet resourceSet = new ResourceSetImpl();
-		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().
-			put("anno", new XMIResourceFactoryImpl());
-	
-
 		try {
-			Annotation anno = helper.addAnnotation(modelComponent, Util.packageOf(this.annotationClass), Util.nameOf(this.annotationClass));
-			// Now add the content
-			Resource resource = resourceSet.createResource(this.fileURI);
-			resource.load(null);
-			EObject eo = resource.getContents().get(0);
-			anno.setContent(eo);
+			String annotationClass = content.getClass().getInterfaces()[0].getName();
+			Annotation anno = helper.addAnnotation(modelComponent, Util.packageOf(annotationClass), Util.nameOf(annotationClass));
+			anno.setContent(content);
 			AnnotationHelper.getInstance().saveAnnotation(anno);
-			//modelComponent.saveAnnotation(anno);
 		} catch (Exception e){
 			e.printStackTrace();
 			throw new TigerstripeException("Exception adding annotation to component",e);
 		}
-		
 	}
 	
 	public static EObject createObject( String packageNSURI, String className){
@@ -235,6 +213,7 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 					.setAffectedModelComponentURI((URI) comp
 							.getAdapter(URI.class));
 
+			String annotationClass = content.getClass().getInterfaces()[0].getName();
 			delta.setFeature(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE);
 			delta.setNewValue(annotationClass);
 		} catch (TigerstripeException e) {

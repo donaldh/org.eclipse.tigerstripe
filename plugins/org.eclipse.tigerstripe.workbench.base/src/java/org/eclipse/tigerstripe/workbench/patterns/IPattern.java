@@ -12,13 +12,13 @@ package org.eclipse.tigerstripe.workbench.patterns;
 
 import java.util.Collection;
 
+import org.eclipse.emf.ecore.EObject;
+
 public interface IPattern {
 	
 	public interface IPatternAnnotation {
-		public String getAnnotationClass();
-		public String getNamespaceURI();
 		public String getTarget();
-		public String getFilename();
+		public EObject getAnnotationContent();
 	}
 	
 	public String getName();

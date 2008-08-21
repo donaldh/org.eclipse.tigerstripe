@@ -10,11 +10,14 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
@@ -29,7 +32,13 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -51,6 +60,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest.ECapableClass;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.Pattern.PatternAnnotation;
+//import org.eclipse.tigerstripe.workbench.internal.api.patterns.Pattern.PatternAnnotation1;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
@@ -62,11 +72,13 @@ import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPatternFactory;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern.IPatternAnnotation;
+//import org.eclipse.tigerstripe.workbench.patterns.IPattern.IPatternAnnotation1;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class PatternFactory implements IPatternFactory {
@@ -209,20 +221,35 @@ public class PatternFactory implements IPatternFactory {
 			pattern.setUILabel(uiLabel);
 			pattern.setIconURL(iconURL);
 			pattern.setDescription(description);
-			NodeList annotations = patternElement.getElementsByTagNameNS(patternNamespace,"annotation");
-			for (int an = 0; an < annotations.getLength(); an++) {
-				Element annotation = (Element) annotations.item(an);
-				String annotationClass = annotation.getAttribute("classname");
-				String namespaceURI = annotation.getAttribute("ns_URI");
-				String target = annotation.getAttribute("target");
-				String filename = annotation.getAttribute("filename");
-				PatternAnnotation anno = pattern.new PatternAnnotation();
-				anno.setAnnotationClass(annotationClass);
-				anno.setNamespaceURI(namespaceURI);
-				anno.setTarget(target);
-				anno.setFilename(filename);
-				Collection<IPatternAnnotation> annos = pattern.getPatternAnnotations();
-				annos.add(anno);
+
+			NodeList annotationsTextNodes = patternDoc.getElementsByTagNameNS(patternNamespace, "annotationsText");
+			Collection<IPatternAnnotation> annos = pattern.getPatternAnnotations();
+			for(int i = 0; i < annotationsTextNodes.getLength(); i++)
+			{
+				Element item = (Element)annotationsTextNodes.item(i);
+				NodeList nl = item.getChildNodes();
+				Element node = (Element)nl.item(0).getFirstChild();
+				String annotationsText = nl.item(0).getNodeValue();
+				System.out.println("annotationsText: "+annotationsText);
+
+				ResourceSet resourceSet = new ResourceSetImpl();
+				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().
+					put("anno", new XMIResourceFactoryImpl());
+				
+				URI uri = URI.createURI("http://testAnno.anno");
+				Resource resource = resourceSet.createResource(uri);
+
+				ByteArrayInputStream bis = new ByteArrayInputStream(annotationsText.trim().getBytes());
+				resource.load(bis, null);
+				System.out.println("New annotations: "+resource.getContents());
+				String target = item.getAttribute("target");
+				for(EObject a : resource.getContents())
+				{
+					PatternAnnotation anno = pattern.new PatternAnnotation();
+					anno.setTarget(target);
+					anno.setAnnotationContent(a);
+					annos.add(anno);
+				}
 			}
 			try {
 				// For a composite we can get several artifacts, so each one will go in a 
@@ -242,7 +269,7 @@ public class PatternFactory implements IPatternFactory {
 				}
 				// After all that, do the annotation requests
 				for (IPatternAnnotation anno : pattern.getPatternAnnotations()){
-					pattern.requests.add(createAnnotationRequest(bundle,patternFileName,anno));
+					pattern.requests.add(createAnnotationRequest(bundle,anno));
 				}
 				
 				
@@ -547,12 +574,12 @@ public class PatternFactory implements IPatternFactory {
 		}
 		
 	}
+
 	
-	
-	public static IModelChangeRequest createAnnotationRequest(Bundle bundle,String patternFileName,IPatternAnnotation anno)throws TigerstripeException{
+	public static IModelChangeRequest createAnnotationRequest(Bundle bundle,IPatternAnnotation anno)throws TigerstripeException{
 
 		IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
-		annotationRequest.setAnnotationClass(anno.getAnnotationClass());
+		annotationRequest.setContent(anno.getAnnotationContent());
 		
 		if (anno.getTarget().contains("#")){
 			String[] bits = anno.getTarget().split("#");
@@ -563,16 +590,6 @@ public class PatternFactory implements IPatternFactory {
 			annotationRequest.setArtifactFQN(anno.getTarget());
 			annotationRequest.setTarget("");
 		}
-		
-		//the filename in the XML should be a relative path to the location of the XML.
-		
-		URI patternURI = URI.createURI(bundle.getEntry(patternFileName).toString());
-		patternURI = patternURI.trimSegments(1);
-		patternURI = patternURI.appendSegments(new String[]{""});
-		URI filenameURI = URI.createURI(patternURI.toString()+anno.getFilename());
-		
-		
-		annotationRequest.setFileURI(filenameURI);
 		return annotationRequest;
 	}
 	

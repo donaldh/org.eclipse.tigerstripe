@@ -10,17 +10,25 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.patterns;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.SomeTestAnnotsFactory;
+import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot1;
+import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot2;
 import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot3;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.base.test.model.ArtifactTestHelper;
@@ -382,58 +390,41 @@ public class PatternTest extends TestCase {
 			
 		}
 		
-//		boolean write = false;
-//		
-//		AnnotationHelper helper = AnnotationHelper.getInstance();
-//		
-//		
+//		TestAnnot1 t1 = SomeTestAnnotsFactory.eINSTANCE.createTestAnnot1();
+//		TestAnnot2 t2 = SomeTestAnnotsFactory.eINSTANCE.createTestAnnot2();
+//		TestAnnot3 t3 = SomeTestAnnotsFactory.eINSTANCE.createTestAnnot3();
+//
+//		t1.setTwine("old rope");
+//		t3.setN(666);
+//
 //		ResourceSet resourceSet = new ResourceSetImpl();
 //		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().
-//			put("anno", new XMIResourceFactoryImpl());
-//	
-//		URI uri = URI.createURI("file:/c:/Documents and Settings/rcraddoc/Desktop/testAnno.anno");
+//		put("anno", new XMIResourceFactoryImpl());
+//
+//		URI uri = URI.createURI("http://testAnno.anno");
 //		Resource resource = resourceSet.createResource(uri);
-//		
-//		int count = 7;
-//		if (write){
 //
-//			Annotation anno = created.addAnnotation(SOME_TEST_ANNOTS, "TestAnnot3");
-//			TestAnnot3 type = (TestAnnot3)anno.getContent();
-//			type.setN(count);
+//		resource.getContents().add(t1);
+//		resource.getContents().add(t2);
+//		resource.getContents().add(t3);
 //
-//			resource.getContents().add(anno.getContent());
-//			try
-//			{
-//				resource.save(null);
-//				System.out.println("saved");
-//			}
-//			catch (IOException e)
-//			{
-//				System.out.println("failed to write " + uri);
-//			}
-//		} else {
+//		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//		resource.save(bos, null);
 //
-//			resource.load(null);
-//			EObject eo = resource.getContents().get(0);
-//			System.out.println("loaded: " + eo);
+//		String x = new String(bos.toByteArray());
+//		System.out.println(x);
 //
-//			String className = TestAnnot3.class.getName();
+//		String newX = x.replace("old rope", "lots of loot").replace("666", "911");
 //
-//			Class annotationClass = ClassLoader.getSystemClassLoader().loadClass(className);
-//			Annotation anno = helper.addAnnotation(created, annotationClass);
-//			
+//		ByteArrayInputStream bis = new ByteArrayInputStream(newX.getBytes());
+//		Resource newResource = resourceSet.createResource(uri);
+//		newResource.load(bis, null);
 //
-//			anno.setContent(eo);
-//			created.saveAnnotation(anno);
-//			assertTrue("Created artifact is missing Annotation",created.hasAnnotations("tigerstripe","TestAnnot3"));
-//			assertEquals("Context not the same",count, ((TestAnnot3)created.getAnnotation("tigerstripe","TestAnnot3")).getN());
-//
-//
-//		}		
-		
+//		System.out.println("New annotations: "+newResource.getContents());
+
 	}
 	
-	public void testIRDAssocPattern() throws Exception {	
+	public void testIRDAssocPattern() throws Exception {
 		
 		String targetPackage = "org.eclipse";
 		String entityName = "anIRDAssoc";

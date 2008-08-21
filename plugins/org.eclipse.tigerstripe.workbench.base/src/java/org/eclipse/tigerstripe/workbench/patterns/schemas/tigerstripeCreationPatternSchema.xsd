@@ -1,17 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema  xmlns:tns="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0" 
-			xmlns:tsa="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0" 
-			xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-			targetNamespace="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0" 
-			elementFormDefault="qualified" version="1.1">
-	<xs:import namespace="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0"
-            schemaLocation="tigerstripeExportSchema.xsd"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:tns="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0" xmlns:tsa="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0" version="1.1">
+	<xs:import namespace="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0" schemaLocation="tigerstripeExportSchema.xsd"/>
 			<xs:element name="creationPattern">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="description" type="xs:string" minOccurs="0"/>
-						<xs:element ref="tns:annotations" minOccurs="0" maxOccurs="unbounded"/>
-						<xs:element ref="tsa:artifact" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element minOccurs="0" name="description" type="xs:string"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:annotations"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:annotationsText"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" ref="tsa:artifact"/>
 					</xs:sequence>
 					<xs:attribute name="patternName" type="xs:string" use="required"/>
 					<xs:attribute name="patternType" type="xs:string" use="required"/>
@@ -19,10 +15,19 @@
 					<xs:attribute name="iconURL" type="xs:string" use="required"/>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="annotationsText">
+				<xs:complexType>
+					<xs:simpleContent>
+                    	<xs:extension base="xs:string">
+                    		<xs:attribute name="target" type="xs:string" use="required"/>
+                    	</xs:extension>
+                    </xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="annotations">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element ref="tns:annotation" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:annotation"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 
@@ -68,49 +69,34 @@ public class Pattern implements IPattern {
 
 	public class PatternAnnotation implements IPatternAnnotation{
 
-		private String annotationClass;
-		private String namespaceURI;
-		private String filename;
 		private String target;
 		
-		public String getNamespaceURI() {
-			return namespaceURI;
-		}
-
-		public void setNamespaceURI(String namespaceURI) {
-			this.namespaceURI = namespaceURI;
-		}
+		private EObject content;
 		
 		public PatternAnnotation(){
 			
-		}
-		
-		public String getAnnotationClass() {
-			return annotationClass;
-		}
-
-		public void setAnnotationClass(String annotationClass) {
-			this.annotationClass = annotationClass;
-		}
-
-		public void setFilename(String filename) {
-			this.filename = filename;
 		}
 
 		public void setTarget(String target) {
 			this.target = target;
 		}
 
-		
-
-		public String getFilename() {
-			return this.filename;
-		}
-
 		public String getTarget() {
 			return this.target;
 		}
-		
-	}
 
+		/**
+		 * @return the content
+		 */
+		public EObject getAnnotationContent() {
+			return content;
+		}
+
+		/**
+		 * @param content the content to set
+		 */
+		public void setAnnotationContent(EObject content) {
+			this.content = content;
+		}
+	}
 }
