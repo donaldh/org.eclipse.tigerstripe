@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 
 /**
@@ -30,7 +31,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
  */
 public class ProjectRouter implements EObjectRouter {
 
-	private final static String BASE_DIR = "annotations";
+	private final static String BASE_DIR = ITigerstripeConstants.ANNOTATION_DIR;
 
 	private Map<String, IPath> explicitRoutersMap = null;
 

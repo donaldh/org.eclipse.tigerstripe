@@ -78,6 +78,7 @@ public class ModulePackager implements IModulePackager {
 	 * 
 	 */
 	public void packageUp(URI jarURI, File classesDir, IModuleHeader header,
+			boolean includeDiagrams, boolean includeAnnotations,
 			IProgressMonitor monitor) throws TigerstripeException,
 			InvalidModuleException {
 
@@ -105,6 +106,11 @@ public class ModulePackager implements IModulePackager {
 		try {
 			copyCompiledArtifacts(classesDir, tmpJarDir);
 			copyDescriptor(tmpJarDir);
+
+			if (includeAnnotations) {
+				copyAnnotations(tmpJarDir);
+			}
+
 			createModuleDescriptor(tmpJarDir, (ModuleHeader) header, monitor);
 			createJarFile(tmpJarDir, jarURI);
 			removeTmpJarDirectory(tmpJarDir);
@@ -348,6 +354,21 @@ public class ModulePackager implements IModulePackager {
 				+ File.separator + ITigerstripeConstants.PROJECT_DESCRIPTOR);
 		try {
 			FileUtils.copy(descriptor.getAbsolutePath(), tmpDir
+					.getAbsolutePath(), true);
+		} catch (IOException e) {
+			throw new TigerstripeException(
+					"Error while copying Descriptor to tmp Dir: "
+							+ e.getMessage(), e);
+		}
+	}
+
+	protected void copyAnnotations(File tmpDir) throws TigerstripeException {
+		File annDir = new File(getTSProject().getLocation().toFile().toURI()
+				.getPath()
+				+ File.separator + ITigerstripeConstants.ANNOTATION_DIR);
+
+		try {
+			FileUtils.copyDir(annDir.getAbsolutePath(), tmpDir
 					.getAbsolutePath(), true);
 		} catch (IOException e) {
 			throw new TigerstripeException(
