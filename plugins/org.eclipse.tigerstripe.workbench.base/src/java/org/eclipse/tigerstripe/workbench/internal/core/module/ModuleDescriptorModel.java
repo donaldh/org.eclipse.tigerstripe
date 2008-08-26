@@ -78,12 +78,15 @@ public class ModuleDescriptorModel {
 			Reader reader, boolean parseArtifacts,
 			IProgressMonitor monitor) throws InvalidModuleException {
 		this.embeddedProject = embeddedProject;
-		artifactMgr = new ModuleArtifactManager(embeddedProject);
 		details = new ProjectDetails(null);
 		header = new ModuleHeader();
 		readModel(reader, parseArtifacts, monitor);
 	}
 
+	public TigerstripeProject getEmbeddedProject() {
+		return this.embeddedProject;
+	}
+	
 	// ============================================================
 	public ProjectDetails getProjectDetails() {
 		return this.details;
@@ -294,7 +297,8 @@ public class ModuleDescriptorModel {
 
 	private void extractArtifacts(Document doc,
 			IProgressMonitor monitor) throws InvalidModuleException {
-		this.artifactMgr = new ModuleArtifactManager(embeddedProject);
+
+		artifactMgr = new ModuleArtifactManager(this);
 
 		Element root = doc.getRootElement();
 		if (root == null)

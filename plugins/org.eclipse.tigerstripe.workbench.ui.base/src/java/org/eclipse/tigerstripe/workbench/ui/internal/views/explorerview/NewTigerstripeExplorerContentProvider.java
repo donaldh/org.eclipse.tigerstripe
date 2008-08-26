@@ -145,6 +145,8 @@ public class NewTigerstripeExplorerContentProvider extends
 				JarEntryFile file = (JarEntryFile) obj;
 				if (file.getName().endsWith("ts-module.xml")) {
 					continue; // ts-module shouldn't be displayed
+				} else if (file.getName().endsWith(".ann")) {
+					continue; // hide contained .ann files
 				}
 			} else if (obj instanceof IPackageFragment) {
 				IPackageFragment fragment = (IPackageFragment) obj;

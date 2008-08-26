@@ -23,7 +23,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleException;
-import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleRef;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleRefFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
@@ -193,9 +192,9 @@ public class Dependency extends AbstractContainedObject implements IDependency,
 
 	public ArtifactManager getArtifactManager(IProgressMonitor monitor) {
 		if (isValid(monitor)) {
-			if (moduleRef.getArtifactManager().getTSProject() == null)
-				((ModuleArtifactManager) moduleRef.getArtifactManager())
-						.setEmbeddedProject(moduleRef.getEmbeddedProject());
+//			if (moduleRef.getArtifactManager().getTSProject() == null)
+//				((ModuleArtifactManager) moduleRef.getArtifactManager())
+//						.setEmbeddedProject(moduleRef.getEmbeddedProject());
 			return moduleRef.getArtifactManager();
 		} else
 			return null;

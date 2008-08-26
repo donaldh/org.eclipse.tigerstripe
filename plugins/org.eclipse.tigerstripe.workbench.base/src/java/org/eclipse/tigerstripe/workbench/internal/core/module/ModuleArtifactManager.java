@@ -11,11 +11,11 @@
 package org.eclipse.tigerstripe.workbench.internal.core.module;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -32,6 +32,8 @@ import org.eclipse.tigerstripe.workbench.project.IDependency;
  */
 public class ModuleArtifactManager extends ArtifactManager {
 
+	private ModuleDescriptorModel moduleModel;
+	
 	// these are used only during generation of modules and then removed. Never
 	// persisted.
 	private List<IDependency> temporaryDependencies = new ArrayList<IDependency>();
@@ -39,24 +41,17 @@ public class ModuleArtifactManager extends ArtifactManager {
 	// TODO remove local variable for embeddedProject this is now redundant
 	// with tsProject being saved in the parent.
 
-	public ModuleArtifactManager(TigerstripeProject embeddedProject) {
-		super(embeddedProject);
-		this.embeddedProject = embeddedProject;
+	public ModuleArtifactManager(ModuleDescriptorModel moduleModel) {
+		super( moduleModel.getEmbeddedProject());
+		this.moduleModel = moduleModel;
 	}
-
-	private TigerstripeProject embeddedProject;
 
 	public TigerstripeProject getEmbeddedProject() {
-		return this.embeddedProject;
+		return moduleModel.getEmbeddedProject();
 	}
-
-	public void setEmbeddedProject(TigerstripeProject project) {
-		this.embeddedProject = project;
-	}
-
-	@Override
-	public TigerstripeProject getTSProject() {
-		return getEmbeddedProject();
+	
+	public ModuleDescriptorModel getModuleModel() {
+		return this.moduleModel;
 	}
 
 	@Override

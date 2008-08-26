@@ -10,25 +10,21 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
-import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeJavaAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -112,11 +108,12 @@ public class TSExplorerUtils {
 
 		} else if (element instanceof IClassFile) {
 			IClassFile classFile = (IClassFile) element;
-			IDependency dep = getDependencyFor(classFile);
+			IDependency dep = TigerstripeJavaAdapterFactory
+					.getDependencyFor(classFile);
 			if (dep != null) {
 				ArtifactManager mgr = ((Dependency) dep)
 						.getArtifactManager(new NullProgressMonitor()); // FIXME
-				String fqn = getFQNfor(classFile);
+				String fqn = TigerstripeJavaAdapterFactory.getFQNfor(classFile);
 				return mgr.getArtifactByFullyQualifiedName(fqn, false,
 						new NullProgressMonitor());
 			} else
@@ -124,7 +121,14 @@ public class TSExplorerUtils {
 
 		} else if (element instanceof IPackageFragment) {
 			IPackageFragment res = (IPackageFragment) element;
+
 			try {
+
+				if (res.getCorrespondingResource() == null) {
+					// We are in a module
+					return null;
+				}
+
 				IAbstractTigerstripeProject aProject = TigerstripeCore
 						.findProject(res.getCorrespondingResource()
 								.getProject().getLocation().toFile().toURI());
@@ -189,53 +193,55 @@ public class TSExplorerUtils {
 			return null;
 	}
 
-	public static String getFQNfor(IClassFile classFile) {
-		String name = classFile.getElementName().replaceFirst("\\.class", "");
-		if (classFile.getParent() instanceof IPackageFragment) {
-			IPackageFragment fragment = (IPackageFragment) classFile
-					.getParent();
-			String packageName = fragment.getElementName();
-			if (packageName != null && packageName.length() != 0)
-				return packageName + "." + name;
-			else
-				return name;
-		}
-		return name;
-	}
-
-	public static IDependency getDependencyFor(IClassFile classFile) {
-		IPackageFragmentRoot rootJar = getIPackageFragmentRootFor(classFile);
-		if (rootJar != null) {
-			IJavaProject jProject = rootJar.getJavaProject();
-			if (jProject != null) {
-				IProject project = jProject.getProject();
-				IAbstractTigerstripeProject atsProject = (IAbstractTigerstripeProject) project
-						.getAdapter(IAbstractTigerstripeProject.class);
-				if (atsProject instanceof ITigerstripeModelProject) {
-					ITigerstripeModelProject tsProject = (ITigerstripeModelProject) atsProject;
-					try {
-						for (IDependency dep : tsProject.getDependencies()) {
-							if (dep.getPath().equals(
-									rootJar.getPath().lastSegment()))
-								return dep;
-						}
-					} catch (TigerstripeException e) {
-						EclipsePlugin.log(e);
-					}
-				}
-			}
-		}
-		return null;
-	}
-
-	private static IPackageFragmentRoot getIPackageFragmentRootFor(
-			IJavaElement classFile) {
-		if (classFile.getParent() == null)
-			return null;
-		else if (classFile.getParent() instanceof IPackageFragmentRoot)
-			return (IPackageFragmentRoot) classFile.getParent();
-		else
-			return getIPackageFragmentRootFor(classFile.getParent());
-	}
+	// public static String getFQNfor(IClassFile classFile) {
+	// String name = classFile.getElementName().replaceFirst("\\.class", "");
+	// if (classFile.getParent() instanceof IPackageFragment) {
+	// IPackageFragment fragment = (IPackageFragment) classFile
+	// .getParent();
+	// String packageName = fragment.getElementName();
+	// if (packageName != null && packageName.length() != 0)
+	// return packageName + "." + name;
+	// else
+	// return name;
+	// }
+	// return name;
+	// }
+	//
+	// public static IDependency getDependencyFor(IClassFile classFile) {
+	// IPackageFragmentRoot rootJar = getIPackageFragmentRootFor(classFile);
+	// if (rootJar != null) {
+	// IJavaProject jProject = rootJar.getJavaProject();
+	// if (jProject != null) {
+	// IProject project = jProject.getProject();
+	// IAbstractTigerstripeProject atsProject = (IAbstractTigerstripeProject)
+	// project
+	// .getAdapter(IAbstractTigerstripeProject.class);
+	// if (atsProject instanceof ITigerstripeModelProject) {
+	// ITigerstripeModelProject tsProject = (ITigerstripeModelProject)
+	// atsProject;
+	// try {
+	// for (IDependency dep : tsProject.getDependencies()) {
+	// if (dep.getPath().equals(
+	// rootJar.getPath().lastSegment()))
+	// return dep;
+	// }
+	// } catch (TigerstripeException e) {
+	// EclipsePlugin.log(e);
+	// }
+	// }
+	// }
+	// }
+	// return null;
+	// }
+	//
+	// private static IPackageFragmentRoot getIPackageFragmentRootFor(
+	// IJavaElement classFile) {
+	// if (classFile.getParent() == null)
+	// return null;
+	// else if (classFile.getParent() instanceof IPackageFragmentRoot)
+	// return (IPackageFragmentRoot) classFile.getParent();
+	// else
+	// return getIPackageFragmentRootFor(classFile.getParent());
+	// }
 
 }

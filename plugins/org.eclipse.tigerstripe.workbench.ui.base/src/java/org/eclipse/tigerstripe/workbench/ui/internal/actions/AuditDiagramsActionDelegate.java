@@ -226,7 +226,7 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 					action.setEnabled(false);
 					return;
 				}
-				if ((targetProject.getAdapter(ITigerstripeModelProject.class) instanceof ITigerstripeModelProject)) {
+				if ( targetProject != null && (targetProject.getAdapter(ITigerstripeModelProject.class) instanceof ITigerstripeModelProject)) {
 					auditType = ALL_DIAGRAMS;
 					action.setText("Audit all diagrams");
 				}

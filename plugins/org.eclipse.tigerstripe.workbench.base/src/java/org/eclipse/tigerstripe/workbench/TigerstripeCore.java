@@ -14,6 +14,7 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +22,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.TigerstripeRuntimeDetails;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.WorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
@@ -49,11 +52,11 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
  * 
  * The API contains 2 major entry points:
  * <ul>
- * <li>The <b>Project Session</b>: which provides a session facade to access
- * all project-related details about a workspace. It allows to access, create,
+ * <li>The <b>Project Session</b>: which provides a session facade to access all
+ * project-related details about a workspace. It allows to access, create,
  * change Tigerstripe projects within the Eclipse workspace</li>
- * <li>The <b>Profile Session</b>: which provides a session facade to access
- * the active Tigerstripe profile but also to create/edit profiles.
+ * <li>The <b>Profile Session</b>: which provides a session facade to access the
+ * active Tigerstripe profile but also to create/edit profiles.
  * </ul>
  * 
  * @author Eric Dillon
@@ -108,6 +111,22 @@ public class TigerstripeCore {
 		return TigerstripeProjectFactory.INSTANCE.findProject(path);
 	}
 
+	public static List<IAbstractTigerstripeProject> projects() {
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		List<IAbstractTigerstripeProject> result = new ArrayList<IAbstractTigerstripeProject>();
+		try {
+			for (IResource res : root.members()) {
+				IAbstractTigerstripeProject p = (IAbstractTigerstripeProject) res
+						.getAdapter(IAbstractTigerstripeProject.class);
+				if (p != null)
+					result.add(p);
+			}
+		} catch (CoreException e) {
+			BasePlugin.log(e);
+		}
+		return Collections.unmodifiableList(result);
+	}
+
 	public static IAbstractTigerstripeProject findProject(URI uri)
 			throws TigerstripeException {
 		File file = new File(uri);
@@ -150,12 +169,13 @@ public class TigerstripeCore {
 	 * handle on that project
 	 * 
 	 * @param projectDetails
-	 * @param location -
-	 *            location for the project to create, if null the default
+	 * @param location
+	 *            - location for the project to create, if null the default
 	 *            location is used
-	 * @param projectType -
-	 *            one of the types as returned by
-	 * @param monitor -
+	 * @param projectType
+	 *            - one of the types as returned by
+	 * @param monitor
+	 *            -
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")

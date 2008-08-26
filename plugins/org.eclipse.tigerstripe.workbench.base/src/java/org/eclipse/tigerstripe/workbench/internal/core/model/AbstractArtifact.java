@@ -38,10 +38,12 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleDescriptorModel;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
@@ -190,6 +192,15 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public boolean isReadonly() {
 		return getArtifactManager() != null
 				&& getArtifactManager() instanceof ModuleArtifactManager;
+	}
+	
+	public IModuleHeader getParentModuleHeader() {
+		if ( !isReadonly() ) 
+			return null;
+		
+		ModuleArtifactManager mMgr = (ModuleArtifactManager) getArtifactManager();
+		ModuleDescriptorModel moduleModel = mMgr.getModuleModel();
+		return moduleModel.getModuleHeader();
 	}
 
 	// ======================================================================

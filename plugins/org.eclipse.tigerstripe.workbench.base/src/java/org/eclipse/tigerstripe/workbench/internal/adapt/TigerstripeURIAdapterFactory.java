@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.adapt;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdapterFactory;
@@ -21,6 +20,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -30,11 +32,13 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 	public static final String SCHEME_TS = "tigerstripe";
+	public static final String SCHEME_TS_MODULE = "tigerstripe_module";
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
@@ -51,7 +55,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	}
 
 	public Class<?>[] getAdapterList() {
-		return new Class<?>[] { IModelComponent.class, IDiagram.class};
+		return new Class<?>[] { IModelComponent.class, IDiagram.class };
 	}
 
 	/**
@@ -65,7 +69,8 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 *         scheme as that converted by an instance of this converter
 	 */
 	public static boolean isRelated(URI uri) {
-		return SCHEME_TS.equals(uri.scheme());
+		return SCHEME_TS.equals(uri.scheme())
+				|| SCHEME_TS_MODULE.equals(uri.scheme());
 	}
 
 	/**
@@ -94,6 +99,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 		return null;
 	}
+
 	/**
 	 * The URI for a Tigerstripe project is expected to be something like
 	 * 
@@ -109,20 +115,24 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			return null;
 
 		IPath path = new Path(uri.path());
-//		if (path.segmentCount() != 1)
-//			return null;
-		if(!path.segment(1).equals("diagram"))
+		// if (path.segmentCount() != 1)
+		// return null;
+		if (!path.segment(1).equals("diagram"))
 			return null;
 
 		IPath resPath = new Path(path.segment(0));
-		resPath = resPath.append("src").append(path.segment(3).replace('.',IPath.SEPARATOR)).addFileExtension(path.segment(2));
-		System.out.println("Resource path: "+resPath);
-		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(resPath);
+		resPath = resPath.append("src").append(
+				path.segment(3).replace('.', IPath.SEPARATOR))
+				.addFileExtension(path.segment(2));
+		System.out.println("Resource path: " + resPath);
+		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(
+				resPath);
 		if (res != null)
 			return (IDiagram) res.getAdapter(IDiagram.class);
 
 		return null;
 	}
+
 	/**
 	 * The URI is expected to be something like:
 	 * 
@@ -148,18 +158,43 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 		String project = path.segments()[0];
 		try {
-			IAbstractTigerstripeProject tsp = TigerstripeCore
-					.findProject(project);
 
-			if (!(tsp instanceof ITigerstripeModelProject))
+			IAbstractArtifact artifact = null;
+			if (SCHEME_TS_MODULE.equals(uri.scheme())) {
+				// In this case we don't have a project name, we only have a
+				// ModuleID. Not sure how to proceed.
+				// This logic only works if a module is used ONCE only in the
+				// workspace, or else we'll always return the first occurrence
+				// :-(
+				for (IAbstractTigerstripeProject p : TigerstripeCore.projects()) {
+					if ( p instanceof ITigerstripeModelProject ) {
+						ITigerstripeModelProject proj = (ITigerstripeModelProject) p;
+						for( IDependency dep : proj.getDependencies() ) {
+							if ( dep.getIModuleHeader().getModuleID().equals(project)) {
+								ArtifactManager mgr = ((Dependency) dep).getArtifactManager(null);
+								artifact = mgr.getArtifactByFullyQualifiedName(fqn, false, null);
+							}
+						}
+					}
+				}
 				return null;
+			} else {
+				IAbstractTigerstripeProject tsp = TigerstripeCore
+						.findProject(project);
+				if (!(tsp instanceof ITigerstripeModelProject))
+					return null;
 
-			IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject) tsp)
-					.getArtifactManagerSession();
-			IAbstractArtifact artifact = artifactManagerSession
-					.getArtifactByFullyQualifiedName(fqn);
-			String fragment = uri.fragment();
+				IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject) tsp)
+						.getArtifactManagerSession();
+				artifact = artifactManagerSession
+						.getArtifactByFullyQualifiedName(fqn);
+			}
+
+			if (artifact == null )
+				return null;
 			
+			String fragment = uri.fragment();
+
 			if (fragment != null) {
 				if (fragment.contains(";")
 						&& artifact instanceof IAssociationArtifact) {
@@ -207,8 +242,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	public static URI toURI(IAbstractTigerstripeProject project)
 			throws TigerstripeException {
 		IPath path = project.getFullPath();
-		return toURI(path, null);
+		return toURI(path, null, false);
 	}
+
 	/**
 	 * Returns a URI that identifies the target of an annotation and which
 	 * allows that target to be looked up in the Tigerstripe workbench
@@ -219,29 +255,30 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 *         allows that target to be looked up in the Tigerstripe workbench
 	 * @throws TigerstripeException
 	 */
-	public static URI toURI(IDiagram element)
-			throws TigerstripeException {
+	public static URI toURI(IDiagram element) throws TigerstripeException {
 		IPath fullPath = element.getDiagramFile().getFullPath();
-		System.out.println("DiagramFile (location): "+element.getDiagramFile().getLocation()+" (fullpath): "+fullPath);
+		System.out.println("DiagramFile (location): "
+				+ element.getDiagramFile().getLocation() + " (fullpath): "
+				+ fullPath);
 
 		String project = fullPath.segment(0);
 		IPath truncated = fullPath.removeFirstSegments(2).removeFileExtension();
 		StringBuilder sb = new StringBuilder();
 		char delim = 0;
-		for(String segment : truncated.segments())
-		{
-			if(delim == 0)
+		for (String segment : truncated.segments()) {
+			if (delim == 0)
 				delim = '.';
 			else
 				sb.append(delim);
 			sb.append(segment);
 		}
 		IPath result = new Path(project);
-		result = result.append("diagram").append(fullPath.getFileExtension()).append(sb.toString());
+		result = result.append("diagram").append(fullPath.getFileExtension())
+				.append(sb.toString());
 		System.out.println("Final path: "+result.toString());
-		return toURI(result, null);
+		return toURI(result, null, false);
 	}
-	
+
 	/**
 	 * Returns a URI that identifies the target of an annotation and which
 	 * allows that target to be looked up in the Tigerstripe workbench, but
@@ -287,18 +324,20 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			fragment = b.toString();
 		}
 
-		return toURI(artifactPath, fragment);
+		return toURI(artifactPath, fragment, art.isReadonly());
 	}
 
 	private static IPath getArtifactPath(IAbstractArtifact art, String newName) {
 		try {
 
+			IPath path = null;
 			if (art.getProject() == null) {
-				// This is a module artifact
-				return null;
+				IModuleHeader header = art.getParentModuleHeader();
+				path = new Path(header.getModuleID());
+			} else {
+				path = new Path(art.getProject().getProjectLabel());
 			}
 
-			IPath path = new Path(art.getProject().getProjectLabel());
 			path = path.append(newName == null ? art.getFullyQualifiedName()
 					: newName);
 			return path;
@@ -324,13 +363,18 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		return art;
 	}
 
-	private static URI toURI(IPath path, String fragment) {
+	private static URI toURI(IPath path, String fragment, boolean isFromModule) {
 
 		if (path == null)
 			return null;
 
+		String scheme = SCHEME_TS;
+		if (isFromModule) {
+			scheme = SCHEME_TS_MODULE;
+		}
+
 		try {
-			URI uri = URI.createHierarchicalURI(SCHEME_TS, null, null, path
+			URI uri = URI.createHierarchicalURI(scheme, null, null, path
 					.segments(), null, fragment);
 			return uri;
 		} catch (IllegalArgumentException e) {

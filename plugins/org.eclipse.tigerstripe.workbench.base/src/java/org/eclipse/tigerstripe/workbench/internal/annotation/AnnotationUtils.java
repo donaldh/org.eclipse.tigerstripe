@@ -22,13 +22,10 @@ import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.EMFPlugin.EclipsePlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.osgi.framework.Bundle;
 
 public class AnnotationUtils {
@@ -37,14 +34,14 @@ public class AnnotationUtils {
 
 	public static boolean isModelAnnotation(Annotation annotation) {
 		URI uri = annotation.getUri();
-
-		if (!TigerstripeURIAdapterFactory.isRelated(uri))
-			return false;
-
-		IModelComponent component = TigerstripeURIAdapterFactory
-				.uriToComponent(uri);
-
-		return component != null;
+		return TigerstripeURIAdapterFactory.isRelated(uri);
+//		if (!TigerstripeURIAdapterFactory.isRelated(uri))
+//			return false;
+//
+//		IModelComponent component = TigerstripeURIAdapterFactory
+//				.uriToComponent(uri);
+//
+//		return component != null;
 	}
 
 	public static Annotation[] extractModelAnnotations(Annotation[] annotations) {
