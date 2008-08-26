@@ -230,7 +230,7 @@ public class PatternFactory implements IPatternFactory {
 				NodeList nl = item.getChildNodes();
 				Element node = (Element)nl.item(0).getFirstChild();
 				String annotationsText = nl.item(0).getNodeValue();
-				System.out.println("annotationsText: "+annotationsText);
+				
 
 				ResourceSet resourceSet = new ResourceSetImpl();
 				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().
@@ -241,7 +241,7 @@ public class PatternFactory implements IPatternFactory {
 
 				ByteArrayInputStream bis = new ByteArrayInputStream(annotationsText.trim().getBytes());
 				resource.load(bis, null);
-				System.out.println("New annotations: "+resource.getContents());
+				
 				String target = item.getAttribute("target");
 				for(EObject a : resource.getContents())
 				{
