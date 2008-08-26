@@ -11,8 +11,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.java;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
 
 /**
@@ -31,6 +34,13 @@ public class JavaAnnotationProvider implements IAnnotationProvider {
 	public URI getUri(Object object) {
 		if (object instanceof IJavaElement) {
 			IJavaElement element = (IJavaElement)object;
+			IJavaProject project = element.getJavaProject();
+			IResource res = project.getResource();
+			if (res != null) {
+				IProject pr = res.getProject();
+				if (pr != null && !pr.isOpen())
+					return null;
+			}
 			return JavaURIConverter.toURI(element);
 		}
 		return null;

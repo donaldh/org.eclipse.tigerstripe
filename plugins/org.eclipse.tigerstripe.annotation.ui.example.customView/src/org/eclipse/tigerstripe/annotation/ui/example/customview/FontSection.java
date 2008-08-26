@@ -114,6 +114,8 @@ public class FontSection extends AnnotationPropertiesSection {
 		
 		public void update() {
 			EAttribute attr = getFeature();
+			if (annotation.getContent() == null)
+				return;
 			Object value = annotation.getContent().eGet(attr);
 			String text;
 			if ((value == null && attr.getDefaultValue() == null) ||

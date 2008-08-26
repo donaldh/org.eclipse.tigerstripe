@@ -123,11 +123,21 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		return list.toArray(new TargetAnnotationType[list.size()]);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#isAnnotable(java.lang.Object)
+	 */
+	public boolean isAnnotable(Object object) {
+		return getUri(object) != null;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#isPossibleToAdd(java.lang.Object, org.eclipse.emf.ecore.EClass)
+	 */
 	public boolean isPossibleToAdd(Object object, EClass clazz) {
+		URI uri = getUri(object);
+		if (uri == null)
+			return false;
 		if (isUnique(object, clazz)) {
-			URI uri = getUri(object);
-			if (uri == null)
-				return false;
 			List<Annotation> annotations = getAnnotations(uri);
 			for (Annotation annot : annotations) {
 				if (clazz.equals(annot.getContent().eClass())) {

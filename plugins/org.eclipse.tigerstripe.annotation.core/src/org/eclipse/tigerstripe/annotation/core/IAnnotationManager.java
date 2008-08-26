@@ -49,6 +49,15 @@ public interface IAnnotationManager {
 	public boolean isPossibleToAdd(Object object, EClass eclass);
 	
 	/**
+	 * Check is it annotable object or not. Object annotable if and only if 
+	 * registered <code>IAnnotationProvider</code> which map this object to <code>URI</code>
+	 * 
+	 * @param object candidate for annotable object
+	 * @return true, if it's annotable object and false otherwise
+	 */
+	public boolean isAnnotable(Object object);
+	
+	/**
 	 * Remove annotation
 	 * 
 	 * @param annotation

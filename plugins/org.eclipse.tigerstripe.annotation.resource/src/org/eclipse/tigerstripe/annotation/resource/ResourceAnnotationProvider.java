@@ -31,6 +31,8 @@ public class ResourceAnnotationProvider implements IAnnotationProvider {
 	public URI getUri(Object object) {
 		if (object instanceof IResource) {
 			IResource resource = (IResource)object;
+			if (!resource.getProject().isOpen())
+				return null;
 			return ResourceURIConverter.toURI(resource);
 		}
 		return null;

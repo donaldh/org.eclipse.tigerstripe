@@ -54,6 +54,8 @@ public class AnnotationUtils {
 	 * @return
 	 */
 	public static boolean getAllAnnotations(Object object, List<Annotation> annotations) {
+		if (!AnnotationPlugin.getManager().isAnnotable(object))
+			return false;
 		boolean haveAdapted = false;
 		IProviderTarget[] targets = AnnotationPlugin.getManager().getProviderTargets();
 		if (targets.length == 0)
@@ -61,8 +63,7 @@ public class AnnotationUtils {
 		for (int i = 0; i < targets.length; i++) {
 			Object adapted = targets[i].adapt(object);
 			if (adapted != null) {
-				Annotation[] array = AnnotationPlugin.getManager().getAnnotations(
-						adapted, false);
+				Annotation[] array = AnnotationPlugin.getManager().getAnnotations(adapted, false);
 				annotations.addAll(Arrays.asList(array));
 				haveAdapted = true;
 			}

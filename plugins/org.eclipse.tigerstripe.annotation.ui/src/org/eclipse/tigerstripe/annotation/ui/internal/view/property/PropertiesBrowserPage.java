@@ -17,7 +17,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
@@ -80,7 +88,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 public class PropertiesBrowserPage
 	extends TabbedPropertySheetPage
 	implements IPropertyChangeListener, IAnnotationListener,
-	IRefactoringListener {
+	IRefactoringListener, IResourceChangeListener {
 
 	/**
 	 * the contributor for this property sheet page
@@ -88,6 +96,8 @@ public class PropertiesBrowserPage
 	private ITabbedPropertySheetPageContributor contributor;
 
 	private IStructuredSelection selectedElements;
+
+	private List<IResource> selectedResources;
 	
 	private IWorkbenchPart part;
 
@@ -156,9 +166,11 @@ public class PropertiesBrowserPage
 	protected void addListeners() {
 		AnnotationPlugin.getManager().addRefactoringListener(this);
 		AnnotationPlugin.getManager().addAnnotationListener(this);
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
 	
 	protected void removeListeners() {
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 		AnnotationPlugin.getManager().removeAnnotationListener(this);
 		AnnotationPlugin.getManager().removeRefactoringListener(this);
 	}
@@ -606,13 +618,36 @@ public class PropertiesBrowserPage
 		AsyncExecUtil.run(composite, new Runnable() {
 			
 			public void run() {
-				ISelection selection = AnnotationUIPlugin.getManager().getSelection();
-				if (selection instanceof IStructuredSelection)
-					selectedElements = (IStructuredSelection) selection;
+				setSelected(AnnotationUIPlugin.getManager().getSelection());
 				updatePage();
 			}
 		
 		});
+	}
+	
+	private void setSelected(ISelection selection) {
+		if (selection instanceof IStructuredSelection)
+			selectedElements = (IStructuredSelection) selection;
+		selectedResources = null;
+	}
+	
+	private List<IResource> getResources() {
+		if (selectedResources == null) {
+			if (selectedElements != null) {
+				selectedResources = new ArrayList<IResource>();
+				Iterator<?> it = selectedElements.iterator();
+				while (it.hasNext()) {
+					Object object = it.next();
+					IResource res = (IResource)Platform.getAdapterManager().getAdapter(object, IResource.class);
+					if (res != null)
+						selectedResources.add(res);
+				}
+			}
+			else {
+				selectedResources = new ArrayList<IResource>();
+			}
+		}
+		return selectedResources;
 	}
 	
 	/* (non-Javadoc)
@@ -620,8 +655,7 @@ public class PropertiesBrowserPage
 	 */
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		disposeSelection();
-		if (selection instanceof IStructuredSelection)
-			selectedElements = (IStructuredSelection) selection;
+		setSelected(selection);
 		this.part = part;
 		updatePage();
 	}
@@ -687,6 +721,33 @@ public class PropertiesBrowserPage
 	 */
 	protected IStructuredSelection getSelectedElements() {
 		return selectedElements;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
+	 */
+	public void resourceChanged(IResourceChangeEvent event) {
+		IResourceDelta delta = event.getDelta();
+		final List<IResource> resources = getResources();
+		final boolean[] updateSelection = new boolean[1];
+		if (delta != null && resources.size() > 0) {
+			try {
+				delta.accept(new IResourceDeltaVisitor() {
+					public boolean visit(IResourceDelta delta) throws CoreException {
+						if ((delta.getFlags() & IResourceDelta.OPEN) > 0) {
+							IResource res = delta.getResource();
+							if (res != null && resources.contains(res)) {
+								updateSelection[0] = true;
+							}
+						}
+						return !updateSelection[0];
+					}
+				});
+			} catch (CoreException e) {
+				AnnotationUIPlugin.log(e);
+			}
+		}
+		if (updateSelection[0]) updateSelection();
 	}
 
 }
