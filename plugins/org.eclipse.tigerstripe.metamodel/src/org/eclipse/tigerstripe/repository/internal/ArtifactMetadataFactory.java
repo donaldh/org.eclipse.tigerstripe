@@ -34,22 +34,6 @@ import org.eclipse.tigerstripe.metamodel.IPrimitiveType;
 import org.eclipse.tigerstripe.metamodel.IQueryArtifact;
 import org.eclipse.tigerstripe.metamodel.ISessionArtifact;
 import org.eclipse.tigerstripe.metamodel.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IFieldImpl;
-import org.eclipse.tigerstripe.metamodel.impl.ILiteralImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IMethodImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IPackageImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
 import org.eclipse.tigerstripe.repository.metamodel.providers.IModelComponentIconProvider;
 import org.osgi.framework.Bundle;
 
@@ -232,7 +216,7 @@ public class ArtifactMetadataFactory {
 			return metadataRegistry.get(IAssociationClassArtifact.class.getSimpleName());
 		} else if (element.getClass().getSimpleName().contains("DependencyArtifact")) {
 			return metadataRegistry.get(IDependencyArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("SessionArtifact")) {
+		} else if (element.getClass().getSimpleName().contains("SessionFacadeArtifact")) {
 			return metadataRegistry.get(ISessionArtifact.class.getSimpleName());
 		} else if (element.getClass().getSimpleName().contains("QueryArtifact")) {
 			return metadataRegistry.get(IQueryArtifact.class.getSimpleName());
