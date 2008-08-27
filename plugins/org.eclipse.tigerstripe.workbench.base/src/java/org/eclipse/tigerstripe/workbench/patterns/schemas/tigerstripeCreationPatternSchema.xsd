@@ -12,7 +12,7 @@
 					<xs:attribute name="patternName" type="xs:string" use="required"/>
 					<xs:attribute name="patternType" type="xs:string" use="required"/>
 					<xs:attribute name="uiLabel" type="xs:string" use="required"/>
-					<xs:attribute name="iconURL" type="xs:string" use="required"/>
+					<xs:attribute name="iconPath" type="xs:string" use="required"/>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="annotationsText">

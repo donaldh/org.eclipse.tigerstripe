@@ -118,14 +118,19 @@ public class PatternFactory implements IPatternFactory {
 						// Need to get the file from the contributing plugin
 						String patternFileName  = element.getAttribute("patternFile");
 						IContributor contributor = ((IExtension) element.getParent()).getContributor();
+						
 						Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
 						
-						
-						IPattern newPattern = parsePatternFile(bundle,patternFileName);
-						if (!registeredPatterns.containsKey(newPattern.getName())){
-							registeredPatterns.put(newPattern.getName(), newPattern);
-						} else {
-							throw new TigerstripeException("Duplicate pattern name definition");
+						try {
+							IPattern newPattern = parsePatternFile(bundle,patternFileName);
+							if (!registeredPatterns.containsKey(newPattern.getName())){
+								registeredPatterns.put(newPattern.getName(), newPattern);
+							} else {
+								throw new TigerstripeException("Duplicate pattern name definition");
+							}
+						} catch (TigerstripeException t){
+							BasePlugin.logErrorMessage("Failed to instantiate creation Pattern");
+							t.printStackTrace();
 						}
 					
 					} else if (element.getName().equals("disabledPattern")){
@@ -136,6 +141,8 @@ public class PatternFactory implements IPatternFactory {
 					}
 					
 				}
+			
+				
 			}catch (Exception e ){
 				BasePlugin.logErrorMessage("Failed to instantiate creation Patterns");
 				e.printStackTrace();
@@ -192,7 +199,7 @@ public class PatternFactory implements IPatternFactory {
 			String patternName = patternElement.getAttribute("patternName");
 			String patternType = patternElement.getAttribute("patternType");
 			String uiLabel     = patternElement.getAttribute("uiLabel");
-			String iconURL     = patternElement.getAttribute("iconURL");
+			String iconPath     = patternElement.getAttribute("iconPath");
 			String description = "";
 			NodeList descriptionNodes = patternDoc.getElementsByTagNameNS(patternNamespace,"description");
 			for (int dn = 0; dn < descriptionNodes.getLength(); dn++) {
@@ -219,7 +226,17 @@ public class PatternFactory implements IPatternFactory {
 			
 			pattern.setName(patternName);
 			pattern.setUILabel(uiLabel);
-			pattern.setIconURL(iconURL);
+			URL url = bundle.getResource(iconPath);
+			if (url == null){
+				// We may need  to look in the metamodel plugin for this one!
+				Bundle uiBundle = Platform.getBundle("org.eclipse.tigerstripe.metamodel");
+				if (uiBundle != null){
+					url = uiBundle.getResource(iconPath);
+				}
+			}
+			
+			pattern.setIconURL(url);
+			pattern.setIconPath(iconPath);
 			pattern.setDescription(description);
 
 			NodeList annotationsTextNodes = patternDoc.getElementsByTagNameNS(patternNamespace, "annotationsText");

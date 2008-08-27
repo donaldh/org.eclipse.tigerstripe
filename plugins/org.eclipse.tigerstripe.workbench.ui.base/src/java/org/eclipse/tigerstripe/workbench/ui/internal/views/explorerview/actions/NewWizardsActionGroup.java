@@ -30,43 +30,25 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenBasicNewFileWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenBasicNewFolderWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewAnnotationWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewAssociationArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewAssociationClassArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewClassWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewDatatypeArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewDependencyArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewEntityArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewEnumArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewEnumerationWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewExceptionArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewInterfaceWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewNotificationArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewQueryArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewSessionArtifactWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewUpdateProcedureArtifactWizardAction;
+import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedArtifactWizardAction;
 import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.actions.NewProjectAction;
@@ -143,6 +125,7 @@ public class NewWizardsActionGroup extends ActionGroup {
 					// If Tigerstripe project then offer all artifacts
 					try {
 						if (TigerstripeProjectNature.hasNature(iProject)) {
+							ITigerstripeModelProject modelProject = (ITigerstripeModelProject) iProject.getAdapter(ITigerstripeModelProject.class);
 							// @since 1.2
 							// All core artifacts are conditioned by the active
 							// profile
@@ -155,76 +138,87 @@ public class NewWizardsActionGroup extends ActionGroup {
 							newMenu.add(new NewProjectAction());
 							newMenu.add(new Separator());
 
-							if (prop.getDetailsForType(
-									IPackageArtifact.class.getName())
-									.isEnabled()) {
-								newMenu
-										.add(new OpenNewPackageArtifactWizardAction());
+							for (String patternName : PatternFactory.getInstance().getRegisteredPatterns().keySet()){
+								
+								IPattern pattern = PatternFactory.getInstance().getPattern(patternName);
+								System.out.println(patternName+" "+pattern.getClass().getName());
+								// How should we handle the "turn offable-ness" of the underlying artifact type(s)
+								// if (prop.getDetailsForType(	IPackageArtifact.class.getName()).isEnabled()) {
+									newMenu.add(new OpenNewPatternBasedArtifactWizardAction(pattern));
+								//}
+								
 							}
-							if (prop.getDetailsForType(
-									IManagedEntityArtifact.class.getName())
-									.isEnabled()) {
-								newMenu
-										.add(new OpenNewEntityArtifactWizardAction());
-							}
-
-							if (prop.getDetailsForType(
-									IDatatypeArtifact.class.getName())
-									.isEnabled()) {
-								newMenu
-										.add(new OpenNewDatatypeArtifactWizardAction());
-							}
-							if (prop.getDetailsForType(
-									IEnumArtifact.class.getName()).isEnabled()) {
-								newMenu
-										.add(new OpenNewEnumArtifactWizardAction());
-							}
-							if (prop.getDetailsForType(
-									IAssociationArtifact.class.getName())
-									.isEnabled()) {
-								newMenu
-										.add(new OpenNewAssociationArtifactWizardAction());
-							}
-							if (prop.getDetailsForType(
-									IDependencyArtifact.class.getName())
-									.isEnabled()) {
-								newMenu
-										.add(new OpenNewDependencyArtifactWizardAction());
-							}
-							if (prop.getDetailsForType(
-									IAssociationClassArtifact.class.getName())
-									.isEnabled()) {
-								newMenu
-										.add(new OpenNewAssociationClassArtifactWizardAction());
-							}
-							if (prop.getDetailsForType(
-									IQueryArtifact.class.getName()).isEnabled()) {
-								newMenu
-										.add(new OpenNewQueryArtifactWizardAction());
-							}
-							if (prop.getDetailsForType(
-									IUpdateProcedureArtifact.class.getName())
-									.isEnabled()) {
-								newMenu
-										.add(new OpenNewUpdateProcedureArtifactWizardAction());
-							}
-							if (prop.getDetailsForType(
-									IEventArtifact.class.getName()).isEnabled()) {
-								newMenu
-										.add(new OpenNewNotificationArtifactWizardAction());
-							}
-							if (prop.getDetailsForType(
-									ISessionArtifact.class.getName())
-									.isEnabled()) {
-								newMenu
-										.add(new OpenNewSessionArtifactWizardAction());
-							}
-							if (prop.getDetailsForType(
-									IExceptionArtifact.class.getName())
-									.isEnabled()) {
-								newMenu
-										.add(new OpenNewExceptionArtifactWizardAction());
-							}
+							
+//							if (prop.getDetailsForType(
+//									IPackageArtifact.class.getName())
+//									.isEnabled()) {
+//								newMenu
+//										.add(new OpenNewPackageArtifactWizardAction());
+//							}
+//							if (prop.getDetailsForType(
+//									IManagedEntityArtifact.class.getName())
+//									.isEnabled()) {
+//								newMenu
+//										.add(new OpenNewEntityArtifactWizardAction());
+//							}
+//
+//							if (prop.getDetailsForType(
+//									IDatatypeArtifact.class.getName())
+//									.isEnabled()) {
+//								newMenu
+//										.add(new OpenNewDatatypeArtifactWizardAction());
+//							}
+//							if (prop.getDetailsForType(
+//									IEnumArtifact.class.getName()).isEnabled()) {
+//								newMenu
+//										.add(new OpenNewEnumArtifactWizardAction());
+//							}
+//							if (prop.getDetailsForType(
+//									IAssociationArtifact.class.getName())
+//									.isEnabled()) {
+//								newMenu
+//										.add(new OpenNewAssociationArtifactWizardAction());
+//							}
+//							if (prop.getDetailsForType(
+//									IDependencyArtifact.class.getName())
+//									.isEnabled()) {
+//								newMenu
+//										.add(new OpenNewDependencyArtifactWizardAction());
+//							}
+//							if (prop.getDetailsForType(
+//									IAssociationClassArtifact.class.getName())
+//									.isEnabled()) {
+//								newMenu
+//										.add(new OpenNewAssociationClassArtifactWizardAction());
+//							}
+//							if (prop.getDetailsForType(
+//									IQueryArtifact.class.getName()).isEnabled()) {
+//								newMenu
+//										.add(new OpenNewQueryArtifactWizardAction());
+//							}
+//							if (prop.getDetailsForType(
+//									IUpdateProcedureArtifact.class.getName())
+//									.isEnabled()) {
+//								newMenu
+//										.add(new OpenNewUpdateProcedureArtifactWizardAction());
+//							}
+//							if (prop.getDetailsForType(
+//									IEventArtifact.class.getName()).isEnabled()) {
+//								newMenu
+//										.add(new OpenNewNotificationArtifactWizardAction());
+//							}
+//							if (prop.getDetailsForType(
+//									ISessionArtifact.class.getName())
+//									.isEnabled()) {
+//								newMenu
+//										.add(new OpenNewSessionArtifactWizardAction());
+//							}
+//							if (prop.getDetailsForType(
+//									IExceptionArtifact.class.getName())
+//									.isEnabled()) {
+//								newMenu
+//										.add(new OpenNewExceptionArtifactWizardAction());
+//							}
 
 							newMenu.add(new Separator());
 							addContributedActions(newMenu);
@@ -233,6 +227,7 @@ public class NewWizardsActionGroup extends ActionGroup {
 							// If Package Artifacts are enabled - we call the new Package Artifact 
 							// dialog instead of the standard add package!
 							// Leave it here for consistency (even though it will be in the menu twice).
+							// TODO Review in light of custom artifacts...
 							if (prop.getDetailsForType(
 									IPackageArtifact.class.getName())
 									.isEnabled()) {

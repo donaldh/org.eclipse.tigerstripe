@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.patterns;
 
+import java.net.URL;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.resource.ImageDescriptor;
 
 public interface IPattern {
 	
@@ -25,9 +27,13 @@ public interface IPattern {
 	
 	public String getUILabel();
 	
-	public String getIconURL();
+	public String getIconPath();
+	
+	public URL getIconURL();
 	
 	public String getDescription();
+	
+	public ImageDescriptor getDescriptor();
 	
 	public Collection<IPatternAnnotation> getPatternAnnotations();
 	

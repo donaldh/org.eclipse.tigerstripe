@@ -10,19 +10,27 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.resource.DeviceResourceException;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
+import org.osgi.framework.Bundle;
 
 public class Pattern implements IPattern {
+
+	
 
 	protected String name;
 	protected String description;
 	protected String uiLabel;
-	protected String iconURL;
+	protected String iconPath;
+	protected URL iconURL;
 	protected Collection<IModelChangeRequest> requests = new ArrayList<IModelChangeRequest>();
 	protected Collection<IPatternAnnotation> patternAnnotations = new ArrayList<IPatternAnnotation>();
 	
@@ -59,13 +67,29 @@ public class Pattern implements IPattern {
 		this.uiLabel = uiLabel;
 	}
 
-	public String getIconURL() {
-		return iconURL;
+	public String getIconPath() {
+		return this.iconPath;
 	}
 
-	public void setIconURL(String iconURL) {
+	public void setIconPath(String iconPath) {
+		this.iconPath = iconPath;
+	}
+	
+	public URL getIconURL() {
+		return iconURL;
+	}
+	
+	public void setIconURL(URL iconURL) {
 		this.iconURL = iconURL;
 	}
+
+	public ImageDescriptor getDescriptor(){
+		ImageDescriptor descriptor = null;
+		descriptor = ImageDescriptor.createFromURL(this.iconURL);
+		return descriptor;
+
+	}
+	
 
 	public class PatternAnnotation implements IPatternAnnotation{
 

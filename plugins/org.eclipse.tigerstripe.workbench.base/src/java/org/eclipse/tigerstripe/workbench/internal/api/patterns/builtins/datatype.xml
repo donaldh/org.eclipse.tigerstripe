@@ -3,7 +3,7 @@
 <pattern:creationPattern patternName="org.eclipse.tigerstripe.workbench.base.Datatype" 
 				 		 patternType="node"
 						 uiLabel="Datatype"
-						 iconURL="..."
+						 iconPath="icons/datatype_new.gif"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
     <pattern:description>Create a new Datatype</pattern:description>

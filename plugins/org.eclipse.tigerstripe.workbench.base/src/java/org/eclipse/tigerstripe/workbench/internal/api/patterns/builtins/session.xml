@@ -3,7 +3,7 @@
 <pattern:creationPattern patternName="org.eclipse.tigerstripe.workbench.base.Session" 
 				 		 patternType="node"
 						 uiLabel="Session"
-						 iconURL="..."
+						 iconPath="icons/session_new.gif"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
     <pattern:description>Create a new Session</pattern:description>
