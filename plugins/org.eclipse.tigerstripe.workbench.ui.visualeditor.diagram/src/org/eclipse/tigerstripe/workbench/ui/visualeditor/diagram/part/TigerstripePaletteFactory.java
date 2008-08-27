@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.gef.Tool;
@@ -18,9 +19,12 @@ import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.ToolEntry;
+import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest.ViewAndElementDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeConnectionTool;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
+import org.eclipse.gmf.runtime.notation.Node;
+import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
@@ -39,8 +43,10 @@ import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
@@ -52,6 +58,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
 
 /**
@@ -716,7 +723,40 @@ public class TigerstripePaletteFactory {
 		 * @generated
 		 */
 		public Tool createTool() {
-			Tool tool = new UnspecifiedTypeCreationTool(elementTypes);
+			Tool tool = new UnspecifiedTypeCreationTool(elementTypes) {
+
+//				@Override
+//				protected void performCreation(int button) {
+//					// TODO Auto-generated method stub
+//					super.performCreation(button);
+//
+//					Object o = getCreateRequest().getNewObject();
+//					if (o instanceof Collection<?>) {
+//						Collection<?> c = (Collection<?>) o;
+//						Object e = c.iterator().next();
+//						if (e instanceof ViewAndElementDescriptor) {
+//							ViewAndElementDescriptor desc = (ViewAndElementDescriptor) e;
+//							Node node = (Node) desc.getAdapter(View.class);
+//							AbstractArtifact createdEArtifact = (AbstractArtifact) node
+//									.getElement();
+//							try {
+//								IAbstractArtifact createdIArtifact = createdEArtifact
+//										.getCorrespondingIArtifact();
+//								System.out.println("Just created: "
+//										+ createdIArtifact);
+//								
+//								// Should be able to add anything here from template???
+//								
+//							} catch (TigerstripeException ex) {
+//								ex.printStackTrace();
+//							}
+//						}
+//					}
+//					System.out.println("Created Object="
+//							+ getCreateRequest().getNewObject());
+//				}
+//
+			};
 			tool.setProperties(getToolProperties());
 			return tool;
 		}
