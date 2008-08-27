@@ -225,17 +225,17 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 				} catch (TigerstripeException e) {
 					BasePlugin.log(e);
 				}
-		} else if (adaptableObject instanceof IResource) {
-			IResource res = (IResource) adaptableObject;
-			if (res != null) {
-				return adaptToProject(res.getProject());
-			}
-		} else if (adaptableObject instanceof IAdaptable) {
-			IResource res = (IResource) ((IAdaptable) adaptableObject)
-					.getAdapter(IResource.class);
-			if (res != null) {
-				return adaptToProject(res.getProject());
-			}
+//		} else if (adaptableObject instanceof IResource) {
+//			IResource res = (IResource) adaptableObject;
+//			if (res != null) {
+//				return adaptToProject(res.getProject());
+//			}
+//		} else if (adaptableObject instanceof IAdaptable) {
+//			IResource res = (IResource) ((IAdaptable) adaptableObject)
+//					.getAdapter(IResource.class);
+//			if (res != null) {
+//				return adaptToProject(res.getProject());
+//			}
 		}
 
 		return null;
