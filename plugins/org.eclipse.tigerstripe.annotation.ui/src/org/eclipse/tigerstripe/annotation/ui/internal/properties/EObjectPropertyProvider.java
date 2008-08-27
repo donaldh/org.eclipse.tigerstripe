@@ -28,7 +28,7 @@ public class EObjectPropertyProvider implements EPropertyProvider {
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		if (feature.getEType() instanceof EClass && !feature.isMany())
+		if (!feature.isMany() && feature.getEType() instanceof EClass)
 			return new EObjectProperty(object, feature);
 		return null;
 	}

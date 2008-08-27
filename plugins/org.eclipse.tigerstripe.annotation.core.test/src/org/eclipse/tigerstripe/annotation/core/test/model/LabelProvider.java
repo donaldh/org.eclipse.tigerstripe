@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.test.model;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.annotation.core.test.Activator;
@@ -58,6 +59,21 @@ public class LabelProvider extends org.eclipse.jface.viewers.LabelProvider {
 		if (element instanceof Hibernate) {
 			Hibernate hibernate = (Hibernate)element;
 			return "Hibernate (persistence=" + hibernate.isPersistance() + ")";
+		}
+		if (element instanceof DayList) {
+			DayList list = (DayList)element;
+			EList<Day> days = list.getDays();
+			int size = days.size();
+			if (size > 0) {
+				StringBuffer buf = new StringBuffer("Days: ");
+				for (Day day : list.getDays()) {
+					buf.append(day.getName() + " ");
+				}
+				return buf.toString();
+			}
+			else {
+				return "Days";
+			}
 		}
 		if (element instanceof Author) {
 			Author author = (Author)element;

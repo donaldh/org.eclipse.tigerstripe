@@ -7,6 +7,15 @@
   <foreignModel>model.ecore</foreignModel>
   <genPackages prefix="Model" basePackage="org.eclipse.tigerstripe.annotation.core.test"
       disposableProviderFactory="true" ecorePackage="model.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="model.ecore#//Day">
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Day/Sunday"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Day/Monday"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Day/Tuesday"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Day/Wednesday"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Day/Thursday"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Day/Friday"/>
+      <genEnumLiterals ecoreEnumLiteral="model.ecore#//Day/Saturday"/>
+    </genEnums>
     <genClasses ecoreClass="model.ecore#//Author">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Author/firstName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Author/lastName"/>
@@ -20,6 +29,9 @@
     </genClasses>
     <genClasses ecoreClass="model.ecore#//ProjectDescription">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//ProjectDescription/description"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//DayList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute model.ecore#//DayList/days"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

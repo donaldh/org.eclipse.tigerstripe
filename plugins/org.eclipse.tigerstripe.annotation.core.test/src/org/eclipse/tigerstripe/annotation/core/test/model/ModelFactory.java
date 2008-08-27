@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactory.java,v 1.3 2008/06/26 12:46:46 ystrot Exp $
+ * $Id: ModelFactory.java,v 1.4 2008/08/27 09:20:08 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model;
 
@@ -60,6 +60,15 @@ public interface ModelFactory extends EFactory {
 	 * @generated
 	 */
 	ProjectDescription createProjectDescription();
+
+	/**
+	 * Returns a new object of class '<em>Day List</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Day List</em>'.
+	 * @generated
+	 */
+	DayList createDayList();
 
 	/**
 	 * Returns the package supported by this factory.

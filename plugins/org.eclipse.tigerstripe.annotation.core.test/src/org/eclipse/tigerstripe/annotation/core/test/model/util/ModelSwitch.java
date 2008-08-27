@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelSwitch.java,v 1.3 2008/06/26 12:46:47 ystrot Exp $
+ * $Id: ModelSwitch.java,v 1.4 2008/08/27 09:20:08 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.util;
 
@@ -111,6 +111,12 @@ public class ModelSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ModelPackage.DAY_LIST: {
+				DayList dayList = (DayList)theEObject;
+				T result = caseDayList(dayList);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -172,6 +178,21 @@ public class ModelSwitch<T> {
 	 * @generated
 	 */
 	public T caseProjectDescription(ProjectDescription object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Day List</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Day List</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDayList(DayList object) {
 		return null;
 	}
 

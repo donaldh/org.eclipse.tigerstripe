@@ -2,12 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackage.java,v 1.3 2008/06/26 12:46:46 ystrot Exp $
+ * $Id: ModelPackage.java,v 1.4 2008/08/27 09:20:08 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 
 /**
@@ -190,6 +191,44 @@ public interface ModelPackage extends EPackage {
 	int PROJECT_DESCRIPTION_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.tigerstripe.annotation.core.test.model.impl.DayListImpl <em>Day List</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.DayListImpl
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ModelPackageImpl#getDayList()
+	 * @generated
+	 */
+	int DAY_LIST = 4;
+
+	/**
+	 * The feature id for the '<em><b>Days</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DAY_LIST__DAYS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Day List</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DAY_LIST_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.tigerstripe.annotation.core.test.model.Day <em>Day</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.Day
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ModelPackageImpl#getDay()
+	 * @generated
+	 */
+	int DAY = 5;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.core.test.model.Author <em>Author</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -294,6 +333,37 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getProjectDescription_Description();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.core.test.model.DayList <em>Day List</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Day List</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.DayList
+	 * @generated
+	 */
+	EClass getDayList();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link org.eclipse.tigerstripe.annotation.core.test.model.DayList#getDays <em>Days</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Days</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.DayList#getDays()
+	 * @see #getDayList()
+	 * @generated
+	 */
+	EAttribute getDayList_Days();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.tigerstripe.annotation.core.test.model.Day <em>Day</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Day</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.Day
+	 * @generated
+	 */
+	EEnum getDay();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -404,6 +474,34 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PROJECT_DESCRIPTION__DESCRIPTION = eINSTANCE.getProjectDescription_Description();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.tigerstripe.annotation.core.test.model.impl.DayListImpl <em>Day List</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.DayListImpl
+		 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ModelPackageImpl#getDayList()
+		 * @generated
+		 */
+		EClass DAY_LIST = eINSTANCE.getDayList();
+
+		/**
+		 * The meta object literal for the '<em><b>Days</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DAY_LIST__DAYS = eINSTANCE.getDayList_Days();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.tigerstripe.annotation.core.test.model.Day <em>Day</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.tigerstripe.annotation.core.test.model.Day
+		 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ModelPackageImpl#getDay()
+		 * @generated
+		 */
+		EEnum DAY = eINSTANCE.getDay();
 
 	}
 

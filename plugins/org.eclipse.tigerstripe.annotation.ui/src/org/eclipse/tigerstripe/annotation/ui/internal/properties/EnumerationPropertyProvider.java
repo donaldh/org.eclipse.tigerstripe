@@ -30,7 +30,7 @@ public class EnumerationPropertyProvider implements EPropertyProvider {
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
 	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		if (feature.getEType() instanceof EDataType) {
+		if (!feature.isMany() && feature.getEType() instanceof EDataType) {
 			EDataType type = (EDataType)feature.getEType();
 			if (!isEnumerationFacetEmpty(type) || type instanceof EEnum) {
 				return new EnumerationProperty(object, feature);

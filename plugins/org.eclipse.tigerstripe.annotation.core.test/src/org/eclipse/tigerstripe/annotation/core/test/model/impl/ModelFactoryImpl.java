@@ -2,11 +2,12 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactoryImpl.java,v 1.3 2008/06/26 12:46:47 ystrot Exp $
+ * $Id: ModelFactoryImpl.java,v 1.4 2008/08/27 09:20:08 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -64,8 +65,39 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 			case ModelPackage.HIBERNATE: return createHibernate();
 			case ModelPackage.MIME_TYPE: return createMimeType();
 			case ModelPackage.PROJECT_DESCRIPTION: return createProjectDescription();
+			case ModelPackage.DAY_LIST: return createDayList();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case ModelPackage.DAY:
+				return createDayFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case ModelPackage.DAY:
+				return convertDayToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -107,6 +139,36 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public ProjectDescription createProjectDescription() {
 		ProjectDescriptionImpl projectDescription = new ProjectDescriptionImpl();
 		return projectDescription;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DayList createDayList() {
+		DayListImpl dayList = new DayListImpl();
+		return dayList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Day createDayFromString(EDataType eDataType, String initialValue) {
+		Day result = Day.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertDayToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

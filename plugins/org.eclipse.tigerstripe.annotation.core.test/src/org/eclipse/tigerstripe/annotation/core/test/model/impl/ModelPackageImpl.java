@@ -2,15 +2,18 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackageImpl.java,v 1.5 2008/07/15 09:07:08 ystrot Exp $
+ * $Id: ModelPackageImpl.java,v 1.6 2008/08/27 09:20:08 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.tigerstripe.annotation.core.test.model.Author;
+import org.eclipse.tigerstripe.annotation.core.test.model.Day;
+import org.eclipse.tigerstripe.annotation.core.test.model.DayList;
 import org.eclipse.tigerstripe.annotation.core.test.model.Hibernate;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
@@ -51,6 +54,20 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass projectDescriptionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass dayListEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum dayEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -215,6 +232,33 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getDayList() {
+		return dayListEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDayList_Days() {
+		return (EAttribute)dayListEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getDay() {
+		return dayEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ModelFactory getModelFactory() {
 		return (ModelFactory)getEFactoryInstance();
 	}
@@ -251,6 +295,12 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		projectDescriptionEClass = createEClass(PROJECT_DESCRIPTION);
 		createEAttribute(projectDescriptionEClass, PROJECT_DESCRIPTION__DESCRIPTION);
+
+		dayListEClass = createEClass(DAY_LIST);
+		createEAttribute(dayListEClass, DAY_LIST__DAYS);
+
+		// Create enums
+		dayEEnum = createEEnum(DAY);
 	}
 
 	/**
@@ -297,28 +347,21 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEClass(projectDescriptionEClass, ProjectDescription.class, "ProjectDescription", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getProjectDescription_Description(), ecorePackage.getEString(), "description", null, 0, 1, ProjectDescription.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+		initEClass(dayListEClass, DayList.class, "DayList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDayList_Days(), this.getDay(), "days", null, 1, -1, DayList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(dayEEnum, Day.class, "Day");
+		addEEnumLiteral(dayEEnum, Day.SUNDAY);
+		addEEnumLiteral(dayEEnum, Day.MONDAY);
+		addEEnumLiteral(dayEEnum, Day.TUESDAY);
+		addEEnumLiteral(dayEEnum, Day.WEDNESDAY);
+		addEEnumLiteral(dayEEnum, Day.THURSDAY);
+		addEEnumLiteral(dayEEnum, Day.FRIDAY);
+		addEEnumLiteral(dayEEnum, Day.SATURDAY);
+
 		// Create resource
 		createResource(eNS_URI);
-
-		// Create annotations
-		// org.eclipse.tigerstripe.annotation
-		createOrgAnnotations();
-	}
-
-	/**
-	 * Initializes the annotations for <b>org.eclipse.tigerstripe.annotation</b>.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void createOrgAnnotations() {
-		String source = "org.eclipse.tigerstripe.annotation";		
-		addAnnotation
-		  (getProjectDescription_Description(), 
-		   source, 
-		   new String[] {
-			 "editor", "org.eclipse.ui.DefaultTextEditor"
-		   });
 	}
 
 } //ModelPackageImpl
