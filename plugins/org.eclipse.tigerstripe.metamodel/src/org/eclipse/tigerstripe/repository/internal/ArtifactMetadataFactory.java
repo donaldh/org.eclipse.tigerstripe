@@ -110,8 +110,8 @@ public class ArtifactMetadataFactory {
 			"Update Procedure");
 
 	private final static IArtifactMetadata PACKAGE_DEFAULT = new ArtifactMetadata(
-			IPackage.class, true, false, true, "package.gif", "package-gs.gif",
-			"package-new.gif", "Package");
+			IPackage.class, true, false, true, "package.gif", "package_gs.gif",
+			"package_new.gif", "Package");
 
 	private final static IArtifactMetadata EVENT_DEFAULT = new ArtifactMetadata(
 			IEventArtifact.class, true, false, true, "event.gif",
