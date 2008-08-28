@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -225,17 +226,26 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 				} catch (TigerstripeException e) {
 					BasePlugin.log(e);
 				}
-//		} else if (adaptableObject instanceof IResource) {
-//			IResource res = (IResource) adaptableObject;
-//			if (res != null) {
-//				return adaptToProject(res.getProject());
-//			}
-//		} else if (adaptableObject instanceof IAdaptable) {
-//			IResource res = (IResource) ((IAdaptable) adaptableObject)
-//					.getAdapter(IResource.class);
-//			if (res != null) {
-//				return adaptToProject(res.getProject());
-//			}
+			// } else if (adaptableObject instanceof IResource) {
+			// IResource res = (IResource) adaptableObject;
+			// if (res != null) {
+			// return adaptToProject(res.getProject());
+			// }
+			// } else if (adaptableObject instanceof IAdaptable) {
+			// IResource res = (IResource) ((IAdaptable) adaptableObject)
+			// .getAdapter(IResource.class);
+			// if (res != null) {
+			// return adaptToProject(res.getProject());
+			// }
+		} else if (adaptableObject instanceof IFile) {
+			IFile file = (IFile) adaptableObject;
+			if (ITigerstripeConstants.PROJECT_DESCRIPTOR.equals(file.getName())
+					|| (ITigerstripeConstants.PLUGIN_DESCRIPTOR.equals(file
+							.getName()))
+					|| (ITigerstripeConstants.M0_GENERATOR_DESCRIPTOR
+							.equals(file.getName()))) {
+				return adaptToProject(file.getProject());
+			}
 		}
 
 		return null;
