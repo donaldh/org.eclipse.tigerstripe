@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelSwitch.java,v 1.4 2008/08/27 09:20:08 ystrot Exp $
+ * $Id: ModelSwitch.java,v 1.5 2008/08/29 08:49:54 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.util;
 
@@ -117,6 +117,12 @@ public class ModelSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ModelPackage.CUSTOM_MONTH: {
+				CustomMonth customMonth = (CustomMonth)theEObject;
+				T result = caseCustomMonth(customMonth);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -193,6 +199,21 @@ public class ModelSwitch<T> {
 	 * @generated
 	 */
 	public T caseDayList(DayList object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Custom Month</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Custom Month</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseCustomMonth(CustomMonth object) {
 		return null;
 	}
 

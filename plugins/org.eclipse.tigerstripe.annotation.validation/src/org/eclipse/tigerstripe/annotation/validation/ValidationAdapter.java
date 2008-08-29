@@ -90,7 +90,15 @@ public class ValidationAdapter extends AdapterImpl {
 				}
 				
 				objects.add(object);
-				object.eSet(sFeature, msg.getOldValue());
+				
+				switch (msg.getEventType()) {
+					case Notification.SET:
+						object.eSet(sFeature, msg.getOldValue());
+						break;
+					default:
+						break;
+				}
+				
 				objects.remove(object);
 			}
 		}

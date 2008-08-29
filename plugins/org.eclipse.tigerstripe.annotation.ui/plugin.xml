@@ -109,7 +109,7 @@
 	      point="org.eclipse.ui.editors.documentProviders">
       <provider
             class="org.eclipse.tigerstripe.annotation.ui.internal.editor.PropertyDocumentProvider"
-            inputTypes="org.eclipse.tigerstripe.annotation.ui.custom.IPropertyEditorInput"
+            inputTypes="org.eclipse.tigerstripe.annotation.ui.internal.editor.IPropertyEditorInput"
             id="org.eclipse.tigerstripe.annotation.ui.documentProvider"/>
 	</extension>
 	

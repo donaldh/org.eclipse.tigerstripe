@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.annotation.ui.internal.properties.CellEditorFactory;
@@ -34,8 +32,8 @@ public class EObjectProperty extends EPropertyImpl {
 	 * @param object
 	 * @param feature
 	 */
-	public EObjectProperty(EObject object, EStructuralFeature feature) {
-		super(object, feature);
+	public EObjectProperty(IEditableValue value) {
+		super(value);
 	}
 	
 	/* (non-Javadoc)
@@ -62,7 +60,7 @@ public class EObjectProperty extends EPropertyImpl {
 	 */
 	@Override
 	public void setValue(Object value) {
-		EClass clazz = (EClass)feature.getEType();
+		EClass clazz = (EClass)getEType();
 		if (CREATE.equals(value))
 			value = clazz.getEPackage().getEFactoryInstance().create(clazz);
 		else if (DESTROY.equals(value))

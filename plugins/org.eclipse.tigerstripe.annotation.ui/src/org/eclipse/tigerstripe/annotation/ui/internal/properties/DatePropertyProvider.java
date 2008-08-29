@@ -13,11 +13,10 @@ package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
 import java.util.Date;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.DateProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue;
 
 /**
  * @author Yuri Strot
@@ -28,10 +27,10 @@ public class DatePropertyProvider implements EPropertyProvider {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		Class<?> clazz = feature.getEType().getInstanceClass();
-		if (!feature.isMany() && clazz != null && Date.class.equals(clazz)) {
-			return new DateProperty(object, feature);
+	public EProperty getProperty(IEditableValue value) {
+		Class<?> clazz = value.getClassifier().getInstanceClass();
+		if (!value.isMany() && clazz != null && Date.class.equals(clazz)) {
+			return new DateProperty(value);
 		}
 		return null;
 	}

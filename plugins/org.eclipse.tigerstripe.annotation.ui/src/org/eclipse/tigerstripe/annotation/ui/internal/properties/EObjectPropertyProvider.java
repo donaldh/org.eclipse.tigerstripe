@@ -12,11 +12,10 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EObjectProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue;
 
 /**
  * @author Yuri Strot
@@ -27,9 +26,9 @@ public class EObjectPropertyProvider implements EPropertyProvider {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		if (!feature.isMany() && feature.getEType() instanceof EClass)
-			return new EObjectProperty(object, feature);
+	public EProperty getProperty(IEditableValue value) {
+		if (!value.isMany() && value.getClassifier() instanceof EClass)
+			return new EObjectProperty(value);
 		return null;
 	}
 

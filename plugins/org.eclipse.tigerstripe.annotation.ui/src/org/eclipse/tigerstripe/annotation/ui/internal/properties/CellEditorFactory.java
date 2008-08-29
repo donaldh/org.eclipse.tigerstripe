@@ -64,8 +64,8 @@ public class CellEditorFactory {
     }
 	
 	public static CellEditor createDateTimeCellEditor(Composite composite,
-			EStructuralFeature feature, Date value) {
-		return new DateTimeCellEditor(composite, feature.getName(), value);
+			String name, Date value) {
+		return new DateTimeCellEditor(composite, name, value);
 	}	
 
 }

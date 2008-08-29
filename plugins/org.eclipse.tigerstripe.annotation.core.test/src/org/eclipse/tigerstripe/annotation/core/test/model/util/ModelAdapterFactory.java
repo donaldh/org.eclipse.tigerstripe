@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelAdapterFactory.java,v 1.4 2008/08/27 09:20:08 ystrot Exp $
+ * $Id: ModelAdapterFactory.java,v 1.5 2008/08/29 08:49:54 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.util;
 
@@ -92,6 +92,10 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 				return createDayListAdapter();
 			}
 			@Override
+			public Adapter caseCustomMonth(CustomMonth object) {
+				return createCustomMonthAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -178,6 +182,20 @@ public class ModelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDayListAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.tigerstripe.annotation.core.test.model.CustomMonth <em>Custom Month</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.CustomMonth
+	 * @generated
+	 */
+	public Adapter createCustomMonthAdapter() {
 		return null;
 	}
 

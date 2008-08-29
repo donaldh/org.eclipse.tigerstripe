@@ -13,8 +13,6 @@ package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -29,8 +27,8 @@ public class PrimitiveProperty extends EPropertyImpl {
 	 * @param object
 	 * @param feature
 	 */
-	public PrimitiveProperty(EObject object, EStructuralFeature feature) {
-		super(object, feature);
+	public PrimitiveProperty(IEditableValue value) {
+		super(value);
 	}
 	
 	/* (non-Javadoc)
@@ -48,7 +46,7 @@ public class PrimitiveProperty extends EPropertyImpl {
 	public void setValue(Object value) {
 		EFactory factory = getEType().getEPackage().getEFactoryInstance();
 		if (value == null) {
-			value = feature.getDefaultValue();
+			value = this.value.getDefaultValue();
 		}
 		else {
 			String text = value.toString();

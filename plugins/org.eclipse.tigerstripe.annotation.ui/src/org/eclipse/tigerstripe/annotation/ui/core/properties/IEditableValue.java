@@ -11,23 +11,26 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
+import org.eclipse.emf.ecore.EClassifier;
 
 /**
- * Annotation properties provider
- * 
  * @author Yuri Strot
+ *
  */
-public interface EPropertyProvider {
+public interface IEditableValue {
 	
-	/**
-	 * Return property for the given EObject feature or null if this provider do not
-	 * provide properties for the specified EObject feature
-	 * 
-	 * @param object specified object
-	 * @param feature specified feature
-	 * @return annotation property or null if properties provider do not
-	 * provide properties for the specified EObject feature
-	 */
-	public EProperty getProperty(IEditableValue value);
+	public EClassifier getClassifier();
+	
+	public Object getValue();
+	
+	public void setValue(Object value);
+	
+	public String getName();
+	
+	public boolean isMany();
+	
+	public Object getDefaultValue();
+	
+	public void save();
 
 }

@@ -16,11 +16,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 /**
@@ -30,22 +27,19 @@ import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
  */
 public class EPropertyImpl implements EProperty {
 	
-	protected EObject object;
-	protected EStructuralFeature feature;
 	protected CellEditor cellEditor;
+	protected IEditableValue value;
 	
-	public EPropertyImpl(EObject object, EStructuralFeature feature) {
-		this.object = object;
-		this.feature = feature;
+	public EPropertyImpl(IEditableValue value) {
+		this.value = value;
 	}
-
+	
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#applyEditorValue()
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty#getEditableValue()
 	 */
-	public void applyEditorValue() {
-		if (cellEditor != null)
-			setValue(cellEditor.getValue());
-    }
+	public IEditableValue getEditableValue() {
+		return value;
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#getDisplayName()
@@ -83,7 +77,7 @@ public class EPropertyImpl implements EProperty {
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#getEType()
 	 */
 	public EClassifier getEType() {
-		return feature.getEType();
+		return value.getClassifier();
 	}
 	
 	protected CellEditor createEditor(Composite parent) {
@@ -102,36 +96,28 @@ public class EPropertyImpl implements EProperty {
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#getName()
 	 */
 	public String getName() {
-	    return feature.getName();
+	    return value.getName();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#getValue()
 	 */
 	public Object getValue() {
-		return object.eGet(feature);
+		return value.getValue();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#save()
 	 */
 	public void save() {
-		EObject current = object;
-		while(current != null) {
-			if (current instanceof Annotation) {
-				Annotation annotation = (Annotation)current;
-				AnnotationPlugin.getManager().save(annotation);
-				return;
-			}
-			current = current.eContainer();
-		}
+		value.save();
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
-		object.eSet(feature, value);
+		this.value.setValue(value);
 	}
 
 }

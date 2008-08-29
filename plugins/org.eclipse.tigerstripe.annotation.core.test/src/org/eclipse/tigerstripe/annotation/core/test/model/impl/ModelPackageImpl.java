@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackageImpl.java,v 1.6 2008/08/27 09:20:08 ystrot Exp $
+ * $Id: ModelPackageImpl.java,v 1.7 2008/08/29 08:49:54 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.impl;
 
@@ -10,8 +10,10 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.tigerstripe.annotation.core.test.model.Author;
+import org.eclipse.tigerstripe.annotation.core.test.model.CustomMonth;
 import org.eclipse.tigerstripe.annotation.core.test.model.Day;
 import org.eclipse.tigerstripe.annotation.core.test.model.DayList;
 import org.eclipse.tigerstripe.annotation.core.test.model.Hibernate;
@@ -61,6 +63,13 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * @generated
 	 */
 	private EClass dayListEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass customMonthEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -250,6 +259,24 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getCustomMonth() {
+		return customMonthEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getCustomMonth_Weeks() {
+		return (EReference)customMonthEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getDay() {
 		return dayEEnum;
 	}
@@ -298,6 +325,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		dayListEClass = createEClass(DAY_LIST);
 		createEAttribute(dayListEClass, DAY_LIST__DAYS);
+
+		customMonthEClass = createEClass(CUSTOM_MONTH);
+		createEReference(customMonthEClass, CUSTOM_MONTH__WEEKS);
 
 		// Create enums
 		dayEEnum = createEEnum(DAY);
@@ -348,7 +378,10 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEAttribute(getProjectDescription_Description(), ecorePackage.getEString(), "description", null, 0, 1, ProjectDescription.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(dayListEClass, DayList.class, "DayList", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getDayList_Days(), this.getDay(), "days", null, 1, -1, DayList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDayList_Days(), this.getDay(), "days", null, 0, -1, DayList.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(customMonthEClass, CustomMonth.class, "CustomMonth", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getCustomMonth_Weeks(), this.getDayList(), null, "weeks", null, 0, -1, CustomMonth.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(dayEEnum, Day.class, "Day");
@@ -362,6 +395,26 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// org.eclipse.tigerstripe.annotation
+		createOrgAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>org.eclipse.tigerstripe.annotation</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createOrgAnnotations() {
+		String source = "org.eclipse.tigerstripe.annotation";		
+		addAnnotation
+		  (getProjectDescription_Description(), 
+		   source, 
+		   new String[] {
+			 "editor", "org.eclipse.ui.DefaultTextEditor"
+		   });
 	}
 
 } //ModelPackageImpl

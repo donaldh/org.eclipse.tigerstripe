@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactoryImpl.java,v 1.4 2008/08/27 09:20:08 ystrot Exp $
+ * $Id: ModelFactoryImpl.java,v 1.5 2008/08/29 08:49:54 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model.impl;
 
@@ -66,6 +66,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 			case ModelPackage.MIME_TYPE: return createMimeType();
 			case ModelPackage.PROJECT_DESCRIPTION: return createProjectDescription();
 			case ModelPackage.DAY_LIST: return createDayList();
+			case ModelPackage.CUSTOM_MONTH: return createCustomMonth();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -149,6 +150,16 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory {
 	public DayList createDayList() {
 		DayListImpl dayList = new DayListImpl();
 		return dayList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public CustomMonth createCustomMonth() {
+		CustomMonthImpl customMonth = new CustomMonthImpl();
+		return customMonth;
 	}
 
 	/**

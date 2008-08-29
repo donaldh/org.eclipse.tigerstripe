@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelPackage.java,v 1.4 2008/08/27 09:20:08 ystrot Exp $
+ * $Id: ModelPackage.java,v 1.5 2008/08/29 08:49:54 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model;
 
@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -219,6 +220,34 @@ public interface ModelPackage extends EPackage {
 	int DAY_LIST_FEATURE_COUNT = 1;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.tigerstripe.annotation.core.test.model.impl.CustomMonthImpl <em>Custom Month</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.CustomMonthImpl
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ModelPackageImpl#getCustomMonth()
+	 * @generated
+	 */
+	int CUSTOM_MONTH = 5;
+
+	/**
+	 * The feature id for the '<em><b>Weeks</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_MONTH__WEEKS = 0;
+
+	/**
+	 * The number of structural features of the '<em>Custom Month</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOM_MONTH_FEATURE_COUNT = 1;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.annotation.core.test.model.Day <em>Day</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -226,7 +255,7 @@ public interface ModelPackage extends EPackage {
 	 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ModelPackageImpl#getDay()
 	 * @generated
 	 */
-	int DAY = 5;
+	int DAY = 6;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.core.test.model.Author <em>Author</em>}'.
@@ -354,6 +383,27 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getDayList_Days();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.annotation.core.test.model.CustomMonth <em>Custom Month</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Custom Month</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.CustomMonth
+	 * @generated
+	 */
+	EClass getCustomMonth();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.tigerstripe.annotation.core.test.model.CustomMonth#getWeeks <em>Weeks</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Weeks</em>'.
+	 * @see org.eclipse.tigerstripe.annotation.core.test.model.CustomMonth#getWeeks()
+	 * @see #getCustomMonth()
+	 * @generated
+	 */
+	EReference getCustomMonth_Weeks();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.tigerstripe.annotation.core.test.model.Day <em>Day</em>}'.
@@ -492,6 +542,24 @@ public interface ModelPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute DAY_LIST__DAYS = eINSTANCE.getDayList_Days();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.tigerstripe.annotation.core.test.model.impl.CustomMonthImpl <em>Custom Month</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.CustomMonthImpl
+		 * @see org.eclipse.tigerstripe.annotation.core.test.model.impl.ModelPackageImpl#getCustomMonth()
+		 * @generated
+		 */
+		EClass CUSTOM_MONTH = eINSTANCE.getCustomMonth();
+
+		/**
+		 * The meta object literal for the '<em><b>Weeks</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CUSTOM_MONTH__WEEKS = eINSTANCE.getCustomMonth_Weeks();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.annotation.core.test.model.Day <em>Day</em>}' enum.

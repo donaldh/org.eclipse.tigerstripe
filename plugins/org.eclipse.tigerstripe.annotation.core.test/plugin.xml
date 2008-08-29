@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.9 2008/08/27 09:20:08 ystrot Exp $
+ $Id: plugin.xml,v 1.10 2008/08/29 08:49:54 ystrot Exp $
 -->
 
 <plugin>
@@ -39,10 +39,10 @@
   
   <extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
      <definition
-           name="Day List"
+           name="Custom Month"
            epackage-uri="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore"
-           description="Days of week list"
-           eclass="DayList">
+           description="CustomMonth"
+           eclass="CustomMonth">
      </definition>
   </extension>
   
@@ -85,7 +85,7 @@
 		<provider
 			class="org.eclipse.tigerstripe.annotation.core.test.model.LabelProvider"
 			epackage-uri="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore"
-			eclass="DayList"/>
+			eclass="CustomMonth"/>
 	</extension>
 	
 	<extension

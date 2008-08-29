@@ -13,12 +13,11 @@ package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EnumerationProperty;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue;
 
 /**
  * @author Yuri Strot
@@ -29,11 +28,11 @@ public class EnumerationPropertyProvider implements EPropertyProvider {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		if (!feature.isMany() && feature.getEType() instanceof EDataType) {
-			EDataType type = (EDataType)feature.getEType();
+	public EProperty getProperty(IEditableValue value) {
+		if (!value.isMany() && value.getClassifier() instanceof EDataType) {
+			EDataType type = (EDataType)value.getClassifier();
 			if (!isEnumerationFacetEmpty(type) || type instanceof EEnum) {
-				return new EnumerationProperty(object, feature);
+				return new EnumerationProperty(value);
 			}
 		}
 		return null;

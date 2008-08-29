@@ -15,11 +15,18 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="mimeType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ProjectDescription">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="org.eclipse.tigerstripe.annotation">
+        <details key="editor" value="org.eclipse.ui.DefaultTextEditor"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DayList">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="days" lowerBound="1" upperBound="-1"
-        eType="#//Day"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="days" upperBound="-1" eType="#//Day"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomMonth">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="weeks" upperBound="-1"
+        eType="#//DayList" containment="true" resolveProxies="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Day">
     <eLiterals name="Sunday"/>

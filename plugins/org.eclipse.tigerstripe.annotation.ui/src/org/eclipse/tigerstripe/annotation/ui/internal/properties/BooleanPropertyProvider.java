@@ -11,11 +11,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.BooleanProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue;
 
 /**
  * @author Yuri Strot
@@ -26,10 +25,10 @@ public class BooleanPropertyProvider implements EPropertyProvider {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		Class<?> clazz = feature.getEType().getInstanceClass();
-		if (!feature.isMany() && clazz != null && clazz.equals(boolean.class))
-			return new BooleanProperty(object, feature);
+	public EProperty getProperty(IEditableValue value) {
+		Class<?> clazz = value.getClassifier().getInstanceClass();
+		if (!value.isMany() && clazz != null && clazz.equals(boolean.class))
+			return new BooleanProperty(value);
 		return null;
 	}
 

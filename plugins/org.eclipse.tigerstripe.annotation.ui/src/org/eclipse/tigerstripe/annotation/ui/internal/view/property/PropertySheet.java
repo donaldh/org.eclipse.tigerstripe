@@ -42,10 +42,12 @@ import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 
 public class PropertySheet extends PageBookView implements ISelectionListener,
-		IRefactoringListener, ISelectionFilter, IAnnotationEditorListener {
+		IRefactoringListener, ISelectionFilter, IAnnotationEditorListener, IPropertiesSelectionListener {
 
 	public static final String ID = "org.eclipse.tigerstripe.annotation.view.property";
 
+	private Action addAction;
+	private Action removeAction;
 	private Action saveAction;
 	private Action saveAllAction;
 	private Action revertAction;
@@ -94,9 +96,11 @@ public class PropertySheet extends PageBookView implements ISelectionListener,
 		AnnotationPlugin.getManager().addRefactoringListener(this);
 		AnnotationUIPlugin.getManager().addSelectionListener(this);
 		AnnotationUIPlugin.getManager().addSelectionFilter(this);
+		PropertiesSelectionManager.getInstance().addListener(this);
 	}
 
 	protected void removeListeners() {
+		PropertiesSelectionManager.getInstance().removeListener(this);
 		AnnotationUIPlugin.getManager().removeSelectionFilter(this);
 		AnnotationUIPlugin.getManager().removeSelectionListener(this);
 		AnnotationPlugin.getManager().removeRefactoringListener(this);
@@ -177,6 +181,25 @@ public class PropertySheet extends PageBookView implements ISelectionListener,
 	 */
 	public void init(IViewSite site) throws PartInitException {
 		super.init(site);
+		
+		addAction = new Action("Add") {
+			public void run() {
+				PropertiesSelectionManager.getInstance().getSelection().addDefaultValue();
+			}
+		};
+		addAction.setImageDescriptor(AnnotationUIPlugin
+				.createImageDescriptor("icons/add.gif"));
+		getViewSite().getActionBars().getToolBarManager().add(addAction);
+		
+		removeAction = new Action("Remove") {
+			public void run() {
+				PropertiesSelectionManager.getInstance().getSelection().remove();
+			}
+		};
+		removeAction.setImageDescriptor(AnnotationUIPlugin
+				.createImageDescriptor("icons/remove.gif"));
+		getViewSite().getActionBars().getToolBarManager().add(removeAction);
+		
 		saveAction = new Action("Save") {
 			public void run() {
 				PropertiesBrowserPage page = getPage();
@@ -402,5 +425,29 @@ public class PropertySheet extends PageBookView implements ISelectionListener,
 
 	public boolean select(IWorkbenchPart part, ISelection selection) {
 		return part != this;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.internal.view.property.IPropertiesSelectionListener#selectionChanged(java.util.List, int)
+	 */
+	public void selectionChanged(PropertySelection selection) {
+		int status = selection == null ? PropertySelection.SINGLE_SELECTION
+				: selection.getStatus();
+		switch (status) {
+			case PropertySelection.SINGLE_SELECTION:
+				addAction.setToolTipText("Add to the list");
+				removeAction.setToolTipText("Remove element");
+				break;
+			case PropertySelection.CHILD_SELECTION:
+				addAction.setToolTipText("Insert element before selection");
+				removeAction.setToolTipText("Remove selected element");
+				break;
+			default:
+				addAction.setToolTipText("Append element to the end of the list");
+				removeAction.setToolTipText("Clear list");
+			break;
+		}
+		addAction.setEnabled(status > 0);
+		removeAction.setEnabled(status > 0);
 	}
 }

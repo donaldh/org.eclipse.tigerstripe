@@ -13,8 +13,6 @@ package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
 import java.util.Date;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.annotation.ui.internal.properties.CellEditorFactory;
@@ -29,8 +27,8 @@ public class DateProperty extends EPropertyImpl {
 	 * @param object
 	 * @param feature
 	 */
-	public DateProperty(EObject object, EStructuralFeature feature) {
-		super(object, feature);
+	public DateProperty(IEditableValue value) {
+		super(value);
 	}
 	
 	/* (non-Javadoc)
@@ -38,7 +36,7 @@ public class DateProperty extends EPropertyImpl {
 	 */
 	@Override
 	protected CellEditor createEditor(Composite parent) {
-		return CellEditorFactory.createDateTimeCellEditor(parent, feature, (Date)getValue());
+		return CellEditorFactory.createDateTimeCellEditor(parent, value.getName(), (Date)getValue());
 	}
 
 }

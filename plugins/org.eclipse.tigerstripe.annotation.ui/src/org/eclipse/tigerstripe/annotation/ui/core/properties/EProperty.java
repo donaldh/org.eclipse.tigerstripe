@@ -62,8 +62,8 @@ public interface EProperty {
 	public CellEditor getEditor(Composite parent);
 	
 	/**
-	 * apply editor value
+	 * @return
 	 */
-	public void applyEditorValue();
+	public IEditableValue getEditableValue();
 
 }

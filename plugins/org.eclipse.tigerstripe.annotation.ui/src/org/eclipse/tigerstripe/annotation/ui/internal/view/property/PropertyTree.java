@@ -12,11 +12,13 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellEditorListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -75,6 +77,11 @@ public class PropertyTree {
 	
 	public void setContent(EObject object) {
 		viewer.setInput(object);
+		setNullSelection();
+	}
+	
+	protected void setNullSelection() {
+    	PropertiesSelectionManager.getInstance().setSelection(null);
 	}
 
     /**
@@ -91,8 +98,12 @@ public class PropertyTree {
             }
 
             public void applyEditorValue() {
-            	PropertyTree.this.applyEditorValue();
-                deactivateCellEditor();
+            	try {
+                	PropertyTree.this.applyEditorValue();
+            	}
+            	finally {
+                    deactivateCellEditor();
+            	}
             }
         };
     }
@@ -108,12 +119,28 @@ public class PropertyTree {
             /* (non-Javadoc)
              * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
              */
-            public void widgetSelected(SelectionEvent e) {
+			public void widgetSelected(SelectionEvent e) {
             	// The viewer only owns the status line when there is
             	// no 'active' cell editor
             	if (cellEditor == null || !cellEditor.isActivated()) {
 				}
+            	updateSelection((IStructuredSelection)viewer.getSelection());
 			}
+            
+			protected void updateSelection(IStructuredSelection sel) {
+            	if (!sel.isEmpty()) {
+            		Iterator<?> it = sel.iterator();
+            		while (it.hasNext()) {
+						Object object = it.next();
+						if (object instanceof EProperty) {
+			            	PropertiesSelectionManager.getInstance().setSelection(
+			            			new PropertySelection((EProperty)object, viewer));
+			            	return;
+						}
+					}
+            	}
+        		setNullSelection();
+            }
 
 			/* (non-Javadoc)
 			 * @see org.eclipse.swt.events.SelectionListener#widgetDefaultSelected(org.eclipse.swt.events.SelectionEvent)
@@ -177,15 +204,23 @@ public class PropertyTree {
 			return;
 		}
         EProperty entry = (EProperty) treeItem.getData();
-        entry.applyEditorValue();
-        List<Object> data = new ArrayList<Object>();
-        while(treeItem != null) {
-            data.add(treeItem.getData());
-        	treeItem = treeItem.getParentItem();
+        try {
+            if (cellEditor != null) {
+                entry.setValue(cellEditor.getValue());
+            }
         }
-        for (Object object : data) {
-            viewer.refresh(object);
-		}
+        finally {
+//        	Object[] elements = viewer.getExpandedElements();
+            List<Object> data = new ArrayList<Object>();
+            while(treeItem != null) {
+                data.add(treeItem.getData());
+            	treeItem = treeItem.getParentItem();
+            }
+            for (Object object : data) {
+                viewer.update(object, null);
+    		}
+//            viewer.setExpandedElements(elements);
+        }
     }
 
     /**

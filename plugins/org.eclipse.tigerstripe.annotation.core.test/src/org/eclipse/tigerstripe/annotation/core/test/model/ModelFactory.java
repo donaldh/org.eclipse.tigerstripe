@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ModelFactory.java,v 1.4 2008/08/27 09:20:08 ystrot Exp $
+ * $Id: ModelFactory.java,v 1.5 2008/08/29 08:49:54 ystrot Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.test.model;
 
@@ -69,6 +69,15 @@ public interface ModelFactory extends EFactory {
 	 * @generated
 	 */
 	DayList createDayList();
+
+	/**
+	 * Returns a new object of class '<em>Custom Month</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Custom Month</em>'.
+	 * @generated
+	 */
+	CustomMonth createCustomMonth();
 
 	/**
 	 * Returns the package supported by this factory.

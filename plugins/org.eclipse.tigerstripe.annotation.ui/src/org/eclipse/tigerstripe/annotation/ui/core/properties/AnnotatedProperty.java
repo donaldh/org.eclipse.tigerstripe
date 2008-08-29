@@ -12,7 +12,6 @@
 package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
 import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -25,12 +24,8 @@ public abstract class AnnotatedProperty extends EPropertyImpl {
 	
 	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
 
-	/**
-	 * @param object
-	 * @param feature
-	 */
-	public AnnotatedProperty(EObject object, EStructuralFeature feature) {
-		super(object, feature);
+	public AnnotatedProperty(IEditableValue value) {
+		super(value);
 	}
 	
 	/* (non-Javadoc)
@@ -57,8 +52,12 @@ public abstract class AnnotatedProperty extends EPropertyImpl {
 		return null;
 	}
 	
+	protected EStructuralFeature getFeature() {
+		return ((EditableFeature)value).getFeature();
+	}
+	
 	protected String getValue(String detail) {
-		return getValue(feature, detail);
+		return getValue(getFeature(), detail);
 	}
 
 }

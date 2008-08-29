@@ -11,11 +11,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EditableFeature;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EditorProperty;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.MultilineProperty;
 
 /**
@@ -27,16 +28,20 @@ public class AnnotatedPropertyProvider implements EPropertyProvider {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		Class<?> clazz = feature.getEType().getInstanceClass();
-		if (!feature.isMany() && clazz != null && clazz.equals(String.class)) {
-			String value = EditorProperty.getValue(feature, EditorProperty.ANNOTATION_EDITOR);
-			if (EditorProperty.isCorrectValue(value))
-				return new EditorProperty(object, feature);
-			
-			value = MultilineProperty.getValue(feature, MultilineProperty.ANNOTATION_MULTILINE);
-			if (MultilineProperty.isCorrectValue(value))
-				return new MultilineProperty(object, feature);
+	public EProperty getProperty(IEditableValue value) {
+		if (value instanceof EditableFeature) {
+			EditableFeature editableFeature = (EditableFeature)value;
+			EStructuralFeature feature = editableFeature.getFeature();
+			Class<?> clazz = feature.getEType().getInstanceClass();
+			if (!feature.isMany() && clazz != null && clazz.equals(String.class)) {
+				String sValue = EditorProperty.getValue(feature, EditorProperty.ANNOTATION_EDITOR);
+				if (EditorProperty.isCorrectValue(sValue))
+					return new EditorProperty(editableFeature);
+				
+				sValue = MultilineProperty.getValue(feature, MultilineProperty.ANNOTATION_MULTILINE);
+				if (MultilineProperty.isCorrectValue(sValue))
+					return new MultilineProperty(editableFeature);
+			}
 		}
 		return null;
 	}

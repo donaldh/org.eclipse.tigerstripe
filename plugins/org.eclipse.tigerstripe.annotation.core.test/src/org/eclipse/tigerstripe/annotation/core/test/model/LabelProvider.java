@@ -60,6 +60,8 @@ public class LabelProvider extends org.eclipse.jface.viewers.LabelProvider {
 			Hibernate hibernate = (Hibernate)element;
 			return "Hibernate (persistence=" + hibernate.isPersistance() + ")";
 		}
+		if (element instanceof CustomMonth)
+			return "Month";
 		if (element instanceof DayList) {
 			DayList list = (DayList)element;
 			EList<Day> days = list.getDays();

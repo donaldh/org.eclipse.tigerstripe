@@ -17,11 +17,10 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue;
 
 /**
  * @author Yuri Strot
@@ -54,10 +53,10 @@ public class PropertyRegistry {
 		return providers;
 	}
 	
-	public static EProperty getProperty(EObject object, EStructuralFeature feature) {
+	public static EProperty getProperty(IEditableValue value) {
 		for (PropertyProviderContext context : getProviders()) {
 			EPropertyProvider provider = context.getProvider();
-			EProperty property = provider.getProperty(object, feature);
+			EProperty property = provider.getProperty(value);
 			if (property != null)
 				return property;
 		}

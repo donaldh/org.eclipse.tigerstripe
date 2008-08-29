@@ -12,8 +12,6 @@
 package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.annotation.ui.internal.properties.MultiLineCellEditor;
@@ -30,8 +28,8 @@ public class MultilineProperty extends AnnotatedProperty {
 	 * @param object
 	 * @param feature
 	 */
-	public MultilineProperty(EObject object, EStructuralFeature feature) {
-		super(object, feature);
+	public MultilineProperty(IEditableValue value) {
+		super(value);
 	}
 	
 	public static boolean isCorrectValue(String value) {
@@ -53,7 +51,7 @@ public class MultilineProperty extends AnnotatedProperty {
 	protected CellEditor createEditor(Composite parent, String value) {
 		if (isCorrectValue(value)) {
 			return new MultiLineCellEditor(parent, 
-				(EDataType)getEType(), feature.getName());
+				(EDataType)getEType(), getFeature().getName());
 		}
 		return null;
 	}

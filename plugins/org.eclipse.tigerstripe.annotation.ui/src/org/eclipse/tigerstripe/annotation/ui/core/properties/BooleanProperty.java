@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.annotation.ui.internal.properties.CellEditorFactory;
@@ -27,8 +25,8 @@ public class BooleanProperty extends EPropertyImpl {
 	 * @param object
 	 * @param feature
 	 */
-	public BooleanProperty(EObject object, EStructuralFeature feature) {
-		super(object, feature);
+	public BooleanProperty(IEditableValue value) {
+		super(value);
 	}
 	
 	/* (non-Javadoc)

@@ -21,6 +21,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EditableFeature;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EditableListValue;
+import org.eclipse.tigerstripe.annotation.ui.internal.properties.ManyProperty;
 import org.eclipse.tigerstripe.annotation.ui.internal.properties.PropertyRegistry;
 
 /**
@@ -35,6 +38,7 @@ public class PropertyContentProvider implements ITreeContentProvider {
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
     }
 
+	@SuppressWarnings("unchecked")
 	public Object[] getElements(Object inputElement) {
 		List<EProperty> children = new ArrayList<EProperty>();
 		EObject object = null;
@@ -43,15 +47,31 @@ public class PropertyContentProvider implements ITreeContentProvider {
 		}
 		if (inputElement instanceof EProperty) {
 			EProperty property = (EProperty)inputElement;
-			if (property.getEType() instanceof EClass) {
+			if (property.getEType() instanceof EClass && 
+					!property.getEditableValue().isMany()) {
 				object = (EObject)property.getValue();
 			}
 		}
-		if (object != null) {
+		if (inputElement instanceof ManyProperty) {
+			ManyProperty property = (ManyProperty)inputElement;
+			EditableFeature value = property.getEditableValue();
+			List<Object> list = (List<Object>)value.getValue();
+			for (int i = 0; i < list.size(); i++) {
+				EditableListValue ef = new EditableListValue(value, list, i);
+				children.add(PropertyRegistry.getProperty(ef));
+			}
+		}
+		else if (object != null) {
 			Iterator<EStructuralFeature> attrs = object.eClass().getEAllStructuralFeatures().iterator();
 			while (attrs.hasNext()) {
 				EStructuralFeature feature = (EStructuralFeature) attrs.next();
-				children.add(PropertyRegistry.getProperty(object, feature));
+				EditableFeature ef = new EditableFeature(object, feature);
+				if (feature.isMany()) {
+					children.add(new ManyProperty(ef));
+				}
+				else {
+					children.add(PropertyRegistry.getProperty(ef));
+				}
 			}
 		}
 	    return children.toArray(new EProperty[children.size()]);
@@ -65,6 +85,7 @@ public class PropertyContentProvider implements ITreeContentProvider {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean hasChildren(Object element) {
 		EObject object = null;
 		if (element instanceof EObject) {
@@ -75,6 +96,12 @@ public class PropertyContentProvider implements ITreeContentProvider {
 			if (property.getValue() instanceof EObject) {
 				object = (EObject)property.getValue();
 			}
+		}
+		if (element instanceof ManyProperty) {
+			ManyProperty property = (ManyProperty)element;
+			EditableFeature value = property.getEditableValue();
+			List<Object> list = (List<Object>)value.getValue();
+			return list.size() > 0;
 		}
 		if (object != null) {
 			return object.eClass().getEAllStructuralFeatures().size() > 0;

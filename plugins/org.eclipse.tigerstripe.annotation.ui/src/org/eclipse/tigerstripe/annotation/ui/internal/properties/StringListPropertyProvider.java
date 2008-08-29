@@ -12,11 +12,9 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EGenericType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.StringListProperty;
 
 /**
@@ -28,17 +26,12 @@ public class StringListPropertyProvider implements EPropertyProvider {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
 	 */
-	public EProperty getProperty(EObject object, EStructuralFeature feature) {
-		if (feature.isMany()) {
-			EGenericType type = feature.getEGenericType();
-			if (type != null) {
-				EClassifier classifier = type.getERawType();
-				if (classifier != null) {
-					Class<?> clazz = classifier.getInstanceClass();
-					if (clazz != null && clazz.equals(String.class))
-						return new StringListProperty(object, feature);
-				}
-			}
+	public EProperty getProperty(IEditableValue value) {
+		if (value.isMany()) {
+			EClassifier eType = value.getClassifier();
+			Class<?> clazz = eType.getInstanceClass();
+			if (clazz != null && clazz.equals(String.class))
+				return new StringListProperty(value);
 		}
 		return null;
 	}

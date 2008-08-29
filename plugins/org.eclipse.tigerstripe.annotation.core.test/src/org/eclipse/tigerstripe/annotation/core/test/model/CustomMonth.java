@@ -9,25 +9,20 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.core.properties;
+package org.eclipse.tigerstripe.annotation.core.test.model;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 
 /**
- * Annotation properties provider
- * 
  * @author Yuri Strot
+ * @model
  */
-public interface EPropertyProvider {
+public interface CustomMonth extends EObject {
 	
 	/**
-	 * Return property for the given EObject feature or null if this provider do not
-	 * provide properties for the specified EObject feature
-	 * 
-	 * @param object specified object
-	 * @param feature specified feature
-	 * @return annotation property or null if properties provider do not
-	 * provide properties for the specified EObject feature
+	 * @model containment="true"
 	 */
-	public EProperty getProperty(IEditableValue value);
+	public EList<DayList> getWeeks();
 
 }

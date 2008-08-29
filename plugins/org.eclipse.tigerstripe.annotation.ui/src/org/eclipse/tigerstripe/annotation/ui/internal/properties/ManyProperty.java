@@ -11,22 +11,25 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.properties;
 
-import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyImpl;
-import org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider;
-import org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue;
+import org.eclipse.tigerstripe.annotation.ui.core.properties.EditableFeature;
 
 /**
  * @author Yuri Strot
  *
  */
-public class GeneralPropertyProvider implements EPropertyProvider {
+public class ManyProperty extends EPropertyImpl {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EPropertyProvider#getProperty(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EStructuralFeature)
+	/**
+	 * @param object
+	 * @param feature
 	 */
-	public EProperty getProperty(IEditableValue value) {
-		return new EPropertyImpl(value);
+	public ManyProperty(EditableFeature value) {
+		super(value);
+	}
+	
+	public EditableFeature getEditableValue() {
+		return (EditableFeature)value;
 	}
 
 }

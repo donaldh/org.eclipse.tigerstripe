@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.annotation.ui.internal.properties.OpenEditorCellEditor;
@@ -29,8 +27,8 @@ public class EditorProperty extends AnnotatedProperty {
 	 * @param object
 	 * @param feature
 	 */
-	public EditorProperty(EObject object, EStructuralFeature feature) {
-		super(object, feature);
+	public EditorProperty(IEditableValue value) {
+		super(value);
 	}
 	
 	/* (non-Javadoc)
