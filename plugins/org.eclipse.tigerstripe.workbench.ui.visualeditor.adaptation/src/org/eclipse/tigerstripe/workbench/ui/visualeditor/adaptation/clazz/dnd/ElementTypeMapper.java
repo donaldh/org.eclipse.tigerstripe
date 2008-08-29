@@ -229,7 +229,7 @@ public class ElementTypeMapper {
 		return ElementTypeRegistry.getInstance().getType(id);
 	}
 
-	protected static IElementType mapToElementType(Object obj) {
+	public static IElementType mapToElementType(Object obj) {
 
 		if (obj instanceof IManagedEntityArtifact)
 			return ManagedEntityArtifact_1003;
@@ -257,6 +257,34 @@ public class ElementTypeMapper {
 		return null;
 	}
 
+	public static IElementType mapClassStringToElementType(String artifactClassName) {
+
+		if (artifactClassName.equals(IManagedEntityArtifact.class.getName()))
+			return ManagedEntityArtifact_1003;
+		else if (artifactClassName.equals(IDatatypeArtifact.class.getName()))
+			return DatatypeArtifact_1005;
+		else if (artifactClassName.equals(IEnumArtifact.class.getName()))
+			return Enumeration_1006;
+		else if (artifactClassName.equals(IQueryArtifact.class.getName()))
+			return NamedQueryArtifact_1001;
+		else if (artifactClassName.equals(IUpdateProcedureArtifact.class.getName()))
+			return UpdateProcedureArtifact_1007;
+		else if (artifactClassName.equals(IExceptionArtifact.class.getName()))
+			return ExceptionArtifact_1002;
+		else if (artifactClassName.equals(ISessionArtifact.class.getName()))
+			return SessionFacadeArtifact_1008;
+		else if (artifactClassName.equals(IEventArtifact.class.getName()))
+			return NotificationArtifact_1004;
+		else if (artifactClassName.equals(IAssociationClassArtifact.class.getName()))
+			return AssociationClass_3010;
+		else if (artifactClassName.equals(IAssociationArtifact.class.getName()))
+			return Association_3001;
+		else if (artifactClassName.equals(IDependencyArtifact.class.getName()))
+			return Dependency_3008;
+
+		return null;
+	}
+	
 	public static Class mapToIArtifactType(EObject eObject)
 			throws TigerstripeException {
 		if (eObject instanceof ManagedEntityArtifact)
