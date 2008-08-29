@@ -42,7 +42,7 @@
                  artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact"
                  isAbstract="true">
         <ts:implements>
-            <ts:implementedInterface>com.cisco.sess</ts:implementedInterface>
+            <ts:implementedInterface>com.cisco.Sess</ts:implementedInterface>
             <ts:implementedInterface>com.cisco.Super</ts:implementedInterface>
         </ts:implements>
 		<ts:comment>One of these</ts:comment>
@@ -115,7 +115,7 @@
                            </ts:stereotype>
                        </ts:returnStereotypes>
                        <ts:exceptions>
-                    		<ts:exception name="org.eclipse.anException"/>
+                    		<ts:exception name="com.cisco.anException"/>
                 	   </ts:exceptions>
                        <ts:comment>You must have this method</ts:comment>
             </ts:method>

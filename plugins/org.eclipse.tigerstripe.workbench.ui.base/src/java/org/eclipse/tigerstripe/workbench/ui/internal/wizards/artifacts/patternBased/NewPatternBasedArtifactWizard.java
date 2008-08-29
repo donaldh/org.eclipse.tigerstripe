@@ -95,14 +95,14 @@ public abstract class NewPatternBasedArtifactWizard extends NewTSElementWizard {
 						((INodePattern) patt).executeRequests(project, 
 								packageName, 
 								artifactName, 
-								extendedArtifact);
+								extendedArtifact, true);
 					} else if (patt instanceof IRelationPattern){
 						((IRelationPattern) patt).executeRequests(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact,
 								aEndType,
-								zEndType);
+								zEndType, true);
 					}
 				} catch (Exception e) {
 					throw new InvocationTargetException(e);

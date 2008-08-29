@@ -141,7 +141,6 @@ public class NewWizardsActionGroup extends ActionGroup {
 							for (String patternName : PatternFactory.getInstance().getRegisteredPatterns().keySet()){
 								
 								IPattern pattern = PatternFactory.getInstance().getPattern(patternName);
-								System.out.println(patternName+" "+pattern.getClass().getName());
 								// How should we handle the "turn offable-ness" of the underlying artifact type(s)
 								// if (prop.getDetailsForType(	IPackageArtifact.class.getName()).isEnabled()) {
 									newMenu.add(new OpenNewPatternBasedArtifactWizardAction(pattern));

@@ -242,7 +242,7 @@ public class PatternTest extends TestCase {
 		IPattern pattern = PatternFactory.getInstance().getPattern(patternname);
 		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
 		INodePattern mePattern = (INodePattern) pattern;
-		mePattern.executeRequests(project, targetPackage, entityName, "");
+		mePattern.executeRequests(project, targetPackage, entityName, "",true);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
@@ -265,7 +265,7 @@ public class PatternTest extends TestCase {
 		IPattern pattern = PatternFactory.getInstance().getPattern(patternname);
 		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
 		IRelationPattern mePattern = (IRelationPattern) pattern;
-		mePattern.executeRequests(project, targetPackage, entityName, "",aEndType,zEndType);
+		mePattern.executeRequests(project, targetPackage, entityName, "",aEndType,zEndType,true);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
@@ -326,7 +326,7 @@ public class PatternTest extends TestCase {
 		IPattern pattern = PatternFactory.getInstance().getPattern(patternname);
 		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
 		INodePattern mePattern = (INodePattern) pattern;
-		mePattern.executeRequests(project, targetPackage, entityName, extendedArtifact);
+		mePattern.executeRequests(project, targetPackage, entityName, extendedArtifact,true);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
@@ -438,7 +438,7 @@ public class PatternTest extends TestCase {
 		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
 		IRelationPattern relPattern = (IRelationPattern) pattern;
 		relPattern.executeRequests(project, targetPackage, entityName, extendedArtifact,
-				aEndType,zEndType);
+				aEndType,zEndType,true);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
