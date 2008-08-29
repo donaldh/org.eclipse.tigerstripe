@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.EditableListValue;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue;
@@ -50,20 +49,18 @@ public class PropertySelection {
 		return SINGLE_SELECTION;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void remove() {
 		IEditableValue value = property.getEditableValue();
 		if (value instanceof EditableListValue) {
 			EditableListValue editableValue = (EditableListValue)value;
 			editableValue.remove();
-			TreeItem[] items = viewer.getTree().getSelection();
-			if (items.length > 0) {
-				viewer.refresh(items[0].getParentItem().getData());
-			}
+			viewer.refresh();
 		}
 		else if (value.getValue() instanceof List<?>) {
 			List<Object> list = (List<Object>)value.getValue();
 			list.clear();
-			viewer.refresh(property);
+			viewer.refresh();
 		}
 	}
 	
@@ -74,10 +71,7 @@ public class PropertySelection {
 		if (value instanceof EditableListValue) {
 			EditableListValue editableValue = (EditableListValue)value;
 			editableValue.insert(defaultValue);
-			TreeItem[] items = viewer.getTree().getSelection();
-			if (items.length > 0) {
-				viewer.refresh(items[0].getParentItem().getData());
-			}
+			viewer.refresh();
 		}
 		else if (value.getValue() instanceof List<?>) {
 			EClassifier classifier = value.getClassifier();
@@ -87,7 +81,7 @@ public class PropertySelection {
 			}
 			List<Object> list = (List<Object>)value.getValue();
 			list.add(defaultValue);
-			viewer.refresh(property);
+			viewer.refresh();
 		}
 	}
 

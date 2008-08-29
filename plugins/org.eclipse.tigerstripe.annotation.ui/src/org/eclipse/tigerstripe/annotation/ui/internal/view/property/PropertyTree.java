@@ -11,9 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.CellEditor;
@@ -210,16 +208,7 @@ public class PropertyTree {
             }
         }
         finally {
-//        	Object[] elements = viewer.getExpandedElements();
-            List<Object> data = new ArrayList<Object>();
-            while(treeItem != null) {
-                data.add(treeItem.getData());
-            	treeItem = treeItem.getParentItem();
-            }
-            for (Object object : data) {
-                viewer.update(object, null);
-    		}
-//            viewer.setExpandedElements(elements);
+        	viewer.refresh();
         }
     }
 

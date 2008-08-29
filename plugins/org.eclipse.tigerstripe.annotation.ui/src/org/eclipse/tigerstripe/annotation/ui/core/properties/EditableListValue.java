@@ -14,6 +14,7 @@ package org.eclipse.tigerstripe.annotation.ui.core.properties;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.tigerstripe.annotation.core.util.ObjectUtil;
 
 /**
  * @author Yuri Strot
@@ -29,6 +30,27 @@ public class EditableListValue implements IEditableValue {
 		this.list = list;
 		this.index = index;
 		this.parent = parent;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof EditableListValue) {
+			EditableListValue value = (EditableListValue)obj;
+			return ObjectUtil.equals(parent, value.parent) && 
+				ObjectUtil.equals(list, value.list) && index == value.index;
+		}
+		return false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return index ^ ObjectUtil.hashCode(list) ^ ObjectUtil.hashCode(parent);
 	}
 
 	/* (non-Javadoc)
@@ -70,11 +92,15 @@ public class EditableListValue implements IEditableValue {
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue#setValue(java.lang.Object)
 	 */
 	public void setValue(Object value) {
-		list.set(index, value);
+		if (value != null)
+			list.set(index, value);
+		else
+			remove();
 	}
 	
 	public void insert(Object value) {
-		list.add(index, value);
+		if (value != null)
+			list.add(index, value);
 	}
 	
 	public void remove() {

@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.util.ObjectUtil;
 
 /**
  * @author Yuri Strot
@@ -100,6 +101,27 @@ public class EditableFeature implements IEditableValue {
 			}
 			current = current.eContainer();
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof EditableFeature) {
+			EditableFeature value = (EditableFeature)obj;
+			return ObjectUtil.equals(object, value.object) && 
+				ObjectUtil.equals(feature, value.feature);
+		}
+		return false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return ObjectUtil.hashCode(object) ^ ObjectUtil.hashCode(feature);
 	}
 
 }

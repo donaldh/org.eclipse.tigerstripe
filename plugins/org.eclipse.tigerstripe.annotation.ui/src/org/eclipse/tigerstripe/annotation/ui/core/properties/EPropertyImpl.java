@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.annotation.core.util.ObjectUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 /**
@@ -118,6 +119,26 @@ public class EPropertyImpl implements EProperty {
 	 */
 	public void setValue(Object value) {
 		this.value.setValue(value);
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof EPropertyImpl) {
+			EPropertyImpl property = (EPropertyImpl)obj;
+			return ObjectUtil.equals(value, property.value);
+		}
+		return false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return ObjectUtil.hashCode(value);
 	}
 
 }
