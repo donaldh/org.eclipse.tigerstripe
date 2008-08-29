@@ -32,15 +32,25 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 
+	protected String artifactType;
+	
+	public void  setTargetArtifactType(String artifactType) {
+		this.artifactType = artifactType;
+	}
+
+	public String getTargetArtifactType() {	
+		return this.artifactType;
+	}
+
 	public void executeRequests(ITigerstripeModelProject project,
-			String packageName, String artifactName, String extendedArtifact) {
+			String packageName, String artifactName, String extendedArtifact, boolean createAndSet) {
 		executeRequests( project, packageName,  artifactName, extendedArtifact,
-				"", "");
+				"", "", createAndSet);
 	}
 
 	public void executeRequests(ITigerstripeModelProject project,
 			String packageName, String artifactName, String extendedArtifact,
-			String aEndType, String zEndType) {
+			String aEndType, String zEndType,boolean createAndSet) {
 
 
 		IArtifactManagerSession mgrSession = null;
@@ -60,35 +70,37 @@ public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 		for (IModelChangeRequest request : requests){
 			// Only the first one should be a create request.
 			String  fqn = packageName+"."+artifactName;
-			
-			if (request instanceof IArtifactCreateRequest){
-				if (created){
-					BasePlugin.logErrorMessage("Duplicate Create Request in Pattern execution");
-					return;
-				}
-				ArtifactCreateRequest createRequest = (ArtifactCreateRequest) request;
-				createRequest.setArtifactName(artifactName);
-				createRequest.setArtifactPackage(packageName);
-				if (request instanceof ArtifactLinkCreateRequest){
-					ArtifactLinkCreateRequest linkRequest = (ArtifactLinkCreateRequest)  request;
-					linkRequest.setAEndType(aEndType);
-					linkRequest.setZEndType(zEndType);
-				} 
-				try {
-					modelUpdater.handleChangeRequest(createRequest);
-					created = true;
-					if ( extendedArtifact != null && !extendedArtifact.equals("") && !extendedArtifact.equals("$user")){
-						IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest) (new ModelChangeRequestFactory()).makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
-						setRequest.setFeatureId(IArtifactSetFeatureRequest.EXTENDS_FEATURE);
-						setRequest.setArtifactFQN(fqn);
-						setRequest.setFeatureValue(extendedArtifact);
-						modelUpdater.handleChangeRequest(setRequest);
+
+			if (request instanceof IArtifactCreateRequest ){
+				if (createAndSet){
+					if (created){
+						BasePlugin.logErrorMessage("Duplicate Create Request in Pattern execution");
+						return;
 					}
-					
-				} catch (TigerstripeException t){
-					// Failed to create Artifact - we can just stop here.
-					BasePlugin.log(t);
-					return;
+					ArtifactCreateRequest createRequest = (ArtifactCreateRequest) request;
+					createRequest.setArtifactName(artifactName);
+					createRequest.setArtifactPackage(packageName);
+					if (request instanceof ArtifactLinkCreateRequest){
+						ArtifactLinkCreateRequest linkRequest = (ArtifactLinkCreateRequest)  request;
+						linkRequest.setAEndType(aEndType);
+						linkRequest.setZEndType(zEndType);
+					} 
+					try {
+						modelUpdater.handleChangeRequest(createRequest);
+						created = true;
+						if ( extendedArtifact != null && !extendedArtifact.equals("") && !extendedArtifact.equals("$user")){
+							IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest) (new ModelChangeRequestFactory()).makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
+							setRequest.setFeatureId(IArtifactSetFeatureRequest.EXTENDS_FEATURE);
+							setRequest.setArtifactFQN(fqn);
+							setRequest.setFeatureValue(extendedArtifact);
+							modelUpdater.handleChangeRequest(setRequest);
+						}
+
+					} catch (TigerstripeException t){
+						// Failed to create Artifact - we can just stop here.
+						BasePlugin.log(t);
+						return;
+					}
 				}
 			} else {
 

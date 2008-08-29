@@ -14,8 +14,9 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public interface IArtifactPattern extends IPattern{
 
+	public String getTargetArtifactType();
 	
 	public void executeRequests(ITigerstripeModelProject project,
-			String packageName, String ArtifactName, String extendedArtifact);
+			String packageName, String ArtifactName, String extendedArtifact, boolean createAndSet);
 	
 }

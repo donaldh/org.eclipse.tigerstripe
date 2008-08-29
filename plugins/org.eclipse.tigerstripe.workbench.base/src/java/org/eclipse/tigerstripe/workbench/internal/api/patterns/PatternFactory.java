@@ -300,6 +300,8 @@ public class PatternFactory implements IPatternFactory {
 
 	private static void singleArtifactPattern(Pattern pattern,Element artifactElement ) throws TigerstripeException {
 		
+		
+		
 		String artifactType = xmlParserUtils.getArtifactType(artifactElement);
 		// Check the profile allows this kind of artifact
 		IWorkbenchProfile profile = TigerstripeCore
@@ -309,7 +311,8 @@ public class PatternFactory implements IPatternFactory {
 			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 		if (prop.getDetailsForType(artifactType)
 				.isEnabled()) {
-
+			ArtifactPattern artifactPattern = (ArtifactPattern) pattern;
+			artifactPattern.setTargetArtifactType(artifactType);
 			if (pattern instanceof INodePattern){
 				addNodeRequests(pattern,artifactElement, artifactType);
 			} else if (pattern instanceof IRelationPattern){
