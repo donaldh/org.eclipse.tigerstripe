@@ -92,16 +92,21 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	public Annotation addAnnotation(Object object, EObject content) throws AnnotationException {
 		URI uri = getUri(object);
 		if (uri != null) {
-			checkUnique(object, uri, content.eClass());
-			Annotation annotation = AnnotationFactory.eINSTANCE.createAnnotation();
-			annotation.setUri(uri);
-			annotation.setContent(content);
-			validateAnnotation(annotation, object);
+			Annotation annotation = createAnnotation(object, content, uri);
 			add(annotation);
 			return annotation;
 		}
 		return null;
     }
+	
+	protected Annotation createAnnotation(Object object, EObject content, URI uri) throws AnnotationException {
+		checkUnique(object, uri, content.eClass());
+		Annotation annotation = AnnotationFactory.eINSTANCE.createAnnotation();
+		annotation.setUri(uri);
+		annotation.setContent(content);
+		validateAnnotation(annotation, object);
+		return annotation;
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getProviderTargets()
@@ -146,13 +151,11 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		URI uri = getUri(object);
 		if (uri == null)
 			return false;
-		if (isUnique(object, clazz)) {
-			List<Annotation> annotations = getAnnotations(uri);
-			for (Annotation annot : annotations) {
-				if (clazz.equals(annot.getContent().eClass())) {
-					return false;
-				}
-			}
+		EObject content = clazz.getEPackage().getEFactoryInstance().create(clazz);
+		try {
+			createAnnotation(object, content, uri);
+		} catch (AnnotationException e) {
+			return false;
 		}
 		return true;
 	}
