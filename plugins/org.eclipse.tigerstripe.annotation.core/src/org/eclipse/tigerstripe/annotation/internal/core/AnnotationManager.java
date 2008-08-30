@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
@@ -26,14 +27,17 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationConstraintException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.CompositeRefactorListener;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationConstraint;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationTarget;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationValidationContext;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.core.ProviderContext;
@@ -60,6 +64,9 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	private static final String ANNOTATION_PROVIDER_EXTPT = 
 		"org.eclipse.tigerstripe.annotation.core.annotationProvider";
 	
+	private static final String ANNOTATION_CONSTRAINT_EXTPT = 
+		"org.eclipse.tigerstripe.annotation.core.constraints";
+	
 	private static final String ANNOTATION_ATTR_CLASS = "class";
 	
 	private static AnnotationManager instance;
@@ -67,6 +74,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	private Map<String, AnnotationType> types;
 	private List<Adapter> adapters;
 	private ProviderManager providerManager;
+	private IAnnotationConstraint[] constraints;
 	
 	private CompositeRefactorListener refactorListener = new CompositeRefactorListener();
 	
@@ -88,6 +96,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 			Annotation annotation = AnnotationFactory.eINSTANCE.createAnnotation();
 			annotation.setUri(uri);
 			annotation.setContent(content);
+			validateAnnotation(annotation);
 			add(annotation);
 			return annotation;
 		}
@@ -392,6 +401,38 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	        }
 		}
 		return providerManager;
+	}
+	
+	protected void validateAnnotation(Annotation annotation) throws AnnotationConstraintException {
+		IAnnotationValidationContext context = new AnnotationValidationContext(annotation);
+		IAnnotationConstraint[] constraints = getConstraints();
+		for (int i = 0; i < constraints.length; i++) {
+			IStatus status = constraints[i].validate(context);
+			if (status != null && !status.isOK()) {
+				throw new AnnotationConstraintException(status.getMessage(), status.getException());
+			}
+		}
+	}
+	
+	protected IAnnotationConstraint[] getConstraints() {
+		if (constraints == null) {
+			ArrayList<IAnnotationConstraint> constraints = new ArrayList<IAnnotationConstraint>();
+			IConfigurationElement[] configs = Platform.getExtensionRegistry(
+				).getConfigurationElementsFor(ANNOTATION_CONSTRAINT_EXTPT);
+	        for (IConfigurationElement config : configs) {
+	        	try {
+	                IAnnotationConstraint constraint = (IAnnotationConstraint)
+	                	config.createExecutableExtension(ANNOTATION_ATTR_CLASS);
+	                constraints.add(constraint);
+	            }
+	            catch (Exception e) {
+	            	AnnotationPlugin.log(e);
+	            }
+	        }
+	        this.constraints = constraints.toArray(
+	        		new IAnnotationConstraint[constraints.size()]); 
+		}
+		return constraints;
 	}
 	
 	public Map<String, AnnotationType> getTypesMap() {
