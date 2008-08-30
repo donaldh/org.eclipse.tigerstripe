@@ -24,9 +24,11 @@ import org.eclipse.tigerstripe.annotation.core.IAnnotationValidationContext;
 public class AnnotationValidationContext implements IAnnotationValidationContext {
 	
 	private Annotation annotation;
+	private Object object;
 	
-	public AnnotationValidationContext(Annotation annotation) {
+	public AnnotationValidationContext(Annotation annotation, Object object) {
 		this.annotation = annotation;
+		this.object = object;
 	}
 	
 	/* (non-Javadoc)
@@ -55,6 +57,13 @@ public class AnnotationValidationContext implements IAnnotationValidationContext
 	 */
 	public Annotation getAnnotation() {
 		return annotation;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationValidationContext#getAnnotatedObject()
+	 */
+	public Object getAnnotatedObject() {
+		return object;
 	}
 
 }

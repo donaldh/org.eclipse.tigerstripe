@@ -30,6 +30,13 @@ public interface IAnnotationValidationContext {
 	 */
 	public Annotation getAnnotation();
 	
+	/**
+	 * Return annotated object
+	 * 
+	 * @return annotated object
+	 */
+	public Object getAnnotatedObject();
+	
 	
 	/**
 	 * Creates a status object indicating successful evaluation of the

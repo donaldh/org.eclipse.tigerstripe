@@ -96,7 +96,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 			Annotation annotation = AnnotationFactory.eINSTANCE.createAnnotation();
 			annotation.setUri(uri);
 			annotation.setContent(content);
-			validateAnnotation(annotation);
+			validateAnnotation(annotation, object);
 			add(annotation);
 			return annotation;
 		}
@@ -403,8 +403,8 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		return providerManager;
 	}
 	
-	protected void validateAnnotation(Annotation annotation) throws AnnotationConstraintException {
-		IAnnotationValidationContext context = new AnnotationValidationContext(annotation);
+	protected void validateAnnotation(Annotation annotation, Object object) throws AnnotationConstraintException {
+		IAnnotationValidationContext context = new AnnotationValidationContext(annotation, object);
 		IAnnotationConstraint[] constraints = getConstraints();
 		for (int i = 0; i < constraints.length; i++) {
 			IStatus status = constraints[i].validate(context);
