@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -75,6 +76,11 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	private List<Adapter> adapters;
 	private ProviderManager providerManager;
 	private IAnnotationConstraint[] constraints;
+	
+	private ReentrantLock typesLock = new ReentrantLock();
+	private ReentrantLock adaptersLock = new ReentrantLock();
+	private ReentrantLock providerManagerLock = new ReentrantLock();
+	private ReentrantLock constraintsLock = new ReentrantLock();
 	
 	private CompositeRefactorListener refactorListener = new CompositeRefactorListener();
 	
@@ -295,9 +301,9 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	 */
 	public void set(Annotation annotation, EObject object,
 			EStructuralFeature feature, Object value) {
-		database.remove(annotation);
+		getDatabase().remove(annotation);
 		object.eSet(feature, value);
-		database.write(annotation);
+		getDatabase().write(annotation);
 	}
 	
 	public static AnnotationManager getInstance() {
@@ -341,7 +347,7 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 		
 		String[] delegates = context.getDelegates();
 		for (int i = 0; i < delegates.length; i++) {
-			ProviderContext newContext = providerManager.getProviderByType(delegates[i]);
+			ProviderContext newContext = getProviderManager().getProviderByType(delegates[i]);
 			if (newContext != null) {
 				Object adapted = newContext.getTarget().adapt(object);
 				if (adapted != null)
@@ -389,21 +395,27 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	}
 	
 	protected ProviderManager getProviderManager() {
-		if (providerManager == null) {
-			providerManager = new ProviderManager();
-			IConfigurationElement[] configs = Platform.getExtensionRegistry(
-				).getConfigurationElementsFor(ANNOTATION_PROVIDER_EXTPT);
-	        for (IConfigurationElement config : configs) {
-	        	try {
-	        		ProviderContext context = new ProviderContext(config);
-	                providerManager.addProvider(context);
-	            }
-	            catch (CoreException e) {
-	                e.printStackTrace();
-	            }
-	        }
+		try {
+			providerManagerLock.lock();
+			if (providerManager == null) {
+				providerManager = new ProviderManager();
+				IConfigurationElement[] configs = Platform.getExtensionRegistry(
+					).getConfigurationElementsFor(ANNOTATION_PROVIDER_EXTPT);
+		        for (IConfigurationElement config : configs) {
+		        	try {
+		        		ProviderContext context = new ProviderContext(config);
+		                providerManager.addProvider(context);
+		            }
+		            catch (CoreException e) {
+		                e.printStackTrace();
+		            }
+		        }
+			}
+			return providerManager;
 		}
-		return providerManager;
+		finally {
+			providerManagerLock.unlock();
+		}
 	}
 	
 	protected void validateAnnotation(Annotation annotation, Object object) throws AnnotationConstraintException {
@@ -418,43 +430,56 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	}
 	
 	protected IAnnotationConstraint[] getConstraints() {
-		if (constraints == null) {
-			ArrayList<IAnnotationConstraint> constraints = new ArrayList<IAnnotationConstraint>();
-			IConfigurationElement[] configs = Platform.getExtensionRegistry(
-				).getConfigurationElementsFor(ANNOTATION_CONSTRAINT_EXTPT);
-	        for (IConfigurationElement config : configs) {
-	        	try {
-	                IAnnotationConstraint constraint = (IAnnotationConstraint)
-	                	config.createExecutableExtension(ANNOTATION_ATTR_CLASS);
-	                constraints.add(constraint);
-	            }
-	            catch (Exception e) {
-	            	AnnotationPlugin.log(e);
-	            }
-	        }
-	        this.constraints = constraints.toArray(
-	        		new IAnnotationConstraint[constraints.size()]); 
+		try {
+			constraintsLock.lock();
+			if (constraints == null) {
+				ArrayList<IAnnotationConstraint> constraints = new ArrayList<IAnnotationConstraint>();
+				IConfigurationElement[] configs = Platform.getExtensionRegistry(
+					).getConfigurationElementsFor(ANNOTATION_CONSTRAINT_EXTPT);
+		        for (IConfigurationElement config : configs) {
+		        	try {
+		                IAnnotationConstraint constraint = (IAnnotationConstraint)
+		                	config.createExecutableExtension(ANNOTATION_ATTR_CLASS);
+		                constraints.add(constraint);
+		            }
+		            catch (Exception e) {
+		            	AnnotationPlugin.log(e);
+		            }
+		        }
+		        this.constraints = constraints.toArray(
+		        		new IAnnotationConstraint[constraints.size()]); 
+			}
+			return constraints;
+			
 		}
-		return constraints;
+		finally {
+			constraintsLock.unlock();
+		}
 	}
 	
 	public Map<String, AnnotationType> getTypesMap() {
-		if (this.types == null) {
-			types = new HashMap<String, AnnotationType>();
-			IConfigurationElement[] configs = Platform.getExtensionRegistry(
-				).getConfigurationElementsFor(ANNOTATION_TYPE_EXTPT);
-	        for (IConfigurationElement config : configs) {
-	        	try {
-	        		AnnotationType type = new AnnotationType(config);
-	        		types.put(AnnotationUtils.getInstanceClassName(
-	        				type.getClazz()).getFullClassName(), type);
-	            }
-	            catch (Exception e) {
-	            	AnnotationPlugin.log(e);
-	            }
-	        }
+		try {
+			typesLock.lock();
+			if (this.types == null) {
+				types = new HashMap<String, AnnotationType>();
+				IConfigurationElement[] configs = Platform.getExtensionRegistry(
+					).getConfigurationElementsFor(ANNOTATION_TYPE_EXTPT);
+		        for (IConfigurationElement config : configs) {
+		        	try {
+		        		AnnotationType type = new AnnotationType(config);
+		        		types.put(AnnotationUtils.getInstanceClassName(
+		        				type.getClazz()).getFullClassName(), type);
+		            }
+		            catch (Exception e) {
+		            	AnnotationPlugin.log(e);
+		            }
+		        }
+			}
+			return types;
 		}
-		return types;
+		finally {
+			typesLock.unlock();
+		}
 	}
 	
 	public AnnotationType[] getTypes() {
@@ -467,22 +492,28 @@ public class AnnotationManager extends AnnotationStorage implements IAnnotationM
 	}
 	
 	public List<Adapter> getAdapters() {
-		if (adapters == null) {
-			adapters = new ArrayList<Adapter>();
-			IConfigurationElement[] configs = Platform.getExtensionRegistry(
-				).getConfigurationElementsFor(ANNOTATION_ADAPTER_EXTPT);
-	        for (IConfigurationElement config : configs) {
-	        	try {
-	                Adapter adapter = 
-	                	(Adapter)config.createExecutableExtension(ANNOTATION_ATTR_CLASS);
-	                adapters.add(adapter);
-	            }
-	            catch (Exception e) {
-	            	AnnotationPlugin.log(e);
-	            }
-	        }
+		try {
+			adaptersLock.lock();
+			if (adapters == null) {
+				adapters = new ArrayList<Adapter>();
+				IConfigurationElement[] configs = Platform.getExtensionRegistry(
+					).getConfigurationElementsFor(ANNOTATION_ADAPTER_EXTPT);
+		        for (IConfigurationElement config : configs) {
+		        	try {
+		                Adapter adapter = 
+		                	(Adapter)config.createExecutableExtension(ANNOTATION_ATTR_CLASS);
+		                adapters.add(adapter);
+		            }
+		            catch (Exception e) {
+		            	AnnotationPlugin.log(e);
+		            }
+		        }
+			}
+			return adapters;
 		}
-		return adapters;
+		finally {
+			adaptersLock.unlock();
+		}
 	}
 
 	public Object getObject(URI uri) {

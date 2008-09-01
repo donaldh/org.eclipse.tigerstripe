@@ -89,6 +89,7 @@ public interface IAnnotationManager {
 	/**
 	 * Return all loaded annotations
 	 * 
+	 * @deprecated
 	 * @return all loaded annotations
 	 */
 	public Annotation[] getLoadedAnnotations();

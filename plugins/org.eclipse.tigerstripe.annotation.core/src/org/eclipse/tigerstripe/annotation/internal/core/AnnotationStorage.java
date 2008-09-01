@@ -12,10 +12,11 @@
 package org.eclipse.tigerstripe.annotation.internal.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
@@ -42,18 +43,31 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	
 	protected static Annotation[] EMPTY_ARRAY = new Annotation[0];
 	
+	private EMFDatabase database;
+	private ReentrantLock databaseLock = new ReentrantLock();
 	protected ListenerList listeners = new ListenerList();
-	protected EMFDatabase database = new EMFDatabase(this);
 	
 	protected Map<Annotation, ChangeRecorder> changes =
-		new HashMap<Annotation, ChangeRecorder>();
+		new ConcurrentHashMap<Annotation, ChangeRecorder>();
 	
 	public AnnotationStorage() {
 	}
 	
+	protected EMFDatabase getDatabase() {
+		databaseLock.lock();
+		try {
+			if (database == null)
+				database = new EMFDatabase(this);
+			return database;
+		}
+		finally {
+			databaseLock.unlock();
+		}
+	}
+	
 	public void add(Annotation annotation) {
 		addToList(annotation, annotation.getUri());
-		database.write(annotation);
+		getDatabase().write(annotation);
 		trackChanges(annotation);
 		fireAnnotationAdded(annotation);
 	}
@@ -108,17 +122,17 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	
 	public void remove(Annotation annotation) {
 		changes.remove(annotation);
-		database.remove(annotation);
+		getDatabase().remove(annotation);
 		removeFromList(annotation, annotation.getUri());
 		fireAnnotationsRemoved( new Annotation[] { annotation } );
 	}
 	
 	public EObject[] query(EClassifier classifier) {
-		return database.query(classifier);
+		return getDatabase().query(classifier);
 	}
 	
 	public void rebuildIndex() {
-		database.rebuildIndex();
+		getDatabase().rebuildIndex();
 	}
 	
 	public List<Annotation> getAnnotations(URI uri) {
@@ -127,7 +141,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	}
 	
 	public Annotation getAnnotationById(String id) {
-		EObject[] objects = database.get(AnnotationPackage.eINSTANCE.getAnnotation_Id(), id);
+		EObject[] objects = getDatabase().get(AnnotationPackage.eINSTANCE.getAnnotation_Id(), id);
 		List<Annotation> list = new ArrayList<Annotation>();
 		for (int i = 0; i < objects.length; i++) {
 			if (objects[i] instanceof Annotation) {
@@ -141,7 +155,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	}
 	
 	protected List<Annotation> doGetAnnotations(URI uri) {
-		EObject[] objects = database.get(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
+		EObject[] objects = getDatabase().get(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
 		List<Annotation> list = new ArrayList<Annotation>();
 		for (int i = 0; i < objects.length; i++) {
 			if (objects[i] instanceof Annotation) {
@@ -155,7 +169,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	}
 	
 	public List<Annotation> getPostfixAnnotations(URI uri) {
-		EObject[] objects = database.getPostfixes(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
+		EObject[] objects = getDatabase().getPostfixes(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
 		List<Annotation> list = new ArrayList<Annotation>();
 		for (EObject object : objects)
 			if (object instanceof Annotation)
@@ -200,7 +214,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		if (list.size() > 0) {
 			Annotation[] array = list.toArray(new Annotation[list.size()]);
 			for (int i = 0; i < array.length; i++)
-				database.remove(array[i]);
+				getDatabase().remove(array[i]);
 			list.clear();
 			return array;
 		}
@@ -265,7 +279,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	public void save(Annotation annotation) {
 		ChangeRecorder recorder = changes.get(annotation);
 		ChangeDescription changes = recorder.summarize();
-		database.update(annotation, changes);
+		getDatabase().update(annotation, changes);
 		fireAnnotationsChanged(new Annotation[] { annotation });
 	}
 	
@@ -277,7 +291,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	
 	protected Map<URI, List<Annotation>> getAnnotationMap() {
 		if (annotations == null) {
-			annotations = new HashMap<URI, List<Annotation>>();
+			annotations = new ConcurrentHashMap<URI, List<Annotation>>();
 		}
 		return annotations;
 	}

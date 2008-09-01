@@ -31,6 +31,8 @@ public class AllTests {
 		suite.addTestSuite(CreateManyAnnotations.class);
 		suite.addTestSuite(ValidationTest.class);
 		suite.addTestSuite(AnnotationTypeTest.class);
+		suite.addTestSuite(AnnotationConstraintTest.class);
+		suite.addTestSuite(ConcurrencyTest.class);
 		// $JUnit-END$
 		return suite;
 	}

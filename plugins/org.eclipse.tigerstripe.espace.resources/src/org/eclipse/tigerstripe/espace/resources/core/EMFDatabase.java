@@ -16,13 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -39,6 +34,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
+import org.eclipse.tigerstripe.espace.resources.ResourceManager;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 import org.eclipse.tigerstripe.espace.resources.internal.core.ClassifierIndexer;
 import org.eclipse.tigerstripe.espace.resources.internal.core.CompositeIndexer;
@@ -68,132 +64,164 @@ public class EMFDatabase implements IEMFDatabase {
 	private ClassifierIndexer cIndexer;
 	private CompositeIndexer indexer;
 	
-	private int ignoreChanges;
-	
 	private ResourceStorage resourceStorage;
 	private IDatabaseConfiguration idManager;
+	private ResourceManager resourceManager;
+	
+	private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
 	
 	public EMFDatabase(IDatabaseConfiguration idManager) {
 		this.idManager = idManager;
-		addResourceDeltaListener();
+		init();
+		resourceManager = new ResourceManager(getResourceStorage());
+	}
+	
+	protected void init() {
+		initResources();
+		initRouters();
+	}
+	
+	protected void initResources() {
+		resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+			    EObjectRouter.ANNOTATION_FILE_EXTENSION,
+			    new MetaResourceFactory(idManager));
+		
+		indexStorage = new IndexStorage(resourceSet);
+		fIndexer = new FeatureIndexer(indexStorage);
+		cIndexer = new ClassifierIndexer(indexStorage);
+		
+		indexer = new CompositeIndexer();
+		indexer.addIndexer(fIndexer);
+		indexer.addIndexer(cIndexer);
+		
+		resourceHelper = new ResourceHelper(indexer, resourceSet);
+		resourceStorage = new ResourceStorage(resourceHelper);
+	}
+	
+	protected void initRouters() {
+		IConfigurationElement[] configs = Platform.getExtensionRegistry(
+			).getConfigurationElementsFor(ROUTER_EXTPT);
+    	List<EObjectRouter> routers = new ArrayList<EObjectRouter>();
+        for (IConfigurationElement config : configs) {
+        	try {
+        		EObjectRouter provider = 
+                	(EObjectRouter)config.createExecutableExtension(ROUTER_ATTR_CLASS);
+                routers.add(provider);
+            }
+            catch (CoreException e) {
+                e.printStackTrace();
+            }
+        }
+        this.routers = routers.toArray(new EObjectRouter[routers.size()]);
+	}
+	
+	protected void clear() {
+		initResources();
 	}
 	
 	protected ResourceSet getResourceSet() {
-		if (resourceSet == null) {
-			resourceSet = new ResourceSetImpl();
-			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
-				    EObjectRouter.ANNOTATION_FILE_EXTENSION, getFactory());
-			
-		}
 		return resourceSet;
 	}
 	
-	protected Resource.Factory getFactory() {
-		return new MetaResourceFactory(idManager);
-	}
-	
-	protected ResourceStorage getResourceStorage() {
-		if (resourceStorage == null) {
-			resourceStorage = new ResourceStorage(getResourceHelper());
-		}
-		return resourceStorage;
-	}
-	
 	protected IndexStorage getIndexStorage() {
-		if (indexStorage == null)
-			indexStorage = new IndexStorage(getResourceSet());
 		return indexStorage;
 	}
 	
 	protected FeatureIndexer getFeatureIndexer() {
-		if (fIndexer == null) {
-			fIndexer = new FeatureIndexer(getIndexStorage());
-		}
 		return fIndexer;
 	}
 	
 	protected ClassifierIndexer getClassifierIndexer() {
-		if (cIndexer == null) {
-			cIndexer = new ClassifierIndexer(getIndexStorage());
-		}
 		return cIndexer;
 	}
 	
 	protected CompositeIndexer getIndexer() {
-		if (indexer == null) {
-			indexer = new CompositeIndexer();
-			indexer.addIndexer(getFeatureIndexer());
-			indexer.addIndexer(getClassifierIndexer());
-		}
 		return indexer;
 	}
 	
 	protected ResourceHelper getResourceHelper() {
-		if (resourceHelper == null)
-			resourceHelper = new ResourceHelper(getIndexer(), getResourceSet());
 		return resourceHelper;
 	}
 	
-	private void lockChanges() {
-		ignoreChanges++;
+	protected ResourceStorage getResourceStorage() {
+		return resourceStorage;
 	}
 	
-	private void unlockChanges() {
-		ignoreChanges--;
+	protected EObjectRouter[] getRouters() {
+		return routers;
 	}
 	
-	private boolean isLocked() {
-		return ignoreChanges > 0;
+	private void lockChanges(boolean write) {
+		if (write) rwl.writeLock().lock();
+		else rwl.readLock().lock();
+	}
+	
+	private void unlockChanges(boolean write) {
+		if (write) {
+			resourceManager.updateState();
+			rwl.writeLock().unlock();
+		}
+		else rwl.readLock().unlock();
+	}
+	
+	private void lockAndUpdate(boolean write) {
+		rwl.writeLock().lock();
+		try {
+			update();
+		}
+		finally {
+			if (!write) {
+				rwl.readLock().lock();
+				rwl.writeLock().unlock();
+			}
+		}
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#update(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.change.ChangeDescription)
 	 */
 	public void update(EObject object, ChangeDescription changes) {
-		lockChanges();
 		try {
-			update();
+			lockAndUpdate(true);
 			changes.applyAndReverse();
 			doRemove(object);
 			changes.apply();
 			doWrite(object);
 		}
 		finally {
-			unlockChanges();
+			unlockChanges(true);
 		}
 	}
 	
 	public EObject[] query(EClassifier classifier) {
-		lockChanges();
 		try {
-			update();
+			lockAndUpdate(false);
 			return copy(getClassifierIndexer().read(classifier));
 		}
 		finally {
-			unlockChanges();
+			unlockChanges(false);
 		}
 	}
 
 	public void write(EObject object) {
-		lockChanges();
 		try {
-			update();
+			lockAndUpdate(true);
 			createID(object);
 			doWrite(object);
 		}
 		finally {
-			unlockChanges();
+			unlockChanges(true);
 		}
     }
 	
 	public void remove(EObject object) {
-		lockChanges();
 		try {
-			update();
+			lockAndUpdate(true);
 			doRemove(object);
 		}
 		finally {
-			unlockChanges();
+			unlockChanges(true);
 		}
 	}
 	
@@ -201,13 +229,12 @@ public class EMFDatabase implements IEMFDatabase {
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	public EObject[] get(EStructuralFeature feature, Object value) {
-		lockChanges();
 		try {
-			update();
+			lockAndUpdate(false);
 			return copy(doGet(feature, value, false));
 		}
 		finally {
-			unlockChanges();
+			unlockChanges(false);
 		}
 	}
 	
@@ -215,34 +242,32 @@ public class EMFDatabase implements IEMFDatabase {
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#getPostfixes(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	public EObject[] getPostfixes(EStructuralFeature feature, Object value) {
-		lockChanges();
 		try {
-			update();
+			lockAndUpdate(false);
 			return copy(doGet(feature, value, true));
 		}
 		finally {
-			unlockChanges();
+			unlockChanges(false);
 		}
 	}
 	
 	public EObject[] read() {
-		lockChanges();
 		try {
-			update();
+			lockAndUpdate(false);
 			return doRead();
 		}
 		finally {
-			unlockChanges();
+			unlockChanges(false);
 		}
 	}
 	
 	public void rebuildIndex() {
-		lockChanges();
+		lockChanges(true);
 		try {
 			doRebuildIndex();
 		}
 		finally {
-			unlockChanges();
+			unlockChanges(true);
 		}
 	}
 	
@@ -257,26 +282,6 @@ public class EMFDatabase implements IEMFDatabase {
 			ResourcesPlugin.log(e);
 		}
 		getResourceStorage().updateTimes();
-	}
-	
-	protected EObjectRouter[] getRouters() {
-		if (this.routers == null) {
-			IConfigurationElement[] configs = Platform.getExtensionRegistry(
-				).getConfigurationElementsFor(ROUTER_EXTPT);
-        	List<EObjectRouter> routers = new ArrayList<EObjectRouter>();
-            for (IConfigurationElement config : configs) {
-            	try {
-            		EObjectRouter provider = 
-                    	(EObjectRouter)config.createExecutableExtension(ROUTER_ATTR_CLASS);
-                    routers.add(provider);
-                }
-                catch (CoreException e) {
-                    e.printStackTrace();
-                }
-            }
-            this.routers = routers.toArray(new EObjectRouter[routers.size()]);
-		}
-		return this.routers;
 	}
 	
 	protected static String generateID() {
@@ -349,16 +354,6 @@ public class EMFDatabase implements IEMFDatabase {
 		}
 	}
 	
-	protected void clear() {
-		resourceSet = null;
-		resourceHelper = null;
-		indexStorage = null;
-		fIndexer = null;
-		cIndexer = null;
-		indexer = null;
-		resourceStorage = null;
-	}
-	
 	protected void doRemove(EObject object) {
 		EStructuralFeature feature = getIDFeature(object);
 		if (feature != null) {
@@ -418,50 +413,6 @@ public class EMFDatabase implements IEMFDatabase {
 				return true;
     	}
 		return false;
-	}
-	
-	protected void addResourceDeltaListener() {
-		org.eclipse.core.resources.ResourcesPlugin.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
-			
-			public void resourceChanged(IResourceChangeEvent event) {
-				try {
-					if (event.getDelta() != null) {
-						event.getDelta().accept(new IResourceDeltaVisitor() {
-							
-							public boolean visit(IResourceDelta delta) throws CoreException {
-								IResource resource = delta.getResource();
-								switch (delta.getKind()) {
-									case IResourceDelta.ADDED:
-										updateResource(resource, true);
-										break;
-									case IResourceDelta.CHANGED:
-										break;
-									case IResourceDelta.REMOVED:
-										updateResource(resource, false);
-										break;
-								}
-								return true;
-							}
-						});
-					}
-				} catch (CoreException e) {
-					e.printStackTrace();
-				}
-			}
-		
-		});
-	}
-	
-	protected void updateResource(IResource resource, boolean added) {
-		if (resource instanceof IFile) {
-			IFile file = (IFile)resource;
-			String ext = file.getFileExtension();
-			if (!isLocked() && ext != null && ext.toLowerCase().equals(
-					EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
-				getResourceStorage().updateResource(resource, added);
-				doRebuildIndex();
-			}
-		}
 	}
 	
 	protected EObject[] doGet(EStructuralFeature feature, Object value, boolean postfixes) {

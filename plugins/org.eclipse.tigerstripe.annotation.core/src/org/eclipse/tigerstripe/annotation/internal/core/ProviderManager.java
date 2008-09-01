@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.internal.core;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.tigerstripe.annotation.core.ProviderContext;
 
@@ -22,25 +22,18 @@ import org.eclipse.tigerstripe.annotation.core.ProviderContext;
  */
 public class ProviderManager {
 	
-	private Map<String, ProviderContext> ids;
 	private Map<String, ProviderContext> types;
 	
 	public ProviderManager() {
-		ids = new HashMap<String, ProviderContext>();
-		types = new HashMap<String, ProviderContext>();
+		types = new ConcurrentHashMap<String, ProviderContext>();
 	}
 	
 	public void addProvider(ProviderContext context) {
-		ids.put(context.getId(), context);
 		types.put(context.getTarget().getClassName(), context);
 	}
 	
 	public ProviderContext[] getProviders() {
-		return ids.values().toArray(new ProviderContext[ids.size()]);
-	}
-	
-	public ProviderContext getProviderById(String id) {
-		return ids.get(id);
+		return types.values().toArray(new ProviderContext[types.size()]);
 	}
 	
 	public ProviderContext getProviderByType(String type) {

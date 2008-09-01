@@ -119,14 +119,15 @@ public class ResourceStorage {
 		addLocation(resource);
 	}
 	
-	protected void addLocation(Resource resource) {
+	protected boolean addLocation(Resource resource) {
 		boolean modified = false;
+		boolean newElement = false;
 		ResourceLocation location = getLocation(resource);
 		if (location == null) {
 			modified = true;
 			location = ResourcesFactory.eINSTANCE.createResourceLocation();
 			location.setUri(resource.getURI());
-			getResourceList().getLocations().add(location);
+			newElement = getResourceList().getLocations().add(location);
 		}
 		long newStamp = ResourceHelper.getLastModification(resource);
 		if (newStamp != location.getTimeStamp()) {
@@ -135,14 +136,17 @@ public class ResourceStorage {
 		}
 		if (modified)
 			ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
+		return newElement;
 	}
 	
-	protected void removeLocation(Resource resource) {
+	protected boolean removeLocation(Resource resource) {
+		boolean haveElement = false;
 		ResourceLocation location = getLocation(resource);
 		if (location != null) {
-			getResourceList().getLocations().remove(location);
+			haveElement = getResourceList().getLocations().remove(location);
 			ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
 		}
+		return haveElement;
 	}
 	
 	public void removeResourceIfEmpty(Resource resource) {
@@ -155,12 +159,12 @@ public class ResourceStorage {
 		ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
 	}
 	
-	public void updateResource(IResource resource, boolean added) {
+	public boolean updateResource(IResource resource, boolean added) {
 		URI uri = URI.createPlatformResourceURI(
 				resource.getFullPath().toString(), false);
 		Resource res = helper.getResource(uri);
-		if (added) addLocation(res);
-		else removeLocation(res);
+		if (added) return addLocation(res);
+		else return removeLocation(res);
 	}
 	
 	protected ResourceLocation getLocation(Resource resource) {
