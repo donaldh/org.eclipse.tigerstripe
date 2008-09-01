@@ -20,5 +20,28 @@
             name="UML2 Profile Import">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="org.eclipse.tigerstripe.workbench.ui.UML2Import.actionSet1"
+            label="importUMLActions">
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.action.OpenUML2ImportProfileWizardAction"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openImportUMLProfileAction"
+               label="UML2 Profile"
+               menubarPath="org.eclipse.tigerstripe.eclipse.actionSet/org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
+               style="push"
+               tooltip="Import a UML2 Profile as a Tigerstripe Profile">
+         </action>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.action.OpenUML2ImportModelWizardAction"
+               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openImportUMLModelAction"
+               label="UML2 Model"
+               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
+               style="push"
+               tooltip="Import a UML2 Model as a Tigerstripe Project">
+         </action>
+      </actionSet>
+   </extension>
 
 </plugin>
