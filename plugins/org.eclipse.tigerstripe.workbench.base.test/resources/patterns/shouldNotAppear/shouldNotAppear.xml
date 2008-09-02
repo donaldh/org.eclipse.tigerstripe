@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <pattern:creationPattern patternName="com.test.shouldNotAppear" 
-						 uiLabel="IRD"
+						 uiLabel="SHOULD NOT BE HERE"
 						 patternType="node"
 						 iconPath="..."
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"

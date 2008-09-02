@@ -823,8 +823,8 @@ public class TigerstripePaletteFactory {
 							try {
 								IAbstractArtifact createdIArtifact = createdEArtifact
 										.getCorrespondingIArtifact();
-								System.out.println("Just created: "
-										+ createdIArtifact);
+								//System.out.println("Just created: "
+								//		+ createdIArtifact);
 								
 								// Should be able to add anything here from template???
 								((ArtifactPattern) pattern).executeRequests(
@@ -837,8 +837,8 @@ public class TigerstripePaletteFactory {
 							}
 						}
 					}
-					System.out.println("Created Object="
-							+ getCreateRequest().getNewObject());
+					//System.out.println("Created Object="
+					//		+ getCreateRequest().getNewObject());
 				}
 
 			};

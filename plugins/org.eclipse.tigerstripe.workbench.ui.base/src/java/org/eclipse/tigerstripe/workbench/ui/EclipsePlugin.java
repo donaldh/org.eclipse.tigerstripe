@@ -118,6 +118,9 @@ public class EclipsePlugin extends AbstractUIPlugin {
 
 		initialiseAPI();
 		startDiagramSynchronizerManager();
+		// This is necessary to make sure the extension point is read
+		// and menu contributions added
+		PatternFactory.getInstance();
 	}
 
 	/**

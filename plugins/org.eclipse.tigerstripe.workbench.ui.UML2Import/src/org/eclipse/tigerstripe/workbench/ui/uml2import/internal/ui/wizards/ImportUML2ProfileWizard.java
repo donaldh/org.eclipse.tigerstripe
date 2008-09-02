@@ -28,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.profile.ProfileImporter;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -56,7 +57,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 	public ImportUML2ProfileWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-
+		image = Images.getDescriptor(Images.WIZARD_IMPORT_LOGO);
 		setDefaultPageImageDescriptor(image);
 
 		setWindowTitle("Import UML2 Profile...");

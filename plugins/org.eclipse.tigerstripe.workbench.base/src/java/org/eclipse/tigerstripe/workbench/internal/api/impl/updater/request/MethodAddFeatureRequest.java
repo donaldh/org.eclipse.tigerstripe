@@ -24,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 
 public class MethodAddFeatureRequest extends MethodSetRequest
 		implements IMethodAddFeatureRequest {
@@ -75,6 +76,10 @@ public class MethodAddFeatureRequest extends MethodSetRequest
 						if (this.argumentPosition > arguments.length || arguments.length == 0 ){
 							// This is a new argument
 							 argumentToChange = iMethod.makeArgument();
+							 // give it a default type 
+							 IType defaultType = iMethod.makeType();
+							 defaultType.setFullyQualifiedName("String");
+							 argumentToChange.setType(defaultType);
 							 startList.add(argumentToChange);
 						} else {
 							// This is a change to an existing argument

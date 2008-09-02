@@ -125,229 +125,6 @@
       </editor>
    </extension>
    <extension
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            label="Toolbar Actions"
-            visible="true"
-            id="org.eclipse.tigerstripe.eclipse.actionSet">
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenPluginsControlDialog"
-               icon="src/icons/plugin.gif"
-               id="org.eclipse.tigerstripe.community.action2"
-               label="Plugins..."
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/controls"
-               style="push"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenViewActiveProfileDetailsDialog"
-               icon="src/icons/profile.gif"
-               id="org.eclipse.tigerstripe.community.action1"
-               label="Active Profile Details..."
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/controls"
-               style="push"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenGenerateInterfaceWizardAction"
-               disabledIcon="src/icons/run_tigerstripe_gs.gif"
-               icon="src/icons/run_tigerstripe.gif"
-               id="org.eclipse.tigerstripe.eclipse.generateAction"
-               label="Generate"
-               style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Generate current Project"/>
-         <action
-               allowLabelUpdate="true"
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewSessionArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_session_gs.gif"
-               icon="src/icons/archive/new_session.gif"
-               id="org.eclipse.tigerstripe.eclipse.newInterfaceAction"
-               label="New Interface"
-               style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Create a new Interface Specification with Tigerstripe"/>
-         <menu
-               label="Tigerstripe"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu">
-            <separator name="content"/>
-            <separator name="content2"/>
-            <separator name="additions"/>
-            <separator name="controls"/>
-         </menu>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewSessionArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_session_gs.gif"
-               icon="src/icons/archive/new_session.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewSessionAction"
-               label="Interface"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup2"
-               style="push"
-               tooltip="Create new Tigerstripe Project"/>
-     	<action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewProjectWizardAction"
-               icon="src/icons/new_project.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewProjectAction"
-               label="New Project"
-               style="push"
-               tooltip="Create new Tigerstripe Project"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewExceptionArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_exception_gs.gif"
-               icon="src/icons/archive/new_exception.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openExceptionProjectAction"
-               label="Exception"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.NewArtifactDropDownAction"
-               disabledIcon="src/icons/archive/new_entity_gs.gif"
-               icon="src/icons/archive/new_entity.gif"
-               id="org.eclipse.tigerstripe.eclipse.newArtifactAction"
-               label="New artifact"
-               style="pulldown"
-               toolbarPath="Normal/additions"
-               tooltip="Create new Tigerstripe Artifacts"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewProjectWizardAction"
-               icon="src/icons/new_project.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"
-               label="Tigerstripe Project"
-               style="push"
-               toolbarPath="Normal/additions"
-               tooltip="Create new Tigerstripe Project"/>
-         <menu
-         		label="Import..."
-         		path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content"
-         		id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu">
-         		<separator name="uml2"/>
-         </menu>
-         <menu
-               label="New..."
-               path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu">
-            <separator
-                  name="newGroup">
-            </separator>
-            <separator name="newGroup2"/>
-         </menu>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenGenerateInterfaceWizardAction"
-               disabledIcon="src/icons/run_tigerstripe_gs.gif"
-               icon="src/icons/run_tigerstripe.gif"
-               id="org.eclipse.tigerstripe.eclipse.generateAction2"
-               label="Generate"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/content2"
-               style="push"
-               tooltip="Generate current Project"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenImportUML2ProfileWizardAction"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openImportUML@ProfileAction"
-               label="UML2 Profile"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
-               style="push"
-               tooltip="Import a UML2 Profile as a Tigerstripe Profile"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenImportFromUML2WizardAction"
-               id="org.eclipse.tigerstripe.workbench.ui.base.action2"
-               label="UML2 Model"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/org.eclipse.tigerstripe.workbench.ui.base.menu1/content"
-               style="push"/>
-         <menu
-               id="org.eclipse.tigerstripe.workbench.ui.base.menu1"
-               label="uml2..."
-               path="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.importMenu/uml2">
-            <separator name="content"/>
-         </menu>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewNotificationArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_notification_gs.gif"
-               icon="src/icons/archive/new_notification.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNotificationProjectAction"
-               label="Notification"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"
-               tooltip="Create new Tigerstripe Project"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewUpdateProcedureArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_updateProc_gs.gif"
-               icon="src/icons/archive/new_updateProc.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewUpdateProcedureAction"
-               label="Update Procedure "
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewQueryArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_query_gs.gif"
-               icon="src/icons/archive/new_query.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewQueryAction"
-               label="Named Query"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"
-               tooltip="Create new Tigerstripe Project"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewAssociationClassArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_associationClass_gs.gif"
-               icon="src/icons/archive/new_associationClass.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewAssociationClassAction"
-               label="Association Class"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"
-               tooltip="Create new Association Class Artifact"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewAssociationArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_association_gs.gif"
-               icon="src/icons/archive/new_association.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewAssociationAction"
-               label="Association"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"
-               tooltip="Create new Association Artifact"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewDependencyArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_dependency_gs.gif"
-               icon="src/icons/archive/new_dependency.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewDependencyAction"
-               label="Dependency"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"
-               tooltip="Create new Dependency Artifact"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewEnumArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_enum_gs.gif"
-               icon="src/icons/archive/new_enum.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewEnumAction"
-               label="Enumeration"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"
-               tooltip="Create new Enumeration Artifact"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewDatatypeArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_datatype_gs.gif"
-               icon="src/icons/archive/new_datatype.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openDatatypeProjectAction"
-               label="Datatype"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"
-               tooltip="Create new Tigerstripe Project"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewEntityArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_entity_gs.gif"
-               icon="src/icons/archive/new_entity.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewEntityAction"
-               label="Entity"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"
-               tooltip="Create new Tigerstripe Project"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageArtifactWizardAction"
-               disabledIcon="src/icons/archive/new_entity_gs.gif"
-               icon="src/icons/archive/new_entity.gif"
-               id="org.eclipse.tigerstripe.ui.eclipse.mainMenu.openNewPackageAction"
-               label="Package"
-               menubarPath="org.eclipse.tigerstripe.ui.eclipse.mainMenu/org.eclipse.tigerstripe.ui.eclipse.mainMenu.newArtifactMenu/newGroup"
-               style="push"
-               tooltip="Create new Package Artifact">
-         </action>
-      </actionSet>
-   </extension>
-   <extension
          point="org.eclipse.ui.newWizards">
       <category
             name="Tigerstripe"
@@ -647,5 +424,123 @@
          </adapter>
          </factory>
          </extension>
+  <extension
+        point="org.eclipse.ui.commands">
+     <category
+           description="Top Level Tigerstripe Commands"
+           id="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           name="Tigerstripe">
+     </category>
+     <command
+           category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
+           description="Open the Tigerstripe plugins dialog"
+           id="org.eclipse.tigerstripe.workbench.ui.base.plugins"
+           name="Plugins">
+     </command>
+     <command
+           category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
+           description="Open the Tigerstripe active profile dialog"
+           id="org.eclipse.tigerstripe.workbench.ui.base.profile"
+           name="Profile">
+     </command>
+     <command
+           category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
+           description="Generate the current project"
+           id="org.eclipse.tigerstripe.workbench.ui.base.generate"
+           name="Generate">
+     </command>
+     <command
+           category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
+           description="Pattern Based Create"
+           id="org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate"
+           name="Pattern Based Create">
+        <commandParameter
+              id="org.eclipse.tigerstripe.workbench.ui.base.patternName"
+              name="patternName"
+              optional="false">
+        </commandParameter>
+     </command>
+     <command
+           category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
+           description="Create a New Tigerstripe Project"
+           id="org.eclipse.tigerstripe.workbench.ui.base.newProject"
+           name="Create New Project">
+     </command>
+  </extension>
+  <extension
+        point="org.eclipse.ui.menus">
+     <menuContribution
+           locationURI="menu:org.eclipse.ui.main.menu">
+        <menu
+              label="Tigerstripe">
+           <menu
+                 id="org.eclipse.tigerstripe.workbench.ui.base.new"
+                 label="New...">
+           </menu>
+           <menu
+                 id="org.eclipse.tigerstripe.ui.main.menu.import"
+                 label="Import...">
+           </menu>
+           <separator
+                 name="org.eclipse.tigerstripe.workbench.ui.base.separator2"
+                 visible="true">
+           </separator>
+           <command
+                 commandId="org.eclipse.tigerstripe.workbench.ui.base.generate"
+                 disabledIcon="src/icons/run_tigerstripe_gs.gif"
+                 icon="src/icons/run_tigerstripe.gif"
+                 label="Generate"
+                 style="push">
+           </command>
+           <separator
+                 name="org.eclipse.tigerstripe.workbench.ui.base.separator1"
+                 visible="true">
+           </separator>
+           <command
+                 commandId="org.eclipse.tigerstripe.workbench.ui.base.profile"
+                 icon="src/icons/profile.gif"
+                 label="Active Profile Details..."
+                 style="push">
+           </command>
+           <command
+                 commandId="org.eclipse.tigerstripe.workbench.ui.base.plugins"
+                 icon="src/icons/plugin.gif"
+                 label="Plugins..."
+                 style="push">
+           </command>
+        </menu>
+     </menuContribution>
+     <menuContribution
+           locationURI="toolbar:org.eclipse.ui.main.toolbar">
+        <toolbar
+              id="org.eclipse.tigerstripe.workbench.ui.base.toolbar">
+           <command
+                 commandId="org.eclipse.tigerstripe.workbench.ui.base.newProject"
+                 disabledIcon="src/icons/new_project_gs.gif"
+                 icon="src/icons/new_project.gif"
+                 id="org.eclipse.tigerstripe.workbench.ui.base.newProject"
+                 label="New Project"
+                 style="push">
+           </command>
+           <command
+                 commandId="org.eclipse.tigerstripe.workbench.ui.base.generate"
+                 disabledIcon="src/icons/run_tigerstripe_gs.gif"
+                 icon="src/icons/run_tigerstripe.gif"
+                 label="Generate"
+                 style="push">
+           </command>
+        </toolbar>
+     </menuContribution>
+  </extension>
 
 </plugin>

@@ -2,6 +2,7 @@ package org.eclipse.tigerstripe.workbench.base.test;
 
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.tigerstripe.workbench.base.test.utils.BundleUtils;
+import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -31,6 +32,7 @@ public class Activator extends Plugin {
 		plugin = this;
 
 		BundleUtils.INSTANCE.setBundleRoot(context);
+
 	}
 
 	/*

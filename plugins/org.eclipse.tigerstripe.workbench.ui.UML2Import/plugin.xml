@@ -43,5 +43,45 @@
          </action>
       </actionSet>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+            categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+            defaultHandler="org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.action.ImportHandler"
+            id="org.eclipse.tigerstripe.workbench.ui.UML2Import.importProfile"
+            name="ImportUMl2Profile">
+      </command>
+      <command
+            category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+            categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+            defaultHandler="org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.action.ImportHandler"
+            id="org.eclipse.tigerstripe.workbench.ui.UML2Import.importModel"
+            name="ImportUML2Model">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.tigerstripe.ui.main.menu.import">
+         <menu
+               label="UML2...">
+            <command
+                  commandId="org.eclipse.tigerstripe.workbench.ui.UML2Import.importProfile"
+                  icon="src/icons/importExport.gif"
+                  label="Profile"
+                  style="push"
+                  tooltip="Import a UML2 Profile as a Tigerstripe Profile">
+            </command>
+            <command
+                  commandId="org.eclipse.tigerstripe.workbench.ui.UML2Import.importModel"
+                  icon="src/icons/importExport.gif"
+                  label="Model"
+                  style="push"
+                  tooltip="Import a UML2 Model into a Tigerstripe Project">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
 
 </plugin>
