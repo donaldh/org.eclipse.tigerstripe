@@ -4,6 +4,7 @@
 						 uiLabel="IRD Association"
 						 patternType="relation"
 						 iconPath="resources/patterns/icons/entity_te_p.gif"
+						 disabledIconPath="resources/patterns/icons/entity_te_p.gif"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
     <pattern:description>Create a new IRD Association</pattern:description>

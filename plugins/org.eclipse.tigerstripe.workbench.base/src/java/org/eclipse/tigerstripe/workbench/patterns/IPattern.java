@@ -23,6 +23,8 @@ public interface IPattern {
 		public EObject getAnnotationContent();
 	}
 	
+	public int getIndex();
+	
 	public String getName();
 	
 	public String getUILabel();
@@ -30,6 +32,10 @@ public interface IPattern {
 	public String getIconPath();
 	
 	public URL getIconURL();
+	
+	public String getDisabledIconPath();
+	
+	public URL getDisabledIconURL();
 	
 	public String getDescription();
 	

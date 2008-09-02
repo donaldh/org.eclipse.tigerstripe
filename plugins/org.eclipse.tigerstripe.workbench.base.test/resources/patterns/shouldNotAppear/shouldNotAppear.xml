@@ -4,6 +4,7 @@
 						 uiLabel="SHOULD NOT BE HERE"
 						 patternType="node"
 						 iconPath="..."
+						 disabledIconPath="..."
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
     <pattern:description>This should be disabled</pattern:description>

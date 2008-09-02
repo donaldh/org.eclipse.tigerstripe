@@ -4,6 +4,8 @@
 				 		 patternType="node"
 						 uiLabel="Managed Entity"
 						 iconPath="icons/entity_new.gif"
+						 disabledIconPath="icons/entity_gs.gif"
+						 index="1000"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
     <pattern:description>Create a new Managed Entity</pattern:description>

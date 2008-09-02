@@ -25,12 +25,14 @@ import org.osgi.framework.Bundle;
 public class Pattern implements IPattern {
 
 	
-
+	protected int index;
 	protected String name;
 	protected String description;
 	protected String uiLabel;
 	protected String iconPath;
 	protected URL iconURL;
+	protected String disabledIconPath;
+	protected URL disabledIconURL;
 	protected Collection<IModelChangeRequest> requests = new ArrayList<IModelChangeRequest>();
 	protected Collection<IPatternAnnotation> patternAnnotations = new ArrayList<IPatternAnnotation>();
 	
@@ -82,6 +84,22 @@ public class Pattern implements IPattern {
 	public void setIconURL(URL iconURL) {
 		this.iconURL = iconURL;
 	}
+	
+	public String getDisabledIconPath() {
+		return disabledIconPath;
+	}
+
+	public void setDisabledIconPath(String disabledIconPath) {
+		this.disabledIconPath = disabledIconPath;
+	}
+
+	public URL getDisabledIconURL() {
+		return disabledIconURL;
+	}
+
+	public void setDisabledIconURL(URL disabledIconURL) {
+		this.disabledIconURL = disabledIconURL;
+	}
 
 	public ImageDescriptor getDescriptor(){
 		ImageDescriptor descriptor = null;
@@ -90,6 +108,15 @@ public class Pattern implements IPattern {
 
 	}
 	
+
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
 
 	public class PatternAnnotation implements IPatternAnnotation{
 

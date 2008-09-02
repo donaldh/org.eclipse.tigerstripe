@@ -101,12 +101,10 @@ public class TigerstripePaletteFactory {
 		for (String patternName : PatternFactory.getInstance().getRegisteredPatterns().keySet()){
 			
 			IPattern pattern = PatternFactory.getInstance().getPattern(patternName);
-			// How should we handle the "turn offable-ness" of the underlying artifact type(s)
-			// if (prop.getDetailsForType(	IPackageArtifact.class.getName()).isEnabled()) {
 			if (pattern instanceof NodePattern){
 				paletteContainer.add(createPatternBasedCreationTool((NodePattern)pattern));
 			}
-			//}
+
 			
 		}
 		

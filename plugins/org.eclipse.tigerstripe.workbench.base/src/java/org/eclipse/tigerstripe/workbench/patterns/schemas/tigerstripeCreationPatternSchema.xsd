@@ -13,6 +13,11 @@
 					<xs:attribute name="patternType" type="xs:string" use="required"/>
 					<xs:attribute name="uiLabel" type="xs:string" use="required"/>
 					<xs:attribute name="iconPath" type="xs:string" use="required"/>
+					<xs:attribute name="disabledIconPath" type="xs:string" use="required"/>
+					<xs:attribute name="index" type="xs:integer" use="optional"/>
+					<!-- The lower the index the higher up the menu -->
+					<!-- Builtin items have values from 1000 to 2100 in steps of 100 -->
+					<!-- Any item missing an index will be placed at the end of the menu (Starting at 10000) --> 
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="annotationsText">

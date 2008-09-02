@@ -4,6 +4,8 @@
 				 		 patternType="node"
 						 uiLabel="UpdateProcedure"
 						 iconPath="icons/updateProc_new.gif"
+						 disabledIconPath="icons/updateProc_gs.gif"
+						 index="2100"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
     <pattern:description>Create a new UpdateProcedure</pattern:description>

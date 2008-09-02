@@ -15,9 +15,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -37,10 +40,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -76,7 +75,6 @@ import org.eclipse.tigerstripe.workbench.patterns.IPattern.IPatternAnnotation;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.CompoundContributionItem;
 import org.eclipse.ui.menus.AbstractContributionFactory;
 import org.eclipse.ui.menus.CommandContributionItem;
 import org.eclipse.ui.menus.CommandContributionItemParameter;
@@ -91,9 +89,10 @@ import org.w3c.dom.NodeList;
 public class PatternFactory implements IPatternFactory {
 
 	private static PatternFactory instance = null;
-	private static Map<String,IPattern> registeredPatterns = new HashMap<String,IPattern>();
+	private static Map<String,IPattern> discoveredPatterns = new HashMap<String,IPattern>();
+	private static Map<String,IPattern> registeredPatterns = new LinkedHashMap<String,IPattern>();
 	private static Collection<String> disabledPatterns = new ArrayList<String>();
-	
+
 	private static ModelChangeRequestFactory requestFactory = new ModelChangeRequestFactory();
 	
 	
@@ -107,6 +106,7 @@ public class PatternFactory implements IPatternFactory {
 	private static Document patternDoc;
 	private static DocumentBuilder parser;
 
+	private static Integer undefined = 10000;
 	
 	public static PatternFactory getInstance(){
 		if (instance == null){
@@ -119,6 +119,7 @@ public class PatternFactory implements IPatternFactory {
 				IConfigurationElement[] elements  = Platform.getExtensionRegistry()
 					.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.creationPatterns");
 				
+				Map<Integer,String> patternList = new TreeMap<Integer,String>();
 				
 				for (IConfigurationElement element : elements){
 					if (element.getName().equals("patternDefinition")){
@@ -130,8 +131,16 @@ public class PatternFactory implements IPatternFactory {
 						
 						try {
 							IPattern newPattern = parsePatternFile(bundle,patternFileName);
-							if (!registeredPatterns.containsKey(newPattern.getName())){
-								registeredPatterns.put(newPattern.getName(), newPattern);								
+							if (!discoveredPatterns.containsKey(newPattern.getName())){
+								discoveredPatterns.put(newPattern.getName(), newPattern);
+								int index = newPattern.getIndex();
+								
+								// protect against two indexes the same
+								while (patternList.get(index) != null){
+									index++;
+								}
+								patternList.put(index, newPattern.getName());
+								
 							} else {
 								throw new TigerstripeException("Duplicate pattern name definition");
 							}
@@ -148,8 +157,17 @@ public class PatternFactory implements IPatternFactory {
 					}
 					
 				}
+				
+			// sort the discovered patterns based on their indexes 
+			// into a LinkedHashSet
+				for (Integer patternIndex : patternList.keySet()){
+					String patt = patternList.get(patternIndex);
+					registeredPatterns.put(patt, discoveredPatterns.get(patt));
+				}
+				
 			
 			// Make patterns available from menu
+				
 			addPatternMenuContribution();
 				
 			}catch (Exception e ){
@@ -209,6 +227,7 @@ public class PatternFactory implements IPatternFactory {
 			String patternType = patternElement.getAttribute("patternType");
 			String uiLabel     = patternElement.getAttribute("uiLabel");
 			String iconPath     = patternElement.getAttribute("iconPath");
+			String disabledIconPath     = patternElement.getAttribute("disabledIconPath");
 			String description = "";
 			NodeList descriptionNodes = patternDoc.getElementsByTagNameNS(patternNamespace,"description");
 			for (int dn = 0; dn < descriptionNodes.getLength(); dn++) {
@@ -235,6 +254,8 @@ public class PatternFactory implements IPatternFactory {
 			
 			pattern.setName(patternName);
 			pattern.setUILabel(uiLabel);
+			pattern.setDescription(description);
+			
 			URL url = bundle.getResource(iconPath);
 			if (url == null){
 				// We may need  to look in the metamodel plugin for this one!
@@ -246,7 +267,25 @@ public class PatternFactory implements IPatternFactory {
 			
 			pattern.setIconURL(url);
 			pattern.setIconPath(iconPath);
-			pattern.setDescription(description);
+			
+			URL disabledUrl = bundle.getResource(disabledIconPath);
+			if (disabledUrl == null){
+				// We may need  to look in the metamodel plugin for this one!
+				Bundle uiBundle = Platform.getBundle("org.eclipse.tigerstripe.metamodel");
+				if (uiBundle != null){
+					disabledUrl = uiBundle.getResource(disabledIconPath);
+				}
+			}
+			
+			pattern.setDisabledIconURL(disabledUrl);
+			pattern.setDisabledIconPath(disabledIconPath);
+			
+			if (patternElement.hasAttribute("index") && patternElement.getAttribute("index").length() != 0){
+				pattern.setIndex(Integer.parseInt(patternElement.getAttribute("index")));
+			} else {
+				pattern.setIndex(undefined);
+			}
+			
 
 			NodeList annotationsTextNodes = patternDoc.getElementsByTagNameNS(patternNamespace, "annotationsText");
 			Collection<IPatternAnnotation> annos = pattern.getPatternAnnotations();
@@ -308,18 +347,16 @@ public class PatternFactory implements IPatternFactory {
 	}
 
 	private static void singleArtifactPattern(Pattern pattern,Element artifactElement ) throws TigerstripeException {
-		
-		
-		
+			
 		String artifactType = xmlParserUtils.getArtifactType(artifactElement);
 		// Check the profile allows this kind of artifact
-		IWorkbenchProfile profile = TigerstripeCore
-			.getWorkbenchProfileSession()
-			.getActiveProfile();
-		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
-			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-		if (prop.getDetailsForType(artifactType)
-				.isEnabled()) {
+//		IWorkbenchProfile profile = TigerstripeCore
+//			.getWorkbenchProfileSession()
+//			.getActiveProfile();
+//		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
+//			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+//		if (prop.getDetailsForType(artifactType)
+//				.isEnabled()) {
 			ArtifactPattern artifactPattern = (ArtifactPattern) pattern;
 			artifactPattern.setTargetArtifactType(artifactType);
 			if (pattern instanceof INodePattern){
@@ -353,7 +390,7 @@ public class PatternFactory implements IPatternFactory {
 			}
 			
 			addComponentRequests(pattern,artifactElement);
-		}
+//		}
 		
 	}
 	
@@ -623,21 +660,38 @@ public class PatternFactory implements IPatternFactory {
 	}
 	
 	public IPattern getPattern(String patternName) {
-		if (! disabledPatterns.contains(patternName)){
-			return registeredPatterns.get(patternName);
+		if (getRegisteredPatterns().keySet().contains(patternName)){
+			return getRegisteredPatterns().get(patternName);
 		}
 		return null;
 	}
 
+	// This returns patterns that are enabled and supported by the current profile
+	// TODO Make them respect some kind of order
+	
 	public Map<String,IPattern> getRegisteredPatterns() {
-		Map<String,IPattern> enabledPatterns = new HashMap<String, IPattern>();
+		Map<String,IPattern> enabledPatterns = new LinkedHashMap<String, IPattern>();
+		IWorkbenchProfile profile = TigerstripeCore
+			.getWorkbenchProfileSession()
+			.getActiveProfile();
+		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
+			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 		for (String patternName : registeredPatterns.keySet()){
 			if (! disabledPatterns.contains(patternName)){
-				enabledPatterns.put(patternName, registeredPatterns.get(patternName));
+				// Check the profile allows this kind of artifact
+				IPattern pattern = registeredPatterns.get(patternName);
+				if (pattern instanceof ArtifactPattern){
+					if (prop.getDetailsForType(((ArtifactPattern)pattern).getTargetArtifactType())
+							.isEnabled()) {
+						enabledPatterns.put(patternName, registeredPatterns.get(patternName));
+					}
+				}
 			}
 		}
 		return enabledPatterns;
 	}
+	
+	
 	
 	public static void addPatternMenuContribution() {
 		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench()
@@ -651,6 +705,7 @@ public class PatternFactory implements IPatternFactory {
 			@Override
 			public void createContributionItems(IServiceLocator serviceLocator,
 					IContributionRoot additions) {
+				
 				for (String key : registeredPatterns.keySet()){
 					IPattern pattern = registeredPatterns.get(key);
 					
