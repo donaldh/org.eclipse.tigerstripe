@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
+import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourceList;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
@@ -114,17 +114,17 @@ public class ResourceStorage {
 	}
 	
 	public void addResource(Resource resource, EObject object) throws IOException {
-		addResource(resource, object, ReadWriteOption.READ_WRITE);
+		addResource(resource, object, Mode.READ_WRITE);
 	}
 	
-	public void addResource(Resource resource, EObject object, ReadWriteOption option) throws IOException {
+	public void addResource(Resource resource, EObject object, Mode option) throws IOException {
 		helper.addAndSave(resource, object, true);
 		if (isDefaultUri(resource.getURI()))
 			return;
 		addResource(resource, option);
 	}
 	
-	public boolean addResource(Resource resource, ReadWriteOption option) {
+	public boolean addResource(Resource resource, Mode option) {
 		boolean modified = false;
 		boolean newElement = false;
 		ResourceLocation location = getLocation(resource);

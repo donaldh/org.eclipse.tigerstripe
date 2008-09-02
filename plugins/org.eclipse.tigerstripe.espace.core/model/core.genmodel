@@ -6,10 +6,10 @@
   <foreignModel>@model</foreignModel>
   <genPackages prefix="Core" basePackage="org.eclipse.tigerstripe.espace" disposableProviderFactory="true"
       ecorePackage="core.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="core.ecore#//ReadWriteOption">
-      <genEnumLiterals ecoreEnumLiteral="core.ecore#//ReadWriteOption/ReadWrite"/>
-      <genEnumLiterals ecoreEnumLiteral="core.ecore#//ReadWriteOption/ReadOnly"/>
-      <genEnumLiterals ecoreEnumLiteral="core.ecore#//ReadWriteOption/ReadOnlyOverride"/>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="core.ecore#//Mode">
+      <genEnumLiterals ecoreEnumLiteral="core.ecore#//Mode/ReadWrite"/>
+      <genEnumLiterals ecoreEnumLiteral="core.ecore#//Mode/ReadOnly"/>
+      <genEnumLiterals ecoreEnumLiteral="core.ecore#//Mode/ReadOnlyOverride"/>
     </genEnums>
   </genPackages>
 </genmodel:GenModel>

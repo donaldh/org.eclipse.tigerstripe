@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceLocationImpl.java,v 1.2 2008/09/02 12:07:39 ystrot Exp $
+ * $Id: ResourceLocationImpl.java,v 1.3 2008/09/02 12:44:55 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
-import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
+import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPackage;
 
@@ -83,7 +83,7 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 	 * @generated
 	 * @ordered
 	 */
-	protected static final ReadWriteOption OPTION_EDEFAULT = ReadWriteOption.READ_WRITE;
+	protected static final Mode OPTION_EDEFAULT = Mode.READ_WRITE;
 
 	/**
 	 * The cached value of the '{@link #getOption() <em>Option</em>}' attribute.
@@ -93,7 +93,7 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 	 * @generated
 	 * @ordered
 	 */
-	protected ReadWriteOption option = OPTION_EDEFAULT;
+	protected Mode option = OPTION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -161,7 +161,7 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ReadWriteOption getOption() {
+	public Mode getOption() {
 		return option;
 	}
 
@@ -170,8 +170,8 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setOption(ReadWriteOption newOption) {
-		ReadWriteOption oldOption = option;
+	public void setOption(Mode newOption) {
+		Mode oldOption = option;
 		option = newOption == null ? OPTION_EDEFAULT : newOption;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, ResourcesPackage.RESOURCE_LOCATION__OPTION, oldOption, option));
@@ -210,7 +210,7 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 				setTimeStamp(((Long)newValue).longValue());
 				return;
 			case ResourcesPackage.RESOURCE_LOCATION__OPTION:
-				setOption((ReadWriteOption)newValue);
+				setOption((Mode)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
-import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
+import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 
 /**
@@ -54,7 +54,7 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 	public void testReadWrite() throws AnnotationException {
 		Resource resource = createResourceWithAnnotation(false);
 		try {
-			AnnotationPlugin.getManager().addResource(resource, ReadWriteOption.READ_WRITE);
+			AnnotationPlugin.getManager().addAnnotations(resource, Mode.READ_WRITE);
 			
 			MimeType type = getAnnotationContent();
 			type.setMimeType(MIME_TYPE_HTML);
@@ -64,14 +64,14 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 			assertEquals(type.getMimeType(), MIME_TYPE_HTML);
 		}
 		finally {
-			AnnotationPlugin.getManager().removeResource(resource);
+			AnnotationPlugin.getManager().removeAnnotations(resource);
 		}
 	}
 	
 	public void testReadOnly() throws AnnotationException {
 		Resource resource = createResourceWithAnnotation(true);
 		try {
-			AnnotationPlugin.getManager().addResource(resource, ReadWriteOption.READ_ONLY);
+			AnnotationPlugin.getManager().addAnnotations(resource, Mode.READ_ONLY);
 			
 			MimeType type = getAnnotationContent();
 			type.setMimeType(MIME_TYPE_HTML);
@@ -81,14 +81,14 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 			assertEquals(type.getMimeType(), null);
 		}
 		finally {
-			AnnotationPlugin.getManager().removeResource(resource);
+			AnnotationPlugin.getManager().removeAnnotations(resource);
 		}
 	}
 	
 	public void testReadOnlyOverride() throws AnnotationException {
 		Resource resource = createResourceWithAnnotation(true);
 		try {
-			AnnotationPlugin.getManager().addResource(resource, ReadWriteOption.READ_ONLY_OVERRIDE);
+			AnnotationPlugin.getManager().addAnnotations(resource, Mode.READ_ONLY_OVERRIDE);
 			
 			MimeType type = getAnnotationContent();
 			type.setMimeType(MIME_TYPE_HTML);
@@ -104,7 +104,7 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 			assertEquals(type.getMimeType(), MIME_TYPE_XML);
 		}
 		finally {
-			AnnotationPlugin.getManager().removeResource(resource);
+			AnnotationPlugin.getManager().removeAnnotations(resource);
 		}
 	}
 	

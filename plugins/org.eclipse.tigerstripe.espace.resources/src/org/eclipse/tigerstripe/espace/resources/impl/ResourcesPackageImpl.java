@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesPackageImpl.java,v 1.7 2008/09/02 12:07:39 ystrot Exp $
+ * $Id: ResourcesPackageImpl.java,v 1.8 2008/09/02 12:44:55 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
@@ -307,7 +307,7 @@ public class ResourcesPackageImpl extends EPackageImpl implements ResourcesPacka
 		initEClass(resourceLocationEClass, ResourceLocation.class, "ResourceLocation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getResourceLocation_Uri(), this.getURI(), "uri", null, 0, 1, ResourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getResourceLocation_TimeStamp(), ecorePackage.getELong(), "timeStamp", null, 0, 1, ResourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getResourceLocation_Option(), theCorePackage.getReadWriteOption(), "option", null, 0, 1, ResourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getResourceLocation_Option(), theCorePackage.getMode(), "option", null, 0, 1, ResourceLocation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
 		initEDataType(uriEDataType, org.eclipse.emf.common.util.URI.class, "URI", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

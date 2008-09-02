@@ -45,7 +45,7 @@ import org.eclipse.tigerstripe.annotation.core.ProviderContext;
 import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
-import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
+import org.eclipse.tigerstripe.espace.core.Mode;
 
 /**
  * This is implementation of the <code>IAnnotationManager</code>. This class
@@ -416,14 +416,14 @@ public class AnnotationManager extends AnnotationStorage implements
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#addResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.tigerstripe.espace.core.ReadWriteOption)
 	 */
-	public void addResource(Resource resource, ReadWriteOption option) {
+	public void addAnnotations(Resource resource, Mode option) {
 		getDatabase().addResource(resource, option);
 	}
 	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#removeResource(org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public void removeResource(Resource resource) {
+	public void removeAnnotations(Resource resource) {
 		getDatabase().removeResource(resource);
 	}
 

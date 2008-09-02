@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.espace.resources;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
+import org.eclipse.tigerstripe.espace.core.Mode;
 
 /**
  * @author Yuri Strot
@@ -54,17 +54,17 @@ public interface ResourceLocation extends EObject {
 	/**
 	 * @model
 	 */
-	public ReadWriteOption getOption();
+	public Mode getOption();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.tigerstripe.espace.resources.ResourceLocation#getOption <em>Option</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Option</em>' attribute.
-	 * @see org.eclipse.tigerstripe.espace.core.ReadWriteOption
+	 * @see org.eclipse.tigerstripe.espace.core.Mode
 	 * @see #getOption()
 	 * @generated
 	 */
-	void setOption(ReadWriteOption value);
+	void setOption(Mode value);
 
 }

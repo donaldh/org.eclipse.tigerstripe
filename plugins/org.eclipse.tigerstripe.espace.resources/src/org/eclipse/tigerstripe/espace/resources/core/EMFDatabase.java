@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
-import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
+import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
 import org.eclipse.tigerstripe.espace.resources.ResourceManager;
@@ -270,7 +270,7 @@ public class EMFDatabase implements IEMFDatabase {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#addResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.tigerstripe.espace.core.ReadWriteOption)
 	 */
-	public void addResource(Resource resource, ReadWriteOption option) {
+	public void addResource(Resource resource, Mode option) {
 		try {
 			lockAndUpdate(true);
 			getResourceSet().getResources().add(resource);
@@ -357,7 +357,7 @@ public class EMFDatabase implements IEMFDatabase {
 				if (resource != null) {
 					ResourceLocation location = getResourceStorage().getLocation(resource);
 					if (location != null) {
-						if (ReadWriteOption.READ_WRITE.equals(location.getOption())) {
+						if (Mode.READ_WRITE.equals(location.getOption())) {
 							map.put(id, objects[i]);
 						}
 					}
@@ -416,16 +416,16 @@ public class EMFDatabase implements IEMFDatabase {
 			for (int i = 0; i < objects.length; i++) {
 				EObject candidate = objects[i];
 				Resource resource = candidate.eResource();
-				ReadWriteOption option = ReadWriteOption.READ_WRITE;
+				Mode option = Mode.READ_WRITE;
 				if (resource != null) {
 					ResourceLocation location = getResourceStorage().getLocation(resource);
 					if (location != null) {
 						option = location.getOption();
-						if (ReadWriteOption.READ_WRITE.equals(option) && oldResource != null)
+						if (Mode.READ_WRITE.equals(option) && oldResource != null)
 							oldResource[0] = resource;
-						if (ReadWriteOption.READ_ONLY.equals(option))
+						if (Mode.READ_ONLY.equals(option))
 							readOnly = true;
-						if (!ReadWriteOption.READ_WRITE.equals(option))
+						if (!Mode.READ_WRITE.equals(option))
 							continue;
 					}
 				}

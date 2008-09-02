@@ -88,7 +88,7 @@ public interface IEMFDatabase {
 	 * @param resource
 	 * @param option
 	 */
-	public void addResource(Resource resource, ReadWriteOption option);
+	public void addResource(Resource resource, Mode option);
 	
 	/**
 	 * Remove resource

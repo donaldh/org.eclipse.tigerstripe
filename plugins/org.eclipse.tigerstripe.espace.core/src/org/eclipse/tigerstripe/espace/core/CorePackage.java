@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CorePackage.java,v 1.1 2008/09/02 12:07:36 ystrot Exp $
+ * $Id: CorePackage.java,v 1.2 2008/09/02 12:44:52 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.core;
 
@@ -58,25 +58,25 @@ public interface CorePackage extends EPackage {
 	CorePackage eINSTANCE = org.eclipse.tigerstripe.espace.core.impl.CorePackageImpl.init();
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.tigerstripe.espace.core.ReadWriteOption <em>Read Write Option</em>}' enum.
+	 * The meta object id for the '{@link org.eclipse.tigerstripe.espace.core.Mode <em>Mode</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.tigerstripe.espace.core.ReadWriteOption
-	 * @see org.eclipse.tigerstripe.espace.core.impl.CorePackageImpl#getReadWriteOption()
+	 * @see org.eclipse.tigerstripe.espace.core.Mode
+	 * @see org.eclipse.tigerstripe.espace.core.impl.CorePackageImpl#getMode()
 	 * @generated
 	 */
-	int READ_WRITE_OPTION = 0;
+	int MODE = 0;
 
 
 	/**
-	 * Returns the meta object for enum '{@link org.eclipse.tigerstripe.espace.core.ReadWriteOption <em>Read Write Option</em>}'.
+	 * Returns the meta object for enum '{@link org.eclipse.tigerstripe.espace.core.Mode <em>Mode</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Read Write Option</em>'.
-	 * @see org.eclipse.tigerstripe.espace.core.ReadWriteOption
+	 * @return the meta object for enum '<em>Mode</em>'.
+	 * @see org.eclipse.tigerstripe.espace.core.Mode
 	 * @generated
 	 */
-	EEnum getReadWriteOption();
+	EEnum getMode();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -101,14 +101,14 @@ public interface CorePackage extends EPackage {
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '{@link org.eclipse.tigerstripe.espace.core.ReadWriteOption <em>Read Write Option</em>}' enum.
+		 * The meta object literal for the '{@link org.eclipse.tigerstripe.espace.core.Mode <em>Mode</em>}' enum.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.tigerstripe.espace.core.ReadWriteOption
-		 * @see org.eclipse.tigerstripe.espace.core.impl.CorePackageImpl#getReadWriteOption()
+		 * @see org.eclipse.tigerstripe.espace.core.Mode
+		 * @see org.eclipse.tigerstripe.espace.core.impl.CorePackageImpl#getMode()
 		 * @generated
 		 */
-		EEnum READ_WRITE_OPTION = eINSTANCE.getReadWriteOption();
+		EEnum MODE = eINSTANCE.getMode();
 
 	}
 

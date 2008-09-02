@@ -20,6 +20,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Yuri Strot
  *
  */
+@SuppressWarnings("deprecation")
 public class MetaXMILoad extends XMILoadImpl {
 
 	/**

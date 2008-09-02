@@ -21,7 +21,7 @@ import org.eclipse.emf.common.util.Enumerator;
  * @author Yuri Strot
  * @model
  */
-public enum ReadWriteOption implements Enumerator {
+public enum Mode implements Enumerator {
 
 	/**
 	 * @model name="ReadWrite"
@@ -39,13 +39,13 @@ public enum ReadWriteOption implements Enumerator {
 	READ_ONLY_OVERRIDE(2, "ReadOnlyOverride", "ReadOnlyOverride");
 
 	/**
-	 * The '<em><b>Read Write</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Read Write</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Read Write</b></em>' literal object isn't
 	 * clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #READ_WRITE
 	 * @model name="ReadWrite"
 	 * @generated
@@ -53,13 +53,13 @@ public enum ReadWriteOption implements Enumerator {
 	 */
 	public static final int READ_WRITE_VALUE = 0;
 	/**
-	 * The '<em><b>Read Only</b></em>' literal value. <!-- begin-user-doc -->
+	 * The '<em><b>Read Only</b></em>' literal value.
+	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of '<em><b>Read Only</b></em>' literal object isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @see #READ_ONLY
 	 * @model name="ReadOnly"
 	 * @generated
@@ -87,26 +87,26 @@ public enum ReadWriteOption implements Enumerator {
 	 * 
 	 * @generated
 	 */
-	private static final ReadWriteOption[] VALUES_ARRAY = new ReadWriteOption[] {
-			READ_WRITE, READ_ONLY, READ_ONLY_OVERRIDE, };
+	private static final Mode[] VALUES_ARRAY = new Mode[] {
+			READ_WRITE,
+			READ_ONLY,
+			READ_ONLY_OVERRIDE,
+		};
 	/**
-	 * A public read-only list of all the '<em><b>Read Write Option</b></em>'
-	 * enumerators. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Mode</b></em>' enumerators.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<ReadWriteOption> VALUES = Collections
-			.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<Mode> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Read Write Option</b></em>' literal with the
-	 * specified literal value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Mode</b></em>' literal with the specified literal value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ReadWriteOption get(String literal) {
+	public static Mode get(String literal) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			ReadWriteOption result = VALUES_ARRAY[i];
+			Mode result = VALUES_ARRAY[i];
 			if (result.toString().equals(literal)) {
 				return result;
 			}
@@ -115,14 +115,13 @@ public enum ReadWriteOption implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Read Write Option</b></em>' literal with the
-	 * specified name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Mode</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ReadWriteOption getByName(String name) {
+	public static Mode getByName(String name) {
 		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
-			ReadWriteOption result = VALUES_ARRAY[i];
+			Mode result = VALUES_ARRAY[i];
 			if (result.getName().equals(name)) {
 				return result;
 			}
@@ -131,49 +130,42 @@ public enum ReadWriteOption implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Read Write Option</b></em>' literal with the
-	 * specified integer value. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Mode</b></em>' literal with the specified integer value.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static ReadWriteOption get(int value) {
+	public static Mode get(int value) {
 		switch (value) {
-		case READ_WRITE_VALUE:
-			return READ_WRITE;
-		case READ_ONLY_VALUE:
-			return READ_ONLY;
-		case READ_ONLY_OVERRIDE_VALUE:
-			return READ_ONLY_OVERRIDE;
+			case READ_WRITE_VALUE: return READ_WRITE;
+			case READ_ONLY_VALUE: return READ_ONLY;
+			case READ_ONLY_OVERRIDE_VALUE: return READ_ONLY_OVERRIDE;
 		}
 		return null;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final int value;
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final String name;
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * Only this class can construct instances.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	private ReadWriteOption(int value, String name, String literal) {
+	private Mode(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
@@ -181,35 +173,31 @@ public enum ReadWriteOption implements Enumerator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public int getValue() {
-		return value;
+	  return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getName() {
-		return name;
+	  return name;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String getLiteral() {
-		return literal;
+	  return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string
-	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the literal value of the enumerator, which is its string representation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override

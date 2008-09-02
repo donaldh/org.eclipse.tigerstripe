@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CorePackageImpl.java,v 1.1 2008/09/02 12:07:36 ystrot Exp $
+ * $Id: CorePackageImpl.java,v 1.2 2008/09/02 12:44:52 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.core.impl;
 
@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.eclipse.tigerstripe.espace.core.CoreFactory;
 import org.eclipse.tigerstripe.espace.core.CorePackage;
-import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
+import org.eclipse.tigerstripe.espace.core.Mode;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,8 +28,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EEnum readWriteOptionEEnum = null;
-
+	private EEnum modeEEnum = null;
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
@@ -106,8 +105,8 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EEnum getReadWriteOption() {
-		return readWriteOptionEEnum;
+	public EEnum getMode() {
+		return modeEEnum;
 	}
 
 	/**
@@ -138,7 +137,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		isCreated = true;
 
 		// Create enums
-		readWriteOptionEEnum = createEEnum(READ_WRITE_OPTION);
+		modeEEnum = createEEnum(MODE);
 	}
 
 	/**
@@ -165,10 +164,10 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		setNsURI(eNS_URI);
 
 		// Initialize enums and add enum literals
-		initEEnum(readWriteOptionEEnum, ReadWriteOption.class, "ReadWriteOption");
-		addEEnumLiteral(readWriteOptionEEnum, ReadWriteOption.READ_WRITE);
-		addEEnumLiteral(readWriteOptionEEnum, ReadWriteOption.READ_ONLY);
-		addEEnumLiteral(readWriteOptionEEnum, ReadWriteOption.READ_ONLY_OVERRIDE);
+		initEEnum(modeEEnum, Mode.class, "Mode");
+		addEEnumLiteral(modeEEnum, Mode.READ_WRITE);
+		addEEnumLiteral(modeEEnum, Mode.READ_ONLY);
+		addEEnumLiteral(modeEEnum, Mode.READ_ONLY_OVERRIDE);
 
 		// Create resource
 		createResource(eNS_URI);

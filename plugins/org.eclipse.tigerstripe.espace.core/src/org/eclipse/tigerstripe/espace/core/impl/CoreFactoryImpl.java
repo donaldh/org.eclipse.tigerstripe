@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: CoreFactoryImpl.java,v 1.1 2008/09/02 12:07:36 ystrot Exp $
+ * $Id: CoreFactoryImpl.java,v 1.2 2008/09/02 12:44:53 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.core.impl;
 
@@ -74,8 +74,8 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case CorePackage.READ_WRITE_OPTION:
-				return createReadWriteOptionFromString(eDataType, initialValue);
+			case CorePackage.MODE:
+				return createModeFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -89,8 +89,8 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case CorePackage.READ_WRITE_OPTION:
-				return convertReadWriteOptionToString(eDataType, instanceValue);
+			case CorePackage.MODE:
+				return convertModeToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
@@ -101,8 +101,8 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ReadWriteOption createReadWriteOptionFromString(EDataType eDataType, String initialValue) {
-		ReadWriteOption result = ReadWriteOption.get(initialValue);
+	public Mode createModeFromString(EDataType eDataType, String initialValue) {
+		Mode result = Mode.get(initialValue);
 		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
@@ -112,7 +112,7 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertReadWriteOptionToString(EDataType eDataType, Object instanceValue) {
+	public String convertModeToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
