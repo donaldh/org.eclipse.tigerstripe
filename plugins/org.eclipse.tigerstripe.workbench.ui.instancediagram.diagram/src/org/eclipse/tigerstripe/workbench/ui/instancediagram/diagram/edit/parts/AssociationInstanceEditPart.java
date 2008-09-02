@@ -23,7 +23,10 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
+import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
@@ -44,6 +47,26 @@ public class AssociationInstanceEditPart extends ConnectionNodeEditPart {
 	 */
 	public AssociationInstanceEditPart(View view) {
 		super(view);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Object getAdapter(Class key) {
+		if (key.equals(IAbstractArtifact.class)) {
+			Object model = this.getModel();
+			if (model instanceof Edge) {
+				Edge edge = (Edge) model;
+				AssociationInstance element = (AssociationInstance) edge
+						.getElement();
+				try {
+					return element.getArtifact();
+				} catch (TigerstripeException e) {
+					return null;
+				}
+			}
+		}
+
+		return super.getAdapter(key);
 	}
 
 	/**
@@ -124,7 +147,8 @@ public class AssociationInstanceEditPart extends ConnectionNodeEditPart {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionEditPart#refreshVisuals()
+	 * @seeorg.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionEditPart#
+	 * refreshVisuals()
 	 */
 	@Override
 	protected void refreshVisuals() {

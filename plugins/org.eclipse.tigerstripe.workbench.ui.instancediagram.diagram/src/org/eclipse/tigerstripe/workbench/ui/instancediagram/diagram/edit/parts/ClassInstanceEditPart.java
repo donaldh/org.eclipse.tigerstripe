@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.StackLayout;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
@@ -28,7 +29,12 @@ import org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.gef.ui.figures.DefaultSizeNodeFigure;
 import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
+import org.eclipse.gmf.runtime.notation.Edge;
+import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policies.ClassInstanceCanonicalEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policies.ClassInstanceGraphicalNodeEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policies.ClassInstanceItemSemanticEditPolicy;
@@ -64,6 +70,25 @@ public class ClassInstanceEditPart extends TigerstripeShapeNodeEditPart
 	 */
 	public ClassInstanceEditPart(View view) {
 		super(view);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Object getAdapter(Class key) {
+		if (key.equals(IAbstractArtifact.class)) {
+			Object model = this.getModel();
+			if (model instanceof Node) {
+				Node node = (Node) model;
+				ClassInstance element = (ClassInstance) node.getElement();
+				try {
+					return element.getArtifact();
+				} catch (TigerstripeException e) {
+					return null;
+				}
+			}
+		}
+
+		return super.getAdapter(key);
 	}
 
 	/**
