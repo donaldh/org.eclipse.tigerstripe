@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaConventions;
@@ -27,13 +28,13 @@ import org.eclipse.jdt.internal.ui.dialogs.StatusUtil;
 import org.eclipse.jdt.internal.ui.refactoring.contentassist.ControlContentAssistHelper;
 import org.eclipse.jdt.internal.ui.refactoring.contentassist.JavaPackageCompletionProcessor;
 import org.eclipse.jdt.internal.ui.refactoring.contentassist.JavaTypeCompletionProcessor;
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.ComboDialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IDialogFieldListener;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IListAdapter;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IStringButtonAdapter;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.LayoutUtil;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.ListDialogField;
-import org.eclipse.jdt.internal.ui.wizards.dialogfields.SelectionButtonDialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.Separator;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringButtonDialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringButtonStatusDialogField;
@@ -45,13 +46,40 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.patterns.ArtifactPattern;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -61,6 +89,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDi
 import org.eclipse.tigerstripe.workbench.ui.internal.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.WizardUtils;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.ArtifactSelectionDialog;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 /**
@@ -95,11 +124,6 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 
 	private JavaTypeCompletionProcessor extendedClassCompletionProcessor;
 
-	// The Labels button
-	private SelectionButtonDialogField labelButton;
-
-	private int fieldCounter = 0;
-
 	/**
 	 * The package of the generated artifact
 	 */
@@ -127,7 +151,16 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 
 	protected IStatus tsRuntimeContextStatus;
 
+	// Only used for Enum
+	private ComboDialogField baseEnumType;
+	private final static String[] supportedEnumTypes = { "int", "String" };
 
+	// Only used for Query
+	private StringButtonDialogField returnedTypeClassDialogField;
+	private IStatus returnedTypeClassStatus;
+	private JavaTypeCompletionProcessor returnedTypeClassCompletionProcessor;
+	
+	
 	public NewPatternBasedArtifactWizardPage(String pageName) {
 		super(pageName);
 
@@ -219,6 +252,22 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		artifactNameStatus = artifactNameChanged();
 		tsRuntimeContextStatus = new StatusInfo();
 
+		baseEnumType = new ComboDialogField(SWT.DROP_DOWN | SWT.READ_ONLY);
+		baseEnumType.setDialogFieldListener(adapter);
+		baseEnumType.setLabelText("Base Type:");
+		baseEnumType.setItems(supportedEnumTypes);
+		baseEnumType.selectItem(0);
+		
+		returnedTypeClassDialogField = new StringButtonDialogField(adapter);
+		returnedTypeClassDialogField.setDialogFieldListener(adapter);
+		returnedTypeClassDialogField.setLabelText("Returned Type"); //$NON-NLS-1$
+		returnedTypeClassDialogField.setButtonLabel(NewWizardMessages
+				.getString("NewQueryWizardPage.returnedEntity.button")); //$NON-NLS-1$
+
+		returnedTypeClassStatus = new StatusInfo();
+		returnedTypeClassCompletionProcessor = new JavaTypeCompletionProcessor(
+				false, false);
+		
 		initTSRuntimeContext(jelem);
 
 		initContainerPage(jelem);
@@ -307,11 +356,32 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	}
 
 	protected void createArtifactControls(Composite composite, int nColumns) {
-		createArtifactControls(composite, nColumns, true);
+		String targetType = ((ArtifactPattern) pattern).getTargetArtifactType();
+		
+		// TODO - Should these specifics actually be in the "nodePattern"
+		boolean createExtends = true;
+		boolean createBaseType = false;
+		boolean createReturnType = false;
+		// Don't support extends for Package
+		if (targetType.equals(IPackageArtifact.class.getName())){
+			createExtends = false; 
+		} 
+		// Enums need base type, but should not be extendable!
+		if (targetType.equals(IEnumArtifact.class.getName())){
+			createBaseType = true;
+			createExtends = false; 
+		}
+		// Queries need return type
+		if (targetType.equals(IQueryArtifact.class.getName())){
+			createReturnType = true;
+		}
+
+		//createArtifactControls(composite, nColumns, createExtends, createBaseType, createReturnType);
+		createArtifactControls(composite, nColumns, createExtends, false, false);
 	}
 
 	protected void createArtifactControls(Composite composite, int nColumns,
-			boolean createExtendsControl) {
+			boolean createExtendsControl, boolean createBaseTypeControl, boolean createReturnType) {
 		createContainerControls(composite, nColumns);
 
 		createPackageControls(composite, nColumns);
@@ -322,6 +392,16 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 			createExtendedArtifactControls(composite, nColumns);
 		}
 
+		if (createBaseTypeControl){
+			createSeparator(composite, nColumns);
+			createBaseEnumTypeControls(composite, nColumns);
+		}
+		
+		if (createReturnType){
+			createSeparator(composite, nColumns);
+			createReturnedTypeControls(composite, nColumns);
+		}
+		
 		createEditMessage(composite, nColumns);
 	}
 
@@ -398,7 +478,39 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 				extendedClassCompletionProcessor);
 	}
 
-
+	/**
+	 * Creates the controls for the enum base type. Expects a
+	 * <code>GridLayout</code> with at least 3 columns.
+	 * 
+	 * @param composite
+	 *            the parent composite
+	 * @param nColumns
+	 *            number of columns to span
+	 */
+	protected void createBaseEnumTypeControls(Composite composite, int nColumns) {
+		baseEnumType.doFillIntoGrid(composite, nColumns);
+		Combo combo = baseEnumType.getComboControl(null);
+		LayoutUtil.setWidthHint(combo, getMaxFieldWidth());
+		LayoutUtil.setHorizontalGrabbing(combo);
+	}
+	
+	/**
+	 * Creates the controls for the superclass name field. Expects a
+	 * <code>GridLayout</code> with at least 3 columns.
+	 * 
+	 * @param composite
+	 *            the parent composite
+	 * @param nColumns
+	 *            number of columns to span
+	 */
+	protected void createReturnedTypeControls(Composite composite, int nColumns) {
+		returnedTypeClassDialogField.doFillIntoGrid(composite, nColumns);
+		Text text = returnedTypeClassDialogField.getTextControl(null);
+		LayoutUtil.setWidthHint(text, getMaxFieldWidth());
+		ControlContentAssistHelper.createTextContentAssistant(text,
+				returnedTypeClassCompletionProcessor);
+	}
+	
 	/**
 	 * Returns the package fragment corresponding to the current input.
 	 * 
@@ -518,7 +630,13 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 				// .getFullyQualifiedName(type));
 				extendedClassDialogField.setText(type);
 			}
+		} else if (field == returnedTypeClassDialogField) {
+			org.eclipse.jdt.core.IType type = chooseReturnedType();
+			if (type != null) {
+				returnedTypeClassDialogField.setText(type.getFullyQualifiedName());
+			}
 		}
+
 	}
 
 
@@ -709,6 +827,64 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	}
 
 
+	/**
+	 * Choose the returned type through a dialog. The dialog only shows Entity
+	 * Artifact
+	 * 
+	 * @return
+	 */
+	private org.eclipse.jdt.core.IType chooseReturnedType() {
+
+		ArtifactSelectionDialog dialog = new ArtifactSelectionDialog(
+				getInitialElement(), ManagedEntityArtifact.MODEL);
+
+		dialog.setTitle("Returned Entity Type");
+		dialog
+				.setMessage("Please selected the returned entity type for this query.");
+	
+		AbstractArtifact[] selectedArtifacts = dialog.browseAvailableArtifacts(
+				getShell(), new ArrayList(), getTSRuntimeContext());
+
+		if (selectedArtifacts.length == 0)
+			return null;
+		else {
+			String classname = selectedArtifacts[0].getFullyQualifiedName();
+			try {
+				return resolveReturnedTypeName(getInitialElement()
+						.getJavaProject(), classname);
+			} catch (JavaModelException e) {
+				TigerstripeRuntime.logErrorMessage(
+						"JavaModelException detected", e);
+			}
+		}
+		return null;
+
+	}
+	
+	private org.eclipse.jdt.core.IType resolveReturnedTypeName(IJavaProject jproject,
+			String sclassName) throws JavaModelException {
+		if (!jproject.exists())
+			return null;
+		org.eclipse.jdt.core.IType type = null;
+		IPackageFragment currPack = getArtifactPackageFragment();
+		if (type == null && currPack != null) {
+			String packName = currPack.getElementName();
+			// search in own package
+			if (!currPack.isDefaultPackage()) {
+				type = jproject.findType(packName, sclassName);
+			}
+			// search in java.lang
+			if (type == null && !"java.lang".equals(packName)) { //$NON-NLS-1$
+				type = jproject.findType("java.lang", sclassName); //$NON-NLS-1$
+			}
+		}
+		// search fully qualified
+		if (type == null) {
+			type = jproject.findType(sclassName);
+		}
+		return type;
+	}
+	
 	public final static String PACKAGE_NAME = "packageName";
 
 	public final static String ARTIFACT_NAME = "artifactName";
@@ -721,6 +897,32 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 
 	// TODO
 	public IAbstractArtifact[] getArtifactModelForExtend() {
+		String targetType = ((IArtifactPattern)pattern).getTargetArtifactType();
+		if (targetType.equals(IManagedEntityArtifact.class.getName())){
+			return new IAbstractArtifact[] { ManagedEntityArtifact.MODEL };
+		} else 	if (targetType.equals(IDatatypeArtifact.class.getName())){
+			return new IAbstractArtifact[] { DatatypeArtifact.MODEL };
+		} else 	if (targetType.equals(IEnumArtifact.class.getName())){
+			return new IAbstractArtifact[] { EnumArtifact.MODEL };
+		} else 	if (targetType.equals(IExceptionArtifact.class.getName())){
+			return new IAbstractArtifact[] { ExceptionArtifact.MODEL };
+		} else 	if (targetType.equals(IEventArtifact.class.getName())){
+			return new IAbstractArtifact[] { EventArtifact.MODEL };
+		} else 	if (targetType.equals(IQueryArtifact.class.getName())){
+			return new IAbstractArtifact[] { QueryArtifact.MODEL };
+		} else 	if (targetType.equals(IUpdateProcedureArtifact.class.getName())){
+			return new IAbstractArtifact[] { UpdateProcedureArtifact.MODEL };
+		} else 	if (targetType.equals(ISessionArtifact.class.getName())){
+			return new IAbstractArtifact[] { SessionFacadeArtifact.MODEL };
+		} else 	if (targetType.equals(IAssociationArtifact.class.getName())){
+			return new IAbstractArtifact[] { AssociationArtifact.MODEL };
+		} else 	if (targetType.equals(IAssociationClassArtifact.class.getName())){
+			return new IAbstractArtifact[] { AssociationClassArtifact.MODEL };
+		} else 	if (targetType.equals(IDependencyArtifact.class.getName())){
+			return new IAbstractArtifact[] { DependencyArtifact.MODEL };
+		}
+		
+		// Default
 		return new IAbstractArtifact[] { ManagedEntityArtifact.MODEL };
 	}
 
@@ -888,14 +1090,6 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 			}
 		}
 		return status;
-	}
-
-	public int getFieldCounter() {
-		return fieldCounter;
-	}
-
-	public void setFieldCounter(int fieldCounter) {
-		this.fieldCounter = fieldCounter;
 	}
 
 }

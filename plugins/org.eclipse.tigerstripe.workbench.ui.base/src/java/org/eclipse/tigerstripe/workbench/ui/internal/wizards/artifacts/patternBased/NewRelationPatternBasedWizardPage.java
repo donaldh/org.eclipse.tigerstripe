@@ -105,15 +105,15 @@ public class NewRelationPatternBasedWizardPage extends
 		layout.numColumns = nColumns;
 		composite.setLayout(layout);
 
-		createArtifactControls(composite, nColumns, true);
+		createArtifactControls(composite, nColumns, true, false, false);
 		createSeparator(composite, nColumns);
-		createReturnedTypeControls(composite, nColumns);
+		createEndTypeControls(composite, nColumns);
 
 		setControl(composite);
 		Dialog.applyDialogFont(composite);
 	}
 	
-	protected void createReturnedTypeControls(Composite composite, int nColumns) {
+	protected void createEndTypeControls(Composite composite, int nColumns) {
 		aEndTypeClassDialogField.doFillIntoGrid(composite, nColumns);
 		Text text = aEndTypeClassDialogField.getTextControl(null);
 		LayoutUtil.setWidthHint(text, getMaxFieldWidth());
