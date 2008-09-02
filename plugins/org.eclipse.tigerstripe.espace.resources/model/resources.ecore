@@ -10,12 +10,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="ResourceList">
     <eStructuralFeatures xsi:type="ecore:EReference" name="locations" upperBound="-1"
         eType="#//ResourceLocation" containment="true" resolveProxies="false"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="currentId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResourceLocation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" eType="#//URI"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeStamp" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="option" eType="ecore:EEnum ../../org.eclipse.tigerstripe.espace.core/model/core.ecore#//ReadWriteOption"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="URI" instanceClassName="org.eclipse.emf.common.util.URI"/>
 </ecore:EPackage>

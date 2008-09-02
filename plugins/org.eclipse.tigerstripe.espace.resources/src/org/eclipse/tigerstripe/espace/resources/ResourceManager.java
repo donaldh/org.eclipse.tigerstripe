@@ -21,6 +21,8 @@ import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 import org.eclipse.tigerstripe.espace.resources.internal.core.ResourceStorage;
 
@@ -45,7 +47,11 @@ public class ResourceManager {
 	public boolean updateState() {
 		boolean rebuild = false;
 		for (ResourceState state : resources) {
-			rebuild |= storage.updateResource(state.getResource(), state.isAdded());
+			Resource resource = storage.getResource(state.getResource());
+			if (state.isAdded())
+				rebuild |= storage.addResource(resource, ReadWriteOption.READ_WRITE);
+			else
+				rebuild |= storage.removeResource(resource);
 		}
 		resources = new ArrayList<ResourceState>();
 		return rebuild;

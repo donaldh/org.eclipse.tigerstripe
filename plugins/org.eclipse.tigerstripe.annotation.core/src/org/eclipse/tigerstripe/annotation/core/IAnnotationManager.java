@@ -14,6 +14,8 @@ package org.eclipse.tigerstripe.annotation.core;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
 
 /**
  * An annotation manager provide operations for annotation creation, removing, changing and others.
@@ -202,10 +204,25 @@ public interface IAnnotationManager {
 	public TargetAnnotationType[] getAnnotationTargets(Object object); 
 	
 	/**
-	 * TODO update documentation
+	 * Return interface for refactoring support
 	 * 
 	 * @return
 	 */
 	public IRefactoringSupport getRefactoringSupport();
+	
+	/**
+	 * Add resource to the Annotation Framework storage 
+	 * 
+	 * @param resource
+	 * @param option
+	 */
+	public void addResource(Resource resource, ReadWriteOption option);
+	
+	/**
+	 * Remove resource from the Annotation Framework storage
+	 * 
+	 * @param resource
+	 */
+	public void removeResource(Resource resource);
 
 }

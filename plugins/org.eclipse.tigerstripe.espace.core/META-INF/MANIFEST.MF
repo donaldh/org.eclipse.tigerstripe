@@ -6,6 +6,7 @@ Bundle-Version: 0.4.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.tigerstripe.espace.core,
+ org.eclipse.tigerstripe.espace.core.impl,
  org.eclipse.tigerstripe.espace.core.tree,
  org.eclipse.tigerstripe.espace.core.tree.impl,
  org.eclipse.tigerstripe.espace.core.tree.util

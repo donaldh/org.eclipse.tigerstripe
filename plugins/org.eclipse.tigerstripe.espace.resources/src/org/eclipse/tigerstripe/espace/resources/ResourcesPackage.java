@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ResourcesPackage.java,v 1.6 2008/06/19 10:46:03 ystrot Exp $
+ * $Id: ResourcesPackage.java,v 1.7 2008/09/02 12:07:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources;
 
@@ -119,22 +119,13 @@ public interface ResourcesPackage extends EPackage {
 	int RESOURCE_LIST__LOCATIONS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Current Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int RESOURCE_LIST__CURRENT_ID = 1;
-
-	/**
 	 * The number of structural features of the '<em>Resource List</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_LIST_FEATURE_COUNT = 2;
+	int RESOURCE_LIST_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl <em>Resource Location</em>}' class.
@@ -165,13 +156,22 @@ public interface ResourcesPackage extends EPackage {
 	int RESOURCE_LOCATION__TIME_STAMP = 1;
 
 	/**
+	 * The feature id for the '<em><b>Option</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_LOCATION__OPTION = 2;
+
+	/**
 	 * The number of structural features of the '<em>Resource Location</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_LOCATION_FEATURE_COUNT = 2;
+	int RESOURCE_LOCATION_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '<em>URI</em>' data type.
@@ -227,17 +227,6 @@ public interface ResourcesPackage extends EPackage {
 	EReference getResourceList_Locations();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.espace.resources.ResourceList#getCurrentId <em>Current Id</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Current Id</em>'.
-	 * @see org.eclipse.tigerstripe.espace.resources.ResourceList#getCurrentId()
-	 * @see #getResourceList()
-	 * @generated
-	 */
-	EAttribute getResourceList_CurrentId();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.espace.resources.ResourceLocation <em>Resource Location</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -268,6 +257,17 @@ public interface ResourcesPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getResourceLocation_TimeStamp();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.espace.resources.ResourceLocation#getOption <em>Option</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Option</em>'.
+	 * @see org.eclipse.tigerstripe.espace.resources.ResourceLocation#getOption()
+	 * @see #getResourceLocation()
+	 * @generated
+	 */
+	EAttribute getResourceLocation_Option();
 
 	/**
 	 * Returns the meta object for data type '{@link org.eclipse.emf.common.util.URI <em>URI</em>}'.
@@ -339,14 +339,6 @@ public interface ResourcesPackage extends EPackage {
 		EReference RESOURCE_LIST__LOCATIONS = eINSTANCE.getResourceList_Locations();
 
 		/**
-		 * The meta object literal for the '<em><b>Current Id</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute RESOURCE_LIST__CURRENT_ID = eINSTANCE.getResourceList_CurrentId();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl <em>Resource Location</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -371,6 +363,14 @@ public interface ResourcesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute RESOURCE_LOCATION__TIME_STAMP = eINSTANCE.getResourceLocation_TimeStamp();
+
+		/**
+		 * The meta object literal for the '<em><b>Option</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RESOURCE_LOCATION__OPTION = eINSTANCE.getResourceLocation_Option();
 
 		/**
 		 * The meta object literal for the '<em>URI</em>' data type.

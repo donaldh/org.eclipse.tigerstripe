@@ -4,7 +4,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.tigerstripe.espace.resources/src"
     modelPluginID="org.eclipse.tigerstripe.espace.resources" modelName="Resources"
     importerID="org.eclipse.emf.importer.java" complianceLevel="5.0" copyrightFields="false"
-    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore">
+    usedGenPackages="platform:/plugin/org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.eclipse.tigerstripe.espace.core/model/core.genmodel#//core">
   <foreignModel>@model</foreignModel>
   <genPackages prefix="Resources" basePackage="org.eclipse.tigerstripe.espace" disposableProviderFactory="true"
       ecorePackage="resources.ecore#/">
@@ -14,11 +14,11 @@
     </genClasses>
     <genClasses ecoreClass="resources.ecore#//ResourceList">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference resources.ecore#//ResourceList/locations"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute resources.ecore#//ResourceList/currentId"/>
     </genClasses>
     <genClasses ecoreClass="resources.ecore#//ResourceLocation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute resources.ecore#//ResourceLocation/uri"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute resources.ecore#//ResourceLocation/timeStamp"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute resources.ecore#//ResourceLocation/option"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

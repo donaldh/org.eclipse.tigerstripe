@@ -15,7 +15,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.eclipse.core.runtime.CoreException;
@@ -33,7 +35,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
+import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
+import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
 import org.eclipse.tigerstripe.espace.resources.ResourceManager;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 import org.eclipse.tigerstripe.espace.resources.internal.core.ClassifierIndexer;
@@ -73,7 +77,6 @@ public class EMFDatabase implements IEMFDatabase {
 	public EMFDatabase(IDatabaseConfiguration idManager) {
 		this.idManager = idManager;
 		init();
-		resourceManager = new ResourceManager(getResourceStorage());
 	}
 	
 	protected void init() {
@@ -97,6 +100,7 @@ public class EMFDatabase implements IEMFDatabase {
 		
 		resourceHelper = new ResourceHelper(indexer, resourceSet);
 		resourceStorage = new ResourceStorage(resourceHelper);
+		resourceManager = new ResourceManager(resourceStorage);
 	}
 	
 	protected void initRouters() {
@@ -159,7 +163,8 @@ public class EMFDatabase implements IEMFDatabase {
 	
 	private void unlockChanges(boolean write) {
 		if (write) {
-			resourceManager.updateState();
+			if (resourceManager.updateState())
+				doRebuildIndex();
 			rwl.writeLock().unlock();
 		}
 		else rwl.readLock().unlock();
@@ -185,9 +190,10 @@ public class EMFDatabase implements IEMFDatabase {
 		try {
 			lockAndUpdate(true);
 			changes.applyAndReverse();
-			doRemove(object);
+			Resource[] resource = new Resource[1];
+			boolean readOnly = doRemove(object, resource);
 			changes.apply();
-			doWrite(object);
+			if (!readOnly) doWrite(object, resource[0]);
 		}
 		finally {
 			unlockChanges(true);
@@ -208,7 +214,7 @@ public class EMFDatabase implements IEMFDatabase {
 		try {
 			lockAndUpdate(true);
 			createID(object);
-			doWrite(object);
+			doWrite(object, null);
 		}
 		finally {
 			unlockChanges(true);
@@ -218,7 +224,7 @@ public class EMFDatabase implements IEMFDatabase {
 	public void remove(EObject object) {
 		try {
 			lockAndUpdate(true);
-			doRemove(object);
+			doRemove(object, null);
 		}
 		finally {
 			unlockChanges(true);
@@ -261,6 +267,35 @@ public class EMFDatabase implements IEMFDatabase {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#addResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.tigerstripe.espace.core.ReadWriteOption)
+	 */
+	public void addResource(Resource resource, ReadWriteOption option) {
+		try {
+			lockAndUpdate(true);
+			getResourceSet().getResources().add(resource);
+			if (getResourceStorage().addResource(resource, option))
+				doRebuildIndex();
+		}
+		finally {
+			unlockChanges(true);
+		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#removeResource(org.eclipse.emf.ecore.resource.Resource)
+	 */
+	public void removeResource(Resource resource) {
+		try {
+			lockAndUpdate(true);
+			if (getResourceStorage().removeResource(resource))
+				doRebuildIndex();
+		}
+		finally {
+			unlockChanges(true);
+		}
+	}
+	
 	public void rebuildIndex() {
 		lockChanges(true);
 		try {
@@ -298,21 +333,39 @@ public class EMFDatabase implements IEMFDatabase {
 		saveAfterIdChanges(resources);
 	}
 	
-	protected void updateIDs(EObject[] objects) {
+	protected EObject[] updateIDs(EObject[] objects) {
 		List<Resource> resources = new ArrayList<Resource>();
+		Map<String, EObject> map = new HashMap<String, EObject>();
 		for (int i = 0; i < objects.length; i++) {
 			EObject cur = objects[i];
 			while(cur.eContainer() != null)
 				cur = cur.eContainer();
-			String oldId = idManager.getId(cur);
-			if (oldId == null) {
-				idManager.setId(cur, generateID());
+			String id = idManager.getId(cur);
+			if (id == null) {
+				id = generateID();
+				idManager.setId(cur, id);
 				Resource res = cur.eResource();
 				if (res != null && !resources.contains(res))
 					resources.add(res);
 			}
+			EObject obj = map.get(id);
+			if (obj == null) {
+				map.put(id, objects[i]);
+			}
+			else {
+				Resource resource = objects[i].eResource();
+				if (resource != null) {
+					ResourceLocation location = getResourceStorage().getLocation(resource);
+					if (location != null) {
+						if (ReadWriteOption.READ_WRITE.equals(location.getOption())) {
+							map.put(id, objects[i]);
+						}
+					}
+				}
+			}
 		}
 		saveAfterIdChanges(resources);
+		return map.values().toArray(new EObject[map.size()]);
 	}
 	
 	protected void saveAfterIdChanges(List<Resource> resources) {
@@ -324,7 +377,7 @@ public class EMFDatabase implements IEMFDatabase {
 	}
 	
 	protected EObject[] copy(EObject[] objects) {
-		updateIDs(objects);
+		objects = updateIDs(objects);
 		return copy(Arrays.asList(objects));
 	}
 	
@@ -338,9 +391,10 @@ public class EMFDatabase implements IEMFDatabase {
 			doRebuildIndex();
 	}
 	
-	protected void doWrite(EObject object) {
+	protected void doWrite(EObject object, Resource resource) {
 		object = EcoreUtil.copy(object);
-		Resource resource = getResource(object);
+		if (resource == null)
+			resource = getResource(object);
 		try {
 			getResourceStorage().addResource(resource, object);
 		}
@@ -354,13 +408,27 @@ public class EMFDatabase implements IEMFDatabase {
 		}
 	}
 	
-	protected void doRemove(EObject object) {
+	protected boolean doRemove(EObject object, Resource[] oldResource) {
+		boolean readOnly = false;
 		EStructuralFeature feature = getIDFeature(object);
 		if (feature != null) {
 			EObject[] objects = doGet(feature, object.eGet(feature), false);
 			for (int i = 0; i < objects.length; i++) {
 				EObject candidate = objects[i];
 				Resource resource = candidate.eResource();
+				ReadWriteOption option = ReadWriteOption.READ_WRITE;
+				if (resource != null) {
+					ResourceLocation location = getResourceStorage().getLocation(resource);
+					if (location != null) {
+						option = location.getOption();
+						if (ReadWriteOption.READ_WRITE.equals(option) && oldResource != null)
+							oldResource[0] = resource;
+						if (ReadWriteOption.READ_ONLY.equals(option))
+							readOnly = true;
+						if (!ReadWriteOption.READ_WRITE.equals(option))
+							continue;
+					}
+				}
 				if (resource == null)
 					resource = getResource(object);
 				try {
@@ -369,13 +437,14 @@ public class EMFDatabase implements IEMFDatabase {
 				catch (IOException exc) {
 					doRebuildIndex();
 					try {
-						getResourceStorage().addResource(resource, object);
+						getResourceStorage().addResource(resource, object, option);
 					} catch (IOException e) {
 						ResourcesPlugin.log(e);
 					}
 				}
 			}
 		}
+		return readOnly;
 	}
 	
 	protected EStructuralFeature getIDFeature(EObject object) {

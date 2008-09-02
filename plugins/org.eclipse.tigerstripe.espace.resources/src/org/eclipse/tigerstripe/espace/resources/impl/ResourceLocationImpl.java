@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ResourceLocationImpl.java,v 1.1 2008/06/09 10:42:24 ystrot Exp $
+ * $Id: ResourceLocationImpl.java,v 1.2 2008/09/02 12:07:39 ystrot Exp $
  */
 package org.eclipse.tigerstripe.espace.resources.impl;
 
@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPackage;
 
@@ -27,6 +28,7 @@ import org.eclipse.tigerstripe.espace.resources.ResourcesPackage;
  * <ul>
  *   <li>{@link org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl#getUri <em>Uri</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl#getTimeStamp <em>Time Stamp</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.espace.resources.impl.ResourceLocationImpl#getOption <em>Option</em>}</li>
  * </ul>
  * </p>
  *
@@ -72,6 +74,26 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 	 * @ordered
 	 */
 	protected long timeStamp = TIME_STAMP_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getOption() <em>Option</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOption()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final ReadWriteOption OPTION_EDEFAULT = ReadWriteOption.READ_WRITE;
+
+	/**
+	 * The cached value of the '{@link #getOption() <em>Option</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOption()
+	 * @generated
+	 * @ordered
+	 */
+	protected ReadWriteOption option = OPTION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -139,6 +161,27 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public ReadWriteOption getOption() {
+		return option;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOption(ReadWriteOption newOption) {
+		ReadWriteOption oldOption = option;
+		option = newOption == null ? OPTION_EDEFAULT : newOption;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ResourcesPackage.RESOURCE_LOCATION__OPTION, oldOption, option));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -146,6 +189,8 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 				return getUri();
 			case ResourcesPackage.RESOURCE_LOCATION__TIME_STAMP:
 				return new Long(getTimeStamp());
+			case ResourcesPackage.RESOURCE_LOCATION__OPTION:
+				return getOption();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -163,6 +208,9 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 				return;
 			case ResourcesPackage.RESOURCE_LOCATION__TIME_STAMP:
 				setTimeStamp(((Long)newValue).longValue());
+				return;
+			case ResourcesPackage.RESOURCE_LOCATION__OPTION:
+				setOption((ReadWriteOption)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -182,6 +230,9 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 			case ResourcesPackage.RESOURCE_LOCATION__TIME_STAMP:
 				setTimeStamp(TIME_STAMP_EDEFAULT);
 				return;
+			case ResourcesPackage.RESOURCE_LOCATION__OPTION:
+				setOption(OPTION_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -198,6 +249,8 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 				return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
 			case ResourcesPackage.RESOURCE_LOCATION__TIME_STAMP:
 				return timeStamp != TIME_STAMP_EDEFAULT;
+			case ResourcesPackage.RESOURCE_LOCATION__OPTION:
+				return option != OPTION_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -216,6 +269,8 @@ public class ResourceLocationImpl extends EObjectImpl implements ResourceLocatio
 		result.append(uri);
 		result.append(", timeStamp: ");
 		result.append(timeStamp);
+		result.append(", option: ");
+		result.append(option);
 		result.append(')');
 		return result.toString();
 	}

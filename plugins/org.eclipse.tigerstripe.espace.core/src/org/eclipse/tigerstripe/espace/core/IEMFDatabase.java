@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * This interface represent persistence service which used for storing/retrieving
@@ -80,5 +81,21 @@ public interface IEMFDatabase {
 	 * @return previously saved EMF objects or empty array if none
 	 */
 	public EObject[] read();
+	
+	/**
+	 * Add resource
+	 * 
+	 * @param resource
+	 * @param option
+	 */
+	public void addResource(Resource resource, ReadWriteOption option);
+	
+	/**
+	 * Remove resource
+	 * 
+	 * @param resource
+	 * @param option
+	 */
+	public void removeResource(Resource resource);
 
 }

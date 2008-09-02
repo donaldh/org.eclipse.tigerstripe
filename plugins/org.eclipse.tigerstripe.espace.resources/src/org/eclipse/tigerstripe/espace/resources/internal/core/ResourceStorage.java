@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.tigerstripe.espace.core.ReadWriteOption;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourceList;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
@@ -113,13 +114,17 @@ public class ResourceStorage {
 	}
 	
 	public void addResource(Resource resource, EObject object) throws IOException {
+		addResource(resource, object, ReadWriteOption.READ_WRITE);
+	}
+	
+	public void addResource(Resource resource, EObject object, ReadWriteOption option) throws IOException {
 		helper.addAndSave(resource, object, true);
 		if (isDefaultUri(resource.getURI()))
 			return;
-		addLocation(resource);
+		addResource(resource, option);
 	}
 	
-	protected boolean addLocation(Resource resource) {
+	public boolean addResource(Resource resource, ReadWriteOption option) {
 		boolean modified = false;
 		boolean newElement = false;
 		ResourceLocation location = getLocation(resource);
@@ -127,6 +132,7 @@ public class ResourceStorage {
 			modified = true;
 			location = ResourcesFactory.eINSTANCE.createResourceLocation();
 			location.setUri(resource.getURI());
+			location.setOption(option);
 			newElement = getResourceList().getLocations().add(location);
 		}
 		long newStamp = ResourceHelper.getLastModification(resource);
@@ -139,7 +145,7 @@ public class ResourceStorage {
 		return newElement;
 	}
 	
-	protected boolean removeLocation(Resource resource) {
+	public boolean removeResource(Resource resource) {
 		boolean haveElement = false;
 		ResourceLocation location = getLocation(resource);
 		if (location != null) {
@@ -152,22 +158,21 @@ public class ResourceStorage {
 	public void removeResourceIfEmpty(Resource resource) {
 		if (isDefaultUri(resource.getURI()))
 			return;
-		if (resource.getContents().size() == 0)
+		if (resource.getContents().size() == 0) {
 			removeResource(resource);
+			ResourceHelper.delete(resource);
+		}
 		else
 			updateResource(resource);
-		ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
 	}
 	
-	public boolean updateResource(IResource resource, boolean added) {
+	public Resource getResource(IResource resource) {
 		URI uri = URI.createPlatformResourceURI(
 				resource.getFullPath().toString(), false);
-		Resource res = helper.getResource(uri);
-		if (added) return addLocation(res);
-		else return removeLocation(res);
+		return helper.getResource(uri);
 	}
 	
-	protected ResourceLocation getLocation(Resource resource) {
+	public ResourceLocation getLocation(Resource resource) {
 		Iterator<ResourceLocation> it = getResourceList().getLocations().iterator();
 		while (it.hasNext()) {
 			ResourceLocation location = (ResourceLocation) it.next();
@@ -178,17 +183,11 @@ public class ResourceStorage {
 		return null;
 	}
 	
-	protected void removeResource(Resource resource) {
-		ResourceLocation location = getLocation(resource);
-		if (location != null)
-			getResourceList().getLocations().remove(location);
-		ResourceHelper.delete(resource);
-	}
-	
 	protected void updateResource(Resource resource) {
 		ResourceLocation location = getLocation(resource);
 		if (location != null) {
 			location.setTimeStamp(ResourceHelper.getLastModification(resource));
+			ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
 		}
 	}
 	
