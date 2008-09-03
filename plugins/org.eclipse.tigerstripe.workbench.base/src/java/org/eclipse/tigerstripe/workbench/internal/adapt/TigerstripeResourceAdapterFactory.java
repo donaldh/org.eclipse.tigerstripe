@@ -18,7 +18,6 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -26,6 +25,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -216,7 +218,20 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 	private IAbstractTigerstripeProject adaptToProject(Object adaptableObject) {
 		if (adaptableObject instanceof IProject) {
 			IProject project = (IProject) adaptableObject;
-			if (project.exists() && project.isOpen())
+			if (project.exists() && project.isOpen()) {
+				
+				// If none of the known natures, no need to try
+				try { 
+					if ( !TigerstripeM0GeneratorNature.hasNature(project) &&
+							!TigerstripeProjectNature.hasNature(project) &&
+							! TigerstripePluginProjectNature.hasNature(project)) {
+						return null;
+					}
+				} catch ( CoreException e ) {
+					BasePlugin.log(e);
+					return null;
+				}
+				
 				try {
 					IAbstractTigerstripeProject tsProject = TigerstripeCore
 							.findProject(project.getLocation().toFile().toURI());
@@ -226,6 +241,7 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 				} catch (TigerstripeException e) {
 					BasePlugin.log(e);
 				}
+			}
 			// } else if (adaptableObject instanceof IResource) {
 			// IResource res = (IResource) adaptableObject;
 			// if (res != null) {
