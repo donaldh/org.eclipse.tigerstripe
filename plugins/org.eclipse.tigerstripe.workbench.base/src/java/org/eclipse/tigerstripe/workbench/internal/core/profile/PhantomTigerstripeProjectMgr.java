@@ -235,6 +235,11 @@ public class PhantomTigerstripeProjectMgr implements
 			if (binFiles != null && binFiles.length != 0)
 				zipper.write(binFiles, "");
 
+			// make sure there's at least one file in the zip or else it's not valid
+			File empty = new File(getPhantomURI().getPath() + "/empty.txt");
+			empty.createNewFile();
+			zipper.write(empty, "empty.txt");
+			
 			zipper.finished();
 
 		} catch (IOException e) {
