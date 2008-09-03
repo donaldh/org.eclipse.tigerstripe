@@ -19,7 +19,7 @@
  * @tigerstripe.interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
  *      generate = "true"
  *
-#foreach($entity in $artifact.ManagedEntities)
+#foreach($entity in $artifact.ManagedEntityDetails)
  *	@tigerstripe.managed-entity
  *		managedEntity = "$entity.FullyQualifiedName"
  *		include-descendants = "true"
