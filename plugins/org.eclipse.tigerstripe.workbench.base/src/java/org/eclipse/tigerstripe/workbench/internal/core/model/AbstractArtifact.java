@@ -178,6 +178,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	protected Collection<ILiteral> facetFilteredInheritedLiterals = null;
 
+	private boolean isProxy = false;
+
+	protected void setProxy(boolean bool) {
+		isProxy = bool;
+	}
+
+	protected boolean isProxy() {
+		return isProxy;
+	}
+
 	protected JavaClass getJavaClass() {
 		return this.javaClass;
 	}
@@ -193,11 +203,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return getArtifactManager() != null
 				&& getArtifactManager() instanceof ModuleArtifactManager;
 	}
-	
+
 	public IModuleHeader getParentModuleHeader() {
-		if ( !isReadonly() ) 
+		if (!isReadonly())
 			return null;
-		
+
 		ModuleArtifactManager mMgr = (ModuleArtifactManager) getArtifactManager();
 		ModuleDescriptorModel moduleModel = mMgr.getModuleModel();
 		return moduleModel.getModuleHeader();
@@ -209,14 +219,15 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
 		for (IAbstractArtifact art : implementedArtifacts) {
+			IAbstractArtifact realArtifact = ((AbstractArtifact) art).resolveIfProxy(null);
 			try {
 				// Bug 919: facet needs to be considered here
 				if (getArtifactManager() != null
 						&& getArtifactManager().getActiveFacet() != null) {
-					if (art.isInActiveFacet())
-						result.add(art);
+					if (realArtifact.isInActiveFacet())
+						result.add(realArtifact);
 				} else {
-					result.add(art);
+					result.add(realArtifact);
 				}
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
@@ -477,6 +488,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				// method below
 				AbstractArtifact art = (AbstractArtifact) makeArtifact();
 				art.setFullyQualifiedName(parentClass);
+				art.setProxy(true);
 				setExtendedArtifact(art);
 			}
 		}
@@ -512,10 +524,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			if (!"".equals(val)) {
 				String[] fqns = val.split(",");
 				for (String fqn : fqns) {
-					IAbstractArtifact art = getArtifactManager()
+					AbstractArtifact art = getArtifactManager()
 							.getArtifactByFullyQualifiedName(fqn, true, monitor);
 					if (art == null) {
 						art = new SessionFacadeArtifact(getArtifactManager());
+						art.setProxy(true);
 						art.setFullyQualifiedName(fqn);
 					}
 					implementedArtifacts.add(art);
@@ -613,21 +626,29 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 */
 	public void resolveExtendedArtifact(IProgressMonitor monitor) {
 		if (getExtendedArtifact() != null) {
-			String fqn = getExtendedArtifact().getFullyQualifiedName();
-			IAbstractArtifact realArtifact = getArtifactManager()
-					.getArtifactByFullyQualifiedName(fqn, true, monitor);
+			IAbstractArtifact realArtifact = resolveIfProxy(monitor);
 			if (realArtifact != null) {
 				setExtendedArtifact(realArtifact);
 			}
 		}
 	}
 
+	public AbstractArtifact resolveIfProxy(IProgressMonitor monitor) {
+		if (!isProxy())
+			return this;
+		String fqn = getExtendedArtifact().getFullyQualifiedName();
+		AbstractArtifact realArtifact = getArtifactManager()
+				.getArtifactByFullyQualifiedName(fqn, true, monitor);
+		if (realArtifact != null)
+			return realArtifact;
+
+		return this;
+	}
+
 	public void resolveImplementedArtifacts(IProgressMonitor monitor) {
 		List<IAbstractArtifact> newList = new ArrayList<IAbstractArtifact>();
 		for (IAbstractArtifact art : implementedArtifacts) {
-			String fqn = art.getFullyQualifiedName();
-			IAbstractArtifact realArtifact = getArtifactManager()
-					.getArtifactByFullyQualifiedName(fqn, true, monitor);
+			IAbstractArtifact realArtifact = resolveIfProxy(monitor);
 			if (realArtifact != null) {
 				newList.add(realArtifact);
 			} else
@@ -654,7 +675,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			// Remove the ref to this in my "Container"
 			IModelComponent container = this.getContainingModelComponent();
 			if (container instanceof PackageArtifact) {
-				((PackageArtifact) container).removeContainedModelComponent(this);
+				((PackageArtifact) container)
+						.removeContainedModelComponent(this);
 
 			}
 		}
@@ -970,6 +992,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return AbstractArtifact - the artifact extended by this artifact.
 	 */
 	public AbstractArtifact getExtends() {
+		if (extendsArtifact != null && extendsArtifact.isProxy()) {
+			// This means it still hasn't been resolved,
+			// Let's try again
+			resolveExtendedArtifact(null);
+		}
 		return this.extendsArtifact;
 	}
 
@@ -1025,11 +1052,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			((Field) field).setContainingArtifact(null);
 			this.removeContainedModelComponent(field);
 		}
-		
+
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
 		facetFilteredFields = null;
-
 
 	}
 
@@ -1043,18 +1069,18 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		this.fields.clear();
 		this.fields.addAll(fields);
 		Collection<IModelComponent> startingComponents = new ArrayList<IModelComponent>();
-		for (IModelComponent component: this.getContainedModelComponents()){
-			if (component instanceof IField){
+		for (IModelComponent component : this.getContainedModelComponents()) {
+			if (component instanceof IField) {
 				startingComponents.add(component);
 			}
 		}
-		for (IModelComponent component: startingComponents){
+		for (IModelComponent component : startingComponents) {
 			this.removeContainedModelComponent(component);
 		}
 		for (IField field : fields) {
 			((Field) field).setContainingArtifact(this);
 			this.addContainedModelComponent(field);
-			
+
 		}
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
 		// at next "get"
@@ -1092,16 +1118,15 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		this.literals.clear();
 		this.literals.addAll(literals);
 		Collection<IModelComponent> startingComponents = new ArrayList<IModelComponent>();
-		for (IModelComponent component: this.getContainedModelComponents()){
-			if (component instanceof ILiteral){
+		for (IModelComponent component : this.getContainedModelComponents()) {
+			if (component instanceof ILiteral) {
 				startingComponents.add(component);
 			}
 		}
-		for (IModelComponent component: startingComponents){
+		for (IModelComponent component : startingComponents) {
 			this.removeContainedModelComponent(component);
 		}
-		
-		
+
 		for (ILiteral literal : literals) {
 			((Literal) literal).setContainingArtifact(this);
 		}
@@ -1141,12 +1166,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		this.methods.clear();
 		this.methods.addAll(methods);
 		Collection<IModelComponent> startingComponents = new ArrayList<IModelComponent>();
-		for (IModelComponent component: this.getContainedModelComponents()){
-			if (component instanceof IMethod){
+		for (IModelComponent component : this.getContainedModelComponents()) {
+			if (component instanceof IMethod) {
 				startingComponents.add(component);
 			}
 		}
-		for (IModelComponent component: startingComponents){
+		for (IModelComponent component : startingComponents) {
 			this.removeContainedModelComponent(component);
 		}
 		for (IMethod method : methods) {
@@ -1791,10 +1816,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
-	public void clearContainedModelComponents(){
-			containedComponents.clear();
+	public void clearContainedModelComponents() {
+		containedComponents.clear();
 	}
-	
+
 	public void removeContainedModelComponent(IModelComponent component) {
 		if (containedComponents.contains(component)) {
 			containedComponents.remove(component);
