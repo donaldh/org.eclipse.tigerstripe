@@ -86,7 +86,7 @@ public class ModuleAnnotationManager {
 
 		// We need a full path for the URI, a platform URI won't do
 		String filePath = ResourcesPlugin.getWorkspace().getRoot()
-				.getLocation().append(tsModuleURI.toPlatformString(false))
+				.getLocation().append(tsModuleURI.toPlatformString(true))
 				.toOSString();
 
 		JarFile file = new JarFile(filePath);
