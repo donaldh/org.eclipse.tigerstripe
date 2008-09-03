@@ -100,10 +100,6 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 
 	public IFacetReference[] getFacetReferences() throws TigerstripeException;
 
-	public void addProjectChangeListener(IProjectChangeListener listener);
-
-	public void removeProjectChangeListener(IProjectChangeListener listener);
-
 	/**
 	 * Returns true if this project has the given dependency in its dependencies
 	 * list

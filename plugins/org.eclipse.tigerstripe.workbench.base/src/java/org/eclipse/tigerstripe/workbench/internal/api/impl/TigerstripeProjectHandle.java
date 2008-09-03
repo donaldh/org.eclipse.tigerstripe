@@ -28,7 +28,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.project.INameProvider;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseReference;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1Generator;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -40,7 +39,6 @@ import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManag
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
-import org.eclipse.tigerstripe.workbench.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -233,24 +231,6 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().removeDependencies(dependencies);
-	}
-
-	public void addProjectChangeListener(IProjectChangeListener listener) {
-		try {
-			getTSProject().addProjectChangeListener(listener);
-		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-					e);
-		}
-	}
-
-	public void removeProjectChangeListener(IProjectChangeListener listener) {
-		try {
-			getTSProject().removeProjectChangeListener(listener);
-		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-					e);
-		}
 	}
 
 	public boolean hasDependency(IDependency dep) throws TigerstripeException {

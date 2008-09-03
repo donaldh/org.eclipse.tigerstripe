@@ -35,10 +35,13 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.tools.ant.util.ReaderInputStream;
+import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.annotation.ModuleAnnotationManager;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
@@ -51,7 +54,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactor
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
-import org.eclipse.tigerstripe.workbench.project.IProjectChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -66,10 +68,10 @@ import org.xml.sax.SAXParseException;
 /**
  * @author Eric Dillon
  * 
- * This represent a TigerstripeProject. It corresponds to the "Tigerstripe.xml"
- * project descriptor.
+ *         This represent a TigerstripeProject. It corresponds to the
+ *         "Tigerstripe.xml" project descriptor.
  * 
- * This conditions a run of Tigerstripe.
+ *         This conditions a run of Tigerstripe.
  */
 public class TigerstripeProject extends AbstractTigerstripeProject implements
 		IProjectDescriptor {
@@ -623,117 +625,18 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		}
 	}
 
-	// Shipped Core dependencies don't exist anymore @see #299
-	// /**
-	// * This method checks whether this project contains the necessary
-	// mandatory
-	// * IDependency.DEFAULT_CORE_MODEL_DEPENDENCY in the list of dependencies
-	// for
-	// * this project.
-	// *
-	// * It also checks that the version of the attached dependency if it exist
-	// is
-	// * the correct version.
-	// *
-	// * @throws
-	// * @since 1.0.3
-	// */
-	// public void checkDefaultCoreModelDependency() throws
-	// NoCoreModelException,
-	// MismatchedCoreModelException {
-	//
-	// String shippedVersion = getShippedCoreModelVersion();
-	//
-	// // If no core model dep was shipped, just ignore
-	// if (shippedVersion == null) {
-	// TigerstripeRuntime.logInfoMessage(
-	// "Warning: No core model was shipped with this version of Tigerstripe: "
-	// +
-	// TigerstripeRuntime.getProperty(TigerstripeRuntime.TIGERSTRIPE_FEATURE_VERSION));
-	// return;
-	// }
-	//
-	// boolean found = false;
-	// for (IDependency dep : dependencies) {
-	// if (dep.getIModuleHeader() != null) {
-	// String moduleID = dep.getIModuleHeader().getModuleID();
-	// String moduleVersion = dep.getIProjectDetails().getVersion();
-	// if (IDependency.DEFAULT_CORE_MODEL_DEPENDENCY.equals(moduleID)) {
-	// found = true;
-	//
-	// // Now check for versions
-	// // if (TigerstripeRuntime.PROPERTIES_NOT_LOADED
-	// // .equals(shippedVersion)) {
-	// // // This means we're in a dev environment not in a final
-	// // // built version
-	// // TigerstripeRuntime.logInfoMessage(
-	// // "Warning: couldn't check Core model version because this is a Dev
-	// build");
-	// // } else if (!shippedVersion.equals(moduleVersion)) {
-	// // throw new MismatchedCoreModelException(
-	// // "Mismatched versions for Core Model: found "
-	// // + moduleVersion + " while expecting "
-	// // + shippedVersion);
-	// // }
-	// }
-	// }
-	// }
-	// if (!found) {
-	// throw new NoCoreModelException(
-	// "Couldn't find Tigerstripe Core Module ("
-	// + IDependency.DEFAULT_CORE_MODEL_DEPENDENCY
-	// + ") in the listed "
-	// + "dependencies of the project.");
-	// }
-	// }
-
-	// /**
-	// * Returns the version of the core model as shipped (by looking into the
-	// * modules dir in the install dir)
-	// *
-	// * @return
-	// */
-	// private String getShippedCoreModelVersion() {
-	// IDependency core = Dependency.getDefaultCoreModelDependency();
-	// if (core == null) {
-	// // none found
-	// return null;
-	// } else {
-	// return core.getIProjectDetails().getVersion();
-	// }
-	// }
-	//
-	// /**
-	// * Attaches the core model (IDependency.DEFAULT_CORE_MODEL_DEPENDENCY) as
-	// * shipped in this version of Tigerstripe.
-	// *
-	// * If a core model is already attached, the overwrite is conditions by the
-	// * forceOverwrite parameter.
-	// *
-	// * @param forceOverwrite,
-	// * if true, overwrite any existing version of the core model,
-	// * don't otherwise (an exception will be raised)
-	// * @throws TigerstripeException,
-	// * if the attach was not successful
-	// */
-	// public void attachDefaultCoreModelDependency(boolean forceOverwrite)
-	// throws TigerstripeException {
-	// // TigerstripeRuntime.logInfoMessage("Attaching core model Dep "
-	// // + Dependency.getDefaultCoreModelDependency().getIModuleHeader()
-	// // .getModuleID());
-	//
-	// IDependency localCopy = Dependency.copyToAsLocalDependency(this,
-	// Dependency.getDefaultCoreModelDependency());
-	//
-	// addDependency(localCopy);
-	// }
-
 	public void addDependency(IDependency dependency) {
 		if (!this.dependencies.contains(dependency)) {
 			setDirty();
 			this.dependencies.add(dependency);
 			((Dependency) dependency).setContainer(this);
-			dependencyAdded(dependency);
+
+			try {
+				ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(
+						dependency.getURI(), Mode.READ_ONLY);
+			} catch (IOException e) {
+				BasePlugin.log(e);
+			}
 		}
 	}
 
@@ -742,7 +645,13 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			setDirty();
 			this.dependencies.remove(dependency);
 			((Dependency) dependency).setContainer(null);
-			dependencyRemoved(dependency);
+
+			try {
+				ModuleAnnotationManager.INSTANCE
+						.unRegisterAnnotationsFor(dependency.getURI());
+			} catch (IOException e) {
+				BasePlugin.log(e);
+			}
 		}
 	}
 
@@ -755,36 +664,6 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public void removeDependencies(IDependency[] dependencies) {
 		for (int i = 0; i < dependencies.length; i++) {
 			removeDependency(dependencies[i]);
-		}
-	}
-
-	// ============================================================
-	// For listeners
-	private Collection<IProjectChangeListener> projectChangeListener = new ArrayList<IProjectChangeListener>();
-
-	public void addProjectChangeListener(IProjectChangeListener listener) {
-		projectChangeListener.add(listener);
-	}
-
-	public void removeProjectChangeListener(IProjectChangeListener listener) {
-		projectChangeListener.remove(listener);
-	}
-
-	private void dependencyRemoved(IDependency dependency) {
-		for (Iterator<IProjectChangeListener> iter = projectChangeListener
-				.iterator(); iter.hasNext();) {
-			IProjectChangeListener listener = (IProjectChangeListener) iter
-					.next();
-			listener.dependencyRemoved(dependency);
-		}
-	}
-
-	private void dependencyAdded(IDependency dependency) {
-		for (Iterator<IProjectChangeListener> iter = projectChangeListener
-				.iterator(); iter.hasNext();) {
-			IProjectChangeListener listener = (IProjectChangeListener) iter
-					.next();
-			listener.dependencyAdded(dependency);
 		}
 	}
 
@@ -847,8 +726,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	 * given project.
 	 * 
 	 * @param other
-	 * @param ignoreOrder -
-	 *            whether order should be ignored during comparison
+	 * @param ignoreOrder
+	 *            - whether order should be ignored during comparison
 	 * @return true if both projects have same dependencies, false otherwise
 	 */
 	public boolean hasSameDependencies(TigerstripeProject other,
@@ -913,8 +792,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	 * given project.
 	 * 
 	 * @param other
-	 * @param ignoreOrder -
-	 *            whether order should be ignored during comparison
+	 * @param ignoreOrder
+	 *            - whether order should be ignored during comparison
 	 * @return true if both projects have same references, false otherwise
 	 */
 	public boolean hasSameReferences(TigerstripeProject other,

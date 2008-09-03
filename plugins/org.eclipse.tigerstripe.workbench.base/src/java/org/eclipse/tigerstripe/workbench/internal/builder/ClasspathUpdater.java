@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,12 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.ClasspathEntry;
 import org.eclipse.jdt.internal.core.JavaProject;
+import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.annotation.ModuleAnnotationManager;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
@@ -80,9 +83,11 @@ public class ClasspathUpdater {
 					try {
 						// IPath path = entries[i].getPath();
 						// String uriStr =
-						// eclipseProject.getWorkspace().getRoot().getLocation().toString()
+						//eclipseProject.getWorkspace().getRoot().getLocation().
+						// toString()
 						// + path.toFile().getPath();
-						// TigerstripeRuntime.logInfoMessage(ClasspathUpdater.class,
+						// TigerstripeRuntime.logInfoMessage(ClasspathUpdater.
+						// class,
 						// "URIStr=" + uriStr );
 						// URI cpeURI = (new File(uriStr)).toURI();
 						// prjRef = API.getDefaultProjectSession()
@@ -103,7 +108,8 @@ public class ClasspathUpdater {
 						// This is not a TS project but it's been put in the
 						// path,
 						// we keep it.
-						// TigerstripeRuntime.logInfoMessage(ClasspathUpdater.class,
+						// TigerstripeRuntime.logInfoMessage(ClasspathUpdater.
+						// class,
 						// "Not a TS project, keeping it");
 						newEntryList.add(entries[i]);
 					} else {
@@ -145,25 +151,22 @@ public class ClasspathUpdater {
 											.getTSProject(), relPath);
 							if (!dep.isValid(monitor)) {
 								// This is not a TS module, so it has been put
-								// in
-								// the
-								// classpath
-								// by the user on purpose. Keep it.
+								// in the classpath by the user on purpose. Keep
+								// it.
 								newEntryList.add(entries[i]);
 							} else {
 								// This is a TS Module.
 								if (tsProject.hasDependency(dep)) {
 									// It is in the list of deps of the project
-									// descriptor, so
-									// we keep it.
+									// descriptor, so we keep it.
+									registerAnnotationsIfNeeded(dep);
 									newEntryList.add(entries[i]);
 								} else {
 									// This is not listed as a dependency in the
-									// project
-									// descriptor, so should not be in the
-									// classpath.
-									// This also means we'll need to update the
-									// classpath.
+									// project descriptor, so should not be in
+									// the classpath. This also means we'll need
+									// to update the classpath.
+									unRegisteredAnnotationsIfNeeded(dep);
 									needUpdate = true;
 								}
 							}
@@ -214,6 +217,7 @@ public class ClasspathUpdater {
 						IClasspathEntry newEntry = newLibraryEntry(localPath);
 
 						if (!newEntryList.contains(newEntry)) {
+							registerAnnotationsIfNeeded(dependencies[i]);
 							newEntryList.add(newEntry);
 							needUpdate = true;
 						}
@@ -260,19 +264,42 @@ public class ClasspathUpdater {
 		}
 	}
 
+	// Registers the annotations that may potentially be packaged in the
+	// dependency.
+	//
+	// Note that the ModuleAnnotationManager will make sure that dependencies
+	// are not double registered
+	private static void registerAnnotationsIfNeeded(IDependency dep) {
+		try {
+			ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(dep.getURI(),
+					Mode.READ_ONLY);
+		} catch (IOException e) {
+			BasePlugin.log(e);
+		}
+	}
+
+	// UnRegisters the annotations that may potentially be packaged in the
+	// dependency.
+	private static void unRegisteredAnnotationsIfNeeded(IDependency dep) {
+		try {
+			ModuleAnnotationManager.INSTANCE.unRegisterAnnotationsFor(dep.getURI());
+		} catch (IOException e) {
+			BasePlugin.log(e);
+		}
+	}
+
 	public static IClasspathEntry newLibraryEntry(IPath path) {
-		return JavaCore.newLibraryEntry(path, 
-				null, null, false);
-//		return new ClasspathEntry(IPackageFragmentRoot.K_BINARY,
-//				IClasspathEntry.CPE_LIBRARY, JavaProject
-//						.canonicalizedPath(path), ClasspathEntry.INCLUDE_ALL, // inclusion
-//				// patterns
-//				ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
-//				null, null, null, // specific output folder
-//				false, ClasspathEntry.NO_ACCESS_RULES, false, // no access
-//				// rules to
-//				// combine
-//				ClasspathEntry.NO_EXTRA_ATTRIBUTES);
+		return JavaCore.newLibraryEntry(path, null, null, false);
+		// return new ClasspathEntry(IPackageFragmentRoot.K_BINARY,
+		// IClasspathEntry.CPE_LIBRARY, JavaProject
+		// .canonicalizedPath(path), ClasspathEntry.INCLUDE_ALL, // inclusion
+		// // patterns
+		// ClasspathEntry.EXCLUDE_NONE, // exclusion patterns
+		// null, null, null, // specific output folder
+		// false, ClasspathEntry.NO_ACCESS_RULES, false, // no access
+		// // rules to
+		// // combine
+		// ClasspathEntry.NO_EXTRA_ATTRIBUTES);
 	}
 
 	private static IClasspathEntry newProjectEntry(

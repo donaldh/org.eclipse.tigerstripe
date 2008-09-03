@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.project;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
@@ -93,4 +94,9 @@ public interface IDependency {
 	 */
 	public ITigerstripeModuleProject makeModuleProject(
 			ITigerstripeModelProject containingProject) throws TigerstripeException;
+	
+	/**
+	 * 	Returns the URI for this 
+	 */
+	public URI getURI();
 }

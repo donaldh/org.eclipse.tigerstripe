@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
@@ -90,8 +91,8 @@ public class Dependency extends AbstractContainedObject implements IDependency,
 	// Since 2.1: Module generation
 	/**
 	 * 
-	 * @param containingProject -
-	 *            the project that contains the module
+	 * @param containingProject
+	 *            - the project that contains the module
 	 */
 	public ITigerstripeModuleProject makeModuleProject(
 			ITigerstripeModelProject containingProject)
@@ -192,9 +193,9 @@ public class Dependency extends AbstractContainedObject implements IDependency,
 
 	public ArtifactManager getArtifactManager(IProgressMonitor monitor) {
 		if (isValid(monitor)) {
-//			if (moduleRef.getArtifactManager().getTSProject() == null)
-//				((ModuleArtifactManager) moduleRef.getArtifactManager())
-//						.setEmbeddedProject(moduleRef.getEmbeddedProject());
+			// if (moduleRef.getArtifactManager().getTSProject() == null)
+			// ((ModuleArtifactManager) moduleRef.getArtifactManager())
+			// .setEmbeddedProject(moduleRef.getEmbeddedProject());
 			return moduleRef.getArtifactManager();
 		} else
 			return null;
@@ -263,5 +264,15 @@ public class Dependency extends AbstractContainedObject implements IDependency,
 		}
 		IDependency result = new Dependency(tsProject, srcDep.getName());
 		return result;
+	}
+
+	public URI getURI() {
+		if (getProject() != null) {
+			URI uri = URI.createPlatformResourceURI(getProject()
+					.getProjectLabel(), true);
+			uri = uri.appendSegment(getPath());
+			return uri;
+		}
+		return URI.createFileURI(path);
 	}
 }
