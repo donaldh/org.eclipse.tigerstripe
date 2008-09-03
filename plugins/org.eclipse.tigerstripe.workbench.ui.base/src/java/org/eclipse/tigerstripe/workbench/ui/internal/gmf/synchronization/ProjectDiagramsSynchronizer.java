@@ -215,7 +215,6 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 				}
 			};
 
-			job.setRule(createRule(affectedDiagrams));
 			job.schedule();
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
@@ -250,7 +249,6 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 				}
 			};
 
-			job.setRule(createRule(affectedDiagrams));
 			job.schedule();
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
@@ -285,23 +283,10 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 				}
 			};
 
-			job.setRule(createRule(affectedDiagrams));
 			job.schedule();
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
-	}
-
-	public ISchedulingRule createRule(DiagramHandle[] handles) {
-		ISchedulingRule combinedRule = null;
-		IResourceRuleFactory ruleFactory = ResourcesPlugin.getWorkspace()
-				.getRuleFactory();
-		for (DiagramHandle handle : handles) {
-			ISchedulingRule rule = ruleFactory.createRule(handle
-					.getModelResource());
-			combinedRule = MultiRule.combine(rule, combinedRule);
-		}
-		return combinedRule;
 	}
 
 	/**
