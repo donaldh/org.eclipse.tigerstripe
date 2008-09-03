@@ -68,17 +68,17 @@ public class PropertySelection {
 	public void addDefaultValue() {
 		IEditableValue value = property.getEditableValue();
 		Object defaultValue = value.getDefaultValue();
+		EClassifier classifier = value.getClassifier();
+		if (classifier instanceof EClass) {
+			EClass clazz = (EClass)classifier;
+			defaultValue = clazz.getEPackage().getEFactoryInstance().create(clazz);
+		}
 		if (value instanceof EditableListValue) {
 			EditableListValue editableValue = (EditableListValue)value;
 			editableValue.insert(defaultValue);
 			viewer.refresh();
 		}
 		else if (value.getValue() instanceof List<?>) {
-			EClassifier classifier = value.getClassifier();
-			if (classifier instanceof EClass) {
-				EClass clazz = (EClass)classifier;
-				defaultValue = clazz.getEPackage().getEFactoryInstance().create(clazz);
-			}
 			List<Object> list = (List<Object>)value.getValue();
 			list.add(defaultValue);
 			viewer.refresh();

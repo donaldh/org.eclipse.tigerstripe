@@ -27,8 +27,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IAction;
@@ -434,8 +434,7 @@ public class PropertiesBrowserPage
 	protected void adapt(int index) {
 		EObject content = currentSelection[index].getContent();
 		if (content != null) {
-			DirtyAdapter adapter = new DirtyAdapter(index);
-			content.eAdapters().add(adapter);
+			DirtyAdapter adapter = new DirtyAdapter(index, content);
 			adapters.put(currentSelection[index], adapter);
 		}
 	}
@@ -500,12 +499,13 @@ public class PropertiesBrowserPage
 		listener.dirtyChanged(status);
 	}
 	
-	private class DirtyAdapter extends AdapterImpl {
+	private class DirtyAdapter extends ChangeRecorder {
 		
 		private int index;
 		private boolean dirty;
 		
-		public DirtyAdapter(int index) {
+		public DirtyAdapter(int index, EObject object) {
+			super(object);
 			this.index = index;
 		}
 		
