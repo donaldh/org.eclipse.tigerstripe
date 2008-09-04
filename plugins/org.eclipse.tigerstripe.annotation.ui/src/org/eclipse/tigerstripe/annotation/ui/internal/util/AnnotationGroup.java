@@ -12,9 +12,11 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EPackage;
@@ -49,7 +51,7 @@ public class AnnotationGroup {
 			typeList.add(types[i]);
         }
 		
-		List<AnnotationGroup> textGroups = new ArrayList<AnnotationGroup>();
+		Map<String, List<TargetAnnotationType>> textGroups = new HashMap<String, List<TargetAnnotationType>>();
 		List<AnnotationGroup> emptyGroups = new ArrayList<AnnotationGroup>();
     	
     	for (Entry<EPackage, List<TargetAnnotationType>> entry : actions.entrySet()) {
@@ -58,11 +60,27 @@ public class AnnotationGroup {
     		String label = AnnotationPlugin.getManager().getPackageLabel(pckg);
     		AnnotationGroup group = new AnnotationGroup(label, listType);
     		if (label == null) emptyGroups.add(group);
-    		else textGroups.add(group);
+    		else {
+    			List<TargetAnnotationType> list = textGroups.get(label);
+    			if (list == null)
+    				textGroups.put(label, listType);
+    			else
+    				list.addAll(listType);
+    		}
 		}
     	
-    	textGroups.addAll(emptyGroups);
-    	return textGroups.toArray(new AnnotationGroup[textGroups.size()]);
+    	List<AnnotationGroup> groups = new ArrayList<AnnotationGroup>();
+    	
+    	Set<String> set = textGroups.keySet();
+    	String[] keys = set.toArray(new String[set.size()]);
+    	Arrays.sort(keys);
+    	
+    	for (String name : keys) {
+    		groups.add(new AnnotationGroup(name, textGroups.get(name)));
+		}
+    	
+    	groups.addAll(emptyGroups);
+    	return groups.toArray(new AnnotationGroup[groups.size()]);
 	}
 	
 	/**
