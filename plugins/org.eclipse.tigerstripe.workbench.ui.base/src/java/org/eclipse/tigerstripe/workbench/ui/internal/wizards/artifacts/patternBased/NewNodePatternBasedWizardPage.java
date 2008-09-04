@@ -65,7 +65,7 @@ public class NewNodePatternBasedWizardPage extends NewPatternBasedArtifactWizard
 
 		// -------- IStringButtonAdapter
 		public void changeControlPressed(DialogField field) {
-			entityPageChangeControlPressed(field);
+			artifactPageChangeControlPressed(field);
 		}
 
 		// -------- IListAdapter
@@ -77,14 +77,14 @@ public class NewNodePatternBasedWizardPage extends NewPatternBasedArtifactWizard
 
 		// -------- IDialogFieldListener
 		public void dialogFieldChanged(DialogField field) {
-			entityPageDialogFieldChanged(field);
+			artifactPageDialogFieldChanged(field);
 		}
 
 		public void doubleClicked(ListDialogField field) {
 		}
 	}
 
-	protected void entityPageChangeControlPressed(DialogField field) {
+	protected void artifactPageChangeControlPressed(DialogField field) {
 		
 	}
 
@@ -92,7 +92,8 @@ public class NewNodePatternBasedWizardPage extends NewPatternBasedArtifactWizard
 	 * A field on the type has changed. The fields' status and all dependent
 	 * status are updated.
 	 */
-	private void entityPageDialogFieldChanged(DialogField field) {
+	protected void artifactPageDialogFieldChanged(DialogField field) {
+		super.artifactPageDialogFieldChanged(field);
 		String fieldName = null;
 		
 		handleFieldChanged(fieldName);
@@ -101,7 +102,6 @@ public class NewNodePatternBasedWizardPage extends NewPatternBasedArtifactWizard
 	@Override
 	protected void handleFieldChanged(String fieldName) {
 		super.handleFieldChanged(fieldName);
-
 		doStatusUpdate();
 	}
 

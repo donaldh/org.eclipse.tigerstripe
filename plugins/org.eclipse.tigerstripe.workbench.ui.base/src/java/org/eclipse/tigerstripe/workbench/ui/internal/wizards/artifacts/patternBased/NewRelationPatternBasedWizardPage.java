@@ -80,7 +80,7 @@ public class NewRelationPatternBasedWizardPage extends
 		aEndTypeClassDialogField.setLabelText("aEnd Type"); //$NON-NLS-1$
 		aEndTypeClassDialogField.setButtonLabel("Browse"); //$NON-NLS-1$
 
-		aEndTypeClassStatus = new StatusInfo();
+		aEndTypeClassStatus = aEndTypeClassChanged();
 		aEndTypeClassCompletionProcessor = new JavaTypeCompletionProcessor(
 				false, false);
 
@@ -89,7 +89,7 @@ public class NewRelationPatternBasedWizardPage extends
 		zEndTypeClassDialogField.setLabelText("zEnd Type"); //$NON-NLS-1$
 		zEndTypeClassDialogField.setButtonLabel("Browse"); //$NON-NLS-1$
 
-		zEndTypeClassStatus = new StatusInfo();
+		zEndTypeClassStatus = zEndTypeClassChanged();
 		zEndTypeClassCompletionProcessor = new JavaTypeCompletionProcessor(
 				false, false);
 
@@ -138,8 +138,9 @@ public class NewRelationPatternBasedWizardPage extends
 		// enabled/disabled.
 		updateStatus(status);
 	}
-	
-	protected void entityPageChangeControlPressed(DialogField field) {
+
+	protected void artifactPageChangeControlPressed(DialogField field) {
+		super.artifactPageChangeControlPressed(field);
 		if (field == aEndTypeClassDialogField) {
 			IType type = chooseReturnedType();
 			if (type != null) {
@@ -157,7 +158,8 @@ public class NewRelationPatternBasedWizardPage extends
 	 * A field on the type has changed. The fields' status and all dependent
 	 * status are updated.
 	 */
-	private void entityPageDialogFieldChanged(DialogField field) {
+	protected void artifactPageDialogFieldChanged(DialogField field) {
+		super.artifactPageDialogFieldChanged(field);
 		String fieldName = null;
 		if (field == aEndTypeClassDialogField) {
 			aEndTypeClassStatus = aEndTypeClassChanged();
@@ -170,6 +172,20 @@ public class NewRelationPatternBasedWizardPage extends
 		handleFieldChanged(fieldName);
 	}
 	
+	
+	/*
+	 * @see org.eclipse.jdt.ui.wizards.NewContainerWizardPage#handleFieldChanged(String)
+	 */
+	@Override
+	protected void handleFieldChanged(String fieldName) {
+		super.handleFieldChanged(fieldName);
+		if (fieldName == AEND_TYPE) {
+			aEndTypeClassStatus = aEndTypeClassChanged();
+		} else if (fieldName == ZEND_TYPE) {
+			zEndTypeClassStatus = zEndTypeClassChanged();
+		}
+		doStatusUpdate();
+	}
 	
 	public void setAendTypeClass(String name, boolean canBeModified) {
 		aEndTypeClassDialogField.setText(name);
@@ -184,7 +200,8 @@ public class NewRelationPatternBasedWizardPage extends
 	protected IStatus aEndTypeClassChanged() {
 		StatusInfo status = new StatusInfo();
 		IPackageFragmentRoot root = getPackageFragmentRoot();
-		aEndTypeClassDialogField.enableButton(root != null);
+		// TODO - Why was this here?
+//		aEndTypeClassDialogField.enableButton(root != null);
 
 		String sclassName = getAendTypeClass();
 		if (sclassName.length() == 0) {
@@ -226,7 +243,8 @@ public class NewRelationPatternBasedWizardPage extends
 	protected IStatus zEndTypeClassChanged() {
 		StatusInfo status = new StatusInfo();
 		IPackageFragmentRoot root = getPackageFragmentRoot();
-		zEndTypeClassDialogField.enableButton(root != null);
+		// TODO - Why was this here?
+//		zEndTypeClassDialogField.enableButton(root != null);
 
 		String sclassName = getZendTypeClass();
 		if (sclassName.length() == 0) {

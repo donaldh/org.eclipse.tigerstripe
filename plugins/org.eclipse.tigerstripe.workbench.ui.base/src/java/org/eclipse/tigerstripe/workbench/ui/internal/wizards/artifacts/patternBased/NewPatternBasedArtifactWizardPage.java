@@ -582,7 +582,11 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 			artifactNameStatus = artifactNameChanged();
 		} else if (fieldName == PACKAGE) {
 			artifactPackageStatus = packageChanged();
+		} else if (fieldName == EXTENDED_ARTIFACT) {
+			extendedClassStatus = extendedClassChanged();
+			
 		}
+		doStatusUpdate();
 	}
 
 	protected IStatus tsRuntimeContextChanged() {
@@ -738,7 +742,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	 * A field on the type has changed. The fields' status and all dependent
 	 * status are updated.
 	 */
-	private void artifactPageDialogFieldChanged(DialogField field) {
+	protected void artifactPageDialogFieldChanged(DialogField field) {
 		String fieldName = null;
 		if (field == packageDialogField) {
 			artifactPackageStatus = packageChanged();
@@ -750,7 +754,6 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 			fieldName = ARTIFACTNAME;
 		} else if (field == extendedClassDialogField) {
 			extendedClassStatus = extendedClassChanged();
-			doStatusUpdate();
 			fieldName = EXTENDED_ARTIFACT;
 		}
 
