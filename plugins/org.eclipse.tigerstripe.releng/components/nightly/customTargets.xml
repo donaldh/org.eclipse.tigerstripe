@@ -103,8 +103,8 @@
 		<property file="${buildDirectory}/finalFeaturesVersions.properties" />
 
 		<usite.addFeature sitefile="${local.site.descriptor}">
-			<feature url="features/org.eclipse.tigerstripe.base_${org.eclipse.tigerstripe.workbench}.jar" id="org.eclipse.tigerstripe.base" version="${org.eclipse.tigerstripe.base}">
-				<category name="Tigerstripe Base Feature" />
+			<feature url="features/org.eclipse.tigerstripe.base_${org.eclipse.tigerstripe.base}.jar" id="org.eclipse.tigerstripe.base" version="${org.eclipse.tigerstripe.base}">
+				<category name="Workbench Base" />
 			</feature>
 		</usite.addFeature>
 	</target>
@@ -166,7 +166,7 @@
 
 		<usite.addFeature sitefile="${local.site.descriptor}">
 			<feature url="features/org.eclipse.tigerstripe.annotation.feature_${org.eclipse.tigerstripe.annotation.feature}.jar" id="org.eclipse.tigerstripe.annotation.feature" version="${org.eclipse.tigerstripe.annotation.feature}">
-				<category name="Tigerstripe Annotation Framework" />
+				<category name="Generic Annotations" />
 			</feature>
 		</usite.addFeature>
 	</target>
