@@ -128,9 +128,15 @@ public class DiagramService implements IDiagramService, IPartListener {
 	}
 	
 	public void dispose() {
-		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		if (window != null)
-			window.getPartService().removePartListener(this);
+		try {
+			IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+			if (window != null)
+				window.getPartService().removePartListener(this);
+		}
+		catch (Exception e) {
+			//Bug 246078: it looks like, this method can be called
+			//when active display disposed... so, just ignore exception
+		}
 	}
 
 }
