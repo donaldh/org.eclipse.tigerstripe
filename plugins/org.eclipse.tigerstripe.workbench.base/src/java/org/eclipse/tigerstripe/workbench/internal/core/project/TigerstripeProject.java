@@ -633,7 +633,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 			try {
 				ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(
-						dependency.getURI(), Mode.READ_ONLY);
+						dependency.getURI(), dependency.getIModuleHeader()
+								.getModuleID(), Mode.READ_ONLY);
 			} catch (IOException e) {
 				BasePlugin.log(e);
 			}

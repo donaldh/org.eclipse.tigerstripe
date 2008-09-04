@@ -272,6 +272,7 @@ public class ClasspathUpdater {
 	private static void registerAnnotationsIfNeeded(IDependency dep) {
 		try {
 			ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(dep.getURI(),
+					dep.getIModuleHeader().getModuleID(),
 					Mode.READ_ONLY);
 		} catch (IOException e) {
 			BasePlugin.log(e);
