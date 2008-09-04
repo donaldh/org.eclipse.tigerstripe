@@ -31,6 +31,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -116,7 +117,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	protected Collection<IField> fields;
 
 	/** The collection of (unique, non-primitve) datatypes of the fields */
-	private Collection fieldTypes;
+	private Collection<IFieldTypeRef> fieldTypes;
 
 	/** The collection of literals (enum) for this artifact */
 	private Collection<ILiteral> literals;
@@ -219,7 +220,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
 		for (IAbstractArtifact art : implementedArtifacts) {
-			IAbstractArtifact realArtifact = ((AbstractArtifact) art).resolveIfProxy(null);
+			IAbstractArtifact realArtifact = ((AbstractArtifact) art)
+					.resolveIfProxy(null);
 			try {
 				// Bug 919: facet needs to be considered here
 				if (getArtifactManager() != null
@@ -625,8 +627,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * This resolves to the correct artifact.
 	 */
 	public void resolveExtendedArtifact(IProgressMonitor monitor) {
-		if (getExtendedArtifact() != null) {
-			IAbstractArtifact realArtifact = resolveIfProxy(monitor);
+		if (extendsArtifact != null) {
+			IAbstractArtifact realArtifact = extendsArtifact
+					.resolveIfProxy(monitor);
 			if (realArtifact != null) {
 				setExtendedArtifact(realArtifact);
 			}
@@ -636,7 +639,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public AbstractArtifact resolveIfProxy(IProgressMonitor monitor) {
 		if (!isProxy())
 			return this;
-		String fqn = getExtendedArtifact().getFullyQualifiedName();
+		String fqn = getFullyQualifiedName();
 		AbstractArtifact realArtifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(fqn, true, monitor);
 		if (realArtifact != null)
@@ -648,7 +651,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void resolveImplementedArtifacts(IProgressMonitor monitor) {
 		List<IAbstractArtifact> newList = new ArrayList<IAbstractArtifact>();
 		for (IAbstractArtifact art : implementedArtifacts) {
-			IAbstractArtifact realArtifact = resolveIfProxy(monitor);
+			IAbstractArtifact realArtifact = ((AbstractArtifact) art)
+					.resolveIfProxy(monitor);
 			if (realArtifact != null) {
 				newList.add(realArtifact);
 			} else
@@ -819,7 +823,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		List<AbstractArtifact> visited = new ArrayList<AbstractArtifact>();
 		// The inherited fields
 		AbstractArtifact parent = getExtends();
-		this.inheritedFields = new ArrayList();
+		this.inheritedFields = new ArrayList<IField>();
 		while (parent != null) {
 			this.inheritedFields.addAll(parent.getFields());
 			parent = parent.getExtends();
@@ -843,7 +847,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// The inherited labels
 		List<AbstractArtifact> visited = new ArrayList<AbstractArtifact>();
 		AbstractArtifact parent = getExtends();
-		this.inheritedLiterals = new ArrayList();
+		this.inheritedLiterals = new ArrayList<ILiteral>();
 		while (parent != null) {
 			this.inheritedLiterals.addAll(parent.getLiterals());
 			parent = parent.getExtends();
@@ -867,7 +871,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// The inherited methods
 		List<AbstractArtifact> visited = new ArrayList<AbstractArtifact>();
 		AbstractArtifact parent = getExtends();
-		this.inheritedMethods = new ArrayList();
+		this.inheritedMethods = new ArrayList<IMethod>();
 		while (parent != null) {
 			this.inheritedMethods.addAll(parent.getMethods());
 			parent = parent.getExtends();
@@ -913,7 +917,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public IFieldTypeRef[] getFieldTypes() {
 		if (this.fieldTypes == null)
 			createUniqueFieldTypeList();
-		Collection result = this.fieldTypes;
+		Collection<IFieldTypeRef> result = this.fieldTypes;
 		return (IFieldTypeRef[]) result
 				.toArray(new IFieldTypeRef[result.size()]);
 	}
@@ -953,7 +957,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return Collection of Literals - a collection of Literals for this
 	 *         artifact
 	 */
-	public Collection getInheritedLiterals() {
+	public Collection<ILiteral> getInheritedLiterals() {
 		if (inheritedLiterals == null) {
 			try {
 				resolveInheritedLiterals();
@@ -1006,7 +1010,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return true if this artifacts extends another artifact, false otherwise.
 	 */
 	public boolean hasExtends() {
-		return getExtends() != null;
+		return extendsArtifact != null;
 	}
 
 	/**
