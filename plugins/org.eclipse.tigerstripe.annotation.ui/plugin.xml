@@ -16,12 +16,6 @@
             icon="icons/annotation.gif"
             id="org.eclipse.tigerstripe.annotation.view.property"
             name="Annotation Property View"/>
-      <view
-            category="org.eclipse.tigerstripe.annotation"
-            class="org.eclipse.tigerstripe.annotation.ui.internal.view.AnnotationsView"
-            icon="icons/annotations.gif"
-            id="org.eclipse.tigerstripe.annotation.view.annotations"
-            name="Annotations View"/>
    </extension>
 
    <extension

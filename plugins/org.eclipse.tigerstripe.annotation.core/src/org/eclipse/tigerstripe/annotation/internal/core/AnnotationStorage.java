@@ -39,8 +39,6 @@ import org.eclipse.tigerstripe.espace.resources.core.IDatabaseConfiguration;
  */
 public class AnnotationStorage implements IDatabaseConfiguration {
 	
-	protected Map<URI, List<Annotation>> annotations; 
-	
 	protected static Annotation[] EMPTY_ARRAY = new Annotation[0];
 	
 	private EMFDatabase database;
@@ -66,7 +64,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	}
 	
 	public void add(Annotation annotation) {
-		addToList(annotation, annotation.getUri());
 		getDatabase().write(annotation);
 		trackChanges(annotation);
 		fireAnnotationAdded(annotation);
@@ -123,7 +120,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	public void remove(Annotation annotation) {
 		changes.remove(annotation);
 		getDatabase().remove(annotation);
-		removeFromList(annotation, annotation.getUri());
 		fireAnnotationsRemoved( new Annotation[] { annotation } );
 	}
 	
@@ -136,8 +132,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	}
 	
 	public List<Annotation> getAnnotations(URI uri) {
-		List<Annotation> list = doGetAnnotations(uri);
-		return list;
+		return doGetAnnotations(uri);
 	}
 	
 	public Annotation getAnnotationById(String id) {
@@ -164,7 +159,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 				trackChanges(annotation);
 			}
 		}
-		getAnnotationMap().put(uri, list);
 		return list;
 	}
 	
@@ -177,19 +171,8 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		return list;
 	}
 	
-	public Annotation[] getAnnotations() {
-		ArrayList<Annotation> allAnnotations = new ArrayList<Annotation>();
-		Iterator<List<Annotation>> list = getAnnotationMap().values().iterator();
-		while (list.hasNext()) {
-			List<Annotation> elem = list.next();
-	        allAnnotations.addAll(elem);
-        }
-		return allAnnotations.toArray(new Annotation[allAnnotations.size()]);
-	}
-	
 	public void uriChanged(URI oldUri, URI newUri) {
 		List<Annotation> oldList = doGetAnnotations(oldUri);
-		List<Annotation> newList = doGetAnnotations(newUri);
 		if (oldList.size() == 0)
 			return;
 		Iterator<Annotation> it = oldList.iterator();
@@ -198,8 +181,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	        annotation.setUri(newUri);
 	        save(annotation);
         }
-		newList.addAll(oldList);
-		getAnnotationMap().remove(oldUri);
 		fireAnnotationsChanged(oldList.toArray(new Annotation[oldList.size()]));
 	}
 	
@@ -215,7 +196,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 			Annotation[] array = list.toArray(new Annotation[list.size()]);
 			for (int i = 0; i < array.length; i++)
 				getDatabase().remove(array[i]);
-			list.clear();
 			return array;
 		}
 		return null;
@@ -268,14 +248,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		}
 	}
 	
-	protected void addToList(Annotation annotation, URI uri) {
-		doGetAnnotations(uri).add(annotation);
-	}
-	
-	protected void removeFromList(Annotation annotation, URI uri) {
-		doGetAnnotations(uri).remove(annotation);
-	}
-	
 	public void save(Annotation annotation) {
 		ChangeRecorder recorder = changes.get(annotation);
 		ChangeDescription changes = recorder.summarize();
@@ -287,13 +259,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		ChangeRecorder recorder = changes.get(annotation);
 		ChangeDescription changes = recorder.summarize();
 		changes.apply();
-	}
-	
-	protected Map<URI, List<Annotation>> getAnnotationMap() {
-		if (annotations == null) {
-			annotations = new ConcurrentHashMap<URI, List<Annotation>>();
-		}
-		return annotations;
 	}
 
 }

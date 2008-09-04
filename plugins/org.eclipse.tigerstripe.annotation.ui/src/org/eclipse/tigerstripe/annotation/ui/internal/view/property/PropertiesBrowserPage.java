@@ -188,12 +188,6 @@ public class PropertiesBrowserPage
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationLoaded(org.eclipse.tigerstripe.annotation.core.Annotation)
-	 */
-	public void annotationsLoaded(Annotation[] annotations) {
-	}
-	
-	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringListener#refactoringPerformed(org.eclipse.tigerstripe.annotation.core.RefactoringChange)
 	 */
 	public void refactoringPerformed(RefactoringChange change) {

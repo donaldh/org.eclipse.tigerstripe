@@ -90,14 +90,6 @@ public interface IAnnotationManager {
 	public Annotation[] getAnnotations(Object object, boolean deepest);
 	
 	/**
-	 * Return all loaded annotations
-	 * 
-	 * @deprecated
-	 * @return all loaded annotations
-	 */
-	public Annotation[] getLoadedAnnotations();
-	
-	/**
 	 * Return annotable object annotated with the passed annotation
 	 *  
 	 * @param annotation

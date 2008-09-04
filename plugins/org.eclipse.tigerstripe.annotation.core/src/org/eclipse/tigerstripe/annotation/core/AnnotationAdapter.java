@@ -31,12 +31,6 @@ public class AnnotationAdapter implements IAnnotationListener {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationsLoaded(org.eclipse.tigerstripe.annotation.core.Annotation[])
-	 */
-	public void annotationsLoaded(Annotation[] annotation) {
-	}
-
-	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationsRemoved(org.eclipse.tigerstripe.annotation.core.Annotation[])
 	 */
 	public void annotationsRemoved(Annotation[] annotations) {

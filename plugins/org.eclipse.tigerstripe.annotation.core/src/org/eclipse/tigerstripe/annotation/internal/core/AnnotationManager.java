@@ -285,8 +285,8 @@ public class AnnotationManager extends AnnotationStorage implements
 	protected void setUri(URI oldUri, URI newUri) {
 		uriChanged(oldUri, newUri);
 		try {
-			refactorListener.refactoringPerformed(new RefactoringChange(oldUri,
-					newUri));
+			refactorListener.refactoringPerformed(
+					new RefactoringChange(oldUri, newUri));
 		} catch (Exception e) {
 			AnnotationPlugin.log(e);
 		}
@@ -315,16 +315,6 @@ public class AnnotationManager extends AnnotationStorage implements
 		}
 		return annotations == null ? EMPTY_ARRAY : annotations
 				.toArray(new Annotation[annotations.size()]);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.core.IAnnotationManager#
-	 * getLoadedAnnotations()
-	 */
-	public Annotation[] getLoadedAnnotations() {
-		return super.getAnnotations();
 	}
 
 	public void removeAnnotation(Annotation annotation) {

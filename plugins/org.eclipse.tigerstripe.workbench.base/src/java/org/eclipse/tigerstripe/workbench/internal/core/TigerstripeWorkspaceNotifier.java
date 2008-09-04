@@ -240,18 +240,6 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 		}
 	}
 
-	public void annotationsLoaded(Annotation[] annotations) {
-		// Annotation[] filteredAnnotations = AnnotationUtils
-		// .extractModelAnnotations(annotations);
-		//
-		// if (filteredAnnotations.length != 0) {
-		// ModelAnnotationChangeDelta delta = new ModelAnnotationChangeDelta(
-		// IModelAnnotationChangeDelta.LOADED, filteredAnnotations);
-		// broadcastModelAnnotationChange(new IModelAnnotationChangeDelta[] {
-		// delta });
-		// }
-	}
-
 	public void annotationsRemoved(Annotation[] annotations) {
 		Annotation[] filteredAnnotations = AnnotationUtils
 				.extractModelAnnotations(annotations);
