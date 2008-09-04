@@ -70,11 +70,13 @@ public class MetaXMISave extends XMISaveImpl {
 	
 	protected List<EPackage> getPackages(List<? extends EObject> contents) {
 		List<EPackage> packages = new ArrayList<EPackage>();
-		for (EObject object : contents) {
-			List<EPackage> newPackages = finder.getPackages(object);
-			for (EPackage newPackage : newPackages) {
-				if (!packages.contains(newPackage))
-					packages.add(newPackage);
+		if (finder != null) {
+			for (EObject object : contents) {
+				List<EPackage> newPackages = finder.getPackages(object);
+				for (EPackage newPackage : newPackages) {
+					if (!packages.contains(newPackage))
+						packages.add(newPackage);
+				}
 			}
 		}
 		return packages;

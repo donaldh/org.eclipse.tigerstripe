@@ -24,8 +24,8 @@ public class MetaResourceFactory extends XMIResourceFactoryImpl {
 	
 	private IPackageFinder finder;
 	
-	public MetaResourceFactory(IPackageFinder finder) {
-		this.finder = finder;
+	public MetaResourceFactory() {
+		this.finder = PackageManager.getInstance().getPackageFinder();
 	}
 	
 	/* (non-Javadoc)

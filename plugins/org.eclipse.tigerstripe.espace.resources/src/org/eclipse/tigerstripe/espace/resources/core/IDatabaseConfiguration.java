@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * @author Yuri Strot
  *
  */
-public interface IDatabaseConfiguration extends IPackageFinder {
+public interface IDatabaseConfiguration {
 	
 	public String getId(EObject object);
 	

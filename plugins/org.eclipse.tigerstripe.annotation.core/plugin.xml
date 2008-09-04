@@ -14,5 +14,11 @@
 			class = "org.eclipse.tigerstripe.annotation.core.AnnotationPackage"
 			genModel = "model/annotation.genmodel" /> 
 	</extension>
+	
+	<extension
+			point="org.eclipse.tigerstripe.espace.resources.packageFinder">
+		<packageFinder
+			class="org.eclipse.tigerstripe.annotation.internal.core.PackageFinder"/>
+	</extension>
 
 </plugin>
