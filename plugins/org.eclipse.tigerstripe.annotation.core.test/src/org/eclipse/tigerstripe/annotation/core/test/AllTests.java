@@ -33,6 +33,8 @@ public class AllTests {
 		suite.addTestSuite(AnnotationTypeTest.class);
 		suite.addTestSuite(AnnotationConstraintTest.class);
 		suite.addTestSuite(ConcurrencyTest.class);
+		suite.addTestSuite(AnnotationResourceTest.class);
+		suite.addTestSuite(ExternalResourceTest.class);
 		// $JUnit-END$
 		return suite;
 	}

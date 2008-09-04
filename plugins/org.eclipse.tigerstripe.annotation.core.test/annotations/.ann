@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.tigerstripe.annotation="http:///org/eclipse/tigerstripe/annotation.ecore" xmlns:org.eclipse.tigerstripe.annotation.core.test.model="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore">
+  <ecoreDefinition>
+    <ecore:EPackage name="model" nsURI="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore" nsPrefix="org.eclipse.tigerstripe.annotation.core.test.model">
+      <eClassifiers xsi:type="ecore:EClass" name="MimeType">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="mimeType">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </ecore:EPackage>
+  </ecoreDefinition>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="resource:/project1" id="_lanXAHpJEd2Of7jHxiO36A">
+    <content xsi:type="org.eclipse.tigerstripe.annotation.core.test.model:MimeType" mimeType="text/html"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+</xmi:XMI>
