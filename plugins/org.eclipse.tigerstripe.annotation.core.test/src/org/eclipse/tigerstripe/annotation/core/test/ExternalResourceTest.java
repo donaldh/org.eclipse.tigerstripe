@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.annotation.core.test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -37,23 +38,10 @@ public class ExternalResourceTest extends AbstractResourceTestCase {
 		//create EMF resource from the "annotations/.ann",
 		//which contains annotation for the "project1" resource
 		File file = new File(ANNOTATION_FOLDER + "." + EObjectRouter.ANNOTATION_FILE_EXTENSION);
-		URI uri = URI.createFileURI(file.getAbsolutePath());
-		ResourceSetImpl resourceSet = new ResourceSetImpl();
-		Resource resource = resourceSet.createResource(uri);
-		try {
-			resource.load(null);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		//get annotation from the resource
-		List<EObject> objects = resource.getContents();
-		assertEquals(objects.size(), 1);
-		EObject object = objects.get(0);
-		assertEquals(object.eClass(), AnnotationPackage.eINSTANCE.getAnnotation());
-		Annotation annotation = (Annotation)object;
+		Resource resource = createResource(file);
 		
+		//get annotation from the resource
+		Annotation annotation = getAnnotation(resource);
 		try {
 			//register this resource in the TAF
 			AnnotationPlugin.getManager().addAnnotations(resource, Mode.READ_ONLY);
@@ -67,6 +55,22 @@ public class ExternalResourceTest extends AbstractResourceTestCase {
 			//unregister resource
 			AnnotationPlugin.getManager().removeAnnotations(resource);
 		}
+	}
+	
+	private Resource createResource(File file) throws IOException {
+		URI uri = URI.createFileURI(file.getAbsolutePath());
+		ResourceSetImpl resourceSet = new ResourceSetImpl();
+		Resource resource = resourceSet.createResource(uri);
+		resource.load(null);
+		return resource;
+	}
+	
+	private Annotation getAnnotation(Resource resource) {
+		List<EObject> objects = resource.getContents();
+		assertEquals(objects.size(), 1);
+		EObject object = objects.get(0);
+		assertEquals(object.eClass(), AnnotationPackage.eINSTANCE.getAnnotation());
+		return (Annotation)object;
 	}
 	
 	@Override
