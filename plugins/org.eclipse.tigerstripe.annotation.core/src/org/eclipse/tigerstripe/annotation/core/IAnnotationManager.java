@@ -14,6 +14,7 @@ package org.eclipse.tigerstripe.annotation.core;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.tigerstripe.espace.core.Mode;
 
@@ -224,5 +225,13 @@ public interface IAnnotationManager {
 	 * @param resource
 	 */
 	public void removeAnnotations(Resource resource);
+	
+	/**
+	 * Return EMF package label or null if none
+	 * 
+	 * @param pckg package
+	 * @return package label
+	 */
+	public String getPackageLabel(EPackage pckg);
 
 }

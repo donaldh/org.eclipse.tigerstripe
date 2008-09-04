@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.4 2008/07/14 08:19:45 ystrot Exp $
+ $Id: plugin.xml,v 1.5 2008/09/04 04:29:33 ystrot Exp $
 -->
 
 <plugin>
@@ -34,6 +34,13 @@
            class="org.eclipse.tigerstripe.annotation.example.person.PersonLabelProvider"
            epackage-uri="http:///org/eclipse/tigerstripe/annotation/example/person.ecore"
            eclass="Person"/>
+  </extension>
+  
+  <extension
+        point="org.eclipse.tigerstripe.annotation.core.packageLabel">
+     <label
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/example/person.ecore"
+           name="Personality"/>
   </extension>
 
 </plugin>

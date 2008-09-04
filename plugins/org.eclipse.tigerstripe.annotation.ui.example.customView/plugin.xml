@@ -57,5 +57,12 @@
 			description="Font"
 			eclass="Font"/>
 	</extension>
+	
+	<extension
+			point="org.eclipse.tigerstripe.annotation.core.packageLabel">
+		<label
+			epackage-uri="http:///org/eclipse/tigerstripe/annotation/ui/example/customview/styles.ecore"
+			name="Styles"/>
+	</extension>
 
 </plugin>

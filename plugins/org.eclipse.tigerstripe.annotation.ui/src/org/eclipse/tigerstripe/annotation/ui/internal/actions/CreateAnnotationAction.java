@@ -19,6 +19,7 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
+import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationGroup;
 
 
 /**
@@ -54,9 +55,25 @@ public class CreateAnnotationAction extends DelegateAction {
     	list.add(new OpenAnnotationWizardAction(object, "Open Annotation Wizard..."));
     	list.add(new Separator());
     	
-		for (int i = 0; i < types.length; i++) {
-			list.add(new CreateSpecificTypeAnnotationAction(types[i]));
-        }
+    	boolean addFirstSeparator = false;
+    	
+    	AnnotationGroup[] groups = AnnotationGroup.getGroups(types);
+    	for (AnnotationGroup annotationGroup : groups) {
+    		String name = annotationGroup.getName();
+    		if (name != null) {
+    			list.add(new CreateAnnotationGroupAction(
+    					name, annotationGroup.getTypes()));
+    			addFirstSeparator = true;
+    		}
+    		else {
+        		if (addFirstSeparator)
+                	list.add(new Separator());
+                addFirstSeparator = true;
+            	for (TargetAnnotationType type : annotationGroup.getTypes()) {
+            		list.add(new CreateSpecificTypeAnnotationAction(type));
+    			}
+    		}
+		}
 	}
 	
 	@Override

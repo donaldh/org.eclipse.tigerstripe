@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.11 2008/08/30 06:08:14 ystrot Exp $
+ $Id: plugin.xml,v 1.12 2008/09/04 04:29:27 ystrot Exp $
 -->
 
 <plugin>
@@ -66,6 +66,13 @@
          <target
                type="org.eclipse.core.resources.IResource" unique="false"/>
      </definition>
+  </extension>
+  
+  <extension
+        point="org.eclipse.tigerstripe.annotation.core.packageLabel">
+     <label
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/core/test/model.ecore"
+           name="Test Annotations"/>
   </extension>
 	
 	<extension

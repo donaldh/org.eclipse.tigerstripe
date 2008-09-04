@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.eclipse.core.runtime.CoreException;
@@ -26,6 +27,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationConstraintException;
@@ -58,15 +60,23 @@ import org.eclipse.tigerstripe.espace.core.Mode;
 public class AnnotationManager extends AnnotationStorage implements
 		IAnnotationManager, IRefactoringSupport {
 
-	private static final String ANNOTATION_TYPE_EXTPT = "org.eclipse.tigerstripe.annotation.core.annotationType";
+	private static final String EXTPT_PREFIX = "org.eclipse.tigerstripe.annotation.core.";
 
-	private static final String ANNOTATION_ADAPTER_EXTPT = "org.eclipse.tigerstripe.annotation.core.annotationAdapter";
+	private static final String ANNOTATION_TYPE_EXTPT = EXTPT_PREFIX + "annotationType";
 
-	private static final String ANNOTATION_PROVIDER_EXTPT = "org.eclipse.tigerstripe.annotation.core.annotationProvider";
+	private static final String ANNOTATION_ADAPTER_EXTPT = EXTPT_PREFIX + "annotationAdapter";
 
-	private static final String ANNOTATION_CONSTRAINT_EXTPT = "org.eclipse.tigerstripe.annotation.core.constraints";
+	private static final String ANNOTATION_PROVIDER_EXTPT = EXTPT_PREFIX + "annotationProvider";
+
+	private static final String ANNOTATION_CONSTRAINT_EXTPT = EXTPT_PREFIX + "constraints";
+
+	private static final String ANNOTATION_PACKAGE_LABEL_EXTPT = EXTPT_PREFIX + "packageLabel";
 
 	private static final String ANNOTATION_ATTR_CLASS = "class";
+	
+	private static final String ATTR_URI = "epackage-uri";
+	
+	private static final String ATTR_NAME = "name";
 
 	private static AnnotationManager instance;
 
@@ -74,11 +84,13 @@ public class AnnotationManager extends AnnotationStorage implements
 	private List<Adapter> adapters;
 	private ProviderManager providerManager;
 	private IAnnotationConstraint[] constraints;
+	private Map<EPackage, String> lables;
 
 	private ReentrantLock typesLock = new ReentrantLock();
 	private ReentrantLock adaptersLock = new ReentrantLock();
 	private ReentrantLock providerManagerLock = new ReentrantLock();
 	private ReentrantLock constraintsLock = new ReentrantLock();
+	private ReentrantLock lablesLock = new ReentrantLock();
 
 	private CompositeRefactorListener refactorListener = new CompositeRefactorListener();
 
@@ -324,6 +336,13 @@ public class AnnotationManager extends AnnotationStorage implements
 		if (uri != null)
 			remove(uri);
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getPackageLabel(org.eclipse.emf.ecore.EPackage)
+	 */
+	public String getPackageLabel(EPackage pckg) {
+		return getPackageLables().get(pckg);
+	}
 
 	public static AnnotationManager getInstance() {
 		if (instance == null)
@@ -499,6 +518,35 @@ public class AnnotationManager extends AnnotationStorage implements
 
 		} finally {
 			constraintsLock.unlock();
+		}
+	}
+
+	protected Map<EPackage, String> getPackageLables() {
+		try {
+			lablesLock.lock();
+			if (lables == null) {
+				lables = new ConcurrentHashMap<EPackage, String>();
+				IConfigurationElement[] configs = Platform
+						.getExtensionRegistry().getConfigurationElementsFor(
+								ANNOTATION_PACKAGE_LABEL_EXTPT);
+				for (IConfigurationElement config : configs) {
+					try {
+						EPackage pckg = AnnotationUtils.getPackage(config.getAttribute(ATTR_URI));
+						String newText = config.getAttribute(ATTR_NAME);
+						String text = lables.get(pckg);
+						if (text != null)
+							throw new AnnotationException("Can't define \"" + newText + "\" label for "
+									+ ATTR_URI + " package, because it's already defined: " + text);
+						lables.put(pckg, newText);
+					} catch (Exception e) {
+						AnnotationPlugin.log(e);
+					}
+				}
+			}
+			return lables;
+
+		} finally {
+			lablesLock.unlock();
 		}
 	}
 

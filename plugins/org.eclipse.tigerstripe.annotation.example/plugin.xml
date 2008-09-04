@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.4 2008/07/14 08:19:51 ystrot Exp $
+ $Id: plugin.xml,v 1.5 2008/09/04 04:29:25 ystrot Exp $
 -->
 
 <plugin>
@@ -42,6 +42,13 @@
            description="Annotation with one boolean field"
            eclass="CheckAnnotation">
      </definition>
+  </extension>
+  
+  <extension
+        point="org.eclipse.tigerstripe.annotation.core.packageLabel">
+     <label
+           epackage-uri="http:///org/eclipse/tigerstripe/annotation/example.ecore"
+           name="Primitive"/>
   </extension>
 
 </plugin>
