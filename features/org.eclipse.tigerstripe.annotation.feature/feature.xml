@@ -23,7 +23,7 @@ http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <url>
-      <update label="Tigerstripe Update Site Manager" url="http://download.eclipse.org/technology/tigerstripe/site.xml"/>
+      <update label="Tigerstripe Update Site (Incubation)" url="http://download.eclipse.org/technology/tigerstripe/updates/site.xml"/>
       <discovery label="Tigerstripe Website" url="http://www.eclipse.org/tigerstripe"/>
       <discovery label="Tigerstripe Wiki" url="http://wiki.eclipse.org/Tigerstripe"/>
    </url>
