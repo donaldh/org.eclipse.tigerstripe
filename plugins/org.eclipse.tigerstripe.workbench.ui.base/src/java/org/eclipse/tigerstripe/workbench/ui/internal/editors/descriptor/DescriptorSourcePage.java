@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -116,5 +117,13 @@ public class DescriptorSourcePage extends TextEditor implements IFormPage,
 	public void firePropertyChange(int property) {
 		super.firePropertyChange(property);
 	}
+
+	@Override
+	public void doSave(IProgressMonitor progressMonitor) {
+		super.doSave(progressMonitor);
+		getEditor().doSave(progressMonitor);
+		// TODO Auto-generated method stub
+	}
+	
 
 }
