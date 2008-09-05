@@ -80,6 +80,8 @@ public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public IModelChangeDelta getCorrespondingDelta() {
+		// A ModelChangeDelta is pushed by the ArtifactManagerSession so this one 
+		// would be redundant...
 		return null;
 //		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.REMOVE);
 //		delta.setOldValue(artifactURI);

@@ -397,7 +397,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
 		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
-				changedResources, addedResources);
+				changedResources, addedResources, null);
 
 		try {
 			checkForAddedDiagrams(addedResources);

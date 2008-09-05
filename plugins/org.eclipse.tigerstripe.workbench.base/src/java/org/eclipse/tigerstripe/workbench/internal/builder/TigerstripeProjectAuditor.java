@@ -63,6 +63,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -493,8 +494,19 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			Collection<IResource> removedResources = new HashSet<IResource>();
 			Collection<IResource> changedResources = new HashSet<IResource>();
 			Collection<IResource> addedResources = new HashSet<IResource>();
+			
+			// We don't care about .class files as they are being changed by the
+			// JDT
+			IResourceFilter noClassFileFilter = new IResourceFilter() {
+
+				public boolean select(IResource resource) {
+					return !"class".equals(resource.getFileExtension());
+				}
+				
+			};
+			
 			WorkspaceHelper.buildResourcesLists(delta, removedResources,
-					changedResources, addedResources);
+					changedResources, addedResources, noClassFileFilter);
 
 			if (removedResources.size() != 0)
 				return true;

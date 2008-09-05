@@ -102,7 +102,7 @@ public class DiagramSynchronizationManager implements IResourceChangeListener {
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
 		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
-				changedResources, addedResources);
+				changedResources, addedResources, null);
 
 		checkProjectAdded(addedResources);
 		checkProjectRemoved(removedResources);

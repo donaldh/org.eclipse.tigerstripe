@@ -25,6 +25,16 @@ import org.eclipse.core.resources.IResourceDelta;
  */
 public class WorkspaceHelper {
 
+	public interface IResourceFilter {
+		public boolean select(IResource resource);
+	}
+
+	public static IResourceFilter NO_FILTER = new IResourceFilter() {
+		public boolean select(IResource resource) {
+			return true;
+		}
+	};
+
 	/**
 	 * Splits the content of the given resource delta into 3 collections.
 	 * 
@@ -35,26 +45,35 @@ public class WorkspaceHelper {
 	 */
 	public static void buildResourcesLists(IResourceDelta delta,
 			Collection<IResource> itemsRemoved,
-			Collection<IResource> itemsChanged, Collection<IResource> itemsAdded) {
+			Collection<IResource> itemsChanged,
+			Collection<IResource> itemsAdded, IResourceFilter filter) {
+
+		if (filter == null)
+			filter = NO_FILTER;
+
 		if (delta == null) // occurs when deleting project
 			return;
 
 		if (delta.getKind() == IResourceDelta.REMOVED) {
-			itemsRemoved.add(delta.getResource());
+			if (filter.select(delta.getResource()))
+				itemsRemoved.add(delta.getResource());
 		} else if (delta.getKind() == IResourceDelta.CHANGED
 				&& delta.getAffectedChildren().length == 0) {
-			itemsChanged.add(delta.getResource());
+			if (filter.select(delta.getResource()))
+				itemsChanged.add(delta.getResource());
 		} else if (delta.getKind() == IResourceDelta.ADDED
 				&& delta.getAffectedChildren().length == 0) {
-			itemsAdded.add(delta.getResource());
+			if (filter.select(delta.getResource()))
+				itemsAdded.add(delta.getResource());
 		} else if (delta.getKind() == IResourceDelta.ADDED
 				&& delta.getResource() instanceof IProject) {
-			itemsAdded.add(delta.getResource());
+			if (filter.select(delta.getResource()))
+				itemsAdded.add(delta.getResource());
 		}
 		IResourceDelta[] children = delta.getAffectedChildren();
 		for (int i = 0; i < children.length; i++) {
 			buildResourcesLists(children[i], itemsRemoved, itemsChanged,
-					itemsAdded);
+					itemsAdded, filter);
 		}
 	}
 

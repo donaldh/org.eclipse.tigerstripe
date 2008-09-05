@@ -94,7 +94,7 @@ public class WorkspaceListener implements IElementChangedListener,
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
 		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
-				changedResources, addedResources);
+				changedResources, addedResources, null);
 
 		checkProjectAdded(addedResources);
 		checkProjectRemoved(removedResources);
@@ -238,19 +238,21 @@ public class WorkspaceListener implements IElementChangedListener,
 				if (element.toElement == null)
 					removeFragmentContent(packFragment);
 				else {
-					// If we are handling package artifacts, rename the package artifact
+					// If we are handling package artifacts, rename the package
+					// artifact
 					IWorkbenchProfile profile = TigerstripeCore
-					.getWorkbenchProfileSession().getActiveProfile();
+							.getWorkbenchProfileSession().getActiveProfile();
 					CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
-					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-					if (prop.getDetailsForType(
-							IPackageArtifact.class.getName()).isEnabled()) {
+							.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+					if (prop
+							.getDetailsForType(IPackageArtifact.class.getName())
+							.isEnabled()) {
 						renameArtifact((IPackageFragment) element.fromElement,
 								(IPackageFragment) element.toElement);
 					}
 					renameFragmentContent(packFragment,
 							(IPackageFragment) element.toElement);
-					
+
 				}
 			} else if (element.fromElement instanceof ICompilationUnit) {
 				if (element.toElement != null) {
@@ -324,8 +326,6 @@ public class WorkspaceListener implements IElementChangedListener,
 		}
 	}
 
-	
-	
 	private void renameArtifact(IPackageFragment fromPack,
 			IPackageFragment toPack) {
 		IJavaProject jProject = fromPack.getJavaProject();
@@ -345,7 +345,8 @@ public class WorkspaceListener implements IElementChangedListener,
 						TigerstripeRuntime.logInfoMessage("Detected rename: "
 								+ fromPack.getElementName() + " to "
 								+ toPack.getElementName());
-						session.renameArtifact(artifact, toPack.getElementName());
+						session.renameArtifact(artifact, toPack
+								.getElementName());
 					}
 				} catch (TigerstripeException e) {
 					BasePlugin.log(e);
@@ -353,7 +354,7 @@ public class WorkspaceListener implements IElementChangedListener,
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the FQN corresponding to the given unit to be used for the
 	 * Artifact Mgr

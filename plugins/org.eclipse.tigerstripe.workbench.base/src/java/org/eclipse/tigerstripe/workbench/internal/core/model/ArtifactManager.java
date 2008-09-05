@@ -32,6 +32,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -44,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchPr
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
@@ -1972,9 +1974,26 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		return relationshipCache;
 	}
 
+	// This is a backdoor used in the TSDeleteAction to let the Art Mgr know that
+	// an artifact was deleted after the fact. 
+	// Really the Art Mgr should be listenning for Workspace Changes here
+	// and figure it out on its own.
 	public void notifyArtifactDeleted(IAbstractArtifact artifact) {
 		try {
+			URI oldURI = (URI) artifact.getAdapter(URI.class);
+			String simpleName = artifact.getClass().getSimpleName();
+			
 			removeArtifact(artifact);
+
+			// push a notif
+			ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.REMOVE);
+			delta.setFeature(simpleName);
+			delta.setOldValue(oldURI);
+			delta.setProject(artifact.getProject());
+			delta.setSource(this);
+
+			TigerstripeWorkspaceNotifier.INSTANCE.signalModelChange(delta);
+
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
