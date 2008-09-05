@@ -824,11 +824,12 @@ public class TigerstripePaletteFactory {
 								//System.out.println("Just created: "
 								//		+ createdIArtifact);
 								
-								// Should be able to add anything here from template???
-								((ArtifactPattern) pattern).executeRequests(
+								ArtifactPattern artifactPattern =(ArtifactPattern) pattern;
+								System.out.println("Creating from diagram "+createdIArtifact.getName());
+								artifactPattern.executeRequests(
 										createdIArtifact.getTigerstripeProject(), 
 										createdIArtifact.getPackage(), 
-										createdIArtifact.getName(), "", false);
+										createdIArtifact.getName(), artifactPattern.getExtendedArtifactName(), false);
 								
 							} catch (TigerstripeException ex) {
 								ex.printStackTrace();
