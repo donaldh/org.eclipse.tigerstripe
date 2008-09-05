@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.internal.annotation;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -99,14 +98,13 @@ public class ModuleAnnotationManager {
 			JarEntry entry = entries.nextElement();
 			if (entry.getName().endsWith(
 					EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
-				InputStream stream = file.getInputStream(entry);
 				ResourceSet set = new ResourceSetImpl();
 
-				// Seems that I need a fake URI for things to work?
-				URI rr = URI.createPlatformResourceURI("/Fake/"
-						+ entry.getName(), true);
+				//create archive URI
+				String uriString = "archive:file:/" + filePath + "!/" + entry.getName();
+				URI rr = URI.createURI(uriString);
+
 				Resource res = set.createResource(rr);
-				res.load(stream, null);
 
 				// Update URIs inside it
 				Resource updatedRes = updateURIs(res, moduleID);
