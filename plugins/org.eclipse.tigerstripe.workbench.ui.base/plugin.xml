@@ -438,6 +438,110 @@
            </adapt>
         </iterate>
      </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.TSEditorsActive">
+        <or>
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.entityEditor">
+              </equals>
+           </with>
+ 
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.exceptionEditor">
+              </equals>
+           </with>
+
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.queryEditor">
+              </equals>
+           </with>
+
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.eventEditor">
+              </equals>
+           </with>
+
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.datatypeEditor">
+              </equals>
+           </with>
+
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.sessionEditor">
+              </equals>
+           </with>
+
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.associationEditor">
+              </equals>
+           </with>
+
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.associationClassEditor">
+              </equals>
+           </with>
+
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.dependencyEditor">
+              </equals>
+           </with>
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.enumEditor">
+              </equals>
+           </with>
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.updateProcedureEditor">
+              </equals>
+           </with>
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.packageEditor">
+              </equals>
+           </with>
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptorEditor">
+              </equals>
+           </with>
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorID">
+              </equals>
+           </with>
+           <with
+                 variable="activeEditorId">
+              <equals
+                    value="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditorID">
+              </equals>
+           </with>
+        </or>
+        
+     </definition>
   </extension>
   <extension
         point="org.eclipse.ui.commands">
@@ -472,7 +576,6 @@
      <command
            category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
-           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
            description="Pattern Based Create"
            id="org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate"
            name="Pattern Based Create">
@@ -504,12 +607,6 @@
            <menu
                  id="org.eclipse.tigerstripe.ui.main.menu.import"
                  label="Import...">
-              <visibleWhen
-                    checkEnabled="false">
-                 <reference
-                       definitionId="org.eclipse.tigerstripe.workbench.ui.base.TSProjectSelected">
-                 </reference>
-              </visibleWhen>
            </menu>
            <separator
                  name="org.eclipse.tigerstripe.workbench.ui.base.separator2"
@@ -568,9 +665,28 @@
            class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
            commandId="org.eclipse.tigerstripe.workbench.ui.base.generate">
         <enabledWhen>
+           <or>
            <reference
-                 definitionId="org.eclipse.tigerstripe.workbench.ui.base.TSProjectSelected">
-           </reference>
+                    definitionId="org.eclipse.tigerstripe.workbench.ui.base.TSEditorsActive">
+              </reference>
+              <reference
+                    definitionId="org.eclipse.tigerstripe.workbench.ui.base.TSProjectSelected">
+              </reference>
+             </or>
+        </enabledWhen>
+     </handler>
+     <handler
+           class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
+           commandId="org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate">
+        <enabledWhen>
+           <or>
+              <reference
+                    definitionId="org.eclipse.tigerstripe.workbench.ui.base.TSEditorsActive">
+              </reference>
+              <reference
+                    definitionId="org.eclipse.tigerstripe.workbench.ui.base.TSProjectSelected">
+              </reference>
+           </or>
         </enabledWhen>
      </handler>
   </extension>

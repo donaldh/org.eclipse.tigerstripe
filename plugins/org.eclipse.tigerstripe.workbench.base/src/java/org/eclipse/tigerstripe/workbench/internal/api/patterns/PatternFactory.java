@@ -666,23 +666,6 @@ public class PatternFactory implements IPatternFactory {
 		
 	}
 
-//	
-//	public static IModelChangeRequest createAnnotationRequest(Bundle bundle,IPatternAnnotation anno)throws TigerstripeException{
-//
-//		IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
-//		annotationRequest.setContent(anno.getAnnotationContent());
-//		
-//		if (anno.getTarget().contains("#")){
-//			String[] bits = anno.getTarget().split("#");
-//			annotationRequest.setArtifactFQN(bits[0]);
-//			annotationRequest.setTarget(bits[1]);
-//		} else {
-//			// This is targeted at the artifact level
-//			annotationRequest.setArtifactFQN(anno.getTarget());
-//			annotationRequest.setTarget("");
-//		}
-//		return annotationRequest;
-//	}
 	
 	public IPattern getPattern(String patternName) {
 		if (getRegisteredPatterns().keySet().contains(patternName)){
@@ -750,7 +733,11 @@ public class PatternFactory implements IPatternFactory {
 						thisOne.label = pattern.getUILabel();
 						thisOne.icon = pattern.getDescriptor();
 						
+						
+						
 						CommandContributionItem newItem = new CommandContributionItem(thisOne);
+						
+						
 						additions.addContributionItem(newItem,null);
 					}
 				}

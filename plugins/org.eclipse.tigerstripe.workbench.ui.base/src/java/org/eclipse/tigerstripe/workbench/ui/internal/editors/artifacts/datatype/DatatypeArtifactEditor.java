@@ -27,7 +27,7 @@ import org.eclipse.ui.PartInitException;
  * 
  */
 public class DatatypeArtifactEditor extends ArtifactEditorBase {
-
+	
 	public DatatypeArtifactEditor() {
 		super();
 		setTitleImage(Images.get(Images.DATATYPE_ICON));

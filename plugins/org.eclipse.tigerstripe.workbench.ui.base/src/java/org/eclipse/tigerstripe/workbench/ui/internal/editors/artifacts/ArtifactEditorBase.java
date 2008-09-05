@@ -69,10 +69,13 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	private ArtifactSourcePage sourcePage;
 
 	private Collection<TigerstripeFormPage> modelPages = new ArrayList<TigerstripeFormPage>();
+	
+	
 
 	public ArtifactEditorBase() {
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
 				this, ITigerstripeChangeListener.ALL);
+		
 	}
 
 	public IAbstractArtifact getIArtifact() {
