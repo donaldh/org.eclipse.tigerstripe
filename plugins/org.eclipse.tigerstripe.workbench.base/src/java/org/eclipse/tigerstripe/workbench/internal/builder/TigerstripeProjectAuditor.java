@@ -155,7 +155,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				.getAdapter(ITigerstripeModelProject.class);
 		IArtifactManagerSession session = tsProject.getArtifactManagerSession();
 		monitor.beginTask("Processing Pending Audits", pendingAudits.size());
-		for (Iterator<String> iter = pendingAudits.iterator(); iter.hasNext();) {
+		for (Iterator<String> iter = new ArrayList<String>(pendingAudits).iterator(); iter.hasNext();) {
 			String fqn = iter.next();
 			IAbstractArtifact artifact = session
 					.getArtifactByFullyQualifiedName(fqn);
