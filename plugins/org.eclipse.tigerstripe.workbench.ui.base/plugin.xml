@@ -425,6 +425,21 @@
          </factory>
          </extension>
   <extension
+        point="org.eclipse.core.expressions.definitions">
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.TSProjectSelected">
+        <iterate>
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.core.resources.projectNature"
+                    value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+  </extension>
+  <extension
         point="org.eclipse.ui.commands">
      <category
            description="Top Level Tigerstripe Commands"
@@ -450,7 +465,6 @@
      <command
            category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
-           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
            description="Generate the current project"
            id="org.eclipse.tigerstripe.workbench.ui.base.generate"
            name="Generate">
@@ -490,6 +504,12 @@
            <menu
                  id="org.eclipse.tigerstripe.ui.main.menu.import"
                  label="Import...">
+              <visibleWhen
+                    checkEnabled="false">
+                 <reference
+                       definitionId="org.eclipse.tigerstripe.workbench.ui.base.TSProjectSelected">
+                 </reference>
+              </visibleWhen>
            </menu>
            <separator
                  name="org.eclipse.tigerstripe.workbench.ui.base.separator2"
@@ -541,6 +561,18 @@
            </command>
         </toolbar>
      </menuContribution>
+  </extension>
+  <extension
+        point="org.eclipse.ui.handlers">
+     <handler
+           class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
+           commandId="org.eclipse.tigerstripe.workbench.ui.base.generate">
+        <enabledWhen>
+           <reference
+                 definitionId="org.eclipse.tigerstripe.workbench.ui.base.TSProjectSelected">
+           </reference>
+        </enabledWhen>
+     </handler>
   </extension>
 
 </plugin>

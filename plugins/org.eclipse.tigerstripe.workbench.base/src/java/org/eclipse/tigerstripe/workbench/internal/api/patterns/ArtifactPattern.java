@@ -33,6 +33,9 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 
 	protected String artifactType;
+	protected String artifactName = "";
+	protected String extendedArtifactName = "";
+	
 	
 	public void  setTargetArtifactType(String artifactType) {
 		this.artifactType = artifactType;
@@ -40,6 +43,22 @@ public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 
 	public String getTargetArtifactType() {	
 		return this.artifactType;
+	}
+
+	public void setArtifactname(String artifactName){
+		this.artifactName = artifactName;
+	}
+	
+	public String getArtifactName() {
+		return this.artifactName;
+	}
+
+	public void setExtendedArtifactname(String artifactName){
+		this.extendedArtifactName = artifactName;
+	}
+	
+	public String getExtendedArtifactName() {
+		return this.extendedArtifactName;
 	}
 
 	public void executeRequests(ITigerstripeModelProject project,
@@ -51,8 +70,7 @@ public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 	public void executeRequests(ITigerstripeModelProject project,
 			String packageName, String artifactName, String extendedArtifact,
 			String aEndType, String zEndType,boolean createAndSet) {
-
-
+		
 		IArtifactManagerSession mgrSession = null;
 		IModelUpdater modelUpdater;
 		try {
@@ -72,49 +90,52 @@ public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 			String  fqn = packageName+"."+artifactName;
 
 			if (request instanceof IArtifactCreateRequest ){
-				if (createAndSet){
-					if (created){
-						BasePlugin.logErrorMessage("Duplicate Create Request in Pattern execution");
-						return;
-					}
-					ArtifactCreateRequest createRequest = (ArtifactCreateRequest) request;
-					createRequest.setArtifactName(artifactName);
-					createRequest.setArtifactPackage(packageName);
-					if (request instanceof ArtifactLinkCreateRequest){
-						ArtifactLinkCreateRequest linkRequest = (ArtifactLinkCreateRequest)  request;
-						linkRequest.setAEndType(aEndType);
-						linkRequest.setZEndType(zEndType);
-					} 
-					try {
+				try {
+					if (createAndSet){
+						if (created){
+							BasePlugin.logErrorMessage("Duplicate Create Request in Pattern execution");
+							return;
+						}
+						ArtifactCreateRequest createRequest = (ArtifactCreateRequest) request;
+						createRequest.setArtifactName(artifactName);
+						createRequest.setArtifactPackage(packageName);
+						if (request instanceof ArtifactLinkCreateRequest){
+							ArtifactLinkCreateRequest linkRequest = (ArtifactLinkCreateRequest)  request;
+							linkRequest.setAEndType(aEndType);
+							linkRequest.setZEndType(zEndType);
+						} 
+
 						modelUpdater.handleChangeRequest(createRequest);
 						created = true;
-						if ( extendedArtifact != null && !extendedArtifact.equals("") && !extendedArtifact.equals("$user")){
-							IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest) (new ModelChangeRequestFactory()).makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
-							setRequest.setFeatureId(IArtifactSetFeatureRequest.EXTENDS_FEATURE);
-							setRequest.setArtifactFQN(fqn);
-							setRequest.setFeatureValue(extendedArtifact);
-							modelUpdater.handleChangeRequest(setRequest);
-						}
 
-					} catch (TigerstripeException t){
-						// Failed to create Artifact - we can just stop here.
-						BasePlugin.log(t);
-						return;
 					}
+					if ( extendedArtifact != null && !extendedArtifact.equals("") && !extendedArtifact.equals("$user")){
+						IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest) (new ModelChangeRequestFactory()).makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
+						setRequest.setFeatureId(IArtifactSetFeatureRequest.EXTENDS_FEATURE);
+						setRequest.setArtifactFQN(fqn);
+						setRequest.setFeatureValue(extendedArtifact);
+						modelUpdater.handleChangeRequest(setRequest);
+					}
+				} catch (TigerstripeException t){
+					// Failed to create Artifact - we can just stop here.
+					BasePlugin.log(t);
+					return;
 				}
 			} else {
-
-				if (request instanceof BaseArtifactElementRequest){
-					BaseArtifactElementRequest elementRequest = (BaseArtifactElementRequest)  request;
-					elementRequest.setArtifactFQN(fqn);
-				} 
-				
-				if (request instanceof IMethodChangeRequest){
-					IMethodChangeRequest methodChangeRequest = (IMethodChangeRequest)  request;
-					methodChangeRequest.setMethodLabelBeforeChange(lastMethodLabel);
-				}
-
 				try {
+					
+
+					if (request instanceof BaseArtifactElementRequest){
+						BaseArtifactElementRequest elementRequest = (BaseArtifactElementRequest)  request;
+						elementRequest.setArtifactFQN(fqn);
+					} 
+
+					if (request instanceof IMethodChangeRequest){
+						IMethodChangeRequest methodChangeRequest = (IMethodChangeRequest)  request;
+						methodChangeRequest.setMethodLabelBeforeChange(lastMethodLabel);
+					}
+
+
 					modelUpdater.handleChangeRequest(request);
 
 					if (request instanceof MethodCreateRequest){
@@ -125,7 +146,7 @@ public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 						IMethodChangeRequest methodChangeRequest = (IMethodChangeRequest)  request;
 						lastMethodLabel = methodChangeRequest.getMethodLabelAfterChange();
 					}
-					
+
 				} catch (TigerstripeException t){
 					// Failed to set something - Roll back the create
 					BasePlugin.log(t);

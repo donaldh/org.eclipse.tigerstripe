@@ -14,6 +14,10 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public interface IRelationPattern extends IArtifactPattern{
 
+	public String getAEndType();
+	
+	public String getZEndType();
+	
 	public void executeRequests(ITigerstripeModelProject project,
 			String packageName, String artifactName, String extendedArtifact,
 			String aEndType, String zEndType, boolean createAndSet);

@@ -34,6 +34,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.patterns.ArtifactPattern;
+import org.eclipse.tigerstripe.workbench.internal.api.patterns.RelationPattern;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
@@ -139,6 +141,21 @@ public class NewRelationPatternBasedWizardPage extends
 		updateStatus(status);
 	}
 
+	
+	
+	@Override
+	protected void initFromContext() {
+		super.initFromContext();
+		String aEnd = ((RelationPattern) this.pattern).getAEndType();
+		if (! "".equals(aEnd)){
+			this.aEndTypeClassDialogField.setText(aEnd);
+		}
+		String zEnd = ((RelationPattern) this.pattern).getZEndType();
+		if (! "".equals(zEnd)){
+			this.zEndTypeClassDialogField.setText(zEnd);
+		}
+		
+	}
 	protected void artifactPageChangeControlPressed(DialogField field) {
 		super.artifactPageChangeControlPressed(field);
 		if (field == aEndTypeClassDialogField) {

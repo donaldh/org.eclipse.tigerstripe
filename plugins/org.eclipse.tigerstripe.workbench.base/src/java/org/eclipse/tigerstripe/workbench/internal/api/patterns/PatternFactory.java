@@ -228,6 +228,7 @@ public class PatternFactory implements IPatternFactory {
 			String uiLabel     = patternElement.getAttribute("uiLabel");
 			String iconPath     = patternElement.getAttribute("iconPath");
 			String disabledIconPath     = patternElement.getAttribute("disabledIconPath");
+			
 			String description = "";
 			NodeList descriptionNodes = patternDoc.getElementsByTagNameNS(patternNamespace,"description");
 			for (int dn = 0; dn < descriptionNodes.getLength(); dn++) {
@@ -248,7 +249,7 @@ public class PatternFactory implements IPatternFactory {
 			} else {
 				throw new TigerstripeException("Invalid pattern Type in Extension Point");
 			}
-			
+
 			
 			
 			
@@ -314,45 +315,52 @@ public class PatternFactory implements IPatternFactory {
 
 	private static void singleArtifactPattern(Pattern pattern,Element artifactElement ) throws TigerstripeException {
 			
-		String artifactType = xmlParserUtils.getArtifactType(artifactElement);
-			ArtifactPattern artifactPattern = (ArtifactPattern) pattern;
-			artifactPattern.setTargetArtifactType(artifactType);
-			if (pattern instanceof INodePattern){
-				addNodeRequests(pattern,artifactElement, artifactType);
-			} else if (pattern instanceof IRelationPattern){
-				addLinkRequests(pattern,artifactElement, artifactType);
-			}
-			String commentText = xmlParserUtils.getComment(artifactElement);
-			if (commentText != null){
-				IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
-				setRequest.setFeatureId(IArtifactSetFeatureRequest.COMMENT_FEATURE);
-				setRequest.setFeatureValue(commentText);
-				pattern.requests.add(setRequest);
-			}
-			// Optional attributes
-			if (artifactElement.hasAttribute("isAbstract")){
-				IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
-				setRequest.setFeatureId(IArtifactSetFeatureRequest.ISABSTRACT_FEATURE);
-				setRequest.setFeatureValue(artifactElement.getAttribute("isAbstract"));
-				pattern.requests.add(setRequest);
-			}
-			// artifact Stereotypes
-			Collection<IStereotypeInstance> stereotypeInstances = xmlParserUtils.getStereotypes(artifactElement, "stereotypes");
-			if ( stereotypeInstances.size()>0){
-				for (IStereotypeInstance instance : stereotypeInstances){
-					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
-					stereotypeAddRequest.setCapableClass(ECapableClass.ARTIFACT);
-					stereotypeAddRequest.setFeatureValue(instance);
-					pattern.requests.add(stereotypeAddRequest);
-				}
-			}
-			
-			addAnnotations(pattern,artifactElement,"");
-			addComponentRequests(pattern,artifactElement);
-
 		
+		ArtifactPattern artifactPattern = (ArtifactPattern) pattern;
+		
+		String artifactType = xmlParserUtils.getArtifactType(artifactElement);
+		artifactPattern.setTargetArtifactType(artifactType);
+
+		if (artifactElement.hasAttribute("extendedArtifact")){
+			artifactPattern.setExtendedArtifactname(artifactElement.getAttribute("extendedArtifact"));
+		}
+
+		if (pattern instanceof INodePattern){
+			addNodeRequests(pattern,artifactElement, artifactType);
+		} else if (pattern instanceof IRelationPattern){
+			addLinkRequests(pattern,artifactElement, artifactType);
+		}
+		String commentText = xmlParserUtils.getComment(artifactElement);
+		if (commentText != null){
+			IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
+			setRequest.setFeatureId(IArtifactSetFeatureRequest.COMMENT_FEATURE);
+			setRequest.setFeatureValue(commentText);
+			pattern.requests.add(setRequest);
+		}
+		// Optional attributes
+		if (artifactElement.hasAttribute("isAbstract")){
+			IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
+			setRequest.setFeatureId(IArtifactSetFeatureRequest.ISABSTRACT_FEATURE);
+			setRequest.setFeatureValue(artifactElement.getAttribute("isAbstract"));
+			pattern.requests.add(setRequest);
+		}
+		// artifact Stereotypes
+		Collection<IStereotypeInstance> stereotypeInstances = xmlParserUtils.getStereotypes(artifactElement, "stereotypes");
+		if ( stereotypeInstances.size()>0){
+			for (IStereotypeInstance instance : stereotypeInstances){
+				IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
+				stereotypeAddRequest.setCapableClass(ECapableClass.ARTIFACT);
+				stereotypeAddRequest.setFeatureValue(instance);
+				pattern.requests.add(stereotypeAddRequest);
+			}
+		}
+
+		addAnnotations(pattern,artifactElement,"");
+		addComponentRequests(pattern,artifactElement);
+
+
 	}
-	
+
 	private static void addAnnotations(Pattern pattern,Element element, String target)throws TigerstripeException{
 		// artifact Annotations
 		Collection<EObject> annotationContents = xmlParserUtils.getAnnotations(element);
@@ -595,7 +603,9 @@ public class PatternFactory implements IPatternFactory {
 			IArtifactSetFeatureRequest.ZENDMULTIPLICITY,
 			IArtifactSetFeatureRequest.ZENDNAVIGABLE,
 			IArtifactSetFeatureRequest.AEND,
-			IArtifactSetFeatureRequest.ZEND));
+			IArtifactSetFeatureRequest.ZEND,
+			IArtifactSetFeatureRequest.AENDType,
+			IArtifactSetFeatureRequest.ZENDType));
 	/**
 	 * This takes the artifactElement and generates a LINK request then some set SET actions.
 	 * For the ends.
@@ -604,7 +614,19 @@ public class PatternFactory implements IPatternFactory {
 	 * @param artifactElement
 	 */
 	private static void addLinkRequests(Pattern pattern, Element artifactElement,String artifactType)throws TigerstripeException {
+		
+		RelationPattern artifactPattern = (RelationPattern) pattern;
 		Map<String,Object> endData = xmlParserUtils.getArtifactEndData(artifactElement);
+		String aEndType = (String)endData.get(IArtifactSetFeatureRequest.AENDType);
+		String zEndType = (String)endData.get(IArtifactSetFeatureRequest.ZENDType);
+		if (! "".equals(aEndType)){
+			artifactPattern.setAEndType(aEndType);
+		}
+		if (! "".equals(zEndType)){
+			artifactPattern.setZEndType(zEndType);
+		}
+		
+
 		IArtifactLinkCreateRequest createRequest =(IArtifactLinkCreateRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACTLINK_CREATE);
 		createRequest.setArtifactType(artifactType);
 		createRequest.setAEndMultiplicity ((String) endData.get(IArtifactSetFeatureRequest.AENDMULTIPLICITY));

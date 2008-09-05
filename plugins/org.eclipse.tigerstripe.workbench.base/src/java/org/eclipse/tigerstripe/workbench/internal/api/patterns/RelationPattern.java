@@ -14,5 +14,21 @@ import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 
 public class RelationPattern extends ArtifactPattern implements IRelationPattern {
 
-
+	private String aEndType = "";
+	private String zEndType = "";
+	
+	public String getAEndType() {
+		return aEndType;
+	}
+	public void setAEndType(String endType) {
+		aEndType = endType;
+	}
+	public String getZEndType() {
+		return zEndType;
+	}
+	public void setZEndType(String endType) {
+		zEndType = endType;
+	}
+	
+	
 }

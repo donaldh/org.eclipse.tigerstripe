@@ -113,6 +113,7 @@ public class TigerstripeXMLParserUtils {
 			String comment = getComment(endNode);
 			if (endNode.getAttribute("end").equals("AEnd")) {
 				endData.put(IArtifactSetFeatureRequest.AEND,IArtifactSetFeatureRequest.AEND);
+				endData.put(IArtifactSetFeatureRequest.AENDType,endNode.getAttribute("type"));
 				endData.put(IArtifactSetFeatureRequest.AENDName,endNode.getAttribute("name"));
 				endData.put(IArtifactSetFeatureRequest.AENDAGGREGATION,endNode.getAttribute("aggregation"));
 				endData.put(IArtifactSetFeatureRequest.AENDISCHANGEABLE,endNode.getAttribute("changeable"));
@@ -136,6 +137,7 @@ public class TigerstripeXMLParserUtils {
 				
 			} else if (endNode.getAttribute("end").equals("ZEnd")) {
 				endData.put(IArtifactSetFeatureRequest.ZEND,IArtifactSetFeatureRequest.ZEND);
+				endData.put(IArtifactSetFeatureRequest.ZENDType,endNode.getAttribute("type"));
 				endData.put(IArtifactSetFeatureRequest.ZENDName,endNode.getAttribute("name"));
 				endData.put(IArtifactSetFeatureRequest.ZENDAGGREGATION,endNode.getAttribute("aggregation"));
 				endData.put(IArtifactSetFeatureRequest.ZENDISCHANGEABLE,endNode.getAttribute("changeable"));

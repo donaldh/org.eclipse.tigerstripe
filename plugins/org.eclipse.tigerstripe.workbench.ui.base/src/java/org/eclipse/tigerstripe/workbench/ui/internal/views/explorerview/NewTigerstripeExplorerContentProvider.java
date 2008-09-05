@@ -30,6 +30,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;

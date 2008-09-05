@@ -16,6 +16,20 @@ public interface IArtifactPattern extends IPattern{
 
 	public String getTargetArtifactType();
 	
+	
+	/**
+	 * The proposed name from the pattern file (if any)
+	 * @return
+	 */
+	public String getArtifactName();
+	
+	/**
+	 * The extended class from the pattern file (if any)
+	 * @return
+	 */
+	public String getExtendedArtifactName();
+	
+	
 	public void executeRequests(ITigerstripeModelProject project,
 			String packageName, String ArtifactName, String extendedArtifact, boolean createAndSet);
 	

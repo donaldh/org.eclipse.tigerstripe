@@ -11,7 +11,7 @@
     <ts:artifact name="com.cisco.wobble"
                  artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact"
                  isAbstract="true"
-                 extendedArtifact="com.cisco.wibble">
+                 extendedArtifact="com.cisco.baseAssociation">
                  <ts:comment>This is a specific Type of Association</ts:comment>
         <ts:associationSpecifics>
             <ts:associationEnd name="wibble" end="AEnd" type="com.cisco.wibble" multiplicity="1" 

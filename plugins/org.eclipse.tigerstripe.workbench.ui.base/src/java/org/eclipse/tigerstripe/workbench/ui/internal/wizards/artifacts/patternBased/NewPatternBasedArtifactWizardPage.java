@@ -943,10 +943,16 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	 * 
 	 */
 	protected void initFromContext() {
+		String extended = ((ArtifactPattern) this.pattern).getExtendedArtifactName();
+		if (! "".equals(extended)){
+			this.extendedClassDialogField.setText(extended);
+		}
+		
 		try {
 			TSRuntimeContext context = getTSRuntimeContext();
 			ITigerstripeModelProject project = context.getProjectHandle();
 
+			
 			if ("".equals(this.packageDialogField.getText())) {
 				this.packageDialogField
 						.setText(project
@@ -956,7 +962,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 										""));
 			}
 
-			IPluginConfig[] refs = project.getPluginConfigs();
+			
 
 		} catch (TigerstripeException e) {
 			// The wizard is currently not pointing at a valid TS project

@@ -22,6 +22,7 @@ public interface IArtifactSetFeatureRequest extends IModelChangeRequest {
 
 	public final static String AEND = "aEnd";
 	public final static String AENDName = "aEndName";
+	public final static String AENDType = "aEndType";
 	public final static String AENDISORDERED = "aEndIsOrdered";
 	public final static String AENDISUNIQUE = "aEndIsUnique";
 	public final static String AENDNAVIGABLE = "aEndIsNavigable";
@@ -34,6 +35,7 @@ public interface IArtifactSetFeatureRequest extends IModelChangeRequest {
 
 	public final static String ZEND = "zEnd";
 	public final static String ZENDName = "zEndName";
+	public final static String ZENDType = "zEndType";
 	public final static String ZENDISORDERED = "zEndIsOrdered";
 	public final static String ZENDISUNIQUE = "zEndIsUnique";
 	public final static String ZENDNAVIGABLE = "zEndIsNavigable";

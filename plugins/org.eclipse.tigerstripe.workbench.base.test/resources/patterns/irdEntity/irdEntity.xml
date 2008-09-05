@@ -10,27 +10,9 @@
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
     <pattern:description>Create a new Managed Entity</pattern:description>
   
-  <!--  
-    <pattern:annotationsText target="_user1">
-  		 <![CDATA[
-  		   <?xml version="1.0" encoding="ASCII"?>
-           <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.eclipse.tigerstripe.annotation.testAnnots="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore">
-             <org.eclipse.tigerstripe.annotation.testAnnots:TestAnnot3 n="7"/>
-           </xmi:XMI>
-  		 ]]>   
-    </pattern:annotationsText>
-
-    <pattern:annotationsText target="_user1#mandatoryField">
-  		 <![CDATA[
-  		   <?xml version="1.0" encoding="ASCII"?>
-           <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.eclipse.tigerstripe.annotation.testAnnots="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore">
-             <org.eclipse.tigerstripe.annotation.testAnnots:TestAnnot3 n="7"/>
-           </xmi:XMI>
-  		 ]]>   
-    </pattern:annotationsText>
-    -->
     <ts:artifact name="_user1"
                  artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact"
+                 extendedArtifact="org.eclipse.parent"
                  isAbstract="true">
         <ts:annotations>
   		 <![CDATA[
