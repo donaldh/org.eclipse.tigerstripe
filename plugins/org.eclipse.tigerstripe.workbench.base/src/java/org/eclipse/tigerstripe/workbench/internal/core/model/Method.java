@@ -1464,4 +1464,17 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return null;
 	}
 
+	public String toString(){
+		String label = this.getLabelString(true);
+		if (hasExceptions()){
+			label = label + " throws";
+			String comma = "";
+			for (IException exc : getExceptions()){
+				label = label+" "+comma+exc.getFullyQualifiedName();
+				comma = ",";
+
+			}
+		}
+		return label;
+	}
 }

@@ -115,7 +115,6 @@ public class ArtifactPattern extends Pattern implements IArtifactPattern  {
 				}
 
 				try {
-
 					modelUpdater.handleChangeRequest(request);
 
 					if (request instanceof MethodCreateRequest){

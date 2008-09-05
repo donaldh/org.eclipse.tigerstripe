@@ -6,7 +6,7 @@
 						 iconPath="resources/patterns/icons/entity_te_p.gif"
 						 disabledIconPath="resources/patterns/icons/entity_te_p.gif"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
-                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
+                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
     <pattern:description>Create a new IRD Association</pattern:description>
     <ts:artifact name="com.cisco.wobble"
                  artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact"
@@ -18,6 +18,14 @@
                                        aggregation="none" changeable="none" navigable="false" 
                                        ordered="false" visibility="PUBLIC"
                                        unique="false">
+                                       <ts:annotations>
+  		       <![CDATA[
+  		         <!--?xml version="1.0" encoding="ASCII"?-->
+                        <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.eclipse.tigerstripe.annotation.testAnnots="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore">
+             		    <org.eclipse.tigerstripe.annotation.testAnnots:TestAnnot3 n="111"/>
+                         </xmi:XMI>
+  		               ]]>      
+                     </ts:annotations>
                                        <ts:stereotypes>
              			  					<ts:stereotype name="General">
              			  					</ts:stereotype>
@@ -28,6 +36,14 @@
                                        aggregation="none" changeable="none" navigable="true" 
                                        ordered="false" visibility="PUBLIC"
                                        unique="false">
+                                       <ts:annotations>
+  		       <![CDATA[
+  		         <!--?xml version="1.0" encoding="ASCII"?-->
+                        <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.eclipse.tigerstripe.annotation.testAnnots="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore">
+             		    <org.eclipse.tigerstripe.annotation.testAnnots:TestAnnot3 n="222"/>
+                         </xmi:XMI>
+  		               ]]>      
+                     </ts:annotations>
                                        <ts:stereotypes>
              			  					<ts:stereotype name="WithAttribute">
              			  					</ts:stereotype>

@@ -27,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodAddFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodAnnotationsAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
@@ -85,6 +86,9 @@ public interface IModelChangeRequestFactory {
 			.getName();
 	public final static String ANNOTATION_ADD = IAnnotationAddFeatureRequest.class
 		.getName();
+	public final static String METHOD_ANNOTATION_ADD = IMethodAnnotationsAddFeatureRequest.class
+	.getName();
+	
 
 	public String[] getSupportedRequestTypes();
 

@@ -7,21 +7,10 @@
 						 disabledIconPath="resources/patterns/icons/entity_cr_p.gif"
 						 index="1010"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
-                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
+                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
     <pattern:description>Create a new Managed Entity</pattern:description>
-    <!--pattern:annotations>
-    	<pattern:annotation ns_URI="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore" 
-    		classname="org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot3"
-    		 target="_user1#mandatoryField"
-    		  filename="_user1$mandatoryField$TestAnno3.anno"/>
-       <pattern:annotation ns_URI="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore"
-    		 classname="org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot3"
-    		  target="_user1"
-    		   filename="_user1$TestAnno3.anno"/>
-    		   
-    	
-    </pattern:annotations -->
-    
+  
+  <!--  
     <pattern:annotationsText target="_user1">
   		 <![CDATA[
   		   <?xml version="1.0" encoding="ASCII"?>
@@ -39,13 +28,23 @@
            </xmi:XMI>
   		 ]]>   
     </pattern:annotationsText>
-    
+    -->
     <ts:artifact name="_user1"
                  artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact"
                  isAbstract="true">
+        <ts:annotations>
+  		 <![CDATA[
+  		   <!--?xml version="1.0" encoding="ASCII"?-->
+           <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.eclipse.tigerstripe.annotation.testAnnots="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore">
+             <org.eclipse.tigerstripe.annotation.testAnnots:TestAnnot1 twine="old rope"/>
+             <org.eclipse.tigerstripe.annotation.testAnnots:TestAnnot2/>
+           </xmi:XMI>
+  		 ]]>      
+        </ts:annotations>
+                 
         <ts:implements>
-            <ts:implementedInterface>com.cisco.Sess</ts:implementedInterface>
-            <ts:implementedInterface>com.cisco.Super</ts:implementedInterface>
+            <ts:implementedInterface>org.eclipse.Sess</ts:implementedInterface>
+            <ts:implementedInterface>org.eclipse.Super</ts:implementedInterface>
         </ts:implements>
 		<ts:comment>One of these</ts:comment>
 		<ts:stereotypes>
@@ -60,6 +59,15 @@
         
         <ts:literals>
              <ts:literal name="mandatoryLiteral" value="9" type="int" visibility="private">
+             <ts:annotations>
+  		       <![CDATA[
+  		         <!--?xml version="1.0" encoding="ASCII"?-->
+                        <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.eclipse.tigerstripe.annotation.testAnnots="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore">
+             		    <org.eclipse.tigerstripe.annotation.testAnnots:TestAnnot3 n="333"/>
+                         </xmi:XMI>
+  		               ]]>      
+                     </ts:annotations>
+                      
                 <ts:stereotypes>
              		<ts:stereotype name="General">
                	    </ts:stereotype>
@@ -76,6 +84,15 @@
                       readonly="false"
                       unique="true"
                       ordered="false">
+                     <ts:annotations>
+  		       <![CDATA[
+  		         <!--?xml version="1.0" encoding="ASCII"?-->
+                        <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.eclipse.tigerstripe.annotation.testAnnots="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore">
+             		    <org.eclipse.tigerstripe.annotation.testAnnots:TestAnnot3 n="666"/>
+                         </xmi:XMI>
+  		               ]]>      
+                     </ts:annotations>
+                      
                       <ts:stereotypes>
              			  <ts:stereotype name="General">
              			  </ts:stereotype>
@@ -93,6 +110,14 @@
                        unique="false" 
                        ordered="false"
                        >
+                       <ts:annotations>
+  		       <![CDATA[
+  		         <!--?xml version="1.0" encoding="ASCII"?-->
+                        <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.eclipse.tigerstripe.annotation.testAnnots="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore">
+             		    <org.eclipse.tigerstripe.annotation.testAnnots:TestAnnot3 n="999"/>
+                         </xmi:XMI>
+  		               ]]>      
+                     </ts:annotations>
                        <ts:stereotypes>
              				<ts:stereotype name="General">
                	    		</ts:stereotype>
@@ -117,7 +142,7 @@
                            </ts:stereotype>
                        </ts:returnStereotypes>
                        <ts:exceptions>
-                    		<ts:exception name="com.cisco.anException"/>
+                    		<ts:exception name="org.eclipse.anException"/>
                 	   </ts:exceptions>
                        <ts:comment>You must have this method</ts:comment>
             </ts:method>

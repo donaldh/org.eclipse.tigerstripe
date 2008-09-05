@@ -10,25 +10,31 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAnnotationAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.patterns.Pattern.PatternAnnotation;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
@@ -38,6 +44,9 @@ import org.w3c.dom.NodeList;
 
 public class TigerstripeXMLParserUtils {
 
+	
+
+	
 	private PrintWriter out = null;
 	private MessageList messages = null;
 	private String namespace;
@@ -103,6 +112,7 @@ public class TigerstripeXMLParserUtils {
 
 			String comment = getComment(endNode);
 			if (endNode.getAttribute("end").equals("AEnd")) {
+				endData.put(IArtifactSetFeatureRequest.AEND,IArtifactSetFeatureRequest.AEND);
 				endData.put(IArtifactSetFeatureRequest.AENDName,endNode.getAttribute("name"));
 				endData.put(IArtifactSetFeatureRequest.AENDAGGREGATION,endNode.getAttribute("aggregation"));
 				endData.put(IArtifactSetFeatureRequest.AENDISCHANGEABLE,endNode.getAttribute("changeable"));
@@ -118,7 +128,14 @@ public class TigerstripeXMLParserUtils {
 				if (comment != null){
 					endData.put(IArtifactSetFeatureRequest.AENDCOMMENT,comment);
 				}
+				
+				Collection<EObject> annotations = getAnnotations(endNode);
+				for (EObject anno : annotations){
+					endData.put(IAnnotationAddFeatureRequest.AEND_ANNOTATION_FEATURE,anno);
+				}
+				
 			} else if (endNode.getAttribute("end").equals("ZEnd")) {
+				endData.put(IArtifactSetFeatureRequest.ZEND,IArtifactSetFeatureRequest.ZEND);
 				endData.put(IArtifactSetFeatureRequest.ZENDName,endNode.getAttribute("name"));
 				endData.put(IArtifactSetFeatureRequest.ZENDAGGREGATION,endNode.getAttribute("aggregation"));
 				endData.put(IArtifactSetFeatureRequest.ZENDISCHANGEABLE,endNode.getAttribute("changeable"));
@@ -133,6 +150,10 @@ public class TigerstripeXMLParserUtils {
 				}
 				if (comment != null){
 					endData.put(IArtifactSetFeatureRequest.ZENDCOMMENT,comment);
+				}
+				Collection<EObject> annotations = getAnnotations(endNode);
+				for (EObject anno : annotations){
+					endData.put(IAnnotationAddFeatureRequest.ZEND_ANNOTATION_FEATURE,anno);
 				}
 			}
 			
@@ -186,6 +207,12 @@ public class TigerstripeXMLParserUtils {
 			for (IStereotypeInstance instance : stereos){
 				fieldData.put(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE,instance);
 			}
+			
+			Collection<EObject> annotations = getAnnotations(field);
+			for (EObject anno : annotations){
+				fieldData.put(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE,anno);
+			}
+			
 			allFieldData.add(fieldData);
 		}
 		return allFieldData;
@@ -216,6 +243,11 @@ public class TigerstripeXMLParserUtils {
 			Collection<IStereotypeInstance> stereos = getStereotypes(literal,"stereotypes");
 			for (IStereotypeInstance instance : stereos){
 				literalData.put(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE,instance);
+			}
+			
+			Collection<EObject> annotations = getAnnotations(literal);
+			for (EObject anno : annotations){
+				literalData.put(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE,anno);
 			}
 			
 			allLiteralData.add(literalData);
@@ -326,6 +358,11 @@ public class TigerstripeXMLParserUtils {
 				methodData.put(IStereotypeAddFeatureRequest.RETURN_STEREOTYPE_FEATURE,instance);
 			}
 			
+			Collection<EObject> annotations = getAnnotations(method);
+			for (EObject anno : annotations){
+				methodData.put(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE,anno);
+			}
+			
 			allMethodData.add(methodData);
 		}
 		return allMethodData;
@@ -347,7 +384,47 @@ public class TigerstripeXMLParserUtils {
 	}
 	
 	/**
-	 * Find the sterotypes for this "thing"
+	 * Find the Annotations for this element
+	 * 
+	 */
+	public Collection<EObject> getAnnotations(Element element){
+		Collection<EObject> annotations = new ArrayList<EObject>();
+		NodeList annotationsNodes = element.getChildNodes();
+		for (int an = 0; an < annotationsNodes.getLength(); an++) {
+			if (annotationsNodes.item(an) instanceof Element){
+				Element annotationsElement = (Element) annotationsNodes.item(an);
+				if (annotationsElement.getLocalName().equals("annotations")){
+				// should really only be one
+
+				ResourceSet resourceSet = new ResourceSetImpl();
+
+				URI uri = URI.createURI("http://testAnno.anno");
+				Resource resource = resourceSet.createResource(uri);
+
+				ByteArrayInputStream bis = new ByteArrayInputStream(annotationsElement.getTextContent().getBytes());
+
+				try {
+					resource.load(bis,null);
+					for(EObject a : resource.getContents())
+					{
+						annotations.add(a);
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			}
+		}
+
+		
+		return annotations;
+
+	}
+	
+	
+	/**
+	 * Find the sterotypes for this element
 	 * 
 	 * @param element
 	 * @param groupName - name of the containing Group - used to separate the returnSteeotypes

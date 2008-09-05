@@ -94,7 +94,11 @@ public class StereotypeAddFeatureRequest extends BaseArtifactElementRequest
 				getCapableClass().equals(ECapableClass.METHODARGUMENT) ||
 				getCapableClass().equals(ECapableClass.METHODRETURN)){
 			setCapableName(methodLabel);
+			
 		}
+		// Set the after so that it is not null
+		// It will get upadted if necessary
+		setMethodLabelAfterChange(methodLabel);
 	}	
 	
 	
@@ -167,7 +171,6 @@ public class StereotypeAddFeatureRequest extends BaseArtifactElementRequest
 		IAbstractArtifact art = mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 		
-
 		
 		IStereotypeInstance instance = (IStereotypeInstance) this.featureValue;
 		if (getCapableClass().equals(ECapableClass.ARTIFACT)){

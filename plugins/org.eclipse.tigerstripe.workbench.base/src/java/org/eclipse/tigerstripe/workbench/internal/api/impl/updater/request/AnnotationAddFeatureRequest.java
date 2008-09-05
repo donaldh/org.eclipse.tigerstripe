@@ -26,6 +26,8 @@ import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAnnotationAddFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -65,7 +67,7 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 		super.canExecute(mgrSession);
 		try {
 			IAbstractArtifact art = mgrSession
-					.getArtifactByFullyQualifiedName(getArtifactFQN());
+			.getArtifactByFullyQualifiedName(getArtifactFQN());
 			// TODO Make sure we can find the target Model component
 			if (art != null){
 				if (target.length() == 0){
@@ -73,7 +75,6 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 					return true;
 				} else {
 					boolean isMethod = target.contains("(");
-					boolean isEnd = target.contains(";");
 					if (isMethod){
 						Collection<IMethod> methods = art.getMethods();
 						for (IMethod method : methods ){
@@ -82,20 +83,12 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 							}		
 						}
 						return false;
-					} else if (isEnd){
-						if (!(art instanceof AssociationArtifact))
-							return false;
-						String[] bits = target.split(";");
-						if (bits.length != 2)
-							return false;
-						String endName = bits[1];
-						if ( "aEnd".equalsIgnoreCase(endName) || "zEnd".equalsIgnoreCase(endName)){
-							return true;
-						} else 
-							return false;
-						
 					} else {
-						// either a field or literal - I can't tell.
+						// either a field or literal or an end - I can't tell.
+						// Maybe need to be a bit cleverer here in case of name clashes?
+						
+
+						
 						Collection<IField> fields = art.getFields();
 						for (IField field : fields ){
 							if (field.getName().equals(target)){
@@ -108,14 +101,22 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 								return true;
 							}
 						}
+						if (art instanceof AssociationArtifact)
+						{
+							AssociationArtifact associationArt = (AssociationArtifact) art;
+							if (target.equals(IArtifactSetFeatureRequest.AEND))
+								return true;
+							if (target.equals(IArtifactSetFeatureRequest.ZEND))
+								return true;
+						}
 						return false;
-							
+
 					}
 				}			
 			} else {
 				return false;
 			}
-			
+
 		} catch (TigerstripeException t) {
 			return false;
 		}
@@ -135,8 +136,8 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 			if (target.length() == 0){
 				modelComponent = art;
 			} else {
+				
 				boolean isMethod = target.contains("(");
-				boolean isEnd = target.contains(";");
 				if (isMethod){
 					Collection<IMethod> methods = art.getMethods();
 					for (IMethod method : methods ){
@@ -145,18 +146,8 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 						}		
 					}
 
-				} else if (isEnd){
-					if (art instanceof AssociationArtifact){
-						AssociationArtifact assoc = (AssociationArtifact) art;
-						String[] bits = target.split(";");
-						String endName = bits[1];
-						if ( "aEnd".equalsIgnoreCase(endName)){
-							modelComponent = assoc.getAEnd();
-						}else if ("zEnd".equalsIgnoreCase(endName)){
-							modelComponent = assoc.getZEnd();
-						} 
-					}
 				} else {
+					
 					// either a field or literal - I can't tell.
 					Collection<IField> fields = art.getFields();
 					for (IField field : fields ){
@@ -170,9 +161,18 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 							modelComponent =  literal;
 						}
 					}
+					if (art instanceof AssociationArtifact){
+						AssociationArtifact assoc = (AssociationArtifact) art;
+						if (target.equals(IArtifactSetFeatureRequest.AEND)){
+							modelComponent = assoc.getAEnd();
+						}else if (target.equals(IArtifactSetFeatureRequest.ZEND)){
+							modelComponent = assoc.getZEnd();
+						} 
+					}
 
 				}
-			}			
+			}		
+			
 			if ( modelComponent != null){
 				addAnnotationToComponent(modelComponent);
 				art.doSave(null);
@@ -223,6 +223,5 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 
 		return delta;
 	}
-
 
 }

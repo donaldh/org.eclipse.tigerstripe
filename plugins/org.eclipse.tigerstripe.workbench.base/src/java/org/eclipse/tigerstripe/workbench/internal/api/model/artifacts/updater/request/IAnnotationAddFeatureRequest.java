@@ -16,6 +16,8 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 public interface IAnnotationAddFeatureRequest extends IModelChangeRequest {
 
 	public static String ANNOTATION_FEATURE = "annotation";
+	public static String AEND_ANNOTATION_FEATURE = "aEed_annotation";
+	public static String ZEND_ANNOTATION_FEATURE = "zEnd_annotation";
 	
 	public void setArtifactFQN(String artifactFQN);
 	

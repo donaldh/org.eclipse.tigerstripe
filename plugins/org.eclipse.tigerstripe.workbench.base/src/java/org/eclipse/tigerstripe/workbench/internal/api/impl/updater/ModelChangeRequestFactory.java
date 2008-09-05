@@ -29,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.Liter
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.LiteralRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.LiteralSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.MethodAddFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.MethodAnnotationsAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.MethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.MethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.MethodSetRequest;
@@ -51,7 +52,8 @@ public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 
 			ARTIFACTLINK_CREATE,
 			
-			STEREOTYPE_ADD, ANNOTATION_ADD};
+			STEREOTYPE_ADD, ANNOTATION_ADD,
+			METHOD_ANNOTATION_ADD};
 
 	private final static Class[] requestClasses = {
 			ArtifactCreateRequest.class,
@@ -71,7 +73,8 @@ public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 
 			ArtifactLinkCreateRequest.class,
 			StereotypeAddFeatureRequest.class,
-			AnnotationAddFeatureRequest.class};
+			AnnotationAddFeatureRequest.class,
+			MethodAnnotationsAddFeatureRequest.class};
 
 	private ModelUpdaterImpl modelUpdater;
 

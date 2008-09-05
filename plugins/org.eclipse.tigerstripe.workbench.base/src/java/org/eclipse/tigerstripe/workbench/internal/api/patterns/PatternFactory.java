@@ -100,7 +100,7 @@ public class PatternFactory implements IPatternFactory {
 	private static Bundle baseBundle = org.eclipse.core.runtime.Platform.getBundle("org.eclipse.tigerstripe.workbench.base");
 	private static String schemaLocation = "src/java/org/eclipse/tigerstripe/workbench/patterns/schemas/tigerstripeCreationPatternSchema.xsd";
 	
-	private static String tigerstripeNamespace = "http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0";
+	private static String tigerstripeNamespace = "http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0";
 	private static String patternNamespace     = "http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0";
 	private static TigerstripeXMLParserUtils xmlParserUtils;
 	private static Document patternDoc;
@@ -286,36 +286,6 @@ public class PatternFactory implements IPatternFactory {
 				pattern.setIndex(undefined);
 			}
 			
-
-			NodeList annotationsTextNodes = patternDoc.getElementsByTagNameNS(patternNamespace, "annotationsText");
-			Collection<IPatternAnnotation> annos = pattern.getPatternAnnotations();
-			for(int i = 0; i < annotationsTextNodes.getLength(); i++)
-			{
-				Element item = (Element)annotationsTextNodes.item(i);
-				NodeList nl = item.getChildNodes();
-				Element node = (Element)nl.item(0).getFirstChild();
-				String annotationsText = nl.item(0).getNodeValue();
-				
-
-				ResourceSet resourceSet = new ResourceSetImpl();
-				resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().
-					put("anno", new XMIResourceFactoryImpl());
-				
-				URI uri = URI.createURI("http://testAnno.anno");
-				Resource resource = resourceSet.createResource(uri);
-
-				ByteArrayInputStream bis = new ByteArrayInputStream(annotationsText.trim().getBytes());
-				resource.load(bis, null);
-				
-				String target = item.getAttribute("target");
-				for(EObject a : resource.getContents())
-				{
-					PatternAnnotation anno = pattern.new PatternAnnotation();
-					anno.setTarget(target);
-					anno.setAnnotationContent(a);
-					annos.add(anno);
-				}
-			}
 			try {
 				// For a composite we can get several artifacts, so each one will go in a 
 				// seperate ArtifactPatterns and be assembled in the composite.
@@ -332,11 +302,7 @@ public class PatternFactory implements IPatternFactory {
 				} else {
 					// We can add "subPatterns" to a CompositePattern
 				}
-				// After all that, do the annotation requests
-				for (IPatternAnnotation anno : pattern.getPatternAnnotations()){
-					pattern.requests.add(createAnnotationRequest(bundle,anno));
-				}
-				
+			
 				
 			} catch (Exception e){
 				// This means we failed to create the proper request
@@ -349,14 +315,6 @@ public class PatternFactory implements IPatternFactory {
 	private static void singleArtifactPattern(Pattern pattern,Element artifactElement ) throws TigerstripeException {
 			
 		String artifactType = xmlParserUtils.getArtifactType(artifactElement);
-		// Check the profile allows this kind of artifact
-//		IWorkbenchProfile profile = TigerstripeCore
-//			.getWorkbenchProfileSession()
-//			.getActiveProfile();
-//		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
-//			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-//		if (prop.getDetailsForType(artifactType)
-//				.isEnabled()) {
 			ArtifactPattern artifactPattern = (ArtifactPattern) pattern;
 			artifactPattern.setTargetArtifactType(artifactType);
 			if (pattern instanceof INodePattern){
@@ -389,10 +347,25 @@ public class PatternFactory implements IPatternFactory {
 				}
 			}
 			
+			addAnnotations(pattern,artifactElement,"");
 			addComponentRequests(pattern,artifactElement);
-//		}
+
 		
 	}
+	
+	private static void addAnnotations(Pattern pattern,Element element, String target)throws TigerstripeException{
+		// artifact Annotations
+		Collection<EObject> annotationContents = xmlParserUtils.getAnnotations(element);
+		if ( annotationContents.size()>0){
+			for (EObject anno : annotationContents){
+				IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
+				annotationRequest.setTarget(target);
+				annotationRequest.setContent(anno);
+				pattern.requests.add(annotationRequest);
+			}
+		}
+	}
+	
 	
 	private static ArrayList<String> fieldCreateFeatures = new ArrayList<String>(Arrays.asList(
 			IAttributeSetRequest.NAME_FEATURE,
@@ -435,7 +408,12 @@ public class PatternFactory implements IPatternFactory {
 			pattern.requests.add(createRequest);
 			// iterate over other features
 			for (String feature : fieldData.keySet()){
-				if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
+				if (feature.equals(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE)){
+					IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
+					annotationRequest.setTarget((String) fieldData.get(IAttributeSetRequest.NAME_FEATURE));
+					annotationRequest.setContent((EObject) fieldData.get(feature));
+					pattern.requests.add(annotationRequest);
+				} else if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
 					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
 					stereotypeAddRequest.setCapableClass(ECapableClass.FIELD);
 					stereotypeAddRequest.setCapableName((String) fieldData.get(IAttributeSetRequest.NAME_FEATURE));
@@ -449,7 +427,8 @@ public class PatternFactory implements IPatternFactory {
 					pattern.requests.add(setRequest);
 				}
 			}
-			// field Stereotypes
+
+			// field Annotations
 			
 		}
 		
@@ -464,13 +443,19 @@ public class PatternFactory implements IPatternFactory {
 			createRequest.setLiteralValue((String) literalData.get(ILiteralSetRequest.VALUE_FEATURE));
 			pattern.requests.add(createRequest);
 			// iterate over other features
-			for (String feature : literalData.keySet()){if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
-				IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
-				stereotypeAddRequest.setCapableClass(ECapableClass.LITERAL);
-				stereotypeAddRequest.setCapableName((String) literalData.get(ILiteralSetRequest.NAME_FEATURE));
-				stereotypeAddRequest.setFeatureValue((IStereotypeInstance) literalData.get(feature));
-				pattern.requests.add(stereotypeAddRequest);
-			} else	if (!literalCreateFeatures.contains(feature)){
+			for (String feature : literalData.keySet()){
+				if (feature.equals(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE)){
+					IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
+					annotationRequest.setTarget((String) literalData.get(IAttributeSetRequest.NAME_FEATURE));
+					annotationRequest.setContent((EObject) literalData.get(feature));
+					pattern.requests.add(annotationRequest);
+				} else if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
+					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
+					stereotypeAddRequest.setCapableClass(ECapableClass.LITERAL);
+					stereotypeAddRequest.setCapableName((String) literalData.get(ILiteralSetRequest.NAME_FEATURE));
+					stereotypeAddRequest.setFeatureValue((IStereotypeInstance) literalData.get(feature));
+					pattern.requests.add(stereotypeAddRequest);
+				} else	if (!literalCreateFeatures.contains(feature)){
 					ILiteralSetRequest setRequest =(ILiteralSetRequest)requestFactory.makeRequest(IModelChangeRequestFactory.LITERAL_SET);
 					setRequest.setLiteralName((String) literalData.get(ILiteralSetRequest.NAME_FEATURE));
 					setRequest.setFeatureId(feature);
@@ -528,7 +513,12 @@ public class PatternFactory implements IPatternFactory {
 			// iterate over other features
 			for (String feature : methodData.keySet()){
 
-				if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
+				if (feature.equals(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE)){
+					IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_ANNOTATION_ADD);
+					annotationRequest.setTarget((String) methodData.get(IMethodSetRequest.NAME_FEATURE));
+					annotationRequest.setContent((EObject) methodData.get(feature));
+					pattern.requests.add(annotationRequest);
+				} else if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
 					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
 					stereotypeAddRequest.setCapableClass(ECapableClass.METHOD);
 					//stereotypeAddRequest.setCapableName((String) methodData.get(IMethodSetRequest.NAME_FEATURE));
@@ -603,7 +593,9 @@ public class PatternFactory implements IPatternFactory {
 			IArtifactSetFeatureRequest.AENDMULTIPLICITY,
 			IArtifactSetFeatureRequest.AENDNAVIGABLE,
 			IArtifactSetFeatureRequest.ZENDMULTIPLICITY,
-			IArtifactSetFeatureRequest.ZENDNAVIGABLE));
+			IArtifactSetFeatureRequest.ZENDNAVIGABLE,
+			IArtifactSetFeatureRequest.AEND,
+			IArtifactSetFeatureRequest.ZEND));
 	/**
 	 * This takes the artifactElement and generates a LINK request then some set SET actions.
 	 * For the ends.
@@ -621,7 +613,18 @@ public class PatternFactory implements IPatternFactory {
 		createRequest.setZEndNavigability (Boolean.parseBoolean((String) endData.get(IArtifactSetFeatureRequest.ZENDNAVIGABLE)));
 		pattern.requests.add(createRequest);
 		for (String feature : endData.keySet()){
-			if (feature.equals(IStereotypeAddFeatureRequest.AEND_STEREOTYPE_FEATURE)){
+			
+			if (feature.equals(IAnnotationAddFeatureRequest.AEND_ANNOTATION_FEATURE)){
+				IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
+				annotationRequest.setTarget((String) endData.get(IArtifactSetFeatureRequest.AEND));
+				annotationRequest.setContent((EObject) endData.get(feature));
+				pattern.requests.add(annotationRequest);
+			} else if (feature.equals(IAnnotationAddFeatureRequest.ZEND_ANNOTATION_FEATURE)){
+				IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
+				annotationRequest.setTarget((String) endData.get(IArtifactSetFeatureRequest.ZEND));
+				annotationRequest.setContent((EObject) endData.get(feature));
+				pattern.requests.add(annotationRequest);
+			} else if (feature.equals(IStereotypeAddFeatureRequest.AEND_STEREOTYPE_FEATURE)){
 				IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
 				stereotypeAddRequest.setCapableClass(ECapableClass.AEND);
 				stereotypeAddRequest.setFeatureValue((IStereotypeInstance) endData.get(feature));
@@ -641,23 +644,23 @@ public class PatternFactory implements IPatternFactory {
 		
 	}
 
-	
-	public static IModelChangeRequest createAnnotationRequest(Bundle bundle,IPatternAnnotation anno)throws TigerstripeException{
-
-		IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
-		annotationRequest.setContent(anno.getAnnotationContent());
-		
-		if (anno.getTarget().contains("#")){
-			String[] bits = anno.getTarget().split("#");
-			annotationRequest.setArtifactFQN(bits[0]);
-			annotationRequest.setTarget(bits[1]);
-		} else {
-			// This is targeted at the artifact level
-			annotationRequest.setArtifactFQN(anno.getTarget());
-			annotationRequest.setTarget("");
-		}
-		return annotationRequest;
-	}
+//	
+//	public static IModelChangeRequest createAnnotationRequest(Bundle bundle,IPatternAnnotation anno)throws TigerstripeException{
+//
+//		IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
+//		annotationRequest.setContent(anno.getAnnotationContent());
+//		
+//		if (anno.getTarget().contains("#")){
+//			String[] bits = anno.getTarget().split("#");
+//			annotationRequest.setArtifactFQN(bits[0]);
+//			annotationRequest.setTarget(bits[1]);
+//		} else {
+//			// This is targeted at the artifact level
+//			annotationRequest.setArtifactFQN(anno.getTarget());
+//			annotationRequest.setTarget("");
+//		}
+//		return annotationRequest;
+//	}
 	
 	public IPattern getPattern(String patternName) {
 		if (getRegisteredPatterns().keySet().contains(patternName)){

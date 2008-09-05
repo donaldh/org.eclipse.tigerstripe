@@ -10,23 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.patterns;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.SomeTestAnnotsFactory;
 import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot1;
 import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot2;
 import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot3;
@@ -38,7 +25,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeAttributeFactory;
-import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -355,11 +341,37 @@ public class PatternTest extends TestCase {
 			}
 		}
 		
+		assertEquals("Wrong number of Annotations on artifact",2,created.getAnnotations().size());
+		List<Object> test2Annos = created.getAnnotations(TestAnnot2.class);
+		assertEquals("Wrong number of TestAnnot2 on artifact", 1, test2Annos.size());
+		List<Object> test1Annos = created.getAnnotations(TestAnnot1.class);
+		assertEquals("Wrong number of TestAnnot1 on artifact", 1, test2Annos.size());
+		for (Object ann : test1Annos){
+			if (ann instanceof TestAnnot1){
+				TestAnnot1 ta1 = (TestAnnot1) ann;
+				assertEquals("TestAnnot1 value on artifact did not match expected value",ta1.getTwine(),"old rope");
+			} else {
+				fail("Object is not a TestAnnot1");
+			}
+		}
+		
+		
 		assertTrue("Wrong number of Fields",created.getFields().size() == 1);
 		for (IField field :created.getFields()){
 			assertTrue("Wrong Field name", field.getName().equals(attributeName));
 			assertEquals("Wrong number of Stereotypes on field", 1,field.getStereotypeInstances().size());
 			assertNotNull(GENERAL_STEREOTYPE+" stereotype not present on field",field.getStereotypeInstanceByName(GENERAL_STEREOTYPE));
+			assertEquals("Wrong number of Annotations on field",1,field.getAnnotations().size());
+			List<Object> test3Annos = field.getAnnotations(TestAnnot3.class);
+			assertEquals("Wrong number of TestAnnot3 on field", 1, test3Annos.size());
+			for (Object ann : test3Annos){
+				if (ann instanceof TestAnnot3){
+					TestAnnot3 ta3 = (TestAnnot3) ann;
+					assertEquals("TestAnnot3 value on field did not match expected value",ta3.getN(),666);
+				} else {
+					fail("Object is not a TestAnnot3");
+				}
+			}
 			
 		}
 		assertTrue("Wrong number of Literals",created.getLiterals().size() == 1);
@@ -367,6 +379,16 @@ public class PatternTest extends TestCase {
 			assertTrue("Wrong Literal name", literal.getName().equals(literalName));
 			assertEquals("Wrong number of Stereotypes on literal", 1,literal.getStereotypeInstances().size());
 			assertNotNull(GENERAL_STEREOTYPE+" stereotype not present on literal",literal.getStereotypeInstanceByName(GENERAL_STEREOTYPE));
+			List<Object> test3Annos = literal.getAnnotations(TestAnnot3.class);
+			assertEquals("Wrong number of TestAnnot3 on literal", 1, test3Annos.size());
+			for (Object ann : test3Annos){
+				if (ann instanceof TestAnnot3){
+					TestAnnot3 ta3 = (TestAnnot3) ann;
+					assertEquals("TestAnnot3 value on literal did not match expected value",ta3.getN(),333);
+				} else {
+					fail("Object is not a TestAnnot3");
+				}
+			}
 			
 		}
 		assertTrue("Wrong number of methods",created.getMethods().size() == 1);
@@ -376,13 +398,25 @@ public class PatternTest extends TestCase {
 			assertNotNull(GENERAL_STEREOTYPE+" stereotype not present on method",method.getStereotypeInstanceByName(GENERAL_STEREOTYPE));
 			assertEquals("Wrong number of *return* Stereotypes on method", 1,method.getReturnStereotypeInstances().size());
 			assertNotNull(GENERAL_STEREOTYPE+" *return* stereotype not present on method",method.getReturnStereotypeInstanceByName(GENERAL_STEREOTYPE));
+			List<Object> test3Annos = method.getAnnotations(TestAnnot3.class);
+			assertEquals("Wrong number of TestAnnot3 on method", 1, test3Annos.size());
+			for (Object ann : test3Annos){
+				if (ann instanceof TestAnnot3){
+					TestAnnot3 ta3 = (TestAnnot3) ann;
+					assertEquals("TestAnnot3 value on method did not match expected value",ta3.getN(),999);
+				} else {
+					fail("Object is not a TestAnnot3");
+				}
+			}
+			
+			
+			
 			assertEquals("Wrong number of arguments",1, method.getArguments().size());
 			for (IArgument arg : method.getArguments()){
 				assertTrue("Wrong argument name", arg.getName().equals(argumentName));
 				assertEquals("Wrong number of Stereotypes on argument", 1,arg.getStereotypeInstances().size());
 				assertNotNull(GENERAL_STEREOTYPE+" stereotype not present on argument",arg.getStereotypeInstanceByName(GENERAL_STEREOTYPE));
 			}
-			
 			assertEquals("Wrong number of exceptions",1, method.getExceptions().size());
 			for (IException ex : method.getExceptions()){
 				assertTrue("Wrong exception name", ex.getFullyQualifiedName().equals(exceptionName));
@@ -468,6 +502,18 @@ public class PatternTest extends TestCase {
 				assertEquals("Wrong number of Stereotypes on aEnd", 1,association.getAEnd().getStereotypeInstances().size());
 				assertNotNull(GENERAL_STEREOTYPE+" stereotype not present on aEnd",association.getAEnd().getStereotypeInstanceByName(GENERAL_STEREOTYPE));
 				
+				List<Object> test3Annos = association.getAEnd().getAnnotations(TestAnnot3.class);
+				assertEquals("Wrong number of TestAnnot3 on aEnd", 1, test3Annos.size());
+				for (Object ann : test3Annos){
+					if (ann instanceof TestAnnot3){
+						TestAnnot3 ta3 = (TestAnnot3) ann;
+						assertEquals("TestAnnot3 value on aEnd did not match expected value",ta3.getN(),111);
+					} else {
+						fail("Object is not a TestAnnot3");
+					}
+				}
+				
+				
 			}
 			if (association.getZEnd() == null){
 				fail("ZEnd not set");
@@ -480,6 +526,17 @@ public class PatternTest extends TestCase {
 			}
 			assertEquals("AEndType does not match", aEndType,association.getAEnd().getType().getFullyQualifiedName());
 			assertEquals("ZEndType does not match", zEndType,association.getZEnd().getType().getFullyQualifiedName());
+			
+			List<Object> test3Annos = association.getZEnd().getAnnotations(TestAnnot3.class);
+			assertEquals("Wrong number of TestAnnot3 on zEnd", 1, test3Annos.size());
+			for (Object ann : test3Annos){
+				if (ann instanceof TestAnnot3){
+					TestAnnot3 ta3 = (TestAnnot3) ann;
+					assertEquals("TestAnnot3 value on zEnd did not match expected value",ta3.getN(),222);
+				} else {
+					fail("Object is not a TestAnnot3");
+				}
+			}
 		}
 		
 		

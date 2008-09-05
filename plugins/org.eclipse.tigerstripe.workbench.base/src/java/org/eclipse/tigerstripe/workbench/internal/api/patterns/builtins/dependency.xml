@@ -7,7 +7,7 @@
 						 disabledIconPath="icons/dependency_gs.gif"
 						 index="1700"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
-                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0">
+                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
     <pattern:description>Create a new Dependency</pattern:description>
     <ts:artifact name="$user"
                  artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact"
