@@ -62,6 +62,13 @@
       </builder>
    </extension>
    <extension
+         point="org.eclipse.emf.ecore.protocol_parser">
+      <parser
+            class="org.eclipse.tigerstripe.workbench.internal.annotation.TSModuleResourceFactory"
+            protocolName="tsmodule">
+      </parser>
+   </extension>
+   <extension
          name="Tigerstripe Adapter Factories"
          point="org.eclipse.core.runtime.adapters">
       <factory

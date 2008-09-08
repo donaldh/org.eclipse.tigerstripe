@@ -18,17 +18,13 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
-import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 
 /**
  * This class is a singleton to manage the Annotations files embedded in TS
@@ -101,41 +97,14 @@ public class ModuleAnnotationManager {
 				ResourceSet set = new ResourceSetImpl();
 
 				//create archive URI
-				String uriString = "archive:file:/" + filePath + "!/" + entry.getName();
+				String uriString = "tsmodule:/" + moduleID + "/" + filePath + "!/" + entry.getName();
 				URI rr = URI.createURI(uriString);
 
 				Resource res = set.createResource(rr);
-
-				// Update URIs inside it
-				Resource updatedRes = updateURIs(res, moduleID);
-
-				result.add(updatedRes);
+				result.add(res);
 			}
 		}
 
 		return result.toArray(new Resource[result.size()]);
-	}
-
-	private Resource updateURIs(Resource originalResource, String moduleID) {
-		EList<EObject> contents = originalResource.getContents();
-
-		for (EObject obj : contents) {
-			if (obj instanceof Annotation) {
-				Annotation ann = (Annotation) obj;
-				URI originalURI = ann.getUri();
-				String[] segments = originalURI.segments();
-
-				// The first segment must be changed from being the original
-				// project name
-				// to being the module ID
-				segments[0] = moduleID;
-				URI newURI = URI.createHierarchicalURI(
-						TigerstripeURIAdapterFactory.SCHEME_TS_MODULE, null,
-						null, segments, null, originalURI.fragment());
-				ann.setUri(newURI);
-			}
-		}
-
-		return originalResource;
 	}
 }
