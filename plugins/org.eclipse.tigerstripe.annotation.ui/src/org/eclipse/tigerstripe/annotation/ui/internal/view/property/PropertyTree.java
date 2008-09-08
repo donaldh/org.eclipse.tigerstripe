@@ -54,6 +54,7 @@ public class PropertyTree {
 
     // Cell editor support.
     private int columnToEdit = 1;
+    private boolean readOnly;
 	
 	public Control create(Composite parent) {
 		tree = new Tree(parent, SWT.FULL_SELECTION | SWT.SINGLE | SWT.HIDE_SELECTION | SWT.BORDER);
@@ -73,7 +74,8 @@ public class PropertyTree {
 		return tree;
 	}
 	
-	public void setContent(EObject object) {
+	public void setContent(EObject object, boolean readOnly) {
+		this.readOnly = readOnly;
 		viewer.setInput(object);
 		setNullSelection();
 	}
@@ -250,6 +252,7 @@ public class PropertyTree {
      *            the selected tree item
      */
     private void activateCellEditor(TreeItem item) {
+    	if (readOnly) return;
         // ensure the cell editor is visible
         tree.showSelection();
         

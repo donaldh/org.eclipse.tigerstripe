@@ -178,6 +178,17 @@ public class EMFDatabase implements IEMFDatabase {
 		}
 	}
 	
+	public boolean isReadOnly(EObject object) {
+		try {
+			lockAndUpdate(false);
+			return doCheckReadOnly(object);
+		}
+		finally {
+			unlockChanges(false);
+		}
+		
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#update(org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.change.ChangeDescription)
 	 */
@@ -401,6 +412,26 @@ public class EMFDatabase implements IEMFDatabase {
 				ResourcesPlugin.log(e);
 			}
 		}
+	}
+	
+	protected boolean doCheckReadOnly(EObject object) {
+		EStructuralFeature feature = getIDFeature(object);
+		if (feature != null) {
+			EObject[] objects = doGet(feature, object.eGet(feature), false);
+			for (int i = 0; i < objects.length; i++) {
+				EObject candidate = objects[i];
+				Resource resource = candidate.eResource();
+				if (resource != null) {
+					ResourceLocation location = getResourceStorage().getLocation(resource);
+					if (location != null) {
+						Mode option = location.getOption();
+						if (Mode.READ_ONLY.equals(option))
+							return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 	
 	protected boolean doRemove(EObject object, Resource[] oldResource) {

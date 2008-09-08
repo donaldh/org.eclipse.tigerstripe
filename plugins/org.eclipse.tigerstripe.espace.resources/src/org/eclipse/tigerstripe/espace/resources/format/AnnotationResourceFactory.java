@@ -9,23 +9,19 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.espace.resources.internal.format;
+package org.eclipse.tigerstripe.espace.resources.format;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.tigerstripe.espace.resources.core.IPackageFinder;
 
 /**
  * @author Yuri Strot
  *
  */
-public class MetaResourceFactory extends XMIResourceFactoryImpl {
+public class AnnotationResourceFactory extends XMIResourceFactoryImpl {
 	
-	private IPackageFinder finder;
-	
-	public MetaResourceFactory() {
-		this.finder = PackageManager.getInstance().getPackageFinder();
+	public AnnotationResourceFactory() {
 	}
 	
 	/* (non-Javadoc)
@@ -33,7 +29,7 @@ public class MetaResourceFactory extends XMIResourceFactoryImpl {
 	 */
 	@Override
 	public Resource createResource(URI uri) {
-		return new MetaXMIResource(uri, finder);
+		return new AnnotationXMIResource(uri);
 	}
 
 }

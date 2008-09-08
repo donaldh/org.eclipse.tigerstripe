@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.4 2008/09/04 08:27:17 ystrot Exp $
+ $Id: plugin.xml,v 1.5 2008/09/08 10:08:20 ystrot Exp $
 -->
 
 <plugin>
@@ -21,7 +21,7 @@
   <extension
         point="org.eclipse.emf.ecore.extension_parser">
      <parser
-           class="org.eclipse.tigerstripe.espace.resources.internal.format.MetaResourceFactory"
+           class="org.eclipse.tigerstripe.espace.resources.format.AnnotationResourceFactory"
            type="ann"/>
   </extension>
 

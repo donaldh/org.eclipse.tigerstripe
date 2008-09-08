@@ -16,6 +16,7 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.AnnotationPropertiesSection;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
@@ -55,7 +56,8 @@ public class PropertiesSection extends AnnotationPropertiesSection {
 	 */
 	@Override
 	protected void updateSection(Annotation annotation) {
-		tree.setContent(annotation == null ? null : annotation.getContent());
+		boolean readOnly = AnnotationPlugin.getManager().isReadOnly(annotation);
+		tree.setContent(annotation == null ? null : annotation.getContent(), readOnly);
 	}
 
 }

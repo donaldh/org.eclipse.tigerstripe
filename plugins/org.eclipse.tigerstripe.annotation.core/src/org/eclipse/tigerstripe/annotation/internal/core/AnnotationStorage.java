@@ -165,6 +165,10 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 			fireAnnotationsRemoved(annotations);
 	}
 	
+	public boolean isReadOnly(Annotation annotation) {
+		return getDatabase().isReadOnly(annotation);
+	}
+	
 	protected Annotation[] doRemove(URI uri) {
 		List<Annotation> list = doGetAnnotations(uri);
 		if (list.size() > 0) {

@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.espace.resources.internal.format;
+package org.eclipse.tigerstripe.espace.resources.format;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +20,20 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.impl.XMISaveImpl;
 import org.eclipse.tigerstripe.espace.resources.core.IPackageFinder;
+import org.eclipse.tigerstripe.espace.resources.internal.format.IFormatConstants;
 
 /**
  * @author Yuri Strot
  *
  */
-public class MetaXMISave extends XMISaveImpl {
+public class AnnotationXMISave extends XMISaveImpl {
 	
 	private IPackageFinder finder;
 
 	/**
 	 * @param helper
 	 */
-	public MetaXMISave(XMLHelper helper, IPackageFinder finder) {
+	public AnnotationXMISave(XMLHelper helper, IPackageFinder finder) {
 		super(helper);
 		this.finder = finder;
 	}

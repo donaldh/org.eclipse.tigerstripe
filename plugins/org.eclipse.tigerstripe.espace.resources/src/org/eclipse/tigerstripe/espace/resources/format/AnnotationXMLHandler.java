@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.espace.resources.internal.format;
+package org.eclipse.tigerstripe.espace.resources.format;
 
 import java.util.Map;
 
@@ -18,19 +18,20 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.SAXXMIHandler;
+import org.eclipse.tigerstripe.espace.resources.internal.format.IFormatConstants;
 
 /**
  * @author Yuri Strot
  *
  */
-public class MetaXMLHandler extends SAXXMIHandler {
+public class AnnotationXMLHandler extends SAXXMIHandler {
 
 	/**
 	 * @param xmiResource
 	 * @param helper
 	 * @param options
 	 */
-	public MetaXMLHandler(XMLResource xmiResource, XMLHelper helper,
+	public AnnotationXMLHandler(XMLResource xmiResource, XMLHelper helper,
 			Map<?, ?> options) {
 		super(xmiResource, helper, options);
 	}

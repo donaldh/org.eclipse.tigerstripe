@@ -219,6 +219,11 @@ public interface IAnnotationManager {
 	public void removeAnnotations(Resource resource);
 	
 	/**
+	 * @return true, if annotation can't be modified and false otherwise
+	 */
+	public boolean isReadOnly(Annotation annotation);
+	
+	/**
 	 * Return EMF package label or null if none
 	 * 
 	 * @param pckg package

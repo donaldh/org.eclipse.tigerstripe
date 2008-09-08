@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.espace.resources.internal.format;
+package org.eclipse.tigerstripe.espace.resources.format;
 
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.impl.SAXWrapper;
@@ -21,12 +21,12 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  */
 @SuppressWarnings("deprecation")
-public class MetaXMILoad extends XMILoadImpl {
+public class AnnotationXMILoad extends XMILoadImpl {
 
 	/**
 	 * @param helper
 	 */
-	public MetaXMILoad(XMLHelper helper) {
+	public AnnotationXMILoad(XMLHelper helper) {
 		super(helper);
 	}
 	
@@ -35,7 +35,7 @@ public class MetaXMILoad extends XMILoadImpl {
 	 */
 	@Override
 	protected DefaultHandler makeDefaultHandler() {
-		return new SAXWrapper(new MetaXMLHandler(resource, helper, options));
+		return new SAXWrapper(new AnnotationXMLHandler(resource, helper, options));
 	}
 
 }

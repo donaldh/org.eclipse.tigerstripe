@@ -9,25 +9,22 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.espace.resources.internal.format;
+package org.eclipse.tigerstripe.espace.resources.format;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLSave;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
-import org.eclipse.tigerstripe.espace.resources.core.IPackageFinder;
+import org.eclipse.tigerstripe.espace.resources.internal.format.PackageManager;
 
 /**
  * @author Yuri Strot
  *
  */
-public class MetaXMIResource extends XMIResourceImpl {
+public class AnnotationXMIResource extends XMIResourceImpl {
 	
-	private IPackageFinder finder;
-	
-	public MetaXMIResource(URI uri, IPackageFinder finder) {
+	public AnnotationXMIResource(URI uri) {
 		super(uri);
-		this.finder = finder;
 	}
 	
 	/* (non-Javadoc)
@@ -35,7 +32,7 @@ public class MetaXMIResource extends XMIResourceImpl {
 	 */
 	@Override
 	protected XMLLoad createXMLLoad() {
-	    return new MetaXMILoad(createXMLHelper());
+	    return new AnnotationXMILoad(createXMLHelper());
 	}
 	
 	/* (non-Javadoc)
@@ -43,7 +40,7 @@ public class MetaXMIResource extends XMIResourceImpl {
 	 */
 	@Override
 	protected XMLSave createXMLSave() {
-		return new MetaXMISave(createXMLHelper(), finder);
+		return new AnnotationXMISave(createXMLHelper(), PackageManager.getInstance().getPackageFinder());
 	}
 
 }
