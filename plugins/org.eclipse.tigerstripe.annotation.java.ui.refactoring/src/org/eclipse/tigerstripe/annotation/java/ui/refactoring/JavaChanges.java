@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IParent;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
 
 /**
@@ -60,7 +59,7 @@ public class JavaChanges implements IElementChanges {
 		if (element instanceof IParent) {
 			IJavaElement[] children;
             try {
-	            children = ((IParent)element).getChildren();
+            	children = JavaElementTree.getChildren(element);
 	            Arrays.sort(children, new Comparator<IJavaElement>() {
 				
 					public int compare(IJavaElement o1, IJavaElement o2) {
@@ -101,7 +100,7 @@ public class JavaChanges implements IElementChanges {
 	            	collectChanges(child, elements[i], changes);
 	            }
             }
-            catch (JavaModelException e) {
+            catch (Exception e) {
 	            e.printStackTrace();
             }
 		}

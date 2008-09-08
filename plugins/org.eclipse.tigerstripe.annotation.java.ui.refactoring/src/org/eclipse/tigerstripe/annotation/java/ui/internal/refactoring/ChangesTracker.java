@@ -69,39 +69,24 @@ public class ChangesTracker {
 	}
 	
 	protected void fireDeleted(final ILazyObject path) {
-		//do not block workspace
-		new Thread() {
-			public void run() {
-				for (Object object : listeners.getListeners()) {
-					IRefactoringChangesListener listener = (IRefactoringChangesListener)object;
-					listener.deleted(path);
-				}
-			}
-		}.start();
+		for (Object object : listeners.getListeners()) {
+			IRefactoringChangesListener listener = (IRefactoringChangesListener)object;
+			listener.deleted(path);
+		}
 	}
 	
 	protected void fireChanged(final ILazyObject oldPath, final ILazyObject newPath, final int kind) {
-		//do not block workspace
-		new Thread() {
-			public void run() {
-				for (Object object : listeners.getListeners()) {
-					IRefactoringChangesListener listener = (IRefactoringChangesListener)object;
-					listener.changed(oldPath, newPath, kind);
-				}
-			}
-		}.start();
+		for (Object object : listeners.getListeners()) {
+			IRefactoringChangesListener listener = (IRefactoringChangesListener)object;
+			listener.changed(oldPath, newPath, kind);
+		}
 	}
 	
 	protected void fireMoved(final ILazyObject[] objects, final ILazyObject destination, final int kind) {
-		//do not block workspace
-		new Thread() {
-			public void run() {
-				for (Object object : listeners.getListeners()) {
-					IRefactoringChangesListener listener = (IRefactoringChangesListener)object;
-					listener.moved(objects, destination, kind);
-				}
-			}
-		}.start();
+		for (Object object : listeners.getListeners()) {
+			IRefactoringChangesListener listener = (IRefactoringChangesListener)object;
+			listener.moved(objects, destination, kind);
+		}
 	}
 	
 	protected void initializeListeners() {

@@ -80,9 +80,14 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 		}
 	}
 	
-	protected void changed(Map<URI, URI> uris) {
-		for (URI uri : uris.keySet())
-			AnnotationPlugin.getManager().getRefactoringSupport().changed(uri, uris.get(uri), false);
+	protected void changed(final Map<URI, URI> uris) {
+		new Thread() {
+			public void run() {
+				for (URI uri : uris.keySet())
+					AnnotationPlugin.getManager().getRefactoringSupport(
+							).changed(uri, uris.get(uri), false);
+			}
+		}.start();
 	}
 
 	/* (non-Javadoc)
@@ -91,9 +96,14 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 	public void deleted(ILazyObject object) {
 		IJavaElement element = getJavaElement(object);
 		if (element != null) {
-			URI uri = JavaURIConverter.toURI(element);
-			if (uri != null)
-				AnnotationPlugin.getManager().getRefactoringSupport().deleted(uri, true);
+			final URI uri = JavaURIConverter.toURI(element);
+			if (uri != null) {
+				new Thread() {
+					public void run() {
+						AnnotationPlugin.getManager().getRefactoringSupport().deleted(uri, true);
+					}
+				}.start();
+			}
 		}
 	}
 	

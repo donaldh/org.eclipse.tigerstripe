@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring;
 
+import org.eclipse.tigerstripe.annotation.core.util.ObjectUtil;
 import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
 
 /**
@@ -40,7 +41,8 @@ public class JavaLazyObject implements ILazyObject {
 	@Override
 	public boolean equals(Object obj) {
 		JavaLazyObject jzo = (JavaLazyObject)obj;
-		return project.equals(jzo.project) && path.equals(jzo.path);
+		return ObjectUtil.equals(project, jzo.project) &&
+			ObjectUtil.equals(path, jzo.path);
 	}
 	
 	/* (non-Javadoc)
@@ -48,7 +50,7 @@ public class JavaLazyObject implements ILazyObject {
 	 */
 	@Override
 	public int hashCode() {
-		return project.hashCode() >> 16 ^ path.hashCode();
+		return ObjectUtil.hashCode(project) >> 16 ^ ObjectUtil.hashCode(path);
 	}
 
 }

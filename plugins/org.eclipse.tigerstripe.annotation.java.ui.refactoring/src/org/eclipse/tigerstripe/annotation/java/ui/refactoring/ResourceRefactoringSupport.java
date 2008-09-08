@@ -75,10 +75,15 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 		}
 	}
 	
-	protected void changed(Map<URI, URI> uris) {
+	protected void changed(final Map<URI, URI> uris) {
 		//inform annotation framework about changes
-		for (URI uri : uris.keySet())
-			AnnotationPlugin.getManager().getRefactoringSupport().changed(uri, uris.get(uri), true);
+		new Thread() {
+			public void run() {
+				for (URI uri : uris.keySet())
+					AnnotationPlugin.getManager().getRefactoringSupport(
+							).changed(uri, uris.get(uri), true);
+			}
+		}.start();
 	}
 
 	/* (non-Javadoc)
@@ -87,9 +92,14 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 	public void deleted(ILazyObject object) {
 		IResource resource = getResource(object);
 		if (resource != null) {
-			URI uri = ResourceURIConverter.toURI(resource);
-			if (uri != null)
-				AnnotationPlugin.getManager().getRefactoringSupport().deleted(uri, true);
+			final URI uri = ResourceURIConverter.toURI(resource);
+			if (uri != null) {
+				new Thread() {
+					public void run() {
+						AnnotationPlugin.getManager().getRefactoringSupport().deleted(uri, true);
+					}
+				}.start();
+			}
 		}
 	}
 	
