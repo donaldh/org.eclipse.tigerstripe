@@ -3,8 +3,8 @@
 <pattern:creationPattern patternName="org.eclipse.tigerstripe.workbench.base.Association" 
 						 uiLabel="Association"
 						 patternType="relation"
-						 iconPath="icons/association_new.gif"
-						 disabledIconPath="icons/association_gs.gif"
+						 iconPath="icons/AssociationIcon-small_new.png"
+						 disabledIconPath="AssociationIcon-small_gs.png"
 						 index="1500"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
@@ -14,12 +14,12 @@
                  isAbstract="false">
                  
         <ts:associationSpecifics>
-            <ts:associationEnd name="_aEnd" end="AEnd" type="$user" multiplicity="1" 
+            <ts:associationEnd name="_aEnd" end="AEnd" type="" multiplicity="1" 
                                        aggregation="none" changeable="none" navigable="false" 
                                        ordered="false" visibility="PUBLIC"
                                        unique="false">
             </ts:associationEnd>
-            <ts:associationEnd name="_zEnd" end="ZEnd" type="$user" multiplicity="1" 
+            <ts:associationEnd name="_zEnd" end="ZEnd" type="" multiplicity="1" 
                                        aggregation="none" changeable="none" navigable="true" 
                                        ordered="false" visibility="PUBLIC"
                                        unique="false">

@@ -12,6 +12,7 @@
     <ts:artifact name="$user"
                  artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact"
                  isAbstract="false">
+                 <ts:enumerationSpecifics baseType="String"/>
 
     </ts:artifact>
 </pattern:creationPattern>

@@ -26,44 +26,23 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IFieldImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ILiteralImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IMethodImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IQueryArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl;
-import org.eclipse.tigerstripe.metamodel.impl.IUpdateProcedureArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.patterns.ArtifactPattern;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.NodePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedArtifactWizardAction;
+import org.eclipse.tigerstripe.workbench.patterns.IQueryPattern;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.dnd.ElementTypeMapper;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
 
@@ -818,19 +797,39 @@ public class TigerstripePaletteFactory {
 							Node node = (Node) desc.getAdapter(View.class);
 							AbstractArtifact createdEArtifact = (AbstractArtifact) node
 									.getElement();
+							
+							Map map = (Map) createdEArtifact.eContainer();
+							ITigerstripeModelProject project = map.getCorrespondingITigerstripeProject();
 							try {
-								IAbstractArtifact createdIArtifact = createdEArtifact
-										.getCorrespondingIArtifact();
+								//IAbstractArtifact createdIArtifact = createdEArtifact
+								//		.getCorrespondingIArtifact();
 								//System.out.println("Just created: "
 								//		+ createdIArtifact);
 								
-								ArtifactPattern artifactPattern =(ArtifactPattern) pattern;
-								System.out.println("Creating from diagram "+createdIArtifact.getName());
-								artifactPattern.executeRequests(
-										createdIArtifact.getTigerstripeProject(), 
-										createdIArtifact.getPackage(), 
-										createdIArtifact.getName(), artifactPattern.getExtendedArtifactName(), false);
-								
+								if (pattern instanceof IEnumPattern){
+									IEnumPattern enumPattern =(IEnumPattern) pattern;
+									IAbstractArtifact artifact = enumPattern.createArtifact(
+											project, 
+											createdEArtifact.getPackage(), 
+											createdEArtifact.getName(), enumPattern.getExtendedArtifactName(),
+											enumPattern.getBaseType());
+									enumPattern.addToManager(project, artifact);
+								} else if (pattern instanceof IQueryPattern){
+									IQueryPattern queryPattern =(IQueryPattern) pattern;
+									IAbstractArtifact artifact = queryPattern.createArtifact(
+											project, 
+											createdEArtifact.getPackage(), 
+											createdEArtifact.getName(), queryPattern.getExtendedArtifactName(),
+											queryPattern.getReturnType());
+									queryPattern.addToManager(project, artifact);
+								} else {
+									IArtifactPattern artifactPattern =(IArtifactPattern) pattern;
+									IAbstractArtifact artifact = artifactPattern.createArtifact(
+											project, 
+											createdEArtifact.getPackage(), 
+											createdEArtifact.getName(), artifactPattern.getExtendedArtifactName());
+									artifactPattern.addToManager(project, artifact);
+								}
 							} catch (TigerstripeException ex) {
 								ex.printStackTrace();
 							}

@@ -10,15 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 
-import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -34,46 +31,37 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.ModelChangeRequestFactory;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAnnotationAddFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactCreateRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactLinkCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodAddFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest.ECapableClass;
-import org.eclipse.tigerstripe.workbench.internal.api.patterns.Pattern.PatternAnnotation;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPatternFactory;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
-import org.eclipse.tigerstripe.workbench.patterns.IPattern.IPatternAnnotation;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.AbstractContributionFactory;
 import org.eclipse.ui.menus.CommandContributionItem;
@@ -107,6 +95,7 @@ public class PatternFactory implements IPatternFactory {
 	private static DocumentBuilder parser;
 
 	private static Integer undefined = 10000;
+	private static IArtifactManagerSession session;
 	
 	public static PatternFactory getInstance(){
 		if (instance == null){
@@ -197,7 +186,6 @@ public class PatternFactory implements IPatternFactory {
 			throw new TigerstripeException(msgText,e);
 		}
 		DOMSource patternSource = new DOMSource(patternDoc);
-
 		URL tsSchemaURL = baseBundle.getEntry(schemaLocation);
 
 		SchemaFactory scFactory = SchemaFactory
@@ -237,73 +225,79 @@ public class PatternFactory implements IPatternFactory {
 			}
 			
 			
-			
-	
-			if (patternType.equals("node")){
-				pattern = new NodePattern();
-			} else if (patternType.equals("relation")){
-				pattern = new RelationPattern();
-//			} else if (patternType.equals("composite")){
-				//TODO - Phase 2 
-				// Support composite Patterns to create several Artifacts in one go
-			} else {
-				throw new TigerstripeException("Invalid pattern Type in Extension Point");
-			}
-
-			
-			
-			
-			pattern.setName(patternName);
-			pattern.setUILabel(uiLabel);
-			pattern.setDescription(description);
-			
-			URL url = bundle.getResource(iconPath);
-			if (url == null){
-				// We may need  to look in the metamodel plugin for this one!
-				Bundle uiBundle = Platform.getBundle("org.eclipse.tigerstripe.metamodel");
-				if (uiBundle != null){
-					url = uiBundle.getResource(iconPath);
-				}
-			}
-			
-			pattern.setIconURL(url);
-			pattern.setIconPath(iconPath);
-			
-			URL disabledUrl = bundle.getResource(disabledIconPath);
-			if (disabledUrl == null){
-				// We may need  to look in the metamodel plugin for this one!
-				Bundle uiBundle = Platform.getBundle("org.eclipse.tigerstripe.metamodel");
-				if (uiBundle != null){
-					disabledUrl = uiBundle.getResource(disabledIconPath);
-				}
-			}
-			
-			pattern.setDisabledIconURL(disabledUrl);
-			pattern.setDisabledIconPath(disabledIconPath);
-			
-			if (patternElement.hasAttribute("index") && patternElement.getAttribute("index").length() != 0){
-				pattern.setIndex(Integer.parseInt(patternElement.getAttribute("index")));
-			} else {
-				pattern.setIndex(undefined);
-			}
+			// ===============================================================
+			// This is where we decide which sort it is....
+			// =============================================================== 
 			
 			try {
 				// For a composite we can get several artifacts, so each one will go in a 
 				// seperate ArtifactPatterns and be assembled in the composite.
-				if (pattern instanceof NodePattern || pattern instanceof RelationPattern){
+				if (patternType.equals("node") || patternType.equals("relation")){
 					NodeList artifactNodes = patternDoc.getElementsByTagNameNS(tigerstripeNamespace,"artifact");
 					if (artifactNodes.getLength() != 1){
 						throw new TigerstripeException("Too many Artifacts in a Node or Relation pattern");
 					} else {
 						for (int an = 0; an < artifactNodes.getLength(); an++) {
 							Element artifactElement = (Element) artifactNodes.item(an);
-							singleArtifactPattern(pattern, artifactElement);
+							String artifactType = xmlParserUtils.getArtifactType(artifactElement);
+							// Need to examine the subtype of Artifact pattern
+							if (artifactType.equals(IEnumArtifact.class.getName())){
+								pattern = new EnumPattern();
+							} else if (artifactType.equals(IQueryArtifact.class.getName())){
+								pattern = new QueryPattern();
+							} else if (patternType.equals("relation")){
+								pattern = new RelationPattern();
+							} else {
+								pattern = new NodePattern();
+							}
+							
+							((ArtifactPattern) pattern).setParserUtils(xmlParserUtils);
+							((ArtifactPattern) pattern).setElement(artifactElement);
+							
+							
+
 						}
 					}
+				} else if (patternType.equals("composite")){
+					//TODO - Phase 2 
+					// Support composite Patterns to create several Artifacts in one go
 				} else {
-					// We can add "subPatterns" to a CompositePattern
+					throw new TigerstripeException("Invalid pattern Type in Extension Point");
 				}
-			
+				
+				pattern.setName(patternName);
+				pattern.setUILabel(uiLabel);
+				pattern.setDescription(description);
+				
+				URL url = bundle.getResource(iconPath);
+				if (url == null){
+					// We may need  to look in the metamodel plugin for this one!
+					Bundle uiBundle = Platform.getBundle("org.eclipse.tigerstripe.metamodel");
+					if (uiBundle != null){
+						url = uiBundle.getResource(iconPath);
+					}
+				}
+				
+				pattern.setIconURL(url);
+				pattern.setIconPath(iconPath);
+				
+				URL disabledUrl = bundle.getResource(disabledIconPath);
+				if (disabledUrl == null){
+					// We may need  to look in the metamodel plugin for this one!
+					Bundle uiBundle = Platform.getBundle("org.eclipse.tigerstripe.metamodel");
+					if (uiBundle != null){
+						disabledUrl = uiBundle.getResource(disabledIconPath);
+					}
+				}
+				
+				pattern.setDisabledIconURL(disabledUrl);
+				pattern.setDisabledIconPath(disabledIconPath);
+				
+				if (patternElement.hasAttribute("index") && patternElement.getAttribute("index").length() != 0){
+					pattern.setIndex(Integer.parseInt(patternElement.getAttribute("index")));
+				} else {
+					pattern.setIndex(undefined);
+				}
 				
 			} catch (Exception e){
 				// This means we failed to create the proper request
@@ -312,361 +306,8 @@ public class PatternFactory implements IPatternFactory {
 		}
 		return pattern;
 	}
+	
 
-	private static void singleArtifactPattern(Pattern pattern,Element artifactElement ) throws TigerstripeException {
-			
-		
-		ArtifactPattern artifactPattern = (ArtifactPattern) pattern;
-		
-		String artifactType = xmlParserUtils.getArtifactType(artifactElement);
-		artifactPattern.setTargetArtifactType(artifactType);
-
-		if (artifactElement.hasAttribute("extendedArtifact")){
-			artifactPattern.setExtendedArtifactname(artifactElement.getAttribute("extendedArtifact"));
-		}
-
-		if (pattern instanceof INodePattern){
-			addNodeRequests(pattern,artifactElement, artifactType);
-		} else if (pattern instanceof IRelationPattern){
-			addLinkRequests(pattern,artifactElement, artifactType);
-		}
-		String commentText = xmlParserUtils.getComment(artifactElement);
-		if (commentText != null){
-			IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
-			setRequest.setFeatureId(IArtifactSetFeatureRequest.COMMENT_FEATURE);
-			setRequest.setFeatureValue(commentText);
-			pattern.requests.add(setRequest);
-		}
-		// Optional attributes
-		if (artifactElement.hasAttribute("isAbstract")){
-			IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
-			setRequest.setFeatureId(IArtifactSetFeatureRequest.ISABSTRACT_FEATURE);
-			setRequest.setFeatureValue(artifactElement.getAttribute("isAbstract"));
-			pattern.requests.add(setRequest);
-		}
-		// artifact Stereotypes
-		Collection<IStereotypeInstance> stereotypeInstances = xmlParserUtils.getStereotypes(artifactElement, "stereotypes");
-		if ( stereotypeInstances.size()>0){
-			for (IStereotypeInstance instance : stereotypeInstances){
-				IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
-				stereotypeAddRequest.setCapableClass(ECapableClass.ARTIFACT);
-				stereotypeAddRequest.setFeatureValue(instance);
-				pattern.requests.add(stereotypeAddRequest);
-			}
-		}
-
-		addAnnotations(pattern,artifactElement,"");
-		addComponentRequests(pattern,artifactElement);
-
-
-	}
-
-	private static void addAnnotations(Pattern pattern,Element element, String target)throws TigerstripeException{
-		// artifact Annotations
-		Collection<EObject> annotationContents = xmlParserUtils.getAnnotations(element);
-		if ( annotationContents.size()>0){
-			for (EObject anno : annotationContents){
-				IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
-				annotationRequest.setTarget(target);
-				annotationRequest.setContent(anno);
-				pattern.requests.add(annotationRequest);
-			}
-		}
-	}
-	
-	
-	private static ArrayList<String> fieldCreateFeatures = new ArrayList<String>(Arrays.asList(
-			IAttributeSetRequest.NAME_FEATURE,
-			IAttributeSetRequest.TYPE_FEATURE,
-			IAttributeSetRequest.MULTIPLICITY_FEATURE));
-	
-	private static ArrayList<String> literalCreateFeatures = new ArrayList<String>(Arrays.asList(
-			ILiteralSetRequest.NAME_FEATURE,
-			ILiteralSetRequest.TYPE_FEATURE,
-			ILiteralSetRequest.VALUE_FEATURE));
-	
-	private static ArrayList<String> methodCreateFeatures = new ArrayList<String>(Arrays.asList(
-			IMethodSetRequest.NAME_FEATURE,
-			IMethodSetRequest.TYPE_FEATURE,
-			IMethodSetRequest.MULTIPLICITY_FEATURE));
-	
-	private static ArrayList<String> methodAddFeatures = new ArrayList<String>(Arrays.asList(
-			IMethodAddFeatureRequest.EXCEPTIONS_FEATURE,
-			IMethodAddFeatureRequest.ARGUMENTS_FEATURE));
-	
-	/**
-	 * This takes the artifactElement and generates a whole series of Modify actions.
-	 * These are all items that have NO inputs from the UI.
-	 * 
-	 * @param pattern
-	 * @param artifactElement
-	 */
-	private static void addComponentRequests(Pattern pattern, Element artifactElement)throws TigerstripeException {
-		
-		//TODO  Stereotypes. Annotations.
-		
-		// Do the fields
-		Collection<Map<String,Object>> allFieldData = xmlParserUtils.getArtifactFieldData(artifactElement);
-		for (Map<String,Object> fieldData : allFieldData){
-			// Create the createRequest
-			IAttributeCreateRequest createRequest =(IAttributeCreateRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ATTRIBUTE_CREATE);
-			createRequest.setAttributeName((String) fieldData.get(IAttributeSetRequest.NAME_FEATURE));
-			createRequest.setAttributeType((String) fieldData.get(IAttributeSetRequest.TYPE_FEATURE));
-			createRequest.setAttributeMultiplicity((String) fieldData.get(IAttributeSetRequest.MULTIPLICITY_FEATURE));
-			pattern.requests.add(createRequest);
-			// iterate over other features
-			for (String feature : fieldData.keySet()){
-				if (feature.equals(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE)){
-					IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
-					annotationRequest.setTarget((String) fieldData.get(IAttributeSetRequest.NAME_FEATURE));
-					annotationRequest.setContent((EObject) fieldData.get(feature));
-					pattern.requests.add(annotationRequest);
-				} else if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
-					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
-					stereotypeAddRequest.setCapableClass(ECapableClass.FIELD);
-					stereotypeAddRequest.setCapableName((String) fieldData.get(IAttributeSetRequest.NAME_FEATURE));
-					stereotypeAddRequest.setFeatureValue((IStereotypeInstance) fieldData.get(feature));
-					pattern.requests.add(stereotypeAddRequest);
-				} else if (!fieldCreateFeatures.contains(feature)){
-					IAttributeSetRequest setRequest =(IAttributeSetRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ATTRIBUTE_SET);
-					setRequest.setAttributeName((String) fieldData.get(IAttributeSetRequest.NAME_FEATURE));
-					setRequest.setFeatureId(feature);
-					setRequest.setNewValue((String) fieldData.get(feature));
-					pattern.requests.add(setRequest);
-				}
-			}
-
-			// field Annotations
-			
-		}
-		
-		
-		// Do the literals
-		Collection<Map<String,Object>> allLiteralData = xmlParserUtils.getArtifactLiteralData(artifactElement);
-		for (Map<String,Object> literalData : allLiteralData){
-			// Create the createRequest
-			ILiteralCreateRequest createRequest =(ILiteralCreateRequest)requestFactory.makeRequest(IModelChangeRequestFactory.LITERAL_CREATE);
-			createRequest.setLiteralName((String) literalData.get(ILiteralSetRequest.NAME_FEATURE));
-			createRequest.setLiteralType((String) literalData.get(ILiteralSetRequest.TYPE_FEATURE));
-			createRequest.setLiteralValue((String) literalData.get(ILiteralSetRequest.VALUE_FEATURE));
-			pattern.requests.add(createRequest);
-			// iterate over other features
-			for (String feature : literalData.keySet()){
-				if (feature.equals(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE)){
-					IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
-					annotationRequest.setTarget((String) literalData.get(IAttributeSetRequest.NAME_FEATURE));
-					annotationRequest.setContent((EObject) literalData.get(feature));
-					pattern.requests.add(annotationRequest);
-				} else if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
-					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
-					stereotypeAddRequest.setCapableClass(ECapableClass.LITERAL);
-					stereotypeAddRequest.setCapableName((String) literalData.get(ILiteralSetRequest.NAME_FEATURE));
-					stereotypeAddRequest.setFeatureValue((IStereotypeInstance) literalData.get(feature));
-					pattern.requests.add(stereotypeAddRequest);
-				} else	if (!literalCreateFeatures.contains(feature)){
-					ILiteralSetRequest setRequest =(ILiteralSetRequest)requestFactory.makeRequest(IModelChangeRequestFactory.LITERAL_SET);
-					setRequest.setLiteralName((String) literalData.get(ILiteralSetRequest.NAME_FEATURE));
-					setRequest.setFeatureId(feature);
-					setRequest.setNewValue((String) literalData.get(feature));
-					pattern.requests.add(setRequest);
-				}
-			}
-		}
-		
-		// Do the methods
-		Collection<Map<String,Object>> allmethodData = xmlParserUtils.getArtifactMethodData(artifactElement);
-		for (Map<String,Object> methodData : allmethodData){
-			// Create the createRequest
-			IMethodCreateRequest createRequest =(IMethodCreateRequest)requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_CREATE);
-			createRequest.setMethodName((String) methodData.get(IMethodSetRequest.NAME_FEATURE));
-			createRequest.setMethodType((String) methodData.get(IMethodSetRequest.TYPE_FEATURE));
-			createRequest.setMethodMultiplicity((String) methodData.get(IMethodSetRequest.MULTIPLICITY_FEATURE));
-			pattern.requests.add(createRequest);
-			// Now any "Add" features -
-			//ARGUMENTS
-			if (methodData.containsKey(IMethodAddFeatureRequest.ARGUMENTS_FEATURE)){
-				Collection<Map<String,Object>> allArgumentData = (Collection<Map<String,Object>>) methodData.get(IMethodAddFeatureRequest.ARGUMENTS_FEATURE);
-				int argumentPostion = 0;
-				for (Map<String,Object> argumentData : allArgumentData){
-					for (String feature : argumentData.keySet()){
-						if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
-							IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
-							stereotypeAddRequest.setCapableClass(ECapableClass.METHODARGUMENT);
-							stereotypeAddRequest.setArgumentPosition(argumentPostion);
-							stereotypeAddRequest.setFeatureValue((IStereotypeInstance) argumentData.get(feature));
-							pattern.requests.add(stereotypeAddRequest);
-						} else {
-							IMethodAddFeatureRequest addRequest = (IMethodAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_ADD_FEATURE);
-							addRequest.setFeatureId(feature);
-							addRequest.setNewValue((String) argumentData.get(feature));
-							addRequest.setArgumentPosition(argumentPostion);
-							pattern.requests.add(addRequest);
-					}
-				}
-				argumentPostion++;
-				}
-			}
-			//EXCEPTIONS
-			if (methodData.containsKey(IMethodAddFeatureRequest.EXCEPTIONS_FEATURE)){
-				Collection<String> exceptions = (Collection<String>) methodData.get(IMethodAddFeatureRequest.EXCEPTIONS_FEATURE);
-				for (String exceptionName : exceptions){
-					IMethodAddFeatureRequest addRequest = (IMethodAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_ADD_FEATURE);
-					addRequest.setFeatureId(IMethodAddFeatureRequest.EXCEPTIONS_FEATURE);
-					addRequest.setNewValue(exceptionName);
-					pattern.requests.add(addRequest);
-				}
-			}
-			
-			
-			// iterate over other features
-			for (String feature : methodData.keySet()){
-
-				if (feature.equals(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE)){
-					IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_ANNOTATION_ADD);
-					annotationRequest.setTarget((String) methodData.get(IMethodSetRequest.NAME_FEATURE));
-					annotationRequest.setContent((EObject) methodData.get(feature));
-					pattern.requests.add(annotationRequest);
-				} else if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
-					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
-					stereotypeAddRequest.setCapableClass(ECapableClass.METHOD);
-					//stereotypeAddRequest.setCapableName((String) methodData.get(IMethodSetRequest.NAME_FEATURE));
-					stereotypeAddRequest.setFeatureValue((IStereotypeInstance) methodData.get(feature));
-					pattern.requests.add(stereotypeAddRequest);
-				} else if (feature.equals(IStereotypeAddFeatureRequest.RETURN_STEREOTYPE_FEATURE)){
-					IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
-					stereotypeAddRequest.setCapableClass(ECapableClass.METHODRETURN);
-					stereotypeAddRequest.setCapableName((String) methodData.get(IMethodSetRequest.NAME_FEATURE));
-					stereotypeAddRequest.setFeatureValue((IStereotypeInstance) methodData.get(feature));
-					pattern.requests.add(stereotypeAddRequest);
-				} else	if (!methodCreateFeatures.contains(feature) && !methodAddFeatures.contains(feature)){
-					IMethodSetRequest setRequest =(IMethodSetRequest)requestFactory.makeRequest(IModelChangeRequestFactory.METHOD_SET);	
-					// Note we can't set the *LABEL* here as it may be changing as we go along
-					setRequest.setFeatureId(feature);
-					setRequest.setNewValue((String) methodData.get(feature));
-					pattern.requests.add(setRequest);
-				}
-			}
-		}
-	}
-	
-	
-	private static void addNodeRequests(Pattern pattern, Element artifactElement, String artifactType)throws TigerstripeException {
-		IArtifactCreateRequest createRequest = (IArtifactCreateRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_CREATE);
-		createRequest.setArtifactType(artifactType);
-		pattern.requests.add(createRequest);
-		if (artifactType.equals(IManagedEntityArtifact.class.getName())){
-			addImplementsRequests(pattern, artifactElement);
-		}
-		if (artifactType.equals(IEnumArtifact.class.getName())){
-			addBaseTypeRequest(pattern, artifactElement);
-		}
-		if (artifactType.equals(IQueryArtifact.class.getName())){
-			addReturnTypeRequest(pattern, artifactElement);
-		}
-	}
-	
-	private static void addImplementsRequests(Pattern pattern, Element artifactElement)throws TigerstripeException {
-		Collection<String> implementsData = xmlParserUtils.getArtifactImplementsData(artifactElement);
-		for (String implemented : implementsData){
-			IArtifactAddFeatureRequest addRequest = (IArtifactAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_ADD_FEATURE);
-			addRequest.setFeatureId(IArtifactAddFeatureRequest.IMPLEMENTS_FEATURE);
-			addRequest.setFeatureValue(implemented);
-			pattern.requests.add(addRequest);
-		}
-		
-	}
-	
-	private static void addBaseTypeRequest(Pattern pattern, Element artifactElement)throws TigerstripeException {
-		String baseType = xmlParserUtils.getBaseType(artifactElement);
-		if (baseType != null){
-			IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
-			setRequest.setFeatureId(IArtifactSetFeatureRequest.BASE_TYPE);
-			setRequest.setFeatureValue(baseType);
-			pattern.requests.add(setRequest);
-		}
-		
-	}
-	
-	private static void addReturnTypeRequest(Pattern pattern, Element artifactElement)throws TigerstripeException {
-		String returnType = xmlParserUtils.getReturnType(artifactElement);
-		if (returnType != null){
-			IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
-			setRequest.setFeatureId(IArtifactSetFeatureRequest.RETURNED_TYPE);
-			setRequest.setFeatureValue(returnType);
-			pattern.requests.add(setRequest);
-		}
-		
-	}
-	private static ArrayList<String> endCreateFeatures = new ArrayList<String>(Arrays.asList(
-			IArtifactSetFeatureRequest.AENDMULTIPLICITY,
-			IArtifactSetFeatureRequest.AENDNAVIGABLE,
-			IArtifactSetFeatureRequest.ZENDMULTIPLICITY,
-			IArtifactSetFeatureRequest.ZENDNAVIGABLE,
-			IArtifactSetFeatureRequest.AEND,
-			IArtifactSetFeatureRequest.ZEND,
-			IArtifactSetFeatureRequest.AENDType,
-			IArtifactSetFeatureRequest.ZENDType));
-	/**
-	 * This takes the artifactElement and generates a LINK request then some set SET actions.
-	 * For the ends.
-	 * 
-	 * @param pattern
-	 * @param artifactElement
-	 */
-	private static void addLinkRequests(Pattern pattern, Element artifactElement,String artifactType)throws TigerstripeException {
-		
-		RelationPattern artifactPattern = (RelationPattern) pattern;
-		Map<String,Object> endData = xmlParserUtils.getArtifactEndData(artifactElement);
-		String aEndType = (String)endData.get(IArtifactSetFeatureRequest.AENDType);
-		String zEndType = (String)endData.get(IArtifactSetFeatureRequest.ZENDType);
-		if (! "".equals(aEndType)){
-			artifactPattern.setAEndType(aEndType);
-		}
-		if (! "".equals(zEndType)){
-			artifactPattern.setZEndType(zEndType);
-		}
-		
-
-		IArtifactLinkCreateRequest createRequest =(IArtifactLinkCreateRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACTLINK_CREATE);
-		createRequest.setArtifactType(artifactType);
-		createRequest.setAEndMultiplicity ((String) endData.get(IArtifactSetFeatureRequest.AENDMULTIPLICITY));
-		createRequest.setZEndMultiplicity ((String) endData.get(IArtifactSetFeatureRequest.ZENDMULTIPLICITY));
-		createRequest.setAEndNavigability (Boolean.parseBoolean((String)endData.get(IArtifactSetFeatureRequest.AENDNAVIGABLE)));
-		createRequest.setZEndNavigability (Boolean.parseBoolean((String) endData.get(IArtifactSetFeatureRequest.ZENDNAVIGABLE)));
-		pattern.requests.add(createRequest);
-		for (String feature : endData.keySet()){
-			
-			if (feature.equals(IAnnotationAddFeatureRequest.AEND_ANNOTATION_FEATURE)){
-				IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
-				annotationRequest.setTarget((String) endData.get(IArtifactSetFeatureRequest.AEND));
-				annotationRequest.setContent((EObject) endData.get(feature));
-				pattern.requests.add(annotationRequest);
-			} else if (feature.equals(IAnnotationAddFeatureRequest.ZEND_ANNOTATION_FEATURE)){
-				IAnnotationAddFeatureRequest annotationRequest = (IAnnotationAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.ANNOTATION_ADD);
-				annotationRequest.setTarget((String) endData.get(IArtifactSetFeatureRequest.ZEND));
-				annotationRequest.setContent((EObject) endData.get(feature));
-				pattern.requests.add(annotationRequest);
-			} else if (feature.equals(IStereotypeAddFeatureRequest.AEND_STEREOTYPE_FEATURE)){
-				IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
-				stereotypeAddRequest.setCapableClass(ECapableClass.AEND);
-				stereotypeAddRequest.setFeatureValue((IStereotypeInstance) endData.get(feature));
-				pattern.requests.add(stereotypeAddRequest);
-			} else if (feature.equals(IStereotypeAddFeatureRequest.ZEND_STEREOTYPE_FEATURE)){
-				IStereotypeAddFeatureRequest stereotypeAddRequest = (IStereotypeAddFeatureRequest) requestFactory.makeRequest(IModelChangeRequestFactory.STEREOTYPE_ADD);
-				stereotypeAddRequest.setCapableClass(ECapableClass.ZEND);
-				stereotypeAddRequest.setFeatureValue((IStereotypeInstance) endData.get(feature));
-				pattern.requests.add(stereotypeAddRequest);
-			} else if (!endCreateFeatures.contains(feature)){
-				IArtifactSetFeatureRequest setRequest =(IArtifactSetFeatureRequest)requestFactory.makeRequest(IModelChangeRequestFactory.ARTIFACT_SET_FEATURE);
-				setRequest.setFeatureId(feature);
-				setRequest.setFeatureValue((String) endData.get(feature));
-				pattern.requests.add(setRequest);
-			}
-		}
-		
-	}
-
-	
 	public IPattern getPattern(String patternName) {
 		if (getRegisteredPatterns().keySet().contains(patternName)){
 			return getRegisteredPatterns().get(patternName);
@@ -701,6 +342,8 @@ public class PatternFactory implements IPatternFactory {
 	
 	
 	
+	
+
 	public static void addPatternMenuContribution() {
 		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench()
 		.getService(IMenuService.class);

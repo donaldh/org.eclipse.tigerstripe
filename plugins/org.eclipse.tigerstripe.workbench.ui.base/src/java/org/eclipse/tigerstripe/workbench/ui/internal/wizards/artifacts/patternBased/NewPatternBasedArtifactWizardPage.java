@@ -80,7 +80,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IQueryPattern;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -376,8 +378,8 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 			createReturnType = true;
 		}
 
-		//createArtifactControls(composite, nColumns, createExtends, createBaseType, createReturnType);
-		createArtifactControls(composite, nColumns, createExtends, false, false);
+		createArtifactControls(composite, nColumns, createExtends, createBaseType, createReturnType);
+		//createArtifactControls(composite, nColumns, createExtends, false, false);
 	}
 
 	protected void createArtifactControls(Composite composite, int nColumns,
@@ -948,6 +950,16 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 			this.extendedClassDialogField.setText(extended);
 		}
 		
+		if (this.pattern instanceof IEnumPattern){
+			String baseType = ((IEnumPattern) this.pattern).getBaseType();
+			this.baseEnumType.selectItem(baseType);
+		}
+		
+		if (this.pattern instanceof IQueryPattern){
+			String returnedType = ((IQueryPattern) this.pattern).getReturnType();
+			this.returnedTypeClassDialogField.setText(returnedType);
+		}
+		
 		try {
 			TSRuntimeContext context = getTSRuntimeContext();
 			ITigerstripeModelProject project = context.getProjectHandle();
@@ -972,6 +984,14 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		}
 	}
 
+	public String getBaseType(){
+		return baseEnumType.getText();
+	}
+	
+	public String getReturnType(){
+		return returnedTypeClassDialogField.getText();
+	}
+	
 	/**
 	 * Returns the content of the superclass input field.
 	 * 

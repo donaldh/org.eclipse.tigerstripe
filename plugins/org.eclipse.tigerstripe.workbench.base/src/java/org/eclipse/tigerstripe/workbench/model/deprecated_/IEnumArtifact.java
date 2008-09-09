@@ -36,6 +36,9 @@ public interface IEnumArtifact extends IAbstractArtifact {
 	 * @param type
 	 */
 	public void setBaseType(IType type);
+	
+	
+	public IType getBaseType();
 
 	/**
 	 * Return a string of the base type for this Enumeration Artifact.

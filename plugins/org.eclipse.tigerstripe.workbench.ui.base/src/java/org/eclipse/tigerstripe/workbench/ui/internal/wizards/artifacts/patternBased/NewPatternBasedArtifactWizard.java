@@ -29,8 +29,11 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IQueryPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
@@ -83,26 +86,43 @@ public abstract class NewPatternBasedArtifactWizard extends NewTSElementWizard {
 			aEnd = ((NewRelationPatternBasedWizardPage)mainPage).getAendTypeClass();
 			zEnd = ((NewRelationPatternBasedWizardPage)mainPage).getZendTypeClass();
 		}
-
+		
+		
 		final String aEndType = aEnd;
 		final String zEndType = zEnd;
+		final String baseType = mainPage.getBaseType();
+		final String returnType = mainPage.getReturnType();
 
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor)
 			throws InvocationTargetException {
 				try {
-					if (patt instanceof INodePattern){
-						((INodePattern) patt).executeRequests(project, 
+					if (patt instanceof IEnumPattern){
+						IAbstractArtifact artifact = ((IEnumPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
-								extendedArtifact, true);
+								extendedArtifact, baseType);
+						((INodePattern) patt).addToManager(project,artifact);
+					} else if (patt instanceof IQueryPattern){
+						IAbstractArtifact artifact = ((IQueryPattern) patt).createArtifact(project, 
+								packageName, 
+								artifactName, 
+								extendedArtifact, returnType);
+						((INodePattern) patt).addToManager(project,artifact);
+					} else if (patt instanceof INodePattern){
+						IAbstractArtifact artifact = ((INodePattern) patt).createArtifact(project, 
+								packageName, 
+								artifactName, 
+								extendedArtifact);
+						((INodePattern) patt).addToManager(project,artifact);
 					} else if (patt instanceof IRelationPattern){
-						((IRelationPattern) patt).executeRequests(project, 
+						IAbstractArtifact artifact = ((IRelationPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact,
 								aEndType,
-								zEndType, true);
+								zEndType);
+						((IRelationPattern) patt).addToManager(project,artifact);
 					}
 				} catch (Exception e) {
 					throw new InvocationTargetException(e);

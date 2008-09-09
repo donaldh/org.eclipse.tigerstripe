@@ -138,6 +138,9 @@ public class TigerstripeCore {
 			throws TigerstripeException {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IResource tsContainer = root.findMember(new Path(name));
+		if (tsContainer == null){
+			return null;
+		}
 		IPath path = tsContainer.getLocation();
 		return findProject(path);
 	}
@@ -149,7 +152,7 @@ public class TigerstripeCore {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public IAbstractTigerstripeProject[] allProjects()
+	public static IAbstractTigerstripeProject[] allProjects()
 			throws TigerstripeException {
 		List<IAbstractTigerstripeProject> allProjects = new ArrayList<IAbstractTigerstripeProject>();
 

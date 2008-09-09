@@ -3,8 +3,8 @@
 <pattern:creationPattern patternName="org.eclipse.tigerstripe.workbench.base.Dependency" 
 						 uiLabel="Dependency"
 						 patternType="relation"
-						 iconPath="icons/dependency_new.gif"
-						 disabledIconPath="icons/dependency_gs.gif"
+						 iconPath="icons/DependencyIcon-small_new.png"
+						 disabledIconPath="icons/DependencyIcon-small_gs.png"
 						 index="1700"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
@@ -13,6 +13,6 @@
                  artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact"
                  isAbstract="false">
                  
-        <ts:dependencySpecifics aEndTypeName="$user" zEndTypeName="$user"/>
+        <ts:dependencySpecifics aEndTypeName="" zEndTypeName=""/>
     </ts:artifact>
 </pattern:creationPattern>

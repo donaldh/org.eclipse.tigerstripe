@@ -11,36 +11,12 @@
 package org.eclipse.tigerstripe.workbench.patterns;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.w3c.dom.Element;
 
-public interface IArtifactPattern extends IPattern{
+public interface IEnumPattern extends INodePattern {
 
-	public void setParserUtils(TigerstripeXMLParserUtils utils);
-	
-	public void setElement(Element artifactElement);
-	
-	/**
-	 * The type of the Artifact to create.
-	 * This is used to drive aspects of the wizard
-	 * @return
-	 */
-	public String getTargetArtifactType();
-
-	/**
-	 * The proposed name from the pattern file (if any)
-	 * @return
-	 */
-	public String getArtifactName();
-	
-	/**
-	 * The extended class from the pattern file (if any)
-	 * @return
-	 */
-	public String getExtendedArtifactName();
-	
+	public String getBaseType();
 	
 	/** 
 	 * Create and return an artifact that matches the pattern
@@ -53,14 +29,6 @@ public interface IArtifactPattern extends IPattern{
 	 * @throws TigerstripeException
 	 */
 	public IAbstractArtifact createArtifact(ITigerstripeModelProject project,
-			String packageName, String artifactName, String extendedArtifactName)  throws TigerstripeException ;
-	
-	/**
-	 * Convenience method for adding the created artifact to a manager.
-	 * @param project
-	 * @param artifact
-	 * @throws TigerstripeException
-	 */
-	public void addToManager(ITigerstripeModelProject project, IAbstractArtifact artifact) throws TigerstripeException;
+			String packageName, String artifactName, String extendedArtifactName, String baseType)  throws TigerstripeException ;
 	
 }

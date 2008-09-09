@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.patterns;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public interface IRelationPattern extends IArtifactPattern{
@@ -18,8 +20,12 @@ public interface IRelationPattern extends IArtifactPattern{
 	
 	public String getZEndType();
 	
-	public void executeRequests(ITigerstripeModelProject project,
-			String packageName, String artifactName, String extendedArtifact,
-			String aEndType, String zEndType, boolean createAndSet);
+	public IAbstractArtifact createArtifact(ITigerstripeModelProject project,
+			String packageName, String artifactName, String extendedArtifactName,
+			String aEndType, String zEndType)  throws TigerstripeException ;
+	
+//	public void executeRequests(ITigerstripeModelProject project,
+//			String packageName, String artifactName, String extendedArtifact,
+//			String aEndType, String zEndType, boolean createAndSet);
 	
 }

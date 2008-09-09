@@ -28,12 +28,14 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereo
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
@@ -130,7 +132,9 @@ public class PatternTest extends TestCase {
 		String entityName = "mynewEnumeration";
 		String patternname = "org.eclipse.tigerstripe.workbench.base.Enumeration";
 
-		testNodePatternArtifact( patternname, targetPackage,  entityName);
+		testEnumPatternArtifact( patternname, targetPackage,  entityName, "String");
+		
+		
 
 	}
 	public void testEventArtifactPattern() throws Exception {
@@ -224,11 +228,14 @@ public class PatternTest extends TestCase {
 
 	}
 	
-	private void testNodePatternArtifact(String patternname,String targetPackage, String entityName) throws Exception{
+	private IAbstractArtifact testNodePatternArtifact(String patternname,String targetPackage, String entityName) throws Exception{
 		IPattern pattern = PatternFactory.getInstance().getPattern(patternname);
 		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
 		INodePattern mePattern = (INodePattern) pattern;
-		mePattern.executeRequests(project, targetPackage, entityName, "",true);
+		//mePattern.executeRequests(project, targetPackage, entityName, "",true);
+		
+		IAbstractArtifact artifact = mePattern.createArtifact(project, targetPackage, entityName, "");
+		mePattern.addToManager(project, artifact);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
@@ -241,17 +248,53 @@ public class PatternTest extends TestCase {
 		assertTrue("Name doesn't match ", created.getName().equals(entityName));
 		assertTrue("FQN doesn't match " + fqn, created
 				.getFullyQualifiedName().equals(fqn));
+		
+		
+		
 		assertFalse(created.isAbstract());
 		assertTrue(created.getFields().isEmpty());
 		assertTrue(created.getLiterals().isEmpty());
 		assertTrue(created.getMethods().isEmpty());
+		return created;
 	}
 
+	private IAbstractArtifact testEnumPatternArtifact(String patternname,String targetPackage, String entityName,String baseType) throws Exception{
+		IPattern pattern = PatternFactory.getInstance().getPattern(patternname);
+		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
+		IEnumPattern mePattern = (IEnumPattern) pattern;
+		
+		IAbstractArtifact artifact = mePattern.createArtifact(project, targetPackage, entityName, "",baseType);
+		mePattern.addToManager(project, artifact);
+		
+		IArtifactManagerSession mgrSession = project
+			.getArtifactManagerSession();
+		String fqn = targetPackage+"."+entityName;
+		IAbstractArtifact created = mgrSession
+				.getArtifactByFullyQualifiedName(fqn);
+
+		assertNotNull("Failed to retrieve artifact for Mgr Session",
+				created);
+		assertTrue("Name doesn't match ", created.getName().equals(entityName));
+		assertTrue("FQN doesn't match " + fqn, created
+				.getFullyQualifiedName().equals(fqn));
+		
+		IEnumArtifact enumArtifact = (IEnumArtifact) created;
+		assertEquals("Enum Base Type does not match", "String",enumArtifact.getBaseTypeStr());
+		
+		assertFalse(created.isAbstract());
+		assertTrue(created.getFields().isEmpty());
+		assertTrue(created.getLiterals().isEmpty());
+		assertTrue(created.getMethods().isEmpty());
+		return created;
+	}
+	
 	private void testRelationPatternArtifact(String patternname,String targetPackage, String entityName, String aEndType, String zEndType) throws Exception{
 		IPattern pattern = PatternFactory.getInstance().getPattern(patternname);
 		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
 		IRelationPattern mePattern = (IRelationPattern) pattern;
-		mePattern.executeRequests(project, targetPackage, entityName, "",aEndType,zEndType,true);
+		//mePattern.executeRequests(project, targetPackage, entityName, "",aEndType,zEndType,true);
+		IAbstractArtifact artifact =  mePattern.createArtifact(project, targetPackage, entityName, "",aEndType,zEndType);
+		mePattern.addToManager(project, artifact);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
@@ -312,7 +355,10 @@ public class PatternTest extends TestCase {
 		IPattern pattern = PatternFactory.getInstance().getPattern(patternname);
 		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
 		INodePattern mePattern = (INodePattern) pattern;
-		mePattern.executeRequests(project, targetPackage, entityName, extendedArtifact,true);
+		//mePattern.executeRequests(project, targetPackage, entityName, extendedArtifact,true);
+		
+		IAbstractArtifact artifact =  mePattern.createArtifact(project, targetPackage, entityName, "");
+		mePattern.addToManager(project, artifact);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
@@ -356,7 +402,7 @@ public class PatternTest extends TestCase {
 		}
 		
 		
-		assertTrue("Wrong number of Fields",created.getFields().size() == 1);
+		assertEquals("Wrong number of Fields",1,created.getFields().size());
 		for (IField field :created.getFields()){
 			assertTrue("Wrong Field name", field.getName().equals(attributeName));
 			assertEquals("Wrong number of Stereotypes on field", 1,field.getStereotypeInstances().size());
@@ -471,8 +517,12 @@ public class PatternTest extends TestCase {
 		IPattern pattern = PatternFactory.getInstance().getPattern(patternname);
 		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
 		IRelationPattern relPattern = (IRelationPattern) pattern;
-		relPattern.executeRequests(project, targetPackage, entityName, extendedArtifact,
-				aEndType,zEndType,true);
+		//relPattern.executeRequests(project, targetPackage, entityName, extendedArtifact,
+		//		aEndType,zEndType,true);
+		
+		IAbstractArtifact artifact =  relPattern.createArtifact(project, targetPackage, entityName, extendedArtifact,
+				aEndType,zEndType);
+		relPattern.addToManager(project, artifact);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
