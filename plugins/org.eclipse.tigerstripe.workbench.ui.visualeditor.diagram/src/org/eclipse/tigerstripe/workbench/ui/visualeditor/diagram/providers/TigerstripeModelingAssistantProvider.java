@@ -178,43 +178,46 @@ public class TigerstripeModelingAssistantProvider extends
 			 * the palette (only those artifacts that should be in the model for
 			 * a given profile)
 			 */
-			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
-					.getActiveProfile();
-			CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
-					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-			if (prop.getDetailsForType(IManagedEntityArtifact.class.getName())
-					.isEnabled()) {
-				types.add(TigerstripeElementTypes.ManagedEntityArtifact_1003);
-			}
-			if (prop.getDetailsForType(IDatatypeArtifact.class.getName())
-					.isEnabled()) {
-				types.add(TigerstripeElementTypes.DatatypeArtifact_1005);
-			}
-			if (prop.getDetailsForType(IEnumArtifact.class.getName())
-					.isEnabled()) {
-				types.add(TigerstripeElementTypes.Enumeration_1006);
-			}
-			if (prop.getDetailsForType(IQueryArtifact.class.getName())
-					.isEnabled()) {
-				types.add(TigerstripeElementTypes.NamedQueryArtifact_1001);
-			}
-			if (prop
-					.getDetailsForType(IUpdateProcedureArtifact.class.getName())
-					.isEnabled()) {
-				types.add(TigerstripeElementTypes.UpdateProcedureArtifact_1007);
-			}
-			if (prop.getDetailsForType(IEventArtifact.class.getName())
-					.isEnabled()) {
-				types.add(TigerstripeElementTypes.NotificationArtifact_1004);
-			}
-			if (prop.getDetailsForType(ISessionArtifact.class.getName())
-					.isEnabled()) {
-				types.add(TigerstripeElementTypes.SessionFacadeArtifact_1008);
-			}
-			if (prop.getDetailsForType(IExceptionArtifact.class.getName())
-					.isEnabled()) {
-				types.add(TigerstripeElementTypes.ExceptionArtifact_1002);
-			}
+			// Removed the floating palette because 
+			// a) its annoyoing
+			// b) I don't know how to fill it in properly with patterns
+//			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
+//					.getActiveProfile();
+//			CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
+//					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+//			if (prop.getDetailsForType(IManagedEntityArtifact.class.getName())
+//					.isEnabled()) {
+//				types.add(TigerstripeElementTypes.ManagedEntityArtifact_1003);
+//			}
+//			if (prop.getDetailsForType(IDatatypeArtifact.class.getName())
+//					.isEnabled()) {
+//				types.add(TigerstripeElementTypes.DatatypeArtifact_1005);
+//			}
+//			if (prop.getDetailsForType(IEnumArtifact.class.getName())
+//					.isEnabled()) {
+//				types.add(TigerstripeElementTypes.Enumeration_1006);
+//			}
+//			if (prop.getDetailsForType(IQueryArtifact.class.getName())
+//					.isEnabled()) {
+//				types.add(TigerstripeElementTypes.NamedQueryArtifact_1001);
+//			}
+//			if (prop
+//					.getDetailsForType(IUpdateProcedureArtifact.class.getName())
+//					.isEnabled()) {
+//				types.add(TigerstripeElementTypes.UpdateProcedureArtifact_1007);
+//			}
+//			if (prop.getDetailsForType(IEventArtifact.class.getName())
+//					.isEnabled()) {
+//				types.add(TigerstripeElementTypes.NotificationArtifact_1004);
+//			}
+//			if (prop.getDetailsForType(ISessionArtifact.class.getName())
+//					.isEnabled()) {
+//				types.add(TigerstripeElementTypes.SessionFacadeArtifact_1008);
+//			}
+//			if (prop.getDetailsForType(IExceptionArtifact.class.getName())
+//					.isEnabled()) {
+//				types.add(TigerstripeElementTypes.ExceptionArtifact_1002);
+//			}
 			return types;
 		}
 		return Collections.EMPTY_LIST;
