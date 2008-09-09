@@ -257,11 +257,11 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		layout.numColumns = totalNumCols;
 		composite.setLayout(layout);
 		// add the label, button, and text for the stereotype definition...
-		Label annotationLabel = new Label(composite, SWT.NULL);
-		annotationLabel.setText("Annotation Definition:");
+		Label stereotypeLabel = new Label(composite, SWT.NULL);
+		stereotypeLabel.setText("Stereotypes :");
 		GridData bgd = new GridData();
 		bgd.horizontalSpan = nameLabelCols;
-		annotationLabel.setLayoutData(bgd);
+		stereotypeLabel.setLayoutData(bgd);
 		Button stereoTypeSelButton = new Button(composite, SWT.NULL);
 		stereoTypeSelButton.setText("...");
 		stereoTypeSelButton.addSelectionListener(new SelectionListener() {
@@ -329,7 +329,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		associationStereotypesField
 				.setText(origAssociationStereotypesStringVal);
 		associationStereotypesField
-				.setToolTipText("The annotations defined for the association.");
+				.setToolTipText("The stereotypes defined for the association.");
 		associationStereotypesField.setEditable(false);
 		setFillLayout(associationStereotypesField, nameValueCols - 1, 1);
 		// and add the label and text for the name of the association

@@ -231,12 +231,12 @@ public abstract class QualifiedNamedElementETAdapter extends BaseETAdapter
 			QualifiedNamedElement element) {
 		if (oldValue == null) {
 			// this is the last part of a new element being created
-			IArtifactCreateRequest request = makeArtifactCreateRequest(element);
-			try {
-				postChangeRequest(request);
-			} catch (TigerstripeException e) {
-				EclipsePlugin.log(e);
-			}
+//			IArtifactCreateRequest request = makeArtifactCreateRequest(element);
+//			try {
+//				postChangeRequest(request);
+//			} catch (TigerstripeException e) {
+//				EclipsePlugin.log(e);
+//			}
 		} else {
 			// this is a refactor, where the package of the artifact is changed.
 		}

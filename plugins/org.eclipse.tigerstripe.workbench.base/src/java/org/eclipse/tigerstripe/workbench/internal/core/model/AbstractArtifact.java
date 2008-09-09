@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringBufferInputStream;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -24,14 +25,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -45,10 +49,10 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleDescriptorModel;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.util.ContainedProperties;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -106,6 +110,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	// The package this AbstractArtifact lives in
 	private String _package = "";
+
+	private String _artifactPath = null;
 
 	// The fully qualifiedName for this artifact
 	private String _fullyQualifiedName;
@@ -299,6 +305,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			this._fullyQualifiedName = getName();
 		} else
 			this._fullyQualifiedName = this._package + "." + getName();
+		updateArtifactPath();
 	}
 
 	/**
@@ -344,6 +351,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// this._fullyQualifiedName = getName();
 		// } else
 		this._fullyQualifiedName = this._package + "." + getName();
+		updateArtifactPath();
 	}
 
 	/**
@@ -1379,49 +1387,139 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @throws TigerstripeException
 	 */
 	public String getArtifactPath() throws TigerstripeException {
-		// Determine the path for this artifact
-		// This needs to be overridden for Package Artifacts
+		if (_artifactPath == null)
+			updateArtifactPath();
 
+		return _artifactPath;
+		// // Determine the path for this artifact
+		// // This needs to be overridden for Package Artifacts
+		//
+		// String packageName = getPackage().replace('.', File.separatorChar);
+		// if (getTSProject() == null || getTSProject().getBaseDir() == null)
+		// return null; // this is part of a module
+		//
+		// String baseDir = getTSProject().getBaseDir().toString();
+		// String repoLocation = getTSProject().getRepositoryLocation();
+		//
+		// // Make sure the package dir exists
+		// File dir = new File(baseDir + File.separator + repoLocation
+		// + File.separator + packageName);
+		// if (!dir.exists()) {
+		// dir.mkdirs();
+		// }
+		//
+		// String artifactPath = repoLocation + File.separator + packageName
+		// + File.separator + getName() + ".java";
+		//
+		// return artifactPath;
+	}
+
+	private void updateArtifactPath() {
 		String packageName = getPackage().replace('.', File.separatorChar);
-		if (getTSProject() == null || getTSProject().getBaseDir() == null)
-			return null; // this is part of a module
-
-		String baseDir = getTSProject().getBaseDir().toString();
-		String repoLocation = getTSProject().getRepositoryLocation();
-
-		// Make sure the package dir exists
-		File dir = new File(baseDir + File.separator + repoLocation
-				+ File.separator + packageName);
-		if (!dir.exists()) {
-			dir.mkdirs();
+		if (getTSProject() == null || getTSProject().getBaseDir() == null) {
+			_artifactPath = null; // this is part of a module
+			return;
 		}
 
-		String artifactPath = repoLocation + File.separator + packageName
-				+ File.separator + getName() + ".java";
-
-		return artifactPath;
+		try {
+			String repoLocation = getTSProject().getRepositoryLocation();
+			_artifactPath = repoLocation + File.separator + packageName
+					+ File.separator + getName() + ".java";
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
 	}
 
 	private void doSave(boolean notify, IProgressMonitor monitor)
 			throws TigerstripeException {
-		String baseDir = getTSProject().getBaseDir().toString();
 
-		try {
-			Writer writer = new FileWriter(baseDir + File.separator
-					+ getArtifactPath());
-			AbstractArtifactPersister persister = getPersister(writer);
-			persister.applyTemplate();
+		// For now, we need to handle the Phantom project differently
+		// as it lives outside of the workspace
+		if (getTSProject() instanceof PhantomTigerstripeProject) {
+			String baseDir = getTSProject().getBaseDir().toString();
+			try {
 
-		} catch (IOException e) {
-			throw new TigerstripeException("Error while saving "
-					+ getFullyQualifiedName() + ": " + e.getLocalizedMessage(),
-					e);
+				// This bit here is needed to create the parent directory
+				// for all artifacts in the phantom project (it corresponds
+				// to the "createParentIfNeeded()" below.
+				String packageName = getPackage().replace('.',
+						File.separatorChar);
+				String repoLocation = getTSProject().getRepositoryLocation();
+				// Make sure the package dir exists
+				File dir = new File(baseDir + File.separator + repoLocation
+						+ File.separator + packageName);
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+
+				Writer writer = new FileWriter(baseDir + File.separator
+						+ getArtifactPath());
+				AbstractArtifactPersister persister = getPersister(writer);
+				persister.applyTemplate();
+
+			} catch (IOException e) {
+				throw new TigerstripeException("Error while saving "
+						+ getFullyQualifiedName() + ": "
+						+ e.getLocalizedMessage(), e);
+			}
+		} else {
+			IProject proj = (IProject) getTSProject()
+					.getAdapter(IProject.class);
+			String artifactPath = getArtifactPath();
+			IFile file = proj.getFile(artifactPath);
+			try {
+				createParentIfNeeded(file, monitor);
+
+				StringWriter writer = new StringWriter();
+				AbstractArtifactPersister persister = getPersister(writer);
+				persister.applyTemplate();
+				StringBuffer buffer = writer.getBuffer();
+
+				StringBufferInputStream stream = new StringBufferInputStream(
+						buffer.toString());
+				if (!file.exists())
+					file.create(stream, true, monitor);
+				else
+					file.setContents(stream, true, true, monitor);
+			} catch (CoreException e) {
+				BasePlugin.log(e);
+			}
+
 		}
 
+		// String baseDir = getTSProject().getBaseDir().toString();
+		//
+		// try {
+		// Writer writer = new FileWriter(baseDir + File.separator
+		// + getArtifactPath());
+		// AbstractArtifactPersister persister = getPersister(writer);
+		// persister.applyTemplate();
+		//
+		// } catch (IOException e) {
+		// throw new TigerstripeException("Error while saving "
+		// + getFullyQualifiedName() + ": " + e.getLocalizedMessage(),
+		// e);
+		// }
+		//
 		if (notify) {
 			// This is what will actually update the content of the Artifact Mgr
 			// and notify listeners.
 			getArtifactManager().notifyArtifactSaved(this, monitor);
+		}
+	}
+
+	private void createParentIfNeeded(IResource res, IProgressMonitor monitor) {
+		IContainer parent = res.getParent();
+		if (!res.exists()) {
+			createParentIfNeeded(parent, monitor);
+			if (res instanceof IFolder) {
+				IFolder folder = (IFolder) res;
+				try {
+					folder.create(true, true, monitor);
+				} catch (CoreException e) {
+					BasePlugin.log(e);
+				}
+			}
 		}
 	}
 

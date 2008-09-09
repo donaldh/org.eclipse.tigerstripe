@@ -60,10 +60,10 @@ import org.w3c.dom.NodeList;
 /**
  * @author Eric Dillon
  * 
- * This represent a TigerstripeProject. It corresponds to the "Tigerstripe.xml"
- * project descriptor.
+ *         This represent a TigerstripeProject. It corresponds to the
+ *         "Tigerstripe.xml" project descriptor.
  * 
- * This conditions a run of Tigerstripe.
+ *         This conditions a run of Tigerstripe.
  */
 public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		implements IContainerObject, IAdaptable {

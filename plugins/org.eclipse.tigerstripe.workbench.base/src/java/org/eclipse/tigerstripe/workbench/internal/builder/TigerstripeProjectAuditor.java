@@ -24,6 +24,7 @@ import java.util.Set;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -156,7 +157,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				.getAdapter(ITigerstripeModelProject.class);
 		IArtifactManagerSession session = tsProject.getArtifactManagerSession();
 		monitor.beginTask("Processing Pending Audits", pendingAudits.size());
-		for (Iterator<String> iter = new ArrayList<String>(pendingAudits).iterator(); iter.hasNext();) {
+		for (Iterator<String> iter = new ArrayList<String>(pendingAudits)
+				.iterator(); iter.hasNext();) {
 			String fqn = iter.next();
 			IAbstractArtifact artifact = session
 					.getArtifactByFullyQualifiedName(fqn);
@@ -207,64 +209,64 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	private boolean refreshArtifact(String fqn, IProgressMonitor monitor) {
-		try {
-			ITigerstripeModelProject proj = (ITigerstripeModelProject) getProject()
-					.getAdapter(ITigerstripeModelProject.class);
-			IArtifactManagerSession session = proj.getArtifactManagerSession();
-			IAbstractArtifact art = session.getArtifactByFullyQualifiedName(
-					fqn, true);
-			ITigerstripeModelProject targetProject = art
-					.getTigerstripeProject();
-			if (targetProject != null) {
-				IJavaProject jProject = (IJavaProject) targetProject
-						.getAdapter(IJavaProject.class);
-				String packageName = Util.packageOf(fqn);
-				String name = Util.nameOf(fqn);
-				IPackageFragment[] packFrags = jProject.getPackageFragments();
-				for (IPackageFragment pack : packFrags) {
-					if (pack.getElementName().equals(packageName)) {
-						ICompilationUnit unit = pack.getCompilationUnit(name
-								+ ".java");
-						if (unit.getCorrespondingResource().exists()) {
-							unit.getCorrespondingResource().refreshLocal(
-									IResource.DEPTH_ONE, monitor);
-							return true;
-						}
-					}
-				}
-			}
-		} catch (CoreException e) {
-			BasePlugin.log(e);
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-		}
-		return false;
+//		try {
+//			ITigerstripeModelProject proj = (ITigerstripeModelProject) getProject()
+//					.getAdapter(ITigerstripeModelProject.class);
+//			IArtifactManagerSession session = proj.getArtifactManagerSession();
+//			IAbstractArtifact art = session.getArtifactByFullyQualifiedName(
+//					fqn, true);
+//			ITigerstripeModelProject targetProject = art
+//					.getTigerstripeProject();
+//			if (targetProject != null) {
+//				IJavaProject jProject = (IJavaProject) targetProject
+//						.getAdapter(IJavaProject.class);
+//				String packageName = Util.packageOf(fqn);
+//				String name = Util.nameOf(fqn);
+//				IPackageFragment[] packFrags = jProject.getPackageFragments();
+//				for (IPackageFragment pack : packFrags) {
+//					if (pack.getElementName().equals(packageName)) {
+//						ICompilationUnit unit = pack.getCompilationUnit(name
+//								+ ".java");
+//						if (unit.getCorrespondingResource().exists()) {
+//							unit.getCorrespondingResource().refreshLocal(
+//									IResource.DEPTH_ONE, monitor);
+//							return true;
+//						}
+//					}
+//				}
+//			}
+//		} catch (CoreException e) {
+//			BasePlugin.log(e);
+//		} catch (TigerstripeException e) {
+//			BasePlugin.log(e);
+//		}
+//		return false;
+		return true;
 	}
-	
-	
+
 	private boolean refreshPackageFor(String packageName,
 			IProgressMonitor monitor) {
-
-		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
-				.getAdapter(ITigerstripeModelProject.class);
-		if (tsProject instanceof TigerstripeProjectHandle) {
-			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) tsProject;
-			try {
-				String repoLoc = handle.getTSProject().getRepositoryLocation();
-				IResource res = getProject().findMember(
-						repoLoc + File.separator
-								+ packageName.replace('.', File.separatorChar));
-				if (res != null) {
-					res.refreshLocal(IResource.DEPTH_ONE, monitor);
-					return true;
-				}
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			} catch (CoreException e) {
-				BasePlugin.log(e);
-			}
-		}
-
+//
+//		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
+//				.getAdapter(ITigerstripeModelProject.class);
+//		if (tsProject instanceof TigerstripeProjectHandle) {
+//			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) tsProject;
+//			try {
+//				String repoLoc = handle.getTSProject().getRepositoryLocation();
+//				IResource res = getProject().findMember(
+//						repoLoc + File.separator
+//								+ packageName.replace('.', File.separatorChar));
+//				if (res != null) {
+//					res.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+//					return true;
+//				}
+//			} catch (TigerstripeException e) {
+//				BasePlugin.log(e);
+//			} catch (CoreException e) {
+//				BasePlugin.log(e);
+//			}
+//		}
+//
 		// try {
 		// IJavaProject jProject = JavaCore.create(getProject());
 		// IPackageFragment[] packFrags = jProject.getPackageFragments();
@@ -282,59 +284,61 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	public void notifyModelChanged(final IModelChangeRequest executedRequest) {
-		try {
-			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
-				public void run(IProgressMonitor monitor) throws CoreException {
-					boolean success = false;
-					if (executedRequest instanceof IArtifactCreateRequest) {
-						IArtifactCreateRequest req = (IArtifactCreateRequest) executedRequest;
-						
-						if (req.getArtifactType().equals(IPackageArtifact.class.getName())){
-							success = refreshPackageFor(req.getArtifactPackage()+"."+req.getArtifactName(),
-									monitor);
-						} else 
-						success = refreshPackageFor(req.getArtifactPackage(),
-								monitor);
-					} else if (executedRequest instanceof IArtifactRenameRequest) {
-						IArtifactRenameRequest req = (IArtifactRenameRequest) executedRequest;
-						success = refreshPackageFor(Util.packageOf(req
-								.getArtifactFQN()), monitor);
-					} else if (executedRequest instanceof IAttributeSetRequest) {
-						IAttributeSetRequest req = (IAttributeSetRequest) executedRequest;
-						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof IAttributeCreateRequest) {
-						IAttributeCreateRequest req = (IAttributeCreateRequest) executedRequest;
-						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof IAttributeRemoveRequest) {
-						IAttributeRemoveRequest req = (IAttributeRemoveRequest) executedRequest;
-						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof IMethodCreateRequest) {
-						IMethodCreateRequest req = (IMethodCreateRequest) executedRequest;
-						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof IMethodRemoveRequest) {
-						IMethodRemoveRequest req = (IMethodRemoveRequest) executedRequest;
-						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof IMethodSetRequest) {
-						IMethodSetRequest req = (IMethodSetRequest) executedRequest;
-						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof ILiteralCreateRequest) {
-						ILiteralCreateRequest req = (ILiteralCreateRequest) executedRequest;
-						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof ILiteralSetRequest) {
-						ILiteralSetRequest req = (ILiteralSetRequest) executedRequest;
-						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					} else if (executedRequest instanceof ILiteralRemoveRequest) {
-						ILiteralRemoveRequest req = (ILiteralRemoveRequest) executedRequest;
-						success = refreshArtifact(req.getArtifactFQN(), monitor);
-					}
-					if (!success)
-						getProject().refreshLocal(IResource.DEPTH_INFINITE,
-								new SubProgressMonitor(monitor, 1));
-				}
-			}, new NullProgressMonitor());
-		} catch (CoreException e) {
-			BasePlugin.log(e);
-		}
+//		try {
+//			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+//				public void run(IProgressMonitor monitor) throws CoreException {
+//					boolean success = false;
+//					if (executedRequest instanceof IArtifactCreateRequest) {
+////						IArtifactCreateRequest req = (IArtifactCreateRequest) executedRequest;
+////
+////						if (req.getArtifactType().equals(
+////								IPackageArtifact.class.getName())) {
+////							success = refreshPackageFor(req
+////									.getArtifactPackage()
+////									+ "." + req.getArtifactName(), monitor);
+////						} else
+////							success = refreshPackageFor(req
+////									.getArtifactPackage(), monitor);
+//					} else if (executedRequest instanceof IArtifactRenameRequest) {
+//						IArtifactRenameRequest req = (IArtifactRenameRequest) executedRequest;
+//						success = refreshPackageFor(Util.packageOf(req
+//								.getArtifactFQN()), monitor);
+//					} else if (executedRequest instanceof IAttributeSetRequest) {
+//						IAttributeSetRequest req = (IAttributeSetRequest) executedRequest;
+//						success = refreshArtifact(req.getArtifactFQN(), monitor);
+//					} else if (executedRequest instanceof IAttributeCreateRequest) {
+//						IAttributeCreateRequest req = (IAttributeCreateRequest) executedRequest;
+//						success = refreshArtifact(req.getArtifactFQN(), monitor);
+//					} else if (executedRequest instanceof IAttributeRemoveRequest) {
+//						IAttributeRemoveRequest req = (IAttributeRemoveRequest) executedRequest;
+//						success = refreshArtifact(req.getArtifactFQN(), monitor);
+//					} else if (executedRequest instanceof IMethodCreateRequest) {
+//						IMethodCreateRequest req = (IMethodCreateRequest) executedRequest;
+//						success = refreshArtifact(req.getArtifactFQN(), monitor);
+//					} else if (executedRequest instanceof IMethodRemoveRequest) {
+//						IMethodRemoveRequest req = (IMethodRemoveRequest) executedRequest;
+//						success = refreshArtifact(req.getArtifactFQN(), monitor);
+//					} else if (executedRequest instanceof IMethodSetRequest) {
+//						IMethodSetRequest req = (IMethodSetRequest) executedRequest;
+//						success = refreshArtifact(req.getArtifactFQN(), monitor);
+//					} else if (executedRequest instanceof ILiteralCreateRequest) {
+//						ILiteralCreateRequest req = (ILiteralCreateRequest) executedRequest;
+//						success = refreshArtifact(req.getArtifactFQN(), monitor);
+//					} else if (executedRequest instanceof ILiteralSetRequest) {
+//						ILiteralSetRequest req = (ILiteralSetRequest) executedRequest;
+//						success = refreshArtifact(req.getArtifactFQN(), monitor);
+//					} else if (executedRequest instanceof ILiteralRemoveRequest) {
+//						ILiteralRemoveRequest req = (ILiteralRemoveRequest) executedRequest;
+//						success = refreshArtifact(req.getArtifactFQN(), monitor);
+//					}
+//					if (!success)
+//						getProject().refreshLocal(IResource.DEPTH_INFINITE,
+//								new SubProgressMonitor(monitor, 1));
+//				}
+//			}, new NullProgressMonitor());
+//		} catch (CoreException e) {
+//			BasePlugin.log(e);
+//		}
 	}
 
 	@Override
@@ -400,32 +404,34 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	 */
 	private void runAuditorsByFileExtensions(int kind, IProgressMonitor monitor) {
 
-		
-//		// Run any custom rules that are defined in the extension point.
-//		try {
-//			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
-//			.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.fileExtensionBasedAuditor");
-//			for (IConfigurationElement element : elements){
-//				final IFileExtensionBasedAuditor customRule  = (IFileExtensionBasedAuditor) element.createExecutableExtension("auditorClass");
-//				final IProgressMonitor finalMonitor = monitor;
-//				SafeRunner.run(new ISafeRunnable() {
-//					public void handleException(Throwable exception) {
-//						BasePlugin.log(exception);
-//					}
-//
-//					public void run() throws Exception {
-//						String extension = customRule.getFileExtension();
-//						List<IResource> resources = null;
-//						resources = findAll(getProject(), extension);
-//						customRule.run(getProject(), resources, finalMonitor);
-//					}
-//
-//				});
-//			}
-//		}catch (CoreException e ){
-//			TigerstripeProjectAuditor.reportError(
-//					"Invalid custom audit definitions.", getProject(), 222);
-//		}
+		// // Run any custom rules that are defined in the extension point.
+		// try {
+		// IConfigurationElement[] elements = Platform.getExtensionRegistry()
+		// .getConfigurationElementsFor(
+		// "org.eclipse.tigerstripe.workbench.base.fileExtensionBasedAuditor");
+		// for (IConfigurationElement element : elements){
+		// final IFileExtensionBasedAuditor customRule =
+		// (IFileExtensionBasedAuditor)
+		// element.createExecutableExtension("auditorClass");
+		// final IProgressMonitor finalMonitor = monitor;
+		// SafeRunner.run(new ISafeRunnable() {
+		// public void handleException(Throwable exception) {
+		// BasePlugin.log(exception);
+		// }
+		//
+		// public void run() throws Exception {
+		// String extension = customRule.getFileExtension();
+		// List<IResource> resources = null;
+		// resources = findAll(getProject(), extension);
+		// customRule.run(getProject(), resources, finalMonitor);
+		// }
+		//
+		// });
+		// }
+		// }catch (CoreException e ){
+		// TigerstripeProjectAuditor.reportError(
+		// "Invalid custom audit definitions.", getProject(), 222);
+		// }
 
 	}
 
@@ -494,19 +500,21 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			Collection<IResource> removedResources = new HashSet<IResource>();
 			Collection<IResource> changedResources = new HashSet<IResource>();
 			Collection<IResource> addedResources = new HashSet<IResource>();
-			
+
 			// We don't care about .class files as they are being changed by the
 			// JDT
-			IResourceFilter noClassFileFilter = new IResourceFilter() {
+			IResourceFilter noClassFileOrFolderFilter = new IResourceFilter() {
 
 				public boolean select(IResource resource) {
+					if ( resource instanceof IFolder )
+						return false;
 					return !"class".equals(resource.getFileExtension());
 				}
-				
+
 			};
-			
+
 			WorkspaceHelper.buildResourcesLists(delta, removedResources,
-					changedResources, addedResources, noClassFileFilter);
+					changedResources, addedResources, noClassFileOrFolderFilter);
 
 			if (removedResources.size() != 0)
 				return true;
@@ -552,15 +560,18 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				result.add(root);
 			} else {
 				if (root instanceof IContainer) {
-					// We need to avoid the "bin" directory - or we get two of everything!
-					// Hoever this may not be called "bin" so we have to do some 
+					// We need to avoid the "bin" directory - or we get two of
+					// everything!
+					// Hoever this may not be called "bin" so we have to do some
 					// Gymnastics to work out if we are the "outputLocation"...
-					if (root.getParent() instanceof IProject){
+					if (root.getParent() instanceof IProject) {
 						IProject project = (IProject) root.getParent();
 						IJavaProject jProject = JavaCore.create(project);
-						if (jProject != null){
-							if (jProject.getOutputLocation().equals(root.getFullPath())){
-								//System.out.println("this is the output folder "+root);
+						if (jProject != null) {
+							if (jProject.getOutputLocation().equals(
+									root.getFullPath())) {
+								//System.out.println("this is the output folder "
+								// +root);
 								return result;
 							}
 						}
