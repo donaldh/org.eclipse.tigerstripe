@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -96,41 +97,58 @@ public abstract class NewPatternBasedArtifactWizard extends NewTSElementWizard {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor)
 			throws InvocationTargetException {
+				IAbstractArtifact artifact = null;
 				try {
 					if (patt instanceof IEnumPattern){
-						IAbstractArtifact artifact = ((IEnumPattern) patt).createArtifact(project, 
+						 artifact = ((IEnumPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact, baseType);
 						((INodePattern) patt).addToManager(project,artifact);
+						
 					} else if (patt instanceof IQueryPattern){
-						IAbstractArtifact artifact = ((IQueryPattern) patt).createArtifact(project, 
+						 artifact = ((IQueryPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact, returnType);
 						((INodePattern) patt).addToManager(project,artifact);
+						
 					} else if (patt instanceof INodePattern){
-						IAbstractArtifact artifact = ((INodePattern) patt).createArtifact(project, 
+						 artifact = ((INodePattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact);
 						((INodePattern) patt).addToManager(project,artifact);
+						
 					} else if (patt instanceof IRelationPattern){
-						IAbstractArtifact artifact = ((IRelationPattern) patt).createArtifact(project, 
+						 artifact = ((IRelationPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact,
 								aEndType,
 								zEndType);
 						((IRelationPattern) patt).addToManager(project,artifact);
+						
+					}
+					project.getArtifactManagerSession().refresh(monitor);
+					
+					IResource resource = (IResource) artifact.getAdapter(IResource.class);
+					selectAndReveal(resource);
+					if (resource instanceof IFile){
+						openResource((IFile) resource);
 					}
 				} catch (Exception e) {
 					throw new InvocationTargetException(e);
 				} finally {
 					monitor.done();
 				}
+
 			}
+
 		};
+		
+
+
 		return op;
 		} catch (TigerstripeException t){
 			return null;
@@ -293,4 +311,6 @@ public abstract class NewPatternBasedArtifactWizard extends NewTSElementWizard {
 		}
 	}
 
+	
+	
 }
