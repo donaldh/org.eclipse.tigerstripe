@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -27,41 +27,37 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.apache.tools.ant.taskdefs.MakeUrl;
+import org.eclipse.core.expressions.Expression;
+import org.eclipse.core.expressions.ExpressionConverter;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.ModelChangeRequestFactory;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralSetRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodAddFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest.ECapableClass;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
-import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
-import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPatternFactory;
-import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.menus.AbstractContributionFactory;
 import org.eclipse.ui.menus.CommandContributionItem;
@@ -76,6 +72,9 @@ import org.w3c.dom.NodeList;
 
 public class PatternFactory implements IPatternFactory {
 
+	
+	
+	
 	private static PatternFactory instance = null;
 	private static Map<String,IPattern> discoveredPatterns = new HashMap<String,IPattern>();
 	private static Map<String,IPattern> registeredPatterns = new LinkedHashMap<String,IPattern>();
@@ -339,19 +338,18 @@ public class PatternFactory implements IPatternFactory {
 		}
 		return enabledPatterns;
 	}
-	
-	
-	
-	
 
 	public static void addPatternMenuContribution() {
+		//final Map<String,Expression> expressions = loadExpressionDefinitions();
 		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench()
 		.getService(IMenuService.class);
 		
 		final IServiceLocator locator = (IServiceLocator) PlatformUI.getWorkbench();
+		//final Expression visibleWhen = ;
 		
 		AbstractContributionFactory patternMenuAddition = new AbstractContributionFactory(
 				"menu:org.eclipse.tigerstripe.workbench.ui.base.new", null){
+			
 			
 			@Override
 			public void createContributionItems(IServiceLocator serviceLocator,
@@ -376,17 +374,57 @@ public class PatternFactory implements IPatternFactory {
 						thisOne.label = pattern.getUILabel();
 						thisOne.icon = pattern.getDescriptor();
 						
-						
-						
 						CommandContributionItem newItem = new CommandContributionItem(thisOne);
-						
-						
-						additions.addContributionItem(newItem,null);
+						Expression referenceExpression = null;
+						if (pattern instanceof IArtifactPattern){
+							String target = ((IArtifactPattern) pattern).getTargetArtifactType();
+							
+							if (target.equals(IManagedEntityArtifact.class.getName())){
+								 referenceExpression = makeExpression("entity");
+							}
+							if (target.equals(IDatatypeArtifact.class.getName())){
+								 referenceExpression = makeExpression("datatype");
+							}
+							if (target.equals(IEnumArtifact.class.getName())){
+								 referenceExpression = makeExpression("enumeration");
+							}
+							if (target.equals(IExceptionArtifact.class.getName())){
+								 referenceExpression = makeExpression("exception");
+							}
+							if (target.equals(IEventArtifact.class.getName())){
+								 referenceExpression = makeExpression("event");
+							}
+							if (target.equals(IQueryArtifact.class.getName())){
+								 referenceExpression = makeExpression("query");
+							}
+							if (target.equals(IUpdateProcedureArtifact.class.getName())){
+								 referenceExpression = makeExpression("updateProcedure");
+							}
+							if (target.equals(ISessionArtifact.class.getName())){
+								 referenceExpression = makeExpression("session");
+							}
+							if (target.equals(IAssociationArtifact.class.getName())){
+								 referenceExpression = makeExpression("association");
+							}
+							if (target.equals(IAssociationClassArtifact.class.getName())){
+								 referenceExpression = makeExpression("associationClass");
+							}
+							if (target.equals(IDependencyArtifact.class.getName())){
+								 referenceExpression = makeExpression("dependency");
+							}
+							if (target.equals(IPackageArtifact.class.getName())){
+								 referenceExpression = makeExpression("package");
+							}
+						}
+						additions.addContributionItem(newItem,referenceExpression);
+
 					}
 				}
+
 			}
 		};
 
+		
 		menuService.addContributionFactory(patternMenuAddition);
 
 // This section should do whichever one we decide is the "top" level for the drop down
@@ -403,7 +441,7 @@ public class PatternFactory implements IPatternFactory {
 
 						
 						CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
-								"org.eclipse.tigerstripe.workbench.ui.base.new.patterns."+pattern.getName(),
+								"org.eclipse.tigerstripe.workbench.ui.base.new.patterns.dropdown."+pattern.getName(),
 								"org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate",
 								CommandContributionItem.STYLE_PULLDOWN
 						);
@@ -433,7 +471,7 @@ public class PatternFactory implements IPatternFactory {
 			IPattern pattern = registeredPatterns.get(key);
 			
 			if (! disabledPatterns.contains(pattern.getName())){
-				dropDownItemId = "org.eclipse.tigerstripe.workbench.ui.base.new.patterns."+pattern.getName();
+				dropDownItemId = "org.eclipse.tigerstripe.workbench.ui.base.new.patterns.dropdown."+pattern.getName();
 				dropDownItemName = pattern.getName();
 				break;
 			}
@@ -467,7 +505,48 @@ public class PatternFactory implements IPatternFactory {
 						thisOne.icon = pattern.getDescriptor();
 						
 						CommandContributionItem newItem = new CommandContributionItem(thisOne);
-						additions.addContributionItem(newItem,null);
+						Expression referenceExpression = null;
+						if (pattern instanceof IArtifactPattern){
+							String target = ((IArtifactPattern) pattern).getTargetArtifactType();
+							
+							if (target.equals(IManagedEntityArtifact.class.getName())){
+								 referenceExpression = makeExpression("entity");
+							}
+							if (target.equals(IDatatypeArtifact.class.getName())){
+								 referenceExpression = makeExpression("datatype");
+							}
+							if (target.equals(IEnumArtifact.class.getName())){
+								 referenceExpression = makeExpression("enumeration");
+							}
+							if (target.equals(IExceptionArtifact.class.getName())){
+								 referenceExpression = makeExpression("exception");
+							}
+							if (target.equals(IEventArtifact.class.getName())){
+								 referenceExpression = makeExpression("event");
+							}
+							if (target.equals(IQueryArtifact.class.getName())){
+								 referenceExpression = makeExpression("query");
+							}
+							if (target.equals(IUpdateProcedureArtifact.class.getName())){
+								 referenceExpression = makeExpression("updateProcedure");
+							}
+							if (target.equals(ISessionArtifact.class.getName())){
+								 referenceExpression = makeExpression("session");
+							}
+							if (target.equals(IAssociationArtifact.class.getName())){
+								 referenceExpression = makeExpression("association");
+							}
+							if (target.equals(IAssociationClassArtifact.class.getName())){
+								 referenceExpression = makeExpression("associationClass");
+							}
+							if (target.equals(IDependencyArtifact.class.getName())){
+								 referenceExpression = makeExpression("dependency");
+							}
+							if (target.equals(IPackageArtifact.class.getName())){
+								 referenceExpression = makeExpression("package");
+							}
+						}
+						additions.addContributionItem(newItem,referenceExpression);
 					}
 				}
 			}
@@ -476,4 +555,17 @@ public class PatternFactory implements IPatternFactory {
 		menuService.addContributionFactory(patternToolbarDropDownsAddition);
 	}
 	
+	
+	private static Expression makeExpression(String type){
+		try {
+			String xml	= "<reference definitionId=\"org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile."+type+"\"/>";
+			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+			Document doc = builder.parse(new ByteArrayInputStream(xml.getBytes()));
+			Expression referenceExpression = ExpressionConverter.getDefault().perform(doc.getDocumentElement());
+			return referenceExpression;
+		} catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

@@ -428,7 +428,8 @@
         point="org.eclipse.core.expressions.definitions">
      <definition
            id="org.eclipse.tigerstripe.workbench.ui.base.TSProjectSelected">
-        <iterate>
+        <iterate
+              ifEmpty="false">
            <adapt
                  type="org.eclipse.core.resources.IResource">
               <test
@@ -541,6 +542,162 @@
            </with>
         </or>
         
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.entity">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.entityEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.datatype">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.datatypeEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.event">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.eventEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.enumeration">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.enumerationEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.exception">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.exceptionEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.query">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.queryEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.updateProcedure">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.updateProcedureEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.session">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.sessionEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.association">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.associationEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.associationClass">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.associationClassEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.dependency">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.dependencyEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
+     </definition>
+     <definition
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile.package">
+        <iterate
+              ifEmpty="false">
+           <adapt
+                 type="org.eclipse.core.resources.IResource">
+              <test
+                    property="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact.packageEnabled"
+                    value="true">
+              </test>
+           </adapt>
+        </iterate>
      </definition>
   </extension>
   <extension
@@ -689,6 +846,16 @@
            </or>
         </enabledWhen>
      </handler>
+  </extension>
+  <extension
+        point="org.eclipse.core.expressions.propertyTesters">
+     <propertyTester
+           class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.EnabledArtifactType"
+           id="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifactPropertyTester"
+           namespace="org.eclipse.tigerstripe.workbench.ui.base.enabledArtifact"
+           properties="entityEnabled,datatypeEnabled,eventEnabled,exceptionEnabled,enumerationEnabled,queryEnabled,updateNotificationEnabled,sessionEnabled,associationEnabled,associationClassEnabled,dependencyEnabled,packageEnabled"
+           type="org.eclipse.core.resources.IResource">
+     </propertyTester>
   </extension>
 
 </plugin>
