@@ -85,7 +85,7 @@ public class PatternFactory implements IPatternFactory {
 	
 	// Important stuff for the XML parsing and Validation
 	private static Bundle baseBundle = org.eclipse.core.runtime.Platform.getBundle("org.eclipse.tigerstripe.workbench.base");
-	private static String schemaLocation = "src/java/org/eclipse/tigerstripe/workbench/patterns/schemas/tigerstripeCreationPatternSchema.xsd";
+	private static String schemaLocation = "resources/schemas/tigerstripeCreationPatternSchema-v1-0.xsd";
 	
 	private static String tigerstripeNamespace = "http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0";
 	private static String patternNamespace     = "http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0";
@@ -378,43 +378,7 @@ public class PatternFactory implements IPatternFactory {
 						Expression referenceExpression = null;
 						if (pattern instanceof IArtifactPattern){
 							String target = ((IArtifactPattern) pattern).getTargetArtifactType();
-							
-							if (target.equals(IManagedEntityArtifact.class.getName())){
-								 referenceExpression = makeExpression("entity");
-							}
-							if (target.equals(IDatatypeArtifact.class.getName())){
-								 referenceExpression = makeExpression("datatype");
-							}
-							if (target.equals(IEnumArtifact.class.getName())){
-								 referenceExpression = makeExpression("enumeration");
-							}
-							if (target.equals(IExceptionArtifact.class.getName())){
-								 referenceExpression = makeExpression("exception");
-							}
-							if (target.equals(IEventArtifact.class.getName())){
-								 referenceExpression = makeExpression("event");
-							}
-							if (target.equals(IQueryArtifact.class.getName())){
-								 referenceExpression = makeExpression("query");
-							}
-							if (target.equals(IUpdateProcedureArtifact.class.getName())){
-								 referenceExpression = makeExpression("updateProcedure");
-							}
-							if (target.equals(ISessionArtifact.class.getName())){
-								 referenceExpression = makeExpression("session");
-							}
-							if (target.equals(IAssociationArtifact.class.getName())){
-								 referenceExpression = makeExpression("association");
-							}
-							if (target.equals(IAssociationClassArtifact.class.getName())){
-								 referenceExpression = makeExpression("associationClass");
-							}
-							if (target.equals(IDependencyArtifact.class.getName())){
-								 referenceExpression = makeExpression("dependency");
-							}
-							if (target.equals(IPackageArtifact.class.getName())){
-								 referenceExpression = makeExpression("package");
-							}
+							referenceExpression = makeExpression(target);
 						}
 						additions.addContributionItem(newItem,referenceExpression);
 
@@ -427,7 +391,10 @@ public class PatternFactory implements IPatternFactory {
 		
 		menuService.addContributionFactory(patternMenuAddition);
 
-// This section should do whichever one we decide is the "top" level for the drop down
+		
+		// This section should do whichever one we decide is the "top" level for the drop down
+		
+		// TODO - If this top level item gets disabled in your profile you are in trouble! As it disables the whole list!
 		AbstractContributionFactory patternToolbarAddition = new AbstractContributionFactory(
 				"toolbar:org.eclipse.tigerstripe.workbench.ui.base.toolbar?after=org.eclipse.tigerstripe.workbench.ui.base.newProject", null){
 			
@@ -454,7 +421,12 @@ public class PatternFactory implements IPatternFactory {
 						thisOne.icon = pattern.getDescriptor();
 						
 						CommandContributionItem newItem = new CommandContributionItem(thisOne);
-						additions.addContributionItem(newItem,null);
+						Expression referenceExpression = null;
+						if (pattern instanceof IArtifactPattern){
+							String target = ((IArtifactPattern) pattern).getTargetArtifactType();
+							referenceExpression = makeExpression(target);
+						}
+						additions.addContributionItem(newItem,referenceExpression);
 					}
 					// Only do the drop down once
 					break;
@@ -508,43 +480,7 @@ public class PatternFactory implements IPatternFactory {
 						Expression referenceExpression = null;
 						if (pattern instanceof IArtifactPattern){
 							String target = ((IArtifactPattern) pattern).getTargetArtifactType();
-							
-							if (target.equals(IManagedEntityArtifact.class.getName())){
-								 referenceExpression = makeExpression("entity");
-							}
-							if (target.equals(IDatatypeArtifact.class.getName())){
-								 referenceExpression = makeExpression("datatype");
-							}
-							if (target.equals(IEnumArtifact.class.getName())){
-								 referenceExpression = makeExpression("enumeration");
-							}
-							if (target.equals(IExceptionArtifact.class.getName())){
-								 referenceExpression = makeExpression("exception");
-							}
-							if (target.equals(IEventArtifact.class.getName())){
-								 referenceExpression = makeExpression("event");
-							}
-							if (target.equals(IQueryArtifact.class.getName())){
-								 referenceExpression = makeExpression("query");
-							}
-							if (target.equals(IUpdateProcedureArtifact.class.getName())){
-								 referenceExpression = makeExpression("updateProcedure");
-							}
-							if (target.equals(ISessionArtifact.class.getName())){
-								 referenceExpression = makeExpression("session");
-							}
-							if (target.equals(IAssociationArtifact.class.getName())){
-								 referenceExpression = makeExpression("association");
-							}
-							if (target.equals(IAssociationClassArtifact.class.getName())){
-								 referenceExpression = makeExpression("associationClass");
-							}
-							if (target.equals(IDependencyArtifact.class.getName())){
-								 referenceExpression = makeExpression("dependency");
-							}
-							if (target.equals(IPackageArtifact.class.getName())){
-								 referenceExpression = makeExpression("package");
-							}
+							referenceExpression = makeExpression(target);
 						}
 						additions.addContributionItem(newItem,referenceExpression);
 					}
@@ -556,7 +492,49 @@ public class PatternFactory implements IPatternFactory {
 	}
 	
 	
-	private static Expression makeExpression(String type){
+	
+	
+	private static Expression makeExpression(String target){
+		String type = "";
+		if (target.equals(IManagedEntityArtifact.class.getName())){
+			 type="entity";
+		}
+		if (target.equals(IDatatypeArtifact.class.getName())){
+			type="datatype";
+		}
+		if (target.equals(IEnumArtifact.class.getName())){
+			type="enumeration";
+		}
+		if (target.equals(IExceptionArtifact.class.getName())){
+			type="exception";
+		}
+		if (target.equals(IEventArtifact.class.getName())){
+			type="event";
+		}
+		if (target.equals(IQueryArtifact.class.getName())){
+			type="query";
+		}
+		if (target.equals(IUpdateProcedureArtifact.class.getName())){
+			type="updateProcedure";
+		}
+		if (target.equals(ISessionArtifact.class.getName())){
+			type="session";
+		}
+		if (target.equals(IAssociationArtifact.class.getName())){
+			type="association";
+		}
+		if (target.equals(IAssociationClassArtifact.class.getName())){
+			type="associationClass";
+		}
+		if (target.equals(IDependencyArtifact.class.getName())){
+			type="dependency";
+		}
+		if (target.equals(IPackageArtifact.class.getName())){
+			type="package";
+		}
+		if ("".equals(type)){
+			return null;
+		}
 		try {
 			String xml	= "<reference definitionId=\"org.eclipse.tigerstripe.workbench.ui.base.enabledInProfile."+type+"\"/>";
 			DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();

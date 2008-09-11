@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns:tns="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0" xmlns:tsa="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0" version="1.1">
-	<xs:import namespace="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0" schemaLocation="tigerstripeExportSchema.xsd"/>
+	<xs:import namespace="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0" schemaLocation="tigerstripeExportSchema-v2-0.xsd"/>
 			<xs:element name="creationPattern">
 				<xs:complexType>
 					<xs:sequence>

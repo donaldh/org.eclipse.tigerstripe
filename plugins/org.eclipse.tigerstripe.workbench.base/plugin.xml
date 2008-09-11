@@ -328,40 +328,40 @@
    <extension
          point="org.eclipse.tigerstripe.workbench.base.creationPatterns">
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/managedEntity.xml">
+            patternFile="resources/patterns/managedEntity.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/datatype.xml">
+            patternFile="resources/patterns/datatype.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/association.xml">
+            patternFile="resources/patterns/association.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/enumeration.xml">
+            patternFile="resources/patterns/enumeration.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/event.xml">
+            patternFile="resources/patterns/event.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/exception.xml">
+            patternFile="resources/patterns/exception.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/package.xml">
+            patternFile="resources/patterns/package.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/query.xml">
+            patternFile="resources/patterns/query.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/session.xml">
+            patternFile="resources/patterns/session.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/updateProcedure.xml">
+            patternFile="resources/patterns/updateProcedure.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/associationClass.xml">
+            patternFile="resources/patterns/associationClass.xml">
       </patternDefinition>
       <patternDefinition
-            patternFile="src/java/org/eclipse/tigerstripe/workbench/internal/api/patterns/builtins/dependency.xml">
+            patternFile="resources/patterns/dependency.xml">
       </patternDefinition>
    </extension>
 

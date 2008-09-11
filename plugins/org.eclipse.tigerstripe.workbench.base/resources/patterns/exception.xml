@@ -5,7 +5,7 @@
 						 uiLabel="Exception"
 						 iconPath="icons/exception_new.gif"
 						 disabledIconPath="icons/exception_gs.gif"
-						 index="1900"
+						 index="2100"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
     <pattern:description>Create a new Exception</pattern:description>

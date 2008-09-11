@@ -5,7 +5,7 @@
 						 uiLabel="Session"
 						 iconPath="icons/session_new.gif"
 						 disabledIconPath="icons/session_gs.gif"
-						 index="1300"
+						 index="2000"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
     <pattern:description>Create a new Session</pattern:description>

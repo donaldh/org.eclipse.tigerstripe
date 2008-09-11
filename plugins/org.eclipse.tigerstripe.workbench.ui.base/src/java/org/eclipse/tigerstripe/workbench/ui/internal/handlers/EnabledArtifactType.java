@@ -24,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
@@ -135,6 +136,11 @@ public class EnabledArtifactType extends PropertyTester implements IActiveWorkbe
 			dependencyEnabled = true;
 		 } else {
 			 dependencyEnabled = false;
+		 }
+		if (prop.getDetailsForType(IPackageArtifact.class.getName()).isEnabled()){
+			packageEnabled = true;
+		 } else {
+			 packageEnabled = false;
 		 }
 		
 	}

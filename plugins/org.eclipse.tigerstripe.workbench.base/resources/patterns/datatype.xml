@@ -5,7 +5,7 @@
 						 uiLabel="Datatype"
 						 iconPath="icons/datatype_new.gif"
 						 disabledIconPath="icons/datatype_gs.gif"
-						 index="1100"
+						 index="1200"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
     <pattern:description>Create a new Datatype</pattern:description>

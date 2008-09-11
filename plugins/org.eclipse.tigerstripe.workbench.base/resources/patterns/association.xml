@@ -5,7 +5,7 @@
 						 patternType="relation"
 						 iconPath="icons/AssociationIcon-small_new.png"
 						 disabledIconPath="AssociationIcon-small_gs.png"
-						 index="1500"
+						 index="1400"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
     <pattern:description>Create a new Association</pattern:description>
