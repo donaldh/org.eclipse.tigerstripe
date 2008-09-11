@@ -20,6 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -38,7 +44,6 @@ import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
 import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
-import org.eclipse.tigerstripe.espace.resources.ResourceManager;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
 import org.eclipse.tigerstripe.espace.resources.internal.core.ClassifierIndexer;
 import org.eclipse.tigerstripe.espace.resources.internal.core.CompositeIndexer;
@@ -50,7 +55,7 @@ import org.eclipse.tigerstripe.espace.resources.internal.core.ResourceStorage;
  * @author Yuri Strot
  *
  */
-public class EMFDatabase implements IEMFDatabase {
+public class EMFDatabase implements IEMFDatabase, IResourceChangeListener {
 	
 	private static final String ROUTER_EXTPT = "org.eclipse.tigerstripe.annotation.core.router";
 	private static final String ROUTER_ATTR_CLASS = "class";
@@ -69,7 +74,7 @@ public class EMFDatabase implements IEMFDatabase {
 	
 	private ResourceStorage resourceStorage;
 	private IDatabaseConfiguration idManager;
-	private ResourceManager resourceManager;
+	private List<ResourceState> resources = new ArrayList<ResourceState>();
 	
 	private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
 	
@@ -79,6 +84,8 @@ public class EMFDatabase implements IEMFDatabase {
 	}
 	
 	protected void init() {
+		resources = new ArrayList<ResourceState>();
+		org.eclipse.core.resources.ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 		initResources();
 		initRouters();
 	}
@@ -95,7 +102,6 @@ public class EMFDatabase implements IEMFDatabase {
 		
 		resourceHelper = new ResourceHelper(indexer, resourceSet);
 		resourceStorage = new ResourceStorage(resourceHelper);
-		resourceManager = new ResourceManager(resourceStorage);
 	}
 	
 	protected void initRouters() {
@@ -158,7 +164,7 @@ public class EMFDatabase implements IEMFDatabase {
 	
 	private void unlockChanges(boolean write) {
 		if (write) {
-			if (resourceManager.updateState())
+			if (updateState())
 				doRebuildIndex();
 			rwl.writeLock().unlock();
 		}
@@ -393,7 +399,7 @@ public class EMFDatabase implements IEMFDatabase {
 	}
 	
 	protected void update() {
-		if (getResourceStorage().needUpdate())
+		if (updateState() || getResourceStorage().needUpdate())
 			doRebuildIndex();
 	}
 	
@@ -555,6 +561,100 @@ public class EMFDatabase implements IEMFDatabase {
 			contents.addAll(resources[i].getContents());
         }
 	    return contents.toArray(new EObject[contents.size()]);
+	}
+	
+	public void resourceChanged(IResourceChangeEvent event) {
+		try {
+			if (event.getDelta() != null) {
+				event.getDelta().accept(new IResourceDeltaVisitor() {
+					
+					public boolean visit(IResourceDelta delta) throws CoreException {
+						IResource resource = delta.getResource();
+						switch (delta.getKind()) {
+							case IResourceDelta.ADDED:
+								updateResource(resource, true);
+								break;
+							case IResourceDelta.CHANGED:
+								break;
+							case IResourceDelta.REMOVED:
+								updateResource(resource, false);
+								break;
+						}
+						return true;
+					}
+				});
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	protected synchronized void updateResource(IResource resource, boolean added) {
+		if (resource instanceof IFile) {
+			IFile file = (IFile)resource;
+			String ext = file.getFileExtension();
+			if (ext != null && ext.toLowerCase().equals(EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
+				resources.add(new ResourceState(resource, added));
+			}
+		}
+	}
+	public boolean updateState() {
+		boolean rebuild = false;
+		for (ResourceState state : resources) {
+			Resource resource = getResourceStorage().getResource(state.getResource());
+			if (state.isAdded())
+				rebuild |= getResourceStorage().addResource(resource, Mode.READ_WRITE);
+			else
+				rebuild |= getResourceStorage().removeResource(resource);
+		}
+		resources = new ArrayList<ResourceState>();
+		return rebuild;
+	}
+	
+	private static class ResourceState {
+		
+		private IResource resource;
+		private boolean added;
+		
+		public ResourceState(IResource resource, boolean added) {
+			this.resource = resource;
+			this.added = added;
+		}
+		
+		/**
+		 * @return the resource
+		 */
+		public IResource getResource() {
+			return resource;
+		}
+		
+		/**
+		 * @return the added
+		 */
+		public boolean isAdded() {
+			return added;
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof ResourceState) {
+				ResourceState state = (ResourceState)obj;
+				return state.added == added && state.resource.equals(resource);
+			}
+			return false;
+		}
+		
+		/* (non-Javadoc)
+		 * @see java.lang.Object#hashCode()
+		 */
+		@Override
+		public int hashCode() {
+			return resource.hashCode() ^ (added ? 0 : 1);
+		}
+		
 	}
 
 }

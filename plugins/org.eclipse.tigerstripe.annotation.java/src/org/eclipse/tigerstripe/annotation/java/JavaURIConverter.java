@@ -163,8 +163,7 @@ public class JavaURIConverter {
 	}
 	
 	private static IPath convertToPath(String path) {
-		String nPath = path.replaceAll("\\.", "/");
-		return new Path(nPath);
+		return new Path(path);
 	}
 	
 	private static IType getType(ITypeRoot root, String className) throws JavaModelException {
