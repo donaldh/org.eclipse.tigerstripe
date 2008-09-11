@@ -26,6 +26,9 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
@@ -231,12 +234,20 @@ public abstract class QualifiedNamedElementETAdapter extends BaseETAdapter
 			QualifiedNamedElement element) {
 		if (oldValue == null) {
 			// this is the last part of a new element being created
-//			IArtifactCreateRequest request = makeArtifactCreateRequest(element);
-//			try {
-//				postChangeRequest(request);
-//			} catch (TigerstripeException e) {
-//				EclipsePlugin.log(e);
-//			}
+			IArtifactCreateRequest request = makeArtifactCreateRequest(element);
+			
+			// Only post changes for Association and Dependencies until
+			// the Artifact Pattern logic can be applied 
+			if (IAssociationArtifact.class.getName().equals(
+					request.getArtifactType())
+					|| IDependencyArtifact.class.getName().equals(
+							request.getArtifactType())) {
+				try {
+					postChangeRequest(request);
+				} catch (TigerstripeException e) {
+					EclipsePlugin.log(e);
+				}
+			}
 		} else {
 			// this is a refactor, where the package of the artifact is changed.
 		}

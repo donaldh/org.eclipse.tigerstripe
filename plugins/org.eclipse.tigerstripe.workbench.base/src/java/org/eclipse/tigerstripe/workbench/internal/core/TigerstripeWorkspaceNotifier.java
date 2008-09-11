@@ -10,16 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.commons.collections.set.SynchronizedSet;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.Status;
@@ -38,9 +35,7 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 
 	public static TigerstripeWorkspaceNotifier INSTANCE = new TigerstripeWorkspaceNotifier();
 
-	@SuppressWarnings("unchecked")
-	private Set<FilteredListener> listeners = SynchronizedSet
-			.decorate(new HashSet<FilteredListener>());
+	private ListenerList listeners = new ListenerList();
 
 	public class FilteredListener {
 
@@ -104,8 +99,7 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 	public void addTigerstripeChangeListener(
 			ITigerstripeChangeListener listener, int filter) {
 		FilteredListener fListener = new FilteredListener(listener, filter);
-		if (!listeners.contains(fListener))
-			listeners.add(fListener);
+		listeners.add(fListener); // ListenerList avoids duplicates
 	}
 
 	public void removeTigerstripeChangeListener(
@@ -141,7 +135,10 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 
 	private void broadcastProjectAdded(
 			final IAbstractTigerstripeProject newProject) {
-		for (final FilteredListener listener : listeners) {
+
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
 			if (listener.select(ITigerstripeChangeListener.PROJECT))
 				SafeRunner.run(new ISafeRunnable() {
 
@@ -158,7 +155,9 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 	}
 
 	private void broadcastProjectDeleted(final String oldProjectName) {
-		for (final FilteredListener listener : listeners) {
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
 			if (listener.select(ITigerstripeChangeListener.PROJECT))
 				SafeRunner.run(new ISafeRunnable() {
 
@@ -201,7 +200,9 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 	}
 
 	private void broadcastModelChange(final IModelChangeDelta[] deltas) {
-		for (final FilteredListener listener : listeners) {
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
 			if (listener.select(ITigerstripeChangeListener.MODEL))
 				SafeRunner.run(new ISafeRunnable() {
 
@@ -252,7 +253,9 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 
 	private void broadcastModelAnnotationChange(
 			final IModelAnnotationChangeDelta[] deltas) {
-		for (final FilteredListener listener : listeners) {
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
 			if (listener.select(ITigerstripeChangeListener.ANNOTATION))
 				SafeRunner.run(new ISafeRunnable() {
 
