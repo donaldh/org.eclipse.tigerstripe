@@ -163,7 +163,8 @@ public class DiagramRebuildUtils {
 			updateAnnotations(editor, locations, part);
 		}
 
-		editor.doSave(new NullProgressMonitor());
+		if (editor.isDirty())
+			editor.doSave(new NullProgressMonitor());
 	}
 	
 	public static AnnotationStatus[] getPartAnnotations(EditPart part) {
