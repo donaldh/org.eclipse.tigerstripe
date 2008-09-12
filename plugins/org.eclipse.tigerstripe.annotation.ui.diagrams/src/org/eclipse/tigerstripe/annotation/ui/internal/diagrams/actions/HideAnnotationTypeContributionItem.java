@@ -11,15 +11,20 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions;
 
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.PullDownContributionItem;
 
 /**
  * @author Yuri Strot
  *
  */
-public class HideAnnotationTypes extends ChangeAnnotationTypesVisibility {
-	
-	public HideAnnotationTypes() {
-		super(false);
+public class HideAnnotationTypeContributionItem extends PullDownContributionItem {
+
+	/**
+	 * @param provider
+	 */
+	public HideAnnotationTypeContributionItem() {
+		super(new ChangeAnnotationTypesVisibility(
+				"Hide Annotation Types", false));
 	}
 
 }

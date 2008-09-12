@@ -19,6 +19,8 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
+import org.eclipse.tigerstripe.annotation.ui.core.IExtendedMenuCreator;
+import org.eclipse.tigerstripe.annotation.ui.core.IMenuProvider;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationGroup;
 
 
@@ -26,7 +28,7 @@ import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationGroup;
  * @author Yuri Strot
  *
  */
-public class CreateAnnotationAction extends DelegateAction {
+public class CreateAnnotationAction extends DelegateAction implements IMenuProvider {
 	
 	private Object object;
 	private List<Object> list;
@@ -34,6 +36,7 @@ public class CreateAnnotationAction extends DelegateAction {
 	private TargetAnnotationType[] types;
 	
 	public CreateAnnotationAction() {
+		super("Create");
 		list = new ArrayList<Object>();
 		menu = new MenuCreator(list);
 	}
@@ -48,6 +51,17 @@ public class CreateAnnotationAction extends DelegateAction {
 	    	updateAnnotationsList();
 	    	action.setMenuCreator(menu);
 	    }
+	    else {
+	    	action.setMenuCreator(null);
+	    }
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.internal.actions.DelegateAction#run(org.eclipse.jface.action.IAction)
+	 */
+	@Override
+	public void run(IAction action) {
+		super.run(action);
 	}
 	
 	protected void updateAnnotationsList() {
@@ -84,6 +98,25 @@ public class CreateAnnotationAction extends DelegateAction {
 			types = AnnotationPlugin.getManager().getAnnotationTargets(object);
 		}
 		setEnabled(types != null && types.length > 0);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.IMenuProvider#getMenu(org.eclipse.jface.viewers.ISelection)
+	 */
+	public IExtendedMenuCreator getMenu(ISelection selection) {
+		adaptSelection(selection);
+		if (isEnabled()) {
+			updateAnnotationsList();
+			return menu;
+		}
+		return null;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.IMenuProvider#getBaseAction()
+	 */
+	public IAction getBaseAction() {
+		return this;
 	}
 
 }

@@ -25,6 +25,8 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.ui.core.IExtendedMenuCreator;
+import org.eclipse.tigerstripe.annotation.ui.core.IMenuProvider;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.MenuCreator;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.AnnotationTree;
 import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.DiagramRebuildUtils;
@@ -36,7 +38,7 @@ import org.eclipse.ui.IActionDelegate;
  * @author Yuri Strot
  *
  */
-public class ChangeAnnotationTypesVisibility extends Action implements IActionDelegate {
+public class ChangeAnnotationTypesVisibility extends Action implements IActionDelegate, IMenuProvider {
 	
 	private List<Object> list;
 	private MenuCreator menu;
@@ -44,7 +46,8 @@ public class ChangeAnnotationTypesVisibility extends Action implements IActionDe
 	private AnnotationTree tree;
 	private boolean show;
 	
-	public ChangeAnnotationTypesVisibility(boolean show) {
+	public ChangeAnnotationTypesVisibility(String name, boolean show) {
+		super(name);
 		list = new ArrayList<Object>();
 		menu = new MenuCreator(list);
 		this.show = show;
@@ -60,6 +63,16 @@ public class ChangeAnnotationTypesVisibility extends Action implements IActionDe
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
+		if (changeSelection(selection))
+			action.setEnabled(false);
+		else {
+			action.setEnabled(true);
+			updateList();
+			action.setMenuCreator(menu);
+		}
+	}
+	
+	protected boolean changeSelection(ISelection selection) {
 		List<EditPart> parts = new ArrayList<EditPart>();
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection sel = (IStructuredSelection)selection;
@@ -78,13 +91,7 @@ public class ChangeAnnotationTypesVisibility extends Action implements IActionDe
 			}
 		}
 		updateParts(parts.toArray(new EditPart[parts.size()]));
-		if (! (show ? tree.canBeShown() : tree.canBeHidden()) )
-			action.setEnabled(false);
-		else {
-			action.setEnabled(true);
-			updateList();
-			action.setMenuCreator(menu);
-		}
+		return (show ? tree.canBeShown() : tree.canBeHidden());
 	}
 	
 	protected void updateParts(EditPart[] parts) {
@@ -122,6 +129,25 @@ public class ChangeAnnotationTypesVisibility extends Action implements IActionDe
 			list.add(0, new Separator());
 			list.add(0, action);
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.IMenuProvider#getBaseAction()
+	 */
+	public IAction getBaseAction() {
+		return this;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.IMenuProvider#getMenu(org.eclipse.jface.viewers.ISelection)
+	 */
+	public IExtendedMenuCreator getMenu(ISelection selection) {
+		boolean enabled = changeSelection(selection);
+		if (enabled) {
+			updateList();
+			return menu;
+		}
+		return null;
 	}
 
 }

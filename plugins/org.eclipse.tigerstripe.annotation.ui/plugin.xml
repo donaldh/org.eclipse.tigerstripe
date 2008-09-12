@@ -17,43 +17,46 @@
             id="org.eclipse.tigerstripe.annotation.view.property"
             name="Annotation Property View"/>
    </extension>
-
-   <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            adaptable="true"
-            id="org.eclipse.tigerstripe.annotation.ui.resource.contribution"
-            nameFilter="*"
-            objectClass="java.lang.Object">
-         <menu
-               label="Annotations"
-               path="additions"
-               id="org.eclipse.tigerstripe.annotation.ui.mainmenu">
-            <separator
-                  name="modification"/>
-            <separator
-                  name="concealment"/>
-         </menu>
-         <action
-               class="org.eclipse.tigerstripe.annotation.ui.internal.actions.CreateAnnotationAction"
-               enablesFor="1"
-               id="org.eclipse.tigerstripe.annotation.ui.resource.actions.create"
-               label="Create"
-               menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/modification"
-               style="pulldown"
-               tooltip="Add Annotation">
-         </action>
-         <action
-               class="org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotationAction"
-               enablesFor="1"
-               id="org.eclipse.tigerstripe.annotation.ui.resource.actions.remove"
-               label="Remove"
-               menubarPath="org.eclipse.tigerstripe.annotation.ui.mainmenu/modification"
-               style="push"
-               tooltip="Remove Annotation">
-         </action>
-      </objectContribution>
-   </extension>
+	
+	<extension
+			point="org.eclipse.ui.commands">
+		<command
+        	id="org.eclipse.tigerstripe.annotation.ui.commands.remove"
+        	name="Remove"/>
+	</extension>
+	
+	<extension
+			point="org.eclipse.ui.actionSets">
+		<actionSet
+				id="org.eclipse.tigerstripe.annotation.annotationSet"
+				visible="true"
+				label="Annotations">
+			<action
+				definitionId="org.eclipse.tigerstripe.annotation.ui.commands.remove"
+				class="org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotationAction"
+				enablesFor="1"
+				id="org.eclipse.tigerstripe.annotation.ui.resource.actions.remove"
+				label="Remove"
+				style="push"
+				tooltip="Remove Annotation"/>
+		</actionSet>
+	</extension>
+   
+	<extension
+			point="org.eclipse.ui.menus">
+		<menuContribution
+				locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+			<menu id="org.eclipse.tigerstripe.annotation.menus.annotations" label="Annotations">
+				<dynamic
+					class="org.eclipse.tigerstripe.annotation.ui.internal.actions.CreateAnnotationContributionItem"
+					id="org.eclipse.tigerstripe.annotation.ui.actions.create">
+				</dynamic>
+				<command
+					commandId="org.eclipse.tigerstripe.annotation.ui.commands.remove"
+					style="push"/>
+			</menu>
+		</menuContribution>
+	</extension>
 
      <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">

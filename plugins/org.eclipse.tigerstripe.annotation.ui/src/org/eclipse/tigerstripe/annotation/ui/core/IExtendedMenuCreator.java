@@ -11,16 +11,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core;
 
+import org.eclipse.jface.action.IMenuCreator;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+
 /**
  * @author Yuri Strot
  *
  */
-public interface IAnnotationActionConstants {
-	
-	public static String ANNOTATION_PROPERTIES = "annotationProperties";
-	
-	public static String ANNOTATION_PROPERTIES_GROUP = "group." + ANNOTATION_PROPERTIES;
-	
-	public static String ANNOTATION_MENU_ID = "org.eclipse.tigerstripe.annotation.menus.annotations";
+public interface IExtendedMenuCreator extends IMenuCreator {
+
+    public Menu getMenu(MenuItem parent);
 
 }

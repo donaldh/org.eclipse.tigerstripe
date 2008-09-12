@@ -14,6 +14,7 @@ package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 import org.eclipse.jface.action.AbstractGroupMarker;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.tigerstripe.annotation.ui.core.IAnnotationActionConstants;
 
 /**
  * @author Yuri Strot
@@ -50,6 +51,11 @@ public class LimitMenuManager extends MenuManager {
 				item.setVisible(false);
 			}
 		}
+		else if (item instanceof MenuManager) {
+			MenuManager manager = (MenuManager)item;
+			if (IAnnotationActionConstants.ANNOTATION_MENU_ID.equals(manager.getId()))
+				item.setVisible(false);
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -59,6 +65,15 @@ public class LimitMenuManager extends MenuManager {
 	public void add(IContributionItem item) {
 		hide(item);
 		super.add(item);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.jface.action.ContributionManager#insert(int, org.eclipse.jface.action.IContributionItem)
+	 */
+	@Override
+	public void insert(int index, IContributionItem item) {
+		hide(item);
+		super.insert(index, item);
 	}
 	
 	/* (non-Javadoc)

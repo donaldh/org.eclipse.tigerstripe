@@ -17,16 +17,17 @@ import java.util.List;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IMenuCreator;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.tigerstripe.annotation.ui.core.IExtendedMenuCreator;
 
 /**
  * @author Yuri Strot
  *
  */
-public class MenuCreator implements IMenuCreator {
+public class MenuCreator implements IExtendedMenuCreator {
 	
 	private MenuManager menuMgr;
 	private List<Object> actionsList;
@@ -36,6 +37,17 @@ public class MenuCreator implements IMenuCreator {
 	}
 	
 	public Menu getMenu(Menu parent) {
+		Menu menu = new Menu(parent);
+		for (Iterator<Object> iter = actionsList.iterator(); iter.hasNext();) {
+			addActionToMenu(menu, iter.next());
+		}
+		return menu;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.IExtendedMenuCreator#getMenu(org.eclipse.swt.widgets.MenuItem)
+	 */
+	public Menu getMenu(MenuItem parent) {
 		Menu menu = new Menu(parent);
 		for (Iterator<Object> iter = actionsList.iterator(); iter.hasNext();) {
 			addActionToMenu(menu, iter.next());

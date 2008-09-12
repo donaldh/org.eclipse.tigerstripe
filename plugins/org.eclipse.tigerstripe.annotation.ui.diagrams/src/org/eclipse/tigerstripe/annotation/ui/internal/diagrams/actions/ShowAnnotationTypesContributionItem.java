@@ -9,18 +9,22 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.core;
+package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions;
+
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.PullDownContributionItem;
 
 /**
  * @author Yuri Strot
  *
  */
-public interface IAnnotationActionConstants {
-	
-	public static String ANNOTATION_PROPERTIES = "annotationProperties";
-	
-	public static String ANNOTATION_PROPERTIES_GROUP = "group." + ANNOTATION_PROPERTIES;
-	
-	public static String ANNOTATION_MENU_ID = "org.eclipse.tigerstripe.annotation.menus.annotations";
+public class ShowAnnotationTypesContributionItem extends PullDownContributionItem {
+
+	/**
+	 * @param provider
+	 */
+	public ShowAnnotationTypesContributionItem() {
+		super(new ChangeAnnotationTypesVisibility(
+				"Show Annotation Types", true));
+	}
 
 }

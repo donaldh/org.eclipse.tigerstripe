@@ -16,13 +16,14 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IActionDelegate;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 /**
  * @author Yuri Strot
  *
  */
-public class DelegateAction extends Action implements IActionDelegate {
+public class DelegateAction extends Action implements IWorkbenchWindowActionDelegate {
 	
 	public DelegateAction() {
 		super();
@@ -59,6 +60,18 @@ public class DelegateAction extends Action implements IActionDelegate {
 	
 	protected void adaptSelection(ISelection selection) {
 		//user should implement this method
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#dispose()
+	 */
+	public void dispose() {
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 */
+	public void init(IWorkbenchWindow window) {
 	}
 
 }
