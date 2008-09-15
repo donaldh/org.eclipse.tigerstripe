@@ -88,8 +88,11 @@ public class PartAdapterFactory implements IAdapterFactory {
 					try {
 						IAbstractArtifact artifact = art
 								.getCorrespondingIArtifact();
-						if (artifact==null)
-							throw new TigerstripeException("Diagram includes reference to '"+art.getFullyQualifiedName()+"' which is not imported by this project.");
+						if (artifact == null)
+							throw new TigerstripeException(
+									"Diagram includes reference to '"
+											+ art.getFullyQualifiedName()
+											+ "' which is not imported by this project.");
 						for (IField field : artifact.getFields()) {
 							if (field.getName().equals(attr.getName())) {
 								return field;
@@ -144,7 +147,8 @@ public class PartAdapterFactory implements IAdapterFactory {
 					try {
 						IAssociationArtifact artifact = (IAssociationArtifact) assoc
 								.getCorrespondingIArtifact();
-						return artifact.getAEnd();
+						if (artifact != null)
+							return artifact.getAEnd();
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 						return null;
@@ -160,7 +164,8 @@ public class PartAdapterFactory implements IAdapterFactory {
 					try {
 						IAssociationArtifact artifact = (IAssociationArtifact) assoc
 								.getCorrespondingIArtifact();
-						return artifact.getZEnd();
+						if (artifact != null)
+							return artifact.getZEnd();
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 						return null;
