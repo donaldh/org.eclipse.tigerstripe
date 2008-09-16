@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
@@ -171,10 +172,11 @@ public class ExceptionArtifactStereotypesEditPart extends CompartmentEditPart
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public void setLabel(WrapLabel figure) {
 		unregisterVisuals();
+		figure.setAlignment(PositionConstants.CENTER);
 		setFigure(figure);
 		defaultText = getLabelTextHelper(figure);
 		registerVisuals();

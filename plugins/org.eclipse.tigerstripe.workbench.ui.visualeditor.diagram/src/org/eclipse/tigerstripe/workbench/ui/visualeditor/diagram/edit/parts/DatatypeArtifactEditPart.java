@@ -291,7 +291,6 @@ public class DatatypeArtifactEditPart extends AdaptableTigerstripeShapeNodeEditP
 			setFigureDatatypeStereotypesFigure(fig_0);
 
 			Object layData0 = null;
-
 			this.add(fig_0, layData0);
 			WrapLabel fig_1 = new WrapLabel();
 			fig_1.setText("<...>");

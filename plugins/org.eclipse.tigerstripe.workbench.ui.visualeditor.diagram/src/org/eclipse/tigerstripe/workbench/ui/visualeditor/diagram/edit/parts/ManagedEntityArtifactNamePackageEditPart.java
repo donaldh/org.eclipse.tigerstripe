@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
@@ -176,11 +177,12 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public void setLabel(WrapLabel figure) {
 		unregisterVisuals();
 		setFigure(figure);
+		figure.setAlignment(PositionConstants.CENTER);
 		defaultText = getLabelTextHelper(figure);
 		registerVisuals();
 		refreshVisuals();
