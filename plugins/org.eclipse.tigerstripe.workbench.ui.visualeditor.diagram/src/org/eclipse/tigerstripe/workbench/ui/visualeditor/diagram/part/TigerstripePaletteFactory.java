@@ -35,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.NodePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
@@ -81,7 +82,11 @@ public class TigerstripePaletteFactory {
 			
 			IPattern pattern = PatternFactory.getInstance().getPattern(patternName);
 			if (pattern instanceof NodePattern){
-				paletteContainer.add(createPatternBasedCreationTool((NodePattern)pattern));
+				// TODO remove package from the palette as we don't yet support this 
+				
+				if (! ((IArtifactPattern) pattern).getTargetArtifactType().equals(IPackageArtifact.class.getName())){
+					paletteContainer.add(createPatternBasedCreationTool((NodePattern)pattern));
+				}
 			}
 
 			
