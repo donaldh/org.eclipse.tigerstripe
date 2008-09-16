@@ -60,7 +60,7 @@
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.updateProcedure.UpdateProcedureArtifactEditor"
             default="false"
-            icon="src/icons/updateProc.gif"
+            icon="src/icons/archive/updateProc.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.updateProcedureEditor"
             name="Tigerstripe OSS/J Update Procedure Editor"/>
       <editor
@@ -119,7 +119,7 @@
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.packageArtifact.PackageArtifactEditor"
             default="false"
-            icon="src/icons/archive/field_private_obj-large.gif"
+            icon="src/icons/archive/package.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.packageEditor"
             name="Tigerstripe Package Editor">
       </editor>
