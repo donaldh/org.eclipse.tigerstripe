@@ -93,29 +93,32 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 			IAssociationEnd end = association.getAEnd();
 			if (end == null){
 				end = association.makeAssociationEnd();
-				association.setAEnd(end);
+				
 			}
+			end.setMultiplicity(EMultiplicity.parse((String) endData.get(IArtifactSetFeatureRequest.AENDMULTIPLICITY)));
 			IType type = end.getType();
 			if ( type == null){
 				type = end.makeType();
-				end.setType(type);
+				
 			}
-			type.setTypeMultiplicity(EMultiplicity.parse((String) endData.get(IArtifactSetFeatureRequest.AENDMULTIPLICITY)));
-			type.setFullyQualifiedName(endType);			
+			type.setFullyQualifiedName(endType);
+			end.setType(type);
+			association.setAEnd(end);
 			
 			
 			IAssociationEnd end2 = association.getZEnd();
 			if (end2 == null){
-				end2 = association.makeAssociationEnd();
-				association.setZEnd(end2);
+				end2 = association.makeAssociationEnd();	
 			}
+			end2.setMultiplicity(EMultiplicity.parse((String) endData.get(IArtifactSetFeatureRequest.ZENDMULTIPLICITY)));
 			IType type2 = end2.getType();
 			if ( type2 == null){
 				type2 = end.makeType();
-				end2.setType(type2);
 			}
-			type2.setTypeMultiplicity(EMultiplicity.parse((String) endData.get(IArtifactSetFeatureRequest.ZENDMULTIPLICITY)));
-			type2.setFullyQualifiedName(endType2);			
+			
+			type2.setFullyQualifiedName(endType2);
+			end2.setType(type2);
+			association.setZEnd(end2);
 			
 			for (String feature : endData.keySet()){
 
