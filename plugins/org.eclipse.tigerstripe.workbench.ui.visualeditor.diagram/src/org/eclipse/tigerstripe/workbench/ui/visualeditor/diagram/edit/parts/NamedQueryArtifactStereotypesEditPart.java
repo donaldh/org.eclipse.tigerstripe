@@ -430,9 +430,12 @@ public class NamedQueryArtifactStereotypesEditPart extends CompartmentEditPart
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void refreshLabel() {
+		// To force the Stereotype compartment to be invisible when no stereotype
+		setVisibility( getLabelText() != null && getLabelText().length() != 0);
+		
 		setLabelTextHelper(getFigure(), getLabelText());
 		setLabelIconHelper(getFigure(), getLabelIcon());
 		Object pdEditPolicy = getEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE);
