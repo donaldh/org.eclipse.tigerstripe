@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest.ECapableClass;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -59,9 +60,15 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 	@Override
 	public void setElement(Element artifactElement) {
 		super.setElement(artifactElement);
-		Map<String,Object> endData = xmlParserUtils.getArtifactEndData(artifactElement);
-		setAEndType((String) endData.get(IArtifactSetFeatureRequest.AENDType));
-		setZEndType((String) endData.get(IArtifactSetFeatureRequest.ZENDType));
+		if ( xmlParserUtils.elementHasAssociationSpecifics(artifactElement) ){
+			Map<String,Object> endData = xmlParserUtils.getAssociationEndData(artifactElement);
+			setAEndType((String) endData.get(IArtifactSetFeatureRequest.AENDType));
+			setZEndType((String) endData.get(IArtifactSetFeatureRequest.ZENDType));
+		} else if ( xmlParserUtils.elementHasDependencySpecifics(artifactElement)){
+			Map<String,Object> dependencyData = xmlParserUtils.getDependencyEndData(artifactElement);
+			setAEndType((String) dependencyData.get(IArtifactSetFeatureRequest.AENDType));
+			setZEndType((String) dependencyData.get(IArtifactSetFeatureRequest.ZENDType));
+		}
 	}
 
 
@@ -79,7 +86,7 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 			String extendedArtifactName, String endType, String endType2)
 			throws TigerstripeException {
 		IAbstractArtifact artifact = super.createArtifact(project, packageName, artifactName, extendedArtifactName);
-		Map<String,Object> endData = xmlParserUtils.getArtifactEndData(artifactElement);
+		Map<String,Object> endData = xmlParserUtils.getAssociationEndData(artifactElement);
 		
 		if (artifact instanceof IAssociationArtifact){
 			IAssociationArtifact association = (IAssociationArtifact) artifact;
@@ -122,10 +129,13 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 					end2.addStereotypeInstance((IStereotypeInstance) endData.get(feature));
 				} else if (!endCreateFeatures.contains(feature)){
 					IAssociationEnd targetEnd;
+					int endref = 0;
 					if (feature.startsWith("aEnd")) {
 						targetEnd = end;
+						endref = 0;
 					} else {
 						targetEnd = end2;
+						endref = 1;
 					}
 					String newValue = (String) endData.get(feature);
 					if (feature.endsWith("Aggregation")) {
@@ -141,7 +151,13 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 						targetEnd
 								.setChangeable(EChangeableEnum.parse(newValue));
 					} else if (feature.endsWith("Name")) {
+						if ( !newValue.equals("")){
 						targetEnd.setName(newValue);
+						} else {
+							ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
+							String name = nameFactory.getNewAssociationEndName(association, endref);
+							targetEnd.setName(name);
+						}
 					} else if (feature.endsWith("Unique")) {
 						targetEnd.setUnique(Boolean.valueOf(newValue));
 					} else if (feature.endsWith("Visibility")) {

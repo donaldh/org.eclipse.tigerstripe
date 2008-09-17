@@ -102,8 +102,19 @@ public class TigerstripeXMLParserUtils {
 		return implementsData;
 	}
 	
+	public Map<String,Object> getDependencyEndData(Element artifactElement ){
+		Map<String,Object> dependencyData = new HashMap<String,Object>();
+		NodeList dependencyNodes = artifactElement
+		.getElementsByTagNameNS(namespace, "dependencySpecifics");
+		for (int fn = 0; fn < dependencyNodes.getLength(); fn++) {
+			Element dependencyNode = (Element) dependencyNodes.item(fn);
+			dependencyData.put(IArtifactSetFeatureRequest.AENDType ,dependencyNode.getAttribute("aEndTypeName"));
+			dependencyData.put(IArtifactSetFeatureRequest.ZENDType ,dependencyNode.getAttribute("zEndTypeName"));
+		}
+		return dependencyData;
+	}
 	
-	public Map<String,Object> getArtifactEndData(Element artifactElement ){
+	public Map<String,Object> getAssociationEndData(Element artifactElement ){
 		Map<String,Object> endData = new HashMap<String,Object>();
 		NodeList endNodes = artifactElement
 			.getElementsByTagNameNS(namespace, "associationEnd");
@@ -529,6 +540,37 @@ public class TigerstripeXMLParserUtils {
 		}
 
 		return isis;
+	}
+	
+	public boolean elementHasDependencySpecifics(Element element){
+		NodeList childNodes = element.getChildNodes();
+		for (int g = 0; g < childNodes.getLength(); g++) {
+			if (childNodes.item(g) instanceof Element){
+				Element node = (Element) childNodes.item(g);
+				boolean dependencySpecs =  node.getLocalName().equals("dependencySpecifics");
+				if ( dependencySpecs ){
+					return true;
+				}
+			}
+			
+		}
+		return false;
+	}
+	
+	public boolean elementHasAssociationSpecifics(Element element){
+		NodeList childNodes = element.getChildNodes();
+		for (int g = 0; g < childNodes.getLength(); g++) {
+			if (childNodes.item(g) instanceof Element){
+				Element node = (Element) childNodes.item(g);
+				boolean associationSpecs =  node.getLocalName().equals("associationSpecifics");
+				boolean associationClassSpecs =  node.getLocalName().equals("associationClassSpecifics");
+				if ( associationSpecs || associationClassSpecs){
+					return true;
+				}
+			}
+			
+		}
+		return false;
 	}
 	
 	private void addMessage(MessageList messages, String msgText, int severity) {
