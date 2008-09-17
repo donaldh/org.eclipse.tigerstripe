@@ -21,6 +21,6 @@ Export-Package: org.eclipse.tigerstripe.metamodel,
  org.eclipse.tigerstripe.metamodel.util,
  org.eclipse.tigerstripe.repository.internal,
  org.eclipse.tigerstripe.repository.metamodel.pojo,
- org.eclipse.tigerstripe.repository.metamodel.pojo.internal;x-friends:="org.eclipse.tigerstripe.metamodel.test",
+ org.eclipse.tigerstripe.repository.metamodel.pojo.internal,
  org.eclipse.tigerstripe.repository.metamodel.providers
 Bundle-Activator: org.eclipse.tigerstripe.repository.internal.Activator
